@@ -26,7 +26,7 @@ export class AuthService {
 
   isSignedIn(caller) {
     // console.log('isSignedIn : ' + this.isSignedIn.caller);
-    //console.log('isSignedIn : ', caller);
+    // console.log('isSignedIn : ', caller);
 
     // const user = firebase.auth().currentUser;
     // if (user) {

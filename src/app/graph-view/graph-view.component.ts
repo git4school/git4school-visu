@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AuthService } from '../services/auth.service';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-graph-view',

@@ -16,6 +16,10 @@ export class AuthComponent implements OnInit {
   token = this.authService.token;
   loading = false;
 
+
+  public fileString;
+  public filename;
+
   ngOnInit() {
     console.log('NGONINIT');
 
@@ -49,6 +53,35 @@ export class AuthComponent implements OnInit {
   onSignOut() {
     this.authService.signOut();
     this.token = null;
+  }
+
+
+  changeListener($event): void {
+    this.readThis($event.target);
+  }
+
+  readThis(inputValue: any): void {
+      const file: File = inputValue.files[0];
+      const myReader: FileReader = new FileReader();
+      const fileType = inputValue.parentElement.id;
+      myReader.onloadend = (e) => {
+        // console.log(myReader.result);
+        // this.fileString = myReader.result;
+        // console.log(JSON.parse(this.fileString).salut.bonjour);
+        this.filename = file.name;
+        console.log('salut ' + this.IsValidJSONString(myReader.result));
+     };
+
+      myReader.readAsText(file);
+  }
+
+  IsValidJSONString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
   }
 
 }
