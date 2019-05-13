@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-graph-view',
@@ -9,7 +10,7 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class GraphViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   data = 'salut';
   monImage = new Image();
@@ -55,6 +56,7 @@ export class GraphViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.monImage.src = 'https://i.imgur.com/DIbr9q1.png';
+    console.log('token : ', this.authService.token);
   }
 
 }

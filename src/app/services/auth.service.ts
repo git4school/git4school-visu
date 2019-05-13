@@ -26,13 +26,15 @@ export class AuthService {
 
   isSignedIn(caller) {
     // console.log('isSignedIn : ' + this.isSignedIn.caller);
-    console.log('isSignedIn : ', caller);
-    const user = firebase.auth().currentUser;
-    if (user) {
-      return true;
-    } else {
-      return false;
-    }
+    //console.log('isSignedIn : ', caller);
+
+    // const user = firebase.auth().currentUser;
+    // if (user) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    return this.token;
   }
 
   signIn() {

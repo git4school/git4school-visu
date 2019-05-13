@@ -1,13 +1,12 @@
-<div >
+<div class="container">
     <canvas #chart
-        baseChart
-        [chartType]="'line'"
-        [datasets]="chartData"
-        [labels]="chartLabels"
-        [options]="chartOptions"
-        [legend]="true"
-        (chartClick)="onChartClick($event)"
-        (chartHover)="onChartHover($event)">
+            baseChart
+            [chartType]="'line'"
+            [datasets]="chartData"
+            [labels]="chartLabels"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartClick)="onChartClick($event)"
+            (chartHover)="onChartHover($event)">
     </canvas>
-    {{data}}
 </div>

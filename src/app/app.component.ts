@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class AppComponent implements OnInit, OnDestroy {
   secondes: number;
   counterSubscription: Subscription;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     const counter = Observable.interval(1000);
@@ -29,5 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.counterSubscription.unsubscribe();
+    this.authService.signOut();
   }
 }
