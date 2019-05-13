@@ -1,19 +1,17 @@
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li routerLinkActive="active"><a routerLink="auth">Authentification</a></li>
-          <li routerLinkActive="active"><a routerLink="appareils">Appareils</a></li>
-          <li routerLinkActive="active"><a routerLink="edit">Nouvel appareil</a></li>
-          <li routerLinkActive="active"><a routerLink="users">Utilisateurs</a></li>
-          <li routerLinkActive="active"><a routerLink="graph">Graphe</a></li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="auth">Authentification</a></li>
+          <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="appareils">Appareils</a></li>
+          <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="edit">Nouvel appareil</a></li>
+          <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="users">Utilisateurs</a></li>
+          <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="graph">Graphe</a></li>
         </ul>
-        <div class="navbar-right">
-            <p>Vous êtes connecté depuis {{ secondes }} secondes !</p>
-        </div>
       </div>
-    </div>
   </nav>
+
+
+
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
