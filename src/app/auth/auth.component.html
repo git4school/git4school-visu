@@ -1,0 +1,14 @@
+<h2>Authentification</h2>
+<ngx-spinner
+bdColor = "rgba(51, 51, 51, 0.8)"
+size = "large"
+color = "#934d4d"
+type = "ball-8bits"></ngx-spinner>
+<img *ngIf="loading" src="assets/loading.gif" />
+<div class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+<button class="btn btn-success" *ngIf="!authService.isSignedIn('btn success')" (click)="onSignInGithub()">Se connecter</button>
+<button class="btn btn-danger" *ngIf="authService.isSignedIn('btn danger')" (click)="onSignOut()">Se déconnecter</button>
