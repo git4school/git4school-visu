@@ -54,19 +54,28 @@ export class AuthService {
       // if (this.isSignedIn()) {
       //   reject();
       // }
+      console.log('callback');
       firebase.auth().getRedirectResult().then((result) => {
+        console.log('getredirect');
         if (result.credential) {
   // tslint:disable-next-line: no-string-literal
+          console.log('result ', result.credential['accessToken']);
           this.token = result.credential['accessToken'];
         }
         const user = result.user;
-        resolve();
+        if (!user) {
+          reject();
+        } else {
+          resolve();
+        }
       });
     });
   }
 
   signOut() {
-    firebase.auth().signOut();
-    this.token = null;
+    firebase.auth().signOut().then(() => {
+      this.token = null;
+      window.location.href = '/';
+    });
   }
 }

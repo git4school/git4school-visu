@@ -13,7 +13,6 @@ export class AuthComponent implements OnInit {
 
   constructor(public authService: AuthService, private router: Router, private spinner: NgxSpinnerService) { }
 
-  token = this.authService.token;
   loading = false;
 
 
@@ -32,6 +31,9 @@ export class AuthComponent implements OnInit {
           this.spinner.hide();
           this.loading = false;
           this.router.navigate(['appareils']);
+        },
+        () => {
+          this.loading = false;
         }
       );
     }
@@ -40,19 +42,17 @@ export class AuthComponent implements OnInit {
   onSignIn() {
     this.authService.signIn().then(
       () => {
-        this.token = this.authService.token;
+        
       }
     );
   }
 
   onSignInGithub() {
     this.authService.signIn();
-    this.token = this.authService.token;
   }
 
   onSignOut() {
     this.authService.signOut();
-    this.token = null;
   }
 
 
