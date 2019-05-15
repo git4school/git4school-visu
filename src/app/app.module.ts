@@ -28,6 +28,18 @@ import { CommitsService } from './services/commits.service';
 import * as firebase from 'firebase/app';
 import 'firebase/performance';
 
+const firebaseConfig = {
+  apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
+  authDomain: 'test-angular-2af6b.firebaseapp.com',
+  databaseURL: 'https://test-angular-2af6b.firebaseio.com',
+  projectId: 'test-angular-2af6b',
+  storageBucket: 'test-angular-2af6b.appspot.com',
+  messagingSenderId: '98521239187',
+  appId: '1:98521239187:web:bfac7cc7cf869e62'
+};
+
+firebase.initializeApp(firebaseConfig);
+
 const appRoutes: Routes = [
   { path: 'appareils', canActivate: [AuthGuard], component: AppareilViewComponent },
   { path: 'appareils/:id', canActivate: [AuthGuard], component: SingleAppareilComponent },
@@ -79,18 +91,17 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  firebaseConfig = {
-    apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
-    authDomain: 'test-angular-2af6b.firebaseapp.com',
-    databaseURL: 'https://test-angular-2af6b.firebaseio.com',
-    projectId: 'test-angular-2af6b',
-    storageBucket: 'test-angular-2af6b.appspot.com',
-    messagingSenderId: '98521239187',
-    appId: '1:98521239187:web:bfac7cc7cf869e62'
-  };
+  // firebaseConfig = {
+  //   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
+  //   authDomain: 'test-angular-2af6b.firebaseapp.com',
+  //   databaseURL: 'https://test-angular-2af6b.firebaseio.com',
+  //   projectId: 'test-angular-2af6b',
+  //   storageBucket: 'test-angular-2af6b.appspot.com',
+  //   messagingSenderId: '98521239187',
+  //   appId: '1:98521239187:web:bfac7cc7cf869e62'
+  // };
 
   constructor() {
-    firebase.initializeApp(this.firebaseConfig);
-    const perf = firebase.performance();
+    // firebase.initializeApp(this.firebaseConfig);
   }
 }

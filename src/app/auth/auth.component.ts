@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import * as firebase from 'firebase/app';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -14,7 +13,6 @@ export class AuthComponent implements OnInit {
   constructor(public authService: AuthService, private router: Router, private spinner: NgxSpinnerService) { }
 
   loading = false;
-
 
   public fileString;
   public filename;

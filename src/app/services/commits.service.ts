@@ -21,7 +21,7 @@ export class CommitsService {
     return this.http.get<Commit[]>('https://api.github.com/repos/BilelJegham/LastMate/commits',
       this.httpOptions).pipe(map(
         response => {
-          let array = response.map(data => Commit.withJSON(data));
+          const array = response.map(data => Commit.withJSON(data));
           return array;
         }
       ));
