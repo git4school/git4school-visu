@@ -24,7 +24,7 @@
 </div>
 <ul class="list-group">
   <app-commit-view *ngFor="let commit of commits"
-                    [message]="commit.commit.message"
-                    [author]="commit.commit.author.name"
-                    [commitDate]="commit.commit.author.date"></app-commit-view>
+                    [message]="commit.message"
+                    [author]="commit.author"
+                    [commitDate]="commit.commitDate"></app-commit-view>
 </ul>
