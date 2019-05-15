@@ -8,19 +8,7 @@ import { promise } from 'protractor';
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private router: Router) {
-    firebase.initializeApp(this.firebaseConfig);
-  }
-
-  firebaseConfig = {
-    apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
-    authDomain: 'test-angular-2af6b.firebaseapp.com',
-    databaseURL: 'https://test-angular-2af6b.firebaseio.com',
-    projectId: 'test-angular-2af6b',
-    storageBucket: 'test-angular-2af6b.appspot.com',
-    messagingSenderId: '98521239187',
-    appId: '1:98521239187:web:bfac7cc7cf869e62'
-  };
+  constructor(private router: Router) {}
 
   token = null;
 
@@ -58,8 +46,9 @@ export class AuthService {
       firebase.auth().getRedirectResult().then((result) => {
         console.log('getredirect');
         if (result.credential) {
-  // tslint:disable-next-line: no-string-literal
+          // tslint:disable-next-line: no-string-literal
           console.log('result ', result.credential['accessToken']);
+          // tslint:disable-next-line: no-string-literal
           this.token = result.credential['accessToken'];
         }
         const user = result.user;

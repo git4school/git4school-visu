@@ -22,6 +22,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { GraphViewComponent } from './graph-view/graph-view.component';
 import { ChartsModule } from 'ng2-charts';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CommitViewComponent } from './commit-view/commit-view.component';
+import { CommitListComponent } from './commit-list/commit-list.component';
+import { CommitsService } from './services/commits.service';
+import * as firebase from 'firebase/app';
+import 'firebase/performance';
 
 const appRoutes: Routes = [
   { path: 'appareils', canActivate: [AuthGuard], component: AppareilViewComponent },
@@ -33,8 +38,10 @@ const appRoutes: Routes = [
   { path: 'users', component: UserListComponent },
   { path: 'new-user', canActivate: [AuthGuard], component: NewUserComponent },
   { path: 'graph', component: GraphViewComponent },
+  { path: 'commits', canActivate: [AuthGuard], component: CommitListComponent },
   { path: '**', redirectTo: 'not-found' }
 ];
+
 
 @NgModule({
   declarations: [
@@ -48,7 +55,9 @@ const appRoutes: Routes = [
     EditAppareilComponent,
     UserListComponent,
     NewUserComponent,
-    GraphViewComponent
+    GraphViewComponent,
+    CommitViewComponent,
+    CommitListComponent
   ],
   imports: [
     BrowserModule,
@@ -64,8 +73,24 @@ const appRoutes: Routes = [
     AppareilService,
     AuthService,
     AuthGuard,
+    CommitsService,
     UserService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  firebaseConfig = {
+    apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
+    authDomain: 'test-angular-2af6b.firebaseapp.com',
+    databaseURL: 'https://test-angular-2af6b.firebaseio.com',
+    projectId: 'test-angular-2af6b',
+    storageBucket: 'test-angular-2af6b.appspot.com',
+    messagingSenderId: '98521239187',
+    appId: '1:98521239187:web:bfac7cc7cf869e62'
+  };
+
+  constructor() {
+    firebase.initializeApp(this.firebaseConfig);
+    const perf = firebase.performance();
+  }
+}

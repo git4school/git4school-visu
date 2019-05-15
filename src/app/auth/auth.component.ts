@@ -42,7 +42,7 @@ export class AuthComponent implements OnInit {
   onSignIn() {
     this.authService.signIn().then(
       () => {
-        
+
       }
     );
   }
