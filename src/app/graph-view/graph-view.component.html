@@ -1,11 +1,10 @@
 <div class="chart-container">
-    <canvas #chart
+    <canvas #myChart id='myChart'
             baseChart
             [chartType]="'line'"
             [datasets]="chartData"
-            [labels]="chartLabels"
             [options]="chartOptions"
-            [legend]="true"
+            [legend]="false"
             (chartClick)="onChartClick($event)"
             (chartHover)="onChartHover($event)">
     </canvas>

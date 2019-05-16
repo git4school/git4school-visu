@@ -27,6 +27,7 @@ import { CommitListComponent } from './commit-list/commit-list.component';
 import { CommitsService } from './services/commits.service';
 import * as firebase from 'firebase/app';
 import 'firebase/performance';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
@@ -79,7 +80,8 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     ChartsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    FontAwesomeModule
   ],
   providers: [
     AppareilService,

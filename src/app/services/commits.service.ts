@@ -18,7 +18,7 @@ export class CommitsService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getCommits(): Observable<Commit[]> {
-    return this.http.get<Commit[]>('https://api.github.com/repos/BilelJegham/LastMate/commits',
+    return this.http.get<Commit[]>('https://api.github.com/repos/F0urchette/The_arbitre/commits',
       this.httpOptions).pipe(map(
         response => {
           const array = response.map(data => Commit.withJSON(data));
