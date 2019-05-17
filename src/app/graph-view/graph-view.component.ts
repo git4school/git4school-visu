@@ -1,12 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Chart } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AuthService } from '../services/auth.service';
-import * as firebase from 'firebase/app';
-import * as ChartZoom from 'chartjs-plugin-zoom';
 import { CommitsService } from '../services/commits.service';
 import { Commit } from '../models/Commit.model';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -20,14 +16,16 @@ export class GraphViewComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
-  commits: Commit[];
+  commits: Commit[][] = [];
   commit = null;
   data = 'salut';
   monImage = new Image();
+  public repositories: string[];
+  public filename;
 
   chartOptions = {
     responsive: true,
-    aspectRatio: 2.2,
+    aspectRatio: 2.4,
     hover: {
       mode: 'nearest',
       intersec: true,
@@ -38,12 +36,14 @@ export class GraphViewComponent implements OnInit {
     tooltips: {
       callbacks: {
         label(tooltipItem, data) {
-          return 'fzfze \n fzefez';
+          return '';
         },
         beforeBody(tooltipItem, data) {
-          return 'kjgerbn \n fsdf';
+          const commit = data.datasets[tooltipItem[0].datasetIndex].data[tooltipItem[0].index].commit;
+          return commit.message + '\n\n' + commit.author;
         }
-      }
+      },
+      displayColors: false
     },
     elements: {
       line: {
@@ -53,7 +53,7 @@ export class GraphViewComponent implements OnInit {
       point: {
         hitRadius: 8,
         radius: 5,
-        pointStyle: this.monImage
+        pointStyle: 'circle'
       }
     },
     // showLines: false,
@@ -64,7 +64,8 @@ export class GraphViewComponent implements OnInit {
               unit: 'day',
               tooltipFormat: 'DD/MM/YY HH:mm',
               displayFormats: {
-                day: 'DD/MM/YY HH:mm'
+                day: 'DD/MM/YY',
+                week: 'MMM DD',
               }
           }
       }]
@@ -97,30 +98,8 @@ export class GraphViewComponent implements OnInit {
   };
 
   chartData = [
-    {
-      data: [
-        // {x: new Date('2017-04-01T15:29:16Z'), y: 150},
-        // {x: new Date('2017-04-04T15:29:16Z'), y: 150},
-        // {x: new Date('2017-04-05T15:29:16Z'), y: 150},
-        // {x: new Date('2017-04-08T15:29:16Z'), y: 150},
-        // {x: new Date('2017-04-10T15:29:16Z'), y: 150},
-        // {x: new Date('2017-04-12T15:29:16Z'), y: 150},
-        // {x: new Date('2017-04-17T15:29:16Z'), y: 150},
-        // {x: new Date('2017-04-17T16:29:16Z'), y: 150},
-        // {x: new Date('2017-04-18T15:29:16Z'), y: 150},
-        // {x: new Date('2017-04-20T15:29:16Z'), y: 150},
-        // {x: new Date('2017-04-22T15:29:16Z'), y: 150}
-      ],
-      // pointStyle: ['circle', 'cross', 'crossRot', 'dash', this.monImage, 'line', 'rect', 'rectRounded', 'rectRot', 'star', 'triangle']
-    }
-    // { data: [{x: 'January', y: 370,
-    //   myobject: 'https://gitlab.com/jeroli.co/git-supervisor/commit/6790c6a2f9538aed739921c3b6741f9023961e02'},
-    //   600, 260, 700, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000], label: 'Account A', pointStyle: this.monImage },
-    // { data: [120, 455, 100, 340, 300, 350, 400, 450, 500, 1950, 600, 650, 700, 750, 800, 850, 900, 950, 1000], label: 'Account B' },
-    // { data: [45, 67, 800, 500, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000], label: 'Account C' }
+    {data: []}
   ];
-
-  // chartLabels = ['January', 'February', 'Mars', 'April', 'fgrfg', 'lkbnr', 'vkner', 'bkjner', 'ekbjne', 'bnj fdb', 'oijebe', 'blknkrtb', 'zahuvchaebv', 'vmr,gkjer', 'zvhzjevbzk', 'kzjbdvhjbze', 'kgjvbekjbver', 'lj,ntyl', 'njbevjhbze'];
 
   onChartClick(event) {
     console.log(event);
@@ -138,29 +117,59 @@ export class GraphViewComponent implements OnInit {
     return this.chartData[datasetIndex].data[dataIndex];
   }
 
-  onChartHover(event) {
-    // if (event.active.length > 0) {
-    //   const dataIndex = event.active[0]._index;
-    //   const mois = this.chartLabels[dataIndex];
-
-    //   this.commit = {message: '[' + mois + '] Checkstyle of api client crossref & isbn2ppn + add reporting pom',
-    //                  author: 'jeremieguy1',
-    //                  date: '2017-04-01T15:29:16Z'};
-    // } else {
-    //   this.commit = null;
-    // }
-  }
+  onChartHover(event) { }
 
   ngOnInit(): void {
-    this.monImage.src = 'https://i.imgur.com/DIbr9q1.png';
-    this.monImage.height = 10;
-    this.commitsService.getCommits().subscribe(response => {
-      this.commits = response.slice();
-      console.log(this.commits);
-      this.commits.forEach(commit => {
-        this.chartData[0].data.push({x: commit.commitDate, y: 150, commit});
-      });
+    // this.loadGraph();
+  }
+
+  loadGraph() {
+    this.monImage.src = 'https://image.flaticon.com/icons/png/512/25/25694.png';
+    this.monImage.height = 15;
+    this.monImage.width = 15;
+
+    console.log(this.repositories);
+
+    this.commitsService.getRepositoriesCommits(this.repositories).subscribe(response => {
+      const chartData = [];
+      for (let i = 0; i < response.length; i++) {
+        this.commits.push(response[i].slice());
+        const data = [];
+        this.commits[i].forEach(commit => {
+          data.push({x: commit.commitDate, y: 150 + i, commit});
+        });
+        chartData.push({data});
+      }
+      this.chartData = chartData;
+      console.log(this.chartData);
     });
   }
 
+  changeListener($event): void {
+    this.readFile($event.target);
+  }
+
+  readFile(inputValue: any): void {
+      const file: File = inputValue.files[0];
+      const myReader: FileReader = new FileReader();
+      const fileType = inputValue.parentElement.id;
+      myReader.onloadend = (e) => {
+        this.filename = file.name;
+        const text = this.getJSONOrNull(myReader.result);
+        if (text) {
+          this.repositories = text.repositories.slice();
+        }
+        this.loadGraph();
+     };
+
+      myReader.readAsText(file);
+  }
+
+  getJSONOrNull(str) {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      return null;
+    }
+  }
 }

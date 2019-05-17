@@ -15,7 +15,7 @@ export class CommitListComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.commitsService.getCommits().subscribe(response => {
+    this.commitsService.getCommits('https://api.github.com/repos/BilelJegham/AIDEPSYCHO/commits').subscribe(response => {
       this.loading = false;
       this.commits = response.slice();
       console.log(this.commits);

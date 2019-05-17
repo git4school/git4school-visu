@@ -57,6 +57,7 @@
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 import 'chartjs-plugin-zoom';
+import 'chartjs-plugin-colorschemes';
 
 
 /***************************************************************************************************

@@ -28,6 +28,7 @@
     "@types/chart.js": "^2.7.52",
     "bootstrap": "4.3.1",
     "chart.js": "^2.8.0",
+    "chartjs-plugin-colorschemes": "^0.3.0",
     "chartjs-plugin-zoom": "^0.7.0",
     "core-js": "^2.5.4",
     "firebase": "^6.0.2",

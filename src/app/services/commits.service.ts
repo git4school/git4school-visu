@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Commit } from '../models/Commit.model';
+import { forkJoin } from 'rxjs';
 
 
 @Injectable({
@@ -17,8 +18,16 @@ export class CommitsService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getCommits(): Observable<Commit[]> {
-    return this.http.get<Commit[]>('https://api.github.com/repos/F0urchette/The_arbitre/commits',
+  getRepositoriesCommits(repoTab) {
+    const tab = [];
+    repoTab.forEach(repo => {
+      tab.push(this.getCommits(repo));
+    });
+    return forkJoin(tab);
+  }
+
+  getCommits(repoURL): Observable<Commit[]> {
+    return this.http.get<Commit[]>(repoURL + '?per_page=100',
       this.httpOptions).pipe(map(
         response => {
           const array = response.map(data => Commit.withJSON(data));
