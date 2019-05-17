@@ -25,9 +25,14 @@ export class GraphViewComponent implements OnInit {
   chartOptions = {
     responsive: true,
     aspectRatio: 2.4,
+    animation: {
+      duration: 0 // general animation time
+    },
+    responsiveAnimationDuration: 0,
     hover: {
       mode: 'nearest',
       intersec: true,
+      animationDuration: 0
     },
     interaction: {
       mode: 'nearest',
@@ -58,23 +63,27 @@ export class GraphViewComponent implements OnInit {
     // showLines: false,
     scales: {
       xAxes: [{
-          type: 'time',
-          time: {
-              unit: 'day',
-              tooltipFormat: 'DD/MM/YY HH:mm',
-              displayFormats: {
-                day: 'DD/MM/YY',
-                week: 'MMM DD',
-              }
-          }
+        type: 'time',
+        time: {
+            unit: 'day',
+            tooltipFormat: 'DD/MM/YY HH:mm',
+            displayFormats: {
+              day: 'DD/MM/YY',
+              week: 'MMM DD',
+            }
+        }
+      }],
+      yAxes: [{
+        type: 'category',
+        labels: [],
       }]
     },
     plugins: {
       zoom: {
         pan: {
           enabled: true,
-          mode: 'xy',
-          onPan({chart}) { console.log(`I was panned!!!`); }
+          mode: 'x',
+          onPan({chart}) { }
         },
         zoom: {
           enabled: true,
@@ -85,12 +94,12 @@ export class GraphViewComponent implements OnInit {
           //   backgroundColor: 'rgb(225,225,225)'
           // },
 
-          mode: 'xy',
+          mode: 'x',
 
           // Speed of zoom via mouse wheel
           // (percentage of zoom on a wheel event)
           speed: 0.3,
-          onZoom: ({chart}) => {  }
+          onZoom: ({chart}) => { }
         }
       }
     }
@@ -135,9 +144,10 @@ export class GraphViewComponent implements OnInit {
         this.commits.push(response[i].slice());
         const data = [];
         this.commits[i].forEach(commit => {
-          data.push({x: commit.commitDate, y: 150 + i, commit});
+          data.push({x: commit.commitDate, y: 'repo ' + i, commit});
         });
         chartData.push({data});
+        this.chartOption
       }
       this.chartData = chartData;
       console.log(this.chartData);
