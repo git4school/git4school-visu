@@ -18,7 +18,6 @@ export class GraphViewComponent implements OnInit {
 
   commits: Commit[][] = [];
   commit = null;
-  data = 'salut';
   monImage = new Image();
   public repositories: string[];
   public filename;
@@ -90,7 +89,7 @@ export class GraphViewComponent implements OnInit {
 
           // Speed of zoom via mouse wheel
           // (percentage of zoom on a wheel event)
-          speed: 0.1,
+          speed: 0.3,
           onZoom: ({chart}) => {  }
         }
       }
