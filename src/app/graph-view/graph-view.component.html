@@ -10,11 +10,12 @@
                     aria-describedby="inputGroupFileAddon01" (change)="changeListener($event)">
                     <label class="custom-file-label" for="inputGroupFile01">{{ filename || 'Choose file' }}</label>
                 </div>
+                <button class="btn btn-outline-secondary ml-2" (click)="loadGraph()" [disabled]="!repositories || loading"><i [className]="loading ? 'fas fa-redo-alt fa-spin' : 'fas fa-redo-alt'"></i></button>
             </div>
         </div>
     </div>
 </div>
-<div class="chart-container" >
+<div class="chart-container">
     <canvas #myChart id='myChart'
             baseChart
             [chartType]="'line'"

@@ -16,6 +16,7 @@ export class GraphViewComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
+  loading = false;
   commits: Commit[][] = [];
   commit = null;
   monImage = new Image();
@@ -132,6 +133,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   loadGraph() {
+    this.loading = true;
     this.monImage.src = 'https://image.flaticon.com/icons/png/512/25/25694.png';
     this.monImage.height = 15;
     this.monImage.width = 15;
@@ -140,17 +142,26 @@ export class GraphViewComponent implements OnInit {
 
     this.commitsService.getRepositoriesCommits(this.repositories).subscribe(response => {
       const chartData = [];
+      const labels = [''];
       for (let i = 0; i < response.length; i++) {
         this.commits.push(response[i].slice());
         const data = [];
+        labels.push('repo ' + i);
         this.commits[i].forEach(commit => {
           data.push({x: commit.commitDate, y: 'repo ' + i, commit});
         });
         chartData.push({data});
-        this.chartOption
       }
       this.chartData = chartData;
-      console.log(this.chartData);
+      console.log('labels', labels);
+      labels.push('');
+      this.chartOptions.scales.yAxes[0].labels = labels;
+      console.log('chartData', this.chartData);
+
+      this.myChart.chart.destroy();
+      this.myChart.datasets = this.chartData;
+      this.myChart.ngOnInit();
+      this.loading = false;
     });
   }
 
@@ -169,6 +180,7 @@ export class GraphViewComponent implements OnInit {
           this.repositories = text.repositories.slice();
         }
         this.loadGraph();
+        console.log('info', this.chartOptions.scales.yAxes[0].labels);
      };
 
       myReader.readAsText(file);
