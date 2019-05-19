@@ -132,15 +132,15 @@ export class GraphViewComponent implements OnInit {
     // this.loadGraph();
   }
 
-  loadGraph() {
+  loadGraph(date?: Date) {
     this.loading = true;
     this.monImage.src = 'https://image.flaticon.com/icons/png/512/25/25694.png';
     this.monImage.height = 15;
     this.monImage.width = 15;
 
     console.log(this.repositories);
-
-    this.commitsService.getRepositoriesCommits(this.repositories).subscribe(response => {
+    console.log('date loadGRaph', date);
+    this.commitsService.getRepositoriesCommits(this.repositories, date).subscribe(response => {
       const chartData = [];
       const labels = [''];
       for (let i = 0; i < response.length; i++) {
@@ -153,10 +153,8 @@ export class GraphViewComponent implements OnInit {
         chartData.push({data});
       }
       this.chartData = chartData;
-      console.log('labels', labels);
       labels.push('');
       this.chartOptions.scales.yAxes[0].labels = labels;
-      console.log('chartData', this.chartData);
 
       this.myChart.chart.destroy();
       this.myChart.datasets = this.chartData;
@@ -178,9 +176,13 @@ export class GraphViewComponent implements OnInit {
         const text = this.getJSONOrNull(myReader.result);
         if (text) {
           this.repositories = text.repositories.slice();
+          if (text.date) {
+            this.loadGraph(new Date(text.date));
+          } else {
+            this.loadGraph();
+          }
         }
-        this.loadGraph();
-        console.log('info', this.chartOptions.scales.yAxes[0].labels);
+        // TODO: Erreur
      };
 
       myReader.readAsText(file);

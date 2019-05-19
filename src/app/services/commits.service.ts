@@ -18,16 +18,23 @@ export class CommitsService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getRepositoriesCommits(repoTab) {
+  getRepositoriesCommits(repoTab, date?: Date) {
+    console.log('date getRepositoriesCommits', date);
     const tab = [];
     repoTab.forEach(repo => {
-      tab.push(this.getCommits(repo));
+      tab.push(this.getCommits(repo, date));
     });
     return forkJoin(tab);
   }
 
-  getCommits(repoURL): Observable<Commit[]> {
-    return this.http.get<Commit[]>(repoURL + '?per_page=100',
+  getCommits(repoURL, date?: Date): Observable<Commit[]> {
+    console.log('date getComits', date);
+    let url = repoURL + '?per_page=100';
+    if (date) {
+      url = url.concat('&since=' + date.toISOString());
+    }
+    console.log(url);
+    return this.http.get<Commit[]>(url,
       this.httpOptions).pipe(map(
         response => {
           const array = response.map(data => Commit.withJSON(data));
