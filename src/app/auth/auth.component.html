@@ -6,7 +6,11 @@
     </div>
   </div> -->
 <button class="btn btn-success" *ngIf="!authService.isSignedIn('btn success')" [disabled]="loading" (click)="onSignInGithub()">
-    <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    Se connecter
+  <span *ngIf="loading; else loggedOut" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Se connecter
+      
+  <ng-template #loggedOut>
+      <i class="fas fa-sign-in-alt pr-1"></i>
+  </ng-template>   
 </button>
-<button class="btn btn-danger" *ngIf="authService.isSignedIn('btn danger')" (click)="onSignOut()">Se déconnecter</button>
+<button class="btn btn-danger" *ngIf="authService.isSignedIn('btn danger')" (click)="onSignOut()"><i class="fas fa-sign-out-alt pr-2"></i>Se déconnecter</button>

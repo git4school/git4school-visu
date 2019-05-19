@@ -65,18 +65,20 @@ export class GraphViewComponent implements OnInit {
     scales: {
       xAxes: [{
         type: 'time',
+        offset: true,
         time: {
-            unit: 'day',
-            tooltipFormat: 'DD/MM/YY HH:mm',
-            displayFormats: {
-              day: 'DD/MM/YY',
-              week: 'MMM DD',
-            }
+          unit: 'day',
+          tooltipFormat: 'DD/MM/YY HH:mm',
+          displayFormats: {
+            day: 'DD/MM/YY',
+            week: 'MMM DD',
+          }
         }
       }],
       yAxes: [{
         type: 'category',
         labels: [],
+        offset: true,
       }]
     },
     plugins: {
@@ -142,7 +144,7 @@ export class GraphViewComponent implements OnInit {
     console.log('date loadGRaph', date);
     this.commitsService.getRepositoriesCommits(this.repositories, date).subscribe(response => {
       const chartData = [];
-      const labels = [''];
+      const labels = [];
       for (let i = 0; i < response.length; i++) {
         this.commits.push(response[i].slice());
         const data = [];
@@ -153,7 +155,6 @@ export class GraphViewComponent implements OnInit {
         chartData.push({data});
       }
       this.chartData = chartData;
-      labels.push('');
       this.chartOptions.scales.yAxes[0].labels = labels;
 
       this.myChart.chart.destroy();
