@@ -3,6 +3,8 @@ import { BaseChartDirective } from 'ng2-charts';
 import { AuthService } from '../services/auth.service';
 import { CommitsService } from '../services/commits.service';
 import { Commit } from '../models/Commit.model';
+import { ToastrService } from 'ngx-toastr';
+import { validateConfig } from '@angular/router/src/config';
 
 
 @Component({
@@ -12,7 +14,7 @@ import { Commit } from '../models/Commit.model';
 })
 export class GraphViewComponent implements OnInit {
 
-  constructor(private authService: AuthService, private commitsService: CommitsService) { }
+  constructor(private authService: AuthService, private commitsService: CommitsService, private toastr: ToastrService) { }
 
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
@@ -113,10 +115,8 @@ export class GraphViewComponent implements OnInit {
   ];
 
   onChartClick(event) {
-    console.log(event);
     if (event.active.length > 0) {
       const dataObject = this.getDataFromChart(event);
-      console.log(dataObject);
 // tslint:disable-next-line: no-string-literal
       window.open(dataObject['myobject'], '_blank');
     }
@@ -140,8 +140,6 @@ export class GraphViewComponent implements OnInit {
     this.monImage.height = 15;
     this.monImage.width = 15;
 
-    console.log(this.repositories);
-    console.log('date loadGRaph', date);
     this.commitsService.getRepositoriesCommits(this.repositories, date).subscribe(response => {
       const chartData = [];
       const labels = [];
@@ -161,11 +159,22 @@ export class GraphViewComponent implements OnInit {
       this.myChart.datasets = this.chartData;
       this.myChart.ngOnInit();
       this.loading = false;
+    },
+    error => {
+      console.log(error);
+      this.error('Erreur Git', 'Un des dépôts Github n\'existe pas ou vous n\'avez pas les droits dessus.');
+      this.loading = false;
     });
   }
 
   changeListener($event): void {
     this.readFile($event.target);
+  }
+
+  error(titre, message) {
+    this.toastr.error(message, titre, {
+      progressBar: true
+    });
   }
 
   readFile(inputValue: any): void {
@@ -182,8 +191,9 @@ export class GraphViewComponent implements OnInit {
           } else {
             this.loadGraph();
           }
+        } else {
+          this.error('Erreur', 'Le fichier n\'est pas un fichier JSON valide.');
         }
-        // TODO: Erreur
      };
 
       myReader.readAsText(file);
