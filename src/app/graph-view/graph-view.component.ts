@@ -5,6 +5,7 @@ import { CommitsService } from '../services/commits.service';
 import { Commit } from '../models/Commit.model';
 import { ToastrService } from 'ngx-toastr';
 import { validateConfig } from '@angular/router/src/config';
+import { Repository } from '../models/Repository.model';
 
 
 @Component({
@@ -131,7 +132,6 @@ export class GraphViewComponent implements OnInit {
   onChartHover(event) { }
 
   ngOnInit(): void {
-    // this.loadGraph();
   }
 
   loadGraph(date?: Date) {
@@ -140,15 +140,15 @@ export class GraphViewComponent implements OnInit {
     this.monImage.height = 15;
     this.monImage.width = 15;
 
-    this.commitsService.getRepositoriesCommits(this.repositories, date).subscribe(response => {
+    this.commitsService.getRepositories(this.repositories, date).subscribe(response => {
       const chartData = [];
       const labels = [];
       for (let i = 0; i < response.length; i++) {
-        this.commits.push(response[i].slice());
+        this.commits.push(response[i].commits.slice());
         const data = [];
-        labels.push('repo ' + i);
+        labels.push(response[i].name);
         this.commits[i].forEach(commit => {
-          data.push({x: commit.commitDate, y: 'repo ' + i, commit});
+          data.push({x: commit.commitDate, y: response[i].name, commit});
         });
         chartData.push({data});
       }
@@ -192,10 +192,10 @@ export class GraphViewComponent implements OnInit {
         const text = this.getJSONOrNull(myReader.result);
         if (text) {
           this.repositories = this.extractRepositories(text.repositories.slice());
-          if (text.repositories.length != this.repositories.length) {
+          console.log(this.repositories);
+          if (text.repositories.length !== this.repositories.length) {
             this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
           }
-          console.log(this.repositories);
           if (text.date) {
             this.loadGraph(new Date(text.date));
           } else {
@@ -210,7 +210,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   extractRepositories(repositories) {
-    let tab = [];
+    const tab = [];
     repositories.forEach(repository => {
       if (repository.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)) {
         tab.push(repository);

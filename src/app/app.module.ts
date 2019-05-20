@@ -29,6 +29,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/performance';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
@@ -83,7 +84,8 @@ const appRoutes: Routes = [
     ChartsModule,
     NgxSpinnerModule,
     FontAwesomeModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [
     AppareilService,
