@@ -6,6 +6,7 @@ import { Commit } from '../models/Commit.model';
 import { ToastrService } from 'ngx-toastr';
 import { validateConfig } from '@angular/router/src/config';
 import { Repository } from '../models/Repository.model';
+import moment from 'moment/src/moment';
 
 
 @Component({
@@ -25,6 +26,8 @@ export class GraphViewComponent implements OnInit {
   monImage = new Image();
   public repositories: string[];
   public filename;
+  unit = 'day';
+  target = null;
 
   chartOptions = {
     responsive: true,
@@ -70,11 +73,11 @@ export class GraphViewComponent implements OnInit {
         type: 'time',
         offset: true,
         time: {
-          unit: 'day',
+          unit: this.unit,
           tooltipFormat: 'DD/MM/YY HH:mm',
           displayFormats: {
             day: 'DD/MM/YY',
-            week: 'MMM DD',
+            week: 'DD/MM/YY',
           }
         }
       }],
@@ -82,6 +85,22 @@ export class GraphViewComponent implements OnInit {
         type: 'category',
         labels: [],
         offset: true,
+      }]
+    },
+    annotation: {
+      drawTime: 'afterDatasetsDraw',
+      annotations: [{
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'x-axis-0',
+        value: new Date('05/05/18 12:00'),
+        borderColor: 'red',
+        borderWidth: 2,
+        label: {
+          content: 'TOMORROW',
+          enabled: true,
+          position: 'top'
+        }
       }]
     },
     plugins: {
@@ -107,13 +126,22 @@ export class GraphViewComponent implements OnInit {
           speed: 0.3,
           onZoom: ({chart}) => { }
         }
-      }
+      },
     }
   };
 
   chartData = [
     {data: []}
   ];
+
+  changeUnit() {
+    if (this.chartOptions.scales.xAxes[0].time.unit === 'week') {
+      this.chartOptions.scales.xAxes[0].time.unit = 'day';
+    } else {
+      this.chartOptions.scales.xAxes[0].time.unit = 'week';
+    }
+    this.readFile();
+  }
 
   onChartClick(event) {
     if (event.active.length > 0) {
@@ -131,8 +159,7 @@ export class GraphViewComponent implements OnInit {
 
   onChartHover(event) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   loadGraph(date?: Date) {
     this.loading = true;
@@ -168,7 +195,8 @@ export class GraphViewComponent implements OnInit {
   }
 
   changeListener($event): void {
-    this.readFile($event.target);
+    this.target = $event.target;
+    this.readFile();
   }
 
   error(titre, message) {
@@ -183,30 +211,31 @@ export class GraphViewComponent implements OnInit {
     });
   }
 
-  readFile(inputValue: any): void {
-      const file: File = inputValue.files[0];
-      const myReader: FileReader = new FileReader();
-      const fileType = inputValue.parentElement.id;
-      myReader.onloadend = (e) => {
-        this.filename = file.name;
-        const text = this.getJSONOrNull(myReader.result);
-        if (text) {
-          this.repositories = this.extractRepositories(text.repositories.slice());
-          console.log(this.repositories);
-          if (text.repositories.length !== this.repositories.length) {
-            this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
-          }
-          if (text.date) {
-            this.loadGraph(new Date(text.date));
-          } else {
-            this.loadGraph();
-          }
-        } else {
-          this.error('Erreur', 'Le fichier n\'est pas un fichier JSON valide.');
+  readFile(): void {
+    const inputValue = this.target;
+    const file: File = inputValue.files[0];
+    const myReader: FileReader = new FileReader();
+    const fileType = inputValue.parentElement.id;
+    myReader.onloadend = (e) => {
+      this.filename = file.name;
+      const text = this.getJSONOrNull(myReader.result);
+      if (text) {
+        this.repositories = this.extractRepositories(text.repositories.slice());
+        console.log(this.repositories);
+        if (text.repositories.length !== this.repositories.length) {
+          this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
         }
-     };
+        if (text.date) {
+          this.loadGraph(moment(text.date, 'DD/MM/YYYY HH:mm').toDate());
+        } else {
+          this.loadGraph();
+        }
+      } else {
+        this.error('Erreur', 'Le fichier n\'est pas un fichier JSON valide.');
+      }
+    };
 
-      myReader.readAsText(file);
+    myReader.readAsText(file);
   }
 
   extractRepositories(repositories) {
