@@ -25,7 +25,7 @@ export class AuthComponent implements OnInit {
         () => {
           this.spinner.hide();
           this.loading = false;
-          this.router.navigate(['appareils']);
+          this.router.navigate(['graph']);
         },
         () => {
           this.loading = false;

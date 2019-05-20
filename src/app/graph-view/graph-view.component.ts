@@ -177,6 +177,12 @@ export class GraphViewComponent implements OnInit {
     });
   }
 
+  warning(titre, message) {
+    this.toastr.warning(message, titre, {
+      progressBar: true
+    });
+  }
+
   readFile(inputValue: any): void {
       const file: File = inputValue.files[0];
       const myReader: FileReader = new FileReader();
@@ -185,7 +191,11 @@ export class GraphViewComponent implements OnInit {
         this.filename = file.name;
         const text = this.getJSONOrNull(myReader.result);
         if (text) {
-          this.repositories = text.repositories.slice();
+          this.repositories = this.extractRepositories(text.repositories.slice());
+          if (text.repositories.length != this.repositories.length) {
+            this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
+          }
+          console.log(this.repositories);
           if (text.date) {
             this.loadGraph(new Date(text.date));
           } else {
@@ -197,6 +207,16 @@ export class GraphViewComponent implements OnInit {
      };
 
       myReader.readAsText(file);
+  }
+
+  extractRepositories(repositories) {
+    let tab = [];
+    repositories.forEach(repository => {
+      if (repository.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)) {
+        tab.push(repository);
+      }
+    });
+    return tab;
   }
 
   getJSONOrNull(str) {

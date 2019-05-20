@@ -51,7 +51,7 @@ const appRoutes: Routes = [
   { path: 'not-found', component: FourOhFourComponent },
   { path: 'users', component: UserListComponent },
   { path: 'new-user', canActivate: [AuthGuard], component: NewUserComponent },
-  { path: 'graph', component: GraphViewComponent },
+  { path: 'graph', canActivate: [AuthGuard], component: GraphViewComponent },
   { path: 'commits', canActivate: [AuthGuard], component: CommitListComponent },
   { path: '**', redirectTo: 'not-found' }
 ];
