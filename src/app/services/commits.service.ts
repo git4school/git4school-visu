@@ -63,6 +63,10 @@ export class CommitsService {
     });
   }
 
+  compareCommitDate(commit: Commit, date: Date) {
+    
+  }
+
   getRepositoryObservable(repoURL: string, date?: Date) {
     return forkJoin(this.getReadMe(repoURL), this.getCommits(repoURL, date)).pipe(catchError(error => of(error)));
   }
