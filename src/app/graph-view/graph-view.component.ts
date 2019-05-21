@@ -30,6 +30,7 @@ export class GraphViewComponent implements OnInit {
   target = null;
   corrections;
   seances;
+  reviews;
 
   chartOptions = {
     responsive: true,
@@ -165,7 +166,7 @@ export class GraphViewComponent implements OnInit {
               label: {
                 content: correction.label,
                 enabled: true,
-                position: 'top'
+                position: 'top',
               }
             }
           );
@@ -184,6 +185,26 @@ export class GraphViewComponent implements OnInit {
               borderColor: 'white',
               borderWidth: 2,
               backgroundColor: 'darkTurquoise'
+            }
+          );
+        });
+      }
+
+      if (this.reviews) {
+        this.reviews.forEach(review => {
+          this.chartOptions.annotation.annotations.push(
+            {
+              type: 'line',
+              mode: 'vertical',
+              scaleID: 'x-axis-0',
+              value: moment(review.date, 'DD/MM/YYYY HH:mm').toDate(),
+              borderColor: 'blue',
+              borderWidth: 1,
+              label: {
+                content: review.label,
+                enabled: true,
+                position: 'top'
+              }
             }
           );
         });
@@ -247,6 +268,7 @@ export class GraphViewComponent implements OnInit {
         }
         this.corrections = text.corrections;
         this.seances = text.seances;
+        this.reviews = text.reviews;
         if (text.date) {
           this.loadGraph(moment(text.date, 'DD/MM/YYYY HH:mm').toDate());
         } else {
