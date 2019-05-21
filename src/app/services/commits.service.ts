@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Commit } from '../models/Commit.model';
 import { forkJoin } from 'rxjs';
@@ -57,12 +57,14 @@ export class CommitsService {
         repo.commits = response[1];
         observer.next(repo);
         observer.complete();
+      }, err => {
+        console.log('ERROR');
       });
     });
   }
 
   getRepositoryObservable(repoURL: string, date?: Date) {
-    return forkJoin(this.getReadMe(repoURL), this.getCommits(repoURL, date));
+    return forkJoin(this.getReadMe(repoURL), this.getCommits(repoURL, date)).pipe(catchError(error => of(error)));
   }
 
   getCommits(repoURL: string, date?: Date): Observable<Commit[]> {
@@ -78,7 +80,7 @@ export class CommitsService {
         return array;
       },
       err => {
-        console.log('ERROR');
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
       }
     ));
   }

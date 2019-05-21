@@ -28,6 +28,8 @@ export class GraphViewComponent implements OnInit {
   public filename;
   unit = 'day';
   target = null;
+  corrections;
+  seances;
 
   chartOptions = {
     responsive: true,
@@ -67,7 +69,6 @@ export class GraphViewComponent implements OnInit {
         pointStyle: 'circle'
       }
     },
-    // showLines: false,
     scales: {
       xAxes: [{
         type: 'time',
@@ -88,20 +89,8 @@ export class GraphViewComponent implements OnInit {
       }]
     },
     annotation: {
-      drawTime: 'afterDatasetsDraw',
-      annotations: [{
-        type: 'line',
-        mode: 'vertical',
-        scaleID: 'x-axis-0',
-        value: new Date('05/05/18 12:00'),
-        borderColor: 'red',
-        borderWidth: 2,
-        label: {
-          content: 'TOMORROW',
-          enabled: true,
-          position: 'top'
-        }
-      }]
+      drawTime: 'beforeDatasetsDraw',
+      annotations: []
     },
     plugins: {
       zoom: {
@@ -112,17 +101,7 @@ export class GraphViewComponent implements OnInit {
         },
         zoom: {
           enabled: true,
-          // drag: true,
-          // drag: {
-          //   borderColor: 'rgba(225,225,225,0.3)',
-          //   borderWidth: 5,
-          //   backgroundColor: 'rgb(225,225,225)'
-          // },
-
           mode: 'x',
-
-          // Speed of zoom via mouse wheel
-          // (percentage of zoom on a wheel event)
           speed: 0.3,
           onZoom: ({chart}) => { }
         }
@@ -140,14 +119,15 @@ export class GraphViewComponent implements OnInit {
     } else {
       this.chartOptions.scales.xAxes[0].time.unit = 'week';
     }
-    this.readFile();
+    this.refreshGraph();
   }
 
   onChartClick(event) {
     if (event.active.length > 0) {
-      const dataObject = this.getDataFromChart(event);
-// tslint:disable-next-line: no-string-literal
-      window.open(dataObject['myobject'], '_blank');
+      const data = this.getDataFromChart(event);
+      // tslint:disable-next-line: no-string-literal
+      console.log(data);
+      window.open(data.commit.url, '_blank');
     }
   }
 
@@ -170,6 +150,45 @@ export class GraphViewComponent implements OnInit {
     this.commitsService.getRepositories(this.repositories, date).subscribe(response => {
       const chartData = [];
       const labels = [];
+      this.chartOptions.annotation.annotations = [];
+
+      if (this.corrections) {
+        this.corrections.forEach(correction => {
+          this.chartOptions.annotation.annotations.push(
+            {
+              type: 'line',
+              mode: 'vertical',
+              scaleID: 'x-axis-0',
+              value: moment(correction.date, 'DD/MM/YYYY HH:mm').toDate(),
+              borderColor: 'red',
+              borderWidth: 1,
+              label: {
+                content: correction.label,
+                enabled: true,
+                position: 'top'
+              }
+            }
+          );
+        });
+      }
+
+      if (this.seances) {
+        this.seances.forEach(seance => {
+          this.chartOptions.annotation.annotations.push(
+            {
+              type: 'box',
+              xScaleID: 'x-axis-0',
+              yScaleID: 'y-axis-0',
+              xMin: moment(seance.dateDebut, 'DD/MM/YYYY HH:mm').toDate(),
+              xMax: moment(seance.dateFin, 'DD/MM/YYYY HH:mm').toDate(),
+              borderColor: 'white',
+              borderWidth: 2,
+              backgroundColor: 'darkTurquoise'
+            }
+          );
+        });
+      }
+
       for (let i = 0; i < response.length; i++) {
         this.commits.push(response[i].commits.slice());
         const data = [];
@@ -181,17 +200,19 @@ export class GraphViewComponent implements OnInit {
       }
       this.chartData = chartData;
       this.chartOptions.scales.yAxes[0].labels = labels;
-
-      this.myChart.chart.destroy();
-      this.myChart.datasets = this.chartData;
-      this.myChart.ngOnInit();
+      this.refreshGraph();
       this.loading = false;
     },
     error => {
-      console.log(error);
+      console.log('ERROR', error);
       this.error('Erreur Git', 'Un des dépôts Github n\'existe pas ou vous n\'avez pas les droits dessus.');
       this.loading = false;
     });
+  }
+
+  refreshGraph() {
+    this.myChart.chart.destroy();
+    this.myChart.ngOnInit();
   }
 
   changeListener($event): void {
@@ -221,10 +242,11 @@ export class GraphViewComponent implements OnInit {
       const text = this.getJSONOrNull(myReader.result);
       if (text) {
         this.repositories = this.extractRepositories(text.repositories.slice());
-        console.log(this.repositories);
         if (text.repositories.length !== this.repositories.length) {
           this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
         }
+        this.corrections = text.corrections;
+        this.seances = text.seances;
         if (text.date) {
           this.loadGraph(moment(text.date, 'DD/MM/YYYY HH:mm').toDate());
         } else {
@@ -236,6 +258,10 @@ export class GraphViewComponent implements OnInit {
     };
 
     myReader.readAsText(file);
+  }
+
+  verifyJSON() {
+    // TODO: Envoyer des alertes (warning et error), renvoie false s'il y a une erreur, true s'il y a seulement warning ou rien
   }
 
   extractRepositories(repositories) {
