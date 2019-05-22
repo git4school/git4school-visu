@@ -56,9 +56,7 @@ export class GraphViewComponent implements OnInit {
         },
         beforeBody(tooltipItem, data) {
           const commit = data.datasets[tooltipItem[0].datasetIndex].data[tooltipItem[0].index].commit;
-          return commit.commitDate + '\n\n' + 
-          data.datasets[tooltipItem[0].datasetIndex].data[tooltipItem[0].index].x
-           + '\n\n' + commit.message + '\n\n' + commit.author;
+          return commit.message + '\n\n' + commit.author;
         }
       },
       displayColors: false
@@ -215,28 +213,30 @@ export class GraphViewComponent implements OnInit {
       }
 
       for (let i = 0; i < response.length; i++) {
-        // console.log(response[i].commits);
+        //
         this.commits.push(response[i].commits.slice());
-        // console.log(this.commits);
+        //
         const data = [];
         const pointStyle = [];
+        const radius = [];
         labels.push(response[i].name);
         this.commits[i].forEach(commit => {
           commit = this.updateCommit(commit);
-          // console.log(commit.commitDate);
+
           data.push({x: commit.commitDate, y: response[i].name, commit});
           pointStyle.push(commit.isEnSeance ? 'rect' : 'circle');
+          radius.push(commit.isCloture ? 8 : 5);
         });
-        chartData.push({data, pointStyle});
+        chartData.push({data, pointStyle, radius});
       }
       this.chartData = chartData;
       this.chartOptions.scales.yAxes[0].labels = labels;
       this.refreshGraph();
       this.loading = false;
-      // console.log(this.chartData);
+      //
     },
     error => {
-      console.log('ERROR', error);
+
       this.error('Erreur Git', 'Un des dépôts Github n\'existe pas ou vous n\'avez pas les droits dessus.');
       this.loading = false;
     });

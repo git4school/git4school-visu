@@ -25,7 +25,7 @@ export class Commit {
 
     updateIsEnSeance(dateDebut: Date, dateFin: Date) {
         if (this.commitDate.getTime() >= dateDebut.getTime() && this.commitDate.getTime() <= dateFin.getTime()) {
-            console.log('FSSZEZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz');
+
             this.isEnSeance = true;
             return true;
         }
