@@ -6,7 +6,7 @@ export class Commit {
         public url: string,
         public isEnSeance = false,
         public isCloture = false
-    ) {}
+    ) {this.commitDate = new Date(commitDate);}
 
     static withAttributes( message: string,
                            author: string,
@@ -21,11 +21,20 @@ export class Commit {
         return new Commit(json.commit.message, json.commit.committer.name, json.commit.committer.date, json.html_url);
     }
 
-    updateIsEnSeance(date: Date) {
-        this.isEnSeance = (this.commitDate >= date);
+    updateIsEnSeance(dateDebut: Date, dateFin: Date) {
+        // console.log('dateDebut : ' + dateDebut + ', dateFin : ' + dateFin + ', date : ' + this.commitDate);
+        if (this.commitDate >= dateDebut && this.commitDate <= dateFin) {
+            this.isEnSeance = true;
+            return true;
+        }
+        return false;
     }
 
     updateIsCloture(message: string) {
-        
+        if (message.match(/\b((close[sd]?)|(fix(es|ed)?)|(resolve[sd]?))\b/gi) !== null) {
+            this.isCloture = true;
+            return true;
+        }
+        return false;
     }
 }

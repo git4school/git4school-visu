@@ -54,7 +54,9 @@ export class GraphViewComponent implements OnInit {
         },
         beforeBody(tooltipItem, data) {
           const commit = data.datasets[tooltipItem[0].datasetIndex].data[tooltipItem[0].index].commit;
-          return commit.message + '\n\n' + commit.author;
+          return commit.commitDate + '\n\n' + 
+          data.datasets[tooltipItem[0].datasetIndex].data[tooltipItem[0].index].x
+           + '\n\n' + commit.message + '\n\n' + commit.author;
         }
       },
       displayColors: false
@@ -73,7 +75,7 @@ export class GraphViewComponent implements OnInit {
     scales: {
       xAxes: [{
         type: 'time',
-        offset: true,
+        // offset: true,
         time: {
           unit: this.unit,
           tooltipFormat: 'DD/MM/YY HH:mm',
@@ -127,7 +129,6 @@ export class GraphViewComponent implements OnInit {
     if (event.active.length > 0) {
       const data = this.getDataFromChart(event);
       // tslint:disable-next-line: no-string-literal
-      console.log(data);
       window.open(data.commit.url, '_blank');
     }
   }
@@ -152,6 +153,7 @@ export class GraphViewComponent implements OnInit {
       const chartData = [];
       const labels = [];
       this.chartOptions.annotation.annotations = [];
+      this.commits = [];
 
       if (this.corrections) {
         this.corrections.forEach(correction => {
@@ -211,24 +213,37 @@ export class GraphViewComponent implements OnInit {
       }
 
       for (let i = 0; i < response.length; i++) {
+        // console.log(response[i].commits);
         this.commits.push(response[i].commits.slice());
+        // console.log(this.commits);
         const data = [];
+        const pointStyle = [];
         labels.push(response[i].name);
         this.commits[i].forEach(commit => {
-          data.push({x: commit.commitDate, y: response[i].name, commit});
+          commit = this.updateCommit(commit);
+          console.log(commit.commitDate.toLocaleString());
+          data.push({x: commit.commitDate.toLocaleString(), y: response[i].name, commit});
+          pointStyle.push(commit.isEnSeance ? 'rect' : 'circle');
         });
-        chartData.push({data});
+        chartData.push({data, pointStyle});
       }
       this.chartData = chartData;
       this.chartOptions.scales.yAxes[0].labels = labels;
       this.refreshGraph();
       this.loading = false;
+      console.log(this.chartData);
     },
     error => {
       console.log('ERROR', error);
       this.error('Erreur Git', 'Un des dépôts Github n\'existe pas ou vous n\'avez pas les droits dessus.');
       this.loading = false;
     });
+  }
+
+  updateCommit(commit: Commit) {
+    for (let i = 0; (i < this.seances.length) && !commit.updateIsEnSeance(this.seances[i].dateDebut, this.seances[i].dateFin); i++) { }
+    for (let i = 0; (i < this.seances.length) && !commit.updateIsCloture(commit.message); i++) { }
+    return commit;
   }
 
   refreshGraph() {

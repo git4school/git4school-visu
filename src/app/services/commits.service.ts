@@ -39,6 +39,7 @@ export class CommitsService {
     return new Observable(observer => {
       const repo = new Repository(repoURL);
       this.getRepositoryObservable(repoURL, date).subscribe(response => {
+        // console.log(response);
         const readme = decodeURIComponent(escape(window.atob( response[0].content )));
         const tab = readme
           .split(/(### NOM :)|(### Prénom :)|(### Groupe de TP :)|\n/g)
@@ -55,6 +56,7 @@ export class CommitsService {
           repo.groupeTP = parseInt(tab[6], 10);
         }
         repo.commits = response[1];
+        // console.log(repo);
         observer.next(repo);
         observer.complete();
       }, err => {
@@ -63,9 +65,6 @@ export class CommitsService {
     });
   }
 
-  compareCommitDate(commit: Commit, date: Date) {
-    
-  }
 
   getRepositoryObservable(repoURL: string, date?: Date) {
     return forkJoin(this.getReadMe(repoURL), this.getCommits(repoURL, date)).pipe(catchError(error => of(error)));
@@ -80,7 +79,9 @@ export class CommitsService {
     return this.http.get<Commit[]>(url,
       this.httpOptions).pipe(map(
       response => {
+        // console.log(response);
         const array = response.map(data => Commit.withJSON(data));
+        // console.log(array);
         return array;
       },
       err => {
