@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { validateConfig } from '@angular/router/src/config';
 import { Repository } from '../models/Repository.model';
 import moment from 'moment/src/moment';
+import { Seance } from '../models/Seance.model';
+import { Jalon } from '../models/Jalon.model';
 
 
 @Component({
@@ -162,7 +164,7 @@ export class GraphViewComponent implements OnInit {
               type: 'line',
               mode: 'vertical',
               scaleID: 'x-axis-0',
-              value: moment(correction.date, 'DD/MM/YYYY HH:mm').toDate(),
+              value: correction.date,
               borderColor: 'red',
               borderWidth: 1,
               label: {
@@ -182,8 +184,8 @@ export class GraphViewComponent implements OnInit {
               type: 'box',
               xScaleID: 'x-axis-0',
               yScaleID: 'y-axis-0',
-              xMin: moment(seance.dateDebut, 'DD/MM/YYYY HH:mm').toDate(),
-              xMax: moment(seance.dateFin, 'DD/MM/YYYY HH:mm').toDate(),
+              xMin: seance.dateDebut,
+              xMax: seance.dateFin,
               borderColor: 'white',
               borderWidth: 2,
               backgroundColor: 'darkTurquoise'
@@ -199,7 +201,7 @@ export class GraphViewComponent implements OnInit {
               type: 'line',
               mode: 'vertical',
               scaleID: 'x-axis-0',
-              value: moment(review.date, 'DD/MM/YYYY HH:mm').toDate(),
+              value: review.date,
               borderColor: 'blue',
               borderWidth: 1,
               label: {
@@ -221,8 +223,8 @@ export class GraphViewComponent implements OnInit {
         labels.push(response[i].name);
         this.commits[i].forEach(commit => {
           commit = this.updateCommit(commit);
-          console.log(commit.commitDate.toLocaleString());
-          data.push({x: commit.commitDate.toLocaleString(), y: response[i].name, commit});
+          // console.log(commit.commitDate);
+          data.push({x: commit.commitDate, y: response[i].name, commit});
           pointStyle.push(commit.isEnSeance ? 'rect' : 'circle');
         });
         chartData.push({data, pointStyle});
@@ -231,7 +233,7 @@ export class GraphViewComponent implements OnInit {
       this.chartOptions.scales.yAxes[0].labels = labels;
       this.refreshGraph();
       this.loading = false;
-      console.log(this.chartData);
+      // console.log(this.chartData);
     },
     error => {
       console.log('ERROR', error);
@@ -281,9 +283,9 @@ export class GraphViewComponent implements OnInit {
         if (text.repositories.length !== this.repositories.length) {
           this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
         }
-        this.corrections = text.corrections;
-        this.seances = text.seances;
-        this.reviews = text.reviews;
+        this.corrections = text.corrections.map(data => Jalon.withJSON(data));
+        this.seances = text.seances.map(data => Seance.withJSON(data));
+        this.reviews = text.reviews.map(data => Jalon.withJSON(data));
         if (text.date) {
           this.loadGraph(moment(text.date, 'DD/MM/YYYY HH:mm').toDate());
         } else {
