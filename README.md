@@ -1,5 +1,5 @@
-# FriendsOfMine_M1
+# test-angular
 
-### NOM : PONS
+### NOM : pons
 ### Prénom : Mika
 ### Groupe de TP : 12
