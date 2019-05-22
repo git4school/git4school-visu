@@ -27,8 +27,3 @@
             (chartHover)="onChartHover($event)">
     </canvas>
 </div>
-<ul class="list-group">
-    <app-commit-view *ngIf="commit" [message]="commit.message"
-                                    [author]="commit.author"
-                                    [commitDate]="commit.date"></app-commit-view>
-</ul>

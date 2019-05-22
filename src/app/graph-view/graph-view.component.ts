@@ -23,8 +23,6 @@ export class GraphViewComponent implements OnInit {
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
   loading = false;
-  commits: Commit[][] = [];
-  commit = null;
   public repositories: string[];
   public filename;
   unit = 'day';
@@ -63,7 +61,9 @@ export class GraphViewComponent implements OnInit {
     elements: {
       line: {
         fill: false,
-        borderWidth: 1
+        borderWidth: 2,
+        lineBackgroundColor: 'rgba(76, 76, 76, 1)',
+        tension: 0
       },
       point: {
         // pointBackgroundColor: 'rgba(81, 81, 81, 1)',
@@ -143,97 +143,111 @@ export class GraphViewComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  loadAnnotations() {
+    if (this.seances) {
+      this.seances = this.seances.map(data => Seance.withJSON(data));
+      this.seances.forEach(seance => {
+        this.chartOptions.annotation.annotations.push(
+          {
+            type: 'box',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            xMin: seance.dateDebut,
+            xMax: seance.dateFin,
+            borderColor: 'white',
+            borderWidth: 2,
+            backgroundColor: 'darkTurquoise'
+          }
+        );
+      });
+    }
+
+    if (this.reviews) {
+      this.reviews = this.reviews.map(data => Jalon.withJSON(data));
+      this.reviews.forEach(review => {
+        this.chartOptions.annotation.annotations.push(
+          {
+            type: 'line',
+            mode: 'vertical',
+            scaleID: 'x-axis-0',
+            value: review.date,
+            borderColor: 'blue',
+            borderWidth: 1,
+            label: {
+              content: review.label,
+              enabled: true,
+              position: 'top'
+            }
+          }
+        );
+      });
+    }
+
+    if (this.corrections) {
+      this.corrections = this.corrections.map(data => Jalon.withJSON(data));
+      this.corrections.forEach(correction => {
+        this.chartOptions.annotation.annotations.push(
+          {
+            type: 'line',
+            mode: 'vertical',
+            scaleID: 'x-axis-0',
+            value: correction.date,
+            borderColor: 'red',
+            borderWidth: 1,
+            label: {
+              content: correction.label,
+              enabled: true,
+              position: 'top',
+            }
+          }
+        );
+      });
+    }
+  }
+
+  loadPoints(repositories: Repository[]) {
+    const chartData = [];
+    const labels = [];
+    const commits = [];
+
+    for (let i = 0; i < repositories.length; i++) {
+      commits.push(repositories[i].commits.slice());
+      const data = [];
+      const pointStyle = [];
+      const radius = [];
+      const pointBackgroundColor = [];
+      labels.push(repositories[i].name);
+      commits[i].forEach(commit => {
+        const maison = new Image(12, 12);
+        maison.src = 'https://cdn.pixabay.com/photo/2014/04/03/00/41/house-309113_960_720.png';
+        if (this.seances) {
+          commit = this.updateCommit(commit);
+        }
+        if (commit.isCloture) {
+          maison.height = 20;
+          maison.width = 20;
+        }
+
+        data.push({x: commit.commitDate, y: repositories[i].name, commit});
+        pointStyle.push(commit.isEnSeance ? maison : 'circle');
+        radius.push(commit.isCloture ? 8 : 5);
+        pointBackgroundColor.push('rgba(76, 76, 76, 1)');
+      });
+      chartData.push({data, pointStyle, radius, pointBackgroundColor});
+    }
+
+    this.chartData = chartData;
+    this.chartOptions.scales.yAxes[0].labels = labels;
+  }
+
   loadGraph(date?: Date) {
     this.loading = true;
 
-    this.commitsService.getRepositories(this.repositories, date).subscribe(response => {
-      const chartData = [];
-      const labels = [];
+    this.commitsService.getRepositories(this.repositories, date).subscribe(repositories => {
       this.chartOptions.annotation.annotations = [];
-      this.commits = [];
 
-      if (this.corrections) {
-        this.corrections.forEach(correction => {
-          this.chartOptions.annotation.annotations.push(
-            {
-              type: 'line',
-              mode: 'vertical',
-              scaleID: 'x-axis-0',
-              value: correction.date,
-              borderColor: 'red',
-              borderWidth: 1,
-              label: {
-                content: correction.label,
-                enabled: true,
-                position: 'top',
-              }
-            }
-          );
-        });
-      }
-
-      if (this.seances) {
-        this.seances.forEach(seance => {
-          this.chartOptions.annotation.annotations.push(
-            {
-              type: 'box',
-              xScaleID: 'x-axis-0',
-              yScaleID: 'y-axis-0',
-              xMin: seance.dateDebut,
-              xMax: seance.dateFin,
-              borderColor: 'white',
-              borderWidth: 2,
-              backgroundColor: 'darkTurquoise'
-            }
-          );
-        });
-      }
-
-      if (this.reviews) {
-        this.reviews.forEach(review => {
-          this.chartOptions.annotation.annotations.push(
-            {
-              type: 'line',
-              mode: 'vertical',
-              scaleID: 'x-axis-0',
-              value: review.date,
-              borderColor: 'blue',
-              borderWidth: 1,
-              label: {
-                content: review.label,
-                enabled: true,
-                position: 'top'
-              }
-            }
-          );
-        });
-      }
-
-      for (let i = 0; i < response.length; i++) {
-        this.commits.push(response[i].commits.slice());
-        const data = [];
-        const pointStyle = [];
-        const radius = [];
-        const pointBackgroundColor = [];
-        labels.push(response[i].name);
-        this.commits[i].forEach(commit => {
-          let maison = new Image(12, 12);
-          maison.src = 'https://cdn.pixabay.com/photo/2014/04/03/00/41/house-309113_960_720.png';
-          commit = this.updateCommit(commit);
-          if (commit.isCloture) {
-            maison.height = 25;
-            maison.width = 25;
-          }
-
-          data.push({x: commit.commitDate, y: response[i].name, commit});
-          pointStyle.push(commit.isEnSeance ? maison : 'circle');
-          radius.push(commit.isCloture ? 8 : 5);
-          pointBackgroundColor.push('rgba(76, 76, 76, 1)');
-        });
-        chartData.push({data, pointStyle, radius, pointBackgroundColor});
-      }
-      this.chartData = chartData;
-      this.chartOptions.scales.yAxes[0].labels = labels;
+      this.loadAnnotations();
+      this.loadPoints(repositories);
       this.refreshGraph();
       this.loading = false;
       //
@@ -286,9 +300,9 @@ export class GraphViewComponent implements OnInit {
         if (text.repositories.length !== this.repositories.length) {
           this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
         }
-        this.corrections = text.corrections.map(data => Jalon.withJSON(data));
-        this.seances = text.seances.map(data => Seance.withJSON(data));
-        this.reviews = text.reviews.map(data => Jalon.withJSON(data));
+        this.corrections = text.corrections;
+        this.seances = text.seances;
+        this.reviews = text.reviews;
         if (text.date) {
           this.loadGraph(moment(text.date, 'DD/MM/YYYY HH:mm').toDate());
         } else {
