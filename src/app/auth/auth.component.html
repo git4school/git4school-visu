@@ -6,7 +6,7 @@
     </div>
   </div> -->
 <button class="btn btn-success" *ngIf="!authService.isSignedIn('btn success')" [disabled]="loading" (click)="onSignInGithub()">
-  <span *ngIf="loading; else loggedOut" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  <span *ngIf="loading; else loggedOut" class="spinner-border spinner-border-sm pr-1" role="status" aria-hidden="true"></span>
   Se connecter
       
   <ng-template #loggedOut>

@@ -25,7 +25,6 @@ export class GraphViewComponent implements OnInit {
   loading = false;
   commits: Commit[][] = [];
   commit = null;
-  monImage = new Image();
   public repositories: string[];
   public filename;
   unit = 'day';
@@ -67,6 +66,7 @@ export class GraphViewComponent implements OnInit {
         borderWidth: 1
       },
       point: {
+        // pointBackgroundColor: 'rgba(81, 81, 81, 1)',
         hitRadius: 8,
         radius: 5,
         pointStyle: 'circle'
@@ -145,9 +145,6 @@ export class GraphViewComponent implements OnInit {
 
   loadGraph(date?: Date) {
     this.loading = true;
-    this.monImage.src = 'https://image.flaticon.com/icons/png/512/25/25694.png';
-    this.monImage.height = 15;
-    this.monImage.width = 15;
 
     this.commitsService.getRepositories(this.repositories, date).subscribe(response => {
       const chartData = [];
@@ -213,21 +210,27 @@ export class GraphViewComponent implements OnInit {
       }
 
       for (let i = 0; i < response.length; i++) {
-        //
         this.commits.push(response[i].commits.slice());
-        //
         const data = [];
         const pointStyle = [];
         const radius = [];
+        const pointBackgroundColor = [];
         labels.push(response[i].name);
         this.commits[i].forEach(commit => {
+          let maison = new Image(12, 12);
+          maison.src = 'https://cdn.pixabay.com/photo/2014/04/03/00/41/house-309113_960_720.png';
           commit = this.updateCommit(commit);
+          if (commit.isCloture) {
+            maison.height = 25;
+            maison.width = 25;
+          }
 
           data.push({x: commit.commitDate, y: response[i].name, commit});
-          pointStyle.push(commit.isEnSeance ? 'rect' : 'circle');
+          pointStyle.push(commit.isEnSeance ? maison : 'circle');
           radius.push(commit.isCloture ? 8 : 5);
+          pointBackgroundColor.push('rgba(76, 76, 76, 1)');
         });
-        chartData.push({data, pointStyle, radius});
+        chartData.push({data, pointStyle, radius, pointBackgroundColor});
       }
       this.chartData = chartData;
       this.chartOptions.scales.yAxes[0].labels = labels;
