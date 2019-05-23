@@ -152,7 +152,7 @@ export class GraphViewComponent implements OnInit {
             yScaleID: 'y-axis-0',
             xMin: seance.dateDebut,
             xMax: seance.dateFin,
-            borderColor: 'rgba(33, 150, 243,1)',
+            borderColor: 'rgba(79, 195, 247,1.0)',
             borderWidth: 2,
             backgroundColor: 'rgba(33, 150, 243, 0.15)'
           }
@@ -217,17 +217,21 @@ export class GraphViewComponent implements OnInit {
       labels.push(repositories[i].name);
       commits[i].forEach(commit => {
         const maison = new Image(12, 12);
-        maison.src = 'https://cdn.pixabay.com/photo/2014/04/03/00/41/house-309113_960_720.png';
+        const fac = new Image(12, 12);
+        maison.src = './assets/maison.png';
+        fac.src = './assets/fac.png';
         if (this.seances) {
           commit = this.updateCommit(commit);
         }
         if (commit.isCloture) {
           maison.height = 20;
           maison.width = 20;
+          fac.height = 20;
+          fac.width = 20;
         }
 
         data.push({x: commit.commitDate, y: repositories[i].name, commit});
-        pointStyle.push(commit.isEnSeance ? maison : 'circle');
+        pointStyle.push(commit.isEnSeance ? maison : fac);
         radius.push(commit.isCloture ? 8 : 5);
         pointBackgroundColor.push('rgba(76, 76, 76, 1)');
       });
