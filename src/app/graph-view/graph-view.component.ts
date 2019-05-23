@@ -6,7 +6,6 @@ import { Commit } from '../models/Commit.model';
 import { ToastrService } from 'ngx-toastr';
 import { validateConfig } from '@angular/router/src/config';
 import { Repository } from '../models/Repository.model';
-import moment from 'moment/src/moment';
 import { Seance } from '../models/Seance.model';
 import { Jalon } from '../models/Jalon.model';
 
@@ -23,10 +22,10 @@ export class GraphViewComponent implements OnInit {
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
   loading = false;
-  public repositories: string[];
-  public filename;
+  public repositoriesURL: string[];
   unit = 'day';
-  target = null;
+  file = null;
+  filename;
   corrections;
   seances;
   reviews;
@@ -116,38 +115,21 @@ export class GraphViewComponent implements OnInit {
   ngOnInit(): void { }
 
   readFile(): void {
-    const inputValue = this.target;
-    const file: File = inputValue.files[0];
     const myReader: FileReader = new FileReader();
-    const fileType = inputValue.parentElement.id;
     myReader.onloadend = (e) => {
-      this.filename = file.name;
       const text = this.getJSONOrNull(myReader.result);
       if (text) {
-        this.repositories = this.extractRepositories(text.repositories.slice());
-        if (text.repositories.length !== this.repositories.length) {
-          this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
-        }
-        this.corrections = text.corrections;
-        this.seances = text.seances;
-        this.reviews = text.reviews;
-        if (text.date) {
-          this.loadGraph(moment(text.date, 'DD/MM/YYYY HH:mm').toDate());
-        } else {
-          this.loadGraph();
-        }
-      } else {
-        this.error('Erreur', 'Le fichier n\'est pas un fichier JSON valide.');
+        this.getDataFromFile(text);
+        this.loadGraph(text.date);
       }
     };
-
-    myReader.readAsText(file);
+    myReader.readAsText(this.file);
   }
 
   loadGraph(date?: Date) {
     this.loading = true;
 
-    this.commitsService.getRepositories(this.repositories, date).subscribe(repositories => {
+    this.commitsService.getRepositories(this.repositoriesURL, date).subscribe(repositories => {
       this.chartOptions.annotation.annotations = [];
 
       this.loadAnnotations();
@@ -242,9 +224,7 @@ export class GraphViewComponent implements OnInit {
         const fac = new Image(12, 12);
         maison.src = './assets/maison.png';
         fac.src = './assets/fac.png';
-        if (this.seances) {
-          commit = this.updateCommit(commit);
-        }
+        commit = this.updateCommit(commit);
         if (commit.isCloture) {
           maison.height = 20;
           maison.width = 20;
@@ -253,7 +233,7 @@ export class GraphViewComponent implements OnInit {
         }
 
         data.push({x: commit.commitDate, y: repositories[i].name, commit});
-        pointStyle.push(commit.isEnSeance ? maison : fac);
+        pointStyle.push(commit.isEnSeance ? fac : maison);
         radius.push(commit.isCloture ? 8 : 5);
         pointBackgroundColor.push('rgba(76, 76, 76, 1)');
       });
@@ -265,8 +245,10 @@ export class GraphViewComponent implements OnInit {
   }
 
   updateCommit(commit: Commit) {
-    for (let i = 0; (i < this.seances.length) && !commit.updateIsEnSeance(this.seances[i].dateDebut, this.seances[i].dateFin); i++) { }
-    for (let i = 0; (i < this.seances.length) && !commit.updateIsCloture(commit.message); i++) { }
+    if (this.seances) {
+      for (let i = 0; (i < this.seances.length) && !commit.updateIsEnSeance(this.seances[i].dateDebut, this.seances[i].dateFin); i++) { }
+    }
+    commit.updateIsCloture(commit.message);
     return commit;
   }
 
@@ -276,8 +258,11 @@ export class GraphViewComponent implements OnInit {
   }
 
   changeListener($event): void {
-    this.target = $event.target;
-    this.readFile();
+    if ($event.target.files[0]) {
+      this.file = $event.target.files[0];
+      this.filename = this.file.name;
+      this.readFile();
+    }
   }
 
   onChartClick(event) {
@@ -301,20 +286,11 @@ export class GraphViewComponent implements OnInit {
     // TODO: Envoyer des alertes (warning et error), renvoie false s'il y a une erreur, true s'il y a seulement warning ou rien
   }
 
-  extractRepositories(repositories) {
-    const tab = [];
-    repositories.forEach(repository => {
-      if (repository.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)) {
-        tab.push(repository);
-      }
-    });
-    return tab;
-  }
-
   getJSONOrNull(str) {
     try {
       return JSON.parse(str);
     } catch (e) {
+      this.error('Le fichier n\'est pas un fichier JSON valide.', e.message);
       return null;
     }
   }
@@ -329,6 +305,16 @@ export class GraphViewComponent implements OnInit {
     this.toastr.error(message, titre, {
       progressBar: true
     });
+  }
+
+  getDataFromFile(text) {
+    this.repositoriesURL = text.repositories.filter(repository => repository.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/));
+    if (text.repositories.length !== this.repositoriesURL.length) {
+      this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
+    }
+    this.corrections = text.corrections;
+    this.seances = text.seances;
+    this.reviews = text.reviews;
   }
 
   warning(titre, message) {

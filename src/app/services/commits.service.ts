@@ -6,7 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Commit } from '../models/Commit.model';
 import { forkJoin } from 'rxjs';
 import { Repository } from '../models/Repository.model';
-
+import moment from 'moment/src/moment';
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +74,7 @@ export class CommitsService {
     const repo = repoURL.split('/');
     let url = 'https://api.github.com/repos/' + repo[3] + '/' + repo[4] + '/commits?per_page=100';
     if (date) {
+      date = moment(date, 'DD/MM/YYYY HH:mm').toDate();
       url = url.concat('&since=' + date.toISOString());
     }
     return this.http.get<Commit[]>(url,
