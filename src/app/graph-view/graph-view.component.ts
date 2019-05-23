@@ -32,6 +32,7 @@ export class GraphViewComponent implements OnInit {
   seances;
   reviews;
   chartData = [{ data: [] }];
+  repositories: Repository[];
 
   chartOptions = {
     responsive: true,
@@ -138,13 +139,9 @@ export class GraphViewComponent implements OnInit {
 
     this.commitsService.getRepositories(this.repositoriesURL, date).subscribe(
       repositories => {
-        this.chartOptions.annotation.annotations = [];
-
-        this.loadAnnotations();
-        this.loadPoints(repositories);
-        this.refreshGraph();
+        this.repositories = repositories;
+        this.loadGraphData();
         this.loading = false;
-        //
       },
       error => {
         this.error(
@@ -156,7 +153,14 @@ export class GraphViewComponent implements OnInit {
     );
   }
 
+  loadGraphData() {
+    this.loadAnnotations();
+    this.loadPoints(this.repositories);
+    this.refreshGraph();
+  }
+
   loadAnnotations() {
+    this.chartOptions.annotation.annotations = [];
     if (this.seances) {
       this.seances = this.seances.map(data => Seance.withJSON(data));
       this.seances.forEach(seance => {
