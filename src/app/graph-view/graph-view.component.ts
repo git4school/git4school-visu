@@ -30,6 +30,9 @@ export class GraphViewComponent implements OnInit {
   corrections;
   seances;
   reviews;
+  chartData = [
+    {data: []}
+  ];
 
   chartOptions = {
     responsive: true,
@@ -110,36 +113,55 @@ export class GraphViewComponent implements OnInit {
     }
   };
 
-  chartData = [
-    {data: []}
-  ];
-
-  changeUnit() {
-    if (this.chartOptions.scales.xAxes[0].time.unit === 'week') {
-      this.chartOptions.scales.xAxes[0].time.unit = 'day';
-    } else {
-      this.chartOptions.scales.xAxes[0].time.unit = 'week';
-    }
-    this.refreshGraph();
-  }
-
-  onChartClick(event) {
-    if (event.active.length > 0) {
-      const data = this.getDataFromChart(event);
-      // tslint:disable-next-line: no-string-literal
-      window.open(data.commit.url, '_blank');
-    }
-  }
-
-  getDataFromChart(event) {
-    const datasetIndex = event.active[0]._datasetIndex;
-    const dataIndex = event.active[0]._index;
-    return this.chartData[datasetIndex].data[dataIndex];
-  }
-
-  onChartHover(event) { }
-
   ngOnInit(): void { }
+
+  readFile(): void {
+    const inputValue = this.target;
+    const file: File = inputValue.files[0];
+    const myReader: FileReader = new FileReader();
+    const fileType = inputValue.parentElement.id;
+    myReader.onloadend = (e) => {
+      this.filename = file.name;
+      const text = this.getJSONOrNull(myReader.result);
+      if (text) {
+        this.repositories = this.extractRepositories(text.repositories.slice());
+        if (text.repositories.length !== this.repositories.length) {
+          this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
+        }
+        this.corrections = text.corrections;
+        this.seances = text.seances;
+        this.reviews = text.reviews;
+        if (text.date) {
+          this.loadGraph(moment(text.date, 'DD/MM/YYYY HH:mm').toDate());
+        } else {
+          this.loadGraph();
+        }
+      } else {
+        this.error('Erreur', 'Le fichier n\'est pas un fichier JSON valide.');
+      }
+    };
+
+    myReader.readAsText(file);
+  }
+
+  loadGraph(date?: Date) {
+    this.loading = true;
+
+    this.commitsService.getRepositories(this.repositories, date).subscribe(repositories => {
+      this.chartOptions.annotation.annotations = [];
+
+      this.loadAnnotations();
+      this.loadPoints(repositories);
+      this.refreshGraph();
+      this.loading = false;
+      //
+    },
+    error => {
+
+      this.error('Erreur Git', 'Un des dépôts Github n\'existe pas ou vous n\'avez pas les droits dessus.');
+      this.loading = false;
+    });
+  }
 
   loadAnnotations() {
     if (this.seances) {
@@ -242,25 +264,6 @@ export class GraphViewComponent implements OnInit {
     this.chartOptions.scales.yAxes[0].labels = labels;
   }
 
-  loadGraph(date?: Date) {
-    this.loading = true;
-
-    this.commitsService.getRepositories(this.repositories, date).subscribe(repositories => {
-      this.chartOptions.annotation.annotations = [];
-
-      this.loadAnnotations();
-      this.loadPoints(repositories);
-      this.refreshGraph();
-      this.loading = false;
-      //
-    },
-    error => {
-
-      this.error('Erreur Git', 'Un des dépôts Github n\'existe pas ou vous n\'avez pas les droits dessus.');
-      this.loading = false;
-    });
-  }
-
   updateCommit(commit: Commit) {
     for (let i = 0; (i < this.seances.length) && !commit.updateIsEnSeance(this.seances[i].dateDebut, this.seances[i].dateFin); i++) { }
     for (let i = 0; (i < this.seances.length) && !commit.updateIsCloture(commit.message); i++) { }
@@ -277,45 +280,21 @@ export class GraphViewComponent implements OnInit {
     this.readFile();
   }
 
-  error(titre, message) {
-    this.toastr.error(message, titre, {
-      progressBar: true
-    });
+  onChartClick(event) {
+    if (event.active.length > 0) {
+      const data = this.getDataFromChart(event);
+      // tslint:disable-next-line: no-string-literal
+      window.open(data.commit.url, '_blank');
+    }
   }
 
-  warning(titre, message) {
-    this.toastr.warning(message, titre, {
-      progressBar: true
-    });
-  }
-
-  readFile(): void {
-    const inputValue = this.target;
-    const file: File = inputValue.files[0];
-    const myReader: FileReader = new FileReader();
-    const fileType = inputValue.parentElement.id;
-    myReader.onloadend = (e) => {
-      this.filename = file.name;
-      const text = this.getJSONOrNull(myReader.result);
-      if (text) {
-        this.repositories = this.extractRepositories(text.repositories.slice());
-        if (text.repositories.length !== this.repositories.length) {
-          this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
-        }
-        this.corrections = text.corrections;
-        this.seances = text.seances;
-        this.reviews = text.reviews;
-        if (text.date) {
-          this.loadGraph(moment(text.date, 'DD/MM/YYYY HH:mm').toDate());
-        } else {
-          this.loadGraph();
-        }
-      } else {
-        this.error('Erreur', 'Le fichier n\'est pas un fichier JSON valide.');
-      }
-    };
-
-    myReader.readAsText(file);
+  changeUnit() {
+    if (this.chartOptions.scales.xAxes[0].time.unit === 'week') {
+      this.chartOptions.scales.xAxes[0].time.unit = 'day';
+    } else {
+      this.chartOptions.scales.xAxes[0].time.unit = 'week';
+    }
+    this.refreshGraph();
   }
 
   verifyJSON() {
@@ -338,5 +317,23 @@ export class GraphViewComponent implements OnInit {
     } catch (e) {
       return null;
     }
+  }
+
+  getDataFromChart(event) {
+    const datasetIndex = event.active[0]._datasetIndex;
+    const dataIndex = event.active[0]._index;
+    return this.chartData[datasetIndex].data[dataIndex];
+  }
+
+  error(titre, message) {
+    this.toastr.error(message, titre, {
+      progressBar: true
+    });
+  }
+
+  warning(titre, message) {
+    this.toastr.warning(message, titre, {
+      progressBar: true
+    });
   }
 }
