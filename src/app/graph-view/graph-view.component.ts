@@ -63,22 +63,20 @@ export class GraphViewComponent implements OnInit {
         fill: false,
         borderWidth: 2,
         lineBackgroundColor: 'rgba(76, 76, 76, 1)',
+        borderColor: 'rgba(76, 76, 76, 1)',
         tension: 0
       },
       point: {
-        // pointBackgroundColor: 'rgba(81, 81, 81, 1)',
         hitRadius: 8,
-        radius: 5,
-        pointStyle: 'circle'
       }
     },
     scales: {
       xAxes: [{
         type: 'time',
-        // offset: true,
         time: {
           unit: this.unit,
           tooltipFormat: 'DD/MM/YY HH:mm',
+          offset: true,
           displayFormats: {
             day: 'DD/MM/YY',
             week: 'DD/MM/YY',
@@ -154,9 +152,9 @@ export class GraphViewComponent implements OnInit {
             yScaleID: 'y-axis-0',
             xMin: seance.dateDebut,
             xMax: seance.dateFin,
-            borderColor: 'white',
+            borderColor: 'rgba(33, 150, 243,1)',
             borderWidth: 2,
-            backgroundColor: 'darkTurquoise'
+            backgroundColor: 'rgba(33, 150, 243, 0.15)'
           }
         );
       });
