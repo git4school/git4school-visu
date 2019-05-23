@@ -162,58 +162,70 @@ export class GraphViewComponent implements OnInit {
   loadAnnotations() {
     this.chartOptions.annotation.annotations = [];
     if (this.seances) {
-      this.seances = this.seances.map(data => Seance.withJSON(data));
-      this.seances.forEach(seance => {
-        this.chartOptions.annotation.annotations.push({
-          type: 'box',
-          xScaleID: 'x-axis-0',
-          yScaleID: 'y-axis-0',
-          xMin: seance.dateDebut,
-          xMax: seance.dateFin,
-          borderColor: 'rgba(79, 195, 247,1.0)',
-          borderWidth: 2,
-          backgroundColor: 'rgba(33, 150, 243, 0.15)'
-        });
-      });
+      this.loadSeances();
     }
 
     if (this.reviews) {
-      this.reviews = this.reviews.map(data => Jalon.withJSON(data));
-      this.reviews.forEach(review => {
-        this.chartOptions.annotation.annotations.push({
-          type: 'line',
-          mode: 'vertical',
-          scaleID: 'x-axis-0',
-          value: review.date,
-          borderColor: 'blue',
-          borderWidth: 1,
-          label: {
-            content: review.label,
-            enabled: true,
-            position: 'top'
-          }
-        });
-      });
+      this.loadReviews();
     }
 
     if (this.corrections) {
-      this.corrections = this.corrections.map(data => Jalon.withJSON(data));
-      this.corrections.forEach(correction => {
-        this.chartOptions.annotation.annotations.push({
-          type: 'line',
-          mode: 'vertical',
-          scaleID: 'x-axis-0',
-          value: correction.date,
-          borderColor: 'red',
-          borderWidth: 1,
-          label: {
-            content: correction.label,
-            enabled: true,
-            position: 'top'
-          }
-        });
-      });
+      this.loadCorrections();
     }
+  }
+
+  loadSeances() {
+    this.seances = this.seances.map(data => Seance.withJSON(data));
+    this.seances.forEach(seance => {
+      this.chartOptions.annotation.annotations.push({
+        type: 'box',
+        xScaleID: 'x-axis-0',
+        yScaleID: 'y-axis-0',
+        xMin: seance.dateDebut,
+        xMax: seance.dateFin,
+        borderColor: 'rgba(79, 195, 247,1.0)',
+        borderWidth: 2,
+        backgroundColor: 'rgba(33, 150, 243, 0.15)'
+      });
+    });
+  }
+
+  loadReviews() {
+    this.reviews = this.reviews.map(data => Jalon.withJSON(data));
+    this.reviews.forEach(review => {
+      this.chartOptions.annotation.annotations.push({
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'x-axis-0',
+        value: review.date,
+        borderColor: 'blue',
+        borderWidth: 1,
+        label: {
+          content: review.label,
+          enabled: true,
+          position: 'top'
+        }
+      });
+    });
+  }
+
+  loadCorrections() {
+    this.corrections = this.corrections.map(data => Jalon.withJSON(data));
+    this.corrections.forEach(correction => {
+      this.chartOptions.annotation.annotations.push({
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'x-axis-0',
+        value: correction.date,
+        borderColor: 'red',
+        borderWidth: 1,
+        label: {
+          content: correction.label,
+          enabled: true,
+          position: 'top'
+        }
+      });
+    });
   }
 
   loadPoints(repositories: Repository[]) {
