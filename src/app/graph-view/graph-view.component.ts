@@ -27,12 +27,12 @@ export class GraphViewComponent implements OnInit {
   public repositoriesURL: string[];
   unit = 'day';
   file = null;
-  filename;
-  corrections;
-  seances;
-  reviews;
-  chartData = [{ data: [] }];
+  filename: string;
+  corrections: Jalon[];
+  seances: Seance[];
+  reviews: Jalon[];
   repositories: Repository[];
+  chartData = [{ data: [] }];
 
   chartOptions = {
     responsive: true,
