@@ -9,15 +9,17 @@ import { Repository } from '../models/Repository.model';
 import { Seance } from '../models/Seance.model';
 import { Jalon } from '../models/Jalon.model';
 
-
 @Component({
   selector: 'app-graph-view',
   templateUrl: './graph-view.component.html',
   styleUrls: ['./graph-view.component.scss']
 })
 export class GraphViewComponent implements OnInit {
-
-  constructor(private authService: AuthService, private commitsService: CommitsService, private toastr: ToastrService) { }
+  constructor(
+    private authService: AuthService,
+    private commitsService: CommitsService,
+    private toastr: ToastrService
+  ) {}
 
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
@@ -29,9 +31,7 @@ export class GraphViewComponent implements OnInit {
   corrections;
   seances;
   reviews;
-  chartData = [
-    {data: []}
-  ];
+  chartData = [{ data: [] }];
 
   chartOptions = {
     responsive: true,
@@ -46,7 +46,7 @@ export class GraphViewComponent implements OnInit {
       animationDuration: 0
     },
     interaction: {
-      mode: 'nearest',
+      mode: 'nearest'
     },
     tooltips: {
       callbacks: {
@@ -54,7 +54,10 @@ export class GraphViewComponent implements OnInit {
           return '';
         },
         beforeBody(tooltipItem, data) {
-          const commit = data.datasets[tooltipItem[0].datasetIndex].data[tooltipItem[0].index].commit;
+          const commit =
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].commit;
           return commit.message + '\n\n' + commit.author;
         }
       },
@@ -69,27 +72,31 @@ export class GraphViewComponent implements OnInit {
         tension: 0
       },
       point: {
-        hitRadius: 8,
+        hitRadius: 8
       }
     },
     scales: {
-      xAxes: [{
-        type: 'time',
-        time: {
-          unit: this.unit,
-          tooltipFormat: 'DD/MM/YY HH:mm',
-          offset: true,
-          displayFormats: {
-            day: 'DD/MM/YY',
-            week: 'DD/MM/YY',
+      xAxes: [
+        {
+          type: 'time',
+          time: {
+            unit: this.unit,
+            tooltipFormat: 'DD/MM/YY HH:mm',
+            offset: true,
+            displayFormats: {
+              day: 'DD/MM/YY',
+              week: 'DD/MM/YY'
+            }
           }
         }
-      }],
-      yAxes: [{
-        type: 'category',
-        labels: [],
-        offset: true,
-      }]
+      ],
+      yAxes: [
+        {
+          type: 'category',
+          labels: [],
+          offset: true
+        }
+      ]
     },
     annotation: {
       drawTime: 'beforeDatasetsDraw',
@@ -100,23 +107,23 @@ export class GraphViewComponent implements OnInit {
         pan: {
           enabled: true,
           mode: 'x',
-          onPan({chart}) { }
+          onPan({ chart }) {}
         },
         zoom: {
           enabled: true,
           mode: 'x',
           speed: 0.3,
-          onZoom: ({chart}) => { }
+          onZoom: ({ chart }) => {}
         }
-      },
+      }
     }
   };
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   readFile(): void {
     const myReader: FileReader = new FileReader();
-    myReader.onloadend = (e) => {
+    myReader.onloadend = e => {
       const text = this.getJSONOrNull(myReader.result);
       if (text) {
         this.getDataFromFile(text);
@@ -129,80 +136,78 @@ export class GraphViewComponent implements OnInit {
   loadGraph(date?: Date) {
     this.loading = true;
 
-    this.commitsService.getRepositories(this.repositoriesURL, date).subscribe(repositories => {
-      this.chartOptions.annotation.annotations = [];
+    this.commitsService.getRepositories(this.repositoriesURL, date).subscribe(
+      repositories => {
+        this.chartOptions.annotation.annotations = [];
 
-      this.loadAnnotations();
-      this.loadPoints(repositories);
-      this.refreshGraph();
-      this.loading = false;
-      //
-    },
-    error => {
-
-      this.error('Erreur Git', 'Un des dépôts Github n\'existe pas ou vous n\'avez pas les droits dessus.');
-      this.loading = false;
-    });
+        this.loadAnnotations();
+        this.loadPoints(repositories);
+        this.refreshGraph();
+        this.loading = false;
+        //
+      },
+      error => {
+        this.error(
+          'Erreur Git',
+          "Un des dépôts Github n'existe pas ou vous n'avez pas les droits dessus."
+        );
+        this.loading = false;
+      }
+    );
   }
 
   loadAnnotations() {
     if (this.seances) {
       this.seances = this.seances.map(data => Seance.withJSON(data));
       this.seances.forEach(seance => {
-        this.chartOptions.annotation.annotations.push(
-          {
-            type: 'box',
-            xScaleID: 'x-axis-0',
-            yScaleID: 'y-axis-0',
-            xMin: seance.dateDebut,
-            xMax: seance.dateFin,
-            borderColor: 'rgba(79, 195, 247,1.0)',
-            borderWidth: 2,
-            backgroundColor: 'rgba(33, 150, 243, 0.15)'
-          }
-        );
+        this.chartOptions.annotation.annotations.push({
+          type: 'box',
+          xScaleID: 'x-axis-0',
+          yScaleID: 'y-axis-0',
+          xMin: seance.dateDebut,
+          xMax: seance.dateFin,
+          borderColor: 'rgba(79, 195, 247,1.0)',
+          borderWidth: 2,
+          backgroundColor: 'rgba(33, 150, 243, 0.15)'
+        });
       });
     }
 
     if (this.reviews) {
       this.reviews = this.reviews.map(data => Jalon.withJSON(data));
       this.reviews.forEach(review => {
-        this.chartOptions.annotation.annotations.push(
-          {
-            type: 'line',
-            mode: 'vertical',
-            scaleID: 'x-axis-0',
-            value: review.date,
-            borderColor: 'blue',
-            borderWidth: 1,
-            label: {
-              content: review.label,
-              enabled: true,
-              position: 'top'
-            }
+        this.chartOptions.annotation.annotations.push({
+          type: 'line',
+          mode: 'vertical',
+          scaleID: 'x-axis-0',
+          value: review.date,
+          borderColor: 'blue',
+          borderWidth: 1,
+          label: {
+            content: review.label,
+            enabled: true,
+            position: 'top'
           }
-        );
+        });
       });
     }
 
     if (this.corrections) {
       this.corrections = this.corrections.map(data => Jalon.withJSON(data));
       this.corrections.forEach(correction => {
-        this.chartOptions.annotation.annotations.push(
-          {
-            type: 'line',
-            mode: 'vertical',
-            scaleID: 'x-axis-0',
-            value: correction.date,
-            borderColor: 'red',
-            borderWidth: 1,
-            label: {
-              content: correction.label,
-              enabled: true,
-              position: 'top',
-            }
+        this.chartOptions.annotation.annotations.push({
+          type: 'line',
+          mode: 'vertical',
+          scaleID: 'x-axis-0',
+          value: correction.date,
+          borderColor: 'red',
+          borderWidth: 1,
+          label: {
+            content: correction.label,
+            enabled: true,
+            position: 'top'
           }
-        );
+        });
       });
     }
   }
@@ -217,27 +222,17 @@ export class GraphViewComponent implements OnInit {
       const data = [];
       const pointStyle = [];
       const radius = [];
-      const pointBackgroundColor = [];
+      // const pointBackgroundColor = [];
       labels.push(repositories[i].name);
       commits[i].forEach(commit => {
-        const maison = new Image(12, 12);
-        const fac = new Image(12, 12);
-        maison.src = './assets/maison.png';
-        fac.src = './assets/fac.png';
         commit = this.updateCommit(commit);
-        if (commit.isCloture) {
-          maison.height = 20;
-          maison.width = 20;
-          fac.height = 20;
-          fac.width = 20;
-        }
 
-        data.push({x: commit.commitDate, y: repositories[i].name, commit});
-        pointStyle.push(commit.isEnSeance ? fac : maison);
+        data.push({ x: commit.commitDate, y: repositories[i].name, commit });
+        pointStyle.push(this.getPointStyle(commit));
         radius.push(commit.isCloture ? 8 : 5);
-        pointBackgroundColor.push('rgba(76, 76, 76, 1)');
+        // pointBackgroundColor.push('rgba(76, 76, 76, 1)');
       });
-      chartData.push({data, pointStyle, radius, pointBackgroundColor});
+      chartData.push({ data, pointStyle, radius /*pointBackgroundColor */ });
     }
 
     this.chartData = chartData;
@@ -246,7 +241,15 @@ export class GraphViewComponent implements OnInit {
 
   updateCommit(commit: Commit) {
     if (this.seances) {
-      for (let i = 0; (i < this.seances.length) && !commit.updateIsEnSeance(this.seances[i].dateDebut, this.seances[i].dateFin); i++) { }
+      for (
+        let i = 0;
+        i < this.seances.length &&
+        !commit.updateIsEnSeance(
+          this.seances[i].dateDebut,
+          this.seances[i].dateFin
+        );
+        i++
+      ) {}
     }
     commit.updateIsCloture(commit.message);
     return commit;
@@ -286,11 +289,27 @@ export class GraphViewComponent implements OnInit {
     // TODO: Envoyer des alertes (warning et error), renvoie false s'il y a une erreur, true s'il y a seulement warning ou rien
   }
 
+  getPointStyle(commit: Commit) {
+    let image = new Image(12, 12);
+
+    if (commit.isCloture) {
+      image.height = 20;
+      image.width = 20;
+    }
+    if (commit.isEnSeance) {
+      image.src = './assets/fac.png';
+    } else {
+      image.src = './assets/maison.png';
+    }
+
+    return image;
+  }
+
   getJSONOrNull(str) {
     try {
       return JSON.parse(str);
     } catch (e) {
-      this.error('Le fichier n\'est pas un fichier JSON valide.', e.message);
+      this.error("Le fichier n'est pas un fichier JSON valide.", e.message);
       return null;
     }
   }
@@ -301,16 +320,21 @@ export class GraphViewComponent implements OnInit {
     return this.chartData[datasetIndex].data[dataIndex];
   }
 
-  error(titre, message) {
+  error(titre, message: string) {
     this.toastr.error(message, titre, {
       progressBar: true
     });
   }
 
   getDataFromFile(text) {
-    this.repositoriesURL = text.repositories.filter(repository => repository.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/));
+    this.repositoriesURL = text.repositories.filter(repository =>
+      repository.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
+    );
     if (text.repositories.length !== this.repositoriesURL.length) {
-      this.warning('Attention', 'Une ou plusieurs URL ne sont pas bien formatées !');
+      this.warning(
+        'Attention',
+        'Une ou plusieurs URL ne sont pas bien formatées !'
+      );
     }
     this.corrections = text.corrections;
     this.seances = text.seances;
