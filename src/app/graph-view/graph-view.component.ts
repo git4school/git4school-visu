@@ -33,7 +33,7 @@ export class GraphViewComponent implements OnInit {
   repositories: Repository[];
   chartData = [{ data: [] }];
   groupeTP: string;
-  groupesTP: string[];
+  groupesTP: Set<string>;
 
   chartOptions = {
     responsive: true,
@@ -143,7 +143,11 @@ export class GraphViewComponent implements OnInit {
 
     this.commitsService.getRepositories(this.repositories, date).subscribe(
       repositories => {
+        this.groupesTP = new Set();
         this.repositories = repositories;
+        this.repositories.forEach(repository => {
+          this.groupesTP.add(repository.groupeTP);
+        });
         this.loadGraphData();
         this.loading = false;
       },
