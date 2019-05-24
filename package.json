@@ -33,6 +33,7 @@
     "chartjs-plugin-zoom": "^0.7.0",
     "core-js": "^2.5.4",
     "firebase": "^6.0.2",
+    "jest-json-schema": "^2.0.2",
     "jquery": "^3.3.1",
     "moment": "^2.24.0",
     "ng2-charts": "^2.2.3",

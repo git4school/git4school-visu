@@ -7,4 +7,8 @@ export class Repository {
     public commits?: Commit[],
     public groupeTP?: string
   ) {}
+
+  static withJSON(json) {
+    return new Repository(json.url, json.name, json.commits, json.groupeTP);
+  }
 }

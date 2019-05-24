@@ -41,30 +41,28 @@ export class CommitsService {
     return new Observable(observer => {
       this.getRepositoryObservable(repo, date).subscribe(
         response => {
-          // console.log(response);
           const readme = decodeURIComponent(
             escape(window.atob(response[0].content))
           );
           const tab = readme
             .split(/(### NOM :)|(### Prénom :)|(### Groupe de TP :)|\n/g)
             .filter(values => Boolean(values) === true);
-          if (!tab[4] || !tab[2]) {
-            const repoName = repo.url.split('/');
-            repo.name = repoName[4];
-          } else {
-            repo.name = tab[4].trim() + ' ' + tab[2].trim();
+          if (!repo.name) {
+            if (!tab[4] || !tab[2]) {
+              const repoName = repo.url.split('/');
+              repo.name = repoName[4];
+            } else {
+              repo.name = tab[4].trim() + ' ' + tab[2].trim();
+            }
           }
-          if (tab[6]) {
-            repo.groupeTP = tab[6];
+          if (!repo.groupeTP && tab[6]) {
+            repo.groupeTP = tab[6].trim();
           }
           repo.commits = response[1];
-          // console.log(repo);
           observer.next(repo);
           observer.complete();
         },
-        err => {
-          console.log('ERROR');
-        }
+        err => {}
       );
     });
   }
@@ -90,14 +88,12 @@ export class CommitsService {
     return this.http.get<Commit[]>(url, this.httpOptions).pipe(
       map(
         response => {
-          // console.log(response);
+          //
           const array = response.map(data => Commit.withJSON(data));
-          // console.log(array);
+          //
           return array;
         },
-        err => {
-          console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-        }
+        err => {}
       )
     );
   }

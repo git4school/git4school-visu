@@ -129,9 +129,9 @@ export class GraphViewComponent implements OnInit {
       const text = this.getJSONOrNull(myReader.result);
       if (text) {
         this.getDataFromFile(text);
-        console.log('seances', this.seances);
-        console.log('corrections', this.corrections);
-        console.log('reviews', this.reviews);
+        // console.log('seances', this.seances);
+        // console.log('corrections', this.corrections);
+        // console.log('reviews', this.reviews);
         this.loadGraph(text.date);
       }
     };
@@ -159,7 +159,7 @@ export class GraphViewComponent implements OnInit {
 
   loadGraphData() {
     this.loadAnnotations();
-    this.loadPoints(this.repositories);
+    this.loadPoints();
     this.refreshGraph();
   }
 
@@ -237,29 +237,36 @@ export class GraphViewComponent implements OnInit {
       });
   }
 
-  loadPoints(repositories: Repository[]) {
+  loadPoints() {
     const chartData = [];
     const labels = [];
     const commits = [];
 
-    for (let i = 0; i < repositories.length; i++) {
-      commits.push(repositories[i].commits.slice());
-      const data = [];
-      const pointStyle = [];
-      const radius = [];
-      // const pointBackgroundColor = [];
-      labels.push(repositories[i].name);
-      commits[i].forEach(commit => {
-        commit = this.updateCommit(commit);
+    this.repositories
+      .filter(
+        repository => !this.groupeTP || repository.groupeTP === this.groupeTP
+      )
+      .forEach(repository => {
+        // commits.push(repository.commits.slice());
+        const data = [];
+        const pointStyle = [];
+        const radius = [];
+        // const pointBackgroundColor = [];
+        labels.push(repository.name);
+        repository.commits.forEach(commit => {
+          commit = this.updateCommit(commit);
 
-        data.push({ x: commit.commitDate, y: repositories[i].name, commit });
-        pointStyle.push(this.getPointStyle(commit));
-        radius.push(commit.isCloture ? 8 : 5);
-        // pointBackgroundColor.push('rgba(76, 76, 76, 1)');
+          data.push({
+            x: commit.commitDate,
+            y: repository.name,
+            commit
+          });
+          pointStyle.push(this.getPointStyle(commit));
+          radius.push(commit.isCloture ? 8 : 5);
+          // pointBackgroundColor.push('rgba(76, 76, 76, 1)');
+        });
+        chartData.push({ data, pointStyle, radius /*pointBackgroundColor */ });
       });
-      chartData.push({ data, pointStyle, radius /*pointBackgroundColor */ });
-    }
-
     this.chartData = chartData;
     this.chartOptions.scales.yAxes[0].labels = labels;
   }
@@ -354,9 +361,9 @@ export class GraphViewComponent implements OnInit {
   getDataFromFile(text) {
     this.repositories = text.repositories
       .filter(repository =>
-        repository.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
+        repository.url.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
       )
-      .map(repository => new Repository(repository));
+      .map(repository => Repository.withJSON(repository));
     if (text.repositories.length !== this.repositories.length) {
       this.warning(
         'Attention',
