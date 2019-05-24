@@ -30,11 +30,12 @@
   <div id="collapse-example" class="collapse show" aria-labelledby="heading-example">
     <div class="card-body p-2">
       <pre class="jumbotron p-3 my-1">
-          <button type="button" class="btn float-right btn-sm"><span class="text-muted">Copier</span></button>
+          <button type="button" class="btn float-right btn-sm" (click)="callServiceToCopy()" 
+          data-toggle="tooltip" data-placement="left" title="Copier dans le presse-papier"><span class="text-muted">Copier</span></button>
 &#123;
   "date": "01/01/17 12:00",
   <span class="text-danger">"repositories"</span>: [
-    &#123; <span class="text-danger">"url"</span>: "https://czczevzev.com", "name": "Mika PONS", "groupeTP": "12" &#125;
+    &#123; <span class="text-danger">"url"</span>: "https://github.com/user/repository", "name": "First name LAST NAME", "groupeTP": "12" &#125;
   ],
   "seances": [
     &#123;

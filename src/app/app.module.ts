@@ -30,6 +30,7 @@ import 'firebase/performance';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ClipboardModule } from 'ngx-clipboard';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
@@ -44,8 +45,16 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const appRoutes: Routes = [
-  { path: 'appareils', canActivate: [AuthGuard], component: AppareilViewComponent },
-  { path: 'appareils/:id', canActivate: [AuthGuard], component: SingleAppareilComponent },
+  {
+    path: 'appareils',
+    canActivate: [AuthGuard],
+    component: AppareilViewComponent
+  },
+  {
+    path: 'appareils/:id',
+    canActivate: [AuthGuard],
+    component: SingleAppareilComponent
+  },
   { path: 'edit', canActivate: [AuthGuard], component: EditAppareilComponent },
   { path: 'auth', component: AuthComponent },
   { path: '', component: AuthComponent },
@@ -56,7 +65,6 @@ const appRoutes: Routes = [
   { path: 'commits', canActivate: [AuthGuard], component: CommitListComponent },
   { path: '**', redirectTo: 'not-found' }
 ];
-
 
 @NgModule({
   declarations: [
@@ -85,7 +93,8 @@ const appRoutes: Routes = [
     NgxSpinnerModule,
     FontAwesomeModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ClipboardModule
   ],
   providers: [
     AppareilService,
