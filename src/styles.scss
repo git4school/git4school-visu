@@ -1,2 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~ngx-toastr/toastr';
+.card-header .fa {
+  transition: 0.3s transform ease-in-out;
+}
+.card-header .collapsed .fa {
+  transform: rotate(90deg);
+}

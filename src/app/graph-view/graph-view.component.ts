@@ -202,7 +202,7 @@ export class GraphViewComponent implements OnInit {
   loadReviews() {
     this.reviews
       .filter(review => !this.groupeTP || review.groupeTP === this.groupeTP)
-      .forEach(review => {
+      .forEach((review, index) => {
         this.chartOptions.annotation.annotations.push({
           type: 'line',
           mode: 'vertical',
@@ -211,7 +211,7 @@ export class GraphViewComponent implements OnInit {
           borderColor: 'blue',
           borderWidth: 1,
           label: {
-            content: review.label,
+            content: review.label || 'Review ' + (index + 1),
             enabled: true,
             position: 'top'
           }
@@ -224,7 +224,7 @@ export class GraphViewComponent implements OnInit {
       .filter(
         correction => !this.groupeTP || correction.groupeTP === this.groupeTP
       )
-      .forEach(correction => {
+      .forEach((correction, index) => {
         this.chartOptions.annotation.annotations.push({
           type: 'line',
           mode: 'vertical',
@@ -233,7 +233,7 @@ export class GraphViewComponent implements OnInit {
           borderColor: 'red',
           borderWidth: 1,
           label: {
-            content: correction.label,
+            content: correction.label || 'Correction ' + (index + 1),
             enabled: true,
             position: 'top'
           }
