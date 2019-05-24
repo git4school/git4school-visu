@@ -24,7 +24,6 @@ export class GraphViewComponent implements OnInit {
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
   loading = false;
-  public repositoriesURL: string[];
   unit = 'day';
   file = null;
   filename: string;
@@ -33,6 +32,8 @@ export class GraphViewComponent implements OnInit {
   reviews: Jalon[];
   repositories: Repository[];
   chartData = [{ data: [] }];
+  groupeTP: string;
+  groupesTP: string[];
 
   chartOptions = {
     responsive: true,
@@ -128,6 +129,9 @@ export class GraphViewComponent implements OnInit {
       const text = this.getJSONOrNull(myReader.result);
       if (text) {
         this.getDataFromFile(text);
+        console.log('seances', this.seances);
+        console.log('corrections', this.corrections);
+        console.log('reviews', this.reviews);
         this.loadGraph(text.date);
       }
     };
@@ -137,7 +141,7 @@ export class GraphViewComponent implements OnInit {
   loadGraph(date?: Date) {
     this.loading = true;
 
-    this.commitsService.getRepositories(this.repositoriesURL, date).subscribe(
+    this.commitsService.getRepositories(this.repositories, date).subscribe(
       repositories => {
         this.repositories = repositories;
         this.loadGraphData();
@@ -175,57 +179,62 @@ export class GraphViewComponent implements OnInit {
   }
 
   loadSeances() {
-    this.seances = this.seances.map(data => Seance.withJSON(data));
-    this.seances.forEach(seance => {
-      this.chartOptions.annotation.annotations.push({
-        type: 'box',
-        xScaleID: 'x-axis-0',
-        yScaleID: 'y-axis-0',
-        xMin: seance.dateDebut,
-        xMax: seance.dateFin,
-        borderColor: 'rgba(79, 195, 247,1.0)',
-        borderWidth: 2,
-        backgroundColor: 'rgba(33, 150, 243, 0.15)'
+    this.seances
+      .filter(seance => !this.groupeTP || seance.groupeTP === this.groupeTP)
+      .forEach(seance => {
+        this.chartOptions.annotation.annotations.push({
+          type: 'box',
+          xScaleID: 'x-axis-0',
+          yScaleID: 'y-axis-0',
+          xMin: seance.dateDebut,
+          xMax: seance.dateFin,
+          borderColor: 'rgba(79, 195, 247,1.0)',
+          borderWidth: 2,
+          backgroundColor: 'rgba(33, 150, 243, 0.15)'
+        });
       });
-    });
   }
 
   loadReviews() {
-    this.reviews = this.reviews.map(data => Jalon.withJSON(data));
-    this.reviews.forEach(review => {
-      this.chartOptions.annotation.annotations.push({
-        type: 'line',
-        mode: 'vertical',
-        scaleID: 'x-axis-0',
-        value: review.date,
-        borderColor: 'blue',
-        borderWidth: 1,
-        label: {
-          content: review.label,
-          enabled: true,
-          position: 'top'
-        }
+    this.reviews
+      .filter(review => !this.groupeTP || review.groupeTP === this.groupeTP)
+      .forEach(review => {
+        this.chartOptions.annotation.annotations.push({
+          type: 'line',
+          mode: 'vertical',
+          scaleID: 'x-axis-0',
+          value: review.date,
+          borderColor: 'blue',
+          borderWidth: 1,
+          label: {
+            content: review.label,
+            enabled: true,
+            position: 'top'
+          }
+        });
       });
-    });
   }
 
   loadCorrections() {
-    this.corrections = this.corrections.map(data => Jalon.withJSON(data));
-    this.corrections.forEach(correction => {
-      this.chartOptions.annotation.annotations.push({
-        type: 'line',
-        mode: 'vertical',
-        scaleID: 'x-axis-0',
-        value: correction.date,
-        borderColor: 'red',
-        borderWidth: 1,
-        label: {
-          content: correction.label,
-          enabled: true,
-          position: 'top'
-        }
+    this.corrections
+      .filter(
+        correction => !this.groupeTP || correction.groupeTP === this.groupeTP
+      )
+      .forEach(correction => {
+        this.chartOptions.annotation.annotations.push({
+          type: 'line',
+          mode: 'vertical',
+          scaleID: 'x-axis-0',
+          value: correction.date,
+          borderColor: 'red',
+          borderWidth: 1,
+          label: {
+            content: correction.label,
+            enabled: true,
+            position: 'top'
+          }
+        });
       });
-    });
   }
 
   loadPoints(repositories: Repository[]) {
@@ -343,18 +352,26 @@ export class GraphViewComponent implements OnInit {
   }
 
   getDataFromFile(text) {
-    this.repositoriesURL = text.repositories.filter(repository =>
-      repository.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
-    );
-    if (text.repositories.length !== this.repositoriesURL.length) {
+    this.repositories = text.repositories
+      .filter(repository =>
+        repository.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
+      )
+      .map(repository => new Repository(repository));
+    if (text.repositories.length !== this.repositories.length) {
       this.warning(
         'Attention',
         'Une ou plusieurs URL ne sont pas bien formatées !'
       );
     }
-    this.corrections = text.corrections;
-    this.seances = text.seances;
-    this.reviews = text.reviews;
+    this.corrections = text.corrections
+      ? text.corrections.map(data => Jalon.withJSON(data))
+      : undefined;
+    this.seances = text.seances
+      ? text.seances.map(data => Seance.withJSON(data))
+      : undefined;
+    this.reviews = text.reviews
+      ? text.reviews.map(data => Jalon.withJSON(data))
+      : undefined;
   }
 
   warning(titre, message) {

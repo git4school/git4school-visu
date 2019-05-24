@@ -5,7 +5,7 @@ export class Seance {
     public dateDebut: Date,
     public dateFin: Date,
     public label: string,
-    public groupeTP?: number
+    public groupeTP?: string
   ) {
     this.dateDebut = moment(dateDebut, 'DD/MM/YYYY HH:mm').toDate();
     this.dateFin = moment(dateFin, 'DD/MM/YYYY HH:mm').toDate();

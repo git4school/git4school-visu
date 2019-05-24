@@ -1,28 +1,60 @@
-<div class='container-fluid'>
-    <div class='row'>
-        <div class='col-5 p-3'>
-            <div class="input-group">
-                <div class="input-group-prepend ">
-                    <span class="input-group-text" id="inputGroupFileAddon01"><i class="fas fa-upload"></i></span>
-                </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01"
-                    aria-describedby="inputGroupFileAddon01" (change)="changeListener($event)">
-                    <label class="custom-file-label" for="inputGroupFile01">{{ filename || 'Choose file' }}</label>
-                </div>
-                <button class="btn btn-outline-secondary ml-2" (click)="readFile()" [disabled]="!file || loading"><i [ngClass]="loading ? 'fas fa-redo-alt fa-spin' : 'fas fa-redo-alt'"></i></button>
-                <button class="btn btn-outline-secondary ml-2" (click)="changeUnit()" [disabled]="!repositoriesURL || loading"><i [ngClass]="(chartOptions.scales.xAxes[0].time.unit == 'day') ? 'fas fa-calendar-day' : 'fas fa-calendar-week'"></i></button>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-5 p-3">
+      <div class="input-group">
+        <div class="input-group-prepend ">
+          <span class="input-group-text" id="inputGroupFileAddon01"
+            ><i class="fas fa-upload"></i
+          ></span>
         </div>
+        <div class="custom-file">
+          <input
+            type="file"
+            class="custom-file-input"
+            id="inputGroupFile01"
+            aria-describedby="inputGroupFileAddon01"
+            (change)="changeListener($event)"
+          />
+          <label class="custom-file-label" for="inputGroupFile01">{{
+            filename || 'Choose file'
+          }}</label>
+        </div>
+        <button
+          class="btn btn-outline-secondary ml-2"
+          (click)="readFile()"
+          [disabled]="!file || loading"
+        >
+          <i
+            [ngClass]="loading ? 'fas fa-redo-alt fa-spin' : 'fas fa-redo-alt'"
+          ></i>
+        </button>
+        <button
+          class="btn btn-outline-secondary ml-2"
+          (click)="changeUnit()"
+          [disabled]="!repositories || loading"
+        >
+          <i
+            [ngClass]="
+              chartOptions.scales.xAxes[0].time.unit == 'day'
+                ? 'fas fa-calendar-day'
+                : 'fas fa-calendar-week'
+            "
+          ></i>
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 <div class="chart-container">
-    <canvas #myChart id='myChart'
-            baseChart
-            [chartType]="'line'"
-            [datasets]="chartData"
-            [options]="chartOptions"
-            [legend]="false"
-            (chartClick)="onChartClick($event)">
-    </canvas>
+  <canvas
+    #myChart
+    id="myChart"
+    baseChart
+    [chartType]="'line'"
+    [datasets]="chartData"
+    [options]="chartOptions"
+    [legend]="false"
+    (chartClick)="onChartClick($event)"
+  >
+  </canvas>
 </div>

@@ -4,7 +4,7 @@ export class Jalon {
   constructor(
     public date: Date,
     public label: string,
-    public groupeTP?: number
+    public groupeTP?: string
   ) {
     this.date = moment(date, 'DD/MM/YYYY HH:mm').toDate();
   }

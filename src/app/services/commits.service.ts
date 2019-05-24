@@ -13,11 +13,13 @@ import moment from 'moment/src/moment';
 })
 export class CommitsService {
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json',
-    Authorization: 'token ' + this.authService.token})
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'token ' + this.authService.token
+    })
   };
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getRepositoriesCommits(repoTab, date?: Date) {
     const tab = [];
@@ -35,65 +37,79 @@ export class CommitsService {
     return forkJoin(tab);
   }
 
-  getRepository(repoURL: string, date?: Date) {
+  getRepository(repo: Repository, date?: Date) {
     return new Observable(observer => {
-      const repo = new Repository(repoURL);
-      this.getRepositoryObservable(repoURL, date).subscribe(response => {
-        // console.log(response);
-        const readme = decodeURIComponent(escape(window.atob( response[0].content )));
-        const tab = readme
-          .split(/(### NOM :)|(### Prénom :)|(### Groupe de TP :)|\n/g)
-          .filter((values) => Boolean(values) === true);
-        if (!tab[4] || !tab[2]) {
-          const repoName = repoURL.split('/');
-          repo.name = repoName[4];
-        } else {
-          repo.name = tab[4].trim() + ' ' + tab[2].trim();
+      this.getRepositoryObservable(repo, date).subscribe(
+        response => {
+          // console.log(response);
+          const readme = decodeURIComponent(
+            escape(window.atob(response[0].content))
+          );
+          const tab = readme
+            .split(/(### NOM :)|(### Prénom :)|(### Groupe de TP :)|\n/g)
+            .filter(values => Boolean(values) === true);
+          if (!tab[4] || !tab[2]) {
+            const repoName = repo.url.split('/');
+            repo.name = repoName[4];
+          } else {
+            repo.name = tab[4].trim() + ' ' + tab[2].trim();
+          }
+          if (tab[6]) {
+            repo.groupeTP = tab[6];
+          }
+          repo.commits = response[1];
+          // console.log(repo);
+          observer.next(repo);
+          observer.complete();
+        },
+        err => {
+          console.log('ERROR');
         }
-        if (!tab[6]) {
-          repo.groupeTP = 0;
-        } else {
-          repo.groupeTP = parseInt(tab[6], 10);
-        }
-        repo.commits = response[1];
-        // console.log(repo);
-        observer.next(repo);
-        observer.complete();
-      }, err => {
-        console.log('ERROR');
-      });
+      );
     });
   }
 
-
-  getRepositoryObservable(repoURL: string, date?: Date) {
-    return forkJoin(this.getReadMe(repoURL), this.getCommits(repoURL, date)).pipe(catchError(error => of(error)));
+  getRepositoryObservable(repo: Repository, date?: Date) {
+    return forkJoin(this.getReadMe(repo), this.getCommits(repo, date)).pipe(
+      catchError(error => of(error))
+    );
   }
 
-  getCommits(repoURL: string, date?: Date): Observable<Commit[]> {
-    const repo = repoURL.split('/');
-    let url = 'https://api.github.com/repos/' + repo[3] + '/' + repo[4] + '/commits?per_page=100';
+  getCommits(repo: Repository, date?: Date): Observable<Commit[]> {
+    const repoHashURL = repo.url.split('/');
+    let url =
+      'https://api.github.com/repos/' +
+      repoHashURL[3] +
+      '/' +
+      repoHashURL[4] +
+      '/commits?per_page=100';
     if (date) {
       date = moment(date, 'DD/MM/YYYY HH:mm').toDate();
       url = url.concat('&since=' + date.toISOString());
     }
-    return this.http.get<Commit[]>(url,
-      this.httpOptions).pipe(map(
-      response => {
-        // console.log(response);
-        const array = response.map(data => Commit.withJSON(data));
-        // console.log(array);
-        return array;
-      },
-      err => {
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-      }
-    ));
+    return this.http.get<Commit[]>(url, this.httpOptions).pipe(
+      map(
+        response => {
+          // console.log(response);
+          const array = response.map(data => Commit.withJSON(data));
+          // console.log(array);
+          return array;
+        },
+        err => {
+          console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+        }
+      )
+    );
   }
 
-  getReadMe(repoURL): Observable<any> {
-    const repo = repoURL.split('/');
-    const url = 'https://api.github.com/repos/' + repo[3] + '/' + repo[4] + '/readme';
+  getReadMe(repo: Repository): Observable<any> {
+    const tabHashURL = repo.url.split('/');
+    const url =
+      'https://api.github.com/repos/' +
+      tabHashURL[3] +
+      '/' +
+      tabHashURL[4] +
+      '/readme';
     return this.http.get(url, this.httpOptions);
   }
 }
