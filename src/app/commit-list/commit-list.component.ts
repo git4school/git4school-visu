@@ -11,15 +11,14 @@ export class CommitListComponent implements OnInit {
   commits: Commit[];
   loading = false;
 
-  constructor(private commitsService: CommitsService) { }
+  constructor(private commitsService: CommitsService) {}
 
   ngOnInit() {
-    this.loading = true;
-    this.commitsService.getCommits('https://api.github.com/repos/BilelJegham/AIDEPSYCHO/commits').subscribe(response => {
-      this.loading = false;
-      this.commits = response.slice();
-      console.log(this.commits);
-    });
+    // this.loading = true;
+    // this.commitsService.getCommits('https://api.github.com/repos/BilelJegham/AIDEPSYCHO/commits').subscribe(response => {
+    //   this.loading = false;
+    //   this.commits = response.slice();
+    //   console.log(this.commits);
+    // });
   }
-
 }
