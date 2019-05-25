@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-5 p-3">
+        <div class="col-7 p-3">
             <div class="input-group">
                 <div class="input-group-prepend ">
                     <span class="input-group-text" id="inputGroupFileAddon01"><i class="fas fa-upload"></i></span>
@@ -27,6 +27,34 @@
                     (change)="loadGraphData()">
                     <option *ngFor="let groupeTP of groupesTP" [value]="groupeTP">{{groupeTP}}</option>
                 </select>
+                <div class="dropdown ml-2">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Filtres
+                    </button>
+                    <div class="dropdown-menu">
+                        <form class="px-4 py-3">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1"
+                                    [(ngModel)]="showSeances" (change)="loadGraphData()"
+                                    [ngModelOptions]="{standalone: true}">
+                                <label class="custom-control-label" for="customSwitch1">Séances</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch2"
+                                    [(ngModel)]="showCorrections" (change)="loadGraphData()"
+                                    [ngModelOptions]="{standalone: true}">
+                                <label class="custom-control-label" for="customSwitch2">Corrections</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" selected id="customSwitch3"
+                                    [(ngModel)]="showReviews" (change)="loadGraphData()"
+                                    [ngModelOptions]="{standalone: true}">
+                                <label class="custom-control-label" for="customSwitch3">Reviews</label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

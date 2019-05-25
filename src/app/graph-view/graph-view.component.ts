@@ -34,6 +34,9 @@ export class GraphViewComponent implements OnInit {
   chartData = [{ data: [] }];
   groupeTP: string;
   groupesTP: Set<string>;
+  showSeances = true;
+  showCorrections = true;
+  showReviews = true;
 
   chartOptions = {
     responsive: true,
@@ -169,15 +172,18 @@ export class GraphViewComponent implements OnInit {
 
   loadAnnotations() {
     this.chartOptions.annotation.annotations = [];
-    if (this.seances) {
+    if (this.seances && this.showSeances) {
+      console.log('this.showSeances: ', this.showSeances);
       this.loadSeances();
     }
 
-    if (this.reviews) {
+    if (this.reviews && this.showReviews) {
+      console.log('this.showReviews: ', this.showReviews);
       this.loadReviews();
     }
 
-    if (this.corrections) {
+    if (this.corrections && this.showCorrections) {
+      console.log('this.showCorrections: ', this.showCorrections);
       this.loadCorrections();
     }
   }
