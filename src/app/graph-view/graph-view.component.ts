@@ -158,33 +158,35 @@ export class GraphViewComponent implements OnInit {
         // console.log('seances', this.seances);
         // console.log('corrections', this.corrections);
         // console.log('reviews', this.reviews);
-        this.loadGraph(text.date);
+        this.loadGraph(text.dateDebut, text.dateFin);
       }
     };
     myReader.readAsText(this.file);
   }
 
-  loadGraph(date?: Date) {
+  loadGraph(dateDebut?: Date, dateFin?: Date) {
     this.loading = true;
 
-    this.commitsService.getRepositories(this.repositories, date).subscribe(
-      repositories => {
-        this.groupesTP = new Set();
-        this.repositories = repositories;
-        this.repositories.forEach(repository => {
-          this.groupesTP.add(repository.groupeTP);
-        });
-        this.loadGraphData();
-        this.loading = false;
-      },
-      error => {
-        this.error(
-          'Erreur Git',
-          "Un des dépôts Github n'existe pas ou vous n'avez pas les droits dessus."
-        );
-        this.loading = false;
-      }
-    );
+    this.commitsService
+      .getRepositories(this.repositories, dateDebut, dateFin)
+      .subscribe(
+        repositories => {
+          this.groupesTP = new Set();
+          this.repositories = repositories;
+          this.repositories.forEach(repository => {
+            this.groupesTP.add(repository.groupeTP);
+          });
+          this.loadGraphData();
+          this.loading = false;
+        },
+        error => {
+          this.error(
+            'Erreur Git',
+            "Un des dépôts Github n'existe pas ou vous n'avez pas les droits dessus."
+          );
+          this.loading = false;
+        }
+      );
   }
 
   loadGraphData() {

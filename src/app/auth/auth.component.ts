@@ -57,7 +57,8 @@ export class AuthComponent implements OnInit {
   callServiceToCopy() {
     this.clipboardService.copyFromContent(`
 {
-  "date": "01/01/17 12:00",
+  "dateDebut": "01/01/17 12:00",
+  "dateFin": "01/04/18 12:00",
   "repositories": [
     { "url": "https://github.com/user/repository", "name": "First name LAST NAME", "groupeTP": "12" }
   ],

@@ -21,25 +21,25 @@ export class CommitsService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getRepositoriesCommits(repoTab, date?: Date) {
+  getRepositoriesCommits(repoTab, dateDebut?: Date, dateFin?: Date) {
     const tab = [];
     repoTab.forEach(repo => {
-      tab.push(this.getCommits(repo, date));
+      tab.push(this.getCommits(repo, dateDebut, dateFin));
     });
     return forkJoin(tab);
   }
 
-  getRepositories(repoTab, date?: Date) {
+  getRepositories(repoTab, dateDebut?: Date, dateFin?: Date) {
     const tab = [];
     repoTab.forEach(repo => {
-      tab.push(this.getRepository(repo, date));
+      tab.push(this.getRepository(repo, dateDebut, dateFin));
     });
     return forkJoin(tab);
   }
 
-  getRepository(repo: Repository, date?: Date) {
+  getRepository(repo: Repository, dateDebut?: Date, dateFin?: Date) {
     return new Observable(observer => {
-      this.getRepositoryObservable(repo, date).subscribe(
+      this.getRepositoryObservable(repo, dateDebut, dateFin).subscribe(
         response => {
           const readme = decodeURIComponent(
             escape(window.atob(response[0].content))
@@ -67,13 +67,18 @@ export class CommitsService {
     });
   }
 
-  getRepositoryObservable(repo: Repository, date?: Date) {
-    return forkJoin(this.getReadMe(repo), this.getCommits(repo, date)).pipe(
-      catchError(error => of(error))
-    );
+  getRepositoryObservable(repo: Repository, dateDebut?: Date, dateFin?: Date) {
+    return forkJoin(
+      this.getReadMe(repo),
+      this.getCommits(repo, dateDebut, dateFin)
+    ).pipe(catchError(error => of(error)));
   }
 
-  getCommits(repo: Repository, date?: Date): Observable<Commit[]> {
+  getCommits(
+    repo: Repository,
+    dateDebut?: Date,
+    dateFin?: Date
+  ): Observable<Commit[]> {
     const repoHashURL = repo.url.split('/');
     let url =
       'https://api.github.com/repos/' +
@@ -81,9 +86,13 @@ export class CommitsService {
       '/' +
       repoHashURL[4] +
       '/commits?per_page=100';
-    if (date) {
-      date = moment(date, 'DD/MM/YYYY HH:mm').toDate();
-      url = url.concat('&since=' + date.toISOString());
+    if (dateDebut) {
+      dateDebut = moment(dateDebut, 'DD/MM/YYYY HH:mm').toDate();
+      url = url.concat('&since=' + dateDebut.toISOString());
+    }
+    if (dateFin) {
+      dateFin = moment(dateFin, 'DD/MM/YYYY HH:mm').toDate();
+      url = url.concat('&until=' + dateFin.toISOString());
     }
     return this.http.get<Commit[]>(url, this.httpOptions).pipe(
       map(
