@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  HostListener
+} from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { AuthService } from '../services/auth.service';
 import { CommitsService } from '../services/commits.service';
@@ -8,6 +14,10 @@ import { validateConfig } from '@angular/router/src/config';
 import { Repository } from '../models/Repository.model';
 import { Seance } from '../models/Seance.model';
 import { Jalon } from '../models/Jalon.model';
+import * as Chart from 'chart.js';
+import { NgForm } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+declare var $: any;
 
 @Component({
   selector: 'app-graph-view',
@@ -18,7 +28,8 @@ export class GraphViewComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private commitsService: CommitsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sanitizer: DomSanitizer
   ) {}
 
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
@@ -37,6 +48,8 @@ export class GraphViewComponent implements OnInit {
   showSeances = true;
   showCorrections = true;
   showReviews = true;
+  dateAjoutJalon;
+  downloadJsonHref;
 
   chartOptions = {
     responsive: true,
@@ -83,11 +96,11 @@ export class GraphViewComponent implements OnInit {
     scales: {
       xAxes: [
         {
+          offset: true,
           type: 'time',
           time: {
             unit: this.unit,
             tooltipFormat: 'DD/MM/YY HH:mm',
-            offset: true,
             displayFormats: {
               day: 'DD/MM/YY',
               week: 'DD/MM/YY'
@@ -110,12 +123,17 @@ export class GraphViewComponent implements OnInit {
     plugins: {
       zoom: {
         pan: {
-          enabled: true,
+          enabled: false,
           mode: 'x',
           onPan({ chart }) {}
         },
         zoom: {
           enabled: true,
+          drag: {
+            borderColor: 'rgba(225,225,225,0.3)',
+            borderWidth: 5,
+            backgroundColor: 'rgb(225,225,225)'
+          },
           mode: 'x',
           speed: 0.3,
           onZoom: ({ chart }) => {}
@@ -124,7 +142,12 @@ export class GraphViewComponent implements OnInit {
     }
   };
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    $('.btn').tooltip();
+    $('.modal').modal({
+      show: false
+    });
+  }
 
   readFile(): void {
     const myReader: FileReader = new FileReader();
@@ -173,17 +196,14 @@ export class GraphViewComponent implements OnInit {
   loadAnnotations() {
     this.chartOptions.annotation.annotations = [];
     if (this.seances && this.showSeances) {
-      console.log('this.showSeances: ', this.showSeances);
       this.loadSeances();
     }
 
     if (this.reviews && this.showReviews) {
-      console.log('this.showReviews: ', this.showReviews);
       this.loadReviews();
     }
 
     if (this.corrections && this.showCorrections) {
-      console.log('this.showCorrections: ', this.showCorrections);
       this.loadCorrections();
     }
   }
@@ -315,7 +335,33 @@ export class GraphViewComponent implements OnInit {
       const data = this.getDataFromChart(event);
       // tslint:disable-next-line: no-string-literal
       window.open(data.commit.url, '_blank');
+    } else {
+      if (event.event.shiftKey) {
+        console.log(event);
+        var xAxis = this.myChart.chart.scales['x-axis-0'];
+        var x = event.event.offsetX;
+        var index = xAxis.getValueForPixel(x);
+        this.dateAjoutJalon = index.toDate();
+        $('#exampleModal').modal('show');
+      }
     }
+  }
+
+  onSubmit(form: NgForm) {
+    let jalon = new Jalon(
+      this.dateAjoutJalon,
+      form.value.label,
+      form.value.groupeTP
+    );
+
+    if (form.value.jalon === 'correction') {
+      this.corrections.push(jalon);
+    } else {
+      this.reviews.push(jalon);
+    }
+
+    this.loadGraphData();
+    this.dispose();
   }
 
   changeUnit() {
@@ -374,6 +420,7 @@ export class GraphViewComponent implements OnInit {
         repository.url.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
       )
       .map(repository => Repository.withJSON(repository));
+    this.generateDownloadJsonUrl();
     if (text.repositories.length !== this.repositories.length) {
       this.warning(
         'Attention',
@@ -395,5 +442,30 @@ export class GraphViewComponent implements OnInit {
     this.toastr.warning(message, titre, {
       progressBar: true
     });
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.keyCode === 32) {
+      this.resetZoom();
+    }
+  }
+
+  resetZoom() {
+    this.myChart.chart.resetZoom();
+  }
+
+  dispose() {
+    $('#exampleModal').modal('hide');
+  }
+
+  generateDownloadJsonUrl() {
+    const blob = new Blob([JSON.stringify(this.repositories)], {
+      type: 'application/octet-stream'
+    });
+
+    this.downloadJsonHref = this.sanitizer.bypassSecurityTrustResourceUrl(
+      window.URL.createObjectURL(blob)
+    );
   }
 }

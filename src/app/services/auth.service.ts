@@ -10,7 +10,7 @@ import { promise } from 'protractor';
 export class AuthService {
   constructor(private router: Router) {}
 
-  token = null;
+  token = 'bfd58d4a3f0931b926ecad3d38e551c5705a6844';
 
   isSignedIn(caller) {
     // console.log('isSignedIn : ' + this.isSignedIn.caller);
@@ -26,15 +26,13 @@ export class AuthService {
   }
 
   signIn() {
-    return new Promise(
-      (resolve, reject) => {
-        const provider = new firebase.auth.GithubAuthProvider();
-        provider.addScope('repo');
+    return new Promise((resolve, reject) => {
+      const provider = new firebase.auth.GithubAuthProvider();
+      provider.addScope('repo');
 
-        firebase.auth().signInWithRedirect(provider);
-        resolve(true);
-      }
-    );
+      firebase.auth().signInWithRedirect(provider);
+      resolve(true);
+    });
   }
 
   callback() {
@@ -43,28 +41,34 @@ export class AuthService {
       //   reject();
       // }
       console.log('callback');
-      firebase.auth().getRedirectResult().then((result) => {
-        console.log('getredirect');
-        if (result.credential) {
-          // tslint:disable-next-line: no-string-literal
-          console.log('result ', result.credential['accessToken']);
-          // tslint:disable-next-line: no-string-literal
-          this.token = result.credential['accessToken'];
-        }
-        const user = result.user;
-        if (!user) {
-          reject();
-        } else {
-          resolve();
-        }
-      });
+      firebase
+        .auth()
+        .getRedirectResult()
+        .then(result => {
+          console.log('getredirect');
+          if (result.credential) {
+            // tslint:disable-next-line: no-string-literal
+            console.log('result ', result.credential['accessToken']);
+            // tslint:disable-next-line: no-string-literal
+            this.token = result.credential['accessToken'];
+          }
+          const user = result.user;
+          if (!user) {
+            reject();
+          } else {
+            resolve();
+          }
+        });
     });
   }
 
   signOut() {
-    firebase.auth().signOut().then(() => {
-      this.token = null;
-      window.location.href = '/';
-    });
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.token = null;
+        window.location.href = '/';
+      });
   }
 }

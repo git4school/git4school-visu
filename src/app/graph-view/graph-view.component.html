@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-7 p-3">
+        <div class="p-3">
             <div class="input-group">
                 <div class="input-group-prepend ">
                     <span class="input-group-text" id="inputGroupFileAddon01"><i class="fas fa-upload"></i></span>
@@ -12,24 +12,26 @@
             filename || 'Choose file'
           }}</label>
                 </div>
-                <button class="btn btn-outline-secondary ml-2" (click)="readFile()" [disabled]="!file || loading">
+                <button class="btn btn-outline-secondary ml-2" (click)="readFile()" [disabled]="!file || loading"
+                    data-toggle="tooltip" title="Reload">
                     <i [ngClass]="loading ? 'fas fa-redo-alt fa-spin' : 'fas fa-redo-alt'"></i>
                 </button>
-                <button class="btn btn-outline-secondary ml-2" (click)="changeUnit()"
-                    [disabled]="!repositories || loading">
+                <button class="btn btn-outline-secondary ml-2" (click)="changeUnit()" data-toggle="tooltip"
+                    title="Changer l'échelle du temps" [disabled]="!repositories || loading">
                     <i [ngClass]="
               chartOptions.scales.xAxes[0].time.unit == 'day'
                 ? 'fas fa-calendar-day'
                 : 'fas fa-calendar-week'
             "></i>
                 </button>
-                <select class="form-control ml-2" [disabled]="!repositories || loading" [(ngModel)]="groupeTP"
+                <select class="form-control ml-2 col-2" [disabled]="!repositories || loading" [(ngModel)]="groupeTP"
                     (change)="loadGraphData()">
                     <option *ngFor="let groupeTP of groupesTP" [value]="groupeTP">{{groupeTP}}</option>
                 </select>
                 <div class="dropdown ml-2">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" [disabled]="!repositories || loading"
+                        type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" title="Afficher ou masquer">
                         Filtres
                     </button>
                     <div class="dropdown-menu">
@@ -55,6 +57,11 @@
                         </form>
                     </div>
                 </div>
+                <button class="btn btn-warning ml-2" [disabled]="!repositories || loading" (click)="resetZoom()"
+                    data-toggle="tooltip" title="Ou appuyez sur la barre espace">Reset
+                    zoom</button>
+                <a class="btn btn-danger ml-2" title="Download JSON" [href]="downloadJsonHref"
+                    download="download.json"><i class="fas fa-download"></i></a>
             </div>
         </div>
     </div>
@@ -63,4 +70,48 @@
     <canvas #myChart id="myChart" baseChart [chartType]="'line'" [datasets]="chartData" [options]="chartOptions"
         [legend]="false" (chartClick)="onChartClick($event)">
     </canvas>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Label :</label>
+                        <input type="text" class="form-control" id="recipient-name" name="label" ngModel="fefger"
+                            required ngModel>
+                        <input type="date" name="date" hidden [ngModel]="dateAjoutJalon" ngModel>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Groupe de TP :</label>
+                        <input type="text" class="form-control" id="message-text" name="groupeTP" required ngModel>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadio1" name="jalon" class="custom-control-input"
+                            value="correction" required ngModel>
+                        <label class="custom-control-label" for="customRadio1">Correction</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadio2" name="jalon" class="custom-control-input" value="review"
+                            required ngModel>
+                        <label class="custom-control-label" for="customRadio2">Review</label>
+                    </div>
+                    <hr>
+                    <button type="button" class="btn btn-secondary col-5" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary col-5 float-right" [disabled]="f.invalid">Créer
+                        jalon</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

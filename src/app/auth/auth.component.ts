@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import moment from 'moment/src/moment';
 import { ClipboardService } from 'ngx-clipboard';
+import { NgForm } from '@angular/forms';
+declare var $: any;
 
 @Component({
   selector: 'app-auth',
@@ -21,7 +23,7 @@ export class AuthComponent implements OnInit {
   loading = false;
 
   ngOnInit() {
-    console.log('NGONINIT');
+    $('#copier').tooltip();
 
     if (!this.authService.isSignedIn('ngOnInit')) {
       this.spinner.show();
