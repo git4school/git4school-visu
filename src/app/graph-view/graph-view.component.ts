@@ -17,6 +17,7 @@ import { Jalon } from '../models/Jalon.model';
 import * as Chart from 'chart.js';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { JsonGeneratorService } from '../services/json-generator.service';
 declare var $: any;
 
 @Component({
@@ -29,7 +30,7 @@ export class GraphViewComponent implements OnInit {
     private authService: AuthService,
     private commitsService: CommitsService,
     private toastr: ToastrService,
-    private sanitizer: DomSanitizer
+    private jsonGenerator: JsonGeneratorService
   ) {}
 
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
@@ -422,7 +423,6 @@ export class GraphViewComponent implements OnInit {
         repository.url.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
       )
       .map(repository => Repository.withJSON(repository));
-    this.generateDownloadJsonUrl();
     if (text.repositories.length !== this.repositories.length) {
       this.warning(
         'Attention',
@@ -438,6 +438,15 @@ export class GraphViewComponent implements OnInit {
     this.reviews = text.reviews
       ? text.reviews.map(data => Jalon.withJSON(data))
       : undefined;
+    this.downloadJsonHref = this.jsonGenerator.generateDownloadJsonUrl(
+      this.repositories,
+      this.seances,
+      this.corrections,
+      this.reviews,
+      text.dateDebut,
+      text.dateFin
+    );
+    console.log;
   }
 
   warning(titre, message) {
@@ -459,15 +468,5 @@ export class GraphViewComponent implements OnInit {
 
   dispose() {
     $('#exampleModal').modal('hide');
-  }
-
-  generateDownloadJsonUrl() {
-    const blob = new Blob([JSON.stringify(this.repositories)], {
-      type: 'application/octet-stream'
-    });
-
-    this.downloadJsonHref = this.sanitizer.bypassSecurityTrustResourceUrl(
-      window.URL.createObjectURL(blob)
-    );
   }
 }

@@ -31,6 +31,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from 'ngx-clipboard';
+import { JsonGeneratorService } from './services/json-generator.service';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
@@ -101,7 +102,8 @@ const appRoutes: Routes = [
     AuthService,
     AuthGuard,
     CommitsService,
-    UserService
+    UserService,
+    JsonGeneratorService
   ],
   bootstrap: [AppComponent]
 })

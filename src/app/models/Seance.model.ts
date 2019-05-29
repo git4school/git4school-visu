@@ -4,7 +4,6 @@ export class Seance {
   constructor(
     public dateDebut: Date,
     public dateFin: Date,
-    public label: string,
     public groupeTP?: string
   ) {
     this.dateDebut = moment(dateDebut, 'DD/MM/YYYY HH:mm').toDate();
@@ -12,6 +11,17 @@ export class Seance {
   }
 
   static withJSON(json): Seance {
-    return new Seance(json.dateDebut, json.dateFin, json.label, json.groupeTP);
+    return new Seance(json.dateDebut, json.dateFin, json.groupeTP);
+  }
+
+  json() {
+    let json = {
+      dateDebut: moment(this.dateDebut).format('DD/MM/YYYY HH:mm'),
+      dateFin: moment(this.dateFin).format('DD/MM/YYYY HH:mm')
+    };
+    if (this.groupeTP) {
+      json['groupeTP'] = this.groupeTP;
+    }
+    return json;
   }
 }
