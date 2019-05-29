@@ -51,6 +51,7 @@ export class GraphViewComponent implements OnInit {
   showReviews = true;
   dateAjoutJalon;
   downloadJsonHref;
+  json;
 
   chartOptions = {
     responsive: true,
@@ -156,9 +157,6 @@ export class GraphViewComponent implements OnInit {
       const text = this.getJSONOrNull(myReader.result);
       if (text) {
         this.getDataFromFile(text);
-        // console.log('seances', this.seances);
-        // console.log('corrections', this.corrections);
-        // console.log('reviews', this.reviews);
         this.loadGraph(text.dateDebut, text.dateFin);
       }
     };
@@ -353,15 +351,21 @@ export class GraphViewComponent implements OnInit {
   onSubmit(form: NgForm) {
     let jalon = new Jalon(
       this.dateAjoutJalon,
-      form.value.label,
-      form.value.groupeTP
+      form.value.label.trim(),
+      form.value.groupeTP.trim()
     );
 
     if (form.value.jalon === 'correction') {
       this.corrections.push(jalon);
+      this.json = this.jsonGenerator.updateJSONWithCorrection(this.json, jalon);
     } else {
       this.reviews.push(jalon);
+      this.json = this.jsonGenerator.updateJSONWithReview(this.json, jalon);
     }
+
+    this.downloadJsonHref = this.jsonGenerator.generateDownloadUrlFromJson(
+      this.json
+    );
 
     this.loadGraphData();
     this.dispose();
@@ -438,13 +442,16 @@ export class GraphViewComponent implements OnInit {
     this.reviews = text.reviews
       ? text.reviews.map(data => Jalon.withJSON(data))
       : undefined;
-    this.downloadJsonHref = this.jsonGenerator.generateDownloadJsonUrl(
+    this.json = this.jsonGenerator.generateJson(
       this.repositories,
       this.seances,
       this.corrections,
       this.reviews,
       text.dateDebut,
       text.dateFin
+    );
+    this.downloadJsonHref = this.jsonGenerator.generateDownloadUrlFromJson(
+      this.json
     );
     console.log;
   }

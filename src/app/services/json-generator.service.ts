@@ -10,31 +10,10 @@ import { Jalon } from '../models/Jalon.model';
 export class JsonGeneratorService {
   constructor(private sanitizer: DomSanitizer) {}
 
-  generateDownloadJsonUrl(
-    repositories: Repository[],
-    seances?: Seance[],
-    corrections?: Jalon[],
-    reviews?: Jalon[],
-    dateDebut?: string,
-    dateFin?: string
-  ) {
-    const blob = new Blob(
-      [
-        JSON.stringify(
-          this.generateJson(
-            repositories,
-            seances,
-            corrections,
-            reviews,
-            dateDebut,
-            dateFin
-          )
-        )
-      ],
-      {
-        type: 'application/octet-stream'
-      }
-    );
+  generateDownloadUrlFromJson(json) {
+    const blob = new Blob([JSON.stringify(json)], {
+      type: 'application/octet-stream'
+    });
 
     return this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
@@ -80,6 +59,24 @@ export class JsonGeneratorService {
       json['dateFin'] = dateFin;
     }
 
+    return json;
+  }
+
+  updateJSONWithCorrection(json, correction) {
+    if (json.corrections) {
+      json.corrections.push(correction.json());
+    } else {
+      json.corrections = [correction];
+    }
+    return json;
+  }
+
+  updateJSONWithReview(json, review) {
+    if (json.reviews) {
+      json.reviews.push(review.json());
+    } else {
+      json.reviews = [review];
+    }
     return json;
   }
 }
