@@ -359,9 +359,15 @@ export class GraphViewComponent implements OnInit {
     );
 
     if (form.value.jalon === 'correction') {
+      if (!this.corrections) {
+        this.corrections = [];
+      }
       this.corrections.push(jalon);
       this.json = this.jsonGenerator.updateJSONWithCorrection(this.json, jalon);
     } else {
+      if (!this.reviews) {
+        this.reviews = [];
+      }
       this.reviews.push(jalon);
       this.json = this.jsonGenerator.updateJSONWithReview(this.json, jalon);
     }
