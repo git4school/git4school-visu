@@ -10,7 +10,7 @@ import { promise } from 'protractor';
 export class AuthService {
   constructor(private router: Router) {}
 
-  token = 'bfd58d4a3f0931b926ecad3d38e551c5705a6844';
+  token = null;
 
   isSignedIn(caller) {
     // console.log('isSignedIn : ' + this.isSignedIn.caller);

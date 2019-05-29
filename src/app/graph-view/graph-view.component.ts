@@ -18,6 +18,7 @@ import * as Chart from 'chart.js';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { JsonGeneratorService } from '../services/json-generator.service';
+import moment from 'moment/src/moment';
 declare var $: any;
 
 @Component({
@@ -342,15 +343,17 @@ export class GraphViewComponent implements OnInit {
         var xAxis = this.myChart.chart.scales['x-axis-0'];
         var x = event.event.offsetX;
         var index = xAxis.getValueForPixel(x);
-        this.dateAjoutJalon = index.toDate();
+        this.dateAjoutJalon = moment(index.toDate()).format('YYYY-MM-DDTHH:mm');
         $('#exampleModal').modal('show');
       }
     }
   }
 
   onSubmit(form: NgForm) {
+    console.log('form: ', form);
+
     let jalon = new Jalon(
-      this.dateAjoutJalon,
+      new Date(form.value.date),
       form.value.label.trim(),
       form.value.groupeTP.trim()
     );
@@ -385,19 +388,24 @@ export class GraphViewComponent implements OnInit {
   }
 
   getPointStyle(commit: Commit) {
+    // let image = new Image(12, 12);
+    // if (commit.isCloture) {
+    //   image.height = 20;
+    //   image.width = 20;
+    // }
+    // if (commit.isEnSeance) {
+    //   image.src = './assets/fac.png';
+    // } else {
+    //   image.src = './assets/maison.png';
+    // }
+    // return image;
     let image = new Image(12, 12);
-
-    if (commit.isCloture) {
-      image.height = 20;
-      image.width = 20;
-    }
+    image.src = './assets/maison.png';
     if (commit.isEnSeance) {
-      image.src = './assets/fac.png';
+      return 'cercle';
     } else {
-      image.src = './assets/maison.png';
+      return image;
     }
-
-    return image;
   }
 
   getJSONOrNull(str) {
