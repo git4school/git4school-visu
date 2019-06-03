@@ -1,5 +1,10 @@
-# test-angular
+# test_angular
 
-### NOM : pons
+### NOM : PONS
 ### Prénom : Mika
-### Groupe de TP : 12
+### Groupe de TP : 
+- [ ] 11
+- [ ] 12
+- [ ] 21
+- [ ] 22
+
