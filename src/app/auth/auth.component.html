@@ -18,47 +18,69 @@
   <button class="btn btn-danger" *ngIf="authService.isSignedIn('btn danger')" (click)="onSignOut()"><i
       class="fas fa-sign-out-alt pr-2"></i>Sign out</button>
 
-  <div class="card mt-3">
-    <h5 class="card-header">
-      <a data-toggle="collapse" href="#collapse-example" aria-expanded="true" aria-controls="collapse-example"
-        style="text-decoration:none" id="heading-example" class="d-block">
-        <i class="fa fa-chevron-down pull-right float-right"></i>
-        JSON structure
-      </a>
-    </h5>
-    <div id="collapse-example" class="collapse show" aria-labelledby="heading-example">
-      <div class="card-body p-2">
-        <pre class="jumbotron p-3 my-1">
-        <button type="button" id="copier" class="btn float-right btn-sm" (click)="callServiceToCopy()" 
-        data-toggle="tooltip" data-placement="left" title="Copier dans le presse-papier"><span class="text-muted">Copier</span></button>
-&#123;
-  "startDate": "22/01/17 12:00",
-  "dateFin": "23/04/18 12:00",
-  <span class="text-danger">"repositories"</span>: [
-    &#123; <span class="text-danger">"url"</span>: "https://github.com/user/repository", "name": "First name LAST NAME", "groupeTP": "12" &#125;
-  ],
-  "seances": [
-    &#123;
-      <span class="text-danger">"startDate"</span>: "22/05/19 10:00",
-      <span class="text-danger">"dateFin"</span>: "22/05/19 11:00",
-      "groupeTP": "11"
-    &#125;
-  ],
-  "reviews": [
-    &#123; <span class="text-danger">"date"</span>: "15/03/19 15:40", "label": "Review 1", "groupeTP": "21" &#125;
-  ],
-  "corrections": [
-    &#123; <span class="text-danger">"date"</span>: "17/03/19 15:40", "label": "Correction 1", "groupeTP": "22" &#125;
-  ]
-&#125;</pre>
-        <div class="row">
-          <div class="col-sm-3">
-            <div class="border p-2 rounded">
-              <i class="fas fa-square" style="color:red"></i> Required
-              <br>
-              <i class="fas fa-square" style="color:black"></i> Optional
+  <div class="accordion mt-3" id="accordion">
+    <div class="card">
+      <h5 class="card-header">
+        <a data-toggle="collapse" href="#collapseJSON" aria-expanded="true" aria-controls="collapseJSON"
+          style="text-decoration:none" id="heading-example" class="d-block">
+          <i class="fa fa-chevron-down pull-right float-right"></i>
+          JSON structure
+        </a>
+      </h5>
+      <div id="collapseJSON" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
+        <div class="card-body p-2">
+          <pre class="jumbotron p-3 my-1">
+          <button type="button" id="copier" class="btn float-right btn-sm" (click)="copyJSON()" 
+          data-toggle="tooltip" data-placement="left" title="Copier dans le presse-papier"><span class="text-muted">Copier</span></button>
+  &#123;
+    "startDate": "22/01/17 12:00",
+    "endDate": "23/04/18 12:00",
+    <span class="text-danger">"repositories"</span>: [
+      &#123; <span class="text-danger">"url"</span>: "https://github.com/user/repository", "name": "First name LAST NAME", "tpGroup": "12" &#125;
+    ],
+    "sessions": [
+      &#123;
+        <span class="text-danger">"startDate"</span>: "22/05/19 10:00",
+        <span class="text-danger">"endDate"</span>: "22/05/19 11:00",
+        "tpGroup": "11"
+      &#125;
+    ],
+    "reviews": [
+      &#123; <span class="text-danger">"date"</span>: "15/03/19 15:40", "label": "Review 1", "tpGroup": "21" &#125;
+    ],
+    "corrections": [
+      &#123; <span class="text-danger">"date"</span>: "17/03/19 15:40", "label": "Correction 1", "tpGroup": "22" &#125;
+    ]
+  &#125;</pre>
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="border p-2 rounded">
+                <i class="fas fa-square" style="color:red"></i> Required
+                <br>
+                <i class="fas fa-square" style="color:black"></i> Optional
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h5 class="card-header">
+        <a data-toggle="collapse" href="#collapseReadMe" aria-expanded="true" aria-controls="collapseReadMe"
+          style="text-decoration:none" id="heading-example" class="d-block">
+          <i class="fa fa-chevron-down pull-right float-right"></i>
+          ReadMe structure
+        </a>
+      </h5>
+      <div id="collapseReadMe" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
+        <div class="card-body p-2">
+          <pre class="jumbotron p-3 my-1">
+          <button type="button" id="copier" class="btn float-right btn-sm" (click)="copyReadMe()" 
+          data-toggle="tooltip" data-placement="left" title="Copier dans le presse-papier"><span class="text-muted">Copier</span></button>
+{{readMe}}</pre>
+          <markdown ngPreserveWhitespaces>
+            {{readMe}}
+          </markdown>
         </div>
       </div>
     </div>

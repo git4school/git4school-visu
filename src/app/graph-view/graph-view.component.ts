@@ -12,7 +12,7 @@ import { Commit } from '../models/Commit.model';
 import { ToastrService } from 'ngx-toastr';
 import { validateConfig } from '@angular/router/src/config';
 import { Repository } from '../models/Repository.model';
-import { Seance } from '../models/Seance.model';
+import { Session } from '../models/Session.model';
 import { Jalon } from '../models/Jalon.model';
 import * as Chart from 'chart.js';
 import { NgForm } from '@angular/forms';
@@ -41,13 +41,13 @@ export class GraphViewComponent implements OnInit {
   file = null;
   filename: string;
   corrections: Jalon[];
-  seances: Seance[];
+  sessions: Session[];
   reviews: Jalon[];
   repositories: Repository[];
   chartData = [{ data: [] }];
-  groupeTP: string;
-  groupesTP: Set<string>;
-  showSeances = true;
+  tpGroup: string;
+  tpGroups: Set<string>;
+  showSessions = true;
   showCorrections = true;
   showReviews = true;
   dateAjoutJalon;
@@ -158,23 +158,23 @@ export class GraphViewComponent implements OnInit {
       const text = this.getJSONOrNull(myReader.result);
       if (text) {
         this.getDataFromFile(text);
-        this.loadGraph(text.startDate, text.dateFin);
+        this.loadGraph(text.startDate, text.endDate);
       }
     };
     myReader.readAsText(this.file);
   }
 
-  loadGraph(startDate?: Date, dateFin?: Date) {
+  loadGraph(startDate?: Date, endDate?: Date) {
     this.loading = true;
 
     this.commitsService
-      .getRepositories(this.repositories, startDate, dateFin)
+      .getRepositories(this.repositories, startDate, endDate)
       .subscribe(
         repositories => {
-          this.groupesTP = new Set();
+          this.tpGroups = new Set();
           this.repositories = repositories;
           this.repositories.forEach(repository => {
-            this.groupesTP.add(repository.groupeTP);
+            this.tpGroups.add(repository.tpGroup);
           });
           this.loadGraphData();
           this.loading = false;
@@ -197,8 +197,8 @@ export class GraphViewComponent implements OnInit {
 
   loadAnnotations() {
     this.chartOptions.annotation.annotations = [];
-    if (this.seances && this.showSeances) {
-      this.loadSeances();
+    if (this.sessions && this.showSessions) {
+      this.loadSessions();
     }
 
     if (this.reviews && this.showReviews) {
@@ -210,16 +210,16 @@ export class GraphViewComponent implements OnInit {
     }
   }
 
-  loadSeances() {
-    this.seances
-      .filter(seance => !this.groupeTP || seance.groupeTP === this.groupeTP)
-      .forEach(seance => {
+  loadSessions() {
+    this.sessions
+      .filter(session => !this.tpGroup || session.tpGroup === this.tpGroup)
+      .forEach(session => {
         this.chartOptions.annotation.annotations.push({
           type: 'box',
           xScaleID: 'x-axis-0',
           yScaleID: 'y-axis-0',
-          xMin: seance.startDate,
-          xMax: seance.dateFin,
+          xMin: session.startDate,
+          xMax: session.endDate,
           borderColor: 'rgba(79, 195, 247,1.0)',
           borderWidth: 2,
           backgroundColor: 'rgba(33, 150, 243, 0.15)'
@@ -229,7 +229,7 @@ export class GraphViewComponent implements OnInit {
 
   loadReviews() {
     this.reviews
-      .filter(review => !this.groupeTP || review.groupeTP === this.groupeTP)
+      .filter(review => !this.tpGroup || review.tpGroup === this.tpGroup)
       .forEach((review, index) => {
         this.chartOptions.annotation.annotations.push({
           type: 'line',
@@ -250,7 +250,7 @@ export class GraphViewComponent implements OnInit {
   loadCorrections() {
     this.corrections
       .filter(
-        correction => !this.groupeTP || correction.groupeTP === this.groupeTP
+        correction => !this.tpGroup || correction.tpGroup === this.tpGroup
       )
       .forEach((correction, index) => {
         this.chartOptions.annotation.annotations.push({
@@ -276,7 +276,7 @@ export class GraphViewComponent implements OnInit {
 
     this.repositories
       .filter(
-        repository => !this.groupeTP || repository.groupeTP === this.groupeTP
+        repository => !this.tpGroup || repository.tpGroup === this.tpGroup
       )
       .forEach(repository => {
         // commits.push(repository.commits.slice());
@@ -304,13 +304,13 @@ export class GraphViewComponent implements OnInit {
   }
 
   updateCommit(commit: Commit) {
-    if (this.seances) {
+    if (this.sessions) {
       for (
         let i = 0;
-        i < this.seances.length &&
+        i < this.sessions.length &&
         !commit.updateIsEnSeance(
-          this.seances[i].startDate,
-          this.seances[i].dateFin
+          this.sessions[i].startDate,
+          this.sessions[i].endDate
         );
         i++
       ) {}
@@ -355,7 +355,7 @@ export class GraphViewComponent implements OnInit {
     let jalon = new Jalon(
       new Date(form.value.date),
       form.value.label.trim(),
-      form.value.groupeTP.trim()
+      form.value.tpGroup.trim()
     );
 
     if (form.value.jalon === 'correction') {
@@ -450,19 +450,19 @@ export class GraphViewComponent implements OnInit {
     this.corrections = text.corrections
       ? text.corrections.map(data => Jalon.withJSON(data))
       : undefined;
-    this.seances = text.seances
-      ? text.seances.map(data => Seance.withJSON(data))
+    this.sessions = text.sessions
+      ? text.sessions.map(data => Session.withJSON(data))
       : undefined;
     this.reviews = text.reviews
       ? text.reviews.map(data => Jalon.withJSON(data))
       : undefined;
     this.json = this.jsonGenerator.generateJson(
       this.repositories,
-      this.seances,
+      this.sessions,
       this.corrections,
       this.reviews,
       text.startDate,
-      text.dateFin
+      text.endDate
     );
     this.downloadJsonHref = this.jsonGenerator.generateDownloadUrlFromJson(
       this.json

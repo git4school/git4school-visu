@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Repository } from '../models/Repository.model';
-import { Seance } from '../models/Seance.model';
+import { Session } from '../models/Session.model';
 import { Jalon } from '../models/Jalon.model';
 
 @Injectable({
@@ -22,11 +22,11 @@ export class JsonGeneratorService {
 
   generateJson(
     repositories: Repository[],
-    seances?: Seance[],
+    sessions?: Session[],
     corrections?: Jalon[],
     reviews?: Jalon[],
     startDate?: string,
-    dateFin?: string
+    endDate?: string
   ) {
     let json = {};
     let repos = [];
@@ -36,15 +36,15 @@ export class JsonGeneratorService {
       if (repository.name) {
         repo['name'] = repository.name;
       }
-      if (repository.groupeTP) {
-        repo['groupeTP'] = repository.groupeTP;
+      if (repository.tpGroup) {
+        repo['tpGroup'] = repository.tpGroup;
       }
       repos.push(repo);
     });
     json['repositories'] = repos;
 
-    if (seances) {
-      json['seances'] = seances.map(seance => seance.json());
+    if (sessions) {
+      json['sessions'] = sessions.map(session => session.json());
     }
     if (corrections) {
       json['corrections'] = corrections.map(correction => correction.json());
@@ -55,8 +55,8 @@ export class JsonGeneratorService {
     if (startDate) {
       json['startDate'] = startDate;
     }
-    if (dateFin) {
-      json['dateFin'] = dateFin;
+    if (endDate) {
+      json['endDate'] = endDate;
     }
 
     return json;

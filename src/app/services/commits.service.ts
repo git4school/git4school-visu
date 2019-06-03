@@ -55,8 +55,8 @@ export class CommitsService {
               repo.name = tab[4].trim() + ' ' + tab[2].trim();
             }
           }
-          if (!repo.groupeTP && tab[6]) {
-            repo.groupeTP = tab[6].trim();
+          if (!repo.tpGroup && tab[6]) {
+            repo.tpGroup = tab[6].trim();
           }
           repo.commits = response[1];
           observer.next(repo);

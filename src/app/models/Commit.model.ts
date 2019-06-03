@@ -30,10 +30,10 @@ export class Commit {
     );
   }
 
-  updateIsEnSeance(startDate: Date, dateFin: Date) {
+  updateIsEnSeance(startDate: Date, endDate: Date) {
     if (
       this.commitDate.getTime() >= startDate.getTime() &&
-      this.commitDate.getTime() <= dateFin.getTime()
+      this.commitDate.getTime() <= endDate.getTime()
     ) {
       this.isEnSeance = true;
       return true;

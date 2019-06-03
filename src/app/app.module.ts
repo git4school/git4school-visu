@@ -32,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from 'ngx-clipboard';
 import { JsonGeneratorService } from './services/json-generator.service';
+import { MarkdownModule } from 'ngx-markdown';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
@@ -95,7 +96,8 @@ const appRoutes: Routes = [
     FontAwesomeModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    ClipboardModule
+    ClipboardModule,
+    MarkdownModule.forRoot()
   ],
   providers: [
     AppareilService,

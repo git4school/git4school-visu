@@ -21,6 +21,15 @@ export class AuthComponent implements OnInit {
   ) {}
 
   loading = false;
+  readMe = `# test_angular
+
+### NOM : DOE
+### Prénom : John
+### Groupe de TP : 
+- [ ] 11
+- [ ] 12
+- [ ] 21
+- [ ] 22`;
 
   ngOnInit() {
     $('#copier').tooltip();
@@ -54,27 +63,30 @@ export class AuthComponent implements OnInit {
     this.authService.signOut();
   }
 
-  callServiceToCopy() {
+  copyJSON() {
     this.clipboardService.copyFromContent(`
 {
   "startDate": "01/01/17 12:00",
-  "dateFin": "01/04/18 12:00",
+  "endDate": "01/04/18 12:00",
   "repositories": [
-    { "url": "https://github.com/user/repository", "name": "First name LAST NAME", "groupeTP": "12" }
+    { "url": "https://github.com/user/repository", "name": "First name LAST NAME", "tpGroup": "12" }
   ],
   "seances": [
     {
       "startDate": "22/05/19 10:00",
-      "dateFin": "22/05/19 11:00",
-      "groupeTP": "11"
+      "endDate": "22/05/19 11:00",
+      "tpGroup": "11"
     }
   ],
   "reviews": [
-    { "date": "07/03/19 15:40", "label": "Review 1", "groupeTP": "21" }
+    { "date": "07/03/19 15:40", "label": "Review 1", "tpGroup": "21" }
   ],
   "corrections": [
-    { "date": "07/03/19 15:40", "label": "Correction 1", "groupeTP": "22" }
+    { "date": "07/03/19 15:40", "label": "Correction 1", "tpGroup": "22" }
   ]
 }`);
+  }
+  copyReadMe() {
+    this.clipboardService.copyFromContent(this.readMe);
   }
 }
