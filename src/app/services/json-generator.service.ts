@@ -25,7 +25,7 @@ export class JsonGeneratorService {
     seances?: Seance[],
     corrections?: Jalon[],
     reviews?: Jalon[],
-    dateDebut?: string,
+    startDate?: string,
     dateFin?: string
   ) {
     let json = {};
@@ -52,8 +52,8 @@ export class JsonGeneratorService {
     if (reviews) {
       json['reviews'] = reviews.map(review => review.json());
     }
-    if (dateDebut) {
-      json['dateDebut'] = dateDebut;
+    if (startDate) {
+      json['startDate'] = startDate;
     }
     if (dateFin) {
       json['dateFin'] = dateFin;

@@ -158,17 +158,17 @@ export class GraphViewComponent implements OnInit {
       const text = this.getJSONOrNull(myReader.result);
       if (text) {
         this.getDataFromFile(text);
-        this.loadGraph(text.dateDebut, text.dateFin);
+        this.loadGraph(text.startDate, text.dateFin);
       }
     };
     myReader.readAsText(this.file);
   }
 
-  loadGraph(dateDebut?: Date, dateFin?: Date) {
+  loadGraph(startDate?: Date, dateFin?: Date) {
     this.loading = true;
 
     this.commitsService
-      .getRepositories(this.repositories, dateDebut, dateFin)
+      .getRepositories(this.repositories, startDate, dateFin)
       .subscribe(
         repositories => {
           this.groupesTP = new Set();
@@ -218,7 +218,7 @@ export class GraphViewComponent implements OnInit {
           type: 'box',
           xScaleID: 'x-axis-0',
           yScaleID: 'y-axis-0',
-          xMin: seance.dateDebut,
+          xMin: seance.startDate,
           xMax: seance.dateFin,
           borderColor: 'rgba(79, 195, 247,1.0)',
           borderWidth: 2,
@@ -309,7 +309,7 @@ export class GraphViewComponent implements OnInit {
         let i = 0;
         i < this.seances.length &&
         !commit.updateIsEnSeance(
-          this.seances[i].dateDebut,
+          this.seances[i].startDate,
           this.seances[i].dateFin
         );
         i++
@@ -461,7 +461,7 @@ export class GraphViewComponent implements OnInit {
       this.seances,
       this.corrections,
       this.reviews,
-      text.dateDebut,
+      text.startDate,
       text.dateFin
     );
     this.downloadJsonHref = this.jsonGenerator.generateDownloadUrlFromJson(

@@ -17,7 +17,7 @@
                     <i [ngClass]="loading ? 'fas fa-redo-alt fa-spin' : 'fas fa-redo-alt'"></i>
                 </button>
                 <button class="btn btn-outline-secondary ml-2" (click)="changeUnit()" data-toggle="tooltip"
-                    title="Changer l'échelle du temps" [disabled]="!repositories || loading" data-trigger="hover">
+                    title="Change the time scale" [disabled]="!repositories || loading" data-trigger="hover">
                     <i [ngClass]="
               chartOptions.scales.xAxes[0].time.unit == 'day'
                 ? 'fas fa-calendar-day'
@@ -31,8 +31,8 @@
                 <div class="dropdown ml-2">
                     <button class="btn btn-secondary dropdown-toggle" [disabled]="!repositories || loading"
                         type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false" title="Afficher ou masquer" data-trigger="hover">
-                        Filtres
+                        aria-expanded="false" title="Show or hide milestones" data-trigger="hover">
+                        Filters
                     </button>
                     <div class="dropdown-menu">
                         <form class="px-4 py-3">
@@ -40,7 +40,7 @@
                                 <input type="checkbox" class="custom-control-input" id="customSwitch1"
                                     [(ngModel)]="showSeances" (change)="loadGraphData()"
                                     [ngModelOptions]="{standalone: true}">
-                                <label class="custom-control-label" for="customSwitch1">Séances</label>
+                                <label class="custom-control-label" for="customSwitch1">Sessions</label>
                             </div>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="customSwitch2"
@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <button class="btn btn-warning ml-2" [disabled]="!repositories || loading" (click)="resetZoom()"
-                    data-toggle="tooltip" title="Ou appuyez sur la barre espace" data-trigger="hover">Reset
+                    data-toggle="tooltip" title="Or press space bar" data-trigger="hover">Reset
                     zoom</button>
                 <a class="btn btn-danger ml-2" title="Download JSON" [href]="downloadJsonHref"
                     download="download.json"><i class="fas fa-download" data-toggle="tooltip"
@@ -97,7 +97,7 @@
                         <input type="text" class="form-control" id="recipient-name" name="label" required ngModel>
                     </div>
                     <div class="form-group">
-                        <label for="message-text" class="col-form-label">Groupe de TP :</label>
+                        <label for="message-text" class="col-form-label">TP group :</label>
                         <input type="text" class="form-control" id="message-text" name="groupeTP" required ngModel>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
@@ -113,12 +113,12 @@
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="customRadio3" name="jalon" class="custom-control-input" value="autre"
                             required ngModel>
-                        <label class="custom-control-label" for="customRadio3">Autre</label>
+                        <label class="custom-control-label" for="customRadio3">Other</label>
                     </div>
                     <hr>
-                    <button type="button" class="btn btn-secondary col-5" data-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary col-5 float-right" [disabled]="f.invalid">Créer
-                        jalon</button>
+                    <button type="button" class="btn btn-secondary col-5" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary col-5 float-right" [disabled]="f.invalid">Create
+                        milestone</button>
                 </form>
             </div>
         </div>

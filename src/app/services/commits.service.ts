@@ -21,25 +21,25 @@ export class CommitsService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getRepositoriesCommits(repoTab, dateDebut?: Date, dateFin?: Date) {
+  getRepositoriesCommits(repoTab, startDate?: Date, dateFin?: Date) {
     const tab = [];
     repoTab.forEach(repo => {
-      tab.push(this.getCommits(repo, dateDebut, dateFin));
+      tab.push(this.getCommits(repo, startDate, dateFin));
     });
     return forkJoin(tab);
   }
 
-  getRepositories(repoTab, dateDebut?: Date, dateFin?: Date) {
+  getRepositories(repoTab, startDate?: Date, dateFin?: Date) {
     const tab = [];
     repoTab.forEach(repo => {
-      tab.push(this.getRepository(repo, dateDebut, dateFin));
+      tab.push(this.getRepository(repo, startDate, dateFin));
     });
     return forkJoin(tab);
   }
 
-  getRepository(repo: Repository, dateDebut?: Date, dateFin?: Date) {
+  getRepository(repo: Repository, startDate?: Date, dateFin?: Date) {
     return new Observable(observer => {
-      this.getRepositoryObservable(repo, dateDebut, dateFin).subscribe(
+      this.getRepositoryObservable(repo, startDate, dateFin).subscribe(
         response => {
           const readme = decodeURIComponent(
             escape(window.atob(response[0].content))
@@ -67,16 +67,16 @@ export class CommitsService {
     });
   }
 
-  getRepositoryObservable(repo: Repository, dateDebut?: Date, dateFin?: Date) {
+  getRepositoryObservable(repo: Repository, startDate?: Date, dateFin?: Date) {
     return forkJoin(
       this.getReadMe(repo),
-      this.getCommits(repo, dateDebut, dateFin)
+      this.getCommits(repo, startDate, dateFin)
     ).pipe(catchError(error => of(error)));
   }
 
   getCommits(
     repo: Repository,
-    dateDebut?: Date,
+    startDate?: Date,
     dateFin?: Date
   ): Observable<Commit[]> {
     const repoHashURL = repo.url.split('/');
@@ -86,9 +86,9 @@ export class CommitsService {
       '/' +
       repoHashURL[4] +
       '/commits?per_page=100';
-    if (dateDebut) {
-      dateDebut = moment(dateDebut, 'DD/MM/YYYY HH:mm').toDate();
-      url = url.concat('&since=' + dateDebut.toISOString());
+    if (startDate) {
+      startDate = moment(startDate, 'DD/MM/YYYY HH:mm').toDate();
+      url = url.concat('&since=' + startDate.toISOString());
     }
     if (dateFin) {
       dateFin = moment(dateFin, 'DD/MM/YYYY HH:mm').toDate();
