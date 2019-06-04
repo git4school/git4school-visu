@@ -43,6 +43,7 @@ export class GraphViewComponent implements OnInit {
   corrections: Jalon[];
   sessions: Session[];
   reviews: Jalon[];
+  others: Jalon[];
   repositories: Repository[];
   chartData = [{ data: [] }];
   tpGroup: string;
@@ -50,6 +51,7 @@ export class GraphViewComponent implements OnInit {
   showSessions = true;
   showCorrections = true;
   showReviews = true;
+  showOthers = true;
   dateAjoutJalon;
   downloadJsonHref;
   json;
@@ -208,6 +210,10 @@ export class GraphViewComponent implements OnInit {
     if (this.corrections && this.showCorrections) {
       this.loadCorrections();
     }
+
+    if (this.others && this.showOthers) {
+      this.loadOthers();
+    }
   }
 
   loadSessions() {
@@ -262,6 +268,26 @@ export class GraphViewComponent implements OnInit {
           borderWidth: 1,
           label: {
             content: correction.label || 'Correction ' + (index + 1),
+            enabled: true,
+            position: 'top'
+          }
+        });
+      });
+  }
+
+  loadOthers() {
+    this.others
+      .filter(other => !this.tpGroup || other.tpGroup === this.tpGroup)
+      .forEach((other, index) => {
+        this.chartOptions.annotation.annotations.push({
+          type: 'line',
+          mode: 'vertical',
+          scaleID: 'x-axis-0',
+          value: other.date,
+          borderColor: 'yellow',
+          borderWidth: 1,
+          label: {
+            content: other.label || 'Other ' + (index + 1),
             enabled: true,
             position: 'top'
           }
@@ -364,12 +390,18 @@ export class GraphViewComponent implements OnInit {
       }
       this.corrections.push(jalon);
       this.json = this.jsonGenerator.updateJSONWithCorrection(this.json, jalon);
-    } else {
+    } else if (form.value.jalon === 'reviews') {
       if (!this.reviews) {
         this.reviews = [];
       }
       this.reviews.push(jalon);
       this.json = this.jsonGenerator.updateJSONWithReview(this.json, jalon);
+    } else if (form.value.jalon === 'other') {
+      if (!this.others) {
+        this.others = [];
+      }
+      this.others.push(jalon);
+      // this.json = this.jsonGenerator.updateJSONWithOther(this.json, jalon);
     }
 
     this.downloadJsonHref = this.jsonGenerator.generateDownloadUrlFromJson(

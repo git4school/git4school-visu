@@ -37,22 +37,28 @@
                     <div class="dropdown-menu">
                         <form class="px-4 py-3">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch1"
+                                <input type="checkbox" class="custom-control-input" id="sessionsSwitch"
                                     [(ngModel)]="showSessions" (change)="loadGraphData()"
                                     [ngModelOptions]="{standalone: true}">
-                                <label class="custom-control-label" for="customSwitch1">Sessions</label>
+                                <label class="custom-control-label" for="sessionsSwitch">Sessions</label>
                             </div>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch2"
+                                <input type="checkbox" class="custom-control-input" id="correctionsSwitch"
                                     [(ngModel)]="showCorrections" (change)="loadGraphData()"
                                     [ngModelOptions]="{standalone: true}">
-                                <label class="custom-control-label" for="customSwitch2">Corrections</label>
+                                <label class="custom-control-label" for="correctionsSwitch">Corrections</label>
                             </div>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" selected id="customSwitch3"
+                                <input type="checkbox" class="custom-control-input" selected id="reviewsSwitch"
                                     [(ngModel)]="showReviews" (change)="loadGraphData()"
                                     [ngModelOptions]="{standalone: true}">
-                                <label class="custom-control-label" for="customSwitch3">Reviews</label>
+                                <label class="custom-control-label" for="reviewsSwitch">Reviews</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" selected id="othersSwitch"
+                                    [(ngModel)]="showOthers" (change)="loadGraphData()"
+                                    [ngModelOptions]="{standalone: true}">
+                                <label class="custom-control-label" for="othersSwitch">Others</label>
                             </div>
                         </form>
                     </div>
@@ -111,7 +117,7 @@
                         <label class="custom-control-label" for="customRadio2">Review</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadio3" name="jalon" class="custom-control-input" value="autre"
+                        <input type="radio" id="customRadio3" name="jalon" class="custom-control-input" value="other"
                             required ngModel>
                         <label class="custom-control-label" for="customRadio3">Other</label>
                     </div>
