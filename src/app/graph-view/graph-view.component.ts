@@ -95,7 +95,12 @@ export class GraphViewComponent implements OnInit {
         tension: 0
       },
       point: {
-        hitRadius: 8
+        hitRadius: 8,
+        radius: 6
+        // borderWidth: 1,
+        // pointRadius: 7,
+        // pointHoverRadius: 8,
+        // pointBorderColor: 'black'
       }
     },
     scales: {
@@ -174,9 +179,11 @@ export class GraphViewComponent implements OnInit {
       .subscribe(
         repositories => {
           this.tpGroups = new Set();
+          this.tpGroups.add('');
           this.repositories = repositories;
           this.repositories.forEach(repository => {
             this.tpGroups.add(repository.tpGroup);
+            console.log('repository.tpGroup: ', 'b' + repository.tpGroup + 'b');
           });
           this.loadGraphData();
           this.loading = false;
@@ -308,7 +315,6 @@ export class GraphViewComponent implements OnInit {
         // commits.push(repository.commits.slice());
         const data = [];
         const pointStyle = [];
-        const radius = [];
         // const pointBackgroundColor = [];
         labels.push(repository.name);
         repository.commits.forEach(commit => {
@@ -320,10 +326,12 @@ export class GraphViewComponent implements OnInit {
             commit
           });
           pointStyle.push(this.getPointStyle(commit));
-          radius.push(commit.isCloture ? 8 : 5);
           // pointBackgroundColor.push('rgba(76, 76, 76, 1)');
         });
-        chartData.push({ data, pointStyle, radius /*pointBackgroundColor */ });
+        chartData.push({
+          data,
+          pointStyle
+        });
       });
     this.chartData = chartData;
     this.chartOptions.scales.yAxes[0].labels = labels;
@@ -437,12 +445,10 @@ export class GraphViewComponent implements OnInit {
     //   image.src = './assets/maison.png';
     // }
     // return image;
-    let image = new Image(12, 12);
-    image.src = './assets/maison.png';
-    if (commit.isEnSeance) {
-      return 'cercle';
+    if (commit.isCloture) {
+      return 'rectRot';
     } else {
-      return image;
+      return 'circle';
     }
   }
 
