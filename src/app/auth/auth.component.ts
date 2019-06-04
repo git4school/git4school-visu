@@ -21,13 +21,13 @@ export class AuthComponent implements OnInit {
   ) {}
 
   loading = false;
-  readMe = `# test_angular
+  readMe = `# First IT practical
 
 ### NOM : DOE
 ### Prénom : John
 ### Groupe de TP : 
 - [ ] 11
-- [ ] 12
+- [x] 12
 - [ ] 21
 - [ ] 22`;
 

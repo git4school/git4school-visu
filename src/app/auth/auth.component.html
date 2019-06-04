@@ -74,13 +74,19 @@
       </h5>
       <div id="collapseReadMe" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
         <div class="card-body p-2">
+          <div class="alert alert-info" role="alert">
+            <h5><i class="fas fa-exclamation-triangle"></i>
+              The readme format of each repository must follow the format below strictly.</h5>
+          </div>
           <pre class="jumbotron p-3 my-1">
           <button type="button" id="copier" class="btn float-right btn-sm" (click)="copyReadMe()" 
           data-toggle="tooltip" data-placement="left" title="Copier dans le presse-papier"><span class="text-muted">Copier</span></button>
 {{readMe}}</pre>
-          <markdown ngPreserveWhitespaces>
-            {{readMe}}
-          </markdown>
+          <div class="mt-3">
+            <markdown ngPreserveWhitespaces>
+              {{readMe}}
+            </markdown>
+          </div>
         </div>
       </div>
     </div>
