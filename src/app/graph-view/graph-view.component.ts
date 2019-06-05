@@ -382,7 +382,6 @@ export class GraphViewComponent implements OnInit {
       window.open(data.commit.url, '_blank');
     } else {
       if (event.event.shiftKey) {
-        console.log(event);
         var xAxis = this.myChart.chart.scales['x-axis-0'];
         var x = event.event.offsetX;
         var index = xAxis.getValueForPixel(x);
@@ -392,9 +391,12 @@ export class GraphViewComponent implements OnInit {
     }
   }
 
-  onSubmit(form: NgForm) {
-    console.log('form: ', form);
+  onChartHover(event) {
+    const data = this.getDataFromChart(event);
+    console.log(data.commit.color);
+  }
 
+  onSubmit(form: NgForm) {
     let jalon = new Jalon(
       new Date(form.value.date),
       form.value.label.trim(),
@@ -503,7 +505,6 @@ export class GraphViewComponent implements OnInit {
     this.downloadJsonHref = this.jsonGenerator.generateDownloadUrlFromJson(
       this.json
     );
-    console.log;
   }
 
   warning(titre, message) {

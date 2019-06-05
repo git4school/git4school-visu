@@ -61,15 +61,15 @@ export class Commit {
       reviews
         .filter(review => review.date.getTime() < this.commitDate.getTime())
         .forEach(review => {
-          let regex = new RegExp(
-            review.questions
-              .map(question => {
-                question.replace('.', '\\.');
-              })
-              .join('|')
-          );
-          if (regex.test(this.message)) {
-            this.color = 'orange';
+          if (review.questions) {
+            let regex = new RegExp(
+              review.questions
+                .map(question => question.replace('.', '\\.'))
+                .join('|')
+            );
+            if (regex.test(this.message)) {
+              this.color = 'orange';
+            }
           }
         });
     }
@@ -79,15 +79,15 @@ export class Commit {
           correction => correction.date.getTime() < this.commitDate.getTime()
         )
         .forEach(correction => {
-          let regex = new RegExp(
-            correction.questions
-              .map(question => {
-                question.replace('.', '\\.');
-              })
-              .join('|')
-          );
-          if (regex.test(this.message)) {
-            this.color = 'rouge';
+          if (correction.questions) {
+            let regex = new RegExp(
+              correction.questions
+                .map(question => question.replace('.', '\\.'))
+                .join('|')
+            );
+            if (regex.test(this.message)) {
+              this.color = 'red';
+            }
           }
         });
     }

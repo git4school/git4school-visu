@@ -75,7 +75,7 @@
 </div>
 <div class="chart-container">
     <canvas #myChart id="myChart" baseChart [chartType]="'line'" [datasets]="chartData" [options]="chartOptions"
-        [legend]="false" (chartClick)="onChartClick($event)">
+        [legend]="false" (chartClick)="onChartClick($event)" (chartHover)="onChartHover($event)">
     </canvas>
 </div>
 
