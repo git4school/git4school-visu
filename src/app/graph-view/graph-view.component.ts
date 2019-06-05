@@ -163,7 +163,7 @@ export class GraphViewComponent implements OnInit {
     const myReader: FileReader = new FileReader();
     myReader.onloadend = e => {
       const text = this.getJSONOrNull(myReader.result);
-      if (text) {
+      if (text /* TODO: && verifyJSON() */) {
         this.getDataFromFile(text);
         this.loadGraph(text.startDate, text.endDate);
       }
@@ -315,10 +315,18 @@ export class GraphViewComponent implements OnInit {
         // commits.push(repository.commits.slice());
         const data = [];
         const pointStyle = [];
-        // const pointBackgroundColor = [];
+        const reviews = this.reviews.filter(
+          review => review.tpGroup === repository.tpGroup
+        );
+        const corrections = this.corrections.filter(
+          correction => correction.tpGroup === repository.tpGroup
+        );
+        const pointBackgroundColor = [];
         labels.push(repository.name);
         repository.commits.forEach(commit => {
-          commit = this.updateCommit(commit);
+          commit.updateColor(corrections, reviews);
+          // commit = this.updateCommit(commit);
+          commit.updateIsCloture();
 
           data.push({
             x: commit.commitDate,
@@ -326,32 +334,33 @@ export class GraphViewComponent implements OnInit {
             commit
           });
           pointStyle.push(this.getPointStyle(commit));
-          // pointBackgroundColor.push('rgba(76, 76, 76, 1)');
+          pointBackgroundColor.push(commit.color);
         });
         chartData.push({
           data,
-          pointStyle
+          pointStyle,
+          pointBackgroundColor
         });
       });
     this.chartData = chartData;
     this.chartOptions.scales.yAxes[0].labels = labels;
   }
 
-  updateCommit(commit: Commit) {
-    if (this.sessions) {
-      for (
-        let i = 0;
-        i < this.sessions.length &&
-        !commit.updateIsEnSeance(
-          this.sessions[i].startDate,
-          this.sessions[i].endDate
-        );
-        i++
-      ) {}
-    }
-    commit.updateIsCloture(commit.message);
-    return commit;
-  }
+  // updateCommit(commit: Commit) {
+  //   // if (this.sessions) {
+  //   //   for (
+  //   //     let i = 0;
+  //   //     i < this.sessions.length &&
+  //   //     !commit.updateIsEnSeance(
+  //   //       this.sessions[i].startDate,
+  //   //       this.sessions[i].endDate
+  //   //     );
+  //   //     i++
+  //   //   ) {}
+  //   // }
+  //   commit.updateIsCloture();
+  //   return commit;
+  // }
 
   refreshGraph() {
     this.myChart.chart.destroy();
@@ -434,17 +443,6 @@ export class GraphViewComponent implements OnInit {
   }
 
   getPointStyle(commit: Commit) {
-    // let image = new Image(12, 12);
-    // if (commit.isCloture) {
-    //   image.height = 20;
-    //   image.width = 20;
-    // }
-    // if (commit.isEnSeance) {
-    //   image.src = './assets/fac.png';
-    // } else {
-    //   image.src = './assets/maison.png';
-    // }
-    // return image;
     if (commit.isCloture) {
       return 'rectRot';
     } else {

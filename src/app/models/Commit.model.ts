@@ -1,3 +1,5 @@
+import { Jalon } from './Jalon.model';
+
 export class Commit {
   constructor(
     public message: string,
@@ -5,7 +7,8 @@ export class Commit {
     public commitDate: Date,
     public url: string,
     public isEnSeance = false,
-    public isCloture = false
+    public isCloture = false,
+    public color = 'green'
   ) {
     this.commitDate = new Date(commitDate);
   }
@@ -15,10 +18,10 @@ export class Commit {
     author: string,
     commitDate: Date,
     url: string,
-    isEnSeance: boolean,
-    isCloture: boolean
+    isEnSeance?: boolean,
+    isCloture?: boolean
   ): Commit {
-    return new Commit(message, author, commitDate, url);
+    return new Commit(message, author, commitDate, url, isEnSeance, isCloture);
   }
 
   static withJSON(json): Commit {
@@ -41,9 +44,9 @@ export class Commit {
     return false;
   }
 
-  updateIsCloture(message: string) {
+  updateIsCloture() {
     if (
-      message.match(
+      this.message.match(
         /\b((close[sd]?)|(fix(es|ed)?)|(resolve[sd]?))\b:? *#[0-9]+/gi
       ) !== null
     ) {
@@ -51,5 +54,42 @@ export class Commit {
       return true;
     }
     return false;
+  }
+
+  updateColor(corrections: Jalon[], reviews: Jalon[]) {
+    if (reviews) {
+      reviews
+        .filter(review => review.date.getTime() < this.commitDate.getTime())
+        .forEach(review => {
+          let regex = new RegExp(
+            review.questions
+              .map(question => {
+                question.replace('.', '\\.');
+              })
+              .join('|')
+          );
+          if (regex.test(this.message)) {
+            this.color = 'orange';
+          }
+        });
+    }
+    if (corrections) {
+      corrections
+        .filter(
+          correction => correction.date.getTime() < this.commitDate.getTime()
+        )
+        .forEach(correction => {
+          let regex = new RegExp(
+            correction.questions
+              .map(question => {
+                question.replace('.', '\\.');
+              })
+              .join('|')
+          );
+          if (regex.test(this.message)) {
+            this.color = 'rouge';
+          }
+        });
+    }
   }
 }
