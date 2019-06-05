@@ -157,6 +157,9 @@ export class GraphViewComponent implements OnInit {
     $('.modal').modal({
       show: false
     });
+    $('.dropdown-menu').mouseleave(function() {
+      $('.dropdown-toggle').dropdown('toggle');
+    });
   }
 
   readFile(): void {
