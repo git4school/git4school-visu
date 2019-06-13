@@ -182,7 +182,6 @@ export class GraphViewComponent implements OnInit {
       .subscribe(
         repositories => {
           this.tpGroups = new Set();
-          this.tpGroups.add('');
           this.repositories = repositories;
           this.repositories.forEach(repository => {
             this.tpGroups.add(repository.tpGroup);
@@ -294,7 +293,7 @@ export class GraphViewComponent implements OnInit {
           mode: 'vertical',
           scaleID: 'x-axis-0',
           value: other.date,
-          borderColor: 'yellow',
+          borderColor: 'black',
           borderWidth: 1,
           label: {
             content: other.label || 'Other ' + (index + 1),
@@ -327,9 +326,9 @@ export class GraphViewComponent implements OnInit {
         const pointBackgroundColor = [];
         labels.push(repository.name);
         repository.commits.forEach(commit => {
+          commit.updateIsCloture();
           commit.updateColor(corrections, reviews);
           // commit = this.updateCommit(commit);
-          commit.updateIsCloture();
 
           data.push({
             x: commit.commitDate,
@@ -412,11 +411,12 @@ export class GraphViewComponent implements OnInit {
       }
       this.corrections.push(jalon);
       this.json = this.jsonGenerator.updateJSONWithCorrection(this.json, jalon);
-    } else if (form.value.jalon === 'reviews') {
+    } else if (form.value.jalon === 'review') {
       if (!this.reviews) {
         this.reviews = [];
       }
       this.reviews.push(jalon);
+      console.log('this.reviews: ', this.reviews);
       this.json = this.jsonGenerator.updateJSONWithReview(this.json, jalon);
     } else if (form.value.jalon === 'other') {
       if (!this.others) {

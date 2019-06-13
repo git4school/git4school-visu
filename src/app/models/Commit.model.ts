@@ -57,6 +57,10 @@ export class Commit {
   }
 
   updateColor(corrections: Jalon[], reviews: Jalon[]) {
+    // if (!this.isCloture) {
+    //   this.color = 'black';
+    //   return;
+    // }
     if (reviews) {
       reviews
         .filter(review => review.date.getTime() < this.commitDate.getTime())
