@@ -193,7 +193,7 @@ export class GraphViewComponent implements OnInit {
         error => {
           this.error(
             'Erreur Git',
-            "Un des dépôts Github n'existe pas ou vous n'avez pas les droits dessus."
+            'Un des dépôts Github n\'existe pas ou vous n\'avez pas les droits dessus.'
           );
           this.loading = false;
         }
@@ -384,9 +384,9 @@ export class GraphViewComponent implements OnInit {
       window.open(data.commit.url, '_blank');
     } else {
       if (event.event.shiftKey) {
-        var xAxis = this.myChart.chart.scales['x-axis-0'];
-        var x = event.event.offsetX;
-        var index = xAxis.getValueForPixel(x);
+        const xAxis = this.myChart.chart.scales['x-axis-0'];
+        const x = event.event.offsetX;
+        const index = xAxis.getValueForPixel(x);
         this.dateAjoutJalon = moment(index.toDate()).format('YYYY-MM-DDTHH:mm');
         $('#exampleModal').modal('show');
       }
@@ -399,7 +399,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let jalon = new Jalon(
+    const jalon = new Jalon(
       new Date(form.value.date),
       form.value.label.trim(),
       form.value.tpGroup.trim()
@@ -459,7 +459,7 @@ export class GraphViewComponent implements OnInit {
     try {
       return JSON.parse(str);
     } catch (e) {
-      this.error("Le fichier n'est pas un fichier JSON valide.", e.message);
+      this.error('Le fichier n\'est pas un fichier JSON valide.', e.message);
       return null;
     }
   }
