@@ -33,6 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MarkdownModule } from 'ngx-markdown';
 import { JsonManagerService } from './services/json-manager.service';
+import { DataService } from './services/data.service';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
@@ -105,7 +106,8 @@ const appRoutes: Routes = [
     AuthGuard,
     CommitsService,
     UserService,
-    JsonManagerService
+    JsonManagerService,
+    DataService
   ],
   bootstrap: [AppComponent]
 })

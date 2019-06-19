@@ -10,15 +10,13 @@ import { AuthService } from '../services/auth.service';
 import { CommitsService } from '../services/commits.service';
 import { Commit } from '../models/Commit.model';
 import { ToastrService } from 'ngx-toastr';
-import { validateConfig } from '@angular/router/src/config';
 import { Repository } from '../models/Repository.model';
 import { Session } from '../models/Session.model';
 import { Jalon } from '../models/Jalon.model';
-import * as Chart from 'chart.js';
 import { NgForm } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
 import moment from 'moment/src/moment';
 import { JsonManagerService } from '../services/json-manager.service';
+import { DataService } from '../services/data.service';
 declare var $: any;
 
 @Component({
@@ -31,18 +29,14 @@ export class GraphViewComponent implements OnInit {
     private authService: AuthService,
     private commitsService: CommitsService,
     private toastr: ToastrService,
-    private jsonManager: JsonManagerService
+    private jsonManager: JsonManagerService,
+    private dataService: DataService
   ) {}
 
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
   loading = false;
   unit = 'day';
-  corrections: Jalon[];
-  sessions: Session[];
-  reviews: Jalon[];
-  others: Jalon[];
-  repositories: Repository[];
   chartData = [{ data: [] }];
   tpGroup: string;
   tpGroups: Set<string>;
@@ -156,16 +150,24 @@ export class GraphViewComponent implements OnInit {
     $('.dropdown-menu').mouseleave(function() {
       $('.dropdown-toggle').dropdown('toggle');
     });
+    if (this.dataService.repositories) {
+      this.loadGraphData();
+    }
   }
 
   readFile(): void {
     const myReader: FileReader = new FileReader();
     myReader.onloadend = e => {
-      const text = this.getJSONOrNull(myReader.result);
+      let text = null;
+      try {
+        text = JSON.parse(myReader.result.toString());
+      } catch (e) {
+        this.error("Le fichier n'est pas un fichier JSON valide.", e.message);
+      }
       if (text /* TODO: && verifyJSON() */) {
         this.getDataFromFile(text);
         this.loadGraph(text.startDate, text.endDate);
-        console.log(this.others);
+        console.log(this.dataService.others);
       }
     };
     myReader.readAsText(this.jsonManager.file);
@@ -175,16 +177,16 @@ export class GraphViewComponent implements OnInit {
     this.loading = true;
 
     this.commitsService
-      .getRepositories(this.repositories, startDate, endDate)
+      .getRepositories(this.dataService.repositories, startDate, endDate)
       .subscribe(
         repositories => {
           this.tpGroups = new Set();
-          this.repositories = repositories;
-          this.repositories.forEach(repository => {
+          this.dataService.repositories = repositories;
+          this.dataService.repositories.forEach(repository => {
             this.tpGroups.add(repository.tpGroup);
             console.log('repository.tpGroup: ', 'b' + repository.tpGroup + 'b');
           });
-          this.loadGraphData();
+          this.loadGraphDataAndRefresh();
           this.loading = false;
         },
         error => {
@@ -200,30 +202,34 @@ export class GraphViewComponent implements OnInit {
   loadGraphData() {
     this.loadAnnotations();
     this.loadPoints();
+  }
+
+  loadGraphDataAndRefresh() {
+    this.loadGraphData();
     this.refreshGraph();
   }
 
   loadAnnotations() {
     this.chartOptions.annotation.annotations = [];
-    if (this.sessions && this.showSessions) {
+    if (this.dataService.sessions && this.showSessions) {
       this.loadSessions();
     }
 
-    if (this.reviews && this.showReviews) {
+    if (this.dataService.reviews && this.showReviews) {
       this.loadReviews();
     }
 
-    if (this.corrections && this.showCorrections) {
+    if (this.dataService.corrections && this.showCorrections) {
       this.loadCorrections();
     }
 
-    if (this.others && this.showOthers) {
+    if (this.dataService.others && this.showOthers) {
       this.loadOthers();
     }
   }
 
   loadSessions() {
-    this.sessions
+    this.dataService.sessions
       .filter(session => !this.tpGroup || session.tpGroup === this.tpGroup)
       .forEach(session => {
         this.chartOptions.annotation.annotations.push({
@@ -240,7 +246,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   loadReviews() {
-    this.reviews
+    this.dataService.reviews
       .filter(review => !this.tpGroup || review.tpGroup === this.tpGroup)
       .forEach((review, index) => {
         this.chartOptions.annotation.annotations.push({
@@ -260,7 +266,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   loadCorrections() {
-    this.corrections
+    this.dataService.corrections
       .filter(
         correction => !this.tpGroup || correction.tpGroup === this.tpGroup
       )
@@ -282,7 +288,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   loadOthers() {
-    this.others
+    this.dataService.others
       .filter(other => !this.tpGroup || other.tpGroup === this.tpGroup)
       .forEach((other, index) => {
         this.chartOptions.annotation.annotations.push({
@@ -306,7 +312,7 @@ export class GraphViewComponent implements OnInit {
     const labels = [];
     const commits = [];
 
-    this.repositories
+    this.dataService.repositories
       .filter(
         repository => !this.tpGroup || repository.tpGroup === this.tpGroup
       )
@@ -314,10 +320,10 @@ export class GraphViewComponent implements OnInit {
         // commits.push(repository.commits.slice());
         const data = [];
         const pointStyle = [];
-        const reviews = this.reviews.filter(
+        const reviews = this.dataService.reviews.filter(
           review => review.tpGroup === repository.tpGroup
         );
-        const corrections = this.corrections.filter(
+        const corrections = this.dataService.corrections.filter(
           correction => correction.tpGroup === repository.tpGroup
         );
         const pointBackgroundColor = [];
@@ -346,13 +352,13 @@ export class GraphViewComponent implements OnInit {
   }
 
   // updateCommit(commit: Commit) {
-  //   // if (this.sessions) {
+  //   // if (this.dataService.sessions) {
   //   //   for (
   //   //     let i = 0;
-  //   //     i < this.sessions.length &&
+  //   //     i < this.dataService.sessions.length &&
   //   //     !commit.updateIsEnSeance(
-  //   //       this.sessions[i].startDate,
-  //   //       this.sessions[i].endDate
+  //   //       this.dataService.sessions[i].startDate,
+  //   //       this.dataService.sessions[i].endDate
   //   //     );
   //   //     i++
   //   //   ) {}
@@ -403,29 +409,29 @@ export class GraphViewComponent implements OnInit {
     );
 
     if (form.value.jalon === 'correction') {
-      if (!this.corrections) {
-        this.corrections = [];
+      if (!this.dataService.corrections) {
+        this.dataService.corrections = [];
       }
-      this.corrections.push(jalon);
+      this.dataService.corrections.push(jalon);
       this.jsonManager.updateJSONWithCorrection(jalon);
     } else if (form.value.jalon === 'review') {
-      if (!this.reviews) {
-        this.reviews = [];
+      if (!this.dataService.reviews) {
+        this.dataService.reviews = [];
       }
-      this.reviews.push(jalon);
-      console.log('this.reviews: ', this.reviews);
+      this.dataService.reviews.push(jalon);
+      console.log('this.dataService.reviews: ', this.dataService.reviews);
       this.jsonManager.updateJSONWithReview(jalon);
     } else if (form.value.jalon === 'other') {
-      if (!this.others) {
-        this.others = [];
+      if (!this.dataService.others) {
+        this.dataService.others = [];
       }
-      this.others.push(jalon);
+      this.dataService.others.push(jalon);
       this.jsonManager.updateJSONWithOther(jalon);
     }
 
     this.jsonManager.generateDownloadUrlFromJson();
 
-    this.loadGraphData();
+    this.loadGraphDataAndRefresh();
     this.dispose();
   }
 
@@ -472,35 +478,35 @@ export class GraphViewComponent implements OnInit {
   }
 
   getDataFromFile(text) {
-    this.repositories = text.repositories
+    this.dataService.repositories = text.repositories
       .filter(repository =>
         repository.url.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
       )
       .map(repository => Repository.withJSON(repository));
-    if (text.repositories.length !== this.repositories.length) {
+    if (text.repositories.length !== this.dataService.repositories.length) {
       this.warning(
         'Attention',
         'Une ou plusieurs URL ne sont pas bien formatées !'
       );
     }
-    this.corrections = text.corrections
+    this.dataService.corrections = text.corrections
       ? text.corrections.map(data => Jalon.withJSON(data))
       : undefined;
-    this.sessions = text.sessions
+    this.dataService.sessions = text.sessions
       ? text.sessions.map(data => Session.withJSON(data))
       : undefined;
-    this.reviews = text.reviews
+    this.dataService.reviews = text.reviews
       ? text.reviews.map(data => Jalon.withJSON(data))
       : undefined;
-    this.others = text.others
+    this.dataService.others = text.others
       ? text.others.map(data => Jalon.withJSON(data))
       : undefined;
     this.jsonManager.generateJson(
-      this.repositories,
-      this.sessions,
-      this.corrections,
-      this.reviews,
-      this.others,
+      this.dataService.repositories,
+      this.dataService.sessions,
+      this.dataService.corrections,
+      this.dataService.reviews,
+      this.dataService.others,
       text.startDate,
       text.endDate
     );

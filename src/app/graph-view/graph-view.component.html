@@ -17,20 +17,21 @@
                     <i [ngClass]="loading ? 'fas fa-redo-alt fa-spin' : 'fas fa-redo-alt'"></i>
                 </button>
                 <button class="btn btn-outline-secondary ml-2" (click)="changeUnit()" data-toggle="tooltip"
-                    title="Change the time scale" [disabled]="!repositories || loading" data-trigger="hover">
+                    title="Change the time scale" [disabled]="!dataService.repositories || loading"
+                    data-trigger="hover">
                     <i [ngClass]="
               chartOptions.scales.xAxes[0].time.unit == 'day'
                 ? 'fas fa-calendar-day'
                 : 'fas fa-calendar-week'
             "></i>
                 </button>
-                <select class="form-control ml-2 col-2" [disabled]="!repositories || loading" [(ngModel)]="tpGroup"
-                    (change)="loadGraphData()">
+                <select class="form-control ml-2 col-2" [disabled]="!dataService.repositories || loading"
+                    [(ngModel)]="tpGroup" (change)="this.loadGraphDataAndRefresh()">
                     <option *ngFor="let tpGroup of tpGroups" [value]="tpGroup">{{tpGroup}}</option>
                     <option value="">All</option>
                 </select>
                 <div class="dropdown ml-2">
-                    <button class="btn btn-secondary dropdown-toggle" [disabled]="!repositories || loading"
+                    <button class="btn btn-secondary dropdown-toggle" [disabled]="!dataService.repositories || loading"
                         type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false" title="Show or hide milestones" data-trigger="hover">
                         Filters
@@ -39,37 +40,37 @@
                         <form class="px-4 py-3">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="sessionsSwitch"
-                                    [(ngModel)]="showSessions" (change)="loadGraphData()"
+                                    [(ngModel)]="showSessions" (change)="this.loadGraphDataAndRefresh()"
                                     [ngModelOptions]="{standalone: true}">
                                 <label class="custom-control-label" for="sessionsSwitch">Sessions</label>
                             </div>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="correctionsSwitch"
-                                    [(ngModel)]="showCorrections" (change)="loadGraphData()"
+                                    [(ngModel)]="showCorrections" (change)="this.loadGraphDataAndRefresh()"
                                     [ngModelOptions]="{standalone: true}">
                                 <label class="custom-control-label" for="correctionsSwitch">Corrections</label>
                             </div>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" selected id="reviewsSwitch"
-                                    [(ngModel)]="showReviews" (change)="loadGraphData()"
+                                    [(ngModel)]="showReviews" (change)="this.loadGraphDataAndRefresh()"
                                     [ngModelOptions]="{standalone: true}">
                                 <label class="custom-control-label" for="reviewsSwitch">Reviews</label>
                             </div>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" selected id="othersSwitch"
-                                    [(ngModel)]="showOthers" (change)="loadGraphData()"
+                                    [(ngModel)]="showOthers" (change)="this.loadGraphDataAndRefresh()"
                                     [ngModelOptions]="{standalone: true}">
                                 <label class="custom-control-label" for="othersSwitch">Others</label>
                             </div>
                         </form>
                     </div>
                 </div>
-                <button class="btn btn-warning ml-2" [disabled]="!repositories || loading" (click)="resetZoom()"
-                    data-toggle="tooltip" title="Or press space bar" data-trigger="hover">Reset
+                <button class="btn btn-warning ml-2" [disabled]="!dataService.repositories || loading"
+                    (click)="resetZoom()" data-toggle="tooltip" title="Or press space bar" data-trigger="hover">Reset
                     zoom</button>
                 <a class="btn btn-danger ml-2" title="Download JSON" [href]="jsonManager.downloadJsonHref"
-                    download="download.json"><i class="fas fa-download" data-toggle="tooltip"
-                        data-trigger="hover"></i></a>
+                    download="download.json" [hidden]="!dataService.repositories || loading"><i class="fas fa-download"
+                        data-toggle="tooltip" data-trigger="hover"></i></a>
             </div>
         </div>
     </div>
