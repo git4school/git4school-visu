@@ -9,11 +9,11 @@
                     <input type="file" class="custom-file-input" id="inputGroupFile01"
                         aria-describedby="inputGroupFileAddon01" (change)="changeListener($event)" />
                     <label class="custom-file-label" for="inputGroupFile01">{{
-            filename || 'Choose file'
+                        jsonManager.filename || 'Choose file'
           }}</label>
                 </div>
-                <button class="btn btn-outline-secondary ml-2" (click)="readFile()" [disabled]="!file || loading"
-                    data-toggle="tooltip" title="Reload" data-trigger="hover">
+                <button class="btn btn-outline-secondary ml-2" (click)="readFile()"
+                    [disabled]="!jsonManager.file || loading" data-toggle="tooltip" title="Reload" data-trigger="hover">
                     <i [ngClass]="loading ? 'fas fa-redo-alt fa-spin' : 'fas fa-redo-alt'"></i>
                 </button>
                 <button class="btn btn-outline-secondary ml-2" (click)="changeUnit()" data-toggle="tooltip"
@@ -67,7 +67,7 @@
                 <button class="btn btn-warning ml-2" [disabled]="!repositories || loading" (click)="resetZoom()"
                     data-toggle="tooltip" title="Or press space bar" data-trigger="hover">Reset
                     zoom</button>
-                <a class="btn btn-danger ml-2" title="Download JSON" [href]="downloadJsonHref"
+                <a class="btn btn-danger ml-2" title="Download JSON" [href]="jsonManager.downloadJsonHref"
                     download="download.json"><i class="fas fa-download" data-toggle="tooltip"
                         data-trigger="hover"></i></a>
             </div>

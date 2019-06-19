@@ -17,8 +17,8 @@ import { Jalon } from '../models/Jalon.model';
 import * as Chart from 'chart.js';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { JsonGeneratorService } from '../services/json-generator.service';
 import moment from 'moment/src/moment';
+import { JsonManagerService } from '../services/json-manager.service';
 declare var $: any;
 
 @Component({
@@ -31,15 +31,13 @@ export class GraphViewComponent implements OnInit {
     private authService: AuthService,
     private commitsService: CommitsService,
     private toastr: ToastrService,
-    private jsonGenerator: JsonGeneratorService
+    private jsonManager: JsonManagerService
   ) {}
 
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
   loading = false;
   unit = 'day';
-  file = null;
-  filename: string;
   corrections: Jalon[];
   sessions: Session[];
   reviews: Jalon[];
@@ -53,8 +51,6 @@ export class GraphViewComponent implements OnInit {
   showReviews = true;
   showOthers = true;
   dateAjoutJalon;
-  downloadJsonHref;
-  json;
 
   chartOptions = {
     responsive: true,
@@ -171,7 +167,7 @@ export class GraphViewComponent implements OnInit {
         this.loadGraph(text.startDate, text.endDate);
       }
     };
-    myReader.readAsText(this.file);
+    myReader.readAsText(this.jsonManager.file);
   }
 
   loadGraph(startDate?: Date, endDate?: Date) {
@@ -193,7 +189,7 @@ export class GraphViewComponent implements OnInit {
         error => {
           this.error(
             'Erreur Git',
-            'Un des dépôts Github n\'existe pas ou vous n\'avez pas les droits dessus.'
+            "Un des dépôts Github n'existe pas ou vous n'avez pas les droits dessus."
           );
           this.loading = false;
         }
@@ -371,8 +367,8 @@ export class GraphViewComponent implements OnInit {
 
   changeListener($event): void {
     if ($event.target.files[0]) {
-      this.file = $event.target.files[0];
-      this.filename = this.file.name;
+      this.jsonManager.file = $event.target.files[0];
+      this.jsonManager.filename = this.jsonManager.file.name;
       this.readFile();
     }
   }
@@ -410,25 +406,23 @@ export class GraphViewComponent implements OnInit {
         this.corrections = [];
       }
       this.corrections.push(jalon);
-      this.json = this.jsonGenerator.updateJSONWithCorrection(this.json, jalon);
+      this.jsonManager.updateJSONWithCorrection(jalon);
     } else if (form.value.jalon === 'review') {
       if (!this.reviews) {
         this.reviews = [];
       }
       this.reviews.push(jalon);
       console.log('this.reviews: ', this.reviews);
-      this.json = this.jsonGenerator.updateJSONWithReview(this.json, jalon);
+      this.jsonManager.updateJSONWithReview(jalon);
     } else if (form.value.jalon === 'other') {
       if (!this.others) {
         this.others = [];
       }
       this.others.push(jalon);
-      // this.json = this.jsonGenerator.updateJSONWithOther(this.json, jalon);
+      this.jsonManager.updateJSONWithOther(jalon);
     }
 
-    this.downloadJsonHref = this.jsonGenerator.generateDownloadUrlFromJson(
-      this.json
-    );
+    this.jsonManager.generateDownloadUrlFromJson();
 
     this.loadGraphData();
     this.dispose();
@@ -459,7 +453,7 @@ export class GraphViewComponent implements OnInit {
     try {
       return JSON.parse(str);
     } catch (e) {
-      this.error('Le fichier n\'est pas un fichier JSON valide.', e.message);
+      this.error("Le fichier n'est pas un fichier JSON valide.", e.message);
       return null;
     }
   }
@@ -497,7 +491,7 @@ export class GraphViewComponent implements OnInit {
     this.reviews = text.reviews
       ? text.reviews.map(data => Jalon.withJSON(data))
       : undefined;
-    this.json = this.jsonGenerator.generateJson(
+    this.jsonManager.generateJson(
       this.repositories,
       this.sessions,
       this.corrections,
@@ -505,9 +499,7 @@ export class GraphViewComponent implements OnInit {
       text.startDate,
       text.endDate
     );
-    this.downloadJsonHref = this.jsonGenerator.generateDownloadUrlFromJson(
-      this.json
-    );
+    this.jsonManager.generateDownloadUrlFromJson();
   }
 
   warning(titre, message) {

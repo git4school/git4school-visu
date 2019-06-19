@@ -1,21 +1,27 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Repository } from '../models/Repository.model';
-import { Session } from '../models/Session.model';
 import { Jalon } from '../models/Jalon.model';
+import { Session } from '../models/Session.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class JsonGeneratorService {
+export class JsonManagerService {
+  file = null;
+  filename: string;
+  downloadJsonHref;
+  json;
+
   constructor(private sanitizer: DomSanitizer) {}
 
-  generateDownloadUrlFromJson(json) {
-    const blob = new Blob([JSON.stringify(json)], {
+  generateDownloadUrlFromJson() {
+    console.log('this.json: ', this.json);
+    const blob = new Blob([JSON.stringify(this.json)], {
       type: 'application/octet-stream'
     });
 
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
+    this.downloadJsonHref = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
   }
@@ -59,24 +65,30 @@ export class JsonGeneratorService {
       json['endDate'] = endDate;
     }
 
-    return json;
+    this.json = json;
   }
 
-  updateJSONWithCorrection(json, correction) {
-    if (json.corrections) {
-      json.corrections.push(correction.json());
+  updateJSONWithCorrection(correction) {
+    if (this.json.corrections) {
+      this.json.corrections.push(correction.json());
     } else {
-      json.corrections = [correction];
+      this.json.corrections = [correction];
     }
-    return json;
   }
 
-  updateJSONWithReview(json, review) {
-    if (json.reviews) {
-      json.reviews.push(review.json());
+  updateJSONWithReview(review) {
+    if (this.json.reviews) {
+      this.json.reviews.push(review.json());
     } else {
-      json.reviews = [review];
+      this.json.reviews = [review];
     }
-    return json;
+  }
+
+  updateJSONWithOther(other) {
+    if (this.json.others) {
+      this.json.others.push(other.json());
+    } else {
+      this.json.others = [other];
+    }
   }
 }
