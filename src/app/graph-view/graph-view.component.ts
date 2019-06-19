@@ -165,6 +165,7 @@ export class GraphViewComponent implements OnInit {
       if (text /* TODO: && verifyJSON() */) {
         this.getDataFromFile(text);
         this.loadGraph(text.startDate, text.endDate);
+        console.log(this.others);
       }
     };
     myReader.readAsText(this.jsonManager.file);
@@ -491,11 +492,15 @@ export class GraphViewComponent implements OnInit {
     this.reviews = text.reviews
       ? text.reviews.map(data => Jalon.withJSON(data))
       : undefined;
+    this.others = text.others
+      ? text.others.map(data => Jalon.withJSON(data))
+      : undefined;
     this.jsonManager.generateJson(
       this.repositories,
       this.sessions,
       this.corrections,
       this.reviews,
+      this.others,
       text.startDate,
       text.endDate
     );

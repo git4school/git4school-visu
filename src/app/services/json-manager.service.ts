@@ -31,6 +31,7 @@ export class JsonManagerService {
     sessions?: Session[],
     corrections?: Jalon[],
     reviews?: Jalon[],
+    others?: Jalon[],
     startDate?: string,
     endDate?: string
   ) {
@@ -58,6 +59,9 @@ export class JsonManagerService {
     if (reviews) {
       json['reviews'] = reviews.map(review => review.json());
     }
+    if (others) {
+      json['others'] = others.map(other => other.json());
+    }
     if (startDate) {
       json['startDate'] = startDate;
     }
@@ -72,7 +76,7 @@ export class JsonManagerService {
     if (this.json.corrections) {
       this.json.corrections.push(correction.json());
     } else {
-      this.json.corrections = [correction];
+      this.json.corrections = [correction.json()];
     }
   }
 
@@ -80,7 +84,7 @@ export class JsonManagerService {
     if (this.json.reviews) {
       this.json.reviews.push(review.json());
     } else {
-      this.json.reviews = [review];
+      this.json.reviews = [review.json()];
     }
   }
 
@@ -88,7 +92,7 @@ export class JsonManagerService {
     if (this.json.others) {
       this.json.others.push(other.json());
     } else {
-      this.json.others = [other];
+      this.json.others = [other.json()];
     }
   }
 }
