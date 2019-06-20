@@ -6,8 +6,8 @@ export class Session {
     public endDate: Date,
     public tpGroup?: string
   ) {
-    this.startDate = moment(startDate, 'DD/MM/YYYY HH:mm').toDate();
-    this.endDate = moment(endDate, 'DD/MM/YYYY HH:mm').toDate();
+    this.startDate = moment(startDate).toDate();
+    this.endDate = moment(endDate).toDate();
   }
 
   static withJSON(json): Session {
@@ -16,8 +16,8 @@ export class Session {
 
   json() {
     let json = {
-      startDate: moment(this.startDate).format('DD/MM/YYYY HH:mm'),
-      endDate: moment(this.endDate).format('DD/MM/YYYY HH:mm')
+      startDate: moment(this.startDate).toISOString(),
+      endDate: moment(this.endDate).toISOString()
     };
     if (this.tpGroup) {
       json['tpGroup'] = this.tpGroup;

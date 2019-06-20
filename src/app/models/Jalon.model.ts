@@ -7,7 +7,7 @@ export class Jalon {
     public questions?: string[],
     public tpGroup?: string
   ) {
-    this.date = moment(date, 'DD/MM/YYYY HH:mm').toDate();
+    this.date = moment(date).toDate();
   }
 
   static withJSON(json): Jalon {
@@ -16,7 +16,7 @@ export class Jalon {
 
   json() {
     let json = {
-      date: moment(this.date).format('DD/MM/YYYY HH:mm'),
+      date: moment(this.date).toISOString(),
       label: this.label,
       questions: this.questions
     };
