@@ -4,7 +4,7 @@ export class Jalon {
   constructor(
     public date: Date,
     public label: string,
-    public questions: string[],
+    public questions?: string[],
     public tpGroup?: string
   ) {
     this.date = moment(date, 'DD/MM/YYYY HH:mm').toDate();

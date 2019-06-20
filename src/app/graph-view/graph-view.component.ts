@@ -29,8 +29,8 @@ export class GraphViewComponent implements OnInit {
     private authService: AuthService,
     private commitsService: CommitsService,
     private toastr: ToastrService,
-    private jsonManager: JsonManagerService,
-    private dataService: DataService
+    public jsonManager: JsonManagerService,
+    public dataService: DataService
   ) {}
 
   @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
@@ -39,7 +39,6 @@ export class GraphViewComponent implements OnInit {
   unit = 'day';
   chartData = [{ data: [] }];
   tpGroup: string;
-  tpGroups: Set<string>;
   showSessions = true;
   showCorrections = true;
   showReviews = true;
@@ -144,6 +143,7 @@ export class GraphViewComponent implements OnInit {
 
   ngOnInit(): void {
     $('.btn').tooltip();
+    $('#questions-tooltip').tooltip();
     $('.modal').modal({
       show: false
     });
@@ -180,11 +180,10 @@ export class GraphViewComponent implements OnInit {
       .getRepositories(this.dataService.repositories, startDate, endDate)
       .subscribe(
         repositories => {
-          this.tpGroups = new Set();
+          this.dataService.tpGroups = new Set();
           this.dataService.repositories = repositories;
           this.dataService.repositories.forEach(repository => {
-            this.tpGroups.add(repository.tpGroup);
-            console.log('repository.tpGroup: ', 'b' + repository.tpGroup + 'b');
+            this.dataService.tpGroups.add(repository.tpGroup);
           });
           this.loadGraphDataAndRefresh();
           this.loading = false;
@@ -402,11 +401,17 @@ export class GraphViewComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    const questions = form.value.questions
+      .split(',')
+      .map(question => question.trim());
+
     const jalon = new Jalon(
       new Date(form.value.date),
       form.value.label.trim(),
+      questions,
       form.value.tpGroup.trim()
     );
+    console.log(jalon);
 
     if (form.value.jalon === 'correction') {
       if (!this.dataService.corrections) {

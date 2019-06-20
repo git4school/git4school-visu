@@ -27,7 +27,7 @@
                 </button>
                 <select class="form-control ml-2 col-2" [disabled]="!dataService.repositories || loading"
                     [(ngModel)]="tpGroup" (change)="this.loadGraphDataAndRefresh()">
-                    <option *ngFor="let tpGroup of tpGroups" [value]="tpGroup">{{tpGroup}}</option>
+                    <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
                     <option value="">All</option>
                 </select>
                 <div class="dropdown ml-2">
@@ -107,6 +107,11 @@
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">TP group :</label>
                         <input type="text" class="form-control" id="message-text" name="tpGroup" ngModel>
+                    </div>
+                    <div class="form-group">
+                        <label id="questions-tooltip" for="questions" class="col-form-label" data-toggle="tooltip"
+                            title="Questions separated by commas">Questions :</label>
+                        <input type="text" class="form-control" id="questions" name="questions" ngModel>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="customRadio1" name="jalon" class="custom-control-input"

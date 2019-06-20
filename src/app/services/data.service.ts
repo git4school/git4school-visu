@@ -12,6 +12,7 @@ export class DataService {
   reviews: Jalon[];
   others: Jalon[];
   repositories: Repository[];
+  tpGroups: Set<string>;
 
   constructor() {}
 }
