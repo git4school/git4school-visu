@@ -47,7 +47,7 @@ export class Commit {
   updateIsCloture() {
     if (
       this.message.match(
-        /\b((close[sd]?)|(fix(es|ed)?)|(resolve[sd]?))\b:? *#[0-9]+/gi
+        /^\b((close[sd]?)|(fix(es|ed)?)|(resolve[sd]?))\b:? *\b.+\b/gi
       ) !== null
     ) {
       this.isCloture = true;
