@@ -21,7 +21,7 @@ export class CommitsService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getRepositoriesCommits(repoTab, startDate?: Date, dateFin?: Date) {
+  getRepositoriesCommits(repoTab, startDate?: String, dateFin?: String) {
     const tab = [];
     repoTab.forEach(repo => {
       tab.push(this.getCommits(repo, startDate, dateFin));
@@ -29,7 +29,7 @@ export class CommitsService {
     return forkJoin(tab);
   }
 
-  getRepositories(repoTab, startDate?: Date, dateFin?: Date) {
+  getRepositories(repoTab, startDate?: String, dateFin?: String) {
     const tab = [];
     repoTab.forEach(repo => {
       tab.push(this.getRepository(repo, startDate, dateFin));
@@ -37,7 +37,7 @@ export class CommitsService {
     return forkJoin(tab);
   }
 
-  getRepository(repo: Repository, startDate?: Date, dateFin?: Date) {
+  getRepository(repo: Repository, startDate?: String, dateFin?: String) {
     return new Observable(observer => {
       this.getRepositoryObservable(repo, startDate, dateFin).subscribe(
         response => {
@@ -67,18 +67,18 @@ export class CommitsService {
     });
   }
 
-  getRepositoryObservable(repo: Repository, startDate?: Date, dateFin?: Date) {
+  getRepositoryObservable(
+    repo: Repository,
+    startDate?: String,
+    dateFin?: String
+  ) {
     return forkJoin(
       this.getReadMe(repo),
       this.getCommits(repo, startDate, dateFin)
     ).pipe(catchError(error => of(error)));
   }
 
-  getCommits(
-    repo: Repository,
-    startDate?: Date,
-    dateFin?: Date
-  ): Observable<Commit[]> {
+  getCommits(repo: Repository, startDate?, dateFin?): Observable<Commit[]> {
     const repoHashURL = repo.url.split('/');
     let url =
       'https://api.github.com/repos/' +
@@ -87,11 +87,11 @@ export class CommitsService {
       repoHashURL[4] +
       '/commits?per_page=100';
     if (startDate) {
-      startDate = moment(startDate, 'DD/MM/YYYY HH:mm').toDate();
+      startDate = moment(startDate).toDate();
       url = url.concat('&since=' + startDate.toISOString());
     }
     if (dateFin) {
-      dateFin = moment(dateFin, 'DD/MM/YYYY HH:mm').toDate();
+      dateFin = moment(dateFin).toDate();
       url = url.concat('&until=' + dateFin.toISOString());
     }
     return this.http.get<Commit[]>(url, this.httpOptions).pipe(

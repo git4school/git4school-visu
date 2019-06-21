@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import moment from 'moment/src/moment';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 declare var $: any;
 
 @Component({
@@ -17,10 +18,12 @@ export class AuthComponent implements OnInit {
     public authService: AuthService,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private clipboardService: ClipboardService
+    private clipboardService: ClipboardService,
+    private http: HttpClient
   ) {}
 
   loading = false;
+  changelog;
   readMe = `# First IT practical
 
 ### NOM : DOE
@@ -32,6 +35,7 @@ export class AuthComponent implements OnInit {
 - [ ] 22`;
 
   ngOnInit() {
+    this.getChangelog();
     $('#copier').tooltip();
 
     if (!this.authService.isSignedIn('ngOnInit')) {
@@ -49,6 +53,16 @@ export class AuthComponent implements OnInit {
         }
       );
     }
+  }
+
+  getChangelog() {
+    this.http
+      .get(
+        'https://api.github.com/repos/F0urchette/test-angular/contents/CHANGELOG.md'
+      )
+      .subscribe(data => {
+        this.changelog = decodeURIComponent(escape(window.atob(data.content)));
+      });
   }
 
   onSignIn() {

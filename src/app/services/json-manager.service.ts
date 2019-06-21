@@ -16,8 +16,7 @@ export class JsonManagerService {
   constructor(private sanitizer: DomSanitizer) {}
 
   generateDownloadUrlFromJson() {
-    console.log('this.json: ', this.json);
-    const blob = new Blob([JSON.stringify(this.json)], {
+    const blob = new Blob([JSON.stringify(this.json, null, 2)], {
       type: 'application/octet-stream'
     });
 

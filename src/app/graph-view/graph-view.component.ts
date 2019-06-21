@@ -173,7 +173,7 @@ export class GraphViewComponent implements OnInit {
     myReader.readAsText(this.jsonManager.file);
   }
 
-  loadGraph(startDate?: Date, endDate?: Date) {
+  loadGraph(startDate?: String, endDate?: String) {
     this.loading = true;
 
     this.commitsService
