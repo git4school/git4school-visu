@@ -80,26 +80,30 @@ export class AuthComponent implements OnInit {
   copyJSON() {
     this.clipboardService.copyFromContent(`
 {
-  "startDate": "01/01/17 12:00",
-  "endDate": "01/04/18 12:00",
+  "startDate": "2017-01-22 12:00",
+  "endDate": "2018-04-23 12:00",
   "repositories": [
     { "url": "https://github.com/user/repository", "name": "First name LAST NAME", "tpGroup": "12" }
   ],
-  "seances": [
+  "sessions": [
     {
-      "startDate": "22/05/19 10:00",
-      "endDate": "22/05/19 11:00",
+      "startDate": "2019-05-22 10:00",
+      "endDate": "2019-05-22 11:00", 
       "tpGroup": "11"
     }
   ],
   "reviews": [
-    { "date": "07/03/19 15:40", "label": "Review 1", "tpGroup": "21" }
+    { "date": "2019-03-15 15:40", "label": "Review 1", "tpGroup": "21", "questions": ["1.1", "1.2"] }
   ],
   "corrections": [
-    { "date": "07/03/19 15:40", "label": "Correction 1", "tpGroup": "22" }
+    { "date": "2019-03-17 15:40", "label": "Correction 1", "tpGroup": "22", "questions": ["1.1", "1.2"] }
+  ],
+  "others": [
+    {"date": "2019-03-19 15:40", "label": "Other 1", "tpGroup": "12", "questions": [] }
   ]
 }`);
   }
+
   copyReadMe() {
     this.clipboardService.copyFromContent(this.readMe);
   }

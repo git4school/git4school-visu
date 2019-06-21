@@ -316,21 +316,23 @@ export class GraphViewComponent implements OnInit {
         repository => !this.tpGroup || repository.tpGroup === this.tpGroup
       )
       .forEach(repository => {
-        // commits.push(repository.commits.slice());
         const data = [];
         const pointStyle = [];
-        const reviews = this.dataService.reviews.filter(
-          review => review.tpGroup === repository.tpGroup
-        );
-        const corrections = this.dataService.corrections.filter(
-          correction => correction.tpGroup === repository.tpGroup
-        );
+        const reviews = !this.dataService.reviews
+          ? null
+          : this.dataService.reviews.filter(
+              review => review.tpGroup === repository.tpGroup
+            );
+        const corrections = !this.dataService.corrections
+          ? null
+          : this.dataService.corrections.filter(
+              correction => correction.tpGroup === repository.tpGroup
+            );
         const pointBackgroundColor = [];
         labels.push(repository.name);
         repository.commits.forEach(commit => {
           commit.updateIsCloture();
           commit.updateColor(corrections, reviews);
-          // commit = this.updateCommit(commit);
 
           data.push({
             x: commit.commitDate,
@@ -349,22 +351,6 @@ export class GraphViewComponent implements OnInit {
     this.chartData = chartData;
     this.chartOptions.scales.yAxes[0].labels = labels;
   }
-
-  // updateCommit(commit: Commit) {
-  //   // if (this.dataService.sessions) {
-  //   //   for (
-  //   //     let i = 0;
-  //   //     i < this.dataService.sessions.length &&
-  //   //     !commit.updateIsEnSeance(
-  //   //       this.dataService.sessions[i].startDate,
-  //   //       this.dataService.sessions[i].endDate
-  //   //     );
-  //   //     i++
-  //   //   ) {}
-  //   // }
-  //   commit.updateIsCloture();
-  //   return commit;
-  // }
 
   refreshGraph() {
     this.myChart.chart.destroy();
