@@ -104,9 +104,10 @@
       <div id="collapseCHANGELOG" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
         <div class="card-body p-2">
           <div class="m-3">
-            <markdown ngPreserveWhitespaces *ngIf="changelog">
+            <!-- <markdown ngPreserveWhitespaces *ngIf="changelog">
               {{changelog}}
-            </markdown>
+            </markdown> -->
+            <markdown class="variable-binding" [data]="changelog"></markdown>
           </div>
         </div>
       </div>
