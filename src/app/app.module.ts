@@ -34,6 +34,8 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { MarkdownModule } from 'ngx-markdown';
 import { JsonManagerService } from './services/json-manager.service';
 import { DataService } from './services/data.service';
+import { StudentsCommitsViewComponent } from './students-commits-view/students-commits-view.component';
+import { QuestionsCompletionViewComponent } from './questions-completion-view/questions-completion-view.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
@@ -65,6 +67,16 @@ const appRoutes: Routes = [
   { path: 'users', component: UserListComponent },
   { path: 'new-user', canActivate: [AuthGuard], component: NewUserComponent },
   { path: 'graph', canActivate: [AuthGuard], component: GraphViewComponent },
+  {
+    path: 'students-commits-view',
+    canActivate: [AuthGuard],
+    component: StudentsCommitsViewComponent
+  },
+  {
+    path: 'questions-completion-view',
+    canActivate: [AuthGuard],
+    component: QuestionsCompletionViewComponent
+  },
   { path: 'commits', canActivate: [AuthGuard], component: CommitListComponent },
   { path: '**', redirectTo: 'not-found' }
 ];
@@ -83,7 +95,9 @@ const appRoutes: Routes = [
     NewUserComponent,
     GraphViewComponent,
     CommitViewComponent,
-    CommitListComponent
+    CommitListComponent,
+    StudentsCommitsViewComponent,
+    QuestionsCompletionViewComponent
   ],
   imports: [
     BrowserModule,
