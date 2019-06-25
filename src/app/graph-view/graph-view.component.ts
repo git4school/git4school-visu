@@ -429,11 +429,14 @@ export class GraphViewComponent implements OnInit {
 
   changeUnit() {
     console.log(this.myChart.chart.options);
-    if (this.myChart.chart.options.scales.xAxes[0].time.unit === 'week') {
-      this.myChart.chart.options.scales.xAxes[0].time.unit = 'day';
-    } else {
-      this.myChart.chart.options.scales.xAxes[0].time.unit = 'week';
+    if (this.unit === 'week') {
+      this.unit = 'day';
+    } else if (this.unit === 'day') {
+      this.unit = 'hour';
+    } else if (this.unit === 'hour') {
+      this.unit = 'week';
     }
+    this.myChart.chart.options.scales.xAxes[0].time.unit = this.unit;
     // this.refreshGraph();
     this.myChart.chart.update();
   }

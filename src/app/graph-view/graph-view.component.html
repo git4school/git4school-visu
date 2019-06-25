@@ -19,11 +19,9 @@
                 <button class="btn btn-outline-secondary ml-2" (click)="changeUnit()" data-toggle="tooltip"
                     title="Change the time scale" [disabled]="!dataService.repositories || loading"
                     data-trigger="hover">
-                    <i [ngClass]="
-              chartOptions.scales.xAxes[0].time.unit == 'day'
-                ? 'fas fa-calendar-day'
-                : 'fas fa-calendar-week'
-            "></i>
+                    <i class="fas" [ngClass]="{
+                        'fa-calendar-week': unit == 'week','fa-clock': unit == 'hour','fa-calendar-day': unit == 'day'
+                    }"></i>
                 </button>
                 <select class="form-control ml-2 col-2" [disabled]="!dataService.repositories || loading"
                     [(ngModel)]="tpGroup" (change)="this.loadGraphDataAndRefresh()">
