@@ -150,9 +150,6 @@ export class GraphViewComponent implements OnInit {
     $('.modal').modal({
       show: false
     });
-    $('.dropdown-menu').mouseleave(function() {
-      $('.dropdown-toggle').dropdown('toggle');
-    });
     if (this.dataService.repositories) {
       this.loadGraphData();
     }
@@ -376,7 +373,7 @@ export class GraphViewComponent implements OnInit {
       window.open(data.commit.url, '_blank');
     } else {
       if (event.event.shiftKey) {
-        const xAxis = this.chartOptions.scales['x-axis-0'];
+        const xAxis = this.myChart.chart.scales['x-axis-0'];
         const x = event.event.offsetX;
         const index = xAxis.getValueForPixel(x);
         this.dateAjoutJalon = moment(index.toDate()).format('YYYY-MM-DDTHH:mm');
@@ -529,7 +526,17 @@ export class GraphViewComponent implements OnInit {
 
   changeZoom() {
     var zoomOptions = this.myChart.chart.options.plugins.zoom.zoom;
-    zoomOptions.drag = !zoomOptions.drag;
+    var panOptions = this.myChart.chart.options.plugins.zoom.pan;
+
+    if (zoomOptions.drag) {
+      // drag
+      zoomOptions.drag = false;
+      panOptions.enabled = true;
+    } else {
+      //wheel
+      zoomOptions.drag = true;
+      panOptions.enabled = false;
+    }
     this.myChart.chart.update();
   }
 
