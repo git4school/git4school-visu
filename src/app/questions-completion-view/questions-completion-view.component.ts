@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import * as Chart from 'chart.js';
+import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-questions-completion-view',
@@ -39,25 +41,42 @@ export class QuestionsCompletionViewComponent implements OnInit {
           }
         }
       ]
+    },
+    plugins: {
+      datalabels: {
+        clamp: true,
+        clip: 'auto',
+        color: 'white',
+        display: function(context) {
+          return context.dataset.data[context.dataIndex] > 3;
+        },
+        font: {
+          weight: 'bold'
+        },
+        backgroundColor: function(context) {
+          return context.dataset.backgroundColor;
+        },
+        borderRadius: 4
+      }
     }
   };
 
   chartData = [
     {
       label: 'Before review',
-      backgroundColor: 'green',
+      backgroundColor: 'rgb(53, 198, 146)', // green
       borderColor: 'grey',
       data: [50, 40, 38, 18]
     },
     {
       label: 'Between review and correction',
-      backgroundColor: 'orange',
+      backgroundColor: 'rgb(255, 127, 74)', // orange
       borderColor: 'grey',
       data: [25, 30, 19, 0]
     },
     {
       label: 'After correction',
-      backgroundColor: 'red',
+      backgroundColor: 'rgb(203, 91, 68)', // red
       borderColor: 'grey',
       data: [17, 15, 0, 0]
     }
@@ -65,5 +84,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    Chart.pluginService.register(ChartDataLabels);
+  }
 }

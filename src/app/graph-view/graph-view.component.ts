@@ -17,6 +17,8 @@ import { NgForm } from '@angular/forms';
 import moment from 'moment/src/moment';
 import { JsonManagerService } from '../services/json-manager.service';
 import { DataService } from '../services/data.service';
+import * as Chart from 'chart.js';
+import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 declare var $: any;
 
 @Component({
@@ -33,7 +35,7 @@ export class GraphViewComponent implements OnInit {
     public dataService: DataService
   ) {}
 
-  @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
+  @ViewChild(BaseChartDirective) myChart;
 
   loading = false;
   unit = 'day';
@@ -142,6 +144,7 @@ export class GraphViewComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    Chart.pluginService.unregister(ChartDataLabels);
     $('.btn').tooltip();
     $('#questions-tooltip').tooltip();
     $('.modal').modal({
@@ -331,6 +334,7 @@ export class GraphViewComponent implements OnInit {
         const pointBackgroundColor = [];
         labels.push(repository.name);
         repository.commits.forEach(commit => {
+          // commit.updateQuestion();
           commit.updateIsCloture();
           commit.updateColor(corrections, reviews);
 

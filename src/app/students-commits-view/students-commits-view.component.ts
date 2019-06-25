@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import * as Chart from 'chart.js';
+import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-students-commits-view',
@@ -51,6 +53,39 @@ export class StudentsCommitsViewComponent implements OnInit {
           }
         }
       ]
+    },
+    plugins: {
+      annotation: {
+        annotations: [
+          {
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'B',
+            value: 28.25,
+            borderWidth: 3,
+            borderColor: 'rgb(75, 0, 0)',
+            label: {
+              enabled: true,
+              content: 'Average'
+            }
+          }
+        ]
+      },
+      datalabels: {
+        clamp: true,
+        clip: true,
+        color: 'white',
+        display: function(context) {
+          return context.dataset.data[context.dataIndex] >= 5;
+        },
+        font: {
+          weight: 'bold'
+        },
+        backgroundColor: function(context) {
+          return context.dataset.backgroundColor;
+        },
+        borderRadius: 4
+      }
     }
   };
 
@@ -61,14 +96,15 @@ export class StudentsCommitsViewComponent implements OnInit {
       type: 'line',
       fill: false,
       borderWidth: 2,
-      borderColor: 'lightblue',
+      borderColor: 'rgb(194, 224, 249)', // light blue
+      backgroundColor: 'rgb(176, 45, 116)', // purple
       data: [25, 21, 45, 22]
     },
     {
       label: 'Intermediate commit',
       yAxisID: 'A',
       type: 'bar',
-      backgroundColor: 'black',
+      backgroundColor: 'rgb(77, 77, 77)', // black
       borderColor: 'grey',
       data: [10, 3, 25, 1]
     },
@@ -76,7 +112,7 @@ export class StudentsCommitsViewComponent implements OnInit {
       label: 'Before review',
       yAxisID: 'A',
       type: 'bar',
-      backgroundColor: 'green',
+      backgroundColor: 'rgb(53, 198, 146)', // green
       borderColor: 'grey',
       data: [50, 20, 15, 80]
     },
@@ -84,7 +120,7 @@ export class StudentsCommitsViewComponent implements OnInit {
       label: 'Between review and correction',
       yAxisID: 'A',
       type: 'bar',
-      backgroundColor: 'orange',
+      backgroundColor: 'rgb(255, 127, 74)', // orange
       borderColor: 'grey',
       data: [30, 20, 35, 19]
     },
@@ -92,7 +128,7 @@ export class StudentsCommitsViewComponent implements OnInit {
       label: 'After correction',
       yAxisID: 'A',
       type: 'bar',
-      backgroundColor: 'red',
+      backgroundColor: 'rgb(203, 91, 68)', // red
       borderColor: 'grey',
       data: [10, 57, 25, 0]
     }
@@ -100,5 +136,7 @@ export class StudentsCommitsViewComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    Chart.pluginService.register(ChartDataLabels);
+  }
 }

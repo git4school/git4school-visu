@@ -8,7 +8,8 @@ export class Commit {
     public url: string,
     public isEnSeance = false,
     public isCloture = false,
-    public color = 'green'
+    public question?: string,
+    public color = 'rgb(53, 198, 146)' // green
   ) {
     this.commitDate = new Date(commitDate);
   }
@@ -19,9 +20,18 @@ export class Commit {
     commitDate: Date,
     url: string,
     isEnSeance?: boolean,
-    isCloture?: boolean
+    isCloture?: boolean,
+    question?: string
   ): Commit {
-    return new Commit(message, author, commitDate, url, isEnSeance, isCloture);
+    return new Commit(
+      message,
+      author,
+      commitDate,
+      url,
+      isEnSeance,
+      isCloture,
+      question
+    );
   }
 
   static withJSON(json): Commit {
@@ -56,6 +66,12 @@ export class Commit {
     return false;
   }
 
+  updateQuestion(questions: String[]) {
+    this.question = this.message.split(' ').find(element => {
+      return questions.includes(element);
+    });
+  }
+
   updateColor(corrections: Jalon[], reviews: Jalon[]) {
     // if (!this.isCloture) {
     //   this.color = 'black';
@@ -72,7 +88,7 @@ export class Commit {
                 .join('|')
             );
             if (regex.test(this.message)) {
-              this.color = 'orange';
+              this.color = 'rgb(255, 127, 74)'; // orange
             }
           }
         });
@@ -90,7 +106,7 @@ export class Commit {
                 .join('|')
             );
             if (regex.test(this.message)) {
-              this.color = 'red';
+              this.color = 'rgb(203, 91, 68)'; // red
             }
           }
         });

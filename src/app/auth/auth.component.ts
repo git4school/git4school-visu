@@ -61,7 +61,9 @@ export class AuthComponent implements OnInit {
         'https://api.github.com/repos/F0urchette/test-angular/contents/CHANGELOG.md'
       )
       .subscribe(data => {
-        this.changelog = decodeURIComponent(escape(window.atob(data.content)));
+        this.changelog = decodeURIComponent(
+          escape(window.atob(data['content']))
+        );
       });
   }
 
