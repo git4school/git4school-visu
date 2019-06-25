@@ -68,6 +68,9 @@
                 <button class="btn btn-warning ml-2" [disabled]="!dataService.repositories || loading"
                     (click)="resetZoom()" data-toggle="tooltip" title="Or press space bar" data-trigger="hover">Reset
                     zoom</button>
+                <button class="btn btn-secondary ml-2" [disabled]="!dataService.repositories || loading"
+                    (click)="changeZoom()">Change
+                    zoom mode</button>
                 <a class="btn btn-danger ml-2" title="Download JSON" [href]="jsonManager.downloadJsonHref"
                     download="download.json" [hidden]="!dataService.repositories || loading"><i class="fas fa-download"
                         data-toggle="tooltip" data-trigger="hover"></i></a>

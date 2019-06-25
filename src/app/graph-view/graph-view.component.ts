@@ -376,7 +376,7 @@ export class GraphViewComponent implements OnInit {
       window.open(data.commit.url, '_blank');
     } else {
       if (event.event.shiftKey) {
-        const xAxis = this.myChart.chart.scales['x-axis-0'];
+        const xAxis = this.chartOptions.scales['x-axis-0'];
         const x = event.event.offsetX;
         const index = xAxis.getValueForPixel(x);
         this.dateAjoutJalon = moment(index.toDate()).format('YYYY-MM-DDTHH:mm');
@@ -431,12 +431,14 @@ export class GraphViewComponent implements OnInit {
   }
 
   changeUnit() {
-    if (this.chartOptions.scales.xAxes[0].time.unit === 'week') {
-      this.chartOptions.scales.xAxes[0].time.unit = 'day';
+    console.log(this.myChart.chart.options);
+    if (this.myChart.chart.options.scales.xAxes[0].time.unit === 'week') {
+      this.myChart.chart.options.scales.xAxes[0].time.unit = 'day';
     } else {
-      this.chartOptions.scales.xAxes[0].time.unit = 'week';
+      this.myChart.chart.options.scales.xAxes[0].time.unit = 'week';
     }
-    this.refreshGraph();
+    // this.refreshGraph();
+    this.myChart.chart.update();
   }
 
   verifyJSON() {
@@ -523,6 +525,12 @@ export class GraphViewComponent implements OnInit {
 
   resetZoom() {
     this.myChart.chart.resetZoom();
+  }
+
+  changeZoom() {
+    var zoomOptions = this.myChart.chart.options.plugins.zoom.zoom;
+    zoomOptions.drag = !zoomOptions.drag;
+    this.myChart.chart.update();
   }
 
   dispose() {
