@@ -83,9 +83,11 @@ export class Commit {
         .forEach(review => {
           if (review.questions) {
             let regex = new RegExp(
-              review.questions
-                .map(question => question.replace('.', '\\.'))
-                .join('|')
+              '(' +
+                review.questions
+                  .map(question => question.replace('.', '\\.'))
+                  .join('|') +
+                ')\\b'
             );
             if (regex.test(this.message)) {
               this.color = 'rgb(255, 127, 74)'; // orange
@@ -101,9 +103,11 @@ export class Commit {
         .forEach(correction => {
           if (correction.questions) {
             let regex = new RegExp(
-              correction.questions
-                .map(question => question.replace('.', '\\.'))
-                .join('|')
+              '(' +
+                correction.questions
+                  .map(question => question.replace('.', '\\.'))
+                  .join('|') +
+                ')\\b'
             );
             if (regex.test(this.message)) {
               this.color = 'rgb(203, 91, 68)'; // red
