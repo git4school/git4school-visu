@@ -81,8 +81,6 @@ export class GraphViewComponent implements OnInit {
       line: {
         fill: false,
         borderWidth: 2,
-        lineBackgroundColor: 'rgba(76, 76, 76, 1)',
-        borderColor: 'rgba(76, 76, 76, 1)',
         tension: 0
       },
       point: {
@@ -329,6 +327,7 @@ export class GraphViewComponent implements OnInit {
               correction => correction.tpGroup === repository.tpGroup
             );
         const pointBackgroundColor = [];
+        const borderColor = 'rgba(77, 77, 77, 0.5)';
         labels.push(repository.name);
         repository.commits.forEach(commit => {
           // commit.updateQuestion();
@@ -346,7 +345,8 @@ export class GraphViewComponent implements OnInit {
         chartData.push({
           data,
           pointStyle,
-          pointBackgroundColor
+          pointBackgroundColor,
+          borderColor
         });
       });
     this.chartData = chartData;

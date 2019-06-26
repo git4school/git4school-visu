@@ -81,6 +81,26 @@
         [legend]="false" (chartClick)="onChartClick($event)" (chartHover)="onChartHover($event)">
     </canvas>
 </div>
+<div class="card">
+    <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">Legend</h6>
+        <p class="card-text">
+            <i class="far fa-circle fa-fw"></i> Commit
+            <i class="far fa-square fa-fw ml-3 mr-1" data-fa-transform="rotate-45"></i> Closing commit<br>
+            <i class="fas fa-circle fa-fw" style="color:rgb(77, 77, 77)"></i> Intermediate commit
+            <i class="fas fa-circle fa-fw ml-3" style="color:rgb(53, 198, 146)"></i> Before review
+            <i class="fas fa-circle fa-fw ml-3" style="color:rgb(255, 127, 74)"></i> Between review and correction
+            <i class="fas fa-circle fa-fw ml-3" style="color:rgb(203, 91, 68)"></i> After correction<br>
+            <i class="fas fa-minus" data-fa-transform="rotate-90" style="color:blue"></i> Review
+            <i class="fas fa-minus ml-3" data-fa-transform="rotate-90" style="color:red"></i> Correction
+            <i class="fas fa-minus ml-3" data-fa-transform="rotate-90"></i> Other<br>
+            <span class="fa-layers fa-fw">
+                <i class="fas fa-square" style="color:rgba(33, 150, 243, 0.15)"></i>
+                <i class="far fa-square" style="color:rgba(79, 195, 247,1.0)"></i>
+            </span> Session
+        </p>
+    </div>
+</div>
 
 
 
