@@ -8,6 +8,7 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
   styleUrls: ['./students-commits-view.component.scss']
 })
 export class StudentsCommitsViewComponent implements OnInit {
+  today: Date;
   chartLabels = ['Sam Soule', 'Sophie Stiqué', 'Otto Mobil', 'Emma Caréna'];
   chartOptions = {
     responsive: true,
@@ -138,5 +139,6 @@ export class StudentsCommitsViewComponent implements OnInit {
 
   ngOnInit() {
     Chart.pluginService.register(ChartDataLabels);
+    this.today = new Date();
   }
 }

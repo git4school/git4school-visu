@@ -8,6 +8,7 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
   styleUrls: ['./questions-completion-view.component.scss']
 })
 export class QuestionsCompletionViewComponent implements OnInit {
+  today: Date;
   chartLabels = ['1', '2.1', '2.1', '3'];
   chartOptions = {
     responsive: true,
@@ -86,5 +87,6 @@ export class QuestionsCompletionViewComponent implements OnInit {
 
   ngOnInit() {
     Chart.pluginService.register(ChartDataLabels);
+    this.today = new Date();
   }
 }
