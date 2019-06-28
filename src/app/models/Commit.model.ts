@@ -77,20 +77,21 @@ export class Commit {
     this.updateIsCloture();
     if (reviews) {
       reviews.forEach(review => {
-        this.question = this.getQuestion(review.questions);
-        if (this.question) {
+        const question = this.getQuestion(review.questions);
+        if (question) {
           if (this.commitDate.getTime() > review.date.getTime()) {
             this.color = 'rgb(255, 127, 74)'; // orange
           } else {
             this.color = 'rgb(53, 198, 146)'; // green
           }
+          this.question = question;
         }
       });
     }
     if (corrections) {
       corrections.forEach(correction => {
         const question = this.getQuestion(correction.questions);
-        if (this.question) {
+        if (question) {
           if (this.commitDate.getTime() > correction.date.getTime()) {
             this.color = 'rgb(203, 91, 68)'; // red
           } else if (this.color === 'rgb(77, 77, 77)') {
@@ -101,6 +102,16 @@ export class Commit {
         }
       });
     }
+    console.log(
+      `{
+  ` +
+        this.message +
+        `
+  ` +
+        this.question +
+        `
+}`
+    );
   }
 
   updateColor(reviews: Jalon[], corrections: Jalon[]) {
