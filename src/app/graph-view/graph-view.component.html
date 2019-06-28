@@ -73,8 +73,12 @@
                     </div>
                 </div>
                 <button class="btn btn-warning ml-2" [disabled]="!dataService.repositories || loading"
-                    (click)="resetZoom()" data-toggle="tooltip" title="Or press space bar" data-trigger="hover">Reset
-                    zoom</button>
+                    (click)="resetZoom()" data-toggle="tooltip" title="Reset zoom (space bar)" data-trigger="hover">
+                    <span class="fa-layers fa-fw">
+                        <i class="fas fa-search"></i>
+                        <i class="fas fa-times" data-fa-transform="shrink-8 up-1.6 left-1.4"></i>
+                    </span>
+                </button>
                 <button class="btn btn-secondary ml-2" [disabled]="!dataService.repositories || loading"
                     (click)="changeZoom()">Change
                     zoom mode</button>
