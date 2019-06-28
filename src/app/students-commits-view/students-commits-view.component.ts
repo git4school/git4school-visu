@@ -55,23 +55,26 @@ export class StudentsCommitsViewComponent implements OnInit {
         }
       ]
     },
-    plugins: {
-      annotation: {
-        annotations: [
-          {
-            type: 'line',
-            mode: 'horizontal',
-            scaleID: 'B',
-            value: 28.25,
-            borderWidth: 3,
-            borderColor: 'rgb(75, 0, 0)',
-            label: {
-              enabled: true,
-              content: 'Average'
-            }
+    annotation: {
+      annotations: [
+        {
+          drawTime: 'afterDatasetsDraw',
+          id: 'hline',
+          type: 'line',
+          mode: 'horizontal',
+          scaleID: 'y-axis-0',
+          value: 28.25,
+          borderColor: 'black',
+          borderWidth: 5,
+          label: {
+            backgroundColor: 'red',
+            content: 'Test Label',
+            enabled: true
           }
-        ]
-      },
+        }
+      ]
+    },
+    plugins: {
       datalabels: {
         clamp: true,
         clip: true,

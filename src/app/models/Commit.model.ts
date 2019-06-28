@@ -9,7 +9,7 @@ export class Commit {
     public isEnSeance = false,
     public isCloture = false,
     public question?: string,
-    public color = 'rgb(53, 198, 146)' // green
+    public color = 'rgb(77, 77, 77)' // black
   ) {
     this.commitDate = new Date(commitDate);
   }
@@ -66,13 +66,44 @@ export class Commit {
     return false;
   }
 
-  updateQuestion(questions: String[]) {
-    this.question = this.message.split(' ').find(element => {
+  getQuestion(questions: String[]) {
+    // TO DO: creer le set de toutes les questions, marquer la dernière question du repo
+    return this.message.split(' ').find(element => {
       return questions.includes(element);
     });
   }
 
-  updateColor(corrections: Jalon[], reviews: Jalon[]) {
+  updateMetadata(reviews: Jalon[], corrections: Jalon[]) {
+    this.updateIsCloture();
+    if (reviews) {
+      reviews.forEach(review => {
+        this.question = this.getQuestion(review.questions);
+        if (this.question) {
+          if (this.commitDate.getTime() > review.date.getTime()) {
+            this.color = 'rgb(255, 127, 74)'; // orange
+          } else {
+            this.color = 'rgb(53, 198, 146)'; // green
+          }
+        }
+      });
+    }
+    if (corrections) {
+      corrections.forEach(correction => {
+        const question = this.getQuestion(correction.questions);
+        if (this.question) {
+          if (this.commitDate.getTime() > correction.date.getTime()) {
+            this.color = 'rgb(203, 91, 68)'; // red
+          } else if (this.color === 'rgb(77, 77, 77)') {
+            // if color is black
+            this.color = 'rgb(53, 198, 146)'; // green
+          }
+          this.question = question;
+        }
+      });
+    }
+  }
+
+  updateColor(reviews: Jalon[], corrections: Jalon[]) {
     // if (!this.isCloture) {
     //   this.color = 'black';
     //   return;
