@@ -1,3 +1,12 @@
+<form (ngSubmit)="searchSubmit(searchForm)" #searchForm="ngForm">
+    <div class="input-group pt-3 pl-3">
+        <input type="text" class="form-control" placeholder="Search question : 1.1, 1.2, ..."
+            aria-label="Search question" aria-describedby="search-submit" name="search" ngModel>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="search-submit" type="submit">Search</button>
+        </div>
+    </div>
+</form>
 <div class="container-fluid">
     <div class="row">
         <div class="p-3">

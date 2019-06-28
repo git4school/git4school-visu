@@ -38,6 +38,7 @@ export class GraphViewComponent implements OnInit {
   @ViewChild(BaseChartDirective) myChart;
 
   loading = false;
+  searchFilter: string[];
   unit = 'day';
   chartData = [{ data: [] }];
   tpGroup: string;
@@ -245,7 +246,14 @@ export class GraphViewComponent implements OnInit {
 
   loadReviews() {
     this.dataService.reviews
-      .filter(review => !this.tpGroup || review.tpGroup === this.tpGroup)
+      .filter(
+        review =>
+          (!this.tpGroup || review.tpGroup === this.tpGroup) &&
+          (!this.searchFilter ||
+            this.searchFilter.filter(question =>
+              review.questions.includes(question)
+            ).length)
+      )
       .forEach((review, index) => {
         this.chartOptions.annotation.annotations.push({
           type: 'line',
@@ -266,7 +274,12 @@ export class GraphViewComponent implements OnInit {
   loadCorrections() {
     this.dataService.corrections
       .filter(
-        correction => !this.tpGroup || correction.tpGroup === this.tpGroup
+        correction =>
+          (!this.tpGroup || correction.tpGroup === this.tpGroup) &&
+          (!this.searchFilter ||
+            this.searchFilter.filter(question =>
+              correction.questions.includes(question)
+            ).length)
       )
       .forEach((correction, index) => {
         this.chartOptions.annotation.annotations.push({
@@ -334,14 +347,19 @@ export class GraphViewComponent implements OnInit {
           commit.updateMetadata(reviews, corrections);
           // commit.updateIsCloture();
           // commit.updateColor(corrections, reviews);
-
-          data.push({
-            x: commit.commitDate,
-            y: repository.name,
-            commit
-          });
-          pointStyle.push(this.getPointStyle(commit));
-          pointBackgroundColor.push(commit.color);
+          console.log(commit.question);
+          if (
+            !this.searchFilter ||
+            this.searchFilter.includes(commit.question)
+          ) {
+            data.push({
+              x: commit.commitDate,
+              y: repository.name,
+              commit
+            });
+            pointStyle.push(this.getPointStyle(commit));
+            pointBackgroundColor.push(commit.color);
+          }
         });
         chartData.push({
           data,
@@ -546,5 +564,13 @@ export class GraphViewComponent implements OnInit {
 
   dispose() {
     $('#exampleModal').modal('hide');
+  }
+
+  searchSubmit(form: NgForm) {
+    console.log(form);
+    this.searchFilter = form.value.search
+      .split(',')
+      .map(question => question.trim());
+    this.loadGraphDataAndRefresh();
   }
 }
