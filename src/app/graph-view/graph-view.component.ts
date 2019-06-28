@@ -102,7 +102,8 @@ export class GraphViewComponent implements OnInit {
             tooltipFormat: 'DD/MM/YY HH:mm',
             displayFormats: {
               day: 'DD/MM/YY',
-              week: 'DD/MM/YY'
+              week: 'DD/MM/YY',
+              hour: 'kk:mm'
             }
           }
         }
