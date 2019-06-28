@@ -40,6 +40,7 @@ export class GraphViewComponent implements OnInit {
   loading = false;
   searchFilter: string[];
   unit = 'day';
+  drag = true;
   chartData = [{ data: [] }];
   tpGroup: string;
   showSessions = true;
@@ -553,10 +554,12 @@ export class GraphViewComponent implements OnInit {
     if (zoomOptions.drag) {
       // drag
       zoomOptions.drag = false;
+      this.drag = false;
       panOptions.enabled = true;
     } else {
       //wheel
       zoomOptions.drag = true;
+      this.drag = true;
       panOptions.enabled = false;
     }
     this.myChart.chart.update();

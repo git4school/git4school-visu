@@ -79,9 +79,22 @@
                         <i class="fas fa-times" data-fa-transform="shrink-8 up-1.6 left-1.4"></i>
                     </span>
                 </button>
-                <button class="btn btn-secondary ml-2" [disabled]="!dataService.repositories || loading"
-                    (click)="changeZoom()">Change
-                    zoom mode</button>
+                <button class="btn btn-secondary ml-2" data-toggle="tooltip"
+                    title="Change zoom mode (drag/wheel and pan)" data-trigger="hover"
+                    [disabled]="!dataService.repositories || loading" (click)="changeZoom()">
+                    <div *ngIf="drag">
+                        <span class="fa-layers fa-fw">
+                            <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>
+                            <i class="far fa-square" data-fa-transform="shrink-2 up-6 left-5"></i>
+                        </span>
+                    </div>
+                    <div *ngIf="!drag">
+                        <span class="fa-layers fa-fw">
+                            <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>
+                            <i class="fas fa-arrows-alt-h" data-fa-transform="up-6 left-5"></i>
+                        </span>
+                    </div>
+                </button>
                 <a class="btn btn-danger ml-2" title="Download JSON" [href]="jsonManager.downloadJsonHref"
                     download="download.json" [hidden]="!dataService.repositories || loading"><i class="fas fa-download"
                         data-toggle="tooltip" data-trigger="hover"></i></a>
