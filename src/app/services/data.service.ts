@@ -13,6 +13,7 @@ export class DataService {
   others: Jalon[];
   repositories: Repository[];
   tpGroups: Set<string>;
+  lastUpdateDate: Date;
 
   constructor() {}
 }

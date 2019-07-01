@@ -188,6 +188,7 @@ export class GraphViewComponent implements OnInit {
           });
           this.loadGraphDataAndRefresh();
           this.loading = false;
+          this.dataService.lastUpdateDate = new Date();
         },
         error => {
           this.error(

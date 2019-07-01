@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chart from 'chart.js';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-students-commits-view',
@@ -138,10 +139,10 @@ export class StudentsCommitsViewComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
     Chart.pluginService.register(ChartDataLabels);
-    this.today = new Date();
+    this.today = this.dataService.lastUpdateDate;
   }
 }
