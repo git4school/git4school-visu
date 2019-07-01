@@ -68,6 +68,9 @@ export class Commit {
 
   getQuestion(questions: String[]) {
     // TO DO: creer le set de toutes les questions, marquer la dernière question du repo
+    if (!questions) {
+      return null;
+    }
     return this.message.split(' ').find(element => {
       return questions.includes(element);
     });
@@ -102,16 +105,16 @@ export class Commit {
         }
       });
     }
-    console.log(
-      `{
-  ` +
-        this.message +
-        `
-  ` +
-        this.question +
-        `
-}`
-    );
+    //     console.log(
+    //       `{
+    //   ` +
+    //         this.message +
+    //         `
+    //   ` +
+    //         this.question +
+    //         `
+    // }`
+    //     );
   }
 
   updateColor(reviews: Jalon[], corrections: Jalon[]) {

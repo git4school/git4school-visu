@@ -38,7 +38,7 @@ export class GraphViewComponent implements OnInit {
   @ViewChild(BaseChartDirective) myChart;
 
   loading = false;
-  searchFilter: string[];
+  searchFilter: string[] = [];
   unit = 'day';
   drag = true;
   chartData = [{ data: [] }];
@@ -168,7 +168,7 @@ export class GraphViewComponent implements OnInit {
       if (text /* TODO: && verifyJSON() */) {
         this.getDataFromFile(text);
         this.loadGraph(text.startDate, text.endDate);
-        console.log(this.dataService.others);
+        // console.log(this.dataService.others);
       }
     };
     myReader.readAsText(this.jsonManager.file);
@@ -250,10 +250,11 @@ export class GraphViewComponent implements OnInit {
       .filter(
         review =>
           (!this.tpGroup || review.tpGroup === this.tpGroup) &&
-          (!this.searchFilter ||
-            this.searchFilter.filter(question =>
-              review.questions.includes(question)
-            ).length)
+          (!this.searchFilter.length ||
+            (review.questions &&
+              this.searchFilter.filter(question =>
+                review.questions.includes(question)
+              ).length))
       )
       .forEach((review, index) => {
         this.chartOptions.annotation.annotations.push({
@@ -277,10 +278,11 @@ export class GraphViewComponent implements OnInit {
       .filter(
         correction =>
           (!this.tpGroup || correction.tpGroup === this.tpGroup) &&
-          (!this.searchFilter ||
-            this.searchFilter.filter(question =>
-              correction.questions.includes(question)
-            ).length)
+          (!this.searchFilter.length ||
+            (correction.questions &&
+              this.searchFilter.filter(question =>
+                correction.questions.includes(question)
+              ).length))
       )
       .forEach((correction, index) => {
         this.chartOptions.annotation.annotations.push({
@@ -301,7 +303,15 @@ export class GraphViewComponent implements OnInit {
 
   loadOthers() {
     this.dataService.others
-      .filter(other => !this.tpGroup || other.tpGroup === this.tpGroup)
+      .filter(
+        other =>
+          (!this.tpGroup || other.tpGroup === this.tpGroup) &&
+          (!this.searchFilter.length ||
+            (other.questions &&
+              this.searchFilter.filter(question =>
+                other.questions.includes(question)
+              ).length))
+      )
       .forEach((other, index) => {
         this.chartOptions.annotation.annotations.push({
           type: 'line',
@@ -348,9 +358,9 @@ export class GraphViewComponent implements OnInit {
           commit.updateMetadata(reviews, corrections);
           // commit.updateIsCloture();
           // commit.updateColor(corrections, reviews);
-          console.log(commit.question);
+          // console.log(commit.question);
           if (
-            !this.searchFilter ||
+            !this.searchFilter.length ||
             this.searchFilter.includes(commit.question)
           ) {
             data.push({
@@ -410,15 +420,18 @@ export class GraphViewComponent implements OnInit {
   onSubmit(form: NgForm) {
     const questions = form.value.questions
       .split(',')
-      .map(question => question.trim());
+      .map(question => question.trim())
+      .filter(values => {
+        return Boolean(values) === true;
+      });
 
     const jalon = new Jalon(
       new Date(form.value.date),
       form.value.label.trim(),
-      questions,
+      questions.length ? questions : null,
       form.value.tpGroup.trim()
     );
-    console.log(jalon);
+    // console.log(jalon);
 
     if (form.value.jalon === 'correction') {
       if (!this.dataService.corrections) {
@@ -431,7 +444,7 @@ export class GraphViewComponent implements OnInit {
         this.dataService.reviews = [];
       }
       this.dataService.reviews.push(jalon);
-      console.log('this.dataService.reviews: ', this.dataService.reviews);
+      // console.log('this.dataService.reviews: ', this.dataService.reviews);
       this.jsonManager.updateJSONWithReview(jalon);
     } else if (form.value.jalon === 'other') {
       if (!this.dataService.others) {
@@ -448,7 +461,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   changeUnit() {
-    console.log(this.myChart.chart.options);
+    // console.log(this.myChart.chart.options);
     if (this.unit === 'week') {
       this.unit = 'day';
     } else if (this.unit === 'day') {
@@ -570,10 +583,12 @@ export class GraphViewComponent implements OnInit {
   }
 
   searchSubmit(form: NgForm) {
-    console.log(form);
     this.searchFilter = form.value.search
       .split(',')
-      .map(question => question.trim());
+      .map(question => question.trim())
+      .filter(values => {
+        return Boolean(values) === true;
+      });
     this.loadGraphDataAndRefresh();
   }
 }
