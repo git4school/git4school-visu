@@ -54,7 +54,7 @@ export class AuthComponent implements OnInit {
       );
     }
   }
-
+  //
   getChangelog() {
     this.http
       .get(
