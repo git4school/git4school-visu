@@ -67,7 +67,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
           },
           scaleLabel: {
             display: true,
-            labelString: '# of commits'
+            labelString: '% of commits'
           }
         }
       ]
