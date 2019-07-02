@@ -103,7 +103,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
 
   chartData = [{ data: [] }];
 
-  constructor(private dataService: DataService) {}
+  constructor(public dataService: DataService) {}
 
   loadGraphDataAndRefresh() {
     if (this.dataService.repositories) {
@@ -184,6 +184,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
     data.push({
       label: 'Before review',
       backgroundColor: CommitColor.BEFORE.color, // green
+      hoverBackgroundColor: CommitColor.BEFORE.color,
       borderColor: 'grey',
       data: this.chartLabels.map(label => {
         return {
@@ -198,6 +199,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
     data.push({
       label: 'Between review and correction',
       backgroundColor: CommitColor.BETWEEN.color, // orange
+      hoverBackgroundColor: CommitColor.BETWEEN.color,
       borderColor: 'grey',
       data: this.chartLabels.map(label => {
         return {
@@ -212,6 +214,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
     data.push({
       label: 'After correction',
       backgroundColor: CommitColor.AFTER.color, // red
+      hoverBackgroundColor: CommitColor.AFTER.color,
       borderColor: 'grey',
       data: this.chartLabels.map(label => {
         return {
@@ -242,6 +245,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
       label: 'Not finished',
       backgroundColor: 'grey', // grey
       borderColor: 'grey',
+      hoverBackgroundColor: 'grey',
       data: this.chartLabels.map(label => {
         return {
           y: (this.dict[label]['NoCommit'].nb / repos.length) * 100,
