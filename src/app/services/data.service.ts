@@ -16,4 +16,21 @@ export class DataService {
   lastUpdateDate: Date;
 
   constructor() {}
+
+  getQuestionsSet() {
+    let questions = [];
+    this.reviews &&
+      this.reviews.forEach(review => {
+        questions.push(...review.questions);
+      });
+    this.corrections &&
+      this.corrections.forEach(correction => {
+        questions.push(...correction.questions);
+      });
+    this.others &&
+      this.others.forEach(other => {
+        questions.push(...other.questions);
+      });
+    return Array.from(new Set(questions));
+  }
 }

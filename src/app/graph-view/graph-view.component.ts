@@ -370,7 +370,7 @@ export class GraphViewComponent implements OnInit {
               commit
             });
             pointStyle.push(this.getPointStyle(commit));
-            pointBackgroundColor.push(commit.color);
+            pointBackgroundColor.push(commit.color.color);
           }
         });
         chartData.push({
@@ -591,5 +591,6 @@ export class GraphViewComponent implements OnInit {
         return Boolean(values) === true;
       });
     this.loadGraphDataAndRefresh();
+    console.log(this.dataService.getQuestionsSet());
   }
 }

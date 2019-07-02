@@ -1,5 +1,23 @@
 import { Jalon } from './Jalon.model';
 
+export const CommitColor = {
+  BEFORE: {
+    label: 'green',
+    color: 'rgb(53, 198, 146)'
+  },
+  BETWEEN: {
+    label: 'orange',
+    color: 'rgb(255, 127, 74)'
+  },
+  AFTER: {
+    label: 'red',
+    color: 'rgb(203, 91, 68)'
+  },
+  INTERMEDIATE: {
+    label: 'black',
+    color: 'rgb(77, 77, 77)'
+  }
+};
 export class Commit {
   constructor(
     public message: string,
@@ -9,7 +27,7 @@ export class Commit {
     public isEnSeance = false,
     public isCloture = false,
     public question?: string,
-    public color = 'rgb(77, 77, 77)' // black
+    public color = CommitColor.INTERMEDIATE // black
   ) {
     this.commitDate = new Date(commitDate);
   }
@@ -83,9 +101,9 @@ export class Commit {
         const question = this.getQuestion(review.questions);
         if (question) {
           if (this.commitDate.getTime() > review.date.getTime()) {
-            this.color = 'rgb(255, 127, 74)'; // orange
+            this.color = CommitColor.BETWEEN; // orange
           } else {
-            this.color = 'rgb(53, 198, 146)'; // green
+            this.color = CommitColor.BEFORE; // green
           }
           this.question = question;
         }
@@ -96,10 +114,10 @@ export class Commit {
         const question = this.getQuestion(correction.questions);
         if (question) {
           if (this.commitDate.getTime() > correction.date.getTime()) {
-            this.color = 'rgb(203, 91, 68)'; // red
-          } else if (this.color === 'rgb(77, 77, 77)') {
+            this.color = CommitColor.AFTER; // red
+          } else if (this.color === CommitColor.INTERMEDIATE) {
             // if color is black
-            this.color = 'rgb(53, 198, 146)'; // green
+            this.color = CommitColor.BEFORE; // green
           }
           this.question = question;
         }
@@ -135,7 +153,7 @@ export class Commit {
                 ')\\b'
             );
             if (regex.test(this.message)) {
-              this.color = 'rgb(255, 127, 74)'; // orange
+              this.color = CommitColor.BETWEEN; // orange
             }
           }
         });
@@ -155,7 +173,7 @@ export class Commit {
                 ')\\b'
             );
             if (regex.test(this.message)) {
-              this.color = 'rgb(203, 91, 68)'; // red
+              this.color = CommitColor.AFTER; // red
             }
           }
         });
