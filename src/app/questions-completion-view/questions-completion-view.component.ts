@@ -97,15 +97,17 @@ export class QuestionsCompletionViewComponent implements OnInit {
     }
   };
 
-  chartData = [];
+  chartData = [{ data: [] }];
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
     Chart.pluginService.register(ChartDataLabels);
     this.today = this.dataService.lastUpdateDate;
-    this.initDict();
-    this.loadQuestions();
+    if (this.dataService.repositories) {
+      this.initDict();
+      this.loadQuestions();
+    }
   }
 
   initDict() {
@@ -157,8 +159,9 @@ export class QuestionsCompletionViewComponent implements OnInit {
     });
 
     this.chartLabels = this.dataService.getQuestionsSet().sort();
+    let data = [];
 
-    this.chartData.push({
+    data.push({
       label: 'Before review',
       backgroundColor: CommitColor.BEFORE.color, // green
       borderColor: 'grey',
@@ -173,7 +176,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
       })
     });
 
-    this.chartData.push({
+    data.push({
       label: 'Between review and correction',
       backgroundColor: CommitColor.BETWEEN.color, // orange
       borderColor: 'grey',
@@ -188,7 +191,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
       })
     });
 
-    this.chartData.push({
+    data.push({
       label: 'After correction',
       backgroundColor: CommitColor.AFTER.color, // red
       borderColor: 'grey',
@@ -219,7 +222,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
     //   })
     // });
 
-    this.chartData.push({
+    data.push({
       label: 'Not finished',
       backgroundColor: 'grey', // grey
       borderColor: 'grey',
@@ -233,6 +236,8 @@ export class QuestionsCompletionViewComponent implements OnInit {
         };
       })
     });
+
+    this.chartData = data;
 
     // console.log(this.chartData);
   }
