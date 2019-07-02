@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as Chart from 'chart.js';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { DataService } from '../services/data.service';
 import { CommitColor } from '../models/Commit.model';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-questions-completion-view',
@@ -10,8 +11,11 @@ import { CommitColor } from '../models/Commit.model';
   styleUrls: ['./questions-completion-view.component.scss']
 })
 export class QuestionsCompletionViewComponent implements OnInit {
+  @ViewChild(BaseChartDirective) myChart;
+
   today: Date;
   dict = {};
+  tpGroup: string;
   chartLabels;
   chartOptions = {
     responsive: true,
@@ -101,13 +105,18 @@ export class QuestionsCompletionViewComponent implements OnInit {
 
   constructor(private dataService: DataService) {}
 
-  ngOnInit() {
-    Chart.pluginService.register(ChartDataLabels);
-    this.today = this.dataService.lastUpdateDate;
+  loadGraphDataAndRefresh() {
     if (this.dataService.repositories) {
       this.initDict();
       this.loadQuestions();
     }
+    console.log(this.myChart.chart);
+  }
+
+  ngOnInit() {
+    Chart.pluginService.register(ChartDataLabels);
+    this.today = this.dataService.lastUpdateDate;
+    this.loadGraphDataAndRefresh();
   }
 
   initDict() {
@@ -129,7 +138,10 @@ export class QuestionsCompletionViewComponent implements OnInit {
   }
 
   loadQuestions() {
-    this.dataService.repositories.forEach(repository => {
+    let repos = this.dataService.repositories.filter(
+      repository => !this.tpGroup || repository.tpGroup === this.tpGroup
+    );
+    repos.forEach(repository => {
       repository.commits.forEach(commit => {
         if (commit.question) {
           this.dict[commit.question][commit.color.label].nb++;
@@ -168,8 +180,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
       data: this.chartLabels.map(label => {
         return {
           y:
-            (this.dict[label][CommitColor.BEFORE.label].nb /
-              this.dataService.repositories.length) *
+            (this.dict[label][CommitColor.BEFORE.label].nb / repos.length) *
             100,
           data: this.dict[label][CommitColor.BEFORE.label]
         };
@@ -183,8 +194,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
       data: this.chartLabels.map(label => {
         return {
           y:
-            (this.dict[label][CommitColor.BETWEEN.label].nb /
-              this.dataService.repositories.length) *
+            (this.dict[label][CommitColor.BETWEEN.label].nb / repos.length) *
             100,
           data: this.dict[label][CommitColor.BETWEEN.label]
         };
@@ -198,9 +208,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
       data: this.chartLabels.map(label => {
         return {
           y:
-            (this.dict[label][CommitColor.AFTER.label].nb /
-              this.dataService.repositories.length) *
-            100,
+            (this.dict[label][CommitColor.AFTER.label].nb / repos.length) * 100,
           data: this.dict[label][CommitColor.AFTER.label]
         };
       })
@@ -228,10 +236,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
       borderColor: 'grey',
       data: this.chartLabels.map(label => {
         return {
-          y:
-            (this.dict[label]['NoCommit'].nb /
-              this.dataService.repositories.length) *
-            100,
+          y: (this.dict[label]['NoCommit'].nb / repos.length) * 100,
           data: this.dict[label]['NoCommit']
         };
       })
