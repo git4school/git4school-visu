@@ -37,7 +37,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
           return '';
         },
         afterBody(tooltipItem, data) {
-          console.log(tooltipItem, data);
+          // console.log(tooltipItem, data);
           return data.datasets[tooltipItem[0].datasetIndex].data[
             tooltipItem[0].index
           ].data.students;
@@ -110,7 +110,6 @@ export class QuestionsCompletionViewComponent implements OnInit {
       this.initDict();
       this.loadQuestions();
     }
-    console.log(this.myChart.chart);
   }
 
   ngOnInit() {
@@ -144,10 +143,19 @@ export class QuestionsCompletionViewComponent implements OnInit {
     repos.forEach(repository => {
       repository.commits.forEach(commit => {
         if (commit.question) {
-          this.dict[commit.question][commit.color.label].nb++;
-          this.dict[commit.question][commit.color.label].students.push(
-            repository.name
-          );
+          if (
+            !this.dict[commit.question][CommitColor.BEFORE.label].students
+              .concat(
+                this.dict[commit.question][CommitColor.BETWEEN.label].students,
+                this.dict[commit.question][CommitColor.AFTER.label].students
+              )
+              .includes(repository.name)
+          ) {
+            this.dict[commit.question][commit.color.label].nb++;
+            this.dict[commit.question][commit.color.label].students.push(
+              repository.name
+            );
+          }
         }
       });
       this.dataService.getQuestionsSet().forEach(question => {
