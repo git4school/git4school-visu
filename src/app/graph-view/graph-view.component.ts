@@ -138,7 +138,27 @@ export class GraphViewComponent implements OnInit {
           },
           mode: 'x',
           speed: 0.3,
-          onZoom: ({ chart }) => {}
+          onZoom: ({ chart }) => {
+            // console.log('min: ', new Date(chart.scales['x-axis-0'].min));
+            // console.log('max: ', new Date(chart.scales['x-axis-0'].max));
+            // if (chart.scales['x-axis-0'].ticks.length > 25) {
+            //   if (this.unit === 'day') {
+            //     this.selectUnit('week');
+            //   } else if (this.unit === 'hour') {
+            //     this.selectUnit('day');
+            //   }
+            // } else if (chart.scales['x-axis-0'].ticks.length < 2) {
+            //   if (this.unit === 'week') {
+            //     this.selectUnit('day');
+            //   } else if (this.unit === 'day') {
+            //     this.selectUnit('hour');
+            //   }
+            // }
+            // console.log(
+            //   'chart: '
+            //   // this.myChart.chart.scales['x-axis-0'].ticks.length
+            // );
+          }
         }
       }
     }
@@ -461,18 +481,22 @@ export class GraphViewComponent implements OnInit {
     this.dispose();
   }
 
+  selectUnit(unit: string) {
+    this.unit = unit;
+    this.myChart.chart.options.scales.xAxes[0].time.unit = unit;
+    // this.refreshGraph();
+    this.myChart.chart.update();
+  }
+
   changeUnit() {
     // console.log(this.myChart.chart.options);
     if (this.unit === 'week') {
-      this.unit = 'day';
+      this.selectUnit('day');
     } else if (this.unit === 'day') {
-      this.unit = 'hour';
+      this.selectUnit('hour');
     } else if (this.unit === 'hour') {
-      this.unit = 'week';
+      this.selectUnit('week');
     }
-    this.myChart.chart.options.scales.xAxes[0].time.unit = this.unit;
-    // this.refreshGraph();
-    this.myChart.chart.update();
   }
 
   verifyJSON() {
