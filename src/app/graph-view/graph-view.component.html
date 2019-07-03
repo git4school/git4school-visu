@@ -34,7 +34,8 @@
                     <div *ngIf="unit === 'day'"><i class="fas fa-calendar-day"></i></div>
                 </button>
                 <select class="form-control ml-2 col-2" [disabled]="!dataService.repositories || loading"
-                    [(ngModel)]="tpGroup" (change)="this.loadGraphDataAndRefresh()">
+                    [(ngModel)]="tpGroup" (change)="this.loadGraphDataAndRefresh()" placeholder="d.ff">
+                    <option [ngValue]="undefined" hidden disabled>Select a tp group</option>
                     <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
                     <option value="">All</option>
                 </select>

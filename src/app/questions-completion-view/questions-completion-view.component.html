@@ -3,6 +3,7 @@
     <div class="p-3">
       <select class="form-control ml-2" [disabled]="!dataService.repositories" [(ngModel)]="tpGroup"
         (change)="this.loadGraphDataAndRefresh()">
+        <option [ngValue]="undefined" hidden disabled>Select a tp group</option>
         <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
         <option value="">All</option>
       </select>
