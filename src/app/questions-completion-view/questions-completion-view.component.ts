@@ -27,17 +27,27 @@ export class QuestionsCompletionViewComponent implements OnInit {
       mode: 'nearest',
       position: 'average',
       callbacks: {
+        beforeTitle(tooltipItem, data) {
+          return 'Question : ' + tooltipItem[0].label;
+        },
         title(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].label;
         },
         beforeBody(tooltipItem, data) {
-          return 'Students :';
+          return (
+            '\nCommits count : ' +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].data.nb +
+            '\nCommits pourcentage : ' +
+            tooltipItem[0].yLabel.toFixed(2) +
+            '%'
+          );
         },
         label(tooltipItem, data) {
           return '';
         },
-        afterBody(tooltipItem, data) {
-          // console.log(tooltipItem, data);
+        footer(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].data[
             tooltipItem[0].index
           ].data.students;
@@ -68,6 +78,22 @@ export class QuestionsCompletionViewComponent implements OnInit {
           scaleLabel: {
             display: true,
             labelString: '% of commits'
+          },
+          gridLines: {
+            lineWidth: [1, 1, 1, 1, 1, 5, 1, 1, 1, 1],
+            color: [
+              'rgba(0, 0, 0, 0.1)',
+              'rgba(0, 0, 0, 0.1)',
+              'rgba(0, 0, 0, 0.1)',
+              'rgba(0, 0, 0, 0.1)',
+              'rgba(0, 0, 0, 0.1)',
+              CommitColor.AFTER.color,
+              'rgba(0, 0, 0, 0.1)',
+              'rgba(0, 0, 0, 0.1)',
+              'rgba(0, 0, 0, 0.1)',
+              'rgba(0, 0, 0, 0.1)'
+            ],
+            zeroLineWidth: 0
           }
         }
       ]
@@ -113,7 +139,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    Chart.pluginService.register(ChartDataLabels);
+    // Chart.pluginService.register(ChartDataLabels);
     this.today = this.dataService.lastUpdateDate;
     this.loadGraphDataAndRefresh();
   }
