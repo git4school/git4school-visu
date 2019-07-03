@@ -138,27 +138,7 @@ export class GraphViewComponent implements OnInit {
           },
           mode: 'x',
           speed: 0.3,
-          onZoom: ({ chart }) => {
-            // console.log('min: ', new Date(chart.scales['x-axis-0'].min));
-            // console.log('max: ', new Date(chart.scales['x-axis-0'].max));
-            // if (chart.scales['x-axis-0'].ticks.length > 25) {
-            //   if (this.unit === 'day') {
-            //     this.selectUnit('week');
-            //   } else if (this.unit === 'hour') {
-            //     this.selectUnit('day');
-            //   }
-            // } else if (chart.scales['x-axis-0'].ticks.length < 2) {
-            //   if (this.unit === 'week') {
-            //     this.selectUnit('day');
-            //   } else if (this.unit === 'day') {
-            //     this.selectUnit('hour');
-            //   }
-            // }
-            // console.log(
-            //   'chart: '
-            //   // this.myChart.chart.scales['x-axis-0'].ticks.length
-            // );
-          }
+          onZoom: ({ chart }) => this.adaptScale(chart)
         }
       }
     }
@@ -583,6 +563,7 @@ export class GraphViewComponent implements OnInit {
 
   resetZoom() {
     this.myChart.chart.resetZoom();
+    this.adaptScale(this.myChart.chart);
   }
 
   changeZoom() {
@@ -616,5 +597,27 @@ export class GraphViewComponent implements OnInit {
       });
     this.loadGraphDataAndRefresh();
     console.log(this.dataService.getQuestionsSet());
+  }
+
+  adaptScale(chart) {
+    let min = new Date(chart.scales['x-axis-0'].min);
+    let max = new Date(chart.scales['x-axis-0'].max);
+    let distance = (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 24);
+
+    if (this.unit == 'day') {
+      if (Math.round(distance) > 7) {
+        this.selectUnit('week');
+      } else if (Math.floor(distance) < 1) {
+        this.selectUnit('hour');
+      }
+    } else if (this.unit == 'week') {
+      if (Math.round(distance) < 9) {
+        this.selectUnit('day');
+      }
+    } else if (this.unit == 'hour') {
+      if (Math.round(distance) > 1) {
+        this.selectUnit('day');
+      }
+    }
   }
 }
