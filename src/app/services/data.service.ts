@@ -7,6 +7,7 @@ import { Repository } from '../models/Repository.model';
   providedIn: 'root'
 })
 export class DataService {
+  title: string;
   corrections: Jalon[];
   sessions: Session[];
   reviews: Jalon[];

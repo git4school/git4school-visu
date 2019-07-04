@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AuthService } from './services/auth.service';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -13,15 +14,18 @@ export class AppComponent implements OnInit, OnDestroy {
   secondes: number;
   counterSubscription: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    public dataService: DataService
+  ) {}
 
   ngOnInit(): void {
     const counter = Observable.interval(1000);
     this.counterSubscription = counter.subscribe(
-      (value) => {
+      value => {
         this.secondes = value;
       },
-      (error) => {
+      error => {
         console.log('Uh-oh, an error occurred! : ' + error);
       },
       () => {

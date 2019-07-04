@@ -527,6 +527,7 @@ export class GraphViewComponent implements OnInit {
         'Une ou plusieurs URL ne sont pas bien formatées !'
       );
     }
+    this.dataService.title = text.title;
     this.dataService.corrections = text.corrections
       ? text.corrections.map(data => Jalon.withJSON(data))
       : undefined;
@@ -540,6 +541,7 @@ export class GraphViewComponent implements OnInit {
       ? text.others.map(data => Jalon.withJSON(data))
       : undefined;
     this.jsonManager.generateJson(
+      text.title,
       this.dataService.repositories,
       this.dataService.sessions,
       this.dataService.corrections,

@@ -15,6 +15,7 @@ export class JsonManagerService {
   constructor(private sanitizer: DomSanitizer) {}
 
   generateJson(
+    title: string,
     repositories: Repository[],
     sessions?: Session[],
     corrections?: Jalon[],
@@ -56,6 +57,7 @@ export class JsonManagerService {
     if (endDate) {
       json['endDate'] = endDate;
     }
+    json['title'] = title;
 
     this.json = json;
   }

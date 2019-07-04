@@ -17,3 +17,9 @@
 .jumbotron {
   border-left: 5px solid rgba(177, 177, 177, 0.555);
 }
+
+.navbar-nav.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translatex(-50%);
+}
