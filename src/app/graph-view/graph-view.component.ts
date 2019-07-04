@@ -153,6 +153,10 @@ export class GraphViewComponent implements OnInit {
     });
     if (this.dataService.repositories) {
       this.loadGraphData();
+    } else {
+      $('#uploadFileModal').modal({
+        show: true
+      });
     }
   }
 
@@ -168,6 +172,7 @@ export class GraphViewComponent implements OnInit {
       if (text /* TODO: && verifyJSON() */) {
         this.getDataFromFile(text);
         this.loadGraph(text.startDate, text.endDate);
+        $('#uploadFileModal').modal('hide');
         // console.log(this.dataService.others);
       }
     };
@@ -408,7 +413,7 @@ export class GraphViewComponent implements OnInit {
         const x = event.event.offsetX;
         const index = xAxis.getValueForPixel(x);
         this.dateAjoutJalon = moment(index.toDate()).format('YYYY-MM-DDTHH:mm');
-        $('#exampleModal').modal('show');
+        $('#addMilestoneModal').modal('show');
       }
     }
   }
@@ -455,10 +460,8 @@ export class GraphViewComponent implements OnInit {
       this.jsonManager.updateJSONWithOther(jalon);
     }
 
-    this.jsonManager.generateDownloadUrlFromJson();
-
     this.loadGraphDataAndRefresh();
-    this.dispose();
+    $('#addMilestoneModal').modal('hide');
   }
 
   selectUnit(unit: string) {
@@ -545,7 +548,6 @@ export class GraphViewComponent implements OnInit {
       text.startDate,
       text.endDate
     );
-    this.jsonManager.generateDownloadUrlFromJson();
   }
 
   warning(titre, message) {
@@ -585,7 +587,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   dispose() {
-    $('#exampleModal').modal('hide');
+    $('#addMilestoneModal').modal('hide');
   }
 
   searchSubmit(form: NgForm) {
@@ -619,5 +621,22 @@ export class GraphViewComponent implements OnInit {
         this.selectUnit('day');
       }
     }
+  }
+
+  download() {
+    var element = document.createElement('a');
+    element.setAttribute(
+      'href',
+      'data:text/plain;charset=utf-8,' +
+        encodeURIComponent(JSON.stringify(this.jsonManager.json, null, 2))
+    );
+    element.setAttribute('download', this.jsonManager.filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
   }
 }

@@ -10,20 +10,9 @@ import { Session } from '../models/Session.model';
 export class JsonManagerService {
   file = null;
   filename: string;
-  downloadJsonHref;
   json;
 
   constructor(private sanitizer: DomSanitizer) {}
-
-  generateDownloadUrlFromJson() {
-    const blob = new Blob([JSON.stringify(this.json, null, 2)], {
-      type: 'application/octet-stream'
-    });
-
-    this.downloadJsonHref = this.sanitizer.bypassSecurityTrustResourceUrl(
-      window.URL.createObjectURL(blob)
-    );
-  }
 
   generateJson(
     repositories: Repository[],
