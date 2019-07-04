@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="auth"><i
-            class="fas fa-unlock-alt mr-2"></i>Authentication</a></li>
+            class="fas fa-home mr-2"></i>Home</a></li>
       <li class="nav-item dropdown" routerLinkActive="active">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
@@ -26,6 +26,23 @@
 
       <!-- <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="graph"><i
             class="fas fa-chart-line pr-2"></i>Graph</a></li> -->
+    </ul>
+
+  </div>
+  <div class="navbar-collapse collapse order-3 dual-collapse2">
+    <ul class="navbar-nav ml-auto">
+      <button class="btn btn-success" *ngIf="!authService.isSignedIn('btn success')" [disabled]="loading"
+        (click)="onSignInGithub()">
+        <span *ngIf="loading; else loggedOut" class="spinner-border spinner-border-sm pr-1" role="status"
+          aria-hidden="true"></span>
+        Sign in
+
+        <ng-template #loggedOut>
+          <i class="fas fa-sign-in-alt mr-1"></i>
+        </ng-template>
+      </button>
+      <button class="btn btn-danger" *ngIf="authService.isSignedIn('btn danger')" (click)="onSignOut()"><i
+          class="fas fa-sign-out-alt mr-2"></i>Sign out</button>
     </ul>
   </div>
 </nav>

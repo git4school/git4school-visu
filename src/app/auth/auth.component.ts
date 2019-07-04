@@ -15,14 +15,13 @@ declare var $: any;
 })
 export class AuthComponent implements OnInit {
   constructor(
-    public authService: AuthService,
-    private router: Router,
-    private spinner: NgxSpinnerService,
+    // public authService: AuthService,
+    // private router: Router,
     private clipboardService: ClipboardService,
     private http: HttpClient
   ) {}
 
-  loading = false;
+  // loading = false;
   changelog;
   readMe = `# First IT practical
 
@@ -38,21 +37,19 @@ export class AuthComponent implements OnInit {
     this.getChangelog();
     $('#copier').tooltip();
 
-    if (!this.authService.isSignedIn('ngOnInit')) {
-      this.spinner.show();
-      this.loading = true;
+    // if (!this.authService.isSignedIn('ngOnInit')) {
+    //   this.loading = true;
 
-      this.authService.callback().then(
-        () => {
-          this.spinner.hide();
-          this.loading = false;
-          this.router.navigate(['graph']);
-        },
-        () => {
-          this.loading = false;
-        }
-      );
-    }
+    //   this.authService.callback().then(
+    //     () => {
+    //       this.loading = false;
+    //       this.router.navigate(['graph']);
+    //     },
+    //     () => {
+    //       this.loading = false;
+    //     }
+    //   );
+    // }
   }
 
   getChangelog() {
@@ -67,17 +64,17 @@ export class AuthComponent implements OnInit {
       });
   }
 
-  onSignIn() {
-    this.authService.signIn().then(() => {});
-  }
+  // onSignIn() {
+  //   this.authService.signIn().then(() => {});
+  // }
 
-  onSignInGithub() {
-    this.authService.signIn();
-  }
+  // onSignInGithub() {
+  //   this.authService.signIn();
+  // }
 
-  onSignOut() {
-    this.authService.signOut();
-  }
+  // onSignOut() {
+  //   this.authService.signOut();
+  // }
 
   copyJSON() {
     this.clipboardService.copyFromContent(`
