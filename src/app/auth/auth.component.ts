@@ -79,6 +79,7 @@ export class AuthComponent implements OnInit {
   copyJSON() {
     this.clipboardService.copyFromContent(`
 {
+  "title": "TP title",
   "startDate": "2017-01-22 12:00",
   "endDate": "2018-04-23 12:00",
   "repositories": [
