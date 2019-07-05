@@ -80,6 +80,9 @@ export class AuthComponent implements OnInit {
     this.clipboardService.copyFromContent(`
 {
   "title": "TP title",
+  "course": "JEE",
+  "program": "Master 1 DL",
+  "year": "2018-2019",
   "startDate": "2017-01-22 12:00",
   "endDate": "2018-04-23 12:00",
   "repositories": [

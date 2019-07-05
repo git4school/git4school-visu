@@ -22,7 +22,10 @@ export class JsonManagerService {
     reviews?: Jalon[],
     others?: Jalon[],
     startDate?: string,
-    endDate?: string
+    endDate?: string,
+    course?: string,
+    program?: string,
+    year?: string
   ) {
     let json = {};
     let repos = [];
@@ -58,6 +61,9 @@ export class JsonManagerService {
       json['endDate'] = endDate;
     }
     json['title'] = title;
+    json['course'] = course;
+    json['program'] = program;
+    json['year'] = year;
 
     this.json = json;
   }

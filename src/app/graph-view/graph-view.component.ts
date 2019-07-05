@@ -548,7 +548,10 @@ export class GraphViewComponent implements OnInit {
       this.dataService.reviews,
       this.dataService.others,
       text.startDate,
-      text.endDate
+      text.endDate,
+      text.course,
+      text.program,
+      text.year
     );
   }
 
