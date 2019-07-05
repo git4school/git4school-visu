@@ -208,6 +208,7 @@ export class GraphViewComponent implements OnInit {
   loadGraphData() {
     this.loadAnnotations();
     this.loadPoints();
+    this.adaptScale(this.myChart.chart);
   }
 
   loadGraphDataAndRefresh() {
@@ -528,6 +529,8 @@ export class GraphViewComponent implements OnInit {
       );
     }
     this.dataService.title = text.title;
+    // TODO: save course, program, year fields
+    this.dataService.questions = text.questions;
     this.dataService.corrections = text.corrections
       ? text.corrections.map(data => Jalon.withJSON(data))
       : undefined;

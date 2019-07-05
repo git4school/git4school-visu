@@ -145,8 +145,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
   }
 
   initDict() {
-    let questions = this.dataService.getQuestionsSet();
-    questions.forEach(question => {
+    this.dataService.questions.forEach(question => {
       this.dict[question] = {};
       [
         CommitColor.BEFORE.label,
@@ -184,7 +183,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
           }
         }
       });
-      this.dataService.getQuestionsSet().forEach(question => {
+      this.dataService.questions.forEach(question => {
         if (
           !(
             this.dict[question][CommitColor.BEFORE.label].students.includes(
@@ -204,7 +203,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
       });
     });
 
-    this.chartLabels = this.dataService.getQuestionsSet().sort();
+    this.chartLabels = this.dataService.questions;
     let data = [];
 
     data.push({

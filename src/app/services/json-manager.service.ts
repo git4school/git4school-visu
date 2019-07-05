@@ -42,24 +42,13 @@ export class JsonManagerService {
     });
     json['repositories'] = repos;
 
-    if (sessions) {
-      json['sessions'] = sessions.map(session => session.json());
-    }
-    if (corrections) {
-      json['corrections'] = corrections.map(correction => correction.json());
-    }
-    if (reviews) {
-      json['reviews'] = reviews.map(review => review.json());
-    }
-    if (others) {
-      json['others'] = others.map(other => other.json());
-    }
-    if (startDate) {
-      json['startDate'] = startDate;
-    }
-    if (endDate) {
-      json['endDate'] = endDate;
-    }
+    sessions && (json['sessions'] = sessions.map(session => session.json()));
+    corrections &&
+      (json['corrections'] = corrections.map(correction => correction.json()));
+    reviews && (json['reviews'] = reviews.map(review => review.json()));
+    others && (json['others'] = others.map(other => other.json()));
+    json['startDate'] = startDate;
+    json['endDate'] = endDate;
     json['title'] = title;
     json['course'] = course;
     json['program'] = program;

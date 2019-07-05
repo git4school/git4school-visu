@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
   loading = false;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     public dataService: DataService,
     private router: Router
   ) {}

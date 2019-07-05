@@ -15,6 +15,7 @@ export class DataService {
   repositories: Repository[];
   tpGroups: Set<string>;
   lastUpdateDate: Date;
+  questions: string[];
 
   constructor() {}
 
