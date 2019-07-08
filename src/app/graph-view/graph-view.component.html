@@ -93,11 +93,11 @@
     <div class="separator"></div>
     <div>
         <div class="btn-group" role="group" aria-label="File controls">
-            <button class="btn btn-danger" title="Download JSON" (click)="download()"
+            <button class="btn btn-outline-secondary" title="Download JSON" (click)="download()"
                 [disabled]="!dataService.repositories || loading" data-toggle="tooltip" data-trigger="hover"><i
                     class="fas fa-download"></i></button>
-            <button class="btn btn-danger" title="Upload JSON" data-toggle="modal" data-target="#uploadFileModal"
-                data-trigger="hover"><i class="fas fa-upload"></i></button>
+            <button class="btn btn-outline-secondary" title="Upload JSON" data-toggle="modal"
+                data-target="#uploadFileModal" data-trigger="hover"><i class="fas fa-upload"></i></button>
         </div>
     </div>
 </div>

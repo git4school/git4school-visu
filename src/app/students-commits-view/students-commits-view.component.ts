@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import * as Chart from 'chart.js';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { DataService } from '../services/data.service';
+import { Repository } from '../models/Repository.model';
+import { CommitColor, Commit } from '../models/Commit.model';
 
 @Component({
   selector: 'app-students-commits-view',
@@ -10,7 +12,9 @@ import { DataService } from '../services/data.service';
 })
 export class StudentsCommitsViewComponent implements OnInit {
   today: Date;
-  chartLabels = ['Sam Soule', 'Sophie Stiqué', 'Otto Mobil', 'Emma Caréna'];
+  dict = [];
+  tpGroup: string;
+  chartLabels = [];
   chartOptions = {
     responsive: true,
     aspectRatio: 2.4,
@@ -28,7 +32,6 @@ export class StudentsCommitsViewComponent implements OnInit {
     scales: {
       xAxes: [
         {
-          offset: true,
           stacked: true
         }
       ],
@@ -36,23 +39,33 @@ export class StudentsCommitsViewComponent implements OnInit {
         {
           id: 'A',
           type: 'linear',
-          offset: true,
-          position: 'left',
           stacked: true,
+          position: 'left',
           scaleLabel: {
             display: true,
             labelString: '% of commits'
+          },
+          ticks: {
+            max: 100
           }
         },
         {
           id: 'B',
-          offset: true,
-          type: 'linear',
+          type: 'category',
           position: 'right',
           scaleLabel: {
             display: true,
-            labelString: '# of commits'
-          }
+            labelString: 'Question progression'
+          },
+          labels: this.dataService.questions
+            ? this.dataService.questions.slice().reverse()
+            : []
+        },
+        {
+          id: 'C',
+          stacked: true,
+          type: 'linear',
+          display: false
         }
       ]
     },
@@ -80,69 +93,190 @@ export class StudentsCommitsViewComponent implements OnInit {
         clamp: true,
         clip: true,
         color: 'white',
-        display: function(context) {
-          return context.dataset.data[context.dataIndex] >= 5;
-        },
         font: {
           weight: 'bold'
         },
         backgroundColor: function(context) {
           return context.dataset.backgroundColor;
         },
-        borderRadius: 4
+        borderRadius: 4,
+        display: false,
+        formatter: function(value, context) {
+          return context.dataset.data[context.dataIndex].y;
+        }
       }
     }
   };
 
-  chartData = [
-    {
-      label: '# of commits',
-      yAxisID: 'B',
-      type: 'line',
-      fill: false,
-      borderWidth: 2,
-      borderColor: 'rgb(194, 224, 249)', // light blue
-      backgroundColor: 'rgb(176, 45, 116)', // purple
-      data: [25, 21, 45, 22]
-    },
-    {
-      label: 'Intermediate commit',
-      yAxisID: 'A',
-      type: 'bar',
-      backgroundColor: 'rgb(77, 77, 77)', // black
-      borderColor: 'grey',
-      data: [10, 3, 25, 1]
-    },
-    {
-      label: 'Before review',
-      yAxisID: 'A',
-      type: 'bar',
-      backgroundColor: 'rgb(53, 198, 146)', // green
-      borderColor: 'grey',
-      data: [50, 20, 15, 80]
-    },
-    {
-      label: 'Between review and correction',
-      yAxisID: 'A',
-      type: 'bar',
-      backgroundColor: 'rgb(255, 127, 74)', // orange
-      borderColor: 'grey',
-      data: [30, 20, 35, 19]
-    },
-    {
-      label: 'After correction',
-      yAxisID: 'A',
-      type: 'bar',
-      backgroundColor: 'rgb(203, 91, 68)', // red
-      borderColor: 'grey',
-      data: [10, 57, 25, 0]
-    }
-  ];
+  chartData = [{ data: [] }];
 
   constructor(private dataService: DataService) {}
+
+  loadGraphDataAndRefresh() {
+    if (this.dataService.repositories) {
+      // this.initDict();
+      this.dict = [];
+      this.loadDict();
+      console.log(this.dict);
+      // console.log(this.chartData);
+    }
+  }
 
   ngOnInit() {
     Chart.pluginService.register(ChartDataLabels);
     this.today = this.dataService.lastUpdateDate;
+    this.loadGraphDataAndRefresh();
   }
+
+  loadDict() {
+    this.chartLabels = [];
+    let repos = this.dataService.repositories.filter(
+      repository => !this.tpGroup || repository.tpGroup === this.tpGroup
+    );
+    repos.forEach((repository, index) => {
+      this.initDict(repository);
+      this.chartLabels.push(repository.name);
+      repository.commits.forEach(commit => {
+        this.dict[index][commit.color.label].nb++;
+        this.dict[index].nbTotal++;
+        this.isSupThan(commit.question, this.dict[index].question) &&
+          (this.dict[index].question = commit.question);
+      });
+    });
+
+    let data = [];
+
+    data.push({
+      label: '# of commits',
+      yAxisID: 'C',
+      type: 'line',
+      fill: false,
+      borderWidth: 2,
+      datalabels: {
+        display: true
+      },
+      borderColor: 'lightblue', // light blue
+      hoverBackgroundColor: 'lightblue',
+      backgroundColor: 'lightblue',
+      data: this.dict.map(student => {
+        return {
+          y: student.nbTotal,
+          data: student
+        };
+      })
+    });
+
+    data.push({
+      label: 'Question progression',
+      borderColor: 'blue',
+      type: 'line',
+      fill: false,
+      datalabels: {
+        display: true
+      },
+      yAxisID: 'B',
+      data: this.dict.map(student => {
+        return {
+          y: student.question,
+          data: student
+        };
+      })
+    });
+
+    data.push({
+      label: 'Intermediate commit',
+      backgroundColor: CommitColor.INTERMEDIATE.color,
+      hoverBackgroundColor: CommitColor.INTERMEDIATE.color,
+      borderColor: 'grey',
+      yAxisID: 'A',
+      data: this.dict.map(student => {
+        return {
+          y:
+            (student[CommitColor.INTERMEDIATE.label].nb / student.nbTotal) *
+            100,
+          data: student
+        };
+      })
+    });
+    data.push({
+      label: 'Before review',
+      yAxisID: 'A',
+      backgroundColor: CommitColor.BEFORE.color,
+      hoverBackgroundColor: CommitColor.BEFORE.color,
+      borderColor: 'grey',
+      data: this.dict.map(student => {
+        return {
+          y: (student[CommitColor.BEFORE.label].nb / student.nbTotal) * 100,
+          data: student
+        };
+      })
+    });
+    data.push({
+      label: 'Between review and correction',
+      yAxisID: 'A',
+      backgroundColor: CommitColor.BETWEEN.color,
+      hoverBackgroundColor: CommitColor.BETWEEN.color,
+      borderColor: 'grey',
+      data: this.dict.map(student => {
+        return {
+          y: (student[CommitColor.BETWEEN.label].nb / student.nbTotal) * 100,
+          data: student
+        };
+      })
+    });
+    data.push({
+      label: 'After correction',
+      yAxisID: 'A',
+      backgroundColor: CommitColor.AFTER.color,
+      hoverBackgroundColor: CommitColor.AFTER.color,
+      borderColor: 'grey',
+      data: this.dict.map(student => {
+        return {
+          y: (student[CommitColor.AFTER.label].nb / student.nbTotal) * 100,
+          data: student
+        };
+      })
+    });
+
+    this.chartData = data;
+  }
+
+  initDict(repository: Repository) {
+    this.dict.push({});
+    for (let color in CommitColor) {
+      this.dict[this.dict.length - 1][CommitColor[color].label] = {};
+      this.dict[this.dict.length - 1][CommitColor[color].label].nb = 0;
+    }
+    this.dict[this.dict.length - 1].question = this.dataService.questions[0];
+    this.dict[this.dict.length - 1].nbTotal = 0;
+  }
+
+  compareQuestions(q1, q2) {
+    let questions = this.dataService.questions;
+    return questions.indexOf(q1) - questions.indexOf(q2);
+  }
+
+  isSupThan(q1, q2) {
+    return (
+      this.dataService.questions.includes(q2) &&
+      this.compareQuestions(q1, q2) > 0
+    );
+  }
+
+  // initDict() {
+  //   this.dataService.questions.forEach(question => {
+  //     this.dict[question] = {};
+  //     [
+  //       CommitColor.BEFORE.label,
+  //       CommitColor.BETWEEN.label,
+  //       CommitColor.AFTER.label,
+  //       'NoCommit'
+  //     ].forEach(color => {
+  //       this.dict[question][color] = {
+  //         nb: 0,
+  //         students: []
+  //       };
+  //     });
+  //   });
+  // }
 }
