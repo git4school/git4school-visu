@@ -5,13 +5,14 @@ export class Jalon {
     public date: Date,
     public label: string,
     public questions?: string[],
-    public tpGroup?: string
+    public tpGroup?: string,
+    public type?: string
   ) {
     this.date = moment(date).toDate();
   }
 
-  static withJSON(json): Jalon {
-    return new Jalon(json.date, json.label, json.questions, json.tpGroup);
+  static withJSON(json, type): Jalon {
+    return new Jalon(json.date, json.label, json.questions, json.tpGroup, type);
   }
 
   json() {

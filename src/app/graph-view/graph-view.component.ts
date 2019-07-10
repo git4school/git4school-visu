@@ -17,8 +17,7 @@ import { NgForm } from '@angular/forms';
 import moment from 'moment/src/moment';
 import { JsonManagerService } from '../services/json-manager.service';
 import { DataService } from '../services/data.service';
-import * as Chart from 'chart.js';
-import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+
 declare var $: any;
 
 @Component({
@@ -47,7 +46,16 @@ export class GraphViewComponent implements OnInit {
   showCorrections = true;
   showReviews = true;
   showOthers = true;
-  dateAjoutJalon;
+
+  // Modal variables
+  dateModal;
+  labelModal: string;
+  tpGroupModal: string;
+  questionsModal: string;
+  typeModal: string;
+  addModal: boolean;
+  savedMilestoneModal: Jalon;
+  ////////////////////////
 
   chartOptions = {
     responsive: true,
@@ -120,6 +128,7 @@ export class GraphViewComponent implements OnInit {
     },
     annotation: {
       drawTime: 'beforeDatasetsDraw',
+      events: ['click'],
       annotations: []
     },
     plugins: {
@@ -145,7 +154,6 @@ export class GraphViewComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    Chart.pluginService.unregister(ChartDataLabels);
     $('.btn').tooltip();
     $('#questions-tooltip').tooltip();
     $('.modal').modal({
@@ -214,6 +222,7 @@ export class GraphViewComponent implements OnInit {
   loadGraphDataAndRefresh() {
     this.loadGraphData();
     this.refreshGraph();
+    this.adaptScale(this.myChart.chart);
   }
 
   loadAnnotations() {
@@ -253,6 +262,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   loadReviews() {
+    let me = this;
     this.dataService.reviews
       .filter(
         review =>
@@ -275,12 +285,18 @@ export class GraphViewComponent implements OnInit {
             content: review.label || 'Review ' + (index + 1),
             enabled: true,
             position: 'top'
+          },
+          onClick: function(e) {
+            // console.log(review);
+            me.showEditMilestoneModal(review);
+            // console.log(me.dataService.reviews.includes(review));
           }
         });
       });
   }
 
   loadCorrections() {
+    let me = this;
     this.dataService.corrections
       .filter(
         correction =>
@@ -303,12 +319,16 @@ export class GraphViewComponent implements OnInit {
             content: correction.label || 'Correction ' + (index + 1),
             enabled: true,
             position: 'top'
+          },
+          onClick: function(e) {
+            me.showEditMilestoneModal(correction);
           }
         });
       });
   }
 
   loadOthers() {
+    let me = this;
     this.dataService.others
       .filter(
         other =>
@@ -331,6 +351,9 @@ export class GraphViewComponent implements OnInit {
             content: other.label || 'Other ' + (index + 1),
             enabled: true,
             position: 'top'
+          },
+          onClick: function(e) {
+            me.showEditMilestoneModal(other);
           }
         });
       });
@@ -393,6 +416,7 @@ export class GraphViewComponent implements OnInit {
   refreshGraph() {
     this.myChart.chart.destroy();
     this.myChart.ngOnInit();
+    this.selectZoom(this.drag);
   }
 
   changeListener($event): void {
@@ -410,21 +434,51 @@ export class GraphViewComponent implements OnInit {
       window.open(data.commit.url, '_blank');
     } else {
       if (event.event.shiftKey) {
-        const xAxis = this.myChart.chart.scales['x-axis-0'];
-        const x = event.event.offsetX;
-        const index = xAxis.getValueForPixel(x);
-        this.dateAjoutJalon = moment(index.toDate()).format('YYYY-MM-DDTHH:mm');
-        $('#addMilestoneModal').modal('show');
+        const rawDate = this.getValueFromEvent(event);
+        this.showAddMilestoneModal(rawDate);
       }
     }
   }
 
+  showAddMilestoneModal(date) {
+    this.dateModal = moment(date.toDate()).format('YYYY-MM-DDTHH:mm');
+    this.labelModal = '';
+    this.tpGroupModal = '';
+    this.questionsModal = '';
+    this.typeModal = '';
+    this.addModal = true;
+    this.showModal();
+  }
+
+  showEditMilestoneModal(milestone: Jalon) {
+    this.dateModal = moment(milestone.date).format('YYYY-MM-DDTHH:mm');
+    this.labelModal = milestone.label;
+    this.tpGroupModal = milestone.tpGroup;
+    this.questionsModal = milestone.questions
+      ? milestone.questions.toString()
+      : '';
+    this.typeModal = milestone.type;
+    this.addModal = false;
+    this.savedMilestoneModal = milestone;
+    this.showModal();
+  }
+
+  showModal() {
+    $('#addMilestoneModal').modal('show');
+  }
+
+  getValueFromEvent(event) {
+    const xAxis = this.myChart.chart.scales['x-axis-0'];
+    const x = event.event.offsetX;
+    return xAxis.getValueForPixel(x);
+  }
+
   onChartHover(event) {
     const data = this.getDataFromChart(event);
-    console.log(data.commit.color);
   }
 
   onSubmit(form: NgForm) {
+    console.log('form: ', form);
     const questions = form.value.questions
       .split(',')
       .map(question => question.trim())
@@ -436,33 +490,40 @@ export class GraphViewComponent implements OnInit {
       new Date(form.value.date),
       form.value.label.trim(),
       questions.length ? questions : null,
-      form.value.tpGroup.trim()
+      form.value.tpGroup.trim(),
+      form.value.jalon
     );
-    // console.log(jalon);
 
-    if (form.value.jalon === 'correction') {
-      if (!this.dataService.corrections) {
-        this.dataService.corrections = [];
-      }
-      this.dataService.corrections.push(jalon);
-      this.jsonManager.updateJSONWithCorrection(jalon);
-    } else if (form.value.jalon === 'review') {
-      if (!this.dataService.reviews) {
-        this.dataService.reviews = [];
-      }
-      this.dataService.reviews.push(jalon);
-      // console.log('this.dataService.reviews: ', this.dataService.reviews);
-      this.jsonManager.updateJSONWithReview(jalon);
-    } else if (form.value.jalon === 'other') {
-      if (!this.dataService.others) {
-        this.dataService.others = [];
-      }
-      this.dataService.others.push(jalon);
-      this.jsonManager.updateJSONWithOther(jalon);
+    if (!this.addModal) {
+      this.deleteElement(
+        this.savedMilestoneModal,
+        this.dataService[this.savedMilestoneModal.type]
+      );
     }
 
+    if (!this.dataService[jalon.type]) {
+      this.dataService[jalon.type] = [];
+    }
+    this.dataService[jalon.type].push(jalon);
+
     this.loadGraphDataAndRefresh();
-    $('#addMilestoneModal').modal('hide');
+    this.dispose();
+  }
+
+  deleteMilestone() {
+    this.dataService[this.savedMilestoneModal.type].splice(
+      this.dataService[this.savedMilestoneModal.type].indexOf(
+        this.savedMilestoneModal
+      ),
+      1
+    );
+
+    this.loadGraphDataAndRefresh();
+    this.dispose();
+  }
+
+  deleteElement(element, list) {
+    list.splice(list.indexOf(element), 1).slice();
   }
 
   selectUnit(unit: string) {
@@ -528,34 +589,25 @@ export class GraphViewComponent implements OnInit {
         'Une ou plusieurs URL ne sont pas bien formatées !'
       );
     }
+    this.dataService.startDate = text.startDate;
+    this.dataService.endDate = text.endDate;
     this.dataService.title = text.title;
-    // TODO: save course, program, year fields
+    this.dataService.course = text.course;
+    this.dataService.program = text.program;
+    this.dataService.year = text.year;
     this.dataService.questions = text.questions;
     this.dataService.corrections = text.corrections
-      ? text.corrections.map(data => Jalon.withJSON(data))
+      ? text.corrections.map(data => Jalon.withJSON(data, 'corrections'))
       : undefined;
     this.dataService.sessions = text.sessions
       ? text.sessions.map(data => Session.withJSON(data))
       : undefined;
     this.dataService.reviews = text.reviews
-      ? text.reviews.map(data => Jalon.withJSON(data))
+      ? text.reviews.map(data => Jalon.withJSON(data, 'reviews'))
       : undefined;
     this.dataService.others = text.others
-      ? text.others.map(data => Jalon.withJSON(data))
+      ? text.others.map(data => Jalon.withJSON(data, 'others'))
       : undefined;
-    this.jsonManager.generateJson(
-      text.title,
-      this.dataService.repositories,
-      this.dataService.sessions,
-      this.dataService.corrections,
-      this.dataService.reviews,
-      this.dataService.others,
-      text.startDate,
-      text.endDate,
-      text.course,
-      text.program,
-      text.year
-    );
   }
 
   warning(titre, message) {
@@ -577,21 +629,20 @@ export class GraphViewComponent implements OnInit {
   }
 
   changeZoom() {
-    var zoomOptions = this.myChart.chart.options.plugins.zoom.zoom;
-    var panOptions = this.myChart.chart.options.plugins.zoom.pan;
+    let zoomOptions = this.myChart.chart.options.plugins.zoom.zoom;
 
-    if (zoomOptions.drag) {
-      // drag
-      zoomOptions.drag = false;
-      this.drag = false;
-      panOptions.enabled = true;
-    } else {
-      //wheel
-      zoomOptions.drag = true;
-      this.drag = true;
-      panOptions.enabled = false;
-    }
+    this.selectZoom(!zoomOptions.drag);
+
     this.myChart.chart.update();
+  }
+
+  selectZoom(drag: boolean) {
+    let zoomOptions = this.myChart.chart.options.plugins.zoom.zoom;
+    let panOptions = this.myChart.chart.options.plugins.zoom.pan;
+
+    zoomOptions.drag = drag;
+    this.drag = drag;
+    panOptions.enabled = !drag;
   }
 
   dispose() {
@@ -606,7 +657,6 @@ export class GraphViewComponent implements OnInit {
         return Boolean(values) === true;
       });
     this.loadGraphDataAndRefresh();
-    console.log(this.dataService.getQuestionsSet());
   }
 
   adaptScale(chart) {
@@ -632,6 +682,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   download() {
+    this.dataService.generateJSON();
     var element = document.createElement('a');
     element.setAttribute(
       'href',

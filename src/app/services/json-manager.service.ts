@@ -16,6 +16,7 @@ export class JsonManagerService {
 
   generateJson(
     title: string,
+    questions: string[],
     repositories: Repository[],
     sessions?: Session[],
     corrections?: Jalon[],
@@ -53,31 +54,8 @@ export class JsonManagerService {
     json['course'] = course;
     json['program'] = program;
     json['year'] = year;
+    json['questions'] = questions;
 
     this.json = json;
-  }
-
-  updateJSONWithCorrection(correction) {
-    if (this.json.corrections) {
-      this.json.corrections.push(correction.json());
-    } else {
-      this.json.corrections = [correction.json()];
-    }
-  }
-
-  updateJSONWithReview(review) {
-    if (this.json.reviews) {
-      this.json.reviews.push(review.json());
-    } else {
-      this.json.reviews = [review.json()];
-    }
-  }
-
-  updateJSONWithOther(other) {
-    if (this.json.others) {
-      this.json.others.push(other.json());
-    } else {
-      this.json.others = [other.json()];
-    }
   }
 }

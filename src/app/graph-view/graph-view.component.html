@@ -151,40 +151,46 @@
                 <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm">
                     <div class="form-group">
                         <label for="date" class="col-form-label">Date :</label>
-                        <input class="form-control" type="datetime-local" [ngModel]="dateAjoutJalon" id="date"
-                            name="date" required ngModel>
+                        <input class="form-control" type="datetime-local" [ngModel]="dateModal" id="date" name="date"
+                            required ngModel>
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Label :</label>
-                        <input type="text" class="form-control" id="recipient-name" name="label" ngModel>
+                        <input type="text" class="form-control" id="recipient-name" name="label" [ngModel]="labelModal"
+                            ngModel>
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">TP group :</label>
-                        <input type="text" class="form-control" id="message-text" name="tpGroup" ngModel>
+                        <input type="text" class="form-control" id="message-text" name="tpGroup"
+                            [ngModel]="tpGroupModal" ngModel>
                     </div>
                     <div class="form-group">
                         <label id="questions-tooltip" for="questions" class="col-form-label" data-toggle="tooltip"
                             title="Questions separated by commas">Questions :</label>
-                        <input type="text" class="form-control" id="questions" name="questions" ngModel>
+                        <input type="text" class="form-control" id="questions" name="questions"
+                            [ngModel]="questionsModal" ngModel>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="customRadio1" name="jalon" class="custom-control-input"
-                            value="correction" required ngModel>
+                            value="corrections" [ngModel]="typeModal" required ngModel>
                         <label class="custom-control-label" for="customRadio1">Correction</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadio2" name="jalon" class="custom-control-input" value="review"
-                            required ngModel>
+                        <input type="radio" id="customRadio2" name="jalon" class="custom-control-input" value="reviews"
+                            [ngModel]="typeModal" required ngModel>
                         <label class="custom-control-label" for="customRadio2">Review</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadio3" name="jalon" class="custom-control-input" value="other"
-                            required ngModel>
+                        <input type="radio" id="customRadio3" name="jalon" class="custom-control-input" value="others"
+                            [ngModel]="typeModal" required ngModel>
                         <label class="custom-control-label" for="customRadio3">Other</label>
                     </div>
                     <hr>
-                    <button type="button" class="btn btn-secondary col-5" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary col-5 float-right" [disabled]="f.invalid">Create
+                    <button *ngIf="!addModal" type="button" class="btn btn-danger col-5"
+                        (click)="deleteMilestone()">Delete
+                        milestone</button>
+                    <button type="submit" class="btn btn-primary col-5 float-right"
+                        [disabled]="f.invalid">{{this.addModal ? 'Create' : 'Edit'}}
                         milestone</button>
                 </form>
             </div>

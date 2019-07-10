@@ -16,6 +16,11 @@ export class StudentsCommitsViewComponent implements OnInit {
   tpGroup: string;
   chartLabels = [];
   chartOptions = {
+    layout: {
+      padding: {
+        top: 10
+      }
+    },
     responsive: true,
     aspectRatio: 2.4,
     animation: {
@@ -53,9 +58,13 @@ export class StudentsCommitsViewComponent implements OnInit {
           id: 'B',
           type: 'category',
           position: 'right',
+          offset: true,
           scaleLabel: {
             display: true,
             labelString: 'Question progression'
+          },
+          gridLines: {
+            display: false
           },
           labels: this.dataService.questions
             ? this.dataService.questions.slice().reverse()
@@ -64,6 +73,7 @@ export class StudentsCommitsViewComponent implements OnInit {
         {
           id: 'C',
           stacked: true,
+          offset: true,
           type: 'linear',
           display: false
         }
@@ -90,8 +100,7 @@ export class StudentsCommitsViewComponent implements OnInit {
     },
     plugins: {
       datalabels: {
-        clamp: true,
-        clip: true,
+        clip: false,
         color: 'white',
         font: {
           weight: 'bold'
@@ -110,7 +119,7 @@ export class StudentsCommitsViewComponent implements OnInit {
 
   chartData = [{ data: [] }];
 
-  constructor(private dataService: DataService) {}
+  constructor(public dataService: DataService) {}
 
   loadGraphDataAndRefresh() {
     if (this.dataService.repositories) {
@@ -126,6 +135,9 @@ export class StudentsCommitsViewComponent implements OnInit {
     Chart.pluginService.register(ChartDataLabels);
     this.today = this.dataService.lastUpdateDate;
     this.loadGraphDataAndRefresh();
+  }
+  ngOnDestroy() {
+    Chart.pluginService.unregister(ChartDataLabels);
   }
 
   loadDict() {

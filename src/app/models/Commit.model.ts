@@ -96,6 +96,7 @@ export class Commit {
 
   updateMetadata(reviews: Jalon[], corrections: Jalon[]) {
     this.updateIsCloture();
+    this.color = CommitColor.INTERMEDIATE;
     if (reviews) {
       reviews.forEach(review => {
         const question = this.getQuestion(review.questions);

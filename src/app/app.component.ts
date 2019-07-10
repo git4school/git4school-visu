@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { AuthService } from './services/auth.service';
 import { DataService } from './services/data.service';
 import { Router } from '@angular/router';
+import * as Chart from 'chart.js';
+import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    Chart.pluginService.unregister(ChartDataLabels);
     if (!this.authService.isSignedIn('ngOnInit')) {
       this.loading = true;
       this.authService.callback().then(
