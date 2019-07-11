@@ -98,6 +98,11 @@
                     class="fas fa-download"></i></button>
             <button class="btn btn-outline-secondary" title="Upload JSON" data-toggle="modal"
                 data-target="#uploadFileModal" data-trigger="hover"><i class="fas fa-upload"></i></button>
+            <button class="btn btn-outline-secondary" (click)="readFile()" [disabled]="!jsonManager.file || loading"
+                data-toggle="tooltip" title="Reload" data-trigger="hover">
+                <div *ngIf="loading"><i class="fas fa-redo-alt fa-spin"></i></div>
+                <div *ngIf="!loading"><i class="fas fa-redo-alt"></i></div>
+            </button>
         </div>
     </div>
 </div>
@@ -117,8 +122,8 @@
     <div id="legendCollapse" class="collapse">
         <div class="card-body">
             <p class="card-text">
-                <i class="far fa-circle fa-fw"></i> Commit
-                <i class="far fa-square fa-fw ml-3 mr-1" data-fa-transform="rotate-45"></i> Closing commit<br>
+                <i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i> Commit
+                <i class="far fa-circle fa-fw ml-3"></i> Closing commit<br>
                 <i class="fas fa-circle fa-fw" style="color:rgb(77, 77, 77)"></i> Intermediate commit
                 <i class="fas fa-circle fa-fw ml-3" style="color:rgb(53, 198, 146)"></i> Before review
                 <i class="fas fa-circle fa-fw ml-3" style="color:rgb(255, 127, 74)"></i> Between review and correction
@@ -223,12 +228,6 @@
                                                         jsonManager.filename || 'Choose file'
                                           }}</label>
                         </div>
-                        <button class="btn btn-outline-secondary ml-2" (click)="readFile()"
-                            [disabled]="!jsonManager.file || loading" data-toggle="tooltip" title="Reload"
-                            data-trigger="hover">
-                            <div *ngIf="loading"><i class="fas fa-redo-alt fa-spin"></i></div>
-                            <div *ngIf="!loading"><i class="fas fa-redo-alt"></i></div>
-                        </button>
                     </div>
                 </div>
             </div>

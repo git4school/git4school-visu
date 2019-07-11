@@ -560,9 +560,9 @@ export class GraphViewComponent implements OnInit {
 
   getPointStyle(commit: Commit) {
     if (commit.isCloture) {
-      return 'rectRot';
-    } else {
       return 'circle';
+    } else {
+      return 'rectRot';
     }
   }
 
