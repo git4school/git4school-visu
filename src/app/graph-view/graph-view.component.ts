@@ -155,12 +155,12 @@ export class GraphViewComponent implements OnInit {
 
   ngOnInit(): void {
     $('.btn').tooltip();
-    $('#questions-tooltip').tooltip();
     $('.modal').modal({
       show: false
     });
     if (this.dataService.repositories) {
-      this.loadGraphData();
+      // this.loadGraphData();
+      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
     } else {
       $('#uploadFileModal').modal({
         show: true

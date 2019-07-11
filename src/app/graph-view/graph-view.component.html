@@ -165,10 +165,12 @@
                             [ngModel]="tpGroupModal" ngModel>
                     </div>
                     <div class="form-group">
-                        <label id="questions-tooltip" for="questions" class="col-form-label" data-toggle="tooltip"
-                            title="Questions separated by commas">Questions :</label>
+                        <label id="questions-tooltip" for="questions" class="col-form-label">Questions :</label>
                         <input type="text" class="form-control" id="questions" name="questions"
                             [ngModel]="questionsModal" ngModel>
+                        <small id="questionsHelpBlock" class="form-text text-muted">
+                            Questions separated by commas
+                        </small>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="customRadio1" name="jalon" class="custom-control-input"

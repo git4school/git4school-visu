@@ -36,6 +36,9 @@ import { JsonManagerService } from './services/json-manager.service';
 import { DataService } from './services/data.service';
 import { StudentsCommitsViewComponent } from './students-commits-view/students-commits-view.component';
 import { QuestionsCompletionViewComponent } from './questions-completion-view/questions-completion-view.component';
+import { MetadataViewComponent } from './metadata-view/metadata-view.component';
+import { DataProvidedGuard } from './services/data-provided.guard';
+import { DataLoadingGuard } from './services/data-loading.guard';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
@@ -66,16 +69,26 @@ const appRoutes: Routes = [
   { path: 'not-found', component: FourOhFourComponent },
   { path: 'users', component: UserListComponent },
   { path: 'new-user', canActivate: [AuthGuard], component: NewUserComponent },
-  { path: 'graph', canActivate: [AuthGuard], component: GraphViewComponent },
+  {
+    path: 'graph',
+    canActivate: [AuthGuard],
+    canDeactivate: [DataLoadingGuard],
+    component: GraphViewComponent
+  },
   {
     path: 'students-commits-view',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, DataProvidedGuard],
     component: StudentsCommitsViewComponent
   },
   {
     path: 'questions-completion-view',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, DataProvidedGuard],
     component: QuestionsCompletionViewComponent
+  },
+  {
+    path: 'edit-metadata',
+    canActivate: [AuthGuard, DataProvidedGuard],
+    component: MetadataViewComponent
   },
   { path: 'commits', canActivate: [AuthGuard], component: CommitListComponent },
   { path: '**', redirectTo: 'not-found' }
@@ -97,7 +110,8 @@ const appRoutes: Routes = [
     CommitViewComponent,
     CommitListComponent,
     StudentsCommitsViewComponent,
-    QuestionsCompletionViewComponent
+    QuestionsCompletionViewComponent,
+    MetadataViewComponent
   ],
   imports: [
     BrowserModule,

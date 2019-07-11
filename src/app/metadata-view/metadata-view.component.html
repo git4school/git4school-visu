@@ -1,0 +1,48 @@
+<div class="p-3">
+  <h2>Edit metadata</h2>
+  <!-- <hr> -->
+  <div class="card mt-2">
+    <div class="card-body">
+      <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" name="title" [ngModel]="dataService.title" required
+            ngModel>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="course">Course</label>
+            <input type="text" class="form-control" id="course" name="course" [ngModel]="dataService.course" ngModel>
+          </div>
+          <div class="form-group col">
+            <label for="program">Program</label>
+            <input type="text" class="form-control" id="program" name="program" [ngModel]="dataService.program" ngModel>
+          </div>
+          <div class="form-group col">
+            <label for="year">Year</label>
+            <input type="text" class="form-control" id="year" name="year" [ngModel]="dataService.year" ngModel>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="startDate">Start date</label>
+            <input class="form-control" type="datetime-local" id="startDate" name="startDate" [ngModel]="startDate"
+              ngModel>
+          </div>
+          <div class="form-group col">
+            <label for="endDate">End date</label>
+            <input class="form-control" type="datetime-local" id="endDate" name="endDate" [ngModel]="endDate" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="questions">Questions</label>
+          <input type="text" class="form-control" id="questions" name="questions"
+            [ngModel]="dataService.questions.toString()" required ngModel>
+        </div>
+        <hr>
+        <button [disabled]="f.invalid" type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+
+</div>
