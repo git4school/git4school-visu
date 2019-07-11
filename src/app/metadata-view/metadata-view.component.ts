@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import moment from 'moment/src/moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-metadata-view',
@@ -12,7 +13,7 @@ export class MetadataViewComponent implements OnInit {
   startDate;
   endDate;
 
-  constructor(public dataService: DataService) {}
+  constructor(private toastr: ToastrService, public dataService: DataService) {}
 
   ngOnInit() {
     console.log(this.dataService.startDate, this.dataService.endDate);
@@ -40,6 +41,9 @@ export class MetadataViewComponent implements OnInit {
       .filter(values => {
         return Boolean(values) === true;
       });
+    this.toastr.success('Changes has been saved !', 'Success', {
+      progressBar: true
+    });
 
     // navigate to graph overview
   }

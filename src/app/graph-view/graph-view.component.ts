@@ -512,6 +512,9 @@ export class GraphViewComponent implements OnInit {
 
     this.loadGraphDataAndRefresh();
     this.dispose();
+    this.toastr.success('Milestone has been saved !', 'Success', {
+      progressBar: true
+    });
   }
 
   deleteMilestone() {
@@ -524,6 +527,9 @@ export class GraphViewComponent implements OnInit {
 
     this.loadGraphDataAndRefresh();
     this.dispose();
+    this.toastr.success('Milestone has been deleted !', 'Success', {
+      progressBar: true
+    });
   }
 
   deleteElement(element, list) {
