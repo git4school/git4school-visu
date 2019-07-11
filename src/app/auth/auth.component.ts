@@ -85,6 +85,7 @@ export class AuthComponent implements OnInit {
   "year": "2018-2019",
   "startDate": "2017-01-22 12:00",
   "endDate": "2018-04-23 12:00",
+  "questions": ["1.1", "1.2"],
   "repositories": [
     { "url": "https://github.com/user/repository", "name": "First name LAST NAME", "tpGroup": "12" }
   ],
