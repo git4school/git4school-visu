@@ -4,6 +4,7 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { DataService } from '../services/data.service';
 import { Repository } from '../models/Repository.model';
 import { CommitColor, Commit } from '../models/Commit.model';
+declare var $: any;
 
 @Component({
   selector: 'app-students-commits-view',
@@ -11,7 +12,9 @@ import { CommitColor, Commit } from '../models/Commit.model';
   styleUrls: ['./students-commits-view.component.scss']
 })
 export class StudentsCommitsViewComponent implements OnInit {
-  today: Date;
+  date: number;
+  min: number;
+  max: number;
   dict = [];
   tpGroup: string;
   chartLabels = [];
@@ -132,12 +135,29 @@ export class StudentsCommitsViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    $('#dateSlider').tooltip();
     Chart.pluginService.register(ChartDataLabels);
-    this.today = this.dataService.lastUpdateDate;
+    this.dataService.lastUpdateDate &&
+      ((this.date = this.dataService.lastUpdateDate.getTime()) &&
+        (this.max = this.date) &&
+        (this.min = this.getMinDateTimestamp()));
     this.loadGraphDataAndRefresh();
   }
   ngOnDestroy() {
     Chart.pluginService.unregister(ChartDataLabels);
+  }
+
+  getMinDateTimestamp() {
+    let commits = [];
+    this.dataService.repositories.forEach(repository => {
+      commits = commits.concat(repository.commits);
+    });
+    let min = commits.reduce(
+      (min, commit) =>
+        commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,
+      commits[0].commitDate
+    );
+    return min.getTime();
   }
 
   loadDict() {
@@ -148,12 +168,14 @@ export class StudentsCommitsViewComponent implements OnInit {
     repos.forEach((repository, index) => {
       this.initDict(repository);
       this.chartLabels.push(repository.name);
-      repository.commits.forEach(commit => {
-        this.dict[index][commit.color.label].nb++;
-        this.dict[index].nbTotal++;
-        this.isSupThan(commit.question, this.dict[index].question) &&
-          (this.dict[index].question = commit.question);
-      });
+      repository.commits
+        .filter(commit => commit.commitDate.getTime() < this.date)
+        .forEach(commit => {
+          this.dict[index][commit.color.label].nb++;
+          this.dict[index].nbTotal++;
+          this.isSupThan(commit.question, this.dict[index].question) &&
+            (this.dict[index].question = commit.question);
+        });
     });
 
     let data = [];

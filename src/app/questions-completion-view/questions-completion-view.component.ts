@@ -4,6 +4,7 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { DataService } from '../services/data.service';
 import { CommitColor } from '../models/Commit.model';
 import { BaseChartDirective } from 'ng2-charts';
+declare var $: any;
 
 @Component({
   selector: 'app-questions-completion-view',
@@ -13,7 +14,9 @@ import { BaseChartDirective } from 'ng2-charts';
 export class QuestionsCompletionViewComponent implements OnInit {
   @ViewChild(BaseChartDirective) myChart;
 
-  today: Date;
+  date: number;
+  min: number;
+  max: number;
   dict = {};
   tpGroup: string;
   chartLabels;
@@ -133,14 +136,18 @@ export class QuestionsCompletionViewComponent implements OnInit {
 
   loadGraphDataAndRefresh() {
     if (this.dataService.repositories) {
+      console.log(this.date);
       this.initDict();
       this.loadQuestions();
     }
   }
 
   ngOnInit() {
-    // Chart.pluginService.register(ChartDataLabels);
-    this.today = this.dataService.lastUpdateDate;
+    $('#dateSlider').tooltip();
+    this.dataService.lastUpdateDate &&
+      ((this.date = this.dataService.lastUpdateDate.getTime()) &&
+        (this.max = this.date) &&
+        (this.min = this.getMinDateTimestamp()));
     this.loadGraphDataAndRefresh();
   }
 
@@ -161,28 +168,44 @@ export class QuestionsCompletionViewComponent implements OnInit {
     });
   }
 
+  getMinDateTimestamp() {
+    let commits = [];
+    this.dataService.repositories.forEach(repository => {
+      commits = commits.concat(repository.commits);
+    });
+    let min = commits.reduce(
+      (min, commit) =>
+        commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,
+      commits[0].commitDate
+    );
+    return min.getTime();
+  }
+
   loadQuestions() {
     let repos = this.dataService.repositories.filter(
       repository => !this.tpGroup || repository.tpGroup === this.tpGroup
     );
     repos.forEach(repository => {
-      repository.commits.forEach(commit => {
-        if (commit.question) {
-          if (
-            !this.dict[commit.question][CommitColor.BEFORE.label].students
-              .concat(
-                this.dict[commit.question][CommitColor.BETWEEN.label].students,
-                this.dict[commit.question][CommitColor.AFTER.label].students
-              )
-              .includes(repository.name)
-          ) {
-            this.dict[commit.question][commit.color.label].nb++;
-            this.dict[commit.question][commit.color.label].students.push(
-              repository.name
-            );
+      repository.commits
+        .filter(commit => commit.commitDate.getTime() < this.date)
+        .forEach(commit => {
+          if (commit.question) {
+            if (
+              !this.dict[commit.question][CommitColor.BEFORE.label].students
+                .concat(
+                  this.dict[commit.question][CommitColor.BETWEEN.label]
+                    .students,
+                  this.dict[commit.question][CommitColor.AFTER.label].students
+                )
+                .includes(repository.name)
+            ) {
+              this.dict[commit.question][commit.color.label].nb++;
+              this.dict[commit.question][commit.color.label].students.push(
+                repository.name
+              );
+            }
           }
-        }
-      });
+        });
       this.dataService.questions.forEach(question => {
         if (
           !(
@@ -268,9 +291,9 @@ export class QuestionsCompletionViewComponent implements OnInit {
 
     data.push({
       label: 'Not finished',
-      backgroundColor: 'grey', // grey
+      backgroundColor: 'lightgrey', // lightgrey
       borderColor: 'grey',
-      hoverBackgroundColor: 'grey',
+      hoverBackgroundColor: 'lightgrey',
       data: this.chartLabels.map(label => {
         return {
           y: (this.dict[label]['NoCommit'].nb / repos.length) * 100,
@@ -280,7 +303,5 @@ export class QuestionsCompletionViewComponent implements OnInit {
     });
 
     this.chartData = data;
-
-    // console.log(this.chartData);
   }
 }

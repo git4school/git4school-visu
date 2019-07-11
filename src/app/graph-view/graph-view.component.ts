@@ -147,7 +147,7 @@ export class GraphViewComponent implements OnInit {
           },
           mode: 'x',
           speed: 0.3,
-          onZoom: ({ chart }) => this.adaptScale(chart)
+          onZoom: ({ chart }) => this.adaptScaleWithChart(chart)
         }
       }
     }
@@ -179,7 +179,9 @@ export class GraphViewComponent implements OnInit {
       }
       if (text /* TODO: && verifyJSON() */) {
         this.getDataFromFile(text);
-        this.loadGraph(text.startDate, text.endDate);
+        setTimeout(() => {
+          this.loadGraph(text.startDate, text.endDate);
+        });
         $('#uploadFileModal').modal('hide');
         // console.log(this.dataService.others);
       }
@@ -216,13 +218,15 @@ export class GraphViewComponent implements OnInit {
   loadGraphData() {
     this.loadAnnotations();
     this.loadPoints();
-    this.adaptScale(this.myChart.chart);
+    setTimeout(() => {
+      this.adaptScaleWithChart(this.myChart.chart);
+    });
   }
 
   loadGraphDataAndRefresh() {
     this.loadGraphData();
     this.refreshGraph();
-    this.adaptScale(this.myChart.chart);
+    this.adaptScaleWithChart(this.myChart.chart);
   }
 
   loadAnnotations() {
@@ -625,7 +629,7 @@ export class GraphViewComponent implements OnInit {
 
   resetZoom() {
     this.myChart.chart.resetZoom();
-    this.adaptScale(this.myChart.chart);
+    this.adaptScaleWithChart(this.myChart.chart);
   }
 
   changeZoom() {
@@ -659,9 +663,14 @@ export class GraphViewComponent implements OnInit {
     this.loadGraphDataAndRefresh();
   }
 
-  adaptScale(chart) {
+  adaptScaleWithChart(chart) {
+    console.log('chart2', chart);
     let min = new Date(chart.scales['x-axis-0'].min);
     let max = new Date(chart.scales['x-axis-0'].max);
+    this.adaptScale(min, max);
+  }
+
+  adaptScale(min, max) {
     let distance = (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 24);
 
     if (this.unit == 'day') {
