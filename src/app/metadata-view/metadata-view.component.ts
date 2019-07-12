@@ -10,20 +10,23 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./metadata-view.component.scss']
 })
 export class MetadataViewComponent implements OnInit {
-  startDate;
-  endDate;
+  startDate = '';
+  endDate = '';
 
   constructor(private toastr: ToastrService, public dataService: DataService) {}
 
   ngOnInit() {
     console.log(this.dataService.startDate, this.dataService.endDate);
-    this.startDate = moment(
-      this.dataService.startDate,
-      'YYYY-MM-DD HH:mm'
-    ).format('YYYY-MM-DDTHH:mm');
-    this.endDate = moment(this.dataService.endDate, 'YYYY-MM-DD HH:mm').format(
-      'YYYY-MM-DDTHH:mm'
-    );
+    this.startDate =
+      this.dataService.startDate &&
+      moment(this.dataService.startDate, 'YYYY-MM-DD HH:mm').format(
+        'YYYY-MM-DDTHH:mm'
+      );
+    this.endDate =
+      this.dataService.endDate &&
+      moment(this.dataService.endDate, 'YYYY-MM-DD HH:mm').format(
+        'YYYY-MM-DDTHH:mm'
+      );
   }
 
   onSubmit(form: NgForm) {
