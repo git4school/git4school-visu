@@ -445,7 +445,8 @@ export class GraphViewComponent implements OnInit {
   }
 
   showAddMilestoneModal(date) {
-    this.dateModal = moment(date.toDate()).format('YYYY-MM-DDTHH:mm');
+    console.log('date showAddMilestoneModal', date); // moment
+    this.dateModal = date.format('YYYY-MM-DDTHH:mm');
     this.labelModal = '';
     this.tpGroupModal = '';
     this.questionsModal = '';
@@ -455,6 +456,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   showEditMilestoneModal(milestone: Jalon) {
+    console.log('date showEditMilestoneModal', milestone.date); // Date
     this.dateModal = moment(milestone.date).format('YYYY-MM-DDTHH:mm');
     this.labelModal = milestone.label;
     this.tpGroupModal = milestone.tpGroup;
