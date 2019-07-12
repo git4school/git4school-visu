@@ -36,6 +36,11 @@ export class GraphViewComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) myChart;
 
+  typeaheadSettings = {
+    tagClass: 'badge badge-pill badge-secondary mr-1',
+    noMatchesText: 'No questions found',
+    suggestionLimit: 5
+  };
   loading = false;
   searchFilter: string[] = [];
   unit = 'day';
@@ -51,7 +56,7 @@ export class GraphViewComponent implements OnInit {
   dateModal;
   labelModal: string;
   tpGroupModal: string;
-  questionsModal: string;
+  questionsModal: string[];
   typeModal: string;
   addModal: boolean;
   savedMilestoneModal: Jalon;
@@ -449,7 +454,7 @@ export class GraphViewComponent implements OnInit {
     this.dateModal = date.format('YYYY-MM-DDTHH:mm');
     this.labelModal = '';
     this.tpGroupModal = '';
-    this.questionsModal = '';
+    this.questionsModal = [];
     this.typeModal = '';
     this.addModal = true;
     this.showModal();
@@ -460,9 +465,7 @@ export class GraphViewComponent implements OnInit {
     this.dateModal = moment(milestone.date).format('YYYY-MM-DDTHH:mm');
     this.labelModal = milestone.label;
     this.tpGroupModal = milestone.tpGroup;
-    this.questionsModal = milestone.questions
-      ? milestone.questions.toString()
-      : '';
+    this.questionsModal = milestone.questions ? milestone.questions : [];
     this.typeModal = milestone.type;
     this.addModal = false;
     this.savedMilestoneModal = milestone;
@@ -485,12 +488,7 @@ export class GraphViewComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log('form: ', form);
-    const questions = form.value.questions
-      .split(',')
-      .map(question => question.trim())
-      .filter(values => {
-        return Boolean(values) === true;
-      });
+    const questions = form.value.questions;
 
     const jalon = new Jalon(
       new Date(form.value.date),
@@ -662,12 +660,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   searchSubmit(form: NgForm) {
-    this.searchFilter = form.value.search
-      .split(',')
-      .map(question => question.trim())
-      .filter(values => {
-        return Boolean(values) === true;
-      });
+    this.searchFilter = form.value.search;
     this.loadGraphDataAndRefresh();
   }
 

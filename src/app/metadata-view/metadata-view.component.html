@@ -36,8 +36,10 @@
         </div>
         <div class="form-group">
           <label for="questions">Questions</label>
-          <input type="text" class="form-control" id="questions" name="questions"
-            [ngModel]="dataService.questions.toString()" required ngModel>
+          <type-ahead placeholder="Enter question(s) : 1.1, 1.2, ..." name="questions" id="questions"
+            [ngModel]="dataService.questions" [suggestions]="dataService.questions" class="form-control" [multi]="true"
+            [custom]="true" [settings]="typeaheadSettings" required ngModel>
+          </type-ahead>
         </div>
         <hr>
         <button [disabled]="f.invalid" type="submit" class="btn btn-primary">Save</button>

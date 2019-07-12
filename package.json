@@ -42,6 +42,7 @@
     "ngx-markdown": "^8.0.2",
     "ngx-spinner": "^7.1.4",
     "ngx-toastr": "^10.0.4",
+    "ngx-type-ahead": "^2.0.1",
     "popper.js": "^1.15.0",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.5.1",

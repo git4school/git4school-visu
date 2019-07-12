@@ -32,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MarkdownModule } from 'ngx-markdown';
+import { TypeaheadModule } from 'ngx-type-ahead';
 import { JsonManagerService } from './services/json-manager.service';
 import { DataService } from './services/data.service';
 import { StudentsCommitsViewComponent } from './students-commits-view/students-commits-view.component';
@@ -126,7 +127,8 @@ const appRoutes: Routes = [
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
     ClipboardModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    TypeaheadModule
   ],
   providers: [
     AppareilService,

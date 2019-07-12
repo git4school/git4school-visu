@@ -12,6 +12,11 @@ import { ToastrService } from 'ngx-toastr';
 export class MetadataViewComponent implements OnInit {
   startDate = '';
   endDate = '';
+  typeaheadSettings = {
+    tagClass: 'badge badge-pill badge-secondary mr-1',
+    noMatchesText: 'No questions found',
+    suggestionLimit: 5
+  };
 
   constructor(private toastr: ToastrService, public dataService: DataService) {}
 
@@ -38,12 +43,7 @@ export class MetadataViewComponent implements OnInit {
     this.dataService.year = f.year;
     this.dataService.startDate = f.startDate;
     this.dataService.endDate = f.endDate;
-    this.dataService.questions = f.questions
-      .split(',')
-      .map(question => question.trim())
-      .filter(values => {
-        return Boolean(values) === true;
-      });
+    this.dataService.questions = f.questions;
     this.toastr.success('Changes has been saved !', 'Success', {
       progressBar: true
     });

@@ -1,9 +1,11 @@
 <div class="d-flex flex-row p-3">
-    <div class="w-25">
-        <form (ngSubmit)="searchSubmit(searchForm)" #searchForm="ngForm" class="w-40">
+    <div class="w-50">
+        <form (ngSubmit)="searchSubmit(searchForm)" #searchForm="ngForm">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search question : 1.1, 1.2, ..."
-                    aria-label="Search question" aria-describedby="search-submit" name="search" ngModel>
+                <type-ahead placeholder="Search question : 1.1, 1.2, ..." name="search"
+                    [suggestions]="dataService.questions" class="form-control" [multi]="true" [custom]="false"
+                    [settings]="typeaheadSettings" ngModel>
+                </type-ahead>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" id="search-submit" type="submit">Search</button>
                 </div>
@@ -171,11 +173,10 @@
                     </div>
                     <div class="form-group">
                         <label id="questions-tooltip" for="questions" class="col-form-label">Questions :</label>
-                        <input type="text" class="form-control" id="questions" name="questions"
-                            [ngModel]="questionsModal" ngModel>
-                        <small id="questionsHelpBlock" class="form-text text-muted">
-                            Questions separated by commas
-                        </small>
+                        <type-ahead placeholder="Select question(s) : 1.1, 1.2, ..." name="questions" id="questions"
+                            [ngModel]="questionsModal" [suggestions]="dataService.questions" class="form-control"
+                            [multi]="true" [custom]="false" [settings]="typeaheadSettings" ngModel>
+                        </type-ahead>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="customRadio1" name="jalon" class="custom-control-input"
