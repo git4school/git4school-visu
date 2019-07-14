@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -21,14 +25,6 @@ export class CommitsService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getRepositoriesCommits(repoTab, startDate?: String, dateFin?: String) {
-    const tab = [];
-    repoTab.forEach(repo => {
-      tab.push(this.getCommits(repo, startDate, dateFin));
-    });
-    return forkJoin(tab);
-  }
-
   getRepositories(repoTab, startDate?: String, dateFin?: String) {
     const tab = [];
     repoTab.forEach(repo => {
@@ -37,45 +33,48 @@ export class CommitsService {
     return forkJoin(tab);
   }
 
-  getRepository(repo: Repository, startDate?: String, dateFin?: String) {
-    return new Observable(observer => {
-      this.getRepositoryObservable(repo, startDate, dateFin).subscribe(
-        response => {
-          const readme = decodeURIComponent(
-            escape(window.atob(response[0].content))
-          );
-          const tab = readme
-            .split(/(### NOM :)|(### Prénom :)|(### Groupe de TP :)|\n/g)
-            .filter(values => Boolean(values) === true);
-          if (!repo.name) {
-            if (!tab[4] || !tab[2]) {
-              const repoName = repo.url.split('/');
-              repo.name = repoName[4];
-            } else {
-              repo.name = tab[4].trim() + ' ' + tab[2].trim();
-            }
-          }
-          if (!repo.tpGroup && tab[6]) {
-            repo.tpGroup = tab[6].trim();
-          }
-          repo.commits = response[1];
-          observer.next(repo);
-          observer.complete();
-        },
-        err => {}
+  getRepositoryFromRaw(repo, response) {
+    let tab;
+
+    if (response[1] instanceof HttpErrorResponse) {
+      throw 'Repository not found or you have no rights on it : ' + repo.url;
+    }
+
+    if (!repo.name || !repo.tpGroup) {
+      if (response[0] instanceof HttpErrorResponse)
+        throw 'ReadMe not found for repo : ' + repo.url;
+
+      const readme = decodeURIComponent(
+        escape(window.atob(response[0].content))
       );
-    });
+      tab = readme
+        .split(/(### NOM :)|(### Prénom :)|(### Groupe de TP :)|\n/g)
+        .filter(values => Boolean(values) === true);
+    }
+
+    if (!repo.name) {
+      if (!tab[4] || !tab[2]) {
+        const repoName = repo.url.split('/');
+        repo.name = repoName[4];
+      } else {
+        repo.name = tab[4].trim() + ' ' + tab[2].trim();
+      }
+    }
+    if (!repo.tpGroup && tab[6]) {
+      repo.tpGroup = tab[6].trim();
+    }
+
+    repo.commits = response[1];
+    return repo;
   }
 
-  getRepositoryObservable(
-    repo: Repository,
-    startDate?: String,
-    dateFin?: String
-  ) {
+  getRepository(repo: Repository, startDate?: String, dateFin?: String) {
     return forkJoin(
-      this.getReadMe(repo),
-      this.getCommits(repo, startDate, dateFin)
-    ).pipe(catchError(error => of(error)));
+      this.getReadMe(repo).pipe(catchError(error => of(error))),
+      this.getCommits(repo, startDate, dateFin).pipe(
+        catchError(error => of(error))
+      )
+    );
   }
 
   getCommits(repo: Repository, startDate?, dateFin?): Observable<Commit[]> {
@@ -95,15 +94,12 @@ export class CommitsService {
       url = url.concat('&until=' + dateFin.toISOString());
     }
     return this.http.get<Commit[]>(url, this.httpOptions).pipe(
-      map(
-        response => {
-          //
-          const array = response.map(data => Commit.withJSON(data));
-          //
-          return array;
-        },
-        err => {}
-      )
+      map(response => {
+        //
+        const array = response.map(data => Commit.withJSON(data));
+        //
+        return array;
+      })
     );
   }
 

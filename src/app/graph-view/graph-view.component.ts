@@ -199,25 +199,31 @@ export class GraphViewComponent implements OnInit {
 
     this.commitsService
       .getRepositories(this.dataService.repositories, startDate, endDate)
-      .subscribe(
-        repositories => {
+      .subscribe(repositories => {
+        console.log(repositories);
+        try {
           this.dataService.tpGroups = new Set();
-          this.dataService.repositories = repositories;
-          this.dataService.repositories.forEach(repository => {
+          repositories.forEach((repository, index) => {
+            this.dataService.repositories[
+              index
+            ] = this.commitsService.getRepositoryFromRaw(
+              this.dataService.repositories[index],
+              repository
+            );
             this.dataService.tpGroups.add(repository.tpGroup);
           });
+          console.log(this.dataService.repositories);
           this.loadGraphDataAndRefresh();
-          this.loading = false;
           this.dataService.lastUpdateDate = new Date();
-        },
-        error => {
+        } catch (err) {
           this.error(
             'Erreur Git',
-            "Un des dépôts Github n'existe pas ou vous n'avez pas les droits dessus."
+            err // "Un des dépôts Github n'existe pas ou vous n'avez pas les droits dessus."
           );
+        } finally {
           this.loading = false;
         }
-      );
+      });
   }
 
   loadGraphData() {
