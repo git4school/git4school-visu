@@ -3,7 +3,7 @@
   <!-- <hr> -->
   <div class="card mt-2">
     <div class="card-body">
-      <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm" onkeydown="return event.key != 'Enter';">
         <div class="form-group">
           <label for="title">Title</label>
           <input type="text" class="form-control" id="title" name="title" [ngModel]="dataService.title" required
