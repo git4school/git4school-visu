@@ -520,6 +520,8 @@ export class GraphViewComponent implements OnInit {
     }
     this.dataService[jalon.type].push(jalon);
 
+    form.reset();
+
     this.loadGraphDataAndRefresh();
     this.dispose();
     this.toastr.success('Milestone has been saved !', 'Success', {
