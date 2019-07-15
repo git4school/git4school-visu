@@ -8,7 +8,7 @@ import {
 import { BaseChartDirective } from 'ng2-charts';
 import { AuthService } from '../services/auth.service';
 import { CommitsService } from '../services/commits.service';
-import { Commit } from '../models/Commit.model';
+import { Commit, CommitColor } from '../models/Commit.model';
 import { ToastrService } from 'ngx-toastr';
 import { Repository } from '../models/Repository.model';
 import { Session } from '../models/Session.model';
@@ -17,6 +17,8 @@ import { NgForm } from '@angular/forms';
 import moment from 'moment/src/moment';
 import { JsonManagerService } from '../services/json-manager.service';
 import { DataService } from '../services/data.service';
+import * as JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 declare var $: any;
 
@@ -707,19 +709,33 @@ export class GraphViewComponent implements OnInit {
 
   download() {
     this.dataService.generateJSON();
-    var element = document.createElement('a');
-    element.setAttribute(
-      'href',
-      'data:text/plain;charset=utf-8,' +
-        encodeURIComponent(JSON.stringify(this.jsonManager.json, null, 2))
+    let colors = [
+      CommitColor.BEFORE,
+      CommitColor.BETWEEN,
+      CommitColor.AFTER,
+      CommitColor.NOCOMMIT
+    ];
+
+    let dict = this.commitsService.initQuestionsDict(
+      this.dataService.questions,
+      colors
     );
-    element.setAttribute('download', this.jsonManager.filename);
+    dict = this.commitsService.loadQuestionsDict(
+      dict,
+      this.dataService.repositories,
+      this.dataService.questions,
+      colors
+    );
 
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
+    var zip = new JSZip();
+    zip.file('questionsCompletion.json', JSON.stringify(dict, null, 2));
+    zip.file(
+      this.jsonManager.filename,
+      JSON.stringify(this.jsonManager.json, null, 2)
+    );
+    zip.generateAsync({ type: 'blob' }).then(function(content) {
+      // see FileSaver.js
+      saveAs(content, 'download.zip');
+    });
   }
 }

@@ -136,8 +136,8 @@ export class CommitsService {
     repositories,
     questions: string[],
     colors,
-    tpGroup,
-    date
+    tpGroup?,
+    date?
   ) {
     let repos = repositories.filter(
       repository => !tpGroup || repository.tpGroup === tpGroup
@@ -145,7 +145,7 @@ export class CommitsService {
     repos.forEach(repository => {
       let studentQuestions = [];
       repository.commits
-        .filter(commit => commit.commitDate.getTime() < date)
+        .filter(commit => !date || commit.commitDate.getTime() < date)
         .forEach(commit => {
           if (commit.question) {
             let students = [];
