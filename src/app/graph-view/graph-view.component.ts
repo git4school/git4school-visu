@@ -452,10 +452,8 @@ export class GraphViewComponent implements OnInit {
       // tslint:disable-next-line: no-string-literal
       window.open(data.commit.url, '_blank');
     } else {
-      if (event.event.shiftKey) {
-        const rawDate = this.getValueFromEvent(event);
-        this.showAddMilestoneModal(rawDate);
-      }
+      const rawDate = this.getValueFromEvent(event);
+      this.showAddMilestoneModal(rawDate);
     }
   }
 
