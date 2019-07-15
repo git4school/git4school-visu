@@ -3,20 +3,29 @@ import { DataService } from '../services/data.service';
 
 export const CommitColor = {
   BEFORE: {
-    label: 'green',
+    label: 'Before review',
+    name: 'green',
     color: 'rgb(53, 198, 146)'
   },
   BETWEEN: {
-    label: 'orange',
+    label: 'Between review and correction',
+    name: 'orange',
     color: 'rgb(255, 127, 74)'
   },
   AFTER: {
-    label: 'red',
+    label: 'After correction',
+    name: 'red',
     color: 'rgb(203, 91, 68)'
   },
   INTERMEDIATE: {
-    label: 'black',
+    label: 'Intermediate commit',
+    name: 'black',
     color: 'rgb(77, 77, 77)'
+  },
+  NOCOMMIT: {
+    label: 'Not finished',
+    name: 'lightgrey',
+    color: 'lightgrey'
   }
 };
 export class Commit {

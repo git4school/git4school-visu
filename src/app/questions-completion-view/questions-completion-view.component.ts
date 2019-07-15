@@ -4,6 +4,7 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { DataService } from '../services/data.service';
 import { CommitColor } from '../models/Commit.model';
 import { BaseChartDirective } from 'ng2-charts';
+import { CommitsService } from '../services/commits.service';
 declare var $: any;
 
 @Component({
@@ -41,7 +42,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
             '\nCommits count : ' +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
-            ].data.nb +
+            ].data.count +
             '\nCommits pourcentage : ' +
             tooltipItem[0].yLabel.toFixed(2) +
             '%'
@@ -117,10 +118,8 @@ export class QuestionsCompletionViewComponent implements OnInit {
         },
         borderRadius: 4,
         formatter: function(value, context) {
-          // console.log(context);
-          // console.log(context.chart.data.labels[context.dataIndex]);
           return (
-            context.dataset.data[context.dataIndex].data.nb +
+            context.dataset.data[context.dataIndex].data.count +
             ' (' +
             context.dataset.data[context.dataIndex].y.toFixed(2) +
             '%)'
@@ -132,13 +131,39 @@ export class QuestionsCompletionViewComponent implements OnInit {
 
   chartData = [{ data: [] }];
 
-  constructor(public dataService: DataService) {}
+  constructor(
+    public dataService: DataService,
+    private commitsService: CommitsService
+  ) {}
 
   loadGraphDataAndRefresh() {
     if (this.dataService.repositories) {
-      console.log(this.date);
-      this.initDict();
-      this.loadQuestions();
+      this.chartLabels = this.dataService.questions;
+      let colors = [
+        CommitColor.BEFORE,
+        CommitColor.BETWEEN,
+        CommitColor.AFTER,
+        CommitColor.NOCOMMIT
+      ];
+
+      let dict = this.commitsService.initQuestionsDict(
+        this.dataService.questions,
+        colors
+      );
+      dict = this.commitsService.loadQuestionsDict(
+        dict,
+        this.dataService.repositories,
+        this.dataService.questions,
+        colors,
+        this.tpGroup,
+        this.date
+      );
+
+      this.chartData = this.commitsService.loadQuestions(
+        dict,
+        colors,
+        this.dataService.questions
+      );
     }
   }
 
@@ -149,23 +174,6 @@ export class QuestionsCompletionViewComponent implements OnInit {
         (this.max = this.date) &&
         (this.min = this.getMinDateTimestamp()));
     this.loadGraphDataAndRefresh();
-  }
-
-  initDict() {
-    this.dataService.questions.forEach(question => {
-      this.dict[question] = {};
-      [
-        CommitColor.BEFORE.label,
-        CommitColor.BETWEEN.label,
-        CommitColor.AFTER.label,
-        'NoCommit'
-      ].forEach(color => {
-        this.dict[question][color] = {
-          nb: 0,
-          students: []
-        };
-      });
-    });
   }
 
   getMinDateTimestamp() {
@@ -179,129 +187,5 @@ export class QuestionsCompletionViewComponent implements OnInit {
       commits[0].commitDate
     );
     return min.getTime();
-  }
-
-  loadQuestions() {
-    let repos = this.dataService.repositories.filter(
-      repository => !this.tpGroup || repository.tpGroup === this.tpGroup
-    );
-    repos.forEach(repository => {
-      repository.commits
-        .filter(commit => commit.commitDate.getTime() < this.date)
-        .forEach(commit => {
-          if (commit.question) {
-            if (
-              !this.dict[commit.question][CommitColor.BEFORE.label].students
-                .concat(
-                  this.dict[commit.question][CommitColor.BETWEEN.label]
-                    .students,
-                  this.dict[commit.question][CommitColor.AFTER.label].students
-                )
-                .includes(repository.name)
-            ) {
-              this.dict[commit.question][commit.color.label].nb++;
-              this.dict[commit.question][commit.color.label].students.push(
-                repository.name
-              );
-            }
-          }
-        });
-      this.dataService.questions.forEach(question => {
-        if (
-          !(
-            this.dict[question][CommitColor.BEFORE.label].students.includes(
-              repository.name
-            ) ||
-            this.dict[question][CommitColor.BETWEEN.label].students.includes(
-              repository.name
-            ) ||
-            this.dict[question][CommitColor.AFTER.label].students.includes(
-              repository.name
-            )
-          )
-        ) {
-          this.dict[question]['NoCommit'].nb++;
-          this.dict[question]['NoCommit'].students.push(repository.name);
-        }
-      });
-    });
-
-    this.chartLabels = this.dataService.questions;
-    let data = [];
-
-    data.push({
-      label: 'Before review',
-      backgroundColor: CommitColor.BEFORE.color, // green
-      hoverBackgroundColor: CommitColor.BEFORE.color,
-      borderColor: 'grey',
-      data: this.chartLabels.map(label => {
-        return {
-          y:
-            (this.dict[label][CommitColor.BEFORE.label].nb / repos.length) *
-            100,
-          data: this.dict[label][CommitColor.BEFORE.label]
-        };
-      })
-    });
-
-    data.push({
-      label: 'Between review and correction',
-      backgroundColor: CommitColor.BETWEEN.color, // orange
-      hoverBackgroundColor: CommitColor.BETWEEN.color,
-      borderColor: 'grey',
-      data: this.chartLabels.map(label => {
-        return {
-          y:
-            (this.dict[label][CommitColor.BETWEEN.label].nb / repos.length) *
-            100,
-          data: this.dict[label][CommitColor.BETWEEN.label]
-        };
-      })
-    });
-
-    data.push({
-      label: 'After correction',
-      backgroundColor: CommitColor.AFTER.color, // red
-      hoverBackgroundColor: CommitColor.AFTER.color,
-      borderColor: 'grey',
-      data: this.chartLabels.map(label => {
-        return {
-          y:
-            (this.dict[label][CommitColor.AFTER.label].nb / repos.length) * 100,
-          data: this.dict[label][CommitColor.AFTER.label]
-        };
-      })
-    });
-
-    // this.chartData.push({
-    //   label: 'Not finished',
-    //   backgroundColor: 'grey', // grey
-    //   borderColor: 'grey',
-    //   data: this.chartLabels.map((label, index) => {
-    //     return {
-    //       y:
-    //         100 -
-    //         this.chartData[0].data[index].y -
-    //         this.chartData[1].data[index].y -
-    //         this.chartData[2].data[index].y,
-    //       data: this.dict[label][CommitColor.AFTER.label]
-    //     };
-    //   })
-    // });
-
-    data.push({
-      label: 'Not finished',
-      backgroundColor: 'lightgrey', // lightgrey
-      borderColor: 'grey',
-      hoverBackgroundColor: 'lightgrey',
-      data: this.chartLabels.map(label => {
-        return {
-          y: (this.dict[label]['NoCommit'].nb / repos.length) * 100,
-          data: this.dict[label]['NoCommit']
-        };
-      })
-    });
-
-    this.chartData = data;
   }
 }

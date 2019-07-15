@@ -11,6 +11,7 @@ import { Commit } from '../models/Commit.model';
 import { forkJoin } from 'rxjs';
 import { Repository } from '../models/Repository.model';
 import moment from 'moment/src/moment';
+import { CommitColor } from '../models/Commit.model';
 
 @Injectable({
   providedIn: 'root'
@@ -112,5 +113,99 @@ export class CommitsService {
       tabHashURL[4] +
       '/readme';
     return this.http.get(url, this.httpOptions);
+  }
+
+  initQuestionsDict(questions: string[], colors) {
+    let dict = {};
+    questions.forEach(question => {
+      dict[question] = {};
+      colors.forEach(color => {
+        dict[question][color.name] = {
+          count: 0,
+          percentage: 0,
+          students: []
+        };
+      });
+    });
+
+    return dict;
+  }
+
+  loadQuestionsDict(
+    dict,
+    repositories,
+    questions: string[],
+    colors,
+    tpGroup,
+    date
+  ) {
+    let repos = repositories.filter(
+      repository => !tpGroup || repository.tpGroup === tpGroup
+    );
+    repos.forEach(repository => {
+      let studentQuestions = [];
+      repository.commits
+        .filter(commit => commit.commitDate.getTime() < date)
+        .forEach(commit => {
+          if (commit.question) {
+            let students = [];
+            for (let commitColor in dict[commit.question]) {
+              students = students.concat(
+                dict[commit.question][commitColor].students
+              );
+            }
+            console.log(repository.name, commit.message, students);
+            if (
+              !students.includes(repository.name) &&
+              colors.includes(commit.color)
+            ) {
+              dict[commit.question][commit.color.name].count++;
+              dict[commit.question][commit.color.name].students.push(
+                repository.name
+              );
+              studentQuestions.push(commit.question);
+            }
+          }
+        });
+      questions.forEach(question => {
+        if (!studentQuestions.includes(question)) {
+          dict[question][CommitColor.NOCOMMIT.name].count++;
+          dict[question][CommitColor.NOCOMMIT.name].students.push(
+            repository.name
+          );
+        }
+      });
+    });
+    for (let question in dict) {
+      for (let commitColor in dict[question]) {
+        dict[question][commitColor].percentage =
+          (dict[question][commitColor].count / repos.length) * 100;
+      }
+    }
+    return dict;
+  }
+
+  loadQuestions(dict, colors, questions: string[]) {
+    let data = [];
+    colors.forEach(color => {
+      data.push({
+        label: color.label,
+        backgroundColor: color.color,
+        hoverBackgroundColor: color.color,
+        borderColor: 'grey',
+        data: questions.map(question => {
+          return {
+            y: dict[question][color.name].percentage,
+            data: dict[question][color.name]
+          };
+        })
+      });
+    });
+
+    return data;
+  }
+
+  flatTab(tab) {
+    return [].concat.apply([], tab);
   }
 }
