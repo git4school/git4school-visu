@@ -404,7 +404,11 @@ export class GraphViewComponent implements OnInit {
         const borderColor = 'rgba(77, 77, 77, 0.5)';
         labels.push(repository.name);
         repository.commits.forEach(commit => {
-          commit.updateMetadata(reviews, corrections);
+          commit.updateMetadata(
+            reviews,
+            corrections,
+            this.dataService.questions
+          );
           // commit.updateIsCloture();
           // commit.updateColor(corrections, reviews);
           // console.log(commit.question);

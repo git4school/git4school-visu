@@ -1,4 +1,5 @@
 import { Jalon } from './Jalon.model';
+import { DataService } from '../services/data.service';
 
 export const CommitColor = {
   BEFORE: {
@@ -27,7 +28,7 @@ export class Commit {
     public isEnSeance = false,
     public isCloture = false,
     public question?: string,
-    public color = CommitColor.INTERMEDIATE // black
+    public color = CommitColor.INTERMEDIATE
   ) {
     this.commitDate = new Date(commitDate);
   }
@@ -94,46 +95,33 @@ export class Commit {
     });
   }
 
-  updateMetadata(reviews: Jalon[], corrections: Jalon[]) {
+  updateMetadata(reviews: Jalon[], corrections: Jalon[], questions: string[]) {
     this.updateIsCloture();
+    this.question = this.getQuestion(questions);
     this.color = CommitColor.INTERMEDIATE;
     if (reviews) {
       reviews.forEach(review => {
-        const question = this.getQuestion(review.questions);
-        if (question) {
+        if (review.questions.includes(this.question)) {
           if (this.commitDate.getTime() > review.date.getTime()) {
             this.color = CommitColor.BETWEEN; // orange
           } else {
             this.color = CommitColor.BEFORE; // green
           }
-          this.question = question;
         }
       });
     }
     if (corrections) {
       corrections.forEach(correction => {
-        const question = this.getQuestion(correction.questions);
-        if (question) {
+        if (correction.questions.includes(this.question)) {
           if (this.commitDate.getTime() > correction.date.getTime()) {
             this.color = CommitColor.AFTER; // red
           } else if (this.color === CommitColor.INTERMEDIATE) {
             // if color is black
             this.color = CommitColor.BEFORE; // green
           }
-          this.question = question;
         }
       });
     }
-    //     console.log(
-    //       `{
-    //   ` +
-    //         this.message +
-    //         `
-    //   ` +
-    //         this.question +
-    //         `
-    // }`
-    //     );
   }
 
   updateColor(reviews: Jalon[], corrections: Jalon[]) {
