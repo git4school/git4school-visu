@@ -120,7 +120,7 @@ export class CommitsService {
     questions.forEach(question => {
       dict[question] = {};
       colors.forEach(color => {
-        dict[question][color.name] = {
+        dict[question][color.label] = {
           count: 0,
           percentage: 0,
           students: []
@@ -159,8 +159,8 @@ export class CommitsService {
               !students.includes(repository.name) &&
               colors.includes(commit.color)
             ) {
-              dict[commit.question][commit.color.name].count++;
-              dict[commit.question][commit.color.name].students.push(
+              dict[commit.question][commit.color.label].count++;
+              dict[commit.question][commit.color.label].students.push(
                 repository.name
               );
               studentQuestions.push(commit.question);
@@ -169,8 +169,8 @@ export class CommitsService {
         });
       questions.forEach(question => {
         if (!studentQuestions.includes(question)) {
-          dict[question][CommitColor.NOCOMMIT.name].count++;
-          dict[question][CommitColor.NOCOMMIT.name].students.push(
+          dict[question][CommitColor.NOCOMMIT.label].count++;
+          dict[question][CommitColor.NOCOMMIT.label].students.push(
             repository.name
           );
         }
@@ -195,8 +195,8 @@ export class CommitsService {
         borderColor: 'grey',
         data: questions.map(question => {
           return {
-            y: dict[question][color.name].percentage,
-            data: dict[question][color.name]
+            y: dict[question][color.label].percentage,
+            data: dict[question][color.label]
           };
         })
       });
