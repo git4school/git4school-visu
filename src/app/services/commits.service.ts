@@ -154,7 +154,6 @@ export class CommitsService {
                 dict[commit.question][commitColor].students
               );
             }
-            console.log(repository.name, commit.message, students);
             if (
               !students.includes(repository.name) &&
               colors.includes(commit.color)
@@ -205,7 +204,123 @@ export class CommitsService {
     return data;
   }
 
-  flatTab(tab) {
-    return [].concat.apply([], tab);
+  initStudentsDict(repository: Repository, dict, questions: string[], colors) {
+    dict.push({
+      commitTypes: {},
+      lastQuestionDone: questions[0],
+      count: 0
+    });
+    colors.forEach(color => {
+      dict[dict.length - 1]['commitTypes'][color.label] = {
+        count: 0
+      };
+    });
+  }
+
+  loadStudentsDict(
+    repositories: Repository[],
+    questions: string[],
+    colors,
+    tpGroup?: string,
+    date?: number
+  ) {
+    let dict = [];
+    let repos = repositories.filter(
+      repository => !tpGroup || repository.tpGroup === tpGroup
+    );
+    repos.forEach((repository, index) => {
+      this.initStudentsDict(repository, dict, questions, colors);
+      repository.commits
+        .filter(commit => !date || commit.commitDate.getTime() < date)
+        .forEach(commit => {
+          dict[index]['commitTypes'][commit.color.label].count++;
+          dict[index].count++;
+          this.isSupThan(
+            commit.question,
+            dict[index].lastQuestionDone,
+            questions
+          ) && (dict[index].lastQuestionDone = commit.question);
+        });
+      dict[index].name = repository.name;
+      dict[index].url = repository.url;
+      dict[index].tpGroup = repository.tpGroup;
+      dict[index].commits = repository.commits;
+      colors.forEach(color => {
+        dict[index]['commitTypes'][color.label].percentage =
+          (dict[index]['commitTypes'][color.label].count / dict[index].count) *
+          100;
+      });
+    });
+
+    return dict;
+  }
+
+  loadStudents(dict, colors) {
+    let data = [];
+
+    data.push({
+      label: '# of commits',
+      yAxisID: 'C',
+      type: 'line',
+      fill: false,
+      borderWidth: 2,
+      datalabels: {
+        display: true
+      },
+      borderColor: 'lightblue',
+      hoverBackgroundColor: 'lightblue',
+      backgroundColor: 'lightblue',
+      data: dict.map(student => {
+        return {
+          y: student.count,
+          data: student
+        };
+      })
+    });
+
+    data.push({
+      label: 'Question progression',
+      borderColor: 'blue',
+      type: 'line',
+      fill: false,
+      datalabels: {
+        display: true
+      },
+      yAxisID: 'B',
+      data: dict.map(student => {
+        return {
+          y: student.lastQuestionDone,
+          data: student
+        };
+      })
+    });
+
+    colors.forEach(color => {
+      data.push({
+        label: color.label,
+        backgroundColor: color.color,
+        hoverBackgroundColor: color.color,
+        borderColor: 'grey',
+        yAxisID: 'A',
+        data: dict.map(student => {
+          return {
+            y: student['commitTypes'][color.label].percentage,
+            data: student
+          };
+        })
+      });
+    });
+
+    return data;
+  }
+
+  compareQuestions(q1, q2, questions) {
+    return questions.indexOf(q1) - questions.indexOf(q2);
+  }
+
+  isSupThan(q1, q2, questions) {
+    return (
+      questions.includes(q2) && this.compareQuestions(q1, q2, questions) > 0
+    );
   }
 }

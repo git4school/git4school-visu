@@ -190,7 +190,6 @@ export class GraphViewComponent implements OnInit {
           this.loadGraph(text.startDate, text.endDate);
         });
         $('#uploadFileModal').modal('hide');
-        // console.log(this.dataService.others);
       }
     };
     myReader.readAsText(this.jsonManager.file);
@@ -213,10 +212,6 @@ export class GraphViewComponent implements OnInit {
             );
             this.dataService.tpGroups.add(
               this.dataService.repositories[index].tpGroup
-            );
-            console.log(
-              this.dataService.repositories[index].tpGroup,
-              this.dataService.tpGroups
             );
           });
           this.loadGraphDataAndRefresh();
@@ -308,9 +303,7 @@ export class GraphViewComponent implements OnInit {
             position: 'top'
           },
           onClick: function(e) {
-            // console.log(review);
             me.showEditMilestoneModal(review);
-            // console.log(me.dataService.reviews.includes(review));
           }
         });
       });
@@ -411,9 +404,6 @@ export class GraphViewComponent implements OnInit {
             corrections,
             this.dataService.questions
           );
-          // commit.updateIsCloture();
-          // commit.updateColor(corrections, reviews);
-          // console.log(commit.question);
           if (
             !this.searchFilter.length ||
             this.searchFilter.includes(commit.question)
@@ -464,7 +454,6 @@ export class GraphViewComponent implements OnInit {
   }
 
   showAddMilestoneModal(date) {
-    console.log('date showAddMilestoneModal', date); // moment
     this.dateModal = date.format('YYYY-MM-DDTHH:mm');
     this.labelModal = '';
     this.tpGroupModal = '';
@@ -475,7 +464,6 @@ export class GraphViewComponent implements OnInit {
   }
 
   showEditMilestoneModal(milestone: Jalon) {
-    console.log('date showEditMilestoneModal', milestone.date); // Date
     this.dateModal = moment(milestone.date).format('YYYY-MM-DDTHH:mm');
     this.labelModal = milestone.label;
     this.tpGroupModal = milestone.tpGroup;
@@ -487,6 +475,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   showModal() {
+    console.log(this.labelModal);
     $('#addMilestoneModal').modal('show');
   }
 
@@ -501,8 +490,8 @@ export class GraphViewComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log('form: ', form);
     const questions = form.value.questions;
+    console.log('form', form.value);
 
     const jalon = new Jalon(
       new Date(form.value.date),
@@ -524,7 +513,13 @@ export class GraphViewComponent implements OnInit {
     }
     this.dataService[jalon.type].push(jalon);
 
-    form.reset();
+    form.resetForm({
+      date: '',
+      label: '',
+      questions: [],
+      tpGroup: '',
+      jalon: ''
+    });
 
     this.loadGraphDataAndRefresh();
     this.dispose();
@@ -560,7 +555,6 @@ export class GraphViewComponent implements OnInit {
   }
 
   changeUnit() {
-    // console.log(this.myChart.chart.options);
     if (this.unit === 'week') {
       this.selectUnit('day');
     } else if (this.unit === 'day') {
@@ -681,7 +675,6 @@ export class GraphViewComponent implements OnInit {
   }
 
   adaptScaleWithChart(chart) {
-    console.log('chart2', chart);
     let min = new Date(chart.scales['x-axis-0'].min);
     let max = new Date(chart.scales['x-axis-0'].max);
     this.adaptScale(min, max);
@@ -715,27 +708,52 @@ export class GraphViewComponent implements OnInit {
       CommitColor.AFTER,
       CommitColor.NOCOMMIT
     ];
+    let shortFilenameTab = this.jsonManager.filename.split('.');
+    shortFilenameTab.pop();
+    let shortFilename = shortFilenameTab.join('.');
 
-    let dict = this.commitsService.initQuestionsDict(
+    let questionsDict = this.commitsService.initQuestionsDict(
       this.dataService.questions,
       colors
     );
-    dict = this.commitsService.loadQuestionsDict(
-      dict,
+    questionsDict = this.commitsService.loadQuestionsDict(
+      questionsDict,
       this.dataService.repositories,
       this.dataService.questions,
       colors
     );
+    questionsDict['date'] = this.dataService.lastUpdateDate;
 
-    var zip = new JSZip();
-    zip.file('questionsCompletion.json', JSON.stringify(dict, null, 2));
+    colors = [
+      CommitColor.INTERMEDIATE,
+      CommitColor.BEFORE,
+      CommitColor.BETWEEN,
+      CommitColor.AFTER
+    ];
+
+    let studentsDict = {
+      date: this.dataService.lastUpdateDate,
+      students: this.commitsService.loadStudentsDict(
+        this.dataService.repositories,
+        this.dataService.questions,
+        colors
+      )
+    };
+
+    let zip = new JSZip();
     zip.file(
       this.jsonManager.filename,
       JSON.stringify(this.jsonManager.json, null, 2)
     );
+    zip.file(
+      'questions-completion.json',
+      JSON.stringify(questionsDict, null, 2)
+    );
+    zip.file('students-commits.json', JSON.stringify(studentsDict, null, 2));
+
     zip.generateAsync({ type: 'blob' }).then(function(content) {
       // see FileSaver.js
-      saveAs(content, 'download.zip');
+      saveAs(content, shortFilename + '.zip');
     });
   }
 }

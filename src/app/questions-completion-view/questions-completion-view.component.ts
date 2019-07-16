@@ -23,6 +23,10 @@ export class QuestionsCompletionViewComponent implements OnInit {
   chartLabels;
   chartOptions = {
     responsive: true,
+    animation: {
+      duration: 0 // general animation time
+    },
+    responsiveAnimationDuration: 0,
     aspectRatio: 2.4,
     legend: {
       position: 'bottom'

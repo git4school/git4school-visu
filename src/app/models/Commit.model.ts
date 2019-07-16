@@ -110,7 +110,7 @@ export class Commit {
     this.color = CommitColor.INTERMEDIATE;
     if (reviews) {
       reviews.forEach(review => {
-        if (review.questions.includes(this.question)) {
+        if (review.questions && review.questions.includes(this.question)) {
           if (this.commitDate.getTime() > review.date.getTime()) {
             this.color = CommitColor.BETWEEN; // orange
           } else {
@@ -121,7 +121,10 @@ export class Commit {
     }
     if (corrections) {
       corrections.forEach(correction => {
-        if (correction.questions.includes(this.question)) {
+        if (
+          correction.questions &&
+          correction.questions.includes(this.question)
+        ) {
           if (this.commitDate.getTime() > correction.date.getTime()) {
             this.color = CommitColor.AFTER; // red
           } else if (this.color === CommitColor.INTERMEDIATE) {
