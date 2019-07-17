@@ -20,7 +20,7 @@ export class DataService {
   course: string;
   program: string;
   year: string;
-  tpGroups: Set<string>;
+  tpGroups: string[];
   lastUpdateDate: Date;
   questions: string[];
 

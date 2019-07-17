@@ -11,8 +11,9 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es5",
+    "downlevelIteration": true,
     "typeRoots": ["node_modules/@types"],
-    "lib": ["es2018", "dom"],
+    "lib": ["es2018", "dom", "es6"],
     "paths": {
       "jszip": ["../node_modules/jszip/dist/jszip.min.js"]
     }

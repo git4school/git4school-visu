@@ -202,7 +202,7 @@ export class GraphViewComponent implements OnInit {
       .getRepositories(this.dataService.repositories, startDate, endDate)
       .subscribe(repositories => {
         try {
-          this.dataService.tpGroups = new Set();
+          let tpGroups = new Set<string>();
           repositories.forEach((repository, index) => {
             this.dataService.repositories[
               index
@@ -210,10 +210,9 @@ export class GraphViewComponent implements OnInit {
               this.dataService.repositories[index],
               repository
             );
-            this.dataService.tpGroups.add(
-              this.dataService.repositories[index].tpGroup
-            );
+            tpGroups.add(this.dataService.repositories[index].tpGroup);
           });
+          this.dataService.tpGroups = Array.from(tpGroups);
           this.loadGraphDataAndRefresh();
           this.dataService.lastUpdateDate = new Date();
         } catch (err) {
@@ -497,7 +496,7 @@ export class GraphViewComponent implements OnInit {
       new Date(form.value.date),
       form.value.label.trim(),
       questions.length ? questions : null,
-      form.value.tpGroup.trim(),
+      (form.value.tpGroup || '').trim(),
       form.value.jalon
     );
 
