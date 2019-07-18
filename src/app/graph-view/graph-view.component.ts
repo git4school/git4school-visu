@@ -19,6 +19,7 @@ import { JsonManagerService } from '../services/json-manager.service';
 import { DataService } from '../services/data.service';
 import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import * as Ajv from 'ajv';
 
 declare var $: any;
 
@@ -184,7 +185,7 @@ export class GraphViewComponent implements OnInit {
       } catch (e) {
         this.error("Le fichier n'est pas un fichier JSON valide.", e.message);
       }
-      if (text /* TODO: && verifyJSON() */) {
+      if (text && this.verifyJSON(text)) {
         this.getDataFromFile(text);
         setTimeout(() => {
           this.loadGraph(text.startDate, text.endDate);
@@ -563,10 +564,6 @@ export class GraphViewComponent implements OnInit {
     }
   }
 
-  verifyJSON() {
-    // TODO: Envoyer des alertes (warning et error), renvoie false s'il y a une erreur, true s'il y a seulement warning ou rien
-  }
-
   getPointStyle(commit: Commit) {
     if (commit.isCloture) {
       return 'circle';
@@ -592,7 +589,8 @@ export class GraphViewComponent implements OnInit {
 
   error(titre, message: string) {
     this.toastr.error(message, titre, {
-      progressBar: true
+      progressBar: true,
+      enableHtml: true
     });
   }
 
@@ -754,5 +752,183 @@ export class GraphViewComponent implements OnInit {
       // see FileSaver.js
       saveAs(content, shortFilename + '.zip');
     });
+  }
+
+  verifyJSON(json) {
+    let schema = {
+      properties: {
+        title: {
+          type: 'string'
+        },
+        course: {
+          type: 'string'
+        },
+        program: {
+          type: 'string'
+        },
+        year: {
+          type: 'string'
+        },
+        startDate: {
+          type: 'string',
+          pattern:
+            '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9]{3}Z?)'
+        },
+        endDate: {
+          type: 'string',
+          pattern:
+            '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9]{3}Z?)'
+        },
+        questions: {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            type: 'string'
+          }
+        },
+        repositories: {
+          type: 'array',
+          uniqueItems: true,
+          minItems: 1,
+          items: {
+            properties: {
+              url: {
+                type: 'string',
+                format: 'uri'
+              },
+              name: {
+                type: 'string'
+              },
+              tpGroup: {
+                type: 'string'
+              }
+            },
+            required: ['url']
+          }
+        },
+        sessions: {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            properties: {
+              startDate: {
+                type: 'string',
+                pattern:
+                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9]{3}Z?)'
+              },
+              endDate: {
+                type: 'string',
+                pattern:
+                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9]{3}Z?)'
+              },
+              tpGroup: {
+                type: 'string'
+              }
+            },
+            required: ['startDate', 'endDate']
+          }
+        },
+        reviews: {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            properties: {
+              date: {
+                type: 'string',
+                pattern:
+                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9]{3}Z?)'
+              },
+              label: {
+                type: 'string'
+              },
+              tpGroup: {
+                type: 'string'
+              },
+              questions: {
+                type: 'array',
+                uniqueItems: true,
+                items: {
+                  type: 'string'
+                }
+              }
+            },
+            required: ['date']
+          }
+        },
+        corrections: {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            properties: {
+              date: {
+                type: 'string',
+                pattern:
+                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9]{3}Z?)'
+              },
+              label: {
+                type: 'string'
+              },
+              tpGroup: {
+                type: 'string'
+              },
+              questions: {
+                type: 'array',
+                uniqueItems: true,
+                items: {
+                  type: 'string'
+                }
+              }
+            },
+            required: ['date']
+          }
+        },
+        others: {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            properties: {
+              date: {
+                type: 'string',
+                pattern:
+                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9]{3}Z?)'
+              },
+              label: {
+                type: 'string'
+              },
+              tpGroup: {
+                type: 'string'
+              },
+              questions: {
+                type: 'array',
+                uniqueItems: true,
+                items: {
+                  type: 'string'
+                }
+              }
+            },
+            required: ['date']
+          }
+        }
+      },
+      required: ['title', 'questions', 'repositories']
+    };
+
+    let ajv = new Ajv({ $data: true, allErrors: true, verbose: true });
+    let valid = ajv.validate(schema, json);
+
+    if (!valid) {
+      let errorMessage =
+        '&emsp;' +
+        ajv.errors
+          .map(error => {
+            return error.dataPath + ' ' + error.message;
+          })
+          .join('<br>&emsp;');
+      this.error('Invalid JSON', errorMessage);
+
+      return false;
+    }
+
+    return true;
   }
 }
