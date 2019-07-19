@@ -160,7 +160,9 @@ export class CommitsService {
             let students = [];
             for (let commitColor in dict[commit.question]) {
               students = students.concat(
-                dict[commit.question][commitColor].students
+                dict[commit.question][commitColor].students.map(
+                  student => student.name
+                )
               );
             }
             if (
@@ -168,9 +170,11 @@ export class CommitsService {
               colors.includes(commit.color)
             ) {
               dict[commit.question][commit.color.label].count++;
-              dict[commit.question][commit.color.label].students.push(
-                repository.name
-              );
+              dict[commit.question][commit.color.label].students.push({
+                name: repository.name,
+                tpGroup: repository.tpGroup,
+                url: repository.url
+              });
               studentQuestions.push(commit.question);
             }
           }
@@ -178,9 +182,11 @@ export class CommitsService {
       questions.forEach(question => {
         if (!studentQuestions.includes(question)) {
           dict[question][CommitColor.NOCOMMIT.label].count++;
-          dict[question][CommitColor.NOCOMMIT.label].students.push(
-            repository.name
-          );
+          dict[question][CommitColor.NOCOMMIT.label].students.push({
+            name: repository.name,
+            tpGroup: repository.tpGroup,
+            url: repository.url
+          });
         }
       });
     });
@@ -217,11 +223,11 @@ export class CommitsService {
     dict[repository.name] = {
       commitTypes: {},
       lastQuestionDone: questions[0],
-      count: 0
+      commitsCount: 0
     };
     colors.forEach(color => {
       dict[repository.name]['commitTypes'][color.label] = {
-        count: 0
+        commitsCount: 0
       };
     });
   }
@@ -242,8 +248,9 @@ export class CommitsService {
       repository.commits
         .filter(commit => !date || commit.commitDate.getTime() < date)
         .forEach(commit => {
-          dict[repository.name]['commitTypes'][commit.color.label].count++;
-          dict[repository.name].count++;
+          dict[repository.name]['commitTypes'][commit.color.label]
+            .commitsCount++;
+          dict[repository.name].commitsCount++;
           this.isSupThan(
             commit.question,
             dict[repository.name].lastQuestionDone,
@@ -253,12 +260,20 @@ export class CommitsService {
       dict[repository.name].name = repository.name;
       dict[repository.name].url = repository.url;
       dict[repository.name].tpGroup = repository.tpGroup;
-      dict[repository.name].commits = repository.commits;
+      dict[repository.name].commits = repository.commits.map(commit => {
+        let modifiedCommit = { ...commit };
+        modifiedCommit['commitType'] = modifiedCommit.color.label;
+        delete modifiedCommit['color'];
+        return modifiedCommit;
+      });
       colors.forEach(color => {
-        dict[repository.name]['commitTypes'][color.label].percentage =
-          (dict[repository.name]['commitTypes'][color.label].count /
-            dict[repository.name].count) *
-          100;
+        dict[repository.name]['commitTypes'][color.label].percentage = dict[
+          repository.name
+        ].commitsCount
+          ? (dict[repository.name]['commitTypes'][color.label].commitsCount /
+              dict[repository.name].commitsCount) *
+            100
+          : 0;
       });
     });
 
@@ -272,6 +287,7 @@ export class CommitsService {
       label: '# of commits',
       yAxisID: 'C',
       type: 'line',
+      pointHitRadius: 0,
       fill: false,
       borderWidth: 2,
       datalabels: {
@@ -282,7 +298,7 @@ export class CommitsService {
       backgroundColor: 'lightblue',
       data: Object.entries(dict).map(studentData => {
         return {
-          y: studentData[1]['count'],
+          y: studentData[1]['commitsCount'],
           data: studentData[1]
         };
       })
@@ -293,6 +309,8 @@ export class CommitsService {
       borderColor: 'blue',
       type: 'line',
       fill: false,
+      hitRadius: 0,
+      hoverRadius: 0,
       datalabels: {
         display: true
       },
@@ -315,7 +333,7 @@ export class CommitsService {
         data: Object.entries(dict).map(student => {
           return {
             y: student[1]['commitTypes'][color.label].percentage,
-            data: student[1]
+            data: student[1]['commitTypes'][color.label]
           };
         })
       });

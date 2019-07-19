@@ -58,7 +58,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
         footer(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].data[
             tooltipItem[0].index
-          ].data.students;
+          ].data.students.map(student => student.name);
         }
       },
       displayColors: false

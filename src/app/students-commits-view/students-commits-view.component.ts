@@ -35,8 +35,31 @@ export class StudentsCommitsViewComponent implements OnInit {
       position: 'bottom'
     },
     tooltips: {
-      enabled: true,
-      mode: 'index'
+      mode: 'nearest',
+      position: 'average',
+      callbacks: {
+        beforeTitle(tooltipItem, data) {
+          return 'Student : ' + tooltipItem[0].label;
+        },
+        title(tooltipItem, data) {
+          return data.datasets[tooltipItem[0].datasetIndex].label;
+        },
+        beforeBody(tooltipItem, data) {
+          return (
+            '\nCommits count : ' +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].data.commitsCount +
+            '\nCommits pourcentage : ' +
+            tooltipItem[0].yLabel.toFixed(2) +
+            '%'
+          );
+        },
+        label(tooltipItem, data) {
+          return '';
+        }
+      },
+      displayColors: false
     },
     scales: {
       xAxes: [
