@@ -13,15 +13,6 @@ export class AuthService {
   token = null;
 
   isSignedIn(caller) {
-    // console.log('isSignedIn : ' + this.isSignedIn.caller);
-    // console.log('isSignedIn : ', caller);
-
-    // const user = firebase.auth().currentUser;
-    // if (user) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
     return this.token;
   }
 
@@ -45,7 +36,6 @@ export class AuthService {
         .auth()
         .getRedirectResult()
         .then(result => {
-          console.log('getredirect');
           if (result.credential) {
             // tslint:disable-next-line: no-string-literal
             console.log('result ', result.credential['accessToken']);

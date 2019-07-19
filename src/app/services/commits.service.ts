@@ -205,13 +205,13 @@ export class CommitsService {
   }
 
   initStudentsDict(repository: Repository, dict, questions: string[], colors) {
-    dict.push({
+    dict[repository.name] = {
       commitTypes: {},
       lastQuestionDone: questions[0],
       count: 0
-    });
+    };
     colors.forEach(color => {
-      dict[dict.length - 1]['commitTypes'][color.label] = {
+      dict[repository.name]['commitTypes'][color.label] = {
         count: 0
       };
     });
@@ -224,30 +224,31 @@ export class CommitsService {
     tpGroup?: string,
     date?: number
   ) {
-    let dict = [];
+    let dict = {};
     let repos = repositories.filter(
       repository => !tpGroup || repository.tpGroup === tpGroup
     );
-    repos.forEach((repository, index) => {
+    repos.forEach(repository => {
       this.initStudentsDict(repository, dict, questions, colors);
       repository.commits
         .filter(commit => !date || commit.commitDate.getTime() < date)
         .forEach(commit => {
-          dict[index]['commitTypes'][commit.color.label].count++;
-          dict[index].count++;
+          dict[repository.name]['commitTypes'][commit.color.label].count++;
+          dict[repository.name].count++;
           this.isSupThan(
             commit.question,
-            dict[index].lastQuestionDone,
+            dict[repository.name].lastQuestionDone,
             questions
-          ) && (dict[index].lastQuestionDone = commit.question);
+          ) && (dict[repository.name].lastQuestionDone = commit.question);
         });
-      dict[index].name = repository.name;
-      dict[index].url = repository.url;
-      dict[index].tpGroup = repository.tpGroup;
-      dict[index].commits = repository.commits;
+      dict[repository.name].name = repository.name;
+      dict[repository.name].url = repository.url;
+      dict[repository.name].tpGroup = repository.tpGroup;
+      dict[repository.name].commits = repository.commits;
       colors.forEach(color => {
-        dict[index]['commitTypes'][color.label].percentage =
-          (dict[index]['commitTypes'][color.label].count / dict[index].count) *
+        dict[repository.name]['commitTypes'][color.label].percentage =
+          (dict[repository.name]['commitTypes'][color.label].count /
+            dict[repository.name].count) *
           100;
       });
     });
@@ -255,7 +256,7 @@ export class CommitsService {
     return dict;
   }
 
-  loadStudents(dict, colors) {
+  loadStudents(dict: Object, colors) {
     let data = [];
 
     data.push({
@@ -270,10 +271,10 @@ export class CommitsService {
       borderColor: 'lightblue',
       hoverBackgroundColor: 'lightblue',
       backgroundColor: 'lightblue',
-      data: dict.map(student => {
+      data: Object.entries(dict).map(studentData => {
         return {
-          y: student.count,
-          data: student
+          y: studentData[1]['count'],
+          data: studentData[1]
         };
       })
     });
@@ -287,10 +288,10 @@ export class CommitsService {
         display: true
       },
       yAxisID: 'B',
-      data: dict.map(student => {
+      data: Object.entries(dict).map(studentData => {
         return {
-          y: student.lastQuestionDone,
-          data: student
+          y: studentData[1]['lastQuestionDone'],
+          data: studentData[1]
         };
       })
     });
@@ -302,10 +303,10 @@ export class CommitsService {
         hoverBackgroundColor: color.color,
         borderColor: 'grey',
         yAxisID: 'A',
-        data: dict.map(student => {
+        data: Object.entries(dict).map(student => {
           return {
-            y: student['commitTypes'][color.label].percentage,
-            data: student
+            y: student[1]['commitTypes'][color.label].percentage,
+            data: student[1]
           };
         })
       });
