@@ -218,7 +218,7 @@ export class GraphViewComponent implements OnInit {
           this.dataService.lastUpdateDate = new Date();
         } catch (err) {
           this.error(
-            'Erreur Git',
+            'Git Error',
             err // "Un des dépôts Github n'existe pas ou vous n'avez pas les droits dessus."
           );
         } finally {

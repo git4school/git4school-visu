@@ -38,12 +38,21 @@ export class CommitsService {
     let tab;
 
     if (response[1] instanceof HttpErrorResponse) {
-      throw 'Repository not found or you have no rights on it : ' + repo.url;
+      throw 'Repository not found or you have no rights on it : ' +
+        repo.url +
+        '<br><i>Details: ' +
+        response[1].message +
+        '</i>';
     }
 
     if (!repo.name || !repo.tpGroup) {
-      if (response[0] instanceof HttpErrorResponse)
-        throw 'ReadMe not found for repo : ' + repo.url;
+      if (response[0] instanceof HttpErrorResponse) {
+        throw 'ReadMe not found for repo : ' +
+          repo.url +
+          '<br><i>Details: ' +
+          response[0].message +
+          '</i>';
+      }
 
       const readme = decodeURIComponent(
         escape(window.atob(response[0].content))
