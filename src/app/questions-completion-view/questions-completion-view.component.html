@@ -12,7 +12,14 @@
     <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="this.max"
       [min]="this.min" title="Date" id="dateSlider" step="86400000" [disabled]="!dataService.repositories">
   </div>
-  <div class="mt-1 pl-2">{{ date | date:'yyyy-MM-dd HH:mm' }}</div>
+  <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:'yyyy-MM-dd HH:mm' }}</span></div>
+  <div class="separator"></div>
+  <div class="mt-1 mr-2">Bar index :</div>
+  <div class="pt-2">
+    <input type="range" class="custom-range" (input)="changeBarIndex()" [(ngModel)]="dataService.barIndex" min="1"
+      max="9" title="Bar" id="barSlider" step="1">
+  </div>
+  <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ dataService.barIndex * 10 }}</span></div>
 </div>
 <div class="chart-container">
   <canvas #myChart id="myChart" baseChart [chartType]="'bar'" [datasets]="chartData" [options]="chartOptions"

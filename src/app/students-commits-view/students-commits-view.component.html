@@ -12,7 +12,7 @@
     <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="this.max"
       [min]="this.min" title="Date" id="dateSlider" step="86400000" [disabled]="!dataService.repositories">
   </div>
-  <div class="mt-1 pl-2">{{ date | date:'yyyy-MM-dd HH:mm' }}</div>
+  <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:'yyyy-MM-dd HH:mm' }}</span></div>
 </div>
 <div class="chart-container p-3">
   <canvas #myChart id="myChart" baseChart [chartType]="'bar'" [datasets]="chartData" [options]="chartOptions"

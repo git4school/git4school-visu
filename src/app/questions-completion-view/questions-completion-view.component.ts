@@ -88,7 +88,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
             labelString: '% of commits'
           },
           gridLines: {
-            lineWidth: [1, 1, 1, 1, 1, 5, 1, 1, 1, 1],
+            lineWidth: [1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1],
             color: [
               'rgba(0, 0, 0, 0.1)',
               'rgba(0, 0, 0, 0.1)',
@@ -96,6 +96,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
               'rgba(0, 0, 0, 0.1)',
               'rgba(0, 0, 0, 0.1)',
               CommitColor.AFTER.color,
+              'rgba(0, 0, 0, 0.1)',
               'rgba(0, 0, 0, 0.1)',
               'rgba(0, 0, 0, 0.1)',
               'rgba(0, 0, 0, 0.1)',
@@ -141,6 +142,7 @@ export class QuestionsCompletionViewComponent implements OnInit {
   ) {}
 
   loadGraphDataAndRefresh() {
+    this.updateBar();
     if (this.dataService.repositories) {
       this.chartLabels = this.dataService.questions;
       let colors = [
@@ -169,6 +171,24 @@ export class QuestionsCompletionViewComponent implements OnInit {
         this.dataService.questions
       );
     }
+  }
+  updateBar() {
+    let index = 10 - this.dataService.barIndex;
+    let lineWidth = this.chartOptions.scales.yAxes[0].gridLines.lineWidth;
+    let color = this.chartOptions.scales.yAxes[0].gridLines.color;
+
+    lineWidth.fill(1);
+    color.fill('rgba(0, 0, 0, 0.1)');
+
+    lineWidth[index] = 5;
+    color[index] = CommitColor.AFTER.color;
+  }
+
+  changeBarIndex() {
+    this.updateBar();
+    this.myChart.chart.update();
+    this.myChart.chart.destroy();
+    this.myChart.ngOnInit();
   }
 
   ngOnInit() {

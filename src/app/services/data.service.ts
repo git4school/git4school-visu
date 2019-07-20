@@ -23,6 +23,7 @@ export class DataService {
   tpGroups: string[];
   lastUpdateDate: Date;
   questions: string[];
+  barIndex = 5;
 
   constructor(private jsonManager: JsonManagerService) {}
 
