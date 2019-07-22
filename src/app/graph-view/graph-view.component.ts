@@ -21,6 +21,7 @@ import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import * as Ajv from 'ajv';
 import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
+import { DataProvidedGuard } from '../services/data-provided.guard';
 
 declare var $: any;
 
@@ -35,7 +36,8 @@ export class GraphViewComponent implements OnInit {
     private commitsService: CommitsService,
     private toastr: ToastrService,
     public jsonManager: JsonManagerService,
-    public dataService: DataService
+    public dataService: DataService,
+    public dataProvided: DataProvidedGuard
   ) {}
 
   @ViewChild(BaseChartDirective) myChart;
@@ -188,6 +190,7 @@ export class GraphViewComponent implements OnInit {
   readFile(): void {
     const myReader: FileReader = new FileReader();
     myReader.onloadend = e => {
+      this.dataService.dataLoaded = false;
       let text = null;
       try {
         text = JSON.parse(myReader.result.toString());
@@ -227,6 +230,7 @@ export class GraphViewComponent implements OnInit {
           this.dataService.tpGroups = Array.from(tpGroups);
           this.loadGraphDataAndRefresh();
           this.dataService.lastUpdateDate = new Date();
+          this.dataService.dataLoaded = true;
         } catch (err) {
           this.translate
             .get('GIT-ERROR')

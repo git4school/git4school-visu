@@ -4,17 +4,18 @@
             <div class="input-group">
                 <type-ahead placeholder="{{ 'OVERVIEW-GRAPH.SEARCH-PLACEHOLDER' | translate }}" name="search"
                     [suggestions]="dataService.questions" class="form-control" [multi]="true" [custom]="false"
-                    [settings]="typeaheadSettings" ngModel>
+                    [settings]="typeaheadSettings" [disabled]="!dataProvided.dataLoaded() || loading" ngModel>
                 </type-ahead>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" id="search-submit"
+                        [disabled]="!dataProvided.dataLoaded() || loading"
                         type="submit">{{ 'OVERVIEW-GRAPH.SEARCH-BUTTON' | translate }}</button>
                 </div>
             </div>
         </form>
     </div>
     <div class="pl-2">
-        <select class="form-control" [disabled]="!dataService.repositories || loading" [(ngModel)]="tpGroup"
+        <select class="form-control" [disabled]="!dataProvided.dataLoaded() || loading" [(ngModel)]="tpGroup"
             (change)="this.loadGraphDataAndRefresh()" placeholder="d.ff">
             <option [ngValue]="undefined" hidden disabled>{{ 'TP-GROUP-SELECT.PLACEHOLDER' | translate }}
             </option>
@@ -25,7 +26,7 @@
     <div class="separator"></div>
     <div>
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" [disabled]="!dataService.repositories || loading"
+            <button class="btn btn-secondary dropdown-toggle" [disabled]="!dataProvided.dataLoaded() || loading"
                 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-trigger="hover" [ngbTooltip]="markersTooltip">
                 {{ 'OVERVIEW-GRAPH.MARKERS.BUTTON' | translate }}
@@ -67,7 +68,7 @@
     <div class="separator"></div>
     <div>
         <div class="btn-group" role="group" aria-label="Interaction controls">
-            <button class="btn btn-outline-secondary" [disabled]="!dataService.repositories || loading"
+            <button class="btn btn-outline-secondary" [disabled]="!dataProvided.dataLoaded() || loading"
                 (click)="resetZoom()" data-toggle="tooltip" [ngbTooltip]="resetZoomTooltip" data-trigger="hover">
                 <span class="fa-layers fa-fw">
                     <i class="fas fa-search"></i>
@@ -75,7 +76,7 @@
                 </span>
             </button>
             <button class="btn btn-outline-secondary" data-toggle="tooltip" [ngbTooltip]="changeZoomTooltip"
-                data-trigger="hover" [disabled]="!dataService.repositories || loading" (click)="changeZoom()">
+                data-trigger="hover" [disabled]="!dataProvided.dataLoaded() || loading" (click)="changeZoom()">
                 <div *ngIf="drag">
                     <span class="fa-layers fa-fw">
                         <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>
@@ -90,7 +91,7 @@
                 </div>
             </button>
             <button class="btn btn-outline-secondary" (click)="changeUnit()" data-toggle="tooltip"
-                [ngbTooltip]="changeTimeScaleTooltip" [disabled]="!dataService.repositories || loading"
+                [ngbTooltip]="changeTimeScaleTooltip" [disabled]="!dataProvided.dataLoaded() || loading"
                 data-trigger="hover">
                 <div *ngIf="unit === 'week'"><i class="fas fa-calendar-week"></i></div>
                 <div *ngIf="unit === 'hour'"><i class="fas fa-clock"></i></div>
@@ -102,7 +103,7 @@
     <div>
         <div class="btn-group" role="group" aria-label="File controls">
             <button class="btn btn-outline-secondary" [ngbTooltip]="downloadTooltip" (click)="download()"
-                [disabled]="!dataService.repositories || loading" data-toggle="tooltip" data-trigger="hover"><i
+                [disabled]="!dataProvided.dataLoaded() || loading" data-toggle="tooltip" data-trigger="hover"><i
                     class="fas fa-download"></i></button>
             <button class="btn btn-outline-secondary" [ngbTooltip]="uploadTooltip" data-toggle="modal"
                 data-target="#uploadFileModal" data-trigger="hover"><i class="fas fa-upload"></i></button>

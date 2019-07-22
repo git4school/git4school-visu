@@ -13,6 +13,12 @@ import { DataService } from './data.service';
   providedIn: 'root'
 })
 export class DataProvidedGuard implements CanActivate {
+  constructor(private dataService: DataService, private router: Router) {}
+
+  dataLoaded() {
+    return this.dataService.dataLoaded;
+  }
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -21,11 +27,10 @@ export class DataProvidedGuard implements CanActivate {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    if (this.dataService.repositories) {
+    if (this.dataLoaded()) {
       return true;
     } else {
       this.router.navigate(['/graph']);
     }
   }
-  constructor(private dataService: DataService, private router: Router) {}
 }

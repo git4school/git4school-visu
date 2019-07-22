@@ -24,6 +24,7 @@ export class DataService {
   lastUpdateDate: Date;
   questions: string[];
   barIndex = 5;
+  dataLoaded = false;
 
   constructor(private jsonManager: JsonManagerService) {}
 
