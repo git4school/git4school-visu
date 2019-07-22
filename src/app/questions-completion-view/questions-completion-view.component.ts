@@ -5,6 +5,11 @@ import { DataService } from '../services/data.service';
 import { CommitColor } from '../models/Commit.model';
 import { BaseChartDirective } from 'ng2-charts';
 import { CommitsService } from '../services/commits.service';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr);
 declare var $: any;
 
 @Component({
@@ -138,7 +143,8 @@ export class QuestionsCompletionViewComponent implements OnInit {
 
   constructor(
     public dataService: DataService,
-    private commitsService: CommitsService
+    private commitsService: CommitsService,
+    public translate: TranslateService
   ) {}
 
   loadGraphDataAndRefresh() {
@@ -192,7 +198,6 @@ export class QuestionsCompletionViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    $('#dateSlider').tooltip();
     this.dataService.lastUpdateDate &&
       ((this.date = this.dataService.lastUpdateDate.getTime()) &&
         (this.max = this.date) &&

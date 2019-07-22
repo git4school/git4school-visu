@@ -2,19 +2,20 @@
   <div>
     <select class="form-control" [disabled]=" !dataService.repositories" [(ngModel)]="tpGroup"
       (change)="this.loadGraphDataAndRefresh()">
-      <option [ngValue]="undefined" hidden disabled>Select a tp group</option>
+      <option [ngValue]="undefined" hidden disabled>{{ 'TP-GROUP-SELECT.PLACEHOLDER' | translate }}</option>
       <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
-      <option value="">All</option>
+      <option value="">{{ 'TP-GROUP-SELECT.ALL' | translate }}</option>
     </select>
   </div>
   <div class="separator"></div>
   <div class="pt-2 w-25">
     <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="this.max"
-      [min]="this.min" title="Date" id="dateSlider" step="86400000" [disabled]="!dataService.repositories">
+      [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" step="86400000"
+      [disabled]="!dataService.repositories">
   </div>
   <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:'yyyy-MM-dd HH:mm' }}</span></div>
   <div class="separator"></div>
-  <div class="mt-1 mr-2">Bar index :</div>
+  <div class="mt-1 mr-2">{{ 'BAR-INDEX' | translate }} :</div>
   <div class="pt-2">
     <input type="range" class="custom-range" (input)="changeBarIndex()" [(ngModel)]="dataService.barIndex" min="1"
       max="9" title="Bar" id="barSlider" step="1">
@@ -27,5 +28,7 @@
   </canvas>
 </div>
 <div class="badge badge-light text-wrap float-right">
-  {{ date | date:'full' }}
+  {{ date | date:'full':undefined:translate.currentLang }}
 </div>
+
+<ng-template #dateTooltip>{{ 'DATE' | translate }}</ng-template>

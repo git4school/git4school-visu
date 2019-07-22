@@ -5,6 +5,7 @@ import { DataService } from '../services/data.service';
 import { Repository } from '../models/Repository.model';
 import { CommitColor, Commit } from '../models/Commit.model';
 import { CommitsService } from '../services/commits.service';
+import { TranslateService } from '@ngx-translate/core';
 declare var $: any;
 
 @Component({
@@ -148,7 +149,8 @@ export class StudentsCommitsViewComponent implements OnInit {
 
   constructor(
     public dataService: DataService,
-    private commitsService: CommitsService
+    private commitsService: CommitsService,
+    public translate: TranslateService
   ) {}
 
   loadGraphDataAndRefresh() {
@@ -180,7 +182,6 @@ export class StudentsCommitsViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    $('#dateSlider').tooltip();
     Chart.pluginService.register(ChartDataLabels);
     this.dataService.lastUpdateDate &&
       ((this.date = this.dataService.lastUpdateDate.getTime()) &&

@@ -7,6 +7,7 @@ import { DataService } from './services/data.service';
 import { Router } from '@angular/router';
 import * as Chart from 'chart.js';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +22,12 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     public authService: AuthService,
     public dataService: DataService,
-    private router: Router
-  ) {}
+    private router: Router,
+    public translate: TranslateService
+  ) {
+    translate.addLangs(['en', 'fr']);
+    translate.setDefaultLang('en');
+  }
 
   ngOnInit(): void {
     Chart.pluginService.unregister(ChartDataLabels);

@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-import moment from 'moment/src/moment';
 import { ClipboardService } from 'ngx-clipboard';
-import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 declare var $: any;
 
 @Component({
@@ -15,13 +11,10 @@ declare var $: any;
 })
 export class AuthComponent implements OnInit {
   constructor(
-    // public authService: AuthService,
-    // private router: Router,
     private clipboardService: ClipboardService,
     private http: HttpClient
   ) {}
 
-  // loading = false;
   changelog;
   readMe = `# First IT practical
 
@@ -35,21 +28,6 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     this.getChangelog();
-    $('#copier').tooltip();
-
-    // if (!this.authService.isSignedIn('ngOnInit')) {
-    //   this.loading = true;
-
-    //   this.authService.callback().then(
-    //     () => {
-    //       this.loading = false;
-    //       this.router.navigate(['graph']);
-    //     },
-    //     () => {
-    //       this.loading = false;
-    //     }
-    //   );
-    // }
   }
 
   getChangelog() {
@@ -63,18 +41,6 @@ export class AuthComponent implements OnInit {
         );
       });
   }
-
-  // onSignIn() {
-  //   this.authService.signIn().then(() => {});
-  // }
-
-  // onSignInGithub() {
-  //   this.authService.signIn();
-  // }
-
-  // onSignOut() {
-  //   this.authService.signOut();
-  // }
 
   copyJSON() {
     this.clipboardService.copyFromContent(`

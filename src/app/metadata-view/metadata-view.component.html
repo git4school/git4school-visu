@@ -1,48 +1,48 @@
 <div class="p-3">
-  <h2>Edit metadata</h2>
+  <h2>{{ 'METADATA.PAGE-TITLE' | translate }}</h2>
   <!-- <hr> -->
   <div class="card mt-2">
     <div class="card-body">
       <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm" onkeydown="return event.key != 'Enter';">
         <div class="form-group">
-          <label for="title">Title</label>
+          <label for="title">{{ 'METADATA.TITLE' | translate }}</label>
           <input type="text" class="form-control" id="title" name="title" [ngModel]="dataService.title" required
             ngModel>
         </div>
         <div class="form-row">
           <div class="form-group col">
-            <label for="course">Course</label>
+            <label for="course">{{ 'METADATA.COURSE' | translate }}</label>
             <input type="text" class="form-control" id="course" name="course" [ngModel]="dataService.course" ngModel>
           </div>
           <div class="form-group col">
-            <label for="program">Program</label>
+            <label for="program">{{ 'METADATA.PROGRAM' | translate }}</label>
             <input type="text" class="form-control" id="program" name="program" [ngModel]="dataService.program" ngModel>
           </div>
           <div class="form-group col">
-            <label for="year">Year</label>
+            <label for="year">{{ 'METADATA.YEAR' | translate }}</label>
             <input type="text" class="form-control" id="year" name="year" [ngModel]="dataService.year" ngModel>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col">
-            <label for="startDate">Start date</label>
+            <label for="startDate">{{ 'METADATA.START-DATE' | translate }}</label>
             <input class="form-control" type="datetime-local" id="startDate" name="startDate" [ngModel]="startDate"
               ngModel>
           </div>
           <div class="form-group col">
-            <label for="endDate">End date</label>
+            <label for="endDate">{{ 'METADATA.END-DATE' | translate }}</label>
             <input class="form-control" type="datetime-local" id="endDate" name="endDate" [ngModel]="endDate" ngModel>
           </div>
         </div>
         <div class="form-group">
-          <label for="questions">Questions</label>
+          <label for="questions">{{ 'QUESTIONS' | translate }}</label>
           <type-ahead placeholder="Enter question(s) : 1.1, 1.2, ..." name="questions" id="questions"
             [ngModel]="dataService.questions" [suggestions]="dataService.questions" class="form-control" [multi]="true"
             [custom]="true" [settings]="typeaheadSettings" required ngModel>
           </type-ahead>
         </div>
         <hr>
-        <button [disabled]="f.invalid" type="submit" class="btn btn-primary">Save</button>
+        <button [disabled]="f.invalid" type="submit" class="btn btn-primary">{{ 'METADATA.SAVE' | translate }}</button>
       </form>
     </div>
   </div>

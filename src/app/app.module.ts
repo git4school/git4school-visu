@@ -18,7 +18,7 @@ import { EditAppareilComponent } from './edit-appareil/edit-appareil.component';
 import { UserService } from './services/user.service';
 import { UserListComponent } from './user-list/user-list.component';
 import { NewUserComponent } from './new-user/new-user.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { GraphViewComponent } from './graph-view/graph-view.component';
 import { ChartsModule } from 'ng2-charts';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -40,6 +40,9 @@ import { QuestionsCompletionViewComponent } from './questions-completion-view/qu
 import { MetadataViewComponent } from './metadata-view/metadata-view.component';
 import { DataProvidedGuard } from './services/data-provided.guard';
 import { DataLoadingGuard } from './services/data-loading.guard';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
@@ -128,7 +131,15 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     ClipboardModule,
     MarkdownModule.forRoot(),
-    TypeaheadModule
+    TypeaheadModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    NgbModule
   ],
   providers: [
     AppareilService,
@@ -155,4 +166,8 @@ export class AppModule {
   constructor() {
     // firebase.initializeApp(this.firebaseConfig);
   }
+}
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
 }

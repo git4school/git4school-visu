@@ -6,24 +6,25 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="auth"><i
-            class="fas fa-home mr-2"></i>Home</a></li>
+            class="fas fa-home mr-2"></i>{{ 'NAVBAR.HOME' | translate }}</a></li>
       <li class="nav-item dropdown" routerLinkActive="active">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-chart-line mr-2"></i>Graphs
+          <i class="fas fa-chart-line mr-2"></i>{{ 'NAVBAR.GRAPHS' | translate }}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLink="graph"><i class="fas fa-chart-line mr-2"></i>Overview</a>
-          <a class="dropdown-item" routerLink="students-commits-view"><i class="fas fa-chart-bar mr-2"></i>Students
-            commits</a>
-          <a class="dropdown-item" routerLink="questions-completion-view"><i class="fas fa-question mr-2"></i>Questions
-            completion</a>
+          <a class="dropdown-item" routerLink="graph"><i
+              class="fas fa-chart-line mr-2"></i>{{ 'NAVBAR.OVERVIEW' | translate }}</a>
+          <a class="dropdown-item" routerLink="students-commits-view"><i
+              class="fas fa-chart-bar mr-2"></i>{{ 'NAVBAR.STUDENTS-COMMITS' | translate }}</a>
+          <a class="dropdown-item" routerLink="questions-completion-view"><i
+              class="fas fa-question mr-2"></i>{{ 'NAVBAR.QUESTIONS-COMPLETION' | translate }}</a>
         </div>
       </li>
       <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="edit-metadata"><i
-            class="fas fa-edit mr-2"></i>Metadata</a></li>
+            class="fas fa-edit mr-2"></i>{{ 'NAVBAR.METADATA' | translate }}</a></li>
       <ul class="nav navbar-nav navbar-center">
-        <span id="salut" class="navbar-text">{{ this.dataService.title }}</span>
+        <span id="document-title" class="navbar-text">{{ this.dataService.title }}</span>
       </ul>
 
       <!-- <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="graph"><i
@@ -33,18 +34,26 @@
   </div>
   <div class="navbar-collapse collapse order-3 dual-collapse2">
     <ul class="navbar-nav ml-auto">
-      <button class="btn btn-success" *ngIf="!authService.isSignedIn('btn success')" [disabled]="loading"
-        (click)="onSignInGithub()">
-        <span *ngIf="loading; else loggedOut" class="spinner-border spinner-border-sm pr-1" role="status"
-          aria-hidden="true"></span>
-        Sign in
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <button class="btn btn-success" *ngIf="!authService.isSignedIn('btn success')" [disabled]="loading"
+            (click)="onSignInGithub()">
+            <span *ngIf="loading; else loggedOut" class="spinner-border spinner-border-sm pr-1" role="status"
+              aria-hidden="true"></span>
+            {{ 'NAVBAR.SIGN-IN' | translate }}
 
-        <ng-template #loggedOut>
-          <i class="fas fa-sign-in-alt mr-1"></i>
-        </ng-template>
-      </button>
-      <button class="btn btn-danger" *ngIf="authService.isSignedIn('btn danger')" (click)="onSignOut()"><i
-          class="fas fa-sign-out-alt mr-2"></i>Sign out</button>
+            <ng-template #loggedOut>
+              <i class="fas fa-sign-in-alt mr-1"></i>
+            </ng-template>
+          </button>
+          <button class="btn btn-danger" *ngIf="authService.isSignedIn('btn danger')" (click)="onSignOut()"><i
+              class="fas fa-sign-out-alt mr-2"></i>{{ 'NAVBAR.SIGN-OUT' | translate }}</button>
+        </div>
+        <select #langSelect (change)="translate.use(langSelect.value)" class="form-control">
+          <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">
+            {{ lang }}</option>
+        </select>
+      </div>
     </ul>
   </div>
 </nav>

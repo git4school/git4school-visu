@@ -20,6 +20,7 @@ import { DataService } from '../services/data.service';
 import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import * as Ajv from 'ajv';
+import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
 
 declare var $: any;
 
@@ -30,7 +31,7 @@ declare var $: any;
 })
 export class GraphViewComponent implements OnInit {
   constructor(
-    private authService: AuthService,
+    private translate: TranslateService,
     private commitsService: CommitsService,
     private toastr: ToastrService,
     public jsonManager: JsonManagerService,
@@ -39,11 +40,7 @@ export class GraphViewComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) myChart;
 
-  typeaheadSettings = {
-    tagClass: 'badge badge-pill badge-secondary mr-1',
-    noMatchesText: 'No questions found',
-    suggestionLimit: 5
-  };
+  typeaheadSettings;
   loading = false;
   searchFilter: string[] = [];
   unit = 'day';
@@ -162,7 +159,10 @@ export class GraphViewComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    $('.btn').tooltip();
+    this.updateLang();
+    this.translate.onLangChange.subscribe((event: TranslationChangeEvent) => {
+      this.updateLang();
+    });
     $('.modal').modal({
       show: false
     });
@@ -175,6 +175,15 @@ export class GraphViewComponent implements OnInit {
       });
     }
   }
+  updateLang() {
+    this.translate.get('SEARCH-NOT-FOUND').subscribe(r => {
+      this.typeaheadSettings = {
+        tagClass: 'badge badge-pill badge-secondary mr-1',
+        noMatchesText: r,
+        suggestionLimit: 5
+      };
+    });
+  }
 
   readFile(): void {
     const myReader: FileReader = new FileReader();
@@ -183,7 +192,9 @@ export class GraphViewComponent implements OnInit {
       try {
         text = JSON.parse(myReader.result.toString());
       } catch (e) {
-        this.error("Le fichier n'est pas un fichier JSON valide.", e.message);
+        this.translate
+          .get('INVALID-JSON')
+          .subscribe(translation => this.error(translation, e.message));
       }
       if (text && this.verifyJSON(text)) {
         this.getDataFromFile(text);
@@ -217,10 +228,9 @@ export class GraphViewComponent implements OnInit {
           this.loadGraphDataAndRefresh();
           this.dataService.lastUpdateDate = new Date();
         } catch (err) {
-          this.error(
-            'Git Error',
-            err // "Un des dépôts Github n'existe pas ou vous n'avez pas les droits dessus."
-          );
+          this.translate
+            .get('GIT-ERROR')
+            .subscribe(translation => this.error(translation, err));
         } finally {
           this.loading = false;
         }
@@ -523,9 +533,15 @@ export class GraphViewComponent implements OnInit {
 
     this.loadGraphDataAndRefresh();
     this.dispose();
-    this.toastr.success('Milestone has been saved !', 'Success', {
-      progressBar: true
-    });
+    this.translate.get(['SUCCESS', 'MILESTONE-SAVED']).subscribe(translations =>
+      this.toastr.success(
+        translations['MILESTONE-SAVED'],
+        translations['SUCCESS'],
+        {
+          progressBar: true
+        }
+      )
+    );
   }
 
   deleteMilestone() {
@@ -538,9 +554,17 @@ export class GraphViewComponent implements OnInit {
 
     this.loadGraphDataAndRefresh();
     this.dispose();
-    this.toastr.success('Milestone has been deleted !', 'Success', {
-      progressBar: true
-    });
+    this.translate
+      .get(['SUCCESS', 'MILESTONE-DELETED'])
+      .subscribe(translations =>
+        this.toastr.success(
+          translations['MILESTONE-DELETED'],
+          translations['SUCCESS'],
+          {
+            progressBar: true
+          }
+        )
+      );
   }
 
   deleteElement(element, list) {
@@ -569,15 +593,6 @@ export class GraphViewComponent implements OnInit {
       return 'circle';
     } else {
       return 'rectRot';
-    }
-  }
-
-  getJSONOrNull(str) {
-    try {
-      return JSON.parse(str);
-    } catch (e) {
-      this.error("Le fichier n'est pas un fichier JSON valide.", e.message);
-      return null;
     }
   }
 
@@ -924,7 +939,9 @@ export class GraphViewComponent implements OnInit {
             return error.dataPath + ' ' + error.message;
           })
           .join('<br>&emsp;');
-      this.error('Invalid JSON', errorMessage);
+      this.translate
+        .get('INVALID-CONF-FILE')
+        .subscribe(translation => this.error(translation, errorMessage));
 
       return false;
     }
