@@ -1,0 +1,104 @@
+{
+  "REVIEW": "Revue",
+  "CORRECTION": "Correction",
+  "OTHER": "Autre",
+  "SESSION": "Séance",
+  "SEARCH-NOT-FOUND": "Aucune question trouvée",
+  "DATE": "Date",
+  "404": {
+    "MESSAGE": "La page que vous cherchez n'existe pas"
+  },
+  "TP-GROUP-SELECT": {
+    "PLACEHOLDER": "Sélectionner un groupe de tp",
+    "ALL": "Tout"
+  },
+  "NAVBAR": {
+    "HOME": "Accueil",
+    "GRAPHS": "Graphes",
+    "OVERVIEW": "Vue d'ensemble",
+    "STUDENTS-COMMITS": "Commits des étudiants",
+    "QUESTIONS-COMPLETION": "Avancement des questions",
+    "METADATA": "Métadonnées",
+    "SIGN-IN": "S'identifier",
+    "SIGN-OUT": "Se déconnecter"
+  },
+  "HOME": {
+    "COPY": "Copier",
+    "COPY-TOOLTIP": "Copier dans le presse-papier",
+    "JSON-STRUCTURE": {
+      "TITLE": "Structure du JSON",
+      "REQUIRED": "Requis",
+      "OPTIONAL": "Optionnel"
+    },
+    "README-STRUCTURE": {
+      "TITLE": "Structure du ReadMe",
+      "MESSAGE": "Le format du ReadMe de chaque dépôt doit suivre strictement le format indiqué ci-dessous."
+    },
+    "CHANGELOG": {
+      "TITLE": "CHANGELOG"
+    }
+  },
+  "OVERVIEW-GRAPH": {
+    "UPLOAD": {
+      "TOOLTIP": "Téléverser le JSON",
+      "TITLE": "Téléverser un fichier",
+      "FILE-PLACEHOLDER": "Choisir un fichier"
+    },
+    "SEARCH-PLACEHOLDER": "Chercher une question : 1.1, 1.2, ...",
+    "SEARCH-BUTTON": "Chercher",
+    "MARKERS": {
+      "BUTTON": "Marqueurs",
+      "TOOLTIP": "Afficher ou cacher des jalons",
+      "SESSIONS": "Séances",
+      "CORRECTIONS": "Corrections",
+      "REVIEWS": "Revues",
+      "OTHERS": "Autres"
+    },
+    "RESET-ZOOM-TOOLTIP": "Réinitialisation du zoom (barre espace)",
+    "CHANGE-ZOOM-TOOLTIP": "Changer le mode de zoom (glisser/roulette et déplacer)",
+    "CHANGE-TIME-SCALE-TOOLTIP": "Changer l'échelle de temps",
+    "DOWNLOAD-TOOLTIP": "Télécharger le JSON",
+    "RELOAD-TOOLTIP": "Recharger",
+    "LEGEND": {
+      "TITLE": "Légende",
+      "COMMIT": "Commit",
+      "CLOSING": "Commit de fermeture",
+      "INTERMEDIATE": "Commit intermédiaire",
+      "BEFORE": "Avant la revue",
+      "BETWEEN": "Entre la revue et la correction",
+      "AFTER": "Après la correction"
+    },
+    "MODAL": {
+      "TITLE-CREATE": "Créer un jalon",
+      "TITLE-EDIT": "Editer le jalon",
+      "LABEL": "Label",
+      "TP-GROUP": "Groupe de TP",
+      "QUESTIONS": "Questions",
+      "QUESTIONS-PLACEHOLDER": "Sélectionner des questions : 1.1, 1.2, ...",
+      "DELETE": "Supprimer le jalon",
+      "CONFIRM": "Confirmer"
+    }
+  },
+  "STUDENTS-COMMITS-GRAPH": {},
+  "QUESTIONS-COMPLETION-GRAPH": {},
+  "METADATA": {
+    "PAGE-TITLE": "Editer les métadonnées",
+    "TITLE": "Titre",
+    "COURSE": "Cours",
+    "PROGRAM": "Programme",
+    "YEAR": "Année",
+    "START-DATE": "Date de début",
+    "END-DATE": "Date de fin",
+    "QUESTIONS-PLACEHOLDER": "Entrer des questions: 1.1, 1.2 ...",
+    "SAVE": "Sauvegarder"
+  },
+  "SUCCESS": "Succès",
+  "SUCCESS-MESSAGE": "Les modifications ont été sauvegardées !",
+  "INVALID-JSON": "Le fichier n'est pas un fichier JSON valide.",
+  "GIT-ERROR": "Erreur Git",
+  "INVALID-CONF-FILE": "Fichier de configuration invalide",
+  "MILESTONE-SAVED": "Le jalon a été sauvegardé !",
+  "MILESTONE-DELETED": "Le jalon a été supprimé !",
+  "COMMITS-COUNT": "Nombre de commits",
+  "COMMITS-PERCENTAGE": "Pourcentage de commits"
+}

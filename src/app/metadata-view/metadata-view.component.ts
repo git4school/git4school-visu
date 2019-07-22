@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import moment from 'moment/src/moment';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-metadata-view',
@@ -14,14 +15,16 @@ export class MetadataViewComponent implements OnInit {
   endDate = '';
   typeaheadSettings = {
     tagClass: 'badge badge-pill badge-secondary mr-1',
-    noMatchesText: 'No questions found',
     suggestionLimit: 5
   };
 
-  constructor(private toastr: ToastrService, public dataService: DataService) {}
+  constructor(
+    private toastr: ToastrService,
+    public dataService: DataService,
+    public translate: TranslateService
+  ) {}
 
   ngOnInit() {
-    console.log(this.dataService.startDate, this.dataService.endDate);
     this.startDate =
       this.dataService.startDate &&
       moment(this.dataService.startDate, 'YYYY-MM-DD HH:mm').format(
@@ -44,10 +47,16 @@ export class MetadataViewComponent implements OnInit {
     this.dataService.startDate = f.startDate;
     this.dataService.endDate = f.endDate;
     this.dataService.questions = f.questions;
-    this.toastr.success('Changes has been saved !', 'Success', {
-      progressBar: true
-    });
-
-    // navigate to graph overview
+    this.translate
+      .get(['SUCCESS', 'SUCCESS-MESSAGE'])
+      .subscribe(translations => {
+        this.toastr.success(
+          translations['SUCCESS-MESSAGE'],
+          translations['SUCCESS'],
+          {
+            progressBar: true
+          }
+        );
+      });
   }
 }

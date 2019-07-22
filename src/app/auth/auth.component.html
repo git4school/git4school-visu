@@ -24,14 +24,14 @@
         <a data-toggle="collapse" href="#collapseJSON" aria-expanded="true" aria-controls="collapseJSON"
           style="text-decoration:none" id="heading-example" class="d-block collapsed">
           <i class="fa fa-chevron-down pull-right float-right"></i>
-          JSON structure
+          {{ 'HOME.JSON-STRUCTURE.TITLE' | translate }}
         </a>
       </h5>
       <div id="collapseJSON" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
         <div class="card-body p-2">
           <pre class="jumbotron p-3 my-1">
-          <button type="button" id="copier" class="btn float-right btn-sm" (click)="copyJSON()" 
-          data-toggle="tooltip" data-placement="left" title="Copier dans le presse-papier"><span class="text-muted">Copier</span></button>
+          <button id="copyJSON" type="button" class="btn float-right btn-sm" (click)="copyJSON()" [ngbTooltip]="copyTooltip"
+          data-toggle="tooltip" data-placement="left"><span class="text-muted">{{ 'HOME.COPY' | translate }}</span></button>
   &#123;
     <span class="text-danger">"title"</span>: "TP title",
     "course": "JEE",
@@ -63,9 +63,9 @@
           <div class="row">
             <div class="col-sm-3">
               <div class="border p-2 rounded">
-                <i class="fas fa-square" style="color:red"></i> Required
+                <i class="fas fa-square" style="color:red"></i> {{ 'HOME.JSON-STRUCTURE.REQUIRED' | translate }}
                 <br>
-                <i class="fas fa-square" style="color:black"></i> Optional
+                <i class="fas fa-square" style="color:black"></i> {{ 'HOME.JSON-STRUCTURE.OPTIONAL' | translate }}
               </div>
             </div>
           </div>
@@ -77,18 +77,18 @@
         <a data-toggle="collapse" href="#collapseReadMe" aria-expanded="true" aria-controls="collapseReadMe"
           style="text-decoration:none" id="heading-example" class="d-block collapsed">
           <i class="fa fa-chevron-down pull-right float-right"></i>
-          ReadMe structure
+          {{ 'HOME.README-STRUCTURE.TITLE' | translate }}
         </a>
       </h5>
       <div id="collapseReadMe" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
         <div class="card-body p-2">
           <div class="alert alert-info mt-1" role="alert">
             <h5><i class="fas fa-exclamation-triangle"></i>
-              The readme format of each repository must follow the format below strictly.</h5>
+              {{ 'HOME.README-STRUCTURE.MESSAGE' | translate }}</h5>
           </div>
           <pre class="jumbotron p-3 my-1">
-          <button type="button" id="copier" class="btn float-right btn-sm" (click)="copyReadMe()" 
-          data-toggle="tooltip" data-placement="left" title="Copier dans le presse-papier"><span class="text-muted">Copier</span></button>
+          <button id="copyREADME" type="button" class="btn float-right btn-sm" (click)="copyReadMe()" [ngbTooltip]="copyTooltip"
+          data-toggle="tooltip" data-placement="left"><span class="text-muted">{{ 'HOME.COPY' | translate }}</span></button>
 {{readMe}}</pre>
           <div class="mt-3">
             <markdown ngPreserveWhitespaces>
@@ -103,15 +103,12 @@
         <a data-toggle="collapse" href="#collapseCHANGELOG" aria-expanded="true" aria-controls="collapseCHANGELOG"
           style="text-decoration:none" id="heading-example" class="d-block collapsed">
           <i class="fa fa-chevron-down pull-right float-right"></i>
-          CHANGELOG
+          {{ 'HOME.CHANGELOG.TITLE' | translate }}
         </a>
       </h5>
       <div id="collapseCHANGELOG" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
         <div class="card-body p-2">
           <div class="m-3">
-            <!-- <markdown ngPreserveWhitespaces *ngIf="changelog">
-              {{changelog}}
-            </markdown> -->
             <markdown class="variable-binding" [data]="changelog"></markdown>
           </div>
         </div>
@@ -119,3 +116,5 @@
     </div>
   </div>
 </div>
+
+<ng-template #copyTooltip>{{ 'HOME.COPY-TOOLTIP' | translate }}</ng-template>
