@@ -34,13 +34,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
-  authDomain: 'test-angular-2af6b.firebaseapp.com',
-  databaseURL: 'https://test-angular-2af6b.firebaseio.com',
-  projectId: 'test-angular-2af6b',
-  storageBucket: 'test-angular-2af6b.appspot.com',
-  messagingSenderId: '98521239187',
-  appId: '1:98521239187:web:bfac7cc7cf869e62'
+  apiKey: 'AIzaSyA3kJGK7-b7YbLnb0RBc38kTfqkc_fT0xY',
+  authDomain: 'git4school.firebaseapp.com',
+  databaseURL: 'https://git4school.firebaseio.com',
+  projectId: 'git4school',
+  storageBucket: '',
+  messagingSenderId: '896582512902',
+  appId: '1:896582512902:web:db9dc0ffe2590b10'
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -117,19 +117,7 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  // firebaseConfig = {
-  //   apiKey: 'AIzaSyB8DNpcDkp2bhVFJ9KOdVnWwTn1vsSrkpo',
-  //   authDomain: 'test-angular-2af6b.firebaseapp.com',
-  //   databaseURL: 'https://test-angular-2af6b.firebaseio.com',
-  //   projectId: 'test-angular-2af6b',
-  //   storageBucket: 'test-angular-2af6b.appspot.com',
-  //   messagingSenderId: '98521239187',
-  //   appId: '1:98521239187:web:bfac7cc7cf869e62'
-  // };
-
-  constructor() {
-    // firebase.initializeApp(this.firebaseConfig);
-  }
+  constructor() {}
 }
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
