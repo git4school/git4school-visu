@@ -1,6 +1,6 @@
 <div class="d-flex flex-row p-3">
   <div>
-    <select class="form-control" [disabled]="!dataService.repositories" [(ngModel)]="tpGroup"
+    <select class="form-control" [disabled]="!dataProvided.dataLoaded()" [(ngModel)]="tpGroup"
       (change)="this.loadGraphDataAndRefresh()">
       <option [ngValue]="undefined" hidden disabled>{{ 'TP-GROUP-SELECT.PLACEHOLDER' | translate }}</option>
       <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
@@ -11,7 +11,7 @@
   <div class="pt-2 w-25">
     <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="this.max"
       [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" step="86400000"
-      [disabled]="!dataService.repositories">
+      [disabled]="!dataProvided.dataLoaded()">
   </div>
   <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:'yyyy-MM-dd HH:mm' }}</span></div>
 </div>

@@ -6,6 +6,7 @@ import { Repository } from '../models/Repository.model';
 import { CommitColor, Commit } from '../models/Commit.model';
 import { CommitsService } from '../services/commits.service';
 import { TranslateService } from '@ngx-translate/core';
+import { DataProvidedGuard } from '../services/data-provided.guard';
 declare var $: any;
 
 @Component({
@@ -150,11 +151,12 @@ export class StudentsCommitsViewComponent implements OnInit {
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public dataProvided: DataProvidedGuard
   ) {}
 
   loadGraphDataAndRefresh() {
-    if (this.dataService.repositories) {
+    if (this.dataProvided.dataLoaded()) {
       let colors = [
         CommitColor.INTERMEDIATE,
         CommitColor.BEFORE,

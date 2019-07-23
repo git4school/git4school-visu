@@ -168,7 +168,7 @@ export class GraphViewComponent implements OnInit {
     $('.modal').modal({
       show: false
     });
-    if (this.dataService.repositories) {
+    if (this.dataProvided.dataLoaded()) {
       // this.loadGraphData();
       this.loadGraph(this.dataService.startDate, this.dataService.endDate);
     } else {

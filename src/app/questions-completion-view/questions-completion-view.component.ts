@@ -8,6 +8,7 @@ import { CommitsService } from '../services/commits.service';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { DataProvidedGuard } from '../services/data-provided.guard';
 
 registerLocaleData(localeFr);
 declare var $: any;
@@ -144,12 +145,13 @@ export class QuestionsCompletionViewComponent implements OnInit {
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public dataProvided: DataProvidedGuard
   ) {}
 
   loadGraphDataAndRefresh() {
     this.updateBar();
-    if (this.dataService.repositories) {
+    if (this.dataProvided.dataLoaded()) {
       this.chartLabels = this.dataService.questions;
       let colors = [
         CommitColor.BEFORE,
