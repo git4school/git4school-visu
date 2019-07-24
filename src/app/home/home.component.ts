@@ -6,10 +6,10 @@ declare var $: any;
 
 @Component({
   selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class HomeComponent implements OnInit {
   constructor(
     private clipboardService: ClipboardService,
     private http: HttpClient
@@ -33,7 +33,7 @@ export class AuthComponent implements OnInit {
   getChangelog() {
     this.http
       .get(
-        'https://api.github.com/repos/F0urchette/test-angular/contents/CHANGELOG.md'
+        'https://api.github.com/repos/git4school/git4school-visu/contents/CHANGELOG.md'
       )
       .subscribe(data => {
         this.changelog = decodeURIComponent(

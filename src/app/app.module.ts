@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthComponent } from './auth/auth.component';
+import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
@@ -46,8 +46,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const appRoutes: Routes = [
-  { path: 'auth', component: AuthComponent },
-  { path: '', component: AuthComponent },
+  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'not-found', component: FourOhFourComponent },
   {
     path: 'graph',
@@ -76,7 +76,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent,
+    HomeComponent,
     FourOhFourComponent,
     GraphViewComponent,
     StudentsCommitsViewComponent,
