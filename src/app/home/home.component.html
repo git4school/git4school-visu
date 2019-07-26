@@ -2,6 +2,364 @@
   <div class="accordion mt-3" id="accordion">
     <div class="card">
       <h5 class="card-header">
+        <a data-toggle="collapse" href="#collapseTuto" aria-expanded="true" aria-controls="collapseTuto"
+          style="text-decoration:none" id="heading-example" class="d-block collapsed">
+          <i class="fa fa-chevron-down pull-right float-right"></i>
+          {{ 'HOME.TUTORIAL.TITLE' | translate }}
+        </a>
+      </h5>
+      <div id="collapseTuto" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
+        <div class="card-body p-2">
+          <ul class="nav nav-tabs" id="tutoTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
+                aria-controls="overview" aria-selected="true">{{ 'NAVBAR.OVERVIEW' | translate }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="students-commits-tab" data-toggle="tab" href="#students-commits" role="tab"
+                aria-controls="students-commits" aria-selected="false">{{ 'NAVBAR.STUDENTS-COMMITS' | translate }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="questions-completion-tab" data-toggle="tab" href="#questions-completion"
+                role="tab" aria-controls="questions-completion"
+                aria-selected="false">{{ 'NAVBAR.QUESTIONS-COMPLETION' | translate }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="metadata-tab" data-toggle="tab" href="#metadata" role="tab"
+                aria-controls="metadata" aria-selected="false">{{ 'NAVBAR.METADATA' | translate }}</a>
+            </li>
+          </ul>
+          <div class="tab-content m-2" id="tutoTabContent">
+            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+              <img src="assets/navbar-tuto.png" class="img-fluid m-2 img-thumbnail" alt="navbar-tuto">
+
+              <ul class="fa-ul pl-3">
+                <li class="mt-2">
+                  <span class="fa-li">
+                    <span class="fa-layers fa-lg">
+                      <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>
+                    </span>
+                  </span>{{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.1' | translate }}
+                </li>
+                <div class="alert alert-info mt-2" role="alert">
+                  <i class="fas fa-info-circle fa-lg"></i> {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-1' | translate }}
+                </div>
+                <li class="mt-2">
+                  <span class="fa-li">
+                    <span class="fa-layers fa-lg">
+                      <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>
+                    </span>
+                  </span>{{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.2' | translate }}
+                </li>
+                <li class="mt-2">
+                  <span class="fa-li">
+                    <span class="fa-layers fa-lg">
+                      <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>
+                    </span>
+                  </span>{{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.3' | translate }}
+                </li>
+                <li class="mt-2">
+                  <span class="fa-li">
+                    <span class="fa-layers fa-lg">
+                      <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">4</span>
+                    </span>
+                  </span>{{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.4' | translate }}
+                </li>
+                <li class="mt-2">
+                  <span class="fa-li">
+                    <span class="fa-layers fa-lg">
+                      <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">5</span>
+                    </span>
+                  </span>{{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.5' | translate }}
+                </li>
+                <div class="alert alert-info mt-2" role="alert">
+                  <i class="fas fa-info-circle fa-lg"></i> {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-5' | translate }} :
+                  <button class="btn btn-outline-secondary ml-2">
+                    <span class="fa-layers fa-fw">
+                      <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>
+                      <i class="far fa-square" data-fa-transform="shrink-2 up-6 left-5"></i>
+                    </span>
+                  </button> {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-5-BTN-DRAG' | translate }}
+                  <button class="btn btn-outline-secondary ml-2">
+                    <span class="fa-layers fa-fw">
+                      <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>
+                      <i class="fas fa-arrows-alt-h" data-fa-transform="up-6 left-5"></i>
+                    </span>
+                  </button> {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-5-BTN-WHEEL' | translate }}
+                </div>
+                <li class="mt-2">
+                  <span class="fa-li">
+                    <span class="fa-layers fa-lg">
+                      <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">6</span>
+                    </span>
+                  </span>{{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.6' | translate }}
+                </li>
+                <div class="alert alert-info mt-2" role="alert">
+                  <i class="fas fa-info-circle fa-lg"></i> {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6' | translate }} :
+                  <button class="btn btn-outline-secondary ml-2"><i class="fas fa-calendar-week"></i>
+                  </button> {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6-BTN-WEEK' | translate }}
+                  <button class="btn btn-outline-secondary ml-2"><i class="fas fa-clock"></i>
+                  </button> {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6-BTN-HOUR' | translate }}
+                  <button class="btn btn-outline-secondary ml-2"><i class="fas fa-calendar-day"></i>
+                  </button> {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6-BTN-DAY' | translate }}
+                </div>
+                <li class="mt-2">
+                  <span class="fa-li">
+                    <span class="fa-layers fa-lg">
+                      <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">7</span>
+                    </span>
+                  </span>{{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.7' | translate }}
+                </li>
+                <li class="mt-2">
+                  <span class="fa-li">
+                    <span class="fa-layers fa-lg">
+                      <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">8</span>
+                    </span>
+                  </span>{{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.8' | translate }}
+                </li>
+                <div class="alert alert-warning mt-2" role="alert">
+                  <i class="fas fa-exclamation-triangle fa-lg"></i>
+                  {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-8' | translate }}
+                </div>
+                <li class="mt-2">
+                  <span class="fa-li">
+                    <span class="fa-layers fa-lg">
+                      <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">9</span>
+                    </span>
+                  </span>{{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.9' | translate }}
+                </li>
+                <div class="alert alert-info mt-2" role="alert">
+                  <i class="fas fa-info-circle fa-lg"></i>
+                  {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-9' | translate }}
+                </div>
+              </ul>
+              <hr>
+              <div class="media">
+                <img src="assets/overview-tuto.png" class="img-fluid mr-3 img-thumbnail w-40" alt="overview-tuto">
+                <div class="media-body">
+                  <ul class="fa-ul">
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.OVERVIEW.1' | translate }}
+                    </li>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.OVERVIEW.2' | translate }}
+                    </li>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.OVERVIEW.3' | translate }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="students-commits" role="tabpanel" aria-labelledby="students-commits-tab">
+              <div class="media">
+                <img src="assets/students-commits-tuto.png" class="img-fluid m-2 img-thumbnail w-55"
+                  alt="students-commits-tuto">
+                <div class="media-body">
+                  <ul class="fa-ul">
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.STUDENTS-COMMITS.1' | translate }}
+                    </li>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.STUDENTS-COMMITS.2' | translate }}
+                    </li>
+                    <div class="alert alert-info mt-2" role="alert">
+                      <i class="fas fa-info-circle fa-lg"></i>
+                      {{ 'HOME.TUTORIAL.STUDENTS-COMMITS.INFO-2' | translate }}
+                    </div>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.STUDENTS-COMMITS.3' | translate }}
+                    </li>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">4</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.STUDENTS-COMMITS.4' | translate }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="questions-completion" role="tabpanel"
+              aria-labelledby="questions-completion-tab">
+              <div class="media">
+                <img src="assets/questions-completion-tuto.png" class="img-fluid m-2 img-thumbnail w-55"
+                  alt="questions-completion-tuto">
+                <div class="media-body">
+                  <ul class="fa-ul">
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.QUESTIONS-COMPLETION.1' | translate }}
+                    </li>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.QUESTIONS-COMPLETION.2' | translate }}
+                    </li>
+                    <div class="alert alert-info mt-2" role="alert">
+                      <i class="fas fa-info-circle fa-lg"></i>
+                      {{ 'HOME.TUTORIAL.STUDENTS-COMMITS.INFO-2' | translate }}
+                    </div>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.QUESTIONS-COMPLETION.3' | translate }}
+                    </li>
+                    <div class="alert alert-info mt-2" role="alert">
+                      <i class="fas fa-info-circle fa-lg"></i>
+                      {{ 'HOME.TUTORIAL.QUESTIONS-COMPLETION.INFO-3' | translate }}
+                    </div>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">4</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.QUESTIONS-COMPLETION.4' | translate }}
+                    </li>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">5</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.STUDENTS-COMMITS.4' | translate }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="metadata" role="tabpanel" aria-labelledby="metadata-tab">
+              <div class="media">
+                <img src="assets/metadata-tuto.png" class="img-fluid m-2 img-thumbnail w-55" alt="metadata-tuto">
+                <div class="media-body">
+                  <ul class="fa-ul">
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.METADATA.1' | translate }}
+                    </li>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.METADATA.2' | translate }}
+                    </li>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.METADATA.3' | translate }}
+                    </li>
+                    <div class="alert alert-warning mt-2" role="alert">
+                      <i class="fas fa-exclamation-triangle fa-lg"></i>
+                      {{ 'HOME.TUTORIAL.METADATA.WARNING-3' | translate }}
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                      <i class="fas fa-info-circle fa-lg"></i>
+                      {{ 'HOME.TUTORIAL.METADATA.INFO-3' | translate }}
+                    </div>
+                    <li class="mt-2">
+                      <span class="fa-li">
+                        <span class="fa-layers fa-lg">
+                          <i class="fas fa-circle" style="color:#B3AFB1"></i>
+                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>
+                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">4</span>
+                        </span>
+                      </span>{{ 'HOME.TUTORIAL.METADATA.4' | translate }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h5 class="card-header">
         <a data-toggle="collapse" href="#collapseJSON" aria-expanded="true" aria-controls="collapseJSON"
           style="text-decoration:none" id="heading-example" class="d-block collapsed">
           <i class="fa fa-chevron-down pull-right float-right"></i>
@@ -63,9 +421,9 @@
       </h5>
       <div id="collapseReadMe" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
         <div class="card-body p-2">
-          <div class="alert alert-info mt-1" role="alert">
-            <h5><i class="fas fa-exclamation-triangle"></i>
-              {{ 'HOME.README-STRUCTURE.MESSAGE' | translate }}</h5>
+          <div class="alert alert-warning mt-1" role="alert">
+            <i class="fas fa-exclamation-triangle fa-lg"></i>
+            {{ 'HOME.README-STRUCTURE.MESSAGE' | translate }}
           </div>
           <pre class="jumbotron p-3 my-1">
           <button id="copyREADME" type="button" class="btn float-right btn-sm" (click)="copyReadMe()" [ngbTooltip]="copyTooltip"

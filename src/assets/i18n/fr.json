@@ -36,6 +36,58 @@
     },
     "CHANGELOG": {
       "TITLE": "CHANGELOG"
+    },
+    "TUTORIAL": {
+      "TITLE": "Tutoriel",
+      "OVERVIEW-TOOLBAR": {
+        "1": "Vous pouvez entrer des questions pour filtrer les commits et les jalons qui les traitent",
+        "INFO-1": "Seules les questions définies dans le fichier de configuration peuvent être sélectionnées (modifiable dans l'onglet \"métadonnées\")",
+        "2": "Vous pouvez sélectionner un des groupes de TP pour n'afficher que les élèves et les jalons du groupe",
+        "3": "Vous pouvez afficher ou cacher les annotations (séances, revues, corrections, autres)",
+        "4": "Appuyez sur ce bouton ou pressez la barre \"espace\" pour remettre le zoom à zéro",
+        "5": "Appuyez sur le bouton pour alterner entre les 2 modes de zoom : zoom avec le curseur de la souris / zoom avec la molette de la souris et se déplacer avec le curseur",
+        "INFO-5": "L'icône du bouton indique le mode de zoom que vous utilisez",
+        "INFO-5-BTN-DRAG": "zoom avec le curseur de la souris",
+        "INFO-5-BTN-WHEEL": "zoom avec la molette de la souris",
+        "6": "Appuyez sur le bouton permet d'alterner entre 3 échelles de temps (notez que l'échelle de temps s'adapte en temps réel avec le niveau de zoom)",
+        "INFO-6": "L'icône du bouton indique l'échelle de temps utilisée",
+        "INFO-6-BTN-WEEK": "semaine",
+        "INFO-6-BTN-HOUR": "heure",
+        "INFO-6-BTN-DAY": "jour",
+        "7": "Appuyez sur le bouton pour télécharger une archive contenant le fichier de configuration mis à jour et 2 fichiers avec les données générées par l'application",
+        "8": "Permet de téléverser le fichier de configuration",
+        "INFO-8": "Si le fichier n'est pas un fichier JSON valide, ou si les champs obligatoires ne sont pas renseignés ou au mauvais format, un message d'erreur sera envoyé et les données ne seront pas chargées",
+        "9": "Relit le fichier téléversé précédemment",
+        "INFO-9": "Utiliser ce bouton permet de lire un fichier que vous venez de modifier sans avoir à le téléverser de nouveau ou de rafraîchir les données"
+      },
+      "OVERVIEW": {
+        "1": "Cliquer n'importe où sur le graphe (sur aucun élément) ouvre une fenêtre permettant de créer un jalon",
+        "2": "Cliquer sur un jalon ouvre une fenêtre permettant de modifier un jalon",
+        "3": "Passer la souris sur un commit affiche des détails sur celui-ci et cliquer dessus ouvre sa page Github dans un nouvel onglet",
+        "INFO": ""
+      },
+      "STUDENTS-COMMITS": {
+        "1": "Vous pouvez sélectionner un des groupes de TP pour n'afficher que les élèves du groupe",
+        "2": "Déplacer le curseur permet de délimiter la date maximale pour laquelle les commits sont traités",
+        "INFO-2": "La date minimale que l'on peut choisir correspondant à la date du commit le plus antérieur parmi tous les élèves et la date maximale est la date du dernier rafraîchissement des données",
+        "3": "Passer le curseur sur une barre affiche des détails sur le type de commit auquel correspond la barre",
+        "4": "Il est possible de cliquer sur n'importe quel élément de la légende pour le cacher ou non sur le graphe"
+      },
+      "QUESTIONS-COMPLETION": {
+        "1": "Vous pouvez sélectionner un des groupes de TP pour ne traiter que les commits des élèves du groupe",
+        "2": "Déplacer le curseur permet de délimiter la date maximale pour laquelle les commits sont traités",
+        "3": "Changer l'index de la barre rouge seuil en déplaçant le curseur",
+        "INFO-3": "Le seuil peut se situer entre 10 et 90 et par pas de 10",
+        "4": "Passer le curseur sur une barre affiche des détails sur le type de commit auquel correspond la barre ainsi que les élèves concernés"
+      },
+      "METADATA": {
+        "1": "Lorsqu'une date de début est renseignée, les commits antérieurs à cette date ne sont pas traités",
+        "2": "Lorsqu'une date de fin est renseignée, les commits postérieurs à cette date ne sont pas traités",
+        "3": "Rentrez ici les questions que vous voulez traiter",
+        "WARNING-3": "Les questions doivent être renseignées dans l'ordre croissant d'avancement",
+        "INFO-3": "Seules les questions renseignées ici seront traitées par l'application (jalons, graphes)",
+        "4": "Sauvegarder les métadonnées"
+      }
     }
   },
   "OVERVIEW-GRAPH": {

@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~ngx-toastr/toastr';
+@import 'node_modules/bootstrap/scss/bootstrap';
+
 .card-header .fa-chevron-down {
   transition: 0.3s transform ease-in-out;
 }
@@ -23,3 +25,24 @@
   left: 50%;
   transform: translatex(-50%);
 }
+
+$sizes: (
+  5: 5%,
+  10: 10%,
+  15: 15%,
+  20: 20%,
+  30: 30%,
+  35: 35%,
+  40: 40%,
+  45: 45%,
+  55: 55%,
+  60: 60%,
+  65: 65%,
+  70: 70%,
+  80: 80%,
+  85: 85%,
+  90: 90%,
+  95: 95%
+);
+
+@import '~bootstrap/scss/bootstrap';
