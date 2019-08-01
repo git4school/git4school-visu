@@ -6,14 +6,15 @@ import {
   CanDeactivate
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { GraphViewComponent } from '../graph-view/graph-view.component';
+
+import { OverviewComponent } from '@components/graphs/overview/overview.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataLoadingGuard implements CanDeactivate<GraphViewComponent> {
+export class DataLoadingGuard implements CanDeactivate<OverviewComponent> {
   canDeactivate(
-    component: GraphViewComponent,
+    component: OverviewComponent,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot
@@ -22,7 +23,6 @@ export class DataLoadingGuard implements CanDeactivate<GraphViewComponent> {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    console.log(component.loading);
     return !component.loading;
   }
 }

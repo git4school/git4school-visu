@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Repository } from '../models/Repository.model';
-import { Jalon } from '../models/Jalon.model';
-import { Session } from '../models/Session.model';
+import { Repository } from '@models/Repository.model';
+import { Jalon } from '@models/Jalon.model';
+import { Session } from '@models/Session.model';
 
 @Injectable({
   providedIn: 'root'

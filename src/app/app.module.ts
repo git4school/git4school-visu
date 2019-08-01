@@ -1,19 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthService } from './services/auth.service';
-import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
-import { AuthGuard } from './services/auth-guard.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { GraphViewComponent } from './graph-view/graph-view.component';
 import { ChartsModule } from 'ng2-charts';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { CommitsService } from './services/commits.service';
 import * as firebase from 'firebase/app';
 import 'firebase/performance';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -22,16 +15,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MarkdownModule } from 'ngx-markdown';
 import { TypeaheadModule } from 'ngx-type-ahead';
-import { JsonManagerService } from './services/json-manager.service';
-import { DataService } from './services/data.service';
-import { StudentsCommitsViewComponent } from './students-commits-view/students-commits-view.component';
-import { QuestionsCompletionViewComponent } from './questions-completion-view/questions-completion-view.component';
-import { MetadataViewComponent } from './metadata-view/metadata-view.component';
-import { DataProvidedGuard } from './services/data-provided.guard';
-import { DataLoadingGuard } from './services/data-loading.guard';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { CommitsService } from '@services/commits.service';
+import { AuthService } from '@services/auth.service';
+import { JsonManagerService } from '@services/json-manager.service';
+import { DataService } from '@services/data.service';
+import { HomeComponent } from '@components/home/home.component';
+import { StudentsCommitsComponent } from '@components/graphs/students-commits/students-commits.component';
+import { QuestionsCompletionComponent } from '@components/graphs/questions-completion/questions-completion.component';
+import { MetadataComponent } from '@components/metadata/metadata.component';
+import { OverviewComponent } from '@components/graphs/overview/overview.component';
+import { FourOhFourComponent } from '@components/four-oh-four/four-oh-four.component';
+import { DataProvidedGuard } from '@guards/data-provided.guard';
+import { DataLoadingGuard } from '@guards/data-loading.guard';
+import { AuthGuard } from '@guards/auth.guard';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyA3kJGK7-b7YbLnb0RBc38kTfqkc_fT0xY',
@@ -50,25 +50,25 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'not-found', component: FourOhFourComponent },
   {
-    path: 'graph',
+    path: 'overview',
     canActivate: [AuthGuard],
     canDeactivate: [DataLoadingGuard],
-    component: GraphViewComponent
+    component: OverviewComponent
   },
   {
-    path: 'students-commits-view',
+    path: 'students-commits',
     canActivate: [AuthGuard, DataProvidedGuard],
-    component: StudentsCommitsViewComponent
+    component: StudentsCommitsComponent
   },
   {
-    path: 'questions-completion-view',
+    path: 'questions-completion',
     canActivate: [AuthGuard, DataProvidedGuard],
-    component: QuestionsCompletionViewComponent
+    component: QuestionsCompletionComponent
   },
   {
     path: 'edit-metadata',
     canActivate: [AuthGuard, DataProvidedGuard],
-    component: MetadataViewComponent
+    component: MetadataComponent
   },
   { path: '**', redirectTo: 'not-found' }
 ];
@@ -78,10 +78,10 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     FourOhFourComponent,
-    GraphViewComponent,
-    StudentsCommitsViewComponent,
-    QuestionsCompletionViewComponent,
-    MetadataViewComponent
+    OverviewComponent,
+    StudentsCommitsComponent,
+    QuestionsCompletionComponent,
+    MetadataComponent
   ],
   imports: [
     BrowserModule,

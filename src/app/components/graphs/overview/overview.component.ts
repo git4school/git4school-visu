@@ -6,31 +6,31 @@ import {
   HostListener
 } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
-import { AuthService } from '../services/auth.service';
-import { CommitsService } from '../services/commits.service';
-import { Commit, CommitColor } from '../models/Commit.model';
 import { ToastrService } from 'ngx-toastr';
-import { Repository } from '../models/Repository.model';
-import { Session } from '../models/Session.model';
-import { Jalon } from '../models/Jalon.model';
 import { NgForm } from '@angular/forms';
 import moment from 'moment/src/moment';
-import { JsonManagerService } from '../services/json-manager.service';
-import { DataService } from '../services/data.service';
 import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import * as Ajv from 'ajv';
 import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
-import { DataProvidedGuard } from '../services/data-provided.guard';
+
+import { CommitsService } from '@services/commits.service';
+import { JsonManagerService } from '@services/json-manager.service';
+import { DataService } from '@services/data.service';
+import { Commit, CommitColor } from '@models/Commit.model';
+import { Repository } from '@models/Repository.model';
+import { Session } from '@models/Session.model';
+import { Jalon } from '@models/Jalon.model';
+import { DataProvidedGuard } from '@guards/data-provided.guard';
 
 declare var $: any;
 
 @Component({
-  selector: 'app-graph-view',
-  templateUrl: './graph-view.component.html',
-  styleUrls: ['./graph-view.component.scss']
+  selector: 'overview',
+  templateUrl: './overview.component.html',
+  styleUrls: ['./overview.component.scss']
 })
-export class GraphViewComponent implements OnInit {
+export class OverviewComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private commitsService: CommitsService,
@@ -46,7 +46,7 @@ export class GraphViewComponent implements OnInit {
   loading = false;
   searchFilter: string[] = [];
   unit = 'day';
-  drag = true;
+  drag = false;
   chartData = [{ data: [] }];
   tpGroup: string;
   showSessions = true;
@@ -68,7 +68,7 @@ export class GraphViewComponent implements OnInit {
     responsive: true,
     aspectRatio: 2.4,
     animation: {
-      duration: 0 // general animation time
+      duration: 0
     },
     responsiveAnimationDuration: 0,
     hover: {
@@ -103,10 +103,6 @@ export class GraphViewComponent implements OnInit {
       point: {
         hitRadius: 8,
         radius: 6
-        // borderWidth: 1,
-        // pointRadius: 7,
-        // pointHoverRadius: 8,
-        // pointBorderColor: 'black'
       }
     },
     scales: {
@@ -169,7 +165,6 @@ export class GraphViewComponent implements OnInit {
       show: false
     });
     if (this.dataProvided.dataLoaded()) {
-      // this.loadGraphData();
       this.loadGraph(this.dataService.startDate, this.dataService.endDate);
     } else {
       $('#uploadFileModal').modal({
@@ -177,6 +172,7 @@ export class GraphViewComponent implements OnInit {
       });
     }
   }
+
   updateLang() {
     this.translate.get('SEARCH-NOT-FOUND').subscribe(r => {
       this.typeaheadSettings = {
@@ -216,28 +212,35 @@ export class GraphViewComponent implements OnInit {
     this.commitsService
       .getRepositories(this.dataService.repositories, startDate, endDate)
       .subscribe(repositories => {
-        try {
-          let tpGroups = new Set<string>();
-          repositories.forEach((repository, index) => {
-            this.dataService.repositories[
-              index
-            ] = this.commitsService.getRepositoryFromRaw(
-              this.dataService.repositories[index],
-              repository
-            );
-            tpGroups.add(this.dataService.repositories[index].tpGroup);
+        this.translate
+          .get([
+            'ERRORS.REPOSITORY-NOT-FOUND',
+            'ERRORS.README-NOT-FOUND',
+            'ERRORS.DETAILS'
+          ])
+          .subscribe(translations => {
+            try {
+              let tpGroups = new Set<string>();
+              repositories.forEach((repository, index) => {
+                this.commitsService.getRepositoryFromRaw(
+                  this.dataService.repositories[index],
+                  repository,
+                  translations
+                );
+                tpGroups.add(this.dataService.repositories[index].tpGroup);
+              });
+              this.dataService.tpGroups = Array.from(tpGroups);
+              this.loadGraphDataAndRefresh();
+              this.dataService.lastUpdateDate = new Date();
+              this.dataService.dataLoaded = true;
+            } catch (err) {
+              this.translate
+                .get('GIT-ERROR')
+                .subscribe(translation => this.error(translation, err));
+            } finally {
+              this.loading = false;
+            }
           });
-          this.dataService.tpGroups = Array.from(tpGroups);
-          this.loadGraphDataAndRefresh();
-          this.dataService.lastUpdateDate = new Date();
-          this.dataService.dataLoaded = true;
-        } catch (err) {
-          this.translate
-            .get('GIT-ERROR')
-            .subscribe(translation => this.error(translation, err));
-        } finally {
-          this.loading = false;
-        }
       });
   }
 
@@ -459,7 +462,6 @@ export class GraphViewComponent implements OnInit {
   onChartClick(event) {
     if (event.active.length > 0) {
       const data = this.getDataFromChart(event);
-      // tslint:disable-next-line: no-string-literal
       window.open(data.commit.url, '_blank');
     } else {
       const rawDate = this.getValueFromEvent(event);
@@ -489,7 +491,6 @@ export class GraphViewComponent implements OnInit {
   }
 
   showModal() {
-    console.log(this.labelModal);
     $('#addMilestoneModal').modal('show');
   }
 
@@ -505,7 +506,6 @@ export class GraphViewComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     const questions = form.value.questions;
-    console.log('form', form.value);
 
     const jalon = new Jalon(
       new Date(form.value.date),
@@ -578,7 +578,6 @@ export class GraphViewComponent implements OnInit {
   selectUnit(unit: string) {
     this.unit = unit;
     this.myChart.chart.options.scales.xAxes[0].time.unit = unit;
-    // this.refreshGraph();
     this.myChart.chart.update();
   }
 
@@ -620,10 +619,14 @@ export class GraphViewComponent implements OnInit {
       )
       .map(repository => Repository.withJSON(repository));
     if (text.repositories.length !== this.dataService.repositories.length) {
-      this.warning(
-        'Attention',
-        'Une ou plusieurs URL ne sont pas bien formatées !'
-      );
+      this.translate
+        .get(['ERRORS.WARNING', 'ERRORS.INVALID-URLS'])
+        .subscribe(translations =>
+          this.warning(
+            translations['ERRORS.WARNING'],
+            translations['ERRORS.INVALID-URLS']
+          )
+        );
     }
     this.dataService.startDate = text.startDate;
     this.dataService.endDate = text.endDate;
@@ -768,7 +771,6 @@ export class GraphViewComponent implements OnInit {
     zip.file('students-commits.json', JSON.stringify(studentsDict, null, 2));
 
     zip.generateAsync({ type: 'blob' }).then(function(content) {
-      // see FileSaver.js
       saveAs(content, shortFilename + '.zip');
     });
   }

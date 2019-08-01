@@ -1,5 +1,4 @@
-import { Jalon } from './Jalon.model';
-import { DataService } from '../services/data.service';
+import { Jalon } from '@models/Jalon.model';
 
 export const CommitColor = {
   BEFORE: {
@@ -95,53 +94,45 @@ export class Commit {
   }
 
   getQuestion(questions: String[]) {
-    // TO DO: creer le set de toutes les questions, marquer la dernière question du repo
-    if (!questions) {
-      return null;
-    }
-    return this.message.split(' ').find(element => {
-      return questions.includes(element);
-    });
+    return !questions
+      ? null
+      : this.message.split(' ').find(element => {
+          return questions.includes(element);
+        });
   }
 
   updateMetadata(reviews: Jalon[], corrections: Jalon[], questions: string[]) {
     this.updateIsCloture();
     this.question = this.getQuestion(questions);
     this.color = CommitColor.INTERMEDIATE;
-    if (reviews) {
+
+    reviews &&
       reviews.forEach(review => {
         if (review.questions && review.questions.includes(this.question)) {
           if (this.commitDate.getTime() > review.date.getTime()) {
-            this.color = CommitColor.BETWEEN; // orange
+            this.color = CommitColor.BETWEEN;
           } else {
-            this.color = CommitColor.BEFORE; // green
+            this.color = CommitColor.BEFORE;
           }
         }
       });
-    }
-    if (corrections) {
+    corrections &&
       corrections.forEach(correction => {
         if (
           correction.questions &&
           correction.questions.includes(this.question)
         ) {
           if (this.commitDate.getTime() > correction.date.getTime()) {
-            this.color = CommitColor.AFTER; // red
+            this.color = CommitColor.AFTER;
           } else if (this.color === CommitColor.INTERMEDIATE) {
-            // if color is black
-            this.color = CommitColor.BEFORE; // green
+            this.color = CommitColor.BEFORE;
           }
         }
       });
-    }
   }
 
   updateColor(reviews: Jalon[], corrections: Jalon[]) {
-    // if (!this.isCloture) {
-    //   this.color = 'black';
-    //   return;
-    // }
-    if (reviews) {
+    reviews &&
       reviews
         .filter(review => review.date.getTime() < this.commitDate.getTime())
         .forEach(review => {
@@ -154,12 +145,11 @@ export class Commit {
                 ')\\b'
             );
             if (regex.test(this.message)) {
-              this.color = CommitColor.BETWEEN; // orange
+              this.color = CommitColor.BETWEEN;
             }
           }
         });
-    }
-    if (corrections) {
+    corrections &&
       corrections
         .filter(
           correction => correction.date.getTime() < this.commitDate.getTime()
@@ -174,10 +164,9 @@ export class Commit {
                 ')\\b'
             );
             if (regex.test(this.message)) {
-              this.color = CommitColor.AFTER; // red
+              this.color = CommitColor.AFTER;
             }
           }
         });
-    }
   }
 }

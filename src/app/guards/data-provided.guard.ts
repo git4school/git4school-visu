@@ -7,7 +7,8 @@ import {
   Router
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { DataService } from './data.service';
+
+import { DataService } from '@services/data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class DataProvidedGuard implements CanActivate {
     if (this.dataLoaded()) {
       return true;
     } else {
-      this.router.navigate(['/graph']);
+      this.router.navigate(['/overview']);
     }
   }
 }

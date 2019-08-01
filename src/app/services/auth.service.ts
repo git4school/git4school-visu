@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Router } from '@angular/router';
-import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -28,26 +27,14 @@ export class AuthService {
 
   callback() {
     return new Promise((resolve, reject) => {
-      // if (this.isSignedIn()) {
-      //   reject();
-      // }
-      console.log('callback');
       firebase
         .auth()
         .getRedirectResult()
         .then(result => {
           if (result.credential) {
-            // tslint:disable-next-line: no-string-literal
-            console.log('result ', result.credential['accessToken']);
-            // tslint:disable-next-line: no-string-literal
             this.token = result.credential['accessToken'];
           }
-          const user = result.user;
-          if (!user) {
-            reject();
-          } else {
-            resolve();
-          }
+          result.user ? resolve() : reject();
         });
     });
   }

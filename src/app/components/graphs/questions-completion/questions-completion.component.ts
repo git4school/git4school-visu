@@ -1,24 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import * as Chart from 'chart.js';
-import * as ChartDataLabels from 'chartjs-plugin-datalabels';
-import { DataService } from '../services/data.service';
-import { CommitColor } from '../models/Commit.model';
 import { BaseChartDirective } from 'ng2-charts';
-import { CommitsService } from '../services/commits.service';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { DataProvidedGuard } from '../services/data-provided.guard';
+
+import { DataService } from '@services/data.service';
+import { CommitsService } from '@services/commits.service';
+import { CommitColor } from '@models/Commit.model';
+import { DataProvidedGuard } from '@guards/data-provided.guard';
 
 registerLocaleData(localeFr);
 declare var $: any;
 
 @Component({
-  selector: 'app-questions-completion-view',
-  templateUrl: './questions-completion-view.component.html',
-  styleUrls: ['./questions-completion-view.component.scss']
+  selector: 'questions-completion',
+  templateUrl: './questions-completion.component.html',
+  styleUrls: ['./questions-completion.component.scss']
 })
-export class QuestionsCompletionViewComponent implements OnInit {
+export class QuestionsCompletionComponent implements OnInit {
   @ViewChild(BaseChartDirective) myChart;
 
   date: number;

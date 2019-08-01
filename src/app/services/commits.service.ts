@@ -7,11 +7,12 @@ import {
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Commit } from '../models/Commit.model';
 import { forkJoin } from 'rxjs';
-import { Repository } from '../models/Repository.model';
 import moment from 'moment/src/moment';
-import { CommitColor } from '../models/Commit.model';
+import { CommitColor } from '@models/Commit.model';
+import { Commit } from '@models/Commit.model';
+import { Repository } from '@models/Repository.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -24,32 +25,42 @@ export class CommitsService {
     })
   };
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private translate: TranslateService
+  ) {}
 
-  getRepositories(repoTab, startDate?: String, dateFin?: String) {
+  getRepositories(repoTab, startDate?: String, endDate?: String) {
     const tab = [];
     repoTab.forEach(repo => {
-      tab.push(this.getRepository(repo, startDate, dateFin));
+      tab.push(this.getRepository(repo, startDate, endDate));
     });
     return forkJoin(tab);
   }
 
-  getRepositoryFromRaw(repo, response) {
+  getRepositoryFromRaw(repo, response, translations) {
     let tab;
 
     if (response[1] instanceof HttpErrorResponse) {
-      throw 'Repository not found or you have no rights on it : ' +
+      throw translations['ERRORS.REPOSITORY-NOT-FOUND'] +
+        ' : ' +
         repo.url +
-        '<br><i>Details: ' +
+        '<br><i>' +
+        translations['ERRORS.DETAILS'] +
+        ': ' +
         response[1].message +
         '</i>';
     }
 
     if (!repo.name || !repo.tpGroup) {
       if (response[0] instanceof HttpErrorResponse) {
-        throw 'ReadMe not found for repo : ' +
+        throw translations['ERRORS.README-NOT-FOUND'] +
+          ' : ' +
           repo.url +
-          '<br><i>Details: ' +
+          '<br><i>' +
+          translations['ERRORS.DETAILS'] +
+          ': ' +
           response[0].message +
           '</i>';
       }
@@ -75,7 +86,6 @@ export class CommitsService {
     }
 
     repo.commits = response[1];
-    return repo;
   }
 
   getRepository(repo: Repository, startDate?: String, dateFin?: String) {

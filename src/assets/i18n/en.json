@@ -13,6 +13,13 @@
     "PLACEHOLDER": "Select a tp group",
     "ALL": "All"
   },
+  "ERRORS": {
+    "REPOSITORY-NOT-FOUND": "Repository not found or you have no rights on it",
+    "README-NOT-FOUND": "ReadMe not found for repo",
+    "DETAILS": "Details",
+    "WARNING": "Warning",
+    "INVALID-URLS": "One or more URLs are not well formatted !"
+  },
   "NAVBAR": {
     "HOME": "Home",
     "GRAPHS": "Graphs",
@@ -39,8 +46,13 @@
       "TITLE": "CHANGELOG"
     },
     "TUTORIAL": {
-      "TITLE": "Tutorial",
+      "TITLE": "User guide",
+      "INTRO": {
+        "TITLE": "Introduction",
+        "MESSAGE": "Git4School is an application that helps teachers follow the progress of their students during practical work sessions using Github. From the monitoring over time of student commits to the completion rate of each question by the TP group, as well as the distribution of the types of commits of each student (before / after a correction...), the teacher has access to several tools to best support his students during the practical work sessions."
+      },
       "OVERVIEW-TOOLBAR": {
+        "INTRO": "This page lets the teacher follow the work of his students using a graph displaying the commits of each student (on the y axis) according to time (on the abscissa) as well as the sessions of TP, reviews and corrections",
         "1": "You can enter questions to filter the commits and milestones dealing with the entered question(s)",
         "INFO-1": "Only the questions defined in the configuration file can be selected (can be modified in the \"metadata\" tab)",
         "2": "You can select one of the TP groups to display only the students and milestones of the group",
@@ -65,9 +77,10 @@
         "1": "Clicking anywhere on the graph (on no element) opens a window to create a milestone",
         "2": "Clicking on a milestone opens a window to edit a milestone",
         "3": "Hovering the mouse over a commit displays details about it and clicking on it opens its Github page in a new tab",
-        "INFO": ""
+        "INFO": "To perform these actions, it is necessary to use the zoom mode with the mouse wheel"
       },
       "STUDENTS-COMMITS": {
+        "INTRO": "This page displays a graph with the distribution of commit types for each student. This allows, when related to the total number of commits and the advancement in the student's questions, to have an indication of how the student works, and to identify possible difficulties",
         "1": "You can select one of the TP groups to display only the students of the group",
         "2": "Moving the cursor delimits the maximum date for which commits are computed",
         "INFO-2": "The minimum date that can be chosen corresponds to the date of the most earlier commit among all the students and the maximum date is the date of the last refresh of the data",
@@ -75,6 +88,7 @@
         "4": "It is possible to click on any element of the legend to hide it or not on the graph"
       },
       "QUESTIONS-COMPLETION": {
+        "INTRO": "This page shows the rate of completion of questions within a TP group, allowing the teacher to plan reviews and corrections at the best possible time",
         "1": "You can select one of the TP groups to compute only the commits of the students corresponding to the group",
         "2": "Moving the cursor delimits the maximum date for which commits are computed",
         "3": "Change the index of the red threshold bar by moving the cursor",
@@ -82,6 +96,7 @@
         "4": "Passing the cursor over a bar displays details on the type of commit the bar corresponds to and the corresponding students"
       },
       "METADATA": {
+        "INTRO": "It is here that you can modify data such as the document title, program, course and year. It is also possible to define a start date before which commits will not be processed, in the same way as it is possible to define an end date. Lastly, it is possible to define the subject's questions in ascending order",
         "1": "When a start date is specified, commits before this date are not processed",
         "2": "When an end date is entered, commits after this date are not processed",
         "3": "Enter here the questions you want to handle",

@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -15,7 +15,11 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom", "es6"],
     "paths": {
-      "jszip": ["../node_modules/jszip/dist/jszip.min.js"]
+      "@models/*": ["app/models/*"],
+      "@components/*": ["app/components/*"],
+      "@guards/*": ["app/guards/*"],
+      "@services/*": ["app/services/*"],
+      "@app/*": ["app/*"]
     }
   }
 }

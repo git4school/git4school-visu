@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import * as Chart from 'chart.js';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
-import { DataService } from '../services/data.service';
-import { Repository } from '../models/Repository.model';
-import { CommitColor, Commit } from '../models/Commit.model';
-import { CommitsService } from '../services/commits.service';
-import { TranslateService } from '@ngx-translate/core';
-import { DataProvidedGuard } from '../services/data-provided.guard';
+
+import { CommitColor, Commit } from '@models/Commit.model';
+import { CommitsService } from '@services/commits.service';
+import { DataService } from '@services/data.service';
+import { DataProvidedGuard } from '@guards/data-provided.guard';
 declare var $: any;
 
 @Component({
-  selector: 'app-students-commits-view',
-  templateUrl: './students-commits-view.component.html',
-  styleUrls: ['./students-commits-view.component.scss']
+  selector: 'students-commits',
+  templateUrl: './students-commits.component.html',
+  styleUrls: ['./students-commits.component.scss']
 })
-export class StudentsCommitsViewComponent implements OnInit {
+export class StudentsCommitsComponent implements OnInit {
   date: number;
   min: number;
   max: number;

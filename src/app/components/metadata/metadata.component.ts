@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { DataService } from '../services/data.service';
 import moment from 'moment/src/moment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
 
+import { DataService } from '@services/data.service';
+
 @Component({
-  selector: 'app-metadata-view',
-  templateUrl: './metadata-view.component.html',
-  styleUrls: ['./metadata-view.component.scss']
+  selector: 'metadata',
+  templateUrl: './metadata.component.html',
+  styleUrls: ['./metadata.component.scss']
 })
-export class MetadataViewComponent implements OnInit {
+export class MetadataComponent implements OnInit {
   startDate = '';
   endDate = '';
   typeaheadSettings = {
@@ -39,7 +40,7 @@ export class MetadataViewComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     let f = form.form.value;
-    console.log('f: ', f);
+
     this.dataService.title = f.title;
     this.dataService.course = f.course;
     this.dataService.program = f.program;
@@ -47,6 +48,7 @@ export class MetadataViewComponent implements OnInit {
     this.dataService.startDate = f.startDate;
     this.dataService.endDate = f.endDate;
     this.dataService.questions = f.questions;
+
     this.translate
       .get(['SUCCESS', 'SUCCESS-MESSAGE'])
       .subscribe(translations => {

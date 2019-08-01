@@ -12,7 +12,11 @@
         <div class="card-body p-2">
           <ul class="nav nav-tabs" id="tutoTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
+              <a class="nav-link active" id="intro-tab" data-toggle="tab" href="#intro" role="tab" aria-controls="intro"
+                aria-selected="true">{{ 'HOME.TUTORIAL.INTRO.TITLE' | translate }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
                 aria-controls="overview" aria-selected="true">{{ 'NAVBAR.OVERVIEW' | translate }}</a>
             </li>
             <li class="nav-item">
@@ -30,8 +34,15 @@
             </li>
           </ul>
           <div class="tab-content m-2" id="tutoTabContent">
-            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-              <img src="assets/navbar-tuto.png" class="img-fluid m-2 img-thumbnail" alt="navbar-tuto">
+            <div class="tab-pane fade show active" id="intro" role="tabpanel" aria-labelledby="intro-tab">
+              {{ 'HOME.TUTORIAL.INTRO.MESSAGE' | translate }}
+            </div>
+            <div class="tab-pane fade" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+              <div class="alert alert-primary mt-2" role="alert">
+                {{ 'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INTRO' | translate }}
+              </div>
+
+              <img src="assets/images/navbar-tuto.png" class="img-fluid m-2 img-thumbnail" alt="navbar-tuto">
 
               <ul class="fa-ul pl-3">
                 <li class="mt-2">
@@ -153,7 +164,8 @@
               </ul>
               <hr>
               <div class="media">
-                <img src="assets/overview-tuto.png" class="img-fluid mr-3 img-thumbnail w-40" alt="overview-tuto">
+                <img src="assets/images/overview-tuto.png" class="img-fluid mr-3 img-thumbnail w-40"
+                  alt="overview-tuto">
                 <div class="media-body">
                   <ul class="fa-ul">
                     <li class="mt-2">
@@ -183,13 +195,20 @@
                         </span>
                       </span>{{ 'HOME.TUTORIAL.OVERVIEW.3' | translate }}
                     </li>
+                    <div class="alert alert-warning mt-2" role="alert">
+                      <i class="fas fa-exclamation-triangle fa-lg"></i>
+                      {{ 'HOME.TUTORIAL.OVERVIEW.INFO' | translate }}
+                    </div>
                   </ul>
                 </div>
               </div>
             </div>
             <div class="tab-pane fade" id="students-commits" role="tabpanel" aria-labelledby="students-commits-tab">
+              <div class="alert alert-primary mt-2" role="alert">
+                {{ 'HOME.TUTORIAL.STUDENTS-COMMITS.INTRO' | translate }}
+              </div>
               <div class="media">
-                <img src="assets/students-commits-tuto.png" class="img-fluid m-2 img-thumbnail w-55"
+                <img src="assets/images/students-commits-tuto.png" class="img-fluid m-2 img-thumbnail w-55"
                   alt="students-commits-tuto">
                 <div class="media-body">
                   <ul class="fa-ul">
@@ -239,8 +258,11 @@
             </div>
             <div class="tab-pane fade" id="questions-completion" role="tabpanel"
               aria-labelledby="questions-completion-tab">
+              <div class="alert alert-primary mt-2" role="alert">
+                {{ 'HOME.TUTORIAL.QUESTIONS-COMPLETION.INTRO' | translate }}
+              </div>
               <div class="media">
-                <img src="assets/questions-completion-tuto.png" class="img-fluid m-2 img-thumbnail w-55"
+                <img src="assets/images/questions-completion-tuto.png" class="img-fluid m-2 img-thumbnail w-55"
                   alt="questions-completion-tuto">
                 <div class="media-body">
                   <ul class="fa-ul">
@@ -302,8 +324,11 @@
               </div>
             </div>
             <div class="tab-pane fade" id="metadata" role="tabpanel" aria-labelledby="metadata-tab">
+              <div class="alert alert-primary mt-2" role="alert">
+                {{ 'HOME.TUTORIAL.METADATA.INTRO' | translate }}
+              </div>
               <div class="media">
-                <img src="assets/metadata-tuto.png" class="img-fluid m-2 img-thumbnail w-55" alt="metadata-tuto">
+                <img src="assets/images/metadata-tuto.png" class="img-fluid m-2 img-thumbnail w-55" alt="metadata-tuto">
                 <div class="media-body">
                   <ul class="fa-ul">
                     <li class="mt-2">

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Jalon } from '../models/Jalon.model';
-import { Session } from '../models/Session.model';
-import { Repository } from '../models/Repository.model';
-import { JsonManagerService } from './json-manager.service';
-import { start } from 'repl';
+import { Jalon } from '@models/Jalon.model';
+import { Session } from '@models/Session.model';
+import { Repository } from '@models/Repository.model';
+import { JsonManagerService } from '@services/json-manager.service';
 
 @Injectable({
   providedIn: 'root'

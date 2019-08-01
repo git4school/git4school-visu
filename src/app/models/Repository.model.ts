@@ -1,4 +1,4 @@
-import { Commit } from './Commit.model';
+import { Commit } from '@models/Commit.model';
 
 export class Repository {
   constructor(
