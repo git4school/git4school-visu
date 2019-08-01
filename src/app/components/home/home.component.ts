@@ -72,6 +72,9 @@ export class HomeComponent implements OnInit {
 }`);
   }
 
+  /**
+   * Test doc
+   */
   copyReadMe() {
     this.clipboardService.copyFromContent(this.readMe);
   }

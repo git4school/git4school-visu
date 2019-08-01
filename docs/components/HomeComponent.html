@@ -1,0 +1,1142 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>HomeComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/home/home.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>home</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./home.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./home.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#changelog">changelog</a>
+                            </li>
+                            <li>
+                                <a href="#readMe">readMe</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#copyJSON">copyJSON</a>
+                            </li>
+                            <li>
+                                <a href="#copyReadMe">copyReadMe</a>
+                            </li>
+                            <li>
+                                <a href="#getChangelog">getChangelog</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(clipboardService: ClipboardService, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/components/home/home.component.ts:10</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>clipboardService</td>
+                                                  
+                                                        <td>
+                                                                    <code>ClipboardService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>http</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="copyJSON"></a>
+                    <span class="name">
+                        <b>
+                            copyJSON
+                        </b>
+                        <a href="#copyJSON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>copyJSON()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/components/home/home.component.ts:43</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="copyReadMe"></a>
+                    <span class="name">
+                        <b>
+                            copyReadMe
+                        </b>
+                        <a href="#copyReadMe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>copyReadMe()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">src/app/components/home/home.component.ts:78</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Test doc</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getChangelog"></a>
+                    <span class="name">
+                        <b>
+                            getChangelog
+                        </b>
+                        <a href="#getChangelog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getChangelog()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/components/home/home.component.ts:31</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/app/components/home/home.component.ts:27</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="changelog"></a>
+                        <span class="name">
+                            <b>
+                            changelog</b>
+                            <a href="#changelog"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/home/home.component.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="readMe"></a>
+                        <span class="name">
+                            <b>
+                            readMe</b>
+                            <a href="#readMe"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x60;# First IT practical
+
+### NOM : DOE
+### Prénom : John
+### Groupe de TP : 
+- [ ] 11
+- [x] 12
+- [ ] 21
+- [ ] 22&#x60;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/components/home/home.component.ts:17</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import { ClipboardService } from &#x27;ngx-clipboard&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+
+@Component({
+  selector: &#x27;home&#x27;,
+  templateUrl: &#x27;./home.component.html&#x27;,
+  styleUrls: [&#x27;./home.component.scss&#x27;]
+})
+export class HomeComponent implements OnInit {
+  constructor(
+    private clipboardService: ClipboardService,
+    private http: HttpClient
+  ) {}
+
+  changelog;
+  readMe &#x3D; &#x60;# First IT practical
+
+### NOM : DOE
+### Prénom : John
+### Groupe de TP : 
+- [ ] 11
+- [x] 12
+- [ ] 21
+- [ ] 22&#x60;;
+
+  ngOnInit() {
+    this.getChangelog();
+  }
+
+  getChangelog() {
+    this.http
+      .get(
+        &#x27;https://api.github.com/repos/git4school/git4school-visu/contents/CHANGELOG.md&#x27;
+      )
+      .subscribe(data &#x3D;&gt; {
+        this.changelog &#x3D; decodeURIComponent(
+          escape(window.atob(data[&#x27;content&#x27;]))
+        );
+      });
+  }
+
+  copyJSON() {
+    this.clipboardService.copyFromContent(&#x60;
+{
+  &quot;title&quot;: &quot;TP title&quot;,
+  &quot;course&quot;: &quot;JEE&quot;,
+  &quot;program&quot;: &quot;Master 1 DL&quot;,
+  &quot;year&quot;: &quot;2018-2019&quot;,
+  &quot;startDate&quot;: &quot;2017-01-22 12:00&quot;,
+  &quot;endDate&quot;: &quot;2018-04-23 12:00&quot;,
+  &quot;questions&quot;: [&quot;1.1&quot;, &quot;1.2&quot;],
+  &quot;repositories&quot;: [
+    { &quot;url&quot;: &quot;https://github.com/user/repository&quot;, &quot;name&quot;: &quot;First name LAST NAME&quot;, &quot;tpGroup&quot;: &quot;12&quot; }
+  ],
+  &quot;sessions&quot;: [
+    {
+      &quot;startDate&quot;: &quot;2019-05-22 10:00&quot;,
+      &quot;endDate&quot;: &quot;2019-05-22 11:00&quot;, 
+      &quot;tpGroup&quot;: &quot;11&quot;
+    }
+  ],
+  &quot;reviews&quot;: [
+    { &quot;date&quot;: &quot;2019-03-15 15:40&quot;, &quot;label&quot;: &quot;Review 1&quot;, &quot;tpGroup&quot;: &quot;21&quot;, &quot;questions&quot;: [&quot;1.1&quot;, &quot;1.2&quot;] }
+  ],
+  &quot;corrections&quot;: [
+    { &quot;date&quot;: &quot;2019-03-17 15:40&quot;, &quot;label&quot;: &quot;Correction 1&quot;, &quot;tpGroup&quot;: &quot;22&quot;, &quot;questions&quot;: [&quot;1.1&quot;, &quot;1.2&quot;] }
+  ],
+  &quot;others&quot;: [
+    {&quot;date&quot;: &quot;2019-03-19 15:40&quot;, &quot;label&quot;: &quot;Other 1&quot;, &quot;tpGroup&quot;: &quot;12&quot;, &quot;questions&quot;: [] }
+  ]
+}&#x60;);
+  }
+
+  /**
+   * Test doc
+   */
+  copyReadMe() {
+    this.clipboardService.copyFromContent(this.readMe);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;mt-2&quot;&gt;
+  &lt;div class&#x3D;&quot;accordion mt-3&quot; id&#x3D;&quot;accordion&quot;&gt;
+    &lt;div class&#x3D;&quot;card&quot;&gt;
+      &lt;h5 class&#x3D;&quot;card-header&quot;&gt;
+        &lt;a data-toggle&#x3D;&quot;collapse&quot; href&#x3D;&quot;#collapseTuto&quot; aria-expanded&#x3D;&quot;true&quot; aria-controls&#x3D;&quot;collapseTuto&quot;
+          style&#x3D;&quot;text-decoration:none&quot; id&#x3D;&quot;heading-example&quot; class&#x3D;&quot;d-block collapsed&quot;&gt;
+          &lt;i class&#x3D;&quot;fa fa-chevron-down pull-right float-right&quot;&gt;&lt;/i&gt;
+          {{ &#x27;HOME.TUTORIAL.TITLE&#x27; | translate }}
+        &lt;/a&gt;
+      &lt;/h5&gt;
+      &lt;div id&#x3D;&quot;collapseTuto&quot; class&#x3D;&quot;collapse&quot; aria-labelledby&#x3D;&quot;heading-example&quot; data-parent&#x3D;&quot;#accordion&quot;&gt;
+        &lt;div class&#x3D;&quot;card-body p-2&quot;&gt;
+          &lt;ul class&#x3D;&quot;nav nav-tabs&quot; id&#x3D;&quot;tutoTab&quot; role&#x3D;&quot;tablist&quot;&gt;
+            &lt;li class&#x3D;&quot;nav-item&quot;&gt;
+              &lt;a class&#x3D;&quot;nav-link active&quot; id&#x3D;&quot;intro-tab&quot; data-toggle&#x3D;&quot;tab&quot; href&#x3D;&quot;#intro&quot; role&#x3D;&quot;tab&quot; aria-controls&#x3D;&quot;intro&quot;
+                aria-selected&#x3D;&quot;true&quot;&gt;{{ &#x27;HOME.TUTORIAL.INTRO.TITLE&#x27; | translate }}&lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;nav-item&quot;&gt;
+              &lt;a class&#x3D;&quot;nav-link&quot; id&#x3D;&quot;overview-tab&quot; data-toggle&#x3D;&quot;tab&quot; href&#x3D;&quot;#overview&quot; role&#x3D;&quot;tab&quot;
+                aria-controls&#x3D;&quot;overview&quot; aria-selected&#x3D;&quot;true&quot;&gt;{{ &#x27;NAVBAR.OVERVIEW&#x27; | translate }}&lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;nav-item&quot;&gt;
+              &lt;a class&#x3D;&quot;nav-link&quot; id&#x3D;&quot;students-commits-tab&quot; data-toggle&#x3D;&quot;tab&quot; href&#x3D;&quot;#students-commits&quot; role&#x3D;&quot;tab&quot;
+                aria-controls&#x3D;&quot;students-commits&quot; aria-selected&#x3D;&quot;false&quot;&gt;{{ &#x27;NAVBAR.STUDENTS-COMMITS&#x27; | translate }}&lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;nav-item&quot;&gt;
+              &lt;a class&#x3D;&quot;nav-link&quot; id&#x3D;&quot;questions-completion-tab&quot; data-toggle&#x3D;&quot;tab&quot; href&#x3D;&quot;#questions-completion&quot;
+                role&#x3D;&quot;tab&quot; aria-controls&#x3D;&quot;questions-completion&quot;
+                aria-selected&#x3D;&quot;false&quot;&gt;{{ &#x27;NAVBAR.QUESTIONS-COMPLETION&#x27; | translate }}&lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;nav-item&quot;&gt;
+              &lt;a class&#x3D;&quot;nav-link&quot; id&#x3D;&quot;metadata-tab&quot; data-toggle&#x3D;&quot;tab&quot; href&#x3D;&quot;#metadata&quot; role&#x3D;&quot;tab&quot;
+                aria-controls&#x3D;&quot;metadata&quot; aria-selected&#x3D;&quot;false&quot;&gt;{{ &#x27;NAVBAR.METADATA&#x27; | translate }}&lt;/a&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+          &lt;div class&#x3D;&quot;tab-content m-2&quot; id&#x3D;&quot;tutoTabContent&quot;&gt;
+            &lt;div class&#x3D;&quot;tab-pane fade show active&quot; id&#x3D;&quot;intro&quot; role&#x3D;&quot;tabpanel&quot; aria-labelledby&#x3D;&quot;intro-tab&quot;&gt;
+              {{ &#x27;HOME.TUTORIAL.INTRO.MESSAGE&#x27; | translate }}
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;tab-pane fade&quot; id&#x3D;&quot;overview&quot; role&#x3D;&quot;tabpanel&quot; aria-labelledby&#x3D;&quot;overview-tab&quot;&gt;
+              &lt;div class&#x3D;&quot;alert alert-primary mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INTRO&#x27; | translate }}
+              &lt;/div&gt;
+
+              &lt;img src&#x3D;&quot;assets/images/navbar-tuto.png&quot; class&#x3D;&quot;img-fluid m-2 img-thumbnail&quot; alt&#x3D;&quot;navbar-tuto&quot;&gt;
+
+              &lt;ul class&#x3D;&quot;fa-ul pl-3&quot;&gt;
+                &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                  &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                      &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;1&lt;/span&gt;
+                    &lt;/span&gt;
+                  &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.1&#x27; | translate }}
+                &lt;/li&gt;
+                &lt;div class&#x3D;&quot;alert alert-info mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                  &lt;i class&#x3D;&quot;fas fa-info-circle fa-lg&quot;&gt;&lt;/i&gt; {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-1&#x27; | translate }}
+                &lt;/div&gt;
+                &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                  &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                      &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;2&lt;/span&gt;
+                    &lt;/span&gt;
+                  &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.2&#x27; | translate }}
+                &lt;/li&gt;
+                &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                  &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                      &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;3&lt;/span&gt;
+                    &lt;/span&gt;
+                  &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.3&#x27; | translate }}
+                &lt;/li&gt;
+                &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                  &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                      &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;4&lt;/span&gt;
+                    &lt;/span&gt;
+                  &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.4&#x27; | translate }}
+                &lt;/li&gt;
+                &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                  &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                      &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;5&lt;/span&gt;
+                    &lt;/span&gt;
+                  &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.5&#x27; | translate }}
+                &lt;/li&gt;
+                &lt;div class&#x3D;&quot;alert alert-info mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                  &lt;i class&#x3D;&quot;fas fa-info-circle fa-lg&quot;&gt;&lt;/i&gt; {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-5&#x27; | translate }} :
+                  &lt;button class&#x3D;&quot;btn btn-outline-secondary ml-2&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-mouse-pointer&quot; data-fa-transform&#x3D;&quot;shrink-2 right-5 down-6&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;far fa-square&quot; data-fa-transform&#x3D;&quot;shrink-2 up-6 left-5&quot;&gt;&lt;/i&gt;
+                    &lt;/span&gt;
+                  &lt;/button&gt; {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-5-BTN-DRAG&#x27; | translate }}
+                  &lt;button class&#x3D;&quot;btn btn-outline-secondary ml-2&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-mouse-pointer&quot; data-fa-transform&#x3D;&quot;shrink-2 right-5 down-6&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-arrows-alt-h&quot; data-fa-transform&#x3D;&quot;up-6 left-5&quot;&gt;&lt;/i&gt;
+                    &lt;/span&gt;
+                  &lt;/button&gt; {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-5-BTN-WHEEL&#x27; | translate }}
+                &lt;/div&gt;
+                &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                  &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                      &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;6&lt;/span&gt;
+                    &lt;/span&gt;
+                  &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.6&#x27; | translate }}
+                &lt;/li&gt;
+                &lt;div class&#x3D;&quot;alert alert-info mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                  &lt;i class&#x3D;&quot;fas fa-info-circle fa-lg&quot;&gt;&lt;/i&gt; {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6&#x27; | translate }} :
+                  &lt;button class&#x3D;&quot;btn btn-outline-secondary ml-2&quot;&gt;&lt;i class&#x3D;&quot;fas fa-calendar-week&quot;&gt;&lt;/i&gt;
+                  &lt;/button&gt; {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6-BTN-WEEK&#x27; | translate }}
+                  &lt;button class&#x3D;&quot;btn btn-outline-secondary ml-2&quot;&gt;&lt;i class&#x3D;&quot;fas fa-clock&quot;&gt;&lt;/i&gt;
+                  &lt;/button&gt; {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6-BTN-HOUR&#x27; | translate }}
+                  &lt;button class&#x3D;&quot;btn btn-outline-secondary ml-2&quot;&gt;&lt;i class&#x3D;&quot;fas fa-calendar-day&quot;&gt;&lt;/i&gt;
+                  &lt;/button&gt; {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6-BTN-DAY&#x27; | translate }}
+                &lt;/div&gt;
+                &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                  &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                      &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;7&lt;/span&gt;
+                    &lt;/span&gt;
+                  &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.7&#x27; | translate }}
+                &lt;/li&gt;
+                &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                  &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                      &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;8&lt;/span&gt;
+                    &lt;/span&gt;
+                  &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.8&#x27; | translate }}
+                &lt;/li&gt;
+                &lt;div class&#x3D;&quot;alert alert-warning mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                  &lt;i class&#x3D;&quot;fas fa-exclamation-triangle fa-lg&quot;&gt;&lt;/i&gt;
+                  {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-8&#x27; | translate }}
+                &lt;/div&gt;
+                &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                  &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                    &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                      &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                      &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;9&lt;/span&gt;
+                    &lt;/span&gt;
+                  &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.9&#x27; | translate }}
+                &lt;/li&gt;
+                &lt;div class&#x3D;&quot;alert alert-info mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                  &lt;i class&#x3D;&quot;fas fa-info-circle fa-lg&quot;&gt;&lt;/i&gt;
+                  {{ &#x27;HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-9&#x27; | translate }}
+                &lt;/div&gt;
+              &lt;/ul&gt;
+              &lt;hr&gt;
+              &lt;div class&#x3D;&quot;media&quot;&gt;
+                &lt;img src&#x3D;&quot;assets/images/overview-tuto.png&quot; class&#x3D;&quot;img-fluid mr-3 img-thumbnail w-40&quot;
+                  alt&#x3D;&quot;overview-tuto&quot;&gt;
+                &lt;div class&#x3D;&quot;media-body&quot;&gt;
+                  &lt;ul class&#x3D;&quot;fa-ul&quot;&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;1&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW.1&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;2&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW.2&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;3&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.OVERVIEW.3&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;div class&#x3D;&quot;alert alert-warning mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-exclamation-triangle fa-lg&quot;&gt;&lt;/i&gt;
+                      {{ &#x27;HOME.TUTORIAL.OVERVIEW.INFO&#x27; | translate }}
+                    &lt;/div&gt;
+                  &lt;/ul&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;tab-pane fade&quot; id&#x3D;&quot;students-commits&quot; role&#x3D;&quot;tabpanel&quot; aria-labelledby&#x3D;&quot;students-commits-tab&quot;&gt;
+              &lt;div class&#x3D;&quot;alert alert-primary mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                {{ &#x27;HOME.TUTORIAL.STUDENTS-COMMITS.INTRO&#x27; | translate }}
+              &lt;/div&gt;
+              &lt;div class&#x3D;&quot;media&quot;&gt;
+                &lt;img src&#x3D;&quot;assets/images/students-commits-tuto.png&quot; class&#x3D;&quot;img-fluid m-2 img-thumbnail w-55&quot;
+                  alt&#x3D;&quot;students-commits-tuto&quot;&gt;
+                &lt;div class&#x3D;&quot;media-body&quot;&gt;
+                  &lt;ul class&#x3D;&quot;fa-ul&quot;&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;1&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.STUDENTS-COMMITS.1&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;2&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.STUDENTS-COMMITS.2&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;div class&#x3D;&quot;alert alert-info mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-info-circle fa-lg&quot;&gt;&lt;/i&gt;
+                      {{ &#x27;HOME.TUTORIAL.STUDENTS-COMMITS.INFO-2&#x27; | translate }}
+                    &lt;/div&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;3&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.STUDENTS-COMMITS.3&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;4&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.STUDENTS-COMMITS.4&#x27; | translate }}
+                    &lt;/li&gt;
+                  &lt;/ul&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;tab-pane fade&quot; id&#x3D;&quot;questions-completion&quot; role&#x3D;&quot;tabpanel&quot;
+              aria-labelledby&#x3D;&quot;questions-completion-tab&quot;&gt;
+              &lt;div class&#x3D;&quot;alert alert-primary mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                {{ &#x27;HOME.TUTORIAL.QUESTIONS-COMPLETION.INTRO&#x27; | translate }}
+              &lt;/div&gt;
+              &lt;div class&#x3D;&quot;media&quot;&gt;
+                &lt;img src&#x3D;&quot;assets/images/questions-completion-tuto.png&quot; class&#x3D;&quot;img-fluid m-2 img-thumbnail w-55&quot;
+                  alt&#x3D;&quot;questions-completion-tuto&quot;&gt;
+                &lt;div class&#x3D;&quot;media-body&quot;&gt;
+                  &lt;ul class&#x3D;&quot;fa-ul&quot;&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;1&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.QUESTIONS-COMPLETION.1&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;2&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.QUESTIONS-COMPLETION.2&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;div class&#x3D;&quot;alert alert-info mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-info-circle fa-lg&quot;&gt;&lt;/i&gt;
+                      {{ &#x27;HOME.TUTORIAL.STUDENTS-COMMITS.INFO-2&#x27; | translate }}
+                    &lt;/div&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;3&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.QUESTIONS-COMPLETION.3&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;div class&#x3D;&quot;alert alert-info mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-info-circle fa-lg&quot;&gt;&lt;/i&gt;
+                      {{ &#x27;HOME.TUTORIAL.QUESTIONS-COMPLETION.INFO-3&#x27; | translate }}
+                    &lt;/div&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;4&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.QUESTIONS-COMPLETION.4&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;5&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.STUDENTS-COMMITS.4&#x27; | translate }}
+                    &lt;/li&gt;
+                  &lt;/ul&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;tab-pane fade&quot; id&#x3D;&quot;metadata&quot; role&#x3D;&quot;tabpanel&quot; aria-labelledby&#x3D;&quot;metadata-tab&quot;&gt;
+              &lt;div class&#x3D;&quot;alert alert-primary mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                {{ &#x27;HOME.TUTORIAL.METADATA.INTRO&#x27; | translate }}
+              &lt;/div&gt;
+              &lt;div class&#x3D;&quot;media&quot;&gt;
+                &lt;img src&#x3D;&quot;assets/images/metadata-tuto.png&quot; class&#x3D;&quot;img-fluid m-2 img-thumbnail w-55&quot; alt&#x3D;&quot;metadata-tuto&quot;&gt;
+                &lt;div class&#x3D;&quot;media-body&quot;&gt;
+                  &lt;ul class&#x3D;&quot;fa-ul&quot;&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;1&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.METADATA.1&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;2&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.METADATA.2&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;3&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.METADATA.3&#x27; | translate }}
+                    &lt;/li&gt;
+                    &lt;div class&#x3D;&quot;alert alert-warning mt-2&quot; role&#x3D;&quot;alert&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-exclamation-triangle fa-lg&quot;&gt;&lt;/i&gt;
+                      {{ &#x27;HOME.TUTORIAL.METADATA.WARNING-3&#x27; | translate }}
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;alert alert-info&quot; role&#x3D;&quot;alert&quot;&gt;
+                      &lt;i class&#x3D;&quot;fas fa-info-circle fa-lg&quot;&gt;&lt;/i&gt;
+                      {{ &#x27;HOME.TUTORIAL.METADATA.INFO-3&#x27; | translate }}
+                    &lt;/div&gt;
+                    &lt;li class&#x3D;&quot;mt-2&quot;&gt;
+                      &lt;span class&#x3D;&quot;fa-li&quot;&gt;
+                        &lt;span class&#x3D;&quot;fa-layers fa-lg&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; style&#x3D;&quot;color:#B3AFB1&quot;&gt;&lt;/i&gt;
+                          &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-transform&#x3D;&quot;shrink-3&quot;&gt;&lt;/i&gt;
+                          &lt;span class&#x3D;&quot;fa-layers-text fa-inverse&quot; data-fa-transform&#x3D;&quot;shrink-7&quot;&gt;4&lt;/span&gt;
+                        &lt;/span&gt;
+                      &lt;/span&gt;{{ &#x27;HOME.TUTORIAL.METADATA.4&#x27; | translate }}
+                    &lt;/li&gt;
+                  &lt;/ul&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;card&quot;&gt;
+      &lt;h5 class&#x3D;&quot;card-header&quot;&gt;
+        &lt;a data-toggle&#x3D;&quot;collapse&quot; href&#x3D;&quot;#collapseJSON&quot; aria-expanded&#x3D;&quot;true&quot; aria-controls&#x3D;&quot;collapseJSON&quot;
+          style&#x3D;&quot;text-decoration:none&quot; id&#x3D;&quot;heading-example&quot; class&#x3D;&quot;d-block collapsed&quot;&gt;
+          &lt;i class&#x3D;&quot;fa fa-chevron-down pull-right float-right&quot;&gt;&lt;/i&gt;
+          {{ &#x27;HOME.JSON-STRUCTURE.TITLE&#x27; | translate }}
+        &lt;/a&gt;
+      &lt;/h5&gt;
+      &lt;div id&#x3D;&quot;collapseJSON&quot; class&#x3D;&quot;collapse&quot; aria-labelledby&#x3D;&quot;heading-example&quot; data-parent&#x3D;&quot;#accordion&quot;&gt;
+        &lt;div class&#x3D;&quot;card-body p-2&quot;&gt;
+          &lt;pre class&#x3D;&quot;jumbotron p-3 my-1&quot;&gt;
+          &lt;button id&#x3D;&quot;copyJSON&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn float-right btn-sm&quot; (click)&#x3D;&quot;copyJSON()&quot; [ngbTooltip]&#x3D;&quot;copyTooltip&quot;
+          data-toggle&#x3D;&quot;tooltip&quot; data-placement&#x3D;&quot;left&quot;&gt;&lt;span class&#x3D;&quot;text-muted&quot;&gt;{{ &#x27;HOME.COPY&#x27; | translate }}&lt;/span&gt;&lt;/button&gt;
+  &amp;#123;
+    &lt;span class&#x3D;&quot;text-danger&quot;&gt;&quot;title&quot;&lt;/span&gt;: &quot;TP title&quot;,
+    &quot;course&quot;: &quot;JEE&quot;,
+    &quot;program&quot;: &quot;Master 1 DL&quot;,
+    &quot;year&quot;: &quot;2018-2019&quot;,
+    &quot;startDate&quot;: &quot;2017-01-22 12:00&quot;,
+    &quot;endDate&quot;: &quot;2018-04-23 12:00&quot;,
+    &lt;span class&#x3D;&quot;text-danger&quot;&gt;&quot;questions&quot;&lt;/span&gt;: [&quot;1.1&quot;, &quot;1.2&quot;],
+    &lt;span class&#x3D;&quot;text-danger&quot;&gt;&quot;repositories&quot;&lt;/span&gt;: [
+      &amp;#123; &lt;span class&#x3D;&quot;text-danger&quot;&gt;&quot;url&quot;&lt;/span&gt;: &quot;https://github.com/user/repository&quot;, &quot;name&quot;: &quot;First name LAST NAME&quot;, &quot;tpGroup&quot;: &quot;12&quot; &amp;#125;
+    ],
+    &quot;sessions&quot;: [
+      &amp;#123;
+        &lt;span class&#x3D;&quot;text-danger&quot;&gt;&quot;startDate&quot;&lt;/span&gt;: &quot;2019-05-22 10:00&quot;,
+        &lt;span class&#x3D;&quot;text-danger&quot;&gt;&quot;endDate&quot;&lt;/span&gt;: &quot;2019-05-22 11:00&quot;, 
+        &quot;tpGroup&quot;: &quot;11&quot;
+      &amp;#125;
+    ],
+    &quot;reviews&quot;: [
+      &amp;#123; &lt;span class&#x3D;&quot;text-danger&quot;&gt;&quot;date&quot;&lt;/span&gt;: &quot;2019-03-15 15:40&quot;, &quot;label&quot;: &quot;Review 1&quot;, &quot;tpGroup&quot;: &quot;21&quot;, &quot;questions&quot;: [&quot;1.1&quot;, &quot;1.2&quot;] &amp;#125;
+    ],
+    &quot;corrections&quot;: [
+      &amp;#123; &lt;span class&#x3D;&quot;text-danger&quot;&gt;&quot;date&quot;&lt;/span&gt;: &quot;2019-03-17 15:40&quot;, &quot;label&quot;: &quot;Correction 1&quot;, &quot;tpGroup&quot;: &quot;22&quot;, &quot;questions&quot;: [&quot;1.1&quot;, &quot;1.2&quot;] &amp;#125;
+    ],
+    &quot;others&quot;: [
+      &amp;#123; &lt;span class&#x3D;&quot;text-danger&quot;&gt;&quot;date&quot;&lt;/span&gt;: &quot;2019-03-19 15:40&quot;, &quot;label&quot;: &quot;Other 1&quot;, &quot;tpGroup&quot;: &quot;12&quot;, &quot;questions&quot;: [] &amp;#125;
+    ]
+  &amp;#125;&lt;/pre&gt;
+          &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-sm-3&quot;&gt;
+              &lt;div class&#x3D;&quot;border p-2 rounded&quot;&gt;
+                &lt;i class&#x3D;&quot;fas fa-square&quot; style&#x3D;&quot;color:red&quot;&gt;&lt;/i&gt; {{ &#x27;HOME.JSON-STRUCTURE.REQUIRED&#x27; | translate }}
+                &lt;br&gt;
+                &lt;i class&#x3D;&quot;fas fa-square&quot; style&#x3D;&quot;color:black&quot;&gt;&lt;/i&gt; {{ &#x27;HOME.JSON-STRUCTURE.OPTIONAL&#x27; | translate }}
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;card&quot;&gt;
+      &lt;h5 class&#x3D;&quot;card-header&quot;&gt;
+        &lt;a data-toggle&#x3D;&quot;collapse&quot; href&#x3D;&quot;#collapseReadMe&quot; aria-expanded&#x3D;&quot;true&quot; aria-controls&#x3D;&quot;collapseReadMe&quot;
+          style&#x3D;&quot;text-decoration:none&quot; id&#x3D;&quot;heading-example&quot; class&#x3D;&quot;d-block collapsed&quot;&gt;
+          &lt;i class&#x3D;&quot;fa fa-chevron-down pull-right float-right&quot;&gt;&lt;/i&gt;
+          {{ &#x27;HOME.README-STRUCTURE.TITLE&#x27; | translate }}
+        &lt;/a&gt;
+      &lt;/h5&gt;
+      &lt;div id&#x3D;&quot;collapseReadMe&quot; class&#x3D;&quot;collapse&quot; aria-labelledby&#x3D;&quot;heading-example&quot; data-parent&#x3D;&quot;#accordion&quot;&gt;
+        &lt;div class&#x3D;&quot;card-body p-2&quot;&gt;
+          &lt;div class&#x3D;&quot;alert alert-warning mt-1&quot; role&#x3D;&quot;alert&quot;&gt;
+            &lt;i class&#x3D;&quot;fas fa-exclamation-triangle fa-lg&quot;&gt;&lt;/i&gt;
+            {{ &#x27;HOME.README-STRUCTURE.MESSAGE&#x27; | translate }}
+          &lt;/div&gt;
+          &lt;pre class&#x3D;&quot;jumbotron p-3 my-1&quot;&gt;
+          &lt;button id&#x3D;&quot;copyREADME&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn float-right btn-sm&quot; (click)&#x3D;&quot;copyReadMe()&quot; [ngbTooltip]&#x3D;&quot;copyTooltip&quot;
+          data-toggle&#x3D;&quot;tooltip&quot; data-placement&#x3D;&quot;left&quot;&gt;&lt;span class&#x3D;&quot;text-muted&quot;&gt;{{ &#x27;HOME.COPY&#x27; | translate }}&lt;/span&gt;&lt;/button&gt;
+{{readMe}}&lt;/pre&gt;
+          &lt;div class&#x3D;&quot;mt-3&quot;&gt;
+            &lt;markdown ngPreserveWhitespaces&gt;
+              {{readMe}}
+            &lt;/markdown&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;card&quot;&gt;
+      &lt;h5 class&#x3D;&quot;card-header&quot;&gt;
+        &lt;a data-toggle&#x3D;&quot;collapse&quot; href&#x3D;&quot;#collapseCHANGELOG&quot; aria-expanded&#x3D;&quot;true&quot; aria-controls&#x3D;&quot;collapseCHANGELOG&quot;
+          style&#x3D;&quot;text-decoration:none&quot; id&#x3D;&quot;heading-example&quot; class&#x3D;&quot;d-block collapsed&quot;&gt;
+          &lt;i class&#x3D;&quot;fa fa-chevron-down pull-right float-right&quot;&gt;&lt;/i&gt;
+          {{ &#x27;HOME.CHANGELOG.TITLE&#x27; | translate }}
+        &lt;/a&gt;
+      &lt;/h5&gt;
+      &lt;div id&#x3D;&quot;collapseCHANGELOG&quot; class&#x3D;&quot;collapse&quot; aria-labelledby&#x3D;&quot;heading-example&quot; data-parent&#x3D;&quot;#accordion&quot;&gt;
+        &lt;div class&#x3D;&quot;card-body p-2&quot;&gt;
+          &lt;div class&#x3D;&quot;m-3&quot;&gt;
+            &lt;markdown class&#x3D;&quot;variable-binding&quot; [data]&#x3D;&quot;changelog&quot;&gt;&lt;/markdown&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;ng-template #copyTooltip&gt;{{ &#x27;HOME.COPY-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./home.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="mt-2">  <div class="accordion mt-3" id="accordion">    <div class="card">      <h5 class="card-header">        <a data-toggle="collapse" href="#collapseTuto" aria-expanded="true" aria-controls="collapseTuto"          style="text-decoration:none" id="heading-example" class="d-block collapsed">          <i class="fa fa-chevron-down pull-right float-right"></i>          {{ \'HOME.TUTORIAL.TITLE\' | translate }}        </a>      </h5>      <div id="collapseTuto" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">        <div class="card-body p-2">          <ul class="nav nav-tabs" id="tutoTab" role="tablist">            <li class="nav-item">              <a class="nav-link active" id="intro-tab" data-toggle="tab" href="#intro" role="tab" aria-controls="intro"                aria-selected="true">{{ \'HOME.TUTORIAL.INTRO.TITLE\' | translate }}</a>            </li>            <li class="nav-item">              <a class="nav-link" id="overview-tab" data-toggle="tab" href="#overview" role="tab"                aria-controls="overview" aria-selected="true">{{ \'NAVBAR.OVERVIEW\' | translate }}</a>            </li>            <li class="nav-item">              <a class="nav-link" id="students-commits-tab" data-toggle="tab" href="#students-commits" role="tab"                aria-controls="students-commits" aria-selected="false">{{ \'NAVBAR.STUDENTS-COMMITS\' | translate }}</a>            </li>            <li class="nav-item">              <a class="nav-link" id="questions-completion-tab" data-toggle="tab" href="#questions-completion"                role="tab" aria-controls="questions-completion"                aria-selected="false">{{ \'NAVBAR.QUESTIONS-COMPLETION\' | translate }}</a>            </li>            <li class="nav-item">              <a class="nav-link" id="metadata-tab" data-toggle="tab" href="#metadata" role="tab"                aria-controls="metadata" aria-selected="false">{{ \'NAVBAR.METADATA\' | translate }}</a>            </li>          </ul>          <div class="tab-content m-2" id="tutoTabContent">            <div class="tab-pane fade show active" id="intro" role="tabpanel" aria-labelledby="intro-tab">              {{ \'HOME.TUTORIAL.INTRO.MESSAGE\' | translate }}            </div>            <div class="tab-pane fade" id="overview" role="tabpanel" aria-labelledby="overview-tab">              <div class="alert alert-primary mt-2" role="alert">                {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INTRO\' | translate }}              </div>              <img src="assets/images/navbar-tuto.png" class="img-fluid m-2 img-thumbnail" alt="navbar-tuto">              <ul class="fa-ul pl-3">                <li class="mt-2">                  <span class="fa-li">                    <span class="fa-layers fa-lg">                      <i class="fas fa-circle" style="color:#B3AFB1"></i>                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>                    </span>                  </span>{{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.1\' | translate }}                </li>                <div class="alert alert-info mt-2" role="alert">                  <i class="fas fa-info-circle fa-lg"></i> {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-1\' | translate }}                </div>                <li class="mt-2">                  <span class="fa-li">                    <span class="fa-layers fa-lg">                      <i class="fas fa-circle" style="color:#B3AFB1"></i>                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>                    </span>                  </span>{{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.2\' | translate }}                </li>                <li class="mt-2">                  <span class="fa-li">                    <span class="fa-layers fa-lg">                      <i class="fas fa-circle" style="color:#B3AFB1"></i>                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>                    </span>                  </span>{{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.3\' | translate }}                </li>                <li class="mt-2">                  <span class="fa-li">                    <span class="fa-layers fa-lg">                      <i class="fas fa-circle" style="color:#B3AFB1"></i>                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">4</span>                    </span>                  </span>{{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.4\' | translate }}                </li>                <li class="mt-2">                  <span class="fa-li">                    <span class="fa-layers fa-lg">                      <i class="fas fa-circle" style="color:#B3AFB1"></i>                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">5</span>                    </span>                  </span>{{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.5\' | translate }}                </li>                <div class="alert alert-info mt-2" role="alert">                  <i class="fas fa-info-circle fa-lg"></i> {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-5\' | translate }} :                  <button class="btn btn-outline-secondary ml-2">                    <span class="fa-layers fa-fw">                      <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                      <i class="far fa-square" data-fa-transform="shrink-2 up-6 left-5"></i>                    </span>                  </button> {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-5-BTN-DRAG\' | translate }}                  <button class="btn btn-outline-secondary ml-2">                    <span class="fa-layers fa-fw">                      <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                      <i class="fas fa-arrows-alt-h" data-fa-transform="up-6 left-5"></i>                    </span>                  </button> {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-5-BTN-WHEEL\' | translate }}                </div>                <li class="mt-2">                  <span class="fa-li">                    <span class="fa-layers fa-lg">                      <i class="fas fa-circle" style="color:#B3AFB1"></i>                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">6</span>                    </span>                  </span>{{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.6\' | translate }}                </li>                <div class="alert alert-info mt-2" role="alert">                  <i class="fas fa-info-circle fa-lg"></i> {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6\' | translate }} :                  <button class="btn btn-outline-secondary ml-2"><i class="fas fa-calendar-week"></i>                  </button> {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6-BTN-WEEK\' | translate }}                  <button class="btn btn-outline-secondary ml-2"><i class="fas fa-clock"></i>                  </button> {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6-BTN-HOUR\' | translate }}                  <button class="btn btn-outline-secondary ml-2"><i class="fas fa-calendar-day"></i>                  </button> {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-6-BTN-DAY\' | translate }}                </div>                <li class="mt-2">                  <span class="fa-li">                    <span class="fa-layers fa-lg">                      <i class="fas fa-circle" style="color:#B3AFB1"></i>                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">7</span>                    </span>                  </span>{{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.7\' | translate }}                </li>                <li class="mt-2">                  <span class="fa-li">                    <span class="fa-layers fa-lg">                      <i class="fas fa-circle" style="color:#B3AFB1"></i>                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">8</span>                    </span>                  </span>{{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.8\' | translate }}                </li>                <div class="alert alert-warning mt-2" role="alert">                  <i class="fas fa-exclamation-triangle fa-lg"></i>                  {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-8\' | translate }}                </div>                <li class="mt-2">                  <span class="fa-li">                    <span class="fa-layers fa-lg">                      <i class="fas fa-circle" style="color:#B3AFB1"></i>                      <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                      <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">9</span>                    </span>                  </span>{{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.9\' | translate }}                </li>                <div class="alert alert-info mt-2" role="alert">                  <i class="fas fa-info-circle fa-lg"></i>                  {{ \'HOME.TUTORIAL.OVERVIEW-TOOLBAR.INFO-9\' | translate }}                </div>              </ul>              <hr>              <div class="media">                <img src="assets/images/overview-tuto.png" class="img-fluid mr-3 img-thumbnail w-40"                  alt="overview-tuto">                <div class="media-body">                  <ul class="fa-ul">                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.OVERVIEW.1\' | translate }}                    </li>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.OVERVIEW.2\' | translate }}                    </li>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.OVERVIEW.3\' | translate }}                    </li>                    <div class="alert alert-warning mt-2" role="alert">                      <i class="fas fa-exclamation-triangle fa-lg"></i>                      {{ \'HOME.TUTORIAL.OVERVIEW.INFO\' | translate }}                    </div>                  </ul>                </div>              </div>            </div>            <div class="tab-pane fade" id="students-commits" role="tabpanel" aria-labelledby="students-commits-tab">              <div class="alert alert-primary mt-2" role="alert">                {{ \'HOME.TUTORIAL.STUDENTS-COMMITS.INTRO\' | translate }}              </div>              <div class="media">                <img src="assets/images/students-commits-tuto.png" class="img-fluid m-2 img-thumbnail w-55"                  alt="students-commits-tuto">                <div class="media-body">                  <ul class="fa-ul">                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.STUDENTS-COMMITS.1\' | translate }}                    </li>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.STUDENTS-COMMITS.2\' | translate }}                    </li>                    <div class="alert alert-info mt-2" role="alert">                      <i class="fas fa-info-circle fa-lg"></i>                      {{ \'HOME.TUTORIAL.STUDENTS-COMMITS.INFO-2\' | translate }}                    </div>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.STUDENTS-COMMITS.3\' | translate }}                    </li>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">4</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.STUDENTS-COMMITS.4\' | translate }}                    </li>                  </ul>                </div>              </div>            </div>            <div class="tab-pane fade" id="questions-completion" role="tabpanel"              aria-labelledby="questions-completion-tab">              <div class="alert alert-primary mt-2" role="alert">                {{ \'HOME.TUTORIAL.QUESTIONS-COMPLETION.INTRO\' | translate }}              </div>              <div class="media">                <img src="assets/images/questions-completion-tuto.png" class="img-fluid m-2 img-thumbnail w-55"                  alt="questions-completion-tuto">                <div class="media-body">                  <ul class="fa-ul">                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.QUESTIONS-COMPLETION.1\' | translate }}                    </li>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.QUESTIONS-COMPLETION.2\' | translate }}                    </li>                    <div class="alert alert-info mt-2" role="alert">                      <i class="fas fa-info-circle fa-lg"></i>                      {{ \'HOME.TUTORIAL.STUDENTS-COMMITS.INFO-2\' | translate }}                    </div>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.QUESTIONS-COMPLETION.3\' | translate }}                    </li>                    <div class="alert alert-info mt-2" role="alert">                      <i class="fas fa-info-circle fa-lg"></i>                      {{ \'HOME.TUTORIAL.QUESTIONS-COMPLETION.INFO-3\' | translate }}                    </div>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">4</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.QUESTIONS-COMPLETION.4\' | translate }}                    </li>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">5</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.STUDENTS-COMMITS.4\' | translate }}                    </li>                  </ul>                </div>              </div>            </div>            <div class="tab-pane fade" id="metadata" role="tabpanel" aria-labelledby="metadata-tab">              <div class="alert alert-primary mt-2" role="alert">                {{ \'HOME.TUTORIAL.METADATA.INTRO\' | translate }}              </div>              <div class="media">                <img src="assets/images/metadata-tuto.png" class="img-fluid m-2 img-thumbnail w-55" alt="metadata-tuto">                <div class="media-body">                  <ul class="fa-ul">                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">1</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.METADATA.1\' | translate }}                    </li>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">2</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.METADATA.2\' | translate }}                    </li>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">3</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.METADATA.3\' | translate }}                    </li>                    <div class="alert alert-warning mt-2" role="alert">                      <i class="fas fa-exclamation-triangle fa-lg"></i>                      {{ \'HOME.TUTORIAL.METADATA.WARNING-3\' | translate }}                    </div>                    <div class="alert alert-info" role="alert">                      <i class="fas fa-info-circle fa-lg"></i>                      {{ \'HOME.TUTORIAL.METADATA.INFO-3\' | translate }}                    </div>                    <li class="mt-2">                      <span class="fa-li">                        <span class="fa-layers fa-lg">                          <i class="fas fa-circle" style="color:#B3AFB1"></i>                          <i class="fas fa-circle" data-fa-transform="shrink-3"></i>                          <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-7">4</span>                        </span>                      </span>{{ \'HOME.TUTORIAL.METADATA.4\' | translate }}                    </li>                  </ul>                </div>              </div>            </div>          </div>        </div>      </div>    </div>    <div class="card">      <h5 class="card-header">        <a data-toggle="collapse" href="#collapseJSON" aria-expanded="true" aria-controls="collapseJSON"          style="text-decoration:none" id="heading-example" class="d-block collapsed">          <i class="fa fa-chevron-down pull-right float-right"></i>          {{ \'HOME.JSON-STRUCTURE.TITLE\' | translate }}        </a>      </h5>      <div id="collapseJSON" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">        <div class="card-body p-2">          <pre class="jumbotron p-3 my-1">          <button id="copyJSON" type="button" class="btn float-right btn-sm" (click)="copyJSON()" [ngbTooltip]="copyTooltip"          data-toggle="tooltip" data-placement="left"><span class="text-muted">{{ \'HOME.COPY\' | translate }}</span></button>  &#123;    <span class="text-danger">"title"</span>: "TP title",    "course": "JEE",    "program": "Master 1 DL",    "year": "2018-2019",    "startDate": "2017-01-22 12:00",    "endDate": "2018-04-23 12:00",    <span class="text-danger">"questions"</span>: ["1.1", "1.2"],    <span class="text-danger">"repositories"</span>: [      &#123; <span class="text-danger">"url"</span>: "https://github.com/user/repository", "name": "First name LAST NAME", "tpGroup": "12" &#125;    ],    "sessions": [      &#123;        <span class="text-danger">"startDate"</span>: "2019-05-22 10:00",        <span class="text-danger">"endDate"</span>: "2019-05-22 11:00",         "tpGroup": "11"      &#125;    ],    "reviews": [      &#123; <span class="text-danger">"date"</span>: "2019-03-15 15:40", "label": "Review 1", "tpGroup": "21", "questions": ["1.1", "1.2"] &#125;    ],    "corrections": [      &#123; <span class="text-danger">"date"</span>: "2019-03-17 15:40", "label": "Correction 1", "tpGroup": "22", "questions": ["1.1", "1.2"] &#125;    ],    "others": [      &#123; <span class="text-danger">"date"</span>: "2019-03-19 15:40", "label": "Other 1", "tpGroup": "12", "questions": [] &#125;    ]  &#125;</pre>          <div class="row">            <div class="col-sm-3">              <div class="border p-2 rounded">                <i class="fas fa-square" style="color:red"></i> {{ \'HOME.JSON-STRUCTURE.REQUIRED\' | translate }}                <br>                <i class="fas fa-square" style="color:black"></i> {{ \'HOME.JSON-STRUCTURE.OPTIONAL\' | translate }}              </div>            </div>          </div>        </div>      </div>    </div>    <div class="card">      <h5 class="card-header">        <a data-toggle="collapse" href="#collapseReadMe" aria-expanded="true" aria-controls="collapseReadMe"          style="text-decoration:none" id="heading-example" class="d-block collapsed">          <i class="fa fa-chevron-down pull-right float-right"></i>          {{ \'HOME.README-STRUCTURE.TITLE\' | translate }}        </a>      </h5>      <div id="collapseReadMe" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">        <div class="card-body p-2">          <div class="alert alert-warning mt-1" role="alert">            <i class="fas fa-exclamation-triangle fa-lg"></i>            {{ \'HOME.README-STRUCTURE.MESSAGE\' | translate }}          </div>          <pre class="jumbotron p-3 my-1">          <button id="copyREADME" type="button" class="btn float-right btn-sm" (click)="copyReadMe()" [ngbTooltip]="copyTooltip"          data-toggle="tooltip" data-placement="left"><span class="text-muted">{{ \'HOME.COPY\' | translate }}</span></button>{{readMe}}</pre>          <div class="mt-3">            <markdown ngPreserveWhitespaces>              {{readMe}}            </markdown>          </div>        </div>      </div>    </div>    <div class="card">      <h5 class="card-header">        <a data-toggle="collapse" href="#collapseCHANGELOG" aria-expanded="true" aria-controls="collapseCHANGELOG"          style="text-decoration:none" id="heading-example" class="d-block collapsed">          <i class="fa fa-chevron-down pull-right float-right"></i>          {{ \'HOME.CHANGELOG.TITLE\' | translate }}        </a>      </h5>      <div id="collapseCHANGELOG" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">        <div class="card-body p-2">          <div class="m-3">            <markdown class="variable-binding" [data]="changelog"></markdown>          </div>        </div>      </div>    </div>  </div></div><ng-template #copyTooltip>{{ \'HOME.COPY-TOOLTIP\' | translate }}</ng-template></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'HomeComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'HomeComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

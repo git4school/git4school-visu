@@ -1,6 +1,15 @@
 import moment from 'moment/src/moment';
 
+/**
+ * This class modelize a practical session
+ */
 export class Session {
+  /**
+   * Session constructor
+   * @param startDate The date from which the session begins
+   * @param endDate The date on which the session ends
+   * @param tpGroup The associated tp group
+   */
   constructor(
     public startDate: Date,
     public endDate: Date,
@@ -10,10 +19,19 @@ export class Session {
     this.endDate = moment(endDate).toDate();
   }
 
+  /**
+   * Initialize a Session from the json configuration file
+   * @param json The json configuration file
+   * @returns A session
+   */
   static withJSON(json): Session {
     return new Session(json.startDate, json.endDate, json.tpGroup);
   }
 
+  /**
+   * Returns a json view of the session
+   * @returns A json view of the session
+   */
   json() {
     let json = {
       startDate: moment(this.startDate).toISOString(),

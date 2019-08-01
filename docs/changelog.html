@@ -1,0 +1,171 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1 id="change-log-for-git4school">Change log for Git4School</h1>
+<h2 id="100">1.0.0</h2>
+<h3 id="added">Added</h3>
+<h4 id="general">General</h4>
+<ul>
+<li>Localization (english &amp; french)</li>
+<li>Connection with Github</li>
+</ul>
+<h4 id="home">Home</h4>
+<ul>
+<li>Documentation about JSON and ReadMe structure</li>
+<li>Documentation on the use of the application</li>
+<li>Display the CHANGELOG from the Github repository</li>
+</ul>
+<h4 id="overview-graph">Overview graph</h4>
+<ul>
+<li>Displays the student commits given in the JSON configuration file (they have a different shape and color depending on the associated milestones) <ul>
+<li>Move the mouse over a commit to display its details</li>
+<li>Click on a commit to open its Github page in a new tab</li>
+</ul>
+</li>
+<li>Add/edit (or delete) milestones such as reviews, corrections (or others) by clicking on the graph/milestone</li>
+<li>Filter commits and milestones<ul>
+<li>By entering questions in the search bar</li>
+<li>By selecting a tp group from the drop-down list</li>
+</ul>
+</li>
+<li>Show or hide milestones</li>
+<li>Change time scale (the time scale automatically adapts itself according to the most relevant option)</li>
+<li>Change zoom mode (and reset zoom mode) :<ul>
+<li>Zoom by dragging the mouse</li>
+<li>Zoom with the mouse wheel and pan by dragging the mouse</li>
+</ul>
+</li>
+<li>Upload and reload the JSON configuration file<ul>
+<li>The application checks that the file is valid JSON file, and sends an error toast otherwise</li>
+<li>The application checks that the configuration file contains all the required fields and dates in the correct format, and sends an error toast otherwise</li>
+</ul>
+</li>
+<li>Download a compressed file containing :<ul>
+<li>The updated configuration file with the data entered in the application</li>
+<li>A file describing the progress of each student for all questions</li>
+<li>A file listing all students commits and their type (&quot;Before review&quot;, &quot;After correction&quot;, ...)</li>
+</ul>
+</li>
+</ul>
+<h4 id="students-commits-and-questions-completion-graphs">Students commits and questions completion graphs</h4>
+<ul>
+<li>Display the distribution of commits for each student (students commits graph)<ul>
+<li>Move the mouse over a bar to see details</li>
+</ul>
+</li>
+<li>Display students progress for each question (questions completion graph)<ul>
+<li>Move the mouse over a bar to see details (such as the students corresponding to the type of commit)</li>
+<li>Change the index of a red horizontal bar with a slider</li>
+</ul>
+</li>
+<li>Filter data<ul>
+<li>By selecting a tp group from the drop-down list</li>
+<li>By selecting a date with the slider</li>
+<li>By clicking on datasets in the legend</li>
+</ul>
+</li>
+</ul>
+<h4 id="metadata-edition">Metadata edition</h4>
+<ul>
+<li>Edit metadata (title, course, program, year)</li>
+<li>Add or remove a start date or an end date</li>
+<li>Add or remove questions</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'changelog.html';
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

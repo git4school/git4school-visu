@@ -45,34 +45,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '', component: HomeComponent },
-  { path: 'not-found', component: FourOhFourComponent },
-  {
-    path: 'overview',
-    canActivate: [AuthGuard],
-    canDeactivate: [DataLoadingGuard],
-    component: OverviewComponent
-  },
-  {
-    path: 'students-commits',
-    canActivate: [AuthGuard, DataProvidedGuard],
-    component: StudentsCommitsComponent
-  },
-  {
-    path: 'questions-completion',
-    canActivate: [AuthGuard, DataProvidedGuard],
-    component: QuestionsCompletionComponent
-  },
-  {
-    path: 'edit-metadata',
-    canActivate: [AuthGuard, DataProvidedGuard],
-    component: MetadataComponent
-  },
-  { path: '**', redirectTo: 'not-found' }
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,7 +61,6 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
     ChartsModule,
     NgxSpinnerModule,
     FontAwesomeModule,

@@ -14,10 +14,16 @@ import { Commit } from '@models/Commit.model';
 import { Repository } from '@models/Repository.model';
 import { TranslateService } from '@ngx-translate/core';
 
+/**
+ * This service retrieves repository data from Github
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class CommitsService {
+  /**
+   * Options to use when sending HTTP requests
+   */
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -25,13 +31,29 @@ export class CommitsService {
     })
   };
 
+  /**
+   * CommitsService constructor
+   * @param http
+   * @param authService
+   * @param translate
+   */
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private translate: TranslateService
   ) {}
 
-  getRepositories(repoTab, startDate?: String, endDate?: String) {
+  /**
+   * Gets readMe and commits of every repository
+   * @param repoTab The repositories to get data from
+   * @param startDate The date before which commits are not retrieved
+   * @param endDate The date after which commits are not retrieved
+   */
+  getRepositories(
+    repoTab,
+    startDate?: String,
+    endDate?: String
+  ): Observable<any[]> {
     const tab = [];
     repoTab.forEach(repo => {
       tab.push(this.getRepository(repo, startDate, endDate));
@@ -39,6 +61,12 @@ export class CommitsService {
     return forkJoin(tab);
   }
 
+  /**
+   * Updates repository name, tp group and commits from raw response from Github
+   * @param repo The repository to update
+   * @param response The response from Github
+   * @param translations The translations to use if an error occurs
+   */
   getRepositoryFromRaw(repo, response, translations) {
     let tab;
 
@@ -88,16 +116,32 @@ export class CommitsService {
     repo.commits = response[1];
   }
 
-  getRepository(repo: Repository, startDate?: String, dateFin?: String) {
+  /**
+   * Gets the readMe and commits for a given repository
+   * @param repo The repository from which data is retrieved
+   * @param startDate The date before which commits are not retrieved
+   * @param endDate The date after which commits are not retrieved
+   */
+  getRepository(
+    repo: Repository,
+    startDate?: String,
+    endDate?: String
+  ): Observable<any[]> {
     return forkJoin(
       this.getReadMe(repo).pipe(catchError(error => of(error))),
-      this.getCommits(repo, startDate, dateFin).pipe(
+      this.getCommits(repo, startDate, endDate).pipe(
         catchError(error => of(error))
       )
     );
   }
 
-  getCommits(repo: Repository, startDate?, dateFin?): Observable<Commit[]> {
+  /**
+   * Gets the commits for a given repository and updates it
+   * @param repo The repository from which the commits are retrieved
+   * @param startDate The date before which commits are not retrieved
+   * @param endDate The date after which commits are not retrieved
+   */
+  getCommits(repo: Repository, startDate?, endDate?): Observable<Commit[]> {
     const repoHashURL = repo.url.split('/');
     let url =
       'https://api.github.com/repos/' +
@@ -109,9 +153,9 @@ export class CommitsService {
       startDate = moment(startDate).toDate();
       url = url.concat('&since=' + startDate.toISOString());
     }
-    if (dateFin) {
-      dateFin = moment(dateFin).toDate();
-      url = url.concat('&until=' + dateFin.toISOString());
+    if (endDate) {
+      endDate = moment(endDate).toDate();
+      url = url.concat('&until=' + endDate.toISOString());
     }
     return this.http.get<Commit[]>(url, this.httpOptions).pipe(
       map(response => {
@@ -123,6 +167,10 @@ export class CommitsService {
     );
   }
 
+  /**
+   * Retrieves the readMe for a given repository
+   * @param repo The repository from which the readMe is retrieved
+   */
   getReadMe(repo: Repository): Observable<any> {
     const tabHashURL = repo.url.split('/');
     const url =
@@ -134,7 +182,13 @@ export class CommitsService {
     return this.http.get(url, this.httpOptions);
   }
 
-  initQuestionsDict(questions: string[], colors) {
+  /**
+   * Inits a map for "questions-completion" graph
+   * @param questions The questions to handle
+   * @param colors The commit colors to handle
+   * @returns A map ready for to receive data about questions
+   */
+  initQuestionsDict(questions: string[], colors): Object {
     let dict = {};
     questions.forEach(question => {
       dict[question] = {};
@@ -150,6 +204,16 @@ export class CommitsService {
     return dict;
   }
 
+  /**
+   * Returns a map containing data about questions
+   * @param dict The initialized map to update with data
+   * @param repositories The repositories to handle
+   * @param questions The questions to handle
+   * @param colors The commit colors to handle
+   * @param tpGroup The tp group to filter the repositories with if specified
+   * @param date The date to filter the commits with if specified
+   * @returns A map with data about questions
+   */
   loadQuestionsDict(
     dict,
     repositories,
@@ -157,7 +221,7 @@ export class CommitsService {
     colors,
     tpGroup?,
     date?
-  ) {
+  ): Object {
     let repos = repositories.filter(
       repository => !tpGroup || repository.tpGroup === tpGroup
     );
@@ -209,7 +273,14 @@ export class CommitsService {
     return dict;
   }
 
-  loadQuestions(dict, colors, questions: string[]) {
+  /**
+   * Returns the data to use in the "questions-completion" graph
+   * @param dict The data about questions
+   * @param colors The commit colors to handle
+   * @param questions The quesitons to handle
+   * @returns A map with all the data needed by the "questions-completion" graph
+   */
+  loadQuestions(dict, colors, questions: string[]): any[] {
     let data = [];
     colors.forEach(color => {
       data.push({
@@ -229,6 +300,13 @@ export class CommitsService {
     return data;
   }
 
+  /**
+   * Inits a field for a repository in a map for "students-commits" graph
+   * @param repository The repository to handle
+   * @param dict The map to update
+   * @param questions The questions to handle
+   * @param colors The commit colors to handle
+   */
   initStudentsDict(repository: Repository, dict, questions: string[], colors) {
     dict[repository.name] = {
       commitTypes: {},
@@ -242,13 +320,22 @@ export class CommitsService {
     });
   }
 
+  /**
+   * Returns a map containing data about students commits
+   * @param repositories The repositories to handle
+   * @param questions The questions to handle
+   * @param colors The commit colors to handle
+   * @param tpGroup The tp group to filter the repositories with if specified
+   * @param date The date to filter the commits with if specified
+   * @returns A map with data about students commits
+   */
   loadStudentsDict(
     repositories: Repository[],
     questions: string[],
     colors,
     tpGroup?: string,
     date?: number
-  ) {
+  ): Object {
     let dict = {};
     let repos = repositories.filter(
       repository => !tpGroup || repository.tpGroup === tpGroup
@@ -290,7 +377,13 @@ export class CommitsService {
     return dict;
   }
 
-  loadStudents(dict: Object, colors) {
+  /**
+   * Returns the data to use in the "students-commits" graph
+   * @param dict The data about students
+   * @param colors The commit colors to handle
+   * @returns A map with all the data needed by the "students-commits" graph
+   */
+  loadStudents(dict: Object, colors): any[] {
     let data = [];
 
     data.push({
@@ -352,11 +445,19 @@ export class CommitsService {
     return data;
   }
 
-  compareQuestions(q1, q2, questions) {
+  /**
+   * Compares the level of progress between two questions
+   * @returns A number representing the difference in progress between two questions. If the number is positive, q1 is more advanced, otherwise, q2 is more advanced
+   */
+  compareQuestions(q1, q2, questions): number {
     return questions.indexOf(q1) - questions.indexOf(q2);
   }
 
-  isSupThan(q1, q2, questions) {
+  /**
+   * Indicates if q1 is more advanced than q2, if they are both included in questions array
+   * @returns A boolean, which is true if q1 is a more advanced question than q2, false otherwise
+   */
+  isSupThan(q1, q2, questions): boolean {
     return (
       questions.includes(q2) && this.compareQuestions(q1, q2, questions) > 0
     );

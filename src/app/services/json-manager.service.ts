@@ -4,16 +4,49 @@ import { Repository } from '@models/Repository.model';
 import { Jalon } from '@models/Jalon.model';
 import { Session } from '@models/Session.model';
 
+/**
+ * This service manages the configuration file
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class JsonManagerService {
+  /**
+   * The configuration file
+   */
   file = null;
+
+  /**
+   * The configuration file name
+   */
   filename: string;
+
+  /**
+   * The generated json
+   */
   json;
 
+  /**
+   * JsonManagerService constructor
+   */
   constructor(private sanitizer: DomSanitizer) {}
 
+  /**
+   * Generates a updated configuration file
+   *
+   * @param title
+   * @param questions
+   * @param repositories
+   * @param sessions
+   * @param corrections
+   * @param reviews
+   * @param others
+   * @param startDate
+   * @param endDate
+   * @param course
+   * @param program
+   * @param year
+   */
   generateJson(
     title: string,
     questions: string[],
