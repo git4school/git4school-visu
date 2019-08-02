@@ -776,6 +776,8 @@ export class OverviewComponent implements OnInit {
   }
 
   verifyJSON(json) {
+    let regex =
+      '([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)';
     let schema = {
       properties: {
         title: {
@@ -792,13 +794,11 @@ export class OverviewComponent implements OnInit {
         },
         startDate: {
           type: 'string',
-          pattern:
-            '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)'
+          pattern: regex
         },
         endDate: {
           type: 'string',
-          pattern:
-            '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)'
+          pattern: regex
         },
         questions: {
           type: 'array',
@@ -834,13 +834,11 @@ export class OverviewComponent implements OnInit {
             properties: {
               startDate: {
                 type: 'string',
-                pattern:
-                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)'
+                pattern: regex
               },
               endDate: {
                 type: 'string',
-                pattern:
-                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)'
+                pattern: regex
               },
               tpGroup: {
                 type: 'string'
@@ -856,8 +854,7 @@ export class OverviewComponent implements OnInit {
             properties: {
               date: {
                 type: 'string',
-                pattern:
-                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)'
+                pattern: regex
               },
               label: {
                 type: 'string'
@@ -883,8 +880,7 @@ export class OverviewComponent implements OnInit {
             properties: {
               date: {
                 type: 'string',
-                pattern:
-                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)'
+                pattern: regex
               },
               label: {
                 type: 'string'
@@ -910,8 +906,7 @@ export class OverviewComponent implements OnInit {
             properties: {
               date: {
                 type: 'string',
-                pattern:
-                  '([0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9])|([0-9]{4}-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)'
+                pattern: regex
               },
               label: {
                 type: 'string'
