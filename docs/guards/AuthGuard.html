@@ -62,6 +62,13 @@
                 <code>src/app/guards/auth.guard.ts</code>
             </p>
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>This guard ensures the user is connected with a Github account</p>
+
+                </p>
 
 
 
@@ -105,12 +112,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/guards/auth.guard.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/guards/auth.guard.ts:19</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>AuthGuard constructor</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -182,17 +191,25 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">src/app/guards/auth.guard.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/guards/auth.guard.ts:31</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Allows access to the protected route if user is connected</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable | Promise | boolean</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>true if connected, redirects to home otherwise</p>
 
                     </div>
                 </td>
@@ -216,14 +233,26 @@ import &#x27;firebase/auth&#x27;;
 
 import { AuthService } from &#x27;@services/auth.service&#x27;;
 
+/**
+ * This guard ensures the user is connected with a Github account
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;
 })
 export class AuthGuard implements CanActivate {
+  /**
+   * AuthGuard constructor
+   * @param authService
+   * @param router
+   */
   constructor(private authService: AuthService, private router: Router) {}
 
+  /**
+   * Allows access to the protected route if user is connected
+   * @returns true if connected, redirects to home otherwise
+   */
   canActivate(): Observable&lt;boolean&gt; | Promise&lt;boolean&gt; | boolean {
-    if (this.authService.isSignedIn(&#x27;canActivate&#x27;)) {
+    if (this.authService.isSignedIn()) {
       return true;
     } else {
       this.router.navigate([&#x27;/home&#x27;]);

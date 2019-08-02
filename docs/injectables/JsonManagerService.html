@@ -189,7 +189,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>generateJson(title: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, questions: string[], repositories: <a href="../classes/Repository.html">Repository[]</a>, sessions?: <a href="../classes/Session.html">Session[]</a>, corrections?: <a href="../classes/Jalon.html">Jalon[]</a>, reviews?: <a href="../classes/Jalon.html">Jalon[]</a>, others?: <a href="../classes/Jalon.html">Jalon[]</a>, startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, course?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, program?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, year?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>generateJson(title: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, questions: string[], repositories: <a href="../classes/Repository.html">Repository[]</a>, sessions?: <a href="../classes/Session.html">Session[]</a>, corrections?: <a href="../classes/Milestone.html">Milestone[]</a>, reviews?: <a href="../classes/Milestone.html">Milestone[]</a>, others?: <a href="../classes/Milestone.html">Milestone[]</a>, startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, course?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, program?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, year?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -215,6 +215,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -229,6 +230,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The document title</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>questions</td>
@@ -241,6 +246,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The questions that will be handled by the application</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>repositories</td>
@@ -253,6 +262,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The repositories</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>sessions</td>
@@ -265,11 +278,15 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The practical sessions</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>corrections</td>
                                     <td>
-                                                <code><a href="../classes/Jalon.html" target="_self" >Jalon[]</a></code>
+                                                <code><a href="../classes/Milestone.html" target="_self" >Milestone[]</a></code>
                                     </td>
 
                                     <td>
@@ -277,11 +294,15 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The correction milestones</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>reviews</td>
                                     <td>
-                                                <code><a href="../classes/Jalon.html" target="_self" >Jalon[]</a></code>
+                                                <code><a href="../classes/Milestone.html" target="_self" >Milestone[]</a></code>
                                     </td>
 
                                     <td>
@@ -289,11 +310,15 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The review milestones</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>others</td>
                                     <td>
-                                                <code><a href="../classes/Jalon.html" target="_self" >Jalon[]</a></code>
+                                                <code><a href="../classes/Milestone.html" target="_self" >Milestone[]</a></code>
                                     </td>
 
                                     <td>
@@ -301,6 +326,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The others milestones</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>startDate</td>
@@ -313,6 +342,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>A date before which commits are not retrieved from Github</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>endDate</td>
@@ -325,6 +358,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>A date after which commits are not retrieved from Github</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>course</td>
@@ -337,6 +374,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The course associated with the configuration file</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>program</td>
@@ -349,6 +390,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The program associated with the configuration file</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>year</td>
@@ -361,6 +406,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The year associated with the configuration file</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -491,7 +540,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { DomSanitizer } from &#x27;@angular/platform-browser&#x27;;
 import { Repository } from &#x27;@models/Repository.model&#x27;;
-import { Jalon } from &#x27;@models/Jalon.model&#x27;;
+import { Milestone } from &#x27;@models/Milestone.model&#x27;;
 import { Session } from &#x27;@models/Session.model&#x27;;
 
 /**
@@ -524,27 +573,27 @@ export class JsonManagerService {
   /**
    * Generates a updated configuration file
    *
-   * @param title
-   * @param questions
-   * @param repositories
-   * @param sessions
-   * @param corrections
-   * @param reviews
-   * @param others
-   * @param startDate
-   * @param endDate
-   * @param course
-   * @param program
-   * @param year
+   * @param title The document title
+   * @param questions The questions that will be handled by the application
+   * @param repositories The repositories
+   * @param sessions The practical sessions
+   * @param corrections The correction milestones
+   * @param reviews The review milestones
+   * @param others The others milestones
+   * @param startDate A date before which commits are not retrieved from Github
+   * @param endDate A date after which commits are not retrieved from Github
+   * @param course The course associated with the configuration file
+   * @param program The program associated with the configuration file
+   * @param year The year associated with the configuration file
    */
   generateJson(
     title: string,
     questions: string[],
     repositories: Repository[],
     sessions?: Session[],
-    corrections?: Jalon[],
-    reviews?: Jalon[],
-    others?: Jalon[],
+    corrections?: Milestone[],
+    reviews?: Milestone[],
+    others?: Milestone[],
     startDate?: string,
     endDate?: string,
     course?: string,

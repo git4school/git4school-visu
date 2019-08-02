@@ -216,7 +216,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:149</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:163</a></div>
                             </td>
                         </tr>
 
@@ -321,8 +321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="199"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:199</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="224"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:224</a></div>
                 </td>
             </tr>
 
@@ -360,8 +360,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="158"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:158</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="172"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:172</a></div>
                 </td>
             </tr>
 
@@ -399,8 +399,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="178"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:178</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="200"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:200</a></div>
                 </td>
             </tr>
 
@@ -438,8 +438,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="195"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:195</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:220</a></div>
                 </td>
             </tr>
 
@@ -477,8 +477,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="186"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:186</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:208</a></div>
                 </td>
             </tr>
 
@@ -525,7 +525,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:149</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:163</a></div>
                             </td>
                         </tr>
 
@@ -604,18 +604,32 @@
       position: &#x27;average&#x27;,
       callbacks: {
         beforeTitle(tooltipItem, data) {
-          return &#x27;Student : &#x27; + tooltipItem[0].label;
+          return (
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;STUDENT&#x27;] +
+            &#x27; : &#x27; +
+            tooltipItem[0].label
+          );
         },
         title(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].label;
         },
         beforeBody(tooltipItem, data) {
           return (
-            &#x27;\nCommits count : &#x27; +
+            &#x27;\n&#x27; +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;COMMITS-COUNT&#x27;] +
+            &#x27; : &#x27; +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
             ].data.commitsCount +
-            &#x27;\nCommits pourcentage : &#x27; +
+            &#x27;\n&#x27; +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;COMMITS-PERCENTAGE&#x27;] +
+            &#x27; : &#x27; +
             tooltipItem[0].yLabel.toFixed(2) +
             &#x27;%&#x27;
           );
@@ -740,7 +754,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:155</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:169</a></div>
                             </td>
                         </tr>
 
@@ -768,7 +782,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="152" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:152</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:166</a></div>
                             </td>
                         </tr>
 
@@ -936,7 +950,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="154" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:154</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:168</a></div>
                             </td>
                         </tr>
 
@@ -992,18 +1006,32 @@ export class StudentsCommitsComponent implements OnInit {
       position: &#x27;average&#x27;,
       callbacks: {
         beforeTitle(tooltipItem, data) {
-          return &#x27;Student : &#x27; + tooltipItem[0].label;
+          return (
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;STUDENT&#x27;] +
+            &#x27; : &#x27; +
+            tooltipItem[0].label
+          );
         },
         title(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].label;
         },
         beforeBody(tooltipItem, data) {
           return (
-            &#x27;\nCommits count : &#x27; +
+            &#x27;\n&#x27; +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;COMMITS-COUNT&#x27;] +
+            &#x27; : &#x27; +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
             ].data.commitsCount +
-            &#x27;\nCommits pourcentage : &#x27; +
+            &#x27;\n&#x27; +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;COMMITS-PERCENTAGE&#x27;] +
+            &#x27; : &#x27; +
             tooltipItem[0].yLabel.toFixed(2) +
             &#x27;%&#x27;
           );
@@ -1108,22 +1136,30 @@ export class StudentsCommitsComponent implements OnInit {
 
   loadGraphDataAndRefresh() {
     if (this.dataProvided.dataLoaded()) {
-      let colors &#x3D; [
-        CommitColor.INTERMEDIATE,
-        CommitColor.BEFORE,
-        CommitColor.BETWEEN,
-        CommitColor.AFTER
-      ];
+      this.translate
+        .get([&#x27;STUDENT&#x27;, &#x27;COMMITS-COUNT&#x27;, &#x27;COMMITS-PERCENTAGE&#x27;])
+        .subscribe(translations &#x3D;&gt; {
+          let colors &#x3D; [
+            CommitColor.INTERMEDIATE,
+            CommitColor.BEFORE,
+            CommitColor.BETWEEN,
+            CommitColor.AFTER
+          ];
 
-      this.chartLabels &#x3D; this.loadLabels();
-      let dict &#x3D; this.commitsService.loadStudentsDict(
-        this.dataService.repositories,
-        this.dataService.questions,
-        colors,
-        this.tpGroup,
-        this.date
-      );
-      this.chartData &#x3D; this.commitsService.loadStudents(dict, colors);
+          this.chartLabels &#x3D; this.loadLabels();
+          let dict &#x3D; this.commitsService.loadStudentsDict(
+            this.dataService.repositories,
+            this.dataService.questions,
+            colors,
+            this.tpGroup,
+            this.date
+          );
+          this.chartData &#x3D; this.commitsService.loadStudents(
+            dict,
+            colors,
+            translations
+          );
+        });
     }
   }
   loadLabels(): any[] {
@@ -1135,6 +1171,9 @@ export class StudentsCommitsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.translate.onLangChange.subscribe(() &#x3D;&gt; {
+      this.loadGraphDataAndRefresh();
+    });
     Chart.pluginService.register(ChartDataLabels);
     this.dataService.lastUpdateDate &amp;&amp;
       ((this.date &#x3D; this.dataService.lastUpdateDate.getTime()) &amp;&amp;

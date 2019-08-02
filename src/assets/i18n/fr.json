@@ -168,5 +168,7 @@
   "MILESTONE-DELETED": "Le jalon a été supprimé !",
   "COMMITS-COUNT": "Nombre de commits",
   "COMMITS-PERCENTAGE": "Pourcentage de commits",
-  "BAR-INDEX": "Index du seuil"
+  "BAR-INDEX": "Index du seuil",
+  "STUDENT": "Etudiant",
+  "QUESTION": "Question"
 }

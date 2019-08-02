@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Repository } from '@models/Repository.model';
-import { Jalon } from '@models/Jalon.model';
+import { Milestone } from '@models/Milestone.model';
 import { Session } from '@models/Session.model';
 
 /**
@@ -34,27 +34,27 @@ export class JsonManagerService {
   /**
    * Generates a updated configuration file
    *
-   * @param title
-   * @param questions
-   * @param repositories
-   * @param sessions
-   * @param corrections
-   * @param reviews
-   * @param others
-   * @param startDate
-   * @param endDate
-   * @param course
-   * @param program
-   * @param year
+   * @param title The document title
+   * @param questions The questions that will be handled by the application
+   * @param repositories The repositories
+   * @param sessions The practical sessions
+   * @param corrections The correction milestones
+   * @param reviews The review milestones
+   * @param others The others milestones
+   * @param startDate A date before which commits are not retrieved from Github
+   * @param endDate A date after which commits are not retrieved from Github
+   * @param course The course associated with the configuration file
+   * @param program The program associated with the configuration file
+   * @param year The year associated with the configuration file
    */
   generateJson(
     title: string,
     questions: string[],
     repositories: Repository[],
     sessions?: Session[],
-    corrections?: Jalon[],
-    reviews?: Jalon[],
-    others?: Jalon[],
+    corrections?: Milestone[],
+    reviews?: Milestone[],
+    others?: Milestone[],
     startDate?: string,
     endDate?: string,
     course?: string,

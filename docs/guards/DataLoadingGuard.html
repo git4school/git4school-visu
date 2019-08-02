@@ -62,6 +62,13 @@
                 <code>src/app/guards/data-loading.guard.ts</code>
             </p>
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>This guard ensures that loading is finished</p>
+
+                </p>
 
 
 
@@ -122,14 +129,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">src/app/guards/data-loading.guard.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/app/guards/data-loading.guard.ts:24</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Allows to leave the component if the loading is completed</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -139,6 +148,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -153,6 +163,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The component currently calling this method</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>currentRoute</td>
@@ -165,6 +179,8 @@
                                     </td>
 
 
+                                    <td>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>currentState</td>
@@ -177,6 +193,8 @@
                                     </td>
 
 
+                                    <td>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>nextState</td>
@@ -189,6 +207,8 @@
                                     </td>
 
 
+                                    <td>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -200,7 +220,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>true if the loading variable of the component is set to false, false otherwise</p>
+
                     </div>
                 </td>
             </tr>
@@ -222,10 +243,18 @@ import { Observable } from &#x27;rxjs&#x27;;
 
 import { OverviewComponent } from &#x27;@components/graphs/overview/overview.component&#x27;;
 
+/**
+ * This guard ensures that loading is finished
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;
 })
 export class DataLoadingGuard implements CanDeactivate&lt;OverviewComponent&gt; {
+  /**
+   * Allows to leave the component if the loading is completed
+   * @param component The component currently calling this method
+   * @returns true if the loading variable of the component is set to false, false otherwise
+   */
   canDeactivate(
     component: OverviewComponent,
     currentRoute: ActivatedRouteSnapshot,

@@ -41,18 +41,32 @@ export class StudentsCommitsComponent implements OnInit {
       position: 'average',
       callbacks: {
         beforeTitle(tooltipItem, data) {
-          return 'Student : ' + tooltipItem[0].label;
+          return (
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations['STUDENT'] +
+            ' : ' +
+            tooltipItem[0].label
+          );
         },
         title(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].label;
         },
         beforeBody(tooltipItem, data) {
           return (
-            '\nCommits count : ' +
+            '\n' +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations['COMMITS-COUNT'] +
+            ' : ' +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
             ].data.commitsCount +
-            '\nCommits pourcentage : ' +
+            '\n' +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations['COMMITS-PERCENTAGE'] +
+            ' : ' +
             tooltipItem[0].yLabel.toFixed(2) +
             '%'
           );
@@ -157,22 +171,30 @@ export class StudentsCommitsComponent implements OnInit {
 
   loadGraphDataAndRefresh() {
     if (this.dataProvided.dataLoaded()) {
-      let colors = [
-        CommitColor.INTERMEDIATE,
-        CommitColor.BEFORE,
-        CommitColor.BETWEEN,
-        CommitColor.AFTER
-      ];
+      this.translate
+        .get(['STUDENT', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE'])
+        .subscribe(translations => {
+          let colors = [
+            CommitColor.INTERMEDIATE,
+            CommitColor.BEFORE,
+            CommitColor.BETWEEN,
+            CommitColor.AFTER
+          ];
 
-      this.chartLabels = this.loadLabels();
-      let dict = this.commitsService.loadStudentsDict(
-        this.dataService.repositories,
-        this.dataService.questions,
-        colors,
-        this.tpGroup,
-        this.date
-      );
-      this.chartData = this.commitsService.loadStudents(dict, colors);
+          this.chartLabels = this.loadLabels();
+          let dict = this.commitsService.loadStudentsDict(
+            this.dataService.repositories,
+            this.dataService.questions,
+            colors,
+            this.tpGroup,
+            this.date
+          );
+          this.chartData = this.commitsService.loadStudents(
+            dict,
+            colors,
+            translations
+          );
+        });
     }
   }
   loadLabels(): any[] {
@@ -184,6 +206,9 @@ export class StudentsCommitsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.translate.onLangChange.subscribe(() => {
+      this.loadGraphDataAndRefresh();
+    });
     Chart.pluginService.register(ChartDataLabels);
     this.dataService.lastUpdateDate &&
       ((this.date = this.dataService.lastUpdateDate.getTime()) &&

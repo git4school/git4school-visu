@@ -219,7 +219,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:142</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:156</a></div>
                             </td>
                         </tr>
 
@@ -324,8 +324,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="194"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:194</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="213"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:213</a></div>
                 </td>
             </tr>
 
@@ -363,8 +363,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="209"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:209</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="231"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:231</a></div>
                 </td>
             </tr>
 
@@ -402,8 +402,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:165</a></div>
                 </td>
             </tr>
 
@@ -441,8 +441,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="201"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:201</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:220</a></div>
                 </td>
             </tr>
 
@@ -480,8 +480,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="182"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:182</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:201</a></div>
                 </td>
             </tr>
 
@@ -528,7 +528,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:142</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:156</a></div>
                             </td>
                         </tr>
 
@@ -591,18 +591,32 @@
       position: &#x27;average&#x27;,
       callbacks: {
         beforeTitle(tooltipItem, data) {
-          return &#x27;Question : &#x27; + tooltipItem[0].label;
+          return (
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;QUESTION&#x27;] +
+            &#x27; : &#x27; +
+            tooltipItem[0].label
+          );
         },
         title(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].label;
         },
         beforeBody(tooltipItem, data) {
           return (
-            &#x27;\nCommits count : &#x27; +
+            &#x27;\n&#x27; +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;COMMITS-COUNT&#x27;] +
+            &#x27; : &#x27; +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
             ].data.count +
-            &#x27;\nCommits pourcentage : &#x27; +
+            &#x27;\n&#x27; +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;COMMITS-PERCENTAGE&#x27;] +
+            &#x27; : &#x27; +
             tooltipItem[0].yLabel.toFixed(2) +
             &#x27;%&#x27;
           );
@@ -720,7 +734,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:148</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="162" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:162</a></div>
                             </td>
                         </tr>
 
@@ -748,7 +762,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:145</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="159" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:159</a></div>
                             </td>
                         </tr>
 
@@ -946,7 +960,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:147</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="161" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:161</a></div>
                             </td>
                         </tr>
 
@@ -1002,18 +1016,32 @@ export class QuestionsCompletionComponent implements OnInit {
       position: &#x27;average&#x27;,
       callbacks: {
         beforeTitle(tooltipItem, data) {
-          return &#x27;Question : &#x27; + tooltipItem[0].label;
+          return (
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;QUESTION&#x27;] +
+            &#x27; : &#x27; +
+            tooltipItem[0].label
+          );
         },
         title(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].label;
         },
         beforeBody(tooltipItem, data) {
           return (
-            &#x27;\nCommits count : &#x27; +
+            &#x27;\n&#x27; +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;COMMITS-COUNT&#x27;] +
+            &#x27; : &#x27; +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
             ].data.count +
-            &#x27;\nCommits pourcentage : &#x27; +
+            &#x27;\n&#x27; +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations[&#x27;COMMITS-PERCENTAGE&#x27;] +
+            &#x27; : &#x27; +
             tooltipItem[0].yLabel.toFixed(2) +
             &#x27;%&#x27;
           );
@@ -1110,35 +1138,40 @@ export class QuestionsCompletionComponent implements OnInit {
   ) {}
 
   loadGraphDataAndRefresh() {
-    this.updateBar();
-    if (this.dataProvided.dataLoaded()) {
-      this.chartLabels &#x3D; this.dataService.questions;
-      let colors &#x3D; [
-        CommitColor.BEFORE,
-        CommitColor.BETWEEN,
-        CommitColor.AFTER,
-        CommitColor.NOCOMMIT
-      ];
+    this.translate
+      .get([&#x27;QUESTION&#x27;, &#x27;COMMITS-COUNT&#x27;, &#x27;COMMITS-PERCENTAGE&#x27;])
+      .subscribe(translations &#x3D;&gt; {
+        this.updateBar();
+        if (this.dataProvided.dataLoaded()) {
+          this.chartLabels &#x3D; this.dataService.questions;
+          let colors &#x3D; [
+            CommitColor.BEFORE,
+            CommitColor.BETWEEN,
+            CommitColor.AFTER,
+            CommitColor.NOCOMMIT
+          ];
 
-      let dict &#x3D; this.commitsService.initQuestionsDict(
-        this.dataService.questions,
-        colors
-      );
-      dict &#x3D; this.commitsService.loadQuestionsDict(
-        dict,
-        this.dataService.repositories,
-        this.dataService.questions,
-        colors,
-        this.tpGroup,
-        this.date
-      );
+          let dict &#x3D; this.commitsService.initQuestionsDict(
+            this.dataService.questions,
+            colors
+          );
+          dict &#x3D; this.commitsService.loadQuestionsDict(
+            dict,
+            this.dataService.repositories,
+            this.dataService.questions,
+            colors,
+            this.tpGroup,
+            this.date
+          );
 
-      this.chartData &#x3D; this.commitsService.loadQuestions(
-        dict,
-        colors,
-        this.dataService.questions
-      );
-    }
+          this.chartData &#x3D; this.commitsService.loadQuestions(
+            dict,
+            colors,
+            this.dataService.questions,
+            translations
+          );
+        }
+      });
   }
   updateBar() {
     let index &#x3D; 10 - this.dataService.barIndex;
@@ -1160,6 +1193,9 @@ export class QuestionsCompletionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.translate.onLangChange.subscribe(() &#x3D;&gt; {
+      this.loadGraphDataAndRefresh();
+    });
     this.dataService.lastUpdateDate &amp;&amp;
       ((this.date &#x3D; this.dataService.lastUpdateDate.getTime()) &amp;&amp;
         (this.max &#x3D; this.date) &amp;&amp;

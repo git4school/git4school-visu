@@ -26,7 +26,7 @@ export class AuthService {
    *
    * @returns The Github access token
    */
-  isSignedIn(caller): string {
+  isSignedIn(): string {
     return this.token;
   }
 

@@ -220,7 +220,8 @@ export class CommitsService {
     questions: string[],
     colors,
     tpGroup?,
-    date?
+    date?,
+    translations?
   ): Object {
     let repos = repositories.filter(
       repository => !tpGroup || repository.tpGroup === tpGroup
@@ -270,6 +271,9 @@ export class CommitsService {
           (dict[question][commitColor].count / repos.length) * 100;
       }
     }
+
+    dict.translations = translations;
+
     return dict;
   }
 
@@ -280,7 +284,7 @@ export class CommitsService {
    * @param questions The quesitons to handle
    * @returns A map with all the data needed by the "questions-completion" graph
    */
-  loadQuestions(dict, colors, questions: string[]): any[] {
+  loadQuestions(dict, colors, questions: string[], translations): any[] {
     let data = [];
     colors.forEach(color => {
       data.push({
@@ -291,7 +295,8 @@ export class CommitsService {
         data: questions.map(question => {
           return {
             y: dict[question][color.label].percentage,
-            data: dict[question][color.label]
+            data: dict[question][color.label],
+            translations: translations
           };
         })
       });
@@ -383,7 +388,8 @@ export class CommitsService {
    * @param colors The commit colors to handle
    * @returns A map with all the data needed by the "students-commits" graph
    */
-  loadStudents(dict: Object, colors): any[] {
+  loadStudents(dict: Object, colors, translations): any[] {
+    console.log('dict: ', dict);
     let data = [];
 
     data.push({
@@ -402,7 +408,8 @@ export class CommitsService {
       data: Object.entries(dict).map(studentData => {
         return {
           y: studentData[1]['commitsCount'],
-          data: studentData[1]
+          data: studentData[1],
+          translations: translations
         };
       })
     });
@@ -436,7 +443,8 @@ export class CommitsService {
         data: Object.entries(dict).map(student => {
           return {
             y: student[1]['commitTypes'][color.label].percentage,
-            data: student[1]['commitTypes'][color.label]
+            data: student[1]['commitTypes'][color.label],
+            translations: translations
           };
         })
       });

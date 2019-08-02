@@ -191,7 +191,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/Commit.html" data-type="entity-link">Commit</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Jalon.html" data-type="entity-link">Jalon</a>
+                                <a href="classes/Milestone.html" data-type="entity-link">Milestone</a>
                             </li>
                             <li class="link">
                                 <a href="classes/Repository.html" data-type="entity-link">Repository</a>

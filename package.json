@@ -8,7 +8,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "doc": "compodoc -p tsconfig.json --theme Readthedocs"
+    "build-prod": "ng build git4school --configuration=production --statsJson",
+    "doc": "npx compodoc -p tsconfig.json --theme Readthedocs -n \"Git4School documentation\" --includes ./src/assets/additional-docs/ -d docs -a ./src/assets/additional-docs/",
+    "serve-doc": "npx compodoc -p tsconfig.json --theme Readthedocs -n \"Git4School documentation\" --includes ./src/assets/additional-docs/ -d docs -a ./src/assets/additional-docs/ -s -w",
+    "build:doc": "npm run-script build-prod && npm run-script doc"
   },
   "private": true,
   "dependencies": {
@@ -46,7 +49,7 @@
     "moment": "^2.24.0",
     "ng2-charts": "^2.2.3",
     "ngx-clipboard": "^12.0.0",
-    "ngx-markdown": "^8.0.2",
+    "ngx-markdown": "^8.1.0",
     "ngx-spinner": "^7.1.4",
     "ngx-toastr": "^10.0.4",
     "ngx-type-ahead": "^2.0.1",
@@ -63,9 +66,10 @@
     "@angular/cli": "~7.3.8",
     "@angular/compiler-cli": "~7.2.0",
     "@angular/language-service": "~7.2.0",
-    "@types/node": "~8.9.4",
+    "@compodoc/compodoc": "^1.1.10",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

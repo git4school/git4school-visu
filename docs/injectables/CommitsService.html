@@ -250,8 +250,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="452"
-                            class="link-to-prism">src/app/services/commits.service.ts:452</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="460"
+                            class="link-to-prism">src/app/services/commits.service.ts:460</a></div>
                 </td>
             </tr>
 
@@ -930,8 +930,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="310"
-                            class="link-to-prism">src/app/services/commits.service.ts:310</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="315"
+                            class="link-to-prism">src/app/services/commits.service.ts:315</a></div>
                 </td>
             </tr>
 
@@ -1053,8 +1053,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="460"
-                            class="link-to-prism">src/app/services/commits.service.ts:460</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="468"
+                            class="link-to-prism">src/app/services/commits.service.ts:468</a></div>
                 </td>
             </tr>
 
@@ -1133,15 +1133,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadQuestions(dict, colors, questions: string[])</code>
+<code>loadQuestions(dict, colors, questions: string[], translations)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="283"
-                            class="link-to-prism">src/app/services/commits.service.ts:283</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="287"
+                            class="link-to-prism">src/app/services/commits.service.ts:287</a></div>
                 </td>
             </tr>
 
@@ -1209,6 +1209,19 @@
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>translations</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1241,7 +1254,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadQuestionsDict(dict, repositories, questions: string[], colors, tpGroup?, date?)</code>
+<code>loadQuestionsDict(dict, repositories, questions: string[], colors, tpGroup?, date?, translations?)</code>
                 </td>
             </tr>
 
@@ -1362,6 +1375,19 @@
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>translations</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1394,15 +1420,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadStudents(dict: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, colors)</code>
+<code>loadStudents(dict: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, colors, translations)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="386"
-                            class="link-to-prism">src/app/services/commits.service.ts:386</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="391"
+                            class="link-to-prism">src/app/services/commits.service.ts:391</a></div>
                 </td>
             </tr>
 
@@ -1455,6 +1481,19 @@
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>translations</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1494,8 +1533,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="332"
-                            class="link-to-prism">src/app/services/commits.service.ts:332</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="337"
+                            class="link-to-prism">src/app/services/commits.service.ts:337</a></div>
                 </td>
             </tr>
 
@@ -1890,7 +1929,8 @@ export class CommitsService {
     questions: string[],
     colors,
     tpGroup?,
-    date?
+    date?,
+    translations?
   ): Object {
     let repos &#x3D; repositories.filter(
       repository &#x3D;&gt; !tpGroup || repository.tpGroup &#x3D;&#x3D;&#x3D; tpGroup
@@ -1940,6 +1980,9 @@ export class CommitsService {
           (dict[question][commitColor].count / repos.length) * 100;
       }
     }
+
+    dict.translations &#x3D; translations;
+
     return dict;
   }
 
@@ -1950,7 +1993,7 @@ export class CommitsService {
    * @param questions The quesitons to handle
    * @returns A map with all the data needed by the &quot;questions-completion&quot; graph
    */
-  loadQuestions(dict, colors, questions: string[]): any[] {
+  loadQuestions(dict, colors, questions: string[], translations): any[] {
     let data &#x3D; [];
     colors.forEach(color &#x3D;&gt; {
       data.push({
@@ -1961,7 +2004,8 @@ export class CommitsService {
         data: questions.map(question &#x3D;&gt; {
           return {
             y: dict[question][color.label].percentage,
-            data: dict[question][color.label]
+            data: dict[question][color.label],
+            translations: translations
           };
         })
       });
@@ -2053,7 +2097,8 @@ export class CommitsService {
    * @param colors The commit colors to handle
    * @returns A map with all the data needed by the &quot;students-commits&quot; graph
    */
-  loadStudents(dict: Object, colors): any[] {
+  loadStudents(dict: Object, colors, translations): any[] {
+    console.log(&#x27;dict: &#x27;, dict);
     let data &#x3D; [];
 
     data.push({
@@ -2072,7 +2117,8 @@ export class CommitsService {
       data: Object.entries(dict).map(studentData &#x3D;&gt; {
         return {
           y: studentData[1][&#x27;commitsCount&#x27;],
-          data: studentData[1]
+          data: studentData[1],
+          translations: translations
         };
       })
     });
@@ -2106,7 +2152,8 @@ export class CommitsService {
         data: Object.entries(dict).map(student &#x3D;&gt; {
           return {
             y: student[1][&#x27;commitTypes&#x27;][color.label].percentage,
-            data: student[1][&#x27;commitTypes&#x27;][color.label]
+            data: student[1][&#x27;commitTypes&#x27;][color.label],
+            translations: translations
           };
         })
       });

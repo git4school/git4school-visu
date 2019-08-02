@@ -20,7 +20,7 @@ import { DataService } from '@services/data.service';
 import { Commit, CommitColor } from '@models/Commit.model';
 import { Repository } from '@models/Repository.model';
 import { Session } from '@models/Session.model';
-import { Jalon } from '@models/Jalon.model';
+import { Milestone } from '@models/Milestone.model';
 import { DataProvidedGuard } from '@guards/data-provided.guard';
 
 declare var $: any;
@@ -61,7 +61,7 @@ export class OverviewComponent implements OnInit {
   questionsModal: string[];
   typeModal: string;
   addModal: boolean;
-  savedMilestoneModal: Jalon;
+  savedMilestoneModal: Milestone;
   ////////////////////////
 
   chartOptions = {
@@ -479,7 +479,7 @@ export class OverviewComponent implements OnInit {
     this.showModal();
   }
 
-  showEditMilestoneModal(milestone: Jalon) {
+  showEditMilestoneModal(milestone: Milestone) {
     this.dateModal = moment(milestone.date).format('YYYY-MM-DDTHH:mm');
     this.labelModal = milestone.label;
     this.tpGroupModal = milestone.tpGroup;
@@ -507,7 +507,7 @@ export class OverviewComponent implements OnInit {
   onSubmit(form: NgForm) {
     const questions = form.value.questions;
 
-    const jalon = new Jalon(
+    const jalon = new Milestone(
       new Date(form.value.date),
       form.value.label.trim(),
       questions.length ? questions : null,
@@ -636,16 +636,16 @@ export class OverviewComponent implements OnInit {
     this.dataService.year = text.year;
     this.dataService.questions = text.questions;
     this.dataService.corrections = text.corrections
-      ? text.corrections.map(data => Jalon.withJSON(data, 'corrections'))
+      ? text.corrections.map(data => Milestone.withJSON(data, 'corrections'))
       : undefined;
     this.dataService.sessions = text.sessions
       ? text.sessions.map(data => Session.withJSON(data))
       : undefined;
     this.dataService.reviews = text.reviews
-      ? text.reviews.map(data => Jalon.withJSON(data, 'reviews'))
+      ? text.reviews.map(data => Milestone.withJSON(data, 'reviews'))
       : undefined;
     this.dataService.others = text.others
-      ? text.others.map(data => Jalon.withJSON(data, 'others'))
+      ? text.others.map(data => Milestone.withJSON(data, 'others'))
       : undefined;
   }
 

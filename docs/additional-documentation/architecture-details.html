@@ -49,6 +49,107 @@
 
 
 
+<h1 id="architecture-details">Architecture Details</h1>
+<p>In this section we will detail the architecture of the application and the role of the main folders so that a developer can find his way around.</p>
+<p><img src="../additional-docs/file-tree.png" alt="File tree" class="img-responsive"></p>
+<h2 id="app">app</h2>
+<p>This is here that you will spend most of your time coding. It contains most of the source code within 4 sub-folders :</p>
+<ul>
+<li>components</li>
+<li>guards</li>
+<li>models</li>
+<li>services</li>
+</ul>
+<h3 id="components">components</h3>
+<p>This folder contains all the components of the application. If you want to add a new page or develop a new feature on an existing page, it is in this folder that you will need to place the new components.</p>
+<blockquote>
+<p>If you want to add or modify a graph, everything is in the folder <code>components/graphs</code>.</p>
+</blockquote>
+<p>To create a new component, execute <code>ng g component components/&lt;myComponent&gt;</code>.</p>
+<h3 id="guards">guards</h3>
+<p>This folder contains the guards as used in Angular. These guards are services that can be used to authorize access to a route or the leaving of a page.
+In this way, we use 3 guards :</p>
+<ul>
+<li><code>auth.guard.ts</code>: which ensures that the user is authenticated before allowing access to a protected route</li>
+<li><code>data-provided.guard.ts</code>: which ensures that valid and minimal data are loaded to ensure the proper functioning of the application. For example, if no valid configuration file is provided in the <code>/overview</code> page, it is not possible to access <code>/questions-completion</code> or <code>/edit-metadata</code></li>
+<li><code>data-loading.guard.ts</code>: which authorizes the leaving of a page if the associated component is not loading. This guard is used in the /overview page to prevent the user from leaving the page if the processing of repository data is in progress</li>
+</ul>
+<p>If you want to create a new guard, do the following :</p>
+<ul>
+<li>execute <code>ng g guard .\guards\&lt;myGuard&gt;</code></li>
+<li>select interface(s) to implement</li>
+<li>add the guard to route(s) in <code>src/app/app-routing.module.ts</code><div><pre class="line-numbers"><code class="language-typescript">{
+    path: &#39;myPath&#39;,
+    component: MyComponent,
+    canActivate: [AuthGuard, MyGuard],
+    canDeactivate: [DataLoadingGuard]
+}</code></pre></div></li>
+</ul>
+<h3 id="models">models</h3>
+<p>This folder contains all the models of the application. These are classes that can be instantiated to facilitate data management in the application. We use 4 fairly explicit model classes :</p>
+<ul>
+<li>Commit</li>
+<li>Milestone (review, correction, other)</li>
+<li>Repository</li>
+<li>Session</li>
+</ul>
+<p>To create a new model, execute <code>ng g class models/&lt;myModel&gt; --type=model</code>.</p>
+<h3 id="services">services</h3>
+<p>This folder contains the application services. The services allow to perform operations that can be common to several components in the application.
+Let&#39;s detail the 4 services we use:</p>
+<ul>
+<li><code>auth.service.ts</code> : which allows to manage the user authentication to Github.</li>
+<li><code>data.service.ts</code> : which allows to store the data to be shared between the components. It is thanks to it that the user can navigate in the application without having to enter the configuration file each time he changes pages.</li>
+<li><code>json-manager.service.ts</code> : which allows to manage the configuration file (upload/download/verification)</li>
+<li><code>commits.service.ts</code> : which allows to manage the retrieval of data from Github repositories, as well as the generation of statistical data (used for downloading and for displaying graphs <code>/students-commits</code> and <code>/questions-completion</code>)</li>
+</ul>
+<p>To create a new service, execute <code>ng g service services/&lt;myService&gt;</code>.
+Then use it in component or a service by declaring it in the constructor :</p>
+<div><pre class="line-numbers"><code class="language-typescript">constructor(
+    private commitsService: CommitsService,
+    public myService: MyService
+) {}</code></pre></div><blockquote>
+<p>Note that if you want to use a service in a HTML file, you have to declare the service as <code>public</code> !</p>
+</blockquote>
+<h2 id="assets">assets</h2>
+<p>This folder contains useful resources for the application.</p>
+<h3 id="additional-docs">additional docs</h3>
+<p>This folder contains useful resources for generating additional documentation such as this page.
+If you want to add a page to the documentation, create a file <code>&lt;myDoc&gt;.md</code> and update the <code>summary.json</code> file by adding an element as following (see <a href="https://compodoc.app/guides/tips-and-tricks.html#additional-documentation">this page</a>) :</p>
+<div><pre class="line-numbers"><code class="language-json">[
+  {
+    &quot;title&quot;: &quot;Architecture details&quot;,
+    &quot;file&quot;: &quot;CONTRIBUTING.md&quot;
+  },
+  {
+    &quot;title&quot;: &quot;My documentation&quot;,
+    &quot;file&quot;: &quot;myDoc.md&quot;
+  }
+]</code></pre></div><p>To build the documentation (into <code>docs</code> folder), execute <code>npm run doc</code>.</p>
+<blockquote>
+<p>When deploying a new version to firebase, run <code>npm run build:doc</code> and then <code>firebase deploy</code>.</p>
+</blockquote>
+<h3 id="i18n">i18n</h3>
+<p>This folder is very important because it manages the localization of the application. It contains the json files corresponding to the possible localizations of the application. For the moment there are only 2 files:</p>
+<ul>
+<li><code>en.json</code></li>
+<li><code>fr.json</code></li>
+</ul>
+<p>If you want to add a localization, create a file <code>&lt;myLocalization&gt;.json</code> and update the file <code>src/app/app.component.ts</code> :</p>
+<div><pre class="line-numbers"><code class="language-typescript">constructor(
+    public authService: AuthService,
+    public dataService: DataService,
+    private router: Router,
+    public translate: TranslateService
+) {
+    translate.addLangs([&#39;en&#39;, &#39;fr&#39;, &#39;myLocalizattion&#39;]);
+    translate.setDefaultLang(&#39;en&#39;);
+}</code></pre></div><p>In this new file you <em>must</em> translate every variable contained in the other files. Which means that there must be the same variables in all localization files.
+To make your life easier and avoid forgetting things, I advise you to use <a href="https://www.codeandweb.com/babeledit/download">BabelEdit</a>.</p>
+<h3 id="images">images</h3>
+<p>This folder contains images used in the application.
+There are no special rules, you can reorganize the folder at your convenience if the content starts to grow a bit too much. If so, update the path of images used for the user guide in <code>/home</code>.
+You can access these files with <code>assets/images/&lt;myImage&gt;</code>.</p>
 
                    </div><div class="search-results">
     <div class="has-results">

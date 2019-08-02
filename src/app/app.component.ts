@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     Chart.pluginService.unregister(ChartDataLabels);
-    if (!this.authService.isSignedIn('ngOnInit')) {
+    if (!this.authService.isSignedIn()) {
       this.loading = true;
       this.authService.callback().then(
         () => {

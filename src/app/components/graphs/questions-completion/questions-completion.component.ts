@@ -41,18 +41,32 @@ export class QuestionsCompletionComponent implements OnInit {
       position: 'average',
       callbacks: {
         beforeTitle(tooltipItem, data) {
-          return 'Question : ' + tooltipItem[0].label;
+          return (
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations['QUESTION'] +
+            ' : ' +
+            tooltipItem[0].label
+          );
         },
         title(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].label;
         },
         beforeBody(tooltipItem, data) {
           return (
-            '\nCommits count : ' +
+            '\n' +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations['COMMITS-COUNT'] +
+            ' : ' +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
             ].data.count +
-            '\nCommits pourcentage : ' +
+            '\n' +
+            data.datasets[tooltipItem[0].datasetIndex].data[
+              tooltipItem[0].index
+            ].translations['COMMITS-PERCENTAGE'] +
+            ' : ' +
             tooltipItem[0].yLabel.toFixed(2) +
             '%'
           );
@@ -149,35 +163,40 @@ export class QuestionsCompletionComponent implements OnInit {
   ) {}
 
   loadGraphDataAndRefresh() {
-    this.updateBar();
-    if (this.dataProvided.dataLoaded()) {
-      this.chartLabels = this.dataService.questions;
-      let colors = [
-        CommitColor.BEFORE,
-        CommitColor.BETWEEN,
-        CommitColor.AFTER,
-        CommitColor.NOCOMMIT
-      ];
+    this.translate
+      .get(['QUESTION', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE'])
+      .subscribe(translations => {
+        this.updateBar();
+        if (this.dataProvided.dataLoaded()) {
+          this.chartLabels = this.dataService.questions;
+          let colors = [
+            CommitColor.BEFORE,
+            CommitColor.BETWEEN,
+            CommitColor.AFTER,
+            CommitColor.NOCOMMIT
+          ];
 
-      let dict = this.commitsService.initQuestionsDict(
-        this.dataService.questions,
-        colors
-      );
-      dict = this.commitsService.loadQuestionsDict(
-        dict,
-        this.dataService.repositories,
-        this.dataService.questions,
-        colors,
-        this.tpGroup,
-        this.date
-      );
+          let dict = this.commitsService.initQuestionsDict(
+            this.dataService.questions,
+            colors
+          );
+          dict = this.commitsService.loadQuestionsDict(
+            dict,
+            this.dataService.repositories,
+            this.dataService.questions,
+            colors,
+            this.tpGroup,
+            this.date
+          );
 
-      this.chartData = this.commitsService.loadQuestions(
-        dict,
-        colors,
-        this.dataService.questions
-      );
-    }
+          this.chartData = this.commitsService.loadQuestions(
+            dict,
+            colors,
+            this.dataService.questions,
+            translations
+          );
+        }
+      });
   }
   updateBar() {
     let index = 10 - this.dataService.barIndex;
@@ -199,6 +218,9 @@ export class QuestionsCompletionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.translate.onLangChange.subscribe(() => {
+      this.loadGraphDataAndRefresh();
+    });
     this.dataService.lastUpdateDate &&
       ((this.date = this.dataService.lastUpdateDate.getTime()) &&
         (this.max = this.date) &&

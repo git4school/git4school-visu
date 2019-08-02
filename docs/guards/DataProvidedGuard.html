@@ -62,6 +62,13 @@
                 <code>src/app/guards/data-provided.guard.ts</code>
             </p>
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>This guard ensures that the data is fully loaded</p>
+
+                </p>
 
 
 
@@ -108,12 +115,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/guards/data-provided.guard.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/guards/data-provided.guard.ts:19</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>DataProvidedGuard constructor</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -185,14 +194,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/app/guards/data-provided.guard.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">src/app/guards/data-provided.guard.ts:41</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Allows access to the protected route if the data is fully loaded</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -239,7 +250,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>true if fully loaded, redirects to overview graph otherwise</p>
+
                     </div>
                 </td>
             </tr>
@@ -267,17 +279,25 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">src/app/guards/data-provided.guard.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/guards/data-provided.guard.ts:31</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns a boolean indicating if data is fully loaded</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>true if data is fully loaded, false otherwise</p>
 
                     </div>
                 </td>
@@ -301,16 +321,34 @@ import { Observable } from &#x27;rxjs&#x27;;
 
 import { DataService } from &#x27;@services/data.service&#x27;;
 
+/**
+ * This guard ensures that the data is fully loaded
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;
 })
 export class DataProvidedGuard implements CanActivate {
+  /**
+   * DataProvidedGuard constructor
+   * @param dataService
+   * @param router
+   */
   constructor(private dataService: DataService, private router: Router) {}
 
+  /**
+   * Returns a boolean indicating if data is fully loaded
+   * @return true if data is fully loaded, false otherwise
+   */
   dataLoaded() {
     return this.dataService.dataLoaded;
   }
 
+  /**
+   * Allows access to the protected route if the data is fully loaded
+   * @param route
+   * @param state
+   * @returns true if fully loaded, redirects to overview graph otherwise
+   */
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

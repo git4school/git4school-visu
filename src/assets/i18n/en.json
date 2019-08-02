@@ -168,5 +168,7 @@
   "MILESTONE-DELETED": "Milestone has been deleted !",
   "COMMITS-COUNT": "Commits count",
   "COMMITS-PERCENTAGE": "Commits percentage",
-  "BAR-INDEX": "Bar index"
+  "BAR-INDEX": "Bar index",
+  "STUDENT": "Student",
+  "QUESTION": "Question"
 }

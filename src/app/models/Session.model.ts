@@ -1,7 +1,7 @@
 import moment from 'moment/src/moment';
 
 /**
- * This class modelize a practical session
+ * This class modelizes a practical session
  */
 export class Session {
   /**

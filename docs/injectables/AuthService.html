@@ -234,7 +234,7 @@ If authentication is valid, we store the Github access token</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isSignedIn(caller)</code>
+<code>isSignedIn()</code>
                 </td>
             </tr>
 
@@ -252,28 +252,6 @@ If authentication is valid, we store the Github access token</p>
                     <div class="io-description"><p>Returns the Github access token, so if its value is null, it&#39;s similar to a falsy value</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>caller</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
                     <div>
                     </div>
                     <div class="io-description">
@@ -448,7 +426,7 @@ export class AuthService {
    *
    * @returns The Github access token
    */
-  isSignedIn(caller): string {
+  isSignedIn(): string {
     return this.token;
   }
 

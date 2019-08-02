@@ -1,5 +1,8 @@
-import { Jalon } from '@models/Jalon.model';
+import { Milestone } from '@models/Milestone.model';
 
+/**
+ * A constant containing the possible types of commits and their corresponding color and label
+ */
 export const CommitColor = {
   BEFORE: {
     label: 'Before review',
@@ -101,7 +104,11 @@ export class Commit {
         });
   }
 
-  updateMetadata(reviews: Jalon[], corrections: Jalon[], questions: string[]) {
+  updateMetadata(
+    reviews: Milestone[],
+    corrections: Milestone[],
+    questions: string[]
+  ) {
     this.updateIsCloture();
     this.question = this.getQuestion(questions);
     this.color = CommitColor.INTERMEDIATE;
@@ -131,7 +138,7 @@ export class Commit {
       });
   }
 
-  updateColor(reviews: Jalon[], corrections: Jalon[]) {
+  updateColor(reviews: Milestone[], corrections: Milestone[]) {
     reviews &&
       reviews
         .filter(review => review.date.getTime() < this.commitDate.getTime())
