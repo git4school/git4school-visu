@@ -2,18 +2,34 @@ import { Component, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { HttpClient } from '@angular/common/http';
 
+/**
+ * This component is used for the Home page displaying useful information such as CHANGELOG,
+ * a user guide or help with the structure of the configuration file or the ReadMe of the repositories
+ */
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  /**
+   * HomeComponent constructor
+   * @param clipboardService
+   * @param http
+   */
   constructor(
     private clipboardService: ClipboardService,
     private http: HttpClient
   ) {}
 
+  /**
+   * A variable used to get and display CHANGELOG directly from the repository
+   */
   changelog;
+
+  /**
+   * A variable used to display the readMe structure
+   */
   readMe = `# First IT practical
 
 ### NOM : DOE
@@ -24,10 +40,16 @@ export class HomeComponent implements OnInit {
 - [ ] 21
 - [ ] 22`;
 
+  /**
+   * When the component is initialized, we call getChangelog()
+   */
   ngOnInit() {
     this.getChangelog();
   }
 
+  /**
+   * Gets CHANGELOG file from the git4school repository and update the changelog variable
+   */
   getChangelog() {
     this.http
       .get(
@@ -40,6 +62,9 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  /**
+   * Sets the example of the JSON structure in the clipboard
+   */
   copyJSON() {
     this.clipboardService.copyFromContent(`
 {
@@ -73,7 +98,7 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Test doc
+   * Sets the example of the ReadMe structure in the clipboard
    */
   copyReadMe() {
     this.clipboardService.copyFromContent(this.readMe);

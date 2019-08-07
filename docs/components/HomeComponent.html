@@ -65,6 +65,14 @@
     <code>src/app/components/home/home.component.ts</code>
 </p>
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>This component is used for the Home page displaying useful information such as CHANGELOG,
+a user guide or help with the structure of the configuration file or the ReadMe of the repositories</p>
+
+    </p>
 
 
     <p class="comment">
@@ -183,12 +191,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/components/home/home.component.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/components/home/home.component.ts:14</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>HomeComponent constructor</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -264,14 +274,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/app/components/home/home.component.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">src/app/components/home/home.component.ts:68</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sets the example of the JSON structure in the clipboard</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -303,15 +315,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/app/components/home/home.component.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">src/app/components/home/home.component.ts:103</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Test doc</p>
+                    <div class="io-description"><p>Sets the example of the ReadMe structure in the clipboard</p>
 </div>
 
                     <div class="io-description">
@@ -344,14 +356,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/app/components/home/home.component.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">src/app/components/home/home.component.ts:53</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Gets CHANGELOG file from the git4school repository and update the changelog variable</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -383,14 +397,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/app/components/home/home.component.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/app/components/home/home.component.ts:46</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>When the component is initialized, we call getChangelog()</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -420,10 +436,16 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/home/home.component.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/home/home.component.ts:28</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>A variable used to get and display CHANGELOG directly from the repository</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -454,10 +476,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/components/home/home.component.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/home/home.component.ts:33</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>A variable used to display the readMe structure</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -471,18 +499,34 @@
 import { ClipboardService } from &#x27;ngx-clipboard&#x27;;
 import { HttpClient } from &#x27;@angular/common/http&#x27;;
 
+/**
+ * This component is used for the Home page displaying useful information such as CHANGELOG,
+ * a user guide or help with the structure of the configuration file or the ReadMe of the repositories
+ */
 @Component({
   selector: &#x27;home&#x27;,
   templateUrl: &#x27;./home.component.html&#x27;,
   styleUrls: [&#x27;./home.component.scss&#x27;]
 })
 export class HomeComponent implements OnInit {
+  /**
+   * HomeComponent constructor
+   * @param clipboardService
+   * @param http
+   */
   constructor(
     private clipboardService: ClipboardService,
     private http: HttpClient
   ) {}
 
+  /**
+   * A variable used to get and display CHANGELOG directly from the repository
+   */
   changelog;
+
+  /**
+   * A variable used to display the readMe structure
+   */
   readMe &#x3D; &#x60;# First IT practical
 
 ### NOM : DOE
@@ -493,10 +537,16 @@ export class HomeComponent implements OnInit {
 - [ ] 21
 - [ ] 22&#x60;;
 
+  /**
+   * When the component is initialized, we call getChangelog()
+   */
   ngOnInit() {
     this.getChangelog();
   }
 
+  /**
+   * Gets CHANGELOG file from the git4school repository and update the changelog variable
+   */
   getChangelog() {
     this.http
       .get(
@@ -509,6 +559,9 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  /**
+   * Sets the example of the JSON structure in the clipboard
+   */
   copyJSON() {
     this.clipboardService.copyFromContent(&#x60;
 {
@@ -542,7 +595,7 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Test doc
+   * Sets the example of the ReadMe structure in the clipboard
    */
   copyReadMe() {
     this.clipboardService.copyFromContent(this.readMe);
