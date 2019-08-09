@@ -33,6 +33,9 @@ import { DataProvidedGuard } from '@guards/data-provided.guard';
 import { DataLoadingGuard } from '@guards/data-loading.guard';
 import { AuthGuard } from '@guards/auth.guard';
 
+/**
+ * Firebase configuration file
+ */
 const firebaseConfig = {
   apiKey: 'AIzaSyA3kJGK7-b7YbLnb0RBc38kTfqkc_fT0xY',
   authDomain: 'git4school.firebaseapp.com',
@@ -91,6 +94,10 @@ export class AppModule {
   constructor() {}
 }
 
+/**
+ * Loader factory for translation service, using HTTP
+ * @param httpClient
+ */
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }

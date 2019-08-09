@@ -6,25 +6,48 @@ import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
 
 import { DataService } from '@services/data.service';
 
+/**
+ * This component lets you modify metadata such as document title, course, year, start date and end date, questions
+ */
 @Component({
   selector: 'metadata',
   templateUrl: './metadata.component.html',
   styleUrls: ['./metadata.component.scss']
 })
 export class MetadataComponent implements OnInit {
+  /**
+   * A date before which commits are not retrieved from Github
+   */
   startDate = '';
+
+  /**
+   * A date after which commits are not retrieved from Github
+   */
   endDate = '';
-  typeaheadSettings = {
+
+  /**
+   * Settings for the typeahead text input
+   */
+  readonly typeaheadSettings = {
     tagClass: 'badge badge-pill badge-secondary mr-1',
     suggestionLimit: 5
   };
 
+  /**
+   * MetadataComponent constructor
+   * @param toastr Service used to display toasts for success or error cases
+   * @param dataService Service used to store and get data
+   * @param translate Service used to translate the application
+   */
   constructor(
     private toastr: ToastrService,
     public dataService: DataService,
     public translate: TranslateService
   ) {}
 
+  /**
+   * When the component is initialized, we initialize startDate and endDate with data from dataService
+   */
   ngOnInit() {
     this.startDate =
       this.dataService.startDate &&
@@ -38,6 +61,10 @@ export class MetadataComponent implements OnInit {
       );
   }
 
+  /**
+   * This method is called when the form is submitted (when save button is pressed). Updates data with new values entered
+   * @param form The submitted form
+   */
   onSubmit(form: NgForm) {
     let f = form.form.value;
 

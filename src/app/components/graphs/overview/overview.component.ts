@@ -23,6 +23,9 @@ import { Session } from '@models/Session.model';
 import { Milestone } from '@models/Milestone.model';
 import { DataProvidedGuard } from '@guards/data-provided.guard';
 
+/**
+ * jquery
+ */
 declare var $: any;
 
 @Component({

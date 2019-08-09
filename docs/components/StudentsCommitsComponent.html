@@ -65,6 +65,13 @@
     <code>src/app/components/graphs/students-commits/students-commits.component.ts</code>
 </p>
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>This component displays a graph with the distribution of commit types for each student</p>
+
+    </p>
 
 
     <p class="comment">
@@ -216,12 +223,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:163</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:201</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>StudentsCommitsComponent constructor</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -230,6 +239,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -244,6 +254,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Service used to store and get data</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>commitsService</td>
@@ -256,6 +270,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Service used to update dict variable</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>translate</td>
@@ -268,6 +286,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Service used to translate the application</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>dataProvided</td>
@@ -280,6 +302,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Guard used to know if data is loaded</p>
+</code>
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -321,17 +347,25 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="224"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:224</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="287"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:287</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the minimum date needed by the date slider</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A timestamp corresponding to the minimum date selectable with the date slider</p>
 
                     </div>
                 </td>
@@ -360,14 +394,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="172"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:172</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:220</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Updates dict variable with students data and loads graph labels which displays data on the graph</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -399,14 +435,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="252"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:252</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Loads graph labels with the repositories name</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>any[]</code>
@@ -438,14 +476,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="220"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:220</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="279"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:279</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>When the component is destroyed, we unregister the ChartDataLabels plugin for ChartJs</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -477,14 +517,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="208"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:208</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:264</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>When the component is initialized, we register the ChartDataLabels plugin for ChartJs, we initialize date, max and min
+and we call loadGraphDataAndRefresh()</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -525,10 +568,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:163</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:201</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The data for chart js</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -557,10 +606,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:54</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The graph labels, which corresponds to the repositories name</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -726,10 +781,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:59</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The options for chart js</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -754,10 +815,15 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:169</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="214" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:214</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description">Guard used to know if data is loaded</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -782,10 +848,15 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:166</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="211" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:211</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description">Service used to store and get data</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -809,10 +880,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:27</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The date after which the commits will not be considered, this shows the state of work of each student on a given date</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -841,10 +918,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:44</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The data about students</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -868,10 +951,17 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:39</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The maximum date that can be traced back to, in the form of a timestamp.
+It corresponds to the last update date</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -895,10 +985,17 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:33</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The minimum date that can be traced back to, in the form of a timestamp.
+It corresponds to the date of the most recent commit among all the repositories</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -922,10 +1019,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:49</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The filter on the tp group of repositories</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -950,10 +1053,15 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:168</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="213" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:213</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description">Service used to translate the application</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -972,20 +1080,55 @@ import { CommitColor, Commit } from &#x27;@models/Commit.model&#x27;;
 import { CommitsService } from &#x27;@services/commits.service&#x27;;
 import { DataService } from &#x27;@services/data.service&#x27;;
 import { DataProvidedGuard } from &#x27;@guards/data-provided.guard&#x27;;
+/**
+ * jquery
+ */
 declare var $: any;
 
+/**
+ * This component displays a graph with the distribution of commit types for each student
+ */
 @Component({
   selector: &#x27;students-commits&#x27;,
   templateUrl: &#x27;./students-commits.component.html&#x27;,
   styleUrls: [&#x27;./students-commits.component.scss&#x27;]
 })
 export class StudentsCommitsComponent implements OnInit {
+  /**
+   * The date after which the commits will not be considered, this shows the state of work of each student on a given date
+   */
   date: number;
+
+  /**
+   * The minimum date that can be traced back to, in the form of a timestamp.
+   * It corresponds to the date of the most recent commit among all the repositories
+   */
   min: number;
+
+  /**
+   * The maximum date that can be traced back to, in the form of a timestamp.
+   * It corresponds to the last update date
+   */
   max: number;
+
+  /**
+   * The data about students
+   */
   dict &#x3D; [];
+
+  /**
+   * The filter on the tp group of repositories
+   */
   tpGroup: string;
+
+  /**
+   * The graph labels, which corresponds to the repositories name
+   */
   chartLabels &#x3D; [];
+
+  /**
+   * The options for chart js
+   */
   chartOptions &#x3D; {
     layout: {
       padding: {
@@ -1125,8 +1268,18 @@ export class StudentsCommitsComponent implements OnInit {
     }
   };
 
+  /**
+   * The data for chart js
+   */
   chartData &#x3D; [{ data: [] }];
 
+  /**
+   * StudentsCommitsComponent constructor
+   * @param dataService Service used to store and get data
+   * @param commitsService Service used to update dict variable
+   * @param translate Service used to translate the application
+   * @param dataProvided Guard used to know if data is loaded
+   */
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
@@ -1134,6 +1287,9 @@ export class StudentsCommitsComponent implements OnInit {
     public dataProvided: DataProvidedGuard
   ) {}
 
+  /**
+   * Updates dict variable with students data and loads graph labels which displays data on the graph
+   */
   loadGraphDataAndRefresh() {
     if (this.dataProvided.dataLoaded()) {
       this.translate
@@ -1162,6 +1318,10 @@ export class StudentsCommitsComponent implements OnInit {
         });
     }
   }
+
+  /**
+   * Loads graph labels with the repositories name
+   */
   loadLabels(): any[] {
     return this.dataService.repositories
       .filter(
@@ -1170,6 +1330,10 @@ export class StudentsCommitsComponent implements OnInit {
       .map(repository &#x3D;&gt; repository.name);
   }
 
+  /**
+   * When the component is initialized, we register the ChartDataLabels plugin for ChartJs, we initialize date, max and min
+   * and we call loadGraphDataAndRefresh()
+   */
   ngOnInit() {
     this.translate.onLangChange.subscribe(() &#x3D;&gt; {
       this.loadGraphDataAndRefresh();
@@ -1182,10 +1346,17 @@ export class StudentsCommitsComponent implements OnInit {
     this.loadGraphDataAndRefresh();
   }
 
+  /**
+   * When the component is destroyed, we unregister the ChartDataLabels plugin for ChartJs
+   */
   ngOnDestroy() {
     Chart.pluginService.unregister(ChartDataLabels);
   }
 
+  /**
+   * Returns the minimum date needed by the date slider
+   * @returns A timestamp corresponding to the minimum date selectable with the date slider
+   */
   getMinDateTimestamp() {
     let commits &#x3D; [];
     this.dataService.repositories.forEach(repository &#x3D;&gt; {

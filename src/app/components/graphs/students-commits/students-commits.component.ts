@@ -7,20 +7,55 @@ import { CommitColor, Commit } from '@models/Commit.model';
 import { CommitsService } from '@services/commits.service';
 import { DataService } from '@services/data.service';
 import { DataProvidedGuard } from '@guards/data-provided.guard';
+/**
+ * jquery
+ */
 declare var $: any;
 
+/**
+ * This component displays a graph with the distribution of commit types for each student
+ */
 @Component({
   selector: 'students-commits',
   templateUrl: './students-commits.component.html',
   styleUrls: ['./students-commits.component.scss']
 })
 export class StudentsCommitsComponent implements OnInit {
+  /**
+   * The date after which the commits will not be considered, this shows the state of work of each student on a given date
+   */
   date: number;
+
+  /**
+   * The minimum date that can be traced back to, in the form of a timestamp.
+   * It corresponds to the date of the most recent commit among all the repositories
+   */
   min: number;
+
+  /**
+   * The maximum date that can be traced back to, in the form of a timestamp.
+   * It corresponds to the last update date
+   */
   max: number;
+
+  /**
+   * The data about students
+   */
   dict = [];
+
+  /**
+   * The filter on the tp group of repositories
+   */
   tpGroup: string;
+
+  /**
+   * The graph labels, which corresponds to the repositories name
+   */
   chartLabels = [];
+
+  /**
+   * The options for chart js
+   */
   chartOptions = {
     layout: {
       padding: {
@@ -160,8 +195,18 @@ export class StudentsCommitsComponent implements OnInit {
     }
   };
 
+  /**
+   * The data for chart js
+   */
   chartData = [{ data: [] }];
 
+  /**
+   * StudentsCommitsComponent constructor
+   * @param dataService Service used to store and get data
+   * @param commitsService Service used to update dict variable
+   * @param translate Service used to translate the application
+   * @param dataProvided Guard used to know if data is loaded
+   */
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
@@ -169,6 +214,9 @@ export class StudentsCommitsComponent implements OnInit {
     public dataProvided: DataProvidedGuard
   ) {}
 
+  /**
+   * Updates dict variable with students data and loads graph labels which displays data on the graph
+   */
   loadGraphDataAndRefresh() {
     if (this.dataProvided.dataLoaded()) {
       this.translate
@@ -197,6 +245,10 @@ export class StudentsCommitsComponent implements OnInit {
         });
     }
   }
+
+  /**
+   * Loads graph labels with the repositories name
+   */
   loadLabels(): any[] {
     return this.dataService.repositories
       .filter(
@@ -205,6 +257,10 @@ export class StudentsCommitsComponent implements OnInit {
       .map(repository => repository.name);
   }
 
+  /**
+   * When the component is initialized, we register the ChartDataLabels plugin for ChartJs, we initialize date, max and min
+   * and we call loadGraphDataAndRefresh()
+   */
   ngOnInit() {
     this.translate.onLangChange.subscribe(() => {
       this.loadGraphDataAndRefresh();
@@ -217,10 +273,17 @@ export class StudentsCommitsComponent implements OnInit {
     this.loadGraphDataAndRefresh();
   }
 
+  /**
+   * When the component is destroyed, we unregister the ChartDataLabels plugin for ChartJs
+   */
   ngOnDestroy() {
     Chart.pluginService.unregister(ChartDataLabels);
   }
 
+  /**
+   * Returns the minimum date needed by the date slider
+   * @returns A timestamp corresponding to the minimum date selectable with the date slider
+   */
   getMinDateTimestamp() {
     let commits = [];
     this.dataService.repositories.forEach(repository => {

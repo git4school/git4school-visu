@@ -10,6 +10,10 @@ import { CommitColor } from '@models/Commit.model';
 import { DataProvidedGuard } from '@guards/data-provided.guard';
 
 registerLocaleData(localeFr);
+
+/**
+ * jquery
+ */
 declare var $: any;
 
 @Component({

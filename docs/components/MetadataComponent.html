@@ -65,6 +65,13 @@
     <code>src/app/components/metadata/metadata.component.ts</code>
 </p>
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>This component lets you modify metadata such as document title, course, year, start date and end date, questions</p>
+
+    </p>
 
 
     <p class="comment">
@@ -145,6 +152,7 @@
                                 <a href="#translate">translate</a>
                             </li>
                             <li>
+                                    <span class="modifier">Readonly</span>
                                 <a href="#typeaheadSettings">typeaheadSettings</a>
                             </li>
                         </ul>
@@ -188,12 +196,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/metadata/metadata.component.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/metadata/metadata.component.ts:34</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>MetadataComponent constructor</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -202,6 +212,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -216,6 +227,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Service used to display toasts for success or error cases</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>dataService</td>
@@ -228,6 +243,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Service used to store and get data</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>translate</td>
@@ -240,6 +259,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Service used to translate the application</p>
+</code>
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -281,14 +304,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/app/components/metadata/metadata.component.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/components/metadata/metadata.component.ts:51</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>When the component is initialized, we initialize startDate and endDate with data from dataService</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -320,14 +345,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">src/app/components/metadata/metadata.component.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">src/app/components/metadata/metadata.component.ts:68</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>This method is called when the form is submitted (when save button is pressed). Updates data with new values entered</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -337,6 +364,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -351,6 +379,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The submitted form</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -395,10 +427,15 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/metadata/metadata.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/metadata/metadata.component.ts:44</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description">Service used to store and get data</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -427,10 +464,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/metadata/metadata.component.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/components/metadata/metadata.component.ts:26</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>A date after which commits are not retrieved from Github</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -459,10 +502,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/components/metadata/metadata.component.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/components/metadata/metadata.component.ts:21</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>A date before which commits are not retrieved from Github</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -487,10 +536,15 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/metadata/metadata.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/metadata/metadata.component.ts:45</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description">Service used to translate the application</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -501,6 +555,7 @@
                         <a name="typeaheadSettings"></a>
                         <span class="name">
                             <b>
+                                <span class="modifier">Readonly</span>
                             typeaheadSettings</b>
                             <a href="#typeaheadSettings"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -522,10 +577,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/components/metadata/metadata.component.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/metadata/metadata.component.ts:31</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Settings for the typeahead text input</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -543,25 +604,48 @@ import { TranslateService, TranslationChangeEvent } from &#x27;@ngx-translate/co
 
 import { DataService } from &#x27;@services/data.service&#x27;;
 
+/**
+ * This component lets you modify metadata such as document title, course, year, start date and end date, questions
+ */
 @Component({
   selector: &#x27;metadata&#x27;,
   templateUrl: &#x27;./metadata.component.html&#x27;,
   styleUrls: [&#x27;./metadata.component.scss&#x27;]
 })
 export class MetadataComponent implements OnInit {
+  /**
+   * A date before which commits are not retrieved from Github
+   */
   startDate &#x3D; &#x27;&#x27;;
+
+  /**
+   * A date after which commits are not retrieved from Github
+   */
   endDate &#x3D; &#x27;&#x27;;
-  typeaheadSettings &#x3D; {
+
+  /**
+   * Settings for the typeahead text input
+   */
+  readonly typeaheadSettings &#x3D; {
     tagClass: &#x27;badge badge-pill badge-secondary mr-1&#x27;,
     suggestionLimit: 5
   };
 
+  /**
+   * MetadataComponent constructor
+   * @param toastr Service used to display toasts for success or error cases
+   * @param dataService Service used to store and get data
+   * @param translate Service used to translate the application
+   */
   constructor(
     private toastr: ToastrService,
     public dataService: DataService,
     public translate: TranslateService
   ) {}
 
+  /**
+   * When the component is initialized, we initialize startDate and endDate with data from dataService
+   */
   ngOnInit() {
     this.startDate &#x3D;
       this.dataService.startDate &amp;&amp;
@@ -575,6 +659,10 @@ export class MetadataComponent implements OnInit {
       );
   }
 
+  /**
+   * This method is called when the form is submitted (when save button is pressed). Updates data with new values entered
+   * @param form The submitted form
+   */
   onSubmit(form: NgForm) {
     let f &#x3D; form.form.value;
 
