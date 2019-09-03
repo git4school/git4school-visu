@@ -30,7 +30,22 @@ export const CommitColor = {
     color: 'lightgrey'
   }
 };
+
+/**
+ * This class modelizes a commit from GitHub, with only useful informations
+ */
 export class Commit {
+  /**
+   * Commit constructor
+   * @param message The commit message
+   * @param author The commit author
+   * @param commitDate The commit date
+   * @param url The GitHub URL of the commit
+   * @param isEnSeance A boolean, true if the commit has been done during the corresponding session
+   * @param isCloture A boolean, true if the commit closes a question
+   * @param question The corresponding question if there is one
+   * @param color The corresponding color of the commit depending on its date and on the corresponding milestones
+   */
   constructor(
     public message: string,
     public author: string,
@@ -44,6 +59,17 @@ export class Commit {
     this.commitDate = new Date(commitDate);
   }
 
+  /**
+   * Initialize a Commit from the its attributes
+   * @param message The commit message
+   * @param author The commit author
+   * @param commitDate The commit date
+   * @param url The GitHub URL of the commit
+   * @param isEnSeance A boolean, true if the commit has been done during its corresponding session
+   * @param isCloture A boolean, true if the commit closes a question
+   * @param question The corresponding question, found by its message
+   * @returns A commit
+   */
   static withAttributes(
     message: string,
     author: string,
@@ -64,6 +90,11 @@ export class Commit {
     );
   }
 
+  /**
+   * Initialize a Commit from the json configuration file
+   * @param json The json configuration file
+   * @returns A commit
+   */
   static withJSON(json): Commit {
     return new Commit(
       json.commit.message,
@@ -73,6 +104,12 @@ export class Commit {
     );
   }
 
+  /**
+   * Updates the isEnSeance variable
+   * @param startDate The date before which commits are not processed
+   * @param endDate The date after which commits are not processed
+   * @returns A boolean, the isEnSeance value
+   */
   updateIsEnSeance(startDate: Date, endDate: Date) {
     if (
       this.commitDate.getTime() >= startDate.getTime() &&
@@ -84,6 +121,10 @@ export class Commit {
     return false;
   }
 
+  /**
+   * Uopdates the isCloture variable
+   * @returns A boolean, the isCloture value
+   */
   updateIsCloture() {
     if (
       this.message.match(
@@ -96,6 +137,11 @@ export class Commit {
     return false;
   }
 
+  /**
+   * Gets the corresponding question from a given list of question thanks to the commit message
+   * @param questions The questions to handle
+   * @returns A string, corresponding to the question the commit is closing, if found. A null value is returned if no question has been found
+   */
   getQuestion(questions: String[]) {
     return !questions
       ? null
@@ -104,6 +150,12 @@ export class Commit {
         });
   }
 
+  /**
+   * Updates the commits metadata, corresponding to : isCloture, question, color and commitDate
+   * @param reviews The reviews to handle
+   * @param corrections The corrections to handle
+   * @param questions The questions to handle
+   */
   updateMetadata(
     reviews: Milestone[],
     corrections: Milestone[],
@@ -138,6 +190,11 @@ export class Commit {
       });
   }
 
+  /**
+   * Updates the commit color
+   * @param reviews The reviews to handle
+   * @param corrections The corrections to handle
+   */
   updateColor(reviews: Milestone[], corrections: Milestone[]) {
     reviews &&
       reviews
