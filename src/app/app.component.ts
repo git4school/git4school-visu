@@ -3,7 +3,8 @@ import 'rxjs/add/observable/interval';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Router } from '@angular/router';
 import * as Chart from 'chart.js';
-import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+// import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+import { default as ChartDataLabels  } from 'chartjs-plugin-datalabels';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AuthService } from '@services/auth.service';

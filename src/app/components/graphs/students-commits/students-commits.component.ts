@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as Chart from 'chart.js';
-import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+//import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+import { default as ChartDataLabels  } from 'chartjs-plugin-datalabels';
 
 import { CommitColor, Commit } from '@models/Commit.model';
 import { CommitsService } from '@services/commits.service';

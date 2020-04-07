@@ -28,7 +28,7 @@ export class QuestionsCompletionComponent implements OnInit {
   /**
    * The chart object from the DOM
    */
-  @ViewChild(BaseChartDirective) myChart;
+  @ViewChild(BaseChartDirective, { static: true }) myChart;
 
   /**
    * The date after which the commits will not be considered, this shows the progression of the tp group on a given date

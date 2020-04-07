@@ -43,7 +43,7 @@ export class OverviewComponent implements OnInit {
     public dataProvided: DataProvidedGuard
   ) {}
 
-  @ViewChild(BaseChartDirective) myChart;
+  @ViewChild(BaseChartDirective, { static: true }) myChart;
 
   typeaheadSettings;
   loading = false;

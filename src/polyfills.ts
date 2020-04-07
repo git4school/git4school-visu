@@ -60,6 +60,7 @@ import 'chartjs-plugin-zoom';
 import 'chartjs-plugin-colorschemes';
 import 'chartjs-plugin-annotation';
 import 'chartjs-plugin-datalabels';
+import '@angular/localize/init'
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
