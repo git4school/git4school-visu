@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
   HttpClient,
   HttpHeaders,
   HttpErrorResponse
 } from '@angular/common/http';
-import { AuthService } from './auth.service';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import {AuthService} from './auth.service';
+import {Observable, of} from 'rxjs';
+import {map, catchError} from 'rxjs/operators';
+import {forkJoin} from 'rxjs';
 import moment from 'moment/src/moment';
-import { CommitColor } from '@models/Commit.model';
-import { Commit } from '@models/Commit.model';
-import { Repository } from '@models/Repository.model';
-import { TranslateService } from '@ngx-translate/core';
+import {CommitColor} from '@models/Commit.model';
+import {Commit} from '@models/Commit.model';
+import {Repository} from '@models/Repository.model';
+import {TranslateService} from '@ngx-translate/core';
 
 /**
  * This service retrieves repository data from Github
@@ -41,7 +41,8 @@ export class CommitsService {
     private http: HttpClient,
     private authService: AuthService,
     private translate: TranslateService
-  ) {}
+  ) {
+  }
 
   /**
    * Gets readMe and commits of every repository
@@ -71,26 +72,26 @@ export class CommitsService {
     let tab;
 
     if (response[1] instanceof HttpErrorResponse) {
-      throw translations['ERRORS.REPOSITORY-NOT-FOUND'] +
+      throw new Error(translations['ERRORS.REPOSITORY-NOT-FOUND'] +
         ' : ' +
         repo.url +
         '<br><i>' +
         translations['ERRORS.DETAILS'] +
         ': ' +
         response[1].message +
-        '</i>';
+        '</i>');
     }
 
     if (!repo.name || !repo.tpGroup) {
       if (response[0] instanceof HttpErrorResponse) {
-        throw translations['ERRORS.README-NOT-FOUND'] +
+        throw new Error(translations['ERRORS.README-NOT-FOUND'] +
           ' : ' +
           repo.url +
           '<br><i>' +
           translations['ERRORS.DETAILS'] +
           ': ' +
           response[0].message +
-          '</i>';
+          '</i>');
       }
 
       const readme = decodeURIComponent(
@@ -189,7 +190,7 @@ export class CommitsService {
    * @returns A map ready for to receive data about questions
    */
   initQuestionsDict(questions: string[], colors): Object {
-    let dict = {};
+    const dict = {};
     questions.forEach(question => {
       dict[question] = {};
       colors.forEach(color => {
@@ -223,17 +224,17 @@ export class CommitsService {
     date?,
     translations?
   ): Object {
-    let repos = repositories.filter(
+    const repos = repositories.filter(
       repository => !tpGroup || repository.tpGroup === tpGroup
     );
     repos.forEach(repository => {
-      let studentQuestions = [];
+      const studentQuestions = [];
       repository.commits
         .filter(commit => !date || commit.commitDate.getTime() < date)
         .forEach(commit => {
           if (commit.question) {
             let students = [];
-            for (let commitColor in dict[commit.question]) {
+            for (const commitColor in dict[commit.question]) {
               students = students.concat(
                 dict[commit.question][commitColor].students.map(
                   student => student.name
@@ -265,8 +266,8 @@ export class CommitsService {
         }
       });
     });
-    for (let question in dict) {
-      for (let commitColor in dict[question]) {
+    for (const question in dict) {
+      for (const commitColor in dict[question]) {
         dict[question][commitColor].percentage =
           (dict[question][commitColor].count / repos.length) * 100;
       }
@@ -285,7 +286,7 @@ export class CommitsService {
    * @returns A map with all the data needed by the "questions-completion" graph
    */
   loadQuestions(dict, colors, questions: string[], translations): any[] {
-    let data = [];
+    const data = [];
     colors.forEach(color => {
       data.push({
         label: color.label,
@@ -296,7 +297,7 @@ export class CommitsService {
           return {
             y: dict[question][color.label].percentage,
             data: dict[question][color.label],
-            translations: translations
+            translations
           };
         })
       });
@@ -312,17 +313,28 @@ export class CommitsService {
    * @param questions The questions to handle
    * @param colors The commit colors to handle
    */
-  initStudentsDict(repository: Repository, dict, questions: string[], colors) {
+  initStudentsDict(course: string,
+                   program: string,
+                   year: string,
+                   repository: Repository,
+                   dict,
+                   questions: string[],
+                   colors) {
     dict[repository.name] = {
-      commitTypes: {},
+      name: repository.name,
+      course: course,
+      program: program,
+      year: year,
+      // commitTypes: {},
       lastQuestionDone: questions[0],
+      commitsClotureCount: 0,
       commitsCount: 0
     };
-    colors.forEach(color => {
-      dict[repository.name]['commitTypes'][color.label] = {
-        commitsCount: 0
-      };
-    });
+    // colors.forEach(color => {
+    //   dict[repository.name].commitTypes[color.label] = {
+    //     commitsCount: 0
+    //   };
+    // });
   }
 
   /**
@@ -335,23 +347,25 @@ export class CommitsService {
    * @returns A map with data about students commits
    */
   loadStudentsDict(
+    course: string,
+    program: string,
+    year: string,
     repositories: Repository[],
     questions: string[],
     colors,
     tpGroup?: string,
     date?: number
   ): Object {
-    let dict = {};
-    let repos = repositories.filter(
+    const dict = {};
+    const repos = repositories.filter(
       repository => !tpGroup || repository.tpGroup === tpGroup
     );
     repos.forEach(repository => {
-      this.initStudentsDict(repository, dict, questions, colors);
+      this.initStudentsDict(course, program, year, repository, dict, questions, colors);
       repository.commits
         .filter(commit => !date || commit.commitDate.getTime() < date)
         .forEach(commit => {
-          dict[repository.name]['commitTypes'][commit.color.label]
-            .commitsCount++;
+          if(commit.isCloture) dict[repository.name].commitsClotureCount++;
           dict[repository.name].commitsCount++;
           this.isSupThan(
             commit.question,
@@ -362,25 +376,58 @@ export class CommitsService {
       dict[repository.name].name = repository.name;
       dict[repository.name].url = repository.url;
       dict[repository.name].tpGroup = repository.tpGroup;
-      dict[repository.name].commits = repository.commits.map(commit => {
-        let modifiedCommit = { ...commit };
-        modifiedCommit['commitType'] = modifiedCommit.color.label;
-        delete modifiedCommit['color'];
-        return modifiedCommit;
-      });
-      colors.forEach(color => {
-        dict[repository.name]['commitTypes'][color.label].percentage = dict[
-          repository.name
-        ].commitsCount
-          ? (dict[repository.name]['commitTypes'][color.label].commitsCount /
-              dict[repository.name].commitsCount) *
-            100
-          : 0;
-      });
+      // dict[repository.name].commits = repository.commits.map(commit => {
+      //   const modifiedCommit = {...commit};
+      //   modifiedCommit.commitType = modifiedCommit.color.label;
+      //   delete modifiedCommit.color;
+      //   return modifiedCommit;
+      // });
+      // colors.forEach(color => {
+      //   dict[repository.name].commitTypes[color.label].percentage = dict[
+      //     repository.name
+      //     ].commitsCount
+      //     ? (dict[repository.name].commitTypes[color.label].commitsCount /
+      //     dict[repository.name].commitsCount) *
+      //     100
+      //     : 0;
+      // });
     });
 
     return dict;
   }
+
+  /**
+   * Returns a list containing data about students commits
+   * @param repositories The repositories to handle
+   * @param questions The questions to handle
+   * @param colors The commit colors to handle
+   * @param tpGroup The tp group to filter the repositories with if specified
+   * @param date The date to filter the commits with if specified
+   * @returns A list with data about students commits
+   */
+  loadStudentsList(
+    course: string,
+    program: string,
+    year: string,
+    repositories: Repository[],
+    questions: string[],
+    colors,
+    tpGroup?: string,
+    date?: number
+  ): any[] {
+    const dict = this.loadStudentsDict(
+      course,
+      program,
+      year,
+      repositories,
+      questions,
+      colors,
+      tpGroup,
+      date
+    )
+    return Object.keys(dict).map(key => dict[key])
+  }
+
 
   /**
    * Returns the data to use in the "students-commits" graph
@@ -390,7 +437,7 @@ export class CommitsService {
    */
   loadStudents(dict: Object, colors, translations): any[] {
     console.log('dict: ', dict);
-    let data = [];
+    const data = [];
 
     data.push({
       label: '# of commits',
@@ -407,9 +454,9 @@ export class CommitsService {
       backgroundColor: 'lightblue',
       data: Object.entries(dict).map(studentData => {
         return {
-          y: studentData[1]['commitsCount'],
+          y: studentData[1].commitsCount,
           data: studentData[1],
-          translations: translations
+          translations
         };
       })
     });
@@ -427,7 +474,7 @@ export class CommitsService {
       yAxisID: 'B',
       data: Object.entries(dict).map(studentData => {
         return {
-          y: studentData[1]['lastQuestionDone'],
+          y: studentData[1].lastQuestionDone,
           data: studentData[1]
         };
       })
@@ -442,9 +489,9 @@ export class CommitsService {
         yAxisID: 'A',
         data: Object.entries(dict).map(student => {
           return {
-            y: student[1]['commitTypes'][color.label].percentage,
-            data: student[1]['commitTypes'][color.label],
-            translations: translations
+            y: student[1].commitTypes[color.label].percentage,
+            data: student[1].commitTypes[color.label],
+            translations
           };
         })
       });

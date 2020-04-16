@@ -753,16 +753,16 @@ export class OverviewComponent implements OnInit {
       CommitColor.AFTER
     ];
 
-    let studentsDict = {
-      date: this.dataService.lastUpdateDate,
-      students: this.commitsService.loadStudentsDict(
+    const studentsList = this.commitsService.loadStudentsList(
+        this.dataService.course,
+        this.dataService.program,
+        this.dataService.year,
         this.dataService.repositories,
         this.dataService.questions,
         colors
-      )
-    };
+    );
 
-    let zip = new JSZip();
+    const zip = new JSZip();
     zip.file(
       this.jsonManager.filename,
       JSON.stringify(this.jsonManager.json, null, 2)
@@ -771,7 +771,7 @@ export class OverviewComponent implements OnInit {
       'questions-completion.json',
       JSON.stringify(questionsDict, null, 2)
     );
-    zip.file('students-commits.json', JSON.stringify(studentsDict, null, 2));
+    zip.file('students-commits.json', JSON.stringify(studentsList, null, 2));
 
     zip.generateAsync({ type: 'blob' }).then(function(content) {
       saveAs(content, shortFilename + '.zip');

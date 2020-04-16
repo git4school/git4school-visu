@@ -232,6 +232,9 @@ export class StudentsCommitsComponent implements OnInit {
 
           this.chartLabels = this.loadLabels();
           let dict = this.commitsService.loadStudentsDict(
+            this.dataService.course,
+            this.dataService.program,
+            this.dataService.year,
             this.dataService.repositories,
             this.dataService.questions,
             colors,
