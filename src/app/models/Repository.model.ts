@@ -16,7 +16,15 @@ export class Repository {
     public name?: string,
     public commits?: Commit[],
     public tpGroup?: string
-  ) {}
+  ) {
+    if (!name) {
+      this.name = this.url.split('/')[4];
+    }
+  }
+
+  static isEqual(repository1: Repository, repository2: Repository): boolean {
+    return repository1.url === repository2.url;
+  }
 
   /**
    * Initialize a Repository from the json configuration file

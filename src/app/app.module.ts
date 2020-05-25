@@ -1,37 +1,40 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { LOCATION_INITIALIZED } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { ChartsModule } from 'ng2-charts';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfigurationComponent } from '@components/configuration/configuration.component';
+import { EditRepositoriesComponent } from '@components/configuration/edit-repositories/edit-repositories.component';
+import { MetadataComponent } from '@components/configuration/metadata/metadata.component';
+import { FourOhFourComponent } from '@components/four-oh-four/four-oh-four.component';
+import { OverviewComponent } from '@components/graphs/overview/overview.component';
+import { QuestionsCompletionComponent } from '@components/graphs/questions-completion/questions-completion.component';
+import { StudentsCommitsComponent } from '@components/graphs/students-commits/students-commits.component';
+import { HomeComponent } from '@components/home/home.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AuthGuard } from '@guards/auth.guard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AuthService } from '@services/auth.service';
+import { CommitsService } from '@services/commits.service';
+import { DataService } from '@services/data.service';
+import { JsonManagerService } from '@services/json-manager.service';
+import { ToastService } from '@services/toast.service';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import * as firebase from 'firebase/app';
 import 'firebase/performance';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartsModule } from 'ng2-charts';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MarkdownModule } from 'ngx-markdown';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
 import { TypeaheadModule } from 'ngx-type-ahead';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { CommitsService } from '@services/commits.service';
-import { AuthService } from '@services/auth.service';
-import { JsonManagerService } from '@services/json-manager.service';
-import { DataService } from '@services/data.service';
-import { HomeComponent } from '@components/home/home.component';
-import { StudentsCommitsComponent } from '@components/graphs/students-commits/students-commits.component';
-import { QuestionsCompletionComponent } from '@components/graphs/questions-completion/questions-completion.component';
-import { MetadataComponent } from '@components/metadata/metadata.component';
-import { OverviewComponent } from '@components/graphs/overview/overview.component';
-import { FourOhFourComponent } from '@components/four-oh-four/four-oh-four.component';
-import { DataProvidedGuard } from '@guards/data-provided.guard';
-import { DataLoadingGuard } from '@guards/data-loading.guard';
-import { AuthGuard } from '@guards/auth.guard';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { ModalAddRepositoriesComponent } from './components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component';
+import { EditSessionsComponent } from './components/configuration/edit-sessions/edit-sessions.component';
 
 /**
  * Firebase configuration file
@@ -48,6 +51,24 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+export function appInitializerFactory(translate: TranslateService, injector: Injector) {
+  return () => new Promise<any>((resolve: any) => {
+    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+    locationInitialized.then(() => {
+      translate.addLangs(["en", "fr"]);
+      const langToSet = 'en';
+      translate.setDefaultLang('en');
+      translate.use(langToSet).subscribe(() => {
+        console.info(`Successfully initialized '${langToSet}' language.'`);
+      }, err => {
+        console.error(`Problem with '${langToSet}' language initialization.'`);
+      }, () => {
+        resolve(null);
+      });
+    });
+  });
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +77,11 @@ firebase.initializeApp(firebaseConfig);
     OverviewComponent,
     StudentsCommitsComponent,
     QuestionsCompletionComponent,
-    MetadataComponent
+    MetadataComponent,
+    EditRepositoriesComponent,
+    ConfigurationComponent,
+    EditSessionsComponent,
+    ModalAddRepositoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -79,19 +104,27 @@ firebase.initializeApp(firebaseConfig);
         deps: [HttpClient]
       }
     }),
-    NgbModule
+    NgbModule,
+    NgxDatatableModule
   ],
   providers: [
     AuthService,
     AuthGuard,
     CommitsService,
     JsonManagerService,
-    DataService
+    DataService,
+    ToastService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [TranslateService, Injector],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor() {}
+  constructor() { }
 }
 
 /**

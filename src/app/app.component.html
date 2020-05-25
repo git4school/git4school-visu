@@ -21,8 +21,8 @@
               class="fas fa-question mr-2"></i>{{ 'NAVBAR.QUESTIONS-COMPLETION' | translate }}</a>
         </div>
       </li>
-      <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="edit-metadata"><i
-            class="fas fa-edit mr-2"></i>{{ 'NAVBAR.METADATA' | translate }}</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="configuration"><i
+            class="fas fa-edit mr-2"></i>{{ 'NAVBAR.CONFIGURATION' | translate }}</a></li>
       <ul class="nav navbar-nav navbar-center">
         <span id="document-title" class="navbar-text">{{ this.dataService.title }}</span>
       </ul>
@@ -46,8 +46,9 @@
           <button class="btn btn-danger" *ngIf="authService.isSignedIn()" (click)="onSignOut()"><i
               class="fas fa-sign-out-alt mr-2"></i>{{ 'NAVBAR.SIGN-OUT' | translate }}</button>
         </div>
-        <select #langSelect (change)="translate.use(langSelect.value)" class="form-control">
-          <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">
+        <select #langSelect (change)="changeLanguage(langSelect.value)" class="form-control">
+          <option *ngFor="let lang of translateService.getLangs()" [value]="lang"
+            [selected]="lang === translateService.currentLang">
             {{ lang }}</option>
         </select>
       </div>

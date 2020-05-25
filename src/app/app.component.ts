@@ -1,22 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import 'rxjs/add/observable/interval';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { Router } from '@angular/router';
-import * as Chart from 'chart.js';
-// import * as ChartDataLabels from 'chartjs-plugin-datalabels';
-import { default as ChartDataLabels  } from 'chartjs-plugin-datalabels';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { AuthService } from "@services/auth.service";
+import { DataService } from "@services/data.service";
+import * as Chart from "chart.js";
+// import * as ChartDataLabels from "chartjs-plugin-datalabels";
+import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
+import "rxjs/add/observable/interval";
 
-import { AuthService } from '@services/auth.service';
-import { DataService } from '@services/data.service';
 
 /**
  * This component is the app component
  */
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit, OnDestroy {
   /**
@@ -29,16 +28,15 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param authService Authentication service
    * @param dataService Service used to store and get data
    * @param router
-   * @param translate Service used to translate the application
+   * @param translateService Service used to translate the application
    */
   constructor(
     public authService: AuthService,
     public dataService: DataService,
     private router: Router,
-    public translate: TranslateService
+    public translateService: TranslateService
   ) {
-    translate.addLangs(['en', 'fr']);
-    translate.setDefaultLang('en');
+
   }
 
   /**
@@ -52,13 +50,17 @@ export class AppComponent implements OnInit, OnDestroy {
       this.authService.callback().then(
         () => {
           this.loading = false;
-          this.router.navigate(['overview']);
+          this.router.navigate(["overview"]);
         },
         () => {
           this.loading = false;
-        }
-      );
+        })
+        .catch(() => this.loading = false);
     }
+  }
+
+  changeLanguage(language: string) {
+    this.translateService.use(language);
   }
 
   /**

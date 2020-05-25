@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private clipboardService: ClipboardService,
     private http: HttpClient
-  ) {}
+  ) { }
 
   /**
    * A variable used to get and display CHANGELOG directly from the repository

@@ -1,18 +1,12 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse
-} from '@angular/common/http';
-import { AuthService } from './auth.service';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
-import moment from 'moment/src/moment';
-import { CommitColor } from '@models/Commit.model';
-import { Commit } from '@models/Commit.model';
+import { Commit, CommitColor } from '@models/Commit.model';
 import { Repository } from '@models/Repository.model';
-import { TranslateService } from '@ngx-translate/core';
+import moment from 'moment/src/moment';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { DataService } from './data.service';
 
 /**
  * This service retrieves repository data from Github
@@ -35,13 +29,12 @@ export class CommitsService {
    * CommitsService constructor
    * @param http
    * @param authService
-   * @param translate
    */
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private translate: TranslateService
-  ) {}
+    private dataService: DataService
+  ) { }
 
   /**
    * Gets readMe and commits of every repository
@@ -51,12 +44,12 @@ export class CommitsService {
    */
   getRepositories(
     repoTab,
-    startDate?: String,
-    endDate?: String
+    startDate?: string,
+    endDate?: string
   ): Observable<any[]> {
     const tab = [];
     repoTab.forEach(repo => {
-      tab.push(this.getRepository(repo, startDate, endDate));
+      tab.push(this.getRepository(repo, startDate, endDate).pipe(catchError(err => of(err))));
     });
     return forkJoin(tab);
   }
@@ -70,48 +63,48 @@ export class CommitsService {
   getRepositoryFromRaw(repo, response, translations) {
     let tab;
 
-    if (response[1] instanceof HttpErrorResponse) {
-      throw translations['ERRORS.REPOSITORY-NOT-FOUND'] +
-        ' : ' +
-        repo.url +
-        '<br><i>' +
-        translations['ERRORS.DETAILS'] +
-        ': ' +
-        response[1].message +
-        '</i>';
-    }
+    // if (response[1] instanceof HttpErrorResponse) {
+    //   throw translations['ERRORS.REPOSITORY-NOT-FOUND'] +
+    //   ' : ' +
+    //   repo.url +
+    //   '<br><i>' +
+    //   translations['ERRORS.DETAILS'] +
+    //   ': ' +
+    //   response[1].message +
+    //   '</i>';
+    // }
+    // 
+    // if (!repo.name || !repo.tpGroup) {
+    //   if (response[0] instanceof HttpErrorResponse) {
+    //     throw translations['ERRORS.README-NOT-FOUND'] +
+    //     ' : ' +
+    //     repo.url +
+    //     '<br><i>' +
+    //     translations['ERRORS.DETAILS'] +
+    //     ': ' +
+    //     response[0].message +
+    //     '</i>';
+    //   }
 
-    if (!repo.name || !repo.tpGroup) {
-      if (response[0] instanceof HttpErrorResponse) {
-        throw translations['ERRORS.README-NOT-FOUND'] +
-          ' : ' +
-          repo.url +
-          '<br><i>' +
-          translations['ERRORS.DETAILS'] +
-          ': ' +
-          response[0].message +
-          '</i>';
-      }
+    //   const readme = decodeURIComponent(
+    //     escape(window.atob(response[0].content))
+    //   );
+    //   tab = readme
+    //     .split(/(### NOM :)|(### Prénom :)|(### Groupe de TP :)|\n/g)
+    //     .filter(values => Boolean(values) === true);
+    // }
 
-      const readme = decodeURIComponent(
-        escape(window.atob(response[0].content))
-      );
-      tab = readme
-        .split(/(### NOM :)|(### Prénom :)|(### Groupe de TP :)|\n/g)
-        .filter(values => Boolean(values) === true);
-    }
-
-    if (!repo.name) {
-      if (!tab[4] || !tab[2]) {
-        const repoName = repo.url.split('/');
-        repo.name = repoName[4];
-      } else {
-        repo.name = tab[4].trim() + ' ' + tab[2].trim();
-      }
-    }
-    if (!repo.tpGroup && tab[6]) {
-      repo.tpGroup = tab[6].trim();
-    }
+    // if (!repo.name) {
+    //   if (!tab[4] || !tab[2]) {
+    //     const repoName = repo.url.split('/');
+    //     repo.name = repoName[4];
+    //   } else {
+    //     repo.name = tab[4].trim() + ' ' + tab[2].trim();
+    //   }
+    // }
+    // if (!repo.tpGroup && tab[6]) {
+    //   repo.tpGroup = tab[6].trim();
+    // }
 
     repo.commits = response[1];
   }
@@ -124,8 +117,8 @@ export class CommitsService {
    */
   getRepository(
     repo: Repository,
-    startDate?: String,
-    endDate?: String
+    startDate?: string,
+    endDate?: string
   ): Observable<any[]> {
     return forkJoin(
       this.getReadMe(repo).pipe(catchError(error => of(error))),
@@ -141,7 +134,7 @@ export class CommitsService {
    * @param startDate The date before which commits are not retrieved
    * @param endDate The date after which commits are not retrieved
    */
-  getCommits(repo: Repository, startDate?, endDate?): Observable<Commit[]> {
+  getCommits(repo: Repository, startDate?: string, endDate?: string): Observable<Commit[]> {
     const repoHashURL = repo.url.split('/');
     let url =
       'https://api.github.com/repos/' +
@@ -150,12 +143,12 @@ export class CommitsService {
       repoHashURL[4] +
       '/commits?per_page=100';
     if (startDate) {
-      startDate = moment(startDate).toDate();
-      url = url.concat('&since=' + startDate.toISOString());
+      let startDateMoment = moment(startDate).toDate();
+      url = url.concat('&since=' + startDateMoment.toISOString());
     }
     if (endDate) {
-      endDate = moment(endDate).toDate();
-      url = url.concat('&until=' + endDate.toISOString());
+      let endDateMoment = moment(endDate).toDate();
+      url = url.concat('&until=' + endDateMoment.toISOString());
     }
     return this.http.get<Commit[]>(url, this.httpOptions).pipe(
       map(response => {
@@ -216,7 +209,7 @@ export class CommitsService {
    */
   loadQuestionsDict(
     dict,
-    repositories,
+    repositories: Repository[],
     questions: string[],
     colors,
     tpGroup?,
@@ -231,6 +224,7 @@ export class CommitsService {
       repository.commits
         .filter(commit => !date || commit.commitDate.getTime() < date)
         .forEach(commit => {
+          // commit.updateMetadata(this.dataService.reviews, this.dataService.corrections, questions);
           if (commit.question) {
             let students = [];
             for (let commitColor in dict[commit.question]) {
@@ -373,8 +367,8 @@ export class CommitsService {
           repository.name
         ].commitsCount
           ? (dict[repository.name]['commitTypes'][color.label].commitsCount /
-              dict[repository.name].commitsCount) *
-            100
+            dict[repository.name].commitsCount) *
+          100
           : 0;
       });
     });
@@ -468,6 +462,17 @@ export class CommitsService {
   isSupThan(q1, q2, questions): boolean {
     return (
       questions.includes(q2) && this.compareQuestions(q1, q2, questions) > 0
+    );
+  }
+
+  getRepositoriesByAuthenticatedUser(): Observable<Repository[]> {
+    let url = 'https://api.github.com/user/repos';
+    return this.http.get<any[]>(url, this.httpOptions).pipe(
+      map(response => {
+        const array = response.map(data => new Repository(data['html_url'], data['name']));
+        console.log(array);
+        return array;
+      })
     );
   }
 }

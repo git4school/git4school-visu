@@ -45,4 +45,59 @@ $sizes: (
   95: 95%
 );
 
+.sticky-bot {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  bottom: 0;
+}
+
+.is-invalid {
+  animation: heartbeat 1.5s ease-in-out both;
+}
+
+.is-invalid input {
+  animation: heartbeat 1.5s ease-in-out both;
+}
+
+ @keyframes heartbeat {
+  from {
+    transform: scale(1);
+    transform-origin: center center;
+    animation-timing-function: ease-out;
+  }
+  10% {
+    transform: scale(0.91);
+    animation-timing-function: ease-in;
+  }
+  17% {
+    transform: scale(0.98);
+    animation-timing-function: ease-out;
+  }
+  33% {
+    transform: scale(0.87);
+    animation-timing-function: ease-in;
+  }
+  45% {
+    transform: scale(1);
+    animation-timing-function: ease-out;
+  }
+}
+
+
+.loading {    
+  background-color: #ffffff;
+  background-image: url("assets/images/spinner.gif");
+  background-size: 25px 25px;
+  background-position:right 5px center;
+  background-repeat: no-repeat;
+  padding-right: 35px;
+}
+
+.ngx-datatable.scroll-vertical .datatable-body {
+  overflow-x: hidden;
+}
+
 @import '~bootstrap/scss/bootstrap';
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';

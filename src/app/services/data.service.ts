@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Milestone } from '@models/Milestone.model';
-import { Session } from '@models/Session.model';
 import { Repository } from '@models/Repository.model';
+import { Session } from '@models/Session.model';
 import { JsonManagerService } from '@services/json-manager.service';
 
 /**
@@ -39,7 +39,7 @@ export class DataService {
   /**
    * The repositories
    */
-  repositories: Repository[];
+  _repositories: Repository[];
 
   /**
    * A date before which commits are not retrieved from Github
@@ -91,11 +91,25 @@ export class DataService {
    */
   dataLoaded = false;
 
+  repoToLoad = false;
+
   /**
    * DataService constructor
    * @param jsonManager
    */
-  constructor(private jsonManager: JsonManagerService) {}
+  constructor(private jsonManager: JsonManagerService) {
+    this.repoToLoad = false;
+  }
+
+  get repositories() {
+    return this._repositories;
+  }
+
+  set repositories(repos: Repository[]) {
+    this.repoToLoad = true;
+    console.log('SET REPOS', this.repoToLoad);
+    this._repositories = repos;
+  }
 
   /**
    * Generates the json of the initial configuration file, updated with modified values during the use of the application

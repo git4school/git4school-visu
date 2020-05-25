@@ -8,12 +8,13 @@ import { DataService } from '@services/data.service';
 import { HomeComponent } from '@components/home/home.component';
 import { StudentsCommitsComponent } from '@components/graphs/students-commits/students-commits.component';
 import { QuestionsCompletionComponent } from '@components/graphs/questions-completion/questions-completion.component';
-import { MetadataComponent } from '@components/metadata/metadata.component';
 import { OverviewComponent } from '@components/graphs/overview/overview.component';
 import { FourOhFourComponent } from '@components/four-oh-four/four-oh-four.component';
 import { DataProvidedGuard } from '@guards/data-provided.guard';
 import { DataLoadingGuard } from '@guards/data-loading.guard';
 import { AuthGuard } from '@guards/auth.guard';
+import { ConfigurationComponent } from '@components/configuration/configuration.component';
+import { DataSavedGuard } from '@guards/data-saved.guard';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -36,9 +37,10 @@ const appRoutes: Routes = [
     component: QuestionsCompletionComponent
   },
   {
-    path: 'edit-metadata',
+    path: 'configuration',
     canActivate: [AuthGuard, DataProvidedGuard],
-    component: MetadataComponent
+    canDeactivate: [DataSavedGuard],
+    component: ConfigurationComponent
   },
   { path: '**', redirectTo: 'not-found' }
 ];
@@ -47,4 +49,4 @@ const appRoutes: Routes = [
   imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

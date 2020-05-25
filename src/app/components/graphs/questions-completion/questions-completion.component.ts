@@ -1,13 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-
-import { DataService } from '@services/data.service';
-import { CommitsService } from '@services/commits.service';
-import { CommitColor } from '@models/Commit.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataProvidedGuard } from '@guards/data-provided.guard';
+import { CommitColor } from '@models/Commit.model';
+import { TranslateService } from '@ngx-translate/core';
+import { CommitsService } from '@services/commits.service';
+import { DataService } from '@services/data.service';
+import { LoaderService } from '@services/loader.service';
+import { BaseChartDirective } from 'ng2-charts';
+import { BaseGraphComponent } from '../base-graph.component';
+
 
 registerLocaleData(localeFr);
 
@@ -24,7 +26,7 @@ declare var $: any;
   templateUrl: './questions-completion.component.html',
   styleUrls: ['./questions-completion.component.scss']
 })
-export class QuestionsCompletionComponent implements OnInit {
+export class QuestionsCompletionComponent extends BaseGraphComponent implements OnInit {
   /**
    * The chart object from the DOM
    */
@@ -170,17 +172,17 @@ export class QuestionsCompletionComponent implements OnInit {
         clamp: true,
         clip: 'auto',
         color: 'white',
-        display: function(context) {
+        display: function (context) {
           return context.dataset.data[context.dataIndex].y > 3;
         },
         font: {
           weight: 'bold'
         },
-        backgroundColor: function(context) {
+        backgroundColor: function (context) {
           return context.dataset.backgroundColor;
         },
         borderRadius: 4,
-        formatter: function(value, context) {
+        formatter: function (value, context) {
           return (
             context.dataset.data[context.dataIndex].data.count +
             ' (' +
@@ -201,54 +203,53 @@ export class QuestionsCompletionComponent implements OnInit {
    * QuestionsCompletionComponent constructor
    * @param dataService Service used to store and get data
    * @param commitsService Service used to update dict variable
-   * @param translate Service used to translate the application
+   * @param translateService Service used to translate the application
    * @param dataProvided Guard used to know if data is loaded
    */
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
-    public translate: TranslateService,
-    public dataProvided: DataProvidedGuard
-  ) {}
+    public translateService: TranslateService,
+    public dataProvided: DataProvidedGuard,
+    protected loaderService: LoaderService
+  ) { super(loaderService); }
 
   /**
    * Updates dict variable with questions data and loads graph labels which displays data on the graph
    */
   loadGraphDataAndRefresh() {
-    this.translate
-      .get(['QUESTION', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE'])
-      .subscribe(translations => {
-        this.updateBar();
-        if (this.dataProvided.dataLoaded()) {
-          this.chartLabels = this.dataService.questions;
-          let colors = [
-            CommitColor.BEFORE,
-            CommitColor.BETWEEN,
-            CommitColor.AFTER,
-            CommitColor.NOCOMMIT
-          ];
+    this.updateBar();
+    if (this.dataProvided.dataLoaded()) {
+      let translations = this.translateService
+        .instant(['QUESTION', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE']);
+      this.chartLabels = this.dataService.questions;
+      let colors = [
+        CommitColor.BEFORE,
+        CommitColor.BETWEEN,
+        CommitColor.AFTER,
+        CommitColor.NOCOMMIT
+      ];
 
-          let dict = this.commitsService.initQuestionsDict(
-            this.dataService.questions,
-            colors
-          );
-          dict = this.commitsService.loadQuestionsDict(
-            dict,
-            this.dataService.repositories,
-            this.dataService.questions,
-            colors,
-            this.tpGroup,
-            this.date
-          );
+      let dict = this.commitsService.initQuestionsDict(
+        this.dataService.questions,
+        colors
+      );
+      dict = this.commitsService.loadQuestionsDict(
+        dict,
+        this.dataService.repositories,
+        this.dataService.questions,
+        colors,
+        this.tpGroup,
+        this.date
+      );
 
-          this.chartData = this.commitsService.loadQuestions(
-            dict,
-            colors,
-            this.dataService.questions,
-            translations
-          );
-        }
-      });
+      this.chartData = this.commitsService.loadQuestions(
+        dict,
+        colors,
+        this.dataService.questions,
+        translations
+      );
+    }
   }
 
   /**
@@ -281,14 +282,36 @@ export class QuestionsCompletionComponent implements OnInit {
    * and we call loadGraphDataAndRefresh()
    */
   ngOnInit() {
-    this.translate.onLangChange.subscribe(() => {
-      this.loadGraphDataAndRefresh();
+    setTimeout(() => {
+      this.translateService.onLangChange.subscribe(() => {
+        this.loadGraphDataAndRefresh();
+      });
+      if (this.dataService.repoToLoad) {
+        this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      } else {
+        this.loading = true;
+        this.initDateSlider();
+        this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+        this.loading = false;
+      }
     });
+  }
+
+
+  loadGraph(startDate?: string, endDate?: string) {
+    this.loading = true;
+    this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
+      this.initDateSlider();
+      this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+      this.loading = false;
+    });
+  }
+
+  initDateSlider() {
     this.dataService.lastUpdateDate &&
       ((this.date = this.dataService.lastUpdateDate.getTime()) &&
         (this.max = this.date) &&
         (this.min = this.getMinDateTimestamp()));
-    this.loadGraphDataAndRefresh();
   }
 
   /**
