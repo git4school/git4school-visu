@@ -180,7 +180,12 @@
     "COLUMN-URL": "URL",
     "COLUMN-TP-GROUP": "Groupe de TP",
     "MESSAGE-INVALID-URL": "Vous devez avoir accès au dépôt !",
-    "BUTTON-SAVE": "Sauvegarder"
+    "BUTTON-SAVE": "Sauvegarder",
+    "MESSAGE-REPO-ALREADY-ADDED": "Ce dépôt est déjà ajouté !",
+    "TOOLTIP-ADD-REPOSITORY": "Ajouter un dépôt",
+    "TOOLTIP-ADD-REPOSITORIES": "Ajouter plusieurs dépôts",
+    "TOOLTIP-SAVE": "Sauvegarder",
+    "TOOLTIP-ADD-SESSION": "Ajouter une séance"
   },
   "CONFIGURATION": {
     "EDIT-METADATA": "Métadonnées",
@@ -208,7 +213,21 @@
     "BUTTON-ADD": "Ajouter",
     "COLUMN-NAME": "Nom",
     "COLUMN-URL": "URL",
-    "PLACEHOLDER-FILTER": "Filtrer les dépôts selon l'URL"
+    "PLACEHOLDER-FILTER": "Filtrer les dépôts selon l'URL",
+    "PLACEHOLDER-TPGROUP": "Indiquez le groupe de TP pour tous les dépôts sélectionnés"
   },
-  "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Ajouter plusieurs dépôts"
+  "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Ajouter plusieurs dépôts",
+  "TOKEN-LAST-NAME": "NOM",
+  "TOKEN-FIRST-NAME": "Prénom",
+  "ERROR-TITLE-COMMITS-NOT-FOUND": "Erreur pendant le chargement des commits",
+  "ERROR-TITLE-README-NOT-FOUND": "Erreur pendant le chargement du ReadMe",
+  "ERROR-TITLE-README-NAME-NOT-FOUND": "Erreur : impossible de trouver le nom",
+  "ERROR-TITLE-README-TPGROUP-NOT-FOUND": "Erreur : impossible de trouver le groupe de TP",
+  "ERROR-MESSAGE-README-NAME-NOT-FOUND": "Le nom de l'élève n'a pas été trouvé dans le fichier ReadMe",
+  "ERROR-MESSAGE-README-TPGROUP-NOT-FOUND": "Le groupe de TP n'a pas été trouvé",
+  "ERROR-MESSAGE-README-NOT-FOUND": "Aucun fichier ReadMe n'a été trouvé",
+  "ERROR-MESSAGE-COMMITS-NOT-FOUND": "Vous n'avez pas accès au dépôt",
+  "TP-GROUP": "Groupe de TP",
+  "ERROR-TITLE-ERROR-OCCURED": "Une erreur est survenue !",
+  "ERROR-MESSAGE-ERROR-OCCURED": "Il y a eu des erreurs pendant le chargement des données. <br>Elles ne devraient pas poser problème mais vous pouvez voir les détails dans le panneau de configuration des dépôts."
 }

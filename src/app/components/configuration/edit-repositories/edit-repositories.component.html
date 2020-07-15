@@ -1,7 +1,8 @@
-<div class="p-2">
-    <h2>{{ 'EDIT-REPOSITORIES.PAGE-TITLE' | translate }}</h2>
-    <div class="mt-2">
-        <form class="needs-validation" [formGroup]="formGroup" novalidate>
+<form class="needs-validation" [formGroup]="formGroup" novalidate>
+    <div class="p-2">
+        <h2>{{ 'EDIT-REPOSITORIES.PAGE-TITLE' | translate }}</h2>
+        <div class="mt-2">
+
             <table class="table table-hover table-striped shadow">
                 <thead class="thead-dark">
                     <tr>
@@ -24,8 +25,13 @@
                                     'is-valid': group.valid,
                                     'loading': group.pending}" class="form-control" formControlName="url"
                                     placeholder="https://github.com/git4school/git4school-visu">
-                                <div class="invalid-feedback">
+                                <div *ngIf="group.get('url').errors && group.get('url').errors['noAccess']"
+                                    class="invalid-feedback">
                                     {{ 'EDIT-REPOSITORIES.MESSAGE-INVALID-URL' | translate }}
+                                </div>
+                                <div *ngIf="group.get('url').errors && group.get('url').errors['repoAlreadyAdded']"
+                                    class="invalid-feedback">
+                                    {{ 'EDIT-REPOSITORIES.MESSAGE-REPO-ALREADY-ADDED' | translate }}
                                 </div>
                             </td>
                             <td>
@@ -43,6 +49,10 @@
                         <tr *ngIf="!group.get('isEditable').value">
                             <td>
                                 {{ group.get('name').value }}
+                                <button *ngIf="group.get('errors').value.length" class="btn"
+                                    [ngbTooltip]="getErrorTooltip(group.get('errors').value)">
+                                    <i class="fas fa-exclamation-triangle fa-lg blinking" style="color:Tomato"></i>
+                                </button>
                             </td>
                             <td>
                                 {{ group.get('url').value }}
@@ -62,17 +72,27 @@
                     </ng-container>
                 </tbody>
             </table>
-            <div class="sticky-bot bg-white py-3">
-                <button class="btn btn-secondary" type="submit" (click)="addRow()">
-                    <i class="fas fa-user-plus"></i>
-                </button>
-                <button class="btn btn-primary ml-2" [disabled]="nbEditing || formGroup.invalid" type="submit"
-                    (click)="submitForm()">
-                    {{ 'EDIT-REPOSITORIES.BUTTON-SAVE' | translate}}
-                </button>
-                <button class="btn btn-primary float-right"
-                    (click)="openAddRepositoriesModal()">{{ 'EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES' | translate }}</button>
-            </div>
-        </form>
+
+        </div>
     </div>
-</div>
+
+    <div class="sticky-bot bg-white py-3">
+        <div class="btn-group" role="group">
+            <button class="btn btn-secondary" type="submit" (click)="addRow()"
+                ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate }}" [openDelay]="500">
+                <i class="fas fa-user-plus"></i>
+            </button>
+            <button class="btn btn-secondary" (click)="openAddRepositoriesModal()"
+                ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate }}" [openDelay]="500">
+                <span class="fa-layers fa-fw">
+                    <i class="fas fa-circle" data-fa-mask="fas fa-users" data-fa-transform="shrink-6 right-7 "></i>
+                    <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>
+                </span>
+            </button>
+        </div>
+        <button class="btn btn-primary ml-2" [disabled]="nbEditing || formGroup.invalid" type="submit"
+            (click)="submitForm()" ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}" [openDelay]="500">
+            <i class="fas fa-save"></i>
+        </button>
+    </div>
+</form>

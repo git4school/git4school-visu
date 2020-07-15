@@ -455,8 +455,7 @@
           data-toggle="tooltip" data-placement="left"><span class="text-muted">{{ 'HOME.COPY' | translate }}</span></button>
 {{readMe}}</pre>
           <div class="mt-3">
-            <markdown ngPreserveWhitespaces>
-              {{readMe}}
+            <markdown [data]="readMe" ngPreserveWhitespaces>
             </markdown>
           </div>
         </div>

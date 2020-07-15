@@ -51,16 +51,19 @@ export class LoaderService {
       .pipe(map(repositories => {
         try {
           let tpGroups = new Set<string>();
-          repositories.forEach((repository, index) => {
-            this.commitsService.getRepositoryFromRaw(
-              this.dataService.repositories[index],
-              repository,
-              translations
-            );
-            tpGroups.add(this.dataService.repositories[index].tpGroup);
+          let hasError = false;
+          repositories.forEach(repository => {
+            tpGroups.add(repository.tpGroup);
+            if (repository.errors.length)
+              hasError = true;
           });
-          this.dataService.tpGroups = Array.from(tpGroups);
-          this.loadCommitsMetadata(repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+          if (hasError) {
+            let error = this.translateService.instant(['ERROR-TITLE-ERROR-OCCURED', 'ERROR-MESSAGE-ERROR-OCCURED']);
+            this.toastService.error(error['ERROR-TITLE-ERROR-OCCURED'], error['ERROR-MESSAGE-ERROR-OCCURED']);
+          }
+          this.dataService.repositories = repositories.slice();
+          this.dataService.tpGroups = Array.from(tpGroups).filter(Boolean);
+          this.loadCommitsMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
           this.dataService.lastUpdateDate = new Date();
           this.dataService.dataLoaded = true;
           this.dataService.repoToLoad = false;

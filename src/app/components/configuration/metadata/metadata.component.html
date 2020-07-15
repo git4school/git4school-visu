@@ -41,7 +41,9 @@
           </type-ahead>
         </div>
         <hr>
-        <button [disabled]="f.invalid" type="submit" class="btn btn-primary">{{ 'METADATA.SAVE' | translate }}</button>
+        <button [disabled]="f.invalid" type="submit" class="btn btn-primary"
+          ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}" [openDelay]="500">
+          <i class="fas fa-save"></i></button>
       </form>
     </div>
   </div>

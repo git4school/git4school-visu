@@ -82,12 +82,14 @@
                 </tbody>
             </table>
             <div class="sticky-bot bg-white py-3">
-                <button class="btn btn-secondary" type="submit" (click)="addRow()">
-                    <i class="fas fa-user-plus"></i>
+                <button class="btn btn-secondary" type="submit" (click)="addRow()"
+                    ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-SESSION' | translate }}" [openDelay]="500">
+                    <i class="far fa-calendar-plus"></i>
                 </button>
                 <button class="btn btn-primary ml-2" [disabled]="nbEditing || formGroup.invalid" type="submit"
-                    (click)="submitForm()">
-                    {{ 'EDIT-REPOSITORIES.BUTTON-SAVE' | translate}}
+                    (click)="submitForm()" ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}"
+                    [openDelay]="500">
+                    <i class="fas fa-save"></i>
                 </button>
             </div>
         </form>

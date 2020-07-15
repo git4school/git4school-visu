@@ -22,7 +22,7 @@ export class AuthService {
   /**
    * The Github access token
    */
-  token = '42762dca0b78bec99fb925a8707f77bb13ab9998';
+  token = 'd5d9f3749040ca13fbd46e38e7ea433e14f1e179';
   username = null;
 
   /**

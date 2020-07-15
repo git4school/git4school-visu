@@ -130,7 +130,7 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
     },
     annotation: {
       drawTime: 'beforeDatasetsDraw',
-      events: ['click'],
+      events: ['click', 'mouseenter'],
       annotations: []
     },
     plugins: {
@@ -309,7 +309,13 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
           },
           onClick: function (e) {
             me.showEditMilestoneModal(review);
-          }
+          },
+          // onMouseenter: function (e) {
+          //   var element = this;
+          //   console.log('DVEBEVEAZBTERGZEVBRNTNBGZEFEBZEFVREB');
+          //   element.options.borderWidth = 7;
+          //   element.chartInstance.update();
+          // }
         });
       });
   }
@@ -403,7 +409,7 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
         const pointBackgroundColor = [];
         const borderColor = 'rgba(77, 77, 77, 0.5)';
         labels.push(repository.name);
-        repository.commits.forEach(commit => {
+        repository.commits && repository.commits.forEach(commit => {
           // commit.updateMetadata(
           //   reviews,
           //   corrections,

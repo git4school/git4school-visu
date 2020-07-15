@@ -56,12 +56,13 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
     locationInitialized.then(() => {
       translate.addLangs(["en", "fr"]);
-      const langToSet = 'en';
       translate.setDefaultLang('en');
+      const langToSet = window.navigator.language ? window.navigator.language.slice(0, 2) : 'en';
       translate.use(langToSet).subscribe(() => {
         console.info(`Successfully initialized '${langToSet}' language.'`);
       }, err => {
-        console.error(`Problem with '${langToSet}' language initialization.'`);
+        console.error(`Problem with '${langToSet}' language initialization. Language set to '${translate.defaultLang}'.`);
+        resolve(null);
       }, () => {
         resolve(null);
       });
@@ -92,7 +93,10 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     ChartsModule,
     NgxSpinnerModule,
     FontAwesomeModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      maxOpened: 3,
+      newestOnTop: false
+    }),
     BrowserAnimationsModule,
     ClipboardModule,
     MarkdownModule.forRoot(),

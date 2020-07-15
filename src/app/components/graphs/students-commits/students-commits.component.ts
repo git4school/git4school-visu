@@ -312,9 +312,12 @@ export class StudentsCommitsComponent extends BaseGraphComponent implements OnIn
    */
   getMinDateTimestamp() {
     let commits = [];
-    this.dataService.repositories.forEach(repository => {
-      commits = commits.concat(repository.commits);
+    this.dataService.repositories.filter(repo => repo.commits).forEach(repository => {
+      // commits = commits.concat(repository.commits);
+      Array.prototype.push.apply(commits, repository.commits);
     });
+    console.log(commits);
+    if (!commits.length) return new Date();
     let min = commits.reduce(
       (min, commit) =>
         commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,

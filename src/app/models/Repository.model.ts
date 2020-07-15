@@ -15,15 +15,18 @@ export class Repository {
     public url: string,
     public name?: string,
     public commits?: Commit[],
-    public tpGroup?: string
+    public tpGroup?: string,
+    public errors?: Error[]
   ) {
-    if (!name) {
-      this.name = this.url.split('/')[4];
-    }
+    this.errors = errors || [];
+  }
+
+  getNameFromUrl(): string {
+    return this.url.split('/')[4];
   }
 
   static isEqual(repository1: Repository, repository2: Repository): boolean {
-    return repository1.url === repository2.url;
+    return repository1.url.toLowerCase() === repository2.url.toLowerCase();
   }
 
   /**
@@ -35,3 +38,18 @@ export class Repository {
     return new Repository(json.url, json.name, json.commits, json.tpGroup);
   }
 }
+
+export class Error {
+  constructor(
+    public type: ErrorType,
+    public message = ""
+  ) { }
+}
+
+export const enum ErrorType {
+  COMMITS_NOT_FOUND = 'COMMITS-NOT-FOUND',
+  README_NOT_FOUND = 'README-NOT-FOUND',
+  README_NAME_NOT_FOUND = 'README-NAME-NOT-FOUND',
+  README_TPGROUP_NOT_FOUND = 'README-TPGROUP-NOT-FOUND'
+}
+

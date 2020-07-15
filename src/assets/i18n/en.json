@@ -180,7 +180,12 @@
     "COLUMN-URL": "URL",
     "COLUMN-TP-GROUP": "TP group",
     "MESSAGE-INVALID-URL": "You must have access to the repository !",
-    "BUTTON-SAVE": "Save"
+    "BUTTON-SAVE": "Save",
+    "MESSAGE-REPO-ALREADY-ADDED": "This repository is already added !",
+    "TOOLTIP-ADD-REPOSITORY": "Add a repository",
+    "TOOLTIP-ADD-REPOSITORIES": "Add multiple repositories",
+    "TOOLTIP-SAVE": "Save",
+    "TOOLTIP-ADD-SESSION": "Add a session"
   },
   "CONFIGURATION": {
     "EDIT-METADATA": "Metadata",
@@ -208,7 +213,21 @@
     "BUTTON-ADD": "Add",
     "COLUMN-NAME": "Name",
     "COLUMN-URL": "URL",
-    "PLACEHOLDER-FILTER": "Filter repositories by URL"
+    "PLACEHOLDER-FILTER": "Filter repositories by URL",
+    "PLACEHOLDER-TPGROUP": "Write the TP group for all selected repositories"
   },
-  "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Add multiple repositories"
+  "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Add multiple repositories",
+  "TOKEN-FIRST-NAME": "First name",
+  "TOKEN-LAST-NAME": "LAST NAME",
+  "ERROR-MESSAGE-COMMITS-NOT-FOUND": "You do not have access to the repository",
+  "ERROR-MESSAGE-README-NAME-NOT-FOUND": "The student's name was not found in the ReadMe file",
+  "ERROR-MESSAGE-README-NOT-FOUND": "No ReadMe file was found",
+  "ERROR-MESSAGE-README-TPGROUP-NOT-FOUND": "The TP group was not found",
+  "ERROR-TITLE-COMMITS-NOT-FOUND": "Error while loading commits",
+  "ERROR-TITLE-README-NAME-NOT-FOUND": "Error : unable to find name",
+  "ERROR-TITLE-README-NOT-FOUND": "Error while loading ReadMe",
+  "ERROR-TITLE-README-TPGROUP-NOT-FOUND": "Error : unable to find the TP group",
+  "TP-GROUP": "TP group",
+  "ERROR-MESSAGE-ERROR-OCCURED": "There were errors while loading the data. <br>They shouldn't be a problem, but you can see the details in the repositories configuration panel.",
+  "ERROR-TITLE-ERROR-OCCURED": "An error has occurred !"
 }

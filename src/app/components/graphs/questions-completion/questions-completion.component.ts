@@ -147,23 +147,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
             display: true,
             labelString: '% of commits'
           },
-          gridLines: {
-            lineWidth: [1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1],
-            color: [
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              CommitColor.AFTER.color,
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)'
-            ],
-            zeroLineWidth: 0
-          }
+          gridLines: this.getGridLines()
         }
       ]
     },
@@ -218,7 +202,6 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
    * Updates dict variable with questions data and loads graph labels which displays data on the graph
    */
   loadGraphDataAndRefresh() {
-    this.updateBar();
     if (this.dataProvided.dataLoaded()) {
       let translations = this.translateService
         .instant(['QUESTION', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE']);
@@ -256,15 +239,22 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
    * Updates the bar index in the chart options with the current bar index from dataService
    */
   updateBar() {
-    let index = 10 - this.dataService.barIndex;
-    let lineWidth = this.chartOptions.scales.yAxes[0].gridLines.lineWidth;
-    let color = this.chartOptions.scales.yAxes[0].gridLines.color;
+    this.chartOptions.scales.yAxes[0].gridLines = this.getGridLines();
+  }
 
-    lineWidth.fill(1);
-    color.fill('rgba(0, 0, 0, 0.1)');
+  getGridLines(): any {
+    let index = 10 - this.dataService.barIndex;
+    let lineWidth = new Array(11).fill(1);
+    let color = new Array(11).fill('rgba(0, 0, 0, 0.1)');
 
     lineWidth[index] = 5;
     color[index] = CommitColor.AFTER.color;
+
+    return {
+      lineWidth: lineWidth,
+      color: color,
+      zeroLineWidth: 0
+    };
   }
 
   /**
@@ -320,9 +310,11 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
    */
   getMinDateTimestamp() {
     let commits = [];
-    this.dataService.repositories.forEach(repository => {
-      commits = commits.concat(repository.commits);
+    this.dataService.repositories.filter(repo => repo.commits).forEach(repository => {
+      // commits = commits.concat(repository.commits);
+      Array.prototype.push.apply(commits, repository.commits);
     });
+    if (!commits.length) return new Date();
     let min = commits.reduce(
       (min, commit) =>
         commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,

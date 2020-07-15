@@ -20,6 +20,13 @@
     </ngx-datatable>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark"
-        (click)="close()">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</button>
+    <div class="input-group">
+        <input type="text" class="form-control"
+            placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP' | translate }}" [(ngModel)]="tpGroup">
+        <div class="input-group-append">
+            <button type="button" class="btn btn-outline-dark"
+                (click)="close()">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</button>
+        </div>
+    </div>
+
 </div>

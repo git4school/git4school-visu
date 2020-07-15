@@ -10,14 +10,19 @@ export class ToastService {
 
   warning(titre, message) {
     this.toastr.warning(message, titre, {
-      progressBar: true
+      progressBar: true,
+      enableHtml: true,
+      timeOut: 7000,
+      extendedTimeOut: 5000
     });
   }
 
   error(titre, message) {
     this.toastr.error(message, titre, {
       progressBar: true,
-      enableHtml: true
+      enableHtml: true,
+      timeOut: 7000,
+      extendedTimeOut: 5000
     });
   }
 
