@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ClipboardService } from 'ngx-clipboard';
 import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ClipboardService } from 'ngx-clipboard';
 
 /**
  * This component is used for the Home page displaying useful information such as CHANGELOG,
@@ -19,8 +20,9 @@ export class HomeComponent implements OnInit {
    */
   constructor(
     private clipboardService: ClipboardService,
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    private translateService: TranslateService
+  ) { }
 
   /**
    * A variable used to get and display CHANGELOG directly from the repository
@@ -30,21 +32,30 @@ export class HomeComponent implements OnInit {
   /**
    * A variable used to display the readMe structure
    */
-  readMe = `# First IT practical
+  readMe;
 
-### NOM : DOE
-### Prénom : John
-### Groupe de TP : 
+  updateReadMe() {
+    let tokenFirstName = this.translateService.instant('TOKEN-FIRST-NAME');
+    let tokenLastName = this.translateService.instant('TOKEN-LAST-NAME');
+    let tpGroup = this.translateService.instant('TP-GROUP');
+    this.readMe = `# First IT practical
+
+### ${tokenLastName} : DOE
+### ${tokenFirstName} : John
+### ${tpGroup} : 
 - [ ] 11
 - [x] 12
 - [ ] 21
 - [ ] 22`;
+  }
 
   /**
    * When the component is initialized, we call getChangelog()
    */
   ngOnInit() {
+    this.updateReadMe();
     this.getChangelog();
+    this.translateService.onLangChange.subscribe(() => this.updateReadMe());
   }
 
   /**

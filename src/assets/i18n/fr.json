@@ -1,13 +1,13 @@
 {
+  "404": {
+    "MESSAGE": "La page que vous cherchez n'existe pas"
+  },
   "REVIEW": "Revue",
   "CORRECTION": "Correction",
   "OTHER": "Autre",
   "SESSION": "Séance",
   "SEARCH-NOT-FOUND": "Aucune question trouvée",
   "DATE": "Date",
-  "404": {
-    "MESSAGE": "La page que vous cherchez n'existe pas"
-  },
   "TP-GROUP-SELECT": {
     "PLACEHOLDER": "Sélectionner un groupe de tp",
     "ALL": "Tout"
@@ -27,7 +27,8 @@
     "QUESTIONS-COMPLETION": "Avancement des questions",
     "METADATA": "Métadonnées",
     "SIGN-IN": "S'identifier",
-    "SIGN-OUT": "Se déconnecter"
+    "SIGN-OUT": "Se déconnecter",
+    "CONFIGURATION": "Configuration"
   },
   "HOME": {
     "COPY": "Copier",
@@ -51,25 +52,25 @@
         "MESSAGE": "Git4School est une application qui permet à des enseignants de suivre l'avancement de leurs élèves lors de séances de travaux pratique à l'aide de Github. Du suivi dans le temps des commits des élèves au taux d'accomplissement de chaque question par le groupe de TP, en passant par la répartition des types de commits de chaque élève (avant / après une correction ...), l'enseignant a accès à plusieurs outils pour accompagner au mieux ses élèves lors des séances de travaux pratiques."
       },
       "OVERVIEW-TOOLBAR": {
-        "INTRO": "Cette page permet à l'enseignant de suivre le travail de ses élèves à l'aide d'un graphe affichant les commits de chaque élève (en ordonné) en fonction du temps (en abscisse) ainsi que les séances de TP, les revues et les corrections",
         "1": "Vous pouvez entrer des questions pour filtrer les commits et les jalons qui les traitent",
-        "INFO-1": "Seules les questions définies dans le fichier de configuration peuvent être sélectionnées (modifiable dans l'onglet \"métadonnées\")",
         "2": "Vous pouvez sélectionner un des groupes de TP pour n'afficher que les élèves et les jalons du groupe",
         "3": "Vous pouvez afficher ou cacher les annotations (séances, revues, corrections, autres)",
         "4": "Appuyez sur ce bouton ou pressez la barre \"espace\" pour remettre le zoom à zéro",
         "5": "Appuyez sur le bouton pour alterner entre les 2 modes de zoom : zoom avec le curseur de la souris / zoom avec la molette de la souris et se déplacer avec le curseur",
+        "6": "Appuyez sur le bouton permet d'alterner entre 3 échelles de temps (notez que l'échelle de temps s'adapte en temps réel avec le niveau de zoom)",
+        "7": "Appuyez sur le bouton pour télécharger une archive contenant le fichier de configuration mis à jour et 2 fichiers avec les données générées par l'application",
+        "8": "Permet de téléverser le fichier de configuration",
+        "9": "Relit le fichier téléversé précédemment",
+        "INTRO": "Cette page permet à l'enseignant de suivre le travail de ses élèves à l'aide d'un graphe affichant les commits de chaque élève (en ordonné) en fonction du temps (en abscisse) ainsi que les séances de TP, les revues et les corrections",
+        "INFO-1": "Seules les questions définies dans le fichier de configuration peuvent être sélectionnées (modifiable dans l'onglet \"métadonnées\")",
         "INFO-5": "L'icône du bouton indique le mode de zoom que vous utilisez",
         "INFO-5-BTN-DRAG": "zoom avec le curseur de la souris",
         "INFO-5-BTN-WHEEL": "zoom avec la molette de la souris",
-        "6": "Appuyez sur le bouton permet d'alterner entre 3 échelles de temps (notez que l'échelle de temps s'adapte en temps réel avec le niveau de zoom)",
         "INFO-6": "L'icône du bouton indique l'échelle de temps utilisée",
         "INFO-6-BTN-WEEK": "semaine",
         "INFO-6-BTN-HOUR": "heure",
         "INFO-6-BTN-DAY": "jour",
-        "7": "Appuyez sur le bouton pour télécharger une archive contenant le fichier de configuration mis à jour et 2 fichiers avec les données générées par l'application",
-        "8": "Permet de téléverser le fichier de configuration",
         "INFO-8": "Si le fichier n'est pas un fichier JSON valide, ou si les champs obligatoires ne sont pas renseignés ou au mauvais format, un message d'erreur sera envoyé et les données ne seront pas chargées",
-        "9": "Relit le fichier téléversé précédemment",
         "INFO-9": "Utiliser ce bouton permet de lire un fichier que vous venez de modifier sans avoir à le téléverser de nouveau ou de rafraîchir les données"
       },
       "OVERVIEW": {
@@ -79,29 +80,29 @@
         "INFO": "Pour effectuer ces actions, il est nécessaire d'utiliser le mode de zoom avec la molette de la souris"
       },
       "STUDENTS-COMMITS": {
-        "INTRO": "Cette page affiche un graphe avec la répartition des types de commit pour chaque élève. Cela permet, en le mettant en relation avec le nombre total de commits et l'avancement dans les questions de l'élève, d'avoir une indication sur la façon de travailler de l'élève et d'identifier d'éventuelles difficultés",
         "1": "Vous pouvez sélectionner un des groupes de TP pour n'afficher que les élèves du groupe",
         "2": "Déplacer le curseur permet de délimiter la date maximale pour laquelle les commits sont traités",
-        "INFO-2": "La date minimale que l'on peut choisir correspondant à la date du commit le plus antérieur parmi tous les élèves et la date maximale est la date du dernier rafraîchissement des données",
         "3": "Passer le curseur sur une barre affiche des détails sur le type de commit auquel correspond la barre",
-        "4": "Il est possible de cliquer sur n'importe quel élément de la légende pour le cacher ou non sur le graphe"
+        "4": "Il est possible de cliquer sur n'importe quel élément de la légende pour le cacher ou non sur le graphe",
+        "INTRO": "Cette page affiche un graphe avec la répartition des types de commit pour chaque élève. Cela permet, en le mettant en relation avec le nombre total de commits et l'avancement dans les questions de l'élève, d'avoir une indication sur la façon de travailler de l'élève et d'identifier d'éventuelles difficultés",
+        "INFO-2": "La date minimale que l'on peut choisir correspondant à la date du commit le plus antérieur parmi tous les élèves et la date maximale est la date du dernier rafraîchissement des données"
       },
       "QUESTIONS-COMPLETION": {
-        "INTRO": "Cette page permet de se rendre compte du taux d'accomplissement des questions au sein d'un groupe de TP, ce qui permet à l'enseignant de planifier les revues et corrections au meilleur moment",
         "1": "Vous pouvez sélectionner un des groupes de TP pour ne traiter que les commits des élèves du groupe",
         "2": "Déplacer le curseur permet de délimiter la date maximale pour laquelle les commits sont traités",
         "3": "Changer l'index de la barre rouge seuil en déplaçant le curseur",
-        "INFO-3": "Le seuil peut se situer entre 10 et 90 et par pas de 10",
-        "4": "Passer le curseur sur une barre affiche des détails sur le type de commit auquel correspond la barre ainsi que les élèves concernés"
+        "4": "Passer le curseur sur une barre affiche des détails sur le type de commit auquel correspond la barre ainsi que les élèves concernés",
+        "INTRO": "Cette page permet de se rendre compte du taux d'accomplissement des questions au sein d'un groupe de TP, ce qui permet à l'enseignant de planifier les revues et corrections au meilleur moment",
+        "INFO-3": "Le seuil peut se situer entre 10 et 90 et par pas de 10"
       },
       "METADATA": {
-        "INTRO": "C'est sur cette page qu'il est possible de modifier des données comme le titre du document, le programme, le cours et l'année. Il est aussi possible de définir une date de début avant laquelle les commits ne seront pas traités, de la même manière qu'il est possible de définir une date de fin. En dernier lieu, il est possible de définir les questions du sujet, dans l'ordre croissant",
         "1": "Lorsqu'une date de début est renseignée, les commits antérieurs à cette date ne sont pas traités",
         "2": "Lorsqu'une date de fin est renseignée, les commits postérieurs à cette date ne sont pas traités",
         "3": "Rentrez ici les questions que vous voulez traiter",
+        "4": "Sauvegarder les métadonnées",
+        "INTRO": "C'est sur cette page qu'il est possible de modifier des données comme le titre du document, le programme, le cours et l'année. Il est aussi possible de définir une date de début avant laquelle les commits ne seront pas traités, de la même manière qu'il est possible de définir une date de fin. En dernier lieu, il est possible de définir les questions du sujet, dans l'ordre croissant",
         "WARNING-3": "Les questions doivent être renseignées dans l'ordre croissant d'avancement",
-        "INFO-3": "Seules les questions renseignées ici seront traitées par l'application (jalons, graphes)",
-        "4": "Sauvegarder les métadonnées"
+        "INFO-3": "Seules les questions renseignées ici seront traitées par l'application (jalons, graphes)"
       }
     }
   },
@@ -144,7 +145,8 @@
       "QUESTIONS-PLACEHOLDER": "Sélectionner des questions : 1.1, 1.2, ...",
       "DELETE": "Supprimer le jalon",
       "CONFIRM": "Confirmer"
-    }
+    },
+    "REREAD-TOOLTIP": "Relire"
   },
   "STUDENTS-COMMITS-GRAPH": {},
   "QUESTIONS-COMPLETION-GRAPH": {},
@@ -170,5 +172,62 @@
   "COMMITS-PERCENTAGE": "Pourcentage de commits",
   "BAR-INDEX": "Index du seuil",
   "STUDENT": "Etudiant",
-  "QUESTION": "Question"
+  "QUESTION": "Question",
+  "QUESTIONS": "Questions",
+  "EDIT-REPOSITORIES": {
+    "PAGE-TITLE": "Editer les dépôts",
+    "COLUMN-NAME": "Nom",
+    "COLUMN-URL": "URL",
+    "COLUMN-TP-GROUP": "Groupe de TP",
+    "MESSAGE-INVALID-URL": "Vous devez avoir accès au dépôt !",
+    "BUTTON-SAVE": "Sauvegarder",
+    "MESSAGE-REPO-ALREADY-ADDED": "Ce dépôt est déjà ajouté !",
+    "TOOLTIP-ADD-REPOSITORY": "Ajouter un dépôt",
+    "TOOLTIP-ADD-REPOSITORIES": "Ajouter plusieurs dépôts",
+    "TOOLTIP-SAVE": "Sauvegarder",
+    "TOOLTIP-ADD-SESSION": "Ajouter une séance"
+  },
+  "CONFIGURATION": {
+    "EDIT-METADATA": "Métadonnées",
+    "EDIT-REPOSITORIES": "Dépôts",
+    "EDIT-SESSIONS": "Séances",
+    "UNSAVED-TITLE": "Changements non sauvegardés !",
+    "UNSAVED-DESCRIPTION-1": "Vous avez modifié des données sans les sauvegarder. Si vous changez de page vous perdrez ces changements.",
+    "UNSAVED-DESCRIPTION-2": "Voulez-vous quitter la page ?",
+    "BUTTON-CANCEL": "Annuler",
+    "BUTTON-CONFIRM": "Confirmer"
+  },
+  "MESSAGE-UNSAVED-GUARD": "Si vous quittez cette page, vous perdrez les modifications que vous n'avez pas sauvegardées. Voulez-vous quitter la page ? ",
+  "EDIT-SESSIONS": {
+    "PAGE-TITLE": "Editer les séances",
+    "COLUMN-DATE": "Date",
+    "COLUMN-START-TIME": "Heure de début",
+    "COLUMN-END-TIME": "Heure de fin",
+    "COLUMN-TP-GROUP": "Groupe de TP",
+    "MESSAGE-REQUIRED-STARTTIME": "L'heure de début est requise !",
+    "MESSAGE-REQUIRED-ENDTIME": "L'heure de fin est requise !",
+    "MESSAGE-ENDTIME-BEFORE-STARTTIME": "L'heure de fin doit être postérieure à l'heure de début !"
+  },
+  "MODAL-ADD-REPOSITORIES": {
+    "TITLE": "Ajouter des dépôts",
+    "BUTTON-ADD": "Ajouter",
+    "COLUMN-NAME": "Nom",
+    "COLUMN-URL": "URL",
+    "PLACEHOLDER-FILTER": "Filtrer les dépôts selon l'URL",
+    "PLACEHOLDER-TPGROUP": "Indiquez le groupe de TP pour tous les dépôts sélectionnés"
+  },
+  "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Ajouter plusieurs dépôts",
+  "TOKEN-LAST-NAME": "NOM",
+  "TOKEN-FIRST-NAME": "Prénom",
+  "ERROR-TITLE-COMMITS-NOT-FOUND": "Erreur pendant le chargement des commits",
+  "ERROR-TITLE-README-NOT-FOUND": "Erreur pendant le chargement du ReadMe",
+  "ERROR-TITLE-README-NAME-NOT-FOUND": "Erreur : impossible de trouver le nom",
+  "ERROR-TITLE-README-TPGROUP-NOT-FOUND": "Erreur : impossible de trouver le groupe de TP",
+  "ERROR-MESSAGE-README-NAME-NOT-FOUND": "Le nom de l'élève n'a pas été trouvé dans le fichier ReadMe",
+  "ERROR-MESSAGE-README-TPGROUP-NOT-FOUND": "Le groupe de TP n'a pas été trouvé",
+  "ERROR-MESSAGE-README-NOT-FOUND": "Aucun fichier ReadMe n'a été trouvé",
+  "ERROR-MESSAGE-COMMITS-NOT-FOUND": "Vous n'avez pas accès au dépôt",
+  "TP-GROUP": "Groupe de TP",
+  "ERROR-TITLE-ERROR-OCCURED": "Une erreur est survenue !",
+  "ERROR-MESSAGE-ERROR-OCCURED": "Il y a eu des erreurs pendant le chargement des données. <br>Elles ne devraient pas poser problème mais vous pouvez voir les détails dans le panneau de configuration des dépôts."
 }

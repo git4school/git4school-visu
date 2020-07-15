@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { DataProvidedGuard } from '@guards/data-provided.guard';
+import { CommitColor } from '@models/Commit.model';
 import { TranslateService } from '@ngx-translate/core';
-import * as Chart from 'chart.js';
-//import * as ChartDataLabels from 'chartjs-plugin-datalabels';
-import { default as ChartDataLabels  } from 'chartjs-plugin-datalabels';
-
-import { CommitColor, Commit } from '@models/Commit.model';
 import { CommitsService } from '@services/commits.service';
 import { DataService } from '@services/data.service';
-import { DataProvidedGuard } from '@guards/data-provided.guard';
+import { LoaderService } from '@services/loader.service';
+import * as Chart from 'chart.js';
+//import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+import { default as ChartDataLabels } from 'chartjs-plugin-datalabels';
+import { BaseGraphComponent } from '../base-graph.component';
+
 /**
  * jquery
  */
@@ -21,7 +23,7 @@ declare var $: any;
   templateUrl: './students-commits.component.html',
   styleUrls: ['./students-commits.component.scss']
 })
-export class StudentsCommitsComponent implements OnInit {
+export class StudentsCommitsComponent extends BaseGraphComponent implements OnInit {
   /**
    * The date after which the commits will not be considered, this shows the state of work of each student on a given date
    */
@@ -184,12 +186,12 @@ export class StudentsCommitsComponent implements OnInit {
         font: {
           weight: 'bold'
         },
-        backgroundColor: function(context) {
+        backgroundColor: function (context) {
           return context.dataset.backgroundColor;
         },
         borderRadius: 4,
         display: false,
-        formatter: function(value, context) {
+        formatter: function (value, context) {
           return context.dataset.data[context.dataIndex].y;
         }
       }
@@ -205,45 +207,44 @@ export class StudentsCommitsComponent implements OnInit {
    * StudentsCommitsComponent constructor
    * @param dataService Service used to store and get data
    * @param commitsService Service used to update dict variable
-   * @param translate Service used to translate the application
+   * @param translateService Service used to translate the application
    * @param dataProvided Guard used to know if data is loaded
    */
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
-    public translate: TranslateService,
-    public dataProvided: DataProvidedGuard
-  ) {}
+    public translateService: TranslateService,
+    public dataProvided: DataProvidedGuard,
+    protected loaderService: LoaderService
+  ) { super(loaderService); }
 
   /**
    * Updates dict variable with students data and loads graph labels which displays data on the graph
    */
   loadGraphDataAndRefresh() {
     if (this.dataProvided.dataLoaded()) {
-      this.translate
-        .get(['STUDENT', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE'])
-        .subscribe(translations => {
-          let colors = [
-            CommitColor.INTERMEDIATE,
-            CommitColor.BEFORE,
-            CommitColor.BETWEEN,
-            CommitColor.AFTER
-          ];
+      let translations = this.translateService
+        .instant(['STUDENT', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE']);
+      let colors = [
+        CommitColor.INTERMEDIATE,
+        CommitColor.BEFORE,
+        CommitColor.BETWEEN,
+        CommitColor.AFTER
+      ];
 
-          this.chartLabels = this.loadLabels();
-          let dict = this.commitsService.loadStudentsDict(
-            this.dataService.repositories,
-            this.dataService.questions,
-            colors,
-            this.tpGroup,
-            this.date
-          );
-          this.chartData = this.commitsService.loadStudents(
-            dict,
-            colors,
-            translations
-          );
-        });
+      this.chartLabels = this.loadLabels();
+      let dict = this.commitsService.loadStudentsDict(
+        this.dataService.repositories,
+        this.dataService.questions,
+        colors,
+        this.tpGroup,
+        this.date
+      );
+      this.chartData = this.commitsService.loadStudents(
+        dict,
+        colors,
+        translations
+      );
     }
   }
 
@@ -263,15 +264,39 @@ export class StudentsCommitsComponent implements OnInit {
    * and we call loadGraphDataAndRefresh()
    */
   ngOnInit() {
-    this.translate.onLangChange.subscribe(() => {
-      this.loadGraphDataAndRefresh();
-    });
     Chart.pluginService.register(ChartDataLabels);
-    this.dataService.lastUpdateDate &&
-      ((this.date = this.dataService.lastUpdateDate.getTime()) &&
-        (this.max = this.date) &&
-        (this.min = this.getMinDateTimestamp()));
-    this.loadGraphDataAndRefresh();
+
+    setTimeout(() => {
+      this.translateService.onLangChange.subscribe(() => {
+        this.loadGraphDataAndRefresh();
+      });
+
+      if (this.dataService.repoToLoad) {
+        console.log('LOADGRAPH');
+        this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      } else {
+        this.loading = true;
+        this.dataService.lastUpdateDate &&
+          ((this.date = this.dataService.lastUpdateDate.getTime()) &&
+            (this.max = this.date) &&
+            (this.min = this.getMinDateTimestamp()));
+        this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+        this.loading = false;
+      }
+
+    });
+  }
+
+  loadGraph(startDate?: string, endDate?: string) {
+    this.loading = true;
+    this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
+      this.dataService.lastUpdateDate &&
+        ((this.date = this.dataService.lastUpdateDate.getTime()) &&
+          (this.max = this.date) &&
+          (this.min = this.getMinDateTimestamp()));
+      this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+      this.loading = false;
+    });
   }
 
   /**
@@ -287,9 +312,12 @@ export class StudentsCommitsComponent implements OnInit {
    */
   getMinDateTimestamp() {
     let commits = [];
-    this.dataService.repositories.forEach(repository => {
-      commits = commits.concat(repository.commits);
+    this.dataService.repositories.filter(repo => repo.commits).forEach(repository => {
+      // commits = commits.concat(repository.commits);
+      Array.prototype.push.apply(commits, repository.commits);
     });
+    console.log(commits);
+    if (!commits.length) return new Date();
     let min = commits.reduce(
       (min, commit) =>
         commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,

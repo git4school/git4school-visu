@@ -1,27 +1,23 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  HostListener
-} from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
-import { ToastrService } from 'ngx-toastr';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import moment from 'moment/src/moment';
-import * as JSZip from 'jszip';
-import { saveAs } from 'file-saver';
-import * as Ajv from 'ajv';
-import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
-
-import { CommitsService } from '@services/commits.service';
-import { JsonManagerService } from '@services/json-manager.service';
-import { DataService } from '@services/data.service';
+import { DataProvidedGuard } from '@guards/data-provided.guard';
 import { Commit, CommitColor } from '@models/Commit.model';
+import { Milestone } from '@models/Milestone.model';
 import { Repository } from '@models/Repository.model';
 import { Session } from '@models/Session.model';
-import { Milestone } from '@models/Milestone.model';
-import { DataProvidedGuard } from '@guards/data-provided.guard';
+import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
+import { CommitsService } from '@services/commits.service';
+import { DataService } from '@services/data.service';
+import { JsonManagerService } from '@services/json-manager.service';
+import { LoaderService } from '@services/loader.service';
+import { ToastService } from '@services/toast.service';
+import * as Ajv from 'ajv';
+import { saveAs } from 'file-saver';
+import * as JSZip from 'jszip';
+import moment from 'moment/src/moment';
+import { BaseChartDirective } from 'ng2-charts';
+import { BaseGraphComponent } from '../base-graph.component';
+
 
 /**
  * jquery
@@ -33,20 +29,20 @@ declare var $: any;
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent extends BaseGraphComponent implements OnInit, AfterViewInit {
   constructor(
-    private translate: TranslateService,
+    private translateService: TranslateService,
     private commitsService: CommitsService,
-    private toastr: ToastrService,
+    private toastService: ToastService,
     public jsonManager: JsonManagerService,
     public dataService: DataService,
-    public dataProvided: DataProvidedGuard
-  ) {}
+    public dataProvided: DataProvidedGuard,
+    protected loaderService: LoaderService
+  ) { super(loaderService); }
 
   @ViewChild(BaseChartDirective, { static: true }) myChart;
 
   typeaheadSettings;
-  loading = false;
   searchFilter: string[] = [];
   unit = 'day';
   drag = false;
@@ -134,7 +130,7 @@ export class OverviewComponent implements OnInit {
     },
     annotation: {
       drawTime: 'beforeDatasetsDraw',
-      events: ['click'],
+      events: ['click', 'mouseenter'],
       annotations: []
     },
     plugins: {
@@ -142,7 +138,7 @@ export class OverviewComponent implements OnInit {
         pan: {
           enabled: false,
           mode: 'x',
-          onPan({ chart }) {}
+          onPan({ chart }) { }
         },
         zoom: {
           enabled: true,
@@ -160,15 +156,31 @@ export class OverviewComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    console.log('modified', this.dataService.repoToLoad);
     this.updateLang();
-    this.translate.onLangChange.subscribe((event: TranslationChangeEvent) => {
+    this.translateService.onLangChange.subscribe((event: TranslationChangeEvent) => {
       this.updateLang();
     });
     $('.modal').modal({
       show: false
     });
+
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
     if (this.dataProvided.dataLoaded()) {
-      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      setTimeout(() => {
+        if (this.dataService.repoToLoad) {
+          this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+        } else {
+          this.loading = true;
+          this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+
+          this.loading = false;
+        }
+      });
     } else {
       $('#uploadFileModal').modal({
         show: true
@@ -177,13 +189,11 @@ export class OverviewComponent implements OnInit {
   }
 
   updateLang() {
-    this.translate.get('SEARCH-NOT-FOUND').subscribe(r => {
-      this.typeaheadSettings = {
-        tagClass: 'badge badge-pill badge-secondary mr-1',
-        noMatchesText: r,
-        suggestionLimit: 5
-      };
-    });
+    this.typeaheadSettings = {
+      tagClass: 'badge badge-pill badge-secondary mr-1',
+      noMatchesText: this.translateService.instant('SEARCH-NOT-FOUND'),
+      suggestionLimit: 5
+    };
   }
 
   readFile(): void {
@@ -194,9 +204,7 @@ export class OverviewComponent implements OnInit {
       try {
         text = JSON.parse(myReader.result.toString());
       } catch (e) {
-        this.translate
-          .get('INVALID-JSON')
-          .subscribe(translation => this.error(translation, e.message));
+        this.toastService.error(this.translateService.instant('INVALID-JSON'), e.message);
       }
       if (text && this.verifyJSON(text)) {
         this.getDataFromFile(text);
@@ -209,42 +217,18 @@ export class OverviewComponent implements OnInit {
     myReader.readAsText(this.jsonManager.file);
   }
 
-  loadGraph(startDate?: String, endDate?: String) {
-    this.loading = true;
+  loadGraph(startDate?: string, endDate?: string) {
+    try {
+      this.loading = true;
 
-    this.commitsService
-      .getRepositories(this.dataService.repositories, startDate, endDate)
-      .subscribe(repositories => {
-        this.translate
-          .get([
-            'ERRORS.REPOSITORY-NOT-FOUND',
-            'ERRORS.README-NOT-FOUND',
-            'ERRORS.DETAILS'
-          ])
-          .subscribe(translations => {
-            try {
-              let tpGroups = new Set<string>();
-              repositories.forEach((repository, index) => {
-                this.commitsService.getRepositoryFromRaw(
-                  this.dataService.repositories[index],
-                  repository,
-                  translations
-                );
-                tpGroups.add(this.dataService.repositories[index].tpGroup);
-              });
-              this.dataService.tpGroups = Array.from(tpGroups);
-              this.loadGraphDataAndRefresh();
-              this.dataService.lastUpdateDate = new Date();
-              this.dataService.dataLoaded = true;
-            } catch (err) {
-              this.translate
-                .get('GIT-ERROR')
-                .subscribe(translation => this.error(translation, err));
-            } finally {
-              this.loading = false;
-            }
-          });
+      this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
+        this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+        this.loading = false;
       });
+    } catch (error) {
+      console.log('ERROR');
+      this.loading = false;
+    }
   }
 
   loadGraphData() {
@@ -256,6 +240,7 @@ export class OverviewComponent implements OnInit {
   }
 
   loadGraphDataAndRefresh() {
+    console.log('loadGraphDataAndRefresh');
     this.loadGraphData();
     this.refreshGraph();
     this.adaptScaleWithChart(this.myChart.chart);
@@ -322,9 +307,15 @@ export class OverviewComponent implements OnInit {
             enabled: true,
             position: 'top'
           },
-          onClick: function(e) {
+          onClick: function (e) {
             me.showEditMilestoneModal(review);
-          }
+          },
+          // onMouseenter: function (e) {
+          //   var element = this;
+          //   console.log('DVEBEVEAZBTERGZEVBRNTNBGZEFEBZEFVREB');
+          //   element.options.borderWidth = 7;
+          //   element.chartInstance.update();
+          // }
         });
       });
   }
@@ -354,7 +345,7 @@ export class OverviewComponent implements OnInit {
             enabled: true,
             position: 'top'
           },
-          onClick: function(e) {
+          onClick: function (e) {
             me.showEditMilestoneModal(correction);
           }
         });
@@ -386,7 +377,7 @@ export class OverviewComponent implements OnInit {
             enabled: true,
             position: 'top'
           },
-          onClick: function(e) {
+          onClick: function (e) {
             me.showEditMilestoneModal(other);
           }
         });
@@ -405,25 +396,25 @@ export class OverviewComponent implements OnInit {
       .forEach(repository => {
         const data = [];
         const pointStyle = [];
-        const reviews = !this.dataService.reviews
-          ? null
-          : this.dataService.reviews.filter(
-              review => review.tpGroup === repository.tpGroup
-            );
-        const corrections = !this.dataService.corrections
-          ? null
-          : this.dataService.corrections.filter(
-              correction => correction.tpGroup === repository.tpGroup
-            );
+        // const reviews = !this.dataService.reviews
+        //   ? null
+        //   : this.dataService.reviews.filter(
+        //     review => review.tpGroup === repository.tpGroup
+        //   );
+        // const corrections = !this.dataService.corrections
+        //   ? null
+        //   : this.dataService.corrections.filter(
+        //     correction => correction.tpGroup === repository.tpGroup
+        //   );
         const pointBackgroundColor = [];
         const borderColor = 'rgba(77, 77, 77, 0.5)';
         labels.push(repository.name);
-        repository.commits.forEach(commit => {
-          commit.updateMetadata(
-            reviews,
-            corrections,
-            this.dataService.questions
-          );
+        repository.commits && repository.commits.forEach(commit => {
+          // commit.updateMetadata(
+          //   reviews,
+          //   corrections,
+          //   this.dataService.questions
+          // );
           if (
             !this.searchFilter.length ||
             this.searchFilter.includes(commit.question)
@@ -538,16 +529,12 @@ export class OverviewComponent implements OnInit {
       jalon: ''
     });
 
-    this.loadGraphDataAndRefresh();
+    this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
     this.dispose();
-    this.translate.get(['SUCCESS', 'MILESTONE-SAVED']).subscribe(translations =>
-      this.toastr.success(
-        translations['MILESTONE-SAVED'],
-        translations['SUCCESS'],
-        {
-          progressBar: true
-        }
-      )
+    let translations = this.translateService.instant(['SUCCESS', 'MILESTONE-SAVED']);
+    this.toastService.success(
+      translations['SUCCESS'],
+      translations['MILESTONE-SAVED']
     );
   }
 
@@ -559,19 +546,14 @@ export class OverviewComponent implements OnInit {
       1
     );
 
-    this.loadGraphDataAndRefresh();
+    this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
     this.dispose();
-    this.translate
-      .get(['SUCCESS', 'MILESTONE-DELETED'])
-      .subscribe(translations =>
-        this.toastr.success(
-          translations['MILESTONE-DELETED'],
-          translations['SUCCESS'],
-          {
-            progressBar: true
-          }
-        )
-      );
+    let translations = this.translateService
+      .instant(['SUCCESS', 'MILESTONE-DELETED']);
+    this.toastService.success(
+      translations['SUCCESS'],
+      translations['MILESTONE-DELETED']
+    );
   }
 
   deleteElement(element, list) {
@@ -608,13 +590,6 @@ export class OverviewComponent implements OnInit {
     return this.chartData[datasetIndex].data[dataIndex];
   }
 
-  error(titre, message: string) {
-    this.toastr.error(message, titre, {
-      progressBar: true,
-      enableHtml: true
-    });
-  }
-
   getDataFromFile(text) {
     this.dataService.repositories = text.repositories
       .filter(repository =>
@@ -622,14 +597,12 @@ export class OverviewComponent implements OnInit {
       )
       .map(repository => Repository.withJSON(repository));
     if (text.repositories.length !== this.dataService.repositories.length) {
-      this.translate
-        .get(['ERRORS.WARNING', 'ERRORS.INVALID-URLS'])
-        .subscribe(translations =>
-          this.warning(
-            translations['ERRORS.WARNING'],
-            translations['ERRORS.INVALID-URLS']
-          )
-        );
+      let translations = this.translateService
+        .instant(['ERRORS.WARNING', 'ERRORS.INVALID-URLS']);
+      this.toastService.warning(
+        translations['ERRORS.WARNING'],
+        translations['ERRORS.INVALID-URLS']
+      );
     }
     this.dataService.startDate = text.startDate;
     this.dataService.endDate = text.endDate;
@@ -650,12 +623,6 @@ export class OverviewComponent implements OnInit {
     this.dataService.others = text.others
       ? text.others.map(data => Milestone.withJSON(data, 'others'))
       : undefined;
-  }
-
-  warning(titre, message) {
-    this.toastr.warning(message, titre, {
-      progressBar: true
-    });
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -773,7 +740,7 @@ export class OverviewComponent implements OnInit {
     );
     zip.file('students-commits.json', JSON.stringify(studentsDict, null, 2));
 
-    zip.generateAsync({ type: 'blob' }).then(function(content) {
+    zip.generateAsync({ type: 'blob' }).then(function (content) {
       saveAs(content, shortFilename + '.zip');
     });
   }
@@ -943,9 +910,7 @@ export class OverviewComponent implements OnInit {
             return error.dataPath + ' ' + error.message;
           })
           .join('<br>&emsp;');
-      this.translate
-        .get('INVALID-CONF-FILE')
-        .subscribe(translation => this.error(translation, errorMessage));
+      this.toastService.error(this.translateService.instant('INVALID-CONF-FILE'), errorMessage);
 
       return false;
     }

@@ -1,13 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-
-import { DataService } from '@services/data.service';
-import { CommitsService } from '@services/commits.service';
-import { CommitColor } from '@models/Commit.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataProvidedGuard } from '@guards/data-provided.guard';
+import { CommitColor } from '@models/Commit.model';
+import { TranslateService } from '@ngx-translate/core';
+import { CommitsService } from '@services/commits.service';
+import { DataService } from '@services/data.service';
+import { LoaderService } from '@services/loader.service';
+import { BaseChartDirective } from 'ng2-charts';
+import { BaseGraphComponent } from '../base-graph.component';
+
 
 registerLocaleData(localeFr);
 
@@ -24,7 +26,7 @@ declare var $: any;
   templateUrl: './questions-completion.component.html',
   styleUrls: ['./questions-completion.component.scss']
 })
-export class QuestionsCompletionComponent implements OnInit {
+export class QuestionsCompletionComponent extends BaseGraphComponent implements OnInit {
   /**
    * The chart object from the DOM
    */
@@ -145,23 +147,7 @@ export class QuestionsCompletionComponent implements OnInit {
             display: true,
             labelString: '% of commits'
           },
-          gridLines: {
-            lineWidth: [1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1],
-            color: [
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              CommitColor.AFTER.color,
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)',
-              'rgba(0, 0, 0, 0.1)'
-            ],
-            zeroLineWidth: 0
-          }
+          gridLines: this.getGridLines()
         }
       ]
     },
@@ -170,17 +156,17 @@ export class QuestionsCompletionComponent implements OnInit {
         clamp: true,
         clip: 'auto',
         color: 'white',
-        display: function(context) {
+        display: function (context) {
           return context.dataset.data[context.dataIndex].y > 3;
         },
         font: {
           weight: 'bold'
         },
-        backgroundColor: function(context) {
+        backgroundColor: function (context) {
           return context.dataset.backgroundColor;
         },
         borderRadius: 4,
-        formatter: function(value, context) {
+        formatter: function (value, context) {
           return (
             context.dataset.data[context.dataIndex].data.count +
             ' (' +
@@ -201,69 +187,74 @@ export class QuestionsCompletionComponent implements OnInit {
    * QuestionsCompletionComponent constructor
    * @param dataService Service used to store and get data
    * @param commitsService Service used to update dict variable
-   * @param translate Service used to translate the application
+   * @param translateService Service used to translate the application
    * @param dataProvided Guard used to know if data is loaded
    */
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
-    public translate: TranslateService,
-    public dataProvided: DataProvidedGuard
-  ) {}
+    public translateService: TranslateService,
+    public dataProvided: DataProvidedGuard,
+    protected loaderService: LoaderService
+  ) { super(loaderService); }
 
   /**
    * Updates dict variable with questions data and loads graph labels which displays data on the graph
    */
   loadGraphDataAndRefresh() {
-    this.translate
-      .get(['QUESTION', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE'])
-      .subscribe(translations => {
-        this.updateBar();
-        if (this.dataProvided.dataLoaded()) {
-          this.chartLabels = this.dataService.questions;
-          let colors = [
-            CommitColor.BEFORE,
-            CommitColor.BETWEEN,
-            CommitColor.AFTER,
-            CommitColor.NOCOMMIT
-          ];
+    if (this.dataProvided.dataLoaded()) {
+      let translations = this.translateService
+        .instant(['QUESTION', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE']);
+      this.chartLabels = this.dataService.questions;
+      let colors = [
+        CommitColor.BEFORE,
+        CommitColor.BETWEEN,
+        CommitColor.AFTER,
+        CommitColor.NOCOMMIT
+      ];
 
-          let dict = this.commitsService.initQuestionsDict(
-            this.dataService.questions,
-            colors
-          );
-          dict = this.commitsService.loadQuestionsDict(
-            dict,
-            this.dataService.repositories,
-            this.dataService.questions,
-            colors,
-            this.tpGroup,
-            this.date
-          );
+      let dict = this.commitsService.initQuestionsDict(
+        this.dataService.questions,
+        colors
+      );
+      dict = this.commitsService.loadQuestionsDict(
+        dict,
+        this.dataService.repositories,
+        this.dataService.questions,
+        colors,
+        this.tpGroup,
+        this.date
+      );
 
-          this.chartData = this.commitsService.loadQuestions(
-            dict,
-            colors,
-            this.dataService.questions,
-            translations
-          );
-        }
-      });
+      this.chartData = this.commitsService.loadQuestions(
+        dict,
+        colors,
+        this.dataService.questions,
+        translations
+      );
+    }
   }
 
   /**
    * Updates the bar index in the chart options with the current bar index from dataService
    */
   updateBar() {
-    let index = 10 - this.dataService.barIndex;
-    let lineWidth = this.chartOptions.scales.yAxes[0].gridLines.lineWidth;
-    let color = this.chartOptions.scales.yAxes[0].gridLines.color;
+    this.chartOptions.scales.yAxes[0].gridLines = this.getGridLines();
+  }
 
-    lineWidth.fill(1);
-    color.fill('rgba(0, 0, 0, 0.1)');
+  getGridLines(): any {
+    let index = 10 - this.dataService.barIndex;
+    let lineWidth = new Array(11).fill(1);
+    let color = new Array(11).fill('rgba(0, 0, 0, 0.1)');
 
     lineWidth[index] = 5;
     color[index] = CommitColor.AFTER.color;
+
+    return {
+      lineWidth: lineWidth,
+      color: color,
+      zeroLineWidth: 0
+    };
   }
 
   /**
@@ -281,14 +272,36 @@ export class QuestionsCompletionComponent implements OnInit {
    * and we call loadGraphDataAndRefresh()
    */
   ngOnInit() {
-    this.translate.onLangChange.subscribe(() => {
-      this.loadGraphDataAndRefresh();
+    setTimeout(() => {
+      this.translateService.onLangChange.subscribe(() => {
+        this.loadGraphDataAndRefresh();
+      });
+      if (this.dataService.repoToLoad) {
+        this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      } else {
+        this.loading = true;
+        this.initDateSlider();
+        this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+        this.loading = false;
+      }
     });
+  }
+
+
+  loadGraph(startDate?: string, endDate?: string) {
+    this.loading = true;
+    this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
+      this.initDateSlider();
+      this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+      this.loading = false;
+    });
+  }
+
+  initDateSlider() {
     this.dataService.lastUpdateDate &&
       ((this.date = this.dataService.lastUpdateDate.getTime()) &&
         (this.max = this.date) &&
         (this.min = this.getMinDateTimestamp()));
-    this.loadGraphDataAndRefresh();
   }
 
   /**
@@ -297,9 +310,11 @@ export class QuestionsCompletionComponent implements OnInit {
    */
   getMinDateTimestamp() {
     let commits = [];
-    this.dataService.repositories.forEach(repository => {
-      commits = commits.concat(repository.commits);
+    this.dataService.repositories.filter(repo => repo.commits).forEach(repository => {
+      // commits = commits.concat(repository.commits);
+      Array.prototype.push.apply(commits, repository.commits);
     });
+    if (!commits.length) return new Date();
     let min = commits.reduce(
       (min, commit) =>
         commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,

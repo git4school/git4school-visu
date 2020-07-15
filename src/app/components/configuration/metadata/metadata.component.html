@@ -1,9 +1,9 @@
-<div class="p-3">
+<div class="p-2">
   <h2>{{ 'METADATA.PAGE-TITLE' | translate }}</h2>
   <div class="card mt-2">
     <div class="card-body">
       <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm" onkeydown="return event.key != 'Enter';">
-        <div class="form-group">
+        <div class=" form-group">
           <label for="title">{{ 'METADATA.TITLE' | translate }}</label>
           <input type="text" class="form-control" id="title" name="title" [ngModel]="dataService.title" required
             ngModel>
@@ -41,7 +41,9 @@
           </type-ahead>
         </div>
         <hr>
-        <button [disabled]="f.invalid" type="submit" class="btn btn-primary">{{ 'METADATA.SAVE' | translate }}</button>
+        <button [disabled]="f.invalid" type="submit" class="btn btn-primary"
+          ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}" [openDelay]="500">
+          <i class="fas fa-save"></i></button>
       </form>
     </div>
   </div>
