@@ -19,6 +19,11 @@ jobs:
         run: npm install
       - name: Build app & doc
         run: npm run build:doc
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: dist/git4school
+          path: dist/git4school
   deploy:
     name: Deploy
     needs: build
@@ -26,6 +31,11 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: dist/git4school
+          path: dist/git4school
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
