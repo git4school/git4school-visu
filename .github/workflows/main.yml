@@ -22,7 +22,7 @@ jobs:
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
-          name: dist/git4school
+          name: dist-git4school
           path: dist/git4school
   deploy:
     name: Deploy
@@ -34,7 +34,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
-          name: dist/git4school
+          name: dist-git4school
           path: dist/git4school
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
