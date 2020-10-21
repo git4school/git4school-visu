@@ -2,7 +2,7 @@
 name: User story template
 about: An issue template for a user story
 title: ''
-labels: user story
+labels: pending, user story
 assignees: ''
 
 ---

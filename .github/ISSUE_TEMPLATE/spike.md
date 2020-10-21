@@ -2,7 +2,7 @@
 name: Spike
 about: When we need time think about it
 title: ''
-labels: spike
+labels: pending, spike
 assignees: ''
 
 ---
