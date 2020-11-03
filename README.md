@@ -18,6 +18,7 @@
   <a href="#description">Description</a> •
   <a href="#features">Features</a> •
   <a href="#contribute">Contribute</a> •
+  <a href="#known-issues">Known issues</a> •
   <a href="#links">Links</a> •
   <a href="#license">License</a>
 </p>
@@ -47,11 +48,19 @@ From the monitoring over time of student commits to the completion rate of each 
   <img src="src/assets/images/readme-students-commits.png">
 - See the **completion ratio** in the group for each question.
 - Go **back in time** to a specific date
-  <img src="src/assets/images/readme-questions-completion.png">
+  <img src="src/assets/imageIf you want to contribute to the project, please feel free to send us a message heres/readme-questions-completion.png">
 - Easily view and add user accessible repositories
 - Export of statistics on commits
 
 ## Contribute
+
+If you want to contribute to the project, please feel free to send us a message [here](https://github.com/orgs/git4school/teams/dev)
+
+## Known issues
+
+- If you want to access an organization's repositories but forgot to grant rights the first time you log in, you will not be able to use these repositories in the application. We are investigating the possibility to handle this in the application, but for the time being you need to log out of Git4School, revoke the OAuth key manually in your Github account, and then, when you log back in to Git4School, you can grant rights for the organization of your choice
+  > If you need help, [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/reviewing-your-authorized-applications-oauth) is the Github documentation
+- When adding several repositories thanks to the repositories list, there is currently a limit of 100 repositories displayed. You can always add missing repositories manually with their URL. We will fix this soon
 
 ## Links
 
@@ -59,7 +68,7 @@ From the monitoring over time of student commits to the completion rate of each 
 - [Technical documentation](https://git4school.github.io/git4school-visu/) : if you want to add your contribution to the project, it is strongly recommended to go through this link. This is where you will see how it all works.
 - [Github API documentation](https://docs.github.com/en/free-pro-team@latest/rest) : here is useful documentation for making calls to the Github API
 - [Chart.js](https://link) & [ng2-charts documentation](https://link) : documentation for the library we use for graphs
-- [Firebase documentation](https://firebase.google.com/docs/web/setup) : 
+- [Firebase documentation](https://firebase.google.com/docs/web/setup) : Firebase documentation, used for authentication and deployment
 ## License
 
 Git4School is made available under the [Apache 2.0 License](https://github.com/git4school/git4school-visu/blob/master/LICENSE).
