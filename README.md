@@ -3,9 +3,9 @@
 <h4 align="center">A website that helps teachers follow the progress of their students</h4>
 
 <p align="center">
-  <a href="https://github.com/git4school/git4school-visu/actions?query=workflow%3A%22Build+and+Deploy%22"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/git4school/git4school-visu/Build%20and%20Deploy?logo=github-actions&logoColor=white&label=build%20%26%20deploy"></a>
-  <!-- Insert codacy badge when set up -->
-  <a href="https://git4school.firebaseapp.com"><img alt="Website" src="https://img.shields.io/website?logo=firebase&logoColor=white&color=lightseagreen&url=https%3A%2F%2Fgit4school.firebaseapp.com"></a>
+  <a href="https://github.com/git4school/git4school-visu/actions?query=workflow%3A%22Build+and+Deploy%22"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/git4school/git4school-visu/Build%20and%20Deploy?color=lightseagreen&logo=github-actions&logoColor=white&label=build%20%26%20deploy"></a>
+  <a href="https://www.codacy.com/gh/git4school/git4school-visu/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=git4school/git4school-visu&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/58b87a049c224ff69607e505cfe75116"/></a>
+  <!-- <a href="https://git4school.firebaseapp.com"><img alt="Website" src="https://img.shields.io/website?logo=firebase&logoColor=white&color=lightseagreen&url=https%3A%2F%2Fgit4school.firebaseapp.com"></a> -->
   <a href="https://github.com/git4school/git4school-visu/blob/master/package.json"><img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/git4school/git4school-visu/@angular/core?label=angular&logo=angular"></a>
   <a href="https://github.com/git4school/git4school-visu/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/git4school/git4school-visu?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAABTUlEQVRYhe2WQUoDMRSGM1K7FyzqERQ8gUco6F26EqFuikjdKr1Lhdm50wvUI6go4k4rn4u+QkyTzHsGFGF+CMPk5X/vm2QmGedatfqPAjrABfAIPABjoPObAGNWdf6TXFWmCAr/geS4aSxUVdFaa4oi2byF/rSALnAvrRvETiNLMNT6tQADL/kgiK0HEMPwJcz5NcV7wIuX4BXYiowj9q5o/TmAiRivpQFMDAAqf6r4HvABzIF9YBd4X943AVj8KYCp5L30+q6kr1YAqP2x4kcy8BnY9Po3gCeJHaYArP4YwIxmzTIAJr9zqxvRTnaKFtrOxMz+EOBWrmdVIOfccq+/yyQv8wN9maY5cMzie+4BJ8CnxPre+HAJTP4UxCizfqNg7DcAq79pJmrgTVodI48BWPzFSgFYVHocF8t0nmufNvXzEdOfz0CrVq2+AJqX502CkqgHAAAAAElFTkSuQmCC">
