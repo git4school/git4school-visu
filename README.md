@@ -48,7 +48,7 @@ From the monitoring over time of student commits to the completion rate of each 
   <img src="src/assets/images/readme-students-commits.png">
 - See the **completion ratio** in the group for each question.
 - Go **back in time** to a specific date
-  <img src="src/assets/imageIf you want to contribute to the project, please feel free to send us a message heres/readme-questions-completion.png">
+  <img src="src/assets/images/readme-questions-completion.png">
 - Easily view and add user accessible repositories
 - Export of statistics on commits
 
