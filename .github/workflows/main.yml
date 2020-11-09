@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build application & technical documentation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -14,24 +14,29 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@master
         with:
-          node-version: '14.x'
+          node-version: "14.x"
       - name: Install Dependencies
         run: npm install
       - name: Build app & doc
         run: npm run build:doc
-      - name: Archive Production Artifact
+      - name: Upload Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
           name: dist-git4school
           path: dist/git4school
-  deploy:
-    name: Deploy
+      - name: Upload Technical Documentation Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: tech-docs
+          path: tech-docs
+  deploy-app:
+    name: Deploy application
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
-      - name: Download Artifact
+      - name: Download Production Artifact
         uses: actions/download-artifact@master
         with:
           name: dist-git4school
@@ -42,3 +47,27 @@ jobs:
           args: deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+  deploy-tech-doc:
+    name: Deploy technical documentation
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@master
+      - name: Download Technical Documentation Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: tech-docs
+          path: tech-docs
+      - name: Pushes technical docs to gh-pages branch
+        uses: cpina/github-action-push-to-another-repository@master
+        env:
+          # F0urchette personal access token
+          API_TOKEN_GITHUB: ${{ secrets.MY_GITHUB_TOKEN }}
+        with:
+          source-directory: "tech-docs"
+          target-branch: gh-pages
+          destination-github-username: "git4school"
+          destination-repository-name: "git4school-visu"
+          user-email: tech@doc.fr
+          commit-message: "Technical documentation deployment"
