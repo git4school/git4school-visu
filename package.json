@@ -94,7 +94,7 @@
     "includes": "./src/assets/additional-docs/",
     "assetsFolder": "./src/assets/additional-docs/",
     "name": "Git4School documentation",
-    "output": "docs",
+    "output": "tech-docs",
     "excludes": [
       "src/test.ts",
       "**/*.spec.ts"
