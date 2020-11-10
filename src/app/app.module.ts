@@ -72,13 +72,8 @@ export function appInitializerFactory(
           ? window.navigator.language.slice(0, 2)
           : "en";
         translate.use(langToSet).subscribe(
-          () => {
-            console.info(`Successfully initialized '${langToSet}' language.'`);
-          },
+          () => {},
           (err) => {
-            console.error(
-              `Problem with '${langToSet}' language initialization. Language set to '${translate.defaultLang}'.`
-            );
             resolve(null);
           },
           () => {
