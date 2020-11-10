@@ -1,0 +1,171 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1 align="center">Git4School</h1>
+
+<h4 align="center">A website that helps teachers follow the progress of their students</h4>
+
+<p align="center">
+  <a href="https://github.com/git4school/git4school-visu/actions?query=workflow%3A%22Build+and+Deploy%22"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/git4school/git4school-visu/Build%20and%20Deploy?color=lightseagreen&logo=github-actions&logoColor=white&label=build%20%26%20deploy"></a>
+  <a href="https://www.codacy.com/gh/git4school/git4school-visu/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=git4school/git4school-visu&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/58b87a049c224ff69607e505cfe75116"/></a>
+  <!-- <a href="https://git4school.firebaseapp.com"><img alt="Website" src="https://img.shields.io/website?logo=firebase&logoColor=white&color=lightseagreen&url=https%3A%2F%2Fgit4school.firebaseapp.com"></a> -->
+  <a href="https://github.com/git4school/git4school-visu/blob/master/package.json"><img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/git4school/git4school-visu/@angular/core?label=angular&logo=angular"></a>
+  <a href="https://github.com/git4school/git4school-visu/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/git4school/git4school-visu?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAABTUlEQVRYhe2WQUoDMRSGM1K7FyzqERQ8gUco6F26EqFuikjdKr1Lhdm50wvUI6go4k4rn4u+QkyTzHsGFGF+CMPk5X/vm2QmGedatfqPAjrABfAIPABjoPObAGNWdf6TXFWmCAr/geS4aSxUVdFaa4oi2byF/rSALnAvrRvETiNLMNT6tQADL/kgiK0HEMPwJcz5NcV7wIuX4BXYiowj9q5o/TmAiRivpQFMDAAqf6r4HvABzIF9YBd4X943AVj8KYCp5L30+q6kr1YAqP2x4kcy8BnY9Po3gCeJHaYArP4YwIxmzTIAJr9zqxvRTnaKFtrOxMz+EOBWrmdVIOfccq+/yyQv8wN9maY5cMzie+4BJ8CnxPre+HAJTP4UxCizfqNg7DcAq79pJmrgTVodI48BWPzFSgFYVHocF8t0nmufNvXzEdOfz0CrVq2+AJqX502CkqgHAAAAAElFTkSuQmCC">
+  </a>
+  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/git4school/git4school-visu?color=red">
+</p>
+
+<p align="center">
+  <a href="#backgroung">Background</a> •
+  <a href="#description">Description</a> •
+  <a href="#features">Features</a> •
+  <a href="#contribute">Contribute</a> •
+  <a href="#known-issues">Known issues</a> •
+  <a href="#links">Links</a> •
+  <a href="#license">License</a>
+</p>
+
+<h2 id="background">Background</h2>
+<details><summary>Click to read the background behind this project</summary>
+E-education is a field aiming to support teaching and learning using digital tools. It is more than ever in tune with the time and is becoming an important learning tool. In this context, Jean-Baptiste Raclet and Franck Sylvestre, teacher-researchers at IRIT, are working together on a programming learning protocol. Based on test-driven development, peer reviewing and iterative approach (testing, development, peer reviewing, testing, development, ...), the protocol uses digital tools such as <a href="https://elaastic.irit.fr/elaastic-questions/">Elaastic</a> and Git4School. To understand the need behind Git4School, it is necessary to detail the "development" part of the protocol. In a practice session, a question sheet is given to the students. Then, they develop the features that validate the tests. At the end of each question, the student has to commit his code to his Github repository, with a message identifying the question. After a certain amount of sessions, the teacher will organize a peer review, and then later send the correction to the students. It is therefore important that the teacher is able to follow the progress of the group in order to make reviews and corrections neither too early nor too late. It is to avoid having to visit each repository to get an idea of the group's progression that this project was created.
+
+</details>
+
+<h2 id="description">Description</h2>
+<blockquote>
+<p>You can find detailed documentation to get started <a href="https://git4school.github.io/">here</a></p>
+</blockquote>
+<p>Git4School is an application that helps teachers follow the progress of their students during practical work sessions using Github.
+From the monitoring over time of student commits to the completion rate of each question by the TP group, as well as the distribution of the types of commits of each student (before / after a correction...), the teacher has access to several tools to best support his students during the practical work sessions.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Display commits of multiple repositories on a single view</li>
+<li><strong>Filter</strong> commits by TP group or by resolved question</li>
+<li>Add <strong>markers</strong> (session, review, correction) and see when associated questions have been resolved in relation to these markers using colored indicators<img src="src/assets/images/readme-overview.png"></li>
+<li>Have an <strong>overview</strong> of the students&#39; work habits</li>
+<li>Go <strong>back in time</strong> to a specific date<img src="src/assets/images/readme-students-commits.png"></li>
+<li>See the <strong>completion ratio</strong> in the group for each question.</li>
+<li>Go <strong>back in time</strong> to a specific date<img src="src/assets/images/readme-questions-completion.png"></li>
+<li>Easily view and add user accessible repositories</li>
+<li>Export of statistics on commits</li>
+</ul>
+<h2 id="contribute">Contribute</h2>
+<p>If you want to contribute to the project, please feel free to send us a message <a href="https://github.com/orgs/git4school/teams/dev">here</a></p>
+<h2 id="known-issues">Known issues</h2>
+<ul>
+<li>If you want to access an organization&#39;s repositories but forgot to grant rights the first time you log in, you will not be able to use these repositories in the application. We are investigating the possibility to handle this in the application, but for the time being you need to log out of Git4School, revoke the OAuth key manually in your Github account, and then, when you log back in to Git4School, you can grant rights for the organization of your choice<blockquote>
+<p>If you need help, <a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/reviewing-your-authorized-applications-oauth">here</a> is the Github documentation</p>
+</blockquote>
+</li>
+<li>When adding several repositories thanks to the repositories list, there is currently a limit of 100 repositories displayed. You can always add missing repositories manually with their URL. We will fix this soon</li>
+</ul>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://git4school.github.io/">User documentation</a> : this is where you need to go to if you want to get started with the application </li>
+<li><a href="https://git4school.github.io/git4school-visu/">Technical documentation</a> : if you want to add your contribution to the project, it is strongly recommended to go through this link. This is where you will see how it all works.</li>
+<li><a href="https://docs.github.com/en/free-pro-team@latest/rest">Github API documentation</a> : here is useful documentation for making calls to the Github API</li>
+<li><a href="https://link">Chart.js</a> &amp; <a href="https://link">ng2-charts documentation</a> : documentation for the library we use for graphs</li>
+<li><a href="https://firebase.google.com/docs/web/setup">Firebase documentation</a> : Firebase documentation, used for authentication and deployment<h2 id="license">License</h2>
+</li>
+</ul>
+<p>Git4School is made available under the <a href="https://github.com/git4school/git4school-visu/blob/master/LICENSE">Apache 2.0 License</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

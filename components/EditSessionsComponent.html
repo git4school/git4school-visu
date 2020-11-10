@@ -1,0 +1,2118 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>EditSessionsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/configuration/edit-sessions/edit-sessions.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterContentChecked" target="_blank" >AfterContentChecked</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                            <code>{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>edit-sessions</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./edit-sessions.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./edit-sessions.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#formGroup">formGroup</a>
+                            </li>
+                            <li>
+                                <a href="#nbEditing">nbEditing</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#createFormGroup">createFormGroup</a>
+                            </li>
+                            <li>
+                                <a href="#endTimeValidator">endTimeValidator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getTimeFromDate">getTimeFromDate</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterContentChecked">ngAfterContentChecked</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#submitForm">submitForm</a>
+                            </li>
+                            <li>
+                                <a href="#addRow">addRow</a>
+                            </li>
+                            <li>
+                                <a href="#cancelRow">cancelRow</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#createFormGroup">createFormGroup</a>
+                            </li>
+                            <li>
+                                <a href="#deleteRow">deleteRow</a>
+                            </li>
+                            <li>
+                                <a href="#editRow">editRow</a>
+                            </li>
+                            <li>
+                                <a href="#initForm">initForm</a>
+                            </li>
+                            <li>
+                                <a href="#isEditable">isEditable</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterContentChecked">ngAfterContentChecked</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#restoreRow">restoreRow</a>
+                            </li>
+                            <li>
+                                <a href="#saveRow">saveRow</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#submitForm">submitForm</a>
+                            </li>
+                            <li>
+                                <a href="#validateRow">validateRow</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#modify">modify</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#modify">modify</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#datas">datas</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#modified">modified</a>
+                            </li>
+                            <li>
+                                <a href="#save">save</a>
+                            </li>
+                            <li>
+                                <a href="#modified">modified</a>
+                            </li>
+                            <li>
+                                <a href="#save">save</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, cdref: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/components/configuration/edit-sessions/edit-sessions.component.ts:14</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdref</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="datas"></a>
+                        <b>datas</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Data[]</code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:9</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="modified"></a>
+                        <b>modified</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:8</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="save"></a>
+                        <b>save</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:7</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="modified"></a>
+                        <b>modified</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:8</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="save"></a>
+                        <b>save</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:7</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createFormGroup"></a>
+                    <span class="name">
+                        <b>
+                            createFormGroup
+                        </b>
+                        <a href="#createFormGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createFormGroup(data?: <a href="../classes/Session.html">Session</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">src/app/components/configuration/edit-sessions/edit-sessions.component.ts:41</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                                <code><a href="../classes/Session.html" target="_self" >Session</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="endTimeValidator"></a>
+                    <span class="name">
+                        <b>
+                            endTimeValidator
+                        </b>
+                        <a href="#endTimeValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>endTimeValidator()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/app/components/configuration/edit-sessions/edit-sessions.component.ts:28</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/forms/ValidatorFn" target="_blank" >ValidatorFn</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTimeFromDate"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getTimeFromDate
+                        </b>
+                        <a href="#getTimeFromDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTimeFromDate(date: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">src/app/components/configuration/edit-sessions/edit-sessions.component.ts:56</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>date</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{ hour: any; minute: any; }</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterContentChecked"></a>
+                    <span class="name">
+                        <b>
+                            ngAfterContentChecked
+                        </b>
+                        <a href="#ngAfterContentChecked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterContentChecked()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/app/components/configuration/edit-sessions/edit-sessions.component.ts:24</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">src/app/components/configuration/edit-sessions/edit-sessions.component.ts:20</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitForm"></a>
+                    <span class="name">
+                        <b>
+                            submitForm
+                        </b>
+                        <a href="#submitForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitForm()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">src/app/components/configuration/edit-sessions/edit-sessions.component.ts:63</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addRow"></a>
+                    <span class="name">
+                        <b>
+                            addRow
+                        </b>
+                        <a href="#addRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addRow(data?: <a href="https://angular.io/api/router/Data" target="_blank">Data</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:47</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Data" target="_blank" >Data</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelRow"></a>
+                    <span class="name">
+                        <b>
+                            cancelRow
+                        </b>
+                        <a href="#cancelRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelRow(group: <a href="https://angular.io/api/forms/FormGroup" target="_blank">FormGroup</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:79</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>group</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createFormGroup"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            createFormGroup
+                        </b>
+                        <a href="#createFormGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createFormGroup(data?: <a href="https://angular.io/api/router/Data" target="_blank">Data</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:45</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Data" target="_blank" >Data</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteRow"></a>
+                    <span class="name">
+                        <b>
+                            deleteRow
+                        </b>
+                        <a href="#deleteRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteRow(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:61</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editRow"></a>
+                    <span class="name">
+                        <b>
+                            editRow
+                        </b>
+                        <a href="#editRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>editRow(group: <a href="https://angular.io/api/forms/FormGroup" target="_blank">FormGroup</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:55</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>group</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initForm"></a>
+                    <span class="name">
+                        <b>
+                            initForm
+                        </b>
+                        <a href="#initForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initForm()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:39</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEditable"></a>
+                    <span class="name">
+                        <b>
+                            isEditable
+                        </b>
+                        <a href="#isEditable"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isEditable(group: <a href="https://angular.io/api/forms/FormGroup" target="_blank">FormGroup</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:35</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>group</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterContentChecked"></a>
+                    <span class="name">
+                        <b>
+                            ngAfterContentChecked
+                        </b>
+                        <a href="#ngAfterContentChecked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterContentChecked()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:26</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:18</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="restoreRow"></a>
+                    <span class="name">
+                        <b>
+                            restoreRow
+                        </b>
+                        <a href="#restoreRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>restoreRow(group: <a href="https://angular.io/api/forms/FormGroup" target="_blank">FormGroup</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:90</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>group</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveRow"></a>
+                    <span class="name">
+                        <b>
+                            saveRow
+                        </b>
+                        <a href="#saveRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>saveRow(group: <a href="https://angular.io/api/forms/FormGroup" target="_blank">FormGroup</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:85</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>group</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitForm"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            submitForm
+                        </b>
+                        <a href="#submitForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>submitForm()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:94</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateRow"></a>
+                    <span class="name">
+                        <b>
+                            validateRow
+                        </b>
+                        <a href="#validateRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>validateRow(group: <a href="https://angular.io/api/forms/FormGroup" target="_blank">FormGroup</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:67</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>group</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="modify"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            modify
+                        </b>
+                        <a href="#modify"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>modify()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:10</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="modify"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            modify
+                        </b>
+                        <a href="#modify"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>modify()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:10</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formGroup"></a>
+                        <span class="name">
+                            <b>
+                            formGroup</b>
+                            <a href="#formGroup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:10</a></code>
+</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="nbEditing"></a>
+                        <span class="name">
+                            <b>
+                            nbEditing</b>
+                            <a href="#nbEditing"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:11</a></code>
+</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from &#x27;@angular/core&#x27;;
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from &#x27;@angular/forms&#x27;;
+import { Session } from &#x27;@models/Session.model&#x27;;
+import { NgbDateAdapter, NgbDateNativeAdapter } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
+import * as moment from &#x27;moment&#x27;;
+import { BaseTabEditConfigurationComponent } from &#x27;../base-tab-edit-configuration.component&#x27;;
+
+@Component({
+  selector: &#x27;edit-sessions&#x27;,
+  templateUrl: &#x27;./edit-sessions.component.html&#x27;,
+  styleUrls: [&#x27;./edit-sessions.component.scss&#x27;],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+})
+export class EditSessionsComponent extends BaseTabEditConfigurationComponent&lt;Session&gt; implements OnInit, AfterContentChecked {
+  constructor(
+    protected fb: FormBuilder,
+    protected cdref: ChangeDetectorRef,
+  ) { super(fb, cdref); }
+
+  ngOnInit(): void {
+    super.ngOnInit();
+  }
+
+  ngAfterContentChecked(): void {
+    super.ngAfterContentChecked();
+  }
+
+  endTimeValidator(): ValidatorFn {
+    return (group: FormGroup): ValidationErrors | null &#x3D;&gt; {
+      let startTime &#x3D; group.get(&#x27;startTime&#x27;).value;
+      let endTime &#x3D; group.get(&#x27;endTime&#x27;).value;
+
+      if (startTime &amp;&amp; endTime) {
+        if (moment(endTime).isAfter(moment(startTime)))
+          return null;
+      }
+      return { &#x27;endTimeBeforeStartTime&#x27;: true };
+    };
+  }
+
+  createFormGroup(data?: Session) {
+
+    let formGroup &#x3D; this.fb.group({
+      date: [data ? data.startDate : new Date(), Validators.required],
+      startTime: [data ? this.getTimeFromDate(data.startDate) : null, Validators.required],
+      endTime: [data ? this.getTimeFromDate(data.endDate) : null, Validators.required],
+      tpGroup: [data ? data.tpGroup : &#x27;&#x27;],
+      isEditable: false,
+      isInvalid: false,
+      save: {}
+    });
+    formGroup.setValidators(this.endTimeValidator());
+    return formGroup;
+  }
+
+  private getTimeFromDate(date: Date) {
+    return {
+      hour: moment(date).hour(),
+      minute: moment(date).minutes()
+    };
+  }
+
+  submitForm(): void {
+    this.save.emit(
+      this.getFormControls.controls.map(row &#x3D;&gt; {
+        console.log(row);
+        let date &#x3D; row.get(&#x27;date&#x27;).value;
+        let startTime &#x3D; row.get(&#x27;startTime&#x27;).value;
+        let endTime &#x3D; row.get(&#x27;endTime&#x27;).value;
+
+        let startDate &#x3D; moment(date).set(startTime).toDate();
+        let endDate &#x3D; moment(date).set(endTime).toDate();
+        let tpGroup &#x3D; row.get(&#x27;tpGroup&#x27;).value;
+        return new Session(startDate, endDate, tpGroup);
+      })
+    );
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;p-2&quot;&gt;
+    &lt;h2&gt;{{ &#x27;EDIT-SESSIONS.PAGE-TITLE&#x27; | translate }}&lt;/h2&gt;
+    &lt;div class&#x3D;&quot;mt-2&quot;&gt;
+        &lt;form class&#x3D;&quot;needs-validation&quot; [formGroup]&#x3D;&quot;formGroup&quot; novalidate&gt;
+            &lt;table class&#x3D;&quot;table table-hover table-striped shadow&quot;&gt;
+                &lt;thead class&#x3D;&quot;thead-dark&quot;&gt;
+                    &lt;tr&gt;
+                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 20%&quot;&gt;{{ &#x27;EDIT-SESSIONS.COLUMN-DATE&#x27; | translate}}&lt;/th&gt;
+                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 20%&quot;&gt;{{ &#x27;EDIT-SESSIONS.COLUMN-START-TIME&#x27; | translate}}&lt;/th&gt;
+                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 20%&quot;&gt;{{ &#x27;EDIT-SESSIONS.COLUMN-END-TIME&#x27; | translate}}&lt;/th&gt;
+                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 20%&quot;&gt;{{ &#x27;EDIT-SESSIONS.COLUMN-TP-GROUP&#x27; | translate}}&lt;/th&gt;
+                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 20%&quot;&gt;&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody&gt;
+                    &lt;ng-container formArrayName&#x3D;&quot;formArray&quot;
+                        *ngFor&#x3D;&quot;let group of getFormControls.controls; let i &#x3D; index&quot;&gt;
+                        &lt;tr [formGroupName]&#x3D;&quot;i&quot;&gt;
+                            &lt;td&gt;
+                                &lt;div class&#x3D;&quot;input-group&quot;&gt;
+                                    &lt;input class&#x3D;&quot;form-control&quot; placeholder&#x3D;&quot;yyyy-mm-dd&quot; formControlName&#x3D;&quot;date&quot;
+                                        ngbDatepicker #d&#x3D;&quot;ngbDatepicker&quot; name&#x3D;&quot;date&quot; [disabled]&#x3D;&quot;!isEditable(group)&quot;
+                                        [showWeekNumbers]&#x3D;&quot;true&quot;&gt;
+                                    &lt;div class&#x3D;&quot;input-group-append&quot;&gt;
+                                        &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; (click)&#x3D;&quot;d.toggle()&quot; type&#x3D;&quot;button&quot;
+                                            [disabled]&#x3D;&quot;!isEditable(group)&quot;&gt;
+                                            &lt;i class&#x3D;&quot;far fa-calendar-alt&quot;&gt;&lt;/i&gt;
+                                        &lt;/button&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td&gt;
+                                &lt;ngb-timepicker formControlName&#x3D;&quot;startTime&quot; size&#x3D;&quot;medium&quot; [spinners]&#x3D;&quot;false&quot; [ngClass]&#x3D;&quot;{
+                                    &#x27;is-invalid&#x27;: group.get(&#x27;startTime&#x27;).invalid,
+                                    &#x27;is-valid&#x27;: group.get(&#x27;startTime&#x27;).valid}&quot; [readonlyInputs]&#x3D;&quot; !isEditable(group)&quot;&gt;
+                                &lt;/ngb-timepicker&gt;
+                                &lt;div *ngIf&#x3D;&quot;group.get(&#x27;startTime&#x27;).errors&quot; class&#x3D;&quot;small form-text text-danger&quot;&gt;
+                                    &lt;div *ngIf&#x3D;&quot;group.get(&#x27;startTime&#x27;).errors[&#x27;required&#x27;]&quot;&gt;
+                                        {{ &#x27;EDIT-SESSIONS.MESSAGE-REQUIRED-STARTTIME&#x27; | translate }}
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td&gt;
+                                &lt;ngb-timepicker formControlName&#x3D;&quot;endTime&quot; size&#x3D;&quot;medium&quot; [spinners]&#x3D;&quot;false&quot; [ngClass]&#x3D;&quot;{
+                                    &#x27;is-invalid&#x27;: group.get(&#x27;endTime&#x27;).invalid,
+                                    &#x27;is-valid&#x27;: group.get(&#x27;endTime&#x27;).valid}&quot; [readonlyInputs]&#x3D;&quot;!isEditable(group)&quot;&gt;
+                                &lt;/ngb-timepicker&gt;
+                                &lt;div *ngIf&#x3D;&quot;group.get(&#x27;endTime&#x27;).errors&quot; class&#x3D;&quot;small form-text text-danger&quot;&gt;
+                                    &lt;div *ngIf&#x3D;&quot;group.get(&#x27;endTime&#x27;).errors[&#x27;required&#x27;]&quot;&gt;
+                                        {{ &#x27;EDIT-SESSIONS.MESSAGE-REQUIRED-ENDTIME&#x27; | translate }}
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div *ngIf&#x3D;&quot;group.errors&quot; class&#x3D;&quot;small form-text text-danger&quot;&gt;
+                                    &lt;div *ngIf&#x3D;&quot;group.errors[&#x27;endTimeBeforeStartTime&#x27;]&quot;&gt;
+                                        {{ &#x27;EDIT-SESSIONS.MESSAGE-ENDTIME-BEFORE-STARTTIME&#x27; | translate }}
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td *ngIf&#x3D;&quot;isEditable(group)&quot;&gt;
+                                &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; formControlName&#x3D;&quot;tpGroup&quot; placeholder&#x3D;&quot;1.1&quot;
+                                    [disabled]&#x3D;&quot;!isEditable(group)&quot;&gt;
+                            &lt;/td&gt;
+                            &lt;td *ngIf&#x3D;&quot;!isEditable(group)&quot;&gt;
+                                {{ group.get(&#x27;tpGroup&#x27;).value }}
+                            &lt;/td&gt;
+                            &lt;td&gt;
+                                &lt;div *ngIf&#x3D;&quot;isEditable(group)&quot; class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; aria-label&#x3D;&quot;&quot;&gt;
+                                    &lt;button type&#x3D;&quot;reset&quot; class&#x3D;&quot;btn btn-danger&quot; (click)&#x3D;&quot;cancelRow(group)&quot;&gt;&lt;i
+                                            class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                    &lt;button type&#x3D;&quot;submit&quot; class&#x3D;&quot;btn btn-success&quot; (click)&#x3D;&quot;validateRow(group)&quot;&gt;&lt;i
+                                            class&#x3D;&quot;fas fa-check&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                                &lt;div *ngIf&#x3D;&quot;!isEditable(group)&quot; class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; aria-label&#x3D;&quot;&quot;&gt;
+                                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-secondary&quot; (click)&#x3D;&quot;editRow(group)&quot;&gt;&lt;i
+                                            class&#x3D;&quot;fas fa-pencil-alt&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger&quot; (click)&#x3D;&quot;deleteRow(i)&quot;&gt;&lt;i
+                                            class&#x3D;&quot;far fa-trash-alt&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                    &lt;/ng-container&gt;
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+            &lt;div class&#x3D;&quot;sticky-bot bg-white py-3&quot;&gt;
+                &lt;button class&#x3D;&quot;btn btn-secondary&quot; type&#x3D;&quot;submit&quot; (click)&#x3D;&quot;addRow()&quot;
+                    ngbTooltip&#x3D;&quot;{{ &#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-SESSION&#x27; | translate }}&quot; [openDelay]&#x3D;&quot;500&quot;&gt;
+                    &lt;i class&#x3D;&quot;far fa-calendar-plus&quot;&gt;&lt;/i&gt;
+                &lt;/button&gt;
+                &lt;button class&#x3D;&quot;btn btn-primary ml-2&quot; [disabled]&#x3D;&quot;nbEditing || formGroup.invalid&quot; type&#x3D;&quot;submit&quot;
+                    (click)&#x3D;&quot;submitForm()&quot; ngbTooltip&#x3D;&quot;{{ &#x27;EDIT-REPOSITORIES.TOOLTIP-SAVE&#x27; | translate }}&quot;
+                    [openDelay]&#x3D;&quot;500&quot;&gt;
+                    &lt;i class&#x3D;&quot;fas fa-save&quot;&gt;&lt;/i&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./edit-sessions.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="p-2">    <h2>{{ \'EDIT-SESSIONS.PAGE-TITLE\' | translate }}</h2>    <div class="mt-2">        <form class="needs-validation" [formGroup]="formGroup" novalidate>            <table class="table table-hover table-striped shadow">                <thead class="thead-dark">                    <tr>                        <th scope="col" style="width: 20%">{{ \'EDIT-SESSIONS.COLUMN-DATE\' | translate}}</th>                        <th scope="col" style="width: 20%">{{ \'EDIT-SESSIONS.COLUMN-START-TIME\' | translate}}</th>                        <th scope="col" style="width: 20%">{{ \'EDIT-SESSIONS.COLUMN-END-TIME\' | translate}}</th>                        <th scope="col" style="width: 20%">{{ \'EDIT-SESSIONS.COLUMN-TP-GROUP\' | translate}}</th>                        <th scope="col" style="width: 20%"></th>                    </tr>                </thead>                <tbody>                    <ng-container formArrayName="formArray"                        *ngFor="let group of getFormControls.controls; let i = index">                        <tr [formGroupName]="i">                            <td>                                <div class="input-group">                                    <input class="form-control" placeholder="yyyy-mm-dd" formControlName="date"                                        ngbDatepicker #d="ngbDatepicker" name="date" [disabled]="!isEditable(group)"                                        [showWeekNumbers]="true">                                    <div class="input-group-append">                                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"                                            [disabled]="!isEditable(group)">                                            <i class="far fa-calendar-alt"></i>                                        </button>                                    </div>                                </div>                            </td>                            <td>                                <ngb-timepicker formControlName="startTime" size="medium" [spinners]="false" [ngClass]="{                                    \'is-invalid\': group.get(\'startTime\').invalid,                                    \'is-valid\': group.get(\'startTime\').valid}" [readonlyInputs]=" !isEditable(group)">                                </ngb-timepicker>                                <div *ngIf="group.get(\'startTime\').errors" class="small form-text text-danger">                                    <div *ngIf="group.get(\'startTime\').errors[\'required\']">                                        {{ \'EDIT-SESSIONS.MESSAGE-REQUIRED-STARTTIME\' | translate }}                                    </div>                                </div>                            </td>                            <td>                                <ngb-timepicker formControlName="endTime" size="medium" [spinners]="false" [ngClass]="{                                    \'is-invalid\': group.get(\'endTime\').invalid,                                    \'is-valid\': group.get(\'endTime\').valid}" [readonlyInputs]="!isEditable(group)">                                </ngb-timepicker>                                <div *ngIf="group.get(\'endTime\').errors" class="small form-text text-danger">                                    <div *ngIf="group.get(\'endTime\').errors[\'required\']">                                        {{ \'EDIT-SESSIONS.MESSAGE-REQUIRED-ENDTIME\' | translate }}                                    </div>                                </div>                                <div *ngIf="group.errors" class="small form-text text-danger">                                    <div *ngIf="group.errors[\'endTimeBeforeStartTime\']">                                        {{ \'EDIT-SESSIONS.MESSAGE-ENDTIME-BEFORE-STARTTIME\' | translate }}                                    </div>                                </div>                            </td>                            <td *ngIf="isEditable(group)">                                <input type="text" class="form-control" formControlName="tpGroup" placeholder="1.1"                                    [disabled]="!isEditable(group)">                            </td>                            <td *ngIf="!isEditable(group)">                                {{ group.get(\'tpGroup\').value }}                            </td>                            <td>                                <div *ngIf="isEditable(group)" class="btn-group" role="group" aria-label="">                                    <button type="reset" class="btn btn-danger" (click)="cancelRow(group)"><i                                            class="fas fa-times"></i></button>                                    <button type="submit" class="btn btn-success" (click)="validateRow(group)"><i                                            class="fas fa-check"></i></button>                                </div>                                <div *ngIf="!isEditable(group)" class="btn-group" role="group" aria-label="">                                    <button type="button" class="btn btn-secondary" (click)="editRow(group)"><i                                            class="fas fa-pencil-alt"></i></button>                                    <button type="button" class="btn btn-danger" (click)="deleteRow(i)"><i                                            class="far fa-trash-alt"></i></button>                                </div>                            </td>                        </tr>                    </ng-container>                </tbody>            </table>            <div class="sticky-bot bg-white py-3">                <button class="btn btn-secondary" type="submit" (click)="addRow()"                    ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-ADD-SESSION\' | translate }}" [openDelay]="500">                    <i class="far fa-calendar-plus"></i>                </button>                <button class="btn btn-primary ml-2" [disabled]="nbEditing || formGroup.invalid" type="submit"                    (click)="submitForm()" ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-SAVE\' | translate }}"                    [openDelay]="500">                    <i class="fas fa-save"></i>                </button>            </div>        </form>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'EditSessionsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'EditSessionsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
