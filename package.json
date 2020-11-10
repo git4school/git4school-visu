@@ -42,7 +42,7 @@
     "chartjs-plugin-colorschemes": "^0.4.0",
     "chartjs-plugin-datalabels": "^0.7.0",
     "chartjs-plugin-zoom": "^0.7.5",
-    "compodoc": "0.0.41",
+    "@compodoc/compodoc": "^1.1.11",
     "core-js": "^3.6.4",
     "file-saver": "^2.0.2",
     "firebase": "^7.13.2",
