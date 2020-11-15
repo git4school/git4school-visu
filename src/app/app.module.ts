@@ -55,6 +55,15 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+/**
+ * Called at the initialization of the application, which waits for the end of this function to start.
+ * It's here that we initialize the localization and the translate service :
+ *  - If possible, the application is initialized with the browser language, otherwise it uses english localization
+ *  - It loads all the translations so we can get them instantly later
+ *
+ * @param translate The translation service
+ * @param injector The injector service
+ */
 export function appInitializerFactory(
   translate: TranslateService,
   injector: Injector
