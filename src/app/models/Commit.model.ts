@@ -187,10 +187,10 @@ export class Commit {
    * @param corrections The corrections to handle
    */
   updateColor(reviews: Milestone[], corrections: Milestone[]) {
-    this.color = CommitColor.INTERMEDIATE;
+    this.color = this.question ? CommitColor.BEFORE : CommitColor.INTERMEDIATE;
 
     reviews?.forEach((review) => {
-      if (review.questions && review.questions.includes(this.question)) {
+      if (review.questions?.includes(this.question)) {
         if (this.commitDate.getTime() > review.date.getTime()) {
           this.color = CommitColor.BETWEEN;
         } else {
@@ -199,10 +199,7 @@ export class Commit {
       }
     });
     corrections?.forEach((correction) => {
-      if (
-        correction.questions &&
-        correction.questions.includes(this.question)
-      ) {
+      if (correction.questions?.includes(this.question)) {
         if (this.commitDate.getTime() > correction.date.getTime()) {
           this.color = CommitColor.AFTER;
         } else if (this.color === CommitColor.INTERMEDIATE) {

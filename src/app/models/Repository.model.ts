@@ -1,4 +1,4 @@
-import { Commit } from '@models/Commit.model';
+import { Commit } from "@models/Commit.model";
 
 /**
  * This class modelizes a Github repository
@@ -22,7 +22,7 @@ export class Repository {
   }
 
   getNameFromUrl(): string {
-    return this.url.split('/')[4];
+    return this.url.split("/")[4];
   }
 
   static isEqual(repository1: Repository, repository2: Repository): boolean {
@@ -40,16 +40,12 @@ export class Repository {
 }
 
 export class Error {
-  constructor(
-    public type: ErrorType,
-    public message = ""
-  ) { }
+  constructor(public type: ErrorType, public message = "") {}
 }
 
 export const enum ErrorType {
-  COMMITS_NOT_FOUND = 'COMMITS-NOT-FOUND',
-  README_NOT_FOUND = 'README-NOT-FOUND',
-  README_NAME_NOT_FOUND = 'README-NAME-NOT-FOUND',
-  README_TPGROUP_NOT_FOUND = 'README-TPGROUP-NOT-FOUND'
+  COMMITS_NOT_FOUND = "COMMITS-NOT-FOUND",
+  README_NOT_FOUND = "README-NOT-FOUND",
+  README_NAME_NOT_FOUND = "README-NAME-NOT-FOUND",
+  README_TPGROUP_NOT_FOUND = "README-TPGROUP-NOT-FOUND",
 }
-
