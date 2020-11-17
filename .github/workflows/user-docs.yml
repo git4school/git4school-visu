@@ -1,5 +1,5 @@
 name: Push user documentation to the organization repository
-on: 
+on:
   push:
     branches:
       - master
@@ -16,8 +16,9 @@ jobs:
           # F0urchette personal access token
           API_TOKEN_GITHUB: ${{ secrets.MY_GITHUB_TOKEN }}
         with:
-          source-directory: 'user-docs'
+          source-directory: "user-docs"
           target-branch: gh-pages
-          destination-github-username: 'git4school'
-          destination-repository-name: 'git4school.github.io'
-          user-email: user-doc@cd.fr
+          destination-github-username: "git4school"
+          destination-repository-name: "git4school.github.io"
+          user-email: "user@doc.fr"
+          commit-message: ":rocket: User documentation"

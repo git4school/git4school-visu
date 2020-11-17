@@ -69,5 +69,5 @@ jobs:
           target-branch: gh-pages
           destination-github-username: "git4school"
           destination-repository-name: "git4school-visu"
-          user-email: tech@doc.fr
-          commit-message: "Technical documentation deployment"
+          user-email: "tech@doc.fr"
+          commit-message: ":rocket: Technical documentation"
