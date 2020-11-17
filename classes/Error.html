@@ -193,7 +193,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/models/Repository.model.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/models/Repository.model.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -221,7 +221,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/models/Repository.model.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/models/Repository.model.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -240,7 +240,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Commit } from &#x27;@models/Commit.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Commit } from &quot;@models/Commit.model&quot;;
 
 /**
  * This class modelizes a Github repository
@@ -264,7 +264,7 @@ export class Repository {
   }
 
   getNameFromUrl(): string {
-    return this.url.split(&#x27;/&#x27;)[4];
+    return this.url.split(&quot;/&quot;)[4];
   }
 
   static isEqual(repository1: Repository, repository2: Repository): boolean {
@@ -282,19 +282,15 @@ export class Repository {
 }
 
 export class Error {
-  constructor(
-    public type: ErrorType,
-    public message &#x3D; &quot;&quot;
-  ) { }
+  constructor(public type: ErrorType, public message &#x3D; &quot;&quot;) {}
 }
 
 export const enum ErrorType {
-  COMMITS_NOT_FOUND &#x3D; &#x27;COMMITS-NOT-FOUND&#x27;,
-  README_NOT_FOUND &#x3D; &#x27;README-NOT-FOUND&#x27;,
-  README_NAME_NOT_FOUND &#x3D; &#x27;README-NAME-NOT-FOUND&#x27;,
-  README_TPGROUP_NOT_FOUND &#x3D; &#x27;README-TPGROUP-NOT-FOUND&#x27;
+  COMMITS_NOT_FOUND &#x3D; &quot;COMMITS-NOT-FOUND&quot;,
+  README_NOT_FOUND &#x3D; &quot;README-NOT-FOUND&quot;,
+  README_NAME_NOT_FOUND &#x3D; &quot;README-NAME-NOT-FOUND&quot;,
+  README_TPGROUP_NOT_FOUND &#x3D; &quot;README-TPGROUP-NOT-FOUND&quot;,
 }
-
 </code></pre>
     </div>
 </div>
