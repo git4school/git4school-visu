@@ -42,13 +42,13 @@ From the monitoring over time of student commits to the completion rate of each 
 - Display commits of multiple repositories on a single view
 - **Filter** commits by TP group or by resolved question
 - Add **markers** (session, review, correction) and see when associated questions have been resolved in relation to these markers using colored indicators
-  <img src="src/assets/images/readme-overview.png">
+  ![overview](https://raw.githubusercontent.com/gist/F0urchette/f28b59771db8be0be96df492d5a9fe27/raw/164938235dd2c3a5512a2a03e710213984f63086/readme-overview.svg)
 - Have an **overview** of the students' work habits
 - Go **back in time** to a specific date
-  <img src="src/assets/images/readme-students-commits.png">
+  ![students-commits](https://raw.githubusercontent.com/gist/F0urchette/3303329a5935a2e5bf4cb8ab4393987b/raw/cdfd70da60ae9032e8c64d08a982e2e8486a69d3/readme-students-commits.svg)
 - See the **completion ratio** in the group for each question.
 - Go **back in time** to a specific date
-  <img src="src/assets/images/readme-questions-completion.png">
+  ![questions-completion](https://raw.githubusercontent.com/gist/F0urchette/3303329a5935a2e5bf4cb8ab4393987b/raw/cdfd70da60ae9032e8c64d08a982e2e8486a69d3/readme-questions-completion.svg)
 - Easily view and add user accessible repositories
 - Export of statistics on commits
 
