@@ -628,8 +628,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="189"
-                            class="link-to-prism">src/app/models/Commit.model.ts:189</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">src/app/models/Commit.model.ts:185</a></div>
                 </td>
             </tr>
 
@@ -964,7 +964,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateQuestion(reviews: <a href="../classes/Milestone.html">Milestone[]</a>, corrections: <a href="../classes/Milestone.html">Milestone[]</a>, questions: String[])</code>
+<code>updateQuestion(questions: String[])</code>
                 </td>
             </tr>
 
@@ -994,34 +994,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>reviews</td>
-                                    <td>
-                                                <code><a href="../classes/Milestone.html" target="_self" >Milestone[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>corrections</td>
-                                    <td>
-                                                <code><a href="../classes/Milestone.html" target="_self" >Milestone[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>questions</td>
                                     <td>
@@ -1452,7 +1424,7 @@ export class Commit {
     questions: string[]
   ) {
     this.updateIsCloture();
-    this.updateQuestion(reviews, corrections, questions);
+    this.updateQuestion(questions);
     this.updateColor(reviews, corrections);
   }
 
@@ -1477,11 +1449,7 @@ export class Commit {
    * @param questions The questions to handle
    * @returns A string, corresponding to the question the commit is closing, if found. A null value is returned if no question has been found
    */
-  updateQuestion(
-    reviews: Milestone[],
-    corrections: Milestone[],
-    questions: String[]
-  ) {
+  updateQuestion(questions: String[]) {
     const questionsToken &#x3D; questions.join(&quot;|&quot;);
     const keywordsToken &#x3D; [
       &quot;Resolve&quot;,
