@@ -133,7 +133,7 @@ export class Commit {
     questions: string[]
   ) {
     this.updateIsCloture();
-    this.updateQuestion(reviews, corrections, questions);
+    this.updateQuestion(questions);
     this.updateColor(reviews, corrections);
   }
 
@@ -158,11 +158,7 @@ export class Commit {
    * @param questions The questions to handle
    * @returns A string, corresponding to the question the commit is closing, if found. A null value is returned if no question has been found
    */
-  updateQuestion(
-    reviews: Milestone[],
-    corrections: Milestone[],
-    questions: String[]
-  ) {
+  updateQuestion(questions: String[]) {
     const questionsToken = questions.join("|");
     const keywordsToken = [
       "Resolve",
