@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/tech-docs
 # Only exists if Bazel was run
 /bazel-out
 
