@@ -1,34 +1,34 @@
-import { Milestone } from '@models/Milestone.model';
+import { Milestone } from "@models/Milestone.model";
 
 /**
  * A constant containing the possible types of commits and their corresponding color and label
  */
 export const CommitColor = {
   BEFORE: {
-    label: 'Before review',
-    name: 'green',
-    color: 'rgb(53, 198, 146)'
+    label: "Before review",
+    name: "green",
+    color: "rgb(53, 198, 146)",
   },
   BETWEEN: {
-    label: 'Between review and correction',
-    name: 'orange',
-    color: 'rgb(255, 127, 74)'
+    label: "Between review and correction",
+    name: "orange",
+    color: "rgb(255, 127, 74)",
   },
   AFTER: {
-    label: 'After correction',
-    name: 'red',
-    color: 'rgb(203, 91, 68)'
+    label: "After correction",
+    name: "red",
+    color: "rgb(203, 91, 68)",
   },
   INTERMEDIATE: {
-    label: 'Intermediate commit',
-    name: 'black',
-    color: 'rgb(77, 77, 77)'
+    label: "Intermediate commit",
+    name: "black",
+    color: "rgb(77, 77, 77)",
   },
   NOCOMMIT: {
-    label: 'Not finished',
-    name: 'lightgrey',
-    color: 'lightgrey'
-  }
+    label: "Not finished",
+    name: "lightgrey",
+    color: "lightgrey",
+  },
 };
 
 /**
@@ -122,7 +122,23 @@ export class Commit {
   }
 
   /**
-   * Uopdates the isCloture variable
+   * Updates the commits metadata, corresponding to : isCloture, question, color and commitDate
+   * @param reviews The reviews to handle
+   * @param corrections The corrections to handle
+   * @param questions The questions to handle
+   */
+  updateMetadata(
+    reviews: Milestone[],
+    corrections: Milestone[],
+    questions: string[]
+  ) {
+    this.updateIsCloture();
+    this.updateQuestion(reviews, corrections, questions);
+    this.updateColor(reviews, corrections);
+  }
+
+  /**
+   * Updates the isCloture variable
    * @returns A boolean, the isCloture value
    */
   updateIsCloture() {
@@ -142,52 +158,27 @@ export class Commit {
    * @param questions The questions to handle
    * @returns A string, corresponding to the question the commit is closing, if found. A null value is returned if no question has been found
    */
-  getQuestion(questions: String[]) {
-    return !questions
-      ? null
-      : this.message.split(' ').find(element => {
-          return questions.includes(element);
-        });
-  }
-
-  /**
-   * Updates the commits metadata, corresponding to : isCloture, question, color and commitDate
-   * @param reviews The reviews to handle
-   * @param corrections The corrections to handle
-   * @param questions The questions to handle
-   */
-  updateMetadata(
+  updateQuestion(
     reviews: Milestone[],
     corrections: Milestone[],
-    questions: string[]
+    questions: String[]
   ) {
-    this.updateIsCloture();
-    this.question = this.getQuestion(questions);
-    this.color = CommitColor.INTERMEDIATE;
+    const questionsToken = questions.join("|");
+    const keywordsToken = [
+      "Resolve",
+      "Resolves",
+      "Resolved",
+      "Fix",
+      "Fixes",
+      "Fixed",
+      "Close",
+      "Closes",
+      "Closed",
+    ].join("|");
 
-    reviews &&
-      reviews.forEach(review => {
-        if (review.questions && review.questions.includes(this.question)) {
-          if (this.commitDate.getTime() > review.date.getTime()) {
-            this.color = CommitColor.BETWEEN;
-          } else {
-            this.color = CommitColor.BEFORE;
-          }
-        }
-      });
-    corrections &&
-      corrections.forEach(correction => {
-        if (
-          correction.questions &&
-          correction.questions.includes(this.question)
-        ) {
-          if (this.commitDate.getTime() > correction.date.getTime()) {
-            this.color = CommitColor.AFTER;
-          } else if (this.color === CommitColor.INTERMEDIATE) {
-            this.color = CommitColor.BEFORE;
-          }
-        }
-      });
+    this.question = this.message.match(
+      new RegExp(`(?:${keywordsToken}) (${questionsToken}):`, "i")
+    )?.[1];
   }
 
   /**
@@ -196,41 +187,25 @@ export class Commit {
    * @param corrections The corrections to handle
    */
   updateColor(reviews: Milestone[], corrections: Milestone[]) {
-    reviews &&
-      reviews
-        .filter(review => review.date.getTime() < this.commitDate.getTime())
-        .forEach(review => {
-          if (review.questions) {
-            let regex = new RegExp(
-              '(' +
-                review.questions
-                  .map(question => question.replace('.', '\\.'))
-                  .join('|') +
-                ')\\b'
-            );
-            if (regex.test(this.message)) {
-              this.color = CommitColor.BETWEEN;
-            }
-          }
-        });
-    corrections &&
-      corrections
-        .filter(
-          correction => correction.date.getTime() < this.commitDate.getTime()
-        )
-        .forEach(correction => {
-          if (correction.questions) {
-            let regex = new RegExp(
-              '(' +
-                correction.questions
-                  .map(question => question.replace('.', '\\.'))
-                  .join('|') +
-                ')\\b'
-            );
-            if (regex.test(this.message)) {
-              this.color = CommitColor.AFTER;
-            }
-          }
-        });
+    this.color = this.question ? CommitColor.BEFORE : CommitColor.INTERMEDIATE;
+
+    reviews?.forEach((review) => {
+      if (review.questions?.includes(this.question)) {
+        if (this.commitDate.getTime() > review.date.getTime()) {
+          this.color = CommitColor.BETWEEN;
+        } else {
+          this.color = CommitColor.BEFORE;
+        }
+      }
+    });
+    corrections?.forEach((correction) => {
+      if (correction.questions?.includes(this.question)) {
+        if (this.commitDate.getTime() > correction.date.getTime()) {
+          this.color = CommitColor.AFTER;
+        } else if (this.color === CommitColor.INTERMEDIATE) {
+          this.color = CommitColor.BEFORE;
+        }
+      }
+    });
   }
 }
