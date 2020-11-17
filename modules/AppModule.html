@@ -428,76 +428,99 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LOCATION_INITIALIZED } from &#x27;@angular/common&#x27;;
-import { HttpClient, HttpClientModule } from &#x27;@angular/common/http&#x27;;
-import { APP_INITIALIZER, Injector, NgModule } from &#x27;@angular/core&#x27;;
-import { FormsModule, ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
-import { BrowserModule } from &#x27;@angular/platform-browser&#x27;;
-import { BrowserAnimationsModule } from &#x27;@angular/platform-browser/animations&#x27;;
-import { ConfigurationComponent } from &#x27;@components/configuration/configuration.component&#x27;;
-import { EditRepositoriesComponent } from &#x27;@components/configuration/edit-repositories/edit-repositories.component&#x27;;
-import { MetadataComponent } from &#x27;@components/configuration/metadata/metadata.component&#x27;;
-import { FourOhFourComponent } from &#x27;@components/four-oh-four/four-oh-four.component&#x27;;
-import { OverviewComponent } from &#x27;@components/graphs/overview/overview.component&#x27;;
-import { QuestionsCompletionComponent } from &#x27;@components/graphs/questions-completion/questions-completion.component&#x27;;
-import { StudentsCommitsComponent } from &#x27;@components/graphs/students-commits/students-commits.component&#x27;;
-import { HomeComponent } from &#x27;@components/home/home.component&#x27;;
-import { FontAwesomeModule } from &#x27;@fortawesome/angular-fontawesome&#x27;;
-import { AuthGuard } from &#x27;@guards/auth.guard&#x27;;
-import { NgbModule } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
-import { TranslateLoader, TranslateModule, TranslateService } from &#x27;@ngx-translate/core&#x27;;
-import { TranslateHttpLoader } from &#x27;@ngx-translate/http-loader&#x27;;
-import { AuthService } from &#x27;@services/auth.service&#x27;;
-import { CommitsService } from &#x27;@services/commits.service&#x27;;
-import { DataService } from &#x27;@services/data.service&#x27;;
-import { JsonManagerService } from &#x27;@services/json-manager.service&#x27;;
-import { ToastService } from &#x27;@services/toast.service&#x27;;
-import { NgxDatatableModule } from &#x27;@swimlane/ngx-datatable&#x27;;
-import * as firebase from &#x27;firebase/app&#x27;;
-import &#x27;firebase/performance&#x27;;
-import { ChartsModule } from &#x27;ng2-charts&#x27;;
-import { ClipboardModule } from &#x27;ngx-clipboard&#x27;;
-import { MarkdownModule } from &#x27;ngx-markdown&#x27;;
-import { NgxSpinnerModule } from &#x27;ngx-spinner&#x27;;
-import { ToastrModule } from &#x27;ngx-toastr&#x27;;
-import { TypeaheadModule } from &#x27;ngx-type-ahead&#x27;;
-import { AppRoutingModule } from &#x27;./app-routing.module&#x27;;
-import { AppComponent } from &#x27;./app.component&#x27;;
-import { ModalAddRepositoriesComponent } from &#x27;./components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component&#x27;;
-import { EditSessionsComponent } from &#x27;./components/configuration/edit-sessions/edit-sessions.component&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LOCATION_INITIALIZED } from &quot;@angular/common&quot;;
+import { HttpClient, HttpClientModule } from &quot;@angular/common/http&quot;;
+import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from &quot;@angular/core&quot;;
+import { FormsModule, ReactiveFormsModule } from &quot;@angular/forms&quot;;
+import { BrowserModule } from &quot;@angular/platform-browser&quot;;
+import { BrowserAnimationsModule } from &quot;@angular/platform-browser/animations&quot;;
+import { ConfigurationComponent } from &quot;@components/configuration/configuration.component&quot;;
+import { EditRepositoriesComponent } from &quot;@components/configuration/edit-repositories/edit-repositories.component&quot;;
+import { MetadataComponent } from &quot;@components/configuration/metadata/metadata.component&quot;;
+import { FourOhFourComponent } from &quot;@components/four-oh-four/four-oh-four.component&quot;;
+import { OverviewComponent } from &quot;@components/graphs/overview/overview.component&quot;;
+import { QuestionsCompletionComponent } from &quot;@components/graphs/questions-completion/questions-completion.component&quot;;
+import { StudentsCommitsComponent } from &quot;@components/graphs/students-commits/students-commits.component&quot;;
+import { HomeComponent } from &quot;@components/home/home.component&quot;;
+import { FontAwesomeModule } from &quot;@fortawesome/angular-fontawesome&quot;;
+import { AuthGuard } from &quot;@guards/auth.guard&quot;;
+import { NgbModule } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from &quot;@ngx-translate/core&quot;;
+import { TranslateHttpLoader } from &quot;@ngx-translate/http-loader&quot;;
+import { AuthService } from &quot;@services/auth.service&quot;;
+import { CommitsService } from &quot;@services/commits.service&quot;;
+import { DataService } from &quot;@services/data.service&quot;;
+import { JsonManagerService } from &quot;@services/json-manager.service&quot;;
+import { ToastService } from &quot;@services/toast.service&quot;;
+import { NgxDatatableModule } from &quot;@swimlane/ngx-datatable&quot;;
+import * as firebase from &quot;firebase/app&quot;;
+import &quot;firebase/performance&quot;;
+import { ChartsModule } from &quot;ng2-charts&quot;;
+import { ClipboardModule } from &quot;ngx-clipboard&quot;;
+import { MarkdownModule } from &quot;ngx-markdown&quot;;
+import { NgxSpinnerModule } from &quot;ngx-spinner&quot;;
+import { ToastrModule } from &quot;ngx-toastr&quot;;
+import { TypeaheadModule } from &quot;ngx-type-ahead&quot;;
+import { AppRoutingModule } from &quot;./app-routing.module&quot;;
+import { AppComponent } from &quot;./app.component&quot;;
+import { ModalAddRepositoriesComponent } from &quot;./components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component&quot;;
+import { EditSessionsComponent } from &quot;./components/configuration/edit-sessions/edit-sessions.component&quot;;
 
 /**
  * Firebase configuration file
  */
 const firebaseConfig &#x3D; {
-  apiKey: &#x27;AIzaSyA3kJGK7-b7YbLnb0RBc38kTfqkc_fT0xY&#x27;,
-  authDomain: &#x27;git4school.firebaseapp.com&#x27;,
-  databaseURL: &#x27;https://git4school.firebaseio.com&#x27;,
-  projectId: &#x27;git4school&#x27;,
-  storageBucket: &#x27;&#x27;,
-  messagingSenderId: &#x27;896582512902&#x27;,
-  appId: &#x27;1:896582512902:web:db9dc0ffe2590b10&#x27;
+  apiKey: &quot;AIzaSyA3kJGK7-b7YbLnb0RBc38kTfqkc_fT0xY&quot;,
+  authDomain: &quot;git4school.firebaseapp.com&quot;,
+  databaseURL: &quot;https://git4school.firebaseio.com&quot;,
+  projectId: &quot;git4school&quot;,
+  storageBucket: &quot;&quot;,
+  messagingSenderId: &quot;896582512902&quot;,
+  appId: &quot;1:896582512902:web:db9dc0ffe2590b10&quot;,
 };
 
 firebase.initializeApp(firebaseConfig);
 
-export function appInitializerFactory(translate: TranslateService, injector: Injector) {
-  return () &#x3D;&gt; new Promise&lt;any&gt;((resolve: any) &#x3D;&gt; {
-    const locationInitialized &#x3D; injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
-    locationInitialized.then(() &#x3D;&gt; {
-      translate.addLangs([&quot;en&quot;, &quot;fr&quot;]);
-      translate.setDefaultLang(&#x27;en&#x27;);
-      const langToSet &#x3D; window.navigator.language ? window.navigator.language.slice(0, 2) : &#x27;en&#x27;;
-      translate.use(langToSet).subscribe(() &#x3D;&gt; {
-        console.info(&#x60;Successfully initialized &#x27;${langToSet}&#x27; language.&#x27;&#x60;);
-      }, err &#x3D;&gt; {
-        console.error(&#x60;Problem with &#x27;${langToSet}&#x27; language initialization. Language set to &#x27;${translate.defaultLang}&#x27;.&#x60;);
-        resolve(null);
-      }, () &#x3D;&gt; {
-        resolve(null);
+/**
+ * Called at the initialization of the application, which waits for the end of this function to start.
+ * It&#x27;s here that we initialize the localization and the translate service :
+ *  - If possible, the application is initialized with the browser language, otherwise it uses english localization
+ *  - It loads all the translations so we can get them instantly later
+ *
+ * @param translate The translation service
+ * @param injector The injector service
+ */
+export function appInitializerFactory(
+  translate: TranslateService,
+  injector: Injector
+) {
+  return () &#x3D;&gt;
+    new Promise&lt;any&gt;((resolve: any) &#x3D;&gt; {
+      const locationInitialized &#x3D; injector.get(
+        LOCATION_INITIALIZED,
+        Promise.resolve(null)
+      );
+      locationInitialized.then(() &#x3D;&gt; {
+        translate.addLangs([&quot;en&quot;, &quot;fr&quot;]);
+        translate.setDefaultLang(&quot;en&quot;);
+        const langToSet &#x3D; window.navigator.language
+          ? window.navigator.language.slice(0, 2)
+          : &quot;en&quot;;
+        translate.use(langToSet).subscribe(
+          () &#x3D;&gt; {},
+          (err) &#x3D;&gt; {
+            resolve(null);
+          },
+          () &#x3D;&gt; {
+            resolve(null);
+          }
+        );
       });
     });
-  });
 }
 
 @NgModule({
@@ -512,7 +535,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     EditRepositoriesComponent,
     ConfigurationComponent,
     EditSessionsComponent,
-    ModalAddRepositoriesComponent
+    ModalAddRepositoriesComponent,
   ],
   imports: [
     BrowserModule,
@@ -525,7 +548,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     FontAwesomeModule,
     ToastrModule.forRoot({
       maxOpened: 3,
-      newestOnTop: false
+      newestOnTop: false,
     }),
     BrowserAnimationsModule,
     ClipboardModule,
@@ -535,11 +558,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     NgbModule,
-    NgxDatatableModule
+    NgxDatatableModule,
   ],
   providers: [
     AuthService,
@@ -552,13 +575,19 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
       deps: [TranslateService, Injector],
-      multi: true
-    }
+      multi: true,
+    },
+    {
+      provide: LOCALE_ID,
+      useFactory: (translateService: TranslateService) &#x3D;&gt;
+        translateService.currentLang,
+      deps: [TranslateService],
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor() { }
+  constructor() {}
 }
 
 /**

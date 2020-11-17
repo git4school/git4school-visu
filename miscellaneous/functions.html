@@ -97,6 +97,13 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Called at the initialization of the application, which waits for the end of this function to start.
+It&#39;s here that we initialize the localization and the translate service :</p>
+<ul>
+<li>If possible, the application is initialized with the browser language, otherwise it uses english localization</li>
+<li>It loads all the translations so we can get them instantly later</li>
+</ul>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -105,6 +112,7 @@
                                 <tr>
                                     <td>Name</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -116,6 +124,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The translation service</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>injector</td>
@@ -125,6 +137,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The injector service</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
