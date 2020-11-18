@@ -7,15 +7,16 @@
 <div class="modal-body">
     <input class="form-control mb-2" type="text"
         placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER' | translate }}" (keyup)="updateFilter($event)" />
-    <ngx-datatable class="material striped" style="height: 400px" [rows]="rows | async" [headerHeight]="50"
-        [footerHeight]="50" [rowHeight]="50" [loadingIndicator]="loading" [scrollbarV]="true" [columnMode]="'flex'"
-        [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="true" [virtualization]="false"
-        (select)="onSelect($event)">
-        <ngx-datatable-column [headerCheckboxable]="true" [checkboxable]="true" [flexGrow]="1">
+    <ngx-datatable #reposTable class="material striped" style="height: 400px" [rows]="rows"
+        [headerHeight]="headerHeight" [footerHeight]="footerHeight" [rowHeight]="rowHeight" [loadingIndicator]="loading"
+        [scrollbarV]="true" [columnMode]="'force'" [selected]="selected" [selectionType]="'checkbox'"
+        [selectAllRowsOnPage]="true" [virtualization]="false" (select)="onSelect($event)"
+        (scroll)="onScroll($event.offsetY)">
+        <ngx-datatable-column [headerCheckboxable]="true" [checkboxable]="true" [width]="50">
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-NAME' | translate }}" prop="name" [flexGrow]="2">
+        <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-NAME' | translate }}" prop="name" [width]="800">
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-URL' | translate }}" prop="url" [flexGrow]="4">
+        <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-URL' | translate }}" prop="url" [width]="1200">
         </ngx-datatable-column>
     </ngx-datatable>
 </div>

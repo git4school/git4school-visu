@@ -1,23 +1,27 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-import { Observable } from 'rxjs';
-import { ToastService } from './toast.service';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import { Observable } from "rxjs";
+import { ToastService } from "./toast.service";
 
 /**
  * A service used to sign in and sign out from Github
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
   /**
    * AuthService constructor
    * @param router
    */
-  constructor(private router: Router, private http: HttpClient, private toastService: ToastService) { }
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private toastService: ToastService
+  ) {}
 
   /**
    * The Github access token
@@ -40,7 +44,7 @@ export class AuthService {
   signIn(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const provider = new firebase.auth.GithubAuthProvider();
-      provider.addScope('repo');
+      provider.addScope("repo");
 
       firebase.auth().signInWithRedirect(provider);
       resolve(true);
@@ -56,18 +60,18 @@ export class AuthService {
       firebase
         .auth()
         .getRedirectResult()
-        .then(result => {
+        .then((result) => {
           if (result.credential) {
-            this.token = result.credential['accessToken'];
+            this.token = result.credential["accessToken"];
             this.username = result.additionalUserInfo.username;
             console.log(this.username);
             console.log(this.token);
           }
           result.user ? resolve() : reject();
         })
-        .catch(error => {
+        .catch((error) => {
           this.toastService.error("An error occured", error.message);
-        });;
+        });
     });
   }
 
@@ -81,9 +85,9 @@ export class AuthService {
       .then(() => {
         this.token = null;
         this.username = null;
-        window.location.href = '/';
+        window.location.href = "/";
       })
-      .catch(error => {
+      .catch((error) => {
         this.toastService.error("An error occured", error.message);
       });
   }
@@ -91,17 +95,14 @@ export class AuthService {
   verifyUserAccess(repoURL: string): Observable<any> {
     var httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'token ' + this.token
-      })
+        "Content-Type": "application/json",
+        Authorization: "token " + this.token,
+      }),
     };
 
-    const repoHashURL = repoURL.split('/');
+    const repoHashURL = repoURL.split("/");
     let url =
-      'https://api.github.com/repos/' +
-      repoHashURL[3] +
-      '/' +
-      repoHashURL[4];
+      "https://api.github.com/repos/" + repoHashURL[3] + "/" + repoHashURL[4];
     return this.http.get(url, httpOptions);
   }
 }
