@@ -2552,7 +2552,7 @@ export class CommitsService {
   }
 
   getRepositoriesByAuthenticatedUser(): Observable&lt;Repository[]&gt; {
-    let url &#x3D; &#x27;https://api.github.com/user/repos?per_page&#x3D;100&#x27;;
+    let url &#x3D; &#x27;https://api.github.com/user/repos?per_page&#x3D;100&amp;sort&#x3D;created&#x27;;
     return this.http.get&lt;any[]&gt;(url, this.httpOptions).pipe(
       map(response &#x3D;&gt; {
         const array &#x3D; response.map(data &#x3D;&gt; new Repository(data[&#x27;html_url&#x27;], data[&#x27;name&#x27;]));
@@ -2585,7 +2585,8 @@ export class CommitsService {
     let value &#x3D; text.match(regex);
     return value ? value[0].trim() : null;
   }
-}</code></pre>
+}
+</code></pre>
     </div>
 
 </div>
