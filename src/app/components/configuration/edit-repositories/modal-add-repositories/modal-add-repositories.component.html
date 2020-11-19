@@ -11,10 +11,11 @@
         [headerHeight]="headerHeight" [footerHeight]="footerHeight" [rowHeight]="rowHeight" [loadingIndicator]="loading"
         [scrollbarV]="true" [columnMode]="'force'" [selected]="selected" [selectionType]="'checkbox'"
         [selectAllRowsOnPage]="true" [virtualization]="false" (select)="onSelect($event)"
-        (scroll)="onScroll($event.offsetY)">
-        <ngx-datatable-column [headerCheckboxable]="true" [checkboxable]="true" [width]="50">
+        (scroll)="onScroll($event.offsetY)" [rowIdentity]="getId">
+        <ngx-datatable-column [headerCheckboxable]="true" [checkboxable]="true" [minWidth]="55" [maxWidth]="100"
+            [width]="70">
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-NAME' | translate }}" prop="name" [width]="800">
+        <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-NAME' | translate }}" prop="name" [width]="500">
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-URL' | translate }}" prop="url" [width]="1200">
         </ngx-datatable-column>
@@ -29,5 +30,4 @@
                 (click)="close()">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</button>
         </div>
     </div>
-
 </div>

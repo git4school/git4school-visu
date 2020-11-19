@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
@@ -9,7 +8,6 @@ import {
 import { Repository } from "@models/Repository.model";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { CommitsService } from "@services/commits.service";
-import { DataService } from "@services/data.service";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { map } from "rxjs/operators";
 
@@ -19,7 +17,7 @@ import { map } from "rxjs/operators";
   styleUrls: ["./modal-add-repositories.component.scss"],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalAddRepositoriesComponent implements AfterViewInit, OnDestroy {
+export class ModalAddRepositoriesComponent implements OnDestroy {
   @ViewChild("reposTable", { read: ElementRef }) datatable: ElementRef;
   @ViewChild(DatatableComponent) ngxDatatable: DatatableComponent;
   @Input() repoList: Repository[];
@@ -29,83 +27,65 @@ export class ModalAddRepositoriesComponent implements AfterViewInit, OnDestroy {
   selected = [];
   tpGroup: string = "";
   page = 1;
-  pageLimit = 10;
-  totalElements: number;
   headerHeight = 50;
   footerHeight = 50;
   rowHeight = 50;
   length = 0;
+  done = false;
 
   constructor(
     public modalService: NgbActiveModal,
-    private commitsService: CommitsService,
-    private dataService: DataService
+    private commitsService: CommitsService
   ) {}
 
   onScroll(offsetY) {
-    console.log(this.datatable);
     const viewHeight =
       this.datatable.nativeElement.getBoundingClientRect().height -
       this.headerHeight -
       this.footerHeight;
-    console.log("event: ", offsetY + viewHeight, this.length * this.rowHeight);
-    // const viewHeight =
-    //   this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
 
     if (
       !this.loading &&
+      !this.done &&
       offsetY + viewHeight >= this.rows.length * this.rowHeight
     ) {
-      let limit = this.pageLimit;
-      if (this.rows.length === 0) {
-        const pageSize = Math.ceil(viewHeight / this.rowHeight);
-        limit = Math.max(pageSize, this.pageLimit);
-      }
       this.updateResults(this.page);
-      this.page++;
     }
   }
 
   updateResults(page: number) {
     this.loading = true;
     this.commitsService
-      .getRepositoriesByAuthenticatedUser(page, this.pageLimit)
+      .getRepositoriesByAuthenticatedUser(page)
       .pipe(
         map((res) => {
-          // console.log("res: ", res);
-          let filteredRepositories = res.repositories?.filter(
-            (repo1) =>
-              !this.repoList.some((repo2, index, array) =>
-                Repository.isEqual(repo1, repo2)
-              )
-          );
-          this.temp = filteredRepositories.slice();
+          this.temp = res.repositories.slice();
+          this.length = res.repositories.length;
 
-          this.length = filteredRepositories.length;
-          // console.log("ROWS", this.rows);
-          return filteredRepositories;
+          const link = res.link;
+          this.done = !link?.match(/rel=\"last\"/);
+
+          return res.repositories;
         })
       )
       .subscribe((results) => {
         const rows = [...this.rows, ...results];
         this.rows = rows;
         this.loading = false;
+        this.page++;
       });
   }
 
+  getId(row) {
+    return row.url;
+  }
+
   ngOnInit() {
+    this.selected = this.repoList;
     this.updateResults(this.page);
-    this.page++;
   }
 
   ngOnDestroy(): void {}
-
-  ngAfterViewInit() {
-    // this.ngxDatatable.columnMode = ColumnMode.force;
-    // setTimeout(() => {
-    //   this.onScroll(0);
-    // });
-  }
 
   close() {
     this.selected.forEach((repo) => (repo.tpGroup = this.tpGroup));
@@ -113,8 +93,6 @@ export class ModalAddRepositoriesComponent implements AfterViewInit, OnDestroy {
   }
 
   onSelect({ selected }) {
-    console.log("Select Event", selected, this.selected);
-
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }

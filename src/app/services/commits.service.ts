@@ -502,7 +502,7 @@ export class CommitsService {
   getRepositoriesByAuthenticatedUser(
     page = 1,
     pageLimit = 100
-  ): Observable<{ repositories: Repository[] }> {
+  ): Observable<{ link: string; repositories: Repository[] }> {
     console.log("getRepositoriesByAuthenticatedUser", page, pageLimit);
     let url = `https://api.github.com/user/repos?per_page=${pageLimit}&page=${page}&sort=created`;
     return this.http
@@ -515,11 +515,13 @@ export class CommitsService {
       })
       .pipe(
         map((response) => {
-          console.log(response.headers.getAll("link"));
           const array = response.body.map(
             (data) => new Repository(data["html_url"], data["name"])
           );
-          return { repositories: array };
+          return {
+            link: response.headers?.get("link"),
+            repositories: array,
+          };
         })
       );
   }
