@@ -483,7 +483,7 @@ export class CommitsService {
   }
 
   getRepositoriesByAuthenticatedUser(): Observable<Repository[]> {
-    let url = 'https://api.github.com/user/repos?per_page=100';
+    let url = 'https://api.github.com/user/repos?per_page=100&sort=created';
     return this.http.get<any[]>(url, this.httpOptions).pipe(
       map(response => {
         const array = response.map(data => new Repository(data['html_url'], data['name']));
