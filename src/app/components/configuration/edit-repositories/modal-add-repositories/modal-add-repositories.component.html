@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <input class="form-control mb-2" type="text"
-        placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER' | translate }}" (keyup)="updateFilter($event)" />
+        placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER' | translate }}" (keyup)="onSearch($event)" />
     <ngx-datatable #reposTable class="material striped" style="height: 400px" [rows]="rows"
         [headerHeight]="headerHeight" [footerHeight]="footerHeight" [rowHeight]="rowHeight" [loadingIndicator]="loading"
         [scrollbarV]="true" [columnMode]="'force'" [selected]="selected" [selectionType]="'checkbox'"
@@ -27,7 +27,7 @@
             placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP' | translate }}" [(ngModel)]="tpGroup">
         <div class="input-group-append">
             <button type="button" class="btn btn-outline-dark"
-                (click)="close()">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</button>
+                (click)="onClose()">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</button>
         </div>
     </div>
 </div>

@@ -502,8 +502,7 @@ export class CommitsService {
   getRepositoriesByAuthenticatedUser(
     page = 1,
     pageLimit = 100
-  ): Observable<{ link: string; repositories: Repository[] }> {
-    console.log("getRepositoriesByAuthenticatedUser", page, pageLimit);
+  ): Observable<{ completed: boolean; repositories: Repository[] }> {
     let url = `https://api.github.com/user/repos?per_page=${pageLimit}&page=${page}&sort=created`;
     return this.http
       .get<any[]>(url, {
@@ -519,7 +518,36 @@ export class CommitsService {
             (data) => new Repository(data["html_url"], data["name"])
           );
           return {
-            link: response.headers?.get("link"),
+            completed: !response.headers?.get("link")?.match(/rel=\"last\"/),
+            repositories: array,
+          };
+        })
+      );
+  }
+
+  getRepositoriesBySearch(
+    searchFilter: string,
+    page = 1,
+    pageLimit = 100
+  ): Observable<{ completed: boolean; repositories: Repository[] }> {
+    let url = `https://api.github.com/search/repositories?q=${searchFilter}&per_page=${pageLimit}&page=${page}&sort=created`;
+    console.log("url: ", url);
+    return this.http
+      .get<{ items: any[]; incomplete_results: boolean }>(url, {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json",
+          Authorization: "token " + this.authService.token,
+        }),
+        observe: "response",
+      })
+      .pipe(
+        map((response) => {
+          console.log("response: ", response);
+          const array = response.body.items.map(
+            (data) => new Repository(data["html_url"], data["name"])
+          );
+          return {
+            completed: !response.headers?.get("link")?.match(/rel=\"last\"/),
             repositories: array,
           };
         })
