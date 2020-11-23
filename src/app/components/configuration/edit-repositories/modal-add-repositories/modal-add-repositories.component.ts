@@ -9,7 +9,7 @@ import {
 import { Repository } from "@models/Repository.model";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { CommitsService } from "@services/commits.service";
-import { Subject, Subscription } from "rxjs";
+import { Observable, Subject, Subscription } from "rxjs";
 import { debounceTime, map } from "rxjs/operators";
 
 /**
@@ -134,14 +134,20 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Fetch the repositories for the authenticated user
-   * and [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with it
+   * Process the intermediate response from the service retrieving the repositories.
    *
-   * @param {number} page The page of repositories to fetch
+   * It set [done]{@link ModalAddRepositoriesComponent#done} and [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with the fetched repositories
+   *
+   * @param { Observable<{ completed: boolean, repositories: Repository[] }> } response The intermediate response from the service
+   * @return {Subscription}
    */
-  private updateResultsWithAuthenticatedUser(page: number) {
-    this.commitsService
-      .getRepositoriesByAuthenticatedUser(page)
+  private processIntermediateResponse(
+    response: Observable<{
+      completed: boolean;
+      repositories: Repository[];
+    }>
+  ): Subscription {
+    return response
       .pipe(
         map((res) => {
           this.done = res.completed;
@@ -154,6 +160,18 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Fetch the repositories for the authenticated user
+   * and [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with it
+   *
+   * @param {number} page The page of repositories to fetch
+   */
+  private updateResultsWithAuthenticatedUser(page: number) {
+    this.processIntermediateResponse(
+      this.commitsService.getRepositoriesByAuthenticatedUser(page)
+    );
+  }
+
+  /**
    * Fetch the repositories from the [search filter]{@link ModalAddRepositoriesComponent#searchFilter} and
    * [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with it
    *
@@ -161,17 +179,9 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    * @param {number} page The page of repositories to fetch
    */
   private updateResultsWithSearchFilter(searchFilter: string, page: number) {
-    this.commitsService
-      .getRepositoriesBySearch(searchFilter, page)
-      .pipe(
-        map((res) => {
-          this.done = res.completed;
-          return res.repositories;
-        })
-      )
-      .subscribe((repositories) => {
-        this.updateResults(repositories);
-      });
+    this.processIntermediateResponse(
+      this.commitsService.getRepositoriesBySearch(searchFilter, page)
+    );
   }
 
   /**

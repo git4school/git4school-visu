@@ -501,11 +501,30 @@ export class CommitsService {
   }
 
   /**
+   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
+   *
+   * @param rawRepositories Raw repositories with a JSON format
+   * @param headers Headers including "link" that we use to determine we just fetched the last page
+   */
+  private processRawResponse(
+    rawRepositories,
+    headers
+  ): { completed: boolean; repositories: Repository[] } {
+    const array = rawRepositories.map(
+      (data) => new Repository(data["html_url"], data["name"])
+    );
+    return {
+      completed: !headers?.get("link")?.match(/rel=\"last\"/),
+      repositories: array,
+    };
+  }
+
+  /**
    * Fetch authenticated user's repositories from Github
    *
    * @param {number} page The page of repositories to fetch
    * @param {number} pageLimit The number of repositories to fetch per page
-   * @return {Observable<{ completed: boolean; repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   * @return {Observable<{ completed: boolean, repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
    */
   getRepositoriesByAuthenticatedUser(
     page = 1,
@@ -519,13 +538,7 @@ export class CommitsService {
       })
       .pipe(
         map((response) => {
-          const array = response.body.map(
-            (data) => new Repository(data["html_url"], data["name"])
-          );
-          return {
-            completed: !response.headers?.get("link")?.match(/rel=\"last\"/),
-            repositories: array,
-          };
+          return this.processRawResponse(response.body, response.headers);
         })
       );
   }
@@ -536,31 +549,22 @@ export class CommitsService {
    * @param {string} searchFilter The search filter used to fetch the repositories
    * @param {number} page The page of repositories to fetch
    * @param {number} pageLimit The number of repositories to fetch per page
-   * @return {Observable<{ completed: boolean; repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   * @return {Observable<{ completed: boolean, repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
    */
   getRepositoriesBySearch(
     searchFilter: string,
     page = 1,
     pageLimit = 100
   ): Observable<{ completed: boolean; repositories: Repository[] }> {
-    let url = `https://api.github.com/search/repositories?q=${searchFilter}&per_page=${pageLimit}&page=${page}&sort=created`;
+    let url = `https://api.github.com/search/repositories?q=${searchFilter}&per_page=${pageLimit}&page=${page}`;
     return this.http
       .get<{ items: any[]; incomplete_results: boolean }>(url, {
-        headers: new HttpHeaders({
-          "Content-Type": "application/json",
-          Authorization: "token " + this.authService.token,
-        }),
+        headers: this.headers,
         observe: "response",
       })
       .pipe(
         map((response) => {
-          const array = response.body.items.map(
-            (data) => new Repository(data["html_url"], data["name"])
-          );
-          return {
-            completed: !response.headers?.get("link")?.match(/rel=\"last\"/),
-            repositories: array,
-          };
+          return this.processRawResponse(response.body.items, response.headers);
         })
       );
   }
