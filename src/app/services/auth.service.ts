@@ -15,7 +15,9 @@ import { ToastService } from "./toast.service";
 export class AuthService {
   /**
    * AuthService constructor
-   * @param router
+   * @param {Router} router
+   * @param {HttpClient} http
+   * @param {ToastService} toastService
    */
   constructor(
     private router: Router,
@@ -85,7 +87,7 @@ export class AuthService {
       .then(() => {
         this.token = null;
         this.username = null;
-        window.location.href = "/";
+        this.router.navigate(["/"]);
       })
       .catch((error) => {
         this.toastService.error("An error occured", error.message);

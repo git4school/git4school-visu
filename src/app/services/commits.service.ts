@@ -55,9 +55,11 @@ export class CommitsService {
         this.getRepository(repository.url, startDate, endDate).pipe(
           map(([readMeData, commitsData]) => {
             repository.errors = [];
-            if (commitsData.errors)
+            if (commitsData.errors) {
               repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
-            else repository.commits = commitsData.commits;
+            } else {
+              repository.commits = commitsData.commits;
+            }
 
             if (readMeData.errors)
               repository.errors.push(new Error(ErrorType.README_NOT_FOUND));
@@ -67,18 +69,23 @@ export class CommitsService {
               tpGroup: this.getTPGroupFromReadMe(readMeData.readme),
             };
 
-            if (!readme.name)
+            if (!readme.name) {
               repository.errors.push(
                 new Error(ErrorType.README_NAME_NOT_FOUND)
               );
-            if (!readme.tpGroup)
+            }
+            if (!readme.tpGroup) {
               repository.errors.push(
                 new Error(ErrorType.README_TPGROUP_NOT_FOUND)
               );
+            }
 
-            if (!repository.name)
+            if (!repository.name) {
               repository.name = readme.name || repository.getNameFromUrl();
-            if (!repository.tpGroup) repository.tpGroup = readme.tpGroup;
+            }
+            if (!repository.tpGroup) {
+              repository.tpGroup = readme.tpGroup;
+            }
 
             return repository;
           })
@@ -250,10 +257,9 @@ export class CommitsService {
     );
     repos.forEach((repository) => {
       let studentQuestions = [];
-      repository.commits
+      repository?.commits
         .filter((commit) => !date || commit.commitDate.getTime() < date)
         .forEach((commit) => {
-          // commit.updateMetadata(this.dataService.reviews, this.dataService.corrections, questions);
           if (commit.question) {
             let students = [];
             for (let commitColor in dict[commit.question]) {
@@ -319,7 +325,7 @@ export class CommitsService {
           return {
             y: dict[question][color.label].percentage,
             data: dict[question][color.label],
-            translations: translations,
+            translations,
           };
         }),
       });
@@ -559,7 +565,9 @@ export class CommitsService {
   }
 
   getNameFromReadMe(readme: string): string {
-    if (!readme) return null;
+    if (!readme) {
+      return null;
+    }
     let lastNameToken = this.translateService.instant("TOKEN-LAST-NAME");
     let firstNameToken = this.translateService.instant("TOKEN-FIRST-NAME");
     let lastName = this.getValueWithToken(`${lastNameToken}.*:`, readme);
