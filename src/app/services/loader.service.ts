@@ -60,7 +60,9 @@ export class LoaderService {
             let hasError = false;
             repositories.forEach((repository) => {
               tpGroups.add(repository.tpGroup);
-              if (repository.errors.length) hasError = true;
+              if (repository.errors.length) {
+                hasError = true;
+              }
             });
             if (hasError) {
               let error = this.translateService.instant([
