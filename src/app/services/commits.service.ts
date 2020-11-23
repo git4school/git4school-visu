@@ -7,8 +7,6 @@ import moment from "moment/src/moment";
 import { forkJoin, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { AuthService } from "./auth.service";
-import { DataService } from "./data.service";
-import { ToastService } from "./toast.service";
 
 /**
  * This service retrieves repository data from Github
@@ -33,8 +31,6 @@ export class CommitsService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private dataService: DataService,
-    private toastService: ToastService,
     private translateService: TranslateService
   ) {}
 
@@ -55,6 +51,7 @@ export class CommitsService {
         this.getRepository(repository.url, startDate, endDate).pipe(
           map(([readMeData, commitsData]) => {
             repository.errors = [];
+            let readme;
             if (commitsData.errors) {
               repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
             } else {
@@ -63,29 +60,29 @@ export class CommitsService {
 
             if (readMeData.errors) {
               repository.errors.push(new Error(ErrorType.README_NOT_FOUND));
-            }
+            } else {
+              readme = {
+                name: this.getNameFromReadMe(readMeData.readme),
+                tpGroup: this.getTPGroupFromReadMe(readMeData.readme),
+              };
 
-            let readme = {
-              name: this.getNameFromReadMe(readMeData.readme),
-              tpGroup: this.getTPGroupFromReadMe(readMeData.readme),
-            };
-
-            if (!readme.name) {
-              repository.errors.push(
-                new Error(ErrorType.README_NAME_NOT_FOUND)
-              );
-            }
-            if (!readme.tpGroup) {
-              repository.errors.push(
-                new Error(ErrorType.README_TPGROUP_NOT_FOUND)
-              );
+              if (!readme.name) {
+                repository.errors.push(
+                  new Error(ErrorType.README_NAME_NOT_FOUND)
+                );
+              }
+              if (!readme.tpGroup) {
+                repository.errors.push(
+                  new Error(ErrorType.README_TPGROUP_NOT_FOUND)
+                );
+              }
             }
 
             if (!repository.name) {
-              repository.name = readme.name || repository.getNameFromUrl();
+              repository.name = readme?.name || repository.getNameFromUrl();
             }
             if (!repository.tpGroup) {
-              repository.tpGroup = readme.tpGroup;
+              repository.tpGroup = readme?.tpGroup;
             }
 
             return repository;
@@ -107,10 +104,10 @@ export class CommitsService {
     startDate?: string,
     endDate?: string
   ): Observable<any[]> {
-    return forkJoin(
+    return forkJoin([
       this.getReadMe(repoUrl),
-      this.getCommits(repoUrl, startDate, endDate)
-    );
+      this.getCommits(repoUrl, startDate, endDate),
+    ]);
   }
 
   getCommits(
