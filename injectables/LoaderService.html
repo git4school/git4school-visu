@@ -311,8 +311,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/services/loader.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/services/loader.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -377,79 +377,98 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Milestone } from &#x27;@models/Milestone.model&#x27;;
-import { Repository } from &#x27;@models/Repository.model&#x27;;
-import { TranslateService } from &#x27;@ngx-translate/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
-import { CommitsService } from &#x27;./commits.service&#x27;;
-import { DataService } from &#x27;./data.service&#x27;;
-import { ToastService } from &#x27;./toast.service&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
+import { Milestone } from &quot;@models/Milestone.model&quot;;
+import { Repository } from &quot;@models/Repository.model&quot;;
+import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import { Observable } from &quot;rxjs&quot;;
+import { map } from &quot;rxjs/operators&quot;;
+import { CommitsService } from &quot;./commits.service&quot;;
+import { DataService } from &quot;./data.service&quot;;
+import { ToastService } from &quot;./toast.service&quot;;
 
 @Injectable({
-  providedIn: &#x27;root&#x27;
+  providedIn: &quot;root&quot;,
 })
 export class LoaderService {
-
-  constructor(private commitsService: CommitsService,
+  constructor(
+    private commitsService: CommitsService,
     private dataService: DataService,
     private translateService: TranslateService,
     private toastService: ToastService
-  ) { }
+  ) {}
 
-  loadCommitsMetadata(repositories: Repository[], reviews: Milestone[], corrections: Milestone[], questions) {
-
-    repositories.forEach(repository &#x3D;&gt; {
+  loadCommitsMetadata(
+    repositories: Repository[],
+    reviews: Milestone[],
+    corrections: Milestone[],
+    questions
+  ) {
+    repositories.forEach((repository) &#x3D;&gt; {
       let rev &#x3D; !this.dataService.reviews
         ? null
         : this.dataService.reviews.filter(
-          review &#x3D;&gt; review.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup
-        );
+            (review) &#x3D;&gt; review.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup
+          );
       let cor &#x3D; !this.dataService.corrections
         ? null
         : this.dataService.corrections.filter(
-          correction &#x3D;&gt; correction.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup
-        );
+            (correction) &#x3D;&gt; correction.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup
+          );
 
-      repository.commits &amp;&amp; repository.commits.forEach(commit &#x3D;&gt;
-        commit.updateMetadata(rev, cor, questions)
-      );
+      repository.commits &amp;&amp;
+        repository.commits.forEach((commit) &#x3D;&gt;
+          commit.updateMetadata(rev, cor, questions)
+        );
     });
   }
 
   loadRepositories(startDate?: string, endDate?: string): Observable&lt;void&gt; {
     let translations &#x3D; this.translateService.instant([
-      &#x27;ERRORS.REPOSITORY-NOT-FOUND&#x27;,
-      &#x27;ERRORS.README-NOT-FOUND&#x27;,
-      &#x27;ERRORS.DETAILS&#x27;,
-      &#x27;GIT-ERROR&#x27;
+      &quot;ERRORS.REPOSITORY-NOT-FOUND&quot;,
+      &quot;ERRORS.README-NOT-FOUND&quot;,
+      &quot;ERRORS.DETAILS&quot;,
+      &quot;GIT-ERROR&quot;,
     ]);
     return this.commitsService
       .getRepositories(this.dataService.repositories, startDate, endDate)
-      .pipe(map(repositories &#x3D;&gt; {
-        try {
-          let tpGroups &#x3D; new Set&lt;string&gt;();
-          let hasError &#x3D; false;
-          repositories.forEach(repository &#x3D;&gt; {
-            tpGroups.add(repository.tpGroup);
-            if (repository.errors.length)
-              hasError &#x3D; true;
-          });
-          if (hasError) {
-            let error &#x3D; this.translateService.instant([&#x27;ERROR-TITLE-ERROR-OCCURED&#x27;, &#x27;ERROR-MESSAGE-ERROR-OCCURED&#x27;]);
-            this.toastService.error(error[&#x27;ERROR-TITLE-ERROR-OCCURED&#x27;], error[&#x27;ERROR-MESSAGE-ERROR-OCCURED&#x27;]);
+      .pipe(
+        map((repositories) &#x3D;&gt; {
+          try {
+            let tpGroups &#x3D; new Set&lt;string&gt;();
+            let hasError &#x3D; false;
+            repositories.forEach((repository) &#x3D;&gt; {
+              tpGroups.add(repository.tpGroup);
+              if (repository.errors.length) {
+                hasError &#x3D; true;
+              }
+            });
+            if (hasError) {
+              let error &#x3D; this.translateService.instant([
+                &quot;ERROR-TITLE-ERROR-OCCURED&quot;,
+                &quot;ERROR-MESSAGE-ERROR-OCCURED&quot;,
+              ]);
+              this.toastService.warning(
+                error[&quot;ERROR-TITLE-ERROR-OCCURED&quot;],
+                error[&quot;ERROR-MESSAGE-ERROR-OCCURED&quot;]
+              );
+            }
+            this.dataService.repositories &#x3D; repositories.slice();
+            this.dataService.tpGroups &#x3D; Array.from(tpGroups).filter(Boolean);
+            this.loadCommitsMetadata(
+              this.dataService.repositories,
+              this.dataService.reviews,
+              this.dataService.corrections,
+              this.dataService.questions
+            );
+            this.dataService.lastUpdateDate &#x3D; new Date();
+            this.dataService.dataLoaded &#x3D; true;
+            this.dataService.repoToLoad &#x3D; false;
+          } catch (err) {
+            this.toastService.error(translations[&quot;GIT-ERROR&quot;], err);
           }
-          this.dataService.repositories &#x3D; repositories.slice();
-          this.dataService.tpGroups &#x3D; Array.from(tpGroups).filter(Boolean);
-          this.loadCommitsMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
-          this.dataService.lastUpdateDate &#x3D; new Date();
-          this.dataService.dataLoaded &#x3D; true;
-          this.dataService.repoToLoad &#x3D; false;
-        } catch (err) {
-          this.toastService.error(translations[&#x27;GIT-ERROR&#x27;], err);
-        }
-      }));
+        })
+      );
   }
 }
 </code></pre>
