@@ -18,14 +18,12 @@ import { ToastService } from "./toast.service";
 })
 export class CommitsService {
   /**
-   * Options to use when sending HTTP requests
+   * Headers to use when sending HTTP requests
    */
-  httpOptions = {
-    headers: new HttpHeaders({
-      "Content-Type": "application/json",
-      Authorization: "token " + this.authService.token,
-    }),
-  };
+  headers = new HttpHeaders({
+    "Content-Type": "application/json",
+    Authorization: "token " + this.authService.token,
+  });
 
   /**
    * CommitsService constructor
@@ -78,8 +76,6 @@ export class CommitsService {
                 new Error(ErrorType.README_TPGROUP_NOT_FOUND)
               );
 
-            console.log(repository, readme);
-
             if (!repository.name)
               repository.name = readme.name || repository.getNameFromUrl();
             if (!repository.tpGroup) repository.tpGroup = readme.tpGroup;
@@ -116,7 +112,6 @@ export class CommitsService {
   ): Observable<any[] | any> {
     return this.getRawCommits(repoUrl, startDate, endDate).pipe(
       map((commitsData) => {
-        // console.log('COMMITS', commitsData);
         const commits = commitsData.map((commitData) =>
           Commit.withJSON(commitData)
         );
@@ -165,7 +160,7 @@ export class CommitsService {
       let endDateMoment = moment(endDate).toDate();
       url = url.concat("&until=" + endDateMoment.toISOString());
     }
-    return this.http.get<any[]>(url, this.httpOptions);
+    return this.http.get<any[]>(url, { headers: this.headers });
   }
 
   getReadMe(repoUrl: string): Observable<any> {
@@ -206,7 +201,7 @@ export class CommitsService {
       "/" +
       tabHashURL[4] +
       "/readme";
-    return this.http.get(url, this.httpOptions);
+    return this.http.get(url, { headers: this.headers });
   }
 
   /**
@@ -417,7 +412,6 @@ export class CommitsService {
    * @returns A map with all the data needed by the "students-commits" graph
    */
   loadStudents(dict: Object, colors, translations): any[] {
-    // console.log('dict: ', dict);
     let data = [];
 
     data.push({
@@ -499,6 +493,13 @@ export class CommitsService {
     );
   }
 
+  /**
+   * Fetch authenticated user's repositories from Github
+   *
+   * @param {number} page The page of repositories to fetch
+   * @param {number} pageLimit The number of repositories to fetch per page
+   * @return {Observable<{ completed: boolean; repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   */
   getRepositoriesByAuthenticatedUser(
     page = 1,
     pageLimit = 100
@@ -506,10 +507,7 @@ export class CommitsService {
     let url = `https://api.github.com/user/repos?per_page=${pageLimit}&page=${page}&sort=created`;
     return this.http
       .get<any[]>(url, {
-        headers: new HttpHeaders({
-          "Content-Type": "application/json",
-          Authorization: "token " + this.authService.token,
-        }),
+        headers: this.headers,
         observe: "response",
       })
       .pipe(
@@ -525,13 +523,20 @@ export class CommitsService {
       );
   }
 
+  /**
+   * Fetch repositories from Github according to the given search filter
+   *
+   * @param {string} searchFilter The search filter used to fetch the repositories
+   * @param {number} page The page of repositories to fetch
+   * @param {number} pageLimit The number of repositories to fetch per page
+   * @return {Observable<{ completed: boolean; repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   */
   getRepositoriesBySearch(
     searchFilter: string,
     page = 1,
     pageLimit = 100
   ): Observable<{ completed: boolean; repositories: Repository[] }> {
     let url = `https://api.github.com/search/repositories?q=${searchFilter}&per_page=${pageLimit}&page=${page}&sort=created`;
-    console.log("url: ", url);
     return this.http
       .get<{ items: any[]; incomplete_results: boolean }>(url, {
         headers: new HttpHeaders({
@@ -542,7 +547,6 @@ export class CommitsService {
       })
       .pipe(
         map((response) => {
-          console.log("response: ", response);
           const array = response.body.items.map(
             (data) => new Repository(data["html_url"], data["name"])
           );
@@ -571,7 +575,6 @@ export class CommitsService {
 
   getValueWithToken(token: string, text: string): string {
     let regex = new RegExp(`(?<=${token}).*`);
-    // console.log('REGEX', regex);
     let value = text.match(regex);
     return value ? value[0].trim() : null;
   }
