@@ -229,8 +229,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/services/auth.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">src/app/services/auth.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -271,8 +271,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">src/app/services/auth.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">src/app/services/auth.service.ts:39</a></div>
                 </td>
             </tr>
 
@@ -318,8 +318,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/app/services/auth.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/app/services/auth.service.ts:46</a></div>
                 </td>
             </tr>
 
@@ -359,8 +359,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">src/app/services/auth.service.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">src/app/services/auth.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -400,8 +400,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">src/app/services/auth.service.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">src/app/services/auth.service.ts:97</a></div>
                 </td>
             </tr>
 
@@ -479,7 +479,7 @@ If authentication is valid, we store the Github access token</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/auth.service.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/services/auth.service.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -517,7 +517,7 @@ If authentication is valid, we store the Github access token</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/services/auth.service.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/services/auth.service.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -530,26 +530,32 @@ If authentication is valid, we store the Github access token</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders } from &#x27;@angular/common/http&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
-import { Router } from &#x27;@angular/router&#x27;;
-import * as firebase from &#x27;firebase/app&#x27;;
-import &#x27;firebase/auth&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { ToastService } from &#x27;./toast.service&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders } from &quot;@angular/common/http&quot;;
+import { Injectable } from &quot;@angular/core&quot;;
+import { Router } from &quot;@angular/router&quot;;
+import * as firebase from &quot;firebase/app&quot;;
+import &quot;firebase/auth&quot;;
+import { Observable } from &quot;rxjs&quot;;
+import { ToastService } from &quot;./toast.service&quot;;
 
 /**
  * A service used to sign in and sign out from Github
  */
 @Injectable({
-  providedIn: &#x27;root&#x27;
+  providedIn: &quot;root&quot;,
 })
 export class AuthService {
   /**
    * AuthService constructor
-   * @param router
+   * @param {Router} router
+   * @param {HttpClient} http
+   * @param {ToastService} toastService
    */
-  constructor(private router: Router, private http: HttpClient, private toastService: ToastService) { }
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private toastService: ToastService
+  ) {}
 
   /**
    * The Github access token
@@ -572,7 +578,7 @@ export class AuthService {
   signIn(): Promise&lt;boolean&gt; {
     return new Promise((resolve, reject) &#x3D;&gt; {
       const provider &#x3D; new firebase.auth.GithubAuthProvider();
-      provider.addScope(&#x27;repo&#x27;);
+      provider.addScope(&quot;repo&quot;);
 
       firebase.auth().signInWithRedirect(provider);
       resolve(true);
@@ -588,18 +594,18 @@ export class AuthService {
       firebase
         .auth()
         .getRedirectResult()
-        .then(result &#x3D;&gt; {
+        .then((result) &#x3D;&gt; {
           if (result.credential) {
-            this.token &#x3D; result.credential[&#x27;accessToken&#x27;];
+            this.token &#x3D; result.credential[&quot;accessToken&quot;];
             this.username &#x3D; result.additionalUserInfo.username;
             console.log(this.username);
             console.log(this.token);
           }
           result.user ? resolve() : reject();
         })
-        .catch(error &#x3D;&gt; {
+        .catch((error) &#x3D;&gt; {
           this.toastService.error(&quot;An error occured&quot;, error.message);
-        });;
+        });
     });
   }
 
@@ -613,9 +619,9 @@ export class AuthService {
       .then(() &#x3D;&gt; {
         this.token &#x3D; null;
         this.username &#x3D; null;
-        window.location.href &#x3D; &#x27;/&#x27;;
+        this.router.navigate([&quot;/&quot;]);
       })
-      .catch(error &#x3D;&gt; {
+      .catch((error) &#x3D;&gt; {
         this.toastService.error(&quot;An error occured&quot;, error.message);
       });
   }
@@ -623,17 +629,14 @@ export class AuthService {
   verifyUserAccess(repoURL: string): Observable&lt;any&gt; {
     var httpOptions &#x3D; {
       headers: new HttpHeaders({
-        &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
-        &#x27;Authorization&#x27;: &#x27;token &#x27; + this.token
-      })
+        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        Authorization: &quot;token &quot; + this.token,
+      }),
     };
 
-    const repoHashURL &#x3D; repoURL.split(&#x27;/&#x27;);
+    const repoHashURL &#x3D; repoURL.split(&quot;/&quot;);
     let url &#x3D;
-      &#x27;https://api.github.com/repos/&#x27; +
-      repoHashURL[3] +
-      &#x27;/&#x27; +
-      repoHashURL[4];
+      &quot;https://api.github.com/repos/&quot; + repoHashURL[3] + &quot;/&quot; + repoHashURL[4];
     return this.http.get(url, httpOptions);
   }
 }

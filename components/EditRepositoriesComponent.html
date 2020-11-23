@@ -288,7 +288,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -561,8 +561,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:63</a></div>
                 </td>
             </tr>
 
@@ -600,8 +600,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:79</a></div>
                 </td>
             </tr>
 
@@ -670,8 +670,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:133</a></div>
                 </td>
             </tr>
 
@@ -740,8 +740,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:48</a></div>
                 </td>
             </tr>
 
@@ -779,8 +779,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:44</a></div>
                 </td>
             </tr>
 
@@ -818,8 +818,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:99</a></div>
                 </td>
             </tr>
 
@@ -857,8 +857,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:52</a></div>
                 </td>
             </tr>
 
@@ -896,8 +896,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/edit-repositories.component.ts:126</a></div>
                 </td>
             </tr>
 
@@ -1955,26 +1955,38 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from &#x27;@angular/core&#x27;;
-import { AbstractControl, AsyncValidatorFn, FormBuilder, ValidationErrors, ValidatorFn, Validators } from &#x27;@angular/forms&#x27;;
-import { Error, Repository } from &#x27;@models/Repository.model&#x27;;
-import { NgbModal } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
-import { TranslateService } from &#x27;@ngx-translate/core&#x27;;
-import { AuthService } from &#x27;@services/auth.service&#x27;;
-import { DataService } from &#x27;@services/data.service&#x27;;
-import { Observable, of, timer } from &#x27;rxjs&#x27;;
-import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
-import { BaseTabEditConfigurationComponent } from &#x27;../base-tab-edit-configuration.component&#x27;;
-import { ModalAddRepositoriesComponent } from &#x27;./modal-add-repositories/modal-add-repositories.component&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  AfterContentChecked,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from &quot;@angular/core&quot;;
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  FormBuilder,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from &quot;@angular/forms&quot;;
+import { Error, Repository } from &quot;@models/Repository.model&quot;;
+import { NgbModal } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import { AuthService } from &quot;@services/auth.service&quot;;
+import { DataService } from &quot;@services/data.service&quot;;
+import { Observable, of, timer } from &quot;rxjs&quot;;
+import { catchError, map, switchMap } from &quot;rxjs/operators&quot;;
+import { BaseTabEditConfigurationComponent } from &quot;../base-tab-edit-configuration.component&quot;;
+import { ModalAddRepositoriesComponent } from &quot;./modal-add-repositories/modal-add-repositories.component&quot;;
 
 @Component({
-  selector: &#x27;edit-repositories&#x27;,
-  templateUrl: &#x27;./edit-repositories.component.html&#x27;,
-  styleUrls: [&#x27;./edit-repositories.component.scss&#x27;]
+  selector: &quot;edit-repositories&quot;,
+  templateUrl: &quot;./edit-repositories.component.html&quot;,
+  styleUrls: [&quot;./edit-repositories.component.scss&quot;],
 })
-export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent&lt;Repository&gt; implements OnInit, AfterContentChecked {
-
-
+export class EditRepositoriesComponent
+  extends BaseTabEditConfigurationComponent&lt;Repository&gt;
+  implements OnInit, AfterContentChecked {
   constructor(
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
@@ -1982,7 +1994,9 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
     private modalService: NgbModal,
     private dataService: DataService,
     private translateService: TranslateService
-  ) { super(fb, cdref); }
+  ) {
+    super(fb, cdref);
+  }
 
   ngOnInit() {
     super.ngOnInit();
@@ -1997,20 +2011,23 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
       let doesRepoAlreadyAdded &#x3D; this.datas.some((repo2, index, array) &#x3D;&gt;
         Repository.isEqual(new Repository(urlControl.value), repo2)
       );
-      console.log(urlControl);
-      return (urlControl.value &amp;&amp; doesRepoAlreadyAdded) ? { &#x27;repoAlreadyAdded&#x27;: true } : null;
+      return urlControl.value &amp;&amp; doesRepoAlreadyAdded
+        ? { repoAlreadyAdded: true }
+        : null;
     };
   }
 
   accessToRepoValidator(): AsyncValidatorFn {
-    return (urlControl: AbstractControl): Observable&lt;ValidationErrors | null&gt; &#x3D;&gt; {
+    return (
+      urlControl: AbstractControl
+    ): Observable&lt;ValidationErrors | null&gt; &#x3D;&gt; {
       if (!urlControl.valueChanges || urlControl.pristine) {
         return of(null);
       } else {
         return timer(1000).pipe(
           switchMap(() &#x3D;&gt; this.authService.verifyUserAccess(urlControl.value)),
-          map(res &#x3D;&gt; null),
-          catchError(err &#x3D;&gt; of({ &#x27;noAccess&#x27;: true }))
+          map((res) &#x3D;&gt; null),
+          catchError((err) &#x3D;&gt; of({ noAccess: true }))
         );
       }
     };
@@ -2018,54 +2035,68 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
 
   createFormGroup(data?: Repository) {
     return this.fb.group({
-      url: [data ? data.url : &#x27;&#x27;,
-      {
-        validators: [Validators.required, /*this.repoAlreadyAddedValidator()*/],
-        asyncValidators: [this.accessToRepoValidator()],
-      }],
-      name: [data ? data.name : &#x27;&#x27;],
-      tpGroup: [data ? data.tpGroup : &#x27;&#x27;],
+      url: [
+        data ? data.url : &quot;&quot;,
+        {
+          validators: [
+            Validators.required /*this.repoAlreadyAddedValidator()*/,
+          ],
+          asyncValidators: [this.accessToRepoValidator()],
+        },
+      ],
+      name: [data ? data.name : &quot;&quot;],
+      tpGroup: [data ? data.tpGroup : &quot;&quot;],
       errors: [data ? data.errors : []],
       isEditable: false,
       isInvalid: false,
-      save: {}
+      save: {},
     });
   }
 
   openAddRepositoriesModal() {
-    let modalReference &#x3D; this.modalService.open(ModalAddRepositoriesComponent, { size: &#x27;xl&#x27; });
-    modalReference.componentInstance.repoList &#x3D; this.getFormControls.controls.map(row &#x3D;&gt; Repository.withJSON(row.value));
+    let modalReference &#x3D; this.modalService.open(ModalAddRepositoriesComponent, {
+      size: &quot;xl&quot;,
+    });
+    modalReference.componentInstance.repoList &#x3D; this.getFormControls.controls.map(
+      (row) &#x3D;&gt; Repository.withJSON(row.value)
+    );
 
-    modalReference.result.then(result &#x3D;&gt; {
-      if (result.length &gt; 0) {
-        let repoToadd &#x3D; result.filter(repo1 &#x3D;&gt;
-          !this.getFormControls.controls.map(row &#x3D;&gt; Repository.withJSON(row.value)).some((repo2, index, array) &#x3D;&gt;
-            Repository.isEqual(repo1, repo2)
-          )
-        );
-        repoToadd.forEach(repo &#x3D;&gt; {
-          this.addRow(repo);
-        });
-        this.modify();
-      }
-    }, error &#x3D;&gt; { });
+    modalReference.result.then(
+      (result) &#x3D;&gt; {
+        if (result.length &gt; 0) {
+          let repoToadd &#x3D; result.filter(
+            (repo1) &#x3D;&gt;
+              !this.getFormControls.controls
+                .map((row) &#x3D;&gt; Repository.withJSON(row.value))
+                .some((repo2, index, array) &#x3D;&gt; Repository.isEqual(repo1, repo2))
+          );
+          repoToadd.forEach((repo) &#x3D;&gt; {
+            this.addRow(repo);
+          });
+          this.modify();
+        }
+      },
+      (error) &#x3D;&gt; {}
+    );
   }
 
   submitForm() {
     const formArray &#x3D; this.getFormControls;
-    this.save.emit(formArray.controls.map(row &#x3D;&gt; Repository.withJSON(row.value)));
+    this.save.emit(
+      formArray.controls.map((row) &#x3D;&gt; Repository.withJSON(row.value))
+    );
   }
 
   getErrorTooltip(errors: Error[]): string {
-    console.log(&#x27;getErrorTooltip&#x27;);
-    if (!errors)
-      return &quot;&quot;;
+    if (!errors) return &quot;&quot;;
     // let tooltip &#x3D; &quot;- &quot;;
     // let errs &#x3D; this.translateService.instant(errors.map(error &#x3D;&gt; &quot;ERROR-MESSAGE-&quot; + error));
     // console.log(errs);
     // tooltip +&#x3D; errs.join(&quot;\n- &quot;);
     // return tooltip;
-    return errors.map(err &#x3D;&gt; this.translateService.instant(&#x27;ERROR-MESSAGE-&#x27; + err.type)).join(&#x27;. &#x27;);
+    return errors
+      .map((err) &#x3D;&gt; this.translateService.instant(&quot;ERROR-MESSAGE-&quot; + err.type))
+      .join(&quot;. &quot;);
   }
 }
 </code></pre>
