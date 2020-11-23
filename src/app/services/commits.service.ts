@@ -1,20 +1,18 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Commit, CommitColor } from '@models/Commit.model';
-import { Error, ErrorType, Repository } from '@models/Repository.model';
-import { TranslateService } from '@ngx-translate/core';
-import moment from 'moment/src/moment';
-import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { AuthService } from './auth.service';
-import { DataService } from './data.service';
-import { ToastService } from './toast.service';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Commit, CommitColor } from "@models/Commit.model";
+import { Error, ErrorType, Repository } from "@models/Repository.model";
+import { TranslateService } from "@ngx-translate/core";
+import moment from "moment/src/moment";
+import { forkJoin, Observable, of } from "rxjs";
+import { catchError, map } from "rxjs/operators";
+import { AuthService } from "./auth.service";
 
 /**
  * This service retrieves repository data from Github
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class CommitsService {
   /**
@@ -22,9 +20,9 @@ export class CommitsService {
    */
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'token ' + this.authService.token
-    })
+      "Content-Type": "application/json",
+      Authorization: "token " + this.authService.token,
+    }),
   };
 
   /**
@@ -35,10 +33,8 @@ export class CommitsService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private dataService: DataService,
-    private toastService: ToastService,
     private translateService: TranslateService
-  ) { }
+  ) {}
 
   /**
    * Gets readMe and commits of every repository
@@ -52,46 +48,50 @@ export class CommitsService {
     endDate?: string
   ): Observable<any[]> {
     const tab = [];
-    repoTab.forEach(repository => {
-      tab.push(this.getRepository(repository.url, startDate, endDate).pipe(
-        map(([readMeData, commitsData]) => {
-          repository.errors = [];
-          if (commitsData.errors)
-            repository.errors.push(
-              new Error(ErrorType.COMMITS_NOT_FOUND)
-            );
-          else
-            repository.commits = commitsData.commits;
+    repoTab.forEach((repository) => {
+      tab.push(
+        this.getRepository(repository.url, startDate, endDate).pipe(
+          map(([readMeData, commitsData]) => {
+            repository.errors = [];
+            let readme;
 
-          if (readMeData.errors)
-            repository.errors.push(
-              new Error(ErrorType.README_NOT_FOUND)
-            );
+            if (commitsData.errors) {
+              repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
+            } else {
+              repository.commits = commitsData.commits;
+            }
 
-          let readme = {
-            name: this.getNameFromReadMe(readMeData.readme),
-            tpGroup: this.getTPGroupFromReadMe(readMeData.readme)
-          };
+            if (readMeData.errors) {
+              repository.errors.push(new Error(ErrorType.README_NOT_FOUND));
+            } else {
+              readme = {
+                name: this.getNameFromReadMe(readMeData.readme),
+                tpGroup: this.getTPGroupFromReadMe(readMeData.readme),
+              };
 
-          if (!readme.name)
-            repository.errors.push(
-              new Error(ErrorType.README_NAME_NOT_FOUND)
-            );
-          if (!readme.tpGroup)
-            repository.errors.push(
-              new Error(ErrorType.README_TPGROUP_NOT_FOUND)
-            );
+              if (!readme.name) {
+                repository.errors.push(
+                  new Error(ErrorType.README_NAME_NOT_FOUND)
+                );
+              }
+              if (!readme.tpGroup) {
+                repository.errors.push(
+                  new Error(ErrorType.README_TPGROUP_NOT_FOUND)
+                );
+              }
+            }
 
-          console.log(repository, readme);
+            if (!repository.name) {
+              repository.name = readme?.name || repository.getNameFromUrl();
+            }
+            if (!repository.tpGroup) {
+              repository.tpGroup = readme?.tpGroup;
+            }
 
-          if (!repository.name)
-            repository.name = readme.name || repository.getNameFromUrl();
-          if (!repository.tpGroup)
-            repository.tpGroup = readme.tpGroup;
-
-          return repository;
-        }),
-      ));
+            return repository;
+          })
+        )
+      );
     });
     return forkJoin(tab);
   }
@@ -107,30 +107,41 @@ export class CommitsService {
     startDate?: string,
     endDate?: string
   ): Observable<any[]> {
-    return forkJoin(
+    return forkJoin([
       this.getReadMe(repoUrl),
-      this.getCommits(repoUrl, startDate, endDate)
-    );
-  };
+      this.getCommits(repoUrl, startDate, endDate),
+    ]);
+  }
 
-  getCommits(repoUrl: string, startDate?: string, endDate?: string): Observable<any[] | any> {
+  getCommits(
+    repoUrl: string,
+    startDate?: string,
+    endDate?: string
+  ): Observable<any[] | any> {
     return this.getRawCommits(repoUrl, startDate, endDate).pipe(
-      map(commitsData => {
+      map((commitsData) => {
         // console.log('COMMITS', commitsData);
-        const commits = commitsData.map(commitData => Commit.withJSON(commitData));
+        const commits = commitsData.map((commitData) =>
+          Commit.withJSON(commitData)
+        );
         return {
           errors: false,
           commits: commits,
-          message: null
+          message: null,
         };
       }),
-      catchError(error => of({
-        errors: true,
-        commits: null,
-        message: this.translateService.instant('ERROR-MESSAGE-COMMITS-NOT-FOUND', { repo: repoUrl })
-      }))
+      catchError((error) =>
+        of({
+          errors: true,
+          commits: null,
+          message: this.translateService.instant(
+            "ERROR-MESSAGE-COMMITS-NOT-FOUND",
+            { repo: repoUrl }
+          ),
+        })
+      )
     );
-  };
+  }
 
   /**
    * Gets the commits for a given repository and updates it
@@ -138,59 +149,69 @@ export class CommitsService {
    * @param startDate The date before which commits are not retrieved
    * @param endDate The date after which commits are not retrieved
    */
-  getRawCommits(repoUrl: string, startDate?: string, endDate?: string): Observable<any[]> {
-    const repoHashURL = repoUrl.split('/');
+  getRawCommits(
+    repoUrl: string,
+    startDate?: string,
+    endDate?: string
+  ): Observable<any[]> {
+    const repoHashURL = repoUrl.split("/");
     let url =
-      'https://api.github.com/repos/' +
+      "https://api.github.com/repos/" +
       repoHashURL[3] +
-      '/' +
+      "/" +
       repoHashURL[4] +
-      '/commits?per_page=100';
+      "/commits?per_page=100";
     if (startDate) {
       let startDateMoment = moment(startDate).toDate();
-      url = url.concat('&since=' + startDateMoment.toISOString());
+      url = url.concat("&since=" + startDateMoment.toISOString());
     }
     if (endDate) {
       let endDateMoment = moment(endDate).toDate();
-      url = url.concat('&until=' + endDateMoment.toISOString());
+      url = url.concat("&until=" + endDateMoment.toISOString());
     }
     return this.http.get<any[]>(url, this.httpOptions);
-  };
+  }
 
   getReadMe(repoUrl: string): Observable<any> {
     return this.getRawReadMe(repoUrl).pipe(
-      map(rawReadme => {
+      map((rawReadme) => {
         let readme = decodeURIComponent(
-          escape(window.atob(rawReadme['content']))
+          escape(window.atob(rawReadme["content"]))
         );
 
         return {
           errors: false,
           readme: readme,
-          message: null
+          message: null,
         };
       }),
-      catchError(error => of({
-        errors: true,
-        readme: null,
-        message: this.translateService.instant('ERROR-MESSAGE-README-NOT-FOUND', { repo: repoUrl })
-      })));
-  };
+      catchError((error) =>
+        of({
+          errors: true,
+          readme: null,
+          message: this.translateService.instant(
+            "ERROR-MESSAGE-README-NOT-FOUND",
+            { repo: repoUrl }
+          ),
+        })
+      )
+    );
+  }
 
   /**
    * Retrieves the readMe for a given repository
    * @param repo The repository from which the readMe is retrieved
    */
   getRawReadMe(repoUrl: string): Observable<any> {
-    const tabHashURL = repoUrl.split('/');
+    const tabHashURL = repoUrl.split("/");
     const url =
-      'https://api.github.com/repos/' +
+      "https://api.github.com/repos/" +
       tabHashURL[3] +
-      '/' +
+      "/" +
       tabHashURL[4] +
-      '/readme';
+      "/readme";
     return this.http.get(url, this.httpOptions);
-  };
+  }
 
   /**
    * Inits a map for "questions-completion" graph
@@ -200,13 +221,13 @@ export class CommitsService {
    */
   initQuestionsDict(questions: string[], colors): Object {
     let dict = {};
-    questions.forEach(question => {
+    questions.forEach((question) => {
       dict[question] = {};
-      colors.forEach(color => {
+      colors.forEach((color) => {
         dict[question][color.label] = {
           count: 0,
           percentage: 0,
-          students: []
+          students: [],
         };
       });
     });
@@ -234,20 +255,20 @@ export class CommitsService {
     translations?
   ): Object {
     let repos = repositories.filter(
-      repository => !tpGroup || repository.tpGroup === tpGroup
+      (repository) => !tpGroup || repository.tpGroup === tpGroup
     );
-    repos.forEach(repository => {
+    repos.forEach((repository) => {
       let studentQuestions = [];
       repository.commits
-        .filter(commit => !date || commit.commitDate.getTime() < date)
-        .forEach(commit => {
+        .filter((commit) => !date || commit.commitDate.getTime() < date)
+        .forEach((commit) => {
           // commit.updateMetadata(this.dataService.reviews, this.dataService.corrections, questions);
           if (commit.question) {
             let students = [];
             for (let commitColor in dict[commit.question]) {
               students = students.concat(
                 dict[commit.question][commitColor].students.map(
-                  student => student.name
+                  (student) => student.name
                 )
               );
             }
@@ -259,19 +280,19 @@ export class CommitsService {
               dict[commit.question][commit.color.label].students.push({
                 name: repository.name,
                 tpGroup: repository.tpGroup,
-                url: repository.url
+                url: repository.url,
               });
               studentQuestions.push(commit.question);
             }
           }
         });
-      questions.forEach(question => {
+      questions.forEach((question) => {
         if (!studentQuestions.includes(question)) {
           dict[question][CommitColor.NOCOMMIT.label].count++;
           dict[question][CommitColor.NOCOMMIT.label].students.push({
             name: repository.name,
             tpGroup: repository.tpGroup,
-            url: repository.url
+            url: repository.url,
           });
         }
       });
@@ -297,19 +318,19 @@ export class CommitsService {
    */
   loadQuestions(dict, colors, questions: string[], translations): any[] {
     let data = [];
-    colors.forEach(color => {
+    colors.forEach((color) => {
       data.push({
         label: color.label,
         backgroundColor: color.color,
         hoverBackgroundColor: color.color,
-        borderColor: 'grey',
-        data: questions.map(question => {
+        borderColor: "grey",
+        data: questions.map((question) => {
           return {
             y: dict[question][color.label].percentage,
             data: dict[question][color.label],
-            translations: translations
+            translations: translations,
           };
-        })
+        }),
       });
     });
 
@@ -327,11 +348,11 @@ export class CommitsService {
     dict[repository.name] = {
       commitTypes: {},
       lastQuestionDone: questions[0],
-      commitsCount: 0
+      commitsCount: 0,
     };
-    colors.forEach(color => {
-      dict[repository.name]['commitTypes'][color.label] = {
-        commitsCount: 0
+    colors.forEach((color) => {
+      dict[repository.name]["commitTypes"][color.label] = {
+        commitsCount: 0,
       };
     });
   }
@@ -354,14 +375,14 @@ export class CommitsService {
   ): Object {
     let dict = {};
     let repos = repositories.filter(
-      repository => !tpGroup || repository.tpGroup === tpGroup
+      (repository) => !tpGroup || repository.tpGroup === tpGroup
     );
-    repos.forEach(repository => {
+    repos.forEach((repository) => {
       this.initStudentsDict(repository, dict, questions, colors);
       repository.commits
-        .filter(commit => !date || commit.commitDate.getTime() < date)
-        .forEach(commit => {
-          dict[repository.name]['commitTypes'][commit.color.label]
+        .filter((commit) => !date || commit.commitDate.getTime() < date)
+        .forEach((commit) => {
+          dict[repository.name]["commitTypes"][commit.color.label]
             .commitsCount++;
           dict[repository.name].commitsCount++;
           this.isSupThan(
@@ -373,19 +394,19 @@ export class CommitsService {
       dict[repository.name].name = repository.name;
       dict[repository.name].url = repository.url;
       dict[repository.name].tpGroup = repository.tpGroup;
-      dict[repository.name].commits = repository.commits.map(commit => {
+      dict[repository.name].commits = repository.commits.map((commit) => {
         let modifiedCommit = { ...commit };
-        modifiedCommit['commitType'] = modifiedCommit.color.label;
-        delete modifiedCommit['color'];
+        modifiedCommit["commitType"] = modifiedCommit.color.label;
+        delete modifiedCommit["color"];
         return modifiedCommit;
       });
-      colors.forEach(color => {
-        dict[repository.name]['commitTypes'][color.label].percentage = dict[
+      colors.forEach((color) => {
+        dict[repository.name]["commitTypes"][color.label].percentage = dict[
           repository.name
         ].commitsCount
-          ? (dict[repository.name]['commitTypes'][color.label].commitsCount /
-            dict[repository.name].commitsCount) *
-          100
+          ? (dict[repository.name]["commitTypes"][color.label].commitsCount /
+              dict[repository.name].commitsCount) *
+            100
           : 0;
       });
     });
@@ -404,60 +425,60 @@ export class CommitsService {
     let data = [];
 
     data.push({
-      label: '# of commits',
-      yAxisID: 'C',
-      type: 'line',
+      label: "# of commits",
+      yAxisID: "C",
+      type: "line",
       pointHitRadius: 0,
       fill: false,
       borderWidth: 2,
       datalabels: {
-        display: true
+        display: true,
       },
-      borderColor: 'lightblue',
-      hoverBackgroundColor: 'lightblue',
-      backgroundColor: 'lightblue',
-      data: Object.entries(dict).map(studentData => {
+      borderColor: "lightblue",
+      hoverBackgroundColor: "lightblue",
+      backgroundColor: "lightblue",
+      data: Object.entries(dict).map((studentData) => {
         return {
-          y: studentData[1]['commitsCount'],
+          y: studentData[1]["commitsCount"],
           data: studentData[1],
-          translations: translations
+          translations: translations,
         };
-      })
+      }),
     });
 
     data.push({
-      label: 'Question progression',
-      borderColor: 'blue',
-      type: 'line',
+      label: "Question progression",
+      borderColor: "blue",
+      type: "line",
       fill: false,
       hitRadius: 0,
       hoverRadius: 0,
       datalabels: {
-        display: true
+        display: true,
       },
-      yAxisID: 'B',
-      data: Object.entries(dict).map(studentData => {
+      yAxisID: "B",
+      data: Object.entries(dict).map((studentData) => {
         return {
-          y: studentData[1]['lastQuestionDone'],
-          data: studentData[1]
+          y: studentData[1]["lastQuestionDone"],
+          data: studentData[1],
         };
-      })
+      }),
     });
 
-    colors.forEach(color => {
+    colors.forEach((color) => {
       data.push({
         label: color.label,
         backgroundColor: color.color,
         hoverBackgroundColor: color.color,
-        borderColor: 'grey',
-        yAxisID: 'A',
-        data: Object.entries(dict).map(student => {
+        borderColor: "grey",
+        yAxisID: "A",
+        data: Object.entries(dict).map((student) => {
           return {
-            y: student[1]['commitTypes'][color.label].percentage,
-            data: student[1]['commitTypes'][color.label],
-            translations: translations
+            y: student[1]["commitTypes"][color.label].percentage,
+            data: student[1]["commitTypes"][color.label],
+            translations: translations,
           };
-        })
+        }),
       });
     });
 
@@ -483,30 +504,30 @@ export class CommitsService {
   }
 
   getRepositoriesByAuthenticatedUser(): Observable<Repository[]> {
-    let url = 'https://api.github.com/user/repos?per_page=100&sort=created';
+    let url = "https://api.github.com/user/repos?per_page=100&sort=created";
     return this.http.get<any[]>(url, this.httpOptions).pipe(
-      map(response => {
-        const array = response.map(data => new Repository(data['html_url'], data['name']));
+      map((response) => {
+        const array = response.map(
+          (data) => new Repository(data["html_url"], data["name"])
+        );
         // console.log(array);
         return array;
       })
     );
-  };
+  }
 
   getNameFromReadMe(readme: string): string {
-    if (!readme)
-      return null;
-    let lastNameToken = this.translateService.instant('TOKEN-LAST-NAME');
-    let firstNameToken = this.translateService.instant('TOKEN-FIRST-NAME');
+    if (!readme) return null;
+    let lastNameToken = this.translateService.instant("TOKEN-LAST-NAME");
+    let firstNameToken = this.translateService.instant("TOKEN-FIRST-NAME");
     let lastName = this.getValueWithToken(`${lastNameToken}.*:`, readme);
     let firstName = this.getValueWithToken(`${firstNameToken}.*:`, readme);
     return [lastName, firstName].filter(Boolean).join(" ");
   }
 
   getTPGroupFromReadMe(readme: string): string {
-    if (!readme)
-      return null;
-    let tpGroup = this.getValueWithToken('-\\s*\\[\\S\\]', readme);
+    if (!readme) return null;
+    let tpGroup = this.getValueWithToken("-\\s*\\[\\S\\]", readme);
     return tpGroup;
   }
 
