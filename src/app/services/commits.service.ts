@@ -61,8 +61,9 @@ export class CommitsService {
               repository.commits = commitsData.commits;
             }
 
-            if (readMeData.errors)
+            if (readMeData.errors) {
               repository.errors.push(new Error(ErrorType.README_NOT_FOUND));
+            }
 
             let readme = {
               name: this.getNameFromReadMe(readMeData.readme),
@@ -437,7 +438,7 @@ export class CommitsService {
         return {
           y: studentData[1]["commitsCount"],
           data: studentData[1],
-          translations: translations,
+          translations,
         };
       }),
     });
@@ -472,7 +473,7 @@ export class CommitsService {
           return {
             y: student[1]["commitTypes"][color.label].percentage,
             data: student[1]["commitTypes"][color.label],
-            translations: translations,
+            translations,
           };
         }),
       });
@@ -576,7 +577,9 @@ export class CommitsService {
   }
 
   getTPGroupFromReadMe(readme: string): string {
-    if (!readme) return null;
+    if (!readme) {
+      return null;
+    }
     let tpGroup = this.getValueWithToken("-\\s*\\[\\S\\]", readme);
     return tpGroup;
   }
