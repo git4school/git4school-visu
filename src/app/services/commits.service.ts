@@ -16,14 +16,12 @@ import { AuthService } from "./auth.service";
 })
 export class CommitsService {
   /**
-   * Options to use when sending HTTP requests
+   * Headers to use when sending HTTP requests
    */
-  httpOptions = {
-    headers: new HttpHeaders({
-      "Content-Type": "application/json",
-      Authorization: "token " + this.authService.token,
-    }),
-  };
+  headers = new HttpHeaders({
+    "Content-Type": "application/json",
+    Authorization: "token " + this.authService.token,
+  });
 
   /**
    * CommitsService constructor
@@ -54,7 +52,6 @@ export class CommitsService {
           map(([readMeData, commitsData]) => {
             repository.errors = [];
             let readme;
-
             if (commitsData.errors) {
               repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
             } else {
@@ -120,7 +117,6 @@ export class CommitsService {
   ): Observable<any[] | any> {
     return this.getRawCommits(repoUrl, startDate, endDate).pipe(
       map((commitsData) => {
-        // console.log('COMMITS', commitsData);
         const commits = commitsData.map((commitData) =>
           Commit.withJSON(commitData)
         );
@@ -169,7 +165,7 @@ export class CommitsService {
       let endDateMoment = moment(endDate).toDate();
       url = url.concat("&until=" + endDateMoment.toISOString());
     }
-    return this.http.get<any[]>(url, this.httpOptions);
+    return this.http.get<any[]>(url, { headers: this.headers });
   }
 
   getReadMe(repoUrl: string): Observable<any> {
@@ -210,7 +206,7 @@ export class CommitsService {
       "/" +
       tabHashURL[4] +
       "/readme";
-    return this.http.get(url, this.httpOptions);
+    return this.http.get(url, { headers: this.headers });
   }
 
   /**
@@ -259,10 +255,9 @@ export class CommitsService {
     );
     repos.forEach((repository) => {
       let studentQuestions = [];
-      repository.commits
+      repository?.commits
         .filter((commit) => !date || commit.commitDate.getTime() < date)
         .forEach((commit) => {
-          // commit.updateMetadata(this.dataService.reviews, this.dataService.corrections, questions);
           if (commit.question) {
             let students = [];
             for (let commitColor in dict[commit.question]) {
@@ -328,7 +323,7 @@ export class CommitsService {
           return {
             y: dict[question][color.label].percentage,
             data: dict[question][color.label],
-            translations: translations,
+            translations,
           };
         }),
       });
@@ -421,7 +416,6 @@ export class CommitsService {
    * @returns A map with all the data needed by the "students-commits" graph
    */
   loadStudents(dict: Object, colors, translations): any[] {
-    // console.log('dict: ', dict);
     let data = [];
 
     data.push({
@@ -441,7 +435,7 @@ export class CommitsService {
         return {
           y: studentData[1]["commitsCount"],
           data: studentData[1],
-          translations: translations,
+          translations,
         };
       }),
     });
@@ -476,7 +470,7 @@ export class CommitsService {
           return {
             y: student[1]["commitTypes"][color.label].percentage,
             data: student[1]["commitTypes"][color.label],
-            translations: translations,
+            translations,
           };
         }),
       });
@@ -503,21 +497,79 @@ export class CommitsService {
     );
   }
 
-  getRepositoriesByAuthenticatedUser(): Observable<Repository[]> {
-    let url = "https://api.github.com/user/repos?per_page=100&sort=created";
-    return this.http.get<any[]>(url, this.httpOptions).pipe(
-      map((response) => {
-        const array = response.map(
-          (data) => new Repository(data["html_url"], data["name"])
-        );
-        // console.log(array);
-        return array;
-      })
+  /**
+   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
+   *
+   * @param rawRepositories Raw repositories with a JSON format
+   * @param headers Headers including "link" that we use to determine we just fetched the last page
+   */
+  private processRawResponse(
+    rawRepositories,
+    headers
+  ): { completed: boolean; repositories: Repository[] } {
+    const array = rawRepositories.map(
+      (data) => new Repository(data["html_url"], data["name"])
     );
+    return {
+      completed: !headers?.get("link")?.match(/rel=\"last\"/),
+      repositories: array,
+    };
+  }
+
+  /**
+   * Fetch authenticated user's repositories from Github
+   *
+   * @param {number} page The page of repositories to fetch
+   * @param {number} pageLimit The number of repositories to fetch per page
+   * @return {Observable<{ completed: boolean, repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   */
+  getRepositoriesByAuthenticatedUser(
+    page = 1,
+    pageLimit = 100
+  ): Observable<{ completed: boolean; repositories: Repository[] }> {
+    let url = `https://api.github.com/user/repos?per_page=${pageLimit}&page=${page}&sort=created`;
+    return this.http
+      .get<any[]>(url, {
+        headers: this.headers,
+        observe: "response",
+      })
+      .pipe(
+        map((response) => {
+          return this.processRawResponse(response.body, response.headers);
+        })
+      );
+  }
+
+  /**
+   * Fetch repositories from Github according to the given search filter
+   *
+   * @param {string} searchFilter The search filter used to fetch the repositories
+   * @param {number} page The page of repositories to fetch
+   * @param {number} pageLimit The number of repositories to fetch per page
+   * @return {Observable<{ completed: boolean, repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   */
+  getRepositoriesBySearch(
+    searchFilter: string,
+    page = 1,
+    pageLimit = 100
+  ): Observable<{ completed: boolean; repositories: Repository[] }> {
+    let url = `https://api.github.com/search/repositories?q=${searchFilter}&per_page=${pageLimit}&page=${page}`;
+    return this.http
+      .get<{ items: any[]; incomplete_results: boolean }>(url, {
+        headers: this.headers,
+        observe: "response",
+      })
+      .pipe(
+        map((response) => {
+          return this.processRawResponse(response.body.items, response.headers);
+        })
+      );
   }
 
   getNameFromReadMe(readme: string): string {
-    if (!readme) return null;
+    if (!readme) {
+      return null;
+    }
     let lastNameToken = this.translateService.instant("TOKEN-LAST-NAME");
     let firstNameToken = this.translateService.instant("TOKEN-FIRST-NAME");
     let lastName = this.getValueWithToken(`${lastNameToken}.*:`, readme);
@@ -526,14 +578,15 @@ export class CommitsService {
   }
 
   getTPGroupFromReadMe(readme: string): string {
-    if (!readme) return null;
+    if (!readme) {
+      return null;
+    }
     let tpGroup = this.getValueWithToken("-\\s*\\[\\S\\]", readme);
     return tpGroup;
   }
 
   getValueWithToken(token: string, text: string): string {
     let regex = new RegExp(`(?<=${token}).*`);
-    // console.log('REGEX', regex);
     let value = text.match(regex);
     return value ? value[0].trim() : null;
   }
