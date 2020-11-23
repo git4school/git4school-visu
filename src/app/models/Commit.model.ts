@@ -173,7 +173,7 @@ export class Commit {
     ].join("|");
 
     this.question = this.message.match(
-      new RegExp(`(?:${keywordsToken}) (${questionsToken}):`, "i")
+      new RegExp(`(?:${keywordsToken}) (${questionsToken})`, "i")
     )?.[1];
   }
 
