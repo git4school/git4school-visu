@@ -32,9 +32,99 @@
                    <div class="content-data">
 
 <h1 id="change-log-for-git4school">Change log for Git4School</h1>
-<h2 id="100">1.0.0</h2>
+<h2 id="110">1.1.0</h2>
 <h3 id="added">Added</h3>
+<h4 id="project">Project</h4>
+<ul>
+<li>Continuous integration and deployment of technical and user documentation<ul>
+<li>Additionnal documention section in technical document helping potential contributors to understand how the application is designed</li>
+</ul>
+</li>
+<li>Continuous deployment of the application on push on <em>master</em> branch</li>
+<li>A clean readme for the project<ul>
+<li>The template for the ReadMe to be read by the application is now in <code>README.template.md</code></li>
+</ul>
+</li>
+<li>We now use Codacy to track code quality and potential security breaches</li>
+<li>We now work by sprint of 2 weeks represented by milestones on Github</li>
+<li>We now use <a href="https://github.com/carloscuesta/gitmoji">Gitmoji</a> as a standard for the commits</li>
+</ul>
 <h4 id="general">General</h4>
+<ul>
+<li>JS docs for a good part of the code</li>
+</ul>
+<h4 id="home-page">Home page</h4>
+<ul>
+<li>User guide<ul>
+<li>Localized</li>
+<li>Will be moved little by little to a website dedicated to the user documentation</li>
+</ul>
+</li>
+</ul>
+<h4 id="graph-pages">Graph pages</h4>
+<ul>
+<li>Button to reload data from Github on all graph pages</li>
+</ul>
+<h4 id="configuration-page">Configuration page</h4>
+<ul>
+<li>A page allowing to edit and add through an interface metadata, repositories and sessions<ul>
+<li>Ability to edit / add a single repository at a time<ul>
+<li>Form validation checking if the repository has already been added and if the user has access to the existing repository</li>
+</ul>
+</li>
+<li>Ability to add several repositories from a list of displayed repositories from the authenticated user<ul>
+<li>A TP group can be indicated to add a set of repositories with the same TP group</li>
+<li>Already added repositories are already checked in the list</li>
+<li>Lazy loading scrolling to load sets of 100 repositories</li>
+<li>Repositories list sorted by creation date</li>
+</ul>
+</li>
+<li>Errors about repositories fetching are now indicated per repository in the configuration page</li>
+<li>Ability to edit / add sessions<ul>
+<li>Form validation checking if the end date is later than the start date</li>
+<li>Date pickers localized</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="modified">Modified</h3>
+<h4 id="general-1">General</h4>
+<ul>
+<li>Localization updated</li>
+<li>The accepted format of the dates in the configuration file is more flexible<ul>
+<li>accepting <code>2019-4-2 7:45</code> and <code>2019-04-02 07:45</code></li>
+</ul>
+</li>
+<li>Updated to Angular 9</li>
+<li>Name and TP group are now recognized according to the current application language</li>
+<li>Complete refactor for <code>commitService</code> for a better management and scalability</li>
+<li>Question recognition is now searching for a (<a href="https://docs.github.com/en/enterprise/2.16/user/github/managing-your-work-on-github/closing-issues-using-keywords#about-issue-references">Github</a>) closing keyword and then the question</li>
+</ul>
+<h4 id="graphs">Graphs</h4>
+<ul>
+<li>All graph components now inherit the same base component to factorize the code and allow potential future integration of new graphs</li>
+<li>Commits closing a question without milestone associated are now displayed in green</li>
+</ul>
+<h4 id="overview-graph">Overview graph</h4>
+<ul>
+<li>It is now possible to upload 2 times in a row the same file<ul>
+<li>This is the only workaround we found for the <em>reread button bug</em></li>
+</ul>
+</li>
+</ul>
+<h4 id="questions-completion-graphs">Questions completion graphs</h4>
+<ul>
+<li>Bar index is now saved for the user session</li>
+</ul>
+<h3 id="deleted">Deleted</h3>
+<h4 id="overview-graph-1">Overview graph</h4>
+<ul>
+<li><em>Reread</em> button because it was not working and there is no workaround to make it work</li>
+</ul>
+<h2 id="100">1.0.0</h2>
+<h3 id="added-1">Added</h3>
+<h4 id="general-2">General</h4>
 <ul>
 <li>Localization (english &amp; french)</li>
 <li>Connection with Github</li>
@@ -45,7 +135,7 @@
 <li>Documentation on the use of the application</li>
 <li>Display the CHANGELOG from the Github repository</li>
 </ul>
-<h4 id="overview-graph">Overview graph</h4>
+<h4 id="overview-graph-2">Overview graph</h4>
 <ul>
 <li>Displays the student commits given in the JSON configuration file (they have a different shape and color depending on the associated milestones) <ul>
 <li>Move the mouse over a commit to display its details</li>
