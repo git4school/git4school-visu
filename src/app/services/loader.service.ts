@@ -26,21 +26,17 @@ export class LoaderService {
     questions
   ) {
     repositories.forEach((repository) => {
-      let rev = !this.dataService.reviews
-        ? null
-        : this.dataService.reviews.filter(
-            (review) => review.tpGroup === repository.tpGroup
-          );
-      let cor = !this.dataService.corrections
-        ? null
-        : this.dataService.corrections.filter(
-            (correction) => correction.tpGroup === repository.tpGroup
-          );
+      let filteredReviews = reviews?.filter(
+        (review) => review.tpGroup === repository.tpGroup || !review.tpGroup
+      );
+      let filteredCorrections = corrections?.filter(
+        (correction) =>
+          correction.tpGroup === repository.tpGroup || !correction.tpGroup
+      );
 
-      repository.commits &&
-        repository.commits.forEach((commit) =>
-          commit.updateMetadata(rev, cor, questions)
-        );
+      repository.commits?.forEach((commit) =>
+        commit.updateMetadata(filteredReviews, filteredCorrections, questions)
+      );
     });
   }
 
