@@ -1,5 +1,81 @@
 # Change log for Git4School
 
+## 1.1.0
+
+### Added
+
+#### Project
+
+- Continuous integration and deployment of technical and user documentation
+  - Additionnal documention section in technical document helping potential contributors to understand how the application is designed
+- Continuous deployment of the application on push on _master_ branch
+- A clean readme for the project
+  - The template for the ReadMe to be read by the application is now in `README.template.md`
+- We now use Codacy to track code quality and potential security breaches
+- We now work by sprint of 2 weeks represented by milestones on Github
+- We now use [Gitmoji](https://github.com/carloscuesta/gitmoji) as a standard for the commits
+
+#### General
+
+- JS docs for a good part of the code
+
+#### Home page
+
+- User guide
+  - Localized
+  - Will be moved little by little to a website dedicated to the user documentation
+
+#### Graph pages
+
+- Button to reload data from Github on all graph pages
+
+#### Configuration page
+
+- A page allowing to edit and add through an interface metadata, repositories and sessions
+  - Ability to edit / add a single repository at a time
+    - Form validation checking if the repository has already been added and if the user has access to the existing repository
+  - Ability to add several repositories from a list of displayed repositories from the authenticated user
+    - A TP group can be indicated to add a set of repositories with the same TP group
+    - Already added repositories are already checked in the list
+    - Lazy loading scrolling to load sets of 100 repositories
+    - Repositories list sorted by creation date
+  - Errors about repositories fetching are now indicated per repository in the configuration page
+  - Ability to edit / add sessions
+    - Form validation checking if the end date is later than the start date
+    - Date pickers localized
+
+### Modified
+
+#### General
+
+- Localization updated
+- The accepted format of the dates in the configuration file is more flexible
+  - accepting `2019-4-2 7:45` and `2019-04-02 07:45`
+- Updated to Angular 9
+- Name and TP group are now recognized according to the current application language
+- Complete refactor for `commitService` for a better management and scalability
+- Question recognition is now searching for a ([Github](https://docs.github.com/en/enterprise/2.16/user/github/managing-your-work-on-github/closing-issues-using-keywords#about-issue-references)) closing keyword and then the question
+
+#### Graphs
+
+- All graph components now inherit the same base component to factorize the code and allow potential future integration of new graphs
+- Commits closing a question without milestone associated are now displayed in green
+
+#### Overview graph
+
+- It is now possible to upload 2 times in a row the same file
+  - This is the only workaround we found for the _reread button bug_
+
+#### Questions completion graphs
+
+- Bar index is now saved for the user session
+
+### Deleted
+
+#### Overview graph
+
+- _Reread_ button because it was not working and there is no workaround to make it work
+
 ## 1.0.0
 
 ### Added
