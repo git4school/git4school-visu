@@ -1,23 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { DataService } from '@services/data.service';
-import { ToastService } from '@services/toast.service';
-
-
+import { Component, OnInit } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { DataService } from "@services/data.service";
+import { ToastService } from "@services/toast.service";
 
 @Component({
-  templateUrl: './configuration.component.html',
-  styleUrls: ['./configuration.component.scss']
+  templateUrl: "./configuration.component.html",
+  styleUrls: ["./configuration.component.scss"],
 })
 export class ConfigurationComponent implements OnInit {
   metadataModified: boolean;
   repositoriesModified: boolean;
   sessionsModified: boolean;
 
-
-  constructor(public translateService: TranslateService, public dataService: DataService, private toastService: ToastService) {
-
-  }
+  constructor(
+    public translateService: TranslateService,
+    public dataService: DataService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.metadataModified = false;
@@ -26,7 +25,11 @@ export class ConfigurationComponent implements OnInit {
   }
 
   get isModified() {
-    return (this.metadataModified || this.repositoriesModified || this.sessionsModified);
+    return (
+      this.metadataModified ||
+      this.repositoriesModified ||
+      this.sessionsModified
+    );
   }
 
   saveMetadata(metadata) {
@@ -60,7 +63,13 @@ export class ConfigurationComponent implements OnInit {
   }
 
   successToast() {
-    let translations = this.translateService.instant(['SUCCESS', 'SUCCESS-MESSAGE']);
-    this.toastService.success(translations['SUCCESS'], translations['SUCCESS-MESSAGE']);
+    let translations = this.translateService.instant([
+      "SUCCESS",
+      "SUCCESS-MESSAGE",
+    ]);
+    this.toastService.success(
+      translations["SUCCESS"],
+      translations["SUCCESS-MESSAGE"]
+    );
   }
 }
