@@ -1,5 +1,6 @@
-import { LOCATION_INITIALIZED } from "@angular/common";
+import { LOCATION_INITIALIZED, registerLocaleData } from "@angular/common";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
+import localeFr from "@angular/common/locales/fr";
 import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
@@ -75,6 +76,7 @@ export function appInitializerFactory(
         Promise.resolve(null)
       );
       locationInitialized.then(() => {
+        registerLocaleData(localeFr);
         translate.addLangs(["en", "fr"]);
         translate.setDefaultLang("en");
         const langToSet = window.navigator.language

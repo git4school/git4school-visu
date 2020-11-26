@@ -1,17 +1,12 @@
-import { registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { DataProvidedGuard } from '@guards/data-provided.guard';
-import { CommitColor } from '@models/Commit.model';
-import { TranslateService } from '@ngx-translate/core';
-import { CommitsService } from '@services/commits.service';
-import { DataService } from '@services/data.service';
-import { LoaderService } from '@services/loader.service';
-import { BaseChartDirective } from 'ng2-charts';
-import { BaseGraphComponent } from '../base-graph.component';
-
-
-registerLocaleData(localeFr);
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { DataProvidedGuard } from "@guards/data-provided.guard";
+import { CommitColor } from "@models/Commit.model";
+import { TranslateService } from "@ngx-translate/core";
+import { CommitsService } from "@services/commits.service";
+import { DataService } from "@services/data.service";
+import { LoaderService } from "@services/loader.service";
+import { BaseChartDirective } from "ng2-charts";
+import { BaseGraphComponent } from "../base-graph.component";
 
 /**
  * jquery
@@ -22,11 +17,13 @@ declare var $: any;
  * This component displays a graph with the questions completion
  */
 @Component({
-  selector: 'questions-completion',
-  templateUrl: './questions-completion.component.html',
-  styleUrls: ['./questions-completion.component.scss']
+  selector: "questions-completion",
+  templateUrl: "./questions-completion.component.html",
+  styleUrls: ["./questions-completion.component.scss"],
 })
-export class QuestionsCompletionComponent extends BaseGraphComponent implements OnInit {
+export class QuestionsCompletionComponent
+  extends BaseGraphComponent
+  implements OnInit {
   /**
    * The chart object from the DOM
    */
@@ -70,23 +67,23 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
   chartOptions = {
     responsive: true,
     animation: {
-      duration: 0 // general animation time
+      duration: 0, // general animation time
     },
     responsiveAnimationDuration: 0,
     aspectRatio: 2.4,
     legend: {
-      position: 'bottom'
+      position: "bottom",
     },
     tooltips: {
-      mode: 'nearest',
-      position: 'average',
+      mode: "nearest",
+      position: "average",
       callbacks: {
         beforeTitle(tooltipItem, data) {
           return (
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
-            ].translations['QUESTION'] +
-            ' : ' +
+            ].translations["QUESTION"] +
+            " : " +
             tooltipItem[0].label
           );
         },
@@ -95,37 +92,37 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
         },
         beforeBody(tooltipItem, data) {
           return (
-            '\n' +
+            "\n" +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
-            ].translations['COMMITS-COUNT'] +
-            ' : ' +
+            ].translations["COMMITS-COUNT"] +
+            " : " +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
             ].data.count +
-            '\n' +
+            "\n" +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
-            ].translations['COMMITS-PERCENTAGE'] +
-            ' : ' +
+            ].translations["COMMITS-PERCENTAGE"] +
+            " : " +
             tooltipItem[0].yLabel.toFixed(2) +
-            '%'
+            "%"
           );
         },
         label(tooltipItem, data) {
-          return '';
+          return "";
         },
         footer(tooltipItem, data) {
           return data.datasets[tooltipItem[0].datasetIndex].data[
             tooltipItem[0].index
-          ].data.students.map(student => student.name);
-        }
+          ].data.students.map((student) => student.name);
+        },
       },
-      displayColors: false
+      displayColors: false,
     },
     title: {
       display: false,
-      text: 'Chart.js Bar Chart - Stacked'
+      text: "Chart.js Bar Chart - Stacked",
     },
     scales: {
       xAxes: [
@@ -133,34 +130,34 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
           stacked: true,
           scaleLabel: {
             display: true,
-            labelString: 'Questions'
-          }
-        }
+            labelString: "Questions",
+          },
+        },
       ],
       yAxes: [
         {
           stacked: true,
           ticks: {
-            max: 100
+            max: 100,
           },
           scaleLabel: {
             display: true,
-            labelString: '% of commits'
+            labelString: "% of commits",
           },
-          gridLines: this.getGridLines()
-        }
-      ]
+          gridLines: this.getGridLines(),
+        },
+      ],
     },
     plugins: {
       datalabels: {
         clamp: true,
-        clip: 'auto',
-        color: 'white',
+        clip: "auto",
+        color: "white",
         display: function (context) {
           return context.dataset.data[context.dataIndex].y > 3;
         },
         font: {
-          weight: 'bold'
+          weight: "bold",
         },
         backgroundColor: function (context) {
           return context.dataset.backgroundColor;
@@ -169,13 +166,13 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
         formatter: function (value, context) {
           return (
             context.dataset.data[context.dataIndex].data.count +
-            ' (' +
+            " (" +
             context.dataset.data[context.dataIndex].y.toFixed(2) +
-            '%)'
+            "%)"
           );
-        }
-      }
-    }
+        },
+      },
+    },
   };
 
   /**
@@ -196,21 +193,26 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
     public translateService: TranslateService,
     public dataProvided: DataProvidedGuard,
     protected loaderService: LoaderService
-  ) { super(loaderService); }
+  ) {
+    super(loaderService);
+  }
 
   /**
    * Updates dict variable with questions data and loads graph labels which displays data on the graph
    */
   loadGraphDataAndRefresh() {
     if (this.dataProvided.dataLoaded()) {
-      let translations = this.translateService
-        .instant(['QUESTION', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE']);
+      let translations = this.translateService.instant([
+        "QUESTION",
+        "COMMITS-COUNT",
+        "COMMITS-PERCENTAGE",
+      ]);
       this.chartLabels = this.dataService.questions;
       let colors = [
         CommitColor.BEFORE,
         CommitColor.BETWEEN,
         CommitColor.AFTER,
-        CommitColor.NOCOMMIT
+        CommitColor.NOCOMMIT,
       ];
 
       let dict = this.commitsService.initQuestionsDict(
@@ -245,7 +247,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
   getGridLines(): any {
     let index = 10 - this.dataService.barIndex;
     let lineWidth = new Array(11).fill(1);
-    let color = new Array(11).fill('rgba(0, 0, 0, 0.1)');
+    let color = new Array(11).fill("rgba(0, 0, 0, 0.1)");
 
     lineWidth[index] = 5;
     color[index] = CommitColor.AFTER.color;
@@ -253,7 +255,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
     return {
       lineWidth: lineWidth,
       color: color,
-      zeroLineWidth: 0
+      zeroLineWidth: 0,
     };
   }
 
@@ -281,27 +283,36 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
       } else {
         this.loading = true;
         this.initDateSlider();
-        this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+        this.loadGraphMetadata(
+          this.dataService.repositories,
+          this.dataService.reviews,
+          this.dataService.corrections,
+          this.dataService.questions
+        );
         this.loading = false;
       }
     });
   }
 
-
   loadGraph(startDate?: string, endDate?: string) {
     this.loading = true;
     this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
       this.initDateSlider();
-      this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+      this.loadGraphMetadata(
+        this.dataService.repositories,
+        this.dataService.reviews,
+        this.dataService.corrections,
+        this.dataService.questions
+      );
       this.loading = false;
     });
   }
 
   initDateSlider() {
     this.dataService.lastUpdateDate &&
-      ((this.date = this.dataService.lastUpdateDate.getTime()) &&
-        (this.max = this.date) &&
-        (this.min = this.getMinDateTimestamp()));
+      (this.date = this.dataService.lastUpdateDate.getTime()) &&
+      (this.max = this.date) &&
+      (this.min = this.getMinDateTimestamp());
   }
 
   /**
@@ -310,11 +321,15 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
    */
   getMinDateTimestamp() {
     let commits = [];
-    this.dataService.repositories.filter(repo => repo.commits).forEach(repository => {
-      // commits = commits.concat(repository.commits);
-      Array.prototype.push.apply(commits, repository.commits);
-    });
-    if (!commits.length) return new Date();
+    this.dataService.repositories
+      .filter((repo) => repo.commits)
+      .forEach((repository) => {
+        // commits = commits.concat(repository.commits);
+        Array.prototype.push.apply(commits, repository.commits);
+      });
+    if (!commits.length) {
+      return new Date();
+    }
     let min = commits.reduce(
       (min, commit) =>
         commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,

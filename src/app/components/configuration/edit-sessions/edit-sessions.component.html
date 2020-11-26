@@ -19,11 +19,9 @@
                             <td>
                                 <div class="input-group">
                                     <input class="form-control" placeholder="yyyy-mm-dd" formControlName="date"
-                                        ngbDatepicker #d="ngbDatepicker" name="date" [disabled]="!isEditable(group)"
-                                        [showWeekNumbers]="true">
+                                        ngbDatepicker #d="ngbDatepicker" name="date" [showWeekNumbers]="true">
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"
-                                            [disabled]="!isEditable(group)">
+                                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                                             <i class="far fa-calendar-alt"></i>
                                         </button>
                                     </div>
@@ -57,8 +55,7 @@
                                 </div>
                             </td>
                             <td *ngIf="isEditable(group)">
-                                <input type="text" class="form-control" formControlName="tpGroup" placeholder="1.1"
-                                    [disabled]="!isEditable(group)">
+                                <input type="text" class="form-control" formControlName="tpGroup" placeholder="1.1">
                             </td>
                             <td *ngIf="!isEditable(group)">
                                 {{ group.get('tpGroup').value }}
