@@ -2316,7 +2316,7 @@ import { Injectable } from &quot;@angular/core&quot;;
 import { Commit, CommitColor } from &quot;@models/Commit.model&quot;;
 import { Error, ErrorType, Repository } from &quot;@models/Repository.model&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
-import moment from &quot;moment/src/moment&quot;;
+import * as moment from &quot;moment&quot;;
 import { forkJoin, Observable, of } from &quot;rxjs&quot;;
 import { catchError, map } from &quot;rxjs/operators&quot;;
 import { AuthService } from &quot;./auth.service&quot;;

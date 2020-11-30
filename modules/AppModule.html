@@ -428,8 +428,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LOCATION_INITIALIZED } from &quot;@angular/common&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LOCATION_INITIALIZED, registerLocaleData } from &quot;@angular/common&quot;;
 import { HttpClient, HttpClientModule } from &quot;@angular/common/http&quot;;
+import localeFr from &quot;@angular/common/locales/fr&quot;;
 import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from &quot;@angular/core&quot;;
 import { FormsModule, ReactiveFormsModule } from &quot;@angular/forms&quot;;
 import { BrowserModule } from &quot;@angular/platform-browser&quot;;
@@ -505,6 +506,7 @@ export function appInitializerFactory(
         Promise.resolve(null)
       );
       locationInitialized.then(() &#x3D;&gt; {
+        registerLocaleData(localeFr);
         translate.addLangs([&quot;en&quot;, &quot;fr&quot;]);
         translate.setDefaultLang(&quot;en&quot;);
         const langToSet &#x3D; window.navigator.language

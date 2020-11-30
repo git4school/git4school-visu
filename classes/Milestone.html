@@ -587,7 +587,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import moment from &#x27;moment/src/moment&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as moment from &quot;moment&quot;;
 
 /**
  * This class modelizes a milestone which can be : a &quot;review&quot;, a &quot;correction&quot; or an &quot;other&quot; milestone
@@ -635,10 +635,10 @@ export class Milestone {
     let json &#x3D; {
       date: moment(this.date).toISOString(),
       label: this.label,
-      questions: this.questions
+      questions: this.questions,
     };
     if (this.tpGroup) {
-      json[&#x27;tpGroup&#x27;] &#x3D; this.tpGroup;
+      json[&quot;tpGroup&quot;] &#x3D; this.tpGroup;
     }
     return json;
   }
