@@ -165,7 +165,6 @@ export class OverviewComponent
   };
 
   ngOnInit(): void {
-    console.log("modified", this.dataService.repoToLoad);
     this.updateLang();
     this.translateService.onLangChange.subscribe(
       (event: TranslationChangeEvent) => {
@@ -249,7 +248,6 @@ export class OverviewComponent
         this.loading = false;
       });
     } catch (error) {
-      console.log("ERROR");
       this.loading = false;
     }
   }
@@ -263,7 +261,6 @@ export class OverviewComponent
   }
 
   loadGraphDataAndRefresh() {
-    console.log("loadGraphDataAndRefresh");
     this.loadGraphData();
     this.refreshGraph();
     this.adaptScaleWithChart(this.myChart.chart);
@@ -312,10 +309,9 @@ export class OverviewComponent
         (review) =>
           (!this.tpGroup || review.tpGroup === this.tpGroup) &&
           (!this.searchFilter.length ||
-            (review.questions &&
-              this.searchFilter.filter((question) =>
-                review.questions.includes(question)
-              ).length))
+            this.searchFilter.filter((question) =>
+              review.questions?.includes(question)
+            ).length)
       )
       .forEach((review, index) => {
         this.chartOptions.annotation.annotations.push({
@@ -333,12 +329,6 @@ export class OverviewComponent
           onClick: function (e) {
             me.showEditMilestoneModal(review);
           },
-          // onMouseenter: function (e) {
-          //   var element = this;
-          //   console.log('DVEBEVEAZBTERGZEVBRNTNBGZEFEBZEFVREB');
-          //   element.options.borderWidth = 7;
-          //   element.chartInstance.update();
-          // }
         });
       });
   }
@@ -350,10 +340,9 @@ export class OverviewComponent
         (correction) =>
           (!this.tpGroup || correction.tpGroup === this.tpGroup) &&
           (!this.searchFilter.length ||
-            (correction.questions &&
-              this.searchFilter.filter((question) =>
-                correction.questions.includes(question)
-              ).length))
+            this.searchFilter.filter((question) =>
+              correction.questions?.includes(question)
+            ).length)
       )
       .forEach((correction, index) => {
         this.chartOptions.annotation.annotations.push({
@@ -382,10 +371,9 @@ export class OverviewComponent
         (other) =>
           (!this.tpGroup || other.tpGroup === this.tpGroup) &&
           (!this.searchFilter.length ||
-            (other.questions &&
-              this.searchFilter.filter((question) =>
-                other.questions.includes(question)
-              ).length))
+            this.searchFilter.filter((question) =>
+              other.questions?.includes(question)
+            ).length)
       )
       .forEach((other, index) => {
         this.chartOptions.annotation.annotations.push({
@@ -713,17 +701,17 @@ export class OverviewComponent
   adaptScale(min, max) {
     let distance = (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 24);
 
-    if (this.unit == "day") {
+    if (this.unit === "day") {
       if (Math.round(distance) > 7) {
         this.selectUnit("week");
       } else if (Math.floor(distance) < 1) {
         this.selectUnit("hour");
       }
-    } else if (this.unit == "week") {
+    } else if (this.unit === "week") {
       if (Math.round(distance) < 9) {
         this.selectUnit("day");
       }
-    } else if (this.unit == "hour") {
+    } else if (this.unit === "hour") {
       if (Math.round(distance) > 1) {
         this.selectUnit("day");
       }

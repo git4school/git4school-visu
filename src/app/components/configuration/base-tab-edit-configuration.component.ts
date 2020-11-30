@@ -9,7 +9,7 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { BaseEditConfigurationComponent } from "./base-edit-configuration.component";
 
 @Component({
-  template: ``,
+  template: "",
 })
 export abstract class BaseTabEditConfigurationComponent<Data>
   extends BaseEditConfigurationComponent
@@ -96,7 +96,6 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   }
 
   saveRow(group: FormGroup) {
-    console.log("SAVE : ", group.value);
     group.get("save").setValue(group.value);
   }
 
