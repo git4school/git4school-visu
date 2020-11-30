@@ -8,10 +8,19 @@ import { CommitsService } from "./commits.service";
 import { DataService } from "./data.service";
 import { ToastService } from "./toast.service";
 
+/**
+ * This service is used to load data into the application
+ */
 @Injectable({
   providedIn: "root",
 })
 export class LoaderService {
+  /**
+   * @param {CommitsService} commitsService The service that retrieves repositories and their commits from Github
+   * @param {DataService} dataService The service that stores the data
+   * @param {TranslateService} translateService The translation service
+   * @param {ToastService} toastService The service displaying error or warning toasts
+   */
   constructor(
     private commitsService: CommitsService,
     private dataService: DataService,
@@ -19,11 +28,21 @@ export class LoaderService {
     private toastService: ToastService
   ) {}
 
+  /**
+   * Loads the commits to be displayed in the graphs.
+   *
+   * Updates the commits metadata with associated milestones, such as their color.
+   *
+   * @param {Repository[]} repositories
+   * @param {Milestone[]} reviews
+   * @param {Milestone[]} corrections
+   * @param {string[]} questions
+   */
   loadCommitsMetadata(
     repositories: Repository[],
     reviews: Milestone[],
     corrections: Milestone[],
-    questions
+    questions: string[]
   ) {
     repositories.forEach((repository) => {
       let filteredReviews = reviews?.filter(
@@ -40,6 +59,11 @@ export class LoaderService {
     });
   }
 
+  /**
+   * Fetch the repositories from Github and loads their commits with [loadCommitsMetadata]{@link LoaderService#loadCommitsMetadata}
+   * @param startDate The date from which commits are retrieved
+   * @param endDate The date up to which commits are retrieved
+   */
   loadRepositories(startDate?: string, endDate?: string): Observable<void> {
     let translations = this.translateService.instant([
       "ERRORS.REPOSITORY-NOT-FOUND",
