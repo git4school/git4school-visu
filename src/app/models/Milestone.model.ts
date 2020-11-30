@@ -1,4 +1,4 @@
-import moment from 'moment/src/moment';
+import * as moment from "moment";
 
 /**
  * This class modelizes a milestone which can be : a "review", a "correction" or an "other" milestone
@@ -46,10 +46,10 @@ export class Milestone {
     let json = {
       date: moment(this.date).toISOString(),
       label: this.label,
-      questions: this.questions
+      questions: this.questions,
     };
     if (this.tpGroup) {
-      json['tpGroup'] = this.tpGroup;
+      json["tpGroup"] = this.tpGroup;
     }
     return json;
   }

@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Commit, CommitColor } from "@models/Commit.model";
 import { Error, ErrorType, Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
-import moment from "moment/src/moment";
+import * as moment from "moment";
 import { forkJoin, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { AuthService } from "./auth.service";

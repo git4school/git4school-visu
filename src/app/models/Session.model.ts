@@ -1,4 +1,4 @@
-import moment from 'moment/src/moment';
+import * as moment from "moment";
 
 /**
  * This class modelizes a practical session
@@ -35,10 +35,10 @@ export class Session {
   json() {
     let json = {
       startDate: moment(this.startDate).toISOString(),
-      endDate: moment(this.endDate).toISOString()
+      endDate: moment(this.endDate).toISOString(),
     };
     if (this.tpGroup) {
-      json['tpGroup'] = this.tpGroup;
+      json["tpGroup"] = this.tpGroup;
     }
     return json;
   }

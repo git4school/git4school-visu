@@ -108,7 +108,6 @@ export class Commit {
    * Updates the isEnSeance variable
    * @param startDate The date before which commits are not processed
    * @param endDate The date after which commits are not processed
-   * @returns A boolean, the isEnSeance value
    */
   updateIsEnSeance(startDate: Date, endDate: Date) {
     if (
@@ -116,9 +115,9 @@ export class Commit {
       this.commitDate.getTime() <= endDate.getTime()
     ) {
       this.isEnSeance = true;
-      return true;
+    } else {
+      this.isEnSeance = false;
     }
-    return false;
   }
 
   /**
@@ -139,7 +138,6 @@ export class Commit {
 
   /**
    * Updates the isCloture variable
-   * @returns A boolean, the isCloture value
    */
   updateIsCloture() {
     if (
@@ -148,17 +146,18 @@ export class Commit {
       ) !== null
     ) {
       this.isCloture = true;
-      return true;
+    } else {
+      this.isCloture = false;
     }
-    return false;
   }
 
   /**
-   * Gets the corresponding question from a given list of question thanks to the commit message
+   * Gets the corresponding question from a given list of question thanks to the commit message.
+   *
+   * A null value is returned if no question has been found
    * @param questions The questions to handle
-   * @returns A string, corresponding to the question the commit is closing, if found. A null value is returned if no question has been found
    */
-  updateQuestion(questions: String[]) {
+  updateQuestion(questions: string[]) {
     const questionsToken = questions.join("|");
     const keywordsToken = [
       "Resolve",

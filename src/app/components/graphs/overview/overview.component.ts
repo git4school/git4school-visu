@@ -1,23 +1,28 @@
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { DataProvidedGuard } from '@guards/data-provided.guard';
-import { Commit, CommitColor } from '@models/Commit.model';
-import { Milestone } from '@models/Milestone.model';
-import { Repository } from '@models/Repository.model';
-import { Session } from '@models/Session.model';
-import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
-import { CommitsService } from '@services/commits.service';
-import { DataService } from '@services/data.service';
-import { JsonManagerService } from '@services/json-manager.service';
-import { LoaderService } from '@services/loader.service';
-import { ToastService } from '@services/toast.service';
-import * as Ajv from 'ajv';
-import { saveAs } from 'file-saver';
-import * as JSZip from 'jszip';
-import moment from 'moment/src/moment';
-import { BaseChartDirective } from 'ng2-charts';
-import { BaseGraphComponent } from '../base-graph.component';
-
+import {
+  AfterViewInit,
+  Component,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { DataProvidedGuard } from "@guards/data-provided.guard";
+import { Commit, CommitColor } from "@models/Commit.model";
+import { Milestone } from "@models/Milestone.model";
+import { Repository } from "@models/Repository.model";
+import { Session } from "@models/Session.model";
+import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
+import { CommitsService } from "@services/commits.service";
+import { DataService } from "@services/data.service";
+import { JsonManagerService } from "@services/json-manager.service";
+import { LoaderService } from "@services/loader.service";
+import { ToastService } from "@services/toast.service";
+import * as Ajv from "ajv";
+import { saveAs } from "file-saver";
+import * as JSZip from "jszip";
+import * as moment from "moment";
+import { BaseChartDirective } from "ng2-charts";
+import { BaseGraphComponent } from "../base-graph.component";
 
 /**
  * jquery
@@ -25,11 +30,13 @@ import { BaseGraphComponent } from '../base-graph.component';
 declare var $: any;
 
 @Component({
-  selector: 'overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  selector: "overview",
+  templateUrl: "./overview.component.html",
+  styleUrls: ["./overview.component.scss"],
 })
-export class OverviewComponent extends BaseGraphComponent implements OnInit, AfterViewInit {
+export class OverviewComponent
+  extends BaseGraphComponent
+  implements OnInit, AfterViewInit {
   constructor(
     private translateService: TranslateService,
     private commitsService: CommitsService,
@@ -38,13 +45,15 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
     public dataService: DataService,
     public dataProvided: DataProvidedGuard,
     protected loaderService: LoaderService
-  ) { super(loaderService); }
+  ) {
+    super(loaderService);
+  }
 
   @ViewChild(BaseChartDirective, { static: true }) myChart;
 
   typeaheadSettings;
   searchFilter: string[] = [];
-  unit = 'day';
+  unit = "day";
   drag = false;
   chartData = [{ data: [] }];
   tpGroup: string;
@@ -67,104 +76,104 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
     responsive: true,
     aspectRatio: 2.4,
     animation: {
-      duration: 0
+      duration: 0,
     },
     responsiveAnimationDuration: 0,
     hover: {
-      mode: 'nearest',
+      mode: "nearest",
       intersec: true,
-      animationDuration: 0
+      animationDuration: 0,
     },
     interaction: {
-      mode: 'nearest'
+      mode: "nearest",
     },
     tooltips: {
       callbacks: {
         label(tooltipItem, data) {
-          return '';
+          return "";
         },
         beforeBody(tooltipItem, data) {
           const commit =
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
             ].commit;
-          return commit.message + '\n\n' + commit.author;
-        }
+          return commit.message + "\n\n" + commit.author;
+        },
       },
-      displayColors: false
+      displayColors: false,
     },
     elements: {
       line: {
         fill: false,
         borderWidth: 2,
-        tension: 0
+        tension: 0,
       },
       point: {
         hitRadius: 8,
-        radius: 6
-      }
+        radius: 6,
+      },
     },
     scales: {
       xAxes: [
         {
           offset: true,
-          type: 'time',
+          type: "time",
           time: {
             unit: this.unit,
-            tooltipFormat: 'DD/MM/YY HH:mm',
+            tooltipFormat: "DD/MM/YY HH:mm",
             displayFormats: {
-              day: 'DD/MM/YY',
-              week: 'DD/MM/YY',
-              hour: 'kk:mm'
-            }
-          }
-        }
+              day: "DD/MM/YY",
+              week: "DD/MM/YY",
+              hour: "kk:mm",
+            },
+          },
+        },
       ],
       yAxes: [
         {
-          type: 'category',
+          type: "category",
           labels: [],
-          offset: true
-        }
-      ]
+          offset: true,
+        },
+      ],
     },
     annotation: {
-      drawTime: 'beforeDatasetsDraw',
-      events: ['click', 'mouseenter'],
-      annotations: []
+      drawTime: "beforeDatasetsDraw",
+      events: ["click", "mouseenter"],
+      annotations: [],
     },
     plugins: {
       zoom: {
         pan: {
           enabled: false,
-          mode: 'x',
-          onPan({ chart }) { }
+          mode: "x",
+          onPan({ chart }) {},
         },
         zoom: {
           enabled: true,
           drag: {
-            borderColor: 'rgba(225,225,225,0.3)',
+            borderColor: "rgba(225,225,225,0.3)",
             borderWidth: 5,
-            backgroundColor: 'rgb(225,225,225)'
+            backgroundColor: "rgb(225,225,225)",
           },
-          mode: 'x',
+          mode: "x",
           speed: 0.3,
-          onZoom: ({ chart }) => this.adaptScaleWithChart(chart)
-        }
-      }
-    }
+          onZoom: ({ chart }) => this.adaptScaleWithChart(chart),
+        },
+      },
+    },
   };
 
   ngOnInit(): void {
-    console.log('modified', this.dataService.repoToLoad);
     this.updateLang();
-    this.translateService.onLangChange.subscribe((event: TranslationChangeEvent) => {
-      this.updateLang();
+    this.translateService.onLangChange.subscribe(
+      (event: TranslationChangeEvent) => {
+        this.updateLang();
+      }
+    );
+    $(".modal").modal({
+      show: false,
     });
-    $('.modal').modal({
-      show: false
-    });
-
   }
 
   ngAfterViewInit(): void {
@@ -176,42 +185,50 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
           this.loadGraph(this.dataService.startDate, this.dataService.endDate);
         } else {
           this.loading = true;
-          this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+          this.loadGraphMetadata(
+            this.dataService.repositories,
+            this.dataService.reviews,
+            this.dataService.corrections,
+            this.dataService.questions
+          );
 
           this.loading = false;
         }
       });
     } else {
-      $('#uploadFileModal').modal({
-        show: true
+      $("#uploadFileModal").modal({
+        show: true,
       });
     }
   }
 
   updateLang() {
     this.typeaheadSettings = {
-      tagClass: 'badge badge-pill badge-secondary mr-1',
-      noMatchesText: this.translateService.instant('SEARCH-NOT-FOUND'),
-      suggestionLimit: 5
+      tagClass: "badge badge-pill badge-secondary mr-1",
+      noMatchesText: this.translateService.instant("SEARCH-NOT-FOUND"),
+      suggestionLimit: 5,
     };
   }
 
   readFile(): void {
     const myReader: FileReader = new FileReader();
-    myReader.onloadend = e => {
+    myReader.onloadend = (e) => {
       this.dataService.dataLoaded = false;
       let text = null;
       try {
         text = JSON.parse(myReader.result.toString());
       } catch (e) {
-        this.toastService.error(this.translateService.instant('INVALID-JSON'), e.message);
+        this.toastService.error(
+          this.translateService.instant("INVALID-JSON"),
+          e.message
+        );
       }
       if (text && this.verifyJSON(text)) {
         this.getDataFromFile(text);
         setTimeout(() => {
           this.loadGraph(text.startDate, text.endDate);
         });
-        $('#uploadFileModal').modal('hide');
+        $("#uploadFileModal").modal("hide");
       }
     };
     myReader.readAsText(this.jsonManager.file);
@@ -222,11 +239,15 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
       this.loading = true;
 
       this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
-        this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+        this.loadGraphMetadata(
+          this.dataService.repositories,
+          this.dataService.reviews,
+          this.dataService.corrections,
+          this.dataService.questions
+        );
         this.loading = false;
       });
     } catch (error) {
-      console.log('ERROR');
       this.loading = false;
     }
   }
@@ -240,7 +261,6 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   loadGraphDataAndRefresh() {
-    console.log('loadGraphDataAndRefresh');
     this.loadGraphData();
     this.refreshGraph();
     this.adaptScaleWithChart(this.myChart.chart);
@@ -267,17 +287,17 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
 
   loadSessions() {
     this.dataService.sessions
-      .filter(session => !this.tpGroup || session.tpGroup === this.tpGroup)
-      .forEach(session => {
+      .filter((session) => !this.tpGroup || session.tpGroup === this.tpGroup)
+      .forEach((session) => {
         this.chartOptions.annotation.annotations.push({
-          type: 'box',
-          xScaleID: 'x-axis-0',
-          yScaleID: 'y-axis-0',
+          type: "box",
+          xScaleID: "x-axis-0",
+          yScaleID: "y-axis-0",
           xMin: session.startDate,
           xMax: session.endDate,
-          borderColor: 'rgba(79, 195, 247,1.0)',
+          borderColor: "rgba(79, 195, 247,1.0)",
           borderWidth: 2,
-          backgroundColor: 'rgba(33, 150, 243, 0.15)'
+          backgroundColor: "rgba(33, 150, 243, 0.15)",
         });
       });
   }
@@ -286,36 +306,29 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
     let me = this;
     this.dataService.reviews
       .filter(
-        review =>
+        (review) =>
           (!this.tpGroup || review.tpGroup === this.tpGroup) &&
           (!this.searchFilter.length ||
-            (review.questions &&
-              this.searchFilter.filter(question =>
-                review.questions.includes(question)
-              ).length))
+            this.searchFilter.filter((question) =>
+              review.questions?.includes(question)
+            ).length)
       )
       .forEach((review, index) => {
         this.chartOptions.annotation.annotations.push({
-          type: 'line',
-          mode: 'vertical',
-          scaleID: 'x-axis-0',
+          type: "line",
+          mode: "vertical",
+          scaleID: "x-axis-0",
           value: review.date,
-          borderColor: 'blue',
+          borderColor: "blue",
           borderWidth: 1,
           label: {
-            content: review.label || 'Review ' + (index + 1),
+            content: review.label || "Review " + (index + 1),
             enabled: true,
-            position: 'top'
+            position: "top",
           },
           onClick: function (e) {
             me.showEditMilestoneModal(review);
           },
-          // onMouseenter: function (e) {
-          //   var element = this;
-          //   console.log('DVEBEVEAZBTERGZEVBRNTNBGZEFEBZEFVREB');
-          //   element.options.borderWidth = 7;
-          //   element.chartInstance.update();
-          // }
         });
       });
   }
@@ -324,30 +337,29 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
     let me = this;
     this.dataService.corrections
       .filter(
-        correction =>
+        (correction) =>
           (!this.tpGroup || correction.tpGroup === this.tpGroup) &&
           (!this.searchFilter.length ||
-            (correction.questions &&
-              this.searchFilter.filter(question =>
-                correction.questions.includes(question)
-              ).length))
+            this.searchFilter.filter((question) =>
+              correction.questions?.includes(question)
+            ).length)
       )
       .forEach((correction, index) => {
         this.chartOptions.annotation.annotations.push({
-          type: 'line',
-          mode: 'vertical',
-          scaleID: 'x-axis-0',
+          type: "line",
+          mode: "vertical",
+          scaleID: "x-axis-0",
           value: correction.date,
-          borderColor: 'red',
+          borderColor: "red",
           borderWidth: 1,
           label: {
-            content: correction.label || 'Correction ' + (index + 1),
+            content: correction.label || "Correction " + (index + 1),
             enabled: true,
-            position: 'top'
+            position: "top",
           },
           onClick: function (e) {
             me.showEditMilestoneModal(correction);
-          }
+          },
         });
       });
   }
@@ -356,30 +368,29 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
     let me = this;
     this.dataService.others
       .filter(
-        other =>
+        (other) =>
           (!this.tpGroup || other.tpGroup === this.tpGroup) &&
           (!this.searchFilter.length ||
-            (other.questions &&
-              this.searchFilter.filter(question =>
-                other.questions.includes(question)
-              ).length))
+            this.searchFilter.filter((question) =>
+              other.questions?.includes(question)
+            ).length)
       )
       .forEach((other, index) => {
         this.chartOptions.annotation.annotations.push({
-          type: 'line',
-          mode: 'vertical',
-          scaleID: 'x-axis-0',
+          type: "line",
+          mode: "vertical",
+          scaleID: "x-axis-0",
           value: other.date,
-          borderColor: 'black',
+          borderColor: "black",
           borderWidth: 1,
           label: {
-            content: other.label || 'Other ' + (index + 1),
+            content: other.label || "Other " + (index + 1),
             enabled: true,
-            position: 'top'
+            position: "top",
           },
           onClick: function (e) {
             me.showEditMilestoneModal(other);
-          }
+          },
         });
       });
   }
@@ -391,9 +402,9 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
 
     this.dataService.repositories
       .filter(
-        repository => !this.tpGroup || repository.tpGroup === this.tpGroup
+        (repository) => !this.tpGroup || repository.tpGroup === this.tpGroup
       )
-      .forEach(repository => {
+      .forEach((repository) => {
         const data = [];
         const pointStyle = [];
         // const reviews = !this.dataService.reviews
@@ -407,32 +418,33 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
         //     correction => correction.tpGroup === repository.tpGroup
         //   );
         const pointBackgroundColor = [];
-        const borderColor = 'rgba(77, 77, 77, 0.5)';
+        const borderColor = "rgba(77, 77, 77, 0.5)";
         labels.push(repository.name);
-        repository.commits && repository.commits.forEach(commit => {
-          // commit.updateMetadata(
-          //   reviews,
-          //   corrections,
-          //   this.dataService.questions
-          // );
-          if (
-            !this.searchFilter.length ||
-            this.searchFilter.includes(commit.question)
-          ) {
-            data.push({
-              x: commit.commitDate,
-              y: repository.name,
-              commit
-            });
-            pointStyle.push(this.getPointStyle(commit));
-            pointBackgroundColor.push(commit.color.color);
-          }
-        });
+        repository.commits &&
+          repository.commits.forEach((commit) => {
+            // commit.updateMetadata(
+            //   reviews,
+            //   corrections,
+            //   this.dataService.questions
+            // );
+            if (
+              !this.searchFilter.length ||
+              this.searchFilter.includes(commit.question)
+            ) {
+              data.push({
+                x: commit.commitDate,
+                y: repository.name,
+                commit,
+              });
+              pointStyle.push(this.getPointStyle(commit));
+              pointBackgroundColor.push(commit.color.color);
+            }
+          });
         chartData.push({
           data,
           pointStyle,
           pointBackgroundColor,
-          borderColor
+          borderColor,
         });
       });
     this.chartData = chartData;
@@ -456,7 +468,7 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
   onChartClick(event) {
     if (event.active.length > 0) {
       const data = this.getDataFromChart(event);
-      window.open(data.commit.url, '_blank');
+      window.open(data.commit.url, "_blank");
     } else {
       const rawDate = this.getValueFromEvent(event);
       this.showAddMilestoneModal(rawDate);
@@ -464,17 +476,17 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   showAddMilestoneModal(date) {
-    this.dateModal = date.format('YYYY-MM-DDTHH:mm');
-    this.labelModal = '';
-    this.tpGroupModal = '';
+    this.dateModal = date.format("YYYY-MM-DDTHH:mm");
+    this.labelModal = "";
+    this.tpGroupModal = "";
     this.questionsModal = [];
-    this.typeModal = '';
+    this.typeModal = "";
     this.addModal = true;
     this.showModal();
   }
 
   showEditMilestoneModal(milestone: Milestone) {
-    this.dateModal = moment(milestone.date).format('YYYY-MM-DDTHH:mm');
+    this.dateModal = moment(milestone.date).format("YYYY-MM-DDTHH:mm");
     this.labelModal = milestone.label;
     this.tpGroupModal = milestone.tpGroup;
     this.questionsModal = milestone.questions ? milestone.questions : [];
@@ -485,11 +497,11 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   showModal() {
-    $('#addMilestoneModal').modal('show');
+    $("#addMilestoneModal").modal("show");
   }
 
   getValueFromEvent(event) {
-    const xAxis = this.myChart.chart.scales['x-axis-0'];
+    const xAxis = this.myChart.chart.scales["x-axis-0"];
     const x = event.event.offsetX;
     return xAxis.getValueForPixel(x);
   }
@@ -505,7 +517,7 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
       new Date(form.value.date),
       form.value.label.trim(),
       questions.length ? questions : null,
-      (form.value.tpGroup || '').trim(),
+      (form.value.tpGroup || "").trim(),
       form.value.jalon
     );
 
@@ -522,19 +534,27 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
     this.dataService[jalon.type].push(jalon);
 
     form.resetForm({
-      date: '',
-      label: '',
+      date: "",
+      label: "",
       questions: [],
-      tpGroup: '',
-      jalon: ''
+      tpGroup: "",
+      jalon: "",
     });
 
-    this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+    this.loadGraphMetadata(
+      this.dataService.repositories,
+      this.dataService.reviews,
+      this.dataService.corrections,
+      this.dataService.questions
+    );
     this.dispose();
-    let translations = this.translateService.instant(['SUCCESS', 'MILESTONE-SAVED']);
+    let translations = this.translateService.instant([
+      "SUCCESS",
+      "MILESTONE-SAVED",
+    ]);
     this.toastService.success(
-      translations['SUCCESS'],
-      translations['MILESTONE-SAVED']
+      translations["SUCCESS"],
+      translations["MILESTONE-SAVED"]
     );
   }
 
@@ -546,13 +566,20 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
       1
     );
 
-    this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+    this.loadGraphMetadata(
+      this.dataService.repositories,
+      this.dataService.reviews,
+      this.dataService.corrections,
+      this.dataService.questions
+    );
     this.dispose();
-    let translations = this.translateService
-      .instant(['SUCCESS', 'MILESTONE-DELETED']);
+    let translations = this.translateService.instant([
+      "SUCCESS",
+      "MILESTONE-DELETED",
+    ]);
     this.toastService.success(
-      translations['SUCCESS'],
-      translations['MILESTONE-DELETED']
+      translations["SUCCESS"],
+      translations["MILESTONE-DELETED"]
     );
   }
 
@@ -567,20 +594,20 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   changeUnit() {
-    if (this.unit === 'week') {
-      this.selectUnit('day');
-    } else if (this.unit === 'day') {
-      this.selectUnit('hour');
-    } else if (this.unit === 'hour') {
-      this.selectUnit('week');
+    if (this.unit === "week") {
+      this.selectUnit("day");
+    } else if (this.unit === "day") {
+      this.selectUnit("hour");
+    } else if (this.unit === "hour") {
+      this.selectUnit("week");
     }
   }
 
   getPointStyle(commit: Commit) {
     if (commit.isCloture) {
-      return 'circle';
+      return "circle";
     } else {
-      return 'rectRot';
+      return "rectRot";
     }
   }
 
@@ -592,16 +619,18 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
 
   getDataFromFile(text) {
     this.dataService.repositories = text.repositories
-      .filter(repository =>
+      .filter((repository) =>
         repository.url.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
       )
-      .map(repository => Repository.withJSON(repository));
+      .map((repository) => Repository.withJSON(repository));
     if (text.repositories.length !== this.dataService.repositories.length) {
-      let translations = this.translateService
-        .instant(['ERRORS.WARNING', 'ERRORS.INVALID-URLS']);
+      let translations = this.translateService.instant([
+        "ERRORS.WARNING",
+        "ERRORS.INVALID-URLS",
+      ]);
       this.toastService.warning(
-        translations['ERRORS.WARNING'],
-        translations['ERRORS.INVALID-URLS']
+        translations["ERRORS.WARNING"],
+        translations["ERRORS.INVALID-URLS"]
       );
     }
     this.dataService.startDate = text.startDate;
@@ -612,20 +641,20 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
     this.dataService.year = text.year;
     this.dataService.questions = text.questions;
     this.dataService.corrections = text.corrections
-      ? text.corrections.map(data => Milestone.withJSON(data, 'corrections'))
+      ? text.corrections.map((data) => Milestone.withJSON(data, "corrections"))
       : undefined;
     this.dataService.sessions = text.sessions
-      ? text.sessions.map(data => Session.withJSON(data))
+      ? text.sessions.map((data) => Session.withJSON(data))
       : undefined;
     this.dataService.reviews = text.reviews
-      ? text.reviews.map(data => Milestone.withJSON(data, 'reviews'))
+      ? text.reviews.map((data) => Milestone.withJSON(data, "reviews"))
       : undefined;
     this.dataService.others = text.others
-      ? text.others.map(data => Milestone.withJSON(data, 'others'))
+      ? text.others.map((data) => Milestone.withJSON(data, "others"))
       : undefined;
   }
 
-  @HostListener('window:keyup', ['$event'])
+  @HostListener("window:keyup", ["$event"])
   keyEvent(event: KeyboardEvent) {
     if (event.keyCode === 32) {
       this.resetZoom();
@@ -655,7 +684,7 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   dispose() {
-    $('#addMilestoneModal').modal('hide');
+    $("#addMilestoneModal").modal("hide");
   }
 
   searchSubmit(form: NgForm) {
@@ -664,27 +693,27 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   adaptScaleWithChart(chart) {
-    let min = new Date(chart.scales['x-axis-0'].min);
-    let max = new Date(chart.scales['x-axis-0'].max);
+    let min = new Date(chart.scales["x-axis-0"].min);
+    let max = new Date(chart.scales["x-axis-0"].max);
     this.adaptScale(min, max);
   }
 
   adaptScale(min, max) {
     let distance = (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 24);
 
-    if (this.unit == 'day') {
+    if (this.unit === "day") {
       if (Math.round(distance) > 7) {
-        this.selectUnit('week');
+        this.selectUnit("week");
       } else if (Math.floor(distance) < 1) {
-        this.selectUnit('hour');
+        this.selectUnit("hour");
       }
-    } else if (this.unit == 'week') {
+    } else if (this.unit === "week") {
       if (Math.round(distance) < 9) {
-        this.selectUnit('day');
+        this.selectUnit("day");
       }
-    } else if (this.unit == 'hour') {
+    } else if (this.unit === "hour") {
       if (Math.round(distance) > 1) {
-        this.selectUnit('day');
+        this.selectUnit("day");
       }
     }
   }
@@ -695,11 +724,11 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
       CommitColor.BEFORE,
       CommitColor.BETWEEN,
       CommitColor.AFTER,
-      CommitColor.NOCOMMIT
+      CommitColor.NOCOMMIT,
     ];
-    let shortFilenameTab = this.jsonManager.filename.split('.');
+    let shortFilenameTab = this.jsonManager.filename.split(".");
     shortFilenameTab.pop();
-    let shortFilename = shortFilenameTab.join('.');
+    let shortFilename = shortFilenameTab.join(".");
 
     let questionsDict = this.commitsService.initQuestionsDict(
       this.dataService.questions,
@@ -711,13 +740,13 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
       this.dataService.questions,
       colors
     );
-    questionsDict['date'] = this.dataService.lastUpdateDate;
+    questionsDict["date"] = this.dataService.lastUpdateDate;
 
     colors = [
       CommitColor.INTERMEDIATE,
       CommitColor.BEFORE,
       CommitColor.BETWEEN,
-      CommitColor.AFTER
+      CommitColor.AFTER,
     ];
 
     let studentsDict = {
@@ -726,7 +755,7 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
         this.dataService.repositories,
         this.dataService.questions,
         colors
-      )
+      ),
     };
 
     let zip = new JSZip();
@@ -735,168 +764,168 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
       JSON.stringify(this.jsonManager.json, null, 2)
     );
     zip.file(
-      'questions-completion.json',
+      "questions-completion.json",
       JSON.stringify(questionsDict, null, 2)
     );
-    zip.file('students-commits.json', JSON.stringify(studentsDict, null, 2));
+    zip.file("students-commits.json", JSON.stringify(studentsDict, null, 2));
 
-    zip.generateAsync({ type: 'blob' }).then(function (content) {
-      saveAs(content, shortFilename + '.zip');
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+      saveAs(content, shortFilename + ".zip");
     });
   }
 
   verifyJSON(json) {
     let regex =
-      '([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)';
+      "([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)";
     let schema = {
       properties: {
         title: {
-          type: 'string'
+          type: "string",
         },
         course: {
-          type: 'string'
+          type: "string",
         },
         program: {
-          type: 'string'
+          type: "string",
         },
         year: {
-          type: 'string'
+          type: "string",
         },
         startDate: {
-          type: 'string',
-          pattern: regex
+          type: "string",
+          pattern: regex,
         },
         endDate: {
-          type: 'string',
-          pattern: regex
+          type: "string",
+          pattern: regex,
         },
         questions: {
-          type: 'array',
+          type: "array",
           uniqueItems: true,
           items: {
-            type: 'string'
-          }
+            type: "string",
+          },
         },
         repositories: {
-          type: 'array',
+          type: "array",
           uniqueItems: true,
           minItems: 1,
           items: {
             properties: {
               url: {
-                type: 'string',
-                format: 'uri'
+                type: "string",
+                format: "uri",
               },
               name: {
-                type: 'string'
+                type: "string",
               },
               tpGroup: {
-                type: 'string'
-              }
+                type: "string",
+              },
             },
-            required: ['url']
-          }
+            required: ["url"],
+          },
         },
         sessions: {
-          type: 'array',
+          type: "array",
           uniqueItems: true,
           items: {
             properties: {
               startDate: {
-                type: 'string',
-                pattern: regex
+                type: "string",
+                pattern: regex,
               },
               endDate: {
-                type: 'string',
-                pattern: regex
+                type: "string",
+                pattern: regex,
               },
               tpGroup: {
-                type: 'string'
-              }
+                type: "string",
+              },
             },
-            required: ['startDate', 'endDate']
-          }
+            required: ["startDate", "endDate"],
+          },
         },
         reviews: {
-          type: 'array',
+          type: "array",
           uniqueItems: true,
           items: {
             properties: {
               date: {
-                type: 'string',
-                pattern: regex
+                type: "string",
+                pattern: regex,
               },
               label: {
-                type: 'string'
+                type: "string",
               },
               tpGroup: {
-                type: 'string'
+                type: "string",
               },
               questions: {
-                type: 'array',
+                type: "array",
                 uniqueItems: true,
                 items: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
-            required: ['date']
-          }
+            required: ["date"],
+          },
         },
         corrections: {
-          type: 'array',
+          type: "array",
           uniqueItems: true,
           items: {
             properties: {
               date: {
-                type: 'string',
-                pattern: regex
+                type: "string",
+                pattern: regex,
               },
               label: {
-                type: 'string'
+                type: "string",
               },
               tpGroup: {
-                type: 'string'
+                type: "string",
               },
               questions: {
-                type: 'array',
+                type: "array",
                 uniqueItems: true,
                 items: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
-            required: ['date']
-          }
+            required: ["date"],
+          },
         },
         others: {
-          type: 'array',
+          type: "array",
           uniqueItems: true,
           items: {
             properties: {
               date: {
-                type: 'string',
-                pattern: regex
+                type: "string",
+                pattern: regex,
               },
               label: {
-                type: 'string'
+                type: "string",
               },
               tpGroup: {
-                type: 'string'
+                type: "string",
               },
               questions: {
-                type: 'array',
+                type: "array",
                 uniqueItems: true,
                 items: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
-            required: ['date']
-          }
-        }
+            required: ["date"],
+          },
+        },
       },
-      required: ['title', 'questions', 'repositories']
+      required: ["title", "questions", "repositories"],
     };
 
     let ajv = new Ajv({ $data: true, allErrors: true, verbose: true });
@@ -904,13 +933,16 @@ export class OverviewComponent extends BaseGraphComponent implements OnInit, Aft
 
     if (!valid) {
       let errorMessage =
-        '&emsp;' +
+        "&emsp;" +
         ajv.errors
-          .map(error => {
-            return error.dataPath + ' ' + error.message;
+          .map((error) => {
+            return error.dataPath + " " + error.message;
           })
-          .join('<br>&emsp;');
-      this.toastService.error(this.translateService.instant('INVALID-CONF-FILE'), errorMessage);
+          .join("<br>&emsp;");
+      this.toastService.error(
+        this.translateService.instant("INVALID-CONF-FILE"),
+        errorMessage
+      );
 
       return false;
     }
