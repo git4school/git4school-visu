@@ -60,6 +60,13 @@
             <code>src/app/services/loader.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>This service is used to load data into the application</p>
+
+            </p>
 
 
 
@@ -105,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/services/loader.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/loader.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -119,6 +126,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -133,6 +141,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>The service that retrieves repositories and their commits from Github</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>dataService</td>
@@ -145,6 +157,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>The service that stores the data</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>translateService</td>
@@ -157,6 +173,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>The translation service</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>toastService</td>
@@ -169,6 +189,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>The service displaying error or warning toasts</p>
+</code>
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -199,21 +223,24 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadCommitsMetadata(repositories: <a href="../classes/Repository.html">Repository[]</a>, reviews: <a href="../classes/Milestone.html">Milestone[]</a>, corrections: <a href="../classes/Milestone.html">Milestone[]</a>, questions)</code>
+<code>loadCommitsMetadata(repositories: <a href="../classes/Repository.html">Repository[]</a>, reviews: <a href="../classes/Milestone.html">Milestone[]</a>, corrections: <a href="../classes/Milestone.html">Milestone[]</a>, questions: string[])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">src/app/services/loader.service.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">src/app/services/loader.service.ts:41</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Loads the commits to be displayed in the graphs.</p>
+<p>Updates the commits metadata with associated milestones, such as their color.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -265,6 +292,7 @@
                                 <tr>
                                     <td>questions</td>
                                     <td>
+                                            <code>string[]</code>
                                     </td>
 
                                     <td>
@@ -311,14 +339,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/app/services/loader.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/app/services/loader.service.ts:67</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Fetch the repositories from Github and loads their commits with <a href="../injectables/LoaderService.html#loadCommitsMetadata">loadCommitsMetadata</a></p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -328,6 +358,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -342,6 +373,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The date from which commits are retrieved</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>endDate</td>
@@ -354,6 +389,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The date up to which commits are retrieved</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -387,10 +426,19 @@ import { CommitsService } from &quot;./commits.service&quot;;
 import { DataService } from &quot;./data.service&quot;;
 import { ToastService } from &quot;./toast.service&quot;;
 
+/**
+ * This service is used to load data into the application
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class LoaderService {
+  /**
+   * @param {CommitsService} commitsService The service that retrieves repositories and their commits from Github
+   * @param {DataService} dataService The service that stores the data
+   * @param {TranslateService} translateService The translation service
+   * @param {ToastService} toastService The service displaying error or warning toasts
+   */
   constructor(
     private commitsService: CommitsService,
     private dataService: DataService,
@@ -398,31 +446,42 @@ export class LoaderService {
     private toastService: ToastService
   ) {}
 
+  /**
+   * Loads the commits to be displayed in the graphs.
+   *
+   * Updates the commits metadata with associated milestones, such as their color.
+   *
+   * @param {Repository[]} repositories
+   * @param {Milestone[]} reviews
+   * @param {Milestone[]} corrections
+   * @param {string[]} questions
+   */
   loadCommitsMetadata(
     repositories: Repository[],
     reviews: Milestone[],
     corrections: Milestone[],
-    questions
+    questions: string[]
   ) {
     repositories.forEach((repository) &#x3D;&gt; {
-      let rev &#x3D; !this.dataService.reviews
-        ? null
-        : this.dataService.reviews.filter(
-            (review) &#x3D;&gt; review.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup
-          );
-      let cor &#x3D; !this.dataService.corrections
-        ? null
-        : this.dataService.corrections.filter(
-            (correction) &#x3D;&gt; correction.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup
-          );
+      let filteredReviews &#x3D; reviews?.filter(
+        (review) &#x3D;&gt; review.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup || !review.tpGroup
+      );
+      let filteredCorrections &#x3D; corrections?.filter(
+        (correction) &#x3D;&gt;
+          correction.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup || !correction.tpGroup
+      );
 
-      repository.commits &amp;&amp;
-        repository.commits.forEach((commit) &#x3D;&gt;
-          commit.updateMetadata(rev, cor, questions)
-        );
+      repository.commits?.forEach((commit) &#x3D;&gt;
+        commit.updateMetadata(filteredReviews, filteredCorrections, questions)
+      );
     });
   }
 
+  /**
+   * Fetch the repositories from Github and loads their commits with [loadCommitsMetadata]{@link LoaderService#loadCommitsMetadata}
+   * @param startDate The date from which commits are retrieved
+   * @param endDate The date up to which commits are retrieved
+   */
   loadRepositories(startDate?: string, endDate?: string): Observable&lt;void&gt; {
     let translations &#x3D; this.translateService.instant([
       &quot;ERRORS.REPOSITORY-NOT-FOUND&quot;,
