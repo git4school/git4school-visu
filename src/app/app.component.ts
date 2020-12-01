@@ -8,7 +8,6 @@ import * as Chart from "chart.js";
 import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
 import "rxjs/add/observable/interval";
 
-
 /**
  * This component is the app component
  */
@@ -35,9 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public dataService: DataService,
     private router: Router,
     public translateService: TranslateService
-  ) {
-
-  }
+  ) {}
 
   /**
    * This method is called once the component is loaded.
@@ -47,15 +44,18 @@ export class AppComponent implements OnInit, OnDestroy {
     Chart.pluginService.unregister(ChartDataLabels);
     if (!this.authService.isSignedIn()) {
       this.loading = true;
-      this.authService.callback().then(
-        () => {
-          this.loading = false;
-          this.router.navigate(["overview"]);
-        },
-        () => {
-          this.loading = false;
-        })
-        .catch(() => this.loading = false);
+      this.authService
+        .callback()
+        .then(
+          () => {
+            this.loading = false;
+            this.router.navigate(["overview"]);
+          },
+          () => {
+            this.loading = false;
+          }
+        )
+        .catch(() => (this.loading = false));
     }
   }
 

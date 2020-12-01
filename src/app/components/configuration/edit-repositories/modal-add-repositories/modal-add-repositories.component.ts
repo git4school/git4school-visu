@@ -239,7 +239,10 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    * and sends them to the parent component by closing the modal
    */
   onClose() {
-    this.selected.forEach((repo) => (repo.tpGroup = this.tpGroup));
+    this.selected.forEach((repo) => {
+      repo.tpGroup = this.tpGroup;
+      repo.name = "";
+    });
     this.modalService.close(this.selected);
   }
 

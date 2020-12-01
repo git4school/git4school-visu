@@ -7,6 +7,7 @@ import * as moment from "moment";
 import { forkJoin, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { AuthService } from "./auth.service";
+import { Utils } from "./utils";
 
 /**
  * This service retrieves repository data from Github
@@ -25,8 +26,9 @@ export class CommitsService {
 
   /**
    * CommitsService constructor
-   * @param http
-   * @param authService
+   * @param {HttpClient} http
+   * @param {AuthService} authService
+   * @param {TranslateService} translateService
    */
   constructor(
     private http: HttpClient,
@@ -82,7 +84,7 @@ export class CommitsService {
               repository.name = readme?.name || repository.getNameFromUrl();
             }
             if (!repository.tpGroup) {
-              repository.tpGroup = readme?.tpGroup;
+              repository.tpGroup = readme?.tpGroup || Utils.DEFAULT_TP_GROUP;
             }
 
             return repository;
