@@ -203,7 +203,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/app.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/app.component.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -437,8 +437,8 @@ Disconnects the user</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">src/app/app.component.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/app.component.ts:43</a></div>
                 </td>
             </tr>
 
@@ -566,7 +566,7 @@ If the user is not signed in, call the the sign in method.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/app.component.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/app.component.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -599,7 +599,7 @@ If the user is not signed in, call the the sign in method.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/app.component.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/app.component.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -630,7 +630,7 @@ If the user is not signed in, call the the sign in method.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/app.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/app.component.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -664,7 +664,7 @@ If the user is not signed in, call the the sign in method.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/app.component.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/app.component.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -692,7 +692,6 @@ import * as Chart from &quot;chart.js&quot;;
 import { default as ChartDataLabels } from &quot;chartjs-plugin-datalabels&quot;;
 import &quot;rxjs/add/observable/interval&quot;;
 
-
 /**
  * This component is the app component
  */
@@ -719,9 +718,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public dataService: DataService,
     private router: Router,
     public translateService: TranslateService
-  ) {
-
-  }
+  ) {}
 
   /**
    * This method is called once the component is loaded.
@@ -731,15 +728,18 @@ export class AppComponent implements OnInit, OnDestroy {
     Chart.pluginService.unregister(ChartDataLabels);
     if (!this.authService.isSignedIn()) {
       this.loading &#x3D; true;
-      this.authService.callback().then(
-        () &#x3D;&gt; {
-          this.loading &#x3D; false;
-          this.router.navigate([&quot;overview&quot;]);
-        },
-        () &#x3D;&gt; {
-          this.loading &#x3D; false;
-        })
-        .catch(() &#x3D;&gt; this.loading &#x3D; false);
+      this.authService
+        .callback()
+        .then(
+          () &#x3D;&gt; {
+            this.loading &#x3D; false;
+            this.router.navigate([&quot;overview&quot;]);
+          },
+          () &#x3D;&gt; {
+            this.loading &#x3D; false;
+          }
+        )
+        .catch(() &#x3D;&gt; (this.loading &#x3D; false));
     }
   }
 

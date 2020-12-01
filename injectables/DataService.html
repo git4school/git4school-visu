@@ -252,8 +252,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">src/app/services/data.service.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">src/app/services/data.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -915,17 +915,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Milestone } from &#x27;@models/Milestone.model&#x27;;
-import { Repository } from &#x27;@models/Repository.model&#x27;;
-import { Session } from &#x27;@models/Session.model&#x27;;
-import { JsonManagerService } from &#x27;@services/json-manager.service&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
+import { Milestone } from &quot;@models/Milestone.model&quot;;
+import { Repository } from &quot;@models/Repository.model&quot;;
+import { Session } from &quot;@models/Session.model&quot;;
+import { JsonManagerService } from &quot;@services/json-manager.service&quot;;
 
 /**
  * This service is used to store data
  */
 @Injectable({
-  providedIn: &#x27;root&#x27;
+  providedIn: &quot;root&quot;,
 })
 export class DataService {
   /**
@@ -1024,7 +1024,6 @@ export class DataService {
 
   set repositories(repos: Repository[]) {
     this.repoToLoad &#x3D; true;
-    console.log(&#x27;SET REPOS&#x27;, this.repoToLoad);
     this._repositories &#x3D; repos;
   }
 

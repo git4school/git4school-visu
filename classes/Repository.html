@@ -462,8 +462,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">src/app/models/Repository.model.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">src/app/models/Repository.model.ts:25</a></div>
                 </td>
             </tr>
 
@@ -503,8 +503,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/app/models/Repository.model.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/app/models/Repository.model.ts:29</a></div>
                 </td>
             </tr>
 
@@ -587,8 +587,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">src/app/models/Repository.model.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/app/models/Repository.model.ts:38</a></div>
                 </td>
             </tr>
 
@@ -669,6 +669,7 @@ export class Repository {
     public tpGroup?: string,
     public errors?: Error[]
   ) {
+    this.commits &#x3D; commits || [];
     this.errors &#x3D; errors || [];
   }
 

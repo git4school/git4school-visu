@@ -234,6 +234,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <li class="link">
                                 <a href="classes/Session.html" data-type="entity-link">Session</a>
                             </li>
+                            <li class="link">
+                                <a href="classes/Utils.html" data-type="entity-link">Utils</a>
+                            </li>
                         </ul>
                     </li>
                         <li class="chapter">
@@ -261,9 +264,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/ToastService.html" data-type="entity-link">ToastService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="injectables/UtilsService.html" data-type="entity-link">UtilsService</a>
                                 </li>
                             </ul>
                         </li>

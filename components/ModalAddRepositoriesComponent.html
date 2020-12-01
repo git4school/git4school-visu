@@ -478,8 +478,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="273"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:273</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="276"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:276</a></div>
                 </td>
             </tr>
 
@@ -565,8 +565,8 @@ if not, uses <a href="../components/ModalAddRepositoriesComponent.html#updateRes
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="306"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:306</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="309"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:309</a></div>
                 </td>
             </tr>
 
@@ -606,8 +606,8 @@ if not, uses <a href="../components/ModalAddRepositoriesComponent.html#updateRes
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="298"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:298</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="301"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:301</a></div>
                 </td>
             </tr>
 
@@ -769,8 +769,8 @@ and sends them to the parent component by closing the modal</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="265"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:265</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="268"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:268</a></div>
                 </td>
             </tr>
 
@@ -843,8 +843,8 @@ and sends them to the parent component by closing the modal</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="253"
-                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:253</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="256"
+                            class="link-to-prism">src/app/components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:256</a></div>
                 </td>
             </tr>
 
@@ -1957,7 +1957,10 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    * and sends them to the parent component by closing the modal
    */
   onClose() {
-    this.selected.forEach((repo) &#x3D;&gt; (repo.tpGroup &#x3D; this.tpGroup));
+    this.selected.forEach((repo) &#x3D;&gt; {
+      repo.tpGroup &#x3D; this.tpGroup;
+      repo.name &#x3D; &quot;&quot;;
+    });
     this.modalService.close(this.selected);
   }
 
