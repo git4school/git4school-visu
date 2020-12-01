@@ -18,6 +18,7 @@ export class Repository {
     public tpGroup?: string,
     public errors?: Error[]
   ) {
+    this.commits = commits || [];
     this.errors = errors || [];
   }
 

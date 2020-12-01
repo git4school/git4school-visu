@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Milestone } from '@models/Milestone.model';
-import { Repository } from '@models/Repository.model';
-import { Session } from '@models/Session.model';
-import { JsonManagerService } from '@services/json-manager.service';
+import { Injectable } from "@angular/core";
+import { Milestone } from "@models/Milestone.model";
+import { Repository } from "@models/Repository.model";
+import { Session } from "@models/Session.model";
+import { JsonManagerService } from "@services/json-manager.service";
 
 /**
  * This service is used to store data
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DataService {
   /**
@@ -107,7 +107,6 @@ export class DataService {
 
   set repositories(repos: Repository[]) {
     this.repoToLoad = true;
-    console.log('SET REPOS', this.repoToLoad);
     this._repositories = repos;
   }
 
