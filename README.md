@@ -60,7 +60,9 @@ If you want to contribute to the project, please feel free to send us a message 
 
 - If you want to access an organization's repositories but forgot to grant rights the first time you log in, you will not be able to use these repositories in the application. We are investigating the possibility to handle this in the application, but for the time being you need to log out of Git4School, revoke the OAuth key manually in your Github account, and then, when you log back in to Git4School, you can grant rights for the organization of your choice
   > If you need help, [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/reviewing-your-authorized-applications-oauth) is the Github documentation
-- When adding several repositories thanks to the repositories list, there is currently a limit of 100 repositories displayed. You can always add missing repositories manually with their URL. We will fix this soon
+- There is currently a limit of 100 commits fetched per repository. This is the Github limit per request. 
+  > We don't plan to work around this limit until the need exists
+- Commits are fetched only from the default branch. By default, since October 2020, the default branch is the _main_ branch, _master_ before that
 
 ## Links
 
