@@ -115,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/guards/data-provided.guard.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/guards/data-provided.guard.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -194,8 +194,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">src/app/guards/data-provided.guard.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/app/guards/data-provided.guard.ts:40</a></div>
                 </td>
             </tr>
 
@@ -250,7 +250,7 @@
 
                     </div>
                     <div class="io-description">
-                        <p>true if fully loaded, redirects to overview graph otherwise</p>
+                        <p>true if fully loaded, false otherwise</p>
 
                     </div>
                 </td>
@@ -279,8 +279,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/app/guards/data-provided.guard.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">src/app/guards/data-provided.guard.ts:30</a></div>
                 </td>
             </tr>
 
@@ -309,23 +309,22 @@
 
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
-            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import {
   ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
   RouterStateSnapshot,
   UrlTree,
-  CanActivate,
-  Router
-} from &#x27;@angular/router&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-
-import { DataService } from &#x27;@services/data.service&#x27;;
+} from &quot;@angular/router&quot;;
+import { DataService } from &quot;@services/data.service&quot;;
+import { Observable } from &quot;rxjs&quot;;
 
 /**
  * This guard ensures that the data is fully loaded
  */
 @Injectable({
-  providedIn: &#x27;root&#x27;
+  providedIn: &quot;root&quot;,
 })
 export class DataProvidedGuard implements CanActivate {
   /**
@@ -347,7 +346,7 @@ export class DataProvidedGuard implements CanActivate {
    * Allows access to the protected route if the data is fully loaded
    * @param route
    * @param state
-   * @returns true if fully loaded, redirects to overview graph otherwise
+   * @returns true if fully loaded, false otherwise
    */
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -357,11 +356,7 @@ export class DataProvidedGuard implements CanActivate {
     | UrlTree
     | Observable&lt;boolean | UrlTree&gt;
     | Promise&lt;boolean | UrlTree&gt; {
-    if (this.dataLoaded()) {
-      return true;
-    } else {
-      this.router.navigate([&#x27;/overview&#x27;]);
-    }
+    return this.dataLoaded();
   }
 }
 </code></pre>

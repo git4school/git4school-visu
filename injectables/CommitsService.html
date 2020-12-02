@@ -2318,7 +2318,7 @@ import { Error, ErrorType, Repository } from &quot;@models/Repository.model&quot
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import * as moment from &quot;moment&quot;;
 import { forkJoin, Observable, of } from &quot;rxjs&quot;;
-import { catchError, map } from &quot;rxjs/operators&quot;;
+import { catchError, defaultIfEmpty, map } from &quot;rxjs/operators&quot;;
 import { AuthService } from &quot;./auth.service&quot;;
 import { Utils } from &quot;./utils&quot;;
 
@@ -2405,7 +2405,7 @@ export class CommitsService {
         )
       );
     });
-    return forkJoin(tab);
+    return forkJoin(tab).pipe(defaultIfEmpty([]));
   }
 
   /**

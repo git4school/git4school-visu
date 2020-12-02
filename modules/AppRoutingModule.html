@@ -71,58 +71,52 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
-import { Routes, RouterModule } from &#x27;@angular/router&#x27;;
-
-import { CommitsService } from &#x27;@services/commits.service&#x27;;
-import { AuthService } from &#x27;@services/auth.service&#x27;;
-import { JsonManagerService } from &#x27;@services/json-manager.service&#x27;;
-import { DataService } from &#x27;@services/data.service&#x27;;
-import { HomeComponent } from &#x27;@components/home/home.component&#x27;;
-import { StudentsCommitsComponent } from &#x27;@components/graphs/students-commits/students-commits.component&#x27;;
-import { QuestionsCompletionComponent } from &#x27;@components/graphs/questions-completion/questions-completion.component&#x27;;
-import { OverviewComponent } from &#x27;@components/graphs/overview/overview.component&#x27;;
-import { FourOhFourComponent } from &#x27;@components/four-oh-four/four-oh-four.component&#x27;;
-import { DataProvidedGuard } from &#x27;@guards/data-provided.guard&#x27;;
-import { DataLoadingGuard } from &#x27;@guards/data-loading.guard&#x27;;
-import { AuthGuard } from &#x27;@guards/auth.guard&#x27;;
-import { ConfigurationComponent } from &#x27;@components/configuration/configuration.component&#x27;;
-import { DataSavedGuard } from &#x27;@guards/data-saved.guard&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &quot;@angular/core&quot;;
+import { RouterModule, Routes } from &quot;@angular/router&quot;;
+import { ConfigurationComponent } from &quot;@components/configuration/configuration.component&quot;;
+import { FourOhFourComponent } from &quot;@components/four-oh-four/four-oh-four.component&quot;;
+import { OverviewComponent } from &quot;@components/graphs/overview/overview.component&quot;;
+import { QuestionsCompletionComponent } from &quot;@components/graphs/questions-completion/questions-completion.component&quot;;
+import { StudentsCommitsComponent } from &quot;@components/graphs/students-commits/students-commits.component&quot;;
+import { HomeComponent } from &quot;@components/home/home.component&quot;;
+import { AuthGuard } from &quot;@guards/auth.guard&quot;;
+import { DataLoadingGuard } from &quot;@guards/data-loading.guard&quot;;
+import { DataSavedGuard } from &quot;@guards/data-saved.guard&quot;;
 
 const appRoutes: Routes &#x3D; [
-  { path: &#x27;home&#x27;, component: HomeComponent },
-  { path: &#x27;&#x27;, component: HomeComponent },
-  { path: &#x27;not-found&#x27;, component: FourOhFourComponent },
+  { path: &quot;home&quot;, component: HomeComponent },
+  { path: &quot;&quot;, component: HomeComponent },
+  { path: &quot;not-found&quot;, component: FourOhFourComponent },
   {
-    path: &#x27;overview&#x27;,
+    path: &quot;overview&quot;,
     canActivate: [AuthGuard],
     canDeactivate: [DataLoadingGuard],
-    component: OverviewComponent
+    component: OverviewComponent,
   },
   {
-    path: &#x27;students-commits&#x27;,
-    canActivate: [AuthGuard, DataProvidedGuard],
-    component: StudentsCommitsComponent
+    path: &quot;students-commits&quot;,
+    canActivate: [AuthGuard],
+    component: StudentsCommitsComponent,
   },
   {
-    path: &#x27;questions-completion&#x27;,
-    canActivate: [AuthGuard, DataProvidedGuard],
-    component: QuestionsCompletionComponent
+    path: &quot;questions-completion&quot;,
+    canActivate: [AuthGuard],
+    component: QuestionsCompletionComponent,
   },
   {
-    path: &#x27;configuration&#x27;,
-    canActivate: [AuthGuard, DataProvidedGuard],
+    path: &quot;configuration&quot;,
+    canActivate: [AuthGuard],
     canDeactivate: [DataSavedGuard],
-    component: ConfigurationComponent
+    component: ConfigurationComponent,
   },
-  { path: &#x27;**&#x27;, redirectTo: &#x27;not-found&#x27; }
+  { path: &quot;**&quot;, redirectTo: &quot;not-found&quot; },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
 </code></pre>
     </div>
 </div>

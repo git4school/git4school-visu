@@ -359,8 +359,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">src/app/services/auth.service.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/app/services/auth.service.ts:81</a></div>
                 </td>
             </tr>
 
@@ -400,8 +400,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">src/app/services/auth.service.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">src/app/services/auth.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -598,8 +598,6 @@ export class AuthService {
           if (result.credential) {
             this.token &#x3D; result.credential[&quot;accessToken&quot;];
             this.username &#x3D; result.additionalUserInfo.username;
-            console.log(this.username);
-            console.log(this.token);
           }
           result.user ? resolve() : reject();
         })
