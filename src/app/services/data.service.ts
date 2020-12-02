@@ -12,6 +12,9 @@ import { JsonManagerService } from "@services/json-manager.service";
   providedIn: "root",
 })
 export class DataService {
+  /**
+   * The practical course, represents the data from the configuration file
+   */
   assignment: Assignment;
 
   /**
@@ -44,6 +47,7 @@ export class DataService {
     this.dataLoaded = false;
     this.repoToLoad = false;
     this.barIndex = 5;
+    this.tpGroups = [];
     this.assignment = new Assignment();
   }
 

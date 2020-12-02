@@ -5,7 +5,7 @@ import { Error, ErrorType, Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
 import { forkJoin, Observable, of } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { catchError, defaultIfEmpty, map } from "rxjs/operators";
 import { AuthService } from "./auth.service";
 import { Utils } from "./utils";
 
@@ -92,7 +92,7 @@ export class CommitsService {
         )
       );
     });
-    return forkJoin(tab);
+    return forkJoin(tab).pipe(defaultIfEmpty([]));
   }
 
   /**
