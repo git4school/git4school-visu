@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { DataProvidedGuard } from '@guards/data-provided.guard';
-import { CommitColor } from '@models/Commit.model';
-import { TranslateService } from '@ngx-translate/core';
-import { CommitsService } from '@services/commits.service';
-import { DataService } from '@services/data.service';
-import { LoaderService } from '@services/loader.service';
-import * as Chart from 'chart.js';
+import { Component, OnInit } from "@angular/core";
+import { CommitColor } from "@models/Commit.model";
+import { TranslateService } from "@ngx-translate/core";
+import { CommitsService } from "@services/commits.service";
+import { DataService } from "@services/data.service";
+import { LoaderService } from "@services/loader.service";
+import * as Chart from "chart.js";
 //import * as ChartDataLabels from 'chartjs-plugin-datalabels';
-import { default as ChartDataLabels } from 'chartjs-plugin-datalabels';
-import { BaseGraphComponent } from '../base-graph.component';
+import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
+import { BaseGraphComponent } from "../base-graph.component";
 
 /**
  * jquery
@@ -19,11 +18,13 @@ declare var $: any;
  * This component displays a graph with the distribution of commit types for each student
  */
 @Component({
-  selector: 'students-commits',
-  templateUrl: './students-commits.component.html',
-  styleUrls: ['./students-commits.component.scss']
+  selector: "students-commits",
+  templateUrl: "./students-commits.component.html",
+  styleUrls: ["./students-commits.component.scss"],
 })
-export class StudentsCommitsComponent extends BaseGraphComponent implements OnInit {
+export class StudentsCommitsComponent
+  extends BaseGraphComponent
+  implements OnInit {
   /**
    * The date after which the commits will not be considered, this shows the state of work of each student on a given date
    */
@@ -62,28 +63,28 @@ export class StudentsCommitsComponent extends BaseGraphComponent implements OnIn
   chartOptions = {
     layout: {
       padding: {
-        top: 10
-      }
+        top: 10,
+      },
     },
     responsive: true,
     aspectRatio: 2.4,
     animation: {
-      duration: 0 // general animation time
+      duration: 0, // general animation time
     },
     responsiveAnimationDuration: 0,
     legend: {
-      position: 'bottom'
+      position: "bottom",
     },
     tooltips: {
-      mode: 'nearest',
-      position: 'average',
+      mode: "nearest",
+      position: "average",
       callbacks: {
         beforeTitle(tooltipItem, data) {
           return (
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
-            ].translations['STUDENT'] +
-            ' : ' +
+            ].translations["STUDENT"] +
+            " : " +
             tooltipItem[0].label
           );
         },
@@ -92,99 +93,99 @@ export class StudentsCommitsComponent extends BaseGraphComponent implements OnIn
         },
         beforeBody(tooltipItem, data) {
           return (
-            '\n' +
+            "\n" +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
-            ].translations['COMMITS-COUNT'] +
-            ' : ' +
+            ].translations["COMMITS-COUNT"] +
+            " : " +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
             ].data.commitsCount +
-            '\n' +
+            "\n" +
             data.datasets[tooltipItem[0].datasetIndex].data[
               tooltipItem[0].index
-            ].translations['COMMITS-PERCENTAGE'] +
-            ' : ' +
+            ].translations["COMMITS-PERCENTAGE"] +
+            " : " +
             tooltipItem[0].yLabel.toFixed(2) +
-            '%'
+            "%"
           );
         },
         label(tooltipItem, data) {
-          return '';
-        }
+          return "";
+        },
       },
-      displayColors: false
+      displayColors: false,
     },
     scales: {
       xAxes: [
         {
-          stacked: true
-        }
+          stacked: true,
+        },
       ],
       yAxes: [
         {
-          id: 'A',
-          type: 'linear',
+          id: "A",
+          type: "linear",
           stacked: true,
-          position: 'left',
+          position: "left",
           scaleLabel: {
             display: true,
-            labelString: '% of commits'
+            labelString: "% of commits",
           },
           ticks: {
-            max: 100
-          }
+            max: 100,
+          },
         },
         {
-          id: 'B',
-          type: 'category',
-          position: 'right',
+          id: "B",
+          type: "category",
+          position: "right",
           offset: true,
           scaleLabel: {
             display: true,
-            labelString: 'Question progression'
+            labelString: "Question progression",
           },
           gridLines: {
-            display: false
+            display: false,
           },
           labels: this.dataService.questions
             ? this.dataService.questions.slice().reverse()
-            : []
+            : [],
         },
         {
-          id: 'C',
+          id: "C",
           stacked: true,
           offset: true,
-          type: 'linear',
-          display: false
-        }
-      ]
+          type: "linear",
+          display: false,
+        },
+      ],
     },
     annotation: {
       annotations: [
         {
-          drawTime: 'afterDatasetsDraw',
-          id: 'hline',
-          type: 'line',
-          mode: 'horizontal',
-          scaleID: 'y-axis-0',
+          drawTime: "afterDatasetsDraw",
+          id: "hline",
+          type: "line",
+          mode: "horizontal",
+          scaleID: "y-axis-0",
           value: 28.25,
-          borderColor: 'black',
+          borderColor: "black",
           borderWidth: 5,
           label: {
-            backgroundColor: 'red',
-            content: 'Test Label',
-            enabled: true
-          }
-        }
-      ]
+            backgroundColor: "red",
+            content: "Test Label",
+            enabled: true,
+          },
+        },
+      ],
     },
     plugins: {
       datalabels: {
         clip: false,
-        color: 'white',
+        color: "white",
         font: {
-          weight: 'bold'
+          weight: "bold",
         },
         backgroundColor: function (context) {
           return context.dataset.backgroundColor;
@@ -193,9 +194,9 @@ export class StudentsCommitsComponent extends BaseGraphComponent implements OnIn
         display: false,
         formatter: function (value, context) {
           return context.dataset.data[context.dataIndex].y;
-        }
-      }
-    }
+        },
+      },
+    },
   };
 
   /**
@@ -208,44 +209,45 @@ export class StudentsCommitsComponent extends BaseGraphComponent implements OnIn
    * @param dataService Service used to store and get data
    * @param commitsService Service used to update dict variable
    * @param translateService Service used to translate the application
-   * @param dataProvided Guard used to know if data is loaded
    */
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
     public translateService: TranslateService,
-    public dataProvided: DataProvidedGuard,
     protected loaderService: LoaderService
-  ) { super(loaderService); }
+  ) {
+    super(loaderService);
+  }
 
   /**
    * Updates dict variable with students data and loads graph labels which displays data on the graph
    */
   loadGraphDataAndRefresh() {
-    if (this.dataProvided.dataLoaded()) {
-      let translations = this.translateService
-        .instant(['STUDENT', 'COMMITS-COUNT', 'COMMITS-PERCENTAGE']);
-      let colors = [
-        CommitColor.INTERMEDIATE,
-        CommitColor.BEFORE,
-        CommitColor.BETWEEN,
-        CommitColor.AFTER
-      ];
+    let translations = this.translateService.instant([
+      "STUDENT",
+      "COMMITS-COUNT",
+      "COMMITS-PERCENTAGE",
+    ]);
+    let colors = [
+      CommitColor.INTERMEDIATE,
+      CommitColor.BEFORE,
+      CommitColor.BETWEEN,
+      CommitColor.AFTER,
+    ];
 
-      this.chartLabels = this.loadLabels();
-      let dict = this.commitsService.loadStudentsDict(
-        this.dataService.repositories,
-        this.dataService.questions,
-        colors,
-        this.tpGroup,
-        this.date
-      );
-      this.chartData = this.commitsService.loadStudents(
-        dict,
-        colors,
-        translations
-      );
-    }
+    this.chartLabels = this.loadLabels();
+    let dict = this.commitsService.loadStudentsDict(
+      this.dataService.repositories,
+      this.dataService.questions,
+      colors,
+      this.tpGroup,
+      this.date
+    );
+    this.chartData = this.commitsService.loadStudents(
+      dict,
+      colors,
+      translations
+    );
   }
 
   /**
@@ -254,9 +256,9 @@ export class StudentsCommitsComponent extends BaseGraphComponent implements OnIn
   loadLabels(): any[] {
     return this.dataService.repositories
       .filter(
-        repository => !this.tpGroup || repository.tpGroup === this.tpGroup
+        (repository) => !this.tpGroup || repository.tpGroup === this.tpGroup
       )
-      .map(repository => repository.name);
+      .map((repository) => repository.name);
   }
 
   /**
@@ -272,18 +274,22 @@ export class StudentsCommitsComponent extends BaseGraphComponent implements OnIn
       });
 
       if (this.dataService.repoToLoad) {
-        console.log('LOADGRAPH');
+        console.log("LOADGRAPH");
         this.loadGraph(this.dataService.startDate, this.dataService.endDate);
       } else {
         this.loading = true;
         this.dataService.lastUpdateDate &&
-          ((this.date = this.dataService.lastUpdateDate.getTime()) &&
-            (this.max = this.date) &&
-            (this.min = this.getMinDateTimestamp()));
-        this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+          (this.date = this.dataService.lastUpdateDate.getTime()) &&
+          (this.max = this.date) &&
+          (this.min = this.getMinDateTimestamp());
+        this.loadGraphMetadata(
+          this.dataService.repositories,
+          this.dataService.reviews,
+          this.dataService.corrections,
+          this.dataService.questions
+        );
         this.loading = false;
       }
-
     });
   }
 
@@ -291,10 +297,15 @@ export class StudentsCommitsComponent extends BaseGraphComponent implements OnIn
     this.loading = true;
     this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
       this.dataService.lastUpdateDate &&
-        ((this.date = this.dataService.lastUpdateDate.getTime()) &&
-          (this.max = this.date) &&
-          (this.min = this.getMinDateTimestamp()));
-      this.loadGraphMetadata(this.dataService.repositories, this.dataService.reviews, this.dataService.corrections, this.dataService.questions);
+        (this.date = this.dataService.lastUpdateDate.getTime()) &&
+        (this.max = this.date) &&
+        (this.min = this.getMinDateTimestamp());
+      this.loadGraphMetadata(
+        this.dataService.repositories,
+        this.dataService.reviews,
+        this.dataService.corrections,
+        this.dataService.questions
+      );
       this.loading = false;
     });
   }
@@ -312,10 +323,12 @@ export class StudentsCommitsComponent extends BaseGraphComponent implements OnIn
    */
   getMinDateTimestamp() {
     let commits = [];
-    this.dataService.repositories.filter(repo => repo.commits).forEach(repository => {
-      // commits = commits.concat(repository.commits);
-      Array.prototype.push.apply(commits, repository.commits);
-    });
+    this.dataService.repositories
+      .filter((repo) => repo.commits)
+      .forEach((repository) => {
+        // commits = commits.concat(repository.commits);
+        Array.prototype.push.apply(commits, repository.commits);
+      });
     console.log(commits);
     if (!commits.length) return new Date();
     let min = commits.reduce(

@@ -1,52 +1,46 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { CommitsService } from '@services/commits.service';
-import { AuthService } from '@services/auth.service';
-import { JsonManagerService } from '@services/json-manager.service';
-import { DataService } from '@services/data.service';
-import { HomeComponent } from '@components/home/home.component';
-import { StudentsCommitsComponent } from '@components/graphs/students-commits/students-commits.component';
-import { QuestionsCompletionComponent } from '@components/graphs/questions-completion/questions-completion.component';
-import { OverviewComponent } from '@components/graphs/overview/overview.component';
-import { FourOhFourComponent } from '@components/four-oh-four/four-oh-four.component';
-import { DataProvidedGuard } from '@guards/data-provided.guard';
-import { DataLoadingGuard } from '@guards/data-loading.guard';
-import { AuthGuard } from '@guards/auth.guard';
-import { ConfigurationComponent } from '@components/configuration/configuration.component';
-import { DataSavedGuard } from '@guards/data-saved.guard';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { ConfigurationComponent } from "@components/configuration/configuration.component";
+import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.component";
+import { OverviewComponent } from "@components/graphs/overview/overview.component";
+import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
+import { StudentsCommitsComponent } from "@components/graphs/students-commits/students-commits.component";
+import { HomeComponent } from "@components/home/home.component";
+import { AuthGuard } from "@guards/auth.guard";
+import { DataLoadingGuard } from "@guards/data-loading.guard";
+import { DataSavedGuard } from "@guards/data-saved.guard";
 
 const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '', component: HomeComponent },
-  { path: 'not-found', component: FourOhFourComponent },
+  { path: "home", component: HomeComponent },
+  { path: "", component: HomeComponent },
+  { path: "not-found", component: FourOhFourComponent },
   {
-    path: 'overview',
+    path: "overview",
     canActivate: [AuthGuard],
     canDeactivate: [DataLoadingGuard],
-    component: OverviewComponent
+    component: OverviewComponent,
   },
   {
-    path: 'students-commits',
-    canActivate: [AuthGuard, DataProvidedGuard],
-    component: StudentsCommitsComponent
+    path: "students-commits",
+    canActivate: [AuthGuard],
+    component: StudentsCommitsComponent,
   },
   {
-    path: 'questions-completion',
-    canActivate: [AuthGuard, DataProvidedGuard],
-    component: QuestionsCompletionComponent
+    path: "questions-completion",
+    canActivate: [AuthGuard],
+    component: QuestionsCompletionComponent,
   },
   {
-    path: 'configuration',
-    canActivate: [AuthGuard, DataProvidedGuard],
+    path: "configuration",
+    canActivate: [AuthGuard],
     canDeactivate: [DataSavedGuard],
-    component: ConfigurationComponent
+    component: ConfigurationComponent,
   },
-  { path: '**', redirectTo: 'not-found' }
+  { path: "**", redirectTo: "not-found" },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

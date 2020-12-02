@@ -1,6 +1,6 @@
 <div class="d-flex flex-row p-3">
   <div>
-    <select class="form-control" [disabled]=" !dataProvided.dataLoaded() || loading" [(ngModel)]="tpGroup"
+    <select class="form-control" [disabled]=" !dataService.tpGroups.length || loading" [(ngModel)]="tpGroup"
       (change)="this.loadGraphDataAndRefresh()">
       <option [ngValue]="undefined" hidden disabled>{{ 'TP-GROUP-SELECT.PLACEHOLDER' | translate }}</option>
       <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
@@ -11,7 +11,7 @@
   <div class="pt-2 w-25">
     <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="this.max"
       [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" step="86400000"
-      [disabled]="!dataProvided.dataLoaded() || loading">
+      [disabled]="!dataService.repositories.length || loading">
   </div>
   <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:'yyyy-MM-dd HH:mm' }}</span></div>
   <div class="separator"></div>
@@ -23,7 +23,8 @@
   <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ dataService.barIndex * 10 }}</span></div>
   <div class="separator"></div>
   <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"
-    data-toggle="tooltip" [ngbTooltip]="reloadTooltip" data-trigger="hover" [disabled]="loading">
+    data-toggle="tooltip" [ngbTooltip]="reloadTooltip" data-trigger="hover"
+    [disabled]="!dataService.repositories.length || loading">
     <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>
     <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>
   </button>

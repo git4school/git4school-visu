@@ -6,7 +6,6 @@ import {
   ViewChild,
 } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { DataProvidedGuard } from "@guards/data-provided.guard";
 import { Commit, CommitColor } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { Repository } from "@models/Repository.model";
@@ -43,7 +42,6 @@ export class OverviewComponent
     private toastService: ToastService,
     public jsonManager: JsonManagerService,
     public dataService: DataService,
-    public dataProvided: DataProvidedGuard,
     protected loaderService: LoaderService
   ) {
     super(loaderService);
@@ -177,29 +175,21 @@ export class OverviewComponent
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    if (this.dataProvided.dataLoaded()) {
-      setTimeout(() => {
-        if (this.dataService.repoToLoad) {
-          this.loadGraph(this.dataService.startDate, this.dataService.endDate);
-        } else {
-          this.loading = true;
-          this.loadGraphMetadata(
-            this.dataService.repositories,
-            this.dataService.reviews,
-            this.dataService.corrections,
-            this.dataService.questions
-          );
+    setTimeout(() => {
+      if (this.dataService.repoToLoad) {
+        this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      } else {
+        this.loading = true;
+        this.loadGraphMetadata(
+          this.dataService.repositories,
+          this.dataService.reviews,
+          this.dataService.corrections,
+          this.dataService.questions
+        );
 
-          this.loading = false;
-        }
-      });
-    } else {
-      $("#uploadFileModal").modal({
-        show: true,
-      });
-    }
+        this.loading = false;
+      }
+    });
   }
 
   updateLang() {
