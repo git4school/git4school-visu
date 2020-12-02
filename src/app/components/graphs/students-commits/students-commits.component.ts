@@ -274,7 +274,6 @@ export class StudentsCommitsComponent
       });
 
       if (this.dataService.repoToLoad) {
-        console.log("LOADGRAPH");
         this.loadGraph(this.dataService.startDate, this.dataService.endDate);
       } else {
         this.loading = true;
@@ -329,8 +328,9 @@ export class StudentsCommitsComponent
         // commits = commits.concat(repository.commits);
         Array.prototype.push.apply(commits, repository.commits);
       });
-    console.log(commits);
-    if (!commits.length) return new Date();
+    if (!commits.length) {
+      return new Date();
+    }
     let min = commits.reduce(
       (min, commit) =>
         commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,
