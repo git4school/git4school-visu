@@ -66,8 +66,6 @@ export class AuthService {
           if (result.credential) {
             this.token = result.credential["accessToken"];
             this.username = result.additionalUserInfo.username;
-            console.log(this.username);
-            console.log(this.token);
           }
           result.user ? resolve() : reject();
         })

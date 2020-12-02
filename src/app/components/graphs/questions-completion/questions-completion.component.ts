@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { DataProvidedGuard } from "@guards/data-provided.guard";
 import { CommitColor } from "@models/Commit.model";
 import { TranslateService } from "@ngx-translate/core";
 import { CommitsService } from "@services/commits.service";
@@ -185,13 +184,11 @@ export class QuestionsCompletionComponent
    * @param dataService Service used to store and get data
    * @param commitsService Service used to update dict variable
    * @param translateService Service used to translate the application
-   * @param dataProvided Guard used to know if data is loaded
    */
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
     public translateService: TranslateService,
-    public dataProvided: DataProvidedGuard,
     protected loaderService: LoaderService
   ) {
     super(loaderService);
@@ -201,40 +198,38 @@ export class QuestionsCompletionComponent
    * Updates dict variable with questions data and loads graph labels which displays data on the graph
    */
   loadGraphDataAndRefresh() {
-    if (this.dataProvided.dataLoaded()) {
-      let translations = this.translateService.instant([
-        "QUESTION",
-        "COMMITS-COUNT",
-        "COMMITS-PERCENTAGE",
-      ]);
-      this.chartLabels = this.dataService.questions;
-      let colors = [
-        CommitColor.BEFORE,
-        CommitColor.BETWEEN,
-        CommitColor.AFTER,
-        CommitColor.NOCOMMIT,
-      ];
+    let translations = this.translateService.instant([
+      "QUESTION",
+      "COMMITS-COUNT",
+      "COMMITS-PERCENTAGE",
+    ]);
+    this.chartLabels = this.dataService.questions;
+    let colors = [
+      CommitColor.BEFORE,
+      CommitColor.BETWEEN,
+      CommitColor.AFTER,
+      CommitColor.NOCOMMIT,
+    ];
 
-      let dict = this.commitsService.initQuestionsDict(
-        this.dataService.questions,
-        colors
-      );
-      dict = this.commitsService.loadQuestionsDict(
-        dict,
-        this.dataService.repositories,
-        this.dataService.questions,
-        colors,
-        this.tpGroup,
-        this.date
-      );
+    let dict = this.commitsService.initQuestionsDict(
+      this.dataService.questions,
+      colors
+    );
+    dict = this.commitsService.loadQuestionsDict(
+      dict,
+      this.dataService.repositories,
+      this.dataService.questions,
+      colors,
+      this.tpGroup,
+      this.date
+    );
 
-      this.chartData = this.commitsService.loadQuestions(
-        dict,
-        colors,
-        this.dataService.questions,
-        translations
-      );
-    }
+    this.chartData = this.commitsService.loadQuestions(
+      dict,
+      colors,
+      this.dataService.questions,
+      translations
+    );
   }
 
   /**
@@ -324,7 +319,6 @@ export class QuestionsCompletionComponent
     this.dataService.repositories
       .filter((repo) => repo.commits)
       .forEach((repository) => {
-        // commits = commits.concat(repository.commits);
         Array.prototype.push.apply(commits, repository.commits);
       });
     if (!commits.length) {

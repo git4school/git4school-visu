@@ -1,20 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
   RouterStateSnapshot,
   UrlTree,
-  CanActivate,
-  Router
-} from '@angular/router';
-import { Observable } from 'rxjs';
-
-import { DataService } from '@services/data.service';
+} from "@angular/router";
+import { DataService } from "@services/data.service";
+import { Observable } from "rxjs";
 
 /**
  * This guard ensures that the data is fully loaded
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DataProvidedGuard implements CanActivate {
   /**
@@ -36,7 +35,7 @@ export class DataProvidedGuard implements CanActivate {
    * Allows access to the protected route if the data is fully loaded
    * @param route
    * @param state
-   * @returns true if fully loaded, redirects to overview graph otherwise
+   * @returns true if fully loaded, false otherwise
    */
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -46,10 +45,6 @@ export class DataProvidedGuard implements CanActivate {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    if (this.dataLoaded()) {
-      return true;
-    } else {
-      this.router.navigate(['/overview']);
-    }
+    return this.dataLoaded();
   }
 }
