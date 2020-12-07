@@ -1,5 +1,37 @@
 # Change log for Git4School
 
+## 1.2.0
+
+### Added
+
+#### General
+
+- It is now possible to start the configuration directly from the application, without a configuration file
+
+### Modified
+
+#### Project
+
+- "Known issues" section updated in the ReadMe
+
+#### General
+
+- Clean up of vulnerabilities, outdated dependencies and warnings displayed in the console
+- While the application is running, we now store most of the configuration data in an _Assignment_ object that represents a course. 
+  - This will make it easier to switch to local database storage later
+
+#### Configuration page
+
+- A repository that does not have a TP group specified either in the application or in the ReadMe retrieved from Github is now assigned to a default group
+
+#### Overview graph
+
+- When creating a milestone, it is now possible not to assign any TP group to it so that it affects all repositories
+
+### Fixed
+
+- A bug that caused the application to load infinitely and block navigation when all the repositories had been deleted
+
 ## 1.1.0
 
 ### Added
@@ -9,7 +41,7 @@
 - Continuous integration and deployment of technical and user documentation
   - Additionnal documention section in technical document helping potential contributors to understand how the application is designed
 - Continuous deployment of the application on push on _master_ branch
-- A clean readme for the project
+- A clean ReadMe for the project
   - The template for the ReadMe to be read by the application is now in `README.template.md`
 - We now use Codacy to track code quality and potential security breaches
 - We now work by sprint of 2 weeks represented by milestones on Github
