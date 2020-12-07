@@ -32,16 +32,47 @@
                    <div class="content-data">
 
 <h1 id="change-log-for-git4school">Change log for Git4School</h1>
-<h2 id="110">1.1.0</h2>
+<h2 id="120">1.2.0</h2>
 <h3 id="added">Added</h3>
+<h4 id="general">General</h4>
+<ul>
+<li>It is now possible to start the configuration directly from the application, without a configuration file</li>
+</ul>
+<h3 id="modified">Modified</h3>
 <h4 id="project">Project</h4>
+<ul>
+<li>&quot;Known issues&quot; section updated in the ReadMe</li>
+</ul>
+<h4 id="general-1">General</h4>
+<ul>
+<li>Clean up of vulnerabilities, outdated dependencies and warnings displayed in the console</li>
+<li>While the application is running, we now store most of the configuration data in an <em>Assignment</em> object that represents a course. <ul>
+<li>This will make it easier to switch to local database storage later</li>
+</ul>
+</li>
+</ul>
+<h4 id="configuration-page">Configuration page</h4>
+<ul>
+<li>A repository that does not have a TP group specified either in the application or in the ReadMe retrieved from Github is now assigned to a default group</li>
+</ul>
+<h4 id="overview-graph">Overview graph</h4>
+<ul>
+<li>When creating a milestone, it is now possible not to assign any TP group to it so that it affects all repositories</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>A bug that caused the application to load infinitely and block navigation when all the repositories had been deleted</li>
+</ul>
+<h2 id="110">1.1.0</h2>
+<h3 id="added-1">Added</h3>
+<h4 id="project-1">Project</h4>
 <ul>
 <li>Continuous integration and deployment of technical and user documentation<ul>
 <li>Additionnal documention section in technical document helping potential contributors to understand how the application is designed</li>
 </ul>
 </li>
 <li>Continuous deployment of the application on push on <em>master</em> branch</li>
-<li>A clean readme for the project<ul>
+<li>A clean ReadMe for the project<ul>
 <li>The template for the ReadMe to be read by the application is now in <code>README.template.md</code></li>
 </ul>
 </li>
@@ -49,7 +80,7 @@
 <li>We now work by sprint of 2 weeks represented by milestones on Github</li>
 <li>We now use <a href="https://github.com/carloscuesta/gitmoji">Gitmoji</a> as a standard for the commits</li>
 </ul>
-<h4 id="general">General</h4>
+<h4 id="general-2">General</h4>
 <ul>
 <li>JS docs for a good part of the code</li>
 </ul>
@@ -65,7 +96,7 @@
 <ul>
 <li>Button to reload data from Github on all graph pages</li>
 </ul>
-<h4 id="configuration-page">Configuration page</h4>
+<h4 id="configuration-page-1">Configuration page</h4>
 <ul>
 <li>A page allowing to edit and add through an interface metadata, repositories and sessions<ul>
 <li>Ability to edit / add a single repository at a time<ul>
@@ -88,8 +119,8 @@
 </ul>
 </li>
 </ul>
-<h3 id="modified">Modified</h3>
-<h4 id="general-1">General</h4>
+<h3 id="modified-1">Modified</h3>
+<h4 id="general-3">General</h4>
 <ul>
 <li>Localization updated</li>
 <li>The accepted format of the dates in the configuration file is more flexible<ul>
@@ -106,7 +137,7 @@
 <li>All graph components now inherit the same base component to factorize the code and allow potential future integration of new graphs</li>
 <li>Commits closing a question without milestone associated are now displayed in green</li>
 </ul>
-<h4 id="overview-graph">Overview graph</h4>
+<h4 id="overview-graph-1">Overview graph</h4>
 <ul>
 <li>It is now possible to upload 2 times in a row the same file<ul>
 <li>This is the only workaround we found for the <em>reread button bug</em></li>
@@ -118,13 +149,13 @@
 <li>Bar index is now saved for the user session</li>
 </ul>
 <h3 id="deleted">Deleted</h3>
-<h4 id="overview-graph-1">Overview graph</h4>
+<h4 id="overview-graph-2">Overview graph</h4>
 <ul>
 <li><em>Reread</em> button because it was not working and there is no workaround to make it work</li>
 </ul>
 <h2 id="100">1.0.0</h2>
-<h3 id="added-1">Added</h3>
-<h4 id="general-2">General</h4>
+<h3 id="added-2">Added</h3>
+<h4 id="general-4">General</h4>
 <ul>
 <li>Localization (english &amp; french)</li>
 <li>Connection with Github</li>
@@ -135,7 +166,7 @@
 <li>Documentation on the use of the application</li>
 <li>Display the CHANGELOG from the Github repository</li>
 </ul>
-<h4 id="overview-graph-2">Overview graph</h4>
+<h4 id="overview-graph-3">Overview graph</h4>
 <ul>
 <li>Displays the student commits given in the JSON configuration file (they have a different shape and color depending on the associated milestones) <ul>
 <li>Move the mouse over a commit to display its details</li>
