@@ -25,6 +25,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { AuthService } from "@services/auth.service";
 import { CommitsService } from "@services/commits.service";
 import { DataService } from "@services/data.service";
+import { DatabaseService } from "@services/database.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { ToastService } from "@services/toast.service";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
@@ -40,6 +41,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { ModalAddRepositoriesComponent } from "./components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component";
 import { EditSessionsComponent } from "./components/configuration/edit-sessions/edit-sessions.component";
+import { AssignmentChooserComponent } from "./components/home/assignment-chooser/assignment-chooser.component";
 
 /**
  * Firebase configuration file
@@ -108,6 +110,7 @@ export function appInitializerFactory(
     ConfigurationComponent,
     EditSessionsComponent,
     ModalAddRepositoriesComponent,
+    AssignmentChooserComponent,
   ],
   imports: [
     BrowserModule,
@@ -155,6 +158,7 @@ export function appInitializerFactory(
         translateService.currentLang,
       deps: [TranslateService],
     },
+    DatabaseService,
   ],
   bootstrap: [AppComponent],
 })

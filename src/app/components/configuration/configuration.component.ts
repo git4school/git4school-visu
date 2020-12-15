@@ -43,6 +43,8 @@ export class ConfigurationComponent implements OnInit {
 
     this.metadataModified = false;
 
+    this.dataService.saveData();
+
     this.successToast();
   }
 
@@ -51,6 +53,8 @@ export class ConfigurationComponent implements OnInit {
 
     this.repositoriesModified = false;
 
+    this.dataService.saveData();
+
     this.successToast();
   }
 
@@ -58,6 +62,8 @@ export class ConfigurationComponent implements OnInit {
     this.dataService.sessions = sessions;
 
     this.sessionsModified = false;
+
+    this.dataService.saveData();
 
     this.successToast();
   }

@@ -215,6 +215,7 @@ export class OverviewComponent
       }
       if (text && this.verifyJSON(text)) {
         this.getDataFromFile(text);
+        this.dataService.saveData();
         setTimeout(() => {
           this.loadGraph(text.startDate, text.endDate);
         });
@@ -523,6 +524,8 @@ export class OverviewComponent
     }
     this.dataService[jalon.type].push(jalon);
 
+    this.dataService.saveData();
+
     form.resetForm({
       date: "",
       label: "",
@@ -555,6 +558,8 @@ export class OverviewComponent
       ),
       1
     );
+
+    this.dataService.saveData();
 
     this.loadGraphMetadata(
       this.dataService.repositories,

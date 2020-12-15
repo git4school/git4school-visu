@@ -1,0 +1,28 @@
+<div>
+    <ngx-datatable #assignmentsTable class="material" [rows]="assignments" [columnMode]="'force'" rowHeight="auto"
+        headerHeight="auto">
+        <ngx-datatable-column name="Id" prop="id" [maxWidth]="55"></ngx-datatable-column>
+        <ngx-datatable-column name="Title" prop="title">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Course" prop="course"></ngx-datatable-column>
+        <ngx-datatable-column name="Program" prop="program"></ngx-datatable-column>
+        <ngx-datatable-column name="Year" prop="year"></ngx-datatable-column>
+        <ngx-datatable-column [maxWidth]="120">
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary" (click)="selectAssignment(row)">
+                        <i class="far fa-arrow-alt-circle-right"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="deleteAssignment(row)">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

@@ -3,6 +3,7 @@ import { Assignment } from "@models/Assignment.model";
 import { Milestone } from "@models/Milestone.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
+import { DatabaseService } from "@services/database.service";
 import { JsonManagerService } from "@services/json-manager.service";
 
 /**
@@ -43,12 +44,21 @@ export class DataService {
    * DataService constructor
    * @param jsonManager
    */
-  constructor(private jsonManager: JsonManagerService) {
+  constructor(
+    private jsonManager: JsonManagerService,
+    private databaseService: DatabaseService
+  ) {
     this.dataLoaded = false;
     this.repoToLoad = false;
     this.barIndex = 5;
     this.tpGroups = [];
     this.assignment = new Assignment();
+  }
+
+  saveData(): Promise<number> {
+    return this.databaseService
+      .saveAssignment(this.assignment)
+      .then((id) => (this.assignment.id = id));
   }
 
   /**
@@ -133,6 +143,7 @@ export class DataService {
   }
 
   set startDate(startDate: string) {
+    this.repoToLoad = true;
     this.assignment.startDate = startDate;
   }
 
@@ -141,6 +152,7 @@ export class DataService {
   }
 
   set endDate(endDate: string) {
+    this.repoToLoad = true;
     this.assignment.endDate = endDate;
   }
 
