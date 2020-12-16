@@ -7,7 +7,7 @@
         <ngx-datatable-column name="Course" prop="course"></ngx-datatable-column>
         <ngx-datatable-column name="Program" prop="program"></ngx-datatable-column>
         <ngx-datatable-column name="Year" prop="year"></ngx-datatable-column>
-        <ngx-datatable-column [maxWidth]="120">
+        <ngx-datatable-column [maxWidth]="170">
             <ng-template let-column="column" ngx-datatable-header-template>
                 <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()">
                     <i class="fas fa-plus"></i>
@@ -17,6 +17,9 @@
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary" (click)="selectAssignment(row)">
                         <i class="far fa-arrow-alt-circle-right"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="openConfigurationModal(row)">
+                        <i class="fas fa-cogs"></i>
                     </button>
                     <button type="button" class="btn btn-danger" (click)="deleteAssignment(row)">
                         <i class="far fa-trash-alt"></i>

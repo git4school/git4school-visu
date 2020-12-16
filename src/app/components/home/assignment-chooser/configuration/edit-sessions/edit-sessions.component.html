@@ -1,6 +1,8 @@
-<div class="p-2">
-    <h2>{{ 'EDIT-SESSIONS.PAGE-TITLE' | translate }}</h2>
-    <div class="mt-2">
+<div class="card">
+    <div class="card-header">
+        <h4>{{ 'EDIT-SESSIONS.PAGE-TITLE' | translate }}</h4>
+    </div>
+    <div class="card-body">
         <form class="needs-validation" [formGroup]="formGroup" novalidate>
             <table class="table table-hover table-striped shadow">
                 <thead class="thead-dark">
@@ -78,7 +80,7 @@
                     </ng-container>
                 </tbody>
             </table>
-            <div class="sticky-bot bg-white py-3">
+            <div class="sticky-bot bg-white pt-3">
                 <button class="btn btn-secondary" type="submit" (click)="addRow()"
                     ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-SESSION' | translate }}" [openDelay]="500">
                     <i class="far fa-calendar-plus"></i>

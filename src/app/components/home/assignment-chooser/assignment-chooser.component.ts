@@ -1,7 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
+import { ConfigurationComponent } from "./configuration/configuration.component";
 
 @Component({
   selector: "assignment-chooser",
@@ -14,7 +17,9 @@ export class AssignmentChooserComponent implements OnInit {
 
   constructor(
     private databaseService: DatabaseService,
-    private dataService: DataService
+    private dataService: DataService,
+    private modalService: NgbModal,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,8 +35,7 @@ export class AssignmentChooserComponent implements OnInit {
 
   selectAssignment(assignment: Assignment) {
     this.dataService.assignment = assignment;
-    console.log("this.dataService.assignment: ", this.dataService.assignment);
-    this.dataService.repoToLoad = true;
+    this.router.navigate(["overview"]);
   }
 
   deleteAssignment(assignment: Assignment) {
@@ -40,6 +44,24 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   createAssignment() {
-    this.dataService.assignment = new Assignment();
+    let assignment = new Assignment();
+    this.dataService.assignment = assignment;
+    this.openConfigurationModal(assignment);
+  }
+
+  openConfigurationModal(assignment: Assignment) {
+    console.log("assignment: ", assignment);
+    let modalReference = this.modalService.open(ConfigurationComponent, {
+      size: "xl",
+    });
+    modalReference.componentInstance.assignment = assignment;
+    modalReference.result.catch(() => {
+      this.loadAssignments();
+      if (assignment.id === this.dataService.assignment?.id) {
+        this.databaseService
+          .getAssignmentById(assignment.id)
+          .then((assignment) => (this.dataService.assignment = assignment));
+      }
+    });
   }
 }

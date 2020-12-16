@@ -81,10 +81,9 @@ export class EditSessionsComponent
     };
   }
 
-  submitForm(): void {
+  submitForm() {
     this.save.emit(
       this.getFormControls.controls.map((row) => {
-        console.log(row);
         let date = row.get("date").value;
         let startTime = row.get("startTime").value;
         let endTime = row.get("endTime").value;

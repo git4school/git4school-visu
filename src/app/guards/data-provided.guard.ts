@@ -24,14 +24,6 @@ export class DataProvidedGuard implements CanActivate {
   constructor(private dataService: DataService, private router: Router) {}
 
   /**
-   * Returns a boolean indicating if data is fully loaded
-   * @return true if data is fully loaded, false otherwise
-   */
-  dataLoaded() {
-    return this.dataService.dataLoaded;
-  }
-
-  /**
    * Allows access to the protected route if the data is fully loaded
    * @param route
    * @param state
@@ -45,6 +37,6 @@ export class DataProvidedGuard implements CanActivate {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    return this.dataLoaded();
+    return this.dataService.dataLoaded();
   }
 }

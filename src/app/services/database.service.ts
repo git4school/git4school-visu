@@ -34,4 +34,10 @@ export class DatabaseService extends Dexie {
   deleteAssignment(id: number): Promise<void> {
     return this.assignments.delete(id);
   }
+
+  getAssignmentById(id: number): Promise<Assignment> {
+    return this.assignments
+      .get(id)
+      .then((assignment) => plainToClass(Assignment, assignment));
+  }
 }

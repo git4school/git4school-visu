@@ -203,7 +203,6 @@ export class OverviewComponent
   readFile(): void {
     const myReader: FileReader = new FileReader();
     myReader.onloadend = (e) => {
-      this.dataService.dataLoaded = false;
       let text = null;
       try {
         text = JSON.parse(myReader.result.toString());

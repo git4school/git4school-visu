@@ -5,13 +5,16 @@ import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ConfigurationComponent } from "@components/configuration/configuration.component";
-import { EditRepositoriesComponent } from "@components/configuration/edit-repositories/edit-repositories.component";
-import { MetadataComponent } from "@components/configuration/metadata/metadata.component";
 import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.component";
 import { OverviewComponent } from "@components/graphs/overview/overview.component";
 import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
 import { StudentsCommitsComponent } from "@components/graphs/students-commits/students-commits.component";
+import { AssignmentChooserComponent } from "@components/home/assignment-chooser/assignment-chooser.component";
+import { ConfigurationComponent } from "@components/home/assignment-chooser/configuration/configuration.component";
+import { EditRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component";
+import { ModalAddRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component";
+import { EditSessionsComponent } from "@components/home/assignment-chooser/configuration/edit-sessions/edit-sessions.component";
+import { MetadataComponent } from "@components/home/assignment-chooser/configuration/metadata/metadata.component";
 import { HomeComponent } from "@components/home/home.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { AuthGuard } from "@guards/auth.guard";
@@ -39,9 +42,6 @@ import { ToastrModule } from "ngx-toastr";
 import { TypeaheadModule } from "ngx-type-ahead";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { ModalAddRepositoriesComponent } from "./components/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component";
-import { EditSessionsComponent } from "./components/configuration/edit-sessions/edit-sessions.component";
-import { AssignmentChooserComponent } from "./components/home/assignment-chooser/assignment-chooser.component";
 
 /**
  * Firebase configuration file

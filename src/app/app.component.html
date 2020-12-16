@@ -7,24 +7,22 @@
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="home"><i
             class="fas fa-home mr-2"></i>{{ 'NAVBAR.HOME' | translate }}</a></li>
-      <li class="nav-item dropdown" routerLinkActive="active">
+      <li class="nav-item dropdown" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-chart-line mr-2"></i>{{ 'NAVBAR.GRAPHS' | translate }}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLink="overview"><i
-              class="fas fa-chart-line mr-2"></i>{{ 'NAVBAR.OVERVIEW' | translate }}</a>
-          <a class="dropdown-item" routerLink="students-commits"><i
-              class="fas fa-chart-bar mr-2"></i>{{ 'NAVBAR.STUDENTS-COMMITS' | translate }}</a>
-          <a class="dropdown-item" routerLink="questions-completion"><i
-              class="fas fa-question mr-2"></i>{{ 'NAVBAR.QUESTIONS-COMPLETION' | translate }}</a>
+          <a class="dropdown-item" routerLink="overview"><i class="fas fa-chart-line mr-2"></i>{{ 'NAVBAR.OVERVIEW' |
+            translate }}</a>
+          <a class="dropdown-item" routerLink="students-commits"><i class="fas fa-chart-bar mr-2"></i>{{
+            'NAVBAR.STUDENTS-COMMITS' | translate }}</a>
+          <a class="dropdown-item" routerLink="questions-completion"><i class="fas fa-question mr-2"></i>{{
+            'NAVBAR.QUESTIONS-COMPLETION' | translate }}</a>
         </div>
       </li>
-      <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="configuration"><i
-            class="fas fa-edit mr-2"></i>{{ 'NAVBAR.CONFIGURATION' | translate }}</a></li>
       <ul class="nav navbar-nav navbar-center">
-        <span id="document-title" class="navbar-text">{{ this.dataService.title }}</span>
+        <span id="document-title" class="navbar-text">{{ this.dataService?.title }}</span>
       </ul>
     </ul>
 

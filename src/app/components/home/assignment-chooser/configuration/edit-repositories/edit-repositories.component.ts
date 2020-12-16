@@ -81,9 +81,7 @@ export class EditRepositoriesComponent
       url: [
         data ? data.url : "",
         {
-          validators: [
-            Validators.required /*this.repoAlreadyAddedValidator()*/,
-          ],
+          validators: [Validators.required],
           asyncValidators: [this.accessToRepoValidator()],
         },
       ],
@@ -132,11 +130,6 @@ export class EditRepositoriesComponent
 
   getErrorTooltip(errors: Error[]): string {
     if (!errors) return "";
-    // let tooltip = "- ";
-    // let errs = this.translateService.instant(errors.map(error => "ERROR-MESSAGE-" + error));
-    // console.log(errs);
-    // tooltip += errs.join("\n- ");
-    // return tooltip;
     return errors
       .map((err) => this.translateService.instant("ERROR-MESSAGE-" + err.type))
       .join(". ");

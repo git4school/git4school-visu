@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Configurations</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalService.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-2">
+        <nav>
+            <div class="nav nav-pills mb-3" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#edit-metadata" role="tab"
+                    aria-controls="nav-home" aria-selected="true">{{ 'CONFIGURATION.EDIT-METADATA' | translate }}</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#edit-repositories" role="tab"
+                    aria-controls="nav-profile" aria-selected="false">{{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate
+                    }}</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#edit-sessions" role="tab"
+                    aria-controls="nav-contact" aria-selected="false">{{ 'CONFIGURATION.EDIT-SESSIONS' | translate
+                    }}</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="edit-metadata" role="tabpanel"
+                aria-labelledby="edit-metadata-tab">
+                <metadata [metadata]="assignment.metadata" (save)="saveMetadata($event)"
+                    (modified)="metadataModified = true"></metadata>
+            </div>
+            <div class="tab-pane fade" id="edit-repositories" role="tabpanel" aria-labelledby="edit-repositories-tab">
+                <edit-repositories [datas]="assignment.repositories" (save)="saveRepositories($event)"
+                    (modified)="repositoriesModified = true">
+                </edit-repositories>
+            </div>
+            <div class="tab-pane fade" id="edit-sessions" role="tabpanel" aria-labelledby="edit-sessions-tab">
+                <edit-sessions [datas]="assignment.sessions" (save)="saveSessions($event)"
+                    (modified)="sessionsModified = true"></edit-sessions>
+            </div>
+        </div>
+    </div>
+</div>
