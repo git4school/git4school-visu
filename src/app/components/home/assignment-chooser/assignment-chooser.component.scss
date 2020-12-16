@@ -1,0 +1,54 @@
+.fill-btn:hover > .icon {
+  animation: pulse 2s infinite linear;
+}
+
+.spin-btn:hover > .icon {
+  animation: spin 1.2s infinite cubic-bezier(0, 1, 0.74, 0.98);
+}
+
+.left-right-btn:hover > .icon {
+  animation: move-left-to-right 1.5s infinite
+    cubic-bezier(0.57, 0.81, 0.75, 0.74);
+}
+
+@keyframes move-left-to-right {
+  0% {
+    transform: translateX(0%);
+  }
+  25% {
+    transform: translateX(15%);
+  }
+  75% {
+    transform: translateX(-15%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes spin {
+  0% {
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1.2);
+  }
+
+  80% {
+    transform: scale(0.8);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

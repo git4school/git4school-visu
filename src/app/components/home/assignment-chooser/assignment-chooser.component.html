@@ -15,14 +15,14 @@
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary" (click)="selectAssignment(row)">
-                        <i class="far fa-arrow-alt-circle-right"></i>
+                    <button type="button" class="btn btn-primary left-right-btn" (click)="selectAssignment(row)">
+                        <i class="far fa-arrow-alt-circle-right icon"></i>
                     </button>
-                    <button type="button" class="btn btn-secondary" (click)="openConfigurationModal(row)">
-                        <i class="fas fa-cogs"></i>
+                    <button type="button" class="btn btn-secondary spin-btn" (click)="openConfigurationModal(row)">
+                        <i class="fas fa-cog icon"></i>
                     </button>
-                    <button type="button" class="btn btn-danger" (click)="deleteAssignment(row)">
-                        <i class="far fa-trash-alt"></i>
+                    <button type="button" class="btn btn-danger fill-btn" (click)="deleteAssignment(row)">
+                        <i class="far fa-trash-alt icon"></i>
                     </button>
                 </div>
             </ng-template>
