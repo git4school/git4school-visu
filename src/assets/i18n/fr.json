@@ -104,7 +104,14 @@
         "WARNING-3": "Les questions doivent être renseignées dans l'ordre croissant d'avancement",
         "INFO-3": "Seules les questions renseignées ici seront traitées par l'application (jalons, graphes)"
       }
-    }
+    },
+    "ASSIGNMENT-LIST": {
+      "TITLE": "Liste des assignments"
+    },
+    "CREATE-ASSIGNMENT-TOOLTIP": "Créer un nouvel assignment",
+    "SELECT-ASSIGNMENT-TOOLTIP": "Sélectionner l'assignment et le charger",
+    "EDIT-ASSIGNMENT-TOOLTIP": "Modifier la configuration de l'assignment",
+    "DELETE-ASSIGNMENT-TOOLTIP": "Supprimer l'assignment"
   },
   "OVERVIEW-GRAPH": {
     "UPLOAD": {
@@ -229,5 +236,12 @@
   "ERROR-MESSAGE-COMMITS-NOT-FOUND": "Vous n'avez pas accès au dépôt",
   "TP-GROUP": "Groupe de TP",
   "ERROR-TITLE-ERROR-OCCURED": "Une erreur est survenue !",
-  "ERROR-MESSAGE-ERROR-OCCURED": "Il y a eu des erreurs pendant le chargement des données. <br>Elles ne devraient pas poser problème mais vous pouvez voir les détails dans le panneau de configuration des dépôts."
+  "ERROR-MESSAGE-ERROR-OCCURED": "Il y a eu des erreurs pendant le chargement des données. <br>Elles ne devraient pas poser problème mais vous pouvez voir les détails dans le panneau de configuration des dépôts.",
+  "ASSIGNMENT-CHOOSER": {
+    "ID": "Id",
+    "TITLE": "Titre",
+    "COURSE": "Cours",
+    "PROGRAM": "Programme",
+    "YEAR": "Année"
+  }
 }

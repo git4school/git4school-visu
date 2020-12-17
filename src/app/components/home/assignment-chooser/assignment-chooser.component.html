@@ -1,27 +1,33 @@
 <div>
     <ngx-datatable #assignmentsTable class="material" [rows]="assignments" [columnMode]="'force'" rowHeight="auto"
         headerHeight="auto">
-        <ngx-datatable-column name="Id" prop="id" [maxWidth]="55"></ngx-datatable-column>
-        <ngx-datatable-column name="Title" prop="title">
+        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" [maxWidth]="55">
         </ngx-datatable-column>
-        <ngx-datatable-column name="Course" prop="course"></ngx-datatable-column>
-        <ngx-datatable-column name="Program" prop="program"></ngx-datatable-column>
-        <ngx-datatable-column name="Year" prop="year"></ngx-datatable-column>
+        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course"></ngx-datatable-column>
+        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}" prop="year"></ngx-datatable-column>
         <ngx-datatable-column [maxWidth]="170">
             <ng-template let-column="column" ngx-datatable-header-template>
-                <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()">
+                <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"
+                    [ngbTooltip]="createAssignmentTooltip" container="body">
                     <i class="fas fa-plus"></i>
                 </button>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary left-right-btn" (click)="selectAssignment(row)">
+                    <button type="button" class="btn btn-primary left-right-btn" (click)="selectAssignment(row)"
+                        [ngbTooltip]="selectAssignmentTooltip" container="body">
                         <i class="far fa-arrow-alt-circle-right icon"></i>
                     </button>
-                    <button type="button" class="btn btn-secondary spin-btn" (click)="openConfigurationModal(row)">
+                    <button type="button" class="btn btn-secondary spin-btn" (click)="openConfigurationModal(row)"
+                        [ngbTooltip]="editAssignmentTooltip" container="body">
                         <i class="fas fa-cog icon"></i>
                     </button>
-                    <button type="button" class="btn btn-danger fill-btn" (click)="deleteAssignment(row)">
+                    <button type="button" class="btn btn-danger fill-btn" (click)="deleteAssignment(row)"
+                        [ngbTooltip]="deleteAssignmentTooltip" container="body">
                         <i class="far fa-trash-alt icon"></i>
                     </button>
                 </div>
@@ -29,3 +35,8 @@
         </ngx-datatable-column>
     </ngx-datatable>
 </div>
+
+<ng-template #createAssignmentTooltip>{{ 'HOME.CREATE-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
+<ng-template #selectAssignmentTooltip>{{ 'HOME.SELECT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
+<ng-template #editAssignmentTooltip>{{ 'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
+<ng-template #deleteAssignmentTooltip>{{ 'HOME.DELETE-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
