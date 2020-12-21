@@ -38,7 +38,7 @@
         <label for="questions">{{ 'QUESTIONS' | translate }}</label>
         <type-ahead placeholder="Enter question(s) : 1.1, 1.2, ..." name="questions" id="questions"
           [ngModel]="metadata.questions" [suggestions]="metadata.questions" class="form-control" [multi]="true"
-          [custom]="true" [settings]="typeaheadSettings" required ngModel>
+          [custom]="true" [settings]="typeaheadSettings" ngModel>
         </type-ahead>
       </div>
       <!-- <hr> -->

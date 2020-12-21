@@ -37,6 +37,8 @@ export class DataProvidedGuard implements CanActivate {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    return this.dataService.dataLoaded();
+    return this.dataService.dataLoaded()
+      ? true
+      : this.router.navigate(["home"]);
   }
 }

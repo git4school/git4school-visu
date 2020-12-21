@@ -12,7 +12,7 @@ import { DataProvidedGuard } from "@guards/data-provided.guard";
 
 const appRoutes: Routes = [
   { path: "home", component: HomeComponent },
-  { path: "", component: HomeComponent },
+  { path: "", redirectTo: "/home", pathMatch: "full" },
   { path: "not-found", component: FourOhFourComponent },
   {
     path: "overview",
