@@ -27,8 +27,7 @@
     <div>
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" [disabled]="loading" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-trigger="hover"
-                [ngbTooltip]="markersTooltip">
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [ngbTooltip]="markersTooltip">
                 {{ 'OVERVIEW-GRAPH.MARKERS.BUTTON' | translate }}
             </button>
             <div class="dropdown-menu">
@@ -68,15 +67,15 @@
     <div class="separator"></div>
     <div>
         <div class="btn-group" role="group" aria-label="Interaction controls">
-            <button class="btn btn-outline-secondary" [disabled]="loading" (click)="resetZoom()" data-toggle="tooltip"
-                [ngbTooltip]="resetZoomTooltip" data-trigger="hover">
+            <button class="btn btn-outline-secondary" [disabled]="loading" (click)="resetZoom()"
+                [ngbTooltip]="resetZoomTooltip">
                 <span class="fa-layers fa-fw">
                     <i class="fas fa-search"></i>
                     <i class="fas fa-times" data-fa-transform="shrink-8 up-1.6 left-2"></i>
                 </span>
             </button>
-            <button class="btn btn-outline-secondary" data-toggle="tooltip" [ngbTooltip]="changeZoomTooltip"
-                data-trigger="hover" [disabled]="loading" (click)="changeZoom()">
+            <button class="btn btn-outline-secondary" [ngbTooltip]="changeZoomTooltip" [disabled]="loading"
+                (click)="changeZoom()">
                 <div *ngIf="drag">
                     <span class="fa-layers fa-fw">
                         <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>
@@ -90,8 +89,8 @@
                     </span>
                 </div>
             </button>
-            <button class="btn btn-outline-secondary" (click)="changeUnit()" data-toggle="tooltip"
-                [ngbTooltip]="changeTimeScaleTooltip" [disabled]="loading" data-trigger="hover">
+            <button class="btn btn-outline-secondary" (click)="changeUnit()" [ngbTooltip]="changeTimeScaleTooltip"
+                [disabled]="loading">
                 <div *ngIf="unit === 'week'"><i class="fas fa-calendar-week"></i></div>
                 <div *ngIf="unit === 'hour'"><i class="fas fa-clock"></i></div>
                 <div *ngIf="unit === 'day'"><i class="fas fa-calendar-day"></i></div>
@@ -102,12 +101,11 @@
     <div>
         <div class="btn-group" role="group" aria-label="File controls">
             <button class="btn btn-outline-secondary" [ngbTooltip]="downloadTooltip" (click)="download()"
-                [disabled]="loading" data-toggle="tooltip" data-trigger="hover"><i class="fas fa-download"></i></button>
-            <button class="btn btn-outline-secondary" [ngbTooltip]="uploadTooltip" (click)="openUploadFileModal()"
-                data-trigger="hover"><i class="fas fa-upload"></i></button>
+                [disabled]="loading"><i class="fas fa-download"></i></button>
+            <button class="btn btn-outline-secondary" [ngbTooltip]="uploadTooltip" (click)="openUploadFileModal()"><i
+                    class="fas fa-upload"></i></button>
             <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"
-                [disabled]="!dataService.repositories?.length || loading" data-toggle="tooltip"
-                [ngbTooltip]="reloadTooltip" data-trigger="hover">
+                [disabled]="!dataService.repositories?.length || loading" [ngbTooltip]="reloadTooltip">
                 <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>
                 <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>
             </button>

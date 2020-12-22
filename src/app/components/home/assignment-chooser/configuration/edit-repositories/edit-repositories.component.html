@@ -79,11 +79,11 @@
             <div class="sticky-bot bg-white py-3">
                 <div class="btn-group" role="group">
                     <button class="btn btn-secondary" type="submit" (click)="addRow()"
-                        ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate }}" [openDelay]="500">
+                        ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate }}">
                         <i class="fas fa-user-plus"></i>
                     </button>
                     <button class="btn btn-secondary" (click)="openAddRepositoriesModal()"
-                        ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate }}" [openDelay]="500">
+                        ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate }}">
                         <span class="fa-layers fa-fw">
                             <i class="fas fa-circle" data-fa-mask="fas fa-users"
                                 data-fa-transform="shrink-6 right-7 "></i>
@@ -92,8 +92,7 @@
                     </button>
                 </div>
                 <button class="btn btn-primary ml-2" [disabled]="nbEditing || formGroup.invalid" type="submit"
-                    (click)="submitForm()" ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}"
-                    [openDelay]="500">
+                    (click)="submitForm()" ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}">
                     <i class="fas fa-save"></i>
                 </button>
             </div>

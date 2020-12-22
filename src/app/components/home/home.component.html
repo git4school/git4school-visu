@@ -410,8 +410,7 @@
       <div id="collapseJSON" class="collapse" aria-labelledby="heading-example" data-parent="#accordion">
         <div class="card-body p-2">
           <pre class="jumbotron p-3 my-1">
-          <button id="copyJSON" type="button" class="btn float-right btn-sm" (click)="copyJSON()" [ngbTooltip]="copyTooltip"
-          data-toggle="tooltip" data-placement="left"><span class="text-muted">{{ 'HOME.COPY' | translate }}</span></button>
+          <button id="copyJSON" type="button" class="btn float-right btn-sm" (click)="copyJSON()" [ngbTooltip]="copyTooltip"><span class="text-muted">{{ 'HOME.COPY' | translate }}</span></button>
   &#123;
     <span class="text-danger">"title"</span>: "TP title",
     "course": "JEE",
@@ -467,8 +466,7 @@
             {{ 'HOME.README-STRUCTURE.MESSAGE' | translate }}
           </div>
           <pre class="jumbotron p-3 my-1">
-          <button id="copyREADME" type="button" class="btn float-right btn-sm" (click)="copyReadMe()" [ngbTooltip]="copyTooltip"
-          data-toggle="tooltip" data-placement="left"><span class="text-muted">{{ 'HOME.COPY' | translate }}</span></button>
+          <button id="copyREADME" type="button" class="btn float-right btn-sm" (click)="copyReadMe()" [ngbTooltip]="copyTooltip" ><span class="text-muted">{{ 'HOME.COPY' | translate }}</span></button>
 {{readMe}}</pre>
           <div class="mt-3">
             <markdown [data]="readMe" ngPreserveWhitespaces>
