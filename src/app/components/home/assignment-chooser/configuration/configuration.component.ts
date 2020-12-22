@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { Assignment } from "@models/Assignment.model";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { DataService } from "@services/data.service";
 import { ToastService } from "@services/toast.service";
@@ -20,7 +21,8 @@ export class ConfigurationComponent implements OnInit {
     public translateService: TranslateService,
     public dataService: DataService,
     private toastService: ToastService,
-    public modalService: NgbActiveModal
+    public activeModalService: NgbActiveModal,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +68,16 @@ export class ConfigurationComponent implements OnInit {
       .saveData(this.assignment)
       .then(() => this.successToast())
       .catch(() => this.errorToast());
+  }
+
+  openUploadFileModal() {
+    let modalReference = this.modalService.open(FileChooserComponent, {});
+    modalReference.result.then((assignment) => {
+      assignment.id = this.assignment.id;
+      this.assignment = assignment;
+      this.saveAssignment();
+      this.activeModalService.close();
+    });
   }
 
   successToast() {

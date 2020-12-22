@@ -16,7 +16,7 @@ export class DataService {
   /**
    * The practical course, represents the data from the configuration file
    */
-  _assignment: Assignment;
+  private _assignment: Assignment;
 
   /**
    * The TP groups of the class

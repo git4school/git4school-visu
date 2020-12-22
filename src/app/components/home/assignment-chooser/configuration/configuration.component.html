@@ -1,6 +1,8 @@
 <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Configurations</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modalService.dismiss('Cross click')">
+    <button class="btn btn-outline-secondary ml-3" [ngbTooltip]="uploadTooltip" triggers="hover"
+        (click)="openUploadFileModal()" data-trigger="hover"><i class="fas fa-upload"></i></button>
+    <button type="button" class="close" aria-label="Close" (click)="activeModalService.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -36,3 +38,5 @@
         </div>
     </div>
 </div>
+
+<ng-template #uploadTooltip>{{ 'OVERVIEW-GRAPH.UPLOAD.TOOLTIP' | translate }}</ng-template>

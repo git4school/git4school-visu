@@ -6,7 +6,8 @@
     <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm" onkeydown="return event.key != 'Enter';">
       <div class=" form-group">
         <label for="title">{{ 'METADATA.TITLE' | translate }}</label>
-        <input type="text" class="form-control" id="title" name="title" [ngModel]="metadata.title" required ngModel>
+        <input type="text" class="form-control" id="title" name="title" [ngModel]="metadata.title" ngbAutofocus required
+          ngModel>
       </div>
       <div class="form-row">
         <div class="form-group col">

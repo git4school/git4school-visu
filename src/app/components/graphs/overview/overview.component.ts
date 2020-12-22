@@ -6,17 +6,16 @@ import {
   ViewChild,
 } from "@angular/core";
 import { NgForm } from "@angular/forms";
+import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { Commit, CommitColor } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
-import { Repository } from "@models/Repository.model";
-import { Session } from "@models/Session.model";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
 import { CommitsService } from "@services/commits.service";
 import { DataService } from "@services/data.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
-import * as Ajv from "ajv";
 import { saveAs } from "file-saver";
 import * as JSZip from "jszip";
 import * as moment from "moment";
@@ -42,7 +41,8 @@ export class OverviewComponent
     private toastService: ToastService,
     public jsonManager: JsonManagerService,
     public dataService: DataService,
-    protected loaderService: LoaderService
+    protected loaderService: LoaderService,
+    private modalService: NgbModal
   ) {
     super(loaderService);
   }
@@ -198,30 +198,6 @@ export class OverviewComponent
       noMatchesText: this.translateService.instant("SEARCH-NOT-FOUND"),
       suggestionLimit: 5,
     };
-  }
-
-  readFile(): void {
-    const myReader: FileReader = new FileReader();
-    myReader.onloadend = (e) => {
-      let text = null;
-      try {
-        text = JSON.parse(myReader.result.toString());
-      } catch (e) {
-        this.toastService.error(
-          this.translateService.instant("INVALID-JSON"),
-          e.message
-        );
-      }
-      if (text && this.verifyJSON(text)) {
-        this.getDataFromFile(text);
-        this.dataService.saveData();
-        setTimeout(() => {
-          this.loadGraph(text.startDate, text.endDate);
-        });
-        $("#uploadFileModal").modal("hide");
-      }
-    };
-    myReader.readAsText(this.jsonManager.file);
   }
 
   loadGraph(startDate?: string, endDate?: string) {
@@ -447,14 +423,6 @@ export class OverviewComponent
     this.selectZoom(this.drag);
   }
 
-  changeListener($event): void {
-    if ($event.target.files[0]) {
-      this.jsonManager.file = $event.target.files[0];
-      this.jsonManager.filename = this.jsonManager.file.name;
-      this.readFile();
-    }
-  }
-
   onChartClick(event) {
     if (event.active.length > 0) {
       const data = this.getDataFromChart(event);
@@ -611,43 +579,6 @@ export class OverviewComponent
     return this.chartData[datasetIndex].data[dataIndex];
   }
 
-  getDataFromFile(text) {
-    this.dataService.repositories = text.repositories
-      .filter((repository) =>
-        repository.url.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
-      )
-      .map((repository) => Repository.withJSON(repository));
-    if (text.repositories.length !== this.dataService.repositories.length) {
-      let translations = this.translateService.instant([
-        "ERRORS.WARNING",
-        "ERRORS.INVALID-URLS",
-      ]);
-      this.toastService.warning(
-        translations["ERRORS.WARNING"],
-        translations["ERRORS.INVALID-URLS"]
-      );
-    }
-    this.dataService.startDate = text.startDate;
-    this.dataService.endDate = text.endDate;
-    this.dataService.title = text.title;
-    this.dataService.course = text.course;
-    this.dataService.program = text.program;
-    this.dataService.year = text.year;
-    this.dataService.questions = text.questions;
-    this.dataService.corrections = text.corrections
-      ? text.corrections.map((data) => Milestone.withJSON(data, "corrections"))
-      : undefined;
-    this.dataService.sessions = text.sessions
-      ? text.sessions.map((data) => Session.withJSON(data))
-      : undefined;
-    this.dataService.reviews = text.reviews
-      ? text.reviews.map((data) => Milestone.withJSON(data, "reviews"))
-      : undefined;
-    this.dataService.others = text.others
-      ? text.others.map((data) => Milestone.withJSON(data, "others"))
-      : undefined;
-  }
-
   @HostListener("window:keyup", ["$event"])
   keyEvent(event: KeyboardEvent) {
     if (event.keyCode === 32) {
@@ -712,6 +643,16 @@ export class OverviewComponent
     }
   }
 
+  openUploadFileModal() {
+    let modalReference = this.modalService.open(FileChooserComponent, {});
+    modalReference.result.then((assignment) => {
+      assignment.id = this.dataService.assignment.id;
+      this.dataService.assignment = assignment;
+      this.dataService.saveData();
+      this.loadGraph();
+    });
+  }
+
   download() {
     this.dataService.generateJSON();
     let colors = [
@@ -766,181 +707,5 @@ export class OverviewComponent
     zip.generateAsync({ type: "blob" }).then(function (content) {
       saveAs(content, shortFilename + ".zip");
     });
-  }
-
-  verifyJSON(json) {
-    let regex =
-      "([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)";
-    let schema = {
-      properties: {
-        title: {
-          type: "string",
-        },
-        course: {
-          type: "string",
-        },
-        program: {
-          type: "string",
-        },
-        year: {
-          type: "string",
-        },
-        startDate: {
-          type: "string",
-          pattern: regex,
-        },
-        endDate: {
-          type: "string",
-          pattern: regex,
-        },
-        questions: {
-          type: "array",
-          uniqueItems: true,
-          items: {
-            type: "string",
-          },
-        },
-        repositories: {
-          type: "array",
-          uniqueItems: true,
-          minItems: 1,
-          items: {
-            properties: {
-              url: {
-                type: "string",
-                format: "uri",
-              },
-              name: {
-                type: "string",
-              },
-              tpGroup: {
-                type: "string",
-              },
-            },
-            required: ["url"],
-          },
-        },
-        sessions: {
-          type: "array",
-          uniqueItems: true,
-          items: {
-            properties: {
-              startDate: {
-                type: "string",
-                pattern: regex,
-              },
-              endDate: {
-                type: "string",
-                pattern: regex,
-              },
-              tpGroup: {
-                type: "string",
-              },
-            },
-            required: ["startDate", "endDate"],
-          },
-        },
-        reviews: {
-          type: "array",
-          uniqueItems: true,
-          items: {
-            properties: {
-              date: {
-                type: "string",
-                pattern: regex,
-              },
-              label: {
-                type: "string",
-              },
-              tpGroup: {
-                type: "string",
-              },
-              questions: {
-                type: "array",
-                uniqueItems: true,
-                items: {
-                  type: "string",
-                },
-              },
-            },
-            required: ["date"],
-          },
-        },
-        corrections: {
-          type: "array",
-          uniqueItems: true,
-          items: {
-            properties: {
-              date: {
-                type: "string",
-                pattern: regex,
-              },
-              label: {
-                type: "string",
-              },
-              tpGroup: {
-                type: "string",
-              },
-              questions: {
-                type: "array",
-                uniqueItems: true,
-                items: {
-                  type: "string",
-                },
-              },
-            },
-            required: ["date"],
-          },
-        },
-        others: {
-          type: "array",
-          uniqueItems: true,
-          items: {
-            properties: {
-              date: {
-                type: "string",
-                pattern: regex,
-              },
-              label: {
-                type: "string",
-              },
-              tpGroup: {
-                type: "string",
-              },
-              questions: {
-                type: "array",
-                uniqueItems: true,
-                items: {
-                  type: "string",
-                },
-              },
-            },
-            required: ["date"],
-          },
-        },
-      },
-      required: ["title", "questions", "repositories"],
-    };
-
-    let ajv = new Ajv({ $data: true, allErrors: true, verbose: true });
-    let valid = ajv.validate(schema, json);
-
-    if (!valid) {
-      let errorMessage =
-        "&emsp;" +
-        ajv.errors
-          .map((error) => {
-            return error.dataPath + " " + error.message;
-          })
-          .join("<br>&emsp;");
-      this.toastService.error(
-        this.translateService.instant("INVALID-CONF-FILE"),
-        errorMessage
-      );
-
-      return false;
-    }
-
-    return true;
   }
 }

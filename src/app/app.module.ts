@@ -42,6 +42,7 @@ import { ToastrModule } from "ngx-toastr";
 import { TypeaheadModule } from "ngx-type-ahead";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { FileChooserComponent } from './components/file-chooser/file-chooser.component';
 
 /**
  * Firebase configuration file
@@ -111,6 +112,7 @@ export function appInitializerFactory(
     EditSessionsComponent,
     ModalAddRepositoriesComponent,
     AssignmentChooserComponent,
+    FileChooserComponent,
   ],
   imports: [
     BrowserModule,

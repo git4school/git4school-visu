@@ -50,12 +50,11 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   openConfigurationModal(assignment: Assignment) {
-    console.log("assignment: ", assignment);
     let modalReference = this.modalService.open(ConfigurationComponent, {
       size: "xl",
     });
     modalReference.componentInstance.assignment = assignment;
-    modalReference.result.catch(() => {
+    modalReference.result.finally(() => {
       this.loadAssignments();
       if (assignment.id === this.dataService.assignment?.id) {
         this.databaseService

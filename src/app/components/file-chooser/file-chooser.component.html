@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="uploadFileModalLabel">{{ 'OVERVIEW-GRAPH.UPLOAD.TITLE' | translate }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form #uploadForm>
+        <div class="input-group">
+            <div class="input-group-prepend ">
+                <span class="input-group-text" id="inputGroupFileAddon01"><i class="fas fa-upload"></i></span>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile01"
+                    aria-describedby="inputGroupFileAddon01" (change)="changeListener($event)"
+                    (click)="uploadForm.reset()" ngbAutofocus />
+                <label class="custom-file-label" for="inputGroupFile01">{{ filename || (
+                    'OVERVIEW-GRAPH.UPLOAD.FILE-PLACEHOLDER' | translate ) }}</label>
+            </div>
+        </div>
+    </form>
+</div>

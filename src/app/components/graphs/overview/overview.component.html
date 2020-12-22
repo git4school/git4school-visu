@@ -4,18 +4,18 @@
             <div class="input-group">
                 <type-ahead placeholder="{{ 'OVERVIEW-GRAPH.SEARCH-PLACEHOLDER' | translate }}" name="search"
                     [suggestions]="dataService.questions" class="form-control" [multi]="true" [custom]="false"
-                    [settings]="typeaheadSettings" [disabled]="!dataService.questions.length || loading" ngModel>
+                    [settings]="typeaheadSettings" [disabled]="!dataService.questions?.length || loading" ngModel>
                 </type-ahead>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" id="search-submit"
-                        [disabled]="!dataService.questions.length || loading"
-                        type="submit">{{ 'OVERVIEW-GRAPH.SEARCH-BUTTON' | translate }}</button>
+                        [disabled]="!dataService.questions?.length || loading" type="submit">{{
+                        'OVERVIEW-GRAPH.SEARCH-BUTTON' | translate }}</button>
                 </div>
             </div>
         </form>
     </div>
     <div class="pl-2">
-        <select class="form-control" [disabled]="!dataService.tpGroups.length || loading" [(ngModel)]="tpGroup"
+        <select class="form-control" [disabled]="!dataService.tpGroups?.length || loading" [(ngModel)]="tpGroup"
             (change)="this.loadGraphDataAndRefresh()" placeholder="d.ff">
             <option [ngValue]="undefined" hidden disabled>{{ 'TP-GROUP-SELECT.PLACEHOLDER' | translate }}
             </option>
@@ -37,29 +37,29 @@
                         <input type="checkbox" class="custom-control-input" id="sessionsSwitch"
                             [(ngModel)]="showSessions" (change)="this.loadGraphDataAndRefresh()"
                             [ngModelOptions]="{standalone: true}">
-                        <label class="custom-control-label"
-                            for="sessionsSwitch">{{ 'OVERVIEW-GRAPH.MARKERS.SESSIONS' | translate }}</label>
+                        <label class="custom-control-label" for="sessionsSwitch">{{ 'OVERVIEW-GRAPH.MARKERS.SESSIONS' |
+                            translate }}</label>
                     </div>
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="correctionsSwitch"
                             [(ngModel)]="showCorrections" (change)="this.loadGraphDataAndRefresh()"
                             [ngModelOptions]="{standalone: true}">
-                        <label class="custom-control-label"
-                            for="correctionsSwitch">{{ 'OVERVIEW-GRAPH.MARKERS.CORRECTIONS' | translate }}</label>
+                        <label class="custom-control-label" for="correctionsSwitch">{{
+                            'OVERVIEW-GRAPH.MARKERS.CORRECTIONS' | translate }}</label>
                     </div>
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" selected id="reviewsSwitch"
                             [(ngModel)]="showReviews" (change)="this.loadGraphDataAndRefresh()"
                             [ngModelOptions]="{standalone: true}">
-                        <label class="custom-control-label"
-                            for="reviewsSwitch">{{ 'OVERVIEW-GRAPH.MARKERS.REVIEWS' | translate }}</label>
+                        <label class="custom-control-label" for="reviewsSwitch">{{ 'OVERVIEW-GRAPH.MARKERS.REVIEWS' |
+                            translate }}</label>
                     </div>
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" selected id="othersSwitch"
                             [(ngModel)]="showOthers" (change)="this.loadGraphDataAndRefresh()"
                             [ngModelOptions]="{standalone: true}">
-                        <label class="custom-control-label"
-                            for="othersSwitch">{{ 'OVERVIEW-GRAPH.MARKERS.OTHERS' | translate }}</label>
+                        <label class="custom-control-label" for="othersSwitch">{{ 'OVERVIEW-GRAPH.MARKERS.OTHERS' |
+                            translate }}</label>
                     </div>
                 </form>
             </div>
@@ -103,10 +103,10 @@
         <div class="btn-group" role="group" aria-label="File controls">
             <button class="btn btn-outline-secondary" [ngbTooltip]="downloadTooltip" (click)="download()"
                 [disabled]="loading" data-toggle="tooltip" data-trigger="hover"><i class="fas fa-download"></i></button>
-            <button class="btn btn-outline-secondary" [ngbTooltip]="uploadTooltip" data-toggle="modal"
-                data-target="#uploadFileModal" data-trigger="hover"><i class="fas fa-upload"></i></button>
+            <button class="btn btn-outline-secondary" [ngbTooltip]="uploadTooltip" (click)="openUploadFileModal()"
+                data-trigger="hover"><i class="fas fa-upload"></i></button>
             <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"
-                [disabled]="!dataService.repositories.length || loading" data-toggle="tooltip"
+                [disabled]="!dataService.repositories?.length || loading" data-toggle="tooltip"
                 [ngbTooltip]="reloadTooltip" data-trigger="hover">
                 <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>
                 <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>
@@ -164,7 +164,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addMilestoneModalLabel">
-                    {{ (this.addModal ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') | translate }}
+                    {{ (this.addModal ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') |
+                    translate }}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -178,22 +179,22 @@
                             required ngModel>
                     </div>
                     <div class="form-group">
-                        <label for="recipient-name"
-                            class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.LABEL' | translate }} :</label>
+                        <label for="recipient-name" class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.LABEL' | translate
+                            }} :</label>
                         <input type="text" class="form-control" id="recipient-name" name="label" [ngModel]="labelModal"
                             ngModel>
                     </div>
                     <div class="form-group">
-                        <label for="message-text"
-                            class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate }} :</label>
+                        <label for="message-text" class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate
+                            }} :</label>
                         <select class="form-control" [ngModel]="tpGroupModal" (change)="this.loadGraphDataAndRefresh()"
                             placeholder="d.ff" name="tpGroup" id="tpGroup">
                             <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label id="questions-tooltip" for="questions"
-                            class="col-form-label">{{ 'QUESTIONS' | translate }} :</label>
+                        <label id="questions-tooltip" for="questions" class="col-form-label">{{ 'QUESTIONS' | translate
+                            }} :</label>
                         <type-ahead placeholder="{{ 'OVERVIEW-GRAPH.MODAL.QUESTIONS-PLACEHOLDER' | translate }}"
                             name="questions" id="questions" [ngModel]="questionsModal"
                             [suggestions]="dataService.questions" class="form-control" [multi]="true" [custom]="false"
@@ -216,41 +217,10 @@
                         <label class="custom-control-label" for="customRadio3">{{ 'OTHER' | translate }}</label>
                     </div>
                     <hr>
-                    <button *ngIf="!addModal" type="button" class="btn btn-danger col-5"
-                        (click)="deleteMilestone()">{{ 'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}</button>
-                    <button type="submit" class="btn btn-primary col-5 float-right"
-                        [disabled]="f.invalid">{{ 'OVERVIEW-GRAPH.MODAL.CONFIRM' | translate }}</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog" aria-labelledby="uploadFileModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="uploadFileModalLabel">{{ 'OVERVIEW-GRAPH.UPLOAD.TITLE' | translate }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form #uploadForm>
-                    <div class="input-group">
-                        <div class="input-group-prepend ">
-                            <span class="input-group-text" id="inputGroupFileAddon01"><i
-                                    class="fas fa-upload"></i></span>
-                        </div>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                aria-describedby="inputGroupFileAddon01" (change)="changeListener($event)"
-                                (click)="uploadForm.reset()" />
-                            <label class="custom-file-label"
-                                for="inputGroupFile01">{{ jsonManager.filename || ( 'OVERVIEW-GRAPH.UPLOAD.FILE-PLACEHOLDER' | translate ) }}</label>
-                        </div>
-                    </div>
+                    <button *ngIf="!addModal" type="button" class="btn btn-danger col-5" (click)="deleteMilestone()">{{
+                        'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}</button>
+                    <button type="submit" class="btn btn-primary col-5 float-right" [disabled]="f.invalid">{{
+                        'OVERVIEW-GRAPH.MODAL.CONFIRM' | translate }}</button>
                 </form>
             </div>
         </div>
