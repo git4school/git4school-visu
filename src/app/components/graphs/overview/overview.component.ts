@@ -661,9 +661,6 @@ export class OverviewComponent
       CommitColor.AFTER,
       CommitColor.NOCOMMIT,
     ];
-    let shortFilenameTab = this.jsonManager.filename.split(".");
-    shortFilenameTab.pop();
-    let shortFilename = shortFilenameTab.join(".");
 
     let questionsDict = this.commitsService.initQuestionsDict(
       this.dataService.questions,
@@ -694,18 +691,16 @@ export class OverviewComponent
     };
 
     let zip = new JSZip();
-    zip.file(
-      this.jsonManager.filename,
-      JSON.stringify(this.jsonManager.json, null, 2)
-    );
+    zip.file("conf.json", JSON.stringify(this.jsonManager.json, null, 2));
     zip.file(
       "questions-completion.json",
       JSON.stringify(questionsDict, null, 2)
     );
     zip.file("students-commits.json", JSON.stringify(studentsDict, null, 2));
 
+    let filename = this.dataService.title;
     zip.generateAsync({ type: "blob" }).then(function (content) {
-      saveAs(content, shortFilename + ".zip");
+      saveAs(content, filename + ".zip");
     });
   }
 }
