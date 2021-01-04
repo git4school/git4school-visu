@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 
 @Component({
-  template: ``,
+  template: "",
 })
 export abstract class BaseEditConfigurationComponent<Data> {
   @Output() modified = new EventEmitter();

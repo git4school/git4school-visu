@@ -2,7 +2,7 @@ import {
   AfterContentChecked,
   ChangeDetectorRef,
   Component,
-  OnInit,
+  OnInit
 } from "@angular/core";
 import {
   AbstractControl,
@@ -10,7 +10,7 @@ import {
   FormBuilder,
   ValidationErrors,
   ValidatorFn,
-  Validators,
+  Validators
 } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -129,7 +129,9 @@ export class EditRepositoriesComponent
   }
 
   getErrorTooltip(errors: Error[]): string {
-    if (!errors) return "";
+    if (!errors) {
+      return ""
+    };
     return errors
       .map((err) => this.translateService.instant("ERROR-MESSAGE-" + err.type))
       .join(". ");
