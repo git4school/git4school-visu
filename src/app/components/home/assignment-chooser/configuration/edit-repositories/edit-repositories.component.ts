@@ -79,14 +79,14 @@ export class EditRepositoriesComponent
   createFormGroup(data?: Repository) {
     return this.fb.group({
       url: [
-        data ? data.url : "",
+        data?.url,
         {
           validators: [Validators.required],
           asyncValidators: [this.accessToRepoValidator()],
         },
       ],
-      name: [data ? data.name : ""],
-      tpGroup: [data ? data.tpGroup : ""],
+      name: [data?.name],
+      tpGroup: [data?.tpGroup],
       errors: [data ? data.errors : []],
       isEditable: false,
       isInvalid: false,

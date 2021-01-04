@@ -2,20 +2,21 @@ import {
   AfterContentChecked,
   ChangeDetectorRef,
   Component,
-  OnInit,
+  OnInit
 } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
   ValidatorFn,
-  Validators,
+  Validators
 } from "@angular/forms";
 import { Session } from "@models/Session.model";
 import {
   NgbDateAdapter,
-  NgbDateNativeAdapter,
+  NgbDateNativeAdapter
 } from "@ng-bootstrap/ng-bootstrap";
+import { Utils } from "@services/utils";
 import * as moment from "moment";
 import { BaseTabEditConfigurationComponent } from "../base-tab-edit-configuration.component";
 
@@ -58,27 +59,20 @@ export class EditSessionsComponent
     let formGroup = this.fb.group({
       date: [data ? data.startDate : new Date(), Validators.required],
       startTime: [
-        data ? this.getTimeFromDate(data.startDate) : null,
+        Utils.getTimeFromDate(data?.startDate),
         Validators.required,
       ],
       endTime: [
-        data ? this.getTimeFromDate(data.endDate) : null,
+        Utils.getTimeFromDate(data?.endDate),
         Validators.required,
       ],
-      tpGroup: [data ? data.tpGroup : ""],
+      tpGroup: [data?.tpGroup],
       isEditable: false,
       isInvalid: false,
       save: {},
     });
     formGroup.setValidators(this.endTimeValidator());
     return formGroup;
-  }
-
-  private getTimeFromDate(date: Date) {
-    return {
-      hour: moment(date).hour(),
-      minute: moment(date).minutes(),
-    };
   }
 
   submitForm() {

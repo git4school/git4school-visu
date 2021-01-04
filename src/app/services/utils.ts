@@ -1,7 +1,17 @@
+import * as moment from "moment";
+
 export class Utils {
   static readonly DEFAULT_TP_GROUP = "1";
   static readonly DATE_FORMAT =
     "([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)";
+  
+  static getTimeFromDate(date: Date) {
+    return date ? {
+      hour: moment(date).hour(),
+      minute: moment(date).minutes(),
+    } : null;
+  }
+  
   static CONF_FILE_JSON_SCHEMA = {
     properties: {
       title: {
