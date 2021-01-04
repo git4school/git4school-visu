@@ -6,7 +6,7 @@
   animation: spin 1.2s infinite cubic-bezier(0, 1, 0.74, 0.98);
 }
 
-.left-right-btn:hover > .icon {
+.left-right-btn:hover:enabled > .icon {
   animation: move-left-to-right 1.5s infinite
     cubic-bezier(0.57, 0.81, 0.75, 0.74);
 }
