@@ -19,7 +19,7 @@
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary left-right-btn" (click)="selectAssignment(row)"
-                        [ngbTooltip]="selectAssignmentTooltip">
+                        [ngbTooltip]="selectAssignmentTooltip" [disabled]="!authService.isSignedIn()">
                         <i class="far fa-arrow-alt-circle-right icon"></i>
                     </button>
                     <button type="button" class="btn btn-secondary spin-btn" (click)="openConfigurationModal(row)"
