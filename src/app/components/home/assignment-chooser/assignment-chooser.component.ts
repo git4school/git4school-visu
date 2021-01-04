@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ConfigurationComponent } from "./configuration/configuration.component";
@@ -19,7 +20,8 @@ export class AssignmentChooserComponent implements OnInit {
     private databaseService: DatabaseService,
     private dataService: DataService,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +47,6 @@ export class AssignmentChooserComponent implements OnInit {
 
   createAssignment() {
     let assignment = new Assignment();
-    this.dataService.assignment = assignment;
     this.openConfigurationModal(assignment);
   }
 
@@ -56,7 +57,8 @@ export class AssignmentChooserComponent implements OnInit {
     modalReference.componentInstance.assignment = assignment;
     modalReference.result.finally(() => {
       this.loadAssignments();
-      if (assignment.id === this.dataService.assignment?.id) {
+      if (assignment.id && (assignment.id  === this.dataService.assignment?.id)) {
+        
         this.databaseService
           .getAssignmentById(assignment.id)
           .then((assignment) => (this.dataService.assignment = assignment));
