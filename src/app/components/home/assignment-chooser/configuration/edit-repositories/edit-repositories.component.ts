@@ -130,8 +130,8 @@ export class EditRepositoriesComponent
 
   getErrorTooltip(errors: Error[]): string {
     if (!errors) {
-      return ""
-    };
+      return "";
+    }
     return errors
       .map((err) => this.translateService.instant("ERROR-MESSAGE-" + err.type))
       .join(". ");

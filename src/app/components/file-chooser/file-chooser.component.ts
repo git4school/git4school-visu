@@ -43,11 +43,10 @@ export class FileChooserComponent implements OnInit {
     if (!valid) {
       let errorMessage =
         "&emsp;" +
-        ajv.errors
-          .map((error) => {
-            return error.dataPath + " " + error.message;
-          })
-          .join("<br>&emsp;");
+        ajv.errors.map((error) => {
+          return error.dataPath + " " + error.message;
+        })
+        .join("<br>&emsp;");
       this.toastService.error(
         this.translateService.instant("INVALID-CONF-FILE"),
         errorMessage
