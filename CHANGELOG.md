@@ -1,5 +1,47 @@
 # Change log for Git4School
 
+## 1.3.0
+
+### Added
+
+#### Home page
+
+- A list on the home page lets the user view, _select_, _modify_, _delete_ the assignments that he has saved, or _add_ a new one
+  - The configuration page of an assignment has been refactored so that it can be called in a modal. So, it is now possible to modify any assignment directly from the list
+
+#### General
+
+- The assignment the user is working on is saved **locally** each time it is modified and each time the data is loaded from Github
+
+### Modified
+
+#### General
+
+- Now all tooltips have a **500ms** open delay to meet the usability standards for tooltips.
+
+#### Graphs
+
+- The graphs are no longer accessible as long as no assignment is selected. The tab is no longer visible in this case
+
+#### Metadata edition
+
+- Questions are no longer required in the form to match the model
+
+#### Overview graph
+
+- The file chooser has been transformed into a component to be usable elsewhere in the application (in the edition of an assignment)
+- It is possible to select "all" in the TP group of milestones
+
+### Deleted
+
+#### Configuration page
+
+- The page has been removed because it is possible to modify the assignments of the **home page**
+
+### Fixed
+
+- Fixed a navigation bug when no data was loaded
+
 ## 1.2.0
 
 ### Added
