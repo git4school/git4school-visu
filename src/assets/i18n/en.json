@@ -105,7 +105,14 @@
         "WARNING-3": "The questions must be completed in ascending order of progress",
         "INFO-3": "Only the questions provided here will be handled by the application (milestones, graphs)"
       }
-    }
+    },
+    "ASSIGNMENT-LIST": {
+      "TITLE": "Assignment list"
+    },
+    "CREATE-ASSIGNMENT-TOOLTIP": "Create a new assignment",
+    "SELECT-ASSIGNMENT-TOOLTIP": "Select assignment and load it",
+    "EDIT-ASSIGNMENT-TOOLTIP": "Edit assignment configuration",
+    "DELETE-ASSIGNMENT-TOOLTIP": "Delete assignment"
   },
   "OVERVIEW-GRAPH": {
     "UPLOAD": {
@@ -229,5 +236,12 @@
   "ERROR-TITLE-README-TPGROUP-NOT-FOUND": "Error : unable to find the TP group",
   "TP-GROUP": "TP group",
   "ERROR-MESSAGE-ERROR-OCCURED": "There were errors while loading the data. <br>They shouldn't be a problem, but you can see the details in the repositories configuration panel.",
-  "ERROR-TITLE-ERROR-OCCURED": "An error has occurred !"
+  "ERROR-TITLE-ERROR-OCCURED": "An error has occurred !",
+  "ASSIGNMENT-CHOOSER": {
+    "ID": "Id",
+    "TITLE": "Title",
+    "COURSE": "Course",
+    "PROGRAM": "Program",
+    "YEAR": "Year"
+  }
 }

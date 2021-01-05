@@ -103,8 +103,8 @@ export class LoaderService {
               this.dataService.questions
             );
             this.dataService.lastUpdateDate = new Date();
-            this.dataService.dataLoaded = true;
             this.dataService.repoToLoad = false;
+            this.dataService.saveData();
           } catch (err) {
             this.toastService.error(translations["GIT-ERROR"], err);
           }

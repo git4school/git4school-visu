@@ -1,9 +1,12 @@
 import { Commit } from "@models/Commit.model";
+import { Type } from "class-transformer";
 
 /**
  * This class modelizes a Github repository
  */
 export class Repository {
+  @Type(() => Commit)
+  commits: Commit[];
   /**
    * Repository constructor
    * @param url The URL of the repository
@@ -14,7 +17,7 @@ export class Repository {
   constructor(
     public url: string,
     public name?: string,
-    public commits?: Commit[],
+    commits?: Commit[],
     public tpGroup?: string,
     public errors?: Error[]
   ) {

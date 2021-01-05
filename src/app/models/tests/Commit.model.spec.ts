@@ -110,10 +110,10 @@ describe("Question recognition", () => {
     expect(commit.question).toEqual("#1");
   });
 
-  it("shouldn't find with space between question ID and colon", () => {
+  it("should find with space between question ID and colon", () => {
     commit.message = "Resolve #1 : WIP";
     commit.updateQuestion(questions);
-    expect(commit.question).toBeUndefined();
+    expect(commit.question).toEqual("#1");
   });
 
   it("should find with all the Github closing keywords", () => {

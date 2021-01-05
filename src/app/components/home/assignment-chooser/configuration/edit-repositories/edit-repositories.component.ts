@@ -2,7 +2,7 @@ import {
   AfterContentChecked,
   ChangeDetectorRef,
   Component,
-  OnInit,
+  OnInit
 } from "@angular/core";
 import {
   AbstractControl,
@@ -10,7 +10,7 @@ import {
   FormBuilder,
   ValidationErrors,
   ValidatorFn,
-  Validators,
+  Validators
 } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -79,16 +79,14 @@ export class EditRepositoriesComponent
   createFormGroup(data?: Repository) {
     return this.fb.group({
       url: [
-        data ? data.url : "",
+        data?.url,
         {
-          validators: [
-            Validators.required /*this.repoAlreadyAddedValidator()*/,
-          ],
+          validators: [Validators.required],
           asyncValidators: [this.accessToRepoValidator()],
         },
       ],
-      name: [data ? data.name : ""],
-      tpGroup: [data ? data.tpGroup : ""],
+      name: [data?.name],
+      tpGroup: [data?.tpGroup],
       errors: [data ? data.errors : []],
       isEditable: false,
       isInvalid: false,
@@ -131,12 +129,9 @@ export class EditRepositoriesComponent
   }
 
   getErrorTooltip(errors: Error[]): string {
-    if (!errors) return "";
-    // let tooltip = "- ";
-    // let errs = this.translateService.instant(errors.map(error => "ERROR-MESSAGE-" + error));
-    // console.log(errs);
-    // tooltip += errs.join("\n- ");
-    // return tooltip;
+    if (!errors) {
+      return "";
+    }
     return errors
       .map((err) => this.translateService.instant("ERROR-MESSAGE-" + err.type))
       .join(". ");

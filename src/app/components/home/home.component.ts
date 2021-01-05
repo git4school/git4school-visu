@@ -1,16 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { ClipboardService } from 'ngx-clipboard';
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { DatabaseService } from "@services/database.service";
+import { ClipboardService } from "ngx-clipboard";
 
 /**
  * This component is used for the Home page displaying useful information such as CHANGELOG,
  * a user guide or help with the structure of the configuration file or the ReadMe of the repositories
  */
 @Component({
-  selector: 'home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
   /**
@@ -21,8 +22,9 @@ export class HomeComponent implements OnInit {
   constructor(
     private clipboardService: ClipboardService,
     private http: HttpClient,
-    private translateService: TranslateService
-  ) { }
+    private translateService: TranslateService,
+    private databaseService: DatabaseService
+  ) {}
 
   /**
    * A variable used to get and display CHANGELOG directly from the repository
@@ -35,9 +37,9 @@ export class HomeComponent implements OnInit {
   readMe;
 
   updateReadMe() {
-    let tokenFirstName = this.translateService.instant('TOKEN-FIRST-NAME');
-    let tokenLastName = this.translateService.instant('TOKEN-LAST-NAME');
-    let tpGroup = this.translateService.instant('TP-GROUP');
+    let tokenFirstName = this.translateService.instant("TOKEN-FIRST-NAME");
+    let tokenLastName = this.translateService.instant("TOKEN-LAST-NAME");
+    let tpGroup = this.translateService.instant("TP-GROUP");
     this.readMe = `# First IT practical
 
 ### ${tokenLastName} : DOE
@@ -64,11 +66,11 @@ export class HomeComponent implements OnInit {
   getChangelog() {
     this.http
       .get(
-        'https://api.github.com/repos/git4school/git4school-visu/contents/CHANGELOG.md'
+        "https://api.github.com/repos/git4school/git4school-visu/contents/CHANGELOG.md"
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         this.changelog = decodeURIComponent(
-          escape(window.atob(data['content']))
+          escape(window.atob(data["content"]))
         );
       });
   }

@@ -1,4 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
+import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
+import { Assignment } from "@models/Assignment.model";
+import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { DataService } from "@services/data.service";
 import { ToastService } from "@services/toast.service";
@@ -8,6 +11,8 @@ import { ToastService } from "@services/toast.service";
   styleUrls: ["./configuration.component.scss"],
 })
 export class ConfigurationComponent implements OnInit {
+  @Input()
+  assignment: Assignment;
   metadataModified: boolean;
   repositoriesModified: boolean;
   sessionsModified: boolean;
@@ -15,7 +20,9 @@ export class ConfigurationComponent implements OnInit {
   constructor(
     public translateService: TranslateService,
     public dataService: DataService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public activeModalService: NgbActiveModal,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -33,33 +40,44 @@ export class ConfigurationComponent implements OnInit {
   }
 
   saveMetadata(metadata) {
-    this.dataService.title = metadata.title;
-    this.dataService.course = metadata.course;
-    this.dataService.program = metadata.program;
-    this.dataService.year = metadata.year;
-    this.dataService.startDate = metadata.startDate;
-    this.dataService.endDate = metadata.endDate;
-    this.dataService.questions = metadata.questions;
+    this.assignment.metadata = metadata;
 
     this.metadataModified = false;
 
-    this.successToast();
+    this.saveAssignment();
   }
 
   saveRepositories(repositories) {
-    this.dataService.repositories = repositories;
+    this.assignment.repositories = repositories;
 
     this.repositoriesModified = false;
 
-    this.successToast();
+    this.saveAssignment();
   }
 
   saveSessions(sessions) {
-    this.dataService.sessions = sessions;
+    this.assignment.sessions = sessions;
 
     this.sessionsModified = false;
 
-    this.successToast();
+    this.saveAssignment();
+  }
+
+  private saveAssignment() {
+    this.dataService
+      .saveData(this.assignment)
+      .then(() => this.successToast())
+      .catch(() => this.errorToast());
+  }
+
+  openUploadFileModal() {
+    let modalReference = this.modalService.open(FileChooserComponent, {});
+    modalReference.result.then((assignment) => {
+      assignment.id = this.assignment.id;
+      this.assignment = assignment;
+      this.saveAssignment();
+      this.activeModalService.close();
+    });
   }
 
   successToast() {
@@ -71,5 +89,9 @@ export class ConfigurationComponent implements OnInit {
       translations["SUCCESS"],
       translations["SUCCESS-MESSAGE"]
     );
+  }
+
+  errorToast(): any {
+    throw new Error("Method not implemented.");
   }
 }

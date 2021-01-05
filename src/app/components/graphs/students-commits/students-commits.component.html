@@ -16,8 +16,7 @@
   <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:'yyyy-MM-dd HH:mm' }}</span></div>
   <div class="separator"></div>
   <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"
-    data-toggle="tooltip" [ngbTooltip]="reloadTooltip" data-trigger="hover"
-    [disabled]="!dataService.repositories.length || loading">
+    [ngbTooltip]="reloadTooltip" [disabled]="!dataService.repositories.length || loading">
     <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>
     <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>
   </button>

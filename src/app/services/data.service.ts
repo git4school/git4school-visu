@@ -3,6 +3,7 @@ import { Assignment } from "@models/Assignment.model";
 import { Milestone } from "@models/Milestone.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
+import { DatabaseService } from "@services/database.service";
 import { JsonManagerService } from "@services/json-manager.service";
 
 /**
@@ -15,7 +16,7 @@ export class DataService {
   /**
    * The practical course, represents the data from the configuration file
    */
-  assignment: Assignment;
+  private _assignment: Assignment;
 
   /**
    * The TP groups of the class
@@ -32,23 +33,25 @@ export class DataService {
    */
   barIndex: number;
 
-  /**
-   * A boolean used to tell if data is fully loaded
-   */
-  dataLoaded: boolean;
-
   repoToLoad: boolean;
 
   /**
    * DataService constructor
    * @param jsonManager
    */
-  constructor(private jsonManager: JsonManagerService) {
-    this.dataLoaded = false;
+  constructor(
+    private jsonManager: JsonManagerService,
+    private databaseService: DatabaseService
+  ) {
     this.repoToLoad = false;
     this.barIndex = 5;
     this.tpGroups = [];
-    this.assignment = new Assignment();
+  }
+
+  saveData(assignment: Assignment = this.assignment): Promise<number> {
+    return this.databaseService
+      .saveAssignment(assignment)
+      .then((id) => (assignment.id = id));
   }
 
   /**
@@ -71,8 +74,25 @@ export class DataService {
     );
   }
 
+  /**
+   * Returns a boolean indicating if data is fully loaded
+   * @return true if data is fully loaded, false otherwise
+   */
+  dataLoaded(): boolean {
+    return !!this.assignment;
+  }
+
+  get assignment(): Assignment {
+    return this._assignment;
+  }
+
+  set assignment(assignment: Assignment) {
+    this._assignment = assignment;
+    this.repoToLoad = true;
+  }
+
   get title(): string {
-    return this.assignment.title;
+    return this.assignment?.title;
   }
 
   set title(title: string) {
@@ -80,7 +100,7 @@ export class DataService {
   }
 
   get questions(): string[] {
-    return this.assignment.questions;
+    return this.assignment?.questions;
   }
 
   set questions(questions: string[]) {
@@ -88,7 +108,7 @@ export class DataService {
   }
 
   get repositories(): Repository[] {
-    return this.assignment.repositories;
+    return this.assignment?.repositories;
   }
 
   set repositories(repos: Repository[]) {
@@ -97,7 +117,7 @@ export class DataService {
   }
 
   get sessions(): Session[] {
-    return this.assignment.sessions;
+    return this.assignment?.sessions;
   }
 
   set sessions(sessions: Session[]) {
@@ -105,7 +125,7 @@ export class DataService {
   }
 
   get corrections(): Milestone[] {
-    return this.assignment.corrections;
+    return this.assignment?.corrections;
   }
 
   set corrections(corrections: Milestone[]) {
@@ -113,7 +133,7 @@ export class DataService {
   }
 
   get reviews(): Milestone[] {
-    return this.assignment.reviews;
+    return this.assignment?.reviews;
   }
 
   set reviews(reviews: Milestone[]) {
@@ -121,7 +141,7 @@ export class DataService {
   }
 
   get others(): Milestone[] {
-    return this.assignment.others;
+    return this.assignment?.others;
   }
 
   set others(others: Milestone[]) {
@@ -129,23 +149,25 @@ export class DataService {
   }
 
   get startDate(): string {
-    return this.assignment.startDate;
+    return this.assignment?.startDate;
   }
 
   set startDate(startDate: string) {
+    this.repoToLoad = true;
     this.assignment.startDate = startDate;
   }
 
   get endDate(): string {
-    return this.assignment.endDate;
+    return this.assignment?.endDate;
   }
 
   set endDate(endDate: string) {
+    this.repoToLoad = true;
     this.assignment.endDate = endDate;
   }
 
   get course(): string {
-    return this.assignment.course;
+    return this.assignment?.course;
   }
 
   set course(course: string) {
@@ -153,7 +175,7 @@ export class DataService {
   }
 
   get program(): string {
-    return this.assignment.program;
+    return this.assignment?.program;
   }
 
   set program(program: string) {
@@ -161,7 +183,7 @@ export class DataService {
   }
 
   get year(): string {
-    return this.assignment.year;
+    return this.assignment?.year;
   }
 
   set year(year: string) {

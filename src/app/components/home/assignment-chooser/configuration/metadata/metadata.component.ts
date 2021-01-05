@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { DataService } from "@services/data.service";
+import { Metadata } from "@models/Metadata.model";
 import * as moment from "moment";
 import { BaseEditConfigurationComponent } from "../base-edit-configuration.component";
 
@@ -13,17 +13,10 @@ import { BaseEditConfigurationComponent } from "../base-edit-configuration.compo
   styleUrls: ["./metadata.component.scss"],
 })
 export class MetadataComponent
-  extends BaseEditConfigurationComponent
+  extends BaseEditConfigurationComponent<Metadata>
   implements OnInit {
-  /**
-   * A date before which commits are not retrieved from Github
-   */
-  startDate = "";
-
-  /**
-   * A date after which commits are not retrieved from Github
-   */
-  endDate = "";
+  @Input()
+  metadata: Metadata;
 
   /**
    * Settings for the typeahead text input
@@ -36,9 +29,8 @@ export class MetadataComponent
   /**
    * MetadataComponent constructor
    * @param toastService Service used to display toasts for success or error cases
-   * @param dataService Service used to store and get data
    */
-  constructor(public dataService: DataService) {
+  constructor() {
     super();
   }
 
@@ -46,14 +38,14 @@ export class MetadataComponent
    * When the component is initialized, we initialize startDate and endDate with data from dataService
    */
   ngOnInit() {
-    this.startDate =
-      this.dataService.startDate &&
-      moment(this.dataService.startDate, "YYYY-MM-DD HH:mm").format(
+    this.metadata.startDate =
+      this.metadata.startDate &&
+      moment(this.metadata.startDate, "YYYY-MM-DD HH:mm").format(
         "YYYY-MM-DDTHH:mm"
       );
-    this.endDate =
-      this.dataService.endDate &&
-      moment(this.dataService.endDate, "YYYY-MM-DD HH:mm").format(
+    this.metadata.endDate =
+      this.metadata.endDate &&
+      moment(this.metadata.endDate, "YYYY-MM-DD HH:mm").format(
         "YYYY-MM-DDTHH:mm"
       );
   }
@@ -65,8 +57,15 @@ export class MetadataComponent
    * @param form The submitted form
    */
   onSubmit(form: NgForm) {
-    let metadata = form.form.value;
+    let modifiedMetadata = form.form.value;
+    this.metadata.title = modifiedMetadata.title;
+    this.metadata.course = modifiedMetadata.course;
+    this.metadata.program = modifiedMetadata.program;
+    this.metadata.year = modifiedMetadata.year;
+    this.metadata.startDate = modifiedMetadata.startDate;
+    this.metadata.endDate = modifiedMetadata.endDate;
+    this.metadata.questions = modifiedMetadata.questions;
 
-    this.save.emit(metadata);
+    this.save.emit(this.metadata);
   }
 }
