@@ -225,9 +225,6 @@
                                 <a href="#adaptScaleWithChart">adaptScaleWithChart</a>
                             </li>
                             <li>
-                                <a href="#changeListener">changeListener</a>
-                            </li>
-                            <li>
                                 <a href="#changeUnit">changeUnit</a>
                             </li>
                             <li>
@@ -247,9 +244,6 @@
                             </li>
                             <li>
                                 <a href="#getDataFromChart">getDataFromChart</a>
-                            </li>
-                            <li>
-                                <a href="#getDataFromFile">getDataFromFile</a>
                             </li>
                             <li>
                                 <a href="#getPointStyle">getPointStyle</a>
@@ -300,7 +294,7 @@
                                 <a href="#onSubmit">onSubmit</a>
                             </li>
                             <li>
-                                <a href="#readFile">readFile</a>
+                                <a href="#openUploadFileModal">openUploadFileModal</a>
                             </li>
                             <li>
                                 <a href="#refreshGraph">refreshGraph</a>
@@ -328,9 +322,6 @@
                             </li>
                             <li>
                                 <a href="#updateLang">updateLang</a>
-                            </li>
-                            <li>
-                                <a href="#verifyJSON">verifyJSON</a>
                             </li>
                             <li>
                                     <span class="modifier">Abstract</span>
@@ -375,12 +366,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(translateService: TranslateService, commitsService: <a href="../injectables/CommitsService.html">CommitsService</a>, toastService: <a href="../injectables/ToastService.html">ToastService</a>, jsonManager: <a href="../injectables/JsonManagerService.html">JsonManagerService</a>, dataService: <a href="../injectables/DataService.html">DataService</a>, loaderService: <a href="../injectables/LoaderService.html">LoaderService</a>)</code>
+<code>constructor(translateService: TranslateService, commitsService: <a href="../injectables/CommitsService.html">CommitsService</a>, toastService: <a href="../injectables/ToastService.html">ToastService</a>, jsonManager: <a href="../injectables/JsonManagerService.html">JsonManagerService</a>, dataService: <a href="../injectables/DataService.html">DataService</a>, loaderService: <a href="../injectables/LoaderService.html">LoaderService</a>, modalService: NgbModal)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -469,6 +460,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>modalService</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgbModal</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -509,8 +512,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="648"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:648</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="583"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:583</a></div>
                 </td>
             </tr>
 
@@ -545,8 +548,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="691"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:691</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="626"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:626</a></div>
                 </td>
             </tr>
 
@@ -620,8 +623,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="685"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:685</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="620"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:620</a></div>
                 </td>
             </tr>
 
@@ -668,72 +671,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="changeListener"></a>
-                    <span class="name">
-                        <b>
-                            changeListener
-                        </b>
-                        <a href="#changeListener"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>changeListener($event)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="450"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:450</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>$event</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="changeUnit"></a>
                     <span class="name">
                         <b>
@@ -752,8 +689,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="586"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:586</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="558"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:558</a></div>
                 </td>
             </tr>
 
@@ -791,8 +728,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="659"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:659</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="594"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:594</a></div>
                 </td>
             </tr>
 
@@ -830,8 +767,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="576"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:576</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="548"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:548</a></div>
                 </td>
             </tr>
 
@@ -905,8 +842,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="551"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:551</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="521"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:521</a></div>
                 </td>
             </tr>
 
@@ -944,8 +881,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="676"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:676</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="611"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:611</a></div>
                 </td>
             </tr>
 
@@ -983,8 +920,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="711"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:711</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="656"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:656</a></div>
                 </td>
             </tr>
 
@@ -1022,8 +959,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="604"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:604</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="576"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:576</a></div>
                 </td>
             </tr>
 
@@ -1070,72 +1007,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getDataFromFile"></a>
-                    <span class="name">
-                        <b>
-                            getDataFromFile
-                        </b>
-                        <a href="#getDataFromFile"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getDataFromFile(text)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="610"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:610</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>text</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getPointStyle"></a>
                     <span class="name">
                         <b>
@@ -1154,8 +1025,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="596"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:596</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="568"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:568</a></div>
                 </td>
             </tr>
 
@@ -1224,8 +1095,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="493"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:493</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="461"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:461</a></div>
                 </td>
             </tr>
 
@@ -1290,8 +1161,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="259"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:259</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:235</a></div>
                 </td>
             </tr>
 
@@ -1329,8 +1200,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="326"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:326</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="302"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:302</a></div>
                 </td>
             </tr>
 
@@ -1368,8 +1239,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="227"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:227</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="203"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:203</a></div>
                 </td>
             </tr>
 
@@ -1450,8 +1321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="245"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:245</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="221"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:221</a></div>
                 </td>
             </tr>
 
@@ -1489,8 +1360,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="253"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:253</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="229"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:229</a></div>
                 </td>
             </tr>
 
@@ -1528,8 +1399,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="357"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:357</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="333"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:333</a></div>
                 </td>
             </tr>
 
@@ -1567,8 +1438,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="388"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:388</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="364"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:364</a></div>
                 </td>
             </tr>
 
@@ -1606,8 +1477,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="295"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:295</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="271"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:271</a></div>
                 </td>
             </tr>
 
@@ -1645,8 +1516,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="278"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:278</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:254</a></div>
                 </td>
             </tr>
 
@@ -1762,8 +1633,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="458"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:458</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="426"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:426</a></div>
                 </td>
             </tr>
 
@@ -1828,8 +1699,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="499"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:499</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="467"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:467</a></div>
                 </td>
             </tr>
 
@@ -1894,8 +1765,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="503"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:503</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="471"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:471</a></div>
                 </td>
             </tr>
 
@@ -1946,26 +1817,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="readFile"></a>
+                    <a name="openUploadFileModal"></a>
                     <span class="name">
                         <b>
-                            readFile
+                            openUploadFileModal
                         </b>
-                        <a href="#readFile"><span class="icon ion-ios-link"></span></a>
+                        <a href="#openUploadFileModal"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>readFile()</code>
+<code>openUploadFileModal()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="203"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:203</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="646"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:646</a></div>
                 </td>
             </tr>
 
@@ -2003,8 +1874,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="444"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:444</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="420"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:420</a></div>
                 </td>
             </tr>
 
@@ -2042,8 +1913,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="654"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:654</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="589"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:589</a></div>
                 </td>
             </tr>
 
@@ -2081,8 +1952,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="680"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:680</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="615"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:615</a></div>
                 </td>
             </tr>
 
@@ -2151,8 +2022,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="580"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:580</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="552"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:552</a></div>
                 </td>
             </tr>
 
@@ -2221,8 +2092,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="667"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:667</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="602"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:602</a></div>
                 </td>
             </tr>
 
@@ -2291,8 +2162,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="468"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:468</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="436"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:436</a></div>
                 </td>
             </tr>
 
@@ -2357,8 +2228,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="478"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:478</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="446"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:446</a></div>
                 </td>
             </tr>
 
@@ -2427,8 +2298,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="489"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:489</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="457"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:457</a></div>
                 </td>
             </tr>
 
@@ -2478,72 +2349,6 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="verifyJSON"></a>
-                    <span class="name">
-                        <b>
-                            verifyJSON
-                        </b>
-                        <a href="#verifyJSON"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>verifyJSON(json)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="767"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:767</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>json</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -3005,7 +2810,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -3080,7 +2885,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:43</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -3516,17 +3321,16 @@
   ViewChild,
 } from &quot;@angular/core&quot;;
 import { NgForm } from &quot;@angular/forms&quot;;
+import { FileChooserComponent } from &quot;@components/file-chooser/file-chooser.component&quot;;
 import { Commit, CommitColor } from &quot;@models/Commit.model&quot;;
 import { Milestone } from &quot;@models/Milestone.model&quot;;
-import { Repository } from &quot;@models/Repository.model&quot;;
-import { Session } from &quot;@models/Session.model&quot;;
+import { NgbModal } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { TranslateService, TranslationChangeEvent } from &quot;@ngx-translate/core&quot;;
 import { CommitsService } from &quot;@services/commits.service&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
 import { JsonManagerService } from &quot;@services/json-manager.service&quot;;
 import { LoaderService } from &quot;@services/loader.service&quot;;
 import { ToastService } from &quot;@services/toast.service&quot;;
-import * as Ajv from &quot;ajv&quot;;
 import { saveAs } from &quot;file-saver&quot;;
 import * as JSZip from &quot;jszip&quot;;
 import * as moment from &quot;moment&quot;;
@@ -3552,7 +3356,8 @@ export class OverviewComponent
     private toastService: ToastService,
     public jsonManager: JsonManagerService,
     public dataService: DataService,
-    protected loaderService: LoaderService
+    protected loaderService: LoaderService,
+    private modalService: NgbModal
   ) {
     super(loaderService);
   }
@@ -3708,30 +3513,6 @@ export class OverviewComponent
       noMatchesText: this.translateService.instant(&quot;SEARCH-NOT-FOUND&quot;),
       suggestionLimit: 5,
     };
-  }
-
-  readFile(): void {
-    const myReader: FileReader &#x3D; new FileReader();
-    myReader.onloadend &#x3D; (e) &#x3D;&gt; {
-      this.dataService.dataLoaded &#x3D; false;
-      let text &#x3D; null;
-      try {
-        text &#x3D; JSON.parse(myReader.result.toString());
-      } catch (e) {
-        this.toastService.error(
-          this.translateService.instant(&quot;INVALID-JSON&quot;),
-          e.message
-        );
-      }
-      if (text &amp;&amp; this.verifyJSON(text)) {
-        this.getDataFromFile(text);
-        setTimeout(() &#x3D;&gt; {
-          this.loadGraph(text.startDate, text.endDate);
-        });
-        $(&quot;#uploadFileModal&quot;).modal(&quot;hide&quot;);
-      }
-    };
-    myReader.readAsText(this.jsonManager.file);
   }
 
   loadGraph(startDate?: string, endDate?: string) {
@@ -3957,14 +3738,6 @@ export class OverviewComponent
     this.selectZoom(this.drag);
   }
 
-  changeListener($event): void {
-    if ($event.target.files[0]) {
-      this.jsonManager.file &#x3D; $event.target.files[0];
-      this.jsonManager.filename &#x3D; this.jsonManager.file.name;
-      this.readFile();
-    }
-  }
-
   onChartClick(event) {
     if (event.active.length &gt; 0) {
       const data &#x3D; this.getDataFromChart(event);
@@ -4033,6 +3806,8 @@ export class OverviewComponent
     }
     this.dataService[jalon.type].push(jalon);
 
+    this.dataService.saveData();
+
     form.resetForm({
       date: &quot;&quot;,
       label: &quot;&quot;,
@@ -4065,6 +3840,8 @@ export class OverviewComponent
       ),
       1
     );
+
+    this.dataService.saveData();
 
     this.loadGraphMetadata(
       this.dataService.repositories,
@@ -4115,43 +3892,6 @@ export class OverviewComponent
     const datasetIndex &#x3D; event.active[0]._datasetIndex;
     const dataIndex &#x3D; event.active[0]._index;
     return this.chartData[datasetIndex].data[dataIndex];
-  }
-
-  getDataFromFile(text) {
-    this.dataService.repositories &#x3D; text.repositories
-      .filter((repository) &#x3D;&gt;
-        repository.url.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
-      )
-      .map((repository) &#x3D;&gt; Repository.withJSON(repository));
-    if (text.repositories.length !&#x3D;&#x3D; this.dataService.repositories.length) {
-      let translations &#x3D; this.translateService.instant([
-        &quot;ERRORS.WARNING&quot;,
-        &quot;ERRORS.INVALID-URLS&quot;,
-      ]);
-      this.toastService.warning(
-        translations[&quot;ERRORS.WARNING&quot;],
-        translations[&quot;ERRORS.INVALID-URLS&quot;]
-      );
-    }
-    this.dataService.startDate &#x3D; text.startDate;
-    this.dataService.endDate &#x3D; text.endDate;
-    this.dataService.title &#x3D; text.title;
-    this.dataService.course &#x3D; text.course;
-    this.dataService.program &#x3D; text.program;
-    this.dataService.year &#x3D; text.year;
-    this.dataService.questions &#x3D; text.questions;
-    this.dataService.corrections &#x3D; text.corrections
-      ? text.corrections.map((data) &#x3D;&gt; Milestone.withJSON(data, &quot;corrections&quot;))
-      : undefined;
-    this.dataService.sessions &#x3D; text.sessions
-      ? text.sessions.map((data) &#x3D;&gt; Session.withJSON(data))
-      : undefined;
-    this.dataService.reviews &#x3D; text.reviews
-      ? text.reviews.map((data) &#x3D;&gt; Milestone.withJSON(data, &quot;reviews&quot;))
-      : undefined;
-    this.dataService.others &#x3D; text.others
-      ? text.others.map((data) &#x3D;&gt; Milestone.withJSON(data, &quot;others&quot;))
-      : undefined;
   }
 
   @HostListener(&quot;window:keyup&quot;, [&quot;$event&quot;])
@@ -4218,6 +3958,16 @@ export class OverviewComponent
     }
   }
 
+  openUploadFileModal() {
+    let modalReference &#x3D; this.modalService.open(FileChooserComponent, {});
+    modalReference.result.then((assignment) &#x3D;&gt; {
+      assignment.id &#x3D; this.dataService.assignment.id;
+      this.dataService.assignment &#x3D; assignment;
+      this.dataService.saveData();
+      this.loadGraph();
+    });
+  }
+
   download() {
     this.dataService.generateJSON();
     let colors &#x3D; [
@@ -4226,9 +3976,6 @@ export class OverviewComponent
       CommitColor.AFTER,
       CommitColor.NOCOMMIT,
     ];
-    let shortFilenameTab &#x3D; this.jsonManager.filename.split(&quot;.&quot;);
-    shortFilenameTab.pop();
-    let shortFilename &#x3D; shortFilenameTab.join(&quot;.&quot;);
 
     let questionsDict &#x3D; this.commitsService.initQuestionsDict(
       this.dataService.questions,
@@ -4259,195 +4006,17 @@ export class OverviewComponent
     };
 
     let zip &#x3D; new JSZip();
-    zip.file(
-      this.jsonManager.filename,
-      JSON.stringify(this.jsonManager.json, null, 2)
-    );
+    zip.file(&quot;conf.json&quot;, JSON.stringify(this.jsonManager.json, null, 2));
     zip.file(
       &quot;questions-completion.json&quot;,
       JSON.stringify(questionsDict, null, 2)
     );
     zip.file(&quot;students-commits.json&quot;, JSON.stringify(studentsDict, null, 2));
 
+    let filename &#x3D; this.dataService.title;
     zip.generateAsync({ type: &quot;blob&quot; }).then(function (content) {
-      saveAs(content, shortFilename + &quot;.zip&quot;);
+      saveAs(content, filename + &quot;.zip&quot;);
     });
-  }
-
-  verifyJSON(json) {
-    let regex &#x3D;
-      &quot;([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)&quot;;
-    let schema &#x3D; {
-      properties: {
-        title: {
-          type: &quot;string&quot;,
-        },
-        course: {
-          type: &quot;string&quot;,
-        },
-        program: {
-          type: &quot;string&quot;,
-        },
-        year: {
-          type: &quot;string&quot;,
-        },
-        startDate: {
-          type: &quot;string&quot;,
-          pattern: regex,
-        },
-        endDate: {
-          type: &quot;string&quot;,
-          pattern: regex,
-        },
-        questions: {
-          type: &quot;array&quot;,
-          uniqueItems: true,
-          items: {
-            type: &quot;string&quot;,
-          },
-        },
-        repositories: {
-          type: &quot;array&quot;,
-          uniqueItems: true,
-          minItems: 1,
-          items: {
-            properties: {
-              url: {
-                type: &quot;string&quot;,
-                format: &quot;uri&quot;,
-              },
-              name: {
-                type: &quot;string&quot;,
-              },
-              tpGroup: {
-                type: &quot;string&quot;,
-              },
-            },
-            required: [&quot;url&quot;],
-          },
-        },
-        sessions: {
-          type: &quot;array&quot;,
-          uniqueItems: true,
-          items: {
-            properties: {
-              startDate: {
-                type: &quot;string&quot;,
-                pattern: regex,
-              },
-              endDate: {
-                type: &quot;string&quot;,
-                pattern: regex,
-              },
-              tpGroup: {
-                type: &quot;string&quot;,
-              },
-            },
-            required: [&quot;startDate&quot;, &quot;endDate&quot;],
-          },
-        },
-        reviews: {
-          type: &quot;array&quot;,
-          uniqueItems: true,
-          items: {
-            properties: {
-              date: {
-                type: &quot;string&quot;,
-                pattern: regex,
-              },
-              label: {
-                type: &quot;string&quot;,
-              },
-              tpGroup: {
-                type: &quot;string&quot;,
-              },
-              questions: {
-                type: &quot;array&quot;,
-                uniqueItems: true,
-                items: {
-                  type: &quot;string&quot;,
-                },
-              },
-            },
-            required: [&quot;date&quot;],
-          },
-        },
-        corrections: {
-          type: &quot;array&quot;,
-          uniqueItems: true,
-          items: {
-            properties: {
-              date: {
-                type: &quot;string&quot;,
-                pattern: regex,
-              },
-              label: {
-                type: &quot;string&quot;,
-              },
-              tpGroup: {
-                type: &quot;string&quot;,
-              },
-              questions: {
-                type: &quot;array&quot;,
-                uniqueItems: true,
-                items: {
-                  type: &quot;string&quot;,
-                },
-              },
-            },
-            required: [&quot;date&quot;],
-          },
-        },
-        others: {
-          type: &quot;array&quot;,
-          uniqueItems: true,
-          items: {
-            properties: {
-              date: {
-                type: &quot;string&quot;,
-                pattern: regex,
-              },
-              label: {
-                type: &quot;string&quot;,
-              },
-              tpGroup: {
-                type: &quot;string&quot;,
-              },
-              questions: {
-                type: &quot;array&quot;,
-                uniqueItems: true,
-                items: {
-                  type: &quot;string&quot;,
-                },
-              },
-            },
-            required: [&quot;date&quot;],
-          },
-        },
-      },
-      required: [&quot;title&quot;, &quot;questions&quot;, &quot;repositories&quot;],
-    };
-
-    let ajv &#x3D; new Ajv({ $data: true, allErrors: true, verbose: true });
-    let valid &#x3D; ajv.validate(schema, json);
-
-    if (!valid) {
-      let errorMessage &#x3D;
-        &quot;&amp;emsp;&quot; +
-        ajv.errors
-          .map((error) &#x3D;&gt; {
-            return error.dataPath + &quot; &quot; + error.message;
-          })
-          .join(&quot;&lt;br&gt;&amp;emsp;&quot;);
-      this.toastService.error(
-        this.translateService.instant(&quot;INVALID-CONF-FILE&quot;),
-        errorMessage
-      );
-
-      return false;
-    }
-
-    return true;
   }
 }
 </code></pre>
@@ -4460,18 +4029,18 @@ export class OverviewComponent
             &lt;div class&#x3D;&quot;input-group&quot;&gt;
                 &lt;type-ahead placeholder&#x3D;&quot;{{ &#x27;OVERVIEW-GRAPH.SEARCH-PLACEHOLDER&#x27; | translate }}&quot; name&#x3D;&quot;search&quot;
                     [suggestions]&#x3D;&quot;dataService.questions&quot; class&#x3D;&quot;form-control&quot; [multi]&#x3D;&quot;true&quot; [custom]&#x3D;&quot;false&quot;
-                    [settings]&#x3D;&quot;typeaheadSettings&quot; [disabled]&#x3D;&quot;!dataService.questions.length || loading&quot; ngModel&gt;
+                    [settings]&#x3D;&quot;typeaheadSettings&quot; [disabled]&#x3D;&quot;!dataService.questions?.length || loading&quot; ngModel&gt;
                 &lt;/type-ahead&gt;
                 &lt;div class&#x3D;&quot;input-group-append&quot;&gt;
                     &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; id&#x3D;&quot;search-submit&quot;
-                        [disabled]&#x3D;&quot;!dataService.questions.length || loading&quot;
-                        type&#x3D;&quot;submit&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.SEARCH-BUTTON&#x27; | translate }}&lt;/button&gt;
+                        [disabled]&#x3D;&quot;!dataService.questions?.length || loading&quot; type&#x3D;&quot;submit&quot;&gt;{{
+                        &#x27;OVERVIEW-GRAPH.SEARCH-BUTTON&#x27; | translate }}&lt;/button&gt;
                 &lt;/div&gt;
             &lt;/div&gt;
         &lt;/form&gt;
     &lt;/div&gt;
     &lt;div class&#x3D;&quot;pl-2&quot;&gt;
-        &lt;select class&#x3D;&quot;form-control&quot; [disabled]&#x3D;&quot;!dataService.tpGroups.length || loading&quot; [(ngModel)]&#x3D;&quot;tpGroup&quot;
+        &lt;select class&#x3D;&quot;form-control&quot; [disabled]&#x3D;&quot;!dataService.tpGroups?.length || loading&quot; [(ngModel)]&#x3D;&quot;tpGroup&quot;
             (change)&#x3D;&quot;this.loadGraphDataAndRefresh()&quot; placeholder&#x3D;&quot;d.ff&quot;&gt;
             &lt;option [ngValue]&#x3D;&quot;undefined&quot; hidden disabled&gt;{{ &#x27;TP-GROUP-SELECT.PLACEHOLDER&#x27; | translate }}
             &lt;/option&gt;
@@ -4483,8 +4052,7 @@ export class OverviewComponent
     &lt;div&gt;
         &lt;div class&#x3D;&quot;dropdown&quot;&gt;
             &lt;button class&#x3D;&quot;btn btn-secondary dropdown-toggle&quot; [disabled]&#x3D;&quot;loading&quot; type&#x3D;&quot;button&quot; id&#x3D;&quot;dropdownMenuButton&quot;
-                data-toggle&#x3D;&quot;dropdown&quot; aria-haspopup&#x3D;&quot;true&quot; aria-expanded&#x3D;&quot;false&quot; data-trigger&#x3D;&quot;hover&quot;
-                [ngbTooltip]&#x3D;&quot;markersTooltip&quot;&gt;
+                data-toggle&#x3D;&quot;dropdown&quot; aria-haspopup&#x3D;&quot;true&quot; aria-expanded&#x3D;&quot;false&quot; [ngbTooltip]&#x3D;&quot;markersTooltip&quot;&gt;
                 {{ &#x27;OVERVIEW-GRAPH.MARKERS.BUTTON&#x27; | translate }}
             &lt;/button&gt;
             &lt;div class&#x3D;&quot;dropdown-menu&quot;&gt;
@@ -4493,29 +4061,29 @@ export class OverviewComponent
                         &lt;input type&#x3D;&quot;checkbox&quot; class&#x3D;&quot;custom-control-input&quot; id&#x3D;&quot;sessionsSwitch&quot;
                             [(ngModel)]&#x3D;&quot;showSessions&quot; (change)&#x3D;&quot;this.loadGraphDataAndRefresh()&quot;
                             [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
-                        &lt;label class&#x3D;&quot;custom-control-label&quot;
-                            for&#x3D;&quot;sessionsSwitch&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MARKERS.SESSIONS&#x27; | translate }}&lt;/label&gt;
+                        &lt;label class&#x3D;&quot;custom-control-label&quot; for&#x3D;&quot;sessionsSwitch&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MARKERS.SESSIONS&#x27; |
+                            translate }}&lt;/label&gt;
                     &lt;/div&gt;
                     &lt;div class&#x3D;&quot;custom-control custom-switch&quot;&gt;
                         &lt;input type&#x3D;&quot;checkbox&quot; class&#x3D;&quot;custom-control-input&quot; id&#x3D;&quot;correctionsSwitch&quot;
                             [(ngModel)]&#x3D;&quot;showCorrections&quot; (change)&#x3D;&quot;this.loadGraphDataAndRefresh()&quot;
                             [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
-                        &lt;label class&#x3D;&quot;custom-control-label&quot;
-                            for&#x3D;&quot;correctionsSwitch&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MARKERS.CORRECTIONS&#x27; | translate }}&lt;/label&gt;
+                        &lt;label class&#x3D;&quot;custom-control-label&quot; for&#x3D;&quot;correctionsSwitch&quot;&gt;{{
+                            &#x27;OVERVIEW-GRAPH.MARKERS.CORRECTIONS&#x27; | translate }}&lt;/label&gt;
                     &lt;/div&gt;
                     &lt;div class&#x3D;&quot;custom-control custom-switch&quot;&gt;
                         &lt;input type&#x3D;&quot;checkbox&quot; class&#x3D;&quot;custom-control-input&quot; selected id&#x3D;&quot;reviewsSwitch&quot;
                             [(ngModel)]&#x3D;&quot;showReviews&quot; (change)&#x3D;&quot;this.loadGraphDataAndRefresh()&quot;
                             [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
-                        &lt;label class&#x3D;&quot;custom-control-label&quot;
-                            for&#x3D;&quot;reviewsSwitch&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MARKERS.REVIEWS&#x27; | translate }}&lt;/label&gt;
+                        &lt;label class&#x3D;&quot;custom-control-label&quot; for&#x3D;&quot;reviewsSwitch&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MARKERS.REVIEWS&#x27; |
+                            translate }}&lt;/label&gt;
                     &lt;/div&gt;
                     &lt;div class&#x3D;&quot;custom-control custom-switch&quot;&gt;
                         &lt;input type&#x3D;&quot;checkbox&quot; class&#x3D;&quot;custom-control-input&quot; selected id&#x3D;&quot;othersSwitch&quot;
                             [(ngModel)]&#x3D;&quot;showOthers&quot; (change)&#x3D;&quot;this.loadGraphDataAndRefresh()&quot;
                             [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
-                        &lt;label class&#x3D;&quot;custom-control-label&quot;
-                            for&#x3D;&quot;othersSwitch&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MARKERS.OTHERS&#x27; | translate }}&lt;/label&gt;
+                        &lt;label class&#x3D;&quot;custom-control-label&quot; for&#x3D;&quot;othersSwitch&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MARKERS.OTHERS&#x27; |
+                            translate }}&lt;/label&gt;
                     &lt;/div&gt;
                 &lt;/form&gt;
             &lt;/div&gt;
@@ -4524,15 +4092,15 @@ export class OverviewComponent
     &lt;div class&#x3D;&quot;separator&quot;&gt;&lt;/div&gt;
     &lt;div&gt;
         &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; aria-label&#x3D;&quot;Interaction controls&quot;&gt;
-            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; [disabled]&#x3D;&quot;loading&quot; (click)&#x3D;&quot;resetZoom()&quot; data-toggle&#x3D;&quot;tooltip&quot;
-                [ngbTooltip]&#x3D;&quot;resetZoomTooltip&quot; data-trigger&#x3D;&quot;hover&quot;&gt;
+            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; [disabled]&#x3D;&quot;loading&quot; (click)&#x3D;&quot;resetZoom()&quot;
+                [ngbTooltip]&#x3D;&quot;resetZoomTooltip&quot;&gt;
                 &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
                     &lt;i class&#x3D;&quot;fas fa-search&quot;&gt;&lt;/i&gt;
                     &lt;i class&#x3D;&quot;fas fa-times&quot; data-fa-transform&#x3D;&quot;shrink-8 up-1.6 left-2&quot;&gt;&lt;/i&gt;
                 &lt;/span&gt;
             &lt;/button&gt;
-            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; data-toggle&#x3D;&quot;tooltip&quot; [ngbTooltip]&#x3D;&quot;changeZoomTooltip&quot;
-                data-trigger&#x3D;&quot;hover&quot; [disabled]&#x3D;&quot;loading&quot; (click)&#x3D;&quot;changeZoom()&quot;&gt;
+            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; [ngbTooltip]&#x3D;&quot;changeZoomTooltip&quot; [disabled]&#x3D;&quot;loading&quot;
+                (click)&#x3D;&quot;changeZoom()&quot;&gt;
                 &lt;div *ngIf&#x3D;&quot;drag&quot;&gt;
                     &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
                         &lt;i class&#x3D;&quot;fas fa-mouse-pointer&quot; data-fa-transform&#x3D;&quot;shrink-2 right-5 down-6&quot;&gt;&lt;/i&gt;
@@ -4546,8 +4114,8 @@ export class OverviewComponent
                     &lt;/span&gt;
                 &lt;/div&gt;
             &lt;/button&gt;
-            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; (click)&#x3D;&quot;changeUnit()&quot; data-toggle&#x3D;&quot;tooltip&quot;
-                [ngbTooltip]&#x3D;&quot;changeTimeScaleTooltip&quot; [disabled]&#x3D;&quot;loading&quot; data-trigger&#x3D;&quot;hover&quot;&gt;
+            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; (click)&#x3D;&quot;changeUnit()&quot; [ngbTooltip]&#x3D;&quot;changeTimeScaleTooltip&quot;
+                [disabled]&#x3D;&quot;loading&quot;&gt;
                 &lt;div *ngIf&#x3D;&quot;unit &#x3D;&#x3D;&#x3D; &#x27;week&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-calendar-week&quot;&gt;&lt;/i&gt;&lt;/div&gt;
                 &lt;div *ngIf&#x3D;&quot;unit &#x3D;&#x3D;&#x3D; &#x27;hour&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-clock&quot;&gt;&lt;/i&gt;&lt;/div&gt;
                 &lt;div *ngIf&#x3D;&quot;unit &#x3D;&#x3D;&#x3D; &#x27;day&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-calendar-day&quot;&gt;&lt;/i&gt;&lt;/div&gt;
@@ -4558,12 +4126,11 @@ export class OverviewComponent
     &lt;div&gt;
         &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; aria-label&#x3D;&quot;File controls&quot;&gt;
             &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; [ngbTooltip]&#x3D;&quot;downloadTooltip&quot; (click)&#x3D;&quot;download()&quot;
-                [disabled]&#x3D;&quot;loading&quot; data-toggle&#x3D;&quot;tooltip&quot; data-trigger&#x3D;&quot;hover&quot;&gt;&lt;i class&#x3D;&quot;fas fa-download&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; [ngbTooltip]&#x3D;&quot;uploadTooltip&quot; data-toggle&#x3D;&quot;modal&quot;
-                data-target&#x3D;&quot;#uploadFileModal&quot; data-trigger&#x3D;&quot;hover&quot;&gt;&lt;i class&#x3D;&quot;fas fa-upload&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                [disabled]&#x3D;&quot;loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-download&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; [ngbTooltip]&#x3D;&quot;uploadTooltip&quot; (click)&#x3D;&quot;openUploadFileModal()&quot;&gt;&lt;i
+                    class&#x3D;&quot;fas fa-upload&quot;&gt;&lt;/i&gt;&lt;/button&gt;
             &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; (click)&#x3D;&quot;loadGraph(dataService.startDate, dataService.endDate)&quot;
-                [disabled]&#x3D;&quot;!dataService.repositories.length || loading&quot; data-toggle&#x3D;&quot;tooltip&quot;
-                [ngbTooltip]&#x3D;&quot;reloadTooltip&quot; data-trigger&#x3D;&quot;hover&quot;&gt;
+                [disabled]&#x3D;&quot;!dataService.repositories?.length || loading&quot; [ngbTooltip]&#x3D;&quot;reloadTooltip&quot;&gt;
                 &lt;div *ngIf&#x3D;&quot;loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sync-alt fa-spin&quot;&gt;&lt;/i&gt;&lt;/div&gt;
                 &lt;div *ngIf&#x3D;&quot;!loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sync-alt&quot;&gt;&lt;/i&gt;&lt;/div&gt;
             &lt;/button&gt;
@@ -4620,7 +4187,8 @@ export class OverviewComponent
         &lt;div class&#x3D;&quot;modal-content&quot;&gt;
             &lt;div class&#x3D;&quot;modal-header&quot;&gt;
                 &lt;h5 class&#x3D;&quot;modal-title&quot; id&#x3D;&quot;addMilestoneModalLabel&quot;&gt;
-                    {{ (this.addModal ? &#x27;OVERVIEW-GRAPH.MODAL.TITLE-CREATE&#x27; : &#x27;OVERVIEW-GRAPH.MODAL.TITLE-EDIT&#x27;) | translate }}
+                    {{ (this.addModal ? &#x27;OVERVIEW-GRAPH.MODAL.TITLE-CREATE&#x27; : &#x27;OVERVIEW-GRAPH.MODAL.TITLE-EDIT&#x27;) |
+                    translate }}
                 &lt;/h5&gt;
                 &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close&quot; data-dismiss&#x3D;&quot;modal&quot; aria-label&#x3D;&quot;Close&quot;&gt;
                     &lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
@@ -4634,22 +4202,23 @@ export class OverviewComponent
                             required ngModel&gt;
                     &lt;/div&gt;
                     &lt;div class&#x3D;&quot;form-group&quot;&gt;
-                        &lt;label for&#x3D;&quot;recipient-name&quot;
-                            class&#x3D;&quot;col-form-label&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MODAL.LABEL&#x27; | translate }} :&lt;/label&gt;
+                        &lt;label for&#x3D;&quot;recipient-name&quot; class&#x3D;&quot;col-form-label&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MODAL.LABEL&#x27; | translate
+                            }} :&lt;/label&gt;
                         &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; id&#x3D;&quot;recipient-name&quot; name&#x3D;&quot;label&quot; [ngModel]&#x3D;&quot;labelModal&quot;
                             ngModel&gt;
                     &lt;/div&gt;
                     &lt;div class&#x3D;&quot;form-group&quot;&gt;
-                        &lt;label for&#x3D;&quot;message-text&quot;
-                            class&#x3D;&quot;col-form-label&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MODAL.TP-GROUP&#x27; | translate }} :&lt;/label&gt;
+                        &lt;label for&#x3D;&quot;message-text&quot; class&#x3D;&quot;col-form-label&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MODAL.TP-GROUP&#x27; | translate
+                            }} :&lt;/label&gt;
                         &lt;select class&#x3D;&quot;form-control&quot; [ngModel]&#x3D;&quot;tpGroupModal&quot; (change)&#x3D;&quot;this.loadGraphDataAndRefresh()&quot;
                             placeholder&#x3D;&quot;d.ff&quot; name&#x3D;&quot;tpGroup&quot; id&#x3D;&quot;tpGroup&quot;&gt;
                             &lt;option *ngFor&#x3D;&quot;let tpGroup of dataService.tpGroups&quot; [value]&#x3D;&quot;tpGroup&quot;&gt;{{tpGroup}}&lt;/option&gt;
+                            &lt;option value&#x3D;&quot;&quot;&gt;{{ &#x27;TP-GROUP-SELECT.ALL&#x27; | translate }}&lt;/option&gt;
                         &lt;/select&gt;
                     &lt;/div&gt;
                     &lt;div class&#x3D;&quot;form-group&quot;&gt;
-                        &lt;label id&#x3D;&quot;questions-tooltip&quot; for&#x3D;&quot;questions&quot;
-                            class&#x3D;&quot;col-form-label&quot;&gt;{{ &#x27;QUESTIONS&#x27; | translate }} :&lt;/label&gt;
+                        &lt;label id&#x3D;&quot;questions-tooltip&quot; for&#x3D;&quot;questions&quot; class&#x3D;&quot;col-form-label&quot;&gt;{{ &#x27;QUESTIONS&#x27; | translate
+                            }} :&lt;/label&gt;
                         &lt;type-ahead placeholder&#x3D;&quot;{{ &#x27;OVERVIEW-GRAPH.MODAL.QUESTIONS-PLACEHOLDER&#x27; | translate }}&quot;
                             name&#x3D;&quot;questions&quot; id&#x3D;&quot;questions&quot; [ngModel]&#x3D;&quot;questionsModal&quot;
                             [suggestions]&#x3D;&quot;dataService.questions&quot; class&#x3D;&quot;form-control&quot; [multi]&#x3D;&quot;true&quot; [custom]&#x3D;&quot;false&quot;
@@ -4672,41 +4241,10 @@ export class OverviewComponent
                         &lt;label class&#x3D;&quot;custom-control-label&quot; for&#x3D;&quot;customRadio3&quot;&gt;{{ &#x27;OTHER&#x27; | translate }}&lt;/label&gt;
                     &lt;/div&gt;
                     &lt;hr&gt;
-                    &lt;button *ngIf&#x3D;&quot;!addModal&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger col-5&quot;
-                        (click)&#x3D;&quot;deleteMilestone()&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MODAL.DELETE&#x27; | translate }}&lt;/button&gt;
-                    &lt;button type&#x3D;&quot;submit&quot; class&#x3D;&quot;btn btn-primary col-5 float-right&quot;
-                        [disabled]&#x3D;&quot;f.invalid&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.MODAL.CONFIRM&#x27; | translate }}&lt;/button&gt;
-                &lt;/form&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class&#x3D;&quot;modal fade&quot; id&#x3D;&quot;uploadFileModal&quot; tabindex&#x3D;&quot;-1&quot; role&#x3D;&quot;dialog&quot; aria-labelledby&#x3D;&quot;uploadFileModalLabel&quot;
-    aria-hidden&#x3D;&quot;true&quot;&gt;
-    &lt;div class&#x3D;&quot;modal-dialog&quot; role&#x3D;&quot;document&quot;&gt;
-        &lt;div class&#x3D;&quot;modal-content&quot;&gt;
-            &lt;div class&#x3D;&quot;modal-header&quot;&gt;
-                &lt;h5 class&#x3D;&quot;modal-title&quot; id&#x3D;&quot;uploadFileModalLabel&quot;&gt;{{ &#x27;OVERVIEW-GRAPH.UPLOAD.TITLE&#x27; | translate }}&lt;/h5&gt;
-                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close&quot; data-dismiss&#x3D;&quot;modal&quot; aria-label&#x3D;&quot;Close&quot;&gt;
-                    &lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
-                &lt;/button&gt;
-            &lt;/div&gt;
-            &lt;div class&#x3D;&quot;modal-body&quot;&gt;
-                &lt;form #uploadForm&gt;
-                    &lt;div class&#x3D;&quot;input-group&quot;&gt;
-                        &lt;div class&#x3D;&quot;input-group-prepend &quot;&gt;
-                            &lt;span class&#x3D;&quot;input-group-text&quot; id&#x3D;&quot;inputGroupFileAddon01&quot;&gt;&lt;i
-                                    class&#x3D;&quot;fas fa-upload&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                        &lt;/div&gt;
-                        &lt;div class&#x3D;&quot;custom-file&quot;&gt;
-                            &lt;input type&#x3D;&quot;file&quot; class&#x3D;&quot;custom-file-input&quot; id&#x3D;&quot;inputGroupFile01&quot;
-                                aria-describedby&#x3D;&quot;inputGroupFileAddon01&quot; (change)&#x3D;&quot;changeListener($event)&quot;
-                                (click)&#x3D;&quot;uploadForm.reset()&quot; /&gt;
-                            &lt;label class&#x3D;&quot;custom-file-label&quot;
-                                for&#x3D;&quot;inputGroupFile01&quot;&gt;{{ jsonManager.filename || ( &#x27;OVERVIEW-GRAPH.UPLOAD.FILE-PLACEHOLDER&#x27; | translate ) }}&lt;/label&gt;
-                        &lt;/div&gt;
-                    &lt;/div&gt;
+                    &lt;button *ngIf&#x3D;&quot;!addModal&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger col-5&quot; (click)&#x3D;&quot;deleteMilestone()&quot;&gt;{{
+                        &#x27;OVERVIEW-GRAPH.MODAL.DELETE&#x27; | translate }}&lt;/button&gt;
+                    &lt;button type&#x3D;&quot;submit&quot; class&#x3D;&quot;btn btn-primary col-5 float-right&quot; [disabled]&#x3D;&quot;f.invalid&quot;&gt;{{
+                        &#x27;OVERVIEW-GRAPH.MODAL.CONFIRM&#x27; | translate }}&lt;/button&gt;
                 &lt;/form&gt;
             &lt;/div&gt;
         &lt;/div&gt;
@@ -4754,8 +4292,8 @@ export class OverviewComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="d-flex flex-row p-3">    <div class="w-50">        <form (ngSubmit)="searchSubmit(searchForm)" #searchForm="ngForm">            <div class="input-group">                <type-ahead placeholder="{{ \'OVERVIEW-GRAPH.SEARCH-PLACEHOLDER\' | translate }}" name="search"                    [suggestions]="dataService.questions" class="form-control" [multi]="true" [custom]="false"                    [settings]="typeaheadSettings" [disabled]="!dataService.questions.length || loading" ngModel>                </type-ahead>                <div class="input-group-append">                    <button class="btn btn-outline-secondary" id="search-submit"                        [disabled]="!dataService.questions.length || loading"                        type="submit">{{ \'OVERVIEW-GRAPH.SEARCH-BUTTON\' | translate }}</button>                </div>            </div>        </form>    </div>    <div class="pl-2">        <select class="form-control" [disabled]="!dataService.tpGroups.length || loading" [(ngModel)]="tpGroup"            (change)="this.loadGraphDataAndRefresh()" placeholder="d.ff">            <option [ngValue]="undefined" hidden disabled>{{ \'TP-GROUP-SELECT.PLACEHOLDER\' | translate }}            </option>            <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>            <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>        </select>    </div>    <div class="separator"></div>    <div>        <div class="dropdown">            <button class="btn btn-secondary dropdown-toggle" [disabled]="loading" type="button" id="dropdownMenuButton"                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-trigger="hover"                [ngbTooltip]="markersTooltip">                {{ \'OVERVIEW-GRAPH.MARKERS.BUTTON\' | translate }}            </button>            <div class="dropdown-menu">                <form class="px-4 py-3">                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" id="sessionsSwitch"                            [(ngModel)]="showSessions" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label"                            for="sessionsSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.SESSIONS\' | translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" id="correctionsSwitch"                            [(ngModel)]="showCorrections" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label"                            for="correctionsSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.CORRECTIONS\' | translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" selected id="reviewsSwitch"                            [(ngModel)]="showReviews" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label"                            for="reviewsSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.REVIEWS\' | translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" selected id="othersSwitch"                            [(ngModel)]="showOthers" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label"                            for="othersSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.OTHERS\' | translate }}</label>                    </div>                </form>            </div>        </div>    </div>    <div class="separator"></div>    <div>        <div class="btn-group" role="group" aria-label="Interaction controls">            <button class="btn btn-outline-secondary" [disabled]="loading" (click)="resetZoom()" data-toggle="tooltip"                [ngbTooltip]="resetZoomTooltip" data-trigger="hover">                <span class="fa-layers fa-fw">                    <i class="fas fa-search"></i>                    <i class="fas fa-times" data-fa-transform="shrink-8 up-1.6 left-2"></i>                </span>            </button>            <button class="btn btn-outline-secondary" data-toggle="tooltip" [ngbTooltip]="changeZoomTooltip"                data-trigger="hover" [disabled]="loading" (click)="changeZoom()">                <div *ngIf="drag">                    <span class="fa-layers fa-fw">                        <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                        <i class="far fa-square" data-fa-transform="shrink-2 up-6 left-5"></i>                    </span>                </div>                <div *ngIf="!drag">                    <span class="fa-layers fa-fw">                        <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                        <i class="fas fa-arrows-alt-h" data-fa-transform="up-6 left-5"></i>                    </span>                </div>            </button>            <button class="btn btn-outline-secondary" (click)="changeUnit()" data-toggle="tooltip"                [ngbTooltip]="changeTimeScaleTooltip" [disabled]="loading" data-trigger="hover">                <div *ngIf="unit === \'week\'"><i class="fas fa-calendar-week"></i></div>                <div *ngIf="unit === \'hour\'"><i class="fas fa-clock"></i></div>                <div *ngIf="unit === \'day\'"><i class="fas fa-calendar-day"></i></div>            </button>        </div>    </div>    <div class="separator"></div>    <div>        <div class="btn-group" role="group" aria-label="File controls">            <button class="btn btn-outline-secondary" [ngbTooltip]="downloadTooltip" (click)="download()"                [disabled]="loading" data-toggle="tooltip" data-trigger="hover"><i class="fas fa-download"></i></button>            <button class="btn btn-outline-secondary" [ngbTooltip]="uploadTooltip" data-toggle="modal"                data-target="#uploadFileModal" data-trigger="hover"><i class="fas fa-upload"></i></button>            <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"                [disabled]="!dataService.repositories.length || loading" data-toggle="tooltip"                [ngbTooltip]="reloadTooltip" data-trigger="hover">                <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>                <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>            </button>        </div>    </div></div><div class="chart-container">    <canvas #myChart id="myChart" baseChart [chartType]="\'line\'" [datasets]="chartData" [options]="chartOptions"        [legend]="false" (chartClick)="onChartClick($event)" (chartHover)="onChartHover($event)">    </canvas></div><div class="card">    <h5 class="card-header">        <a data-toggle="collapse" href="#legendCollapse" aria-expanded="true" aria-controls="legendCollapse"            style="text-decoration:none" id="heading-example" class="d-block collapsed">            <i class="fa fa-chevron-down float-right"></i>            {{ \'OVERVIEW-GRAPH.LEGEND.TITLE\' | translate }}        </a>    </h5>    <div id="legendCollapse" class="collapse">        <div class="card-body">            <p class="card-text">                <i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.COMMIT\' | translate }}                <i class="far fa-circle fa-fw ml-3"></i> {{ \'OVERVIEW-GRAPH.LEGEND.CLOSING\' | translate }}<br>                <i class="fas fa-circle fa-fw" style="color:rgb(77, 77, 77)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.INTERMEDIATE\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(53, 198, 146)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.BEFORE\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(255, 127, 74)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.BETWEEN\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(203, 91, 68)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.AFTER\' | translate }}<br>                <i class="fas fa-minus" data-fa-transform="rotate-90" style="color:blue"></i>                {{ \'REVIEW\' | translate }}                <i class="fas fa-minus ml-3" data-fa-transform="rotate-90" style="color:red"></i>                {{ \'CORRECTION\' | translate }}                <i class="fas fa-minus ml-3" data-fa-transform="rotate-90"></i>                {{ \'OTHER\' | translate }}<br>                <span class="fa-layers fa-fw">                    <i class="fas fa-square" style="color:rgba(33, 150, 243, 0.15)"></i>                    <i class="far fa-square" style="color:rgba(79, 195, 247,1.0)"></i>                </span> {{ \'SESSION\' | translate }}            </p>        </div>    </div></div><div class="modal fade" id="addMilestoneModal" tabindex="-1" role="dialog" aria-labelledby="addMilestoneModalLabel"    aria-hidden="true">    <div class="modal-dialog" role="document">        <div class="modal-content">            <div class="modal-header">                <h5 class="modal-title" id="addMilestoneModalLabel">                    {{ (this.addModal ? \'OVERVIEW-GRAPH.MODAL.TITLE-CREATE\' : \'OVERVIEW-GRAPH.MODAL.TITLE-EDIT\') | translate }}                </h5>                <button type="button" class="close" data-dismiss="modal" aria-label="Close">                    <span aria-hidden="true">&times;</span>                </button>            </div>            <div class="modal-body">                <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm">                    <div class="form-group">                        <label for="date" class="col-form-label">{{ \'DATE\' | translate }} :</label>                        <input class="form-control" type="datetime-local" [ngModel]="dateModal" id="date" name="date"                            required ngModel>                    </div>                    <div class="form-group">                        <label for="recipient-name"                            class="col-form-label">{{ \'OVERVIEW-GRAPH.MODAL.LABEL\' | translate }} :</label>                        <input type="text" class="form-control" id="recipient-name" name="label" [ngModel]="labelModal"                            ngModel>                    </div>                    <div class="form-group">                        <label for="message-text"                            class="col-form-label">{{ \'OVERVIEW-GRAPH.MODAL.TP-GROUP\' | translate }} :</label>                        <select class="form-control" [ngModel]="tpGroupModal" (change)="this.loadGraphDataAndRefresh()"                            placeholder="d.ff" name="tpGroup" id="tpGroup">                            <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>                        </select>                    </div>                    <div class="form-group">                        <label id="questions-tooltip" for="questions"                            class="col-form-label">{{ \'QUESTIONS\' | translate }} :</label>                        <type-ahead placeholder="{{ \'OVERVIEW-GRAPH.MODAL.QUESTIONS-PLACEHOLDER\' | translate }}"                            name="questions" id="questions" [ngModel]="questionsModal"                            [suggestions]="dataService.questions" class="form-control" [multi]="true" [custom]="false"                            [settings]="typeaheadSettings" ngModel>                        </type-ahead>                    </div>                    <div class="custom-control custom-radio custom-control-inline">                        <input type="radio" id="customRadio1" name="jalon" class="custom-control-input"                            value="corrections" [ngModel]="typeModal" required ngModel>                        <label class="custom-control-label" for="customRadio1">{{ \'CORRECTION\' | translate }}</label>                    </div>                    <div class="custom-control custom-radio custom-control-inline">                        <input type="radio" id="customRadio2" name="jalon" class="custom-control-input" value="reviews"                            [ngModel]="typeModal" required ngModel>                        <label class="custom-control-label" for="customRadio2">{{ \'REVIEW\' | translate }}</label>                    </div>                    <div class="custom-control custom-radio custom-control-inline">                        <input type="radio" id="customRadio3" name="jalon" class="custom-control-input" value="others"                            [ngModel]="typeModal" required ngModel>                        <label class="custom-control-label" for="customRadio3">{{ \'OTHER\' | translate }}</label>                    </div>                    <hr>                    <button *ngIf="!addModal" type="button" class="btn btn-danger col-5"                        (click)="deleteMilestone()">{{ \'OVERVIEW-GRAPH.MODAL.DELETE\' | translate }}</button>                    <button type="submit" class="btn btn-primary col-5 float-right"                        [disabled]="f.invalid">{{ \'OVERVIEW-GRAPH.MODAL.CONFIRM\' | translate }}</button>                </form>            </div>        </div>    </div></div><div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog" aria-labelledby="uploadFileModalLabel"    aria-hidden="true">    <div class="modal-dialog" role="document">        <div class="modal-content">            <div class="modal-header">                <h5 class="modal-title" id="uploadFileModalLabel">{{ \'OVERVIEW-GRAPH.UPLOAD.TITLE\' | translate }}</h5>                <button type="button" class="close" data-dismiss="modal" aria-label="Close">                    <span aria-hidden="true">&times;</span>                </button>            </div>            <div class="modal-body">                <form #uploadForm>                    <div class="input-group">                        <div class="input-group-prepend ">                            <span class="input-group-text" id="inputGroupFileAddon01"><i                                    class="fas fa-upload"></i></span>                        </div>                        <div class="custom-file">                            <input type="file" class="custom-file-input" id="inputGroupFile01"                                aria-describedby="inputGroupFileAddon01" (change)="changeListener($event)"                                (click)="uploadForm.reset()" />                            <label class="custom-file-label"                                for="inputGroupFile01">{{ jsonManager.filename || ( \'OVERVIEW-GRAPH.UPLOAD.FILE-PLACEHOLDER\' | translate ) }}</label>                        </div>                    </div>                </form>            </div>        </div>    </div></div><ng-template #markersTooltip>{{ \'OVERVIEW-GRAPH.MARKERS.TOOLTIP\' | translate }}</ng-template><ng-template #resetZoomTooltip>{{ \'OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP\' | translate }}</ng-template><ng-template #changeZoomTooltip>{{ \'OVERVIEW-GRAPH.CHANGE-ZOOM-TOOLTIP\' | translate }}</ng-template><ng-template #changeTimeScaleTooltip>{{ \'OVERVIEW-GRAPH.CHANGE-TIME-SCALE-TOOLTIP\' | translate }}</ng-template><ng-template #downloadTooltip>{{ \'OVERVIEW-GRAPH.DOWNLOAD-TOOLTIP\' | translate }}</ng-template><ng-template #uploadTooltip>{{ \'OVERVIEW-GRAPH.UPLOAD.TOOLTIP\' | translate }}</ng-template><ng-template #reloadTooltip>{{ \'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate }}</ng-template></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
+        var COMPONENT_TEMPLATE = '<div><div class="d-flex flex-row p-3">    <div class="w-50">        <form (ngSubmit)="searchSubmit(searchForm)" #searchForm="ngForm">            <div class="input-group">                <type-ahead placeholder="{{ \'OVERVIEW-GRAPH.SEARCH-PLACEHOLDER\' | translate }}" name="search"                    [suggestions]="dataService.questions" class="form-control" [multi]="true" [custom]="false"                    [settings]="typeaheadSettings" [disabled]="!dataService.questions?.length || loading" ngModel>                </type-ahead>                <div class="input-group-append">                    <button class="btn btn-outline-secondary" id="search-submit"                        [disabled]="!dataService.questions?.length || loading" type="submit">{{                        \'OVERVIEW-GRAPH.SEARCH-BUTTON\' | translate }}</button>                </div>            </div>        </form>    </div>    <div class="pl-2">        <select class="form-control" [disabled]="!dataService.tpGroups?.length || loading" [(ngModel)]="tpGroup"            (change)="this.loadGraphDataAndRefresh()" placeholder="d.ff">            <option [ngValue]="undefined" hidden disabled>{{ \'TP-GROUP-SELECT.PLACEHOLDER\' | translate }}            </option>            <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>            <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>        </select>    </div>    <div class="separator"></div>    <div>        <div class="dropdown">            <button class="btn btn-secondary dropdown-toggle" [disabled]="loading" type="button" id="dropdownMenuButton"                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [ngbTooltip]="markersTooltip">                {{ \'OVERVIEW-GRAPH.MARKERS.BUTTON\' | translate }}            </button>            <div class="dropdown-menu">                <form class="px-4 py-3">                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" id="sessionsSwitch"                            [(ngModel)]="showSessions" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="sessionsSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.SESSIONS\' |                            translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" id="correctionsSwitch"                            [(ngModel)]="showCorrections" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="correctionsSwitch">{{                            \'OVERVIEW-GRAPH.MARKERS.CORRECTIONS\' | translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" selected id="reviewsSwitch"                            [(ngModel)]="showReviews" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="reviewsSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.REVIEWS\' |                            translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" selected id="othersSwitch"                            [(ngModel)]="showOthers" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="othersSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.OTHERS\' |                            translate }}</label>                    </div>                </form>            </div>        </div>    </div>    <div class="separator"></div>    <div>        <div class="btn-group" role="group" aria-label="Interaction controls">            <button class="btn btn-outline-secondary" [disabled]="loading" (click)="resetZoom()"                [ngbTooltip]="resetZoomTooltip">                <span class="fa-layers fa-fw">                    <i class="fas fa-search"></i>                    <i class="fas fa-times" data-fa-transform="shrink-8 up-1.6 left-2"></i>                </span>            </button>            <button class="btn btn-outline-secondary" [ngbTooltip]="changeZoomTooltip" [disabled]="loading"                (click)="changeZoom()">                <div *ngIf="drag">                    <span class="fa-layers fa-fw">                        <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                        <i class="far fa-square" data-fa-transform="shrink-2 up-6 left-5"></i>                    </span>                </div>                <div *ngIf="!drag">                    <span class="fa-layers fa-fw">                        <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                        <i class="fas fa-arrows-alt-h" data-fa-transform="up-6 left-5"></i>                    </span>                </div>            </button>            <button class="btn btn-outline-secondary" (click)="changeUnit()" [ngbTooltip]="changeTimeScaleTooltip"                [disabled]="loading">                <div *ngIf="unit === \'week\'"><i class="fas fa-calendar-week"></i></div>                <div *ngIf="unit === \'hour\'"><i class="fas fa-clock"></i></div>                <div *ngIf="unit === \'day\'"><i class="fas fa-calendar-day"></i></div>            </button>        </div>    </div>    <div class="separator"></div>    <div>        <div class="btn-group" role="group" aria-label="File controls">            <button class="btn btn-outline-secondary" [ngbTooltip]="downloadTooltip" (click)="download()"                [disabled]="loading"><i class="fas fa-download"></i></button>            <button class="btn btn-outline-secondary" [ngbTooltip]="uploadTooltip" (click)="openUploadFileModal()"><i                    class="fas fa-upload"></i></button>            <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"                [disabled]="!dataService.repositories?.length || loading" [ngbTooltip]="reloadTooltip">                <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>                <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>            </button>        </div>    </div></div><div class="chart-container">    <canvas #myChart id="myChart" baseChart [chartType]="\'line\'" [datasets]="chartData" [options]="chartOptions"        [legend]="false" (chartClick)="onChartClick($event)" (chartHover)="onChartHover($event)">    </canvas></div><div class="card">    <h5 class="card-header">        <a data-toggle="collapse" href="#legendCollapse" aria-expanded="true" aria-controls="legendCollapse"            style="text-decoration:none" id="heading-example" class="d-block collapsed">            <i class="fa fa-chevron-down float-right"></i>            {{ \'OVERVIEW-GRAPH.LEGEND.TITLE\' | translate }}        </a>    </h5>    <div id="legendCollapse" class="collapse">        <div class="card-body">            <p class="card-text">                <i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.COMMIT\' | translate }}                <i class="far fa-circle fa-fw ml-3"></i> {{ \'OVERVIEW-GRAPH.LEGEND.CLOSING\' | translate }}<br>                <i class="fas fa-circle fa-fw" style="color:rgb(77, 77, 77)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.INTERMEDIATE\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(53, 198, 146)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.BEFORE\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(255, 127, 74)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.BETWEEN\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(203, 91, 68)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.AFTER\' | translate }}<br>                <i class="fas fa-minus" data-fa-transform="rotate-90" style="color:blue"></i>                {{ \'REVIEW\' | translate }}                <i class="fas fa-minus ml-3" data-fa-transform="rotate-90" style="color:red"></i>                {{ \'CORRECTION\' | translate }}                <i class="fas fa-minus ml-3" data-fa-transform="rotate-90"></i>                {{ \'OTHER\' | translate }}<br>                <span class="fa-layers fa-fw">                    <i class="fas fa-square" style="color:rgba(33, 150, 243, 0.15)"></i>                    <i class="far fa-square" style="color:rgba(79, 195, 247,1.0)"></i>                </span> {{ \'SESSION\' | translate }}            </p>        </div>    </div></div><div class="modal fade" id="addMilestoneModal" tabindex="-1" role="dialog" aria-labelledby="addMilestoneModalLabel"    aria-hidden="true">    <div class="modal-dialog" role="document">        <div class="modal-content">            <div class="modal-header">                <h5 class="modal-title" id="addMilestoneModalLabel">                    {{ (this.addModal ? \'OVERVIEW-GRAPH.MODAL.TITLE-CREATE\' : \'OVERVIEW-GRAPH.MODAL.TITLE-EDIT\') |                    translate }}                </h5>                <button type="button" class="close" data-dismiss="modal" aria-label="Close">                    <span aria-hidden="true">&times;</span>                </button>            </div>            <div class="modal-body">                <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm">                    <div class="form-group">                        <label for="date" class="col-form-label">{{ \'DATE\' | translate }} :</label>                        <input class="form-control" type="datetime-local" [ngModel]="dateModal" id="date" name="date"                            required ngModel>                    </div>                    <div class="form-group">                        <label for="recipient-name" class="col-form-label">{{ \'OVERVIEW-GRAPH.MODAL.LABEL\' | translate                            }} :</label>                        <input type="text" class="form-control" id="recipient-name" name="label" [ngModel]="labelModal"                            ngModel>                    </div>                    <div class="form-group">                        <label for="message-text" class="col-form-label">{{ \'OVERVIEW-GRAPH.MODAL.TP-GROUP\' | translate                            }} :</label>                        <select class="form-control" [ngModel]="tpGroupModal" (change)="this.loadGraphDataAndRefresh()"                            placeholder="d.ff" name="tpGroup" id="tpGroup">                            <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>                            <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>                        </select>                    </div>                    <div class="form-group">                        <label id="questions-tooltip" for="questions" class="col-form-label">{{ \'QUESTIONS\' | translate                            }} :</label>                        <type-ahead placeholder="{{ \'OVERVIEW-GRAPH.MODAL.QUESTIONS-PLACEHOLDER\' | translate }}"                            name="questions" id="questions" [ngModel]="questionsModal"                            [suggestions]="dataService.questions" class="form-control" [multi]="true" [custom]="false"                            [settings]="typeaheadSettings" ngModel>                        </type-ahead>                    </div>                    <div class="custom-control custom-radio custom-control-inline">                        <input type="radio" id="customRadio1" name="jalon" class="custom-control-input"                            value="corrections" [ngModel]="typeModal" required ngModel>                        <label class="custom-control-label" for="customRadio1">{{ \'CORRECTION\' | translate }}</label>                    </div>                    <div class="custom-control custom-radio custom-control-inline">                        <input type="radio" id="customRadio2" name="jalon" class="custom-control-input" value="reviews"                            [ngModel]="typeModal" required ngModel>                        <label class="custom-control-label" for="customRadio2">{{ \'REVIEW\' | translate }}</label>                    </div>                    <div class="custom-control custom-radio custom-control-inline">                        <input type="radio" id="customRadio3" name="jalon" class="custom-control-input" value="others"                            [ngModel]="typeModal" required ngModel>                        <label class="custom-control-label" for="customRadio3">{{ \'OTHER\' | translate }}</label>                    </div>                    <hr>                    <button *ngIf="!addModal" type="button" class="btn btn-danger col-5" (click)="deleteMilestone()">{{                        \'OVERVIEW-GRAPH.MODAL.DELETE\' | translate }}</button>                    <button type="submit" class="btn btn-primary col-5 float-right" [disabled]="f.invalid">{{                        \'OVERVIEW-GRAPH.MODAL.CONFIRM\' | translate }}</button>                </form>            </div>        </div>    </div></div><ng-template #markersTooltip>{{ \'OVERVIEW-GRAPH.MARKERS.TOOLTIP\' | translate }}</ng-template><ng-template #resetZoomTooltip>{{ \'OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP\' | translate }}</ng-template><ng-template #changeZoomTooltip>{{ \'OVERVIEW-GRAPH.CHANGE-ZOOM-TOOLTIP\' | translate }}</ng-template><ng-template #changeTimeScaleTooltip>{{ \'OVERVIEW-GRAPH.CHANGE-TIME-SCALE-TOOLTIP\' | translate }}</ng-template><ng-template #downloadTooltip>{{ \'OVERVIEW-GRAPH.DOWNLOAD-TOOLTIP\' | translate }}</ng-template><ng-template #uploadTooltip>{{ \'OVERVIEW-GRAPH.UPLOAD.TOOLTIP\' | translate }}</ng-template><ng-template #reloadTooltip>{{ \'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate }}</ng-template></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'OverviewComponent'};
 </script>

@@ -112,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/models/Repository.model.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/models/Repository.model.ts:46</a></div>
                             </td>
                         </tr>
 
@@ -193,7 +193,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/models/Repository.model.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/models/Repository.model.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -221,7 +221,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/models/Repository.model.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/models/Repository.model.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -241,11 +241,14 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Commit } from &quot;@models/Commit.model&quot;;
+import { Type } from &quot;class-transformer&quot;;
 
 /**
  * This class modelizes a Github repository
  */
 export class Repository {
+  @Type(() &#x3D;&gt; Commit)
+  commits: Commit[];
   /**
    * Repository constructor
    * @param url The URL of the repository
@@ -256,7 +259,7 @@ export class Repository {
   constructor(
     public url: string,
     public name?: string,
-    public commits?: Commit[],
+    commits?: Commit[],
     public tpGroup?: string,
     public errors?: Error[]
   ) {

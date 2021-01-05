@@ -83,13 +83,11 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#assignment">assignment</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#_assignment">_assignment</a>
                             </li>
                             <li>
                                 <a href="#barIndex">barIndex</a>
-                            </li>
-                            <li>
-                                <a href="#dataLoaded">dataLoaded</a>
                             </li>
                             <li>
                                 <a href="#lastUpdateDate">lastUpdateDate</a>
@@ -113,7 +111,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#dataLoaded">dataLoaded</a>
+                            </li>
+                            <li>
                                 <a href="#generateJSON">generateJSON</a>
+                            </li>
+                            <li>
+                                <a href="#saveData">saveData</a>
                             </li>
                         </ul>
                     </td>
@@ -131,6 +135,9 @@
                     <tr>
                         <td class="col-md-4">
                             <ul class="index-list">
+                                <li>
+                                    <a href="#assignment">assignment</a>
+                                </li>
                                 <li>
                                     <a href="#title">title</a>
                                 </li>
@@ -180,12 +187,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(jsonManager: <a href="../injectables/JsonManagerService.html">JsonManagerService</a>)</code>
+<code>constructor(jsonManager: <a href="../injectables/JsonManagerService.html">JsonManagerService</a>, databaseService: <a href="../injectables/DatabaseService.html">DatabaseService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/data.service.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/data.service.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -216,6 +223,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>databaseService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -230,6 +249,53 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataLoaded"></a>
+                    <span class="name">
+                        <b>
+                            dataLoaded
+                        </b>
+                        <a href="#dataLoaded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>dataLoaded()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/app/services/data.service.ts:81</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns a boolean indicating if data is fully loaded</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>true if data is fully loaded, false otherwise</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -252,8 +318,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/app/services/data.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">src/app/services/data.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -271,6 +337,80 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveData"></a>
+                    <span class="name">
+                        <b>
+                            saveData
+                        </b>
+                        <a href="#saveData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>saveData(assignment: <a href="../classes/Assignment.html">Assignment</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/services/data.service.ts:51</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>this.assignment</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
             <section>
     
@@ -281,11 +421,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="assignment"></a>
+                        <a name="_assignment"></a>
                         <span class="name">
                             <b>
-                            assignment</b>
-                            <a href="#assignment"><span class="icon ion-ios-link"></span></a>
+                                <span class="modifier">Private</span>
+                            _assignment</b>
+                            <a href="#_assignment"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
@@ -297,7 +438,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/data.service.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/data.service.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -330,46 +471,13 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/services/data.service.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/services/data.service.ts:34</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
                         <div class="io-description"><p>The index of the threshold bar of the graph &quot;questions-completion&quot;</p>
-</div>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="dataLoaded"></a>
-                        <span class="name">
-                            <b>
-                            dataLoaded</b>
-                            <a href="#dataLoaded"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/services/data.service.ts:38</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>A boolean used to tell if data is fully loaded</p>
 </div>
                     </td>
                 </tr>
@@ -396,7 +504,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/data.service.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/services/data.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -429,7 +537,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/data.service.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/data.service.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -456,7 +564,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/services/data.service.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/services/data.service.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -479,6 +587,71 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="assignment"></a>
+                        <span class="name"><b>assignment</b><a href="#assignment"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>assignment()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/services/data.service.ts:85</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>assignment(assignment)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/services/data.service.ts:89</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>assignment</td>
+                                                    
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="title"></a>
                         <span class="name"><b>title</b><a href="#title"><span class="icon ion-ios-link"></span></a></span>
                     </td>
@@ -491,7 +664,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/services/data.service.ts:74</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/app/services/data.service.ts:94</a></div>
                                 </td>
                             </tr>
 
@@ -502,7 +675,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/services/data.service.ts:78</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/services/data.service.ts:98</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -560,7 +733,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/services/data.service.ts:82</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/app/services/data.service.ts:102</a></div>
                                 </td>
                             </tr>
 
@@ -571,7 +744,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/services/data.service.ts:86</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/services/data.service.ts:106</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -629,7 +802,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/services/data.service.ts:90</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/services/data.service.ts:110</a></div>
                                 </td>
                             </tr>
 
@@ -640,7 +813,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/app/services/data.service.ts:94</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/app/services/data.service.ts:114</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -698,7 +871,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">src/app/services/data.service.ts:99</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/app/services/data.service.ts:119</a></div>
                                 </td>
                             </tr>
 
@@ -709,7 +882,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/app/services/data.service.ts:103</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/services/data.service.ts:123</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -767,7 +940,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">src/app/services/data.service.ts:107</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/app/services/data.service.ts:127</a></div>
                                 </td>
                             </tr>
 
@@ -778,7 +951,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">src/app/services/data.service.ts:111</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">src/app/services/data.service.ts:131</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -836,7 +1009,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/services/data.service.ts:115</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/services/data.service.ts:135</a></div>
                                 </td>
                             </tr>
 
@@ -847,7 +1020,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/app/services/data.service.ts:119</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="139" class="link-to-prism">src/app/services/data.service.ts:139</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -905,7 +1078,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/services/data.service.ts:123</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">src/app/services/data.service.ts:143</a></div>
                                 </td>
                             </tr>
 
@@ -916,7 +1089,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/app/services/data.service.ts:127</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">src/app/services/data.service.ts:147</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -974,7 +1147,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">src/app/services/data.service.ts:131</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="151" class="link-to-prism">src/app/services/data.service.ts:151</a></div>
                                 </td>
                             </tr>
 
@@ -985,7 +1158,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/services/data.service.ts:135</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/app/services/data.service.ts:155</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1043,7 +1216,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="139" class="link-to-prism">src/app/services/data.service.ts:139</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="160" class="link-to-prism">src/app/services/data.service.ts:160</a></div>
                                 </td>
                             </tr>
 
@@ -1054,7 +1227,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">src/app/services/data.service.ts:143</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">src/app/services/data.service.ts:164</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1112,7 +1285,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">src/app/services/data.service.ts:147</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">src/app/services/data.service.ts:169</a></div>
                                 </td>
                             </tr>
 
@@ -1123,7 +1296,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="151" class="link-to-prism">src/app/services/data.service.ts:151</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">src/app/services/data.service.ts:173</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1181,7 +1354,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/app/services/data.service.ts:155</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="177" class="link-to-prism">src/app/services/data.service.ts:177</a></div>
                                 </td>
                             </tr>
 
@@ -1192,7 +1365,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="159" class="link-to-prism">src/app/services/data.service.ts:159</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="181" class="link-to-prism">src/app/services/data.service.ts:181</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1250,7 +1423,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">src/app/services/data.service.ts:163</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="185" class="link-to-prism">src/app/services/data.service.ts:185</a></div>
                                 </td>
                             </tr>
 
@@ -1261,7 +1434,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">src/app/services/data.service.ts:167</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="189" class="link-to-prism">src/app/services/data.service.ts:189</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1313,6 +1486,7 @@ import { Assignment } from &quot;@models/Assignment.model&quot;;
 import { Milestone } from &quot;@models/Milestone.model&quot;;
 import { Repository } from &quot;@models/Repository.model&quot;;
 import { Session } from &quot;@models/Session.model&quot;;
+import { DatabaseService } from &quot;@services/database.service&quot;;
 import { JsonManagerService } from &quot;@services/json-manager.service&quot;;
 
 /**
@@ -1325,7 +1499,7 @@ export class DataService {
   /**
    * The practical course, represents the data from the configuration file
    */
-  assignment: Assignment;
+  private _assignment: Assignment;
 
   /**
    * The TP groups of the class
@@ -1342,23 +1516,25 @@ export class DataService {
    */
   barIndex: number;
 
-  /**
-   * A boolean used to tell if data is fully loaded
-   */
-  dataLoaded: boolean;
-
   repoToLoad: boolean;
 
   /**
    * DataService constructor
    * @param jsonManager
    */
-  constructor(private jsonManager: JsonManagerService) {
-    this.dataLoaded &#x3D; false;
+  constructor(
+    private jsonManager: JsonManagerService,
+    private databaseService: DatabaseService
+  ) {
     this.repoToLoad &#x3D; false;
     this.barIndex &#x3D; 5;
     this.tpGroups &#x3D; [];
-    this.assignment &#x3D; new Assignment();
+  }
+
+  saveData(assignment: Assignment &#x3D; this.assignment): Promise&lt;number&gt; {
+    return this.databaseService
+      .saveAssignment(assignment)
+      .then((id) &#x3D;&gt; (assignment.id &#x3D; id));
   }
 
   /**
@@ -1381,8 +1557,25 @@ export class DataService {
     );
   }
 
+  /**
+   * Returns a boolean indicating if data is fully loaded
+   * @return true if data is fully loaded, false otherwise
+   */
+  dataLoaded(): boolean {
+    return !!this.assignment;
+  }
+
+  get assignment(): Assignment {
+    return this._assignment;
+  }
+
+  set assignment(assignment: Assignment) {
+    this._assignment &#x3D; assignment;
+    this.repoToLoad &#x3D; true;
+  }
+
   get title(): string {
-    return this.assignment.title;
+    return this.assignment?.title;
   }
 
   set title(title: string) {
@@ -1390,7 +1583,7 @@ export class DataService {
   }
 
   get questions(): string[] {
-    return this.assignment.questions;
+    return this.assignment?.questions;
   }
 
   set questions(questions: string[]) {
@@ -1398,7 +1591,7 @@ export class DataService {
   }
 
   get repositories(): Repository[] {
-    return this.assignment.repositories;
+    return this.assignment?.repositories;
   }
 
   set repositories(repos: Repository[]) {
@@ -1407,7 +1600,7 @@ export class DataService {
   }
 
   get sessions(): Session[] {
-    return this.assignment.sessions;
+    return this.assignment?.sessions;
   }
 
   set sessions(sessions: Session[]) {
@@ -1415,7 +1608,7 @@ export class DataService {
   }
 
   get corrections(): Milestone[] {
-    return this.assignment.corrections;
+    return this.assignment?.corrections;
   }
 
   set corrections(corrections: Milestone[]) {
@@ -1423,7 +1616,7 @@ export class DataService {
   }
 
   get reviews(): Milestone[] {
-    return this.assignment.reviews;
+    return this.assignment?.reviews;
   }
 
   set reviews(reviews: Milestone[]) {
@@ -1431,7 +1624,7 @@ export class DataService {
   }
 
   get others(): Milestone[] {
-    return this.assignment.others;
+    return this.assignment?.others;
   }
 
   set others(others: Milestone[]) {
@@ -1439,23 +1632,25 @@ export class DataService {
   }
 
   get startDate(): string {
-    return this.assignment.startDate;
+    return this.assignment?.startDate;
   }
 
   set startDate(startDate: string) {
+    this.repoToLoad &#x3D; true;
     this.assignment.startDate &#x3D; startDate;
   }
 
   get endDate(): string {
-    return this.assignment.endDate;
+    return this.assignment?.endDate;
   }
 
   set endDate(endDate: string) {
+    this.repoToLoad &#x3D; true;
     this.assignment.endDate &#x3D; endDate;
   }
 
   get course(): string {
-    return this.assignment.course;
+    return this.assignment?.course;
   }
 
   set course(course: string) {
@@ -1463,7 +1658,7 @@ export class DataService {
   }
 
   get program(): string {
-    return this.assignment.program;
+    return this.assignment?.program;
   }
 
   set program(program: string) {
@@ -1471,7 +1666,7 @@ export class DataService {
   }
 
   get year(): string {
-    return this.assignment.year;
+    return this.assignment?.year;
   }
 
   set year(year: string) {

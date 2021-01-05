@@ -1,0 +1,956 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>AssignmentChooserComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/home/assignment-chooser/assignment-chooser.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>assignment-chooser</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./assignment-chooser.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./assignment-chooser.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#assignments">assignments</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#authService">authService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#createAssignment">createAssignment</a>
+                            </li>
+                            <li>
+                                <a href="#deleteAssignment">deleteAssignment</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#loadAssignments">loadAssignments</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openConfigurationModal">openConfigurationModal</a>
+                            </li>
+                            <li>
+                                <a href="#selectAssignment">selectAssignment</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(databaseService: <a href="../injectables/DatabaseService.html">DatabaseService</a>, dataService: <a href="../injectables/DataService.html">DataService</a>, modalService: NgbModal, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/components/home/assignment-chooser/assignment-chooser.component.ts:17</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>databaseService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>modalService</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgbModal</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createAssignment"></a>
+                    <span class="name">
+                        <b>
+                            createAssignment
+                        </b>
+                        <a href="#createAssignment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createAssignment()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/assignment-chooser.component.ts:48</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteAssignment"></a>
+                    <span class="name">
+                        <b>
+                            deleteAssignment
+                        </b>
+                        <a href="#deleteAssignment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteAssignment(assignment: <a href="../classes/Assignment.html">Assignment</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/assignment-chooser.component.ts:43</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadAssignments"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            loadAssignments
+                        </b>
+                        <a href="#loadAssignments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadAssignments()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/assignment-chooser.component.ts:32</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/assignment-chooser.component.ts:27</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openConfigurationModal"></a>
+                    <span class="name">
+                        <b>
+                            openConfigurationModal
+                        </b>
+                        <a href="#openConfigurationModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openConfigurationModal(assignment: <a href="../classes/Assignment.html">Assignment</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/assignment-chooser.component.ts:53</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectAssignment"></a>
+                    <span class="name">
+                        <b>
+                            selectAssignment
+                        </b>
+                        <a href="#selectAssignment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectAssignment(assignment: <a href="../classes/Assignment.html">Assignment</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/assignment-chooser.component.ts:38</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="assignments"></a>
+                        <span class="name">
+                            <b>
+                            assignments</b>
+                            <a href="#assignments"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Assignment.html" target="_self" >Assignment[]</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/components/home/assignment-chooser/assignment-chooser.component.ts:17</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="authService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            authService</b>
+                            <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/home/assignment-chooser/assignment-chooser.component.ts:24</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &quot;@angular/core&quot;;
+import { Router } from &quot;@angular/router&quot;;
+import { Assignment } from &quot;@models/Assignment.model&quot;;
+import { NgbModal } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import { AuthService } from &quot;@services/auth.service&quot;;
+import { DataService } from &quot;@services/data.service&quot;;
+import { DatabaseService } from &quot;@services/database.service&quot;;
+import { ConfigurationComponent } from &quot;./configuration/configuration.component&quot;;
+
+@Component({
+  selector: &quot;assignment-chooser&quot;,
+  templateUrl: &quot;./assignment-chooser.component.html&quot;,
+  styleUrls: [&quot;./assignment-chooser.component.scss&quot;],
+  // changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class AssignmentChooserComponent implements OnInit {
+  assignments: Assignment[];
+
+  constructor(
+    private databaseService: DatabaseService,
+    private dataService: DataService,
+    private modalService: NgbModal,
+    private router: Router,
+    public authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.assignments &#x3D; [];
+    this.loadAssignments();
+  }
+
+  async loadAssignments() {
+    await this.databaseService
+      .getAllAssignments()
+      .then((assignments) &#x3D;&gt; (this.assignments &#x3D; assignments));
+  }
+
+  selectAssignment(assignment: Assignment) {
+    this.dataService.assignment &#x3D; assignment;
+    this.router.navigate([&quot;overview&quot;]);
+  }
+
+  deleteAssignment(assignment: Assignment) {
+    this.databaseService.deleteAssignment(assignment.id);
+    this.loadAssignments();
+  }
+
+  createAssignment() {
+    let assignment &#x3D; new Assignment();
+    this.openConfigurationModal(assignment);
+  }
+
+  openConfigurationModal(assignment: Assignment) {
+    let modalReference &#x3D; this.modalService.open(ConfigurationComponent, {
+      size: &quot;xl&quot;,
+    });
+    modalReference.componentInstance.assignment &#x3D; assignment;
+    modalReference.result.finally(() &#x3D;&gt; {
+      this.loadAssignments();
+      if (assignment.id &amp;&amp; (assignment.id  &#x3D;&#x3D;&#x3D; this.dataService.assignment?.id)) {
+        
+        this.databaseService
+          .getAssignmentById(assignment.id)
+          .then((assignment) &#x3D;&gt; (this.dataService.assignment &#x3D; assignment));
+      }
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div&gt;
+    &lt;ngx-datatable #assignmentsTable class&#x3D;&quot;material&quot; [rows]&#x3D;&quot;assignments&quot; [columnMode]&#x3D;&quot;&#x27;force&#x27;&quot; rowHeight&#x3D;&quot;auto&quot;
+        headerHeight&#x3D;&quot;auto&quot;&gt;
+        &lt;ngx-datatable-column name&#x3D;&quot;{{ &#x27;ASSIGNMENT-CHOOSER.ID&#x27; | translate }}&quot; prop&#x3D;&quot;id&quot; [maxWidth]&#x3D;&quot;55&quot;&gt;
+        &lt;/ngx-datatable-column&gt;
+        &lt;ngx-datatable-column name&#x3D;&quot;{{ &#x27;ASSIGNMENT-CHOOSER.TITLE&#x27; | translate }}&quot; prop&#x3D;&quot;title&quot;&gt;
+        &lt;/ngx-datatable-column&gt;
+        &lt;ngx-datatable-column name&#x3D;&quot;{{ &#x27;ASSIGNMENT-CHOOSER.COURSE&#x27; | translate }}&quot; prop&#x3D;&quot;course&quot;&gt;&lt;/ngx-datatable-column&gt;
+        &lt;ngx-datatable-column name&#x3D;&quot;{{ &#x27;ASSIGNMENT-CHOOSER.PROGRAM&#x27; | translate }}&quot; prop&#x3D;&quot;program&quot;&gt;
+        &lt;/ngx-datatable-column&gt;
+        &lt;ngx-datatable-column name&#x3D;&quot;{{ &#x27;ASSIGNMENT-CHOOSER.YEAR&#x27; | translate }}&quot; prop&#x3D;&quot;year&quot;&gt;&lt;/ngx-datatable-column&gt;
+        &lt;ngx-datatable-column [maxWidth]&#x3D;&quot;170&quot;&gt;
+            &lt;ng-template let-column&#x3D;&quot;column&quot; ngx-datatable-header-template&gt;
+                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary btn-sm&quot; (click)&#x3D;&quot;createAssignment()&quot;
+                    [ngbTooltip]&#x3D;&quot;createAssignmentTooltip&quot;&gt;
+                    &lt;i class&#x3D;&quot;fas fa-plus&quot;&gt;&lt;/i&gt;
+                &lt;/button&gt;
+            &lt;/ng-template&gt;
+            &lt;ng-template let-row&#x3D;&quot;row&quot; ngx-datatable-cell-template&gt;
+                &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot;&gt;
+                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary left-right-btn&quot; (click)&#x3D;&quot;selectAssignment(row)&quot;
+                        [ngbTooltip]&#x3D;&quot;selectAssignmentTooltip&quot; [disabled]&#x3D;&quot;!authService.isSignedIn()&quot;&gt;
+                        &lt;i class&#x3D;&quot;far fa-arrow-alt-circle-right icon&quot;&gt;&lt;/i&gt;
+                    &lt;/button&gt;
+                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-secondary spin-btn&quot; (click)&#x3D;&quot;openConfigurationModal(row)&quot;
+                        [ngbTooltip]&#x3D;&quot;editAssignmentTooltip&quot;&gt;
+                        &lt;i class&#x3D;&quot;fas fa-cog icon&quot;&gt;&lt;/i&gt;
+                    &lt;/button&gt;
+                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger fill-btn&quot; (click)&#x3D;&quot;deleteAssignment(row)&quot;
+                        [ngbTooltip]&#x3D;&quot;deleteAssignmentTooltip&quot;&gt;
+                        &lt;i class&#x3D;&quot;far fa-trash-alt icon&quot;&gt;&lt;/i&gt;
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/ng-template&gt;
+        &lt;/ngx-datatable-column&gt;
+    &lt;/ngx-datatable&gt;
+&lt;/div&gt;
+
+&lt;ng-template #createAssignmentTooltip&gt;{{ &#x27;HOME.CREATE-ASSIGNMENT-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
+&lt;ng-template #selectAssignmentTooltip&gt;{{ &#x27;HOME.SELECT-ASSIGNMENT-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
+&lt;ng-template #editAssignmentTooltip&gt;{{ &#x27;HOME.EDIT-ASSIGNMENT-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
+&lt;ng-template #deleteAssignmentTooltip&gt;{{ &#x27;HOME.DELETE-ASSIGNMENT-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./assignment-chooser.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.fill-btn:hover &gt; .icon {
+  animation: pulse 2s infinite linear;
+}
+
+.spin-btn:hover &gt; .icon {
+  animation: spin 1.2s infinite cubic-bezier(0, 1, 0.74, 0.98);
+}
+
+.left-right-btn:hover:enabled &gt; .icon {
+  animation: move-left-to-right 1.5s infinite cubic-bezier(0.57, 0.81, 0.75, 0.74);
+}
+
+@keyframes move-left-to-right {
+  0% {
+    transform: translateX(0%);
+  }
+
+  25% {
+    transform: translateX(15%);
+  }
+
+  75% {
+    transform: translateX(-15%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1.2);
+  }
+
+  80% {
+    transform: scale(0.8);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div>    <ngx-datatable #assignmentsTable class="material" [rows]="assignments" [columnMode]="\'force\'" rowHeight="auto"        headerHeight="auto">        <ngx-datatable-column name="{{ \'ASSIGNMENT-CHOOSER.ID\' | translate }}" prop="id" [maxWidth]="55">        </ngx-datatable-column>        <ngx-datatable-column name="{{ \'ASSIGNMENT-CHOOSER.TITLE\' | translate }}" prop="title">        </ngx-datatable-column>        <ngx-datatable-column name="{{ \'ASSIGNMENT-CHOOSER.COURSE\' | translate }}" prop="course"></ngx-datatable-column>        <ngx-datatable-column name="{{ \'ASSIGNMENT-CHOOSER.PROGRAM\' | translate }}" prop="program">        </ngx-datatable-column>        <ngx-datatable-column name="{{ \'ASSIGNMENT-CHOOSER.YEAR\' | translate }}" prop="year"></ngx-datatable-column>        <ngx-datatable-column [maxWidth]="170">            <ng-template let-column="column" ngx-datatable-header-template>                <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"                    [ngbTooltip]="createAssignmentTooltip">                    <i class="fas fa-plus"></i>                </button>            </ng-template>            <ng-template let-row="row" ngx-datatable-cell-template>                <div class="btn-group" role="group">                    <button type="button" class="btn btn-primary left-right-btn" (click)="selectAssignment(row)"                        [ngbTooltip]="selectAssignmentTooltip" [disabled]="!authService.isSignedIn()">                        <i class="far fa-arrow-alt-circle-right icon"></i>                    </button>                    <button type="button" class="btn btn-secondary spin-btn" (click)="openConfigurationModal(row)"                        [ngbTooltip]="editAssignmentTooltip">                        <i class="fas fa-cog icon"></i>                    </button>                    <button type="button" class="btn btn-danger fill-btn" (click)="deleteAssignment(row)"                        [ngbTooltip]="deleteAssignmentTooltip">                        <i class="far fa-trash-alt icon"></i>                    </button>                </div>            </ng-template>        </ngx-datatable-column>    </ngx-datatable></div><ng-template #createAssignmentTooltip>{{ \'HOME.CREATE-ASSIGNMENT-TOOLTIP\' | translate }}</ng-template><ng-template #selectAssignmentTooltip>{{ \'HOME.SELECT-ASSIGNMENT-TOOLTIP\' | translate }}</ng-template><ng-template #editAssignmentTooltip>{{ \'HOME.EDIT-ASSIGNMENT-TOOLTIP\' | translate }}</ng-template><ng-template #deleteAssignmentTooltip>{{ \'HOME.DELETE-ASSIGNMENT-TOOLTIP\' | translate }}</ng-template></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'AssignmentChooserComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AssignmentChooserComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

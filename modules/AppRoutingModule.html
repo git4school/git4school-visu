@@ -73,7 +73,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &quot;@angular/core&quot;;
 import { RouterModule, Routes } from &quot;@angular/router&quot;;
-import { ConfigurationComponent } from &quot;@components/configuration/configuration.component&quot;;
+// import { ConfigurationComponent } from &quot;@components/configuration/configuration.component&quot;;
 import { FourOhFourComponent } from &quot;@components/four-oh-four/four-oh-four.component&quot;;
 import { OverviewComponent } from &quot;@components/graphs/overview/overview.component&quot;;
 import { QuestionsCompletionComponent } from &quot;@components/graphs/questions-completion/questions-completion.component&quot;;
@@ -81,33 +81,27 @@ import { StudentsCommitsComponent } from &quot;@components/graphs/students-commi
 import { HomeComponent } from &quot;@components/home/home.component&quot;;
 import { AuthGuard } from &quot;@guards/auth.guard&quot;;
 import { DataLoadingGuard } from &quot;@guards/data-loading.guard&quot;;
-import { DataSavedGuard } from &quot;@guards/data-saved.guard&quot;;
+import { DataProvidedGuard } from &quot;@guards/data-provided.guard&quot;;
 
 const appRoutes: Routes &#x3D; [
   { path: &quot;home&quot;, component: HomeComponent },
-  { path: &quot;&quot;, component: HomeComponent },
+  { path: &quot;&quot;, redirectTo: &quot;/home&quot;, pathMatch: &quot;full&quot; },
   { path: &quot;not-found&quot;, component: FourOhFourComponent },
   {
     path: &quot;overview&quot;,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, DataProvidedGuard],
     canDeactivate: [DataLoadingGuard],
     component: OverviewComponent,
   },
   {
     path: &quot;students-commits&quot;,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, DataProvidedGuard],
     component: StudentsCommitsComponent,
   },
   {
     path: &quot;questions-completion&quot;,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, DataProvidedGuard],
     component: QuestionsCompletionComponent,
-  },
-  {
-    path: &quot;configuration&quot;,
-    canActivate: [AuthGuard],
-    canDeactivate: [DataSavedGuard],
-    component: ConfigurationComponent,
   },
   { path: &quot;**&quot;, redirectTo: &quot;not-found&quot; },
 ];

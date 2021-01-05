@@ -83,12 +83,6 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#file">file</a>
-                            </li>
-                            <li>
-                                <a href="#filename">filename</a>
-                            </li>
-                            <li>
                                 <a href="#json">json</a>
                             </li>
                         </ul>
@@ -129,7 +123,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/json-manager.service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/json-manager.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -196,8 +190,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">src/app/services/json-manager.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/app/services/json-manager.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -437,77 +431,6 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="file"></a>
-                        <span class="name">
-                            <b>
-                            file</b>
-                            <a href="#file"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>    <code>null</code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>null</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/json-manager.service.ts:17</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The configuration file</p>
-</div>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="filename"></a>
-                        <span class="name">
-                            <b>
-                            filename</b>
-                            <a href="#filename"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/services/json-manager.service.ts:22</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The configuration file name</p>
-</div>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
                         <a name="json"></a>
                         <span class="name">
                             <b>
@@ -518,7 +441,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/json-manager.service.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/json-manager.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -537,29 +460,19 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { DomSanitizer } from &#x27;@angular/platform-browser&#x27;;
-import { Repository } from &#x27;@models/Repository.model&#x27;;
-import { Milestone } from &#x27;@models/Milestone.model&#x27;;
-import { Session } from &#x27;@models/Session.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
+import { DomSanitizer } from &quot;@angular/platform-browser&quot;;
+import { Milestone } from &quot;@models/Milestone.model&quot;;
+import { Repository } from &quot;@models/Repository.model&quot;;
+import { Session } from &quot;@models/Session.model&quot;;
 
 /**
  * This service manages the configuration file
  */
 @Injectable({
-  providedIn: &#x27;root&#x27;
+  providedIn: &quot;root&quot;,
 })
 export class JsonManagerService {
-  /**
-   * The configuration file
-   */
-  file &#x3D; null;
-
-  /**
-   * The configuration file name
-   */
-  filename: string;
-
   /**
    * The generated json
    */
@@ -602,31 +515,33 @@ export class JsonManagerService {
   ) {
     let json &#x3D; {};
     let repos &#x3D; [];
-    repositories.forEach(repository &#x3D;&gt; {
+    repositories.forEach((repository) &#x3D;&gt; {
       let repo &#x3D; {};
-      repo[&#x27;url&#x27;] &#x3D; repository.url;
+      repo[&quot;url&quot;] &#x3D; repository.url;
       if (repository.name) {
-        repo[&#x27;name&#x27;] &#x3D; repository.name;
+        repo[&quot;name&quot;] &#x3D; repository.name;
       }
       if (repository.tpGroup) {
-        repo[&#x27;tpGroup&#x27;] &#x3D; repository.tpGroup;
+        repo[&quot;tpGroup&quot;] &#x3D; repository.tpGroup;
       }
       repos.push(repo);
     });
-    json[&#x27;repositories&#x27;] &#x3D; repos;
+    json[&quot;repositories&quot;] &#x3D; repos;
 
-    sessions &amp;&amp; (json[&#x27;sessions&#x27;] &#x3D; sessions.map(session &#x3D;&gt; session.json()));
+    sessions &amp;&amp; (json[&quot;sessions&quot;] &#x3D; sessions.map((session) &#x3D;&gt; session.json()));
     corrections &amp;&amp;
-      (json[&#x27;corrections&#x27;] &#x3D; corrections.map(correction &#x3D;&gt; correction.json()));
-    reviews &amp;&amp; (json[&#x27;reviews&#x27;] &#x3D; reviews.map(review &#x3D;&gt; review.json()));
-    others &amp;&amp; (json[&#x27;others&#x27;] &#x3D; others.map(other &#x3D;&gt; other.json()));
-    json[&#x27;startDate&#x27;] &#x3D; startDate;
-    json[&#x27;endDate&#x27;] &#x3D; endDate;
-    json[&#x27;title&#x27;] &#x3D; title;
-    json[&#x27;course&#x27;] &#x3D; course;
-    json[&#x27;program&#x27;] &#x3D; program;
-    json[&#x27;year&#x27;] &#x3D; year;
-    json[&#x27;questions&#x27;] &#x3D; questions;
+      (json[&quot;corrections&quot;] &#x3D; corrections.map((correction) &#x3D;&gt;
+        correction.json()
+      ));
+    reviews &amp;&amp; (json[&quot;reviews&quot;] &#x3D; reviews.map((review) &#x3D;&gt; review.json()));
+    others &amp;&amp; (json[&quot;others&quot;] &#x3D; others.map((other) &#x3D;&gt; other.json()));
+    json[&quot;startDate&quot;] &#x3D; startDate;
+    json[&quot;endDate&quot;] &#x3D; endDate;
+    json[&quot;title&quot;] &#x3D; title;
+    json[&quot;course&quot;] &#x3D; course;
+    json[&quot;program&quot;] &#x3D; program;
+    json[&quot;year&quot;] &#x3D; year;
+    json[&quot;questions&quot;] &#x3D; questions;
 
     this.json &#x3D; json;
   }
