@@ -50,7 +50,7 @@
     "file-saver": "^2.0.2",
     "firebase": "^7.13.2",
     "jest-json-schema": "^2.1.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "jszip": "^3.3.0",
     "moment": "^2.29.1",
     "ng2-charts": "2.3.0",
@@ -70,7 +70,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.0",
+    "@angular-devkit/build-angular": "^0.1100.5",
     "@angular/cli": "~9.1.0",
     "@angular/compiler-cli": "~9.1.0",
     "@angular/language-service": "~9.1.0",
