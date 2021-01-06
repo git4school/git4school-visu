@@ -53,7 +53,7 @@
     "jquery": "^3.5.1",
     "jszip": "^3.3.0",
     "moment": "^2.29.1",
-    "ng2-charts": "2.3.0",
+    "ng2-charts": "2.4.2",
     "ngx-clipboard": "^13.0.0",
     "ngx-markdown": "^9.0.0",
     "ngx-spinner": "^9.0.2",
