@@ -14,7 +14,7 @@
         [selectAllRowsOnPage]="true" [virtualization]="false" (select)="onSelect($event)"
         (scroll)="onScroll($event.offsetY)" [rowIdentity]="getId">
         <ngx-datatable-column [headerCheckboxable]="true" [checkboxable]="true" [minWidth]="55" [maxWidth]="100"
-            [width]="70">
+            [width]="70" [sortable]="false">
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-NAME' | translate }}" prop="name" [width]="500">
         </ngx-datatable-column>
