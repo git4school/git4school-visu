@@ -9,7 +9,7 @@
         <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program">
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}" prop="year"></ngx-datatable-column>
-        <ngx-datatable-column [maxWidth]="170">
+        <ngx-datatable-column [maxWidth]="170" [sortable]="false">
             <ng-template let-column="column" ngx-datatable-header-template>
                 <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"
                     [ngbTooltip]="createAssignmentTooltip">
