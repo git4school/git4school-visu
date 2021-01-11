@@ -57,8 +57,7 @@ export class AssignmentChooserComponent implements OnInit {
     modalReference.componentInstance.assignment = assignment;
     modalReference.result.finally(() => {
       this.loadAssignments();
-      if (assignment.id && (assignment.id  === this.dataService.assignment?.id)) {
-        
+      if (assignment.id && assignment.id === this.dataService.assignment?.id) {
         this.databaseService
           .getAssignmentById(assignment.id)
           .then((assignment) => (this.dataService.assignment = assignment));
