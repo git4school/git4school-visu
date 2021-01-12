@@ -107,7 +107,9 @@ const appRoutes: Routes &#x3D; [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [
+    RouterModule.forRoot(appRoutes, { relativeLinkResolution: &quot;legacy&quot; }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
