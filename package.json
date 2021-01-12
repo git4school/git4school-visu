@@ -12,8 +12,7 @@
     "doc": "npx compodoc -p tsconfig.json",
     "serve-doc": "npx compodoc -p tsconfig.json --theme Readthedocs -n \"Git4School documentation\" --includes ./src/assets/additional-docs/ -d docs -a ./src/assets/additional-docs/ -s -w",
     "build:doc": "npm run-script build-prod && npm run-script doc",
-    "update": "ng update --all --force",
-    "postinstall": "ngcc"
+    "update": "ng update --all --force"
   },
   "private": true,
   "dependencies": {
@@ -33,7 +32,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
-    "@ng-bootstrap/ng-bootstrap": "^6.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^8.0.1",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "@swimlane/ngx-datatable": "^19.0.0",

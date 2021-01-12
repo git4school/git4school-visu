@@ -35,18 +35,6 @@ declare var $: any;
 export class OverviewComponent
   extends BaseGraphComponent
   implements OnInit, AfterViewInit {
-  constructor(
-    private translateService: TranslateService,
-    private commitsService: CommitsService,
-    private toastService: ToastService,
-    public jsonManager: JsonManagerService,
-    public dataService: DataService,
-    protected loaderService: LoaderService,
-    private modalService: NgbModal
-  ) {
-    super(loaderService);
-  }
-
   @ViewChild(BaseChartDirective, { static: true }) myChart;
 
   typeaheadSettings;
@@ -161,6 +149,25 @@ export class OverviewComponent
       },
     },
   };
+
+  constructor(
+    private translateService: TranslateService,
+    private commitsService: CommitsService,
+    private toastService: ToastService,
+    public jsonManager: JsonManagerService,
+    public dataService: DataService,
+    protected loaderService: LoaderService,
+    private modalService: NgbModal
+  ) {
+    super(loaderService);
+  }
+
+  @HostListener("window:keyup", ["$event"])
+  keyEvent(event: KeyboardEvent) {
+    if (event.keyCode === 32) {
+      this.resetZoom();
+    }
+  }
 
   ngOnInit(): void {
     this.updateLang();
@@ -577,13 +584,6 @@ export class OverviewComponent
     const datasetIndex = event.active[0]._datasetIndex;
     const dataIndex = event.active[0]._index;
     return this.chartData[datasetIndex].data[dataIndex];
-  }
-
-  @HostListener("window:keyup", ["$event"])
-  keyEvent(event: KeyboardEvent) {
-    if (event.keyCode === 32) {
-      this.resetZoom();
-    }
   }
 
   resetZoom() {
