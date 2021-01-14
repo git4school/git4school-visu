@@ -173,8 +173,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/app/services/toast.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/app/services/toast.service.ts:19</a></div>
                 </td>
             </tr>
 
@@ -248,8 +248,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">src/app/services/toast.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/app/services/toast.service.ts:28</a></div>
                 </td>
             </tr>
 
@@ -323,8 +323,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">src/app/services/toast.service.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">src/app/services/toast.service.ts:10</a></div>
                 </td>
             </tr>
 
@@ -382,22 +382,21 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { ToastrService } from &#x27;ngx-toastr&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
+import { ToastrService } from &quot;ngx-toastr&quot;;
 
 @Injectable({
-  providedIn: &#x27;root&#x27;
+  providedIn: &quot;root&quot;,
 })
 export class ToastService {
-
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService) {}
 
   warning(titre, message) {
     this.toastr.warning(message, titre, {
       progressBar: true,
       enableHtml: true,
       timeOut: 7000,
-      extendedTimeOut: 5000
+      extendedTimeOut: 5000,
     });
   }
 
@@ -406,13 +405,13 @@ export class ToastService {
       progressBar: true,
       enableHtml: true,
       timeOut: 7000,
-      extendedTimeOut: 5000
+      extendedTimeOut: 5000,
     });
   }
 
   success(titre, message) {
     this.toastr.success(message, titre, {
-      progressBar: true
+      progressBar: true,
     });
   }
 }
