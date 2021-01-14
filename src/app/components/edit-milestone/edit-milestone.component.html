@@ -47,7 +47,7 @@
         <hr>
         <button *ngIf="!addMode" type="button" class="btn btn-danger col-5" (click)="deleteMilestone()">{{
             'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}</button>
-        <button type="submit" class="btn btn-primary col-5 float-right mb-2" (click)="submitMilestone()"
+        <button type="submit" class="btn btn-primary col-5 float-right mb-3" (click)="submitMilestone()"
             [disabled]="!milestoneForm.valid">{{
             'OVERVIEW-GRAPH.MODAL.CONFIRM' | translate }}</button>
     </form>
