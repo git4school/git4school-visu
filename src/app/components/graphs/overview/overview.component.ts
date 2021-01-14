@@ -436,7 +436,11 @@ export class OverviewComponent
       window.open(data.commit.url, "_blank");
     } else {
       const rawDate = this.getValueFromEvent(event);
-      this.showAddMilestoneModal(rawDate);
+      setTimeout(() => {
+        if (!this.modalService.hasOpenModals()) {
+          this.showAddMilestoneModal(rawDate);
+        }
+      });
     }
   }
 
