@@ -22,7 +22,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import {
   TranslateLoader,
   TranslateModule,
-  TranslateService
+  TranslateService,
 } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { AuthService } from "@services/auth.service";
@@ -42,6 +42,7 @@ import { ToastrModule } from "ngx-toastr";
 import { TypeaheadModule } from "ngx-type-ahead";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { EditMilestoneComponent } from "./components/edit-milestone/edit-milestone.component";
 import { FileChooserComponent } from "./components/file-chooser/file-chooser.component";
 
 /**
@@ -113,6 +114,7 @@ export function appInitializerFactory(
     ModalAddRepositoriesComponent,
     AssignmentChooserComponent,
     FileChooserComponent,
+    EditMilestoneComponent,
   ],
   imports: [
     BrowserModule,

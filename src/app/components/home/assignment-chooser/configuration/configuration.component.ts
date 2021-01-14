@@ -63,13 +63,6 @@ export class ConfigurationComponent implements OnInit {
     this.saveAssignment();
   }
 
-  private saveAssignment() {
-    this.dataService
-      .saveData(this.assignment)
-      .then(() => this.successToast())
-      .catch(() => this.errorToast());
-  }
-
   openUploadFileModal() {
     let modalReference = this.modalService.open(FileChooserComponent, {});
     modalReference.result.then((assignment) => {
@@ -93,5 +86,12 @@ export class ConfigurationComponent implements OnInit {
 
   errorToast(): any {
     throw new Error("Method not implemented.");
+  }
+
+  private saveAssignment() {
+    this.dataService
+      .saveData(this.assignment)
+      .then(() => this.successToast())
+      .catch(() => this.errorToast());
   }
 }

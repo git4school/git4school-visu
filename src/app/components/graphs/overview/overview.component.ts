@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { NgForm } from "@angular/forms";
+import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { Commit, CommitColor } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
@@ -18,7 +19,6 @@ import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
 import { saveAs } from "file-saver";
 import * as JSZip from "jszip";
-import * as moment from "moment";
 import { BaseChartDirective } from "ng2-charts";
 import { BaseGraphComponent } from "../base-graph.component";
 
@@ -441,28 +441,13 @@ export class OverviewComponent
   }
 
   showAddMilestoneModal(date) {
-    this.dateModal = date.format("YYYY-MM-DDTHH:mm");
-    this.labelModal = "";
-    this.tpGroupModal = "";
-    this.questionsModal = [];
-    this.typeModal = "";
-    this.addModal = true;
-    this.showModal();
+    let milestone = new Milestone(date.format("YYYY-MM-DDTHH:mm"), "");
+    this.openEditMilestoneModal(milestone, true);
   }
 
   showEditMilestoneModal(milestone: Milestone) {
-    this.dateModal = moment(milestone.date).format("YYYY-MM-DDTHH:mm");
-    this.labelModal = milestone.label;
-    this.tpGroupModal = milestone.tpGroup;
-    this.questionsModal = milestone.questions ? milestone.questions : [];
-    this.typeModal = milestone.type;
-    this.addModal = false;
-    this.savedMilestoneModal = milestone;
-    this.showModal();
-  }
-
-  showModal() {
-    $("#addMilestoneModal").modal("show");
+    this.modalService.dismissAll();
+    this.openEditMilestoneModal(milestone, false);
   }
 
   getValueFromEvent(event) {
@@ -473,56 +458,6 @@ export class OverviewComponent
 
   onChartHover(event) {
     const data = this.getDataFromChart(event);
-  }
-
-  onSubmit(form: NgForm) {
-    const questions = form.value.questions;
-
-    const jalon = new Milestone(
-      new Date(form.value.date),
-      form.value.label.trim(),
-      questions.length ? questions : null,
-      (form.value.tpGroup || "").trim(),
-      form.value.jalon
-    );
-
-    if (!this.addModal) {
-      this.deleteElement(
-        this.savedMilestoneModal,
-        this.dataService[this.savedMilestoneModal.type]
-      );
-    }
-
-    if (!this.dataService[jalon.type]) {
-      this.dataService[jalon.type] = [];
-    }
-    this.dataService[jalon.type].push(jalon);
-
-    this.dataService.saveData();
-
-    form.resetForm({
-      date: "",
-      label: "",
-      questions: [],
-      tpGroup: "",
-      jalon: "",
-    });
-
-    this.loadGraphMetadata(
-      this.dataService.repositories,
-      this.dataService.reviews,
-      this.dataService.corrections,
-      this.dataService.questions
-    );
-    this.dispose();
-    let translations = this.translateService.instant([
-      "SUCCESS",
-      "MILESTONE-SAVED",
-    ]);
-    this.toastService.success(
-      translations["SUCCESS"],
-      translations["MILESTONE-SAVED"]
-    );
   }
 
   deleteMilestone() {
@@ -541,7 +476,6 @@ export class OverviewComponent
       this.dataService.corrections,
       this.dataService.questions
     );
-    this.dispose();
     let translations = this.translateService.instant([
       "SUCCESS",
       "MILESTONE-DELETED",
@@ -550,10 +484,6 @@ export class OverviewComponent
       translations["SUCCESS"],
       translations["MILESTONE-DELETED"]
     );
-  }
-
-  deleteElement(element, list) {
-    list.splice(list.indexOf(element), 1).slice();
   }
 
   selectUnit(unit: string) {
@@ -608,10 +538,6 @@ export class OverviewComponent
     panOptions.enabled = !drag;
   }
 
-  dispose() {
-    $("#addMilestoneModal").modal("hide");
-  }
-
   searchSubmit(form: NgForm) {
     this.searchFilter = form.value.search;
     this.loadGraphDataAndRefresh();
@@ -641,6 +567,48 @@ export class OverviewComponent
         this.selectUnit("day");
       }
     }
+  }
+
+  openEditMilestoneModal(milestone: Milestone, addMode: boolean) {
+    let modalReference = this.modalService.open(EditMilestoneComponent, {});
+    modalReference.componentInstance.milestone = milestone;
+    modalReference.componentInstance.addMode = addMode;
+    modalReference.componentInstance.tpGroups = this.dataService.tpGroups;
+    modalReference.componentInstance.questions = this.dataService.questions;
+    modalReference.componentInstance.typeaheadSettings = this.typeaheadSettings;
+    modalReference.result.then(
+      (newMilestone) => {
+        if (!addMode) {
+          this.dataService[milestone.type].splice(
+            this.dataService[milestone.type].indexOf(milestone),
+            1
+          );
+        }
+        if (newMilestone) {
+          this.dataService[newMilestone.type].push(newMilestone);
+        }
+        this.dataService.saveData();
+
+        this.loadGraphMetadata(
+          this.dataService.repositories,
+          this.dataService.reviews,
+          this.dataService.corrections,
+          this.dataService.questions
+        );
+        let translations = this.translateService.instant([
+          "SUCCESS",
+          "MILESTONE-SAVED",
+          "MILESTONE-DELETED",
+        ]);
+        this.toastService.success(
+          translations["SUCCESS"],
+          newMilestone
+            ? translations["MILESTONE-SAVED"]
+            : translations["MILESTONE-DELETED"]
+        );
+      },
+      () => {}
+    );
   }
 
   openUploadFileModal() {
