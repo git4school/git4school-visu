@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
@@ -21,7 +22,8 @@ export class AssignmentChooserComponent implements OnInit {
     private dataService: DataService,
     private modalService: NgbModal,
     private router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -51,8 +53,14 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   openConfigurationModal(assignment: Assignment) {
+    let translation = this.translateService.instant("MESSAGE-UNSAVED-GUARD");
     let modalReference = this.modalService.open(ConfigurationComponent, {
       size: "xl",
+      beforeDismiss: () => {
+        return (
+          !modalReference.componentInstance.isModified || confirm(translation)
+        );
+      },
     });
     modalReference.componentInstance.assignment = assignment;
     modalReference.result.finally(() => {

@@ -11,8 +11,7 @@ import { ToastService } from "@services/toast.service";
   styleUrls: ["./configuration.component.scss"],
 })
 export class ConfigurationComponent implements OnInit {
-  @Input()
-  assignment: Assignment;
+  @Input() assignment: Assignment;
   metadataModified: boolean;
   repositoriesModified: boolean;
   sessionsModified: boolean;

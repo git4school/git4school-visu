@@ -54,6 +54,9 @@ export class MetadataComponent
         "YYYY-MM-DDTHH:mm"
       );
     this.createFormGroup();
+    this.metadataForm.valueChanges.subscribe(() => {
+      this.modify();
+    });
   }
 
   ngOnDestroy() {}
