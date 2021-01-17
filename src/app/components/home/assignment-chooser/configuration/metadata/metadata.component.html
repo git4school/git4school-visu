@@ -3,10 +3,10 @@
     <h4>{{ 'METADATA.PAGE-TITLE' | translate }}</h4>
   </div>
   <div class="card-body">
-    <form class="needs-validation" onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
+    <form class="was-validated" onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
       <div class=" form-group">
         <label for="title">{{ 'METADATA.TITLE' | translate }}</label>
-        <input type="text" class="form-control" id="title" formControlName="title" ngbAutofocus>
+        <input type="text" class="form-control" id="title" formControlName="title" ngbAutofocus required>
       </div>
       <div class="form-row">
         <div class="form-group col">
@@ -52,8 +52,11 @@
         <label for="questions">{{ 'QUESTIONS' | translate }}</label>
         <type-ahead placeholder="Enter question(s) : 1.1, 1.2, ..." formControlName="questions" id="questions"
           [suggestions]="metadata.questions" class="form-control" [multi]="true" [custom]="true"
-          [settings]="typeaheadSettings">
+          [settings]="typeaheadSettings" required>
         </type-ahead>
+        <div *ngIf="metadataForm.get('questions').invalid" class="small form-text text-danger">
+          {{ 'EDIT-METADATA.QUESTIONS-ERROR-MESSAGE' | translate }}
+        </div>
       </div>
       <button [disabled]="metadataForm.invalid" type="submit" class="btn btn-primary"
         ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}" (click)="submitMetadata()">

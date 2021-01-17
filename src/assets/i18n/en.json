@@ -243,5 +243,8 @@
     "COURSE": "Course",
     "PROGRAM": "Program",
     "YEAR": "Year"
+  },
+  "EDIT-METADATA": {
+    "QUESTIONS-ERROR-MESSAGE": "Please, provide questions"
   }
 }
