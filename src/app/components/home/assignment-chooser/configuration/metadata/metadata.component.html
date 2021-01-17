@@ -26,8 +26,8 @@
         <div class="form-group col">
           <label for="startDate">{{ 'METADATA.START-DATE' | translate }}</label>
           <div class="input-group">
-            <input class="form-control" type="search" placeholder="yyyy-mm-dd" ngbDatepicker #startDate="ngbDatepicker"
-              formControlName="startDate" [showWeekNumbers]="true" id="startDate">
+            <input class="form-control" type="search" placeholder="{{ 'YEAR-FORMAT' | translate }}" ngbDatepicker
+              #startDate="ngbDatepicker" formControlName="startDate" [showWeekNumbers]="true" id="startDate">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">
                 <i class="far fa-calendar-alt"></i>
@@ -38,8 +38,8 @@
         <div class="form-group col">
           <label for="endDate">{{ 'METADATA.END-DATE' | translate }}</label>
           <div class="input-group">
-            <input class="form-control" type="search" placeholder="yyyy-mm-dd" ngbDatepicker #endDate="ngbDatepicker"
-              formControlName="endDate" [showWeekNumbers]="true" id="endDate">
+            <input class="form-control" type="search" placeholder="{{ 'YEAR-FORMAT' | translate }}" ngbDatepicker
+              #endDate="ngbDatepicker" formControlName="endDate" [showWeekNumbers]="true" id="endDate">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">
                 <i class="far fa-calendar-alt"></i>

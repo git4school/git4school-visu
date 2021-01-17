@@ -246,5 +246,6 @@
   },
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Please, provide questions"
-  }
+  },
+  "YEAR-FORMAT": "yyyy-mm-dd"
 }
