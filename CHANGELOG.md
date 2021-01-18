@@ -1,5 +1,28 @@
 # Change log for Git4School
 
+## 1.3.1
+
+### Added
+#### Configuration modal
+
+- A JS alert is asking the user to confirm if they want to leave the configuration modal without saving changes
+
+### Modified
+
+#### General
+
+- Update to **Angular 11**
+  - Full migration from TSLint to **ESLint**
+- Update to **typescript 4**
+- Minor dependency updates
+- Migration from npm to _yarn_ for development
+- All tooltips and modals have animation
+
+#### Configuration modal
+
+- Start date and end date are now using _ngb-datepicker_
+- Date format placeholder are _localized_
+
 ## 1.3.0
 
 ### Added
