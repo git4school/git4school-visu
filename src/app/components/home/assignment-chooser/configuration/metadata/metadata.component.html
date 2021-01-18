@@ -3,48 +3,63 @@
     <h4>{{ 'METADATA.PAGE-TITLE' | translate }}</h4>
   </div>
   <div class="card-body">
-    <form class="was-validated" (ngSubmit)="onSubmit(f)" #f="ngForm" onkeydown="return event.key != 'Enter';">
+    <form class="was-validated" onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
       <div class=" form-group">
         <label for="title">{{ 'METADATA.TITLE' | translate }}</label>
-        <input type="text" class="form-control" id="title" name="title" [ngModel]="metadata.title" ngbAutofocus required
-          ngModel>
+        <input type="text" class="form-control" id="title" formControlName="title" ngbAutofocus required>
       </div>
       <div class="form-row">
         <div class="form-group col">
           <label for="course">{{ 'METADATA.COURSE' | translate }}</label>
-          <input type="text" class="form-control" id="course" name="course" [ngModel]="metadata.course" ngModel>
+          <input type="text" class="form-control" id="course" formControlName="course">
         </div>
         <div class="form-group col">
           <label for="program">{{ 'METADATA.PROGRAM' | translate }}</label>
-          <input type="text" class="form-control" id="program" name="program" [ngModel]="metadata.program" ngModel>
+          <input type="text" class="form-control" id="program" formControlName="program">
         </div>
         <div class="form-group col">
           <label for="year">{{ 'METADATA.YEAR' | translate }}</label>
-          <input type="text" class="form-control" id="year" name="year" [ngModel]="metadata.year" ngModel>
+          <input type="text" class="form-control" id="year" formControlName="year">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col">
           <label for="startDate">{{ 'METADATA.START-DATE' | translate }}</label>
-          <input class="form-control" type="datetime-local" id="startDate" name="startDate"
-            [ngModel]="metadata.startDate" ngModel>
+          <div class="input-group">
+            <input class="form-control" type="search" placeholder="{{ 'YEAR-FORMAT' | translate }}" ngbDatepicker
+              #startDate="ngbDatepicker" formControlName="startDate" [showWeekNumbers]="true" id="startDate">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">
+                <i class="far fa-calendar-alt"></i>
+              </button>
+            </div>
+          </div>
         </div>
         <div class="form-group col">
           <label for="endDate">{{ 'METADATA.END-DATE' | translate }}</label>
-          <input class="form-control" type="datetime-local" id="endDate" name="endDate" [ngModel]="metadata.endDate"
-            ngModel>
+          <div class="input-group">
+            <input class="form-control" type="search" placeholder="{{ 'YEAR-FORMAT' | translate }}" ngbDatepicker
+              #endDate="ngbDatepicker" formControlName="endDate" [showWeekNumbers]="true" id="endDate">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">
+                <i class="far fa-calendar-alt"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="form-group">
         <label for="questions">{{ 'QUESTIONS' | translate }}</label>
-        <type-ahead placeholder="Enter question(s) : 1.1, 1.2, ..." name="questions" id="questions"
-          [ngModel]="metadata.questions" [suggestions]="metadata.questions" class="form-control" [multi]="true"
-          [custom]="true" [settings]="typeaheadSettings" ngModel>
+        <type-ahead placeholder="Enter question(s) : 1.1, 1.2, ..." formControlName="questions" id="questions"
+          [suggestions]="metadata.questions" class="form-control" [multi]="true" [custom]="true"
+          [settings]="typeaheadSettings" required>
         </type-ahead>
+        <div *ngIf="metadataForm.get('questions').invalid" class="small form-text text-danger">
+          {{ 'EDIT-METADATA.QUESTIONS-ERROR-MESSAGE' | translate }}
+        </div>
       </div>
-      <!-- <hr> -->
-      <button [disabled]="f.invalid" type="submit" class="btn btn-primary"
-        ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}">
+      <button [disabled]="metadataForm.invalid" type="submit" class="btn btn-primary"
+        ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}" (click)="submitMetadata()">
         <i class="fas fa-save"></i></button>
     </form>
   </div>

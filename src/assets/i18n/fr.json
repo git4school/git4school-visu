@@ -243,5 +243,9 @@
     "COURSE": "Cours",
     "PROGRAM": "Programme",
     "YEAR": "Année"
-  }
+  },
+  "EDIT-METADATA": {
+    "QUESTIONS-ERROR-MESSAGE": "Veuillez indiquer des questions "
+  },
+  "YEAR-FORMAT": "aaaa-mm-jj"
 }

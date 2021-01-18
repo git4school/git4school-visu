@@ -1,6 +1,10 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Metadata } from "@models/Metadata.model";
+import {
+  NgbDateAdapter,
+  NgbDateNativeAdapter,
+} from "@ng-bootstrap/ng-bootstrap";
 import * as moment from "moment";
 import { BaseEditConfigurationComponent } from "../base-edit-configuration.component";
 
@@ -11,12 +15,13 @@ import { BaseEditConfigurationComponent } from "../base-edit-configuration.compo
   selector: "metadata",
   templateUrl: "./metadata.component.html",
   styleUrls: ["./metadata.component.scss"],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })
 export class MetadataComponent
   extends BaseEditConfigurationComponent<Metadata>
-  implements OnInit {
-  @Input()
-  metadata: Metadata;
+  implements OnInit, OnDestroy {
+  @Input() metadata: Metadata;
+  metadataForm: FormGroup;
 
   /**
    * Settings for the typeahead text input
@@ -30,7 +35,7 @@ export class MetadataComponent
    * MetadataComponent constructor
    * @param toastService Service used to display toasts for success or error cases
    */
-  constructor() {
+  constructor(public fb: FormBuilder) {
     super();
   }
 
@@ -48,24 +53,42 @@ export class MetadataComponent
       moment(this.metadata.endDate, "YYYY-MM-DD HH:mm").format(
         "YYYY-MM-DDTHH:mm"
       );
+    this.createFormGroup();
+    this.metadataForm.valueChanges.subscribe(() => {
+      this.modify();
+    });
   }
 
   ngOnDestroy() {}
 
   /**
    * This method is called when the form is submitted (when save button is pressed). Updates data with new values entered
-   * @param form The submitted form
    */
-  onSubmit(form: NgForm) {
-    let modifiedMetadata = form.form.value;
-    this.metadata.title = modifiedMetadata.title;
-    this.metadata.course = modifiedMetadata.course;
-    this.metadata.program = modifiedMetadata.program;
-    this.metadata.year = modifiedMetadata.year;
-    this.metadata.startDate = modifiedMetadata.startDate;
-    this.metadata.endDate = modifiedMetadata.endDate;
-    this.metadata.questions = modifiedMetadata.questions;
+  submitMetadata() {
+    let modifiedMetadata = this.metadataForm.value;
+    let metadata = new Metadata();
+    metadata.title = modifiedMetadata.title;
+    metadata.course = modifiedMetadata.course;
+    metadata.program = modifiedMetadata.program;
+    metadata.year = modifiedMetadata.year;
+    metadata.startDate = modifiedMetadata.startDate;
+    metadata.endDate = modifiedMetadata.endDate;
+    metadata.questions = modifiedMetadata.questions;
 
-    this.save.emit(this.metadata);
+    this.save.emit(metadata);
+  }
+
+  private createFormGroup() {
+    this.metadataForm = this.fb.group({
+      title: [this.metadata.title, Validators.required],
+      course: [this.metadata.course],
+      program: [this.metadata.program],
+      year: [this.metadata.year],
+      startDate: [
+        this.metadata.startDate ? new Date(this.metadata.startDate) : null,
+      ],
+      endDate: [this.metadata.endDate ? new Date(this.metadata.endDate) : null],
+      questions: [this.metadata.questions, Validators.required],
+    });
   }
 }
