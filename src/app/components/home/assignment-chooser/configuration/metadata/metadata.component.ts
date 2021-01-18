@@ -88,7 +88,7 @@ export class MetadataComponent
         this.metadata.startDate ? new Date(this.metadata.startDate) : null,
       ],
       endDate: [this.metadata.endDate ? new Date(this.metadata.endDate) : null],
-      questions: [this.metadata.questions, Validators.required],
+      questions: [this.metadata.questions],
     });
   }
 }

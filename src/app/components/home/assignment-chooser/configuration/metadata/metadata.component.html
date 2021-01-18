@@ -52,11 +52,8 @@
         <label for="questions">{{ 'QUESTIONS' | translate }}</label>
         <type-ahead placeholder="Enter question(s) : 1.1, 1.2, ..." formControlName="questions" id="questions"
           [suggestions]="metadata.questions" class="form-control" [multi]="true" [custom]="true"
-          [settings]="typeaheadSettings" required>
+          [settings]="typeaheadSettings">
         </type-ahead>
-        <div *ngIf="metadataForm.get('questions').invalid" class="small form-text text-danger">
-          {{ 'EDIT-METADATA.QUESTIONS-ERROR-MESSAGE' | translate }}
-        </div>
       </div>
       <button [disabled]="metadataForm.invalid" type="submit" class="btn btn-primary"
         ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}" (click)="submitMetadata()">
