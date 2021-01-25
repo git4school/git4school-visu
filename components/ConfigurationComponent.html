@@ -1077,16 +1077,16 @@ export class ConfigurationComponent implements OnInit {
         &lt;div class&#x3D;&quot;tab-content&quot; id&#x3D;&quot;nav-tabContent&quot;&gt;
             &lt;div class&#x3D;&quot;tab-pane fade show active&quot; id&#x3D;&quot;edit-metadata&quot; role&#x3D;&quot;tabpanel&quot;
                 aria-labelledby&#x3D;&quot;edit-metadata-tab&quot;&gt;
-                &lt;metadata [metadata]&#x3D;&quot;assignment.metadata&quot; (save)&#x3D;&quot;saveMetadata($event)&quot;
+                &lt;metadata [metadata]&#x3D;&quot;assignment.metadata&quot; (saved)&#x3D;&quot;saveMetadata($event)&quot;
                     (modified)&#x3D;&quot;metadataModified &#x3D; true&quot;&gt;&lt;/metadata&gt;
             &lt;/div&gt;
             &lt;div class&#x3D;&quot;tab-pane fade&quot; id&#x3D;&quot;edit-repositories&quot; role&#x3D;&quot;tabpanel&quot; aria-labelledby&#x3D;&quot;edit-repositories-tab&quot;&gt;
-                &lt;edit-repositories [datas]&#x3D;&quot;assignment.repositories&quot; (save)&#x3D;&quot;saveRepositories($event)&quot;
+                &lt;edit-repositories [datas]&#x3D;&quot;assignment.repositories&quot; (saved)&#x3D;&quot;saveRepositories($event)&quot;
                     (modified)&#x3D;&quot;repositoriesModified &#x3D; true&quot;&gt;
                 &lt;/edit-repositories&gt;
             &lt;/div&gt;
             &lt;div class&#x3D;&quot;tab-pane fade&quot; id&#x3D;&quot;edit-sessions&quot; role&#x3D;&quot;tabpanel&quot; aria-labelledby&#x3D;&quot;edit-sessions-tab&quot;&gt;
-                &lt;edit-sessions [datas]&#x3D;&quot;assignment.sessions&quot; (save)&#x3D;&quot;saveSessions($event)&quot;
+                &lt;edit-sessions [datas]&#x3D;&quot;assignment.sessions&quot; (saved)&#x3D;&quot;saveSessions($event)&quot;
                     (modified)&#x3D;&quot;sessionsModified &#x3D; true&quot;&gt;&lt;/edit-sessions&gt;
             &lt;/div&gt;
         &lt;/div&gt;
@@ -1100,7 +1100,28 @@ export class ConfigurationComponent implements OnInit {
                 <p class="comment">
                     <code>./configuration.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss"></code></pre>
+                <pre class="line-numbers"><code class="language-scss">.up-down {
+  animation: move-up-to-down 1.5s infinite cubic-bezier(0.57, 0.81, 0.75, 0.74);
+}
+
+@keyframes move-up-to-down {
+  0% {
+    transform: translateY(0%);
+  }
+
+  25% {
+    transform: translateY(7%);
+  }
+
+  75% {
+    transform: translateY(-7%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -1128,7 +1149,7 @@ export class ConfigurationComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modal-header">    <h4 class="modal-title" id="modal-basic-title">Configurations</h4>    <button class="btn btn-outline-secondary ml-3" [ngbTooltip]="uploadTooltip" (click)="openUploadFileModal()"><i            class="fas fa-upload"></i></button>    <button type="button" class="close" aria-label="Close" (click)="activeModalService.dismiss(\'Cross click\')">        <span aria-hidden="true">&times;</span>    </button></div><div class="modal-body">    <div class="p-2">        <nav>            <div class="nav nav-pills mb-3" id="nav-tab" role="tablist">                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#edit-metadata" role="tab"                    aria-controls="nav-home" aria-selected="true">{{ \'CONFIGURATION.EDIT-METADATA\' | translate }}</a>                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#edit-repositories" role="tab"                    aria-controls="nav-profile" aria-selected="false">{{ \'CONFIGURATION.EDIT-REPOSITORIES\' | translate                    }}</a>                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#edit-sessions" role="tab"                    aria-controls="nav-contact" aria-selected="false">{{ \'CONFIGURATION.EDIT-SESSIONS\' | translate                    }}</a>            </div>        </nav>        <div class="tab-content" id="nav-tabContent">            <div class="tab-pane fade show active" id="edit-metadata" role="tabpanel"                aria-labelledby="edit-metadata-tab">                <metadata [metadata]="assignment.metadata" (save)="saveMetadata($event)"                    (modified)="metadataModified = true"></metadata>            </div>            <div class="tab-pane fade" id="edit-repositories" role="tabpanel" aria-labelledby="edit-repositories-tab">                <edit-repositories [datas]="assignment.repositories" (save)="saveRepositories($event)"                    (modified)="repositoriesModified = true">                </edit-repositories>            </div>            <div class="tab-pane fade" id="edit-sessions" role="tabpanel" aria-labelledby="edit-sessions-tab">                <edit-sessions [datas]="assignment.sessions" (save)="saveSessions($event)"                    (modified)="sessionsModified = true"></edit-sessions>            </div>        </div>    </div></div><ng-template #uploadTooltip>{{ \'OVERVIEW-GRAPH.UPLOAD.TOOLTIP\' | translate }}</ng-template></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="modal-header">    <h4 class="modal-title" id="modal-basic-title">Configurations</h4>    <button class="btn btn-outline-secondary ml-3" [ngbTooltip]="uploadTooltip" (click)="openUploadFileModal()"><i            class="fas fa-upload"></i></button>    <button type="button" class="close" aria-label="Close" (click)="activeModalService.dismiss(\'Cross click\')">        <span aria-hidden="true">&times;</span>    </button></div><div class="modal-body">    <div class="p-2">        <nav>            <div class="nav nav-pills mb-3" id="nav-tab" role="tablist">                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#edit-metadata" role="tab"                    aria-controls="nav-home" aria-selected="true">{{ \'CONFIGURATION.EDIT-METADATA\' | translate }}</a>                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#edit-repositories" role="tab"                    aria-controls="nav-profile" aria-selected="false">{{ \'CONFIGURATION.EDIT-REPOSITORIES\' | translate                    }}</a>                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#edit-sessions" role="tab"                    aria-controls="nav-contact" aria-selected="false">{{ \'CONFIGURATION.EDIT-SESSIONS\' | translate                    }}</a>            </div>        </nav>        <div class="tab-content" id="nav-tabContent">            <div class="tab-pane fade show active" id="edit-metadata" role="tabpanel"                aria-labelledby="edit-metadata-tab">                <metadata [metadata]="assignment.metadata" (saved)="saveMetadata($event)"                    (modified)="metadataModified = true"></metadata>            </div>            <div class="tab-pane fade" id="edit-repositories" role="tabpanel" aria-labelledby="edit-repositories-tab">                <edit-repositories [datas]="assignment.repositories" (saved)="saveRepositories($event)"                    (modified)="repositoriesModified = true">                </edit-repositories>            </div>            <div class="tab-pane fade" id="edit-sessions" role="tabpanel" aria-labelledby="edit-sessions-tab">                <edit-sessions [datas]="assignment.sessions" (saved)="saveSessions($event)"                    (modified)="sessionsModified = true"></edit-sessions>            </div>        </div>    </div></div><ng-template #uploadTooltip>{{ \'OVERVIEW-GRAPH.UPLOAD.TOOLTIP\' | translate }}</ng-template></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'ConfigurationComponent'};

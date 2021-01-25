@@ -117,7 +117,7 @@
 
             <tr>
                 <td class="col-md-3">styleUrls</td>
-                <td class="col-md-9"><code>./metadata.component.scss</code></td>
+                <td class="col-md-9"><code>../configuration.component.scss,<br>./metadata.component.scss</code></td>
             </tr>
 
 
@@ -161,6 +161,9 @@
                                     <span class="modifier">Readonly</span>
                                 <a href="#typeaheadSettings">typeaheadSettings</a>
                             </li>
+                            <li>
+                                <a href="#isModified">isModified</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -189,6 +192,10 @@
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#modify">modify</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#save">save</a>
                             </li>
                         </ul>
                     </td>
@@ -221,7 +228,7 @@
                                 <a href="#modified">modified</a>
                             </li>
                             <li>
-                                <a href="#save">save</a>
+                                <a href="#saved">saved</a>
                             </li>
                         </ul>
                     </td>
@@ -342,8 +349,8 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="save"></a>
-                        <b>save</b>
+                        <a name="saved"></a>
+                        <b>saved</b>
                     </td>
                 </tr>
                 <tr>
@@ -566,7 +573,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:10</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:11</a></code>
 </div>
                 </td>
             </tr>
@@ -578,6 +585,84 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="save"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            save
+                        </b>
+                        <a href="#save"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>save(data: <a href="https://angular.io/api/router/Data" target="_blank">Data</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:16</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Data" target="_blank" >Data</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -686,6 +771,39 @@
 
             </tbody>
         </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isModified"></a>
+                        <span class="name">
+                            <b>
+                            isModified</b>
+                            <a href="#isModified"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:9</a></code>
+</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
 </section>
 
 </div>
@@ -708,7 +826,7 @@ import { BaseEditConfigurationComponent } from &quot;../base-edit-configuration.
 @Component({
   selector: &quot;metadata&quot;,
   templateUrl: &quot;./metadata.component.html&quot;,
-  styleUrls: [&quot;./metadata.component.scss&quot;],
+  styleUrls: [&quot;../configuration.component.scss&quot;, &quot;./metadata.component.scss&quot;],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })
 export class MetadataComponent
@@ -769,7 +887,7 @@ export class MetadataComponent
     metadata.endDate &#x3D; modifiedMetadata.endDate;
     metadata.questions &#x3D; modifiedMetadata.questions;
 
-    this.save.emit(metadata);
+    this.save(metadata);
   }
 
   private createFormGroup() {
@@ -792,7 +910,10 @@ export class MetadataComponent
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;card&quot;&gt;
   &lt;div class&#x3D;&quot;card-header&quot;&gt;
-    &lt;h4&gt;{{ &#x27;METADATA.PAGE-TITLE&#x27; | translate }}&lt;/h4&gt;
+    &lt;h4&gt;{{ &#x27;METADATA.PAGE-TITLE&#x27; | translate }} &lt;span *ngIf&#x3D;&quot;isModified&quot; [ngbTooltip]&#x3D;&quot;toSaveTooltip&quot; class&#x3D;&quot;ml-1&quot;&gt;
+        &lt;i class&#x3D;&quot;fas fa-save text-primary fa-sm up-down&quot;&gt;&lt;/i&gt;
+      &lt;/span&gt;
+    &lt;/h4&gt;
   &lt;/div&gt;
   &lt;div class&#x3D;&quot;card-body&quot;&gt;
     &lt;form class&#x3D;&quot;was-validated&quot; onkeydown&#x3D;&quot;return event.key !&#x3D; &#x27;Enter&#x27;;&quot; [formGroup]&#x3D;&quot;metadataForm&quot; novalidate&gt;
@@ -852,10 +973,37 @@ export class MetadataComponent
         &lt;i class&#x3D;&quot;fas fa-save&quot;&gt;&lt;/i&gt;&lt;/button&gt;
     &lt;/form&gt;
   &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+&lt;/div&gt;
+
+&lt;ng-template #toSaveTooltip&gt;{{ &#x27;TO-SAVE.TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>../configuration.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.up-down {
+  animation: move-up-to-down 1.5s infinite cubic-bezier(0.57, 0.81, 0.75, 0.74);
+}
+
+@keyframes move-up-to-down {
+  0% {
+    transform: translateY(0%);
+  }
+
+  25% {
+    transform: translateY(7%);
+  }
+
+  75% {
+    transform: translateY(-7%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+</code></pre>
                 <p class="comment">
                     <code>./metadata.component.scss</code>
                 </p>
@@ -887,7 +1035,7 @@ export class MetadataComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="card">  <div class="card-header">    <h4>{{ \'METADATA.PAGE-TITLE\' | translate }}</h4>  </div>  <div class="card-body">    <form class="was-validated" onkeydown="return event.key != \'Enter\';" [formGroup]="metadataForm" novalidate>      <div class=" form-group">        <label for="title">{{ \'METADATA.TITLE\' | translate }}</label>        <input type="text" class="form-control" id="title" formControlName="title" ngbAutofocus required>      </div>      <div class="form-row">        <div class="form-group col">          <label for="course">{{ \'METADATA.COURSE\' | translate }}</label>          <input type="text" class="form-control" id="course" formControlName="course">        </div>        <div class="form-group col">          <label for="program">{{ \'METADATA.PROGRAM\' | translate }}</label>          <input type="text" class="form-control" id="program" formControlName="program">        </div>        <div class="form-group col">          <label for="year">{{ \'METADATA.YEAR\' | translate }}</label>          <input type="text" class="form-control" id="year" formControlName="year">        </div>      </div>      <div class="form-row">        <div class="form-group col">          <label for="startDate">{{ \'METADATA.START-DATE\' | translate }}</label>          <div class="input-group">            <input class="form-control" type="search" placeholder="{{ \'YEAR-FORMAT\' | translate }}" ngbDatepicker              #startDate="ngbDatepicker" formControlName="startDate" [showWeekNumbers]="true" id="startDate">            <div class="input-group-append">              <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">                <i class="far fa-calendar-alt"></i>              </button>            </div>          </div>        </div>        <div class="form-group col">          <label for="endDate">{{ \'METADATA.END-DATE\' | translate }}</label>          <div class="input-group">            <input class="form-control" type="search" placeholder="{{ \'YEAR-FORMAT\' | translate }}" ngbDatepicker              #endDate="ngbDatepicker" formControlName="endDate" [showWeekNumbers]="true" id="endDate">            <div class="input-group-append">              <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">                <i class="far fa-calendar-alt"></i>              </button>            </div>          </div>        </div>      </div>      <div class="form-group">        <label for="questions">{{ \'QUESTIONS\' | translate }}</label>        <type-ahead placeholder="Enter question(s) : 1.1, 1.2, ..." formControlName="questions" id="questions"          [suggestions]="metadata.questions" class="form-control" [multi]="true" [custom]="true"          [settings]="typeaheadSettings">        </type-ahead>      </div>      <button [disabled]="metadataForm.invalid" type="submit" class="btn btn-primary"        ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-SAVE\' | translate }}" (click)="submitMetadata()">        <i class="fas fa-save"></i></button>    </form>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="card">  <div class="card-header">    <h4>{{ \'METADATA.PAGE-TITLE\' | translate }} <span *ngIf="isModified" [ngbTooltip]="toSaveTooltip" class="ml-1">        <i class="fas fa-save text-primary fa-sm up-down"></i>      </span>    </h4>  </div>  <div class="card-body">    <form class="was-validated" onkeydown="return event.key != \'Enter\';" [formGroup]="metadataForm" novalidate>      <div class=" form-group">        <label for="title">{{ \'METADATA.TITLE\' | translate }}</label>        <input type="text" class="form-control" id="title" formControlName="title" ngbAutofocus required>      </div>      <div class="form-row">        <div class="form-group col">          <label for="course">{{ \'METADATA.COURSE\' | translate }}</label>          <input type="text" class="form-control" id="course" formControlName="course">        </div>        <div class="form-group col">          <label for="program">{{ \'METADATA.PROGRAM\' | translate }}</label>          <input type="text" class="form-control" id="program" formControlName="program">        </div>        <div class="form-group col">          <label for="year">{{ \'METADATA.YEAR\' | translate }}</label>          <input type="text" class="form-control" id="year" formControlName="year">        </div>      </div>      <div class="form-row">        <div class="form-group col">          <label for="startDate">{{ \'METADATA.START-DATE\' | translate }}</label>          <div class="input-group">            <input class="form-control" type="search" placeholder="{{ \'YEAR-FORMAT\' | translate }}" ngbDatepicker              #startDate="ngbDatepicker" formControlName="startDate" [showWeekNumbers]="true" id="startDate">            <div class="input-group-append">              <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">                <i class="far fa-calendar-alt"></i>              </button>            </div>          </div>        </div>        <div class="form-group col">          <label for="endDate">{{ \'METADATA.END-DATE\' | translate }}</label>          <div class="input-group">            <input class="form-control" type="search" placeholder="{{ \'YEAR-FORMAT\' | translate }}" ngbDatepicker              #endDate="ngbDatepicker" formControlName="endDate" [showWeekNumbers]="true" id="endDate">            <div class="input-group-append">              <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">                <i class="far fa-calendar-alt"></i>              </button>            </div>          </div>        </div>      </div>      <div class="form-group">        <label for="questions">{{ \'QUESTIONS\' | translate }}</label>        <type-ahead placeholder="Enter question(s) : 1.1, 1.2, ..." formControlName="questions" id="questions"          [suggestions]="metadata.questions" class="form-control" [multi]="true" [custom]="true"          [settings]="typeaheadSettings">        </type-ahead>      </div>      <button [disabled]="metadataForm.invalid" type="submit" class="btn btn-primary"        ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-SAVE\' | translate }}" (click)="submitMetadata()">        <i class="fas fa-save"></i></button>    </form>  </div></div><ng-template #toSaveTooltip>{{ \'TO-SAVE.TOOLTIP\' | translate }}</ng-template></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'MetadataComponent'};
