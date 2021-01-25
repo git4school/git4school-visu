@@ -12,7 +12,8 @@
     "doc": "npx compodoc -p tsconfig.json",
     "serve-doc": "npx compodoc -p tsconfig.json --theme Readthedocs -n \"Git4School documentation\" --includes ./src/assets/additional-docs/ -d docs -a ./src/assets/additional-docs/ -s -w",
     "build:doc": "npm run-script build-prod && npm run-script doc",
-    "update": "ng update --all --force"
+    "update": "ng update --all --force",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
@@ -46,6 +47,7 @@
     "class-transformer": "^0.3.1",
     "core-js": "^3.6.4",
     "dexie": "^3.0.3",
+    "dexie-export-import": "^1.0.0",
     "file-saver": "^2.0.2",
     "firebase": "^7.13.2",
     "jest-json-schema": "^2.1.0",
