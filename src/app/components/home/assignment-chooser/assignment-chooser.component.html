@@ -11,10 +11,21 @@
         <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}" prop="year"></ngx-datatable-column>
         <ngx-datatable-column [maxWidth]="170" [sortable]="false">
             <ng-template let-column="column" ngx-datatable-header-template>
-                <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"
-                    [ngbTooltip]="createAssignmentTooltip">
-                    <i class="fas fa-plus"></i>
-                </button>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"
+                        [ngbTooltip]="createAssignmentTooltip">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="btn btn-secondary btn-sm" [ngbTooltip]="downloadTooltip" (click)="exportDB()"><i
+                            class="fas fa-download"></i></button>
+                    <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
+                    <button class="btn btn-secondary btn-sm" (click)="assignmentFile.click();"
+                        [ngbTooltip]="uploadTooltip"><i class="fas fa-upload"></i></button>
+                </div>
+
+
+
+
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="btn-group" role="group">
@@ -40,3 +51,5 @@
 <ng-template #selectAssignmentTooltip>{{ 'HOME.SELECT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
 <ng-template #editAssignmentTooltip>{{ 'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
 <ng-template #deleteAssignmentTooltip>{{ 'HOME.DELETE-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
+<ng-template #downloadTooltip>{{ 'EXPORT-ASSIGNMENTS-TOOLTIP' | translate }}</ng-template>
+<ng-template #uploadTooltip>{{ 'IMPORT-ASSIGNMENTS-TOOLTIP' | translate }}</ng-template>

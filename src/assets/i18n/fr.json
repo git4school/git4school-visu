@@ -250,5 +250,10 @@
   "YEAR-FORMAT": "aaaa-mm-jj",
   "TO-SAVE": {
     "TOOLTIP": "Des changements ont été apportés et doivent être sauvegardés"
-  }
+  },
+  "ERROR": "Erreur",
+  "IMPORT-SUCCESS": "Les assignments ont été importés avec succès",
+  "IMPORT-ERROR": "Une erreur a eu lieu et les assignments n'ont pas pu être importés",
+  "EXPORT-ASSIGNMENTS-TOOLTIP": "Exporter les assignments",
+  "IMPORT-ASSIGNMENTS-TOOLTIP": "Importer des assignments"
 }

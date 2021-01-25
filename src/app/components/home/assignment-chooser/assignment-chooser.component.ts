@@ -6,6 +6,8 @@ import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
+import { ToastService } from "@services/toast.service";
+import { saveAs } from "file-saver";
 import { ConfigurationComponent } from "./configuration/configuration.component";
 
 @Component({
@@ -23,7 +25,8 @@ export class AssignmentChooserComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     public authService: AuthService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -71,5 +74,42 @@ export class AssignmentChooserComponent implements OnInit {
           .then((assignment) => (this.dataService.assignment = assignment));
       }
     });
+  }
+
+  exportDB() {
+    this.databaseService
+      .exportDB()
+      .then((blob) => saveAs(blob, "assignments.json"));
+  }
+
+  importDB(blob: Blob) {
+    let translations = this.translateService.instant([
+      "SUCCESS",
+      "ERROR",
+      "IMPORT-SUCCESS",
+      "IMPORT-ERROR",
+    ]);
+    this.databaseService
+      .importDB(blob)
+      .then(() => {
+        this.loadAssignments();
+        this.toastService.success(
+          translations["SUCCESS"],
+          translations["IMPORT-SUCCESS"]
+        );
+      })
+      .catch(() => {
+        this.toastService.error(
+          translations["ERROR"],
+          translations["IMPORT-ERROR"]
+        );
+      });
+  }
+
+  changeListener($event): void {
+    let file = $event.target.files[0];
+    if (file) {
+      this.importDB(file);
+    }
   }
 }
