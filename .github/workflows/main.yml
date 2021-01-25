@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@master
         with:
-          node-version: "15.X"
+          node-version: "14.X"
       - name: Install Dependencies
         run: npm install
       - name: Build app & doc
