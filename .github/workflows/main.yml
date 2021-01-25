@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: "14.X"
       - name: Install Dependencies
-        run: npm install
+        run: yarn
       - name: Build app & doc
         run: npm run build:doc
       - name: Upload Archive Production Artifact
