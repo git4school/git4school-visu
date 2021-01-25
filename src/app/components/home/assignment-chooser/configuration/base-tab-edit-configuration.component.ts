@@ -50,8 +50,6 @@ export abstract class BaseTabEditConfigurationComponent<Data>
       });
   }
 
-  abstract createFormGroup(data?: Data);
-
   addRow(data?: Data) {
     const control = this.getFormControls;
     const group = this.createFormGroup(data);
@@ -88,7 +86,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
     }
   }
 
-  cancelRow(group: FormGroup) {
+  cancelRow(group: FormGroup, index: number) {
     this.restoreRow(group);
     this.nbEditing--;
     group.get("isEditable").setValue(false);
@@ -102,6 +100,8 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   restoreRow(group: FormGroup) {
     group.setValue(group.get("save").value);
   }
+
+  abstract createFormGroup(data?: Data);
 
   abstract submitForm(): void;
 }
