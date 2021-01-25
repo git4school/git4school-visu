@@ -2,15 +2,16 @@ import {
   AfterContentChecked,
   ChangeDetectorRef,
   Component,
-  OnInit
+  OnInit,
 } from "@angular/core";
 import {
   AbstractControl,
   AsyncValidatorFn,
   FormBuilder,
+  FormGroup,
   ValidationErrors,
   ValidatorFn,
-  Validators
+  Validators,
 } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -25,7 +26,10 @@ import { ModalAddRepositoriesComponent } from "./modal-add-repositories/modal-ad
 @Component({
   selector: "edit-repositories",
   templateUrl: "./edit-repositories.component.html",
-  styleUrls: ["./edit-repositories.component.scss"],
+  styleUrls: [
+    "../configuration.component.scss",
+    "./edit-repositories.component.scss",
+  ],
 })
 export class EditRepositoriesComponent
   extends BaseTabEditConfigurationComponent<Repository>
@@ -123,9 +127,7 @@ export class EditRepositoriesComponent
 
   submitForm() {
     const formArray = this.getFormControls;
-    this.save.emit(
-      formArray.controls.map((row) => Repository.withJSON(row.value))
-    );
+    this.save(formArray.controls.map((row) => Repository.withJSON(row.value)));
   }
 
   getErrorTooltip(errors: Error[]): string {
@@ -135,5 +137,12 @@ export class EditRepositoriesComponent
     return errors
       .map((err) => this.translateService.instant("ERROR-MESSAGE-" + err.type))
       .join(". ");
+  }
+
+  cancelRow(group: FormGroup, index: number) {
+    super.cancelRow(group, index);
+    if (!group.get("url").value) {
+      this.deleteRow(index);
+    }
   }
 }

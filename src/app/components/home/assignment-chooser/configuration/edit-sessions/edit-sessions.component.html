@@ -1,6 +1,9 @@
 <div class="card">
     <div class="card-header">
-        <h4>{{ 'EDIT-SESSIONS.PAGE-TITLE' | translate }}</h4>
+        <h4>{{ 'EDIT-SESSIONS.PAGE-TITLE' | translate }} <span *ngIf="isModified" [ngbTooltip]="toSaveTooltip"
+                class="ml-1">
+                <i class="fas fa-save text-primary fa-sm up-down"></i>
+            </span></h4>
     </div>
     <div class="card-body">
         <form class="needs-validation" [formGroup]="formGroup" novalidate>
@@ -64,7 +67,7 @@
                             </td>
                             <td>
                                 <div *ngIf="isEditable(group)" class="btn-group" role="group" aria-label="">
-                                    <button type="reset" class="btn btn-danger" (click)="cancelRow(group)"><i
+                                    <button type="reset" class="btn btn-danger" (click)="cancelRow(group, i)"><i
                                             class="fas fa-times"></i></button>
                                     <button type="submit" class="btn btn-success" (click)="validateRow(group)"><i
                                             class="fas fa-check"></i></button>
@@ -93,3 +96,5 @@
         </form>
     </div>
 </div>
+
+<ng-template #toSaveTooltip>{{ 'TO-SAVE.TOOLTIP' | translate }}</ng-template>

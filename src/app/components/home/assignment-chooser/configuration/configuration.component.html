@@ -23,16 +23,16 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="edit-metadata" role="tabpanel"
                 aria-labelledby="edit-metadata-tab">
-                <metadata [metadata]="assignment.metadata" (save)="saveMetadata($event)"
+                <metadata [metadata]="assignment.metadata" (saved)="saveMetadata($event)"
                     (modified)="metadataModified = true"></metadata>
             </div>
             <div class="tab-pane fade" id="edit-repositories" role="tabpanel" aria-labelledby="edit-repositories-tab">
-                <edit-repositories [datas]="assignment.repositories" (save)="saveRepositories($event)"
+                <edit-repositories [datas]="assignment.repositories" (saved)="saveRepositories($event)"
                     (modified)="repositoriesModified = true">
                 </edit-repositories>
             </div>
             <div class="tab-pane fade" id="edit-sessions" role="tabpanel" aria-labelledby="edit-sessions-tab">
-                <edit-sessions [datas]="assignment.sessions" (save)="saveSessions($event)"
+                <edit-sessions [datas]="assignment.sessions" (saved)="saveSessions($event)"
                     (modified)="sessionsModified = true"></edit-sessions>
             </div>
         </div>

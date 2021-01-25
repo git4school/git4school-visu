@@ -247,5 +247,8 @@
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Please, provide questions"
   },
-  "YEAR-FORMAT": "yyyy-mm-dd"
+  "YEAR-FORMAT": "yyyy-mm-dd",
+  "TO-SAVE": {
+    "TOOLTIP": "Changes have occurred and need to be saved"
+  }
 }

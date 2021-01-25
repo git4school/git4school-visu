@@ -1,0 +1,21 @@
+.up-down {
+  animation: move-up-to-down 1.5s infinite cubic-bezier(0.57, 0.81, 0.75, 0.74);
+}
+
+@keyframes move-up-to-down {
+  0% {
+    transform: translateY(0%);
+  }
+
+  25% {
+    transform: translateY(7%);
+  }
+
+  75% {
+    transform: translateY(-7%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}

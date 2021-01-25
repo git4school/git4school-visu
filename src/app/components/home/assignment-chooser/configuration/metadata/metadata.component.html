@@ -1,6 +1,9 @@
 <div class="card">
   <div class="card-header">
-    <h4>{{ 'METADATA.PAGE-TITLE' | translate }}</h4>
+    <h4>{{ 'METADATA.PAGE-TITLE' | translate }} <span *ngIf="isModified" [ngbTooltip]="toSaveTooltip" class="ml-1">
+        <i class="fas fa-save text-primary fa-sm up-down"></i>
+      </span>
+    </h4>
   </div>
   <div class="card-body">
     <form class="was-validated" onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
@@ -61,3 +64,5 @@
     </form>
   </div>
 </div>
+
+<ng-template #toSaveTooltip>{{ 'TO-SAVE.TOOLTIP' | translate }}</ng-template>

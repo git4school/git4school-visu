@@ -2,19 +2,19 @@ import {
   AfterContentChecked,
   ChangeDetectorRef,
   Component,
-  OnInit
+  OnInit,
 } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
   ValidatorFn,
-  Validators
+  Validators,
 } from "@angular/forms";
 import { Session } from "@models/Session.model";
 import {
   NgbDateAdapter,
-  NgbDateNativeAdapter
+  NgbDateNativeAdapter,
 } from "@ng-bootstrap/ng-bootstrap";
 import { Utils } from "@services/utils";
 import * as moment from "moment";
@@ -23,7 +23,10 @@ import { BaseTabEditConfigurationComponent } from "../base-tab-edit-configuratio
 @Component({
   selector: "edit-sessions",
   templateUrl: "./edit-sessions.component.html",
-  styleUrls: ["./edit-sessions.component.scss"],
+  styleUrls: [
+    "../configuration.component.scss",
+    "./edit-sessions.component.scss",
+  ],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })
 export class EditSessionsComponent
@@ -58,14 +61,8 @@ export class EditSessionsComponent
   createFormGroup(data?: Session) {
     let formGroup = this.fb.group({
       date: [data ? data.startDate : new Date(), Validators.required],
-      startTime: [
-        Utils.getTimeFromDate(data?.startDate),
-        Validators.required,
-      ],
-      endTime: [
-        Utils.getTimeFromDate(data?.endDate),
-        Validators.required,
-      ],
+      startTime: [Utils.getTimeFromDate(data?.startDate), Validators.required],
+      endTime: [Utils.getTimeFromDate(data?.endDate), Validators.required],
       tpGroup: [data?.tpGroup],
       isEditable: false,
       isInvalid: false,
@@ -76,7 +73,7 @@ export class EditSessionsComponent
   }
 
   submitForm() {
-    this.save.emit(
+    this.save(
       this.getFormControls.controls.map((row) => {
         let date = row.get("date").value;
         let startTime = row.get("startTime").value;
@@ -88,5 +85,12 @@ export class EditSessionsComponent
         return new Session(startDate, endDate, tpGroup);
       })
     );
+  }
+
+  cancelRow(group: FormGroup, index: number) {
+    super.cancelRow(group, index);
+    if (!group.get("startTime").value || !group.get("endTime").value) {
+      this.deleteRow(index);
+    }
   }
 }

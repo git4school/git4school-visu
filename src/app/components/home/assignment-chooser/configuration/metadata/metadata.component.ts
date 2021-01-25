@@ -14,7 +14,7 @@ import { BaseEditConfigurationComponent } from "../base-edit-configuration.compo
 @Component({
   selector: "metadata",
   templateUrl: "./metadata.component.html",
-  styleUrls: ["./metadata.component.scss"],
+  styleUrls: ["../configuration.component.scss", "./metadata.component.scss"],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })
 export class MetadataComponent
@@ -75,7 +75,7 @@ export class MetadataComponent
     metadata.endDate = modifiedMetadata.endDate;
     metadata.questions = modifiedMetadata.questions;
 
-    this.save.emit(metadata);
+    this.save(metadata);
   }
 
   private createFormGroup() {
