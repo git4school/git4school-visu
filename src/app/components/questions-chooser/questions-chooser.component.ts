@@ -1,7 +1,8 @@
-import { Component, forwardRef, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
+import { merge, Observable, Subject } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 @Component({
   selector: "questions-chooser",
@@ -10,13 +11,15 @@ import { map } from "rxjs/operators";
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => QuestionsChooserComponent),
+      useExisting: QuestionsChooserComponent,
       multi: true,
     },
   ],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuestionsChooserComponent implements OnInit, ControlValueAccessor {
+export class QuestionsChooserComponent
+  implements OnInit, ControlValueAccessor, OnDestroy {
+  @ViewChild("instance", { static: true }) instance: NgbTypeahead;
   @Input() questions: string[] = [];
   @Input() questionSuggestions: string[] = [];
   @Input() editable = true;
@@ -25,10 +28,17 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor {
 
   question: string;
 
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
+
   constructor() {}
 
-  searchQuestions = (text: Observable<string>) =>
-    text.pipe(
+  searchQuestions = (text: Observable<string>) => {
+    const clicksWithClosedPopup$ = this.click$.pipe(
+      filter(() => !this.instance.isPopupOpen())
+    );
+    const inputFocus$ = this.focus$;
+    return merge(text, clicksWithClosedPopup$, inputFocus$).pipe(
       map((search) =>
         this.questionSuggestions
           .filter(
@@ -39,11 +49,17 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor {
           .slice(0, 10)
       )
     );
+  };
 
   ngOnInit(): void {
     this.disabled = false;
     this.questions = [...this.questions];
     this.questionSuggestions = [...this.questionSuggestions];
+  }
+
+  ngOnDestroy(): void {
+    this.focus$.unsubscribe();
+    this.click$.unsubscribe();
   }
 
   addQuestion(question: string) {
