@@ -1,0 +1,17 @@
+<div>
+    <input type="text" class="form-control" [(ngModel)]="question" [ngbTypeahead]="searchQuestions"
+        [editable]="editable" [resultTemplate]="rt" (keydown.enter)="onEnter()" />
+</div>
+<div *ngFor="let question of questions; let i = index" class="d-inline-flex">
+    <span class="badge badge-pill badge-secondary mr-1">{{question}} <span class="clickable"
+            (click)="deleteQuestion(i)">
+            <i class="fas fa-times ml-1"></i>
+        </span>
+    </span>
+</div>
+
+<ng-template #rt let-r="result" let-t="term">
+    <span class="badge badge-pill badge-secondary">
+        <ngb-highlight [result]="r" [term]="t"></ngb-highlight>
+    </span>
+</ng-template>
