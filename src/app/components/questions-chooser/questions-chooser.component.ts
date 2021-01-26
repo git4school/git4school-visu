@@ -9,12 +9,12 @@ import { map } from "rxjs/operators";
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestionsChooserComponent implements OnInit {
+  @Input() questions: string[] = [];
   @Input() questionSuggestions: string[] = [];
   @Input() editable = true;
   @Input() openOnFocus = false;
 
   question: string;
-  questions: string[];
 
   constructor() {}
 
@@ -31,7 +31,8 @@ export class QuestionsChooserComponent implements OnInit {
     );
 
   ngOnInit(): void {
-    this.questions = [];
+    this.questions = [...this.questions];
+    this.questionSuggestions = [...this.questionSuggestions];
   }
 
   addQuestion(question: string) {
