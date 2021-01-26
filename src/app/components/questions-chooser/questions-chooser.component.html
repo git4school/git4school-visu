@@ -1,13 +1,17 @@
 <div>
     <input type="text" class="form-control" [(ngModel)]="question" [ngbTypeahead]="searchQuestions"
-        [editable]="editable" [resultTemplate]="rt" (keydown.enter)="onEnter()" />
+        [editable]="editable" [resultTemplate]="rt" (keydown.enter)="onEnter()"
+        placeholder="{{ 'QUESTIONS-CHOOSER-PLACEHOLDER' | translate }}" [disabled]="disabled" />
 </div>
 <div *ngFor="let question of questions; let i = index" class="d-inline-flex">
-    <span class="badge badge-pill badge-secondary mr-1">{{question}} <span class="clickable"
+    <span class="badge badge-pill badge-secondary mr-1">{{question}} <span class="clickable" *ngIf="!disabled"
             (click)="deleteQuestion(i)">
             <i class="fas fa-times ml-1"></i>
         </span>
     </span>
+</div>
+<div *ngIf="!questions.length">
+    <small class="text-muted">{{ 'NO-QUESTION' | translate }}</small>
 </div>
 
 <ng-template #rt let-r="result" let-t="term">

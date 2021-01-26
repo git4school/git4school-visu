@@ -120,7 +120,6 @@
       "TITLE": "Upload file",
       "FILE-PLACEHOLDER": "Choose file"
     },
-    "SEARCH-PLACEHOLDER": "Search question(s) : 1.1, 1.2, ...",
     "SEARCH-BUTTON": "Search",
     "MARKERS": {
       "BUTTON": "Markers",
@@ -255,5 +254,7 @@
   "IMPORT-SUCCESS": "Assignments were successfully imported",
   "IMPORT-ERROR": "An error occurred and assignments could not be imported",
   "EXPORT-ASSIGNMENTS-TOOLTIP": "Export assignments",
-  "IMPORT-ASSIGNMENTS-TOOLTIP": "Import assignments"
+  "IMPORT-ASSIGNMENTS-TOOLTIP": "Import assignments",
+  "QUESTIONS-CHOOSER-PLACEHOLDER": "To add a question, type it and press enter",
+  "NO-QUESTION": "No question"
 }

@@ -119,7 +119,6 @@
       "TITLE": "Téléverser un fichier",
       "FILE-PLACEHOLDER": "Choisir un fichier"
     },
-    "SEARCH-PLACEHOLDER": "Chercher une question : 1.1, 1.2, ...",
     "SEARCH-BUTTON": "Chercher",
     "MARKERS": {
       "BUTTON": "Marqueurs",
@@ -255,5 +254,7 @@
   "IMPORT-SUCCESS": "Les assignments ont été importés avec succès",
   "IMPORT-ERROR": "Une erreur a eu lieu et les assignments n'ont pas pu être importés",
   "EXPORT-ASSIGNMENTS-TOOLTIP": "Exporter les assignments",
-  "IMPORT-ASSIGNMENTS-TOOLTIP": "Importer des assignments"
+  "IMPORT-ASSIGNMENTS-TOOLTIP": "Importer des assignments",
+  "QUESTIONS-CHOOSER-PLACEHOLDER": "Pour ajouter une question, tapez là puis appuyez sur entrer",
+  "NO-QUESTION": "Aucune question"
 }
