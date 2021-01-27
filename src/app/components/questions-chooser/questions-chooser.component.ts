@@ -79,6 +79,11 @@ export class QuestionsChooserComponent
     this.addQuestion(this.question);
   }
 
+  onSelect(item) {
+    this.addQuestion(item.item);
+    item.preventDefault();
+  }
+
   writeValue(obj: any): void {
     if (obj) {
       this.questions = obj;
