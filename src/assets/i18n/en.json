@@ -120,7 +120,6 @@
       "TITLE": "Upload file",
       "FILE-PLACEHOLDER": "Choose file"
     },
-    "SEARCH-PLACEHOLDER": "Search question(s) : 1.1, 1.2, ...",
     "SEARCH-BUTTON": "Search",
     "MARKERS": {
       "BUTTON": "Markers",
@@ -250,5 +249,16 @@
   "YEAR-FORMAT": "yyyy-mm-dd",
   "TO-SAVE": {
     "TOOLTIP": "Changes have occurred and need to be saved"
-  }
+  },
+  "ERROR": "Error",
+  "IMPORT-SUCCESS": "Assignments were successfully imported",
+  "IMPORT-ERROR": "An error occurred and assignments could not be imported",
+  "EXPORT-ASSIGNMENTS-TOOLTIP": "Export assignments",
+  "IMPORT-ASSIGNMENTS-TOOLTIP": "Import assignments",
+  "QUESTIONS-CHOOSER-PLACEHOLDER": "To add a question, type it and press enter",
+  "NO-QUESTION": "No question",
+  "IMPORT-CONFIRMATION-TITLE": "Import confirmation",
+  "IMPORT-CONFIRMATION-MESSAGE": "After confirmation, your current assignments will be deleted and the assignments will be imported",
+  "CANCEL": "Cancel",
+  "CONFIRM": "Confirm"
 }

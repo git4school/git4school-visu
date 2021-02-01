@@ -5,6 +5,8 @@ import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
+import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.component";
 import { OverviewComponent } from "@components/graphs/overview/overview.component";
 import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
@@ -16,9 +18,10 @@ import { ModalAddRepositoriesComponent } from "@components/home/assignment-choos
 import { EditSessionsComponent } from "@components/home/assignment-chooser/configuration/edit-sessions/edit-sessions.component";
 import { MetadataComponent } from "@components/home/assignment-chooser/configuration/metadata/metadata.component";
 import { HomeComponent } from "@components/home/home.component";
+import { QuestionsChooserComponent } from "@components/questions-chooser/questions-chooser.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { AuthGuard } from "@guards/auth.guard";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import {
   TranslateLoader,
   TranslateModule,
@@ -39,11 +42,8 @@ import { ClipboardModule } from "ngx-clipboard";
 import { MarkdownModule } from "ngx-markdown";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from "ngx-toastr";
-import { TypeaheadModule } from "ngx-type-ahead";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { EditMilestoneComponent } from "./components/edit-milestone/edit-milestone.component";
-import { FileChooserComponent } from "./components/file-chooser/file-chooser.component";
 
 /**
  * Firebase configuration file
@@ -115,6 +115,7 @@ export function appInitializerFactory(
     AssignmentChooserComponent,
     FileChooserComponent,
     EditMilestoneComponent,
+    QuestionsChooserComponent,
   ],
   imports: [
     BrowserModule,
@@ -132,7 +133,6 @@ export function appInitializerFactory(
     BrowserAnimationsModule,
     ClipboardModule,
     MarkdownModule.forRoot(),
-    TypeaheadModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -163,6 +163,7 @@ export function appInitializerFactory(
       deps: [TranslateService],
     },
     DatabaseService,
+    NgbActiveModal,
   ],
   bootstrap: [AppComponent],
 })

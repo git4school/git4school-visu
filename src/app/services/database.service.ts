@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Assignment } from "@models/Assignment.model";
 import { plainToClass } from "class-transformer";
 import Dexie from "dexie";
+import { exportDB, importInto } from "dexie-export-import";
 
 @Injectable({
   providedIn: "root",
@@ -39,5 +40,15 @@ export class DatabaseService extends Dexie {
     return this.assignments
       .get(id)
       .then((assignment) => plainToClass(Assignment, assignment));
+  }
+
+  exportDB(): Promise<Blob> {
+    return exportDB(this, { prettyJson: true });
+  }
+
+  importDB(blob: Blob): Promise<void> {
+    return importInto(this, blob, {
+      clearTablesBeforeImport: true,
+    });
   }
 }
