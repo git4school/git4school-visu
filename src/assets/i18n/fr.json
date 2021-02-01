@@ -256,5 +256,9 @@
   "EXPORT-ASSIGNMENTS-TOOLTIP": "Exporter les assignments",
   "IMPORT-ASSIGNMENTS-TOOLTIP": "Importer des assignments",
   "QUESTIONS-CHOOSER-PLACEHOLDER": "Pour ajouter une question, tapez la puis appuyez sur entrer",
-  "NO-QUESTION": "Aucune question"
+  "NO-QUESTION": "Aucune question",
+  "IMPORT-CONFIRMATION-TITLE": "Confirmation d'importation",
+  "IMPORT-CONFIRMATION-MESSAGE": "Après confirmation, vos assignments actuels seront supprimés et les assignments seront importés",
+  "CANCEL": "Annuler",
+  "CONFIRM": "Confirmer"
 }
