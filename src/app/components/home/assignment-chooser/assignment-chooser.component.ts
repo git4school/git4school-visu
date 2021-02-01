@@ -7,12 +7,12 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
+import { AssignmentsService } from "@services/assignments.service";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ToastService } from "@services/toast.service";
 import { saveAs } from "file-saver";
-import { ConfigurationComponent } from "./configuration/configuration.component";
 
 @Component({
   selector: "assignment-chooser",
@@ -34,7 +34,8 @@ export class AssignmentChooserComponent implements OnInit {
     public authService: AuthService,
     private translateService: TranslateService,
     private toastService: ToastService,
-    public activeModalService: NgbActiveModal
+    public activeModalService: NgbActiveModal,
+    private assignmentsService: AssignmentsService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +51,7 @@ export class AssignmentChooserComponent implements OnInit {
 
   selectAssignment(assignment: Assignment) {
     this.dataService.assignment = assignment;
-    this.router.navigate(["overview"]);
+    if (this.dataService.repoToLoad) this.router.navigate(["overview"]);
   }
 
   deleteAssignment(assignment: Assignment) {
@@ -64,17 +65,7 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   openConfigurationModal(assignment: Assignment) {
-    let translation = this.translateService.instant("MESSAGE-UNSAVED-GUARD");
-    let modalReference = this.modalService.open(ConfigurationComponent, {
-      size: "xl",
-      beforeDismiss: () => {
-        return (
-          !modalReference.componentInstance.isModified || confirm(translation)
-        );
-      },
-    });
-    modalReference.componentInstance.assignment = assignment;
-    modalReference.result.finally(() => {
+    this.assignmentsService.openConfigurationModal(assignment).finally(() => {
       this.loadAssignments();
       if (assignment.id && assignment.id === this.dataService.assignment?.id) {
         this.databaseService

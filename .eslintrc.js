@@ -17,15 +17,13 @@ module.exports = {
         es6: true,
         node: true
     },
-    extends: [
-        "prettier",
-        "prettier/@typescript-eslint"
-    ],
+    "extends": ["plugin:prettier/recommended"],
     parser: "@typescript-eslint/parser",
     parserOptions: {
         sourceType: "module"
     },
     plugins: [
+        "prettier",
         "eslint-plugin-import",
         "eslint-plugin-jsdoc",
         "@angular-eslint/eslint-plugin",
@@ -164,6 +162,10 @@ module.exports = {
         "space-in-parens": [
             "off",
             "never"
-        ]
+        ],
+        "prettier/prettier": ["error", {
+            "declaration-colon-space-after": "always-single-line",
+            "declaration-colon-newline-after": "always-multi-line",
+        }]
     }
 };

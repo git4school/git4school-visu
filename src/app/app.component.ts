@@ -19,11 +19,6 @@ import "rxjs/add/observable/interval";
 })
 export class AppComponent implements OnInit, OnDestroy {
   /**
-   * This boolean is set to true when authentication is loading
-   */
-  loading = false;
-
-  /**
    * AppComponent constructor
    * @param authService Authentication service
    * @param dataService Service used to store and get data
@@ -49,39 +44,10 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     Chart.pluginService.unregister(ChartDataLabels);
-    if (!this.authService.isSignedIn()) {
-      this.loading = true;
-      this.authService
-        .callback()
-        .then(
-          () => {
-            this.loading = false;
-            this.router.navigate(["overview"]);
-          },
-          () => {
-            this.loading = false;
-          }
-        )
-        .catch(() => (this.loading = false));
-    }
   }
 
   changeLanguage(language: string) {
     this.translateService.use(language);
-  }
-
-  /**
-   * Signs in
-   */
-  onSignInGithub() {
-    this.authService.signIn();
-  }
-
-  /**
-   * Signs out
-   */
-  onSignOut() {
-    this.authService.signOut();
   }
 
   /**
