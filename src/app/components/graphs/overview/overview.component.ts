@@ -5,7 +5,6 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { Commit, CommitColor } from "@models/Commit.model";
@@ -380,26 +379,11 @@ export class OverviewComponent
       .forEach((repository) => {
         const data = [];
         const pointStyle = [];
-        // const reviews = !this.dataService.reviews
-        //   ? null
-        //   : this.dataService.reviews.filter(
-        //     review => review.tpGroup === repository.tpGroup
-        //   );
-        // const corrections = !this.dataService.corrections
-        //   ? null
-        //   : this.dataService.corrections.filter(
-        //     correction => correction.tpGroup === repository.tpGroup
-        //   );
         const pointBackgroundColor = [];
         const borderColor = "rgba(77, 77, 77, 0.5)";
         labels.push(repository.name);
         repository.commits &&
           repository.commits.forEach((commit) => {
-            // commit.updateMetadata(
-            //   reviews,
-            //   corrections,
-            //   this.dataService.questions
-            // );
             if (
               !this.searchFilter.length ||
               this.searchFilter.includes(commit.question)
@@ -542,8 +526,7 @@ export class OverviewComponent
     panOptions.enabled = !drag;
   }
 
-  searchSubmit(form: NgForm) {
-    this.searchFilter = form.value.search;
+  searchSubmit() {
     this.loadGraphDataAndRefresh();
   }
 

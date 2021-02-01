@@ -1,18 +1,9 @@
 <div class="d-flex flex-row p-3">
     <div class="w-50">
-        <form (ngSubmit)="searchSubmit(searchForm)" #searchForm="ngForm">
-            <div class="input-group">
-                <type-ahead placeholder="{{ 'OVERVIEW-GRAPH.SEARCH-PLACEHOLDER' | translate }}" name="search"
-                    [suggestions]="dataService.questions" class="form-control" [multi]="true" [custom]="false"
-                    [settings]="typeaheadSettings" [disabled]="!dataService.questions?.length || loading" ngModel>
-                </type-ahead>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" id="search-submit"
-                        [disabled]="!dataService.questions?.length || loading" type="submit">{{
-                        'OVERVIEW-GRAPH.SEARCH-BUTTON' | translate }}</button>
-                </div>
-            </div>
-        </form>
+        <questions-chooser #questionsChooser [questionSuggestions]="dataService.questions" [editable]="false"
+            [openOnFocus]="true" (ngModelChange)="loadGraphDataAndRefresh()" [(ngModel)]="searchFilter"
+            [noQuestionMessage]="false">
+        </questions-chooser>
     </div>
     <div class="pl-2">
         <select class="form-control" [disabled]="!dataService.tpGroups?.length || loading" [(ngModel)]="tpGroup"

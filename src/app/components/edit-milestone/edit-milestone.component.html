@@ -8,7 +8,7 @@
     </button>
 </div>
 <div class="modal-body">
-    <form class="was-validated" [formGroup]="milestoneForm">
+    <form class="was-validated" [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()">
         <div class="form-group">
             <label for="date" class="col-form-label">{{ 'DATE' | translate }} :</label>
             <input class="form-control" type="datetime-local" id="date" formControlName="date">
@@ -25,11 +25,10 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="questions" class="col-form-label">{{ 'QUESTIONS' | translate }} :</label>
-            <type-ahead placeholder="{{ 'OVERVIEW-GRAPH.MODAL.QUESTIONS-PLACEHOLDER' | translate }}" name="questions"
-                id="questions" [suggestions]="questions" class="form-control" [multi]="true" [custom]="false"
-                [settings]="typeaheadSettings" formControlName="questions">
-            </type-ahead>
+            <label for="questionsChooser" class="col-form-label">{{ 'QUESTIONS' | translate }} :</label>
+            <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="questions"
+                [editable]="false" [openOnFocus]="true">
+            </questions-chooser>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
             <input type="radio" id="corrections" formControlName="type" class="custom-control-input"
