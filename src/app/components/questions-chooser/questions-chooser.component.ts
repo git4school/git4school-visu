@@ -15,7 +15,6 @@ import { filter, map } from "rxjs/operators";
       multi: true,
     },
   ],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestionsChooserComponent
   implements OnInit, ControlValueAccessor, OnDestroy {
@@ -24,6 +23,7 @@ export class QuestionsChooserComponent
   @Input() questionSuggestions: string[] = [];
   @Input() editable = true;
   @Input() openOnFocus = false;
+  @Input() noQuestionMessage = true;
   disabled: boolean;
 
   question: string;
@@ -66,13 +66,13 @@ export class QuestionsChooserComponent
     if (question && !this.questions.includes(question)) {
       this.questions.push(question);
       this.question = null;
-      this.propagateChange(this.questions);
+      this.onChange(this.questions);
     }
   }
 
   deleteQuestion(index: number) {
     this.questions.splice(index, 1);
-    this.propagateChange(this.questions);
+    this.onChange(this.questions);
   }
 
   onEnter() {
@@ -91,7 +91,7 @@ export class QuestionsChooserComponent
   }
 
   registerOnChange(fn: any): void {
-    this.propagateChange = fn;
+    this.onChange = fn;
   }
 
   registerOnTouched(fn: any): void {}
@@ -100,5 +100,5 @@ export class QuestionsChooserComponent
     this.disabled = isDisabled;
   }
 
-  private propagateChange = (_: any) => {};
+  private onChange = (_: any) => {};
 }

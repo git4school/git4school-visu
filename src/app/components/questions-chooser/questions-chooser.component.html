@@ -12,7 +12,7 @@
         </span>
     </span>
 </div>
-<div *ngIf="!questions.length">
+<div *ngIf="noQuestionMessage && !questions.length">
     <small class="text-muted">{{ 'NO-QUESTION' | translate }}</small>
 </div>
 
