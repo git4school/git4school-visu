@@ -21,7 +21,7 @@ import { HomeComponent } from "@components/home/home.component";
 import { QuestionsChooserComponent } from "@components/questions-chooser/questions-chooser.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { AuthGuard } from "@guards/auth.guard";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import {
   TranslateLoader,
   TranslateModule,
@@ -42,7 +42,6 @@ import { ClipboardModule } from "ngx-clipboard";
 import { MarkdownModule } from "ngx-markdown";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from "ngx-toastr";
-import { TypeaheadModule } from "ngx-type-ahead";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
@@ -134,7 +133,6 @@ export function appInitializerFactory(
     BrowserAnimationsModule,
     ClipboardModule,
     MarkdownModule.forRoot(),
-    TypeaheadModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -165,6 +163,7 @@ export function appInitializerFactory(
       deps: [TranslateService],
     },
     DatabaseService,
+    NgbActiveModal,
   ],
   bootstrap: [AppComponent],
 })
