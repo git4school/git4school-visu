@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   HostListener,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -11,18 +12,15 @@ import { Commit } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
+import { AssignmentsService } from "@services/assignments.service";
 import { CommitsService } from "@services/commits.service";
 import { DataService } from "@services/data.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
 import { BaseChartDirective } from "ng2-charts";
+import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
-
-/**
- * jquery
- */
-declare var $: any;
 
 @Component({
   selector: "overview",
@@ -31,8 +29,10 @@ declare var $: any;
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(BaseChartDirective, { static: true }) myChart;
+
+  assignmentsModified$: Subscription;
 
   typeaheadSettings;
   searchFilter: string[] = [];
@@ -154,9 +154,10 @@ export class OverviewComponent
     public jsonManager: JsonManagerService,
     public dataService: DataService,
     protected loaderService: LoaderService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    protected assignmentsService: AssignmentsService
   ) {
-    super(loaderService);
+    super(loaderService, assignmentsService, dataService);
   }
 
   @HostListener("window:keyup", ["$event"])
@@ -167,15 +168,17 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
+    this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();
     this.translateService.onLangChange.subscribe(
       (event: TranslationChangeEvent) => {
         this.updateLang();
       }
     );
-    $(".modal").modal({
-      show: false,
-    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
   ngAfterViewInit(): void {

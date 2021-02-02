@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { CommitColor } from "@models/Commit.model";
 import { TranslateService } from "@ngx-translate/core";
+import { AssignmentsService } from "@services/assignments.service";
 import { CommitsService } from "@services/commits.service";
 import { DataService } from "@services/data.service";
 import { LoaderService } from "@services/loader.service";
 import { BaseChartDirective } from "ng2-charts";
+import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
 
 /**
@@ -22,11 +24,13 @@ declare var $: any;
 })
 export class QuestionsCompletionComponent
   extends BaseGraphComponent
-  implements OnInit {
+  implements OnInit, OnDestroy {
   /**
    * The chart object from the DOM
    */
   @ViewChild(BaseChartDirective, { static: true }) myChart;
+
+  assignmentsModified$: Subscription;
 
   /**
    * The date after which the commits will not be considered, this shows the progression of the tp group on a given date
@@ -189,9 +193,10 @@ export class QuestionsCompletionComponent
     public dataService: DataService,
     private commitsService: CommitsService,
     public translateService: TranslateService,
-    protected loaderService: LoaderService
+    protected loaderService: LoaderService,
+    protected assignmentsService: AssignmentsService
   ) {
-    super(loaderService);
+    super(loaderService, assignmentsService, dataService);
   }
 
   /**
@@ -270,6 +275,7 @@ export class QuestionsCompletionComponent
    */
   ngOnInit() {
     setTimeout(() => {
+      this.assignmentsModified$ = this.subscribeAssignmentModified();
       this.translateService.onLangChange.subscribe(() => {
         this.loadGraphDataAndRefresh();
       });
@@ -287,6 +293,10 @@ export class QuestionsCompletionComponent
         this.loading = false;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
   loadGraph(startDate?: string, endDate?: string) {

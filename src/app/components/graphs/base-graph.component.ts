@@ -1,24 +1,51 @@
-import { Component } from '@angular/core';
-import { Milestone } from '@models/Milestone.model';
-import { Repository } from '@models/Repository.model';
-import { LoaderService } from '@services/loader.service';
+import { Component, OnInit } from "@angular/core";
+import { Milestone } from "@models/Milestone.model";
+import { Repository } from "@models/Repository.model";
+import { AssignmentsService } from "@services/assignments.service";
+import { DataService } from "@services/data.service";
+import { LoaderService } from "@services/loader.service";
+import { Subscription } from "rxjs";
 
 @Component({
-    template: ``
+  template: ``,
 })
-export abstract class BaseGraphComponent {
-    public loading = false;
+export abstract class BaseGraphComponent implements OnInit {
+  public loading = false;
 
-    constructor(protected loaderService: LoaderService) {
+  constructor(
+    protected loaderService: LoaderService,
+    protected assignmentsService: AssignmentsService,
+    protected dataService: DataService
+  ) {}
 
-    }
+  ngOnInit(): void {}
 
-    abstract loadGraph(startDate?: string, endDate?: string);
+  subscribeAssignmentModified(): Subscription {
+    return this.assignmentsService.assignmentModified.subscribe(() => {
+      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+    });
+  }
 
-    loadGraphMetadata(repositories: Repository[], reviews: Milestone[], corrections: Milestone[], questions) {
-        this.loaderService.loadCommitsMetadata(repositories, reviews, corrections, questions);
-        this.loadGraphDataAndRefresh();
-    }
+  unsubscribeAssignmentModified(assignmentsModified$: Subscription) {
+    assignmentsModified$.unsubscribe();
+  }
 
-    abstract loadGraphDataAndRefresh();
+  abstract loadGraph(startDate?: string, endDate?: string);
+
+  loadGraphMetadata(
+    repositories: Repository[],
+    reviews: Milestone[],
+    corrections: Milestone[],
+    questions
+  ) {
+    this.loaderService.loadCommitsMetadata(
+      repositories,
+      reviews,
+      corrections,
+      questions
+    );
+    this.loadGraphDataAndRefresh();
+  }
+
+  abstract loadGraphDataAndRefresh();
 }

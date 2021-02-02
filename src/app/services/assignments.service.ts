@@ -3,11 +3,14 @@ import { ConfigurationComponent } from "@components/home/assignment-chooser/conf
 import { Assignment } from "@models/Assignment.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class AssignmentsService {
+  assignmentModified = new Subject();
+
   constructor(
     private translateService: TranslateService,
     private modalService: NgbModal

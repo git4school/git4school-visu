@@ -29,7 +29,7 @@
             </li>
             <li class="nav-item">
                 <button type="button" class="mt-1 ml-1 btn btn-sm btn-secondary rounded-circle"
-                    [ngbTooltip]="downloadTooltip" (click)="download()"><i class="fas fa-upload"></i></button>
+                    [ngbTooltip]="downloadTooltip" (click)="download()"><i class="fas fa-download"></i></button>
             </li>
 
             <ul class="nav navbar-nav navbar-center">
@@ -40,27 +40,7 @@
     </div>
     <div class="navbar-collapse collapse order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <button class="btn btn-success" *ngIf="!authService.isSignedIn()" [disabled]="loading"
-                        (click)="onSignInGithub()">
-                        <span *ngIf="loading; else loggedOut" class="spinner-border spinner-border-sm pr-1"
-                            role="status" aria-hidden="true"></span>
-                        {{ 'NAVBAR.SIGN-IN' | translate }}
-
-                        <ng-template #loggedOut>
-                            <i class="fas fa-sign-in-alt mr-1"></i>
-                        </ng-template>
-                    </button>
-                    <button class="btn btn-danger" *ngIf="authService.isSignedIn()" (click)="onSignOut()"><i
-                            class="fas fa-sign-out-alt mr-2"></i>{{ 'NAVBAR.SIGN-OUT' | translate }}</button>
-                </div>
-                <select #langSelect (change)="changeLanguage(langSelect.value)" class="form-control">
-                    <option *ngFor="let lang of translateService.getLangs()" [value]="lang"
-                        [selected]="lang === translateService.currentLang">
-                        {{ lang }}</option>
-                </select>
-            </div>
+            <auth-lang-nav-item></auth-lang-nav-item>
         </ul>
     </div>
 </nav>

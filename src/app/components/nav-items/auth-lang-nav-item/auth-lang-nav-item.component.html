@@ -1,0 +1,21 @@
+<div class="input-group">
+    <div class="input-group-prepend">
+        <button class="btn btn-success" *ngIf="!authService.isSignedIn()" [disabled]="authService.loading"
+            (click)="onSignInGithub()">
+            <span *ngIf="authService.loading; else loggedOut" class="spinner-border spinner-border-sm pr-1"
+                role="status" aria-hidden="true"></span>
+            {{ 'NAVBAR.SIGN-IN' | translate }}
+
+            <ng-template #loggedOut>
+                <i class="fas fa-sign-in-alt mr-1"></i>
+            </ng-template>
+        </button>
+        <button class="btn btn-danger" *ngIf="authService.isSignedIn()" (click)="onSignOut()"><i
+                class="fas fa-sign-out-alt mr-2"></i>{{ 'NAVBAR.SIGN-OUT' | translate }}</button>
+    </div>
+    <select #langSelect (change)="changeLanguage(langSelect.value)" class="form-control">
+        <option *ngFor="let lang of translateService.getLangs()" [value]="lang"
+            [selected]="lang === translateService.currentLang">
+            {{ lang }}</option>
+    </select>
+</div>

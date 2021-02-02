@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ngbTooltipConfig.openDelay = 500;
     ngbTooltipConfig.triggers = "hover";
     ngbTooltipConfig.container = "body";
-    // ngbTooltipConfig.animation = true; // A mettre après maj ngbTooltip 8.x
+    ngbTooltipConfig.animation = true;
   }
 
   /**
@@ -44,10 +44,22 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     Chart.pluginService.unregister(ChartDataLabels);
-  }
-
-  changeLanguage(language: string) {
-    this.translateService.use(language);
+    this.authService.loading = false;
+    if (!this.authService.isSignedIn()) {
+      this.authService.loading = true;
+      this.authService
+        .callback()
+        .then(
+          () => {
+            this.authService.loading = false;
+            this.router.navigate(["overview"]);
+          },
+          () => {
+            this.authService.loading = false;
+          }
+        )
+        .catch(() => (this.authService.loading = false));
+    }
   }
 
   /**

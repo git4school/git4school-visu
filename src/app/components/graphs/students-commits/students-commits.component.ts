@@ -1,12 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { CommitColor } from "@models/Commit.model";
 import { TranslateService } from "@ngx-translate/core";
+import { AssignmentsService } from "@services/assignments.service";
 import { CommitsService } from "@services/commits.service";
 import { DataService } from "@services/data.service";
 import { LoaderService } from "@services/loader.service";
 import * as Chart from "chart.js";
 //import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
+import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
 
 /**
@@ -25,6 +27,8 @@ declare var $: any;
 export class StudentsCommitsComponent
   extends BaseGraphComponent
   implements OnInit {
+  assignmentsModified$: Subscription;
+
   /**
    * The date after which the commits will not be considered, this shows the state of work of each student on a given date
    */
@@ -214,9 +218,10 @@ export class StudentsCommitsComponent
     public dataService: DataService,
     private commitsService: CommitsService,
     public translateService: TranslateService,
-    protected loaderService: LoaderService
+    protected loaderService: LoaderService,
+    protected assignmentsService: AssignmentsService
   ) {
-    super(loaderService);
+    super(loaderService, assignmentsService, dataService);
   }
 
   /**
@@ -269,6 +274,7 @@ export class StudentsCommitsComponent
     Chart.pluginService.register(ChartDataLabels);
 
     setTimeout(() => {
+      this.assignmentsModified$ = this.subscribeAssignmentModified();
       this.translateService.onLangChange.subscribe(() => {
         this.loadGraphDataAndRefresh();
       });
@@ -314,6 +320,7 @@ export class StudentsCommitsComponent
    */
   ngOnDestroy() {
     Chart.pluginService.unregister(ChartDataLabels);
+    this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
   /**

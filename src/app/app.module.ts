@@ -46,6 +46,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HomeNavLayoutComponent } from './components/nav-layouts/home-nav-layout/home-nav-layout.component';
 import { AppNavLayoutComponent } from './components/nav-layouts/app-nav-layout/app-nav-layout.component';
+import { AuthLangNavItemComponent } from './components/nav-items/auth-lang-nav-item/auth-lang-nav-item.component';
 
 /**
  * Firebase configuration file
@@ -120,6 +121,7 @@ export function appInitializerFactory(
     QuestionsChooserComponent,
     HomeNavLayoutComponent,
     AppNavLayoutComponent,
+    AuthLangNavItemComponent,
   ],
   imports: [
     BrowserModule,

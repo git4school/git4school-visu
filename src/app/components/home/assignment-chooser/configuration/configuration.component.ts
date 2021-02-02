@@ -83,11 +83,10 @@ export class ConfigurationComponent implements OnInit {
     );
   }
 
-  errorToast(): any {
-    throw new Error("Method not implemented.");
-  }
+  errorToast(): any {}
 
   private saveAssignment() {
+    this.dataService.repoToLoad = true;
     this.dataService
       .saveData(this.assignment)
       .then(() => this.successToast())
