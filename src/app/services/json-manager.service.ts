@@ -60,37 +60,31 @@ export class JsonManagerService {
     program?: string,
     year?: string
   ) {
-    let json = {};
-    let repos = [];
-    repositories.forEach((repository) => {
-      let repo = {};
-      repo["url"] = repository.url;
-      if (repository.name) {
-        repo["name"] = repository.name;
-      }
-      if (repository.tpGroup) {
-        repo["tpGroup"] = repository.tpGroup;
-      }
-      repos.push(repo);
-    });
-    json["repositories"] = repos;
+    let dataJson = {};
 
-    sessions && (json["sessions"] = sessions.map((session) => session.json()));
-    corrections &&
-      (json["corrections"] = corrections.map((correction) =>
-        correction.json()
-      ));
-    reviews && (json["reviews"] = reviews.map((review) => review.json()));
-    others && (json["others"] = others.map((other) => other.json()));
-    json["startDate"] = startDate;
-    json["endDate"] = endDate;
-    json["title"] = title;
-    json["course"] = course;
-    json["program"] = program;
-    json["year"] = year;
-    json["questions"] = questions;
+    dataJson["repositories"] = this.generateRepositoriesJson(repositories);
 
-    this.json = json;
+    dataJson["sessions"] = sessions?.map((session) => session.json());
+    dataJson["corrections"] = corrections?.map((correction) =>
+      correction.json()
+    );
+    dataJson["reviews"] = reviews?.map((review) => review.json());
+    dataJson["others"] = others?.map((other) => other.json());
+
+    const metadataJson = this.generateMetadataJson(
+      title,
+      questions,
+      startDate,
+      endDate,
+      course,
+      program,
+      year
+    );
+
+    this.json = {
+      ...dataJson,
+      ...metadataJson,
+    };
   }
 
   private generateCurrentAssignmentJson() {
@@ -159,5 +153,41 @@ export class JsonManagerService {
     zip.generateAsync({ type: "blob" }).then(function (content) {
       saveAs(content, filename + ".zip");
     });
+  }
+
+  private generateRepositoriesJson(repositories: Repository[]) {
+    let repos = [];
+    repositories.forEach((repository) => {
+      let repo = {};
+      repo["url"] = repository.url;
+      if (repository.name) {
+        repo["name"] = repository.name;
+      }
+      if (repository.tpGroup) {
+        repo["tpGroup"] = repository.tpGroup;
+      }
+      repos.push(repo);
+    });
+    return repos;
+  }
+
+  private generateMetadataJson(
+    title: string,
+    questions: string[],
+    startDate?: string,
+    endDate?: string,
+    course?: string,
+    program?: string,
+    year?: string
+  ) {
+    let json = {};
+    startDate && (json["startDate"] = startDate);
+    endDate && (json["endDate"] = endDate);
+    title && (json["title"] = title);
+    course && (json["course"] = course);
+    program && (json["program"] = program);
+    year && (json["year"] = year);
+    questions && (json["questions"] = questions);
+    return json;
   }
 }
