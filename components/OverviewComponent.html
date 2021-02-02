@@ -79,6 +79,7 @@
     <p class="comment">
                     <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
                     <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
     </p>
 
 
@@ -139,6 +140,9 @@
                         <ul class="index-list">
                             <li>
                                 <a href="#addModal">addModal</a>
+                            </li>
+                            <li>
+                                <a href="#assignmentsModified$">assignmentsModified$</a>
                             </li>
                             <li>
                                 <a href="#chartData">chartData</a>
@@ -234,9 +238,6 @@
                                 <a href="#deleteMilestone">deleteMilestone</a>
                             </li>
                             <li>
-                                <a href="#download">download</a>
-                            </li>
-                            <li>
                                 <a href="#getDataFromChart">getDataFromChart</a>
                             </li>
                             <li>
@@ -274,6 +275,9 @@
                             </li>
                             <li>
                                 <a href="#ngAfterViewInit">ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit">ngOnInit</a>
@@ -325,6 +329,15 @@
                             <li>
                                 <a href="#loadGraphMetadata">loadGraphMetadata</a>
                             </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#subscribeAssignmentModified">subscribeAssignmentModified</a>
+                            </li>
+                            <li>
+                                <a href="#unsubscribeAssignmentModified">unsubscribeAssignmentModified</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -357,12 +370,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(translateService: TranslateService, commitsService: <a href="../injectables/CommitsService.html">CommitsService</a>, toastService: <a href="../injectables/ToastService.html">ToastService</a>, jsonManager: <a href="../injectables/JsonManagerService.html">JsonManagerService</a>, dataService: <a href="../injectables/DataService.html">DataService</a>, loaderService: <a href="../injectables/LoaderService.html">LoaderService</a>, modalService: NgbModal)</code>
+<code>constructor(translateService: TranslateService, commitsService: <a href="../injectables/CommitsService.html">CommitsService</a>, toastService: <a href="../injectables/ToastService.html">ToastService</a>, jsonManager: <a href="../injectables/JsonManagerService.html">JsonManagerService</a>, dataService: <a href="../injectables/DataService.html">DataService</a>, loaderService: <a href="../injectables/LoaderService.html">LoaderService</a>, modalService: NgbModal, assignmentsService: <a href="../injectables/AssignmentsService.html">AssignmentsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="150" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:150</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:148</a></div>
                             </td>
                         </tr>
 
@@ -463,6 +476,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>assignmentsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AssignmentsService.html" target="_self" >AssignmentsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -503,8 +528,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:165</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:164</a></div>
                 </td>
             </tr>
 
@@ -539,8 +564,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="539"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:539</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="540"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:540</a></div>
                 </td>
             </tr>
 
@@ -614,8 +639,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="533"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:533</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="534"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:534</a></div>
                 </td>
             </tr>
 
@@ -680,8 +705,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="483"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:483</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="484"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:484</a></div>
                 </td>
             </tr>
 
@@ -719,8 +744,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="512"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:512</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="513"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:513</a></div>
                 </td>
             </tr>
 
@@ -758,47 +783,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="451"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:451</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="download"></a>
-                    <span class="name">
-                        <b>
-                            download
-                        </b>
-                        <a href="#download"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>download()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="611"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:611</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="452"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:452</a></div>
                 </td>
             </tr>
 
@@ -836,8 +822,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="501"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:501</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="502"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:502</a></div>
                 </td>
             </tr>
 
@@ -902,8 +888,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="493"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:493</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="494"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:494</a></div>
                 </td>
             </tr>
 
@@ -972,8 +958,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="441"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:441</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="442"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:442</a></div>
                 </td>
             </tr>
 
@@ -1038,8 +1024,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:242</a></div>
                 </td>
             </tr>
 
@@ -1077,8 +1063,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="308"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:308</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="309"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:309</a></div>
                 </td>
             </tr>
 
@@ -1116,8 +1102,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="209"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:209</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="210"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:210</a></div>
                 </td>
             </tr>
 
@@ -1198,8 +1184,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="227"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:227</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:228</a></div>
                 </td>
             </tr>
 
@@ -1237,8 +1223,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="235"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:235</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="236"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:236</a></div>
                 </td>
             </tr>
 
@@ -1276,8 +1262,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="339"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:339</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:340</a></div>
                 </td>
             </tr>
 
@@ -1315,8 +1301,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="370"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:370</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="371"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:371</a></div>
                 </td>
             </tr>
 
@@ -1354,8 +1340,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="277"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:277</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="278"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:278</a></div>
                 </td>
             </tr>
 
@@ -1393,8 +1379,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="260"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:260</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="261"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:261</a></div>
                 </td>
             </tr>
 
@@ -1432,8 +1418,47 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="184"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:184</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:180</a></div>
                 </td>
             </tr>
 
@@ -1471,8 +1496,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="171"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:171</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:170</a></div>
                 </td>
             </tr>
 
@@ -1510,8 +1535,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="417"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:417</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="418"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:418</a></div>
                 </td>
             </tr>
 
@@ -1576,8 +1601,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="447"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:447</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="448"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:448</a></div>
                 </td>
             </tr>
 
@@ -1642,8 +1667,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="559"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:559</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="560"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:560</a></div>
                 </td>
             </tr>
 
@@ -1724,8 +1749,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="601"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:601</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="602"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:602</a></div>
                 </td>
             </tr>
 
@@ -1763,8 +1788,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="411"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:411</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="412"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:412</a></div>
                 </td>
             </tr>
 
@@ -1802,8 +1827,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="507"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:507</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="508"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:508</a></div>
                 </td>
             </tr>
 
@@ -1841,8 +1866,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="529"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:529</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="530"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:530</a></div>
                 </td>
             </tr>
 
@@ -1880,8 +1905,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="477"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:477</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="478"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:478</a></div>
                 </td>
             </tr>
 
@@ -1950,8 +1975,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="520"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:520</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="521"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:521</a></div>
                 </td>
             </tr>
 
@@ -2020,8 +2045,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="431"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:431</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="432"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:432</a></div>
                 </td>
             </tr>
 
@@ -2086,8 +2111,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="436"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:436</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="437"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:437</a></div>
                 </td>
             </tr>
 
@@ -2156,8 +2181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="201"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:201</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:202</a></div>
                 </td>
             </tr>
 
@@ -2203,7 +2228,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:16</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:33</a></code>
 </div>
                 </td>
             </tr>
@@ -2293,7 +2318,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:23</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:50</a></code>
 </div>
                 </td>
             </tr>
@@ -2338,7 +2363,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:18</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:35</a></code>
 </div>
                 </td>
             </tr>
@@ -2421,6 +2446,172 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseGraphComponent.html" target="_self" >BaseGraphComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:21</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeAssignmentModified"></a>
+                    <span class="name">
+                        <b>
+                            subscribeAssignmentModified
+                        </b>
+                        <a href="#subscribeAssignmentModified"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeAssignmentModified()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseGraphComponent.html" target="_self" >BaseGraphComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:23</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Subscription</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribeAssignmentModified"></a>
+                    <span class="name">
+                        <b>
+                            unsubscribeAssignmentModified
+                        </b>
+                        <a href="#unsubscribeAssignmentModified"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>unsubscribeAssignmentModified(assignmentsModified$: Subscription)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseGraphComponent.html" target="_self" >BaseGraphComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:29</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignmentsModified$</td>
+                                    <td>
+                                            <code>Subscription</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
     <section>
     
@@ -2447,7 +2638,34 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:56</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:54</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="assignmentsModified$"></a>
+                        <span class="name">
+                            <b>
+                            assignmentsModified$</b>
+                            <a href="#assignmentsModified$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subscription</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -2479,7 +2697,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:43</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -2601,7 +2819,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:60</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:58</a></div>
                             </td>
                         </tr>
 
@@ -2629,7 +2847,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="157" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:157</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:155</a></div>
                             </td>
                         </tr>
 
@@ -2650,7 +2868,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:49</a></div>
                             </td>
                         </tr>
 
@@ -2676,7 +2894,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -2704,7 +2922,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:156</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="154" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:154</a></div>
                             </td>
                         </tr>
 
@@ -2731,7 +2949,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:52</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -2761,7 +2979,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -2788,7 +3006,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:54</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:52</a></div>
                             </td>
                         </tr>
 
@@ -2815,7 +3033,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:57</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:55</a></div>
                             </td>
                         </tr>
 
@@ -2847,7 +3065,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -2873,7 +3091,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -2899,7 +3117,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:46</a></div>
                             </td>
                         </tr>
 
@@ -2925,7 +3143,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -2951,7 +3169,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -2978,7 +3196,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -3005,7 +3223,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:53</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:51</a></div>
                             </td>
                         </tr>
 
@@ -3026,7 +3244,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:39</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -3053,7 +3271,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:55</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:53</a></div>
                             </td>
                         </tr>
 
@@ -3085,7 +3303,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:39</a></div>
                             </td>
                         </tr>
 
@@ -3118,7 +3336,7 @@
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:10</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:13</a></code>
 </div>
                             </td>
                         </tr>
@@ -3136,29 +3354,25 @@
   AfterViewInit,
   Component,
   HostListener,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from &quot;@angular/core&quot;;
 import { EditMilestoneComponent } from &quot;@components/edit-milestone/edit-milestone.component&quot;;
 import { FileChooserComponent } from &quot;@components/file-chooser/file-chooser.component&quot;;
-import { Commit, CommitColor } from &quot;@models/Commit.model&quot;;
+import { Commit } from &quot;@models/Commit.model&quot;;
 import { Milestone } from &quot;@models/Milestone.model&quot;;
 import { NgbModal } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { TranslateService, TranslationChangeEvent } from &quot;@ngx-translate/core&quot;;
+import { AssignmentsService } from &quot;@services/assignments.service&quot;;
 import { CommitsService } from &quot;@services/commits.service&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
 import { JsonManagerService } from &quot;@services/json-manager.service&quot;;
 import { LoaderService } from &quot;@services/loader.service&quot;;
 import { ToastService } from &quot;@services/toast.service&quot;;
-import { saveAs } from &quot;file-saver&quot;;
-import * as JSZip from &quot;jszip&quot;;
 import { BaseChartDirective } from &quot;ng2-charts&quot;;
+import { Subscription } from &quot;rxjs&quot;;
 import { BaseGraphComponent } from &quot;../base-graph.component&quot;;
-
-/**
- * jquery
- */
-declare var $: any;
 
 @Component({
   selector: &quot;overview&quot;,
@@ -3167,8 +3381,10 @@ declare var $: any;
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(BaseChartDirective, { static: true }) myChart;
+
+  assignmentsModified$: Subscription;
 
   typeaheadSettings;
   searchFilter: string[] &#x3D; [];
@@ -3290,9 +3506,10 @@ export class OverviewComponent
     public jsonManager: JsonManagerService,
     public dataService: DataService,
     protected loaderService: LoaderService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    protected assignmentsService: AssignmentsService
   ) {
-    super(loaderService);
+    super(loaderService, assignmentsService, dataService);
   }
 
   @HostListener(&quot;window:keyup&quot;, [&quot;$event&quot;])
@@ -3303,15 +3520,17 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
+    this.assignmentsModified$ &#x3D; this.subscribeAssignmentModified();
     this.updateLang();
     this.translateService.onLangChange.subscribe(
       (event: TranslationChangeEvent) &#x3D;&gt; {
         this.updateLang();
       }
     );
-    $(&quot;.modal&quot;).modal({
-      show: false,
-    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
   ngAfterViewInit(): void {
@@ -3741,57 +3960,6 @@ export class OverviewComponent
       this.loadGraph();
     });
   }
-
-  download() {
-    this.dataService.generateJSON();
-    let colors &#x3D; [
-      CommitColor.BEFORE,
-      CommitColor.BETWEEN,
-      CommitColor.AFTER,
-      CommitColor.NOCOMMIT,
-    ];
-
-    let questionsDict &#x3D; this.commitsService.initQuestionsDict(
-      this.dataService.questions,
-      colors
-    );
-    questionsDict &#x3D; this.commitsService.loadQuestionsDict(
-      questionsDict,
-      this.dataService.repositories,
-      this.dataService.questions,
-      colors
-    );
-    questionsDict[&quot;date&quot;] &#x3D; this.dataService.lastUpdateDate;
-
-    colors &#x3D; [
-      CommitColor.INTERMEDIATE,
-      CommitColor.BEFORE,
-      CommitColor.BETWEEN,
-      CommitColor.AFTER,
-    ];
-
-    let studentsDict &#x3D; {
-      date: this.dataService.lastUpdateDate,
-      students: this.commitsService.loadStudentsDict(
-        this.dataService.repositories,
-        this.dataService.questions,
-        colors
-      ),
-    };
-
-    let zip &#x3D; new JSZip();
-    zip.file(&quot;conf.json&quot;, JSON.stringify(this.jsonManager.json, null, 2));
-    zip.file(
-      &quot;questions-completion.json&quot;,
-      JSON.stringify(questionsDict, null, 2)
-    );
-    zip.file(&quot;students-commits.json&quot;, JSON.stringify(studentsDict, null, 2));
-
-    let filename &#x3D; this.dataService.title;
-    zip.generateAsync({ type: &quot;blob&quot; }).then(function (content) {
-      saveAs(content, filename + &quot;.zip&quot;);
-    });
-  }
 }
 </code></pre>
     </div>
@@ -3889,17 +4057,11 @@ export class OverviewComponent
     &lt;/div&gt;
     &lt;div class&#x3D;&quot;separator&quot;&gt;&lt;/div&gt;
     &lt;div&gt;
-        &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; aria-label&#x3D;&quot;File controls&quot;&gt;
-            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; [ngbTooltip]&#x3D;&quot;downloadTooltip&quot; (click)&#x3D;&quot;download()&quot;
-                [disabled]&#x3D;&quot;loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-download&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; [ngbTooltip]&#x3D;&quot;uploadTooltip&quot; (click)&#x3D;&quot;openUploadFileModal()&quot;&gt;&lt;i
-                    class&#x3D;&quot;fas fa-upload&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-            &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; (click)&#x3D;&quot;loadGraph(dataService.startDate, dataService.endDate)&quot;
-                [disabled]&#x3D;&quot;!dataService.repositories?.length || loading&quot; [ngbTooltip]&#x3D;&quot;reloadTooltip&quot;&gt;
-                &lt;div *ngIf&#x3D;&quot;loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sync-alt fa-spin&quot;&gt;&lt;/i&gt;&lt;/div&gt;
-                &lt;div *ngIf&#x3D;&quot;!loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sync-alt&quot;&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;/button&gt;
-        &lt;/div&gt;
+        &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; (click)&#x3D;&quot;loadGraph(dataService.startDate, dataService.endDate)&quot;
+            [disabled]&#x3D;&quot;!dataService.repositories?.length || loading&quot; [ngbTooltip]&#x3D;&quot;reloadTooltip&quot;&gt;
+            &lt;div *ngIf&#x3D;&quot;loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sync-alt fa-spin&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+            &lt;div *ngIf&#x3D;&quot;!loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sync-alt&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;/button&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class&#x3D;&quot;chart-container&quot;&gt;
@@ -3948,8 +4110,6 @@ export class OverviewComponent
 &lt;ng-template #resetZoomTooltip&gt;{{ &#x27;OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
 &lt;ng-template #changeZoomTooltip&gt;{{ &#x27;OVERVIEW-GRAPH.CHANGE-ZOOM-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
 &lt;ng-template #changeTimeScaleTooltip&gt;{{ &#x27;OVERVIEW-GRAPH.CHANGE-TIME-SCALE-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
-&lt;ng-template #downloadTooltip&gt;{{ &#x27;OVERVIEW-GRAPH.DOWNLOAD-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
-&lt;ng-template #uploadTooltip&gt;{{ &#x27;OVERVIEW-GRAPH.UPLOAD.TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
 &lt;ng-template #reloadTooltip&gt;{{ &#x27;OVERVIEW-GRAPH.RELOAD-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;</code></pre>
     </div>
 
@@ -3985,8 +4145,8 @@ export class OverviewComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="d-flex flex-row p-3">    <div class="w-50">        <questions-chooser #questionsChooser [questionSuggestions]="dataService.questions" [editable]="false"            [openOnFocus]="true" (ngModelChange)="loadGraphDataAndRefresh()" [(ngModel)]="searchFilter"            [noQuestionMessage]="false">        </questions-chooser>    </div>    <div class="pl-2">        <select class="form-control" [disabled]="!dataService.tpGroups?.length || loading" [(ngModel)]="tpGroup"            (change)="this.loadGraphDataAndRefresh()" placeholder="d.ff">            <option [ngValue]="undefined" hidden disabled>{{ \'TP-GROUP-SELECT.PLACEHOLDER\' | translate }}            </option>            <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>            <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>        </select>    </div>    <div class="separator"></div>    <div>        <div class="dropdown">            <button class="btn btn-secondary dropdown-toggle" [disabled]="loading" type="button" id="dropdownMenuButton"                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [ngbTooltip]="markersTooltip">                {{ \'OVERVIEW-GRAPH.MARKERS.BUTTON\' | translate }}            </button>            <div class="dropdown-menu">                <form class="px-4 py-3">                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" id="sessionsSwitch"                            [(ngModel)]="showSessions" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="sessionsSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.SESSIONS\' |                            translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" id="correctionsSwitch"                            [(ngModel)]="showCorrections" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="correctionsSwitch">{{                            \'OVERVIEW-GRAPH.MARKERS.CORRECTIONS\' | translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" selected id="reviewsSwitch"                            [(ngModel)]="showReviews" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="reviewsSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.REVIEWS\' |                            translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" selected id="othersSwitch"                            [(ngModel)]="showOthers" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="othersSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.OTHERS\' |                            translate }}</label>                    </div>                </form>            </div>        </div>    </div>    <div class="separator"></div>    <div>        <div class="btn-group" role="group" aria-label="Interaction controls">            <button class="btn btn-outline-secondary" [disabled]="loading" (click)="resetZoom()"                [ngbTooltip]="resetZoomTooltip">                <span class="fa-layers fa-fw">                    <i class="fas fa-search"></i>                    <i class="fas fa-times" data-fa-transform="shrink-8 up-1.6 left-2"></i>                </span>            </button>            <button class="btn btn-outline-secondary" [ngbTooltip]="changeZoomTooltip" [disabled]="loading"                (click)="changeZoom()">                <div *ngIf="drag">                    <span class="fa-layers fa-fw">                        <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                        <i class="far fa-square" data-fa-transform="shrink-2 up-6 left-5"></i>                    </span>                </div>                <div *ngIf="!drag">                    <span class="fa-layers fa-fw">                        <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                        <i class="fas fa-arrows-alt-h" data-fa-transform="up-6 left-5"></i>                    </span>                </div>            </button>            <button class="btn btn-outline-secondary" (click)="changeUnit()" [ngbTooltip]="changeTimeScaleTooltip"                [disabled]="loading">                <div *ngIf="unit === \'week\'"><i class="fas fa-calendar-week"></i></div>                <div *ngIf="unit === \'hour\'"><i class="fas fa-clock"></i></div>                <div *ngIf="unit === \'day\'"><i class="fas fa-calendar-day"></i></div>            </button>        </div>    </div>    <div class="separator"></div>    <div>        <div class="btn-group" role="group" aria-label="File controls">            <button class="btn btn-outline-secondary" [ngbTooltip]="downloadTooltip" (click)="download()"                [disabled]="loading"><i class="fas fa-download"></i></button>            <button class="btn btn-outline-secondary" [ngbTooltip]="uploadTooltip" (click)="openUploadFileModal()"><i                    class="fas fa-upload"></i></button>            <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"                [disabled]="!dataService.repositories?.length || loading" [ngbTooltip]="reloadTooltip">                <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>                <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>            </button>        </div>    </div></div><div class="chart-container">    <canvas #myChart id="myChart" baseChart [chartType]="\'line\'" [datasets]="chartData" [options]="chartOptions"        [legend]="false" (chartClick)="onChartClick($event)" (chartHover)="onChartHover($event)">    </canvas></div><div class="card">    <h5 class="card-header">        <a data-toggle="collapse" href="#legendCollapse" aria-expanded="true" aria-controls="legendCollapse"            style="text-decoration:none" id="heading-example" class="d-block collapsed">            <i class="fa fa-chevron-down float-right"></i>            {{ \'OVERVIEW-GRAPH.LEGEND.TITLE\' | translate }}        </a>    </h5>    <div id="legendCollapse" class="collapse">        <div class="card-body">            <p class="card-text">                <i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.COMMIT\' | translate }}                <i class="far fa-circle fa-fw ml-3"></i> {{ \'OVERVIEW-GRAPH.LEGEND.CLOSING\' | translate }}<br>                <i class="fas fa-circle fa-fw" style="color:rgb(77, 77, 77)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.INTERMEDIATE\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(53, 198, 146)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.BEFORE\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(255, 127, 74)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.BETWEEN\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(203, 91, 68)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.AFTER\' | translate }}<br>                <i class="fas fa-minus" data-fa-transform="rotate-90" style="color:blue"></i>                {{ \'REVIEW\' | translate }}                <i class="fas fa-minus ml-3" data-fa-transform="rotate-90" style="color:red"></i>                {{ \'CORRECTION\' | translate }}                <i class="fas fa-minus ml-3" data-fa-transform="rotate-90"></i>                {{ \'OTHER\' | translate }}<br>                <span class="fa-layers fa-fw">                    <i class="fas fa-square" style="color:rgba(33, 150, 243, 0.15)"></i>                    <i class="far fa-square" style="color:rgba(79, 195, 247,1.0)"></i>                </span> {{ \'SESSION\' | translate }}            </p>        </div>    </div></div><ng-template #markersTooltip>{{ \'OVERVIEW-GRAPH.MARKERS.TOOLTIP\' | translate }}</ng-template><ng-template #resetZoomTooltip>{{ \'OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP\' | translate }}</ng-template><ng-template #changeZoomTooltip>{{ \'OVERVIEW-GRAPH.CHANGE-ZOOM-TOOLTIP\' | translate }}</ng-template><ng-template #changeTimeScaleTooltip>{{ \'OVERVIEW-GRAPH.CHANGE-TIME-SCALE-TOOLTIP\' | translate }}</ng-template><ng-template #downloadTooltip>{{ \'OVERVIEW-GRAPH.DOWNLOAD-TOOLTIP\' | translate }}</ng-template><ng-template #uploadTooltip>{{ \'OVERVIEW-GRAPH.UPLOAD.TOOLTIP\' | translate }}</ng-template><ng-template #reloadTooltip>{{ \'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate }}</ng-template></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
+        var COMPONENT_TEMPLATE = '<div><div class="d-flex flex-row p-3">    <div class="w-50">        <questions-chooser #questionsChooser [questionSuggestions]="dataService.questions" [editable]="false"            [openOnFocus]="true" (ngModelChange)="loadGraphDataAndRefresh()" [(ngModel)]="searchFilter"            [noQuestionMessage]="false">        </questions-chooser>    </div>    <div class="pl-2">        <select class="form-control" [disabled]="!dataService.tpGroups?.length || loading" [(ngModel)]="tpGroup"            (change)="this.loadGraphDataAndRefresh()" placeholder="d.ff">            <option [ngValue]="undefined" hidden disabled>{{ \'TP-GROUP-SELECT.PLACEHOLDER\' | translate }}            </option>            <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>            <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>        </select>    </div>    <div class="separator"></div>    <div>        <div class="dropdown">            <button class="btn btn-secondary dropdown-toggle" [disabled]="loading" type="button" id="dropdownMenuButton"                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [ngbTooltip]="markersTooltip">                {{ \'OVERVIEW-GRAPH.MARKERS.BUTTON\' | translate }}            </button>            <div class="dropdown-menu">                <form class="px-4 py-3">                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" id="sessionsSwitch"                            [(ngModel)]="showSessions" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="sessionsSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.SESSIONS\' |                            translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" id="correctionsSwitch"                            [(ngModel)]="showCorrections" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="correctionsSwitch">{{                            \'OVERVIEW-GRAPH.MARKERS.CORRECTIONS\' | translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" selected id="reviewsSwitch"                            [(ngModel)]="showReviews" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="reviewsSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.REVIEWS\' |                            translate }}</label>                    </div>                    <div class="custom-control custom-switch">                        <input type="checkbox" class="custom-control-input" selected id="othersSwitch"                            [(ngModel)]="showOthers" (change)="this.loadGraphDataAndRefresh()"                            [ngModelOptions]="{standalone: true}">                        <label class="custom-control-label" for="othersSwitch">{{ \'OVERVIEW-GRAPH.MARKERS.OTHERS\' |                            translate }}</label>                    </div>                </form>            </div>        </div>    </div>    <div class="separator"></div>    <div>        <div class="btn-group" role="group" aria-label="Interaction controls">            <button class="btn btn-outline-secondary" [disabled]="loading" (click)="resetZoom()"                [ngbTooltip]="resetZoomTooltip">                <span class="fa-layers fa-fw">                    <i class="fas fa-search"></i>                    <i class="fas fa-times" data-fa-transform="shrink-8 up-1.6 left-2"></i>                </span>            </button>            <button class="btn btn-outline-secondary" [ngbTooltip]="changeZoomTooltip" [disabled]="loading"                (click)="changeZoom()">                <div *ngIf="drag">                    <span class="fa-layers fa-fw">                        <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                        <i class="far fa-square" data-fa-transform="shrink-2 up-6 left-5"></i>                    </span>                </div>                <div *ngIf="!drag">                    <span class="fa-layers fa-fw">                        <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>                        <i class="fas fa-arrows-alt-h" data-fa-transform="up-6 left-5"></i>                    </span>                </div>            </button>            <button class="btn btn-outline-secondary" (click)="changeUnit()" [ngbTooltip]="changeTimeScaleTooltip"                [disabled]="loading">                <div *ngIf="unit === \'week\'"><i class="fas fa-calendar-week"></i></div>                <div *ngIf="unit === \'hour\'"><i class="fas fa-clock"></i></div>                <div *ngIf="unit === \'day\'"><i class="fas fa-calendar-day"></i></div>            </button>        </div>    </div>    <div class="separator"></div>    <div>        <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"            [disabled]="!dataService.repositories?.length || loading" [ngbTooltip]="reloadTooltip">            <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>            <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>        </button>    </div></div><div class="chart-container">    <canvas #myChart id="myChart" baseChart [chartType]="\'line\'" [datasets]="chartData" [options]="chartOptions"        [legend]="false" (chartClick)="onChartClick($event)" (chartHover)="onChartHover($event)">    </canvas></div><div class="card">    <h5 class="card-header">        <a data-toggle="collapse" href="#legendCollapse" aria-expanded="true" aria-controls="legendCollapse"            style="text-decoration:none" id="heading-example" class="d-block collapsed">            <i class="fa fa-chevron-down float-right"></i>            {{ \'OVERVIEW-GRAPH.LEGEND.TITLE\' | translate }}        </a>    </h5>    <div id="legendCollapse" class="collapse">        <div class="card-body">            <p class="card-text">                <i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.COMMIT\' | translate }}                <i class="far fa-circle fa-fw ml-3"></i> {{ \'OVERVIEW-GRAPH.LEGEND.CLOSING\' | translate }}<br>                <i class="fas fa-circle fa-fw" style="color:rgb(77, 77, 77)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.INTERMEDIATE\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(53, 198, 146)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.BEFORE\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(255, 127, 74)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.BETWEEN\' | translate }}                <i class="fas fa-circle fa-fw ml-3" style="color:rgb(203, 91, 68)"></i>                {{ \'OVERVIEW-GRAPH.LEGEND.AFTER\' | translate }}<br>                <i class="fas fa-minus" data-fa-transform="rotate-90" style="color:blue"></i>                {{ \'REVIEW\' | translate }}                <i class="fas fa-minus ml-3" data-fa-transform="rotate-90" style="color:red"></i>                {{ \'CORRECTION\' | translate }}                <i class="fas fa-minus ml-3" data-fa-transform="rotate-90"></i>                {{ \'OTHER\' | translate }}<br>                <span class="fa-layers fa-fw">                    <i class="fas fa-square" style="color:rgba(33, 150, 243, 0.15)"></i>                    <i class="far fa-square" style="color:rgba(79, 195, 247,1.0)"></i>                </span> {{ \'SESSION\' | translate }}            </p>        </div>    </div></div><ng-template #markersTooltip>{{ \'OVERVIEW-GRAPH.MARKERS.TOOLTIP\' | translate }}</ng-template><ng-template #resetZoomTooltip>{{ \'OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP\' | translate }}</ng-template><ng-template #changeZoomTooltip>{{ \'OVERVIEW-GRAPH.CHANGE-ZOOM-TOOLTIP\' | translate }}</ng-template><ng-template #changeTimeScaleTooltip>{{ \'OVERVIEW-GRAPH.CHANGE-TIME-SCALE-TOOLTIP\' | translate }}</ng-template><ng-template #reloadTooltip>{{ \'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate }}</ng-template></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'OverviewComponent'};
 </script>

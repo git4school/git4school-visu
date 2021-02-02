@@ -83,6 +83,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#loading">loading</a>
+                            </li>
+                            <li>
                                 <a href="#token">token</a>
                             </li>
                             <li>
@@ -229,8 +232,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/app/services/auth.service.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">src/app/services/auth.service.ts:61</a></div>
                 </td>
             </tr>
 
@@ -271,8 +274,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">src/app/services/auth.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/app/services/auth.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -318,8 +321,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">src/app/services/auth.service.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/services/auth.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -359,8 +362,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">src/app/services/auth.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">src/app/services/auth.service.ts:82</a></div>
                 </td>
             </tr>
 
@@ -400,8 +403,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">src/app/services/auth.service.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">src/app/services/auth.service.ts:96</a></div>
                 </td>
             </tr>
 
@@ -454,6 +457,32 @@ If authentication is valid, we store the Github access token</p>
         <h3 id="inputs">
             Properties
         </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loading"></a>
+                        <span class="name">
+                            <b>
+                            loading</b>
+                            <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/services/auth.service.ts:33</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -562,6 +591,7 @@ export class AuthService {
    */
   token &#x3D; null;
   username &#x3D; null;
+  loading &#x3D; false;
 
   /**
    * Returns the Github access token, so if its value is null, it&#x27;s similar to a falsy value

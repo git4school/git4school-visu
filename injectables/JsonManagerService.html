@@ -98,7 +98,23 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#download">download</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#generateCurrentAssignmentJson">generateCurrentAssignmentJson</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#generateJson">generateJson</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#generateMetadataJson">generateMetadataJson</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#generateRepositoriesJson">generateRepositoriesJson</a>
                             </li>
                         </ul>
                     </td>
@@ -118,12 +134,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>)</code>
+<code>constructor(sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>, dataService: <a href="../injectables/DataService.html">DataService</a>, commitsService: <a href="../injectables/CommitsService.html">CommitsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/json-manager.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/services/json-manager.service.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -154,6 +170,30 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>commitsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CommitsService.html" target="_self" >CommitsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -172,9 +212,90 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="download"></a>
+                    <span class="name">
+                        <b>
+                            download
+                        </b>
+                        <a href="#download"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>download()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">src/app/services/json-manager.service.ts:77</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateCurrentAssignmentJson"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            generateCurrentAssignmentJson
+                        </b>
+                        <a href="#generateCurrentAssignmentJson"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateCurrentAssignmentJson()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">src/app/services/json-manager.service.ts:73</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="generateJson"></a>
                     <span class="name">
                         <b>
+                            <span class="modifier">Private</span>
                             generateJson
                         </b>
                         <a href="#generateJson"><span class="icon ion-ios-link"></span></a>
@@ -183,15 +304,16 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>generateJson(title: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, questions: string[], repositories: <a href="../classes/Repository.html">Repository[]</a>, sessions?: <a href="../classes/Session.html">Session[]</a>, corrections?: <a href="../classes/Milestone.html">Milestone[]</a>, reviews?: <a href="../classes/Milestone.html">Milestone[]</a>, others?: <a href="../classes/Milestone.html">Milestone[]</a>, startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, course?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, program?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, year?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateJson(assignment: <a href="../classes/Assignment.html">Assignment</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/app/services/json-manager.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">src/app/services/json-manager.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -209,14 +331,13 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>title</td>
+                                    <td>assignment</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
                                     </td>
 
                                     <td>
@@ -224,15 +345,71 @@
                                     </td>
 
 
-                                    <td>
-                                        <p>The document title</p>
-
-                                    </td>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateMetadataJson"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            generateMetadataJson
+                        </b>
+                        <a href="#generateMetadataJson"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateMetadataJson(metadata: <a href="../classes/Metadata.html">Metadata</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">src/app/services/json-manager.service.ts:144</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
                                 <tr>
-                                    <td>questions</td>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>metadata</td>
                                     <td>
-                                            <code>string[]</code>
+                                                <code><a href="../classes/Metadata.html" target="_self" >Metadata</a></code>
                                     </td>
 
                                     <td>
@@ -240,11 +417,67 @@
                                     </td>
 
 
-                                    <td>
-                                        <p>The questions that will be handled by the application</p>
-
-                                    </td>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateRepositoriesJson"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            generateRepositoriesJson
+                        </b>
+                        <a href="#generateRepositoriesJson"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateRepositoriesJson(repositories: <a href="../classes/Repository.html">Repository[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/app/services/json-manager.service.ts:128</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <tr>
                                     <td>repositories</td>
                                     <td>
@@ -256,154 +489,6 @@
                                     </td>
 
 
-                                    <td>
-                                        <p>The repositories</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>sessions</td>
-                                    <td>
-                                                <code><a href="../classes/Session.html" target="_self" >Session[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>The practical sessions</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>corrections</td>
-                                    <td>
-                                                <code><a href="../classes/Milestone.html" target="_self" >Milestone[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>The correction milestones</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>reviews</td>
-                                    <td>
-                                                <code><a href="../classes/Milestone.html" target="_self" >Milestone[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>The review milestones</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>others</td>
-                                    <td>
-                                                <code><a href="../classes/Milestone.html" target="_self" >Milestone[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>The others milestones</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>startDate</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>A date before which commits are not retrieved from Github</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>endDate</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>A date after which commits are not retrieved from Github</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>course</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>The course associated with the configuration file</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>program</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>The program associated with the configuration file</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>year</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>The year associated with the configuration file</p>
-
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -411,7 +496,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>    <code>{}</code>
 
                     </div>
                     <div class="io-description">
@@ -441,7 +526,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/json-manager.service.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/services/json-manager.service.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -462,9 +547,14 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { DomSanitizer } from &quot;@angular/platform-browser&quot;;
-import { Milestone } from &quot;@models/Milestone.model&quot;;
+import { Assignment } from &quot;@models/Assignment.model&quot;;
+import { CommitColor } from &quot;@models/Commit.model&quot;;
+import { Metadata } from &quot;@models/Metadata.model&quot;;
 import { Repository } from &quot;@models/Repository.model&quot;;
-import { Session } from &quot;@models/Session.model&quot;;
+import { CommitsService } from &quot;@services/commits.service&quot;;
+import { DataService } from &quot;@services/data.service&quot;;
+import { saveAs } from &quot;file-saver&quot;;
+import * as JSZip from &quot;jszip&quot;;
 
 /**
  * This service manages the configuration file
@@ -481,7 +571,11 @@ export class JsonManagerService {
   /**
    * JsonManagerService constructor
    */
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private dataService: DataService,
+    private commitsService: CommitsService
+  ) {}
 
   /**
    * Generates a updated configuration file
@@ -499,21 +593,86 @@ export class JsonManagerService {
    * @param program The program associated with the configuration file
    * @param year The year associated with the configuration file
    */
-  generateJson(
-    title: string,
-    questions: string[],
-    repositories: Repository[],
-    sessions?: Session[],
-    corrections?: Milestone[],
-    reviews?: Milestone[],
-    others?: Milestone[],
-    startDate?: string,
-    endDate?: string,
-    course?: string,
-    program?: string,
-    year?: string
-  ) {
-    let json &#x3D; {};
+  private generateJson(assignment: Assignment) {
+    let dataJson &#x3D; {};
+
+    dataJson[&quot;repositories&quot;] &#x3D; this.generateRepositoriesJson(
+      assignment.repositories
+    );
+
+    dataJson[&quot;sessions&quot;] &#x3D; assignment.sessions?.map((session) &#x3D;&gt;
+      session.json()
+    );
+    dataJson[&quot;corrections&quot;] &#x3D; assignment.corrections?.map((correction) &#x3D;&gt;
+      correction.json()
+    );
+    dataJson[&quot;reviews&quot;] &#x3D; assignment.reviews?.map((review) &#x3D;&gt; review.json());
+    dataJson[&quot;others&quot;] &#x3D; assignment.others?.map((other) &#x3D;&gt; other.json());
+
+    const metadataJson &#x3D; this.generateMetadataJson(assignment.metadata);
+
+    this.json &#x3D; {
+      ...dataJson,
+      ...metadataJson,
+    };
+  }
+
+  private generateCurrentAssignmentJson() {
+    this.generateJson(this.dataService.assignment);
+  }
+
+  download() {
+    this.generateCurrentAssignmentJson();
+    let colors &#x3D; [
+      CommitColor.BEFORE,
+      CommitColor.BETWEEN,
+      CommitColor.AFTER,
+      CommitColor.NOCOMMIT,
+    ];
+
+    let questionsDict &#x3D; this.commitsService.initQuestionsDict(
+      this.dataService.questions,
+      colors
+    );
+    questionsDict &#x3D; this.commitsService.loadQuestionsDict(
+      questionsDict,
+      this.dataService.repositories,
+      this.dataService.questions,
+      colors
+    );
+    questionsDict[&quot;date&quot;] &#x3D; this.dataService.lastUpdateDate;
+
+    colors &#x3D; [
+      CommitColor.INTERMEDIATE,
+      CommitColor.BEFORE,
+      CommitColor.BETWEEN,
+      CommitColor.AFTER,
+    ];
+
+    let studentsDict &#x3D; {
+      date: this.dataService.lastUpdateDate,
+      students: this.commitsService.loadStudentsDict(
+        this.dataService.repositories,
+        this.dataService.questions,
+        colors
+      ),
+    };
+
+    let zip &#x3D; new JSZip();
+    zip.file(&quot;conf.json&quot;, JSON.stringify(this.json, null, 2));
+    zip.file(
+      &quot;questions-completion.json&quot;,
+      JSON.stringify(questionsDict, null, 2)
+    );
+    zip.file(&quot;students-commits.json&quot;, JSON.stringify(studentsDict, null, 2));
+
+    let filename &#x3D; this.dataService.title;
+    zip.generateAsync({ type: &quot;blob&quot; }).then(function (content) {
+      saveAs(content, filename + &quot;.zip&quot;);
+    });
+  }
+
+  private generateRepositoriesJson(repositories: Repository[]) {
     let repos &#x3D; [];
     repositories.forEach((repository) &#x3D;&gt; {
       let repo &#x3D; {};
@@ -526,24 +685,14 @@ export class JsonManagerService {
       }
       repos.push(repo);
     });
-    json[&quot;repositories&quot;] &#x3D; repos;
+    return repos;
+  }
 
-    sessions &amp;&amp; (json[&quot;sessions&quot;] &#x3D; sessions.map((session) &#x3D;&gt; session.json()));
-    corrections &amp;&amp;
-      (json[&quot;corrections&quot;] &#x3D; corrections.map((correction) &#x3D;&gt;
-        correction.json()
-      ));
-    reviews &amp;&amp; (json[&quot;reviews&quot;] &#x3D; reviews.map((review) &#x3D;&gt; review.json()));
-    others &amp;&amp; (json[&quot;others&quot;] &#x3D; others.map((other) &#x3D;&gt; other.json()));
-    json[&quot;startDate&quot;] &#x3D; startDate;
-    json[&quot;endDate&quot;] &#x3D; endDate;
-    json[&quot;title&quot;] &#x3D; title;
-    json[&quot;course&quot;] &#x3D; course;
-    json[&quot;program&quot;] &#x3D; program;
-    json[&quot;year&quot;] &#x3D; year;
-    json[&quot;questions&quot;] &#x3D; questions;
-
-    this.json &#x3D; json;
+  private generateMetadataJson(metadata: Metadata) {
+    let json &#x3D; Object.keys(metadata)
+      .filter((key) &#x3D;&gt; metadata[key] !&#x3D; null)
+      .reduce((acc, key) &#x3D;&gt; ({ ...acc, [key]: metadata[key] }), {});
+    return json;
   }
 }
 </code></pre>

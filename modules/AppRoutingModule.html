@@ -79,14 +79,18 @@ import { OverviewComponent } from &quot;@components/graphs/overview/overview.com
 import { QuestionsCompletionComponent } from &quot;@components/graphs/questions-completion/questions-completion.component&quot;;
 import { StudentsCommitsComponent } from &quot;@components/graphs/students-commits/students-commits.component&quot;;
 import { HomeComponent } from &quot;@components/home/home.component&quot;;
+import { AppNavLayoutComponent } from &quot;@components/nav-layouts/app-nav-layout/app-nav-layout.component&quot;;
+import { HomeNavLayoutComponent } from &quot;@components/nav-layouts/home-nav-layout/home-nav-layout.component&quot;;
 import { AuthGuard } from &quot;@guards/auth.guard&quot;;
 import { DataLoadingGuard } from &quot;@guards/data-loading.guard&quot;;
 import { DataProvidedGuard } from &quot;@guards/data-provided.guard&quot;;
 
-const appRoutes: Routes &#x3D; [
+const HOME_ROUTES: Routes &#x3D; [
   { path: &quot;home&quot;, component: HomeComponent },
-  { path: &quot;&quot;, redirectTo: &quot;/home&quot;, pathMatch: &quot;full&quot; },
   { path: &quot;not-found&quot;, component: FourOhFourComponent },
+];
+
+const APP_ROUTES: Routes &#x3D; [
   {
     path: &quot;overview&quot;,
     canActivate: [AuthGuard, DataProvidedGuard],
@@ -103,13 +107,17 @@ const appRoutes: Routes &#x3D; [
     canActivate: [AuthGuard, DataProvidedGuard],
     component: QuestionsCompletionComponent,
   },
-  { path: &quot;**&quot;, redirectTo: &quot;not-found&quot; },
+  { path: &quot;&quot;, redirectTo: &quot;/home&quot;, pathMatch: &quot;full&quot; },
+];
+
+const ROUTES: Routes &#x3D; [
+  { path: &quot;&quot;, component: AppNavLayoutComponent, children: APP_ROUTES },
+  { path: &quot;&quot;, component: HomeNavLayoutComponent, children: HOME_ROUTES },
+  { path: &quot;**&quot;, redirectTo: &quot;/not-found&quot; },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(appRoutes, { relativeLinkResolution: &quot;legacy&quot; }),
-  ],
+  imports: [RouterModule.forRoot(ROUTES, { relativeLinkResolution: &quot;legacy&quot; })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

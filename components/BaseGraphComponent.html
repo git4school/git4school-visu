@@ -61,6 +61,12 @@
 
 
 
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
 
 
 <section>
@@ -133,6 +139,15 @@
                             <li>
                                 <a href="#loadGraphMetadata">loadGraphMetadata</a>
                             </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#subscribeAssignmentModified">subscribeAssignmentModified</a>
+                            </li>
+                            <li>
+                                <a href="#unsubscribeAssignmentModified">unsubscribeAssignmentModified</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -151,12 +166,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(loaderService: <a href="../injectables/LoaderService.html">LoaderService</a>)</code>
+<code>constructor(loaderService: <a href="../injectables/LoaderService.html">LoaderService</a>, assignmentsService: <a href="../injectables/AssignmentsService.html">AssignmentsService</a>, dataService: <a href="../injectables/DataService.html">DataService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/components/graphs/base-graph.component.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/components/graphs/base-graph.component.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -178,6 +193,30 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/LoaderService.html" target="_self" >LoaderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>assignmentsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AssignmentsService.html" target="_self" >AssignmentsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -227,8 +266,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">src/app/components/graphs/base-graph.component.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/app/components/graphs/base-graph.component.ts:33</a></div>
                 </td>
             </tr>
 
@@ -311,8 +350,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/app/components/graphs/base-graph.component.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">src/app/components/graphs/base-graph.component.ts:50</a></div>
                 </td>
             </tr>
 
@@ -350,8 +389,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">src/app/components/graphs/base-graph.component.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">src/app/components/graphs/base-graph.component.ts:35</a></div>
                 </td>
             </tr>
 
@@ -433,6 +472,154 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">src/app/components/graphs/base-graph.component.ts:21</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeAssignmentModified"></a>
+                    <span class="name">
+                        <b>
+                            subscribeAssignmentModified
+                        </b>
+                        <a href="#subscribeAssignmentModified"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeAssignmentModified()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/components/graphs/base-graph.component.ts:23</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Subscription</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribeAssignmentModified"></a>
+                    <span class="name">
+                        <b>
+                            unsubscribeAssignmentModified
+                        </b>
+                        <a href="#unsubscribeAssignmentModified"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>unsubscribeAssignmentModified(assignmentsModified$: Subscription)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/app/components/graphs/base-graph.component.ts:29</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignmentsModified$</td>
+                                    <td>
+                                            <code>Subscription</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
     <section>
     
@@ -459,7 +646,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/components/graphs/base-graph.component.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/components/graphs/base-graph.component.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -472,30 +659,58 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
-import { Milestone } from &#x27;@models/Milestone.model&#x27;;
-import { Repository } from &#x27;@models/Repository.model&#x27;;
-import { LoaderService } from &#x27;@services/loader.service&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &quot;@angular/core&quot;;
+import { Milestone } from &quot;@models/Milestone.model&quot;;
+import { Repository } from &quot;@models/Repository.model&quot;;
+import { AssignmentsService } from &quot;@services/assignments.service&quot;;
+import { DataService } from &quot;@services/data.service&quot;;
+import { LoaderService } from &quot;@services/loader.service&quot;;
+import { Subscription } from &quot;rxjs&quot;;
 
 @Component({
-    template: &#x60;&#x60;
+  template: &quot;&quot;,
 })
-export abstract class BaseGraphComponent {
-    public loading &#x3D; false;
+export abstract class BaseGraphComponent implements OnInit {
+  public loading &#x3D; false;
 
-    constructor(protected loaderService: LoaderService) {
+  constructor(
+    protected loaderService: LoaderService,
+    protected assignmentsService: AssignmentsService,
+    protected dataService: DataService
+  ) {}
 
-    }
+  ngOnInit(): void {}
 
-    abstract loadGraph(startDate?: string, endDate?: string);
+  subscribeAssignmentModified(): Subscription {
+    return this.assignmentsService.assignmentModified.subscribe(() &#x3D;&gt; {
+      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+    });
+  }
 
-    loadGraphMetadata(repositories: Repository[], reviews: Milestone[], corrections: Milestone[], questions) {
-        this.loaderService.loadCommitsMetadata(repositories, reviews, corrections, questions);
-        this.loadGraphDataAndRefresh();
-    }
+  unsubscribeAssignmentModified(assignmentsModified$: Subscription) {
+    assignmentsModified$.unsubscribe();
+  }
 
-    abstract loadGraphDataAndRefresh();
-}</code></pre>
+  abstract loadGraph(startDate?: string, endDate?: string);
+
+  loadGraphMetadata(
+    repositories: Repository[],
+    reviews: Milestone[],
+    corrections: Milestone[],
+    questions
+  ) {
+    this.loaderService.loadCommitsMetadata(
+      repositories,
+      reviews,
+      corrections,
+      questions
+    );
+    this.loadGraphDataAndRefresh();
+  }
+
+  abstract loadGraphDataAndRefresh();
+}
+</code></pre>
     </div>
 
 
@@ -526,7 +741,7 @@ export abstract class BaseGraphComponent {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'BaseGraphComponent'};
 </script>
