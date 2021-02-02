@@ -1,5 +1,47 @@
 # Change log for Git4School
 
+## 1.3.2
+
+### Added
+
+#### Configuration Modal
+
+- An icon is displayed in the tabs (metadata, repositories, sessions) that need to be saved
+
+#### Home page
+
+- It is possible to **download** as JSON the database containing *all the assignments*. It is also possible to **import** such a file to import all the assignments
+
+#### Navigation bar
+
+- The button to *export* an assignment has been moved to the **navigation bar** so that it is accessible from anywhere
+- The button to *configure* an assignment has been added in the **navigation bar** so that it is accessible from anywhere
+
+### Modified
+
+#### Usability
+
+- The clickable area of the elements in the accordion on the home page has been expanded to the entire box of each title
+
+#### General
+
+- *ngx-type-ahead* has been replaced by our own component to select questions because this library is *no longer maintained* and causes problems with the engine Ivy used by Angular
+
+#### Configuration Modal
+
+- Cancelling the editing of a newly added line deletes it
+
+### Deleted
+
+#### Navigation bar
+
+- *Graphs* menu is no longer visible when on home page for usability reasons
+
+#### Overview graph
+
+- The button to *export* an assignment has been removed from the graph *overview* page because we want it to be accessible from any page (except the *home* page)
+- The button to *import* an assignment has been removed from the *overview* graph page because it is already in the assignment configuration modal
+
 ## 1.3.1
 
 ### Added
