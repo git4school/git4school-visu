@@ -51,7 +51,9 @@ export class AssignmentChooserComponent implements OnInit {
 
   selectAssignment(assignment: Assignment) {
     this.dataService.assignment = assignment;
-    if (this.dataService.repoToLoad) this.router.navigate(["overview"]);
+    if (this.dataService.repoToLoad) {
+      this.router.navigate(["overview"]);
+    }
   }
 
   deleteAssignment(assignment: Assignment) {

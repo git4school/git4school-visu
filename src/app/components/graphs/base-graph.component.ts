@@ -7,7 +7,7 @@ import { LoaderService } from "@services/loader.service";
 import { Subscription } from "rxjs";
 
 @Component({
-  template: ``,
+  template: "",
 })
 export abstract class BaseGraphComponent implements OnInit {
   public loading = false;

@@ -64,12 +64,14 @@ export class ConfigurationComponent implements OnInit {
 
   openUploadFileModal() {
     let modalReference = this.modalService.open(FileChooserComponent, {});
-    modalReference.result.then((assignment) => {
-      assignment.id = this.assignment.id;
-      this.assignment = assignment;
-      this.saveAssignment();
-      this.activeModalService.close();
-    });
+    modalReference.result
+      .then((assignment) => {
+        assignment.id = this.assignment.id;
+        this.assignment = assignment;
+        this.saveAssignment();
+        this.activeModalService.close();
+      })
+      .catch(() => {});
   }
 
   successToast() {
