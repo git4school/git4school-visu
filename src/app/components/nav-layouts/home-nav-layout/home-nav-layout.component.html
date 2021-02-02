@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="home"><i
+                        class="fas fa-home mr-2"></i>{{ 'NAVBAR.HOME' | translate }}</a></li>
+
+            <ul class="nav navbar-nav navbar-center">
+                <span id="document-title" class="navbar-text">{{ this.dataService?.title }}</span>
+            </ul>
+        </ul>
+
+    </div>
+    <div class="navbar-collapse collapse order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <auth-lang-nav-item></auth-lang-nav-item>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

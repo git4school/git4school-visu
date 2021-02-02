@@ -2,29 +2,25 @@ import {
   AfterViewInit,
   Component,
   HostListener,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
 import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
-import { Commit, CommitColor } from "@models/Commit.model";
+import { Commit } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
+import { AssignmentsService } from "@services/assignments.service";
 import { CommitsService } from "@services/commits.service";
 import { DataService } from "@services/data.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
-import { saveAs } from "file-saver";
-import * as JSZip from "jszip";
 import { BaseChartDirective } from "ng2-charts";
+import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
-
-/**
- * jquery
- */
-declare var $: any;
 
 @Component({
   selector: "overview",
@@ -33,8 +29,10 @@ declare var $: any;
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(BaseChartDirective, { static: true }) myChart;
+
+  assignmentsModified$: Subscription;
 
   typeaheadSettings;
   searchFilter: string[] = [];
@@ -156,9 +154,10 @@ export class OverviewComponent
     public jsonManager: JsonManagerService,
     public dataService: DataService,
     protected loaderService: LoaderService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    protected assignmentsService: AssignmentsService
   ) {
-    super(loaderService);
+    super(loaderService, assignmentsService, dataService);
   }
 
   @HostListener("window:keyup", ["$event"])
@@ -169,15 +168,17 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
+    this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();
     this.translateService.onLangChange.subscribe(
       (event: TranslationChangeEvent) => {
         this.updateLang();
       }
     );
-    $(".modal").modal({
-      show: false,
-    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
   ngAfterViewInit(): void {
@@ -605,57 +606,6 @@ export class OverviewComponent
       this.dataService.assignment = assignment;
       this.dataService.saveData();
       this.loadGraph();
-    });
-  }
-
-  download() {
-    this.dataService.generateJSON();
-    let colors = [
-      CommitColor.BEFORE,
-      CommitColor.BETWEEN,
-      CommitColor.AFTER,
-      CommitColor.NOCOMMIT,
-    ];
-
-    let questionsDict = this.commitsService.initQuestionsDict(
-      this.dataService.questions,
-      colors
-    );
-    questionsDict = this.commitsService.loadQuestionsDict(
-      questionsDict,
-      this.dataService.repositories,
-      this.dataService.questions,
-      colors
-    );
-    questionsDict["date"] = this.dataService.lastUpdateDate;
-
-    colors = [
-      CommitColor.INTERMEDIATE,
-      CommitColor.BEFORE,
-      CommitColor.BETWEEN,
-      CommitColor.AFTER,
-    ];
-
-    let studentsDict = {
-      date: this.dataService.lastUpdateDate,
-      students: this.commitsService.loadStudentsDict(
-        this.dataService.repositories,
-        this.dataService.questions,
-        colors
-      ),
-    };
-
-    let zip = new JSZip();
-    zip.file("conf.json", JSON.stringify(this.jsonManager.json, null, 2));
-    zip.file(
-      "questions-completion.json",
-      JSON.stringify(questionsDict, null, 2)
-    );
-    zip.file("students-commits.json", JSON.stringify(studentsDict, null, 2));
-
-    let filename = this.dataService.title;
-    zip.generateAsync({ type: "blob" }).then(function (content) {
-      saveAs(content, filename + ".zip");
     });
   }
 }

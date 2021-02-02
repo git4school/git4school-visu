@@ -30,6 +30,7 @@ export class AuthService {
    */
   token = null;
   username = null;
+  loading = false;
 
   /**
    * Returns the Github access token, so if its value is null, it's similar to a falsy value

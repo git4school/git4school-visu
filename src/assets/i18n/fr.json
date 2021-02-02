@@ -131,7 +131,7 @@
     "RESET-ZOOM-TOOLTIP": "Réinitialisation du zoom (barre espace)",
     "CHANGE-ZOOM-TOOLTIP": "Changer le mode de zoom (glisser/roulette et déplacer)",
     "CHANGE-TIME-SCALE-TOOLTIP": "Changer l'échelle de temps",
-    "DOWNLOAD-TOOLTIP": "Télécharger le JSON",
+    "DOWNLOAD-TOOLTIP": "Télécharger le fichier de configuration de l'assignment courant",
     "RELOAD-TOOLTIP": "Recharger",
     "LEGEND": {
       "TITLE": "Légende",

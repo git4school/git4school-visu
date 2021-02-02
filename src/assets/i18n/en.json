@@ -132,7 +132,7 @@
     "RESET-ZOOM-TOOLTIP": "Reset zoom (space bar)",
     "CHANGE-ZOOM-TOOLTIP": "Change zoom mode (drag/wheel and pan)",
     "CHANGE-TIME-SCALE-TOOLTIP": "Change the time scale",
-    "DOWNLOAD-TOOLTIP": "Download JSON",
+    "DOWNLOAD-TOOLTIP": "Download current assignment configuration file",
     "RELOAD-TOOLTIP": "Reload",
     "LEGEND": {
       "TITLE": "Legend",

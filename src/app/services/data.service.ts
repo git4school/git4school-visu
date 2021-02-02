@@ -4,7 +4,6 @@ import { Milestone } from "@models/Milestone.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
 import { DatabaseService } from "@services/database.service";
-import { JsonManagerService } from "@services/json-manager.service";
 
 /**
  * This service is used to store data
@@ -37,12 +36,8 @@ export class DataService {
 
   /**
    * DataService constructor
-   * @param jsonManager
    */
-  constructor(
-    private jsonManager: JsonManagerService,
-    private databaseService: DatabaseService
-  ) {
+  constructor(private databaseService: DatabaseService) {
     this.repoToLoad = false;
     this.barIndex = 5;
     this.tpGroups = [];
@@ -52,26 +47,6 @@ export class DataService {
     return this.databaseService
       .saveAssignment(assignment)
       .then((id) => (assignment.id = id));
-  }
-
-  /**
-   * Generates the json of the initial configuration file, updated with modified values during the use of the application
-   */
-  generateJSON() {
-    this.jsonManager.generateJson(
-      this.title,
-      this.questions,
-      this.repositories,
-      this.sessions,
-      this.corrections,
-      this.reviews,
-      this.others,
-      this.startDate,
-      this.endDate,
-      this.course,
-      this.program,
-      this.year
-    );
   }
 
   /**

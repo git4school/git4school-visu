@@ -90,17 +90,11 @@
     </div>
     <div class="separator"></div>
     <div>
-        <div class="btn-group" role="group" aria-label="File controls">
-            <button class="btn btn-outline-secondary" [ngbTooltip]="downloadTooltip" (click)="download()"
-                [disabled]="loading"><i class="fas fa-download"></i></button>
-            <button class="btn btn-outline-secondary" [ngbTooltip]="uploadTooltip" (click)="openUploadFileModal()"><i
-                    class="fas fa-upload"></i></button>
-            <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"
-                [disabled]="!dataService.repositories?.length || loading" [ngbTooltip]="reloadTooltip">
-                <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>
-                <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>
-            </button>
-        </div>
+        <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"
+            [disabled]="!dataService.repositories?.length || loading" [ngbTooltip]="reloadTooltip">
+            <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>
+            <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>
+        </button>
     </div>
 </div>
 <div class="chart-container">
@@ -149,6 +143,4 @@
 <ng-template #resetZoomTooltip>{{ 'OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP' | translate }}</ng-template>
 <ng-template #changeZoomTooltip>{{ 'OVERVIEW-GRAPH.CHANGE-ZOOM-TOOLTIP' | translate }}</ng-template>
 <ng-template #changeTimeScaleTooltip>{{ 'OVERVIEW-GRAPH.CHANGE-TIME-SCALE-TOOLTIP' | translate }}</ng-template>
-<ng-template #downloadTooltip>{{ 'OVERVIEW-GRAPH.DOWNLOAD-TOOLTIP' | translate }}</ng-template>
-<ng-template #uploadTooltip>{{ 'OVERVIEW-GRAPH.UPLOAD.TOOLTIP' | translate }}</ng-template>
 <ng-template #reloadTooltip>{{ 'OVERVIEW-GRAPH.RELOAD-TOOLTIP' | translate }}</ng-template>

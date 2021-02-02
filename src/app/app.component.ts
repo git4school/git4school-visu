@@ -19,11 +19,6 @@ import "rxjs/add/observable/interval";
 })
 export class AppComponent implements OnInit, OnDestroy {
   /**
-   * This boolean is set to true when authentication is loading
-   */
-  loading = false;
-
-  /**
    * AppComponent constructor
    * @param authService Authentication service
    * @param dataService Service used to store and get data
@@ -40,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ngbTooltipConfig.openDelay = 500;
     ngbTooltipConfig.triggers = "hover";
     ngbTooltipConfig.container = "body";
-    // ngbTooltipConfig.animation = true; // A mettre après maj ngbTooltip 8.x
+    ngbTooltipConfig.animation = true;
   }
 
   /**
@@ -49,39 +44,22 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     Chart.pluginService.unregister(ChartDataLabels);
+    this.authService.loading = false;
     if (!this.authService.isSignedIn()) {
-      this.loading = true;
+      this.authService.loading = true;
       this.authService
         .callback()
         .then(
           () => {
-            this.loading = false;
+            this.authService.loading = false;
             this.router.navigate(["overview"]);
           },
           () => {
-            this.loading = false;
+            this.authService.loading = false;
           }
         )
-        .catch(() => (this.loading = false));
+        .catch(() => (this.authService.loading = false));
     }
-  }
-
-  changeLanguage(language: string) {
-    this.translateService.use(language);
-  }
-
-  /**
-   * Signs in
-   */
-  onSignInGithub() {
-    this.authService.signIn();
-  }
-
-  /**
-   * Signs out
-   */
-  onSignOut() {
-    this.authService.signOut();
   }
 
   /**
