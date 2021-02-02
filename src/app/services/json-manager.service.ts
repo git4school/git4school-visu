@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
+import { Assignment } from "@models/Assignment.model";
 import { CommitColor } from "@models/Commit.model";
-import { Milestone } from "@models/Milestone.model";
+import { Metadata } from "@models/Metadata.model";
 import { Repository } from "@models/Repository.model";
-import { Session } from "@models/Session.model";
 import { CommitsService } from "@services/commits.service";
 import { DataService } from "@services/data.service";
 import { saveAs } from "file-saver";
@@ -46,40 +46,23 @@ export class JsonManagerService {
    * @param program The program associated with the configuration file
    * @param year The year associated with the configuration file
    */
-  private generateJson(
-    title: string,
-    questions: string[],
-    repositories: Repository[],
-    sessions?: Session[],
-    corrections?: Milestone[],
-    reviews?: Milestone[],
-    others?: Milestone[],
-    startDate?: string,
-    endDate?: string,
-    course?: string,
-    program?: string,
-    year?: string
-  ) {
+  private generateJson(assignment: Assignment) {
     let dataJson = {};
 
-    dataJson["repositories"] = this.generateRepositoriesJson(repositories);
+    dataJson["repositories"] = this.generateRepositoriesJson(
+      assignment.repositories
+    );
 
-    dataJson["sessions"] = sessions?.map((session) => session.json());
-    dataJson["corrections"] = corrections?.map((correction) =>
+    dataJson["sessions"] = assignment.sessions?.map((session) =>
+      session.json()
+    );
+    dataJson["corrections"] = assignment.corrections?.map((correction) =>
       correction.json()
     );
-    dataJson["reviews"] = reviews?.map((review) => review.json());
-    dataJson["others"] = others?.map((other) => other.json());
+    dataJson["reviews"] = assignment.reviews?.map((review) => review.json());
+    dataJson["others"] = assignment.others?.map((other) => other.json());
 
-    const metadataJson = this.generateMetadataJson(
-      title,
-      questions,
-      startDate,
-      endDate,
-      course,
-      program,
-      year
-    );
+    const metadataJson = this.generateMetadataJson(assignment.metadata);
 
     this.json = {
       ...dataJson,
@@ -88,20 +71,7 @@ export class JsonManagerService {
   }
 
   private generateCurrentAssignmentJson() {
-    this.generateJson(
-      this.dataService.title,
-      this.dataService.questions,
-      this.dataService.repositories,
-      this.dataService.sessions,
-      this.dataService.corrections,
-      this.dataService.reviews,
-      this.dataService.others,
-      this.dataService.startDate,
-      this.dataService.endDate,
-      this.dataService.course,
-      this.dataService.program,
-      this.dataService.year
-    );
+    this.generateJson(this.dataService.assignment);
   }
 
   download() {
@@ -171,23 +141,10 @@ export class JsonManagerService {
     return repos;
   }
 
-  private generateMetadataJson(
-    title: string,
-    questions: string[],
-    startDate?: string,
-    endDate?: string,
-    course?: string,
-    program?: string,
-    year?: string
-  ) {
-    let json = {};
-    startDate && (json["startDate"] = startDate);
-    endDate && (json["endDate"] = endDate);
-    title && (json["title"] = title);
-    course && (json["course"] = course);
-    program && (json["program"] = program);
-    year && (json["year"] = year);
-    questions && (json["questions"] = questions);
+  private generateMetadataJson(metadata: Metadata) {
+    let json = Object.keys(metadata)
+      .filter((key) => metadata[key] != null)
+      .reduce((acc, key) => ({ ...acc, [key]: metadata[key] }), {});
     return json;
   }
 }
