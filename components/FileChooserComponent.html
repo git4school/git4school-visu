@@ -342,8 +342,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:62</a></div>
                 </td>
             </tr>
 
@@ -447,8 +447,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:101</a></div>
                 </td>
             </tr>
 
@@ -645,10 +645,11 @@ export class FileChooserComponent implements OnInit {
     if (!valid) {
       let errorMessage &#x3D;
         &quot;&amp;emsp;&quot; +
-        ajv.errors.map((error) &#x3D;&gt; {
-          return error.dataPath + &quot; &quot; + error.message;
-        })
-        .join(&quot;&lt;br&gt;&amp;emsp;&quot;);
+        ajv.errors
+          .map((error) &#x3D;&gt; {
+            return error.dataPath + &quot; &quot; + error.message;
+          })
+          .join(&quot;&lt;br&gt;&amp;emsp;&quot;);
       this.toastService.error(
         this.translateService.instant(&quot;INVALID-CONF-FILE&quot;),
         errorMessage
@@ -684,16 +685,18 @@ export class FileChooserComponent implements OnInit {
     assignment.program &#x3D; text.program;
     assignment.year &#x3D; text.year;
     assignment.questions &#x3D; text.questions;
-    assignment.corrections &#x3D; text.corrections?.map((data) &#x3D;&gt;
-      Milestone.withJSON(data, &quot;corrections&quot;)
-    );
-    assignment.sessions &#x3D; text.sessions?.map((data) &#x3D;&gt; Session.withJSON(data));
-    assignment.reviews &#x3D; text.reviews?.map((data) &#x3D;&gt;
-      Milestone.withJSON(data, &quot;reviews&quot;)
-    );
-    assignment.others &#x3D; text.others?.map((data) &#x3D;&gt;
-      Milestone.withJSON(data, &quot;others&quot;)
-    );
+    assignment.corrections &#x3D; text.corrections
+      ? text.corrections.map((data) &#x3D;&gt; Milestone.withJSON(data, &quot;corrections&quot;))
+      : [];
+    assignment.sessions &#x3D; text.sessions
+      ? text.sessions.map((data) &#x3D;&gt; Session.withJSON(data))
+      : [];
+    assignment.reviews &#x3D; text.reviews
+      ? text.reviews.map((data) &#x3D;&gt; Milestone.withJSON(data, &quot;reviews&quot;))
+      : [];
+    assignment.others &#x3D; text.others
+      ? text.others.map((data) &#x3D;&gt; Milestone.withJSON(data, &quot;others&quot;))
+      : [];
     return assignment;
   }
 
