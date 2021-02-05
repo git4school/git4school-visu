@@ -43,10 +43,11 @@ export class FileChooserComponent implements OnInit {
     if (!valid) {
       let errorMessage =
         "&emsp;" +
-        ajv.errors.map((error) => {
-          return error.dataPath + " " + error.message;
-        })
-        .join("<br>&emsp;");
+        ajv.errors
+          .map((error) => {
+            return error.dataPath + " " + error.message;
+          })
+          .join("<br>&emsp;");
       this.toastService.error(
         this.translateService.instant("INVALID-CONF-FILE"),
         errorMessage
@@ -82,16 +83,18 @@ export class FileChooserComponent implements OnInit {
     assignment.program = text.program;
     assignment.year = text.year;
     assignment.questions = text.questions;
-    assignment.corrections = text.corrections?.map((data) =>
-      Milestone.withJSON(data, "corrections")
-    );
-    assignment.sessions = text.sessions?.map((data) => Session.withJSON(data));
-    assignment.reviews = text.reviews?.map((data) =>
-      Milestone.withJSON(data, "reviews")
-    );
-    assignment.others = text.others?.map((data) =>
-      Milestone.withJSON(data, "others")
-    );
+    assignment.corrections = text.corrections
+      ? text.corrections.map((data) => Milestone.withJSON(data, "corrections"))
+      : [];
+    assignment.sessions = text.sessions
+      ? text.sessions.map((data) => Session.withJSON(data))
+      : [];
+    assignment.reviews = text.reviews
+      ? text.reviews.map((data) => Milestone.withJSON(data, "reviews"))
+      : [];
+    assignment.others = text.others
+      ? text.others.map((data) => Milestone.withJSON(data, "others"))
+      : [];
     return assignment;
   }
 
