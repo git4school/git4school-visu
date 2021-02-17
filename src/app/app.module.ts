@@ -45,9 +45,9 @@ import { ToastrModule } from "ngx-toastr";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthLangNavItemComponent } from "./components/nav-items/auth-lang-nav-item/auth-lang-nav-item.component";
+import { HelpNavItemComponent } from "./components/nav-items/help-nav-item/help-nav-item.component";
 import { AppNavLayoutComponent } from "./components/nav-layouts/app-nav-layout/app-nav-layout.component";
 import { HomeNavLayoutComponent } from "./components/nav-layouts/home-nav-layout/home-nav-layout.component";
-import { HelpNavItemComponent } from './components/nav-items/help-nav-item/help-nav-item.component';
 
 /**
  * Firebase configuration file
