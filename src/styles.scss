@@ -2,6 +2,11 @@
 @import "~ngx-toastr/toastr";
 @import "node_modules/bootstrap/scss/bootstrap";
 
+.rounded-circle {
+  width: 32px;
+  height: 32px;
+}
+
 .card-header .fa-chevron-down {
   transition: 0.3s transform ease-in-out;
 }

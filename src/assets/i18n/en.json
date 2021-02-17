@@ -260,5 +260,6 @@
   "IMPORT-CONFIRMATION-TITLE": "Import confirmation",
   "IMPORT-CONFIRMATION-MESSAGE": "After confirmation, your current assignments will be deleted and the assignments will be imported",
   "CANCEL": "Cancel",
-  "CONFIRM": "Confirm"
+  "CONFIRM": "Confirm",
+  "HELP-TOOLTIP": "Need help ?"
 }
