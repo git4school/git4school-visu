@@ -7,6 +7,9 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="home"><i
                         class="fas fa-home mr-2"></i>{{ 'NAVBAR.HOME' | translate }}</a></li>
+            <li class="nav-item">
+                <help-nav-item></help-nav-item>
+            </li>
 
             <ul class="nav navbar-nav navbar-center">
                 <span id="document-title" class="navbar-text">{{ this.dataService?.title }}</span>
@@ -21,10 +24,6 @@
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
+<div>
+    <router-outlet></router-outlet>
 </div>

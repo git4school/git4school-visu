@@ -31,6 +31,9 @@
                 <button type="button" class="mt-1 ml-1 btn btn-sm btn-secondary rounded-circle"
                     [ngbTooltip]="downloadTooltip" (click)="download()"><i class="fas fa-download"></i></button>
             </li>
+            <li class="nav-item">
+                <help-nav-item></help-nav-item>
+            </li>
 
             <ul class="nav navbar-nav navbar-center">
                 <span id="document-title" class="navbar-text">{{ this.dataService?.title }}</span>

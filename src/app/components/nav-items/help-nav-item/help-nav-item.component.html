@@ -1,0 +1,6 @@
+<button type="button" class="mt-1 ml-1 btn btn-sm btn-secondary rounded-circle" [ngbTooltip]="helpTooltip"
+    (click)="openUserDocumentation()">
+    <i class="fas fa-info"></i>
+</button>
+
+<ng-template #helpTooltip>{{ 'HELP-TOOLTIP' | translate }}</ng-template>
