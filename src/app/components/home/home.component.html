@@ -12,13 +12,18 @@
         <div class="pre-carousel">
           <h1 class="font-weight-bold mb-4">Git4School</h1>
           <div class="subtitle">
-            Git4School is an application that helps teachers follow the progress of their students during practical work
-            sessions using Github. It gives access to several tools to best support your students during the practical
-            work sessions.
+            {{ "HOME-SUBTITLE" | translate }}
           </div>
-          <div class="login mt-4">
-            <button class="btn btn-outline-secondary btn-lg">
-              <i class="fab fa-github fa-lg"></i> Login
+          <div class="login m-4">
+            <button class="btn btn-outline-secondary btn-lg" [disabled]="authService.loading"
+              (click)="onSignInGithub()">
+              <span *ngIf="authService.loading; else loggedOut" class="spinner-grow " role="status"
+                aria-hidden="true"></span>
+              {{ 'NAVBAR.SIGN-IN' | translate }}
+
+              <ng-template #loggedOut>
+                <i class="fab fa-github fa-lg"></i>
+              </ng-template>
             </button>
           </div>
         </div>
@@ -99,7 +104,6 @@
           </a>
         </div>
       </div>
-
     </footer>
   </div>
 </div>

@@ -261,5 +261,6 @@
   "IMPORT-CONFIRMATION-MESSAGE": "Après confirmation, vos assignments actuels seront supprimés et les assignments seront importés",
   "CANCEL": "Annuler",
   "CONFIRM": "Confirmer",
-  "HELP-TOOLTIP": "Besoin d'aide ?"
+  "HELP-TOOLTIP": "Besoin d'aide ?",
+  "HOME-SUBTITLE": "Git4School est une application qui aide les enseignants à suivre les progrès de leurs élèves lors des séances de travaux pratiques en utilisant Github. Il offre plusieurs outils pour accompagner au mieux vos étudiants lors des travaux pratiques."
 }

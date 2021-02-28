@@ -2,5 +2,6 @@
  * Production environment
  */
 export const environment = {
-  production: true
+  production: true,
+  version: require("../../package.json").version,
 };

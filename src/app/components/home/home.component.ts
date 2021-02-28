@@ -121,4 +121,8 @@ export class HomeComponent implements OnInit {
   copyReadMe() {
     this.clipboardService.copyFromContent(this.readMe);
   }
+
+  onSignInGithub() {
+    this.authService.signIn();
+  }
 }
