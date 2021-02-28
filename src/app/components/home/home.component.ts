@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
+import { AuthService } from "@services/auth.service";
 import { DatabaseService } from "@services/database.service";
 import { ClipboardService } from "ngx-clipboard";
 
@@ -23,7 +24,8 @@ export class HomeComponent implements OnInit {
     private clipboardService: ClipboardService,
     private http: HttpClient,
     private translateService: TranslateService,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private authService: AuthService
   ) {}
 
   /**

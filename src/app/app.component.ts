@@ -46,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     Chart.pluginService.unregister(ChartDataLabels);
     this.authService.loading = false;
     if (!this.authService.isSignedIn()) {
+      this.authService.reauthenticate();
       this.authService.loading = true;
       this.authService
         .callback()
@@ -58,7 +59,9 @@ export class AppComponent implements OnInit, OnDestroy {
             this.authService.loading = false;
           }
         )
-        .catch(() => (this.authService.loading = false));
+        .catch(() => {
+          this.authService.loading = false;
+        });
     }
   }
 
