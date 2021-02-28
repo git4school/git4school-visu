@@ -6,7 +6,8 @@
  * Development environment
  */
 export const environment = {
-  production: false
+  production: false,
+  version: require("../../package.json").version,
 };
 
 /*
