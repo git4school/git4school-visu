@@ -1,9 +1,105 @@
-<div class="page-container">
-  <div class="m-3 content-wrap">
+<div class="page-container d-flex flex-column">
+  <div class="m-3 content-wrap" *ngIf="authService.isSignedIn()">
     <h5 class="mb-3">
       {{ 'HOME.ASSIGNMENT-LIST.TITLE' | translate }}
     </h5>
 
     <assignment-chooser></assignment-chooser>
   </div>
+  <div *ngIf="!authService.isSignedIn()">
+    <div class="title-area d-flex flex-column align-items-center justify-content-center">
+      <div class="title">
+        <div class="pre-carousel">
+          <h1 class="font-weight-bold mb-4">Git4School</h1>
+          <div class="subtitle">
+            {{ "HOME-SUBTITLE" | translate }}
+          </div>
+          <div class="login m-4">
+            <button class="btn btn-outline-secondary btn-lg" [disabled]="authService.loading"
+              (click)="onSignInGithub()">
+              <span *ngIf="authService.loading; else loggedOut" class="spinner-grow " role="status"
+                aria-hidden="true"></span>
+              {{ 'NAVBAR.SIGN-IN' | translate }}
+
+              <ng-template #loggedOut>
+                <i class="fab fa-github fa-lg"></i>
+              </ng-template>
+            </button>
+          </div>
+        </div>
+
+        <div id="graphsCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <a href="assets/images/overview-tuto.png">
+                <img src="assets/images/overview-tuto.png" class="d-block w-100 carousel-image"
+                  alt="Overview graph preview">
+              </a>
+            </div>
+            <div class="carousel-item">
+              <a href="assets/images/students-commits-tuto.png">
+                <img src="assets/images/students-commits-tuto.png" class="d-block w-100 carousel-image"
+                  alt="Students commits graph preview">
+              </a>
+            </div>
+            <div class="carousel-item">
+              <a href="assets/images/questions-completion-tuto.png">
+                <img src="assets/images/questions-completion-tuto.png" class="d-block w-100 carousel-image"
+                  alt="Questions completion graph preview">
+              </a>
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#graphsCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#graphsCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="area">
+      <ul class="circles cards">
+        <div class="card">
+          <i class="fas fa-chart-line fa-6x m-2 mr-4 icon"></i>
+          <p>{{ "HOME-OBJECTIVE-1" | translate }}</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-exclamation-circle fa-6x m-2 mr-4 icon"></i>
+          <p>{{ "HOME-OBJECTIVE-2" | translate }}</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-graduation-cap fa-6x m-2 mr-4 icon"></i>
+          <p>{{ "HOME-OBJECTIVE-3" | translate }}</p>
+        </div>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+    <footer class="home-footer p-2">
+      <div class="d-flex justify-content-between">
+        <div class="col ml-1">Version : {{ version }}</div>
+        <div class="col text-center">Copyright © 2019 Université Toulouse 3 Paul Sabatier.</div>
+        <div class="col">
+          <a href=" https://github.com/git4school/git4school-visu" class="float-right" [ngbTooltip]="goToGithubTooltip">
+            <i class="fab fa-github fa-lg" style="color: white;"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
 </div>
+
+<ng-template #goToGithubTooltip>{{ "GO-TO-GITHUB-TOOLTIP" | translate }}</ng-template>

@@ -1,8 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
+import { AuthService } from "@services/auth.service";
 import { DatabaseService } from "@services/database.service";
 import { ClipboardService } from "ngx-clipboard";
+import { environment } from "../../../environments/environment";
 
 /**
  * This component is used for the Home page displaying useful information such as CHANGELOG,
@@ -23,7 +25,8 @@ export class HomeComponent implements OnInit {
     private clipboardService: ClipboardService,
     private http: HttpClient,
     private translateService: TranslateService,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    public authService: AuthService
   ) {}
 
   /**
@@ -35,6 +38,8 @@ export class HomeComponent implements OnInit {
    * A variable used to display the readMe structure
    */
   readMe;
+
+  version = environment.version;
 
   updateReadMe() {
     let tokenFirstName = this.translateService.instant("TOKEN-FIRST-NAME");
@@ -115,5 +120,9 @@ export class HomeComponent implements OnInit {
    */
   copyReadMe() {
     this.clipboardService.copyFromContent(this.readMe);
+  }
+
+  onSignInGithub() {
+    this.authService.signIn();
   }
 }

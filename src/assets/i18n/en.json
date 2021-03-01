@@ -261,5 +261,10 @@
   "IMPORT-CONFIRMATION-MESSAGE": "After confirmation, your current assignments will be deleted and the assignments will be imported",
   "CANCEL": "Cancel",
   "CONFIRM": "Confirm",
-  "HELP-TOOLTIP": "Need help ?"
+  "HELP-TOOLTIP": "Need help ?",
+  "HOME-SUBTITLE": "Git4School is an application that helps teachers follow the progress of their students during practical work sessions using Github. It gives access to several tools to best support your students during the practical work sessions.",
+  "HOME-OBJECTIVE-1": "Follow the work of the students, commit by commit, to quickly identify students experiencing difficulties and provide them with the necessary help to acquire the associated skills.",
+  "HOME-OBJECTIVE-2": "Quickly see which questions are the least well answered in the group of students to identify problematic concepts and clarify them, or questions that are poorly worded.",
+  "HOME-OBJECTIVE-3": "Follow the completion of the questions by the student group to plan the code review sessions and question corrections at the best possible time.",
+  "GO-TO-GITHUB-TOOLTIP": "Go to our Github repository"
 }
