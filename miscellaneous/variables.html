@@ -230,7 +230,8 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>{
-  production: true
+  production: true,
+  version: require(&quot;../../package.json&quot;).version,
 }</code>
                         </td>
                     </tr>
@@ -268,7 +269,8 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>{
-  production: false
+  production: false,
+  version: require(&quot;../../package.json&quot;).version,
 }</code>
                         </td>
                     </tr>
