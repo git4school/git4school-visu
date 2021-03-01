@@ -1,5 +1,45 @@
 # Change log for Git4School
 
+## 1.3.3
+
+## Added
+
+### General
+
+- User documentation has been fully migrated and rewritten to a [dedicated space](https://git4school.github.io/)
+
+### Navigation bar
+
+- A button leading to the **user documentation** page is now always accessible in the navigation bar
+
+## Modified
+
+### General
+
+- Technical documentation has been updated to indicate how to edit user documentation
+
+### Navigation bar
+
+- The languages in the dropdown list are _centered_
+
+### Home
+
+- A page presenting the application is displayed when the user is not logged in
+
+## Deleted
+
+### Navigation bar
+
+- The login button is no longer displayed in the navigation bar
+
+### Home
+
+- User documentation has been deleted from the home page
+
+## Fixed
+
+- Fixed a bug blocking from adding a milestone after importing the assignment with no milestone
+
 ## 1.3.2
 
 ### Added
