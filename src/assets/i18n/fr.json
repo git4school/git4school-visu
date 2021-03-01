@@ -262,5 +262,9 @@
   "CANCEL": "Annuler",
   "CONFIRM": "Confirmer",
   "HELP-TOOLTIP": "Besoin d'aide ?",
-  "HOME-SUBTITLE": "Git4School est une application qui aide les enseignants à suivre les progrès de leurs élèves lors des séances de travaux pratiques en utilisant Github. Il offre plusieurs outils pour accompagner au mieux vos étudiants lors des travaux pratiques."
+  "HOME-SUBTITLE": "Git4School est une application qui aide les enseignants à suivre les progrès de leurs élèves lors des séances de travaux pratiques en utilisant Github. Il offre plusieurs outils pour accompagner au mieux vos étudiants lors des travaux pratiques.",
+  "HOME-OBJECTIVE-3": "Suivre la complétion des questions par le groupe d'étudiants pour planifier au meilleur moment possible les séances de revue de code et les corrections des questions.",
+  "HOME-OBJECTIVE-2": "Voir rapidement quelles sont les questions qui posent le plus de difficultés au groupe d'étudiants pour identifier les notions problématiques et faire un point dessus, ou des ambiguïtés dans le sujet.",
+  "HOME-OBJECTIVE-1": "Suivre le travail des étudiants, commit par commit, pour identifier rapidement et en amont les étudiants en difficulté et leur apporter l'aide nécessaire pour acquérir les connaissances associées.",
+  "GO-TO-GITHUB-TOOLTIP": "Accédez au dépôt Github de Git4School"
 }
