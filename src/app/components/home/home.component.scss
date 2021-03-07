@@ -29,6 +29,24 @@
   color: rgb(109, 109, 109);
 }
 
+////////////////// CAROUSEL /////////////////////
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 3vh;
+  width: 3vh;
+  position: relative;
+  filter: invert(1);
+}
+
+.carousel-control-prev-icon {
+  right: 5vw;
+}
+
+.carousel-control-next-icon {
+  left: 5vw;
+}
+
 ////////////////////////////////////////
 
 .area {
@@ -44,7 +62,7 @@
   top: 0;
   height: 100%;
   width: 100%;
-  background: #20ca4a;
+  background: #35c692;
   transform-origin: right bottom;
   transform: skewY(-3deg);
   z-index: -1;
@@ -198,7 +216,7 @@
 
   .icon {
     z-index: 10;
-    color: #b2bec3;
+    color: #a8aeb1;
   }
 
   transition: all 0.3s ease-out;
@@ -215,7 +233,7 @@
 
 .home-footer {
   font-family: "Exo", sans-serif;
-  background: #1bac3f;
+  background: #24a576;
   box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.212);
   height: 40px;
   color: #ffffffe5;
