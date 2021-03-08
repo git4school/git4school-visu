@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Exo:400,700");
 
+$objBackgroundColor: #35c692;
+
 .title-area {
   height: 95vh;
   font-family: "Exo", sans-serif;
@@ -62,7 +64,7 @@
   top: 0;
   height: 100%;
   width: 100%;
-  background: #35c692;
+  background: $objBackgroundColor;
   transform-origin: right bottom;
   transform: skewY(-3deg);
   z-index: -1;
@@ -241,4 +243,25 @@
 
 p {
   margin: 0;
+}
+
+///////////////// MOUSE SCROLL ////////////////////
+
+@keyframes scroll {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(100px);
+  }
+}
+
+svg #wheel {
+  animation: scroll ease 1.5s infinite;
+}
+
+.mouseScroll {
+  cursor: pointer;
+  position: absolute;
+  bottom: 1vh;
 }

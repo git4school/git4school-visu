@@ -125,4 +125,8 @@ export class HomeComponent implements OnInit {
   onSignInGithub() {
     this.authService.signIn();
   }
+
+  scroll(el: HTMLElement) {
+    el.scrollIntoView({ block: "end", behavior: "smooth" });
+  }
 }
