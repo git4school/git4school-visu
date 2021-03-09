@@ -55,9 +55,7 @@ export class AuthService {
       .then(() => {
         return firebase.auth().signInWithRedirect(provider);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   }
 
   /**
