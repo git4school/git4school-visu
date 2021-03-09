@@ -6,10 +6,12 @@
     </h4>
   </div>
   <div class="card-body">
-    <form class="was-validated" onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
-      <div class=" form-group">
-        <label for="title">{{ 'METADATA.TITLE' | translate }}</label>
-        <input type="text" class="form-control" id="title" formControlName="title" ngbAutofocus required>
+    <form onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
+      <div class="form-group required">
+        <label class="required-label" for="title">{{ 'METADATA.TITLE' | translate }}</label>
+        <input type="text" class="form-control" id="title" formControlName="title"
+          [ngClass]="{'is-invalid': metadataForm.controls.title.invalid, 'is-valid': !metadataForm.controls.title.invalid}"
+          ngbAutofocus required>
       </div>
       <div class="form-row">
         <div class="form-group col">
@@ -57,6 +59,11 @@
           [editable]="true" [openOnFocus]="true">
         </questions-chooser>
       </div>
+
+      <div class="my-3">
+        <span class="text-danger">*</span> {{ "REQUIRED-FIELDS-TEXT" | translate }}
+      </div>
+
       <button [disabled]="metadataForm.invalid" type="submit" class="btn btn-primary"
         ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}" (click)="submitMetadata()">
         <i class="fas fa-save"></i></button>

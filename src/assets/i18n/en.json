@@ -266,5 +266,8 @@
   "HOME-OBJECTIVE-1": "Follow the work of the students, commit by commit, to quickly identify students experiencing difficulties and provide them with the necessary help to acquire the associated skills.",
   "HOME-OBJECTIVE-2": "Quickly see which questions are the least well answered in the group of students to identify problematic concepts and clarify them, or questions that are poorly worded.",
   "HOME-OBJECTIVE-3": "Follow the completion of the questions by the student group to plan the code review sessions and question corrections at the best possible time.",
-  "GO-TO-GITHUB-TOOLTIP": "Go to our Github repository"
+  "GO-TO-GITHUB-TOOLTIP": "Go to our Github repository",
+  "NO-MILESTONE-TYPE-FEEDBACK": "A type of milestone must be choosen !",
+  "MILESTONE-TYPE": "Milestone type",
+  "REQUIRED-FIELDS-TEXT": "These fields must be filled in to validate the form."
 }
