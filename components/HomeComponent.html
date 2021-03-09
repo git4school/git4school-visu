@@ -179,6 +179,9 @@ a user guide or help with the structure of the configuration file or the ReadMe 
                                 <a href="#onSignInGithub">onSignInGithub</a>
                             </li>
                             <li>
+                                <a href="#scroll">scroll</a>
+                            </li>
+                            <li>
                                 <a href="#updateReadMe">updateReadMe</a>
                             </li>
                         </ul>
@@ -508,6 +511,76 @@ a user guide or help with the structure of the configuration file or the ReadMe 
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="scroll"></a>
+                    <span class="name">
+                        <b>
+                            scroll
+                        </b>
+                        <a href="#scroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>scroll(el: HTMLElement)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">src/app/components/home/home.component.ts:129</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>el</td>
+                                    <td>
+                                            <code>HTMLElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateReadMe"></a>
                     <span class="name">
                         <b>
@@ -790,6 +863,10 @@ export class HomeComponent implements OnInit {
   onSignInGithub() {
     this.authService.signIn();
   }
+
+  scroll(el: HTMLElement) {
+    el.scrollIntoView({ block: &quot;end&quot;, behavior: &quot;smooth&quot; });
+  }
 }
 </code></pre>
     </div>
@@ -828,15 +905,15 @@ export class HomeComponent implements OnInit {
         &lt;div id&#x3D;&quot;graphsCarousel&quot; class&#x3D;&quot;carousel slide&quot; data-ride&#x3D;&quot;carousel&quot; data-interval&#x3D;&quot;5000&quot;&gt;
           &lt;div class&#x3D;&quot;carousel-inner&quot;&gt;
             &lt;div class&#x3D;&quot;carousel-item active&quot;&gt;
-              &lt;a href&#x3D;&quot;assets/images/overview-tuto.png&quot;&gt;
-                &lt;img src&#x3D;&quot;assets/images/overview-tuto.png&quot; class&#x3D;&quot;d-block w-100 carousel-image&quot;
-                  alt&#x3D;&quot;Overview graph preview&quot;&gt;
-              &lt;/a&gt;
-            &lt;/div&gt;
-            &lt;div class&#x3D;&quot;carousel-item&quot;&gt;
               &lt;a href&#x3D;&quot;assets/images/students-commits-tuto.png&quot;&gt;
                 &lt;img src&#x3D;&quot;assets/images/students-commits-tuto.png&quot; class&#x3D;&quot;d-block w-100 carousel-image&quot;
                   alt&#x3D;&quot;Students commits graph preview&quot;&gt;
+              &lt;/a&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;carousel-item&quot;&gt;
+              &lt;a href&#x3D;&quot;assets/images/overview-tuto.png&quot;&gt;
+                &lt;img src&#x3D;&quot;assets/images/overview-tuto.png&quot; class&#x3D;&quot;d-block w-100 carousel-image&quot;
+                  alt&#x3D;&quot;Overview graph preview&quot;&gt;
               &lt;/a&gt;
             &lt;/div&gt;
             &lt;div class&#x3D;&quot;carousel-item&quot;&gt;
@@ -856,9 +933,19 @@ export class HomeComponent implements OnInit {
           &lt;/a&gt;
         &lt;/div&gt;
       &lt;/div&gt;
+      &lt;div (click)&#x3D;&quot;scroll(footer)&quot; class&#x3D;&quot;mouseScroll&quot;&gt;
+        &lt;svg width&#x3D;&quot;100%&quot; height&#x3D;&quot;5vh&quot; viewBox&#x3D;&quot;0 0 247 390&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+          xmlns:xlink&#x3D;&quot;http://www.w3.org/1999/xlink&quot;
+          style&#x3D;&quot;fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;&quot;&gt;
+          &lt;path id&#x3D;&quot;wheel&quot; d&#x3D;&quot;M123.359,79.775l0,72.843&quot; style&#x3D;&quot;fill:none;stroke:#35c692;stroke-width:20px;&quot; /&gt;
+          &lt;path id&#x3D;&quot;mouse&quot;
+            d&#x3D;&quot;M236.717,123.359c0,-62.565 -50.794,-113.359 -113.358,-113.359c-62.565,0 -113.359,50.794 -113.359,113.359l0,143.237c0,62.565 50.794,113.359 113.359,113.359c62.564,0 113.358,-50.794 113.358,-113.359l0,-143.237Z&quot;
+            style&#x3D;&quot;fill:none;stroke:#35c692;stroke-width:20px;&quot; /&gt;
+        &lt;/svg&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
 
-    &lt;div class&#x3D;&quot;area&quot;&gt;
+    &lt;div #objectives class&#x3D;&quot;area&quot;&gt;
       &lt;ul class&#x3D;&quot;circles cards&quot;&gt;
         &lt;div class&#x3D;&quot;card&quot;&gt;
           &lt;i class&#x3D;&quot;fas fa-chart-line fa-6x m-2 mr-4 icon&quot;&gt;&lt;/i&gt;
@@ -885,7 +972,7 @@ export class HomeComponent implements OnInit {
         &lt;li&gt;&lt;/li&gt;
       &lt;/ul&gt;
     &lt;/div&gt;
-    &lt;footer class&#x3D;&quot;home-footer p-2&quot;&gt;
+    &lt;footer #footer class&#x3D;&quot;home-footer p-2&quot;&gt;
       &lt;div class&#x3D;&quot;d-flex justify-content-between&quot;&gt;
         &lt;div class&#x3D;&quot;col ml-1&quot;&gt;Version : {{ version }}&lt;/div&gt;
         &lt;div class&#x3D;&quot;col text-center&quot;&gt;Copyright © 2019 Université Toulouse 3 Paul Sabatier.&lt;/div&gt;
@@ -907,6 +994,8 @@ export class HomeComponent implements OnInit {
                     <code>./home.component.scss</code>
                 </p>
                 <pre class="line-numbers"><code class="language-scss">@import url(&quot;https://fonts.googleapis.com/css?family&#x3D;Exo:400,700&quot;);
+
+$objBackgroundColor: #35c692;
 
 .title-area {
   height: 95vh;
@@ -937,6 +1026,24 @@ export class HomeComponent implements OnInit {
   color: rgb(109, 109, 109);
 }
 
+////////////////// CAROUSEL /////////////////////
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 3vh;
+  width: 3vh;
+  position: relative;
+  filter: invert(1);
+}
+
+.carousel-control-prev-icon {
+  right: 5vw;
+}
+
+.carousel-control-next-icon {
+  left: 5vw;
+}
+
 ////////////////////////////////////////
 
 .area {
@@ -952,7 +1059,7 @@ export class HomeComponent implements OnInit {
   top: 0;
   height: 100%;
   width: 100%;
-  background: #20ca4a;
+  background: $objBackgroundColor;
   transform-origin: right bottom;
   transform: skewY(-3deg);
   z-index: -1;
@@ -1106,7 +1213,7 @@ export class HomeComponent implements OnInit {
 
   .icon {
     z-index: 10;
-    color: #b2bec3;
+    color: #a8aeb1;
   }
 
   transition: all 0.3s ease-out;
@@ -1123,7 +1230,7 @@ export class HomeComponent implements OnInit {
 
 .home-footer {
   font-family: &quot;Exo&quot;, sans-serif;
-  background: #1bac3f;
+  background: #24a576;
   box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.212);
   height: 40px;
   color: #ffffffe5;
@@ -1131,6 +1238,28 @@ export class HomeComponent implements OnInit {
 
 p {
   margin: 0;
+}
+
+///////////////// MOUSE SCROLL ////////////////////
+
+@keyframes scroll {
+  0% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(100px);
+  }
+}
+
+svg #wheel {
+  animation: scroll ease 1.5s infinite;
+}
+
+.mouseScroll {
+  cursor: pointer;
+  position: absolute;
+  bottom: 1vh;
 }
 </code></pre>
     </div>
@@ -1160,7 +1289,7 @@ p {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="page-container d-flex flex-column">  <div class="m-3 content-wrap" *ngIf="authService.isSignedIn()">    <h5 class="mb-3">      {{ \'HOME.ASSIGNMENT-LIST.TITLE\' | translate }}    </h5>    <assignment-chooser></assignment-chooser>  </div>  <div *ngIf="!authService.isSignedIn()">    <div class="title-area d-flex flex-column align-items-center justify-content-center">      <div class="title">        <div class="pre-carousel">          <h1 class="font-weight-bold mb-4">Git4School</h1>          <div class="subtitle">            {{ "HOME-SUBTITLE" | translate }}          </div>          <div class="login m-4">            <button class="btn btn-outline-secondary btn-lg" [disabled]="authService.loading"              (click)="onSignInGithub()">              <span *ngIf="authService.loading; else loggedOut" class="spinner-grow " role="status"                aria-hidden="true"></span>              {{ \'NAVBAR.SIGN-IN\' | translate }}              <ng-template #loggedOut>                <i class="fab fa-github fa-lg"></i>              </ng-template>            </button>          </div>        </div>        <div id="graphsCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">          <div class="carousel-inner">            <div class="carousel-item active">              <a href="assets/images/overview-tuto.png">                <img src="assets/images/overview-tuto.png" class="d-block w-100 carousel-image"                  alt="Overview graph preview">              </a>            </div>            <div class="carousel-item">              <a href="assets/images/students-commits-tuto.png">                <img src="assets/images/students-commits-tuto.png" class="d-block w-100 carousel-image"                  alt="Students commits graph preview">              </a>            </div>            <div class="carousel-item">              <a href="assets/images/questions-completion-tuto.png">                <img src="assets/images/questions-completion-tuto.png" class="d-block w-100 carousel-image"                  alt="Questions completion graph preview">              </a>            </div>          </div>          <a class="carousel-control-prev" href="#graphsCarousel" role="button" data-slide="prev">            <span class="carousel-control-prev-icon" aria-hidden="true"></span>            <span class="sr-only">Previous</span>          </a>          <a class="carousel-control-next" href="#graphsCarousel" role="button" data-slide="next">            <span class="carousel-control-next-icon" aria-hidden="true"></span>            <span class="sr-only">Next</span>          </a>        </div>      </div>    </div>    <div class="area">      <ul class="circles cards">        <div class="card">          <i class="fas fa-chart-line fa-6x m-2 mr-4 icon"></i>          <p>{{ "HOME-OBJECTIVE-1" | translate }}</p>        </div>        <div class="card">          <i class="fas fa-exclamation-circle fa-6x m-2 mr-4 icon"></i>          <p>{{ "HOME-OBJECTIVE-2" | translate }}</p>        </div>        <div class="card">          <i class="fas fa-graduation-cap fa-6x m-2 mr-4 icon"></i>          <p>{{ "HOME-OBJECTIVE-3" | translate }}</p>        </div>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>      </ul>    </div>    <footer class="home-footer p-2">      <div class="d-flex justify-content-between">        <div class="col ml-1">Version : {{ version }}</div>        <div class="col text-center">Copyright © 2019 Université Toulouse 3 Paul Sabatier.</div>        <div class="col">          <a href=" https://github.com/git4school/git4school-visu" class="float-right" [ngbTooltip]="goToGithubTooltip">            <i class="fab fa-github fa-lg" style="color: white;"></i>          </a>        </div>      </div>    </footer>  </div></div><ng-template #goToGithubTooltip>{{ "GO-TO-GITHUB-TOOLTIP" | translate }}</ng-template></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="page-container d-flex flex-column">  <div class="m-3 content-wrap" *ngIf="authService.isSignedIn()">    <h5 class="mb-3">      {{ \'HOME.ASSIGNMENT-LIST.TITLE\' | translate }}    </h5>    <assignment-chooser></assignment-chooser>  </div>  <div *ngIf="!authService.isSignedIn()">    <div class="title-area d-flex flex-column align-items-center justify-content-center">      <div class="title">        <div class="pre-carousel">          <h1 class="font-weight-bold mb-4">Git4School</h1>          <div class="subtitle">            {{ "HOME-SUBTITLE" | translate }}          </div>          <div class="login m-4">            <button class="btn btn-outline-secondary btn-lg" [disabled]="authService.loading"              (click)="onSignInGithub()">              <span *ngIf="authService.loading; else loggedOut" class="spinner-grow " role="status"                aria-hidden="true"></span>              {{ \'NAVBAR.SIGN-IN\' | translate }}              <ng-template #loggedOut>                <i class="fab fa-github fa-lg"></i>              </ng-template>            </button>          </div>        </div>        <div id="graphsCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">          <div class="carousel-inner">            <div class="carousel-item active">              <a href="assets/images/students-commits-tuto.png">                <img src="assets/images/students-commits-tuto.png" class="d-block w-100 carousel-image"                  alt="Students commits graph preview">              </a>            </div>            <div class="carousel-item">              <a href="assets/images/overview-tuto.png">                <img src="assets/images/overview-tuto.png" class="d-block w-100 carousel-image"                  alt="Overview graph preview">              </a>            </div>            <div class="carousel-item">              <a href="assets/images/questions-completion-tuto.png">                <img src="assets/images/questions-completion-tuto.png" class="d-block w-100 carousel-image"                  alt="Questions completion graph preview">              </a>            </div>          </div>          <a class="carousel-control-prev" href="#graphsCarousel" role="button" data-slide="prev">            <span class="carousel-control-prev-icon" aria-hidden="true"></span>            <span class="sr-only">Previous</span>          </a>          <a class="carousel-control-next" href="#graphsCarousel" role="button" data-slide="next">            <span class="carousel-control-next-icon" aria-hidden="true"></span>            <span class="sr-only">Next</span>          </a>        </div>      </div>      <div (click)="scroll(footer)" class="mouseScroll">        <svg width="100%" height="5vh" viewBox="0 0 247 390" xmlns="http://www.w3.org/2000/svg"          xmlns:xlink="http://www.w3.org/1999/xlink"          style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">          <path id="wheel" d="M123.359,79.775l0,72.843" style="fill:none;stroke:#35c692;stroke-width:20px;" />          <path id="mouse"            d="M236.717,123.359c0,-62.565 -50.794,-113.359 -113.358,-113.359c-62.565,0 -113.359,50.794 -113.359,113.359l0,143.237c0,62.565 50.794,113.359 113.359,113.359c62.564,0 113.358,-50.794 113.358,-113.359l0,-143.237Z"            style="fill:none;stroke:#35c692;stroke-width:20px;" />        </svg>      </div>    </div>    <div #objectives class="area">      <ul class="circles cards">        <div class="card">          <i class="fas fa-chart-line fa-6x m-2 mr-4 icon"></i>          <p>{{ "HOME-OBJECTIVE-1" | translate }}</p>        </div>        <div class="card">          <i class="fas fa-exclamation-circle fa-6x m-2 mr-4 icon"></i>          <p>{{ "HOME-OBJECTIVE-2" | translate }}</p>        </div>        <div class="card">          <i class="fas fa-graduation-cap fa-6x m-2 mr-4 icon"></i>          <p>{{ "HOME-OBJECTIVE-3" | translate }}</p>        </div>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>      </ul>    </div>    <footer #footer class="home-footer p-2">      <div class="d-flex justify-content-between">        <div class="col ml-1">Version : {{ version }}</div>        <div class="col text-center">Copyright © 2019 Université Toulouse 3 Paul Sabatier.</div>        <div class="col">          <a href=" https://github.com/git4school/git4school-visu" class="float-right" [ngbTooltip]="goToGithubTooltip">            <i class="fab fa-github fa-lg" style="color: white;"></i>          </a>        </div>      </div>    </footer>  </div></div><ng-template #goToGithubTooltip>{{ "GO-TO-GITHUB-TOOLTIP" | translate }}</ng-template></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionsComponent', 'selector': 'edit-sessions'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'HomeComponent'};
