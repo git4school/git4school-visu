@@ -31,15 +31,15 @@
         <div id="graphsCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <a href="assets/images/overview-tuto.png">
-                <img src="assets/images/overview-tuto.png" class="d-block w-100 carousel-image"
-                  alt="Overview graph preview">
-              </a>
-            </div>
-            <div class="carousel-item">
               <a href="assets/images/students-commits-tuto.png">
                 <img src="assets/images/students-commits-tuto.png" class="d-block w-100 carousel-image"
                   alt="Students commits graph preview">
+              </a>
+            </div>
+            <div class="carousel-item">
+              <a href="assets/images/overview-tuto.png">
+                <img src="assets/images/overview-tuto.png" class="d-block w-100 carousel-image"
+                  alt="Overview graph preview">
               </a>
             </div>
             <div class="carousel-item">
@@ -59,9 +59,19 @@
           </a>
         </div>
       </div>
+      <div (click)="scroll(footer)" class="mouseScroll">
+        <svg width="100%" height="5vh" viewBox="0 0 247 390" xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+          <path id="wheel" d="M123.359,79.775l0,72.843" style="fill:none;stroke:#35c692;stroke-width:20px;" />
+          <path id="mouse"
+            d="M236.717,123.359c0,-62.565 -50.794,-113.359 -113.358,-113.359c-62.565,0 -113.359,50.794 -113.359,113.359l0,143.237c0,62.565 50.794,113.359 113.359,113.359c62.564,0 113.358,-50.794 113.358,-113.359l0,-143.237Z"
+            style="fill:none;stroke:#35c692;stroke-width:20px;" />
+        </svg>
+      </div>
     </div>
 
-    <div class="area">
+    <div #objectives class="area">
       <ul class="circles cards">
         <div class="card">
           <i class="fas fa-chart-line fa-6x m-2 mr-4 icon"></i>
@@ -88,7 +98,7 @@
         <li></li>
       </ul>
     </div>
-    <footer class="home-footer p-2">
+    <footer #footer class="home-footer p-2">
       <div class="d-flex justify-content-between">
         <div class="col ml-1">Version : {{ version }}</div>
         <div class="col text-center">Copyright © 2019 Université Toulouse 3 Paul Sabatier.</div>
