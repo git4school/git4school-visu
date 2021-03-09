@@ -329,6 +329,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/LoaderService.html" data-type="entity-link">LoaderService</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/NgbDateNativeUTCFranceAdapter.html" data-type="entity-link">NgbDateNativeUTCFranceAdapter</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/ToastService.html" data-type="entity-link">ToastService</a>
                                 </li>
                             </ul>

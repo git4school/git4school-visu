@@ -105,7 +105,7 @@
             <tr>
                 <td class="col-md-3">providers</td>
                 <td class="col-md-9">
-                            <code>{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }</code>
+                                <code><a href="../injectables/NgbDateNativeUTCFranceAdapter.html" target="_self" >{ provide: NgbDateAdapter, useClass: NgbDateNativeUTCFranceAdapter }</a></code>
                 </td>
             </tr>
 
@@ -813,10 +813,8 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnDestroy, OnInit } from &quot;@angular/core&quot;;
 import { FormBuilder, FormGroup, Validators } from &quot;@angular/forms&quot;;
 import { Metadata } from &quot;@models/Metadata.model&quot;;
-import {
-  NgbDateAdapter,
-  NgbDateNativeAdapter,
-} from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import { NgbDateAdapter } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import { NgbDateNativeUTCFranceAdapter } from &quot;@services/ngb-date-native-utcfrance-adapter.service&quot;;
 import * as moment from &quot;moment&quot;;
 import { BaseEditConfigurationComponent } from &quot;../base-edit-configuration.component&quot;;
 
@@ -827,7 +825,9 @@ import { BaseEditConfigurationComponent } from &quot;../base-edit-configuration.
   selector: &quot;metadata&quot;,
   templateUrl: &quot;./metadata.component.html&quot;,
   styleUrls: [&quot;../configuration.component.scss&quot;, &quot;./metadata.component.scss&quot;],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [
+    { provide: NgbDateAdapter, useClass: NgbDateNativeUTCFranceAdapter },
+  ],
 })
 export class MetadataComponent
   extends BaseEditConfigurationComponent&lt;Metadata&gt;
