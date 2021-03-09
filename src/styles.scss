@@ -70,18 +70,22 @@ $sizes: (
     transform-origin: center center;
     animation-timing-function: ease-out;
   }
+
   10% {
     transform: scale(0.91);
     animation-timing-function: ease-in;
   }
+
   17% {
     transform: scale(0.98);
     animation-timing-function: ease-out;
   }
+
   33% {
     transform: scale(0.87);
     animation-timing-function: ease-in;
   }
+
   45% {
     transform: scale(1);
     animation-timing-function: ease-out;
@@ -105,9 +109,11 @@ $sizes: (
   0% {
     fill-opacity: 1;
   }
+
   50% {
     fill-opacity: 0.4;
   }
+
   100% {
     fill-opacity: 1;
   }
@@ -115,6 +121,12 @@ $sizes: (
 
 .blinking {
   animation: anim-blinking 4s ease-in-out infinite;
+}
+
+.form-group.required .required-label::after {
+  content: "*";
+  color: red;
+  margin-left: 4px;
 }
 
 @import "~bootstrap/scss/bootstrap";

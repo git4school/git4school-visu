@@ -83,14 +83,22 @@
                 <div class="btn-group" role="group">
                     <button class="btn btn-secondary" type="submit" (click)="addRow()"
                         ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate }}">
-                        <i class="fas fa-user-plus"></i>
+                        <span class="fa-layers fa-fw">
+                            <i class="fas fa-circle" data-fa-mask="fas fa-database"
+                                data-fa-transform="shrink-6 right-7 "></i>
+                            <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>
+                        </span>
                     </button>
                     <button class="btn btn-secondary" (click)="openAddRepositoriesModal()"
                         ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate }}">
                         <span class="fa-layers fa-fw">
-                            <i class="fas fa-circle" data-fa-mask="fas fa-users"
-                                data-fa-transform="shrink-6 right-7 "></i>
-                            <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>
+                            <i class="fas fa-square" data-fa-mask="fas fa-database"
+                                data-fa-transform="grow-3 right-10"></i>
+                            <i class="fas fa-circle" data-fa-mask="fas fa-database"
+                                data-fa-transform="shrink-6 right-7"></i>
+                            <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>
+                            <i class="fas fa-plus" data-fa-transform="shrink-9 right-11 up-5"></i>
+                            <i class="fas fa-plus" data-fa-transform="shrink-8 right-13 down-3"></i>
                         </span>
                     </button>
                 </div>

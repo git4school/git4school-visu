@@ -1,10 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Metadata } from "@models/Metadata.model";
-import {
-  NgbDateAdapter,
-  NgbDateNativeAdapter,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateNativeUTCFranceAdapter } from "@services/ngb-date-native-utcfrance-adapter.service";
 import * as moment from "moment";
 import { BaseEditConfigurationComponent } from "../base-edit-configuration.component";
 
@@ -15,7 +13,9 @@ import { BaseEditConfigurationComponent } from "../base-edit-configuration.compo
   selector: "metadata",
   templateUrl: "./metadata.component.html",
   styleUrls: ["../configuration.component.scss", "./metadata.component.scss"],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [
+    { provide: NgbDateAdapter, useClass: NgbDateNativeUTCFranceAdapter },
+  ],
 })
 export class MetadataComponent
   extends BaseEditConfigurationComponent<Metadata>
