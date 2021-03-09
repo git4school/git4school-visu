@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import * as firebase from "firebase/app";
+import { auth } from "firebase/app";
 import "firebase/auth";
 import { Observable } from "rxjs";
 import { ToastService } from "./toast.service";
@@ -44,14 +45,17 @@ export class AuthService {
   /**
    * Redirects to Github sign in URL with firebase
    */
-  signIn(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const provider = new firebase.auth.GithubAuthProvider();
-      provider.addScope("repo");
+  signIn(): Promise<void> {
+    const provider = new firebase.auth.GithubAuthProvider();
+    provider.addScope("repo");
 
-      firebase.auth().signInWithRedirect(provider);
-      resolve(true);
-    });
+    return firebase
+      .auth()
+      .setPersistence(auth.Auth.Persistence.LOCAL)
+      .then(() => {
+        return firebase.auth().signInWithRedirect(provider);
+      })
+      .catch((error) => {});
   }
 
   /**
@@ -105,5 +109,15 @@ export class AuthService {
     let url =
       "https://api.github.com/repos/" + repoHashURL[3] + "/" + repoHashURL[4];
     return this.http.get(url, httpOptions);
+  }
+
+  reauthenticate() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!this.isSignedIn() && user) {
+        const provider = new firebase.auth.GithubAuthProvider();
+        provider.addScope("repo");
+        user.reauthenticateWithRedirect(provider);
+      }
+    });
   }
 }
