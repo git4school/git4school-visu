@@ -109,6 +109,7 @@
                                 <a href="#getAssignmentById">getAssignmentById</a>
                             </li>
                             <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#importDB">importDB</a>
                             </li>
                             <li>
@@ -378,6 +379,7 @@
                     <a name="importDB"></a>
                     <span class="name">
                         <b>
+                            <span class="modifier">Async</span>
                             importDB
                         </b>
                         <a href="#importDB"><span class="icon ion-ios-link"></span></a>
@@ -386,7 +388,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>importDB(blob: Blob)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>importDB(blob: Blob)</code>
                 </td>
             </tr>
 
@@ -593,7 +596,7 @@
 import { Assignment } from &quot;@models/Assignment.model&quot;;
 import { plainToClass } from &quot;class-transformer&quot;;
 import Dexie from &quot;dexie&quot;;
-import { exportDB, importInto } from &quot;dexie-export-import&quot;;
+import { exportDB, importInto, peakImportFile } from &quot;dexie-export-import&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -637,10 +640,15 @@ export class DatabaseService extends Dexie {
     return exportDB(this, { prettyJson: true });
   }
 
-  importDB(blob: Blob): Promise&lt;void&gt; {
-    return importInto(this, blob, {
-      clearTablesBeforeImport: true,
-    });
+  async importDB(blob: Blob): Promise&lt;void&gt; {
+    let importData &#x3D; await peakImportFile(blob);
+    if (importData.data[&quot;incomplete&quot;]) {
+      return Promise.reject();
+    } else {
+      return importInto(this, blob, {
+        clearTablesBeforeImport: true,
+      });
+    }
   }
 }
 </code></pre>
