@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Assignment } from "@models/Assignment.model";
 import { plainToClass } from "class-transformer";
 import Dexie from "dexie";
-import { exportDB, importInto } from "dexie-export-import";
+import { exportDB, importInto, peakImportFile } from "dexie-export-import";
 
 @Injectable({
   providedIn: "root",
@@ -46,9 +46,14 @@ export class DatabaseService extends Dexie {
     return exportDB(this, { prettyJson: true });
   }
 
-  importDB(blob: Blob): Promise<void> {
-    return importInto(this, blob, {
-      clearTablesBeforeImport: true,
-    });
+  async importDB(blob: Blob): Promise<void> {
+    let importData = await peakImportFile(blob);
+    if (importData.data["incomplete"]) {
+      return Promise.reject();
+    } else {
+      return importInto(this, blob, {
+        clearTablesBeforeImport: true,
+      });
+    }
   }
 }
