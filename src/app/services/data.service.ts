@@ -44,6 +44,7 @@ export class DataService {
   }
 
   saveData(assignment: Assignment = this.assignment): Promise<number> {
+    assignment.lastModificationDate = new Date();
     return this.databaseService
       .saveAssignment(assignment)
       .then((id) => (assignment.id = id));
