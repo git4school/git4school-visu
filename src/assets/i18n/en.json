@@ -241,7 +241,8 @@
     "TITLE": "Title",
     "COURSE": "Course",
     "PROGRAM": "Program",
-    "YEAR": "Year"
+    "YEAR": "Year",
+    "LAST-MODIFICATION-DATE": "Last modification date"
   },
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Please, provide questions"

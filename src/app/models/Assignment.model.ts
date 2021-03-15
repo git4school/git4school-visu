@@ -109,4 +109,12 @@ export class Assignment {
   set questions(questions: string[]) {
     this.metadata.questions = questions;
   }
+
+  get lastModificationDate(): Date {
+    return this.metadata.lastModificationDate;
+  }
+
+  set lastModificationDate(lastModificationDate: Date) {
+    this.metadata.lastModificationDate = lastModificationDate;
+  }
 }

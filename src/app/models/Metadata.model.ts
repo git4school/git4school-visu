@@ -34,6 +34,11 @@ export class Metadata {
    */
   questions: string[];
 
+  /**
+   * The date the assignment was last modified
+   */
+  lastModificationDate: Date;
+
   constructor() {
     this.questions = [];
   }
