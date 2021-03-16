@@ -1,10 +1,11 @@
 import { Commit } from "@models/Commit.model";
-import { Type } from "class-transformer";
+import { Exclude, Type } from "class-transformer";
 
 /**
  * This class modelizes a Github repository
  */
 export class Repository {
+  @Exclude()
   @Type(() => Commit)
   commits: Commit[];
   /**
