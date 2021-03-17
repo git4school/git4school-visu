@@ -1,5 +1,33 @@
 # Change log for Git4School
 
+## 1.3.4
+
+## Added
+
+### Home
+
+- Assignments list
+
+  - A last modification date for an assignment has been added, updated each time it's saved, and displayed in the assignments table
+  - Sorting the assignments by the last modification date by default
+
+- Automatic reconnection to Github if the user has not manually disconnected from Git4School
+
+## Modified
+
+### Home
+
+- Presentation page adjustments
+
+  - Green background changed
+  - Changes in the graphs carousel
+  - Scroll to bottom button
+
+- Usability adjustments in the assignment configuration
+  - The time of the start and end dates has been changed from 12:00 to 00:00
+  - Validation feedback in the metadata and milestone forms have been removed for non required fields
+  - The icons for adding one or more repositories have been changed
+
 ## 1.3.3
 
 ## Added
@@ -50,12 +78,12 @@
 
 #### Home page
 
-- It is possible to **download** as JSON the database containing *all the assignments*. It is also possible to **import** such a file to import all the assignments
+- It is possible to **download** as JSON the database containing _all the assignments_. It is also possible to **import** such a file to import all the assignments
 
 #### Navigation bar
 
-- The button to *export* an assignment has been moved to the **navigation bar** so that it is accessible from anywhere
-- The button to *configure* an assignment has been added in the **navigation bar** so that it is accessible from anywhere
+- The button to _export_ an assignment has been moved to the **navigation bar** so that it is accessible from anywhere
+- The button to _configure_ an assignment has been added in the **navigation bar** so that it is accessible from anywhere
 
 ### Modified
 
@@ -65,7 +93,7 @@
 
 #### General
 
-- *ngx-type-ahead* has been replaced by our own component to select questions because this library is *no longer maintained* and causes problems with the engine Ivy used by Angular
+- _ngx-type-ahead_ has been replaced by our own component to select questions because this library is _no longer maintained_ and causes problems with the engine Ivy used by Angular
 
 #### Configuration Modal
 
@@ -75,16 +103,17 @@
 
 #### Navigation bar
 
-- *Graphs* menu is no longer visible when on home page for usability reasons
+- _Graphs_ menu is no longer visible when on home page for usability reasons
 
 #### Overview graph
 
-- The button to *export* an assignment has been removed from the graph *overview* page because we want it to be accessible from any page (except the *home* page)
-- The button to *import* an assignment has been removed from the *overview* graph page because it is already in the assignment configuration modal
+- The button to _export_ an assignment has been removed from the graph _overview_ page because we want it to be accessible from any page (except the _home_ page)
+- The button to _import_ an assignment has been removed from the _overview_ graph page because it is already in the assignment configuration modal
 
 ## 1.3.1
 
 ### Added
+
 #### Configuration modal
 
 - A JS alert is asking the user to confirm if they want to leave the configuration modal without saving changes
@@ -164,7 +193,7 @@
 #### General
 
 - Clean up of vulnerabilities, outdated dependencies and warnings displayed in the console
-- While the application is running, we now store most of the configuration data in an _Assignment_ object that represents a course. 
+- While the application is running, we now store most of the configuration data in an _Assignment_ object that represents a course.
   - This will make it easier to switch to local database storage later
 
 #### Configuration page
@@ -272,7 +301,7 @@
 
 #### Overview graph
 
-- Displays the student commits given in the JSON configuration file (they have a different shape and color depending on the associated milestones) 
+- Displays the student commits given in the JSON configuration file (they have a different shape and color depending on the associated milestones)
   - Move the mouse over a commit to display its details
   - Click on a commit to open its Github page in a new tab
 - Add/edit (or delete) milestones such as reviews, corrections (or others) by clicking on the graph/milestone
