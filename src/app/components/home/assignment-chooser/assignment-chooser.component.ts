@@ -12,7 +12,6 @@ import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ToastService } from "@services/toast.service";
-import { saveAs } from "file-saver";
 
 @Component({
   selector: "assignment-chooser",
@@ -78,9 +77,7 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   exportDB() {
-    this.databaseService
-      .exportDB()
-      .then((blob) => saveAs(blob, "assignments.json"));
+    this.databaseService.exportDB();
   }
 
   importDB(blob: Blob) {
@@ -99,10 +96,11 @@ export class AssignmentChooserComponent implements OnInit {
           translations["IMPORT-SUCCESS"]
         );
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         this.toastService.error(
           translations["ERROR"],
-          translations["IMPORT-ERROR"]
+          translations["IMPORT-ERROR"] + " : " + err
         );
       });
   }

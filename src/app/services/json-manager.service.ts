@@ -30,6 +30,10 @@ export class JsonManagerService {
     private commitsService: CommitsService
   ) {}
 
+  readFile(file: Blob): Promise<string> {
+    return file.text();
+  }
+
   /**
    * Generates a updated configuration file
    *
