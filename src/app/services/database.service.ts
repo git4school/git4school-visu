@@ -2,14 +2,14 @@ import { Injectable } from "@angular/core";
 import { Assignment } from "@models/Assignment.model";
 import { plainToClass } from "class-transformer";
 import Dexie from "dexie";
-import { exportDB, importInto, peakImportFile } from "dexie-export-import";
+import { JsonManagerService } from "./json-manager.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class DatabaseService extends Dexie {
   assignments: Dexie.Table<Assignment, number>;
-  constructor() {
+  constructor(private fileService: JsonManagerService) {
     super("assignmentsdb");
     this.initDB();
   }
@@ -42,18 +42,20 @@ export class DatabaseService extends Dexie {
       .then((assignment) => plainToClass(Assignment, assignment));
   }
 
-  exportDB(): Promise<Blob> {
-    return exportDB(this, { prettyJson: true });
+  exportDB(): Promise<any> {
+    return this.getAllAssignments().then((assignments) => {
+      return assignments.map((assignment) => {
+        let { id, ...assignmentNoId } = assignment;
+        return assignmentNoId;
+      });
+    });
   }
 
-  async importDB(blob: Blob): Promise<void> {
-    let importData = await peakImportFile(blob);
-    if (importData.data["incomplete"]) {
-      return Promise.reject();
-    } else {
-      return importInto(this, blob, {
-        clearTablesBeforeImport: true,
+  importDB(assignments: Assignment[]): Promise<void> {
+    return this.transaction("rw", this.assignments, (tx) => {
+      assignments.forEach((assignment) => {
+        this.saveAssignment(assignment);
       });
-    }
+    });
   }
 }

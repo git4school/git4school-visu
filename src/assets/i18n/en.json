@@ -270,5 +270,9 @@
   "GO-TO-GITHUB-TOOLTIP": "Go to our Github repository",
   "NO-MILESTONE-TYPE-FEEDBACK": "A type of milestone must be choosen !",
   "MILESTONE-TYPE": "Milestone type",
-  "REQUIRED-FIELDS-TEXT": "These fields must be filled in to validate the form."
+  "REQUIRED-FIELDS-TEXT": "These fields must be filled in to validate the form.",
+  "ERROR-CANNOT-READ-FILE": "File could not be read",
+  "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED": "The assignment to import is not well formed",
+  "ERROR-IMPORT-ASSIGNMENTS-NOT-WELL-FORMED": "One or several assignments are not well formed",
+  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "No assignment has been found"
 }
