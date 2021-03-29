@@ -9,6 +9,7 @@ import {
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { AuthService } from "@services/auth.service";
+import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ToastService } from "@services/toast.service";
@@ -34,7 +35,8 @@ export class AssignmentChooserComponent implements OnInit {
     private translateService: TranslateService,
     private toastService: ToastService,
     public activeModalService: NgbActiveModal,
-    private assignmentsService: AssignmentsService
+    private assignmentsService: AssignmentsService,
+    private configurationService: ConfigurationService
   ) {}
 
   ngOnInit(): void {
@@ -66,7 +68,7 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   openConfigurationModal(assignment: Assignment) {
-    this.assignmentsService.openConfigurationModal(assignment).finally(() => {
+    this.configurationService.openConfigurationModal(assignment).finally(() => {
       this.loadAssignments();
       if (assignment.id && assignment.id === this.dataService.assignment?.id) {
         this.databaseService
@@ -77,7 +79,7 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   exportDB() {
-    this.databaseService.exportDB();
+    this.assignmentsService.exportAssignments();
   }
 
   importDB(blob: Blob) {
@@ -87,8 +89,8 @@ export class AssignmentChooserComponent implements OnInit {
       "IMPORT-SUCCESS",
       "IMPORT-ERROR",
     ]);
-    this.databaseService
-      .importDB(blob)
+    this.assignmentsService
+      .importAssignments(blob)
       .then(() => {
         this.loadAssignments();
         this.toastService.success(
