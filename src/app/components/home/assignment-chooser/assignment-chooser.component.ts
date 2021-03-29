@@ -9,10 +9,10 @@ import {
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { AuthService } from "@services/auth.service";
-import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ToastService } from "@services/toast.service";
+import { saveAs } from "file-saver";
 
 @Component({
   selector: "assignment-chooser",
@@ -35,8 +35,7 @@ export class AssignmentChooserComponent implements OnInit {
     private translateService: TranslateService,
     private toastService: ToastService,
     public activeModalService: NgbActiveModal,
-    private assignmentsService: AssignmentsService,
-    private configurationService: ConfigurationService
+    private assignmentsService: AssignmentsService
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +67,7 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   openConfigurationModal(assignment: Assignment) {
-    this.configurationService.openConfigurationModal(assignment).finally(() => {
+    this.assignmentsService.openConfigurationModal(assignment).finally(() => {
       this.loadAssignments();
       if (assignment.id && assignment.id === this.dataService.assignment?.id) {
         this.databaseService
@@ -79,7 +78,9 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   exportDB() {
-    this.assignmentsService.exportAssignments();
+    this.databaseService
+      .exportDB()
+      .then((blob) => saveAs(blob, "assignments.json"));
   }
 
   importDB(blob: Blob) {
@@ -89,8 +90,8 @@ export class AssignmentChooserComponent implements OnInit {
       "IMPORT-SUCCESS",
       "IMPORT-ERROR",
     ]);
-    this.assignmentsService
-      .importAssignments(blob)
+    this.databaseService
+      .importDB(blob)
       .then(() => {
         this.loadAssignments();
         this.toastService.success(
@@ -98,10 +99,10 @@ export class AssignmentChooserComponent implements OnInit {
           translations["IMPORT-SUCCESS"]
         );
       })
-      .catch((err) => {
+      .catch(() => {
         this.toastService.error(
           translations["ERROR"],
-          translations["IMPORT-ERROR"] + " : " + err
+          translations["IMPORT-ERROR"]
         );
       });
   }

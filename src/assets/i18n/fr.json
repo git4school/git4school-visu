@@ -270,9 +270,5 @@
   "GO-TO-GITHUB-TOOLTIP": "Accédez au dépôt Github de Git4School",
   "NO-MILESTONE-TYPE-FEEDBACK": "Un type de jalon doit être choisi !",
   "MILESTONE-TYPE": "Type de jalon",
-  "REQUIRED-FIELDS-TEXT": "Ces champs doivent être remplis pour valider le formulaire.",
-  "ERROR-CANNOT-READ-FILE": "Le fichier n'a pas pu être lu",
-  "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED": "L'assignment à importer n'est pas bien formée",
-  "ERROR-IMPORT-ASSIGNMENTS-NOT-WELL-FORMED": "Un ou plusieurs assignments ne sont pas bien formés",
-  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "Aucun assignment n'a été trouvé"
+  "REQUIRED-FIELDS-TEXT": "Ces champs doivent être remplis pour valider le formulaire."
 }

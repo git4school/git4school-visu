@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { AuthService } from "@services/auth.service";
-import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
+import { JsonManagerService } from "@services/json-manager.service";
 
 @Component({
   selector: "app-app-nav-layout",
@@ -16,19 +16,19 @@ export class AppNavLayoutComponent implements OnInit {
     public authService: AuthService,
     public dataService: DataService,
     public translateService: TranslateService,
+    private jsonManagerService: JsonManagerService,
     private assignmentsService: AssignmentsService,
-    private databaseService: DatabaseService,
-    private configurationService: ConfigurationService
+    private databaseService: DatabaseService
   ) {}
 
   ngOnInit(): void {}
 
   download() {
-    this.assignmentsService.exportAssignment(this.dataService.assignment);
+    this.jsonManagerService.download();
   }
 
   openCurrentAssignmentConfig() {
-    this.configurationService
+    this.assignmentsService
       .openConfigurationModal(this.dataService.assignment)
       .finally(() => {
         if (this.dataService.repoToLoad) {
