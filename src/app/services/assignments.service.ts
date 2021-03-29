@@ -64,10 +64,7 @@ export class AssignmentsService {
     this.databaseService
       .exportDB()
       .then((assignments) =>
-        this.fileService.saveJsonFile(
-          { assignments: assignments },
-          "assignments"
-        )
+        this.fileService.saveJsonFile({ assignments }, "assignments")
       );
   }
 
@@ -81,7 +78,6 @@ export class AssignmentsService {
   }
 
   verifyAssignment(assignment: Assignment): boolean {
-    console.log(assignment);
     return !!assignment.title;
   }
 }

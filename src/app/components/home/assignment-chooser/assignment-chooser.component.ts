@@ -99,7 +99,6 @@ export class AssignmentChooserComponent implements OnInit {
         );
       })
       .catch((err) => {
-        console.log(err);
         this.toastService.error(
           translations["ERROR"],
           translations["IMPORT-ERROR"] + " : " + err
