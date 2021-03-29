@@ -109,7 +109,6 @@
                                 <a href="#getAssignmentById">getAssignmentById</a>
                             </li>
                             <li>
-                                    <span class="modifier">Async</span>
                                 <a href="#importDB">importDB</a>
                             </li>
                             <li>
@@ -136,7 +135,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor()</code>
+<code>constructor(fileService: <a href="../injectables/JsonManagerService.html">JsonManagerService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -145,6 +144,36 @@
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>fileService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/JsonManagerService.html" target="_self" >JsonManagerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -256,7 +285,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;Blob&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
 
                     </div>
                 </td>
@@ -379,7 +408,6 @@
                     <a name="importDB"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Async</span>
                             importDB
                         </b>
                         <a href="#importDB"><span class="icon ion-ios-link"></span></a>
@@ -388,16 +416,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>importDB(blob: Blob)</code>
+<code>importDB(assignments: <a href="../classes/Assignment.html">Assignment[]</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">src/app/services/database.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/services/database.service.ts:54</a></div>
                 </td>
             </tr>
 
@@ -417,9 +444,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>blob</td>
+                                    <td>assignments</td>
                                     <td>
-                                            <code>Blob</code>
+                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment[]</a></code>
                                     </td>
 
                                     <td>
@@ -596,14 +623,14 @@
 import { Assignment } from &quot;@models/Assignment.model&quot;;
 import { plainToClass } from &quot;class-transformer&quot;;
 import Dexie from &quot;dexie&quot;;
-import { exportDB, importInto, peakImportFile } from &quot;dexie-export-import&quot;;
+import { JsonManagerService } from &quot;./json-manager.service&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class DatabaseService extends Dexie {
   assignments: Dexie.Table&lt;Assignment, number&gt;;
-  constructor() {
+  constructor(private fileService: JsonManagerService) {
     super(&quot;assignmentsdb&quot;);
     this.initDB();
   }
@@ -636,19 +663,21 @@ export class DatabaseService extends Dexie {
       .then((assignment) &#x3D;&gt; plainToClass(Assignment, assignment));
   }
 
-  exportDB(): Promise&lt;Blob&gt; {
-    return exportDB(this, { prettyJson: true });
+  exportDB(): Promise&lt;any&gt; {
+    return this.getAllAssignments().then((assignments) &#x3D;&gt; {
+      return assignments.map((assignment) &#x3D;&gt; {
+        let { id, ...assignmentNoId } &#x3D; assignment;
+        return assignmentNoId;
+      });
+    });
   }
 
-  async importDB(blob: Blob): Promise&lt;void&gt; {
-    let importData &#x3D; await peakImportFile(blob);
-    if (importData.data[&quot;incomplete&quot;]) {
-      return Promise.reject();
-    } else {
-      return importInto(this, blob, {
-        clearTablesBeforeImport: true,
+  importDB(assignments: Assignment[]): Promise&lt;void&gt; {
+    return this.transaction(&quot;rw&quot;, this.assignments, (tx) &#x3D;&gt; {
+      assignments.forEach((assignment) &#x3D;&gt; {
+        this.saveAssignment(assignment);
       });
-    }
+    });
   }
 }
 </code></pre>

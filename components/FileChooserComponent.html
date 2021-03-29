@@ -149,16 +149,10 @@
                                 <a href="#changeListener">changeListener</a>
                             </li>
                             <li>
-                                <a href="#getAssignmentFromFile">getAssignmentFromFile</a>
-                            </li>
-                            <li>
                                 <a href="#ngOnInit">ngOnInit</a>
                             </li>
                             <li>
                                 <a href="#readFile">readFile</a>
-                            </li>
-                            <li>
-                                <a href="#verifyJSON">verifyJSON</a>
                             </li>
                         </ul>
                     </td>
@@ -178,12 +172,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(ngbActiveModal: NgbActiveModal, toastService: <a href="../injectables/ToastService.html">ToastService</a>, translateService: TranslateService)</code>
+<code>constructor(ngbActiveModal: NgbActiveModal, toastService: <a href="../injectables/ToastService.html">ToastService</a>, translateService: TranslateService, assignmentsService: <a href="../injectables/AssignmentsService.html">AssignmentsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -236,6 +230,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>assignmentsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AssignmentsService.html" target="_self" >AssignmentsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -276,8 +282,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:26</a></div>
                 </td>
             </tr>
 
@@ -324,72 +330,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getAssignmentFromFile"></a>
-                    <span class="name">
-                        <b>
-                            getAssignmentFromFile
-                        </b>
-                        <a href="#getAssignmentFromFile"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getAssignmentFromFile(text)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:62</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>text</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="ngOnInit"></a>
                     <span class="name">
                         <b>
@@ -408,8 +348,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:22</a></div>
                 </td>
             </tr>
 
@@ -447,8 +387,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:34</a></div>
                 </td>
             </tr>
 
@@ -495,72 +435,6 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="verifyJSON"></a>
-                    <span class="name">
-                        <b>
-                            verifyJSON
-                        </b>
-                        <a href="#verifyJSON"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>verifyJSON(json)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:38</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>json</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
     <section>
     
@@ -587,7 +461,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/file-chooser/file-chooser.component.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -601,15 +475,10 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &quot;@angular/core&quot;;
-import { Assignment } from &quot;@models/Assignment.model&quot;;
-import { Milestone } from &quot;@models/Milestone.model&quot;;
-import { Repository } from &quot;@models/Repository.model&quot;;
-import { Session } from &quot;@models/Session.model&quot;;
 import { NgbActiveModal } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import { AssignmentsService } from &quot;@services/assignments.service&quot;;
 import { ToastService } from &quot;@services/toast.service&quot;;
-import { Utils } from &quot;@services/utils&quot;;
-import * as Ajv from &quot;ajv&quot;;
 
 @Component({
   selector: &quot;file-chooser&quot;,
@@ -620,7 +489,8 @@ export class FileChooserComponent implements OnInit {
   constructor(
     private ngbActiveModal: NgbActiveModal,
     private toastService: ToastService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private assignmentsService: AssignmentsService
   ) {}
 
   filename: string;
@@ -637,87 +507,18 @@ export class FileChooserComponent implements OnInit {
     }
   }
 
-  verifyJSON(json) {
-    const schema &#x3D; Utils.CONF_FILE_JSON_SCHEMA;
-    let ajv &#x3D; new Ajv({ $data: true, allErrors: true, verbose: true });
-    let valid &#x3D; ajv.validate(schema, json);
-
-    if (!valid) {
-      let errorMessage &#x3D;
-        &quot;&amp;emsp;&quot; +
-        ajv.errors
-          .map((error) &#x3D;&gt; {
-            return error.dataPath + &quot; &quot; + error.message;
-          })
-          .join(&quot;&lt;br&gt;&amp;emsp;&quot;);
-      this.toastService.error(
-        this.translateService.instant(&quot;INVALID-CONF-FILE&quot;),
-        errorMessage
-      );
-
-      return false;
-    }
-
-    return true;
-  }
-
-  getAssignmentFromFile(text): Assignment {
-    let assignment &#x3D; new Assignment();
-    assignment.repositories &#x3D; text.repositories
-      .filter((repository) &#x3D;&gt;
-        repository.url.match(/https:\/\/github.com\/[^\/]*\/[^\/]*/)
-      )
-      .map((repository) &#x3D;&gt; Repository.withJSON(repository));
-    if (text.repositories.length !&#x3D;&#x3D; assignment.repositories.length) {
-      let translations &#x3D; this.translateService.instant([
-        &quot;ERRORS.WARNING&quot;,
-        &quot;ERRORS.INVALID-URLS&quot;,
-      ]);
-      this.toastService.warning(
-        translations[&quot;ERRORS.WARNING&quot;],
-        translations[&quot;ERRORS.INVALID-URLS&quot;]
-      );
-    }
-    assignment.startDate &#x3D; text.startDate;
-    assignment.endDate &#x3D; text.endDate;
-    assignment.title &#x3D; text.title;
-    assignment.course &#x3D; text.course;
-    assignment.program &#x3D; text.program;
-    assignment.year &#x3D; text.year;
-    assignment.questions &#x3D; text.questions;
-    assignment.corrections &#x3D; text.corrections
-      ? text.corrections.map((data) &#x3D;&gt; Milestone.withJSON(data, &quot;corrections&quot;))
-      : [];
-    assignment.sessions &#x3D; text.sessions
-      ? text.sessions.map((data) &#x3D;&gt; Session.withJSON(data))
-      : [];
-    assignment.reviews &#x3D; text.reviews
-      ? text.reviews.map((data) &#x3D;&gt; Milestone.withJSON(data, &quot;reviews&quot;))
-      : [];
-    assignment.others &#x3D; text.others
-      ? text.others.map((data) &#x3D;&gt; Milestone.withJSON(data, &quot;others&quot;))
-      : [];
-    return assignment;
-  }
-
   readFile(file: Blob) {
-    const myReader: FileReader &#x3D; new FileReader();
-    myReader.onloadend &#x3D; (e) &#x3D;&gt; {
-      let text &#x3D; null;
-      try {
-        text &#x3D; JSON.parse(myReader.result.toString());
-      } catch (e) {
-        this.toastService.error(
-          this.translateService.instant(&quot;INVALID-JSON&quot;),
-          e.message
-        );
-      }
-      if (text &amp;&amp; this.verifyJSON(text)) {
-        let assignment &#x3D; this.getAssignmentFromFile(text);
+    this.assignmentsService
+      .importAssignment(file)
+      .then((assignment) &#x3D;&gt; {
         this.ngbActiveModal.close(assignment);
-      }
-    };
-    myReader.readAsText(file);
+      })
+      .catch((err) &#x3D;&gt; {
+        this.toastService.error(
+          this.translateService.instant(&quot;ERROR-TITLE-ERROR-OCCURED&quot;),
+          err
+        );
+      });
   }
 }
 </code></pre>

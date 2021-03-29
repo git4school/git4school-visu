@@ -181,7 +181,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html">AuthService</a>, dataService: <a href="../injectables/DataService.html">DataService</a>, translateService: TranslateService, jsonManagerService: <a href="../injectables/JsonManagerService.html">JsonManagerService</a>, assignmentsService: <a href="../injectables/AssignmentsService.html">AssignmentsService</a>, databaseService: <a href="../injectables/DatabaseService.html">DatabaseService</a>)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html">AuthService</a>, dataService: <a href="../injectables/DataService.html">DataService</a>, translateService: TranslateService, assignmentsService: <a href="../injectables/AssignmentsService.html">AssignmentsService</a>, databaseService: <a href="../injectables/DatabaseService.html">DatabaseService</a>, configurationService: <a href="../injectables/ConfigurationService.html">ConfigurationService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -240,18 +240,6 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>jsonManagerService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/JsonManagerService.html" target="_self" >JsonManagerService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
                                                         <td>assignmentsService</td>
                                                   
                                                         <td>
@@ -268,6 +256,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>configurationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfigurationService.html" target="_self" >ConfigurationService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -510,9 +510,9 @@
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { AssignmentsService } from &quot;@services/assignments.service&quot;;
 import { AuthService } from &quot;@services/auth.service&quot;;
+import { ConfigurationService } from &quot;@services/configuration.service&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
 import { DatabaseService } from &quot;@services/database.service&quot;;
-import { JsonManagerService } from &quot;@services/json-manager.service&quot;;
 
 @Component({
   selector: &quot;app-app-nav-layout&quot;,
@@ -524,19 +524,19 @@ export class AppNavLayoutComponent implements OnInit {
     public authService: AuthService,
     public dataService: DataService,
     public translateService: TranslateService,
-    private jsonManagerService: JsonManagerService,
     private assignmentsService: AssignmentsService,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private configurationService: ConfigurationService
   ) {}
 
   ngOnInit(): void {}
 
   download() {
-    this.jsonManagerService.download();
+    this.assignmentsService.exportAssignment(this.dataService.assignment);
   }
 
   openCurrentAssignmentConfig() {
-    this.assignmentsService
+    this.configurationService
       .openConfigurationModal(this.dataService.assignment)
       .finally(() &#x3D;&gt; {
         if (this.dataService.repoToLoad) {
