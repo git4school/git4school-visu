@@ -38,7 +38,10 @@ export class FileChooserComponent implements OnInit {
         this.ngbActiveModal.close(assignment);
       })
       .catch((err) => {
-        this.toastService.error("ERROR", err);
+        this.toastService.error(
+          this.translateService.instant("ERROR-TITLE-ERROR-OCCURED"),
+          err
+        );
       });
   }
 }

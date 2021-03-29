@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Assignment } from "@models/Assignment.model";
+import { TranslateService } from "@ngx-translate/core";
 import { plainToClass } from "class-transformer";
 import { Subject } from "rxjs";
 import { DatabaseService } from "./database.service";
@@ -13,14 +14,19 @@ export class AssignmentsService {
 
   constructor(
     private fileService: JsonManagerService,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private translateService: TranslateService
   ) {}
 
   importAssignment(blob: Blob): Promise<Assignment> {
     return this.fileService.readFile(blob).then((json) => {
       let assignment = plainToClass(Assignment, json);
       if (!this.verifyAssignment(assignment)) {
-        return Promise.reject("The assignment to import is not well formed");
+        return Promise.reject(
+          this.translateService.instant(
+            "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED"
+          )
+        );
       }
       return assignment;
     });
@@ -33,7 +39,9 @@ export class AssignmentsService {
   importAssignments(blob: Blob): Promise<void> {
     return this.fileService.readFile(blob).then((json) => {
       if (!json.assignments) {
-        return Promise.reject("No assignment has been found");
+        return Promise.reject(
+          this.translateService.instant("ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND")
+        );
       }
 
       let assignments = plainToClass<Assignment, Object>(
@@ -42,7 +50,11 @@ export class AssignmentsService {
       );
 
       if (!this.verifyAssignments(assignments)) {
-        return Promise.reject("One or several assignments are not well formed");
+        return Promise.reject(
+          this.translateService.instant(
+            "ERROR-IMPORT-ASSIGNMENTS-NOT-WELL-FORMED"
+          )
+        );
       }
       return this.databaseService.importDB(assignments);
     });

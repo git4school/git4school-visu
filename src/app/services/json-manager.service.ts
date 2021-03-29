@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 import { saveAs } from "file-saver";
 
 /**
@@ -11,7 +12,7 @@ export class JsonManagerService {
   /**
    * JsonManagerService constructor
    */
-  constructor() {}
+  constructor(private translateService: TranslateService) {}
 
   readFile(file: Blob): Promise<any> {
     return file.text().then((text) => {
@@ -19,7 +20,9 @@ export class JsonManagerService {
       try {
         json = JSON.parse(text);
       } catch (e) {
-        json = Promise.reject("File could not be read");
+        json = Promise.reject(
+          this.translateService.instant("ERROR-CANNOT-READ-FILE")
+        );
       }
       return json;
     });
