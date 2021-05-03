@@ -48,6 +48,7 @@ import { AuthLangNavItemComponent } from "./components/nav-items/auth-lang-nav-i
 import { HelpNavItemComponent } from "./components/nav-items/help-nav-item/help-nav-item.component";
 import { AppNavLayoutComponent } from "./components/nav-layouts/app-nav-layout/app-nav-layout.component";
 import { HomeNavLayoutComponent } from "./components/nav-layouts/home-nav-layout/home-nav-layout.component";
+import { EditSessionComponent } from './components/edit-session/edit-session.component';
 
 /**
  * Firebase configuration file
@@ -124,6 +125,7 @@ export function appInitializerFactory(
     AppNavLayoutComponent,
     AuthLangNavItemComponent,
     HelpNavItemComponent,
+    EditSessionComponent,
   ],
   imports: [
     BrowserModule,

@@ -271,6 +271,9 @@ export class OverviewComponent
           borderColor: "rgba(79, 195, 247,1.0)",
           borderWidth: 2,
           backgroundColor: "rgba(33, 150, 243, 0.15)",
+          onClick: function (e) {
+            console.log("CLICK ON SESSION");
+          },
         });
       });
   }
@@ -416,6 +419,7 @@ export class OverviewComponent
   }
 
   onChartClick(event) {
+    console.log("CLICK ON CHART");
     if (event.active.length > 0) {
       const data = this.getDataFromChart(event);
       window.open(data.commit.url, "_blank");
