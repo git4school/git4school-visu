@@ -23,11 +23,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   }
 
   ngOnInit(): void {
-    this.formGroup = this.fb.group({
-      formArray: this.fb.array([]),
-    });
-    this.initForm();
-    this.nbEditing = 0;
+    this.initForm(this.datas);
   }
 
   ngAfterContentChecked(): void {
@@ -43,11 +39,18 @@ export abstract class BaseTabEditConfigurationComponent<Data>
     return group.get("isEditable").value;
   }
 
-  initForm() {
-    this.datas &&
-      this.datas.forEach((data) => {
-        this.addRow(data);
-      });
+  initForm(datas: Data[]) {
+    this.formGroup = this.fb.group({
+      formArray: this.fb.array([]),
+    });
+    this.populateRows(datas);
+    this.nbEditing = 0;
+  }
+
+  populateRows(datas: Data[]) {
+    datas?.forEach((data) => {
+      this.addRow(data);
+    });
   }
 
   addRow(data?: Data) {
