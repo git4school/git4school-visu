@@ -8,8 +8,10 @@ import {
 } from "@angular/core";
 import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
+import { OverviewGraphContextualMenuComponent } from "@components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
 import { Commit } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
+import { Session } from "@models/Session.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
@@ -31,6 +33,9 @@ export class OverviewComponent
   extends BaseGraphComponent
   implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(BaseChartDirective, { static: true }) myChart;
+  @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
+
+  contextualMenuShown: boolean;
 
   assignmentsModified$: Subscription;
 
@@ -122,7 +127,7 @@ export class OverviewComponent
     },
     annotation: {
       drawTime: "beforeDatasetsDraw",
-      events: ["click", "mouseenter"],
+      events: ["click", "enter", "leave"],
       annotations: [],
     },
     plugins: {
@@ -168,6 +173,7 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
+    this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();
     this.translateService.onLangChange.subscribe(
@@ -258,7 +264,37 @@ export class OverviewComponent
     }
   }
 
+  isContextualMenuShown() {
+    return this.contextualMenu.isContextMenuOpen();
+  }
+
+  editMilestone(review: Milestone, x: number, y: number) {
+    this.contextualMenu.close();
+    this.contextualMenu.openEditMilestone(review, x, y);
+  }
+
+  editSession(session: Session, x: number, y: number) {
+    this.contextualMenu.close();
+    this.contextualMenu.openEditSession(session, x, y);
+  }
+
+  openContextMenu(x: number, y: number) {
+    if (!this.isContextualMenuShown()) {
+      this.contextualMenu.openNew(x, y);
+    }
+  }
+
+  onDeleteSession(session: Session) {
+    // this.deleteSession(session);
+  }
+
+  onDeleteMilestone(milestone: Milestone) {
+    console.log("milestone: ", milestone);
+    this.deleteMilestone(milestone);
+  }
+
   loadSessions() {
+    let me = this;
     this.dataService.sessions
       .filter((session) => !this.tpGroup || session.tpGroup === this.tpGroup)
       .forEach((session) => {
@@ -272,7 +308,7 @@ export class OverviewComponent
           borderWidth: 2,
           backgroundColor: "rgba(33, 150, 243, 0.15)",
           onClick: function (e) {
-            console.log("CLICK ON SESSION");
+            me.editSession(session, e.pageX, e.pageY);
           },
         });
       });
@@ -303,7 +339,7 @@ export class OverviewComponent
             position: "top",
           },
           onClick: function (e) {
-            me.showEditMilestoneModal(review);
+            me.editMilestone(review, e.pageX, e.pageY);
           },
         });
       });
@@ -334,7 +370,7 @@ export class OverviewComponent
             position: "top",
           },
           onClick: function (e) {
-            me.showEditMilestoneModal(correction);
+            me.editMilestone(correction, e.pageX, e.pageY);
           },
         });
       });
@@ -365,7 +401,7 @@ export class OverviewComponent
             position: "top",
           },
           onClick: function (e) {
-            me.showEditMilestoneModal(other);
+            me.editMilestone(other, e.pageX, e.pageY);
           },
         });
       });
@@ -419,16 +455,13 @@ export class OverviewComponent
   }
 
   onChartClick(event) {
-    console.log("CLICK ON CHART");
     if (event.active.length > 0) {
       const data = this.getDataFromChart(event);
       window.open(data.commit.url, "_blank");
     } else {
       const rawDate = this.getValueFromEvent(event);
       setTimeout(() => {
-        if (!this.modalService.hasOpenModals()) {
-          this.showAddMilestoneModal(rawDate);
-        }
+        this.openContextMenu(event.event.pageX, event.event.pageY);
       });
     }
   }
@@ -453,11 +486,9 @@ export class OverviewComponent
     const data = this.getDataFromChart(event);
   }
 
-  deleteMilestone() {
-    this.dataService[this.savedMilestoneModal.type].splice(
-      this.dataService[this.savedMilestoneModal.type].indexOf(
-        this.savedMilestoneModal
-      ),
+  deleteMilestone(milestone: Milestone) {
+    this.dataService[milestone.type].splice(
+      this.dataService[milestone.type].indexOf(milestone),
       1
     );
 

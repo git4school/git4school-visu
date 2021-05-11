@@ -139,6 +139,9 @@
     </div>
 </div>
 
+<overview-graph-contextual-menu (deleteMilestone)="onDeleteMilestone($event)" (deleteSession)="onDeleteSession($event)">
+</overview-graph-contextual-menu>
+
 <ng-template #markersTooltip>{{ 'OVERVIEW-GRAPH.MARKERS.TOOLTIP' | translate }}</ng-template>
 <ng-template #resetZoomTooltip>{{ 'OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP' | translate }}</ng-template>
 <ng-template #changeZoomTooltip>{{ 'OVERVIEW-GRAPH.CHANGE-ZOOM-TOOLTIP' | translate }}</ng-template>

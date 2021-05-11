@@ -274,5 +274,11 @@
   "ERROR-CANNOT-READ-FILE": "File could not be read",
   "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED": "The assignment to import is not well formed",
   "ERROR-IMPORT-ASSIGNMENTS-NOT-WELL-FORMED": "One or several assignments are not well formed",
-  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "No assignment has been found"
+  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "No assignment has been found",
+  "EDIT-MILESTONE-CONTEXT-MENU": "Edit milestone",
+  "ADD-MILESTONE-CONTEXT-MENU": "Add a new milestone",
+  "EDIT-SESSION-CONTEXT-MENU": "Edit session",
+  "ADD-SESSION-CONTEXT-MENU": "Add a new session",
+  "DELETE-MILESTONE-CONTEXT-MENU": "Delete the milestone",
+  "DELETE-SESSION-CONTEXT-MENU": "Delete the session"
 }

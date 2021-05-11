@@ -274,5 +274,11 @@
   "ERROR-CANNOT-READ-FILE": "Le fichier n'a pas pu être lu",
   "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED": "L'assignment à importer n'est pas bien formée",
   "ERROR-IMPORT-ASSIGNMENTS-NOT-WELL-FORMED": "Un ou plusieurs assignments ne sont pas bien formés",
-  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "Aucun assignment n'a été trouvé"
+  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "Aucun assignment n'a été trouvé",
+  "ADD-MILESTONE-CONTEXT-MENU": "Ajouter un nouveau jalon",
+  "ADD-SESSION-CONTEXT-MENU": "Ajouter une nouvelle séance",
+  "EDIT-MILESTONE-CONTEXT-MENU": "Editer le jalon",
+  "EDIT-SESSION-CONTEXT-MENU": "Editer la séance",
+  "DELETE-MILESTONE-CONTEXT-MENU": "Supprimer le jalon",
+  "DELETE-SESSION-CONTEXT-MENU": "Supprimer la séance"
 }

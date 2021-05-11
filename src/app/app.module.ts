@@ -49,6 +49,7 @@ import { HelpNavItemComponent } from "./components/nav-items/help-nav-item/help-
 import { AppNavLayoutComponent } from "./components/nav-layouts/app-nav-layout/app-nav-layout.component";
 import { HomeNavLayoutComponent } from "./components/nav-layouts/home-nav-layout/home-nav-layout.component";
 import { EditSessionComponent } from './components/edit-session/edit-session.component';
+import { OverviewGraphContextualMenuComponent } from './components/overview-graph-contextual-menu/overview-graph-contextual-menu.component';
 
 /**
  * Firebase configuration file
@@ -126,6 +127,7 @@ export function appInitializerFactory(
     AuthLangNavItemComponent,
     HelpNavItemComponent,
     EditSessionComponent,
+    OverviewGraphContextualMenuComponent,
   ],
   imports: [
     BrowserModule,
