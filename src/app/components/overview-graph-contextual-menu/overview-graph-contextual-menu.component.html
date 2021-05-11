@@ -1,22 +1,27 @@
 <div ngbDropdown class="contextMenu" [style.left]="left" [style.top]="top">
     <div ngbDropdownMenu>
         <div>
-            <button ngbDropdownItem *ngIf="editMilestoneMode"><i class="fas fa-pencil-alt fa-sm mr-2"></i>{{
+            <button ngbDropdownItem *ngIf="editMilestoneMode" (click)="editMilestone()"><i
+                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{
                 'EDIT-MILESTONE-CONTEXT-MENU' | translate }}</button>
-            <button ngbDropdownItem *ngIf="!editMilestoneMode"><i class="fas fa-plus fa-sm mr-2"></i>{{
+            <button ngbDropdownItem *ngIf="!editMilestoneMode" (click)="addMilestone()"><i
+                    class="fas fa-plus fa-sm mr-2"></i>{{
                 'ADD-MILESTONE-CONTEXT-MENU' | translate }}</button>
         </div>
         <div>
-            <button ngbDropdownItem *ngIf="editSessionMode"><i class="fas fa-pencil-alt fa-sm mr-2"></i>{{
+            <button ngbDropdownItem *ngIf="editSessionMode" (click)="editSession()"><i
+                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{
                 'EDIT-SESSION-CONTEXT-MENU' | translate }}</button>
-            <button ngbDropdownItem *ngIf="!editSessionMode"><i class="fas fa-plus fa-sm mr-2"></i>{{
+            <button ngbDropdownItem *ngIf="!editSessionMode" (click)="addSession()"><i
+                    class="fas fa-plus fa-sm mr-2"></i>{{
                 'ADD-SESSION-CONTEXT-MENU' |
                 translate }}</button>
         </div>
-        <button ngbDropdownItem *ngIf="editMilestoneMode" (click)="removeMilestone()"><i
+        <button ngbDropdownItem *ngIf="editMilestoneMode" (click)="removeMilestone(milestone)"><i
                 class="far fa-trash-alt fa-sm mr-2"></i>{{
             'DELETE-MILESTONE-CONTEXT-MENU' | translate }}</button>
-        <button ngbDropdownItem *ngIf="editSessionMode"><i class="far fa-trash-alt fa-sm mr-2"></i>{{
+        <button ngbDropdownItem *ngIf="editSessionMode" (click)="removeSession(session)"><i
+                class="far fa-trash-alt fa-sm mr-2"></i>{{
             'DELETE-SESSION-CONTEXT-MENU' | translate }}</button>
     </div>
 </div>

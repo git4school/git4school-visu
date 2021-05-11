@@ -268,21 +268,58 @@ export class OverviewComponent
     return this.contextualMenu.isContextMenuOpen();
   }
 
-  editMilestone(review: Milestone, x: number, y: number) {
+  editMilestone(review: Milestone, x: number, y: number, date: Date) {
     this.contextualMenu.close();
-    this.contextualMenu.openEditMilestone(review, x, y);
+    this.contextualMenu.openEditMilestone(review, x, y, date);
   }
 
-  editSession(session: Session, x: number, y: number) {
+  editSession(session: Session, x: number, y: number, date: Date) {
     this.contextualMenu.close();
-    this.contextualMenu.openEditSession(session, x, y);
+    this.contextualMenu.openEditSession(session, x, y, date);
   }
 
-  openContextMenu(x: number, y: number) {
+  openContextMenu(x: number, y: number, date: Date) {
     if (!this.isContextualMenuShown()) {
-      this.contextualMenu.openNew(x, y);
+      this.contextualMenu.openNew(x, y, date);
     }
   }
+
+  onSaveMilestone(result: {
+    oldMilestone: Milestone;
+    newMilestone: Milestone;
+  }) {
+    if (result.oldMilestone) {
+      this.dataService[result.oldMilestone.type].splice(
+        this.dataService[result.oldMilestone.type].indexOf(result.oldMilestone),
+        1
+      );
+    }
+    if (result.newMilestone) {
+      this.dataService[result.newMilestone.type].push(result.newMilestone);
+    }
+
+    this.dataService.saveData();
+
+    this.loadGraphMetadata(
+      this.dataService.repositories,
+      this.dataService.reviews,
+      this.dataService.corrections,
+      this.dataService.questions
+    );
+    let translations = this.translateService.instant([
+      "SUCCESS",
+      "MILESTONE-SAVED",
+      "MILESTONE-DELETED",
+    ]);
+    this.toastService.success(
+      translations["SUCCESS"],
+      result.newMilestone
+        ? translations["MILESTONE-SAVED"]
+        : translations["MILESTONE-DELETED"]
+    );
+  }
+
+  onSaveSession(result: { oldMilestone: Milestone; newMilestone: Milestone }) {}
 
   onDeleteSession(session: Session) {
     // this.deleteSession(session);
@@ -308,7 +345,8 @@ export class OverviewComponent
           borderWidth: 2,
           backgroundColor: "rgba(33, 150, 243, 0.15)",
           onClick: function (e) {
-            me.editSession(session, e.pageX, e.pageY);
+            const rawDate = me.getDateFromEvent(e);
+            me.editSession(session, e.pageX, e.pageY, rawDate);
           },
         });
       });
@@ -339,7 +377,8 @@ export class OverviewComponent
             position: "top",
           },
           onClick: function (e) {
-            me.editMilestone(review, e.pageX, e.pageY);
+            const rawDate = me.getDateFromEvent(e);
+            me.editMilestone(review, e.pageX, e.pageY, rawDate);
           },
         });
       });
@@ -370,7 +409,8 @@ export class OverviewComponent
             position: "top",
           },
           onClick: function (e) {
-            me.editMilestone(correction, e.pageX, e.pageY);
+            const rawDate = me.getDateFromEvent(e);
+            me.editMilestone(correction, e.pageX, e.pageY, rawDate);
           },
         });
       });
@@ -401,7 +441,8 @@ export class OverviewComponent
             position: "top",
           },
           onClick: function (e) {
-            me.editMilestone(other, e.pageX, e.pageY);
+            const rawDate = me.getDateFromEvent(e);
+            me.editMilestone(other, e.pageX, e.pageY, rawDate);
           },
         });
       });
@@ -459,9 +500,9 @@ export class OverviewComponent
       const data = this.getDataFromChart(event);
       window.open(data.commit.url, "_blank");
     } else {
-      const rawDate = this.getValueFromEvent(event);
+      const rawDate = this.getDateFromEvent(event.event);
       setTimeout(() => {
-        this.openContextMenu(event.event.pageX, event.event.pageY);
+        this.openContextMenu(event.event.pageX, event.event.pageY, rawDate);
       });
     }
   }
@@ -476,9 +517,9 @@ export class OverviewComponent
     this.openEditMilestoneModal(milestone, false);
   }
 
-  getValueFromEvent(event) {
+  getDateFromEvent(event) {
     const xAxis = this.myChart.chart.scales["x-axis-0"];
-    const x = event.event.offsetX;
+    const x = event.offsetX;
     return xAxis.getValueForPixel(x);
   }
 
