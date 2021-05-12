@@ -288,35 +288,36 @@ export class OverviewComponent
     oldMilestone: Milestone;
     newMilestone: Milestone;
   }) {
-    if (result.oldMilestone) {
-      this.dataService[result.oldMilestone.type].splice(
-        this.dataService[result.oldMilestone.type].indexOf(result.oldMilestone),
-        1
+    try {
+      if (result.newMilestone) {
+        this.dataService[result.newMilestone.type].push(result.newMilestone);
+      }
+
+      if (result.oldMilestone) {
+        this.dataService[result.oldMilestone.type].splice(
+          this.dataService[result.oldMilestone.type].indexOf(
+            result.oldMilestone
+          ),
+          1
+        );
+      }
+
+      this.saveData();
+
+      let translations = this.translateService.instant([
+        "SUCCESS",
+        "MILESTONE-SAVED",
+        "MILESTONE-DELETED",
+      ]);
+      this.toastService.success(
+        translations["SUCCESS"],
+        result.newMilestone
+          ? translations["MILESTONE-SAVED"]
+          : translations["MILESTONE-DELETED"]
       );
+    } catch (e) {
+      // toast fail
     }
-    if (result.newMilestone) {
-      this.dataService[result.newMilestone.type].push(result.newMilestone);
-    }
-
-    this.dataService.saveData();
-
-    this.loadGraphMetadata(
-      this.dataService.repositories,
-      this.dataService.reviews,
-      this.dataService.corrections,
-      this.dataService.questions
-    );
-    let translations = this.translateService.instant([
-      "SUCCESS",
-      "MILESTONE-SAVED",
-      "MILESTONE-DELETED",
-    ]);
-    this.toastService.success(
-      translations["SUCCESS"],
-      result.newMilestone
-        ? translations["MILESTONE-SAVED"]
-        : translations["MILESTONE-DELETED"]
-    );
   }
 
   onSaveSession(result: { oldMilestone: Milestone; newMilestone: Milestone }) {}
@@ -533,14 +534,8 @@ export class OverviewComponent
       1
     );
 
-    this.dataService.saveData();
+    this.saveData();
 
-    this.loadGraphMetadata(
-      this.dataService.repositories,
-      this.dataService.reviews,
-      this.dataService.corrections,
-      this.dataService.questions
-    );
     let translations = this.translateService.instant([
       "SUCCESS",
       "MILESTONE-DELETED",
@@ -651,14 +646,7 @@ export class OverviewComponent
         if (newMilestone) {
           this.dataService[newMilestone.type].push(newMilestone);
         }
-        this.dataService.saveData();
-
-        this.loadGraphMetadata(
-          this.dataService.repositories,
-          this.dataService.reviews,
-          this.dataService.corrections,
-          this.dataService.questions
-        );
+        this.saveData();
         let translations = this.translateService.instant([
           "SUCCESS",
           "MILESTONE-SAVED",
@@ -683,5 +671,16 @@ export class OverviewComponent
       this.dataService.saveData();
       this.loadGraph();
     });
+  }
+
+  private saveData() {
+    this.dataService.saveData();
+
+    this.loadGraphMetadata(
+      this.dataService.repositories,
+      this.dataService.reviews,
+      this.dataService.corrections,
+      this.dataService.questions
+    );
   }
 }
