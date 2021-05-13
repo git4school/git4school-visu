@@ -296,19 +296,7 @@ export class OverviewComponent
     newMilestone: Milestone;
   }) {
     try {
-      if (result.newMilestone) {
-        this.dataService[result.newMilestone.type].push(result.newMilestone);
-      }
-
-      if (result.oldMilestone) {
-        this.dataService[result.oldMilestone.type].splice(
-          this.dataService[result.oldMilestone.type].indexOf(
-            result.oldMilestone
-          ),
-          1
-        );
-      }
-
+      this.saveMilestone(result.oldMilestone, result.newMilestone);
       this.saveData();
 
       let translations = this.translateService.instant([
@@ -327,14 +315,101 @@ export class OverviewComponent
     }
   }
 
-  onSaveSession(result: { oldMilestone: Milestone; newMilestone: Milestone }) {}
+  saveMilestone(oldMilestone: Milestone, newMilestone: Milestone) {
+    if (newMilestone) {
+      this.dataService[newMilestone.type].push(newMilestone);
+    }
+
+    if (oldMilestone) {
+      this.dataService[oldMilestone.type].splice(
+        this.dataService[oldMilestone.type].indexOf(oldMilestone),
+        1
+      );
+    }
+  }
+
+  onSaveSession(result: { oldSession: Session; newSession: Session }) {
+    try {
+      this.saveSession(result.oldSession, result.newSession);
+      this.saveData();
+
+      let translations = this.translateService.instant([
+        "SUCCESS",
+        "SESSION-SAVED",
+        "SESSION-DELETED",
+      ]);
+      this.toastService.success(
+        translations["SUCCESS"],
+        result.newSession
+          ? translations["SESSION-SAVED"]
+          : translations["SESSION-DELETED"]
+      );
+    } catch (e) {
+      // toast fail
+    }
+  }
+
+  saveSession(oldSession: Session, newSession: Session) {
+    if (newSession) {
+      this.dataService.sessions.push(newSession);
+    }
+
+    if (oldSession) {
+      this.dataService.sessions.splice(
+        this.dataService.sessions.indexOf(oldSession),
+        1
+      );
+    }
+  }
 
   onDeleteSession(session: Session) {
-    // this.deleteSession(session);
+    try {
+      this.deleteSession(session);
+      this.saveData();
+
+      let translations = this.translateService.instant([
+        "SUCCESS",
+        "SESSION-DELETED",
+      ]);
+      this.toastService.success(
+        translations["SUCCESS"],
+        translations["SESSION-DELETED"]
+      );
+    } catch (e) {
+      // toast fail
+    }
   }
 
   onDeleteMilestone(milestone: Milestone) {
-    this.deleteMilestone(milestone);
+    try {
+      this.deleteMilestone(milestone);
+      this.saveData();
+
+      let translations = this.translateService.instant([
+        "SUCCESS",
+        "MILESTONE-DELETED",
+      ]);
+      this.toastService.success(
+        translations["SUCCESS"],
+        translations["MILESTONE-DELETED"]
+      );
+    } catch (e) {
+      // toast fail
+    }
+  }
+
+  deleteMilestone(milestone: Milestone) {
+    this.dataService[milestone.type].splice(
+      this.dataService[milestone.type].indexOf(milestone),
+      1
+    );
+  }
+
+  deleteSession(session: Session) {
+    this.dataService.sessions.splice(
+      this.dataService.sessions.indexOf(session),
+      1
+    );
   }
 
   loadSessions() {
@@ -526,24 +601,6 @@ export class OverviewComponent
 
   onChartHover(event) {
     const data = this.getDataFromChart(event);
-  }
-
-  deleteMilestone(milestone: Milestone) {
-    this.dataService[milestone.type].splice(
-      this.dataService[milestone.type].indexOf(milestone),
-      1
-    );
-
-    this.saveData();
-
-    let translations = this.translateService.instant([
-      "SUCCESS",
-      "MILESTONE-DELETED",
-    ]);
-    this.toastService.success(
-      translations["SUCCESS"],
-      translations["MILESTONE-DELETED"]
-    );
   }
 
   selectUnit(unit: string) {

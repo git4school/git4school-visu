@@ -204,15 +204,17 @@
     "BUTTON-CONFIRM": "Confirm"
   },
   "MESSAGE-UNSAVED-GUARD": "If you leave this page, you will lose the unsaved changes. Do you want to leave the page ?",
-  "EDIT-SESSIONS": {
-    "PAGE-TITLE": "Edit sessions",
-    "COLUMN-DATE": "Date",
-    "COLUMN-START-TIME": "Start time",
-    "COLUMN-END-TIME": "End time",
-    "COLUMN-TP-GROUP": "TP group",
+  "EDIT-SESSION": {
+    "CREATE-TITLE": "Create session",
+    "EDIT-TITLE": "Edit session",
+    "DATE-LABEL": "Date",
+    "START-TIME-LABEL": "Start time",
+    "END-TIME-LABEL": "End time",
+    "TP-GROUP-LABEL": "TP group",
     "MESSAGE-REQUIRED-STARTTIME": "Start time is required !",
     "MESSAGE-REQUIRED-ENDTIME": "End time is required !",
-    "MESSAGE-ENDTIME-BEFORE-STARTTIME": "The end time must be later than the start time !"
+    "MESSAGE-ENDTIME-BEFORE-STARTTIME": "The end time must be later than the start time !",
+    "DELETE-BUTTON": "Delete session"
   },
   "MODAL-ADD-REPOSITORIES": {
     "TITLE": "Add repositories",

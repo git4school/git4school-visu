@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
+import { EditSessionComponent } from "@components/edit-session/edit-session.component";
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
 import { NgbDropdown, NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -26,8 +27,8 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
     newMilestone: Milestone;
   }>();
   @Output() saveSession = new EventEmitter<{
-    oldMilestone: Session;
-    newMilestone: Session;
+    oldSession: Session;
+    newSession: Session;
   }>();
   @Output() deleteMilestone = new EventEmitter<Milestone>();
   @Output() deleteSession = new EventEmitter<Session>();
@@ -83,7 +84,9 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
     this.openMilestoneModal(this.milestone);
   }
 
-  editSession() {}
+  editSession() {
+    this.openSessionModal(this.session);
+  }
 
   addMilestone() {
     this.milestone = null;
@@ -94,7 +97,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
     this.session = null;
     let endDate = new Date(this.date);
     endDate.setHours(endDate.getHours() + 2);
-    // this.openSessionModal(new Session(this.date, endDate))
+    this.openSessionModal(new Session(this.date, endDate));
   }
 
   removeMilestone(milestone: Milestone) {
@@ -115,6 +118,16 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
     modalReference.result.then((newMilestone) =>
       this.saveMilestone.emit({ oldMilestone: this.milestone, newMilestone })
     );
+  }
+
+  openSessionModal(session: Session) {
+    let modalReference = this.modalService.open(EditSessionComponent, {});
+    modalReference.componentInstance.session = session;
+    modalReference.componentInstance.addMode = !this.editSessionMode;
+    modalReference.componentInstance.tpGroups = this.tpGroups;
+    modalReference.result.then((newSession) => {
+      this.saveSession.emit({ oldSession: this.session, newSession });
+    });
   }
 
   private setPosition(x: number, y: number) {

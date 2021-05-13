@@ -204,15 +204,17 @@
     "BUTTON-CONFIRM": "Confirmer"
   },
   "MESSAGE-UNSAVED-GUARD": "Si vous quittez cette page, vous perdrez les modifications que vous n'avez pas sauvegardées. Voulez-vous quitter la page ? ",
-  "EDIT-SESSIONS": {
-    "PAGE-TITLE": "Editer les séances",
-    "COLUMN-DATE": "Date",
-    "COLUMN-START-TIME": "Heure de début",
-    "COLUMN-END-TIME": "Heure de fin",
-    "COLUMN-TP-GROUP": "Groupe de TP",
+  "EDIT-SESSION": {
+    "CREATE-TITLE": "Créer une séance",
+    "EDIT-TITLE": "Editer la séance",
+    "DATE-LABEL": "Date",
+    "START-TIME-LABEL": "Heure de début",
+    "END-TIME-LABEL": "Heure de fin",
+    "TP-GROUP-LABEL": "Groupe de TP",
     "MESSAGE-REQUIRED-STARTTIME": "L'heure de début est requise !",
     "MESSAGE-REQUIRED-ENDTIME": "L'heure de fin est requise !",
-    "MESSAGE-ENDTIME-BEFORE-STARTTIME": "L'heure de fin doit être postérieure à l'heure de début !"
+    "MESSAGE-ENDTIME-BEFORE-STARTTIME": "L'heure de fin doit être postérieure à l'heure de début !",
+    "DELETE-BUTTON": "Supprimer la séance"
   },
   "MODAL-ADD-REPOSITORIES": {
     "TITLE": "Ajouter des dépôts",
