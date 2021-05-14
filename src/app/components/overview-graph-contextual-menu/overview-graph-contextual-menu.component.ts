@@ -115,9 +115,11 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
     modalReference.componentInstance.tpGroups = this.tpGroups;
     modalReference.componentInstance.questions = this.questions;
     modalReference.componentInstance.typeaheadSettings = this.typeaheadSettings;
-    modalReference.result.then((newMilestone) =>
-      this.saveMilestone.emit({ oldMilestone: this.milestone, newMilestone })
-    );
+    modalReference.result
+      .then((newMilestone) => {
+        this.saveMilestone.emit({ oldMilestone: this.milestone, newMilestone });
+      })
+      .catch((e) => {});
   }
 
   openSessionModal(session: Session) {
@@ -125,9 +127,11 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
     modalReference.componentInstance.session = session;
     modalReference.componentInstance.addMode = !this.editSessionMode;
     modalReference.componentInstance.tpGroups = this.tpGroups;
-    modalReference.result.then((newSession) => {
-      this.saveSession.emit({ oldSession: this.session, newSession });
-    });
+    modalReference.result
+      .then((newSession) => {
+        this.saveSession.emit({ oldSession: this.session, newSession });
+      })
+      .catch((e) => {});
   }
 
   private setPosition(x: number, y: number) {
