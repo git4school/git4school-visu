@@ -30,7 +30,7 @@
                 <label for="startTime" class="required-label">
                     {{ 'EDIT-SESSION.START-TIME-LABEL' | translate }}
                 </label>
-                <ngb-timepicker id="startTime" formControlName="startTime" size="medium" [spinners]="false" [ngClass]="{
+                <ngb-timepicker id="startTime" formControlName="startTime" size="small" [ngClass]="{
                     'is-invalid': sessionForm.invalid,
                     'is-valid': sessionForm.valid}">
                 </ngb-timepicker>
@@ -45,7 +45,7 @@
                 <label for="endTime" class="required-label">
                     {{ 'EDIT-SESSION.END-TIME-LABEL' | translate }}
                 </label>
-                <ngb-timepicker id="endTime" formControlName="endTime" size="medium" [spinners]="false" [ngClass]="{
+                <ngb-timepicker id="endTime" formControlName="endTime" size="small" [ngClass]="{
                     'is-invalid': sessionForm.invalid,
                     'is-valid': sessionForm.valid}">
                 </ngb-timepicker>

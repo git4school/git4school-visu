@@ -66,7 +66,11 @@ export class EditSessionComponent implements OnInit {
       tpGroup: [this.session.tpGroup || ""],
     });
     this.sessionForm.setValidators(this.endTimeValidator());
-    console.log("sessionForm: ", this.sessionForm);
+    this.sessionForm.get("startTime").valueChanges.subscribe((startTime) => {
+      let endTime = { ...startTime };
+      endTime.hour += 2;
+      this.sessionForm.controls["endTime"].setValue(endTime);
+    });
   }
 
   deleteSession() {
