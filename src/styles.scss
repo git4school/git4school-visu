@@ -56,14 +56,6 @@ $sizes: (
   bottom: 0;
 }
 
-.is-invalid {
-  animation: heartbeat 1.5s ease-in-out both;
-}
-
-.is-invalid input {
-  animation: heartbeat 1.5s ease-in-out both;
-}
-
 @keyframes heartbeat {
   from {
     transform: scale(1);
