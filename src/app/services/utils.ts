@@ -1,17 +1,38 @@
+import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import * as moment from "moment";
 
 export class Utils {
+  static readonly DEFAULT_SESSION_DURATION = {
+    hour: 1,
+    minute: 30,
+    second: 0,
+  };
   static readonly DEFAULT_TP_GROUP = "1";
   static readonly DATE_FORMAT =
     "([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)";
-  
+
   static getTimeFromDate(date: Date) {
-    return date ? {
-      hour: moment(date).hour(),
-      minute: moment(date).minutes(),
-    } : null;
+    return date
+      ? {
+          hour: moment(date).hour(),
+          minute: moment(date).minutes(),
+        }
+      : null;
   }
-  
+
+  static addTimeToDate(date: Date, time: NgbTimeStruct): Date {
+    let updatedDate = new Date(date);
+    updatedDate.setHours(updatedDate.getHours() + time.hour);
+    updatedDate.setMinutes(updatedDate.getMinutes() + time.minute);
+    updatedDate.setSeconds(updatedDate.getSeconds() + time.second);
+    return updatedDate;
+  }
+
+  static addTimeToTime(time1: NgbTimeStruct, time2: NgbTimeStruct) {
+    const date = moment(new Date()).set(time1).toDate();
+    return this.getTimeFromDate(this.addTimeToDate(date, time2));
+  }
+
   static CONF_FILE_JSON_SCHEMA = {
     properties: {
       title: {

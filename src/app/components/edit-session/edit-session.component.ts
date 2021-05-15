@@ -31,6 +31,7 @@ export class EditSessionComponent implements OnInit {
   @Input() session: Session;
   @Input() addMode: boolean;
   @Input() tpGroups: string[];
+  @Input() defaultSessionDuration;
   sessionForm: FormGroup;
 
   constructor(
@@ -67,8 +68,7 @@ export class EditSessionComponent implements OnInit {
     });
     this.sessionForm.setValidators(this.endTimeValidator());
     this.sessionForm.get("startTime").valueChanges.subscribe((startTime) => {
-      let endTime = { ...startTime };
-      endTime.hour += 2;
+      let endTime = Utils.addTimeToTime(startTime, this.defaultSessionDuration);
       this.sessionForm.controls["endTime"].setValue(endTime);
     });
   }

@@ -11,6 +11,7 @@ import { EditSessionComponent } from "@components/edit-session/edit-session.comp
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
 import { NgbDropdown, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Utils } from "@services/utils";
 
 @Component({
   selector: "overview-graph-contextual-menu",
@@ -22,6 +23,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
   @Input() questions: string[];
   @Input() tpGroups: string[];
   @Input() typeaheadSettings;
+  @Input() defaultSessionDuration;
   @Output() saveMilestone = new EventEmitter<{
     oldMilestone: Milestone;
     newMilestone: Milestone;
@@ -95,8 +97,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
 
   addSession() {
     this.session = null;
-    let endDate = new Date(this.date);
-    endDate.setHours(endDate.getHours() + 2);
+    let endDate = Utils.addTimeToDate(this.date, this.defaultSessionDuration);
     this.openSessionModal(new Session(this.date, endDate));
   }
 
@@ -125,6 +126,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
   openSessionModal(session: Session) {
     let modalReference = this.modalService.open(EditSessionComponent, {});
     modalReference.componentInstance.session = session;
+    modalReference.componentInstance.defaultSessionDuration = this.defaultSessionDuration;
     modalReference.componentInstance.addMode = !this.editSessionMode;
     modalReference.componentInstance.tpGroups = this.tpGroups;
     modalReference.result

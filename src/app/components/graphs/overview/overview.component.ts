@@ -11,13 +11,14 @@ import { OverviewGraphContextualMenuComponent } from "@components/overview-graph
 import { Commit } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { DataService } from "@services/data.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
+import { Utils } from "@services/utils";
 import { BaseChartDirective } from "ng2-charts";
 import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
@@ -47,6 +48,7 @@ export class OverviewComponent
   showCorrections = true;
   showReviews = true;
   showOthers = true;
+  defaultSessionDuration: NgbTimeStruct;
 
   // Modal variables
   dateModal;
@@ -170,6 +172,7 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
+    this.defaultSessionDuration = Utils.DEFAULT_SESSION_DURATION;
     this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();
