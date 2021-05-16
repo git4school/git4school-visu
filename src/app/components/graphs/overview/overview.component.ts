@@ -18,7 +18,6 @@ import { DataService } from "@services/data.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
-import { Utils } from "@services/utils";
 import { BaseChartDirective } from "ng2-charts";
 import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
@@ -172,7 +171,7 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
-    this.defaultSessionDuration = Utils.DEFAULT_SESSION_DURATION;
+    this.defaultSessionDuration = this.dataService.assignment.defaultSessionDuration;
     this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();

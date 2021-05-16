@@ -282,5 +282,6 @@
   "EDIT-MILESTONE-CONTEXT-MENU": "Editer le jalon",
   "EDIT-SESSION-CONTEXT-MENU": "Editer la séance",
   "DELETE-MILESTONE-CONTEXT-MENU": "Supprimer le jalon",
-  "DELETE-SESSION-CONTEXT-MENU": "Supprimer la séance"
+  "DELETE-SESSION-CONTEXT-MENU": "Supprimer la séance",
+  "DEFAULT-SESSION-DURATION": "Durée de séance par défaut"
 }

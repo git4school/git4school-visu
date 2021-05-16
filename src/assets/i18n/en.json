@@ -282,5 +282,6 @@
   "EDIT-SESSION-CONTEXT-MENU": "Edit session",
   "ADD-SESSION-CONTEXT-MENU": "Add a new session",
   "DELETE-MILESTONE-CONTEXT-MENU": "Delete the milestone",
-  "DELETE-SESSION-CONTEXT-MENU": "Delete the session"
+  "DELETE-SESSION-CONTEXT-MENU": "Delete the session",
+  "DEFAULT-SESSION-DURATION": "Default session duration"
 }

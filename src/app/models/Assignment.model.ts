@@ -2,6 +2,7 @@ import { Metadata } from "@models/Metadata.model";
 import { Milestone } from "@models/Milestone.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
+import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import { Type } from "class-transformer";
 
 /**
@@ -116,5 +117,13 @@ export class Assignment {
 
   set lastModificationDate(lastModificationDate: Date) {
     this.metadata.lastModificationDate = lastModificationDate;
+  }
+
+  get defaultSessionDuration(): NgbTimeStruct {
+    return this.metadata.defaultSessionDuration;
+  }
+
+  set defaultSessionDuration(defaultSessionDuration: NgbTimeStruct) {
+    this.metadata.defaultSessionDuration = defaultSessionDuration;
   }
 }

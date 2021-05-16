@@ -1,3 +1,6 @@
+import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
+import { Utils } from "@services/utils";
+
 export class Metadata {
   /**
    * The document title
@@ -39,7 +42,10 @@ export class Metadata {
    */
   lastModificationDate: Date;
 
+  defaultSessionDuration: NgbTimeStruct;
+
   constructor() {
     this.questions = [];
+    this.defaultSessionDuration = Utils.DEFAULT_SESSION_DURATION;
   }
 }
