@@ -55,7 +55,6 @@ export class EditMilestoneComponent implements OnInit {
       form.value.tpGroup.trim() || "",
       form.value.type
     );
-    console.log(milestone);
     this.activeModalService.close(milestone);
   }
 }
