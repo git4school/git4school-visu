@@ -84,6 +84,9 @@
                                 <a href="#course">course</a>
                             </li>
                             <li>
+                                <a href="#defaultSessionDuration">defaultSessionDuration</a>
+                            </li>
+                            <li>
                                 <a href="#endDate">endDate</a>
                             </li>
                             <li>
@@ -128,7 +131,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/models/Metadata.model.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/models/Metadata.model.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -161,7 +164,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/models/Metadata.model.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/models/Metadata.model.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -171,6 +174,33 @@
 </div>
                     </td>
                 </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="defaultSessionDuration"></a>
+                        <span class="name">
+                            <b>
+                            defaultSessionDuration</b>
+                            <a href="#defaultSessionDuration"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>NgbTimeStruct</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/models/Metadata.model.ts:45</a></div>
+                            </td>
+                        </tr>
+
 
             </tbody>
         </table>
@@ -194,7 +224,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/models/Metadata.model.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/models/Metadata.model.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -227,7 +257,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/models/Metadata.model.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/models/Metadata.model.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -260,7 +290,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/models/Metadata.model.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/models/Metadata.model.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -293,7 +323,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/models/Metadata.model.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/models/Metadata.model.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -326,7 +356,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/models/Metadata.model.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/models/Metadata.model.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -359,7 +389,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">src/app/models/Metadata.model.ts:5</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/app/models/Metadata.model.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -392,7 +422,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/models/Metadata.model.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/models/Metadata.model.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -417,7 +447,10 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class Metadata {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgbTimeStruct } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import { Utils } from &quot;@services/utils&quot;;
+
+export class Metadata {
   /**
    * The document title
    */
@@ -458,8 +491,11 @@
    */
   lastModificationDate: Date;
 
+  defaultSessionDuration: NgbTimeStruct;
+
   constructor() {
     this.questions &#x3D; [];
+    this.defaultSessionDuration &#x3D; Utils.DEFAULT_SESSION_DURATION;
   }
 }
 </code></pre>

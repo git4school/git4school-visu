@@ -92,6 +92,11 @@
                             <li>
                                     <span class="modifier">Static</span>
                                     <span class="modifier">Readonly</span>
+                                <a href="#DEFAULT_SESSION_DURATION">DEFAULT_SESSION_DURATION</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
                                 <a href="#DEFAULT_TP_GROUP">DEFAULT_TP_GROUP</a>
                             </li>
                         </ul>
@@ -106,6 +111,14 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#addTimeToDate">addTimeToDate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#addTimeToTime">addTimeToTime</a>
+                            </li>
                             <li>
                                     <span class="modifier">Static</span>
                                 <a href="#getTimeFromDate">getTimeFromDate</a>
@@ -133,7 +146,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">src/app/services/utils.ts:164</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="185" class="link-to-prism">src/app/services/utils.ts:185</a></div>
                             </td>
                         </tr>
 
@@ -321,7 +334,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/services/utils.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/utils.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -351,6 +364,44 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>&quot;([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/utils.ts:11</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="DEFAULT_SESSION_DURATION"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Static</span>
+                                <span class="modifier">Readonly</span>
+                            DEFAULT_SESSION_DURATION</b>
+                            <a href="#DEFAULT_SESSION_DURATION"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+    hour: 1,
+    minute: 30,
+    second: 0,
+  }</code>
                         </td>
                     </tr>
                         <tr>
@@ -389,7 +440,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">src/app/services/utils.ts:4</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/services/utils.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -403,6 +454,174 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addTimeToDate"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            addTimeToDate
+                        </b>
+                        <a href="#addTimeToDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addTimeToDate(date: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, time: NgbTimeStruct)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/services/utils.ts:23</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>date</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>time</td>
+                                    <td>
+                                            <code>NgbTimeStruct</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addTimeToTime"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            addTimeToTime
+                        </b>
+                        <a href="#addTimeToTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addTimeToTime(time1: NgbTimeStruct, time2: NgbTimeStruct)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/services/utils.ts:31</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>time1</td>
+                                    <td>
+                                            <code>NgbTimeStruct</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>time2</td>
+                                    <td>
+                                            <code>NgbTimeStruct</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{ hour: any; minute: any; }</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -427,8 +646,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="8"
-                            class="link-to-prism">src/app/services/utils.ts:8</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">src/app/services/utils.ts:14</a></div>
                 </td>
             </tr>
 
@@ -485,20 +704,41 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as moment from &quot;moment&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgbTimeStruct } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import * as moment from &quot;moment&quot;;
 
 export class Utils {
+  static readonly DEFAULT_SESSION_DURATION &#x3D; {
+    hour: 1,
+    minute: 30,
+    second: 0,
+  };
   static readonly DEFAULT_TP_GROUP &#x3D; &quot;1&quot;;
   static readonly DATE_FORMAT &#x3D;
     &quot;([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)&quot;;
-  
+
   static getTimeFromDate(date: Date) {
-    return date ? {
-      hour: moment(date).hour(),
-      minute: moment(date).minutes(),
-    } : null;
+    return date
+      ? {
+          hour: moment(date).hour(),
+          minute: moment(date).minutes(),
+        }
+      : null;
   }
-  
+
+  static addTimeToDate(date: Date, time: NgbTimeStruct): Date {
+    let updatedDate &#x3D; new Date(date);
+    updatedDate.setHours(updatedDate.getHours() + time.hour);
+    updatedDate.setMinutes(updatedDate.getMinutes() + time.minute);
+    updatedDate.setSeconds(updatedDate.getSeconds() + time.second);
+    return updatedDate;
+  }
+
+  static addTimeToTime(time1: NgbTimeStruct, time2: NgbTimeStruct) {
+    const date &#x3D; moment(new Date()).set(time1).toDate();
+    return this.getTimeFromDate(this.addTimeToDate(date, time2));
+  }
+
   static CONF_FILE_JSON_SCHEMA &#x3D; {
     properties: {
       title: {
