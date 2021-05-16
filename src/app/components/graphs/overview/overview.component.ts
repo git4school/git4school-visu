@@ -6,14 +6,14 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
+import { OverviewGraphContextualMenuComponent } from "@components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
 import { Commit } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Session } from "@models/Session.model";
+import { NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
-import { CommitsService } from "@services/commits.service";
 import { DataService } from "@services/data.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
@@ -31,6 +31,9 @@ export class OverviewComponent
   extends BaseGraphComponent
   implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(BaseChartDirective, { static: true }) myChart;
+  @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
+
+  contextualMenuShown: boolean;
 
   assignmentsModified$: Subscription;
 
@@ -44,6 +47,7 @@ export class OverviewComponent
   showCorrections = true;
   showReviews = true;
   showOthers = true;
+  defaultSessionDuration: NgbTimeStruct;
 
   // Modal variables
   dateModal;
@@ -122,7 +126,7 @@ export class OverviewComponent
     },
     annotation: {
       drawTime: "beforeDatasetsDraw",
-      events: ["click", "mouseenter"],
+      events: ["click", "enter", "leave"],
       annotations: [],
     },
     plugins: {
@@ -149,7 +153,6 @@ export class OverviewComponent
 
   constructor(
     private translateService: TranslateService,
-    private commitsService: CommitsService,
     private toastService: ToastService,
     public jsonManager: JsonManagerService,
     public dataService: DataService,
@@ -168,6 +171,8 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
+    this.defaultSessionDuration = this.dataService.assignment.defaultSessionDuration;
+    this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();
     this.translateService.onLangChange.subscribe(
@@ -258,7 +263,159 @@ export class OverviewComponent
     }
   }
 
+  isContextualMenuShown() {
+    return this.contextualMenu.isContextMenuOpen();
+  }
+
+  openEditMilestoneContextMenu(
+    review: Milestone,
+    x: number,
+    y: number,
+    date: Date
+  ) {
+    this.contextualMenu.close();
+    this.contextualMenu.openEditMilestone(review, x, y, date);
+  }
+
+  openEditSessionContextMenu(
+    session: Session,
+    x: number,
+    y: number,
+    date: Date
+  ) {
+    this.contextualMenu.close();
+    this.contextualMenu.openEditSession(session, x, y, date);
+  }
+
+  openContextMenu(x: number, y: number, date: Date) {
+    if (!this.isContextualMenuShown()) {
+      this.contextualMenu.openNew(x, y, date);
+    }
+  }
+
+  onSaveMilestone(result: {
+    oldMilestone: Milestone;
+    newMilestone: Milestone;
+  }) {
+    try {
+      this.saveMilestone(result.oldMilestone, result.newMilestone);
+      this.saveData();
+
+      let translations = this.translateService.instant([
+        "SUCCESS",
+        "MILESTONE-SAVED",
+        "MILESTONE-DELETED",
+      ]);
+      this.toastService.success(
+        translations["SUCCESS"],
+        result.newMilestone
+          ? translations["MILESTONE-SAVED"]
+          : translations["MILESTONE-DELETED"]
+      );
+    } catch (e) {
+      // toast fail
+    }
+  }
+
+  saveMilestone(oldMilestone: Milestone, newMilestone: Milestone) {
+    if (newMilestone) {
+      this.dataService[newMilestone.type].push(newMilestone);
+    }
+
+    if (oldMilestone) {
+      this.dataService[oldMilestone.type].splice(
+        this.dataService[oldMilestone.type].indexOf(oldMilestone),
+        1
+      );
+    }
+  }
+
+  onSaveSession(result: { oldSession: Session; newSession: Session }) {
+    try {
+      this.saveSession(result.oldSession, result.newSession);
+      this.saveData();
+
+      let translations = this.translateService.instant([
+        "SUCCESS",
+        "SESSION-SAVED",
+        "SESSION-DELETED",
+      ]);
+      this.toastService.success(
+        translations["SUCCESS"],
+        result.newSession
+          ? translations["SESSION-SAVED"]
+          : translations["SESSION-DELETED"]
+      );
+    } catch (e) {
+      // toast fail
+    }
+  }
+
+  saveSession(oldSession: Session, newSession: Session) {
+    if (newSession) {
+      this.dataService.sessions.push(newSession);
+    }
+
+    if (oldSession) {
+      this.dataService.sessions.splice(
+        this.dataService.sessions.indexOf(oldSession),
+        1
+      );
+    }
+  }
+
+  onDeleteSession(session: Session) {
+    try {
+      this.deleteSession(session);
+      this.saveData();
+
+      let translations = this.translateService.instant([
+        "SUCCESS",
+        "SESSION-DELETED",
+      ]);
+      this.toastService.success(
+        translations["SUCCESS"],
+        translations["SESSION-DELETED"]
+      );
+    } catch (e) {
+      // toast fail
+    }
+  }
+
+  onDeleteMilestone(milestone: Milestone) {
+    try {
+      this.deleteMilestone(milestone);
+      this.saveData();
+
+      let translations = this.translateService.instant([
+        "SUCCESS",
+        "MILESTONE-DELETED",
+      ]);
+      this.toastService.success(
+        translations["SUCCESS"],
+        translations["MILESTONE-DELETED"]
+      );
+    } catch (e) {
+      // toast fail
+    }
+  }
+
+  deleteMilestone(milestone: Milestone) {
+    this.dataService[milestone.type].splice(
+      this.dataService[milestone.type].indexOf(milestone),
+      1
+    );
+  }
+
+  deleteSession(session: Session) {
+    this.dataService.sessions.splice(
+      this.dataService.sessions.indexOf(session),
+      1
+    );
+  }
+
   loadSessions() {
+    let me = this;
     this.dataService.sessions
       .filter((session) => !this.tpGroup || session.tpGroup === this.tpGroup)
       .forEach((session) => {
@@ -271,6 +428,10 @@ export class OverviewComponent
           borderColor: "rgba(79, 195, 247,1.0)",
           borderWidth: 2,
           backgroundColor: "rgba(33, 150, 243, 0.15)",
+          onClick: function (e) {
+            const rawDate = me.getDateFromEvent(e);
+            me.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+          },
         });
       });
   }
@@ -300,7 +461,8 @@ export class OverviewComponent
             position: "top",
           },
           onClick: function (e) {
-            me.showEditMilestoneModal(review);
+            const rawDate = me.getDateFromEvent(e);
+            me.openEditMilestoneContextMenu(review, e.pageX, e.pageY, rawDate);
           },
         });
       });
@@ -331,7 +493,13 @@ export class OverviewComponent
             position: "top",
           },
           onClick: function (e) {
-            me.showEditMilestoneModal(correction);
+            const rawDate = me.getDateFromEvent(e);
+            me.openEditMilestoneContextMenu(
+              correction,
+              e.pageX,
+              e.pageY,
+              rawDate
+            );
           },
         });
       });
@@ -362,7 +530,8 @@ export class OverviewComponent
             position: "top",
           },
           onClick: function (e) {
-            me.showEditMilestoneModal(other);
+            const rawDate = me.getDateFromEvent(e);
+            me.openEditMilestoneContextMenu(other, e.pageX, e.pageY, rawDate);
           },
         });
       });
@@ -371,7 +540,6 @@ export class OverviewComponent
   loadPoints() {
     const chartData = [];
     const labels = [];
-    const commits = [];
 
     this.dataService.repositories
       .filter(
@@ -420,59 +588,21 @@ export class OverviewComponent
       const data = this.getDataFromChart(event);
       window.open(data.commit.url, "_blank");
     } else {
-      const rawDate = this.getValueFromEvent(event);
+      const rawDate = this.getDateFromEvent(event.event);
       setTimeout(() => {
-        if (!this.modalService.hasOpenModals()) {
-          this.showAddMilestoneModal(rawDate);
-        }
+        this.openContextMenu(event.event.pageX, event.event.pageY, rawDate);
       });
     }
   }
 
-  showAddMilestoneModal(date) {
-    let milestone = new Milestone(date.format("YYYY-MM-DDTHH:mm"), "");
-    this.openEditMilestoneModal(milestone, true);
-  }
-
-  showEditMilestoneModal(milestone: Milestone) {
-    this.modalService.dismissAll();
-    this.openEditMilestoneModal(milestone, false);
-  }
-
-  getValueFromEvent(event) {
+  getDateFromEvent(event) {
     const xAxis = this.myChart.chart.scales["x-axis-0"];
-    const x = event.event.offsetX;
+    const x = event.offsetX;
     return xAxis.getValueForPixel(x);
   }
 
   onChartHover(event) {
     const data = this.getDataFromChart(event);
-  }
-
-  deleteMilestone() {
-    this.dataService[this.savedMilestoneModal.type].splice(
-      this.dataService[this.savedMilestoneModal.type].indexOf(
-        this.savedMilestoneModal
-      ),
-      1
-    );
-
-    this.dataService.saveData();
-
-    this.loadGraphMetadata(
-      this.dataService.repositories,
-      this.dataService.reviews,
-      this.dataService.corrections,
-      this.dataService.questions
-    );
-    let translations = this.translateService.instant([
-      "SUCCESS",
-      "MILESTONE-DELETED",
-    ]);
-    this.toastService.success(
-      translations["SUCCESS"],
-      translations["MILESTONE-DELETED"]
-    );
   }
 
   selectUnit(unit: string) {
@@ -557,48 +687,6 @@ export class OverviewComponent
     }
   }
 
-  openEditMilestoneModal(milestone: Milestone, addMode: boolean) {
-    let modalReference = this.modalService.open(EditMilestoneComponent, {});
-    modalReference.componentInstance.milestone = milestone;
-    modalReference.componentInstance.addMode = addMode;
-    modalReference.componentInstance.tpGroups = this.dataService.tpGroups;
-    modalReference.componentInstance.questions = this.dataService.questions;
-    modalReference.componentInstance.typeaheadSettings = this.typeaheadSettings;
-    modalReference.result.then(
-      (newMilestone) => {
-        if (!addMode) {
-          this.dataService[milestone.type].splice(
-            this.dataService[milestone.type].indexOf(milestone),
-            1
-          );
-        }
-        if (newMilestone) {
-          this.dataService[newMilestone.type].push(newMilestone);
-        }
-        this.dataService.saveData();
-
-        this.loadGraphMetadata(
-          this.dataService.repositories,
-          this.dataService.reviews,
-          this.dataService.corrections,
-          this.dataService.questions
-        );
-        let translations = this.translateService.instant([
-          "SUCCESS",
-          "MILESTONE-SAVED",
-          "MILESTONE-DELETED",
-        ]);
-        this.toastService.success(
-          translations["SUCCESS"],
-          newMilestone
-            ? translations["MILESTONE-SAVED"]
-            : translations["MILESTONE-DELETED"]
-        );
-      },
-      () => {}
-    );
-  }
-
   openUploadFileModal() {
     let modalReference = this.modalService.open(FileChooserComponent, {});
     modalReference.result.then((assignment) => {
@@ -607,5 +695,16 @@ export class OverviewComponent
       this.dataService.saveData();
       this.loadGraph();
     });
+  }
+
+  private saveData() {
+    this.dataService.saveData();
+
+    this.loadGraphMetadata(
+      this.dataService.repositories,
+      this.dataService.reviews,
+      this.dataService.corrections,
+      this.dataService.questions
+    );
   }
 }

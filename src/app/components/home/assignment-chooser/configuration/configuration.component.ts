@@ -14,7 +14,6 @@ export class ConfigurationComponent implements OnInit {
   @Input() assignment: Assignment;
   metadataModified: boolean;
   repositoriesModified: boolean;
-  sessionsModified: boolean;
 
   constructor(
     public translateService: TranslateService,
@@ -27,15 +26,10 @@ export class ConfigurationComponent implements OnInit {
   ngOnInit(): void {
     this.metadataModified = false;
     this.repositoriesModified = false;
-    this.sessionsModified = false;
   }
 
   get isModified() {
-    return (
-      this.metadataModified ||
-      this.repositoriesModified ||
-      this.sessionsModified
-    );
+    return this.metadataModified || this.repositoriesModified;
   }
 
   saveMetadata(metadata) {
@@ -50,14 +44,6 @@ export class ConfigurationComponent implements OnInit {
     this.assignment.repositories = repositories;
 
     this.repositoriesModified = false;
-
-    this.saveAssignment();
-  }
-
-  saveSessions(sessions) {
-    this.assignment.sessions = sessions;
-
-    this.sessionsModified = false;
 
     this.saveAssignment();
   }

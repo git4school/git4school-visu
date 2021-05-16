@@ -53,11 +53,19 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="questionsChooser">{{ 'QUESTIONS' | translate }}</label>
-        <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="metadata.questions"
-          [editable]="true" [openOnFocus]="true">
-        </questions-chooser>
+      <div class="form-row d-flex">
+        <div class="form-group flex-grow-1 mr-2">
+          <label for="questionsChooser">{{ 'QUESTIONS' | translate }}</label>
+          <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="metadata.questions"
+            [editable]="true" [openOnFocus]="true">
+          </questions-chooser>
+        </div>
+        <div class="form-group  required">
+          <label class="required-label" for="defaultSessionDuration">{{ 'DEFAULT-SESSION-DURATION' | translate}}</label>
+          <ngb-timepicker id="defaultSessionDuration" formControlName="defaultSessionDuration" size="medium"
+            [spinners]="false">
+          </ngb-timepicker>
+        </div>
       </div>
 
       <div class="my-3">

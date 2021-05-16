@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <h5 class="modal-title">
+        {{ (this.addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') |
+        translate }}
+    </h5>
+    <button type="button" class="close" (click)="activeModalService.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body mx-2">
+    <form [formGroup]="sessionForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
+        <div class="form-group required">
+            <!-- date -->
+            <label for="date" class="required-label">
+                {{ 'EDIT-SESSION.DATE-LABEL' | translate }}
+            </label>
+            <div class="input-group">
+                <input id="date" class="form-control" placeholder="yyyy-mm-dd" formControlName="date" ngbDatepicker
+                    #d="ngbDatepicker" name="date" [showWeekNumbers]="true">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                        <i class="far fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col required">
+                <!-- starttime -->
+                <label for="startTime" class="required-label">
+                    {{ 'EDIT-SESSION.START-TIME-LABEL' | translate }}
+                </label>
+                <ngb-timepicker id="startTime" formControlName="startTime" size="small" [ngClass]="{
+                    'is-invalid': sessionForm.invalid,
+                    'is-valid': sessionForm.valid}">
+                </ngb-timepicker>
+                <div *ngIf="sessionForm.errors" class="small form-text text-danger">
+                    <div *ngIf="sessionForm.errors['required']">
+                        {{ 'EDIT-SESSION.MESSAGE-REQUIRED-STARTTIME' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col required">
+                <!-- endtime -->
+                <label for="endTime" class="required-label">
+                    {{ 'EDIT-SESSION.END-TIME-LABEL' | translate }}
+                </label>
+                <ngb-timepicker id="endTime" formControlName="endTime" size="small" [ngClass]="{
+                    'is-invalid': sessionForm.invalid,
+                    'is-valid': sessionForm.valid}">
+                </ngb-timepicker>
+                <div *ngIf="sessionForm.errors" class="small form-text text-danger">
+                    <div *ngIf="sessionForm.errors['required']">
+                        {{ 'EDIT-SESSION.MESSAGE-REQUIRED-ENDTIME' | translate }}
+                    </div>
+                </div>
+                <div *ngIf="sessionForm.errors" class="small form-text text-danger">
+                    <div *ngIf="sessionForm.errors['endTimeBeforeStartTime']">
+                        {{ 'EDIT-SESSION.MESSAGE-ENDTIME-BEFORE-STARTTIME' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- tpGroup -->
+            <label for="tpGroup">
+                {{ 'EDIT-SESSION.TP-GROUP-LABEL' | translate }}
+            </label>
+            <select id="tpGroup" class="form-control" placeholder="d.ff" formControlName="tpGroup" id="tpGroup">
+                <option *ngFor="let tpGroup of tpGroups" [value]="tpGroup">{{tpGroup}}</option>
+                <option value="">{{ 'TP-GROUP-SELECT.ALL' | translate }}</option>
+            </select>
+        </div>
+
+        <div class="my-3">
+            <span class="text-danger">*</span> {{ "REQUIRED-FIELDS-TEXT" | translate }}
+        </div>
+
+        <hr>
+
+        <button *ngIf="!addMode" type="button" class="btn btn-danger col-5" (click)="deleteSession()">{{
+            'EDIT-SESSION.DELETE-BUTTON' | translate }}</button>
+        <button type="submit" class="btn btn-primary col-5 float-right mb-3" (click)="submitSession()"
+            [disabled]="!sessionForm.valid">{{
+            'OVERVIEW-GRAPH.MODAL.CONFIRM' | translate }}</button>
+    </form>
+</div>

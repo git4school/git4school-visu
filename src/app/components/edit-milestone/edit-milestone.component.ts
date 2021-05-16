@@ -6,13 +6,17 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Milestone } from "@models/Milestone.model";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import * as moment from "moment";
+import {
+  NgbActiveModal,
+  NgbDateAdapter,
+  NgbDateNativeAdapter,
+} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "edit-milestone",
   templateUrl: "./edit-milestone.component.html",
   styleUrls: ["./edit-milestone.component.scss"],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditMilestoneComponent implements OnInit {
@@ -30,10 +34,7 @@ export class EditMilestoneComponent implements OnInit {
 
   ngOnInit(): void {
     this.milestoneForm = this.fb.group({
-      date: [
-        moment(this.milestone.date).format("YYYY-MM-DDTHH:mm"),
-        Validators.required,
-      ],
+      date: [this.milestone.date, Validators.required],
       label: [this.milestone.label],
       tpGroup: [this.milestone.tpGroup || ""],
       questions: [this.milestone.questions],

@@ -74,6 +74,7 @@ export class MetadataComponent
     metadata.startDate = modifiedMetadata.startDate;
     metadata.endDate = modifiedMetadata.endDate;
     metadata.questions = modifiedMetadata.questions;
+    metadata.defaultSessionDuration = modifiedMetadata.defaultSessionDuration;
 
     this.save(metadata);
   }
@@ -89,6 +90,10 @@ export class MetadataComponent
       ],
       endDate: [this.metadata.endDate ? new Date(this.metadata.endDate) : null],
       questions: [this.metadata.questions],
+      defaultSessionDuration: [
+        this.metadata.defaultSessionDuration,
+        Validators.required,
+      ],
     });
   }
 }

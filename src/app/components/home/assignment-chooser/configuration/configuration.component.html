@@ -15,9 +15,6 @@
                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#edit-repositories" role="tab"
                     aria-controls="nav-profile" aria-selected="false">{{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate
                     }}</a>
-                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#edit-sessions" role="tab"
-                    aria-controls="nav-contact" aria-selected="false">{{ 'CONFIGURATION.EDIT-SESSIONS' | translate
-                    }}</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -30,10 +27,6 @@
                 <edit-repositories [datas]="assignment.repositories" (saved)="saveRepositories($event)"
                     (modified)="repositoriesModified = true">
                 </edit-repositories>
-            </div>
-            <div class="tab-pane fade" id="edit-sessions" role="tabpanel" aria-labelledby="edit-sessions-tab">
-                <edit-sessions [datas]="assignment.sessions" (saved)="saveSessions($event)"
-                    (modified)="sessionsModified = true"></edit-sessions>
             </div>
         </div>
     </div>

@@ -204,15 +204,17 @@
     "BUTTON-CONFIRM": "Confirmer"
   },
   "MESSAGE-UNSAVED-GUARD": "Si vous quittez cette page, vous perdrez les modifications que vous n'avez pas sauvegardées. Voulez-vous quitter la page ? ",
-  "EDIT-SESSIONS": {
-    "PAGE-TITLE": "Editer les séances",
-    "COLUMN-DATE": "Date",
-    "COLUMN-START-TIME": "Heure de début",
-    "COLUMN-END-TIME": "Heure de fin",
-    "COLUMN-TP-GROUP": "Groupe de TP",
+  "EDIT-SESSION": {
+    "CREATE-TITLE": "Créer une séance",
+    "EDIT-TITLE": "Editer la séance",
+    "DATE-LABEL": "Date",
+    "START-TIME-LABEL": "Heure de début",
+    "END-TIME-LABEL": "Heure de fin",
+    "TP-GROUP-LABEL": "Groupe de TP",
     "MESSAGE-REQUIRED-STARTTIME": "L'heure de début est requise !",
     "MESSAGE-REQUIRED-ENDTIME": "L'heure de fin est requise !",
-    "MESSAGE-ENDTIME-BEFORE-STARTTIME": "L'heure de fin doit être postérieure à l'heure de début !"
+    "MESSAGE-ENDTIME-BEFORE-STARTTIME": "L'heure de fin doit être postérieure à l'heure de début !",
+    "DELETE-BUTTON": "Supprimer la séance"
   },
   "MODAL-ADD-REPOSITORIES": {
     "TITLE": "Ajouter des dépôts",
@@ -274,5 +276,12 @@
   "ERROR-CANNOT-READ-FILE": "Le fichier n'a pas pu être lu",
   "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED": "L'assignment à importer n'est pas bien formée",
   "ERROR-IMPORT-ASSIGNMENTS-NOT-WELL-FORMED": "Un ou plusieurs assignments ne sont pas bien formés",
-  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "Aucun assignment n'a été trouvé"
+  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "Aucun assignment n'a été trouvé",
+  "ADD-MILESTONE-CONTEXT-MENU": "Ajouter un nouveau jalon",
+  "ADD-SESSION-CONTEXT-MENU": "Ajouter une nouvelle séance",
+  "EDIT-MILESTONE-CONTEXT-MENU": "Editer le jalon",
+  "EDIT-SESSION-CONTEXT-MENU": "Editer la séance",
+  "DELETE-MILESTONE-CONTEXT-MENU": "Supprimer le jalon",
+  "DELETE-SESSION-CONTEXT-MENU": "Supprimer la séance",
+  "DEFAULT-SESSION-DURATION": "Durée de séance par défaut"
 }
