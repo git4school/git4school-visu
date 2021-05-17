@@ -283,5 +283,7 @@
   "ADD-SESSION-CONTEXT-MENU": "Add a new session",
   "DELETE-MILESTONE-CONTEXT-MENU": "Delete the milestone",
   "DELETE-SESSION-CONTEXT-MENU": "Delete the session",
-  "DEFAULT-SESSION-DURATION": "Default session duration"
+  "DEFAULT-SESSION-DURATION": "Default session duration",
+  "SESSION-SAVED": "Session has been saved !",
+  "SESSION-DELETED": "Session has been deleted !"
 }

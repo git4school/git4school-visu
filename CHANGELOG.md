@@ -1,5 +1,34 @@
 # Change log for Git4School
 
+## 1.4.0
+
+### Modified
+
+#### Home
+
+- An assignment now have a parameter for the _default session duration_ in its configuration
+  - The duration is **1h30** by default
+
+#### Overview graph
+
+- Left click now opens a contextual menu instead of editing a milestone
+  - The following actions are possible based on the clicked element :
+    - Add a milestone
+    - Add a session
+    - Edit a milestone / session (when clicked on)
+    - Delete a milestone / session (when clicked on)
+  - When modifying the start time of a session, the end time is automatically set to **start time + default session duration**
+    - The **default session duration** is adjustable from the _assignment configuration_
+- Milestone date in milestone edition modal is now using _ngb-datepicker_
+
+### Deleted
+
+#### Home
+
+- Sessions edition has been removed from the assignment configuration as it has been moved to the overview graph
+
+### Fixed
+
 ## 1.3.5
 
 ### Modified
