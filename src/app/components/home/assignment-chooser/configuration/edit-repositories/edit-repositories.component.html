@@ -7,12 +7,17 @@
     </div>
     <div class="card-body">
         <form class="needs-validation" [formGroup]="formGroup" novalidate>
-
-            <table class="table table-hover table-striped shadow">
-                <thead class="thead-dark">
+            <table class="table table-hover table-striped">
+                <thead>
                     <tr>
-                        <th scope="col" style="width: 25%">{{ 'EDIT-REPOSITORIES.COLUMN-NAME' | translate}}</th>
-                        <th scope="col" style="width: 50%">{{ 'EDIT-REPOSITORIES.COLUMN-URL' | translate}}</th>
+                        <th class="sortable-column" scope="col" style="width: 25%" (click)="onSort()">{{
+                            'EDIT-REPOSITORIES.COLUMN-NAME' | translate}}
+                            <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
+                            <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
+                            <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
+                        </th>
+                        <th scope="col" style="width: 50%">{{
+                            'EDIT-REPOSITORIES.COLUMN-URL' | translate}}</th>
                         <th scope="col" style="width: 12.5%">{{ 'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate}}</th>
                         <th scope="col" style="width: 12.5%"></th>
                     </tr>

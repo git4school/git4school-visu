@@ -17,11 +17,12 @@ import { Error, Repository } from "@models/Repository.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "@services/auth.service";
-import { DataService } from "@services/data.service";
 import { Observable, of, timer } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { BaseTabEditConfigurationComponent } from "../base-tab-edit-configuration.component";
 import { ModalAddRepositoriesComponent } from "./modal-add-repositories/modal-add-repositories.component";
+
+export type SortDirection = "asc" | "desc" | "";
 
 @Component({
   selector: "edit-repositories",
@@ -34,19 +35,27 @@ import { ModalAddRepositoriesComponent } from "./modal-add-repositories/modal-ad
 export class EditRepositoriesComponent
   extends BaseTabEditConfigurationComponent<Repository>
   implements OnInit, AfterContentChecked {
+  rotateMatrix: { [key: string]: SortDirection } = {
+    asc: "desc",
+    desc: "",
+    "": "asc",
+  };
+
+  nameDirection: string;
+
   constructor(
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
     private authService: AuthService,
     private modalService: NgbModal,
-    private dataService: DataService,
     private translateService: TranslateService
   ) {
     super(fb, cdref);
   }
 
   ngOnInit() {
-    super.ngOnInit();
+    this.nameDirection = "asc";
+    this.sort();
   }
 
   ngAfterContentChecked() {
@@ -144,5 +153,28 @@ export class EditRepositoriesComponent
     if (!group.get("url").value) {
       this.deleteRow(index);
     }
+  }
+
+  rotate() {
+    this.nameDirection = this.rotateMatrix[this.nameDirection];
+  }
+
+  sort() {
+    let array;
+    if (!this.nameDirection) {
+      array = this.datas;
+    } else {
+      let sortFactor = this.nameDirection === "asc" ? 1 : -1;
+      array = [...this.datas].sort(
+        (a, b) => sortFactor * a.name.localeCompare(b.name)
+      );
+    }
+
+    this.initForm(array);
+  }
+
+  onSort() {
+    this.rotate();
+    this.sort();
   }
 }
