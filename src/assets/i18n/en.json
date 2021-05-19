@@ -285,5 +285,6 @@
   "DELETE-SESSION-CONTEXT-MENU": "Delete the session",
   "DEFAULT-SESSION-DURATION": "Default session duration",
   "SESSION-SAVED": "Session has been saved !",
-  "SESSION-DELETED": "Session has been deleted !"
+  "SESSION-DELETED": "Session has been deleted !",
+  "TIME": "Time"
 }
