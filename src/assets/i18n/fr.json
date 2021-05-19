@@ -285,5 +285,6 @@
   "DELETE-SESSION-CONTEXT-MENU": "Supprimer la séance",
   "DEFAULT-SESSION-DURATION": "Durée de séance par défaut",
   "SESSION-DELETED": "La séance a été supprimée !",
-  "SESSION-SAVED": "La séance a été enregistrée !"
+  "SESSION-SAVED": "La séance a été enregistrée !",
+  "TIME": "Heure"
 }

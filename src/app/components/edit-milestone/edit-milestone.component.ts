@@ -11,6 +11,8 @@ import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
 } from "@ng-bootstrap/ng-bootstrap";
+import { Utils } from "@services/utils";
+import * as moment from "moment";
 
 @Component({
   selector: "edit-milestone",
@@ -35,6 +37,7 @@ export class EditMilestoneComponent implements OnInit {
   ngOnInit(): void {
     this.milestoneForm = this.fb.group({
       date: [this.milestone.date, Validators.required],
+      time: [Utils.getTimeFromDate(this.milestone.date), Validators.required],
       label: [this.milestone.label],
       tpGroup: [this.milestone.tpGroup || ""],
       questions: [this.milestone.questions],
@@ -49,7 +52,7 @@ export class EditMilestoneComponent implements OnInit {
   submitMilestone() {
     let form = this.milestoneForm;
     const milestone = new Milestone(
-      new Date(form.value.date),
+      moment(form.value.date).set(form.value.time).toDate(),
       form.value.label.trim(),
       form.value.questions,
       form.value.tpGroup.trim() || "",
