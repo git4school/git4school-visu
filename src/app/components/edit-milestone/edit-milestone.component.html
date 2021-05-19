@@ -9,16 +9,28 @@
 </div>
 <div class="modal-body mx-2">
     <form [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
-        <div class="form-group required">
-            <label for="date" class="col-form-label required-label">{{ 'DATE' | translate }}</label>
-            <div class="input-group">
-                <input id="date" class="form-control" placeholder="yyyy-mm-dd" formControlName="date" ngbDatepicker
-                    #d="ngbDatepicker" name="date" [showWeekNumbers]="true">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                        <i class="far fa-calendar-alt"></i>
-                    </button>
+        <div class="form-row">
+            <div class="form-group col-8 required">
+                <label for="date" class="col-form-label required-label">{{ 'DATE' | translate }}</label>
+                <div class="input-group">
+                    <input id="date" class="form-control" placeholder="yyyy-mm-dd" formControlName="date" ngbDatepicker
+                        #d="ngbDatepicker" name="date" [showWeekNumbers]="true">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                            <i class="far fa-calendar-alt"></i>
+                        </button>
+                    </div>
                 </div>
+
+            </div>
+            <div class="form-group col-4 required">
+                <label for="time" class="col-form-label required-label">
+                    {{ 'TIME' | translate }}
+                </label>
+                <ngb-timepicker id="time" formControlName="time" [ngClass]="{
+                    'is-invalid': milestoneForm.invalid,
+                    'is-valid': milestoneForm.valid}" [spinners]="false">
+                </ngb-timepicker>
             </div>
         </div>
         <div class="form-group">
