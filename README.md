@@ -63,6 +63,8 @@ If you want to contribute to the project, please feel free to send us a message 
 - There is currently a limit of 100 commits fetched per repository. This is the Github limit per request. 
   > We don't plan to work around this limit until the need exists
 - Commits are fetched only from the default branch. By default, since October 2020, the default branch is the _main_ branch, _master_ before that
+- In order to avoid storing any data, the assignments are saved on a local database, located in the user's browser. Therefore, **resetting the browser** or any other similar operation **will result in a loss of your assignments**
+  > To avoid losing your data, export it before resetting your browser
 
 ## Links
 
