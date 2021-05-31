@@ -22,10 +22,13 @@ import { ToastService } from "@services/toast.service";
 })
 
 export class AssignmentChooserComponent implements OnInit {
-  @ViewChild("importConfirmation") table: any;
+  @ViewChild("assigmentsTable") table: any;
+  @ViewChild("importConfirmation")
   private importConfirmation: TemplateRef<any>;
   assignments: Assignment[];
   modalRef: NgbModalRef;
+
+  
 
   constructor(
     private databaseService: DatabaseService,
@@ -38,7 +41,8 @@ export class AssignmentChooserComponent implements OnInit {
     public activeModalService: NgbActiveModal,
     private assignmentsService: AssignmentsService,
     private configurationService: ConfigurationService
-  ) {}
+  ) {this.assignments = [];
+    this.loadAssignments();}
 
   ngOnInit(): void {
     this.assignments = [];
@@ -84,7 +88,6 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   importDB(blob: Blob) {
-    console.log(blob);
     let translations = this.translateService.instant([
       "SUCCESS",
       "ERROR",
@@ -109,7 +112,6 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   changeListener($event): void {
-    console.log($event);
     let file = $event.target.files[0];
     if (file) {
       this.openImportConfirmation().then(

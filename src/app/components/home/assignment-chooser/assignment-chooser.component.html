@@ -1,11 +1,11 @@
 <div>
   <ngx-datatable #assignmentsTable class="material expandable" [rows]="assignments" [groupRowsBy]="'year'"
-    [columnMode]="'force'" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="40" [limit]="4"
+    [columnMode]="'force'" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="40" [limit]="10"
     [groupExpansionDefault]="true">
     <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
       <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
         <div style="padding-left:5px;">
-          <a href="#" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+          <a [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
             title="Expand/Collapse Group" (click)="toggleExpandGroup(group)">
             <b>Year: {{ group.value[0].metadata.startDate }}</b>
           </a>
