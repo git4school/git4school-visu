@@ -129,7 +129,14 @@ export class AssignmentChooserComponent implements OnInit {
     return this.modalRef.result;
   }
 
+
   toggleExpandGroup(group) {
     this.table.groupHeader.toggleExpandGroup(group);
   }
+
+  toggleExpandRow(row) {
+    this.table.rowDetail.toggleExpandRow(row);
+  }
+
 }
+

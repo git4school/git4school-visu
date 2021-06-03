@@ -9,6 +9,7 @@
 </button>
 
 <div>
+
   <ngx-datatable #assignmentsTable class="material expandable" [rows]="assignments" [groupRowsBy]="'year'"
     [columnMode]="'force'"  [headerHeight]="50" [footerHeight]="50" [rowHeight]="60" [limit]="10">
     <ngx-datatable-group-header #myGroupHeader>
@@ -51,6 +52,64 @@
         </div>
       </ng-template>
 
+  <div class="details-div">
+  <small>
+    <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Expand All</a>
+    |
+    <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Collapse All</a>
+  </small>
+  
+  <ngx-datatable #assignmentsTable class="material" [rows]="assignments" [columnMode]="'force'" rowHeight="auto"
+    headerHeight="auto" [sorts]="[{ prop: 'lastModificationDate', dir: 'desc' }]">
+    
+    <!-- Column Templates -->
+    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+    [canAutoResize]="false">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+        title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+      </a>
+    </ng-template>
+
+  </ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" [maxWidth]="65">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course"></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}" prop="year"></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.lastModificationDate | date: 'short' }}
+      </ng-template>
+
+      <ngx-datatable-row-detail  [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div style="padding-left:35px;">
+            <div><strong>Détails</strong></div>
+            <div>{{ row.metadata.questions }}, {{ row.metadata.startDate }}, {{ row.metadata.endDate }}, <br> Nombre de répository : {{ row.repositories.length }}</div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+
+    </ngx-datatable-column>
+    <ngx-datatable-column [maxWidth]="170" [sortable]="false">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"
+            [ngbTooltip]="createAssignmentTooltip">
+            <i class="fas fa-plus"></i>
+          </button>
+          <button class="btn btn-secondary btn-sm" [ngbTooltip]="downloadTooltip" (click)="exportDB()"><i
+              class="fas fa-download"></i></button>
+          <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
+          <button class="btn btn-secondary btn-sm" (click)="assignmentFile.click();" [ngbTooltip]="uploadTooltip"><i
+              class="fas fa-upload"></i></button>
+        </div>
+
+      </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-primary left-right-btn" (click)="selectAssignment(row)"
