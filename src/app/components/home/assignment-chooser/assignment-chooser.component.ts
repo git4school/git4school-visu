@@ -21,6 +21,7 @@ import { ToastService } from "@services/toast.service";
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssignmentChooserComponent implements OnInit {
+  @ViewChild('assignmentsTable') table: any;
   @ViewChild("importConfirmation")
   private importConfirmation: TemplateRef<any>;
   assignments: Assignment[];
@@ -119,5 +120,13 @@ export class AssignmentChooserComponent implements OnInit {
   openImportConfirmation(): Promise<any> {
     this.modalRef = this.modalService.open(this.importConfirmation);
     return this.modalRef.result;
+  }
+
+  toggleExpandRow(row) {
+    this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  onDetailToggle(event) {
+    console.log('Detail Toggled', event);
   }
 }
