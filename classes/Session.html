@@ -142,7 +142,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/app/models/Session.model.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/models/Session.model.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -243,17 +243,21 @@
 
                         </td>
                     </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Type(undefined)<br />
+                            </code>
+                        </td>
+                    </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/models/Session.model.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/models/Session.model.ts:12</a></div>
                             </td>
                         </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description">The date on which the session ends</div>
-                    </td>
-                </tr>
 
             </tbody>
         </table>
@@ -276,17 +280,21 @@
 
                         </td>
                     </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Type(undefined)<br />
+                            </code>
+                        </td>
+                    </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/models/Session.model.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/app/models/Session.model.ts:9</a></div>
                             </td>
                         </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description">The date from which the session begins</div>
-                    </td>
-                </tr>
 
             </tbody>
         </table>
@@ -312,7 +320,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/models/Session.model.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/models/Session.model.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -353,8 +361,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/app/models/Session.model.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/app/models/Session.model.ts:38</a></div>
                 </td>
             </tr>
 
@@ -402,8 +410,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/app/models/Session.model.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">src/app/models/Session.model.ts:30</a></div>
                 </td>
             </tr>
 
@@ -464,23 +472,26 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as moment from &quot;moment&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Type } from &quot;class-transformer&quot;;
+import * as moment from &quot;moment&quot;;
 
 /**
  * This class modelizes a practical session
  */
 export class Session {
+  @Type(() &#x3D;&gt; Date)
+  public startDate: Date;
+
+  @Type(() &#x3D;&gt; Date)
+  public endDate: Date;
+
   /**
    * Session constructor
    * @param startDate The date from which the session begins
    * @param endDate The date on which the session ends
    * @param tpGroup The associated tp group
    */
-  constructor(
-    public startDate: Date,
-    public endDate: Date,
-    public tpGroup?: string
-  ) {
+  constructor(startDate: Date, endDate: Date, public tpGroup?: string) {
     this.startDate &#x3D; moment(startDate).toDate();
     this.endDate &#x3D; moment(endDate).toDate();
   }
