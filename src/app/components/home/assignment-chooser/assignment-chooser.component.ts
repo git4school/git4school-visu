@@ -22,7 +22,7 @@ import { ToastService } from "@services/toast.service";
 })
 
 export class AssignmentChooserComponent implements OnInit {
-  @ViewChild("assigmentsTable") table: any;
+  @ViewChild("assignmentsTable") table: any;
   @ViewChild("importConfirmation")
   private importConfirmation: TemplateRef<any>;
   assignments: Assignment[];
@@ -127,8 +127,7 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   toggleExpandGroup(group) {
-    console.log(this.table, this.table?.groupHeader);
-    console.log('Toggled Expand Group!', group, group.value[0], group.value[1], group.value[0].metadata.startDate);
+    console.log('Toggled Expand Group!', group,  this.table.groupHeader);
     this.table.groupHeader.toggleExpandGroup(group);
   }
 

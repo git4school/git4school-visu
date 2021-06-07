@@ -1,13 +1,13 @@
 <div>
   <ngx-datatable #assignmentsTable class="material expandable" [rows]="assignments" [groupRowsBy]="'year'"
-    [columnMode]="'force'" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="40" [limit]="10"
-    [groupExpansionDefault]="true">
-    <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+    [columnMode]="'force'" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="60" [limit]="10"
+    >
+    <ngx-datatable-group-header #myGroupHeader (toggle)="onDetailToggle($event)">
       <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
         <div style="padding-left:5px;">
           <a [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
             title="Expand/Collapse Group" (click)="toggleExpandGroup(group)">
-            <b>Year: {{ group.value[0].metadata.startDate }}</b>
+            <b>{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }} : {{ group.key }}</b>
           </a>
         </div>
       </ng-template>
@@ -27,7 +27,7 @@
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [maxWidth]="170" [sortable]="false">
+    <ngx-datatable-column [sortable]="false">
       <ng-template let-column="column" ngx-datatable-header-template>
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"
