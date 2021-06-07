@@ -129,4 +129,11 @@ export class AssignmentChooserComponent implements OnInit {
   onDetailToggle(event) {
     console.log('Detail Toggled', event);
   }
+
+  DetailDisplayer(row): String{
+    console.log(row);
+    console.log(row.value.metadata);
+    let Mystring = ""+ console.log(row.value.metadata);
+    return Mystring;
+  }
 }

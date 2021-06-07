@@ -244,7 +244,15 @@
     "COURSE": "Course",
     "PROGRAM": "Program",
     "YEAR": "Year",
-    "LAST-MODIFICATION-DATE": "Last modification date"
+    "LAST-MODIFICATION-DATE": "Last modification date",
+    "EXPAND-ALL-ROWS" : "Expend all",
+    "COLLAPSE-ALL-ROWS" : "Collapse all",
+    "ASSIGNMENT-DETAILS": {
+      "DETAILS-TITLE": "Details",
+      "START-DATE": "Started",
+      "END-DATE": "End",
+      "NUMBER-OF-RESPOSITORY": "Number of respository"
+    }
   },
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Please, provide questions"

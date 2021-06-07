@@ -1,8 +1,8 @@
 <div>
   <small>
-    <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Expand All</a>
+    <a (click)="table.rowDetail.expandAllRows()">{{ 'ASSIGNMENT-CHOOSER.EXPAND-ALL-ROWS' | translate }}</a>
     |
-    <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Collapse All</a>
+    <a (click)="table.rowDetail.collapseAllRows()">{{ 'ASSIGNMENT-CHOOSER.COLLAPSE-ALL-ROWS' | translate }}</a>
   </small>
   
   <ngx-datatable #assignmentsTable class="material" [rows]="assignments" [columnMode]="'force'" rowHeight="auto"
@@ -12,9 +12,9 @@
     <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
     [canAutoResize]="false">
     <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
-        title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
-      </a>
+      <p [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+       (click)="toggleExpandRow(row)">
+      </p>
     </ng-template>
 
   </ngx-datatable-column>
@@ -31,11 +31,14 @@
         {{ row.lastModificationDate | date: 'short' }}
       </ng-template>
 
-      <ngx-datatable-row-detail  [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+      <ngx-datatable-row-detail  rowHeight="auto" #myDetailRow (toggle)="onDetailToggle($event)">
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
           <div style="padding-left:35px;">
-            <div><strong>Détails</strong></div>
-            <div>{{ row.metadata.questions }}, {{ row.metadata.startDate }}, {{ row.metadata.endDate }}, <br> Nombre de répository : {{ row.repositories.length }}</div>
+            <div><strong>{{ 'ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.DETAILS-TITLE' | translate }}</strong></div>
+            <div>{{ row.metadata.questions }} 
+              <br>{{ 'ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE' | translate }} : {{ row.metadata.startDate }} 
+              <br>{{ 'ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE' | translate }} : {{ row.metadata.endDate }}
+              <br>{{ 'ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY' | translate }} : {{ row.repositories.length }}</div>
           </div>
         </ng-template>
       </ngx-datatable-row-detail>
