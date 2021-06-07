@@ -124,6 +124,7 @@ export class AssignmentChooserComponent implements OnInit {
 
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);
+    this.DetailDisplayer(row);
   }
 
   onDetailToggle(event) {
@@ -131,9 +132,8 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   DetailDisplayer(row): String{
-    console.log(row);
-    console.log(row.value.metadata);
-    let Mystring = ""+ console.log(row.value.metadata);
+    console.log(this.assignments[0]);
+    var Mystring = "";
     return Mystring;
   }
 }

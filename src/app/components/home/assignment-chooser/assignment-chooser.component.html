@@ -32,7 +32,7 @@
       </ng-template>
 
       <ngx-datatable-row-detail  rowHeight="auto" #myDetailRow (toggle)="onDetailToggle($event)">
-        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        <ng-template let-row="row" let-rowIndex="rowIndex" let-expanded="expanded" ngx-datatable-row-detail-template>
           <div style="padding-left:35px;">
             <div><strong>{{ 'ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.DETAILS-TITLE' | translate }}</strong></div>
             <div>{{ row.metadata.questions }} 
