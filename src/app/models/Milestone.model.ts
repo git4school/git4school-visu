@@ -1,9 +1,13 @@
+import { Type } from "class-transformer";
 import * as moment from "moment";
 
 /**
  * This class modelizes a milestone which can be : a "review", a "correction" or an "other" milestone
  */
 export class Milestone {
+  @Type(() => Date)
+  public date: Date;
+
   /**
    * Milestone constructor
    * @param date The date on which the milestone takes place
@@ -13,7 +17,7 @@ export class Milestone {
    * @param type The type of the milestone (review, correction, other)
    */
   constructor(
-    public date: Date,
+    date: Date,
     public label: string,
     public questions?: string[],
     public tpGroup?: string,

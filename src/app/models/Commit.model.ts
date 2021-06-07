@@ -1,4 +1,5 @@
 import { Milestone } from "@models/Milestone.model";
+import { Type } from "class-transformer";
 
 /**
  * A constant containing the possible types of commits and their corresponding color and label
@@ -35,6 +36,9 @@ export const CommitColor = {
  * This class modelizes a commit from GitHub, with only useful informations
  */
 export class Commit {
+  @Type(() => Date)
+  public commitDate: Date;
+
   /**
    * Commit constructor
    * @param message The commit message
@@ -49,7 +53,7 @@ export class Commit {
   constructor(
     public message: string,
     public author: string,
-    public commitDate: Date,
+    commitDate: Date,
     public url: string,
     public isEnSeance = false,
     public isCloture = false,
