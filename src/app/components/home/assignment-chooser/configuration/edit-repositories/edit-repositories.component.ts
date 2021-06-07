@@ -111,7 +111,7 @@ export class EditRepositoriesComponent
     let modalReference = this.modalService.open(ModalAddRepositoriesComponent, {
       size: "xl",
     });
-    modalReference.componentInstance.repoList = this.getFormControls.controls.map(
+    modalReference.componentInstance.repoList = this.getFormControls.map(
       (row) => Repository.withJSON(row.value)
     );
 
@@ -120,7 +120,7 @@ export class EditRepositoriesComponent
         if (result.length > 0) {
           let repoToadd = result.filter(
             (repo1) =>
-              !this.getFormControls.controls
+              !this.getFormControls
                 .map((row) => Repository.withJSON(row.value))
                 .some((repo2, index, array) => Repository.isEqual(repo1, repo2))
           );
@@ -128,6 +128,7 @@ export class EditRepositoriesComponent
             this.addRow(repo);
           });
           this.modify();
+          this.submitForm();
         }
       },
       (error) => {}
@@ -135,8 +136,8 @@ export class EditRepositoriesComponent
   }
 
   submitForm() {
-    const formArray = this.getFormControls;
-    this.save(formArray.controls.map((row) => Repository.withJSON(row.value)));
+    const controls = this.getFormControls;
+    this.save(controls.map((row) => Repository.withJSON(row.value)));
   }
 
   getErrorTooltip(errors: Error[]): string {

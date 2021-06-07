@@ -5,7 +5,7 @@ import {
   Input,
   OnInit,
 } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { BaseEditConfigurationComponent } from "./base-edit-configuration.component";
 
 @Component({
@@ -15,7 +15,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   extends BaseEditConfigurationComponent<Data[]>
   implements OnInit, AfterContentChecked {
   @Input() datas: Data[];
-  formGroup: FormGroup;
+  formGroups: FormGroup[];
   nbEditing: number;
 
   constructor(protected fb: FormBuilder, protected cdref: ChangeDetectorRef) {
@@ -31,7 +31,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   }
 
   get getFormControls() {
-    const controls = this.formGroup.get("formArray") as FormArray;
+    const controls = this.formGroups;
     return controls;
   }
 
@@ -40,9 +40,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   }
 
   initForm(datas: Data[]) {
-    this.formGroup = this.fb.group({
-      formArray: this.fb.array([]),
-    });
+    this.formGroups = [];
     this.populateRows(datas);
     this.nbEditing = 0;
   }
@@ -54,9 +52,9 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   }
 
   addRow(data?: Data) {
-    const control = this.getFormControls;
+    const controls = this.getFormControls;
     const group = this.createFormGroup(data);
-    control.push(group);
+    controls.push(group);
     if (!data) {
       this.editRow(group);
     } else {
@@ -72,9 +70,10 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   }
 
   deleteRow(index: number) {
-    const control = this.getFormControls;
-    control.removeAt(index);
+    const controls = this.getFormControls;
+    controls.splice(index, 1);
     this.modify();
+    this.submitForm();
   }
 
   validateRow(group: FormGroup) {
@@ -83,6 +82,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
       group.get("isEditable").setValue(false);
       group.disable();
       this.modify();
+      this.submitForm();
     } else {
       group.get("isInvalid").setValue(false);
       group.get("isInvalid").setValue(true);
