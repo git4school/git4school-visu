@@ -1,20 +1,23 @@
+import { Type } from "class-transformer";
 import * as moment from "moment";
 
 /**
  * This class modelizes a practical session
  */
 export class Session {
+  @Type(() => Date)
+  public startDate: Date;
+
+  @Type(() => Date)
+  public endDate: Date;
+
   /**
    * Session constructor
    * @param startDate The date from which the session begins
    * @param endDate The date on which the session ends
    * @param tpGroup The associated tp group
    */
-  constructor(
-    public startDate: Date,
-    public endDate: Date,
-    public tpGroup?: string
-  ) {
+  constructor(startDate: Date, endDate: Date, public tpGroup?: string) {
     this.startDate = moment(startDate).toDate();
     this.endDate = moment(endDate).toDate();
   }
