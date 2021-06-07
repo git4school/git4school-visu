@@ -85,8 +85,10 @@
         {{ row.lastModificationDate | date: 'short' }}
       </ng-template>
 
-      <ngx-datatable-row-detail  [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
-        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+
+      <ngx-datatable-row-detail  rowHeight="auto" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-rowIndex="rowIndex" let-expanded="expanded" ngx-datatable-row-detail-template>
+
           <div style="padding-left:35px;">
             <div><strong>Détails</strong></div>
             <div>{{ row.metadata.questions }}, {{ row.metadata.startDate }}, {{ row.metadata.endDate }}, <br> Nombre de répository : {{ row.repositories.length }}</div>

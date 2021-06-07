@@ -129,13 +129,21 @@ export class AssignmentChooserComponent implements OnInit {
     return this.modalRef.result;
   }
 
+  toggleExpandRow(row) {
+    this.table.rowDetail.toggleExpandRow(row);
+    this.DetailDisplayer(row);
+  }
+
 
   toggleExpandGroup(group) {
     this.table.groupHeader.toggleExpandGroup(group);
   }
 
-  toggleExpandRow(row) {
-    this.table.rowDetail.toggleExpandRow(row);
+  DetailDisplayer(row): String{
+    console.log(this.assignments[0]);
+    var Mystring = "";
+    return Mystring;
+
   }
 
 }
