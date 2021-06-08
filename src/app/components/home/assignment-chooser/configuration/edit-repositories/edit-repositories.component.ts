@@ -3,6 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  TemplateRef,
+  ViewChild,
 } from "@angular/core";
 import {
   AbstractControl,
@@ -14,9 +16,10 @@ import {
   Validators,
 } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "@services/auth.service";
+import { DataService } from "@services/data.service";
 import { Observable, of, timer } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { BaseTabEditConfigurationComponent } from "../base-tab-edit-configuration.component";
@@ -35,6 +38,10 @@ export type SortDirection = "asc" | "desc" | "";
 export class EditRepositoriesComponent
   extends BaseTabEditConfigurationComponent<Repository>
   implements OnInit, AfterContentChecked {
+  @ViewChild("deleteConfirmation")
+  private deleteConfirmation: TemplateRef<any>;
+  modalRef: NgbModalRef;
+
   rotateMatrix: { [key: string]: SortDirection } = {
     asc: "desc",
     desc: "",
@@ -48,12 +55,14 @@ export class EditRepositoriesComponent
     protected cdref: ChangeDetectorRef,
     private authService: AuthService,
     private modalService: NgbModal,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private dataService: DataService
   ) {
     super(fb, cdref);
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.nameDirection = "asc";
     this.sort();
   }
@@ -161,21 +170,40 @@ export class EditRepositoriesComponent
   }
 
   sort() {
-    let array;
     if (!this.nameDirection) {
-      array = this.datas;
+      this.initForm(this.datas);
     } else {
       let sortFactor = this.nameDirection === "asc" ? 1 : -1;
-      array = [...this.datas].sort(
-        (a, b) => sortFactor * a.name.localeCompare(b.name)
+      this.formGroups = [...this.formGroups].sort(
+        (a, b) =>
+          sortFactor * a.get("name")?.value.localeCompare(b.get("name")?.value)
       );
     }
-
-    this.initForm(array);
   }
 
   onSort() {
     this.rotate();
     this.sort();
+  }
+
+  onDeleteRow(index: number) {
+    this.dataService.hideDeleteRepoConfirmation
+      ? this.deleteRow(index)
+      : this.deleteRowWithDialog(index);
+  }
+
+  deleteRowWithDialog(index: number) {
+    this.openDeleteConfirmation().then(
+      (hide) => {
+        this.dataService.hideDeleteRepoConfirmation = hide;
+        this.deleteRow(index);
+      },
+      () => {}
+    );
+  }
+
+  private openDeleteConfirmation(): Promise<any> {
+    this.modalRef = this.modalService.open(this.deleteConfirmation);
+    return this.modalRef.result;
   }
 }
