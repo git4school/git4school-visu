@@ -44,8 +44,9 @@ export class EditRepositoriesComponent
 
   rotateMatrix: { [key: string]: SortDirection } = {
     asc: "desc",
-    desc: "",
-    "": "asc",
+    desc: "asc",
+    // desc: "",    // I keep them in case we need it
+    // "": "asc",
   };
 
   nameDirection: string;

@@ -6,104 +6,101 @@
             </span></h4>
     </div>
     <div class="card-body">
-        <table class=" table table-hover table-striped">
-            <thead>
-                <tr>
-                    <th class="sortable-column" scope="col" style="width: 25%" (click)="onSort()">{{
-                        'EDIT-REPOSITORIES.COLUMN-NAME' | translate}}
-                        <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
-                        <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
-                        <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
-                    </th>
-                    <th scope="col" style="width: 50%">{{
-                        'EDIT-REPOSITORIES.COLUMN-URL' | translate}}</th>
-                    <th scope="col" style="width: 12.5%">{{ 'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate}}</th>
-                    <th scope="col" style="width: 12.5%"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngFor="let group of getFormControls; let i = index">
-                    <tr [formGroup]="group" *ngIf="group.get('isEditable').value">
-                        <td>
-                            <input type="text" class="form-control" formControlName="name" placeholder="git4school">
-                        </td>
-                        <td>
-                            <input type="url" [ngClass]="{
-                                    'is-invalid': group.invalid,
-                                    'is-valid': group.valid,
-                                    'loading': group.pending}" class="form-control" formControlName="url"
-                                placeholder="https://github.com/git4school/git4school-visu">
-                            <div *ngIf="group.get('url').errors && group.get('url').errors['noAccess']"
-                                class="invalid-feedback">
-                                {{ 'EDIT-REPOSITORIES.MESSAGE-INVALID-URL' | translate }}
-                            </div>
-                            <div *ngIf="group.get('url').errors && group.get('url').errors['repoAlreadyAdded']"
-                                class="invalid-feedback">
-                                {{ 'EDIT-REPOSITORIES.MESSAGE-REPO-ALREADY-ADDED' | translate }}
-                            </div>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" formControlName="tpGroup" placeholder="1.1">
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="">
-                                <button type="reset" class="btn btn-danger" (click)="cancelRow(group, i)"><i
-                                        class="fas fa-times"></i></button>
-                                <button type="button" class="btn btn-success" (click)="validateRow(group)"><i
-                                        class="fas fa-check"></i></button>
-                            </div>
-                        </td>
+        <div class="overflow-auto" style="max-height:50vh;">
+            <table class="table table-hover table-striped ">
+                <thead>
+                    <tr>
+                        <th class="sortable-column" scope="col" style="width: 25%;" (click)="onSort()">
+                            {{ 'EDIT-REPOSITORIES.COLUMN-NAME' | translate}}
+                            <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
+                            <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
+                            <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
+                        </th>
+                        <th scope="col" style="width: 50%">{{
+                            'EDIT-REPOSITORIES.COLUMN-URL' | translate}}</th>
+                        <th scope="col" style="width: 12.5%">{{ 'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate}}</th>
+                        <th scope="col" style="width: 12.5%"></th>
                     </tr>
-                    <tr *ngIf="!group.get('isEditable').value">
-                        <td>
-                            {{ group.get('name').value }}
-                            <button *ngIf="group.get('errors').value.length" class="btn"
-                                [ngbTooltip]="getErrorTooltip(group.get('errors').value)">
-                                <i class="fas fa-exclamation-triangle fa-lg blinking" style="color:Tomato"></i>
-                            </button>
-                        </td>
-                        <td>
-                            {{ group.get('url').value }}
-                        </td>
-                        <td>
-                            {{ group.get('tpGroup').value }}
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="">
-                                <button type="button" class="btn btn-secondary" (click)="editRow(group)"><i
-                                        class="fas fa-pencil-alt"></i></button>
-                                <button type="button" class="btn btn-danger" (click)="onDeleteRow(i)"><i
-                                        class="far fa-trash-alt"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                </ng-container>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let group of getFormControls; let i = index">
+                        <tr [formGroup]="group" *ngIf="group.get('isEditable').value">
+                            <td>
+                                <input type="text" class="form-control" formControlName="name" placeholder="git4school">
+                            </td>
+                            <td>
+                                <input type="url" [ngClass]="{
+                                        'is-invalid': group.invalid,
+                                        'is-valid': group.valid,
+                                        'loading': group.pending}" class="form-control" formControlName="url"
+                                    placeholder="https://github.com/git4school/git4school-visu">
+                                <div *ngIf="group.get('url').errors && group.get('url').errors['noAccess']"
+                                    class="invalid-feedback">
+                                    {{ 'EDIT-REPOSITORIES.MESSAGE-INVALID-URL' | translate }}
+                                </div>
+                                <div *ngIf="group.get('url').errors && group.get('url').errors['repoAlreadyAdded']"
+                                    class="invalid-feedback">
+                                    {{ 'EDIT-REPOSITORIES.MESSAGE-REPO-ALREADY-ADDED' | translate }}
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" formControlName="tpGroup" placeholder="1.1">
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="">
+                                    <button type="reset" class="btn btn-danger" (click)="cancelRow(group, i)"><i
+                                            class="fas fa-times"></i></button>
+                                    <button type="button" class="btn btn-success" (click)="validateRow(group)"><i
+                                            class="fas fa-check"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!group.get('isEditable').value">
+                            <td>
+                                {{ group.get('name').value }}
+                                <button *ngIf="group.get('errors').value.length" class="btn"
+                                    [ngbTooltip]="getErrorTooltip(group.get('errors').value)">
+                                    <i class="fas fa-exclamation-triangle fa-lg blinking" style="color:Tomato"></i>
+                                </button>
+                            </td>
+                            <td>
+                                {{ group.get('url').value }}
+                            </td>
+                            <td>
+                                {{ group.get('tpGroup').value }}
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="">
+                                    <button type="button" class="btn btn-secondary" (click)="editRow(group)"><i
+                                            class="fas fa-pencil-alt"></i></button>
+                                    <button type="button" class="btn btn-danger" (click)="onDeleteRow(i)"><i
+                                            class="far fa-trash-alt"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
 
-
-        <div class="sticky-bot bg-white py-3">
-            <div class="btn-group" role="group">
-                <button class="btn btn-secondary" type="button" (click)="addRow()"
-                    ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate }}">
-                    <span class="fa-layers fa-fw">
-                        <i class="fas fa-circle" data-fa-mask="fas fa-database"
-                            data-fa-transform="shrink-6 right-7 "></i>
-                        <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>
-                    </span>
-                </button>
-                <button class="btn btn-secondary" type="button" (click)="openAddRepositoriesModal()"
-                    ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate }}">
-                    <span class="fa-layers fa-fw">
-                        <i class="fas fa-square" data-fa-mask="fas fa-database" data-fa-transform="grow-3 right-10"></i>
-                        <i class="fas fa-circle" data-fa-mask="fas fa-database"
-                            data-fa-transform="shrink-6 right-7"></i>
-                        <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>
-                        <i class="fas fa-plus" data-fa-transform="shrink-9 right-11 up-5"></i>
-                        <i class="fas fa-plus" data-fa-transform="shrink-8 right-13 down-3"></i>
-                    </span>
-                </button>
-            </div>
+        <div class="btn-group my-1" role="group ">
+            <button class="btn btn-secondary" type="button" (click)="addRow()"
+                ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate }}">
+                <span class="fa-layers fa-fw">
+                    <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7 "></i>
+                    <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>
+                </span>
+            </button>
+            <button class="btn btn-secondary" type="button" (click)="openAddRepositoriesModal()"
+                ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate }}">
+                <span class="fa-layers fa-fw">
+                    <i class="fas fa-square" data-fa-mask="fas fa-database" data-fa-transform="grow-3 right-10"></i>
+                    <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>
+                    <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>
+                    <i class="fas fa-plus" data-fa-transform="shrink-9 right-11 up-5"></i>
+                    <i class="fas fa-plus" data-fa-transform="shrink-8 right-13 down-3"></i>
+                </span>
+            </button>
         </div>
     </div>
 </div>
