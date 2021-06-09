@@ -10,21 +10,38 @@
             <table class="table table-hover table-striped ">
                 <thead>
                     <tr>
-                        <th class="sortable-column" scope="col" style="width: 25%;" (click)="onSort()">
+                        <th class="sortable-column" scope="col" style="width: 25%;" (click)="onSort('name')">
                             {{ 'EDIT-REPOSITORIES.COLUMN-NAME' | translate}}
-                            <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
-                            <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
-                            <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
+                            <ng-container *ngIf="lastPropertySorted == 'name'">
+                                <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
+                                <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
+                                <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
+                            </ng-container>
                         </th>
-                        <th scope="col" style="width: 50%">{{
-                            'EDIT-REPOSITORIES.COLUMN-URL' | translate}}</th>
-                        <th scope="col" style="width: 12.5%">{{ 'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate}}</th>
-                        <th scope="col" style="width: 12.5%"></th>
+                        <th class="sortable-column" scope="col" style="width: 50%" (click)="onSort('url')">
+                            {{ 'EDIT-REPOSITORIES.COLUMN-URL' | translate}}
+                            <ng-container *ngIf="lastPropertySorted == 'url'">
+                                <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
+                                <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
+                                <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
+                            </ng-container>
+                        </th>
+
+                        <th class="sortable-column" scope="col" style="width: 15%" (click)="onSort('tpGroup')">
+                            {{ 'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate}}
+                            <ng-container *ngIf="lastPropertySorted == 'tpGroup'">
+                                <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
+                                <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
+                                <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
+                            </ng-container>
+                        </th>
+                        <th scope="col" style="width: 10%"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let group of getFormControls; let i = index">
-                        <tr [formGroup]="group" *ngIf="group.get('isEditable').value">
+                        <tr [formGroup]="group" *ngIf="group.get('isEditable').value"
+                            (keyup.enter)="validateRow(group)">
                             <td>
                                 <input type="text" class="form-control" formControlName="name" placeholder="git4school">
                             </td>
@@ -50,7 +67,7 @@
                                 <div class="btn-group" role="group" aria-label="">
                                     <button type="reset" class="btn btn-danger" (click)="cancelRow(group, i)"><i
                                             class="fas fa-times"></i></button>
-                                    <button type="button" class="btn btn-success" (click)="validateRow(group)"><i
+                                    <button type="submit" class="btn btn-success" (click)="validateRow(group)"><i
                                             class="fas fa-check"></i></button>
                                 </div>
                             </td>
@@ -83,7 +100,7 @@
             </table>
         </div>
 
-        <div class="btn-group my-1" role="group ">
+        <div class="btn-group mt-2" role="group ">
             <button class="btn btn-secondary" type="button" (click)="addRow()"
                 ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate }}">
                 <span class="fa-layers fa-fw">

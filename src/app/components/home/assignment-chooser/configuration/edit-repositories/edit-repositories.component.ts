@@ -51,6 +51,8 @@ export class EditRepositoriesComponent
 
   nameDirection: string;
 
+  lastPropertySorted: string;
+
   constructor(
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
@@ -65,7 +67,8 @@ export class EditRepositoriesComponent
   ngOnInit() {
     super.ngOnInit();
     this.nameDirection = "asc";
-    this.sort();
+    this.lastPropertySorted = "name";
+    this.sort(this.lastPropertySorted);
   }
 
   ngAfterContentChecked() {
@@ -170,21 +173,26 @@ export class EditRepositoriesComponent
     this.nameDirection = this.rotateMatrix[this.nameDirection];
   }
 
-  sort() {
+  sort(property: string) {
     if (!this.nameDirection) {
       this.initForm(this.datas);
     } else {
       let sortFactor = this.nameDirection === "asc" ? 1 : -1;
       this.formGroups = [...this.formGroups].sort(
         (a, b) =>
-          sortFactor * a.get("name")?.value.localeCompare(b.get("name")?.value)
+          sortFactor *
+          a.get(property)?.value.localeCompare(b.get(property)?.value)
       );
     }
   }
 
-  onSort() {
-    this.rotate();
-    this.sort();
+  onSort(property: string) {
+    this.lastPropertySorted == property
+      ? this.rotate()
+      : (this.nameDirection = "asc");
+
+    this.sort(property);
+    this.lastPropertySorted = property;
   }
 
   onDeleteRow(index: number) {
