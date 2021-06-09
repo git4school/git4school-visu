@@ -188,7 +188,7 @@ export class EditRepositoriesComponent
    * @param {string} property The property to sort the table with
    */
   onSort(property: string) {
-    this.lastPropertySorted == property
+    this.lastPropertySorted === property
       ? this.rotate()
       : (this.nameDirection = "asc");
 

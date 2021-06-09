@@ -12,16 +12,16 @@
                     <tr>
                         <th class="sortable-column" scope="col" style="width: 25%;" (click)="onSort('name')">
                             {{ 'EDIT-REPOSITORIES.COLUMN-NAME' | translate}}
-                            <ng-container *ngIf="lastPropertySorted == 'name'">
-                                <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
+                            <ng-container *ngIf="lastPropertySorted === 'name'">
+                                <span *ngIf="nameDirection === ''"><i class="fas fa-sort"></i></span>
                                 <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
                                 <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
                             </ng-container>
                         </th>
                         <th class="sortable-column" scope="col" style="width: 50%" (click)="onSort('url')">
                             {{ 'EDIT-REPOSITORIES.COLUMN-URL' | translate}}
-                            <ng-container *ngIf="lastPropertySorted == 'url'">
-                                <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
+                            <ng-container *ngIf="lastPropertySorted === 'url'">
+                                <span *ngIf="nameDirection === ''"><i class="fas fa-sort"></i></span>
                                 <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
                                 <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
                             </ng-container>
@@ -29,8 +29,8 @@
 
                         <th class="sortable-column" scope="col" style="width: 15%" (click)="onSort('tpGroup')">
                             {{ 'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate}}
-                            <ng-container *ngIf="lastPropertySorted == 'tpGroup'">
-                                <span *ngIf="nameDirection == ''"><i class="fas fa-sort"></i></span>
+                            <ng-container *ngIf="lastPropertySorted === 'tpGroup'">
+                                <span *ngIf="nameDirection === ''"><i class="fas fa-sort"></i></span>
                                 <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
                                 <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
                             </ng-container>
