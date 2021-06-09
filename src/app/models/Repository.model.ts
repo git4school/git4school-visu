@@ -31,7 +31,7 @@ export class Repository {
   }
 
   static isEqual(repository1: Repository, repository2: Repository): boolean {
-    return repository1.url.toLowerCase() === repository2.url.toLowerCase();
+    return repository1.url?.toLowerCase() === repository2.url?.toLowerCase();
   }
 
   /**

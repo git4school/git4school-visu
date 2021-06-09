@@ -35,12 +35,18 @@ export class DataService {
   repoToLoad: boolean;
 
   /**
+   * A boolean indicating whether the confirmation dialog when deleting a deposit should be displayed or not
+   */
+  hideDeleteRepoConfirmation: boolean;
+
+  /**
    * DataService constructor
    */
   constructor(private databaseService: DatabaseService) {
     this.repoToLoad = false;
     this.barIndex = 5;
     this.tpGroups = [];
+    this.hideDeleteRepoConfirmation = false;
   }
 
   saveData(assignment: Assignment = this.assignment): Promise<number> {
