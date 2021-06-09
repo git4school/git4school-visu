@@ -165,7 +165,7 @@ export class EditRepositoriesComponent
   cancelRow(group: FormGroup, index: number) {
     super.cancelRow(group, index);
     if (!group.get("url").value) {
-      this.deleteRow(index);
+      this.removeRow(index);
     }
   }
 
@@ -181,7 +181,7 @@ export class EditRepositoriesComponent
       this.formGroups = [...this.formGroups].sort(
         (a, b) =>
           sortFactor *
-          a.get(property)?.value.localeCompare(b.get(property)?.value)
+          a.get(property).value?.localeCompare(b.get(property).value)
       );
     }
   }

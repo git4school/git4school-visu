@@ -16,7 +16,6 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   implements OnInit, AfterContentChecked {
   @Input() datas: Data[];
   formGroups: FormGroup[];
-  nbEditing: number;
 
   constructor(protected fb: FormBuilder, protected cdref: ChangeDetectorRef) {
     super();
@@ -42,7 +41,6 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   initForm(datas: Data[]) {
     this.formGroups = [];
     this.populateRows(datas);
-    this.nbEditing = 0;
   }
 
   populateRows(datas: Data[]) {
@@ -64,21 +62,23 @@ export abstract class BaseTabEditConfigurationComponent<Data>
 
   editRow(group: FormGroup) {
     this.saveRow(group);
-    this.nbEditing++;
     group.get("isEditable").setValue(true);
     group.enable();
   }
 
-  deleteRow(index: number) {
+  removeRow(index: number) {
     const controls = this.getFormControls;
     controls.splice(index, 1);
+  }
+
+  deleteRow(index: number) {
+    this.removeRow(index);
     this.modify();
     this.submitForm();
   }
 
   validateRow(group: FormGroup) {
     if (group.valid) {
-      this.nbEditing--;
       group.get("isEditable").setValue(false);
       group.disable();
       this.modify();
@@ -91,7 +91,6 @@ export abstract class BaseTabEditConfigurationComponent<Data>
 
   cancelRow(group: FormGroup, index: number) {
     this.restoreRow(group);
-    this.nbEditing--;
     group.get("isEditable").setValue(false);
     group.disable();
   }
