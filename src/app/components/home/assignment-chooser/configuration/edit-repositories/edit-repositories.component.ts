@@ -236,8 +236,10 @@ export class EditRepositoriesComponent
    */
   private repoAlreadyAddedValidator(): ValidatorFn {
     return (urlControl: AbstractControl): ValidationErrors | null => {
-      let doesRepoAlreadyAdded = this.datas.some((repo2, index, array) =>
-        Repository.isEqual(new Repository(urlControl.value), repo2)
+      let doesRepoAlreadyAdded = this.getFormControls.some(
+        (repo2, index, array) =>
+          urlControl.value === repo2.get("url").value &&
+          !Object.is(urlControl, repo2.get("url"))
       );
       return urlControl.value && doesRepoAlreadyAdded
         ? { repoAlreadyAdded: true }
