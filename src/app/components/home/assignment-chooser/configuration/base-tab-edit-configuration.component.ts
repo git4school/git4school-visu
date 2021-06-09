@@ -103,7 +103,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
     group.setValue(group.get("save").value);
   }
 
-  abstract createFormGroup(data?: Data);
+  protected abstract createFormGroup(data?: Data);
 
   abstract submitForm(): void;
 }
