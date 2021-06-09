@@ -65,6 +65,14 @@
     <code>src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts</code>
 </p>
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>This component lets the user edit the list of repositories of an assignment, manually by entering the URL of the repository,
+or by selecting it in the list of repositories retrieved from Github</p>
+
+    </p>
 
     <p class="comment">
         <h3>Extends</h3>
@@ -138,10 +146,24 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#formGroup">formGroup</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#deleteConfirmation">deleteConfirmation</a>
                             </li>
                             <li>
-                                <a href="#nbEditing">nbEditing</a>
+                                <a href="#lastPropertySorted">lastPropertySorted</a>
+                            </li>
+                            <li>
+                                <a href="#modalRef">modalRef</a>
+                            </li>
+                            <li>
+                                <a href="#nameDirection">nameDirection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#rotateMatrix">rotateMatrix</a>
+                            </li>
+                            <li>
+                                <a href="#formGroups">formGroups</a>
                             </li>
                             <li>
                                 <a href="#isModified">isModified</a>
@@ -162,28 +184,50 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#accessToRepoValidator">accessToRepoValidator</a>
                             </li>
                             <li>
                                 <a href="#cancelRow">cancelRow</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#createFormGroup">createFormGroup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#deleteRowWithDialog">deleteRowWithDialog</a>
                             </li>
                             <li>
                                 <a href="#getErrorTooltip">getErrorTooltip</a>
                             </li>
                             <li>
-                                <a href="#ngAfterContentChecked">ngAfterContentChecked</a>
+                                <a href="#ngOnInit">ngOnInit</a>
                             </li>
                             <li>
-                                <a href="#ngOnInit">ngOnInit</a>
+                                <a href="#onDeleteRow">onDeleteRow</a>
+                            </li>
+                            <li>
+                                <a href="#onSort">onSort</a>
                             </li>
                             <li>
                                 <a href="#openAddRepositoriesModal">openAddRepositoriesModal</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#openDeleteConfirmation">openDeleteConfirmation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#repoAlreadyAddedValidator">repoAlreadyAddedValidator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#rotate">rotate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#sort">sort</a>
                             </li>
                             <li>
                                 <a href="#submitForm">submitForm</a>
@@ -195,6 +239,7 @@
                                 <a href="#cancelRow">cancelRow</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
                                     <span class="modifier">Abstract</span>
                                 <a href="#createFormGroup">createFormGroup</a>
                             </li>
@@ -215,6 +260,12 @@
                             </li>
                             <li>
                                 <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#populateRows">populateRows</a>
+                            </li>
+                            <li>
+                                <a href="#removeRow">removeRow</a>
                             </li>
                             <li>
                                 <a href="#restoreRow">restoreRow</a>
@@ -300,17 +351,19 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, cdref: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, modalService: NgbModal, dataService: <a href="../injectables/DataService.html">DataService</a>, translateService: TranslateService)</code>
+<code>constructor(fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, cdref: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, modalService: NgbModal, translateService: TranslateService, dataService: <a href="../injectables/DataService.html">DataService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:79</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>EditRepositoriesComponent constructor</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -319,6 +372,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -333,6 +387,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>The service to build formGroups</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>cdref</td>
@@ -345,6 +403,8 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>authService</td>
@@ -357,6 +417,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>The service managing authentication</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>modalService</td>
@@ -369,18 +433,10 @@
                                                             No
                                                     </td>
                                                     
-                                                </tr>
-                                                <tr>
-                                                        <td>dataService</td>
-                                                  
                                                         <td>
-                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                                <code><p>The service to open a modal</p>
+</code>
                                                         </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
                                                 </tr>
                                                 <tr>
                                                         <td>translateService</td>
@@ -393,6 +449,26 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>The service for the localization</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>The service to manage the application data at runtime</p>
+</code>
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -563,6 +639,7 @@
                     <a name="accessToRepoValidator"></a>
                     <span class="name">
                         <b>
+                            <span class="modifier">Private</span>
                             accessToRepoValidator
                         </b>
                         <a href="#accessToRepoValidator"><span class="icon ion-ios-link"></span></a>
@@ -571,21 +648,24 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>accessToRepoValidator()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>accessToRepoValidator()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="251"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:251</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>A validator checking if the authenticated user has access to the specified repository (and if it exists)</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://angular.io/api/forms/AsyncValidatorFn" target="_blank" >AsyncValidatorFn</a></code>
@@ -617,14 +697,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:177</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Cancel the edition of a row (repository) and set back its value</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -634,6 +716,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -648,6 +731,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The formGroup for the repository to cancel the edition</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>index</td>
@@ -660,6 +747,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The index of the formGroup in the array</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -684,6 +775,7 @@
                     <a name="createFormGroup"></a>
                     <span class="name">
                         <b>
+                            <span class="modifier">Protected</span>
                             createFormGroup
                         </b>
                         <a href="#createFormGroup"><span class="icon ion-ios-link"></span></a>
@@ -692,21 +784,24 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>createFormGroup(data?: <a href="../classes/Repository.html">Repository</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createFormGroup(data?: <a href="../classes/Repository.html">Repository</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:216</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Create the formGroup for a repository</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -716,6 +811,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -730,6 +826,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The repository to create the formGroup for</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -738,6 +838,88 @@
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The formGroup</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteRowWithDialog"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            deleteRowWithDialog
+                        </b>
+                        <a href="#deleteRowWithDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteRowWithDialog(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="298"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:298</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Delete the formGroup at the specified index, after the confirmation of the user.
+If the user checks &quot;Hide this confirmation box until the next reload&quot;,
+updates the corresponding boolean in the application data</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The index of the formGroup in the array</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -769,14 +951,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:163</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Get the string to display in the error tooltip, translated in the right language</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -786,6 +970,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -800,6 +985,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The array of errors</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -811,45 +1000,7 @@
 
                     </div>
                     <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngAfterContentChecked"></a>
-                    <span class="name">
-                        <b>
-                            ngAfterContentChecked
-                        </b>
-                        <a href="#ngAfterContentChecked"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngAfterContentChecked()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:52</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <p>A string with the errors translated in the right language</p>
 
                     </div>
                 </td>
@@ -878,18 +1029,177 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:104</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>When the component is initialized, we sort the repositories by their name in the alphabetical order</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDeleteRow"></a>
+                    <span class="name">
+                        <b>
+                            onDeleteRow
+                        </b>
+                        <a href="#onDeleteRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDeleteRow(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:205</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The method called when the &quot;Delete&quot; button is clicked on.
+If the user has checked &quot;Hide this confirmation box until the next reload&quot;,
+the confirmation modal is not displayed</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The index of the formGroup to delete</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSort"></a>
+                    <span class="name">
+                        <b>
+                            onSort
+                        </b>
+                        <a href="#onSort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSort(property: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:190</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The method called when a header is clicked on to sort the table by the clicked property.</p>
+<p>See <a href="sort">sort</a></p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>property</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The property to sort the table with</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -917,14 +1227,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:122</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Opens the modal to add one or several repositories from a list retrieved from Github.
+If the modal is closed with the &quot;Add&quot; button, all the new selected repositories are saved in the assignment</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -938,9 +1251,59 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="openDeleteConfirmation"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            openDeleteConfirmation
+                        </b>
+                        <a href="#openDeleteConfirmation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>openDeleteConfirmation()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="312"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:312</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Open the delete confirmation for a repository</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The result returned by the modal reference</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="repoAlreadyAddedValidator"></a>
                     <span class="name">
                         <b>
+                            <span class="modifier">Private</span>
                             repoAlreadyAddedValidator
                         </b>
                         <a href="#repoAlreadyAddedValidator"><span class="icon ion-ios-link"></span></a>
@@ -949,25 +1312,151 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>repoAlreadyAddedValidator()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>repoAlreadyAddedValidator()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="237"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:237</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>A validator checking that there are not 2 identical repositories to validate the row</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://angular.io/api/forms/ValidatorFn" target="_blank" >ValidatorFn</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rotate"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            rotate
+                        </b>
+                        <a href="#rotate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>rotate()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="270"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:270</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Change the sorting mode according to the current sorting mode and the <a href="rotateMatrix">rotateMatrix</a></p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sort"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            sort
+                        </b>
+                        <a href="#sort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sort(property: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="279"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:279</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sort the table, the repositories array, by the chosen property.
+The sorting used is an alphabetical sorting as all the properties of a repository are a string</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>property</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The property to sort the table with</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -995,14 +1484,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:128</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="153"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:153</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Get the formControls (all the repositories in the list) and save them in the assignment</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1040,7 +1531,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:53</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:52</a></code>
 </div>
                 </td>
             </tr>
@@ -1116,7 +1607,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:89</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:92</a></code>
 </div>
                 </td>
             </tr>
@@ -1183,6 +1674,7 @@
                     <a name="createFormGroup"></a>
                     <span class="name">
                         <b>
+                            <span class="modifier">Protected</span>
                             <span class="modifier">Abstract</span>
                             createFormGroup
                         </b>
@@ -1206,7 +1698,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:104</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:106</a></code>
 </div>
                 </td>
             </tr>
@@ -1282,7 +1774,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:71</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:74</a></code>
 </div>
                 </td>
             </tr>
@@ -1358,7 +1850,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:64</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:63</a></code>
 </div>
                 </td>
             </tr>
@@ -1421,7 +1913,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>initForm()</code>
+<code>initForm(datas: Data[])</code>
                 </td>
             </tr>
 
@@ -1434,7 +1926,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:46</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:41</a></code>
 </div>
                 </td>
             </tr>
@@ -1444,8 +1936,39 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>datas</td>
+                                    <td>
+                                            <code>Data[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1479,7 +2002,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:42</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:37</a></code>
 </div>
                 </td>
             </tr>
@@ -1555,7 +2078,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:33</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:28</a></code>
 </div>
                 </td>
             </tr>
@@ -1600,7 +2123,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:25</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:24</a></code>
 </div>
                 </td>
             </tr>
@@ -1612,6 +2135,158 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="populateRows"></a>
+                    <span class="name">
+                        <b>
+                            populateRows
+                        </b>
+                        <a href="#populateRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>populateRows(datas: Data[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:46</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>datas</td>
+                                    <td>
+                                            <code>Data[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeRow"></a>
+                    <span class="name">
+                        <b>
+                            removeRow
+                        </b>
+                        <a href="#removeRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeRow(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:69</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1645,7 +2320,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:100</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:102</a></code>
 </div>
                 </td>
             </tr>
@@ -1721,7 +2396,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:96</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:98</a></code>
 </div>
                 </td>
             </tr>
@@ -1799,7 +2474,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:106</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:108</a></code>
 </div>
                 </td>
             </tr>
@@ -1844,7 +2519,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:77</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:80</a></code>
 </div>
                 </td>
             </tr>
@@ -2152,17 +2827,204 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="formGroup"></a>
+                        <a name="deleteConfirmation"></a>
                         <span class="name">
                             <b>
-                            formGroup</b>
-                            <a href="#formGroup"><span class="icon ion-ios-link"></span></a>
+                                <span class="modifier">Private</span>
+                            deleteConfirmation</b>
+                            <a href="#deleteConfirmation"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;deleteConfirmation&#x27;)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:52</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The template reference corresponding to the confirmation modal when deleting a repository</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="lastPropertySorted"></a>
+                        <span class="name">
+                            <b>
+                            lastPropertySorted</b>
+                            <a href="#lastPropertySorted"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:79</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The <a href="../classes/Repository.html">Repository</a> property on which the sorting is applied</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="modalRef"></a>
+                        <span class="name">
+                            <b>
+                            modalRef</b>
+                            <a href="#modalRef"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>NgbModalRef</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:69</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The reference to the repository deletion modal when it is displayed</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="nameDirection"></a>
+                        <span class="name">
+                            <b>
+                            nameDirection</b>
+                            <a href="#nameDirection"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#SortDirection" target="_self" >SortDirection</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:74</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The current sorting mode, applied at the moment</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rotateMatrix"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            rotateMatrix</b>
+                            <a href="#rotateMatrix"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>literal type</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+    asc: &quot;desc&quot;,
+    desc: &quot;asc&quot;,
+    // desc: &quot;&quot;,    // I keep them in case we need it
+    // &quot;&quot;: &quot;asc&quot;,
+  }</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:59</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The matrix that defines the transition relationships between the sorting modes.</p>
+<p>See <a href="../miscellaneous/typealiases.html#SortDirection">SortDirection</a></p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formGroups"></a>
+                        <span class="name">
+                            <b>
+                            formGroups</b>
+                            <a href="#formGroups"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>FormGroup[]</code>
 
                         </td>
                     </tr>
@@ -2175,40 +3037,6 @@
                         <tr>
                             <td class="col-md-4">
                                     <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:18</a></code>
-</div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="nbEditing"></a>
-                        <span class="name">
-                            <b>
-                            nbEditing</b>
-                            <a href="#nbEditing"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                        </td>
-                    </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
-</div>
-                                </td>
-                            </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:19</a></code>
 </div>
                             </td>
                         </tr>
@@ -2293,6 +3121,8 @@
   ChangeDetectorRef,
   Component,
   OnInit,
+  TemplateRef,
+  ViewChild,
 } from &quot;@angular/core&quot;;
 import {
   AbstractControl,
@@ -2304,7 +3134,7 @@ import {
   Validators,
 } from &quot;@angular/forms&quot;;
 import { Error, Repository } from &quot;@models/Repository.model&quot;;
-import { NgbModal } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import { NgbModal, NgbModalRef } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { AuthService } from &quot;@services/auth.service&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
@@ -2313,6 +3143,15 @@ import { catchError, map, switchMap } from &quot;rxjs/operators&quot;;
 import { BaseTabEditConfigurationComponent } from &quot;../base-tab-edit-configuration.component&quot;;
 import { ModalAddRepositoriesComponent } from &quot;./modal-add-repositories/modal-add-repositories.component&quot;;
 
+/**
+ * Corresponds to the sorting mode, respectively, ascending, descending, and no sorting
+ */
+export type SortDirection &#x3D; &quot;asc&quot; | &quot;desc&quot; | &quot;&quot;;
+
+/**
+ * This component lets the user edit the list of repositories of an assignment, manually by entering the URL of the repository,
+ * or by selecting it in the list of repositories retrieved from Github
+ */
 @Component({
   selector: &quot;edit-repositories&quot;,
   templateUrl: &quot;./edit-repositories.component.html&quot;,
@@ -2324,26 +3163,196 @@ import { ModalAddRepositoriesComponent } from &quot;./modal-add-repositories/mod
 export class EditRepositoriesComponent
   extends BaseTabEditConfigurationComponent&lt;Repository&gt;
   implements OnInit, AfterContentChecked {
+  /**
+   * The template reference corresponding to the confirmation modal when deleting a repository
+   */
+  @ViewChild(&quot;deleteConfirmation&quot;)
+  private deleteConfirmation: TemplateRef&lt;any&gt;;
+
+  /**
+   * The matrix that defines the transition relationships between the sorting modes.
+   *
+   * See {@link SortDirection}
+   */
+  private rotateMatrix: { [key: string]: SortDirection } &#x3D; {
+    asc: &quot;desc&quot;,
+    desc: &quot;asc&quot;,
+    // desc: &quot;&quot;,    // I keep them in case we need it
+    // &quot;&quot;: &quot;asc&quot;,
+  };
+
+  /**
+   * The reference to the repository deletion modal when it is displayed
+   */
+  modalRef: NgbModalRef;
+
+  /**
+   * The current sorting mode, applied at the moment
+   */
+  nameDirection: SortDirection;
+
+  /**
+   * The {@link Repository} property on which the sorting is applied
+   */
+  lastPropertySorted: string;
+
+  /**
+   * EditRepositoriesComponent constructor
+   * @param {FormBuilder} fb The service to build formGroups
+   * @param cdref
+   * @param {AuthService} authService The service managing authentication
+   * @param {NgbModal} modalService The service to open a modal
+   * @param {TranslateService} translateService The service for the localization
+   * @param {DataService} dataService The service to manage the application data at runtime
+   */
   constructor(
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
     private authService: AuthService,
     private modalService: NgbModal,
-    private dataService: DataService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private dataService: DataService
   ) {
     super(fb, cdref);
   }
 
+  /**
+   * When the component is initialized, we sort the repositories by their name in the alphabetical order
+   */
   ngOnInit() {
     super.ngOnInit();
+    this.nameDirection &#x3D; &quot;asc&quot;;
+    this.lastPropertySorted &#x3D; &quot;name&quot;;
+    this.sort(this.lastPropertySorted);
   }
 
+  /**
+   * @ignore
+   */
   ngAfterContentChecked() {
     super.ngAfterContentChecked();
   }
 
-  repoAlreadyAddedValidator(): ValidatorFn {
+  /**
+   * Opens the modal to add one or several repositories from a list retrieved from Github.
+   * If the modal is closed with the &quot;Add&quot; button, all the new selected repositories are saved in the assignment
+   */
+  openAddRepositoriesModal() {
+    let modalReference &#x3D; this.modalService.open(ModalAddRepositoriesComponent, {
+      size: &quot;xl&quot;,
+    });
+    modalReference.componentInstance.repoList &#x3D; this.getFormControls.map(
+      (row) &#x3D;&gt; Repository.withJSON(row.value)
+    );
+
+    modalReference.result.then(
+      (result) &#x3D;&gt; {
+        if (result.length &gt; 0) {
+          let repoToadd &#x3D; result.filter(
+            (repo1) &#x3D;&gt;
+              !this.getFormControls
+                .map((row) &#x3D;&gt; Repository.withJSON(row.value))
+                .some((repo2, index, array) &#x3D;&gt; Repository.isEqual(repo1, repo2))
+          );
+          repoToadd.forEach((repo) &#x3D;&gt; {
+            this.addRow(repo);
+          });
+          this.modify();
+          this.submitForm();
+        }
+      },
+      (error) &#x3D;&gt; {}
+    );
+  }
+
+  /**
+   * Get the formControls (all the repositories in the list) and save them in the assignment
+   */
+  submitForm() {
+    const controls &#x3D; this.getFormControls;
+    this.save(controls.map((row) &#x3D;&gt; Repository.withJSON(row.value)));
+  }
+
+  /**
+   * Get the string to display in the error tooltip, translated in the right language
+   * @param {Error[]} errors The array of errors
+   * @returns A string with the errors translated in the right language
+   */
+  getErrorTooltip(errors: Error[]): string {
+    if (!errors) {
+      return &quot;&quot;;
+    }
+    return errors
+      .map((err) &#x3D;&gt; this.translateService.instant(&quot;ERROR-MESSAGE-&quot; + err.type))
+      .join(&quot;. &quot;);
+  }
+
+  /**
+   * Cancel the edition of a row (repository) and set back its value
+   * @param {FormGroup} group The formGroup for the repository to cancel the edition
+   * @param {number} index The index of the formGroup in the array
+   */
+  cancelRow(group: FormGroup, index: number) {
+    super.cancelRow(group, index);
+    if (!group.get(&quot;url&quot;).value) {
+      this.removeRow(index);
+    }
+  }
+
+  /**
+   * The method called when a header is clicked on to sort the table by the clicked property.
+   *
+   * See {@link sort}
+   * @param {string} property The property to sort the table with
+   */
+  onSort(property: string) {
+    this.lastPropertySorted &#x3D;&#x3D;&#x3D; property
+      ? this.rotate()
+      : (this.nameDirection &#x3D; &quot;asc&quot;);
+
+    this.sort(property);
+    this.lastPropertySorted &#x3D; property;
+  }
+
+  /**
+   * The method called when the &quot;Delete&quot; button is clicked on.
+   * If the user has checked &quot;Hide this confirmation box until the next reload&quot;,
+   * the confirmation modal is not displayed
+   * @param {number} index The index of the formGroup to delete
+   */
+  onDeleteRow(index: number) {
+    this.dataService.hideDeleteRepoConfirmation
+      ? this.deleteRow(index)
+      : this.deleteRowWithDialog(index);
+  }
+
+  /**
+   * Create the formGroup for a repository
+   * @param {Repository} data The repository to create the formGroup for
+   * @returns The formGroup
+   */
+  protected createFormGroup(data?: Repository) {
+    return this.fb.group({
+      url: [
+        data?.url,
+        {
+          validators: [Validators.required, this.repoAlreadyAddedValidator()],
+          asyncValidators: [this.accessToRepoValidator()],
+        },
+      ],
+      name: [data?.name],
+      tpGroup: [data?.tpGroup],
+      errors: [data ? data.errors : []],
+      isEditable: false,
+      isInvalid: false,
+      save: {},
+    });
+  }
+
+  /**
+   * A validator checking that there are not 2 identical repositories to validate the row
+   */
+  private repoAlreadyAddedValidator(): ValidatorFn {
     return (urlControl: AbstractControl): ValidationErrors | null &#x3D;&gt; {
       let doesRepoAlreadyAdded &#x3D; this.datas.some((repo2, index, array) &#x3D;&gt;
         Repository.isEqual(new Repository(urlControl.value), repo2)
@@ -2354,7 +3363,10 @@ export class EditRepositoriesComponent
     };
   }
 
-  accessToRepoValidator(): AsyncValidatorFn {
+  /**
+   * A validator checking if the authenticated user has access to the specified repository (and if it exists)
+   */
+  private accessToRepoValidator(): AsyncValidatorFn {
     return (
       urlControl: AbstractControl
     ): Observable&lt;ValidationErrors | null&gt; &#x3D;&gt; {
@@ -2370,70 +3382,54 @@ export class EditRepositoriesComponent
     };
   }
 
-  createFormGroup(data?: Repository) {
-    return this.fb.group({
-      url: [
-        data?.url,
-        {
-          validators: [Validators.required],
-          asyncValidators: [this.accessToRepoValidator()],
-        },
-      ],
-      name: [data?.name],
-      tpGroup: [data?.tpGroup],
-      errors: [data ? data.errors : []],
-      isEditable: false,
-      isInvalid: false,
-      save: {},
-    });
+  /**
+   * Change the sorting mode according to the current sorting mode and the {@link rotateMatrix}
+   */
+  private rotate() {
+    this.nameDirection &#x3D; this.rotateMatrix[this.nameDirection];
   }
 
-  openAddRepositoriesModal() {
-    let modalReference &#x3D; this.modalService.open(ModalAddRepositoriesComponent, {
-      size: &quot;xl&quot;,
-    });
-    modalReference.componentInstance.repoList &#x3D; this.getFormControls.controls.map(
-      (row) &#x3D;&gt; Repository.withJSON(row.value)
-    );
+  /**
+   * Sort the table, the repositories array, by the chosen property.
+   * The sorting used is an alphabetical sorting as all the properties of a repository are a string
+   * @param {string} property The property to sort the table with
+   */
+  private sort(property: string) {
+    if (!this.nameDirection) {
+      this.initForm(this.datas);
+    } else {
+      let sortFactor &#x3D; this.nameDirection &#x3D;&#x3D;&#x3D; &quot;asc&quot; ? 1 : -1;
+      this.formGroups &#x3D; [...this.formGroups].sort(
+        (a, b) &#x3D;&gt;
+          sortFactor *
+          a.get(property).value?.localeCompare(b.get(property).value)
+      );
+    }
+  }
 
-    modalReference.result.then(
-      (result) &#x3D;&gt; {
-        if (result.length &gt; 0) {
-          let repoToadd &#x3D; result.filter(
-            (repo1) &#x3D;&gt;
-              !this.getFormControls.controls
-                .map((row) &#x3D;&gt; Repository.withJSON(row.value))
-                .some((repo2, index, array) &#x3D;&gt; Repository.isEqual(repo1, repo2))
-          );
-          repoToadd.forEach((repo) &#x3D;&gt; {
-            this.addRow(repo);
-          });
-          this.modify();
-        }
+  /**
+   * Delete the formGroup at the specified index, after the confirmation of the user.
+   * If the user checks &quot;Hide this confirmation box until the next reload&quot;,
+   * updates the corresponding boolean in the application data
+   * @param {number} index The index of the formGroup in the array
+   */
+  private deleteRowWithDialog(index: number) {
+    this.openDeleteConfirmation().then(
+      (hide) &#x3D;&gt; {
+        this.dataService.hideDeleteRepoConfirmation &#x3D; hide;
+        this.deleteRow(index);
       },
-      (error) &#x3D;&gt; {}
+      () &#x3D;&gt; {}
     );
   }
 
-  submitForm() {
-    const formArray &#x3D; this.getFormControls;
-    this.save(formArray.controls.map((row) &#x3D;&gt; Repository.withJSON(row.value)));
-  }
-
-  getErrorTooltip(errors: Error[]): string {
-    if (!errors) {
-      return &quot;&quot;;
-    }
-    return errors
-      .map((err) &#x3D;&gt; this.translateService.instant(&quot;ERROR-MESSAGE-&quot; + err.type))
-      .join(&quot;. &quot;);
-  }
-
-  cancelRow(group: FormGroup, index: number) {
-    super.cancelRow(group, index);
-    if (!group.get(&quot;url&quot;).value) {
-      this.deleteRow(index);
-    }
+  /**
+   * Open the delete confirmation for a repository
+   * @returns The result returned by the modal reference
+   */
+  private openDeleteConfirmation(): Promise&lt;any&gt; {
+    this.modalRef &#x3D; this.modalService.open(this.deleteConfirmation);
+    return this.modalRef.result;
   }
 }
 </code></pre>
@@ -2448,29 +3444,50 @@ export class EditRepositoriesComponent
             &lt;/span&gt;&lt;/h4&gt;
     &lt;/div&gt;
     &lt;div class&#x3D;&quot;card-body&quot;&gt;
-        &lt;form class&#x3D;&quot;needs-validation&quot; [formGroup]&#x3D;&quot;formGroup&quot; novalidate&gt;
-
-            &lt;table class&#x3D;&quot;table table-hover table-striped shadow&quot;&gt;
-                &lt;thead class&#x3D;&quot;thead-dark&quot;&gt;
+        &lt;div class&#x3D;&quot;overflow-auto&quot; style&#x3D;&quot;max-height:50vh;&quot;&gt;
+            &lt;table class&#x3D;&quot;table table-hover table-striped &quot;&gt;
+                &lt;thead&gt;
                     &lt;tr&gt;
-                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 25%&quot;&gt;{{ &#x27;EDIT-REPOSITORIES.COLUMN-NAME&#x27; | translate}}&lt;/th&gt;
-                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 50%&quot;&gt;{{ &#x27;EDIT-REPOSITORIES.COLUMN-URL&#x27; | translate}}&lt;/th&gt;
-                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 12.5%&quot;&gt;{{ &#x27;EDIT-REPOSITORIES.COLUMN-TP-GROUP&#x27; | translate}}&lt;/th&gt;
-                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 12.5%&quot;&gt;&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;sortable-column&quot; scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 25%;&quot; (click)&#x3D;&quot;onSort(&#x27;name&#x27;)&quot;&gt;
+                            {{ &#x27;EDIT-REPOSITORIES.COLUMN-NAME&#x27; | translate}}
+                            &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;name&#x27;&quot;&gt;
+                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-down&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                            &lt;/ng-container&gt;
+                        &lt;/th&gt;
+                        &lt;th class&#x3D;&quot;sortable-column&quot; scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 50%&quot; (click)&#x3D;&quot;onSort(&#x27;url&#x27;)&quot;&gt;
+                            {{ &#x27;EDIT-REPOSITORIES.COLUMN-URL&#x27; | translate}}
+                            &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;url&#x27;&quot;&gt;
+                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-down&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                            &lt;/ng-container&gt;
+                        &lt;/th&gt;
+
+                        &lt;th class&#x3D;&quot;sortable-column&quot; scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 15%&quot; (click)&#x3D;&quot;onSort(&#x27;tpGroup&#x27;)&quot;&gt;
+                            {{ &#x27;EDIT-REPOSITORIES.COLUMN-TP-GROUP&#x27; | translate}}
+                            &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;tpGroup&#x27;&quot;&gt;
+                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-down&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                            &lt;/ng-container&gt;
+                        &lt;/th&gt;
+                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 10%&quot;&gt;&lt;/th&gt;
                     &lt;/tr&gt;
                 &lt;/thead&gt;
                 &lt;tbody&gt;
-                    &lt;ng-container formArrayName&#x3D;&quot;formArray&quot;
-                        *ngFor&#x3D;&quot;let group of getFormControls.controls; let i &#x3D; index&quot;&gt;
-                        &lt;tr *ngIf&#x3D;&quot;group.get(&#x27;isEditable&#x27;).value&quot; [formGroupName]&#x3D;&quot;i&quot;&gt;
+                    &lt;ng-container *ngFor&#x3D;&quot;let group of getFormControls; let i &#x3D; index&quot;&gt;
+                        &lt;tr [formGroup]&#x3D;&quot;group&quot; *ngIf&#x3D;&quot;group.get(&#x27;isEditable&#x27;).value&quot;
+                            (keyup.enter)&#x3D;&quot;validateRow(group)&quot;&gt;
                             &lt;td&gt;
                                 &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; formControlName&#x3D;&quot;name&quot; placeholder&#x3D;&quot;git4school&quot;&gt;
                             &lt;/td&gt;
                             &lt;td&gt;
                                 &lt;input type&#x3D;&quot;url&quot; [ngClass]&#x3D;&quot;{
-                                    &#x27;is-invalid&#x27;: group.invalid,
-                                    &#x27;is-valid&#x27;: group.valid,
-                                    &#x27;loading&#x27;: group.pending}&quot; class&#x3D;&quot;form-control&quot; formControlName&#x3D;&quot;url&quot;
+                                        &#x27;is-invalid&#x27;: group.invalid,
+                                        &#x27;is-valid&#x27;: group.valid,
+                                        &#x27;loading&#x27;: group.pending}&quot; class&#x3D;&quot;form-control&quot; formControlName&#x3D;&quot;url&quot;
                                     placeholder&#x3D;&quot;https://github.com/git4school/git4school-visu&quot;&gt;
                                 &lt;div *ngIf&#x3D;&quot;group.get(&#x27;url&#x27;).errors &amp;&amp; group.get(&#x27;url&#x27;).errors[&#x27;noAccess&#x27;]&quot;
                                     class&#x3D;&quot;invalid-feedback&quot;&gt;
@@ -2511,7 +3528,7 @@ export class EditRepositoriesComponent
                                 &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; aria-label&#x3D;&quot;&quot;&gt;
                                     &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-secondary&quot; (click)&#x3D;&quot;editRow(group)&quot;&gt;&lt;i
                                             class&#x3D;&quot;fas fa-pencil-alt&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-                                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger&quot; (click)&#x3D;&quot;deleteRow(i)&quot;&gt;&lt;i
+                                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger&quot; (click)&#x3D;&quot;onDeleteRow(i)&quot;&gt;&lt;i
                                             class&#x3D;&quot;far fa-trash-alt&quot;&gt;&lt;/i&gt;&lt;/button&gt;
                                 &lt;/div&gt;
                             &lt;/td&gt;
@@ -2519,39 +3536,56 @@ export class EditRepositoriesComponent
                     &lt;/ng-container&gt;
                 &lt;/tbody&gt;
             &lt;/table&gt;
+        &lt;/div&gt;
 
-
-            &lt;div class&#x3D;&quot;sticky-bot bg-white py-3&quot;&gt;
-                &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot;&gt;
-                    &lt;button class&#x3D;&quot;btn btn-secondary&quot; type&#x3D;&quot;submit&quot; (click)&#x3D;&quot;addRow()&quot;
-                        ngbTooltip&#x3D;&quot;{{ &#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY&#x27; | translate }}&quot;&gt;
-                        &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
-                            &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-mask&#x3D;&quot;fas fa-database&quot;
-                                data-fa-transform&#x3D;&quot;shrink-6 right-7 &quot;&gt;&lt;/i&gt;
-                            &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-7 right-7 &quot;&gt;&lt;/i&gt;
-                        &lt;/span&gt;
-                    &lt;/button&gt;
-                    &lt;button class&#x3D;&quot;btn btn-secondary&quot; (click)&#x3D;&quot;openAddRepositoriesModal()&quot;
-                        ngbTooltip&#x3D;&quot;{{ &#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES&#x27; | translate }}&quot;&gt;
-                        &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
-                            &lt;i class&#x3D;&quot;fas fa-square&quot; data-fa-mask&#x3D;&quot;fas fa-database&quot;
-                                data-fa-transform&#x3D;&quot;grow-3 right-10&quot;&gt;&lt;/i&gt;
-                            &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-mask&#x3D;&quot;fas fa-database&quot;
-                                data-fa-transform&#x3D;&quot;shrink-6 right-7&quot;&gt;&lt;/i&gt;
-                            &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-7 right-7&quot;&gt;&lt;/i&gt;
-                            &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-9 right-11 up-5&quot;&gt;&lt;/i&gt;
-                            &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-8 right-13 down-3&quot;&gt;&lt;/i&gt;
-                        &lt;/span&gt;
-                    &lt;/button&gt;
-                &lt;/div&gt;
-                &lt;button class&#x3D;&quot;btn btn-primary ml-2&quot; [disabled]&#x3D;&quot;nbEditing || formGroup.invalid&quot; type&#x3D;&quot;submit&quot;
-                    (click)&#x3D;&quot;submitForm()&quot; ngbTooltip&#x3D;&quot;{{ &#x27;EDIT-REPOSITORIES.TOOLTIP-SAVE&#x27; | translate }}&quot;&gt;
-                    &lt;i class&#x3D;&quot;fas fa-save&quot;&gt;&lt;/i&gt;
-                &lt;/button&gt;
-            &lt;/div&gt;
-        &lt;/form&gt;
+        &lt;div class&#x3D;&quot;btn-group mt-2&quot; role&#x3D;&quot;group &quot;&gt;
+            &lt;button class&#x3D;&quot;btn btn-secondary&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;addRow()&quot;
+                ngbTooltip&#x3D;&quot;{{ &#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY&#x27; | translate }}&quot;&gt;
+                &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
+                    &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-mask&#x3D;&quot;fas fa-database&quot; data-fa-transform&#x3D;&quot;shrink-6 right-7 &quot;&gt;&lt;/i&gt;
+                    &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-7 right-7 &quot;&gt;&lt;/i&gt;
+                &lt;/span&gt;
+            &lt;/button&gt;
+            &lt;button class&#x3D;&quot;btn btn-secondary&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;openAddRepositoriesModal()&quot;
+                ngbTooltip&#x3D;&quot;{{ &#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES&#x27; | translate }}&quot;&gt;
+                &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
+                    &lt;i class&#x3D;&quot;fas fa-square&quot; data-fa-mask&#x3D;&quot;fas fa-database&quot; data-fa-transform&#x3D;&quot;grow-3 right-10&quot;&gt;&lt;/i&gt;
+                    &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-mask&#x3D;&quot;fas fa-database&quot; data-fa-transform&#x3D;&quot;shrink-6 right-7&quot;&gt;&lt;/i&gt;
+                    &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-7 right-7&quot;&gt;&lt;/i&gt;
+                    &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-9 right-11 up-5&quot;&gt;&lt;/i&gt;
+                    &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-8 right-13 down-3&quot;&gt;&lt;/i&gt;
+                &lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
+
+&lt;ng-template #deleteConfirmation&gt;
+    &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+        &lt;h4 class&#x3D;&quot;modal-title&quot;&gt;{{ &quot;DELETE-REPOSITORY-CONFIRMATION-TITLE&quot; | translate }}&lt;/h4&gt;
+        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close&quot; aria-label&#x3D;&quot;Close&quot; (click)&#x3D;&quot;modalRef.dismiss(&#x27;Cross click&#x27;)&quot;&gt;
+            &lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+        &lt;p&gt;{{ &quot;DELETE-REPOSITORY-CONFIRMATION-MESSAGE&quot; | translate }}&lt;/p&gt;
+
+        &lt;div class&#x3D;&quot;form-check&quot;&gt;
+            &lt;input class&#x3D;&quot;form-check-input&quot; type&#x3D;&quot;checkbox&quot; #hideConfirmation id&#x3D;&quot;hideConfirmation&quot;&gt;
+            &lt;label class&#x3D;&quot;form-check-label&quot; for&#x3D;&quot;hideConfirmation&quot;&gt;
+                &lt;small&gt;{{ &quot;HIDE-CONFIRMATION-BOX&quot; | translate }}&lt;/small&gt;
+            &lt;/label&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;modal-footer&quot;&gt;
+        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger&quot; (click)&#x3D;&quot;modalRef.dismiss(&#x27;Cancel&#x27;)&quot;&gt;
+            {{ &quot;CANCEL&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;modalRef.close(hideConfirmation.checked)&quot;&gt;
+            {{ &quot;CONFIRM&quot; | translate }}
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/ng-template&gt;
 
 &lt;ng-template #toSaveTooltip&gt;{{ &#x27;TO-SAVE.TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;</code></pre>
     </div>
@@ -2613,7 +3647,7 @@ export class EditRepositoriesComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="card">    <div class="card-header">        <h4>{{ \'EDIT-REPOSITORIES.PAGE-TITLE\' | translate }} <span *ngIf="isModified" [ngbTooltip]="toSaveTooltip"                class="ml-1">                <i class="fas fa-save text-primary fa-sm up-down"></i>            </span></h4>    </div>    <div class="card-body">        <form class="needs-validation" [formGroup]="formGroup" novalidate>            <table class="table table-hover table-striped shadow">                <thead class="thead-dark">                    <tr>                        <th scope="col" style="width: 25%">{{ \'EDIT-REPOSITORIES.COLUMN-NAME\' | translate}}</th>                        <th scope="col" style="width: 50%">{{ \'EDIT-REPOSITORIES.COLUMN-URL\' | translate}}</th>                        <th scope="col" style="width: 12.5%">{{ \'EDIT-REPOSITORIES.COLUMN-TP-GROUP\' | translate}}</th>                        <th scope="col" style="width: 12.5%"></th>                    </tr>                </thead>                <tbody>                    <ng-container formArrayName="formArray"                        *ngFor="let group of getFormControls.controls; let i = index">                        <tr *ngIf="group.get(\'isEditable\').value" [formGroupName]="i">                            <td>                                <input type="text" class="form-control" formControlName="name" placeholder="git4school">                            </td>                            <td>                                <input type="url" [ngClass]="{                                    \'is-invalid\': group.invalid,                                    \'is-valid\': group.valid,                                    \'loading\': group.pending}" class="form-control" formControlName="url"                                    placeholder="https://github.com/git4school/git4school-visu">                                <div *ngIf="group.get(\'url\').errors && group.get(\'url\').errors[\'noAccess\']"                                    class="invalid-feedback">                                    {{ \'EDIT-REPOSITORIES.MESSAGE-INVALID-URL\' | translate }}                                </div>                                <div *ngIf="group.get(\'url\').errors && group.get(\'url\').errors[\'repoAlreadyAdded\']"                                    class="invalid-feedback">                                    {{ \'EDIT-REPOSITORIES.MESSAGE-REPO-ALREADY-ADDED\' | translate }}                                </div>                            </td>                            <td>                                <input type="text" class="form-control" formControlName="tpGroup" placeholder="1.1">                            </td>                            <td>                                <div class="btn-group" role="group" aria-label="">                                    <button type="reset" class="btn btn-danger" (click)="cancelRow(group, i)"><i                                            class="fas fa-times"></i></button>                                    <button type="submit" class="btn btn-success" (click)="validateRow(group)"><i                                            class="fas fa-check"></i></button>                                </div>                            </td>                        </tr>                        <tr *ngIf="!group.get(\'isEditable\').value">                            <td>                                {{ group.get(\'name\').value }}                                <button *ngIf="group.get(\'errors\').value.length" class="btn"                                    [ngbTooltip]="getErrorTooltip(group.get(\'errors\').value)">                                    <i class="fas fa-exclamation-triangle fa-lg blinking" style="color:Tomato"></i>                                </button>                            </td>                            <td>                                {{ group.get(\'url\').value }}                            </td>                            <td>                                {{ group.get(\'tpGroup\').value }}                            </td>                            <td>                                <div class="btn-group" role="group" aria-label="">                                    <button type="button" class="btn btn-secondary" (click)="editRow(group)"><i                                            class="fas fa-pencil-alt"></i></button>                                    <button type="button" class="btn btn-danger" (click)="deleteRow(i)"><i                                            class="far fa-trash-alt"></i></button>                                </div>                            </td>                        </tr>                    </ng-container>                </tbody>            </table>            <div class="sticky-bot bg-white py-3">                <div class="btn-group" role="group">                    <button class="btn btn-secondary" type="submit" (click)="addRow()"                        ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY\' | translate }}">                        <span class="fa-layers fa-fw">                            <i class="fas fa-circle" data-fa-mask="fas fa-database"                                data-fa-transform="shrink-6 right-7 "></i>                            <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>                        </span>                    </button>                    <button class="btn btn-secondary" (click)="openAddRepositoriesModal()"                        ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES\' | translate }}">                        <span class="fa-layers fa-fw">                            <i class="fas fa-square" data-fa-mask="fas fa-database"                                data-fa-transform="grow-3 right-10"></i>                            <i class="fas fa-circle" data-fa-mask="fas fa-database"                                data-fa-transform="shrink-6 right-7"></i>                            <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>                            <i class="fas fa-plus" data-fa-transform="shrink-9 right-11 up-5"></i>                            <i class="fas fa-plus" data-fa-transform="shrink-8 right-13 down-3"></i>                        </span>                    </button>                </div>                <button class="btn btn-primary ml-2" [disabled]="nbEditing || formGroup.invalid" type="submit"                    (click)="submitForm()" ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-SAVE\' | translate }}">                    <i class="fas fa-save"></i>                </button>            </div>        </form>    </div></div><ng-template #toSaveTooltip>{{ \'TO-SAVE.TOOLTIP\' | translate }}</ng-template></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="card">    <div class="card-header">        <h4>{{ \'EDIT-REPOSITORIES.PAGE-TITLE\' | translate }} <span *ngIf="isModified" [ngbTooltip]="toSaveTooltip"                class="ml-1">                <i class="fas fa-save text-primary fa-sm up-down"></i>            </span></h4>    </div>    <div class="card-body">        <div class="overflow-auto" style="max-height:50vh;">            <table class="table table-hover table-striped ">                <thead>                    <tr>                        <th class="sortable-column" scope="col" style="width: 25%;" (click)="onSort(\'name\')">                            {{ \'EDIT-REPOSITORIES.COLUMN-NAME\' | translate}}                            <ng-container *ngIf="lastPropertySorted === \'name\'">                                <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                                <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                                <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                            </ng-container>                        </th>                        <th class="sortable-column" scope="col" style="width: 50%" (click)="onSort(\'url\')">                            {{ \'EDIT-REPOSITORIES.COLUMN-URL\' | translate}}                            <ng-container *ngIf="lastPropertySorted === \'url\'">                                <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                                <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                                <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                            </ng-container>                        </th>                        <th class="sortable-column" scope="col" style="width: 15%" (click)="onSort(\'tpGroup\')">                            {{ \'EDIT-REPOSITORIES.COLUMN-TP-GROUP\' | translate}}                            <ng-container *ngIf="lastPropertySorted === \'tpGroup\'">                                <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                                <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                                <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                            </ng-container>                        </th>                        <th scope="col" style="width: 10%"></th>                    </tr>                </thead>                <tbody>                    <ng-container *ngFor="let group of getFormControls; let i = index">                        <tr [formGroup]="group" *ngIf="group.get(\'isEditable\').value"                            (keyup.enter)="validateRow(group)">                            <td>                                <input type="text" class="form-control" formControlName="name" placeholder="git4school">                            </td>                            <td>                                <input type="url" [ngClass]="{                                        \'is-invalid\': group.invalid,                                        \'is-valid\': group.valid,                                        \'loading\': group.pending}" class="form-control" formControlName="url"                                    placeholder="https://github.com/git4school/git4school-visu">                                <div *ngIf="group.get(\'url\').errors && group.get(\'url\').errors[\'noAccess\']"                                    class="invalid-feedback">                                    {{ \'EDIT-REPOSITORIES.MESSAGE-INVALID-URL\' | translate }}                                </div>                                <div *ngIf="group.get(\'url\').errors && group.get(\'url\').errors[\'repoAlreadyAdded\']"                                    class="invalid-feedback">                                    {{ \'EDIT-REPOSITORIES.MESSAGE-REPO-ALREADY-ADDED\' | translate }}                                </div>                            </td>                            <td>                                <input type="text" class="form-control" formControlName="tpGroup" placeholder="1.1">                            </td>                            <td>                                <div class="btn-group" role="group" aria-label="">                                    <button type="reset" class="btn btn-danger" (click)="cancelRow(group, i)"><i                                            class="fas fa-times"></i></button>                                    <button type="submit" class="btn btn-success" (click)="validateRow(group)"><i                                            class="fas fa-check"></i></button>                                </div>                            </td>                        </tr>                        <tr *ngIf="!group.get(\'isEditable\').value">                            <td>                                {{ group.get(\'name\').value }}                                <button *ngIf="group.get(\'errors\').value.length" class="btn"                                    [ngbTooltip]="getErrorTooltip(group.get(\'errors\').value)">                                    <i class="fas fa-exclamation-triangle fa-lg blinking" style="color:Tomato"></i>                                </button>                            </td>                            <td>                                {{ group.get(\'url\').value }}                            </td>                            <td>                                {{ group.get(\'tpGroup\').value }}                            </td>                            <td>                                <div class="btn-group" role="group" aria-label="">                                    <button type="button" class="btn btn-secondary" (click)="editRow(group)"><i                                            class="fas fa-pencil-alt"></i></button>                                    <button type="button" class="btn btn-danger" (click)="onDeleteRow(i)"><i                                            class="far fa-trash-alt"></i></button>                                </div>                            </td>                        </tr>                    </ng-container>                </tbody>            </table>        </div>        <div class="btn-group mt-2" role="group ">            <button class="btn btn-secondary" type="button" (click)="addRow()"                ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY\' | translate }}">                <span class="fa-layers fa-fw">                    <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7 "></i>                    <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>                </span>            </button>            <button class="btn btn-secondary" type="button" (click)="openAddRepositoriesModal()"                ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES\' | translate }}">                <span class="fa-layers fa-fw">                    <i class="fas fa-square" data-fa-mask="fas fa-database" data-fa-transform="grow-3 right-10"></i>                    <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>                    <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>                    <i class="fas fa-plus" data-fa-transform="shrink-9 right-11 up-5"></i>                    <i class="fas fa-plus" data-fa-transform="shrink-8 right-13 down-3"></i>                </span>            </button>        </div>    </div></div><ng-template #deleteConfirmation>    <div class="modal-header">        <h4 class="modal-title">{{ "DELETE-REPOSITORY-CONFIRMATION-TITLE" | translate }}</h4>        <button type="button" class="close" aria-label="Close" (click)="modalRef.dismiss(\'Cross click\')">            <span aria-hidden="true">&times;</span>        </button>    </div>    <div class="modal-body">        <p>{{ "DELETE-REPOSITORY-CONFIRMATION-MESSAGE" | translate }}</p>        <div class="form-check">            <input class="form-check-input" type="checkbox" #hideConfirmation id="hideConfirmation">            <label class="form-check-label" for="hideConfirmation">                <small>{{ "HIDE-CONFIRMATION-BOX" | translate }}</small>            </label>        </div>    </div>    <div class="modal-footer">        <button type="button" class="btn btn-danger" (click)="modalRef.dismiss(\'Cancel\')">            {{ "CANCEL" | translate }}        </button>        <button type="button" class="btn btn-primary" (click)="modalRef.close(hideConfirmation.checked)">            {{ "CONFIRM" | translate }}        </button>    </div></ng-template><ng-template #toSaveTooltip>{{ \'TO-SAVE.TOOLTIP\' | translate }}</ng-template></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'EditRepositoriesComponent'};

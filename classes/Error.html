@@ -273,7 +273,7 @@ export class Repository {
   }
 
   static isEqual(repository1: Repository, repository2: Repository): boolean {
-    return repository1.url.toLowerCase() &#x3D;&#x3D;&#x3D; repository2.url.toLowerCase();
+    return repository1.url?.toLowerCase() &#x3D;&#x3D;&#x3D; repository2.url?.toLowerCase();
   }
 
   /**
