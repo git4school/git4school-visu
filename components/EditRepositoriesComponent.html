@@ -656,8 +656,8 @@ or by selecting it in the list of repositories retrieved from Github</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="251"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:251</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="253"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:253</a></div>
                 </td>
             </tr>
 
@@ -872,8 +872,8 @@ or by selecting it in the list of repositories retrieved from Github</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="298"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:298</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="300"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:300</a></div>
                 </td>
             </tr>
 
@@ -1271,8 +1271,8 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="312"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:312</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="314"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:314</a></div>
                 </td>
             </tr>
 
@@ -1363,8 +1363,8 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="270"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:270</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="272"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:272</a></div>
                 </td>
             </tr>
 
@@ -1406,8 +1406,8 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="279"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:279</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="281"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:281</a></div>
                 </td>
             </tr>
 
@@ -3354,8 +3354,10 @@ export class EditRepositoriesComponent
    */
   private repoAlreadyAddedValidator(): ValidatorFn {
     return (urlControl: AbstractControl): ValidationErrors | null &#x3D;&gt; {
-      let doesRepoAlreadyAdded &#x3D; this.datas.some((repo2, index, array) &#x3D;&gt;
-        Repository.isEqual(new Repository(urlControl.value), repo2)
+      let doesRepoAlreadyAdded &#x3D; this.getFormControls.some(
+        (repo2, index, array) &#x3D;&gt;
+          urlControl.value &#x3D;&#x3D;&#x3D; repo2.get(&quot;url&quot;).value &amp;&amp;
+          !Object.is(urlControl, repo2.get(&quot;url&quot;))
       );
       return urlControl.value &amp;&amp; doesRepoAlreadyAdded
         ? { repoAlreadyAdded: true }
