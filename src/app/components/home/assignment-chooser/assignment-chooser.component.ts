@@ -124,16 +124,19 @@ export class AssignmentChooserComponent implements OnInit {
 
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);
-    this.DetailDisplayer(row);
   }
 
   onDetailToggle(event) {
     console.log('Detail Toggled', event);
   }
 
-  DetailDisplayer(row): String{
-    console.log(this.assignments[0]);
-    var Mystring = "";
-    return Mystring;
+  DetailDisplayer(row) : String {
+    var resultAsString = "";
+    console.log(row.metadata.questions.length);
+    (row.metadata.questions.length != 0 )?resultAsString += "Question :" + row.metadata.questions.join("\n") + "\n" : resultAsString += "Question : " + "Aucune question" + "\n";
+    (row.metadata.startDate)?resultAsString += "Date de début : " + row.metadata.startDate + "\n" : resultAsString += "Date de début : " + "Aucune date" + "\n";
+    (row.metadata.endDate)?resultAsString += "Date de fin : " + row.metadata.endDate + "\n" : resultAsString += "Date de fin : " + "Aucune date" + "\n";
+    console.log(resultAsString);
+    return resultAsString;
   }
 }
