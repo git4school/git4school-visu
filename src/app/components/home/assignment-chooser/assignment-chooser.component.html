@@ -58,20 +58,20 @@
     |
     <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Collapse All</a>
   </small>
-  
+
   <ngx-datatable #assignmentsTable class="material" [rows]="assignments" [columnMode]="'force'" rowHeight="auto"
     headerHeight="auto" [sorts]="[{ prop: 'lastModificationDate', dir: 'desc' }]">
-    
-    <!-- Column Templates -->
-    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
-    [canAutoResize]="false">
-    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
-        title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
-      </a>
-    </ng-template>
 
-  </ngx-datatable-column>
+    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+      [canAutoResize]="false">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+        <p [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+          (click)="toggleExpandRow(row)">
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+
+
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" [maxWidth]="65">
     </ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title">
@@ -86,15 +86,16 @@
       </ng-template>
 
 
-      <ngx-datatable-row-detail  rowHeight="auto" #myDetailRow (toggle)="onDetailToggle($event)">
-        <ng-template let-row="row" let-rowIndex="rowIndex" let-expanded="expanded" ngx-datatable-row-detail-template>
-
+      <ngx-datatable-row-detail rowHeight="auto" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
           <div style="padding-left:35px;">
-            <div><strong>Détails</strong></div>
-            <div>{{ row.metadata.questions }}, {{ row.metadata.startDate }}, {{ row.metadata.endDate }}, <br> Nombre de répository : {{ row.repositories.length }}</div>
+            <div><strong>{{ 'ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.DETAILS-TITLE' | translate }}</strong></div>
+            <div style="white-space: pre">{{ DetailDisplayer(row) }}</div>
           </div>
         </ng-template>
       </ngx-datatable-row-detail>
+
+
 
     </ngx-datatable-column>
     <ngx-datatable-column [maxWidth]="170" [sortable]="false">
