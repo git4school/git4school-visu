@@ -28,8 +28,6 @@ export class AssignmentChooserComponent implements OnInit {
   assignments: Assignment[];
   modalRef: NgbModalRef;
 
-  
-
   constructor(
     private databaseService: DatabaseService,
     private dataService: DataService,
@@ -47,6 +45,11 @@ export class AssignmentChooserComponent implements OnInit {
   ngOnInit(): void {
     this.assignments = [];
     this.loadAssignments();
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.table.groupHeader.toggleExpandGroup(this.table.groupedRows[0]), 100);
+    
   }
 
   async loadAssignments() {
@@ -127,11 +130,6 @@ export class AssignmentChooserComponent implements OnInit {
   }
 
   toggleExpandGroup(group) {
-    console.log('Toggled Expand Group!', group,  this.table.groupHeader);
     this.table.groupHeader.toggleExpandGroup(group);
-  }
-
-  onDetailToggle(event) {
-    console.log('Detail Toggled', event);
   }
 }

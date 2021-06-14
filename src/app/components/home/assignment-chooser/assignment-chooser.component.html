@@ -1,24 +1,30 @@
+<button class="btn btn-outline-secondary">
+  <div>
+    <span class="fa-layers fa-fw">
+      <i class="fas fa-stream" data-fa-transform="right-4"></i>
+      <i class="fas fa-chevron-right" data-fa-transform="shrink-8 down-5 left-9"></i>
+      <i class="fas fa-chevron-down" data-fa-transform="shrink-8 up-5 left-9"></i>
+    </span>
+  </div>
+</button>
+
 <div>
   <ngx-datatable #assignmentsTable class="material expandable" [rows]="assignments" [groupRowsBy]="'year'"
-    [columnMode]="'force'" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="60" [limit]="10"
-    >
-    <ngx-datatable-group-header #myGroupHeader (toggle)="onDetailToggle($event)">
+    [columnMode]="'force'" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="60" [limit]="10">
+    <ngx-datatable-group-header #myGroupHeader>
       <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
         <div style="padding-left:5px;">
-          <a [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+          <span [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
             title="Expand/Collapse Group" (click)="toggleExpandGroup(group)">
             <b>{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }} : {{ group.key }}</b>
-          </a>
+          </span>
         </div>
       </ng-template>
     </ngx-datatable-group-header>
 
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" editable="true" frozenLeft="True">
-    </ngx-datatable-column>
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title" editable="false"
-      frozenLeft="True"></ngx-datatable-column>
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course" editable="true">
-    </ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" ></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title" ></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course" ></ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program"></ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}" prop="year"></ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}">
