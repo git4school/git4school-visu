@@ -33,6 +33,9 @@ export class OverviewComponent
   @ViewChild(BaseChartDirective, { static: true }) myChart;
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
 
+  minZoom: number;
+  maxZoom: number;
+
   contextualMenuShown: boolean;
 
   assignmentsModified$: Subscription;
@@ -134,7 +137,12 @@ export class OverviewComponent
         pan: {
           enabled: false,
           mode: "x",
-          onPan({ chart }) {},
+          onPan: ({ chart }) => {
+            this.saveMinMaxZoom(
+              chart.scales["x-axis-0"].min,
+              chart.scales["x-axis-0"].max
+            );
+          },
         },
         zoom: {
           enabled: true,
@@ -145,7 +153,13 @@ export class OverviewComponent
           },
           mode: "x",
           speed: 0.3,
-          onZoom: ({ chart }) => this.adaptScaleWithChart(chart),
+          onZoom: ({ chart }) => {
+            this.saveMinMaxZoom(
+              chart.scales["x-axis-0"].min,
+              chart.scales["x-axis-0"].max
+            );
+            this.adaptScaleWithChart(chart);
+          },
         },
       },
     },
@@ -581,6 +595,7 @@ export class OverviewComponent
     this.myChart.chart.destroy();
     this.myChart.ngOnInit();
     this.selectZoom(this.drag);
+    this.updateZoom();
   }
 
   onChartClick(event) {
@@ -621,6 +636,21 @@ export class OverviewComponent
     }
   }
 
+  saveMinMaxZoom(min: number, max: number) {
+    this.minZoom = min;
+    this.maxZoom = max;
+  }
+
+  setMinMaxZoom(min: number, max: number) {
+    this.myChart.chart.options.scales.xAxes[0].ticks.min = min;
+    this.myChart.chart.options.scales.xAxes[0].ticks.max = max;
+    this.myChart.update();
+  }
+
+  updateZoom() {
+    this.setMinMaxZoom(this.minZoom, this.maxZoom);
+  }
+
   getPointStyle(commit: Commit) {
     if (commit.isCloture) {
       return "circle";
@@ -636,7 +666,8 @@ export class OverviewComponent
   }
 
   resetZoom() {
-    this.myChart.chart.resetZoom();
+    this.saveMinMaxZoom(null, null);
+    this.updateZoom();
     this.adaptScaleWithChart(this.myChart.chart);
   }
 
