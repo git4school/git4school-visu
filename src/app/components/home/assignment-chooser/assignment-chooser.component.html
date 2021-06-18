@@ -91,10 +91,10 @@
 
 
       <ngx-datatable-row-detail rowHeight="auto" #myDetailRow (toggle)="onDetailToggle($event)">
-        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-          <div style="padding-left:35px;">
-            <div><strong>{{ 'ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.DETAILS-TITLE' | translate }}</strong></div>
-            <div style="white-space: pre">{{ DetailDisplayer(row) }}</div>
+        <ng-template  let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div class="details-div" style="padding-left:45px;">
+            <div>{{ 'ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.DETAILS-TITLE' | translate }}</div>
+            <div style="white-space: pre; padding-left: 15px;">{{ detailDisplayer(row) }}</div>
           </div>
         </ng-template>
       </ngx-datatable-row-detail>
