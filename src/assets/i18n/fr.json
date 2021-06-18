@@ -251,7 +251,10 @@
       "DETAILS-TITLE": "Détails",
       "START-DATE": "Date de début",
       "END-DATE": "Date de fin",
-      "NUMBER-OF-RESPOSITORY": "Nombre de répertoire"
+      "NOT-SPECIFIED" : "Non spécifié",
+      "NUMBER-OF-RESPOSITORY": "Nombre de répertoire",
+      "NO-RESPOSITORY": "Aucun dépôt",
+      "NO-QUESTION" : "Aucune question"
     }
   },
   "EDIT-METADATA": {

@@ -251,7 +251,10 @@
       "DETAILS-TITLE": "Details",
       "START-DATE": "Started",
       "END-DATE": "End",
-      "NUMBER-OF-RESPOSITORY": "Number of respository"
+      "NOT-SPECIFIED" : "Not specified",
+      "NUMBER-OF-RESPOSITORY": "Number of respository",
+      "NO-RESPOSITORY": "No respository",
+      "NO-QUESTION" : "No question"
     }
   },
   "EDIT-METADATA": {

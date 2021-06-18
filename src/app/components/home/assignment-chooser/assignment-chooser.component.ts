@@ -13,6 +13,7 @@ import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ToastService } from "@services/toast.service";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: "assignment-chooser",
@@ -37,7 +38,8 @@ export class AssignmentChooserComponent implements OnInit {
     private toastService: ToastService,
     public activeModalService: NgbActiveModal,
     private assignmentsService: AssignmentsService,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
+    private datePipe: DatePipe,
   ) {}
 
   ngOnInit(): void {
@@ -130,13 +132,55 @@ export class AssignmentChooserComponent implements OnInit {
     console.log('Detail Toggled', event);
   }
 
-  DetailDisplayer(row) : String {
-    var resultAsString = "";
-    console.log(row.metadata.questions.length);
-    (row.metadata.questions.length != 0 )?resultAsString += "Question :" + row.metadata.questions.join("\n") + "\n" : resultAsString += "Question : " + "Aucune question" + "\n";
-    (row.metadata.startDate)?resultAsString += "Date de début : " + row.metadata.startDate + "\n" : resultAsString += "Date de début : " + "Aucune date" + "\n";
-    (row.metadata.endDate)?resultAsString += "Date de fin : " + row.metadata.endDate + "\n" : resultAsString += "Date de fin : " + "Aucune date" + "\n";
-    console.log(resultAsString);
+  /**
+   * Concatenate questionsChecker(), startDateChecker(), endDateChecker() and getNumberOfRespository() be displayed in the template
+   * @param row 
+   * @returns String
+   */
+  detailDisplayer(row) : String {
+    var resultAsString = this.questionsChecker(row) + "" + this.startDateChecker(row) + this.endDateChecker(row) + this.getNumberOfRespository(row);
     return resultAsString;
   }
+
+  /**
+   * Check if there is any questions. If yes, question are convert into a string. If no, display the fact that there is no question.
+   * @param row 
+   * @returns String
+   */
+  private questionsChecker(row) : String {
+    let resultAsString = (row.metadata.questions.length != 0 )? "Question : " + row.metadata.questions.join("\n") + "\n" : "Question : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NO-QUESTION") + "\n";
+    return resultAsString;
+  }
+
+  /**
+   * Check if there is a start date and format it. Return a string with dd/mm/yyyy format
+   * @param row 
+   * @returns String
+   */
+  private startDateChecker(row) : String {
+    let resultAsString = (row.metadata.startDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.datePipe.transform(row.metadata.startDate, "YYYY-MM-dd HH:mm") + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "\n";
+    return resultAsString;
+  }
+  
+  /**
+   * Check if there is a end date and format it. Return a string with dd/mm/yyyy format
+   * @param row 
+   * @returns String
+   */
+  private endDateChecker(row) : String {
+    let resultAsString = (row.metadata.endDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.datePipe.transform(row.metadata.endDate, "YYYY-MM-dd HH:mm") + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "\n";
+    return resultAsString;
+  }
+
+  /**
+   * Return a String with the number of respository.
+   * @param row 
+   * @returns String
+   */
+  private getNumberOfRespository(row) : String {
+    let resultAsString = (row.repositories.length > 0 || row.repositories.length)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY") + " : " + row.repositories.length + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NO-RESPOSITORY") + "\n";
+    return resultAsString
+  }
+
+  
 }
