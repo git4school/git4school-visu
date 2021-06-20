@@ -1,0 +1,21 @@
+name: Tests
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  build:
+    name: Test the application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Setup Node
+        uses: actions/setup-node@master
+        with:
+          node-version: "14.X"
+      - name: Install Dependencies
+        run: yarn --ignore-engines
+      - name: Run the tests
+        run: yarn run test --watch=false

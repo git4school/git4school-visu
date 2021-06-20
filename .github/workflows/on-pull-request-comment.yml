@@ -1,0 +1,47 @@
+name: Deploy staging (comment)
+on:
+  issue_comment:
+    types: [created, edited]
+jobs:
+  build:
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/deploy') }}
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: "refs/pull/${{ github.event.issue.number }}/merge"
+      - name: Setup Node
+        uses: actions/setup-node@master
+        with:
+          node-version: "14.X"
+      - name: Install Dependencies
+        run: yarn --ignore-engines
+      - name: Build app & doc
+        run: yarn run build-prod
+      - name: Upload Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: dist-git4school
+          path: dist/git4school
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: "refs/pull/${{ github.event.issue.number }}/merge"
+      - name: Download Production Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: dist-git4school
+          path: dist/git4school
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy -P staging
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
