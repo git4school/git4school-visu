@@ -1,0 +1,44 @@
+name: Deploy staging (label)
+on:
+  pull_request:
+    branches: [master]
+    types: [labeled]
+jobs:
+  build:
+    if: ${{ github.event.label.name == 'deploy-staging' }}
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Setup Node
+        uses: actions/setup-node@master
+        with:
+          node-version: "14.X"
+      - name: Install Dependencies
+        run: yarn --ignore-engines
+      - name: Build app
+        run: yarn run build-prod
+      - name: Upload Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: dist-git4school
+          path: dist/git4school
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Download Production Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: dist-git4school
+          path: dist/git4school
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy -P staging
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

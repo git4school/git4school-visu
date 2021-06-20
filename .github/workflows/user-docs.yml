@@ -1,4 +1,4 @@
-name: Push user documentation to the organization repository
+name: Deploy user documentation
 on:
   push:
     branches:
