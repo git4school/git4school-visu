@@ -4,7 +4,6 @@ on:
     types: [created, edited]
 jobs:
   build:
-    if: ${{ contains(github.event.comment.body, '/deploy') }}
     name: Build
     runs-on: ubuntu-latest
     steps:
