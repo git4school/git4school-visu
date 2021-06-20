@@ -17,7 +17,7 @@ jobs:
           node-version: "14.X"
       - name: Install Dependencies
         run: yarn --ignore-engines
-      - name: Build app & doc
+      - name: Build app
         run: yarn run build-prod
       - name: Upload Archive Production Artifact
         uses: actions/upload-artifact@master
