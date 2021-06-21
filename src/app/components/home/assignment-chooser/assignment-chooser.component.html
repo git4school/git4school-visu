@@ -10,10 +10,10 @@
 
 <div>
   <ngx-datatable #assignmentsTable class="material expandable" [rows]="assignments" [groupRowsBy]="'year'"
-    [columnMode]="'force'" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="60" [limit]="10">
+    [columnMode]="'force'"  [headerHeight]="50" [footerHeight]="50" [rowHeight]="60" [limit]="10">
     <ngx-datatable-group-header #myGroupHeader>
       <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
-        <div style="padding-left:5px;">
+        <div class="group-div" style="padding-left:5px;">
           <span [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
             title="Expand/Collapse Group" (click)="toggleExpandGroup(group)">
             <b>{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }} : {{ group.key }}</b>
@@ -22,7 +22,7 @@
       </ng-template>
     </ngx-datatable-group-header>
 
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" ></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id"></ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title" ></ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course" ></ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program"></ngx-datatable-column>
