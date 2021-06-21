@@ -42,3 +42,23 @@ jobs:
           args: deploy -P staging
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+  comment-staging-link:
+    name: Comment staging link in PR comment
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v4
+        with:
+          script: |
+            github.issues.removeLabel({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'deploy-staging'
+            })
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Staging deployed on https://git4school-staging.firebaseapp.com/'
+            })
