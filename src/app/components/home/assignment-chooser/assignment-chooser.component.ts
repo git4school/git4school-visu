@@ -165,7 +165,7 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private startDateChecker(row) : String {
-    let resultAsString = (row.metadata.startDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.datePipe.transform(row.metadata.startDate, "YYYY-MM-dd HH:mm") + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "\n";
+    let resultAsString = (row.metadata.startDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.datePipe.transform(row.metadata.startDate, "MM-dd-YYYY") + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "\n";
     return resultAsString;
   }
   
@@ -175,7 +175,7 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private endDateChecker(row) : String {
-    let resultAsString = (row.metadata.endDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.datePipe.transform(row.metadata.endDate, "YYYY-MM-dd HH:mm") + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "\n";
+    let resultAsString = (row.metadata.endDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.datePipe.transform(row.metadata.endDate, "MM-dd-YYYY") + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "\n";
     return resultAsString;
   }
 

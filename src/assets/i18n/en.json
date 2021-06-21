@@ -245,16 +245,16 @@
     "PROGRAM": "Program",
     "YEAR": "Year",
     "LAST-MODIFICATION-DATE": "Last modification date",
-    "EXPAND-ALL-ROWS" : "Expend all",
-    "COLLAPSE-ALL-ROWS" : "Collapse all",
+    "EXPAND-ALL-ROWS": "Expend all",
+    "COLLAPSE-ALL-ROWS": "Collapse all",
     "ASSIGNMENT-DETAILS": {
-      "DETAILS-TITLE": "Details",
+      "DETAILS-TITLE": "details's",
       "START-DATE": "Started",
       "END-DATE": "End",
-      "NOT-SPECIFIED" : "Not specified",
+      "NOT-SPECIFIED": "Not specified",
       "NUMBER-OF-RESPOSITORY": "Number of respository",
       "NO-RESPOSITORY": "No respository",
-      "NO-QUESTION" : "No question"
+      "NO-QUESTION": "No question"
     }
   },
   "EDIT-METADATA": {
