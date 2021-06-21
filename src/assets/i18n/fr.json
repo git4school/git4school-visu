@@ -245,16 +245,16 @@
     "PROGRAM": "Programme",
     "YEAR": "Année",
     "LAST-MODIFICATION-DATE": "Date de la dernière modification",
-    "EXPAND-ALL-ROWS" : "Tout afficher",
-    "COLLAPSE-ALL-ROWS" : "Tout cacher",
+    "EXPAND-ALL-ROWS": "Tout afficher",
+    "COLLAPSE-ALL-ROWS": "Tout cacher",
     "ASSIGNMENT-DETAILS": {
-      "DETAILS-TITLE": "Détails",
+      "DETAILS-TITLE": "détails",
       "START-DATE": "Date de début",
       "END-DATE": "Date de fin",
-      "NOT-SPECIFIED" : "Non spécifié",
+      "NOT-SPECIFIED": "Non spécifié",
       "NUMBER-OF-RESPOSITORY": "Nombre de répertoire",
       "NO-RESPOSITORY": "Aucun dépôt",
-      "NO-QUESTION" : "Aucune question"
+      "NO-QUESTION": "Aucune question"
     }
   },
   "EDIT-METADATA": {
