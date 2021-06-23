@@ -90,7 +90,7 @@
       </ng-template>
 
 
-      <ngx-datatable-row-detail rowHeight="auto" #myDetailRow (toggle)="onDetailToggle($event)">
+      <ngx-datatable-row-detail rowHeight="auto" #myDetailRow>
         <ng-template  let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
           <div class="details-div" style="padding-left:45px;">
             <div style="white-space: pre; padding-left: 15px;">{{ detailDisplayer(row) }}</div>
