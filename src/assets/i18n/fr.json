@@ -248,13 +248,11 @@
     "EXPAND-ALL-ROWS": "Tout afficher",
     "COLLAPSE-ALL-ROWS": "Tout cacher",
     "ASSIGNMENT-DETAILS": {
-      "DETAILS-TITLE": "détails",
       "START-DATE": "Date de début",
       "END-DATE": "Date de fin",
+      "FORMAT-DATE": "dd-MM-YYYY",
       "NOT-SPECIFIED": "Non spécifié",
-      "NUMBER-OF-RESPOSITORY": "Nombre de répertoire",
-      "NO-RESPOSITORY": "Aucun dépôt",
-      "NO-QUESTION": "Aucune question"
+      "NUMBER-OF-RESPOSITORY": "Nombre de répertoire"
     }
   },
   "EDIT-METADATA": {
