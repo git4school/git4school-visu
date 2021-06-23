@@ -248,8 +248,8 @@
     "EXPAND-ALL-ROWS": "Expend all",
     "COLLAPSE-ALL-ROWS": "Collapse all",
     "ASSIGNMENT-DETAILS": {
-      "START-DATE": "Started",
-      "END-DATE": "End",
+      "START-DATE": "Start date",
+      "END-DATE": "End date",
       "FORMAT-DATE": "MM-dd-YYYY",
       "NOT-SPECIFIED": "Not specified",
       "NUMBER-OF-RESPOSITORY": "Number of respository"
