@@ -22,6 +22,9 @@
       </ng-template>
     </ngx-datatable-group-header>
 
+    <ngx-datatable-column [width]="5" [resizeable]="false" [sortable]="false" [draggable]="false"
+      [canAutoResize]="false">
+    </ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id"></ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title" ></ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course" ></ngx-datatable-column>
