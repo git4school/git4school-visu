@@ -248,13 +248,11 @@
     "EXPAND-ALL-ROWS": "Expend all",
     "COLLAPSE-ALL-ROWS": "Collapse all",
     "ASSIGNMENT-DETAILS": {
-      "DETAILS-TITLE": "details's",
       "START-DATE": "Started",
       "END-DATE": "End",
+      "FORMAT-DATE": "MM-dd-YYYY",
       "NOT-SPECIFIED": "Not specified",
-      "NUMBER-OF-RESPOSITORY": "Number of respository",
-      "NO-RESPOSITORY": "No respository",
-      "NO-QUESTION": "No question"
+      "NUMBER-OF-RESPOSITORY": "Number of respository"
     }
   },
   "EDIT-METADATA": {

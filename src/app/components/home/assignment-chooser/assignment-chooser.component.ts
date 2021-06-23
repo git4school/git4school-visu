@@ -145,7 +145,7 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   detailDisplayer(row) : String {
-    var resultAsString = this.questionsChecker(row) + "" + this.startDateChecker(row) + this.endDateChecker(row) + this.getNumberOfRespository(row);
+    var resultAsString = this.getNumberOfRespository(row) + "" + this.questionsChecker(row) + this.startDateChecker(row) + this.endDateChecker(row);
     return resultAsString;
   }
 
@@ -155,7 +155,7 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private questionsChecker(row) : String {
-    let resultAsString = (row.metadata.questions.length != 0 )? "Question : " + row.metadata.questions.join("\n") + "\n" : "Question : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NO-QUESTION") + "\n";
+    let resultAsString = (row.metadata.questions.length != 0 )? "Question : " + row.metadata.questions.join("\n") + "\n" : "";
     return resultAsString;
   }
 
@@ -165,7 +165,7 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private startDateChecker(row) : String {
-    let resultAsString = (row.metadata.startDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.datePipe.transform(row.metadata.startDate, "MM-dd-YYYY") + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "\n";
+    let resultAsString = (row.metadata.startDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.datePipe.transform(row.metadata.startDate, this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.FORMAT-DATE")) + "   ": this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "   ";
     return resultAsString;
   }
   
@@ -175,7 +175,7 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private endDateChecker(row) : String {
-    let resultAsString = (row.metadata.endDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.datePipe.transform(row.metadata.endDate, "MM-dd-YYYY") + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "\n";
+    let resultAsString = (row.metadata.endDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.datePipe.transform(row.metadata.endDate, this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.FORMAT-DATE")) : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED");
     return resultAsString;
   }
 
@@ -185,7 +185,7 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private getNumberOfRespository(row) : String {
-    let resultAsString = (row.repositories.length > 0 || row.repositories.length)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY") + " : " + row.repositories.length + "\n" : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NO-RESPOSITORY") + "\n";
+    let resultAsString = (row.repositories.length > 0 || row.repositories.length)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY") + " : " + row.repositories.length + "\n" : "";
     return resultAsString
   }
 }
