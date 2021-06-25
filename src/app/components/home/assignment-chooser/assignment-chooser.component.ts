@@ -28,6 +28,7 @@ export class AssignmentChooserComponent implements OnInit {
   private importConfirmation: TemplateRef<any>;
   assignments: Assignment[];
   modalRef: NgbModalRef;
+  modeView = "groupMode";
 
   constructor(
     private databaseService: DatabaseService,
@@ -188,5 +189,26 @@ export class AssignmentChooserComponent implements OnInit {
     let resultAsString = (row.repositories.length > 0 || row.repositories.length)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY") + " : " + row.repositories.length + "\n" : "";
     return resultAsString
   }
+
+  switchModeView() {
+    switch(this.modeView) {
+      case "groupMode" :
+        this.modeView = "detailsMode";
+        this.ngOnInit();
+        break;
+      case "detailsMode" :
+        this.modeView = "defaultMode";
+        this.ngOnInit();
+        break;
+      case "defaultMode" :
+        this.modeView = "groupMode";
+        this.ngOnInit();
+        this.ngAfterViewInit()
+        break;
+      default :
+        this.modeView = "groupMode";
+    }
+  }
+
 }
 
