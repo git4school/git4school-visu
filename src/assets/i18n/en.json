@@ -244,6 +244,7 @@
     "COURSE": "Course",
     "PROGRAM": "Program",
     "YEAR": "Year",
+    "YEAR-NOT-SPECIFIED": "Year not specified",
     "LAST-MODIFICATION-DATE": "Last modification date",
     "EXPAND-ALL-ROWS": "Expand all",
     "COLLAPSE-ALL-ROWS": "Collapse all",
@@ -253,8 +254,7 @@
       "FORMAT-DATE": "MM-dd-YYYY",
       "NOT-SPECIFIED": "Not specified",
       "NUMBER-OF-RESPOSITORY": "Number of respository"
-    },
-    "YEAR-NOT-SPECIFIED": "Year not specified"
+    }
   },
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Please, provide questions"
