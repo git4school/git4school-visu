@@ -125,6 +125,10 @@ $sizes: (
   cursor: pointer;
 }
 
+.sortable-column:hover {
+  cursor: pointer;
+}
+
 @import "~bootstrap/scss/bootstrap";
 @import "~@swimlane/ngx-datatable/index.css";
 @import "~@swimlane/ngx-datatable/themes/material.scss";

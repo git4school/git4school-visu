@@ -205,7 +205,7 @@ export class AssignmentChooserComponent implements OnInit {
   private getNumberOfRespository(row) : String {
     let NumberOfRespositoryTranslate = this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY");
     let resultAsString = (row.repositories.length > 0 || row.repositories.length)? NumberOfRespositoryTranslate + " : " + row.repositories.length: "";
-    return resultAsString
+    return resultAsString;
   }
   
   get modeView () {
