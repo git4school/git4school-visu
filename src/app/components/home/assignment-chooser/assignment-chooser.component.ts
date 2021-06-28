@@ -13,7 +13,7 @@ import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ToastService } from "@services/toast.service";
-import { DatePipe } from '@angular/common';
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "assignment-chooser",
@@ -28,7 +28,8 @@ export class AssignmentChooserComponent implements OnInit {
   private importConfirmation: TemplateRef<any>;
   assignments: Assignment[];
   modalRef: NgbModalRef;
-  modeView = "groupMode";
+  private _modeView: String;
+
 
   constructor(
     private databaseService: DatabaseService,
@@ -45,13 +46,21 @@ export class AssignmentChooserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.modeView = "detailsMode";
+    this.initContentTable();
+  }
+
+  ngAfterViewInit(): void {
+    this.openFirstGroup();
+  }
+
+  initContentTable() {
     this.assignments = [];
     this.loadAssignments();
   }
 
-  ngAfterViewInit(): void {
+  openFirstGroup() {
     setTimeout(() => this.table.groupHeader.toggleExpandGroup(this.table.groupedRows[0]), 100);
-    
   }
 
   async loadAssignments() {
@@ -146,7 +155,11 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   detailDisplayer(row) : String {
-    var resultAsString = this.getNumberOfRespository(row) + "" + this.questionsChecker(row) + this.startDateChecker(row) + this.endDateChecker(row);
+    let nbRepos = this.getNumberOfRespository(row);
+    let questions = this.questionsChecker(row);
+    let startDate = this.startDateChecker(row);
+    let endDate = this.endDateChecker(row);
+    var resultAsString = `${nbRepos}     ${questions}\n${startDate}     ${endDate}`;
     return resultAsString;
   }
 
@@ -156,7 +169,7 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private questionsChecker(row) : String {
-    let resultAsString = (row.metadata.questions.length != 0 )? "Question : " + row.metadata.questions.join("\n") + "\n" : "";
+    let resultAsString = (row.metadata.questions.length !== 0 )? "Question : " + row.metadata.questions.join(", "): "";
     return resultAsString;
   }
 
@@ -166,7 +179,9 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private startDateChecker(row) : String {
-    let resultAsString = (row.metadata.startDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.datePipe.transform(row.metadata.startDate, this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.FORMAT-DATE")) + "   ": this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED") + "   ";
+    let startDateTranslate = this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.START-DATE");
+    let formatDate = this.datePipe.transform(row.metadata.startDate, this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.FORMAT-DATE"));
+    let resultAsString = (row.metadata.startDate)? startDateTranslate + " : " + formatDate : startDateTranslate + " : " + formatDate;
     return resultAsString;
   }
   
@@ -176,7 +191,9 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private endDateChecker(row) : String {
-    let resultAsString = (row.metadata.endDate)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.datePipe.transform(row.metadata.endDate, this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.FORMAT-DATE")) : this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE") + " : " + this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NOT-SPECIFIED");
+    let endDateTranslate = this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.END-DATE");
+    let formatDate = this.datePipe.transform(row.metadata.endDate, this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.FORMAT-DATE"));
+    let resultAsString = (row.metadata.endDate)? endDateTranslate + " : " + formatDate: endDateTranslate + " : " + formatDate;
     return resultAsString;
   }
 
@@ -186,24 +203,34 @@ export class AssignmentChooserComponent implements OnInit {
    * @returns String
    */
   private getNumberOfRespository(row) : String {
-    let resultAsString = (row.repositories.length > 0 || row.repositories.length)? this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY") + " : " + row.repositories.length + "\n" : "";
+    let NumberOfRespositoryTranslate = this.translateService.instant("ASSIGNMENT-CHOOSER.ASSIGNMENT-DETAILS.NUMBER-OF-RESPOSITORY");
+    let resultAsString = (row.repositories.length > 0 || row.repositories.length)? NumberOfRespositoryTranslate + " : " + row.repositories.length: "";
     return resultAsString
+  }
+  
+  get modeView () {
+    return this._modeView;
+  }
+
+  set modeView (modeView: String) {
+    this._modeView = modeView;
   }
 
   switchModeView() {
     switch(this.modeView) {
       case "groupMode" :
         this.modeView = "detailsMode";
-        this.ngOnInit();
+        this.initContentTable();
         break;
       case "detailsMode" :
-        this.modeView = "defaultMode";
-        this.ngOnInit();
+        this.modeView = "groupMode";
+        this.initContentTable();
+        this.openFirstGroup();
         break;
       case "defaultMode" :
         this.modeView = "groupMode";
-        this.ngOnInit();
-        this.ngAfterViewInit()
+        this.initContentTable();
+        
         break;
       default :
         this.modeView = "groupMode";

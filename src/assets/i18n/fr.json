@@ -253,7 +253,8 @@
       "FORMAT-DATE": "dd-MM-YYYY",
       "NOT-SPECIFIED": "Non spécifié",
       "NUMBER-OF-RESPOSITORY": "Nombre de dépôts"
-    }
+    },
+    "YEAR-NOT-SPECIFIED": "Année non spécifié"
   },
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Veuillez indiquer des questions "

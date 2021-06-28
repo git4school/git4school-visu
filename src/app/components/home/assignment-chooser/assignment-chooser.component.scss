@@ -10,18 +10,10 @@
   animation: move-left-to-right 1.5s infinite
     cubic-bezier(0.57, 0.81, 0.75, 0.74);
 }
-#invisibleColumn{
+
+#invisibleColumn {
   width: 0;
 }
-.group-div{
-  cursor: pointer;
-}
-
-
-
-
-
-
 
 @keyframes move-left-to-right {
   0% {

@@ -1,35 +1,37 @@
-<button class="btn btn-outline-secondary" (click)="switchModeView()">
-  <div *ngIf="modeView == 'groupMode'">
-    <span class="fa-layers fa-fw">
-      <i class="fas fa-stream" data-fa-transform="right-4"></i>
-      <i class="fas fa-chevron-right" data-fa-transform="shrink-8 down-5 left-9"></i>
-      <i class="fas fa-chevron-down" data-fa-transform="shrink-8 up-5 left-9"></i>
-    </span>
-  </div>
-  <div *ngIf="modeView == 'detailsMode'">
-    <span>
-      <i class="fas fa-bars"></i>
-      
-    </span>
-  </div>
-  <div *ngIf="modeView == 'defaultMode'">
-    <span>
-      <i class="fas fa-long-arrow-alt-up" data-fa-transform="left-6"></i>
-      <i class="fas fa-calendar" data-fa-transform="right-1"></i>
-    </span>
-  </div>
-</button>
+<h5 class="mb-3">
+  {{ 'HOME.ASSIGNMENT-LIST.TITLE' | translate }}
+  <button class="btn btn-outline-secondary btn-sm ml-2" (click)="switchModeView()">
+    <div *ngIf="modeView == 'groupMode'">
+      <span class="fa-layers fa-fw">
+        <i class="fas fa-stream" data-fa-transform="right-4"></i>
+        <i class="fas fa-chevron-right" data-fa-transform="shrink-8 down-5 left-9"></i>
+        <i class="fas fa-chevron-down" data-fa-transform="shrink-8 up-5 left-9"></i>
+      </span>
+    </div>
+    <!-- <div *ngIf="modeView == 'detailsMode'">
+      <span>
+        <i class="fas fa-bars"></i>
+        
+      </span>
+    </div> -->
+    <div *ngIf="modeView == 'detailsMode'">
+      <span>
+        <i class="fas fa-long-arrow-alt-up" data-fa-transform="left-6"></i>
+        <i class="fas fa-calendar" data-fa-transform="right-1"></i>
+      </span>
+    </div>
+  </button>
+</h5>
 
 <div *ngIf="modeView == 'groupMode'">
   <ngx-datatable #assignmentsTable class="material expandable" [rows]="assignments" [groupRowsBy]="'year'"
     [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="60" [limit]="10">
     <ngx-datatable-group-header #myGroupHeader>
       <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
-        <div class="group-div" style="padding-left:5px;">
-          <span [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
-            title="Expand/Collapse Group" (click)="toggleExpandGroup(group)">
-            <b>{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }} : {{ group.key }}</b>
-          </span>
+        <div class="hoverable pl-2" (click)="toggleExpandGroup(group)" [ngbTooltip]="expandCollapseTooltip">
+          <span [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded">
+            <b *ngIf="group.key">{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }} : {{ group.key }}</b>
+            <b *ngIf="!group.key">{{ 'ASSIGNMENT-CHOOSER.YEAR-NOT-SPECIFIED' | translate }}</b>          </span>
         </div>
       </ng-template>
     </ngx-datatable-group-header>
@@ -37,19 +39,19 @@
     <ngx-datatable-column [width]="5" [resizeable]="false" [sortable]="false" [draggable]="false"
       [canAutoResize]="false">
     </ngx-datatable-column>
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id"></ngx-datatable-column>
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title"></ngx-datatable-column>
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course"></ngx-datatable-column>
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program"></ngx-datatable-column>
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}" prop="year"></ngx-datatable-column>
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}">
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}" prop="year" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}" [sortable]="false">
       <ng-template let-row="row" ngx-datatable-cell-template>
         {{ row.lastModificationDate | date: 'short' }}
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [sortable]="false">
-      <ng-template let-column="column" ngx-datatable-header-template>
+     <ngx-datatable-column [maxWidth]="170" [sortable]="false">
+       <ng-template let-column="column" ngx-datatable-header-template>
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"
             [ngbTooltip]="createAssignmentTooltip">
@@ -61,16 +63,33 @@
           <button class="btn btn-secondary btn-sm" (click)="assignmentFile.click();" [ngbTooltip]="uploadTooltip"><i
               class="fas fa-upload"></i></button>
         </div>
+
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary left-right-btn" (click)="selectAssignment(row)"
+            [ngbTooltip]="selectAssignmentTooltip" [disabled]="!authService.isSignedIn()">
+            <i class="far fa-arrow-alt-circle-right icon"></i>
+          </button>
+          <button type="button" class="btn btn-secondary spin-btn" (click)="openConfigurationModal(row)"
+            [ngbTooltip]="editAssignmentTooltip">
+            <i class="fas fa-cog icon"></i>
+          </button>
+          <button type="button" class="btn btn-danger fill-btn" (click)="deleteAssignment(row)"
+            [ngbTooltip]="deleteAssignmentTooltip">
+            <i class="far fa-trash-alt icon"></i>
+          </button>
+        </div>
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
 </div>
 
 <div *ngIf="modeView == 'detailsMode'">
-  <small>
-    <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Expand All</a>
+  <small class="hoverable">
+    <a (click)="table.rowDetail.expandAllRows()">{{ 'ASSIGNMENT-CHOOSER.EXPAND-ALL-ROWS' | translate }}</a>
     |
-    <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Collapse All</a>
+    <a (click)="table.rowDetail.collapseAllRows()">{{ 'ASSIGNMENT-CHOOSER.COLLAPSE-ALL-ROWS' | translate }}</a>
   </small>
 
   <ngx-datatable #assignmentsTable class="material" [rows]="assignments" [columnMode]="'force'" rowHeight="auto"
@@ -92,7 +111,7 @@
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program">
     </ngx-datatable-column>
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}" prop="year"></ngx-datatable-column>
-    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}">
+    <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}" prop="lastModificationDate">
       <ng-template let-row="row" ngx-datatable-cell-template>
         {{ row.lastModificationDate | date: 'short' }}
       </ng-template>
@@ -101,7 +120,22 @@
     <ngx-datatable-row-detail rowHeight="auto" #myDetailRow>
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
         <div class="details-div" style="padding-left:45px;">
-          <div style="white-space: pre; padding-left: 15px;">{{ detailDisplayer(row) }}</div>
+          <div class="row">
+            <div *ngIf="row.repositories.length > 0 || row.repositories.length" class="col-2">
+              {{ getNumberOfRespository(row) }}
+            </div>
+            <div *ngIf="row.metadata.questions.length !== 0" class="col-2">
+              {{ questionsChecker(row) }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2">
+              {{ startDateChecker(row) }}
+            </div>
+            <div class="col-2">
+              {{ endDateChecker(row) }}
+            </div>
+          </div>
         </div>
       </ng-template>
     </ngx-datatable-row-detail>
@@ -142,7 +176,7 @@
 
 </div>
 
-<div *ngIf="modeView == 'defaultMode'">
+<!-- <div *ngIf="modeView == 'defaultMode'">
   <ngx-datatable #assignmentsTable class="material" [rows]="assignments" [columnMode]="'force'" rowHeight="auto"
     headerHeight="auto" [sorts]="[{ prop: 'lastModificationDate', dir: 'desc' }]">
     <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" [maxWidth]="65">
@@ -192,7 +226,7 @@
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
-</div>
+</div> -->
 
 <ng-template #importConfirmation>
   <div class="modal-header">
@@ -214,6 +248,7 @@
   </div>
 </ng-template>
 
+<ng-template #expandCollapseTooltip>{{ 'ASSIGNMENT-CHOOSER.EXPAND-ALL-ROWS' | translate }}/{{ 'ASSIGNMENT-CHOOSER.COLLAPSE-ALL-ROWS' | translate }}</ng-template>
 <ng-template #createAssignmentTooltip>{{ 'HOME.CREATE-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
 <ng-template #selectAssignmentTooltip>{{ 'HOME.SELECT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
 <ng-template #editAssignmentTooltip>{{ 'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
