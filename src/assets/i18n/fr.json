@@ -296,5 +296,8 @@
   "DEFAULT-SESSION-DURATION": "Durée de séance par défaut",
   "SESSION-DELETED": "La séance a été supprimée !",
   "SESSION-SAVED": "La séance a été enregistrée !",
-  "TIME": "Heure"
+  "TIME": "Heure",
+  "DELETE-REPOSITORY-CONFIRMATION-TITLE": "Confirmation de suppression",
+  "DELETE-REPOSITORY-CONFIRMATION-MESSAGE": "Êtes-vous sûr de vouloir supprimer ce dépôt ?",
+  "HIDE-CONFIRMATION-BOX": "Masquer cette boîte de confirmation jusqu'au prochain rechargement"
 }

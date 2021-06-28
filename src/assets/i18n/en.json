@@ -296,5 +296,8 @@
   "DEFAULT-SESSION-DURATION": "Default session duration",
   "SESSION-SAVED": "Session has been saved !",
   "SESSION-DELETED": "Session has been deleted !",
-  "TIME": "Time"
+  "TIME": "Time",
+  "DELETE-REPOSITORY-CONFIRMATION-TITLE": "Deletion confirmation",
+  "DELETE-REPOSITORY-CONFIRMATION-MESSAGE": "Are you sure you want to remove this repository ?",
+  "HIDE-CONFIRMATION-BOX": "Hide this confirmation box until the next reload"
 }

@@ -5,7 +5,7 @@ import {
   Input,
   OnInit,
 } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { BaseEditConfigurationComponent } from "./base-edit-configuration.component";
 
 @Component({
@@ -15,19 +15,14 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   extends BaseEditConfigurationComponent<Data[]>
   implements OnInit, AfterContentChecked {
   @Input() datas: Data[];
-  formGroup: FormGroup;
-  nbEditing: number;
+  formGroups: FormGroup[];
 
   constructor(protected fb: FormBuilder, protected cdref: ChangeDetectorRef) {
     super();
   }
 
   ngOnInit(): void {
-    this.formGroup = this.fb.group({
-      formArray: this.fb.array([]),
-    });
-    this.initForm();
-    this.nbEditing = 0;
+    this.initForm(this.datas);
   }
 
   ngAfterContentChecked(): void {
@@ -35,7 +30,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   }
 
   get getFormControls() {
-    const controls = this.formGroup.get("formArray") as FormArray;
+    const controls = this.formGroups;
     return controls;
   }
 
@@ -43,17 +38,21 @@ export abstract class BaseTabEditConfigurationComponent<Data>
     return group.get("isEditable").value;
   }
 
-  initForm() {
-    this.datas &&
-      this.datas.forEach((data) => {
-        this.addRow(data);
-      });
+  initForm(datas: Data[]) {
+    this.formGroups = [];
+    this.populateRows(datas);
+  }
+
+  populateRows(datas: Data[]) {
+    datas?.forEach((data) => {
+      this.addRow(data);
+    });
   }
 
   addRow(data?: Data) {
-    const control = this.getFormControls;
+    const controls = this.getFormControls;
     const group = this.createFormGroup(data);
-    control.push(group);
+    controls.push(group);
     if (!data) {
       this.editRow(group);
     } else {
@@ -63,23 +62,27 @@ export abstract class BaseTabEditConfigurationComponent<Data>
 
   editRow(group: FormGroup) {
     this.saveRow(group);
-    this.nbEditing++;
     group.get("isEditable").setValue(true);
     group.enable();
   }
 
+  removeRow(index: number) {
+    const controls = this.getFormControls;
+    controls.splice(index, 1);
+  }
+
   deleteRow(index: number) {
-    const control = this.getFormControls;
-    control.removeAt(index);
+    this.removeRow(index);
     this.modify();
+    this.submitForm();
   }
 
   validateRow(group: FormGroup) {
     if (group.valid) {
-      this.nbEditing--;
       group.get("isEditable").setValue(false);
       group.disable();
       this.modify();
+      this.submitForm();
     } else {
       group.get("isInvalid").setValue(false);
       group.get("isInvalid").setValue(true);
@@ -88,7 +91,6 @@ export abstract class BaseTabEditConfigurationComponent<Data>
 
   cancelRow(group: FormGroup, index: number) {
     this.restoreRow(group);
-    this.nbEditing--;
     group.get("isEditable").setValue(false);
     group.disable();
   }
@@ -101,7 +103,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
     group.setValue(group.get("save").value);
   }
 
-  abstract createFormGroup(data?: Data);
+  protected abstract createFormGroup(data?: Data);
 
   abstract submitForm(): void;
 }

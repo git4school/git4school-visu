@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "git4school"
+    "default": "git4school",
+    "staging": "git4school-staging"
   }
 }

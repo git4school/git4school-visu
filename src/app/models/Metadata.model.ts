@@ -1,5 +1,6 @@
 import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import { Utils } from "@services/utils";
+import { Type } from "class-transformer";
 
 export class Metadata {
   /**
@@ -40,6 +41,7 @@ export class Metadata {
   /**
    * The date the assignment was last modified
    */
+  @Type(() => Date)
   lastModificationDate: Date;
 
   defaultSessionDuration: NgbTimeStruct;

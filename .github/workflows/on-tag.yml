@@ -1,8 +1,8 @@
-name: Build and Deploy
+name: Deploy production & technical documentation
 on:
   push:
-    branches:
-      - master
+    tags:
+      - "*"
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
       - name: Install Dependencies
         run: yarn --ignore-engines
       - name: Build app & doc
-        run: npm run build:doc
+        run: yarn run build:doc
       - name: Upload Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
