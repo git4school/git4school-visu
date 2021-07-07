@@ -27,9 +27,10 @@
     "STUDENTS-COMMITS": "Students commits",
     "QUESTIONS-COMPLETION": "Questions completion",
     "METADATA": "Metadata",
-    "SIGN-IN": "Sign in",
+    "SIGN-IN": "Sign in with Github",
     "SIGN-OUT": "Sign out",
-    "CONFIGURATION": "Configuration"
+    "CONFIGURATION": "Configuration",
+    "SIGN-IN-GITLAB": "Sign in with Gitlab"
   },
   "HOME": {
     "COPY": "Copy",

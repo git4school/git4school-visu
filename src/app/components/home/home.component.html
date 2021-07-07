@@ -14,10 +14,10 @@
           <div class="subtitle">
             {{ "HOME-SUBTITLE" | translate }}
           </div>
-          <div class="login m-4">
+          <div class="login m-4 d-flex flex-column">
             <button class="btn btn-outline-secondary btn-lg" [disabled]="authService.loading"
               (click)="onSignInGithub()">
-              <span *ngIf="authService.loading; else loggedOut" class="spinner-grow " role="status"
+              <span *ngIf="authService.loading; else loggedOut" class="spinner-grow" role="status"
                 aria-hidden="true"></span>
               {{ 'NAVBAR.SIGN-IN' | translate }}
 
@@ -25,27 +25,17 @@
                 <i class="fab fa-github fa-lg"></i>
               </ng-template>
             </button>
-            <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-outline-primary" id="dropdownForm1" ngbDropdownToggle><i class="fab fa-gitlab"></i>
-                Mika Pons</button>
-              <div ngbDropdownMenu aria-labelledby="dropdownForm1">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-primary">Others</button>
-                  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-                    <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
-                    <div class="dropdown-menu" ngbDropdownMenu>
-                      <button ngbDropdownItem><i class="fab fa-gitlab"></i> One</button>
-                      <button ngbDropdownItem><i class="fab fa-gitlab"></i> Two</button>
-                      <button ngbDropdownItem><i class="fab fa-github"></i> Four!</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="dropdown-divider"></div>
-                <button class="btn btn-danger">
-                  Log out
-                </button>
-              </div>
-            </div>
+
+            <button class="btn btn-outline-secondary btn-lg mt-3" [disabled]="authService.loading"
+              (click)="onSignInGithub()">
+              <span *ngIf="authService.loading; else loggedOutGitlab" class="spinner-grow" role="status"
+                aria-hidden="true"></span>
+              {{ 'NAVBAR.SIGN-IN-GITLAB' | translate }}
+
+              <ng-template #loggedOutGitlab>
+                <i class="fab fa-gitlab fa-lg"></i>
+              </ng-template>
+            </button>
           </div>
         </div>
 
