@@ -1,8 +1,44 @@
-<div class="input-group">
+<!-- <div class="input-group">
     <div class="input-group-prepend" *ngIf="authService.isSignedIn()">
         <button class="btn btn-danger" (click)="onSignOut()">
             <i class="fas fa-sign-out-alt mr-2"></i>{{'NAVBAR.SIGN-OUT' | translate }}
         </button>
+    </div>
+    <select #langSelect (change)="changeLanguage(langSelect.value)" class="form-control"
+        style="text-align-last:center; ">
+        <option *ngFor="let lang of translateService.getLangs()" [value]="lang"
+            [selected]="lang === translateService.currentLang" class="text-center">
+            {{ lang }}</option>
+    </select>
+</div> -->
+
+<div class="d-flex">
+    <div ngbDropdown class="d-inline-block no-arrow mr-2" *ngIf="authService.isSignedIn()" [placement]="'bottom'">
+        <button class="btn btn-outline-secondary" id="accountBtn" ngbDropdownToggle><i class="fab fa-github"></i>
+            {{ authService.username }}</button>
+        <div ngbDropdownMenu aria-labelledby="account-btn" class="dropdown-menu dropdown-menu-right">
+            <div class="d-flex flex-column p-3">
+                <button class="btn btn-secondary flex-fill">
+                    <i class="fab fa-gitlab mr-2"></i>Switch to Gitlab
+                </button>
+                <div class="btn-group flex-fill mt-4">
+                    <button type="button" class="btn btn-primary">Switch to a hosted forge</button>
+                    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown"
+                        display="dynamic" placement="bottom-right">
+                        <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+                        <div class="dropdown-menu" ngbDropdownMenu>
+                            <button ngbDropdownItem><i class="fab fa-gitlab"></i> One</button>
+                            <button ngbDropdownItem><i class="fab fa-gitlab"></i> Two</button>
+                            <button ngbDropdownItem><i class="fab fa-github"></i> Four!</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <button class="btn btn-danger flex-fill" (click)="onSignOut()">
+                    <i class="fas fa-sign-out-alt mr-2"></i>{{'NAVBAR.SIGN-OUT' | translate }}
+                </button>
+            </div>
+        </div>
     </div>
     <select #langSelect (change)="changeLanguage(langSelect.value)" class="form-control"
         style="text-align-last:center; ">

@@ -26,9 +26,10 @@
     "STUDENTS-COMMITS": "Commits des étudiants",
     "QUESTIONS-COMPLETION": "Avancement des questions",
     "METADATA": "Métadonnées",
-    "SIGN-IN": "S'identifier",
+    "SIGN-IN": "Connectez-vous avec Github",
     "SIGN-OUT": "Se déconnecter",
-    "CONFIGURATION": "Configuration"
+    "CONFIGURATION": "Configuration",
+    "SIGN-IN-GITLAB": "Connectez-vous avec Gitlab"
   },
   "HOME": {
     "COPY": "Copier",

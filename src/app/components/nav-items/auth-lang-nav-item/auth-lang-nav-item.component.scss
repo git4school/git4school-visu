@@ -1,0 +1,12 @@
+.no-arrow > .dropdown-toggle::after {
+  display: none;
+}
+
+.btn-outline-secondary {
+  color: rgb(226, 226, 226);
+  border: none;
+}
+
+.dropdown-menu {
+  width: max-content;
+}
