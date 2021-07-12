@@ -3,6 +3,7 @@ import { Assignment } from "@models/Assignment.model";
 import { TranslateService } from "@ngx-translate/core";
 import { plainToClass } from "class-transformer";
 import { Subject } from "rxjs";
+import { DataService } from "./data.service";
 import { DatabaseService } from "./database.service";
 import { JsonManagerService } from "./json-manager.service";
 
@@ -15,7 +16,8 @@ export class AssignmentsService {
   constructor(
     private fileService: JsonManagerService,
     private databaseService: DatabaseService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private dataService: DataService
   ) {}
 
   importAssignment(blob: Blob): Promise<Assignment> {
@@ -62,7 +64,7 @@ export class AssignmentsService {
 
   exportAssignments() {
     this.databaseService
-      .exportDB()
+      .exportDB(this.dataService.forge)
       .then((assignments) =>
         this.fileService.saveJsonFile({ assignments }, "assignments")
       );

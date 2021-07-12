@@ -8,6 +8,8 @@
 export const environment = {
   production: false,
   version: require("../../package.json").version,
+  gitlabApiURL: "https://gitlab.com/api",
+  githubApiURL: "https://api.github.com",
 };
 
 /*

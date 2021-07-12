@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Assignment } from "@models/Assignment.model";
+import { Forge } from "@models/Forge.model";
 import { Milestone } from "@models/Milestone.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
@@ -38,6 +39,8 @@ export class DataService {
    * A boolean indicating whether the confirmation dialog when deleting a deposit should be displayed or not
    */
   hideDeleteRepoConfirmation: boolean;
+
+  forge: Forge;
 
   /**
    * DataService constructor

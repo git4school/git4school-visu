@@ -46,8 +46,10 @@ export class AssignmentChooserComponent implements OnInit {
 
   async loadAssignments() {
     await this.databaseService
-      .getAllAssignments()
-      .then((assignments) => (this.assignments = assignments));
+      .getAllAssignments(this.dataService.forge)
+      .then((assignments) => {
+        this.assignments = assignments;
+      });
   }
 
   selectAssignment(assignment: Assignment) {

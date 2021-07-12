@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Forge, ForgeType } from "@models/Forge.model";
 import { NgbTooltipConfig } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "@services/auth.service";
@@ -7,6 +8,7 @@ import { DataService } from "@services/data.service";
 import * as Chart from "chart.js";
 // import * as ChartDataLabels from "chartjs-plugin-datalabels";
 import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
+import { environment } from "environments/environment";
 import "rxjs/add/observable/interval";
 
 /**
@@ -53,6 +55,12 @@ export class AppComponent implements OnInit, OnDestroy {
         .then(
           () => {
             this.authService.loading = false;
+            this.dataService.forge = new Forge(
+              "Github",
+              environment.githubApiURL,
+              ForgeType.Github,
+              false
+            );
             this.router.navigate(["overview"]);
           },
           () => {

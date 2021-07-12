@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Assignment } from "@models/Assignment.model";
+import { Forge, ForgeType } from "@models/Forge.model";
 import { plainToClass } from "class-transformer";
 import Dexie from "dexie";
+import { environment } from "environments/environment";
 import { JsonManagerService } from "./json-manager.service";
 
 @Injectable({
@@ -18,14 +20,38 @@ export class DatabaseService extends Dexie {
     this.version(1).stores({
       assignments: "++id, metadata.title",
     });
+    this.version(2)
+      .stores({
+        assignments: "++id, metadata.title, [forge.type+forge.name]",
+      })
+      .upgrade((trans) => {
+        let githubForge = new Forge(
+          "Github",
+          environment.githubApiURL,
+          ForgeType.Github,
+          false
+        );
+        return trans
+          .table("assignments")
+          .toCollection()
+          .modify((assignment) => {
+            assignment.forge = githubForge;
+          });
+      });
     this.assignments = this.table("assignments");
     this.assignments.mapToClass(Assignment);
   }
 
-  getAllAssignments(): Promise<Assignment[]> {
+  getAllAssignments(forge: Forge): Promise<Assignment[]> {
+    console.log("forge: ", forge);
     return this.assignments
+      .where("[forge.type+forge.name]")
+      .equals([forge.type, forge.name])
       .toArray()
       .then((assignments) => plainToClass(Assignment, assignments));
+    // return this.assignments
+    //   .toArray()
+    //   .then((assignments) => plainToClass(Assignment, assignments));
   }
 
   saveAssignment(assignment: Assignment): Promise<number> {
@@ -42,8 +68,8 @@ export class DatabaseService extends Dexie {
       .then((assignment) => plainToClass(Assignment, assignment));
   }
 
-  exportDB(): Promise<any> {
-    return this.getAllAssignments().then((assignments) => {
+  exportDB(forge: Forge): Promise<any> {
+    return this.getAllAssignments(forge).then((assignments) => {
       return assignments.map((assignment) => {
         let { id, ...assignmentNoId } = assignment;
         return assignmentNoId;

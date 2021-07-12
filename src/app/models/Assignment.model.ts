@@ -4,6 +4,7 @@ import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
 import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import { Type } from "class-transformer";
+import { Forge } from "./Forge.model";
 
 /**
  * A practical course, with sessions, questions and
@@ -45,6 +46,9 @@ export class Assignment {
    */
   @Type(() => Repository)
   repositories: Repository[];
+
+  @Type(() => Forge)
+  forge: Forge;
 
   constructor() {
     this.metadata = new Metadata();
