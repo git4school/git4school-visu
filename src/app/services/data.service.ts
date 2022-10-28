@@ -28,6 +28,11 @@ export class DataService {
   lastUpdateDate: Date;
 
   /**
+   * The filtered group selected during the session
+   */
+  groupFilter: string
+
+  /**
    * The index of the threshold bar of the graph "questions-completion"
    */
   barIndex: number;
@@ -47,6 +52,7 @@ export class DataService {
     this.barIndex = 5;
     this.tpGroups = [];
     this.hideDeleteRepoConfirmation = false;
+    this.groupFilter = "";
   }
 
   saveData(assignment: Assignment = this.assignment): Promise<number> {

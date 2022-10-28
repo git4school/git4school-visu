@@ -52,6 +52,7 @@ export class AssignmentChooserComponent implements OnInit {
 
   selectAssignment(assignment: Assignment) {
     this.dataService.assignment = assignment;
+    this.dataService.groupFilter = "";
     if (this.dataService.repoToLoad) {
       this.router.navigate(["overview"]);
     }

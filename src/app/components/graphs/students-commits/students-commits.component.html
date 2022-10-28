@@ -1,6 +1,6 @@
 <div class="d-flex flex-row p-3">
   <div>
-    <select class="form-control" [disabled]="!dataService.tpGroups.length || loading" [(ngModel)]="tpGroup"
+    <select class="form-control" [disabled]="!dataService.tpGroups.length || loading" [(ngModel)]="dataService.groupFilter"
       (change)="this.loadGraphDataAndRefresh()">
       <option [ngValue]="undefined" hidden disabled>{{ 'TP-GROUP-SELECT.PLACEHOLDER' | translate }}</option>
       <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
