@@ -24,6 +24,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
   @Input() tpGroups: string[];
   @Input() typeaheadSettings;
   @Input() defaultSessionDuration;
+  @Input() groupFilter: string
   @Output() saveMilestone = new EventEmitter<{
     oldMilestone: Milestone;
     newMilestone: Milestone;
@@ -92,13 +93,13 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
 
   addMilestone() {
     this.milestone = null;
-    this.openMilestoneModal(new Milestone(this.date, ""));
+    this.openMilestoneModal(new Milestone(this.date, "", undefined, this.groupFilter));
   }
 
   addSession() {
     this.session = null;
     let endDate = Utils.addTimeToDate(this.date, this.defaultSessionDuration);
-    this.openSessionModal(new Session(this.date, endDate));
+    this.openSessionModal(new Session(this.date, endDate, this.groupFilter));
   }
 
   removeMilestone(milestone: Milestone) {
