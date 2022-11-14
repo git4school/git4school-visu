@@ -51,40 +51,51 @@ export class CommitsService {
     repoTab.forEach((repository) => {
       tab.push(
         this.getRepository(repository.url, startDate, endDate).pipe(
-          map(([readMeData, commitsData]) => {
+          map(([identityData, readMeData, commitsData]) => {
+            identityData.identity = JSON.parse(identityData.identity);
             repository.errors = [];
-            let readme;
+
             if (commitsData.errors) {
               repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
             } else {
               repository.commits = commitsData.commits;
             }
 
-            if (readMeData.errors) {
-              repository.errors.push(new Error(ErrorType.README_NOT_FOUND));
-            } else {
-              readme = {
-                name: this.getNameFromReadMe(readMeData.readme),
-                tpGroup: this.getTPGroupFromReadMe(readMeData.readme),
-              };
+            let identity;
+            if (identityData.errors) {
+              repository.errors.push(new Error(ErrorType.IDENTITY_NOT_FOUND));
 
-              if (!readme.name) {
-                repository.errors.push(
-                  new Error(ErrorType.README_NAME_NOT_FOUND)
-                );
+              if (readMeData.errors) {
+                repository.errors.push(new Error(ErrorType.README_NOT_FOUND));
+              } else {
+                identity = {
+                  name: this.getNameFromReadMe(readMeData.readme),
+                  tpGroup: this.getTPGroupFromReadMe(readMeData.readme),
+                };
               }
-              if (!readme.tpGroup) {
-                repository.errors.push(
-                  new Error(ErrorType.README_TPGROUP_NOT_FOUND)
-                );
-              }
+            } else {
+              identity = {
+                name: this.getNameFromIdentity(identityData.identity),
+                tpGroup: identityData.identity.group,
+              };
+            }
+
+            if (!identity.name) {
+              repository.errors.push(
+                new Error(ErrorType.README_NAME_NOT_FOUND)
+              );
+            }
+            if (!identity.tpGroup) {
+              repository.errors.push(
+                new Error(ErrorType.README_TPGROUP_NOT_FOUND)
+              );
             }
 
             if (!repository.name) {
-              repository.name = readme?.name || repository.getNameFromUrl();
+              repository.name = identity?.name || repository.getNameFromUrl();
             }
             if (!repository.tpGroup) {
-              repository.tpGroup = readme?.tpGroup || Utils.DEFAULT_TP_GROUP;
+              repository.tpGroup = identity?.tpGroup || Utils.DEFAULT_TP_GROUP;
             }
 
             return repository;
@@ -107,6 +118,7 @@ export class CommitsService {
     endDate?: string
   ): Observable<any[]> {
     return forkJoin([
+      this.getIdentity(repoUrl),
       this.getReadMe(repoUrl),
       this.getCommits(repoUrl, startDate, endDate),
     ]);
@@ -208,6 +220,42 @@ export class CommitsService {
       "/" +
       tabHashURL[4] +
       "/readme";
+    return this.http.get(url, { headers: this.headers });
+  }
+
+  getIdentity(repoUrl: string): Observable<any> {
+    return this.getRawIdentity(repoUrl).pipe(
+      map((rawIdentity) => {
+        let identity = decodeURIComponent(
+          escape(window.atob(rawIdentity["content"]))
+        );
+
+        return {
+          errors: false,
+          identity: identity,
+          message: null,
+        };
+      }),
+      catchError((error) =>
+        of({
+          errors: true,
+          identity: null,
+          message: this.translateService.instant(
+            "ERROR-MESSAGE-IDENTITY-NOT-FOUND",
+            { repo: repoUrl }
+          ),
+        })
+      )
+    );
+  }
+
+  getRawIdentity(repoUrl: string): Observable<any> {
+    const tabHashURL = repoUrl.split("/");
+    const url = "https://api.github.com/repos/" +
+      tabHashURL[3] +
+      "/" +
+      tabHashURL[4] +
+      "/contents/IDENTITY.json";
     return this.http.get(url, { headers: this.headers });
   }
 
@@ -577,6 +625,10 @@ export class CommitsService {
     let lastName = this.getValueWithToken(`${lastNameToken}.*:`, readme);
     let firstName = this.getValueWithToken(`${firstNameToken}.*:`, readme);
     return [lastName, firstName].filter(Boolean).join(" ");
+  }
+
+  getNameFromIdentity(identity: any): string {
+    return [identity.last_name, identity.first_name].filter(Boolean).join(" ");
   }
 
   getTPGroupFromReadMe(readme: string): string {
