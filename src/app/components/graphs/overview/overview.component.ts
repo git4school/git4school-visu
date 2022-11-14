@@ -430,7 +430,7 @@ export class OverviewComponent
   loadSessions() {
     let me = this;
     this.dataService.sessions
-      .filter((session) => !this.dataService.groupFilter || session.tpGroup === this.dataService.groupFilter)
+      .filter((session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter)
       .forEach((session) => {
         this.chartOptions.annotation.annotations.push({
           type: "box",
@@ -454,7 +454,7 @@ export class OverviewComponent
     this.dataService.reviews
       .filter(
         (review) =>
-          (!this.dataService.groupFilter || review.tpGroup === this.dataService.groupFilter) &&
+          (!this.dataService.groupFilter || !review.tpGroup || review.tpGroup === this.dataService.groupFilter) &&
           (!this.searchFilter.length ||
             this.searchFilter.filter((question) =>
               review.questions?.includes(question)
@@ -486,7 +486,9 @@ export class OverviewComponent
     this.dataService.corrections
       .filter(
         (correction) =>
-          (!this.dataService.groupFilter || correction.tpGroup === this.dataService.groupFilter) &&
+          (!this.dataService.groupFilter ||
+            !correction.tpGroup ||
+            correction.tpGroup === this.dataService.groupFilter) &&
           (!this.searchFilter.length ||
             this.searchFilter.filter((question) =>
               correction.questions?.includes(question)
@@ -523,7 +525,9 @@ export class OverviewComponent
     this.dataService.others
       .filter(
         (other) =>
-          (!this.dataService.groupFilter || other.tpGroup === this.dataService.groupFilter) &&
+          (!this.dataService.groupFilter ||
+            !other.tpGroup ||
+            other.tpGroup === this.dataService.groupFilter) &&
           (!this.searchFilter.length ||
             this.searchFilter.filter((question) =>
               other.questions?.includes(question)
