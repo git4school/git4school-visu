@@ -232,7 +232,7 @@ export class CommitsService {
 
         return {
           errors: false,
-          identity: identity,
+          identity,
           message: null,
         };
       }),
@@ -549,25 +549,6 @@ export class CommitsService {
   }
 
   /**
-   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
-   *
-   * @param rawRepositories Raw repositories with a JSON format
-   * @param headers Headers including "link" that we use to determine we just fetched the last page
-   */
-  private processRawResponse(
-    rawRepositories,
-    headers
-  ): { completed: boolean; repositories: Repository[] } {
-    const array = rawRepositories.map(
-      (data) => new Repository(data["html_url"], data["name"])
-    );
-    return {
-      completed: !headers?.get("link")?.match(/rel=\"last\"/),
-      repositories: array,
-    };
-  }
-
-  /**
    * Fetch authenticated user's repositories from Github
    *
    * @param {number} page The page of repositories to fetch
@@ -644,5 +625,24 @@ export class CommitsService {
     let regex = new RegExp(`(?<=${token}).*`);
     let value = text.match(regex);
     return value ? value[0].trim() : null;
+  }
+
+  /**
+   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
+   *
+   * @param rawRepositories Raw repositories with a JSON format
+   * @param headers Headers including "link" that we use to determine we just fetched the last page
+   */
+  private processRawResponse(
+    rawRepositories,
+    headers
+  ): { completed: boolean; repositories: Repository[] } {
+    const array = rawRepositories.map(
+      (data) => new Repository(data["html_url"], data["name"])
+    );
+    return {
+      completed: !headers?.get("link")?.match(/rel=\"last\"/),
+      repositories: array,
+    };
   }
 }

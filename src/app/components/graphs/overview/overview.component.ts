@@ -29,7 +29,8 @@ import { BaseGraphComponent } from "../base-graph.component";
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild(BaseChartDirective, { static: true }) myChart;
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
 
@@ -184,7 +185,8 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
-    this.defaultSessionDuration = this.dataService.assignment.defaultSessionDuration;
+    this.defaultSessionDuration =
+      this.dataService.assignment.defaultSessionDuration;
     this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();
@@ -430,7 +432,12 @@ export class OverviewComponent
   loadSessions() {
     let me = this;
     this.dataService.sessions
-      .filter((session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter)
+      .filter(
+        (session) =>
+          !this.dataService.groupFilter ||
+          !session.tpGroup ||
+          session.tpGroup === this.dataService.groupFilter
+      )
       .forEach((session) => {
         this.chartOptions.annotation.annotations.push({
           type: "box",
@@ -454,7 +461,9 @@ export class OverviewComponent
     this.dataService.reviews
       .filter(
         (review) =>
-          (!this.dataService.groupFilter || !review.tpGroup || review.tpGroup === this.dataService.groupFilter) &&
+          (!this.dataService.groupFilter ||
+            !review.tpGroup ||
+            review.tpGroup === this.dataService.groupFilter) &&
           (!this.searchFilter.length ||
             this.searchFilter.filter((question) =>
               review.questions?.includes(question)
@@ -560,7 +569,9 @@ export class OverviewComponent
 
     this.dataService.repositories
       .filter(
-        (repository) => !this.dataService.groupFilter || repository.tpGroup === this.dataService.groupFilter
+        (repository) =>
+          !this.dataService.groupFilter ||
+          repository.tpGroup === this.dataService.groupFilter
       )
       .forEach((repository) => {
         const data = [];

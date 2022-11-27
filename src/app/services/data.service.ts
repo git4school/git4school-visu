@@ -13,11 +13,6 @@ import { DatabaseService } from "@services/database.service";
 })
 export class DataService {
   /**
-   * The practical course, represents the data from the configuration file
-   */
-  private _assignment: Assignment;
-
-  /**
    * The TP groups of the class
    */
   tpGroups: string[];
@@ -30,7 +25,7 @@ export class DataService {
   /**
    * The filtered group selected during the session
    */
-  groupFilter: string
+  groupFilter: string;
 
   /**
    * The index of the threshold bar of the graph "questions-completion"
@@ -43,6 +38,11 @@ export class DataService {
    * A boolean indicating whether the confirmation dialog when deleting a deposit should be displayed or not
    */
   hideDeleteRepoConfirmation: boolean;
+
+  /**
+   * The practical course, represents the data from the configuration file
+   */
+  private _assignment: Assignment;
 
   /**
    * DataService constructor

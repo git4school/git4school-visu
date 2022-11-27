@@ -26,7 +26,8 @@ declare var $: any;
 })
 export class StudentsCommitsComponent
   extends BaseGraphComponent
-  implements OnInit {
+  implements OnInit
+{
   assignmentsModified$: Subscription;
 
   /**
@@ -256,7 +257,9 @@ export class StudentsCommitsComponent
   loadLabels(): any[] {
     return this.dataService.repositories
       .filter(
-        (repository) => !this.dataService.groupFilter || repository.tpGroup === this.dataService.groupFilter
+        (repository) =>
+          !this.dataService.groupFilter ||
+          repository.tpGroup === this.dataService.groupFilter
       )
       .map((repository) => repository.name);
   }
