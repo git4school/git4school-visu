@@ -29,7 +29,8 @@ import { BaseGraphComponent } from "../base-graph.component";
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild(BaseChartDirective, { static: true }) myChart;
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
 
@@ -45,7 +46,6 @@ export class OverviewComponent
   unit = "day";
   drag = false;
   chartData = [{ data: [] }];
-  tpGroup: string;
   showSessions = true;
   showCorrections = true;
   showReviews = true;
@@ -185,7 +185,8 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
-    this.defaultSessionDuration = this.dataService.assignment.defaultSessionDuration;
+    this.defaultSessionDuration =
+      this.dataService.assignment.defaultSessionDuration;
     this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();
@@ -431,7 +432,12 @@ export class OverviewComponent
   loadSessions() {
     let me = this;
     this.dataService.sessions
-      .filter((session) => !this.tpGroup || session.tpGroup === this.tpGroup)
+      .filter(
+        (session) =>
+          !this.dataService.groupFilter ||
+          !session.tpGroup ||
+          session.tpGroup === this.dataService.groupFilter
+      )
       .forEach((session) => {
         this.chartOptions.annotation.annotations.push({
           type: "box",
@@ -455,7 +461,9 @@ export class OverviewComponent
     this.dataService.reviews
       .filter(
         (review) =>
-          (!this.tpGroup || review.tpGroup === this.tpGroup) &&
+          (!this.dataService.groupFilter ||
+            !review.tpGroup ||
+            review.tpGroup === this.dataService.groupFilter) &&
           (!this.searchFilter.length ||
             this.searchFilter.filter((question) =>
               review.questions?.includes(question)
@@ -487,7 +495,9 @@ export class OverviewComponent
     this.dataService.corrections
       .filter(
         (correction) =>
-          (!this.tpGroup || correction.tpGroup === this.tpGroup) &&
+          (!this.dataService.groupFilter ||
+            !correction.tpGroup ||
+            correction.tpGroup === this.dataService.groupFilter) &&
           (!this.searchFilter.length ||
             this.searchFilter.filter((question) =>
               correction.questions?.includes(question)
@@ -524,7 +534,9 @@ export class OverviewComponent
     this.dataService.others
       .filter(
         (other) =>
-          (!this.tpGroup || other.tpGroup === this.tpGroup) &&
+          (!this.dataService.groupFilter ||
+            !other.tpGroup ||
+            other.tpGroup === this.dataService.groupFilter) &&
           (!this.searchFilter.length ||
             this.searchFilter.filter((question) =>
               other.questions?.includes(question)
@@ -557,7 +569,9 @@ export class OverviewComponent
 
     this.dataService.repositories
       .filter(
-        (repository) => !this.tpGroup || repository.tpGroup === this.tpGroup
+        (repository) =>
+          !this.dataService.groupFilter ||
+          repository.tpGroup === this.dataService.groupFilter
       )
       .forEach((repository) => {
         const data = [];

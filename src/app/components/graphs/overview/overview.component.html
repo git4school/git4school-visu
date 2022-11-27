@@ -6,7 +6,7 @@
         </questions-chooser>
     </div>
     <div class="pl-2">
-        <select class="form-control" [disabled]="!dataService.tpGroups?.length || loading" [(ngModel)]="tpGroup"
+        <select class="form-control" [disabled]="!dataService.tpGroups?.length || loading" [(ngModel)]="dataService.groupFilter"
             (change)="this.loadGraphDataAndRefresh()" placeholder="d.ff">
             <option [ngValue]="undefined" hidden disabled>{{ 'TP-GROUP-SELECT.PLACEHOLDER' | translate }}
             </option>
@@ -141,8 +141,9 @@
 
 <overview-graph-contextual-menu [tpGroups]="dataService.tpGroups" [questions]="dataService.questions"
     [typeaheadSettings]="typeaheadSettings" [defaultSessionDuration]="defaultSessionDuration"
-    (deleteMilestone)="onDeleteMilestone($event)" (deleteSession)="onDeleteSession($event)"
-    (saveMilestone)="onSaveMilestone($event)" (saveSession)="onSaveSession($event)">
+    [groupFilter]="dataService.groupFilter" (deleteMilestone)="onDeleteMilestone($event)"
+    (deleteSession)="onDeleteSession($event)" (saveMilestone)="onSaveMilestone($event)"
+                                (saveSession)="onSaveSession($event)">
 </overview-graph-contextual-menu>
 
 <ng-template #markersTooltip>{{ 'OVERVIEW-GRAPH.MARKERS.TOOLTIP' | translate }}</ng-template>

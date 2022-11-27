@@ -26,7 +26,8 @@ declare var $: any;
 })
 export class StudentsCommitsComponent
   extends BaseGraphComponent
-  implements OnInit {
+  implements OnInit
+{
   assignmentsModified$: Subscription;
 
   /**
@@ -50,11 +51,6 @@ export class StudentsCommitsComponent
    * The data about students
    */
   dict = [];
-
-  /**
-   * The filter on the tp group of repositories
-   */
-  tpGroup: string;
 
   /**
    * The graph labels, which corresponds to the repositories name
@@ -245,7 +241,7 @@ export class StudentsCommitsComponent
       this.dataService.repositories,
       this.dataService.questions,
       colors,
-      this.tpGroup,
+      this.dataService.groupFilter,
       this.date
     );
     this.chartData = this.commitsService.loadStudents(
@@ -261,7 +257,9 @@ export class StudentsCommitsComponent
   loadLabels(): any[] {
     return this.dataService.repositories
       .filter(
-        (repository) => !this.tpGroup || repository.tpGroup === this.tpGroup
+        (repository) =>
+          !this.dataService.groupFilter ||
+          repository.tpGroup === this.dataService.groupFilter
       )
       .map((repository) => repository.name);
   }

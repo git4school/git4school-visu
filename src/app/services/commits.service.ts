@@ -4,8 +4,14 @@ import { Commit, CommitColor } from "@models/Commit.model";
 import { Error, ErrorType, Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
-import { forkJoin, Observable, of } from "rxjs";
-import { catchError, defaultIfEmpty, map } from "rxjs/operators";
+import { forkJoin, identity, iif, Observable, of } from "rxjs";
+import {
+  catchError,
+  defaultIfEmpty,
+  flatMap,
+  map,
+  switchMap,
+} from "rxjs/operators";
 import { AuthService } from "./auth.service";
 import { Utils } from "./utils";
 
@@ -51,40 +57,20 @@ export class CommitsService {
     repoTab.forEach((repository) => {
       tab.push(
         this.getRepository(repository.url, startDate, endDate).pipe(
-          map(([readMeData, commitsData]) => {
-            repository.errors = [];
-            let readme;
+          map(([identityData, commitsData]) => {
             if (commitsData.errors) {
               repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
             } else {
               repository.commits = commitsData.commits;
             }
 
-            if (readMeData.errors) {
-              repository.errors.push(new Error(ErrorType.README_NOT_FOUND));
-            } else {
-              readme = {
-                name: this.getNameFromReadMe(readMeData.readme),
-                tpGroup: this.getTPGroupFromReadMe(readMeData.readme),
-              };
-
-              if (!readme.name) {
-                repository.errors.push(
-                  new Error(ErrorType.README_NAME_NOT_FOUND)
-                );
-              }
-              if (!readme.tpGroup) {
-                repository.errors.push(
-                  new Error(ErrorType.README_TPGROUP_NOT_FOUND)
-                );
-              }
-            }
-
             if (!repository.name) {
-              repository.name = readme?.name || repository.getNameFromUrl();
+              repository.name =
+                identityData?.name || repository.getNameFromUrl();
             }
             if (!repository.tpGroup) {
-              repository.tpGroup = readme?.tpGroup || Utils.DEFAULT_TP_GROUP;
+              repository.tpGroup =
+                identityData?.tpGroup || Utils.DEFAULT_TP_GROUP;
             }
 
             return repository;
@@ -107,7 +93,7 @@ export class CommitsService {
     endDate?: string
   ): Observable<any[]> {
     return forkJoin([
-      this.getReadMe(repoUrl),
+      this.getIdentity(repoUrl),
       this.getCommits(repoUrl, startDate, endDate),
     ]);
   }
@@ -170,7 +156,33 @@ export class CommitsService {
     return this.http.get<any[]>(url, { headers: this.headers });
   }
 
-  getReadMe(repoUrl: string): Observable<any> {
+  getIdentity(repoUrl: string): Observable<any> {
+    return this.getIdentityFile(repoUrl).pipe(
+      switchMap((identityData) => {
+        let identity;
+        if (identityData.errors) {
+          return this.getReadMeFile(repoUrl).pipe(
+            map((readmeData) => {
+              return {
+                name: this.getNameFromReadMe(readmeData.readme),
+                tpGroup: this.getTPGroupFromReadMe(readmeData.readme),
+                errors: readmeData.errors,
+              };
+            })
+          );
+        } else {
+          let identityParsed = JSON.parse(identityData.identity);
+          return of({
+            name: this.getNameFromIdentity(identityParsed),
+            tpGroup: identityParsed.group,
+            errors: identityParsed.errors,
+          });
+        }
+      })
+    );
+  }
+
+  getReadMeFile(repoUrl: string): Observable<any> {
     return this.getRawReadMe(repoUrl).pipe(
       map((rawReadme) => {
         let readme = decodeURIComponent(
@@ -208,6 +220,43 @@ export class CommitsService {
       "/" +
       tabHashURL[4] +
       "/readme";
+    return this.http.get(url, { headers: this.headers });
+  }
+
+  getIdentityFile(repoUrl: string): Observable<any> {
+    return this.getRawIdentity(repoUrl).pipe(
+      map((rawIdentity) => {
+        let identity = decodeURIComponent(
+          escape(window.atob(rawIdentity["content"]))
+        );
+
+        return {
+          errors: false,
+          identity,
+          message: null,
+        };
+      }),
+      catchError((error) =>
+        of({
+          errors: true,
+          identity: null,
+          message: this.translateService.instant(
+            "ERROR-MESSAGE-IDENTITY-NOT-FOUND",
+            { repo: repoUrl }
+          ),
+        })
+      )
+    );
+  }
+
+  getRawIdentity(repoUrl: string): Observable<any> {
+    const tabHashURL = repoUrl.split("/");
+    const url =
+      "https://api.github.com/repos/" +
+      tabHashURL[3] +
+      "/" +
+      tabHashURL[4] +
+      "/contents/IDENTITY.json";
     return this.http.get(url, { headers: this.headers });
   }
 
@@ -500,25 +549,6 @@ export class CommitsService {
   }
 
   /**
-   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
-   *
-   * @param rawRepositories Raw repositories with a JSON format
-   * @param headers Headers including "link" that we use to determine we just fetched the last page
-   */
-  private processRawResponse(
-    rawRepositories,
-    headers
-  ): { completed: boolean; repositories: Repository[] } {
-    const array = rawRepositories.map(
-      (data) => new Repository(data["html_url"], data["name"])
-    );
-    return {
-      completed: !headers?.get("link")?.match(/rel=\"last\"/),
-      repositories: array,
-    };
-  }
-
-  /**
    * Fetch authenticated user's repositories from Github
    *
    * @param {number} page The page of repositories to fetch
@@ -579,6 +609,10 @@ export class CommitsService {
     return [lastName, firstName].filter(Boolean).join(" ");
   }
 
+  getNameFromIdentity(identity: any): string {
+    return [identity.last_name, identity.first_name].filter(Boolean).join(" ");
+  }
+
   getTPGroupFromReadMe(readme: string): string {
     if (!readme) {
       return null;
@@ -591,5 +625,24 @@ export class CommitsService {
     let regex = new RegExp(`(?<=${token}).*`);
     let value = text.match(regex);
     return value ? value[0].trim() : null;
+  }
+
+  /**
+   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
+   *
+   * @param rawRepositories Raw repositories with a JSON format
+   * @param headers Headers including "link" that we use to determine we just fetched the last page
+   */
+  private processRawResponse(
+    rawRepositories,
+    headers
+  ): { completed: boolean; repositories: Repository[] } {
+    const array = rawRepositories.map(
+      (data) => new Repository(data["html_url"], data["name"])
+    );
+    return {
+      completed: !headers?.get("link")?.match(/rel=\"last\"/),
+      repositories: array,
+    };
   }
 }

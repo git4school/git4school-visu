@@ -55,11 +55,6 @@ export class QuestionsCompletionComponent
   dict = {};
 
   /**
-   * The filter on the tp group of repositories
-   */
-  tpGroup: string;
-
-  /**
    * The graph labels, which corresponds to the questions
    */
   chartLabels;
@@ -225,7 +220,7 @@ export class QuestionsCompletionComponent
       this.dataService.repositories,
       this.dataService.questions,
       colors,
-      this.tpGroup,
+      this.dataService.groupFilter,
       this.date
     );
 
