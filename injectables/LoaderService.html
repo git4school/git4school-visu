@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
         <link rel="stylesheet" href="../styles/Readthedocs.css">
     </head>
     <body>
@@ -37,9 +38,10 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li>LoaderService</li>
+  <li >LoaderService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -59,6 +61,7 @@
         <p class="comment">
             <code>src/app/services/loader.service.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -84,10 +87,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#loadCommitsMetadata">loadCommitsMetadata</a>
+                                <a href="#loadCommitsMetadata" >loadCommitsMetadata</a>
                             </li>
                             <li>
-                                <a href="#loadRepositories">loadRepositories</a>
+                                <a href="#loadRepositories" >loadRepositories</a>
                             </li>
                         </ul>
                     </td>
@@ -107,7 +110,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(commitsService: <a href="../injectables/CommitsService.html">CommitsService</a>, dataService: <a href="../injectables/DataService.html">DataService</a>, translateService: TranslateService, toastService: <a href="../injectables/ToastService.html">ToastService</a>)</code>
+<code>constructor(commitsService: <a href="../injectables/CommitsService.html" target="_self">CommitsService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, translateService: TranslateService, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -142,8 +145,8 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <code><p>The service that retrieves repositories and their commits from Github</p>
-</code>
+                                                                <p>The service that retrieves repositories and their commits from Github</p>
+
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -158,8 +161,8 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <code><p>The service that stores the data</p>
-</code>
+                                                                <p>The service that stores the data</p>
+
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -174,8 +177,8 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <code><p>The translation service</p>
-</code>
+                                                                <p>The translation service</p>
+
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -190,8 +193,8 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <code><p>The service displaying error or warning toasts</p>
-</code>
+                                                                <p>The service displaying error or warning toasts</p>
+
                                                         </td>
                                                 </tr>
                                         </tbody>
@@ -214,16 +217,14 @@
                 <td class="col-md-4">
                     <a name="loadCommitsMetadata"></a>
                     <span class="name">
-                        <b>
-                            loadCommitsMetadata
-                        </b>
+                        <span ><b>loadCommitsMetadata</b></span>
                         <a href="#loadCommitsMetadata"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadCommitsMetadata(repositories: <a href="../classes/Repository.html">Repository[]</a>, reviews: <a href="../classes/Milestone.html">Milestone[]</a>, corrections: <a href="../classes/Milestone.html">Milestone[]</a>, questions: string[])</code>
+<code>loadCommitsMetadata(repositories: <a href="../classes/Repository.html" target="_self">Repository[]</a>, reviews: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, corrections: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, questions: string[])</code>
                 </td>
             </tr>
 
@@ -244,6 +245,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -323,9 +325,7 @@
                 <td class="col-md-4">
                     <a name="loadRepositories"></a>
                     <span class="name">
-                        <b>
-                            loadRepositories
-                        </b>
+                        <span ><b>loadRepositories</b></span>
                         <a href="#loadRepositories"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -352,6 +352,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -541,14 +542,15 @@ export class LoaderService {
 
 
 
-                   
+
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -560,6 +562,15 @@ export class LoaderService {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
@@ -569,9 +580,9 @@ export class LoaderService {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

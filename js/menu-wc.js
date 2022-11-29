@@ -1,6 +1,5 @@
 'use strict';
 
-
 customElements.define('compodoc-menu', class extends HTMLElement {
     constructor() {
         super();
@@ -49,6 +48,11 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <span class="icon ion-ios-list"></span>Dependencies
                                     </a>
                                 </li>
+                                <li class="link">
+                                    <a href="properties.html" data-type="chapter-link">
+                                        <span class="icon ion-ios-apps"></span>Properties
+                                    </a>
+                                </li>
                     </ul>
                 </li>
                     <li class="chapter additional">
@@ -75,136 +79,110 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </a>
                         <ul class="links collapse " ${ isNormalMode ? 'id="modules-links"' : 'id="xs-modules-links"' }>
                             <li class="link">
-                                <a href="modules/AppModule.html" data-type="entity-link">AppModule</a>
+                                <a href="modules/AppModule.html" data-type="entity-link" >AppModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-AppModule-b4ca270acef4dfa5325fa992c68980e8"' : 'data-target="#xs-components-links-module-AppModule-b4ca270acef4dfa5325fa992c68980e8"' }>
+                                            'data-target="#components-links-module-AppModule-2f112df51fc6d9aa4f6266f5a4745248dfe03a651f6692f9a1bcbd84755084d2aca1358b64988028591697e6373e840de52867516eb400c76b2e48305d795950"' : 'data-target="#xs-components-links-module-AppModule-2f112df51fc6d9aa4f6266f5a4745248dfe03a651f6692f9a1bcbd84755084d2aca1358b64988028591697e6373e840de52867516eb400c76b2e48305d795950"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-b4ca270acef4dfa5325fa992c68980e8"' :
-                                            'id="xs-components-links-module-AppModule-b4ca270acef4dfa5325fa992c68980e8"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-2f112df51fc6d9aa4f6266f5a4745248dfe03a651f6692f9a1bcbd84755084d2aca1358b64988028591697e6373e840de52867516eb400c76b2e48305d795950"' :
+                                            'id="xs-components-links-module-AppModule-2f112df51fc6d9aa4f6266f5a4745248dfe03a651f6692f9a1bcbd84755084d2aca1358b64988028591697e6373e840de52867516eb400c76b2e48305d795950"' }>
                                             <li class="link">
-                                                <a href="components/AppComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">AppComponent</a>
+                                                <a href="components/AppComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AppComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/AppNavLayoutComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">AppNavLayoutComponent</a>
+                                                <a href="components/AppNavLayoutComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AppNavLayoutComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/AssignmentChooserComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">AssignmentChooserComponent</a>
+                                                <a href="components/AssignmentChooserComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AssignmentChooserComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/AuthLangNavItemComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">AuthLangNavItemComponent</a>
+                                                <a href="components/AuthLangNavItemComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AuthLangNavItemComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/ConfigurationComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">ConfigurationComponent</a>
+                                                <a href="components/ConfigurationComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ConfigurationComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/EditMilestoneComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">EditMilestoneComponent</a>
+                                                <a href="components/EditMilestoneComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >EditMilestoneComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/EditRepositoriesComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">EditRepositoriesComponent</a>
+                                                <a href="components/EditRepositoriesComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >EditRepositoriesComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/EditSessionComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">EditSessionComponent</a>
+                                                <a href="components/EditSessionComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >EditSessionComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/FileChooserComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">FileChooserComponent</a>
+                                                <a href="components/FileChooserComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >FileChooserComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/FourOhFourComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">FourOhFourComponent</a>
+                                                <a href="components/FourOhFourComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >FourOhFourComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/HelpNavItemComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">HelpNavItemComponent</a>
+                                                <a href="components/HelpNavItemComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >HelpNavItemComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/HomeComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">HomeComponent</a>
+                                                <a href="components/HomeComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >HomeComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/HomeNavLayoutComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">HomeNavLayoutComponent</a>
+                                                <a href="components/HomeNavLayoutComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >HomeNavLayoutComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/MetadataComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MetadataComponent</a>
+                                                <a href="components/MetadataComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >MetadataComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/ModalAddRepositoriesComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">ModalAddRepositoriesComponent</a>
+                                                <a href="components/ModalAddRepositoriesComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ModalAddRepositoriesComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/OverviewComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">OverviewComponent</a>
+                                                <a href="components/OverviewComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OverviewComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/OverviewGraphContextualMenuComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">OverviewGraphContextualMenuComponent</a>
+                                                <a href="components/OverviewGraphContextualMenuComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OverviewGraphContextualMenuComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/QuestionsChooserComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">QuestionsChooserComponent</a>
+                                                <a href="components/QuestionsChooserComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >QuestionsChooserComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/QuestionsCompletionComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">QuestionsCompletionComponent</a>
+                                                <a href="components/QuestionsCompletionComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >QuestionsCompletionComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/StudentsCommitsComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">StudentsCommitsComponent</a>
+                                                <a href="components/StudentsCommitsComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >StudentsCommitsComponent</a>
                                             </li>
                                         </ul>
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#injectables-links-module-AppModule-b4ca270acef4dfa5325fa992c68980e8"' : 'data-target="#xs-injectables-links-module-AppModule-b4ca270acef4dfa5325fa992c68980e8"' }>
+                                        'data-target="#injectables-links-module-AppModule-2f112df51fc6d9aa4f6266f5a4745248dfe03a651f6692f9a1bcbd84755084d2aca1358b64988028591697e6373e840de52867516eb400c76b2e48305d795950"' : 'data-target="#xs-injectables-links-module-AppModule-2f112df51fc6d9aa4f6266f5a4745248dfe03a651f6692f9a1bcbd84755084d2aca1358b64988028591697e6373e840de52867516eb400c76b2e48305d795950"' }>
                                         <span class="icon ion-md-arrow-round-down"></span>
                                         <span>Injectables</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-AppModule-b4ca270acef4dfa5325fa992c68980e8"' :
-                                        'id="xs-injectables-links-module-AppModule-b4ca270acef4dfa5325fa992c68980e8"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-AppModule-2f112df51fc6d9aa4f6266f5a4745248dfe03a651f6692f9a1bcbd84755084d2aca1358b64988028591697e6373e840de52867516eb400c76b2e48305d795950"' :
+                                        'id="xs-injectables-links-module-AppModule-2f112df51fc6d9aa4f6266f5a4745248dfe03a651f6692f9a1bcbd84755084d2aca1358b64988028591697e6373e840de52867516eb400c76b2e48305d795950"' }>
                                         <li class="link">
-                                            <a href="injectables/AuthService.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>AuthService</a>
+                                            <a href="injectables/AuthService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AuthService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CommitsService.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>CommitsService</a>
+                                            <a href="injectables/CommitsService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CommitsService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/DataService.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>DataService</a>
+                                            <a href="injectables/DataService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >DataService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/DatabaseService.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>DatabaseService</a>
+                                            <a href="injectables/DatabaseService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >DatabaseService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/JsonManagerService.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>JsonManagerService</a>
+                                            <a href="injectables/JsonManagerService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >JsonManagerService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/ToastService.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>ToastService</a>
+                                            <a href="injectables/ToastService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ToastService</a>
                                         </li>
                                     </ul>
                                 </li>
                             </li>
                             <li class="link">
-                                <a href="modules/AppRoutingModule.html" data-type="entity-link">AppRoutingModule</a>
+                                <a href="modules/AppRoutingModule.html" data-type="entity-link" >AppRoutingModule</a>
                             </li>
                 </ul>
                 </li>
@@ -217,52 +195,52 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="components-links"' : 'id="xs-components-links"' }>
                             <li class="link">
-                                <a href="components/AssignmentChooserComponent.html" data-type="entity-link">AssignmentChooserComponent</a>
+                                <a href="components/AssignmentChooserComponent.html" data-type="entity-link" >AssignmentChooserComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/BaseEditConfigurationComponent.html" data-type="entity-link">BaseEditConfigurationComponent</a>
+                                <a href="components/BaseEditConfigurationComponent.html" data-type="entity-link" >BaseEditConfigurationComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/BaseGraphComponent.html" data-type="entity-link">BaseGraphComponent</a>
+                                <a href="components/BaseGraphComponent.html" data-type="entity-link" >BaseGraphComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/BaseTabEditConfigurationComponent.html" data-type="entity-link">BaseTabEditConfigurationComponent</a>
+                                <a href="components/BaseTabEditConfigurationComponent.html" data-type="entity-link" >BaseTabEditConfigurationComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/ConfigurationComponent.html" data-type="entity-link">ConfigurationComponent</a>
+                                <a href="components/ConfigurationComponent.html" data-type="entity-link" >ConfigurationComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/EditMilestoneComponent.html" data-type="entity-link">EditMilestoneComponent</a>
+                                <a href="components/EditMilestoneComponent.html" data-type="entity-link" >EditMilestoneComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/EditRepositoriesComponent.html" data-type="entity-link">EditRepositoriesComponent</a>
+                                <a href="components/EditRepositoriesComponent.html" data-type="entity-link" >EditRepositoriesComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/FileChooserComponent.html" data-type="entity-link">FileChooserComponent</a>
+                                <a href="components/FileChooserComponent.html" data-type="entity-link" >FileChooserComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/FourOhFourComponent.html" data-type="entity-link">FourOhFourComponent</a>
+                                <a href="components/FourOhFourComponent.html" data-type="entity-link" >FourOhFourComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/HomeComponent.html" data-type="entity-link">HomeComponent</a>
+                                <a href="components/HomeComponent.html" data-type="entity-link" >HomeComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/MetadataComponent.html" data-type="entity-link">MetadataComponent</a>
+                                <a href="components/MetadataComponent.html" data-type="entity-link" >MetadataComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/ModalAddRepositoriesComponent.html" data-type="entity-link">ModalAddRepositoriesComponent</a>
+                                <a href="components/ModalAddRepositoriesComponent.html" data-type="entity-link" >ModalAddRepositoriesComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/OverviewComponent.html" data-type="entity-link">OverviewComponent</a>
+                                <a href="components/OverviewComponent.html" data-type="entity-link" >OverviewComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/QuestionsChooserComponent.html" data-type="entity-link">QuestionsChooserComponent</a>
+                                <a href="components/QuestionsChooserComponent.html" data-type="entity-link" >QuestionsChooserComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/QuestionsCompletionComponent.html" data-type="entity-link">QuestionsCompletionComponent</a>
+                                <a href="components/QuestionsCompletionComponent.html" data-type="entity-link" >QuestionsCompletionComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/StudentsCommitsComponent.html" data-type="entity-link">StudentsCommitsComponent</a>
+                                <a href="components/StudentsCommitsComponent.html" data-type="entity-link" >StudentsCommitsComponent</a>
                             </li>
                         </ul>
                     </li>
@@ -275,28 +253,28 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="classes-links"' : 'id="xs-classes-links"' }>
                             <li class="link">
-                                <a href="classes/Assignment.html" data-type="entity-link">Assignment</a>
+                                <a href="classes/Assignment.html" data-type="entity-link" >Assignment</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Commit.html" data-type="entity-link">Commit</a>
+                                <a href="classes/Commit.html" data-type="entity-link" >Commit</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Error.html" data-type="entity-link">Error</a>
+                                <a href="classes/Error.html" data-type="entity-link" >Error</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Metadata.html" data-type="entity-link">Metadata</a>
+                                <a href="classes/Metadata.html" data-type="entity-link" >Metadata</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Milestone.html" data-type="entity-link">Milestone</a>
+                                <a href="classes/Milestone.html" data-type="entity-link" >Milestone</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Repository.html" data-type="entity-link">Repository</a>
+                                <a href="classes/Repository.html" data-type="entity-link" >Repository</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Session.html" data-type="entity-link">Session</a>
+                                <a href="classes/Session.html" data-type="entity-link" >Session</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Utils.html" data-type="entity-link">Utils</a>
+                                <a href="classes/Utils.html" data-type="entity-link" >Utils</a>
                             </li>
                         </ul>
                     </li>
@@ -309,34 +287,34 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </div>
                             <ul class="links collapse " ${ isNormalMode ? 'id="injectables-links"' : 'id="xs-injectables-links"' }>
                                 <li class="link">
-                                    <a href="injectables/AssignmentsService.html" data-type="entity-link">AssignmentsService</a>
+                                    <a href="injectables/AssignmentsService.html" data-type="entity-link" >AssignmentsService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/AuthService.html" data-type="entity-link">AuthService</a>
+                                    <a href="injectables/AuthService.html" data-type="entity-link" >AuthService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/CommitsService.html" data-type="entity-link">CommitsService</a>
+                                    <a href="injectables/CommitsService.html" data-type="entity-link" >CommitsService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/ConfigurationService.html" data-type="entity-link">ConfigurationService</a>
+                                    <a href="injectables/ConfigurationService.html" data-type="entity-link" >ConfigurationService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/DatabaseService.html" data-type="entity-link">DatabaseService</a>
+                                    <a href="injectables/DatabaseService.html" data-type="entity-link" >DatabaseService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/DataService.html" data-type="entity-link">DataService</a>
+                                    <a href="injectables/DataService.html" data-type="entity-link" >DataService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/JsonManagerService.html" data-type="entity-link">JsonManagerService</a>
+                                    <a href="injectables/JsonManagerService.html" data-type="entity-link" >JsonManagerService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/LoaderService.html" data-type="entity-link">LoaderService</a>
+                                    <a href="injectables/LoaderService.html" data-type="entity-link" >LoaderService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/NgbDateNativeUTCFranceAdapter.html" data-type="entity-link">NgbDateNativeUTCFranceAdapter</a>
+                                    <a href="injectables/NgbDateNativeUTCFranceAdapter.html" data-type="entity-link" >NgbDateNativeUTCFranceAdapter</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/ToastService.html" data-type="entity-link">ToastService</a>
+                                    <a href="injectables/ToastService.html" data-type="entity-link" >ToastService</a>
                                 </li>
                             </ul>
                         </li>
@@ -349,16 +327,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="guards-links"' : 'id="xs-guards-links"' }>
                             <li class="link">
-                                <a href="guards/AuthGuard.html" data-type="entity-link">AuthGuard</a>
+                                <a href="guards/AuthGuard.html" data-type="entity-link" >AuthGuard</a>
                             </li>
                             <li class="link">
-                                <a href="guards/DataLoadingGuard.html" data-type="entity-link">DataLoadingGuard</a>
+                                <a href="guards/DataLoadingGuard.html" data-type="entity-link" >DataLoadingGuard</a>
                             </li>
                             <li class="link">
-                                <a href="guards/DataProvidedGuard.html" data-type="entity-link">DataProvidedGuard</a>
+                                <a href="guards/DataProvidedGuard.html" data-type="entity-link" >DataProvidedGuard</a>
                             </li>
                             <li class="link">
-                                <a href="guards/DataSavedGuard.html" data-type="entity-link">DataSavedGuard</a>
+                                <a href="guards/DataSavedGuard.html" data-type="entity-link" >DataSavedGuard</a>
                             </li>
                         </ul>
                     </li>

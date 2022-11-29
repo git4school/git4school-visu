@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
         <link rel="stylesheet" href="../styles/Readthedocs.css">
     </head>
     <body>
@@ -37,9 +38,10 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li>CommitsService</li>
+  <li >CommitsService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -59,6 +61,7 @@
         <p class="comment">
             <code>src/app/services/commits.service.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -83,7 +86,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#headers">headers</a>
+                                <a href="#headers" >headers</a>
                             </li>
                         </ul>
                     </td>
@@ -98,65 +101,77 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#compareQuestions">compareQuestions</a>
+                                <a href="#compareQuestions" >compareQuestions</a>
                             </li>
                             <li>
-                                <a href="#getCommits">getCommits</a>
+                                <a href="#getCommits" >getCommits</a>
                             </li>
                             <li>
-                                <a href="#getNameFromReadMe">getNameFromReadMe</a>
+                                <a href="#getIdentity" >getIdentity</a>
                             </li>
                             <li>
-                                <a href="#getRawCommits">getRawCommits</a>
+                                <a href="#getIdentityFile" >getIdentityFile</a>
                             </li>
                             <li>
-                                <a href="#getRawReadMe">getRawReadMe</a>
+                                <a href="#getNameFromIdentity" >getNameFromIdentity</a>
                             </li>
                             <li>
-                                <a href="#getReadMe">getReadMe</a>
+                                <a href="#getNameFromReadMe" >getNameFromReadMe</a>
                             </li>
                             <li>
-                                <a href="#getRepositories">getRepositories</a>
+                                <a href="#getRawCommits" >getRawCommits</a>
                             </li>
                             <li>
-                                <a href="#getRepositoriesByAuthenticatedUser">getRepositoriesByAuthenticatedUser</a>
+                                <a href="#getRawIdentity" >getRawIdentity</a>
                             </li>
                             <li>
-                                <a href="#getRepositoriesBySearch">getRepositoriesBySearch</a>
+                                <a href="#getRawReadMe" >getRawReadMe</a>
                             </li>
                             <li>
-                                <a href="#getRepository">getRepository</a>
+                                <a href="#getReadMeFile" >getReadMeFile</a>
                             </li>
                             <li>
-                                <a href="#getTPGroupFromReadMe">getTPGroupFromReadMe</a>
+                                <a href="#getRepositories" >getRepositories</a>
                             </li>
                             <li>
-                                <a href="#getValueWithToken">getValueWithToken</a>
+                                <a href="#getRepositoriesByAuthenticatedUser" >getRepositoriesByAuthenticatedUser</a>
                             </li>
                             <li>
-                                <a href="#initQuestionsDict">initQuestionsDict</a>
+                                <a href="#getRepositoriesBySearch" >getRepositoriesBySearch</a>
                             </li>
                             <li>
-                                <a href="#initStudentsDict">initStudentsDict</a>
+                                <a href="#getRepository" >getRepository</a>
                             </li>
                             <li>
-                                <a href="#isSupThan">isSupThan</a>
+                                <a href="#getTPGroupFromReadMe" >getTPGroupFromReadMe</a>
                             </li>
                             <li>
-                                <a href="#loadQuestions">loadQuestions</a>
+                                <a href="#getValueWithToken" >getValueWithToken</a>
                             </li>
                             <li>
-                                <a href="#loadQuestionsDict">loadQuestionsDict</a>
+                                <a href="#initQuestionsDict" >initQuestionsDict</a>
                             </li>
                             <li>
-                                <a href="#loadStudents">loadStudents</a>
+                                <a href="#initStudentsDict" >initStudentsDict</a>
                             </li>
                             <li>
-                                <a href="#loadStudentsDict">loadStudentsDict</a>
+                                <a href="#isSupThan" >isSupThan</a>
+                            </li>
+                            <li>
+                                <a href="#loadQuestions" >loadQuestions</a>
+                            </li>
+                            <li>
+                                <a href="#loadQuestionsDict" >loadQuestionsDict</a>
+                            </li>
+                            <li>
+                                <a href="#loadStudents" >loadStudents</a>
+                            </li>
+                            <li>
+                                <a href="#loadStudentsDict" >loadStudentsDict</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#processRawResponse">processRawResponse</a>
+                                <a href="#processRawResponse" >processRawResponse</a>
                             </li>
                         </ul>
                     </td>
@@ -176,12 +191,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, translateService: TranslateService)</code>
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, translateService: TranslateService)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/commits.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/services/commits.service.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -256,9 +271,7 @@
                 <td class="col-md-4">
                     <a name="compareQuestions"></a>
                     <span class="name">
-                        <b>
-                            compareQuestions
-                        </b>
+                        <span ><b>compareQuestions</b></span>
                         <a href="#compareQuestions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -272,8 +285,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="488"
-                            class="link-to-prism">src/app/services/commits.service.ts:488</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="537"
+                            class="link-to-prism">src/app/services/commits.service.ts:537</a></div>
                 </td>
             </tr>
 
@@ -285,6 +298,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -343,9 +357,7 @@
                 <td class="col-md-4">
                     <a name="getCommits"></a>
                     <span class="name">
-                        <b>
-                            getCommits
-                        </b>
+                        <span ><b>getCommits</b></span>
                         <a href="#getCommits"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -359,8 +371,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">src/app/services/commits.service.ts:115</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/app/services/commits.service.ts:101</a></div>
                 </td>
             </tr>
 
@@ -370,6 +382,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -435,11 +448,216 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getIdentity"></a>
+                    <span class="name">
+                        <span ><b>getIdentity</b></span>
+                        <a href="#getIdentity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getIdentity(repoUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">src/app/services/commits.service.ts:159</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>repoUrl</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getIdentityFile"></a>
+                    <span class="name">
+                        <span ><b>getIdentityFile</b></span>
+                        <a href="#getIdentityFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getIdentityFile(repoUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="226"
+                            class="link-to-prism">src/app/services/commits.service.ts:226</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>repoUrl</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getNameFromIdentity"></a>
+                    <span class="name">
+                        <span ><b>getNameFromIdentity</b></span>
+                        <a href="#getNameFromIdentity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getNameFromIdentity(identity: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="612"
+                            class="link-to-prism">src/app/services/commits.service.ts:612</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>identity</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getNameFromReadMe"></a>
                     <span class="name">
-                        <b>
-                            getNameFromReadMe
-                        </b>
+                        <span ><b>getNameFromReadMe</b></span>
                         <a href="#getNameFromReadMe"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -453,8 +671,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="571"
-                            class="link-to-prism">src/app/services/commits.service.ts:571</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="601"
+                            class="link-to-prism">src/app/services/commits.service.ts:601</a></div>
                 </td>
             </tr>
 
@@ -464,6 +682,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -507,9 +726,7 @@
                 <td class="col-md-4">
                     <a name="getRawCommits"></a>
                     <span class="name">
-                        <b>
-                            getRawCommits
-                        </b>
+                        <span ><b>getRawCommits</b></span>
                         <a href="#getRawCommits"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -523,8 +740,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">src/app/services/commits.service.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">src/app/services/commits.service.ts:136</a></div>
                 </td>
             </tr>
 
@@ -536,6 +753,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -612,37 +830,34 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getRawReadMe"></a>
+                    <a name="getRawIdentity"></a>
                     <span class="name">
-                        <b>
-                            getRawReadMe
-                        </b>
-                        <a href="#getRawReadMe"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getRawIdentity</b></span>
+                        <a href="#getRawIdentity"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getRawReadMe(repoUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getRawIdentity(repoUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="203"
-                            class="link-to-prism">src/app/services/commits.service.ts:203</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="252"
+                            class="link-to-prism">src/app/services/commits.service.ts:252</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Retrieves the readMe for a given repository</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -684,26 +899,95 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getReadMe"></a>
+                    <a name="getRawReadMe"></a>
                     <span class="name">
-                        <b>
-                            getReadMe
-                        </b>
-                        <a href="#getReadMe"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getRawReadMe</b></span>
+                        <a href="#getRawReadMe"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getReadMe(repoUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getRawReadMe(repoUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="173"
-                            class="link-to-prism">src/app/services/commits.service.ts:173</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="215"
+                            class="link-to-prism">src/app/services/commits.service.ts:215</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Retrieves the readMe for a given repository</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>repoUrl</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getReadMeFile"></a>
+                    <span class="name">
+                        <span ><b>getReadMeFile</b></span>
+                        <a href="#getReadMeFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getReadMeFile(repoUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">src/app/services/commits.service.ts:185</a></div>
                 </td>
             </tr>
 
@@ -713,6 +997,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -756,24 +1041,22 @@
                 <td class="col-md-4">
                     <a name="getRepositories"></a>
                     <span class="name">
-                        <b>
-                            getRepositories
-                        </b>
+                        <span ><b>getRepositories</b></span>
                         <a href="#getRepositories"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getRepositories(repoTab: <a href="../classes/Repository.html">Repository[]</a>, startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getRepositories(repoTab: <a href="../classes/Repository.html" target="_self">Repository[]</a>, startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/app/services/commits.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/services/commits.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -785,6 +1068,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -865,9 +1149,7 @@
                 <td class="col-md-4">
                     <a name="getRepositoriesByAuthenticatedUser"></a>
                     <span class="name">
-                        <b>
-                            getRepositoriesByAuthenticatedUser
-                        </b>
+                        <span ><b>getRepositoriesByAuthenticatedUser</b></span>
                         <a href="#getRepositoriesByAuthenticatedUser"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -881,8 +1163,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="528"
-                            class="link-to-prism">src/app/services/commits.service.ts:528</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="558"
+                            class="link-to-prism">src/app/services/commits.service.ts:558</a></div>
                 </td>
             </tr>
 
@@ -894,6 +1176,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -966,9 +1249,7 @@
                 <td class="col-md-4">
                     <a name="getRepositoriesBySearch"></a>
                     <span class="name">
-                        <b>
-                            getRepositoriesBySearch
-                        </b>
+                        <span ><b>getRepositoriesBySearch</b></span>
                         <a href="#getRepositoriesBySearch"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -982,8 +1263,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="553"
-                            class="link-to-prism">src/app/services/commits.service.ts:553</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="583"
+                            class="link-to-prism">src/app/services/commits.service.ts:583</a></div>
                 </td>
             </tr>
 
@@ -995,6 +1276,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1085,9 +1367,7 @@
                 <td class="col-md-4">
                     <a name="getRepository"></a>
                     <span class="name">
-                        <b>
-                            getRepository
-                        </b>
+                        <span ><b>getRepository</b></span>
                         <a href="#getRepository"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1101,8 +1381,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">src/app/services/commits.service.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">src/app/services/commits.service.ts:90</a></div>
                 </td>
             </tr>
 
@@ -1114,6 +1394,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1192,9 +1473,7 @@
                 <td class="col-md-4">
                     <a name="getTPGroupFromReadMe"></a>
                     <span class="name">
-                        <b>
-                            getTPGroupFromReadMe
-                        </b>
+                        <span ><b>getTPGroupFromReadMe</b></span>
                         <a href="#getTPGroupFromReadMe"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1208,8 +1487,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="582"
-                            class="link-to-prism">src/app/services/commits.service.ts:582</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="616"
+                            class="link-to-prism">src/app/services/commits.service.ts:616</a></div>
                 </td>
             </tr>
 
@@ -1219,6 +1498,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1262,9 +1542,7 @@
                 <td class="col-md-4">
                     <a name="getValueWithToken"></a>
                     <span class="name">
-                        <b>
-                            getValueWithToken
-                        </b>
+                        <span ><b>getValueWithToken</b></span>
                         <a href="#getValueWithToken"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1278,8 +1556,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="590"
-                            class="link-to-prism">src/app/services/commits.service.ts:590</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="624"
+                            class="link-to-prism">src/app/services/commits.service.ts:624</a></div>
                 </td>
             </tr>
 
@@ -1289,6 +1567,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1344,9 +1623,7 @@
                 <td class="col-md-4">
                     <a name="initQuestionsDict"></a>
                     <span class="name">
-                        <b>
-                            initQuestionsDict
-                        </b>
+                        <span ><b>initQuestionsDict</b></span>
                         <a href="#initQuestionsDict"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1360,8 +1637,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="220"
-                            class="link-to-prism">src/app/services/commits.service.ts:220</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="269"
+                            class="link-to-prism">src/app/services/commits.service.ts:269</a></div>
                 </td>
             </tr>
 
@@ -1373,6 +1650,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1437,24 +1715,22 @@
                 <td class="col-md-4">
                     <a name="initStudentsDict"></a>
                     <span class="name">
-                        <b>
-                            initStudentsDict
-                        </b>
+                        <span ><b>initStudentsDict</b></span>
                         <a href="#initStudentsDict"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>initStudentsDict(repository: <a href="../classes/Repository.html">Repository</a>, dict, questions: string[], colors)</code>
+<code>initStudentsDict(repository: <a href="../classes/Repository.html" target="_self">Repository</a>, dict, questions: string[], colors)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="344"
-                            class="link-to-prism">src/app/services/commits.service.ts:344</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="393"
+                            class="link-to-prism">src/app/services/commits.service.ts:393</a></div>
                 </td>
             </tr>
 
@@ -1466,6 +1742,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1560,9 +1837,7 @@
                 <td class="col-md-4">
                     <a name="isSupThan"></a>
                     <span class="name">
-                        <b>
-                            isSupThan
-                        </b>
+                        <span ><b>isSupThan</b></span>
                         <a href="#isSupThan"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1576,8 +1851,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="496"
-                            class="link-to-prism">src/app/services/commits.service.ts:496</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="545"
+                            class="link-to-prism">src/app/services/commits.service.ts:545</a></div>
                 </td>
             </tr>
 
@@ -1589,6 +1864,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1647,9 +1923,7 @@
                 <td class="col-md-4">
                     <a name="loadQuestions"></a>
                     <span class="name">
-                        <b>
-                            loadQuestions
-                        </b>
+                        <span ><b>loadQuestions</b></span>
                         <a href="#loadQuestions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1663,8 +1937,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="316"
-                            class="link-to-prism">src/app/services/commits.service.ts:316</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="365"
+                            class="link-to-prism">src/app/services/commits.service.ts:365</a></div>
                 </td>
             </tr>
 
@@ -1676,6 +1950,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1768,24 +2043,22 @@
                 <td class="col-md-4">
                     <a name="loadQuestionsDict"></a>
                     <span class="name">
-                        <b>
-                            loadQuestionsDict
-                        </b>
+                        <span ><b>loadQuestionsDict</b></span>
                         <a href="#loadQuestionsDict"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadQuestionsDict(dict, repositories: <a href="../classes/Repository.html">Repository[]</a>, questions: string[], colors, tpGroup?, date?, translations?)</code>
+<code>loadQuestionsDict(dict, repositories: <a href="../classes/Repository.html" target="_self">Repository[]</a>, questions: string[], colors, tpGroup?, date?, translations?)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="246"
-                            class="link-to-prism">src/app/services/commits.service.ts:246</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="295"
+                            class="link-to-prism">src/app/services/commits.service.ts:295</a></div>
                 </td>
             </tr>
 
@@ -1797,6 +2070,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1935,9 +2209,7 @@
                 <td class="col-md-4">
                     <a name="loadStudents"></a>
                     <span class="name">
-                        <b>
-                            loadStudents
-                        </b>
+                        <span ><b>loadStudents</b></span>
                         <a href="#loadStudents"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1951,8 +2223,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="420"
-                            class="link-to-prism">src/app/services/commits.service.ts:420</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="469"
+                            class="link-to-prism">src/app/services/commits.service.ts:469</a></div>
                 </td>
             </tr>
 
@@ -1964,6 +2236,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -2041,24 +2314,22 @@
                 <td class="col-md-4">
                     <a name="loadStudentsDict"></a>
                     <span class="name">
-                        <b>
-                            loadStudentsDict
-                        </b>
+                        <span ><b>loadStudentsDict</b></span>
                         <a href="#loadStudentsDict"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadStudentsDict(repositories: <a href="../classes/Repository.html">Repository[]</a>, questions: string[], colors, tpGroup?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, date?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>loadStudentsDict(repositories: <a href="../classes/Repository.html" target="_self">Repository[]</a>, questions: string[], colors, tpGroup?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, date?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="366"
-                            class="link-to-prism">src/app/services/commits.service.ts:366</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="415"
+                            class="link-to-prism">src/app/services/commits.service.ts:415</a></div>
                 </td>
             </tr>
 
@@ -2070,6 +2341,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -2182,10 +2454,8 @@
                 <td class="col-md-4">
                     <a name="processRawResponse"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            processRawResponse
-                        </b>
+                        <span class="modifier">Private</span>
+                        <span ><b>processRawResponse</b></span>
                         <a href="#processRawResponse"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -2200,8 +2470,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="508"
-                            class="link-to-prism">src/app/services/commits.service.ts:508</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="636"
+                            class="link-to-prism">src/app/services/commits.service.ts:636</a></div>
                 </td>
             </tr>
 
@@ -2213,6 +2483,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -2267,44 +2538,43 @@
 </section>
             <section>
     
-        <h3 id="inputs">
-            Properties
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="headers"></a>
+                    <span class="name">
+                        <span ><b>headers</b></span>
+                        <a href="#headers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="headers"></a>
-                        <span class="name">
-                            <b>
-                            headers</b>
-                            <a href="#headers"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Default value : </i><code>new HttpHeaders({
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+    Authorization: &quot;token &quot; + this.authService.token,
+  })</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>new HttpHeaders({
-    &quot;Content-Type&quot;: &quot;application/json&quot;,
-    Authorization: &quot;token &quot; + this.authService.token,
-  })</code>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/commits.service.ts:28</a></div>
                         </td>
                     </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/services/commits.service.ts:22</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Headers to use when sending HTTP requests</p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Headers to use when sending HTTP requests</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -2317,8 +2587,14 @@ import { Commit, CommitColor } from &quot;@models/Commit.model&quot;;
 import { Error, ErrorType, Repository } from &quot;@models/Repository.model&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import * as moment from &quot;moment&quot;;
-import { forkJoin, Observable, of } from &quot;rxjs&quot;;
-import { catchError, defaultIfEmpty, map } from &quot;rxjs/operators&quot;;
+import { forkJoin, identity, iif, Observable, of } from &quot;rxjs&quot;;
+import {
+  catchError,
+  defaultIfEmpty,
+  flatMap,
+  map,
+  switchMap,
+} from &quot;rxjs/operators&quot;;
 import { AuthService } from &quot;./auth.service&quot;;
 import { Utils } from &quot;./utils&quot;;
 
@@ -2364,40 +2640,20 @@ export class CommitsService {
     repoTab.forEach((repository) &#x3D;&gt; {
       tab.push(
         this.getRepository(repository.url, startDate, endDate).pipe(
-          map(([readMeData, commitsData]) &#x3D;&gt; {
-            repository.errors &#x3D; [];
-            let readme;
+          map(([identityData, commitsData]) &#x3D;&gt; {
             if (commitsData.errors) {
               repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
             } else {
               repository.commits &#x3D; commitsData.commits;
             }
 
-            if (readMeData.errors) {
-              repository.errors.push(new Error(ErrorType.README_NOT_FOUND));
-            } else {
-              readme &#x3D; {
-                name: this.getNameFromReadMe(readMeData.readme),
-                tpGroup: this.getTPGroupFromReadMe(readMeData.readme),
-              };
-
-              if (!readme.name) {
-                repository.errors.push(
-                  new Error(ErrorType.README_NAME_NOT_FOUND)
-                );
-              }
-              if (!readme.tpGroup) {
-                repository.errors.push(
-                  new Error(ErrorType.README_TPGROUP_NOT_FOUND)
-                );
-              }
-            }
-
             if (!repository.name) {
-              repository.name &#x3D; readme?.name || repository.getNameFromUrl();
+              repository.name &#x3D;
+                identityData?.name || repository.getNameFromUrl();
             }
             if (!repository.tpGroup) {
-              repository.tpGroup &#x3D; readme?.tpGroup || Utils.DEFAULT_TP_GROUP;
+              repository.tpGroup &#x3D;
+                identityData?.tpGroup || Utils.DEFAULT_TP_GROUP;
             }
 
             return repository;
@@ -2420,7 +2676,7 @@ export class CommitsService {
     endDate?: string
   ): Observable&lt;any[]&gt; {
     return forkJoin([
-      this.getReadMe(repoUrl),
+      this.getIdentity(repoUrl),
       this.getCommits(repoUrl, startDate, endDate),
     ]);
   }
@@ -2483,7 +2739,33 @@ export class CommitsService {
     return this.http.get&lt;any[]&gt;(url, { headers: this.headers });
   }
 
-  getReadMe(repoUrl: string): Observable&lt;any&gt; {
+  getIdentity(repoUrl: string): Observable&lt;any&gt; {
+    return this.getIdentityFile(repoUrl).pipe(
+      switchMap((identityData) &#x3D;&gt; {
+        let identity;
+        if (identityData.errors) {
+          return this.getReadMeFile(repoUrl).pipe(
+            map((readmeData) &#x3D;&gt; {
+              return {
+                name: this.getNameFromReadMe(readmeData.readme),
+                tpGroup: this.getTPGroupFromReadMe(readmeData.readme),
+                errors: readmeData.errors,
+              };
+            })
+          );
+        } else {
+          let identityParsed &#x3D; JSON.parse(identityData.identity);
+          return of({
+            name: this.getNameFromIdentity(identityParsed),
+            tpGroup: identityParsed.group,
+            errors: identityParsed.errors,
+          });
+        }
+      })
+    );
+  }
+
+  getReadMeFile(repoUrl: string): Observable&lt;any&gt; {
     return this.getRawReadMe(repoUrl).pipe(
       map((rawReadme) &#x3D;&gt; {
         let readme &#x3D; decodeURIComponent(
@@ -2521,6 +2803,43 @@ export class CommitsService {
       &quot;/&quot; +
       tabHashURL[4] +
       &quot;/readme&quot;;
+    return this.http.get(url, { headers: this.headers });
+  }
+
+  getIdentityFile(repoUrl: string): Observable&lt;any&gt; {
+    return this.getRawIdentity(repoUrl).pipe(
+      map((rawIdentity) &#x3D;&gt; {
+        let identity &#x3D; decodeURIComponent(
+          escape(window.atob(rawIdentity[&quot;content&quot;]))
+        );
+
+        return {
+          errors: false,
+          identity,
+          message: null,
+        };
+      }),
+      catchError((error) &#x3D;&gt;
+        of({
+          errors: true,
+          identity: null,
+          message: this.translateService.instant(
+            &quot;ERROR-MESSAGE-IDENTITY-NOT-FOUND&quot;,
+            { repo: repoUrl }
+          ),
+        })
+      )
+    );
+  }
+
+  getRawIdentity(repoUrl: string): Observable&lt;any&gt; {
+    const tabHashURL &#x3D; repoUrl.split(&quot;/&quot;);
+    const url &#x3D;
+      &quot;https://api.github.com/repos/&quot; +
+      tabHashURL[3] +
+      &quot;/&quot; +
+      tabHashURL[4] +
+      &quot;/contents/IDENTITY.json&quot;;
     return this.http.get(url, { headers: this.headers });
   }
 
@@ -2813,25 +3132,6 @@ export class CommitsService {
   }
 
   /**
-   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
-   *
-   * @param rawRepositories Raw repositories with a JSON format
-   * @param headers Headers including &quot;link&quot; that we use to determine we just fetched the last page
-   */
-  private processRawResponse(
-    rawRepositories,
-    headers
-  ): { completed: boolean; repositories: Repository[] } {
-    const array &#x3D; rawRepositories.map(
-      (data) &#x3D;&gt; new Repository(data[&quot;html_url&quot;], data[&quot;name&quot;])
-    );
-    return {
-      completed: !headers?.get(&quot;link&quot;)?.match(/rel&#x3D;\&quot;last\&quot;/),
-      repositories: array,
-    };
-  }
-
-  /**
    * Fetch authenticated user&#x27;s repositories from Github
    *
    * @param {number} page The page of repositories to fetch
@@ -2892,6 +3192,10 @@ export class CommitsService {
     return [lastName, firstName].filter(Boolean).join(&quot; &quot;);
   }
 
+  getNameFromIdentity(identity: any): string {
+    return [identity.last_name, identity.first_name].filter(Boolean).join(&quot; &quot;);
+  }
+
   getTPGroupFromReadMe(readme: string): string {
     if (!readme) {
       return null;
@@ -2905,6 +3209,25 @@ export class CommitsService {
     let value &#x3D; text.match(regex);
     return value ? value[0].trim() : null;
   }
+
+  /**
+   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
+   *
+   * @param rawRepositories Raw repositories with a JSON format
+   * @param headers Headers including &quot;link&quot; that we use to determine we just fetched the last page
+   */
+  private processRawResponse(
+    rawRepositories,
+    headers
+  ): { completed: boolean; repositories: Repository[] } {
+    const array &#x3D; rawRepositories.map(
+      (data) &#x3D;&gt; new Repository(data[&quot;html_url&quot;], data[&quot;name&quot;])
+    );
+    return {
+      completed: !headers?.get(&quot;link&quot;)?.match(/rel&#x3D;\&quot;last\&quot;/),
+      repositories: array,
+    };
+  }
 }
 </code></pre>
     </div>
@@ -2917,14 +3240,15 @@ export class CommitsService {
 
 
 
-                   
+
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -2936,6 +3260,15 @@ export class CommitsService {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
@@ -2945,9 +3278,9 @@ export class CommitsService {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 
