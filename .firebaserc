@@ -1,6 +1,9 @@
 {
   "projects": {
     "default": "git4school",
-    "staging": "git4school-staging"
-  }
+    "staging": "git4school-staging",
+    "prod": "git4school"
+  },
+  "targets": {},
+  "etags": {}
 }
