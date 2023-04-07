@@ -121,6 +121,10 @@ $sizes: (
   margin-left: 4px;
 }
 
+.hoverable {
+  cursor: pointer;
+}
+
 .sortable-column:hover {
   cursor: pointer;
 }

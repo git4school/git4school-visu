@@ -1,9 +1,5 @@
 <div class="page-container d-flex flex-column">
   <div class="m-3 content-wrap" *ngIf="authService.isSignedIn()">
-    <h5 class="mb-3">
-      {{ 'HOME.ASSIGNMENT-LIST.TITLE' | translate }}
-    </h5>
-
     <assignment-chooser></assignment-chooser>
   </div>
   <div *ngIf="!authService.isSignedIn()">
