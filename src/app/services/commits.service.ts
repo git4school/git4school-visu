@@ -170,11 +170,13 @@ export class CommitsService {
           if (link.includes("next")) {
             return this.http.get(
               res.headers.get("link").split(">;")[0].substring(1),
-              { headers: this.headers, observe: "response" }
+              { headers: this.headers, observe: "response" },
             );
-          } else return EMPTY;
+          } else {
+            return EMPTY;
+          }
         }),
-        reduce((acc, res) => acc.concat(res.body), [])
+        reduce((acc, res) => acc.concat(res.body), []),
       );
   }
 
