@@ -214,7 +214,8 @@
     "MESSAGE-REQUIRED-STARTTIME": "Start time is required !",
     "MESSAGE-REQUIRED-ENDTIME": "End time is required !",
     "MESSAGE-ENDTIME-BEFORE-STARTTIME": "The end time must be later than the start time !",
-    "DELETE-BUTTON": "Delete session"
+    "DELETE-BUTTON": "Delete session",
+    "NOTES": "Personal notes"
   },
   "MODAL-ADD-REPOSITORIES": {
     "TITLE": "Add repositories",
@@ -272,6 +273,7 @@
   "GO-TO-GITHUB-TOOLTIP": "Go to our Github repository",
   "NO-MILESTONE-TYPE-FEEDBACK": "A type of milestone must be choosen !",
   "MILESTONE-TYPE": "Milestone type",
+  "MILESTONE-NOTES": "Personal notes",
   "REQUIRED-FIELDS-TEXT": "These fields must be filled in to validate the form.",
   "ERROR-CANNOT-READ-FILE": "File could not be read",
   "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED": "The assignment to import is not well formed",
