@@ -50,26 +50,6 @@
     </ngx-datatable>
 </div>
 
-<ng-template #importConfirmation>
-    <div class="modal-header">
-        <h4 class="modal-title">{{ "IMPORT-CONFIRMATION-TITLE" | translate }}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modalRef.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        {{ "IMPORT-CONFIRMATION-MESSAGE" | translate }}
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="modalRef.dismiss('Cancel')">
-            {{ "CANCEL" | translate }}
-        </button>
-        <button type="button" class="btn btn-primary" (click)="modalRef.close('Confirm')">
-            {{ "CONFIRM" | translate }}
-        </button>
-    </div>
-</ng-template>
-
 <ng-template #createAssignmentTooltip>{{ 'HOME.CREATE-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
 <ng-template #selectAssignmentTooltip>{{ 'HOME.SELECT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
 <ng-template #editAssignmentTooltip>{{ 'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
