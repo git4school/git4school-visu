@@ -23,10 +23,10 @@
                         <i class="fas fa-plus"></i>
                     </button>
                     <button class="btn btn-secondary btn-sm" [ngbTooltip]="downloadTooltip" (click)="exportDB()"><i
-                            class="fas fa-download"></i></button>
+                            class="fas fa-upload"></i></button>
                     <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
                     <button class="btn btn-secondary btn-sm" (click)="assignmentFile.click();"
-                        [ngbTooltip]="uploadTooltip"><i class="fas fa-upload"></i></button>
+                        [ngbTooltip]="uploadTooltip"><i class="fas fa-download"></i></button>
                 </div>
 
             </ng-template>
