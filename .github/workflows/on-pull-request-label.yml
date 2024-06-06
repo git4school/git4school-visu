@@ -42,6 +42,7 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GIT4SCHOOL }}
           projectId: git4school
+          channelId: 'pr-${{ github.event.number }}-${{ github.event.pull_request.head.ref }}'
   comment-staging-link:
     name: Comment staging link in PR comment
     needs: deploy
