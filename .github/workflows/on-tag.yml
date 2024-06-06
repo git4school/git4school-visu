@@ -41,12 +41,13 @@ jobs:
         with:
           name: dist-git4school
           path: dist/git4school
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
+      - name: Deploy live
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          args: deploy
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GIT4SCHOOL }}
+          projectId: git4school
+          channelId: live
   deploy-tech-doc:
     name: Deploy technical documentation
     needs: build
