@@ -11,6 +11,10 @@
     cubic-bezier(0.57, 0.81, 0.75, 0.74);
 }
 
+#invisibleColumn {
+  width: 0;
+}
+
 @keyframes move-left-to-right {
   0% {
     transform: translateX(0%);

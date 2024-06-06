@@ -244,7 +244,17 @@
     "COURSE": "Cours",
     "PROGRAM": "Programme",
     "YEAR": "Année",
-    "LAST-MODIFICATION-DATE": "Date de la dernière modification"
+    "LAST-MODIFICATION-DATE": "Date de la dernière modification",
+    "EXPAND-ALL-ROWS": "Tout afficher",
+    "COLLAPSE-ALL-ROWS": "Tout cacher",
+    "ASSIGNMENT-DETAILS": {
+      "START-DATE": "Date de début",
+      "END-DATE": "Date de fin",
+      "FORMAT-DATE": "dd-MM-YYYY",
+      "NOT-SPECIFIED": "Non spécifié",
+      "NUMBER-OF-RESPOSITORY": "Nombre de dépôts"
+    },
+    "YEAR-NOT-SPECIFIED": "Année non spécifié"
   },
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Veuillez indiquer des questions "
