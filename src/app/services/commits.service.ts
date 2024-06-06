@@ -4,12 +4,13 @@ import { Commit, CommitColor } from "@models/Commit.model";
 import { Error, ErrorType, Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
-import { forkJoin, identity, iif, Observable, of } from "rxjs";
+import { EMPTY, forkJoin, Observable, of } from "rxjs";
 import {
   catchError,
   defaultIfEmpty,
-  flatMap,
+  expand,
   map,
+  reduce,
   switchMap,
 } from "rxjs/operators";
 import { AuthService } from "./auth.service";
@@ -138,13 +139,15 @@ export class CommitsService {
     startDate?: string,
     endDate?: string
   ): Observable<any[]> {
+    const GITHUB_MAX_PER_PAGE = 100;
     const repoHashURL = repoUrl.split("/");
     let url =
       "https://api.github.com/repos/" +
       repoHashURL[3] +
       "/" +
       repoHashURL[4] +
-      "/commits?per_page=100";
+      "/commits?per_page=" +
+      GITHUB_MAX_PER_PAGE;
     if (startDate) {
       let startDateMoment = moment(startDate).toDate();
       url = url.concat("&since=" + startDateMoment.toISOString());
@@ -153,7 +156,28 @@ export class CommitsService {
       let endDateMoment = moment(endDate).toDate();
       url = url.concat("&until=" + endDateMoment.toISOString());
     }
-    return this.http.get<any[]>(url, { headers: this.headers });
+
+    return this.http
+      .get(url, {
+        headers: this.headers,
+        observe: "response",
+      })
+      .pipe(
+        expand((res) => {
+          // link is formatted as <request&page=n+1>; rel="next", <request?page=last_n>; rel="last"
+          let link = res.headers.get("link");
+
+          if (link.includes("next")) {
+            return this.http.get(
+              res.headers.get("link").split(">;")[0].substring(1),
+              { headers: this.headers, observe: "response" },
+            );
+          } else {
+            return EMPTY;
+          }
+        }),
+        reduce((acc, res) => acc.concat(res.body), []),
+      );
   }
 
   getIdentity(repoUrl: string): Observable<any> {
