@@ -61,14 +61,10 @@ jobs:
           name: tech-docs
           path: tech-docs
       - name: Pushes technical docs to gh-pages branch
-        uses: cpina/github-action-push-to-another-repository@master
-        env:
-          # F0urchette personal access token
-          API_TOKEN_GITHUB: ${{ secrets.MY_GITHUB_TOKEN }}
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          source-directory: "tech-docs"
-          target-branch: gh-pages
-          destination-github-username: "git4school"
-          destination-repository-name: "git4school-visu"
-          user-email: "tech@doc.fr"
-          commit-message: ":rocket: Technical documentation"
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          publish_dir: ./tech-docs
+          user_name: "tech-deploy[bot]"
+          user_email: "tech@doc.fr"
+          commit_message: ":rocket: Technical documentation"
