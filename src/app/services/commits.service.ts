@@ -41,7 +41,7 @@ export class CommitsService {
     private http: HttpClient,
     private authService: AuthService,
     private translateService: TranslateService
-  ) {}
+  ) { }
 
   /**
    * Gets readMe and commits of every repository
@@ -167,7 +167,7 @@ export class CommitsService {
           // link is formatted as <request&page=n+1>; rel="next", <request?page=last_n>; rel="last"
           let link = res.headers.get("link");
 
-          if (link.includes("next")) {
+          if (link != null && link.includes("next")) {
             return this.http.get(
               res.headers.get("link").split(">;")[0].substring(1),
               { headers: this.headers, observe: "response" },
@@ -475,8 +475,8 @@ export class CommitsService {
           repository.name
         ].commitsCount
           ? (dict[repository.name]["commitTypes"][color.label].commitsCount /
-              dict[repository.name].commitsCount) *
-            100
+            dict[repository.name].commitsCount) *
+          100
           : 0;
       });
     });
