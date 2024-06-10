@@ -63,7 +63,7 @@ jobs:
       - name: Pushes technical docs to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./tech-docs
           user_name: "tech-deploy[bot]"
           user_email: "tech@doc.fr"
