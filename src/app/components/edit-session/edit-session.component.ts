@@ -38,7 +38,7 @@ export class EditSessionComponent implements OnInit {
   constructor(
     public activeModalService: NgbActiveModal,
     public fb: FormBuilder
-  ) { }
+  ) {}
 
   endTimeValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors | null => {
