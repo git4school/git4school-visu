@@ -65,8 +65,7 @@
                     <i class="fas fa-times" data-fa-transform="shrink-8 up-1.6 left-2"></i>
                 </span>
             </button>
-            <button class="btn btn-outline-secondary" [ngbTooltip]="changeZoomTooltip" [disabled]="loading"
-                (click)="changeZoom()">
+            <button class="btn btn-outline-secondary" [ngbTooltip]="changeZoomTooltip" [disabled]="loading">
                 <div *ngIf="drag">
                     <span class="fa-layers fa-fw">
                         <i class="fas fa-mouse-pointer" data-fa-transform="shrink-2 right-5 down-6"></i>
@@ -80,7 +79,7 @@
                     </span>
                 </div>
             </button>
-            <button class="btn btn-outline-secondary" (click)="changeUnit()" [ngbTooltip]="changeTimeScaleTooltip"
+            <button class="btn btn-outline-secondary" [ngbTooltip]="changeTimeScaleTooltip"
                 [disabled]="loading">
                 <div *ngIf="unit === 'week'"><i class="fas fa-calendar-week"></i></div>
                 <div *ngIf="unit === 'hour'"><i class="fas fa-clock"></i></div>
@@ -98,9 +97,9 @@
     </div>
 </div>
 <div class="chart-container">
-    <canvas #myChart id="myChart" baseChart [chartType]="'line'" [datasets]="chartData" [options]="chartOptions"
-        [legend]="false" (chartClick)="onChartClick($event)" (chartHover)="onChartHover($event)">
-    </canvas>
+    <!-- <canvas #myChart id="myChart" baseChart [chartType]="'line'" [datasets]="chartData" [options]="chartOptions" -->
+        <!-- [legend]="false" (chartClick)="onChartClick($event)" (chartHover)="onChartHover($event)"> -->
+    <!-- </canvas> -->
 </div>
 <div class="card">
     <h5 class="card-header">

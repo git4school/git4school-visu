@@ -1,0 +1,62 @@
+.hidden {
+    display: none;
+}
+
+.repository {
+    clip-path: url(#clip);
+}
+
+.tick > line {
+    stroke-width: 1px;
+    stroke: #E5E5E5;
+}
+
+.axis > line {
+    stroke-width: 1px;
+    stroke: #E5E5E5;
+}
+
+.commit { 
+    stroke: #fff;
+    stroke-width: 1px;
+}
+
+.commit-normal {
+    width: 6px;
+    height: 6px;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: translate(-3px,-3px) rotate(45deg);
+
+}
+
+.commit-normal:hover {
+    fill: white;
+    stroke-width: 5px;
+}
+
+.commit_line {
+    stroke: #999;
+    stroke-width: 2px;
+}
+
+.session {
+    stroke-width: 2px;
+    stroke: rgba(79, 195, 247,1.0);
+    fill: rgba(33, 150, 243, 0.15);
+}
+
+.review {
+    stroke: blue;
+    fill: blue
+}
+
+.correction {
+    stroke: red;
+    fill: red
+}
+
+.other {
+    stroke: black;
+    fill: black
+}
