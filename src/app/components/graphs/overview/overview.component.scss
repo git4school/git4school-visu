@@ -2,3 +2,18 @@
     vertical-align: top;
     overflow: hidden;
 }
+
+#commit_hover {
+    position: absolute;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 0;
+    padding: 5px;
+    border-radius: 5px;
+    transform: translateY(-90px);
+}
+
+#commit_hover > p {
+    font-size: 10px;
+    margin: 2px
+}
