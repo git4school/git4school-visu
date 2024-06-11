@@ -38,7 +38,7 @@ export class EditSessionComponent implements OnInit {
   constructor(
     public activeModalService: NgbActiveModal,
     public fb: FormBuilder
-  ) {}
+  ) { }
 
   endTimeValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors | null => {
@@ -87,7 +87,7 @@ export class EditSessionComponent implements OnInit {
       startDate,
       endDate,
       form.value.tpGroup.trim() || "",
-      form.value.notes.trim() || ""
+      form.value.notes.trim() || "",
     );
 
     this.activeModalService.close(session);

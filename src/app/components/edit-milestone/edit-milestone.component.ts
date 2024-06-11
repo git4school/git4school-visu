@@ -33,7 +33,7 @@ export class EditMilestoneComponent implements OnInit {
   constructor(
     public activeModalService: NgbActiveModal,
     public fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.milestoneForm = this.fb.group({
@@ -59,7 +59,7 @@ export class EditMilestoneComponent implements OnInit {
       form.value.questions,
       form.value.tpGroup.trim() || "",
       form.value.type,
-      form.value.notes.trim() || ""
+      form.value.notes.trim() || "",
     );
     this.activeModalService.close(milestone);
   }
