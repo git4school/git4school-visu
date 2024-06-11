@@ -9,7 +9,7 @@
   </div>
   <div class="separator"></div>
   <div class="pt-2 w-25">
-    <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="this.max"
+    <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="getAdjustedMaxTimestamp()"
       [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" step="86400000"
       [disabled]="!dataService.repositories.length || loading">
   </div>

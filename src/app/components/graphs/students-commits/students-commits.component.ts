@@ -10,6 +10,7 @@ import * as Chart from "chart.js";
 import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
 import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
+import { Utils } from "../../../services/utils";
 
 /**
  * jquery
@@ -29,6 +30,7 @@ export class StudentsCommitsComponent
   implements OnInit
 {
   assignmentsModified$: Subscription;
+  readonly slider_step = Utils.SLIDER_STEP;
 
   /**
    * The date after which the commits will not be considered, this shows the state of work of each student on a given date
@@ -283,7 +285,7 @@ export class StudentsCommitsComponent
         this.loading = true;
         this.dataService.lastUpdateDate &&
           (this.date = this.dataService.lastUpdateDate.getTime()) &&
-          (this.max = this.date) &&
+          (this.max = this.getMaxDateTimestamp()) &&
           (this.min = this.getMinDateTimestamp());
         this.loadGraphMetadata(
           this.dataService.repositories,
@@ -301,7 +303,7 @@ export class StudentsCommitsComponent
     this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
       this.dataService.lastUpdateDate &&
         (this.date = this.dataService.lastUpdateDate.getTime()) &&
-        (this.max = this.date) &&
+        (this.max = this.getMaxDateTimestamp()) &&
         (this.min = this.getMinDateTimestamp());
       this.loadGraphMetadata(
         this.dataService.repositories,
@@ -326,21 +328,35 @@ export class StudentsCommitsComponent
    * @returns A timestamp corresponding to the minimum date selectable with the date slider
    */
   getMinDateTimestamp() {
-    let commits = [];
-    this.dataService.repositories
-      .filter((repo) => repo.commits)
-      .forEach((repository) => {
-        // commits = commits.concat(repository.commits);
-        Array.prototype.push.apply(commits, repository.commits);
-      });
-    if (!commits.length) {
-      return new Date();
-    }
-    let min = commits.reduce(
-      (min, commit) =>
-        commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,
-      commits[0].commitDate
-    );
-    return min.getTime();
+    let commits = 
+      this.dataService.repositories
+        .map(v=>v.commits)
+        .filter(Boolean)
+        .reduce((a,b)=>a.concat(b), []);
+
+    return commits.map(s=>s.commitDate.getTime())
+    .reduce((a, b)=>Math.min(a, b), new Date().getTime())
+  }
+
+  /**
+   * Returns the maximum date needed by the date slider
+   * @returns A timestamp corresponding to the maximum date selectable with the date slider
+   */
+  getMaxDateTimestamp() {
+    let commits = 
+      this.dataService.repositories
+        .map(v=>v.commits)
+        .filter(Boolean)
+        .reduce((a,b)=>a.concat(b), []);
+    return commits.map(s=>s.commitDate.getTime())
+    .reduce((a, b)=>Math.max(a, b), (commits.length == 0 ? new Date() : commits[0].commitDate).getTime());
+  }
+
+  /**
+   * Returns the nearest upper value reachable by the slider
+   * @returns A value for slider max compatible with slider step
+   */
+  getAdjustedMaxTimestamp(){
+    return Math.ceil((this.max-this.min)/this.slider_step) * this.slider_step + this.min;
   }
 }
