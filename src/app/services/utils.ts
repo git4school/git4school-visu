@@ -11,19 +11,15 @@ export class Utils {
   static readonly DATE_FORMAT =
     "([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)";
 
-<<<<<<< HEAD
-  static readonly SLIDER_STEP = 86400000;
-  static readonly OVERVIEW_NAME_LENGTH_LIMIT = 20;
-=======
-  static readonly COMMIT_DATE_FORMAT = (date: Date) => date.toLocaleDateString(undefined, { hour12: false, hour: "2-digit" });
->>>>>>> 7d4a773 (⚡️ Add hover message on commits)
+  static readonly COMMIT_DATE_FORMAT = (date: Date) =>
+    date.toLocaleDateString(undefined, { hour12: false, hour: "2-digit" });
 
   static getTimeFromDate(date: Date) {
     return date
       ? {
-        hour: moment(date).hour(),
-        minute: moment(date).minutes(),
-      }
+          hour: moment(date).hour(),
+          minute: moment(date).minutes(),
+        }
       : null;
   }
 
@@ -210,5 +206,5 @@ export class Utils {
     },
     required: ["title", "questions", "repositories"],
   };
-  constructor() { }
+  constructor() {}
 }
