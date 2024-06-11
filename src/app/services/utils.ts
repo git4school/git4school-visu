@@ -16,9 +16,9 @@ export class Utils {
   static getTimeFromDate(date: Date) {
     return date
       ? {
-        hour: moment(date).hour(),
-        minute: moment(date).minutes(),
-      }
+          hour: moment(date).hour(),
+          minute: moment(date).minutes(),
+        }
       : null;
   }
 
@@ -185,5 +185,5 @@ export class Utils {
     },
     required: ["title", "questions", "repositories"],
   };
-  constructor() { }
+  constructor() {}
 }

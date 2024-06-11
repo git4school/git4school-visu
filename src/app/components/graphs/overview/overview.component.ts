@@ -29,7 +29,8 @@ import { BaseGraphComponent } from "../base-graph.component";
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild(BaseChartDirective, { static: true }) myChart;
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
 
