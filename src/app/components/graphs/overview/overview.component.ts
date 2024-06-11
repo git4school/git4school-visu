@@ -129,6 +129,8 @@ export class OverviewComponent
   commits_g: d3.Selection<any, any, any, any>;
 
   ngAfterViewInit(): void {
+    const overview = this;
+
     this.svg = d3
       .select(".chart-container")
       .append("svg")

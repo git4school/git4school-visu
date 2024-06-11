@@ -97,9 +97,13 @@
     </div>
 </div>
 <div class="chart-container">
-    <!-- <canvas #myChart id="myChart" baseChart [chartType]="'line'" [datasets]="chartData" [options]="chartOptions" -->
-        <!-- [legend]="false" (chartClick)="onChartClick($event)" (chartHover)="onChartHover($event)"> -->
-    <!-- </canvas> -->
+</div>
+<div *ngIf="hovered_commit != null" id="commit_hover">
+    <p>{{commit_date_format(hovered_commit.commitDate)}}</p>
+    <p>{{hovered_commit.message}}</p>
+    <p style="margin: 10px;"></p>
+    <p>{{hovered_commit.author}}</p>
+    
 </div>
 <div class="card">
     <h5 class="card-header">
