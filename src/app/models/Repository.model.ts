@@ -1,6 +1,7 @@
 import { Commit } from "@models/Commit.model";
 import * as assert from "assert";
 import { Exclude, Type } from "class-transformer";
+import { Utils } from "../services/utils";
 
 /**
  * This class modelizes a Github repository
@@ -76,23 +77,22 @@ export class Repository {
 
 
   getDisplayName() {
-    const LENGTH_LIMIT = 20;
     let displayName = this.name || "";
-    if (displayName.length > LENGTH_LIMIT) {
+    if (displayName.length > Utils.OVERVIEW_NAME_LENGTH_LIMIT) {
       let numberOfSpace = (displayName.match(/ /g) || []).length
       if (numberOfSpace === 0) {
-        displayName = displayName.substring(0, LENGTH_LIMIT - 1) + ".";
+        displayName = displayName.substring(0, Utils.OVERVIEW_NAME_LENGTH_LIMIT - 1) + ".";
       } else if (numberOfSpace == 1) {
         let [lastName, firstName] = displayName.split(" ");
-        displayName = Repository.getFormattedName(firstName, lastName, LENGTH_LIMIT);
+        displayName = Repository.getFormattedName(firstName, lastName, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
       } else {
         let findLastName = displayName.match(/^([A-Z\-]+ )*/g)
         if (findLastName.length === 1 && findLastName[0].trim().length !== 0) {
-          displayName = Repository.getFormattedName(findLastName[0].trim(), displayName.substring(findLastName[0].length), LENGTH_LIMIT);
+          displayName = Repository.getFormattedName(findLastName[0].trim(), displayName.substring(findLastName[0].length), Utils.OVERVIEW_NAME_LENGTH_LIMIT);
         } else {
           let lastspace = displayName.lastIndexOf(" ");
           let [lastName, firstName] = [displayName.substring(0, lastspace), displayName.substring(lastspace + 1)];
-          displayName = Repository.getFormattedName(lastName, firstName, LENGTH_LIMIT)
+          displayName = Repository.getFormattedName(lastName, firstName, Utils.OVERVIEW_NAME_LENGTH_LIMIT)
         }
       }
     }
