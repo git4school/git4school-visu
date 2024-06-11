@@ -152,7 +152,17 @@
       "DELETE": "Supprimer le jalon",
       "CONFIRM": "Confirmer"
     },
-    "REREAD-TOOLTIP": "Relire"
+    "REREAD-TOOLTIP": "Relire",
+    "COMMIT-TOOLTIP" : {
+      "BEGIN": "Début du groupe",
+      "END": "Fin du groupe",
+      "COMMIT_NUMBER": "Nombre de commits dans le groupe"
+    }
+  },
+  "COMMIT-TOOLTIP" : {
+    "START": "Début du groupe",
+    "END": "Fin du groupe",
+    "COMMIT_NUMBER": "Nombre de commits dans le groupe"
   },
   "STUDENTS-COMMITS-GRAPH": {},
   "QUESTIONS-COMPLETION-GRAPH": {},

@@ -80,6 +80,8 @@ export class OverviewComponent
   commits_line_g: d3.Selection<any, any, any, any>;
 
   hovered_commit: Commit;
+  hovered_group_commit: Commit[];
+
   static GROUP_HEIGHT = 6;
   static CIRCLE_RADIUS = 6;
   ////////////////////////
@@ -157,21 +159,21 @@ export class OverviewComponent
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       })
       .on("mousemove", function (e) {
-        if (overview.hovered_commit == null) {
+        var tooltip =
+          document.getElementById("commit_hover") ||
+          document.getElementById("commit_group_hover");
+        if (tooltip == null) {
           return;
         }
-
-        var commit_hover = document.getElementById("commit_hover");
         var x = e.clientX,
           y = e.clientY;
 
-        commit_hover.style.top = y + 20 + "px";
-        commit_hover.style.left = x + 20 + "px";
+        tooltip.style.top = y + 20 + "px";
+        tooltip.style.left = x + 20 + "px";
       })
       .attr("tabindex", "0")
       .attr("focusable", "true")
       .on("keypress", (event) => {
-        console.log(event);
         if (event.keyCode === 32) {
           this.resetZoom();
         }
@@ -307,7 +309,9 @@ export class OverviewComponent
 
   openContextMenu(x: number, y: number, date: Date) {
     if (!this.isContextualMenuShown()) {
-      this.contextualMenu.openNew(x, y, date);
+      try {
+        this.contextualMenu.openNew(x, y, date);
+      } catch (error) {}
     } else {
       this.contextualMenu.close();
     }
@@ -695,7 +699,11 @@ export class OverviewComponent
     }
 
     g.attr("group_range", range);
-    g.attr("transform", `translate(${begin_x}, 0)`);
+    g.attr("transform", `translate(${begin_x}, 0)`)
+      .on("mouseenter", (e, d) => (this.hovered_group_commit = d))
+      .on("mouseleave", () => {
+        this.hovered_group_commit = undefined;
+      });
 
     return g;
   }
@@ -720,7 +728,11 @@ export class OverviewComponent
           `translate(0, ${-OverviewComponent.GROUP_HEIGHT / 2})`
         )
         .attr("fill", commit.color.color)
-        .attr("class", "data");
+        .attr("class", "data")
+        .on("mouseenter", (e, d) => (this.hovered_group_commit = d))
+        .on("mouseleave", () => {
+          this.hovered_group_commit = undefined;
+        });
 
       g.attr("transform", `translate(${x}, 0)`);
     } else {
@@ -824,14 +836,10 @@ export class OverviewComponent
 
   shouldGroupCommit(commit_before: Commit, commit_after: Commit): boolean {
     return (
+      !commit_before.isCloture &&
       this.x_scale_copy(commit_after.commitDate) -
         this.x_scale_copy(commit_before.commitDate) <
-      3
-    );
-    return (
-      this.x_scale_copy(commit_after.commitDate) -
-        this.x_scale_copy(commit_before.commitDate) <
-      3
+        3
     );
   }
 
