@@ -21,7 +21,8 @@ export class Milestone {
     public label: string,
     public questions?: string[],
     public tpGroup?: string,
-    public type?: string
+    public type?: string,
+    public notes?: string,
   ) {
     this.date = moment(date).toDate();
   }
@@ -38,7 +39,8 @@ export class Milestone {
       json.label,
       json.questions,
       json.tpGroup,
-      type
+      type,
+      json.notes,
     );
   }
 
@@ -55,6 +57,11 @@ export class Milestone {
     if (this.tpGroup) {
       json["tpGroup"] = this.tpGroup;
     }
+
+    if (this.notes) {
+      json["notes"] = this.notes;
+    }
+
     return json;
   }
 }
