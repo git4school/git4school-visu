@@ -25,13 +25,14 @@ declare var $: any;
 })
 export class QuestionsCompletionComponent
   extends BaseGraphComponent
-  implements OnInit, OnDestroy {
-
-  readonly slider_step = Utils.SLIDER_STEP;
+  implements OnInit, OnDestroy
+{
   /**
    * The chart object from the DOM
    */
   @ViewChild(BaseChartDirective, { static: true }) myChart;
+
+  readonly slider_step = Utils.SLIDER_STEP;
 
   assignmentsModified$: Subscription;
 
@@ -312,53 +313,32 @@ export class QuestionsCompletionComponent
   }
 
   initDateSlider() {
-    this.dataService.lastUpdateDate &&
-      (this.date = this.dataService.lastUpdateDate.getTime()) &&
-      (this.max = this.getMaxDateTimestamp()) &&
-      (this.min = this.getMinDateTimestamp());
-  }
+    if (this.dataService.lastUpdateDate) {
+      this.date = this.dataService.lastUpdateDate.getTime();
 
-  /**
-   * Returns the minimum date needed by the date slider
-   * @returns A timestamp corresponding to the minimum date selectable with the date slider
-   */
-  getMinDateTimestamp() {
-    let commits = [];
-    this.dataService.repositories
-      .filter((repo) => repo.commits)
-      .forEach((repository) => {
-        Array.prototype.push.apply(commits, repository.commits);
-      });
-    if (!commits.length) {
-      return new Date();
+      if (this.date) {
+        let interval = Utils.getTimeInterval(
+          this.dataService.repositories
+            .map((v) => v.commits)
+            .filter(Boolean)
+            .reduce((a, b) => a.concat(b), []),
+          (v) => v.commitDate
+        );
+
+        this.min = interval[0].getTime();
+        this.max = interval[1].getTime();
+      }
     }
-    let min = commits.reduce(
-      (min, commit) =>
-        commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,
-      commits[0].commitDate
-    );
-    return min.getTime();
-  }
-
-  /**
-   * Returns the maximum date needed by the date slider
-   * @returns A timestamp corresponding to the maximum date selectable with the date slider
-   */
-  getMaxDateTimestamp() {
-    let commits = 
-      this.dataService.repositories
-        .map(v=>v.commits)
-        .filter(Boolean)
-        .reduce((a,b)=>a.concat(b), []);
-    return commits.map(s=>s.commitDate.getTime())
-    .reduce((a, b)=>Math.max(a, b), (commits.length == 0 ? new Date() : commits[0].commitDate).getTime());
   }
 
   /**
    * Returns the nearest upper value reachable by the slider
    * @returns A value for slider max compatible with slider step
    */
-  getAdjustedMaxTimestamp(){
-    return Math.ceil((this.max-this.min)/this.slider_step) * this.slider_step + this.min;
+  getAdjustedMaxTimestamp() {
+    return (
+      Math.ceil((this.max - this.min) / this.slider_step) * this.slider_step +
+      this.min
+    );
   }
 }
