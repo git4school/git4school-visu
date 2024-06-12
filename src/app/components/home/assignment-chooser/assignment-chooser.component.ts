@@ -1,11 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
-import {
-  NgbActiveModal,
-  NgbModal,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { AuthService } from "@services/auth.service";
@@ -21,20 +16,15 @@ import { ToastService } from "@services/toast.service";
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssignmentChooserComponent implements OnInit {
-  @ViewChild("importConfirmation")
-  private importConfirmation: TemplateRef<any>;
   assignments: Assignment[];
-  modalRef: NgbModalRef;
 
   constructor(
     private databaseService: DatabaseService,
     private dataService: DataService,
-    private modalService: NgbModal,
     private router: Router,
     public authService: AuthService,
     private translateService: TranslateService,
     private toastService: ToastService,
-    public activeModalService: NgbActiveModal,
     private assignmentsService: AssignmentsService,
     private configurationService: ConfigurationService
   ) {}
@@ -110,15 +100,7 @@ export class AssignmentChooserComponent implements OnInit {
   changeListener($event): void {
     let file = $event.target.files[0];
     if (file) {
-      this.openImportConfirmation().then(
-        () => this.importDB(file),
-        () => {}
-      );
+      this.importDB(file);
     }
-  }
-
-  openImportConfirmation(): Promise<any> {
-    this.modalRef = this.modalService.open(this.importConfirmation);
-    return this.modalRef.result;
   }
 }

@@ -214,7 +214,8 @@
     "MESSAGE-REQUIRED-STARTTIME": "L'heure de début est requise !",
     "MESSAGE-REQUIRED-ENDTIME": "L'heure de fin est requise !",
     "MESSAGE-ENDTIME-BEFORE-STARTTIME": "L'heure de fin doit être postérieure à l'heure de début !",
-    "DELETE-BUTTON": "Supprimer la séance"
+    "DELETE-BUTTON": "Supprimer la séance",
+    "NOTES": "Notes personnelles"
   },
   "MODAL-ADD-REPOSITORIES": {
     "TITLE": "Ajouter des dépôts",
@@ -261,7 +262,6 @@
   "QUESTIONS-CHOOSER-PLACEHOLDER": "Pour ajouter une question, tapez la puis appuyez sur entrer",
   "NO-QUESTION": "Aucune question",
   "IMPORT-CONFIRMATION-TITLE": "Confirmation d'importation",
-  "IMPORT-CONFIRMATION-MESSAGE": "Après confirmation, vos assignments actuels seront supprimés et les assignments seront importés",
   "CANCEL": "Annuler",
   "CONFIRM": "Confirmer",
   "HELP-TOOLTIP": "Besoin d'aide ?",
@@ -272,6 +272,7 @@
   "GO-TO-GITHUB-TOOLTIP": "Accédez au dépôt Github de Git4School",
   "NO-MILESTONE-TYPE-FEEDBACK": "Un type de jalon doit être choisi !",
   "MILESTONE-TYPE": "Type de jalon",
+  "MILESTONE-NOTES": "Notes personnelles",
   "REQUIRED-FIELDS-TEXT": "Ces champs doivent être remplis pour valider le formulaire.",
   "ERROR-CANNOT-READ-FILE": "Le fichier n'a pas pu être lu",
   "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED": "L'assignment à importer n'est pas bien formée",

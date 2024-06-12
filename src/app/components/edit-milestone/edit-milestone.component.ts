@@ -27,6 +27,7 @@ export class EditMilestoneComponent implements OnInit {
   @Input() tpGroups: string[];
   @Input() questions: string[];
   @Input() typeaheadSettings;
+  @Input() notes: string;
   milestoneForm: FormGroup;
 
   constructor(
@@ -42,6 +43,7 @@ export class EditMilestoneComponent implements OnInit {
       tpGroup: [this.milestone.tpGroup || ""],
       questions: [this.milestone.questions],
       type: [this.milestone.type, Validators.required],
+      notes: [this.milestone.notes || ""],
     });
   }
 
@@ -56,7 +58,8 @@ export class EditMilestoneComponent implements OnInit {
       form.value.label.trim(),
       form.value.questions,
       form.value.tpGroup.trim() || "",
-      form.value.type
+      form.value.type,
+      form.value.notes.trim() || "",
     );
     this.activeModalService.close(milestone);
   }
