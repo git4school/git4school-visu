@@ -8,6 +8,7 @@ import { LoaderService } from "@services/loader.service";
 import { BaseChartDirective } from "ng2-charts";
 import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
+import { Utils } from "../../../services/utils";
 
 /**
  * jquery
@@ -24,11 +25,14 @@ declare var $: any;
 })
 export class QuestionsCompletionComponent
   extends BaseGraphComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   /**
    * The chart object from the DOM
    */
   @ViewChild(BaseChartDirective, { static: true }) myChart;
+
+  readonly slider_step = Utils.SLIDER_STEP;
 
   assignmentsModified$: Subscription;
 
@@ -309,31 +313,32 @@ export class QuestionsCompletionComponent
   }
 
   initDateSlider() {
-    this.dataService.lastUpdateDate &&
-      (this.date = this.dataService.lastUpdateDate.getTime()) &&
-      (this.max = this.date) &&
-      (this.min = this.getMinDateTimestamp());
+    if (this.dataService.lastUpdateDate) {
+      this.date = this.dataService.lastUpdateDate.getTime();
+
+      if (this.date) {
+        let interval = Utils.getTimeInterval(
+          this.dataService.repositories
+            .map((v) => v.commits)
+            .filter(Boolean)
+            .reduce((a, b) => a.concat(b), []),
+          (v) => v.commitDate
+        );
+
+        this.min = interval[0].getTime();
+        this.max = interval[1].getTime();
+      }
+    }
   }
 
   /**
-   * Returns the minimum date needed by the date slider
-   * @returns A timestamp corresponding to the minimum date selectable with the date slider
+   * Returns the nearest upper value reachable by the slider
+   * @returns A value for slider max compatible with slider step
    */
-  getMinDateTimestamp() {
-    let commits = [];
-    this.dataService.repositories
-      .filter((repo) => repo.commits)
-      .forEach((repository) => {
-        Array.prototype.push.apply(commits, repository.commits);
-      });
-    if (!commits.length) {
-      return new Date();
-    }
-    let min = commits.reduce(
-      (min, commit) =>
-        commit.commitDate.getTime() < min.getTime() ? commit.commitDate : min,
-      commits[0].commitDate
+  getAdjustedMaxTimestamp() {
+    return (
+      Math.ceil((this.max - this.min) / this.slider_step) * this.slider_step +
+      this.min
     );
-    return min.getTime();
   }
 }

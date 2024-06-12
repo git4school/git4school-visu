@@ -11,6 +11,7 @@ export class Utils {
   static readonly DATE_FORMAT =
     "([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)";
 
+  static readonly SLIDER_STEP = 86400000;
   static readonly OVERVIEW_NAME_LENGTH_LIMIT = 20;
 
   static getTimeFromDate(date: Date) {
@@ -33,6 +34,26 @@ export class Utils {
   static addTimeToTime(time1: NgbTimeStruct, time2: NgbTimeStruct) {
     const date = moment(new Date()).set(time1).toDate();
     return this.getTimeFromDate(this.addTimeToDate(date, time2));
+  }
+
+  /**
+   * Returns a date interval to be used by sliders or other components to adjust their data with list of commits
+   *
+   * @param values A list of values which can be mapped to date
+   * @param mapper The mapper from type T to date
+   * @returns An interval where [0] is older date and [1] is the newest (both undefined if list is empty)
+   */
+  static getTimeInterval<T>(values: T[], mapper: (v: T) => Date): [Date, Date] {
+    let dates = values.map(mapper);
+    if (dates.length == 0) return [undefined, undefined];
+
+    return dates.reduce(
+      (interval, date) => [
+        new Date(Math.min(interval[0].getTime(), date.getTime())),
+        new Date(Math.max(interval[1].getTime(), date.getTime())),
+      ],
+      [dates[0], dates[1]]
+    );
   }
 
   static CONF_FILE_JSON_SCHEMA = {
