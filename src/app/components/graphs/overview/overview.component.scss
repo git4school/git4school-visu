@@ -1,6 +1,8 @@
 .chart-container {
+  width: 100%;
+  height: 600;
   vertical-align: top;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .chart-container:focus {

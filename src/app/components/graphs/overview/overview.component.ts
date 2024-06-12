@@ -67,6 +67,7 @@ export class OverviewComponent
 
   // svg components
   svg: d3.Selection<any, any, any, any>;
+  scrollable: d3.Selection<any, any, any, any>;
   chart_svg: d3.Selection<any, any, any, any>;
   x_g: d3.Selection<SVGGElement, any, any, any>;
   y_g: d3.Selection<SVGGElement, any, any, any>;
@@ -117,7 +118,7 @@ export class OverviewComponent
 
   margin = { top: 10, right: 30, bottom: 80, left: 180 };
   width = 1800 - this.margin.left - this.margin.right;
-  height = 600 - this.margin.top - this.margin.bottom;
+  height = 100 - this.margin.top - this.margin.bottom;
   clip: d3.Selection<any, any, any, any>;
   zoom: d3.ZoomBehavior<any, any>;
 
@@ -132,7 +133,7 @@ export class OverviewComponent
   commits_g: d3.Selection<any, any, any, any>;
 
   ngAfterViewInit(): void {
-    const overview = this;
+    this.height += this.dataService.repositories.length * 20;
 
     this.svg = d3
       .select(".chart-container")
