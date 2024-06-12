@@ -26,6 +26,7 @@ import * as d3 from "d3";
 import { Repository } from "../../../models/Repository.model";
 import { tick } from "@angular/core/testing";
 import { rejects } from "assert";
+import { Utils } from "../../../services/utils";
 
 @Component({
   selector: "overview",
@@ -132,6 +133,8 @@ export class OverviewComponent
   data_g: d3.Selection<any, any, any, any>;
   commits_g: d3.Selection<any, any, any, any>;
 
+  commit_date_format = Utils.COMMIT_DATE_FORMAT;
+
   ngAfterViewInit(): void {
     this.height += this.dataService.repositories.length * 20;
 
@@ -178,7 +181,8 @@ export class OverviewComponent
         if (event.keyCode === 32) {
           this.resetZoom();
         }
-      });
+      })
+      .on("scroll");
 
     this.clip = this.chart_svg
       .append("defs")
@@ -800,7 +804,6 @@ export class OverviewComponent
     let g = parent.append("g").datum([commit]);
 
     g.classed("simple-commit", true);
-    g.classed("simple-commit", true);
 
     let x = this.x_scale_copy(commit.commitDate);
 
@@ -810,14 +813,10 @@ export class OverviewComponent
 
     if (commit.isCloture) {
       comp = comp.append("circle").attr("r", 3).attr("class", "commit-cloture");
-      comp = comp.append("circle").attr("r", 3).attr("class", "commit-cloture");
     } else {
-      comp = comp.append("rect").attr("class", "commit-normal");
       comp = comp.append("rect").attr("class", "commit-normal");
     }
 
-    comp.attr("fill", commit.color.color);
-    g.attr("date", (commit.commitDate as Date).getTime());
     comp.attr("fill", commit.color.color);
     g.attr("date", (commit.commitDate as Date).getTime());
 
@@ -860,12 +859,9 @@ export class OverviewComponent
       g = this.getCommitSimpleComponent(parent, commit);
       if (before != null) {
         g.attr("before_date", before.attr("end_date") || before.attr("date"));
-        g.attr("before_date", before.attr("end_date") || before.attr("date"));
       }
       g.attr("after_date", time);
     } else {
-      g = this.getCommitGroupComponent(parent, before, commit);
-      g.attr("end_date", time);
       g = this.getCommitGroupComponent(parent, before, commit);
       g.attr("end_date", time);
     }
