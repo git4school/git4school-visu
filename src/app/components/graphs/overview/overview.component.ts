@@ -259,13 +259,13 @@ export class OverviewComponent
       })
       .scaleExtent([0.5, overview.maxZoom]);
 
-    this.brush = d3
-      .brushX()
-      .extent([
-        [0, 0],
-        [this.width, this.height],
-      ])
-      .on("end", this.updateChart);
+    // this.brush = d3
+    //   .brushX()
+    //   .extent([
+    //     [0, 0],
+    //     [this.width, this.height],
+    //   ])
+    //   .on("end", overview.updateChart);
 
     this.resetZoom();
   }
@@ -929,6 +929,9 @@ export class OverviewComponent
 
         let minDateTime: number, maxDateTime: number;
 
+        let lines = [];
+        let current_line: Commit | undefined = undefined;
+
         commits.forEach((commit) => {
           minDateTime =
             minDateTime == null
@@ -938,16 +941,27 @@ export class OverviewComponent
             minDateTime == null
               ? commit.commitDate.getTime()
               : Math.max(commit.commitDate.getTime(), minDateTime);
+          if (commit.message === "Pause") current_line = commit;
+          else if (commit.message === "Resume" && current_line) {
+            lines.push([current_line.commitDate, commit.commitDate]);
+            current_line = undefined;
+          }
           before = overview.getCommitComponent(d3.select(this), commit, before);
         });
 
-        overview.repositories_g[i]
-          .insert("line", ":first-child")
-          .attr("class", "commit_line")
-          .attr("min_date", minDateTime)
-          .attr("max_date", maxDateTime)
-          .attr("x1", overview.x_scale_copy(minDateTime))
-          .attr("x2", overview.x_scale_copy(maxDateTime));
+        if (lines.length === 0) {
+          lines.push([new Date(minDateTime), new Date(maxDateTime)]);
+        }
+
+        lines.forEach(([d1, d2]) => {
+          overview.repositories_g[i]
+            .insert("line", ":first-child")
+            .attr("class", "commit_line")
+            .attr("min_date", d1.getTime())
+            .attr("max_date", d2.getTime())
+            .attr("x1", overview.x_scale_copy(d1))
+            .attr("x2", overview.x_scale_copy(d2));
+        });
       });
   }
 
@@ -1015,11 +1029,11 @@ export class OverviewComponent
     toCommit.forEach((g) => g.classed("commit", true));
   }
 
-  updateChart(event) {
+  onBrush(event) {
     console.log("HII ?");
     // What are the selected boundaries?
     let extent = event.selection;
-    console.log(extent);
+    console.log(this.x_scale_copy);
 
     // If no selection, back to initial coordinate. Otherwise, update X axis domain
     if (!extent) {
@@ -1114,7 +1128,7 @@ export class OverviewComponent
       .on("dblclick.zoom", null)
       .call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
 
-    this.svg.append("g").attr("class", "brush").call(this.brush);
+    // this.svg.append("g").attr("class", "brush").call(this.brush);
   }
 
   searchSubmit() {
