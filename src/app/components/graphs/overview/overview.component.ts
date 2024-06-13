@@ -86,6 +86,7 @@ export class OverviewComponent
 
   static GROUP_HEIGHT = 6;
   static CIRCLE_RADIUS = 6;
+  brush: d3.BrushBehavior<any>;
   ////////////////////////
 
   constructor(
@@ -148,6 +149,8 @@ export class OverviewComponent
         }`
       );
 
+    const overview = this;
+
     this.chart_svg = this.svg
       .append("g")
       .attr(
@@ -181,8 +184,7 @@ export class OverviewComponent
         if (event.keyCode === 32) {
           this.resetZoom();
         }
-      })
-      .on("scroll");
+      });
 
     this.clip = this.chart_svg
       .append("defs")
@@ -248,11 +250,22 @@ export class OverviewComponent
     this.zoom = d3
       .zoom()
       .on("zoom", (event) => {
+        if (overview.drag) {
+          return;
+        }
         overview.x_scale_copy = event.transform.rescaleX(overview.x_scale);
         overview.x_g.call(this.x_axis.scale(overview.x_scale_copy));
         overview.refreshElementState();
       })
       .scaleExtent([0.5, overview.maxZoom]);
+
+    this.brush = d3
+      .brushX()
+      .extent([
+        [0, 0],
+        [this.width, this.height],
+      ])
+      .on("end", this.updateChart);
 
     this.resetZoom();
   }
@@ -1002,6 +1015,27 @@ export class OverviewComponent
     toCommit.forEach((g) => g.classed("commit", true));
   }
 
+  updateChart(event) {
+    console.log("HII ?");
+    // What are the selected boundaries?
+    let extent = event.selection;
+    console.log(extent);
+
+    // If no selection, back to initial coordinate. Otherwise, update X axis domain
+    if (!extent) {
+      this.x_scale_copy.domain([4, 8]);
+    } else {
+      this.x_scale_copy.domain([
+        this.x_scale_copy.invert(extent[0]),
+        this.x_scale_copy.invert(extent[1]),
+      ]);
+      this.brush.clear(this.svg);
+    }
+
+    // Update axis and area position
+    this.x_g.transition().duration(1000).call(d3.axisBottom(this.x_scale_copy));
+  }
+
   refreshElementState() {
     const overview = this;
 
@@ -1070,10 +1104,17 @@ export class OverviewComponent
       .attr("x", (m: Milestone) => overview.x_scale_copy(m.date));
   }
 
+  toggleDrag() {
+    this.drag = !this.drag;
+  }
+
   resetZoom() {
     d3.select(".chart-container")
       .call(this.zoom)
+      .on("dblclick.zoom", null)
       .call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
+
+    this.svg.append("g").attr("class", "brush").call(this.brush);
   }
 
   searchSubmit() {
