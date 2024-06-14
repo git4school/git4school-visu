@@ -6,6 +6,11 @@
   clip-path: url(#clip);
 }
 
+.tick_line {
+  stroke-width: 1px;
+  stroke: #e5e5e5;
+}
+
 .tick > line {
   stroke-width: 1px;
   stroke: #e5e5e5;
