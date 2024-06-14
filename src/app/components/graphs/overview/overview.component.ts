@@ -66,6 +66,12 @@ export class OverviewComponent
   addModal: boolean;
   savedMilestoneModal: Milestone;
 
+  // params
+  margin = { top: 10, right: 30, bottom: 80, left: 180 };
+  width = 1800 - this.margin.left - this.margin.right;
+  height = 100 - this.margin.top - this.margin.bottom;
+  maxZoom: number;
+
   // svg components
   svg: d3.Selection<any, any, any, any>;
   scrollable: d3.Selection<any, any, any, any>;
@@ -76,10 +82,21 @@ export class OverviewComponent
   repositories_g: d3.Selection<any, Repository, any, any>[];
   axis_g: d3.Selection<SVGGElement, any, any, any>;
   other_g: d3.Selection<any, any, any, any>;
-  sesssion_g: d3.Selection<any, any, any, any>;
+  session_g: d3.Selection<any, any, any, any>;
   review_g: d3.Selection<any, any, any, any>;
   correction_g: d3.Selection<any, any, any, any>;
   commits_line_g: d3.Selection<any, any, any, any>;
+  data_g: d3.Selection<any, any, any, any>;
+  commits_g: d3.Selection<any, any, any, any>;
+
+  x_scale: d3.ScaleTime<any, any, any>;
+  x_scale_copy: d3.ScaleTime<any, any, any>; // Used by zooming
+  x_axis: d3.Axis<Date | d3.NumberValue>;
+  y_scale: d3.ScaleLinear<any, any, any>;
+  y_axis: d3.Axis<d3.NumberValue>;
+
+  clip: d3.Selection<any, any, any, any>;
+  zoom: d3.ZoomBehavior<any, any>;
 
   hovered_commit: Commit;
   hovered_group_commit: Commit[];
@@ -87,6 +104,7 @@ export class OverviewComponent
   static GROUP_HEIGHT = 6;
   static CIRCLE_RADIUS = 6;
   brush: d3.BrushBehavior<any>;
+  current_zoom: any;
   ////////////////////////
 
   constructor(
@@ -118,22 +136,6 @@ export class OverviewComponent
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
-  margin = { top: 10, right: 30, bottom: 80, left: 180 };
-  width = 1800 - this.margin.left - this.margin.right;
-  height = 100 - this.margin.top - this.margin.bottom;
-  clip: d3.Selection<any, any, any, any>;
-  zoom: d3.ZoomBehavior<any, any>;
-
-  x_scale: d3.ScaleTime<any, any, any>;
-  x_scale_copy: d3.ScaleTime<any, any, any>; // Used by zooming
-  x_axis: d3.Axis<Date | d3.NumberValue>;
-  y_scale: d3.ScaleLinear<any, any, any>;
-  y_axis: d3.Axis<d3.NumberValue>;
-  maxZoom: number;
-
-  data_g: d3.Selection<any, any, any, any>;
-  commits_g: d3.Selection<any, any, any, any>;
-
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
 
   ngAfterViewInit(): void {
@@ -158,13 +160,25 @@ export class OverviewComponent
         "translate(" + this.margin.left + "," + this.margin.top + ")"
       );
 
-    d3.select(".chart-container")
-      .on("click", (event) => {
-        if (this.x_scale_copy == null) return;
+    this.data_g = this.chart_svg.append("g");
+
+    this.data_g
+      .append("rect")
+      .attr("id", "data")
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr("opacity", "0")
+      .on("click", (event: MouseEvent) => {
         event.stopPropagation();
-        const rawDate = this.x_scale_copy.invert(event.pageX);
-        this.openContextMenu(event.pageX, event.pageY, rawDate);
-      })
+        var rect = (event.target as any).getBoundingClientRect();
+        var x =
+          ((event.clientX - rect.left) / (rect.right - rect.left)) *
+          overview.width; //x position within the element.
+        let rawDate = overview.x_scale_copy.invert(x);
+        this.openContextMenu(x, event.pageY, rawDate);
+      });
+
+    d3.select(".chart-container")
       .on("mousemove", function (e) {
         var tooltip =
           document.getElementById("commit_hover") ||
@@ -245,6 +259,7 @@ export class OverviewComponent
     this.loadPoints();
     this.setupZoom();
   }
+
   setupZoom() {
     const overview = this;
     this.zoom = d3
@@ -253,6 +268,7 @@ export class OverviewComponent
         if (overview.drag) {
           return;
         }
+        overview.current_zoom = event.transform;
         overview.x_scale_copy = event.transform.rescaleX(overview.x_scale);
         overview.x_g.call(this.x_axis.scale(overview.x_scale_copy));
         overview.refreshElementState();
@@ -284,6 +300,10 @@ export class OverviewComponent
           review.questions?.includes(question)
         ).length);
 
+    if (this.session_g != null) this.session_g.remove();
+    if (this.review_g != null) this.session_g.remove();
+    if (this.correction_g != null) this.session_g.remove();
+    if (this.other_g != null) this.session_g.remove();
     if (this.dataService.sessions && this.showSessions) {
       this.loadSessions();
     }
@@ -459,6 +479,7 @@ export class OverviewComponent
   getRectForSession(g: d3.Selection<any, any, any, any>, session: Session) {
     const overview = this;
     g.append("rect")
+      .datum(session)
       .attr("class", "session")
       .attr("clip-path", "url(#clip)")
       .attr("x", this.x_scale_copy(session.startDate))
@@ -487,12 +508,12 @@ export class OverviewComponent
         session.tpGroup === this.dataService.groupFilter
     );
 
-    this.sesssion_g = this.chart_svg.append("g");
+    this.session_g = this.chart_svg.append("g");
 
     const overview = this;
 
     setTimeout(() => {
-      this.sesssion_g
+      this.session_g
         .selectAll(".session")
         .data(loaded_sessions)
         .enter()
@@ -504,15 +525,16 @@ export class OverviewComponent
 
   getLineForMilestone(
     g: d3.Selection<any, any, any, any>,
-    date: Date,
+    m: Milestone,
     class_: string
   ) {
     const overview = this;
     return g
       .append("rect")
+      .datum(m)
       .attr("clip-path", "url(#clip)")
       .attr("class", class_)
-      .attr("x", this.x_scale_copy(date))
+      .attr("x", this.xScaledTimeZoned(m.date))
       .attr("width", 1)
       .attr("y", 0)
       .attr("transform", "translate(" + [-1, 0] + ")")
@@ -527,21 +549,17 @@ export class OverviewComponent
   loadReviews(milestone_filter: (review: Milestone) => number | boolean) {
     let loaded_reviews = this.dataService.reviews.filter(milestone_filter);
 
-    this.review_g = this.chart_svg.append("g");
+    this.review_g = this.data_g.append("g");
 
     const overview = this;
 
     setTimeout(() => {
-      this.sesssion_g
+      this.review_g
         .selectAll(".session")
         .data(loaded_reviews)
         .enter()
         .each(function (d: Milestone) {
-          overview.getLineForMilestone(
-            d3.select(this),
-            d.date,
-            "milestone session"
-          );
+          overview.getLineForMilestone(d3.select(this), d, "milestone session");
         });
     });
 
@@ -556,7 +574,7 @@ export class OverviewComponent
     let loaded_corrections =
       this.dataService.corrections.filter(milestone_filter);
 
-    this.correction_g = this.chart_svg.append("g");
+    this.correction_g = this.data_g.append("g");
 
     const overview = this;
 
@@ -568,7 +586,7 @@ export class OverviewComponent
         .each(function (d: Milestone) {
           overview.getLineForMilestone(
             d3.select(this),
-            d.date,
+            d,
             "milestone correction"
           );
         });
@@ -583,7 +601,7 @@ export class OverviewComponent
   loadOthers(milestone_filter: (review: Milestone) => number | boolean) {
     let loaded_other = this.dataService.others.filter(milestone_filter);
 
-    this.other_g = this.chart_svg.append("g");
+    this.other_g = this.data_g.append("g");
 
     const overview = this;
 
@@ -593,11 +611,7 @@ export class OverviewComponent
         .data(loaded_other)
         .enter()
         .each(function (d: Milestone) {
-          overview.getLineForMilestone(
-            d3.select(this),
-            d.date,
-            "milestone other"
-          );
+          overview.getLineForMilestone(d3.select(this), d, "milestone other");
         });
     });
     //   label: {
@@ -608,6 +622,7 @@ export class OverviewComponent
   }
 
   setupAxis(repositories: Repository[], minDate: Date, maxDate: Date) {
+    if (this.axis_g != null) this.axis_g.remove();
     const overview = this;
 
     this.x_scale = d3
@@ -629,6 +644,7 @@ export class OverviewComponent
       if (ticks[ticks.length - 1] == null || ticks[0] == null) return "";
       let spacing =
         (ticks[ticks.length - 1].getTime() - ticks[0].getTime()) / 1000;
+
       return OverviewComponent.multiFormat(spacing, d);
     });
 
@@ -650,6 +666,7 @@ export class OverviewComponent
       .tickFormat((d) => repositories[d.valueOf() - 1]?.name || "")
       .tickSize(-this.width);
 
+    if (this.y_g != null) this.y_g.remove();
     this.y_g = this.axis_g.append("g").call(this.y_axis);
 
     // Hide the first tick use to prevent data from being placed on top of the chart
@@ -884,12 +901,25 @@ export class OverviewComponent
     return g;
   }
 
-  static formatDay = d3.utcFormat("%Y/%m/%d");
+  static formatDay = d3.utcFormat("%d/%m/%Y");
   static formatHour = d3.utcFormat("%H:%M");
 
   static multiFormat(spacing: number, date: Date) {
-    if (spacing > 24 * 3600) return this.formatDay(date);
-    else return this.formatHour(date);
+    const options: Intl.NumberFormatOptions = {
+      useGrouping: false,
+      minimumIntegerDigits: 2,
+    };
+
+    if (spacing > 24 * 3600)
+      return `${date.getDate().toLocaleString(undefined, options)}/${date
+        .getMonth()
+        .toLocaleString(undefined, options)}/${date
+        .getFullYear()
+        .toLocaleString(undefined, options)}`;
+    else
+      return `${date.getHours().toLocaleString(undefined, options)}:${date
+        .getMinutes()
+        .toLocaleString(undefined, options)}`;
   }
 
   loadPoints() {
@@ -900,7 +930,9 @@ export class OverviewComponent
         repository.tpGroup === this.dataService.groupFilter
     );
 
-    this.repository_g = this.chart_svg.append("g");
+    if (this.repository_g != null) this.repository_g.remove();
+
+    this.repository_g = this.data_g.append("g");
     this.repositories_g = new Array<any>(repositories.length);
     let [minDate, maxDate] = d3.extent(
       repositories.map((v) => v.commits).reduce((a, b) => a.concat(b), []),
@@ -1030,10 +1062,8 @@ export class OverviewComponent
   }
 
   onBrush(event) {
-    console.log("HII ?");
     // What are the selected boundaries?
     let extent = event.selection;
-    console.log(this.x_scale_copy);
 
     // If no selection, back to initial coordinate. Otherwise, update X axis domain
     if (!extent) {
@@ -1050,6 +1080,21 @@ export class OverviewComponent
     this.x_g.transition().duration(1000).call(d3.axisBottom(this.x_scale_copy));
   }
 
+  getOffset(d: Date) {
+    return (
+      this.x_scale_copy(d) -
+      this.x_scale_copy(new Date(d.getTime() + d.getTimezoneOffset() * 60000))
+    );
+  }
+
+  xScaledTimeZoned(d: Date) {
+    if (!d) {
+      return Number.MIN_VALUE;
+    }
+
+    return this.x_scale_copy(d) + this.getOffset(d);
+  }
+
   refreshElementState() {
     const overview = this;
 
@@ -1058,8 +1103,8 @@ export class OverviewComponent
         let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
         let commits = g.datum();
 
-        let min_x = overview.x_scale_copy(commits[0].commitDate);
-        let max_x = overview.x_scale_copy(
+        let min_x = overview.xScaledTimeZoned(commits[0].commitDate);
+        let max_x = overview.xScaledTimeZoned(
           commits[commits.length - 1].commitDate
         );
 
@@ -1071,7 +1116,7 @@ export class OverviewComponent
         .attr(
           "transform",
           (commits: Commit[]) =>
-            `translate(${overview.x_scale_copy(commits[0].commitDate)}, 0)`
+            `translate(${overview.xScaledTimeZoned(commits[0].commitDate)}, 0)`
         );
 
       repo_g
@@ -1091,31 +1136,34 @@ export class OverviewComponent
     overview.repositories_g.forEach((g, i) => {
       g.selectAll(".commit_line")
         .attr("x1", function () {
-          let real_x = overview.x_scale_copy(
+          let real_x = overview.xScaledTimeZoned(
             new Date(Number.parseInt(d3.select(this).attr("min_date")))
           );
           return Math.max(Math.min(real_x, overview.width), 0);
         })
         .attr("x2", function () {
-          let real_x = overview.x_scale_copy(
+          let real_x = overview.xScaledTimeZoned(
             new Date(Number.parseInt(d3.select(this).attr("max_date")))
           );
           return Math.max(Math.min(real_x, overview.width), 0);
         });
     });
 
-    this.sesssion_g
+    this.session_g
       .selectAll(".session")
-      .attr("x", (s: Session) => overview.x_scale_copy(s.startDate))
+      .attr("x", (s: Session) => {
+        return overview.xScaledTimeZoned(s.startDate);
+      })
       .attr(
         "width",
         (s: Session) =>
-          overview.x_scale_copy(s.endDate) - overview.x_scale_copy(s.startDate)
+          overview.xScaledTimeZoned(s.endDate) -
+          overview.xScaledTimeZoned(s.startDate)
       );
 
-    this.chart_svg
+    this.data_g
       .selectAll(".milestone")
-      .attr("x", (m: Milestone) => overview.x_scale_copy(m.date));
+      .attr("x", (m: Milestone) => overview.xScaledTimeZoned(m.date));
   }
 
   toggleDrag() {
@@ -1126,7 +1174,10 @@ export class OverviewComponent
     d3.select(".chart-container")
       .call(this.zoom)
       .on("dblclick.zoom", null)
-      .call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
+      .call(
+        this.zoom.transform,
+        this.current_zoom || d3.zoomIdentity.translate(0, 0).scale(1)
+      );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);
   }
