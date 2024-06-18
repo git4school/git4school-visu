@@ -53,14 +53,34 @@
 .review {
   stroke: blue;
   fill: blue;
+  background-color: blue;
 }
 
 .correction {
   stroke: red;
   fill: red;
+  background-color: red;
 }
 
 .other {
   stroke: black;
   fill: black;
+  background-color: black;
+}
+
+.milestone > .milestone_label {
+  border-radius: 10;
+}
+
+.milestone > rect {
+  rx: 5px;
+  ry: 5px;
+}
+
+.milestone > text {
+  padding: 5px;
+  color: white;
+  fill: white;
+  stroke: white;
+  user-select: none;
 }
