@@ -67,7 +67,7 @@ export class OverviewComponent
   savedMilestoneModal: Milestone;
 
   // params
-  margin = { top: 30, right: 30, bottom: 80, left: 180 };
+  margin = { top: 30, right: 30, bottom: 80, left: 250 };
   width = 1800 - this.margin.left - this.margin.right;
   height = 100 - this.margin.top - this.margin.bottom;
   maxZoom: number;
@@ -101,8 +101,8 @@ export class OverviewComponent
   hovered_commit: Commit;
   hovered_group_commit: Commit[];
 
-  static GROUP_HEIGHT = 6;
-  static CIRCLE_RADIUS = 6;
+  static GROUP_HEIGHT = 12;
+  static CIRCLE_RADIUS = 12;
   brush: d3.BrushBehavior<any>;
   current_zoom: any;
   ////////////////////////
@@ -139,7 +139,7 @@ export class OverviewComponent
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
 
   ngAfterViewInit(): void {
-    this.height += this.dataService.repositories.length * 20;
+    this.height += this.dataService.repositories.length * 35;
 
     this.svg = d3
       .select(".chart-container")
@@ -196,7 +196,7 @@ export class OverviewComponent
       .attr("focusable", "true")
       .on("keypress", (event) => {
         if (event.keyCode === 32) {
-          this.resetZoom();
+          this.resetZoom(false);
         }
       });
 
@@ -277,6 +277,7 @@ export class OverviewComponent
       })
       .scaleExtent([0.5, overview.maxZoom]);
 
+    this.data_g = this.data_g.call(this.zoom); //.on("dblclick.zoom", null);
     // this.brush = d3
     //   .brushX()
     //   .extent([
@@ -285,7 +286,7 @@ export class OverviewComponent
     //   ])
     //   .on("end", overview.updateChart);
 
-    this.resetZoom();
+    this.resetZoom(true);
   }
 
   loadGraphDataAndRefresh() {
@@ -698,6 +699,12 @@ export class OverviewComponent
     // Hide the first tick use to prevent data from being placed on top of the chart
     this.y_g.select(".tick:first-of-type").attr("opacity", "0");
 
+    // Set repo_name class
+    this.y_g
+      .selectAll(".tick")
+      .selectAll("text")
+      .call((g) => g.classed("repo_name", true));
+
     // Use custom domain
     this.axis_g.selectAll(".domain").style("opacity", "0");
 
@@ -724,11 +731,19 @@ export class OverviewComponent
     let begin_x = this.xScaledTimeZoned(first.commitDate);
     let end_x = this.xScaledTimeZoned(last.commitDate);
 
-    return `M 0 0 h ${Math.max(end_x - begin_x, 6)} a ${
-      OverviewComponent.CIRCLE_RADIUS
-    } ${OverviewComponent.CIRCLE_RADIUS} 0 0 1 0 ${
-      OverviewComponent.GROUP_HEIGHT
-    } H 0 z`;
+    if (last.isCloture) {
+      return `M 0 0 h ${Math.max(
+        end_x - begin_x,
+        1.5 * OverviewComponent.CIRCLE_RADIUS
+      )} a ${OverviewComponent.CIRCLE_RADIUS} ${
+        OverviewComponent.CIRCLE_RADIUS
+      } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
+    } else {
+      return `M 0 0 h ${Math.max(
+        end_x - begin_x,
+        1.5 * OverviewComponent.CIRCLE_RADIUS
+      )} v ${OverviewComponent.CIRCLE_RADIUS} H 0 z`;
+    }
   }
 
   getCommitGroupComponentFromScratch(
@@ -869,7 +884,7 @@ export class OverviewComponent
       .attr("target", "_blank");
 
     if (commit.isCloture) {
-      comp = comp.append("circle").attr("r", 3).attr("class", "commit-cloture");
+      comp = comp.append("circle").attr("class", "commit-cloture");
     } else {
       comp = comp.append("rect").attr("class", "commit-normal");
     }
@@ -1212,13 +1227,14 @@ export class OverviewComponent
     this.drag = !this.drag;
   }
 
-  resetZoom() {
-    d3.select(".chart-container")
-      .call(this.zoom)
-      .on("dblclick.zoom", null)
+  resetZoom(conserve?: boolean) {
+    this.data_g
+      .transition()
+      .duration(750)
       .call(
         this.zoom.transform,
-        this.current_zoom || d3.zoomIdentity.translate(0, 0).scale(1)
+        (conserve ? this.current_zoom : undefined) ||
+          d3.zoomIdentity.translate(0, 0).scale(1)
       );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);
