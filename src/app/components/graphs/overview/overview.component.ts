@@ -67,7 +67,7 @@ export class OverviewComponent
   savedMilestoneModal: Milestone;
 
   // params
-  margin = { top: 10, right: 30, bottom: 80, left: 180 };
+  margin = { top: 30, right: 30, bottom: 80, left: 180 };
   width = 1800 - this.margin.left - this.margin.right;
   height = 100 - this.margin.top - this.margin.bottom;
   maxZoom: number;
@@ -225,6 +225,8 @@ export class OverviewComponent
 
         this.loading = false;
       }
+
+      this.refreshElementState();
     });
   }
 
@@ -482,13 +484,13 @@ export class OverviewComponent
       .datum(session)
       .attr("class", "session")
       .attr("clip-path", "url(#clip)")
-      .attr("x", this.x_scale_copy(session.startDate))
+      .attr("x", this.xScaledTimeZoned(session.startDate))
       .attr("height", this.height)
       .attr("y", 0)
       .attr(
         "width",
-        this.x_scale_copy(session.endDate) -
-          this.x_scale_copy(session.startDate)
+        this.xScaledTimeZoned(session.endDate) -
+          this.xScaledTimeZoned(session.startDate)
       )
       .on("click", (e) =>
         overview.openEditSessionContextMenu(
@@ -524,21 +526,50 @@ export class OverviewComponent
   }
 
   getLineForMilestone(
-    g: d3.Selection<any, any, any, any>,
+    parent: d3.Selection<any, any, any, any>,
     m: Milestone,
-    class_: string
+    class_: string,
+    index: number
   ) {
     const overview = this;
-    return g
-      .append("rect")
-      .datum(m)
+    let g = parent.append("g").attr("class", class_);
+
+    // Line
+    g.append("rect")
       .attr("clip-path", "url(#clip)")
-      .attr("class", class_)
-      .attr("x", this.xScaledTimeZoned(m.date))
+      .attr("x", 0)
       .attr("width", 1)
       .attr("y", 0)
       .attr("transform", "translate(" + [-1, 0] + ")")
-      .attr("height", this.height)
+      .attr("height", this.height);
+
+    // Box
+    let box = g.append("rect").attr("y", 20);
+
+    // Text
+    let text = g
+      .append("text")
+      .attr("y", -8)
+      .text(m.label || m.type.substring(0, m.type.length - 1) + " " + index)
+      .attr("text-anchor", "middle");
+
+    let bbox = text.node().getBBox();
+
+    bbox.width += 4;
+    bbox.height += 5;
+    bbox.x -= 2;
+    bbox.y -= 1;
+
+    box.attr("width", bbox.width);
+    box.attr("height", bbox.height);
+    box.attr("x", -bbox.width / 2);
+    box.attr("y", bbox.y);
+
+    let x = this.xScaledTimeZoned(m.date);
+
+    return g
+      .attr("transform", `translate(${x}, 0)`)
+      .call((g) => g.classed("hidden", x < 0 || x > overview.width))
       .on("click", (e, d: Milestone) => {
         e.stopPropagation();
         const rawDate = this.x_scale.invert(e.pageX);
@@ -555,19 +586,18 @@ export class OverviewComponent
 
     setTimeout(() => {
       this.review_g
-        .selectAll(".session")
+        .selectAll(".review")
         .data(loaded_reviews)
         .enter()
-        .each(function (d: Milestone) {
-          overview.getLineForMilestone(d3.select(this), d, "milestone session");
+        .each(function (d: Milestone, i) {
+          overview.getLineForMilestone(
+            d3.select(this),
+            d,
+            "milestone review",
+            i
+          );
         });
     });
-
-    //   label: {
-    //     content: review.label || "Review " + (index + 1),
-    //     enabled: true,
-    //     position: "top",
-    //   },
   }
 
   loadCorrections(milestone_filter: (review: Milestone) => number | boolean) {
@@ -583,19 +613,15 @@ export class OverviewComponent
         .selectAll(".correction")
         .data(loaded_corrections)
         .enter()
-        .each(function (d: Milestone) {
+        .each(function (d: Milestone, i) {
           overview.getLineForMilestone(
             d3.select(this),
             d,
-            "milestone correction"
+            "milestone correction",
+            i
           );
         });
     });
-    //   label: {
-    //     content: correction.label || "Correction " + (index + 1),
-    //     enabled: true,
-    //     position: "top",
-    //   },
   }
 
   loadOthers(milestone_filter: (review: Milestone) => number | boolean) {
@@ -610,15 +636,15 @@ export class OverviewComponent
         .selectAll(".other")
         .data(loaded_other)
         .enter()
-        .each(function (d: Milestone) {
-          overview.getLineForMilestone(d3.select(this), d, "milestone other");
+        .each(function (d: Milestone, i) {
+          overview.getLineForMilestone(
+            d3.select(this),
+            d,
+            "milestone other",
+            i
+          );
         });
     });
-    //   label: {
-    //     content: other.label || "Other " + (index + 1),
-    //     enabled: true,
-    //     position: "top",
-    //   },
   }
 
   setupAxis(repositories: Repository[], minDate: Date, maxDate: Date) {
@@ -695,8 +721,8 @@ export class OverviewComponent
   }
 
   getCommitGroupPathD(first: Commit, last: Commit) {
-    let begin_x = this.x_scale_copy(first.commitDate);
-    let end_x = this.x_scale_copy(last.commitDate);
+    let begin_x = this.xScaledTimeZoned(first.commitDate);
+    let end_x = this.xScaledTimeZoned(last.commitDate);
 
     return `M 0 0 h ${Math.max(end_x - begin_x, 6)} a ${
       OverviewComponent.CIRCLE_RADIUS
@@ -715,8 +741,8 @@ export class OverviewComponent
 
     let g = parent.append("g").datum(sorted);
 
-    let begin_x = this.x_scale_copy(sorted[0].commitDate);
-    let end_x = this.x_scale_copy(sorted[sorted.length - 1].commitDate);
+    let begin_x = this.xScaledTimeZoned(sorted[0].commitDate);
+    let end_x = this.xScaledTimeZoned(sorted[sorted.length - 1].commitDate);
 
     g.attr("class", "commit-group commit")
       .append("path")
@@ -751,7 +777,7 @@ export class OverviewComponent
     let g;
 
     if (group == null) {
-      let x = this.x_scale_copy(commit.commitDate);
+      let x = this.xScaledTimeZoned(commit.commitDate);
 
       g = parent.append("g").datum([commit]);
 
@@ -807,8 +833,8 @@ export class OverviewComponent
 
       group.datum(all_commits);
 
-      let begin_x = this.x_scale_copy(all_commits[0].commitDate);
-      let end_x = this.x_scale_copy(
+      let begin_x = this.xScaledTimeZoned(all_commits[0].commitDate);
+      let end_x = this.xScaledTimeZoned(
         all_commits[all_commits.length - 1].commitDate
       );
 
@@ -835,7 +861,7 @@ export class OverviewComponent
 
     g.classed("simple-commit", true);
 
-    let x = this.x_scale_copy(commit.commitDate);
+    let x = this.xScaledTimeZoned(commit.commitDate);
 
     let comp: d3.Selection<any, any, any, any> = g
       .append("a")
@@ -850,7 +876,7 @@ export class OverviewComponent
     comp.attr("fill", commit.color.color);
     g.attr("date", (commit.commitDate as Date).getTime());
 
-    g.attr("transfrom", `translate(${x}, 0)`)
+    g.attr("transform", `translate(${x}, 0)`)
       .on("mouseenter", () => (this.hovered_commit = commit))
       .on("mouseleave", () => {
         if (
@@ -867,9 +893,9 @@ export class OverviewComponent
   shouldGroupCommit(commit_before: Commit, commit_after: Commit): boolean {
     return (
       !commit_before.isCloture &&
-      this.x_scale_copy(commit_after.commitDate) -
-        this.x_scale_copy(commit_before.commitDate) <
-        3
+      this.xScaledTimeZoned(commit_after.commitDate) -
+        this.xScaledTimeZoned(commit_before.commitDate) <
+        Utils.COMMIT_FUSE_RANGE
     );
   }
 
@@ -973,8 +999,8 @@ export class OverviewComponent
             minDateTime == null
               ? commit.commitDate.getTime()
               : Math.max(commit.commitDate.getTime(), minDateTime);
-          if (commit.message === "Pause") current_line = commit;
-          else if (commit.message === "Resume" && current_line) {
+          if (commit.message === "Resume") current_line = commit;
+          else if (commit.message === "Pause" && current_line) {
             lines.push([current_line.commitDate, commit.commitDate]);
             current_line = undefined;
           }
@@ -991,8 +1017,8 @@ export class OverviewComponent
             .attr("class", "commit_line")
             .attr("min_date", d1.getTime())
             .attr("max_date", d2.getTime())
-            .attr("x1", overview.x_scale_copy(d1))
-            .attr("x2", overview.x_scale_copy(d2));
+            .attr("x1", overview.xScaledTimeZoned(d1))
+            .attr("x2", overview.xScaledTimeZoned(d2));
         });
       });
   }
@@ -1005,9 +1031,10 @@ export class OverviewComponent
       let date = Number.parseInt(g.attr("after_date"));
 
       let range_in_pixel =
-        overview.x_scale_copy(range + date) - overview.x_scale_copy(date);
+        overview.xScaledTimeZoned(new Date(range + date)) -
+        overview.xScaledTimeZoned(new Date(date));
 
-      if (range_in_pixel > 3) {
+      if (range_in_pixel >= Utils.COMMIT_FUSE_RANGE) {
         let before = undefined;
         let commits = g.datum() as Commit[];
         g.remove();
@@ -1081,10 +1108,11 @@ export class OverviewComponent
   }
 
   getOffset(d: Date) {
-    return (
-      this.x_scale_copy(d) -
-      this.x_scale_copy(new Date(d.getTime() + d.getTimezoneOffset() * 60000))
-    );
+    return 0;
+    // return (
+    //   this.x_scale_copy(d) -
+    //   this.x_scale_copy(new Date(d.getTime() + d.getTimezoneOffset() * 60000))
+    // );
   }
 
   xScaledTimeZoned(d: Date) {
@@ -1126,6 +1154,12 @@ export class OverviewComponent
         );
     });
 
+    this.data_g.selectAll(".milestone").each(function (m: Milestone) {
+      let g = d3.select(this);
+      let x = overview.xScaledTimeZoned(m.date);
+      g.classed("hidden", x < 0 || x > overview.width);
+    });
+
     overview.repositories_g.forEach((repo_g) =>
       this.refreshRepoBySplittingGroup(repo_g)
     );
@@ -1163,7 +1197,10 @@ export class OverviewComponent
 
     this.data_g
       .selectAll(".milestone")
-      .attr("x", (m: Milestone) => overview.xScaledTimeZoned(m.date));
+      .attr(
+        "transform",
+        (m: Milestone) => `translate(${overview.xScaledTimeZoned(m.date)}, 0)`
+      );
   }
 
   toggleDrag() {
