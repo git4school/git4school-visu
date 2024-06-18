@@ -2,6 +2,10 @@
   display: none;
 }
 
+text.repo_name {
+  font-size: 18px;
+}
+
 .repository {
   clip-path: url(#clip);
 }
@@ -23,15 +27,19 @@
 
 .commit {
   stroke: #fff;
-  stroke-width: 1px;
+  stroke-width: 2px;
+}
+
+.commit-cloture {
+  r: 7px;
 }
 
 .commit-normal {
-  width: 6px;
-  height: 6px;
+  width: 12px;
+  height: 12px;
   transform-box: fill-box;
   transform-origin: center;
-  transform: translate(-3px, -3px) rotate(45deg);
+  transform: translate(-6px, -6px) rotate(45deg);
 }
 
 .commit-normal:hover {
