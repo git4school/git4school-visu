@@ -982,9 +982,13 @@ export class OverviewComponent
           .attr("transform", `translate(0, ${overview.y_scale(i + 1)})`);
 
         let before = undefined;
-        let commits = repository.commits.sort(
-          (a, b) => a.commitDate.getTime() - b.commitDate.getTime()
-        );
+        let commits = repository.commits
+          .filter(
+            (commit) =>
+              !overview.searchFilter.length ||
+              overview.searchFilter.includes(commit.question)
+          )
+          .sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
 
         let minDateTime: number, maxDateTime: number;
 
