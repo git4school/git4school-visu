@@ -96,6 +96,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#notes" >notes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#startDate" >startDate</a>
                             </li>
                             <li>
@@ -140,7 +145,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(startDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, endDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, tpGroup?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>constructor(startDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, endDate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, tpGroup?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, notes?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -213,6 +218,20 @@
 
                                                         </td>
                                                 </tr>
+                                                <tr>
+                                                        <td>notes</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -257,6 +276,34 @@
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/models/Session.model.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notes"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>notes</b></span>
+                        <a href="#notes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/models/Session.model.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -488,7 +535,7 @@ export class Session {
    * @param endDate The date on which the session ends
    * @param tpGroup The associated tp group
    */
-  constructor(startDate: Date, endDate: Date, public tpGroup?: string) {
+  constructor(startDate: Date, endDate: Date, public tpGroup?: string, public notes?: string) {
     this.startDate &#x3D; moment(startDate).toDate();
     this.endDate &#x3D; moment(endDate).toDate();
   }
@@ -499,7 +546,7 @@ export class Session {
    * @returns A session
    */
   static withJSON(json): Session {
-    return new Session(json.startDate, json.endDate, json.tpGroup);
+    return new Session(json.startDate, json.endDate, json.tpGroup, json.notes);
   }
 
   /**
@@ -513,6 +560,9 @@ export class Session {
     };
     if (this.tpGroup) {
       json[&quot;tpGroup&quot;] &#x3D; this.tpGroup;
+    }
+    if (this.notes) {
+      json[&quot;notes&quot;] &#x3D; this.notes;
     }
     return json;
   }

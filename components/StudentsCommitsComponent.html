@@ -176,6 +176,10 @@
                                 <a href="#min" >min</a>
                             </li>
                             <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#slider_step" >slider_step</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#translateService" >translateService</a>
                             </li>
@@ -196,7 +200,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#getMinDateTimestamp" >getMinDateTimestamp</a>
+                                <a href="#getAdjustedMaxTimestamp" >getAdjustedMaxTimestamp</a>
+                            </li>
+                            <li>
+                                <a href="#initDateSlider" >initDateSlider</a>
                             </li>
                             <li>
                                 <a href="#loadGraph" >loadGraph</a>
@@ -245,7 +252,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="205" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:205</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="208" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:208</a></div>
                             </td>
                         </tr>
 
@@ -363,41 +370,78 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getMinDateTimestamp"></a>
+                    <a name="getAdjustedMaxTimestamp"></a>
                     <span class="name">
-                        <span ><b>getMinDateTimestamp</b></span>
-                        <a href="#getMinDateTimestamp"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getAdjustedMaxTimestamp</b></span>
+                        <a href="#getAdjustedMaxTimestamp"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getMinDateTimestamp()</code>
+<code>getAdjustedMaxTimestamp()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="328"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:328</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="344"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:344</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the minimum date needed by the date slider</p>
+                    <div class="io-description"><p>Returns the nearest upper value reachable by the slider</p>
 </div>
 
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                     </div>
                     <div class="io-description">
-                        <p>A timestamp corresponding to the minimum date selectable with the date slider</p>
+                        <p>A value for slider max compatible with slider step</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initDateSlider"></a>
+                    <span class="name">
+                        <span ><b>initDateSlider</b></span>
+                        <a href="#initDateSlider"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initDateSlider()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="321"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:321</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -517,7 +561,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:226</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:229</a></code>
 </div>
                 </td>
             </tr>
@@ -556,8 +600,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="257"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:257</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="260"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:260</a></div>
                 </td>
             </tr>
 
@@ -595,8 +639,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="319"
-                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:319</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="316"
+                            class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:316</a></div>
                 </td>
             </tr>
 
@@ -640,7 +684,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:271</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:274</a></code>
 </div>
                 </td>
             </tr>
@@ -913,7 +957,7 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -944,7 +988,7 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="205" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:205</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="208" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:208</a></div>
                         </td>
                     </tr>
 
@@ -981,7 +1025,7 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -1155,7 +1199,7 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -1188,7 +1232,7 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="214" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:214</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="217" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:217</a></div>
                         </td>
                     </tr>
 
@@ -1219,7 +1263,7 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1256,7 +1300,7 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:56</a></div>
                         </td>
                     </tr>
 
@@ -1288,7 +1332,7 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -1321,7 +1365,7 @@ It corresponds to the last update date</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1332,6 +1376,32 @@ It corresponds to the date of the most recent commit among all the repositories<
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="slider_step"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>slider_step</b></span>
+                        <a href="#slider_step"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Utils.SLIDER_STEP</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:32</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -1355,7 +1425,7 @@ It corresponds to the date of the most recent commit among all the repositories<
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="216" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:216</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="219" class="link-to-prism">src/app/components/graphs/students-commits/students-commits.component.ts:219</a></div>
                         </td>
                     </tr>
 
@@ -1418,6 +1488,7 @@ import * as Chart from &quot;chart.js&quot;;
 import { default as ChartDataLabels } from &quot;chartjs-plugin-datalabels&quot;;
 import { Subscription } from &quot;rxjs&quot;;
 import { BaseGraphComponent } from &quot;../base-graph.component&quot;;
+import { Utils } from &quot;../../../services/utils&quot;;
 
 /**
  * jquery
@@ -1436,6 +1507,8 @@ export class StudentsCommitsComponent
   extends BaseGraphComponent
   implements OnInit
 {
+  readonly slider_step &#x3D; Utils.SLIDER_STEP;
+
   assignmentsModified$: Subscription;
 
   /**
@@ -1689,10 +1762,7 @@ export class StudentsCommitsComponent
         this.loadGraph(this.dataService.startDate, this.dataService.endDate);
       } else {
         this.loading &#x3D; true;
-        this.dataService.lastUpdateDate &amp;&amp;
-          (this.date &#x3D; this.dataService.lastUpdateDate.getTime()) &amp;&amp;
-          (this.max &#x3D; this.date) &amp;&amp;
-          (this.min &#x3D; this.getMinDateTimestamp());
+        this.initDateSlider();
         this.loadGraphMetadata(
           this.dataService.repositories,
           this.dataService.reviews,
@@ -1707,10 +1777,7 @@ export class StudentsCommitsComponent
   loadGraph(startDate?: string, endDate?: string) {
     this.loading &#x3D; true;
     this.loaderService.loadRepositories(startDate, endDate).subscribe(() &#x3D;&gt; {
-      this.dataService.lastUpdateDate &amp;&amp;
-        (this.date &#x3D; this.dataService.lastUpdateDate.getTime()) &amp;&amp;
-        (this.max &#x3D; this.date) &amp;&amp;
-        (this.min &#x3D; this.getMinDateTimestamp());
+      this.initDateSlider();
       this.loadGraphMetadata(
         this.dataService.repositories,
         this.dataService.reviews,
@@ -1729,27 +1796,34 @@ export class StudentsCommitsComponent
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
-  /**
-   * Returns the minimum date needed by the date slider
-   * @returns A timestamp corresponding to the minimum date selectable with the date slider
-   */
-  getMinDateTimestamp() {
-    let commits &#x3D; [];
-    this.dataService.repositories
-      .filter((repo) &#x3D;&gt; repo.commits)
-      .forEach((repository) &#x3D;&gt; {
-        // commits &#x3D; commits.concat(repository.commits);
-        Array.prototype.push.apply(commits, repository.commits);
-      });
-    if (!commits.length) {
-      return new Date();
+  initDateSlider() {
+    if (this.dataService.lastUpdateDate) {
+      this.date &#x3D; this.dataService.lastUpdateDate.getTime();
+
+      if (this.date) {
+        let interval &#x3D; Utils.getTimeInterval(
+          this.dataService.repositories
+            .map((v) &#x3D;&gt; v.commits)
+            .filter(Boolean)
+            .reduce((a, b) &#x3D;&gt; a.concat(b), []),
+          (v) &#x3D;&gt; v.commitDate
+        );
+
+        this.min &#x3D; interval[0].getTime();
+        this.max &#x3D; interval[1].getTime();
+      }
     }
-    let min &#x3D; commits.reduce(
-      (min, commit) &#x3D;&gt;
-        commit.commitDate.getTime() &lt; min.getTime() ? commit.commitDate : min,
-      commits[0].commitDate
+  }
+
+  /**
+   * Returns the nearest upper value reachable by the slider
+   * @returns A value for slider max compatible with slider step
+   */
+  getAdjustedMaxTimestamp() {
+    return (
+      Math.ceil((this.max - this.min) / this.slider_step) * this.slider_step +
+      this.min
     );
-    return min.getTime();
   }
 }
 </code></pre>
@@ -1767,8 +1841,8 @@ export class StudentsCommitsComponent
   &lt;/div&gt;
   &lt;div class&#x3D;&quot;separator&quot;&gt;&lt;/div&gt;
   &lt;div class&#x3D;&quot;pt-2 w-25&quot;&gt;
-    &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;custom-range&quot; (input)&#x3D;&quot;loadGraphDataAndRefresh()&quot; [(ngModel)]&#x3D;&quot;date&quot; [max]&#x3D;&quot;this.max&quot;
-      [min]&#x3D;&quot;this.min&quot; [ngbTooltip]&#x3D;&quot;dateTooltip&quot; id&#x3D;&quot;dateSlider&quot; step&#x3D;&quot;86400000&quot;
+    &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;custom-range&quot; (input)&#x3D;&quot;loadGraphDataAndRefresh()&quot; [(ngModel)]&#x3D;&quot;date&quot; [max]&#x3D;&quot;getAdjustedMaxTimestamp()&quot;
+      [min]&#x3D;&quot;this.min&quot; [ngbTooltip]&#x3D;&quot;dateTooltip&quot; id&#x3D;&quot;dateSlider&quot; [step]&#x3D;&quot;slider_step&quot;
       [disabled]&#x3D;&quot;!dataService.repositories.length || loading&quot;&gt;
   &lt;/div&gt;
   &lt;div class&#x3D;&quot;mt-1 ml-2&quot;&gt;&lt;span class&#x3D;&quot;badge badge-secondary&quot;&gt;{{ date | date:&#x27;yyyy-MM-dd HH:mm&#x27; }}&lt;/span&gt;&lt;/div&gt;
@@ -1825,7 +1899,7 @@ export class StudentsCommitsComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="d-flex flex-row p-3">  <div>    <select class="form-control" [disabled]="!dataService.tpGroups.length || loading" [(ngModel)]="dataService.groupFilter"      (change)="this.loadGraphDataAndRefresh()">      <option [ngValue]="undefined" hidden disabled>{{ \'TP-GROUP-SELECT.PLACEHOLDER\' | translate }}</option>      <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>      <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>    </select>  </div>  <div class="separator"></div>  <div class="pt-2 w-25">    <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="this.max"      [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" step="86400000"      [disabled]="!dataService.repositories.length || loading">  </div>  <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:\'yyyy-MM-dd HH:mm\' }}</span></div>  <div class="separator"></div>  <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"    [ngbTooltip]="reloadTooltip" [disabled]="!dataService.repositories.length || loading">    <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>    <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>  </button></div><div class="chart-container p-3">  <canvas #myChart id="myChart" baseChart [chartType]="\'bar\'" [datasets]="chartData" [options]="chartOptions"    [labels]="chartLabels" [legend]="true">  </canvas></div><div class="badge badge-light text-wrap float-right">  {{ date | date:\'full\':undefined:translateService.currentLang }}</div><ng-template #dateTooltip>{{ \'DATE\' | translate }}</ng-template><ng-template #reloadTooltip>{{ \'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate }}</ng-template></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="d-flex flex-row p-3">  <div>    <select class="form-control" [disabled]="!dataService.tpGroups.length || loading" [(ngModel)]="dataService.groupFilter"      (change)="this.loadGraphDataAndRefresh()">      <option [ngValue]="undefined" hidden disabled>{{ \'TP-GROUP-SELECT.PLACEHOLDER\' | translate }}</option>      <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>      <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>    </select>  </div>  <div class="separator"></div>  <div class="pt-2 w-25">    <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="getAdjustedMaxTimestamp()"      [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" [step]="slider_step"      [disabled]="!dataService.repositories.length || loading">  </div>  <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:\'yyyy-MM-dd HH:mm\' }}</span></div>  <div class="separator"></div>  <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"    [ngbTooltip]="reloadTooltip" [disabled]="!dataService.repositories.length || loading">    <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>    <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>  </button></div><div class="chart-container p-3">  <canvas #myChart id="myChart" baseChart [chartType]="\'bar\'" [datasets]="chartData" [options]="chartOptions"    [labels]="chartLabels" [legend]="true">  </canvas></div><div class="badge badge-light text-wrap float-right">  {{ date | date:\'full\':undefined:translateService.currentLang }}</div><ng-template #dateTooltip>{{ \'DATE\' | translate }}</ng-template><ng-template #reloadTooltip>{{ \'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate }}</ng-template></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'StudentsCommitsComponent'};

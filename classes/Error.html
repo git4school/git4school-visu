@@ -115,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/models/Repository.model.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/models/Repository.model.ts:140</a></div>
                             </td>
                         </tr>
 
@@ -195,7 +195,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/models/Repository.model.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">src/app/models/Repository.model.ts:143</a></div>
                         </td>
                     </tr>
 
@@ -222,7 +222,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/models/Repository.model.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/app/models/Repository.model.ts:142</a></div>
                         </td>
                     </tr>
 
@@ -242,7 +242,9 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Commit } from &quot;@models/Commit.model&quot;;
+import * as assert from &quot;assert&quot;;
 import { Exclude, Type } from &quot;class-transformer&quot;;
+import { Utils } from &quot;../services/utils&quot;;
 
 /**
  * This class modelizes a Github repository
@@ -269,8 +271,99 @@ export class Repository {
     this.errors &#x3D; errors || [];
   }
 
+  /**
+   * Returns a formatted version of the fusion of last_name and first_name such
+   * that the length of the final string is no bigger than max_length
+   *
+   * Example :
+   * last_name: &quot;ABRA&quot;, first_name: &quot;Merlin&quot; &#x3D;&gt; ABRA Merlin
+   * last_name: &quot;ABRA&quot;, first_name: &quot;&quot;  &#x3D;&gt; ABRA
+   * last_name: &quot;&quot;, first_name: &quot;Merlin&quot; &#x3D;&gt; Merlin
+   * last_name: &quot;ABRACADABRABRACADABRA&quot;, first_name: &quot;Merlin&quot; &#x3D;&gt; ABRACADABRABRACA. M.
+   *
+   * @param last_name
+   * @param first_name
+   * @param max_length
+   * @returns A string with length below max_length
+   */
+  static getFormattedName(
+    last_name: string,
+    first_name: string,
+    max_length: number,
+  ): string {
+    assert(max_length &gt; 0);
+
+    if (!last_name &amp;&amp; !first_name) {
+      return &quot;&quot;;
+    }
+
+    let full &#x3D; [last_name, first_name].filter(Boolean).join(&quot; &quot;);
+    if (full.length &lt;&#x3D; max_length) {
+      return full;
+    }
+
+    if (!last_name) {
+      return first_name.substring(0, max_length - 1) + &quot;.&quot;;
+    }
+
+    if (!first_name) {
+      return last_name.substring(0, max_length - 1) + &quot;.&quot;;
+    }
+
+    let last_name_final_length &#x3D; Math.min(max_length - 4, last_name.length);
+
+    return (
+      last_name.substring(0, last_name_final_length) +
+      (last_name_final_length &lt; last_name.length ? &quot;.&quot; : &quot;&quot;) +
+      &quot; &quot; +
+      first_name.substring(0, max_length - last_name_final_length - 3) +
+      &quot;.&quot;
+    );
+  }
+
   getNameFromUrl(): string {
     return this.url.split(&quot;/&quot;)[4];
+  }
+
+  getDisplayName() {
+    let displayName &#x3D; this.name || &quot;&quot;;
+    if (displayName.length &gt; Utils.OVERVIEW_NAME_LENGTH_LIMIT) {
+      let numberOfSpace &#x3D; (displayName.match(/ /g) || []).length;
+      if (numberOfSpace &#x3D;&#x3D;&#x3D; 0) {
+        displayName &#x3D;
+          displayName.substring(0, Utils.OVERVIEW_NAME_LENGTH_LIMIT - 1) + &quot;.&quot;;
+      } else if (numberOfSpace &#x3D;&#x3D; 1) {
+        let [lastName, firstName] &#x3D; displayName.split(&quot; &quot;);
+        displayName &#x3D; Repository.getFormattedName(
+          firstName,
+          lastName,
+          Utils.OVERVIEW_NAME_LENGTH_LIMIT,
+        );
+      } else {
+        let findLastName &#x3D; displayName.match(/^([A-Z\-]+ )*/g);
+        if (findLastName.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; findLastName[0].trim().length !&#x3D;&#x3D; 0) {
+          displayName &#x3D; Repository.getFormattedName(
+            findLastName[0].trim(),
+            displayName.substring(findLastName[0].length),
+            Utils.OVERVIEW_NAME_LENGTH_LIMIT,
+          );
+        } else {
+          let lastspace &#x3D; displayName.lastIndexOf(&quot; &quot;);
+          let [lastName, firstName] &#x3D; [
+            displayName.substring(0, lastspace),
+            displayName.substring(lastspace + 1),
+          ];
+
+          displayName &#x3D; Repository.getFormattedName(
+            lastName,
+            firstName,
+            Utils.OVERVIEW_NAME_LENGTH_LIMIT,
+          );
+        }
+      }
+    }
+
+    return displayName;
   }
 
   static isEqual(repository1: Repository, repository2: Repository): boolean {
@@ -288,7 +381,10 @@ export class Repository {
 }
 
 export class Error {
-  constructor(public type: ErrorType, public message &#x3D; &quot;&quot;) {}
+  constructor(
+    public type: ErrorType,
+    public message &#x3D; &quot;&quot;,
+  ) {}
 }
 
 export const enum ErrorType {

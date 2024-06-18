@@ -4815,7 +4815,7 @@ export class OverviewComponent
         const pointStyle &#x3D; [];
         const pointBackgroundColor &#x3D; [];
         const borderColor &#x3D; &quot;rgba(77, 77, 77, 0.5)&quot;;
-        labels.push(repository.name);
+        labels.push(repository.getDisplayName());
         repository.commits &amp;&amp;
           repository.commits.forEach((commit) &#x3D;&gt; {
             if (
@@ -4824,7 +4824,7 @@ export class OverviewComponent
             ) {
               data.push({
                 x: commit.commitDate,
-                y: repository.name,
+                y: repository.getDisplayName(),
                 commit,
               });
               pointStyle.push(this.getPointStyle(commit));

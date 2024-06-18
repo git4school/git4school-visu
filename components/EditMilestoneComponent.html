@@ -195,6 +195,9 @@
                                 <a href="#milestone" >milestone</a>
                             </li>
                             <li>
+                                <a href="#notes" >notes</a>
+                            </li>
+                            <li>
                                 <a href="#questions" >questions</a>
                             </li>
                             <li>
@@ -225,7 +228,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -323,6 +326,27 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="notes"></a>
+                        <b>notes</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:30</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="questions"></a>
                         <b>questions</b>
                     </td>
@@ -411,8 +435,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:50</a></div>
                 </td>
             </tr>
 
@@ -448,8 +472,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:38</a></div>
                 </td>
             </tr>
 
@@ -485,8 +509,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:54</a></div>
                 </td>
             </tr>
 
@@ -528,7 +552,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -555,7 +579,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -581,7 +605,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/edit-milestone/edit-milestone.component.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -623,6 +647,7 @@ export class EditMilestoneComponent implements OnInit {
   @Input() tpGroups: string[];
   @Input() questions: string[];
   @Input() typeaheadSettings;
+  @Input() notes: string;
   milestoneForm: FormGroup;
 
   constructor(
@@ -638,6 +663,7 @@ export class EditMilestoneComponent implements OnInit {
       tpGroup: [this.milestone.tpGroup || &quot;&quot;],
       questions: [this.milestone.questions],
       type: [this.milestone.type, Validators.required],
+      notes: [this.milestone.notes || &quot;&quot;],
     });
   }
 
@@ -652,7 +678,8 @@ export class EditMilestoneComponent implements OnInit {
       form.value.label.trim(),
       form.value.questions,
       form.value.tpGroup.trim() || &quot;&quot;,
-      form.value.type
+      form.value.type,
+      form.value.notes.trim() || &quot;&quot;,
     );
     this.activeModalService.close(milestone);
   }
@@ -735,6 +762,11 @@ export class EditMilestoneComponent implements OnInit {
 
         &lt;/div&gt;
 
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+            &lt;label for&#x3D;&quot;notes&quot;&gt;{{ &#x27;MILESTONE-NOTES&#x27; | translate }}&lt;/label&gt;
+            &lt;textarea class&#x3D;&quot;form-control&quot; id&#x3D;&quot;notes&quot; rows&#x3D;&quot;5&quot; formControlName&#x3D;&quot;notes&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+
         &lt;div class&#x3D;&quot;my-3&quot;&gt;
             &lt;span class&#x3D;&quot;text-danger&quot;&gt;*&lt;/span&gt; {{ &quot;REQUIRED-FIELDS-TEXT&quot; | translate }}
         &lt;/div&gt;
@@ -781,7 +813,7 @@ export class EditMilestoneComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modal-header">    <h5 class="modal-title">        {{ (this.addMode ? \'OVERVIEW-GRAPH.MODAL.TITLE-CREATE\' : \'OVERVIEW-GRAPH.MODAL.TITLE-EDIT\') |        translate }}    </h5>    <button type="button" class="close" (click)="activeModalService.dismiss(\'Cross click\')">        <span aria-hidden="true">&times;</span>    </button></div><div class="modal-body mx-2">    <form [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">        <div class="form-row">            <div class="form-group col-8 required">                <label for="date" class="col-form-label required-label">{{ \'DATE\' | translate }}</label>                <div class="input-group">                    <input id="date" class="form-control" placeholder="yyyy-mm-dd" formControlName="date" ngbDatepicker                        #d="ngbDatepicker" name="date" [showWeekNumbers]="true">                    <div class="input-group-append">                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">                            <i class="far fa-calendar-alt"></i>                        </button>                    </div>                </div>            </div>            <div class="form-group col-4 required">                <label for="time" class="col-form-label required-label">                    {{ \'TIME\' | translate }}                </label>                <ngb-timepicker id="time" formControlName="time" [ngClass]="{                    \'is-invalid\': milestoneForm.invalid,                    \'is-valid\': milestoneForm.valid}" [spinners]="false">                </ngb-timepicker>            </div>        </div>        <div class="form-group">            <label for="label" class="col-form-label">{{ \'OVERVIEW-GRAPH.MODAL.LABEL\' | translate }}</label>            <input type="text" class="form-control" id="label" formControlName="label">        </div>        <div class="form-group">            <label for="tpGroup" class="col-form-label">{{ \'OVERVIEW-GRAPH.MODAL.TP-GROUP\' | translate }}</label>            <select class="form-control" placeholder="d.ff" formControlName="tpGroup" id="tpGroup">                <option *ngFor="let tpGroup of tpGroups" [value]="tpGroup">{{tpGroup}}</option>                <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>            </select>        </div>        <div class="form-group">            <label for="questionsChooser" class="col-form-label">{{ \'QUESTIONS\' | translate }}</label>            <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="questions"                [editable]="false" [openOnFocus]="true">            </questions-chooser>        </div>        <div class="form-group required">            <label class="col-form-label required-label">{{ \'MILESTONE-TYPE\' | translate                }}</label><br>            <div class="custom-control custom-radio custom-control-inline">                <input type="radio" id="corrections" formControlName="type" class="custom-control-input"                    value="corrections">                <label class="custom-control-label" for="corrections">{{ \'CORRECTION\' | translate }}</label>            </div>            <div class="custom-control custom-radio custom-control-inline">                <input type="radio" id="reviews" formControlName="type" class="custom-control-input" value="reviews">                <label class="custom-control-label" for="reviews">{{ \'REVIEW\' | translate }}</label>            </div>            <div class="custom-control custom-radio custom-control-inline">                <input type="radio" id="others" formControlName="type" class="custom-control-input" value="others">                <label class="custom-control-label" for="others">{{ \'OTHER\' | translate }}</label>            </div>            <div class="small form-text text-danger" *ngIf="milestoneForm.controls.type.invalid">                {{ "NO-MILESTONE-TYPE-FEEDBACK" | translate }}            </div>        </div>        <div class="my-3">            <span class="text-danger">*</span> {{ "REQUIRED-FIELDS-TEXT" | translate }}        </div>        <hr>        <button *ngIf="!addMode" type="button" class="btn btn-danger col-5" (click)="deleteMilestone()">{{            \'OVERVIEW-GRAPH.MODAL.DELETE\' | translate }}</button>        <button type="submit" class="btn btn-primary col-5 float-right mb-3" (click)="submitMilestone()"            [disabled]="!milestoneForm.valid">{{            \'OVERVIEW-GRAPH.MODAL.CONFIRM\' | translate }}</button>    </form></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="modal-header">    <h5 class="modal-title">        {{ (this.addMode ? \'OVERVIEW-GRAPH.MODAL.TITLE-CREATE\' : \'OVERVIEW-GRAPH.MODAL.TITLE-EDIT\') |        translate }}    </h5>    <button type="button" class="close" (click)="activeModalService.dismiss(\'Cross click\')">        <span aria-hidden="true">&times;</span>    </button></div><div class="modal-body mx-2">    <form [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">        <div class="form-row">            <div class="form-group col-8 required">                <label for="date" class="col-form-label required-label">{{ \'DATE\' | translate }}</label>                <div class="input-group">                    <input id="date" class="form-control" placeholder="yyyy-mm-dd" formControlName="date" ngbDatepicker                        #d="ngbDatepicker" name="date" [showWeekNumbers]="true">                    <div class="input-group-append">                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">                            <i class="far fa-calendar-alt"></i>                        </button>                    </div>                </div>            </div>            <div class="form-group col-4 required">                <label for="time" class="col-form-label required-label">                    {{ \'TIME\' | translate }}                </label>                <ngb-timepicker id="time" formControlName="time" [ngClass]="{                    \'is-invalid\': milestoneForm.invalid,                    \'is-valid\': milestoneForm.valid}" [spinners]="false">                </ngb-timepicker>            </div>        </div>        <div class="form-group">            <label for="label" class="col-form-label">{{ \'OVERVIEW-GRAPH.MODAL.LABEL\' | translate }}</label>            <input type="text" class="form-control" id="label" formControlName="label">        </div>        <div class="form-group">            <label for="tpGroup" class="col-form-label">{{ \'OVERVIEW-GRAPH.MODAL.TP-GROUP\' | translate }}</label>            <select class="form-control" placeholder="d.ff" formControlName="tpGroup" id="tpGroup">                <option *ngFor="let tpGroup of tpGroups" [value]="tpGroup">{{tpGroup}}</option>                <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>            </select>        </div>        <div class="form-group">            <label for="questionsChooser" class="col-form-label">{{ \'QUESTIONS\' | translate }}</label>            <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="questions"                [editable]="false" [openOnFocus]="true">            </questions-chooser>        </div>        <div class="form-group required">            <label class="col-form-label required-label">{{ \'MILESTONE-TYPE\' | translate                }}</label><br>            <div class="custom-control custom-radio custom-control-inline">                <input type="radio" id="corrections" formControlName="type" class="custom-control-input"                    value="corrections">                <label class="custom-control-label" for="corrections">{{ \'CORRECTION\' | translate }}</label>            </div>            <div class="custom-control custom-radio custom-control-inline">                <input type="radio" id="reviews" formControlName="type" class="custom-control-input" value="reviews">                <label class="custom-control-label" for="reviews">{{ \'REVIEW\' | translate }}</label>            </div>            <div class="custom-control custom-radio custom-control-inline">                <input type="radio" id="others" formControlName="type" class="custom-control-input" value="others">                <label class="custom-control-label" for="others">{{ \'OTHER\' | translate }}</label>            </div>            <div class="small form-text text-danger" *ngIf="milestoneForm.controls.type.invalid">                {{ "NO-MILESTONE-TYPE-FEEDBACK" | translate }}            </div>        </div>        <div class="form-group">            <label for="notes">{{ \'MILESTONE-NOTES\' | translate }}</label>            <textarea class="form-control" id="notes" rows="5" formControlName="notes"></textarea>        </div>        <div class="my-3">            <span class="text-danger">*</span> {{ "REQUIRED-FIELDS-TEXT" | translate }}        </div>        <hr>        <button *ngIf="!addMode" type="button" class="btn btn-danger col-5" (click)="deleteMilestone()">{{            \'OVERVIEW-GRAPH.MODAL.DELETE\' | translate }}</button>        <button type="submit" class="btn btn-primary col-5 float-right mb-3" (click)="submitMilestone()"            [disabled]="!milestoneForm.valid">{{            \'OVERVIEW-GRAPH.MODAL.CONFIRM\' | translate }}</button>    </form></div></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'EditMilestoneComponent'};
