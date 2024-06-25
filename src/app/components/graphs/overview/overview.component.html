@@ -169,56 +169,62 @@
     <div class="chart-container"></div>
   </div>
 </div>
-<div
-  *ngIf="hovered_commit != null && hovered_group_commit == null"
-  id="commit_hover"
->
-  <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>
-  <p>{{ hovered_commit.message }}</p>
-  <p style="margin: 10px"></p>
-  <p>{{ hovered_commit.author }}</p>
-</div>
-<div
-  *ngIf="hovered_group_commit != null && hovered_commit == null"
-  id="commit_group_hover"
->
-  <div *ngIf="hovered_group_commit[hovered_group_commit.length - 1].isCloture">
-    <p>{{ hovered_group_commit[hovered_group_commit.length - 1].message }}</p>
+<div id="tooltip">
+  <div
+    *ngIf="hovered_commit != null && hovered_group_commit == null"
+    id="commit_hover"
+  >
+    <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>
+    <p>{{ hovered_commit.message }}</p>
     <p style="margin: 10px"></p>
-    <p>
-      {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.BEGIN" | translate }} :
-      {{ commit_date_format(hovered_group_commit[0].commitDate) }}
-    </p>
-    <p>
-      {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.END" | translate }} :
-      {{
-        commit_date_format(
-          hovered_group_commit[hovered_group_commit.length - 1].commitDate
-        )
-      }}
-    </p>
-    <p>
-      {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
-      {{ hovered_group_commit.length }}
-    </p>
+    <p>{{ hovered_commit.author }}</p>
   </div>
-  <div *ngIf="!hovered_group_commit[hovered_group_commit.length - 1].isCloture">
-    <p>
-      {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.BEGIN" | translate }} :
-      {{ commit_date_format(hovered_group_commit[0].commitDate) }}
-    </p>
-    <p>
-      {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.END" | translate }} :
-      {{
-        commit_date_format(
-          hovered_group_commit[hovered_group_commit.length - 1].commitDate
-        )
-      }}
-    </p>
-    <p>
-      {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
-      {{ hovered_group_commit.length }}
-    </p>
+  <div
+    *ngIf="hovered_group_commit != null && hovered_commit == null"
+    id="commit_group_hover"
+  >
+    <div
+      *ngIf="hovered_group_commit[hovered_group_commit.length - 1].isCloture"
+    >
+      <p>{{ hovered_group_commit[hovered_group_commit.length - 1].message }}</p>
+      <p style="margin: 10px"></p>
+      <p>
+        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.BEGIN" | translate }} :
+        {{ commit_date_format(hovered_group_commit[0].commitDate) }}
+      </p>
+      <p>
+        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.END" | translate }} :
+        {{
+          commit_date_format(
+            hovered_group_commit[hovered_group_commit.length - 1].commitDate
+          )
+        }}
+      </p>
+      <p>
+        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
+        {{ hovered_group_commit.length }}
+      </p>
+    </div>
+    <div
+      *ngIf="!hovered_group_commit[hovered_group_commit.length - 1].isCloture"
+    >
+      <p>
+        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.BEGIN" | translate }} :
+        {{ commit_date_format(hovered_group_commit[0].commitDate) }}
+      </p>
+      <p>
+        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.END" | translate }} :
+        {{
+          commit_date_format(
+            hovered_group_commit[hovered_group_commit.length - 1].commitDate
+          )
+        }}
+      </p>
+      <p>
+        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
+        {{ hovered_group_commit.length }}
+      </p>
+    </div>
   </div>
 </div>
 <div class="card">

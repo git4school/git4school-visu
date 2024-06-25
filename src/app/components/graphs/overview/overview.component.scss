@@ -23,8 +23,12 @@
   outline: none;
 }
 
-#commit_hover {
+#tooltip {
   position: absolute;
+}
+
+#commit_hover {
+  width: fit-content;
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
   font-size: 0;
@@ -40,8 +44,8 @@
 }
 
 #commit_group_hover {
-  position: absolute;
   transform: translateY(-90px);
+  width: fit-content;
 }
 #commit_group_hover > div {
   color: white;

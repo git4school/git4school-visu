@@ -102,6 +102,7 @@ export class OverviewComponent
 
   hovered_commit: Commit;
   hovered_group_commit: Commit[];
+  hovered_g: d3.Selection<any, any, any, any>;
 
   static GROUP_HEIGHT = 12;
   static CIRCLE_RADIUS = 12;
@@ -203,19 +204,12 @@ export class OverviewComponent
 
     d3.select(".chart-container")
       .on("mousemove", function (e) {
-        var tooltip =
-          document.getElementById("commit_hover") ||
-          document.getElementById("commit_group_hover");
-        if (tooltip == null) {
-          return;
-        }
-        var x = e.clientX,
-          y = e.clientY;
-
-        tooltip.style.top = y + 20 + "px";
-        tooltip.style.left = x + 20 + "px";
+        overview.refreshTooltip(e.clientX, e.clientY);
       })
-      .on("scroll", () => this.refreshElementState())
+      .on("scroll", (e) => {
+        overview.refreshTooltip(e.clientX, e.clientY);
+        overview.refreshElementState();
+      })
       .attr("tabindex", "0")
       .attr("focusable", "true")
       .on("keypress", (event) => {
@@ -280,6 +274,27 @@ export class OverviewComponent
     }
   }
 
+  refreshTooltip(x?: number, y?: number) {
+    if (x == null || y == null) {
+      return;
+    }
+    var tooltip = document.getElementById("tooltip");
+    if (tooltip == null) {
+      return;
+    }
+
+    tooltip.style.top = y + 20 + "px";
+    tooltip.style.left = x + 20 + "px";
+
+    if (this.hovered_g) {
+      if (this.hovered_g.select(":hover").empty()) {
+        this.hovered_commit = undefined;
+        this.hovered_group_commit = undefined;
+        this.hovered_g = null;
+      }
+    }
+  }
+
   loadGraphData() {
     this.loadAnnotations();
     this.loadPoints();
@@ -293,6 +308,13 @@ export class OverviewComponent
       .on("zoom", (event) => {
         if (overview.drag) {
           return;
+        }
+
+        if (event.sourceEvent != null) {
+          overview.refreshTooltip(
+            event.sourceEvent.clientX,
+            event.sourceEvent.clientY
+          );
         }
 
         overview.current_zoom = event.transform;
@@ -386,17 +408,7 @@ export class OverviewComponent
 
     d3.select(".chart-container")
       .on("mousemove", function (e) {
-        var tooltip =
-          document.getElementById("commit_hover") ||
-          document.getElementById("commit_group_hover");
-        if (tooltip == null) {
-          return;
-        }
-        var x = e.clientX,
-          y = e.clientY;
-
-        tooltip.style.top = y + 20 + "px";
-        tooltip.style.left = x + 20 + "px";
+        overview.refreshTooltip(e.clientX, e.clientY);
       })
       .on("scroll", () => this.refreshElementState())
       .attr("tabindex", "0")
@@ -905,9 +917,16 @@ export class OverviewComponent
 
     g.attr("group_range", range);
     g.attr("transform", `translate(${begin_x}, 0)`)
-      .on("mouseenter", (e, d) => (this.hovered_group_commit = d))
+      .on("mouseenter", (e, d) => {
+        this.hovered_commit = undefined;
+        this.hovered_group_commit = d;
+        this.hovered_g = g;
+      })
       .on("mouseleave", () => {
-        this.hovered_group_commit = undefined;
+        if (this.hovered_g === g) {
+          this.hovered_g = undefined;
+          this.hovered_group_commit = undefined;
+        }
       });
 
     return g;
@@ -1024,7 +1043,11 @@ export class OverviewComponent
     g.attr("date", (commit.commitDate as Date).getTime());
 
     g.attr("transform", `translate(${x}, 0)`)
-      .on("mouseenter", () => (this.hovered_commit = commit))
+      .on("mouseenter", () => {
+        this.hovered_commit = commit;
+        this.hovered_group_commit = undefined;
+        this.hovered_g = undefined;
+      })
       .on("mouseleave", () => {
         if (
           this.hovered_commit &&
@@ -1186,6 +1209,10 @@ export class OverviewComponent
         overview.xScaledTimeZoned(new Date(date));
 
       if (range_in_pixel >= Utils.COMMIT_FUSE_RANGE) {
+        if (overview.hovered_g === g) {
+          overview.hovered_g = undefined;
+          overview.hovered_group_commit = undefined;
+        }
         let before = undefined;
         let commits = g.datum() as Commit[];
         g.remove();
@@ -1278,39 +1305,41 @@ export class OverviewComponent
     const containerRect = (d3.select(".chart-container") as any)
       .node()
       .getBoundingClientRect();
-    // const scrollY = (d3.select(".chart-container") as any).node().scrollTop;
     const overview = this;
 
-    overview.repositories_g.forEach((repo_g, i: number) => {
-      repo_g.selectAll(".commit").each(function () {
-        let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
+    if (overview.repository_g)
+      overview.repositories_g.forEach((repo_g, i: number) => {
+        repo_g.selectAll(".commit").each(function () {
+          let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
 
-        let node = repo_g.node();
-        let nodeRect = (node as any).getBoundingClientRect();
+          let node = repo_g.node();
+          let nodeRect = (node as any).getBoundingClientRect();
 
-        const nodeVisible =
-          nodeRect.right >= containerRect.left &&
-          nodeRect.left <= containerRect.right &&
-          nodeRect.bottom >= containerRect.top &&
-          nodeRect.top <= containerRect.bottom;
+          const nodeVisible =
+            nodeRect.right >= containerRect.left &&
+            nodeRect.left <= containerRect.right &&
+            nodeRect.bottom >= containerRect.top &&
+            nodeRect.top <= containerRect.bottom;
 
-        g.classed("hidden", !nodeVisible);
+          g.classed("hidden", !nodeVisible);
+        });
+
+        repo_g
+          .selectAll(".commit:not(.hidden)")
+          .attr(
+            "transform",
+            (commits: Commit[]) =>
+              `translate(${overview.xScaledTimeZoned(
+                commits[0].commitDate
+              )}, 0)`
+          );
+
+        repo_g
+          .selectAll("path:not(.hidden)")
+          .attr("d", (commits: Commit[]) =>
+            this.getCommitGroupPathD(commits[0], commits[commits.length - 1])
+          );
       });
-
-      repo_g
-        .selectAll(".commit:not(.hidden)")
-        .attr(
-          "transform",
-          (commits: Commit[]) =>
-            `translate(${overview.xScaledTimeZoned(commits[0].commitDate)}, 0)`
-        );
-
-      repo_g
-        .selectAll("path:not(.hidden)")
-        .attr("d", (commits: Commit[]) =>
-          this.getCommitGroupPathD(commits[0], commits[commits.length - 1])
-        );
-    });
 
     this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
       let g = d3.select(this);
