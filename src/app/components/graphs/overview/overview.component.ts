@@ -67,9 +67,10 @@ export class OverviewComponent
   savedMilestoneModal: Milestone;
 
   // params
-  margin = { top: 30, right: 30, bottom: 80, left: 250 };
+  margin = { top: 0, right: 30, bottom: 80, left: 250 };
+  margin_abs = { top: 30, right: 30, bottom: 80, left: 250 };
   width = 1800 - this.margin.left - this.margin.right;
-  height = 100 - this.margin.top - this.margin.bottom;
+  height = 200 - this.margin.top - this.margin.bottom;
   maxZoom: number;
 
   // svg components
@@ -81,6 +82,7 @@ export class OverviewComponent
   repository_g: d3.Selection<any, any, any, any>;
   repositories_g: d3.Selection<any, Repository, any, any>[];
   axis_g: d3.Selection<SVGGElement, any, any, any>;
+  axis_abs_g: d3.Selection<SVGGElement, any, any, any>;
   other_g: d3.Selection<any, any, any, any>;
   session_g: d3.Selection<any, any, any, any>;
   review_g: d3.Selection<any, any, any, any>;
@@ -105,6 +107,9 @@ export class OverviewComponent
   static CIRCLE_RADIUS = 12;
   brush: d3.BrushBehavior<any>;
   current_zoom: any;
+  chart_abs_g: d3.Selection<SVGGElement, any, any, any>;
+  svg_abs: d3.Selection<any, unknown, HTMLElement, any>;
+  real_height: number;
   ////////////////////////
 
   constructor(
@@ -140,6 +145,7 @@ export class OverviewComponent
 
   ngAfterViewInit(): void {
     this.height += this.dataService.repositories.length * 35;
+    this.real_height = Math.min(570, this.height);
 
     this.svg = d3
       .select(".chart-container")
@@ -149,6 +155,16 @@ export class OverviewComponent
         `0 0 ${this.width + this.margin.left + this.margin.right} ${
           this.height + this.margin.top + this.margin.right
         }`
+      );
+
+    this.svg_abs = d3
+      .select(".chart-container-absolute")
+      .append("svg")
+      .attr(
+        "viewBox",
+        `0 0 ${this.width + this.margin_abs.left + this.margin_abs.right} ${
+          Math.min(600, this.height) + 2 * 30 /*padding*/
+        } `
       );
 
     const overview = this;
@@ -161,6 +177,13 @@ export class OverviewComponent
       );
 
     this.data_g = this.chart_svg.append("g");
+
+    this.chart_abs_g = this.svg_abs
+      .append("g")
+      .attr(
+        "transform",
+        "translate(" + this.margin_abs.left + "," + this.margin_abs.top + ")"
+      );
 
     this.data_g
       .append("rect")
@@ -192,6 +215,7 @@ export class OverviewComponent
         tooltip.style.top = y + 20 + "px";
         tooltip.style.left = x + 20 + "px";
       })
+      .on("scroll", () => this.refreshElementState())
       .attr("tabindex", "0")
       .attr("focusable", "true")
       .on("keypress", (event) => {
@@ -270,26 +294,130 @@ export class OverviewComponent
         if (overview.drag) {
           return;
         }
+
         overview.current_zoom = event.transform;
-        overview.x_scale_copy = event.transform.rescaleX(overview.x_scale);
+        overview.x_scale_copy = overview.current_zoom.rescaleX(
+          overview.x_scale
+        );
         overview.x_g.call(this.x_axis.scale(overview.x_scale_copy));
         overview.refreshElementState();
       })
+      .filter((event) => {
+        return event.shiftKey || !(event instanceof WheelEvent);
+      })
       .scaleExtent([0.5, overview.maxZoom]);
 
-    this.data_g = this.data_g.call(this.zoom); //.on("dblclick.zoom", null);
-    // this.brush = d3
-    //   .brushX()
-    //   .extent([
-    //     [0, 0],
-    //     [this.width, this.height],
-    //   ])
-    //   .on("end", overview.updateChart);
+    this.data_g = this.data_g.call(this.zoom).on("dblclick.zoom", null);
 
     this.resetZoom(true);
   }
 
   loadGraphDataAndRefresh() {
+    this.margin = { top: 0, right: 30, bottom: 80, left: 250 };
+    this.margin_abs = { top: 30, right: 30, bottom: 80, left: 250 };
+    this.width = 1800 - this.margin.left - this.margin.right;
+    this.height = 200 - this.margin.top - this.margin.bottom;
+
+    const repositories: Repository[] = this.dataService.repositories.filter(
+      (repository) =>
+        !this.dataService.groupFilter ||
+        repository.tpGroup === this.dataService.groupFilter
+    );
+
+    this.height += repositories.length * 35;
+    this.real_height = Math.min(570, this.height);
+
+    this.svg.remove();
+
+    this.svg = d3
+      .select(".chart-container")
+      .append("svg")
+      .attr(
+        "viewBox",
+        `0 0 ${this.width + this.margin.left + this.margin.right} ${
+          this.height + this.margin.top + this.margin.right
+        }`
+      );
+
+    this.svg_abs.remove();
+    this.svg_abs = d3
+      .select(".chart-container-absolute")
+      .append("svg")
+      .attr(
+        "viewBox",
+        `0 0 ${this.width + this.margin_abs.left + this.margin_abs.right} ${
+          Math.min(600, this.height) + 2 * 30 /*padding*/
+        } `
+      );
+
+    const overview = this;
+
+    this.chart_svg = this.svg
+      .append("g")
+      .attr(
+        "transform",
+        "translate(" + this.margin.left + "," + this.margin.top + ")"
+      );
+
+    this.data_g = this.chart_svg.append("g");
+
+    this.chart_abs_g = this.svg_abs
+      .append("g")
+      .attr(
+        "transform",
+        "translate(" + this.margin_abs.left + "," + this.margin_abs.top + ")"
+      );
+
+    this.data_g
+      .append("rect")
+      .attr("id", "data")
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr("opacity", "0")
+      .on("click", (event: MouseEvent) => {
+        event.stopPropagation();
+        var rect = (event.target as any).getBoundingClientRect();
+        var x =
+          ((event.clientX - rect.left) / (rect.right - rect.left)) *
+          overview.width; //x position within the element.
+        let rawDate = overview.x_scale_copy.invert(x);
+        this.openContextMenu(x, event.pageY, rawDate);
+      });
+
+    d3.select(".chart-container")
+      .on("mousemove", function (e) {
+        var tooltip =
+          document.getElementById("commit_hover") ||
+          document.getElementById("commit_group_hover");
+        if (tooltip == null) {
+          return;
+        }
+        var x = e.clientX,
+          y = e.clientY;
+
+        tooltip.style.top = y + 20 + "px";
+        tooltip.style.left = x + 20 + "px";
+      })
+      .on("scroll", () => this.refreshElementState())
+      .attr("tabindex", "0")
+      .attr("focusable", "true")
+      .on("keypress", (event) => {
+        if (event.keyCode === 32) {
+          this.resetZoom(false);
+        }
+      });
+
+    this.clip = this.chart_svg
+      .append("defs")
+      .append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", this.width)
+      .attr("height", 2 * this.height)
+      .attr("fill", "black")
+      .attr("x", 0)
+      .attr("y", -this.height);
+
     this.loadGraphData();
   }
 
@@ -511,7 +639,7 @@ export class OverviewComponent
         session.tpGroup === this.dataService.groupFilter
     );
 
-    this.session_g = this.chart_svg.append("g");
+    this.session_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
@@ -537,12 +665,12 @@ export class OverviewComponent
 
     // Line
     g.append("rect")
-      .attr("clip-path", "url(#clip)")
+      // .attr("clip-path", "url(#clip)")
       .attr("x", 0)
       .attr("width", 1)
       .attr("y", 0)
       .attr("transform", "translate(" + [-1, 0] + ")")
-      .attr("height", this.height);
+      .attr("height", 100000);
 
     // Box
     let box = g.append("rect").attr("y", 20);
@@ -581,7 +709,7 @@ export class OverviewComponent
   loadReviews(milestone_filter: (review: Milestone) => number | boolean) {
     let loaded_reviews = this.dataService.reviews.filter(milestone_filter);
 
-    this.review_g = this.data_g.append("g");
+    this.review_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
@@ -605,7 +733,7 @@ export class OverviewComponent
     let loaded_corrections =
       this.dataService.corrections.filter(milestone_filter);
 
-    this.correction_g = this.data_g.append("g");
+    this.correction_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
@@ -628,7 +756,7 @@ export class OverviewComponent
   loadOthers(milestone_filter: (review: Milestone) => number | boolean) {
     let loaded_other = this.dataService.others.filter(milestone_filter);
 
-    this.other_g = this.data_g.append("g");
+    this.other_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
@@ -663,7 +791,7 @@ export class OverviewComponent
     this.x_axis = d3
       .axisBottom(this.x_scale_copy)
       .ticks(6)
-      .tickSize(-this.height);
+      .tickSize(-this.real_height);
 
     this.x_axis.tickFormat(function (d) {
       if (!(d instanceof Date)) return "";
@@ -676,10 +804,11 @@ export class OverviewComponent
     });
 
     this.axis_g = this.chart_svg.insert("g", ":first-child");
+    this.axis_abs_g = this.chart_abs_g.insert("g", ":first-child");
 
-    this.x_g = this.axis_g
+    this.x_g = this.axis_abs_g
       .append("g")
-      .attr("transform", "translate(" + [0, this.height] + ")")
+      .attr("transform", "translate(" + [0, this.real_height] + ")")
       .call(this.x_axis);
 
     this.y_scale = d3
@@ -706,7 +835,7 @@ export class OverviewComponent
       .call((g) => g.classed("repo_name", true));
 
     // Use custom domain
-    this.axis_g.selectAll(".domain").style("opacity", "0");
+    this.axis_abs_g.selectAll(".domain").style("opacity", "0");
 
     this.axis_g
       .append("g")
@@ -853,13 +982,15 @@ export class OverviewComponent
         all_commits[all_commits.length - 1].commitDate
       );
 
-      g.select("path").attr(
-        "d",
-        this.getCommitGroupPathD(
-          all_commits[0],
-          all_commits[all_commits.length - 1]
+      g.select("path")
+        .attr(
+          "d",
+          this.getCommitGroupPathD(
+            all_commits[0],
+            all_commits[all_commits.length - 1]
+          )
         )
-      );
+        .attr("fill", all_commits[all_commits.length - 1].color.color);
 
       g.attr("group_range", Math.max(spacing, g.attr("group_range") || 0));
       g.attr("transform", `translate(${begin_x}, 0)`);
@@ -1144,19 +1275,26 @@ export class OverviewComponent
   }
 
   refreshElementState() {
+    const containerRect = (d3.select(".chart-container") as any)
+      .node()
+      .getBoundingClientRect();
+    // const scrollY = (d3.select(".chart-container") as any).node().scrollTop;
     const overview = this;
 
-    overview.repositories_g.forEach((repo_g) => {
+    overview.repositories_g.forEach((repo_g, i: number) => {
       repo_g.selectAll(".commit").each(function () {
         let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
-        let commits = g.datum();
 
-        let min_x = overview.xScaledTimeZoned(commits[0].commitDate);
-        let max_x = overview.xScaledTimeZoned(
-          commits[commits.length - 1].commitDate
-        );
+        let node = repo_g.node();
+        let nodeRect = (node as any).getBoundingClientRect();
 
-        g.classed("hidden", min_x < 0 || max_x >= overview.width);
+        const nodeVisible =
+          nodeRect.right >= containerRect.left &&
+          nodeRect.left <= containerRect.right &&
+          nodeRect.bottom >= containerRect.top &&
+          nodeRect.top <= containerRect.bottom;
+
+        g.classed("hidden", !nodeVisible);
       });
 
       repo_g
@@ -1174,7 +1312,7 @@ export class OverviewComponent
         );
     });
 
-    this.data_g.selectAll(".milestone").each(function (m: Milestone) {
+    this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
       let g = d3.select(this);
       let x = overview.xScaledTimeZoned(m.date);
       g.classed("hidden", x < 0 || x > overview.width);
@@ -1215,7 +1353,7 @@ export class OverviewComponent
           overview.xScaledTimeZoned(s.startDate)
       );
 
-    this.data_g
+    this.chart_abs_g
       .selectAll(".milestone")
       .attr(
         "transform",

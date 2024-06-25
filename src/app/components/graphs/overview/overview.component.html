@@ -163,14 +163,25 @@
     </button>
   </div>
 </div>
-<div class="chart-container"></div>
-<div *ngIf="hovered_commit != null" id="commit_hover">
+<div style="position: relative">
+  <div class="chart-container-absolute"></div>
+  <div style="padding: 30px 0px">
+    <div class="chart-container"></div>
+  </div>
+</div>
+<div
+  *ngIf="hovered_commit != null && hovered_group_commit == null"
+  id="commit_hover"
+>
   <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>
   <p>{{ hovered_commit.message }}</p>
   <p style="margin: 10px"></p>
   <p>{{ hovered_commit.author }}</p>
 </div>
-<div *ngIf="hovered_group_commit != null" id="commit_group_hover">
+<div
+  *ngIf="hovered_group_commit != null && hovered_commit == null"
+  id="commit_group_hover"
+>
   <div *ngIf="hovered_group_commit[hovered_group_commit.length - 1].isCloture">
     <p>{{ hovered_group_commit[hovered_group_commit.length - 1].message }}</p>
     <p style="margin: 10px"></p>

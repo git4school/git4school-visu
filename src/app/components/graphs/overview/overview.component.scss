@@ -4,6 +4,19 @@
   max-height: 600px;
   vertical-align: top;
   overflow: auto;
+  overscroll-behavior: none;
+}
+
+.chart-container-absolute{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  min-height: 0px;
+  max-height: 660px;
+  vertical-align: top;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 .chart-container:focus {
