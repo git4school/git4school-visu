@@ -13,6 +13,22 @@ export class Utils {
 
   static readonly SLIDER_STEP = 86400000;
   static readonly OVERVIEW_NAME_LENGTH_LIMIT = 20;
+  static readonly COMMIT_FUSE_RANGE = 5;
+  static readonly COMMIT_DATE_FORMAT = (date: Date) => {
+    const options: Intl.NumberFormatOptions = {
+      useGrouping: false,
+      minimumIntegerDigits: 2,
+    };
+
+    let year = date.getFullYear().toLocaleString(undefined, options);
+    let month = date.getMonth().toLocaleString(undefined, options);
+    let day = date.getDate().toLocaleString(undefined, options);
+    let hour = date.getHours().toLocaleString(undefined, options);
+    let minute = date.getMinutes().toLocaleString(undefined, options);
+    let seconds = date.getSeconds().toLocaleString(undefined, options);
+
+    return `${day}/${month}/${year} ${hour}:${minute}:${seconds}`;
+  };
 
   static getTimeFromDate(date: Date) {
     return date
