@@ -76,6 +76,10 @@ text.repo_name {
   background-color: black;
 }
 
+.milestone {
+  pointer-events: all;
+}
+
 .milestone > .milestone_label {
   border-radius: 10;
 }
