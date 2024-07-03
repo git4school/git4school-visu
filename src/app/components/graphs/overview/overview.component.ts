@@ -67,10 +67,10 @@ export class OverviewComponent
   savedMilestoneModal: Milestone;
 
   // params
-  margin = { top: 0, right: 30, bottom: 80, left: 250 };
-  margin_abs = { top: 30, right: 30, bottom: 80, left: 250 };
-  width = 1800 - this.margin.left - this.margin.right;
-  height = 200 - this.margin.top - this.margin.bottom;
+  inner_margin;
+  margin_abs;
+  width;
+  height;
   maxZoom: number;
 
   // svg components
@@ -111,6 +111,11 @@ export class OverviewComponent
   chart_abs_g: d3.Selection<SVGGElement, any, any, any>;
   svg_abs: d3.Selection<any, unknown, HTMLElement, any>;
   real_height: number;
+  chart_width: number;
+  repo_spacing: number;
+  inner_width: number;
+  inner_height: number;
+  scrollable_height: number;
   ////////////////////////
 
   constructor(
@@ -142,92 +147,47 @@ export class OverviewComponent
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
+  getDisplayedRepositories(): Repository[] {
+    return this.dataService.repositories.filter(
+      (repository) =>
+        !this.dataService.groupFilter ||
+        repository.tpGroup === this.dataService.groupFilter
+    );
+  }
+
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
 
+  updateVariableFromCss(): void {
+    let chart_div = document.getElementById("chart");
+
+    var style = getComputedStyle(chart_div);
+
+    var css_var_number = (name: string, dash = true) =>
+      Number.parseInt(style.getPropertyValue((dash ? "--" : "") + name));
+
+    let rect = chart_div.getBoundingClientRect();
+    this.width = rect.width;
+    this.height = rect.height;
+
+    this.chart_width = Math.min(
+      (css_var_number("chart-width-left-spacing-ratio") * this.width) / 100,
+      this.width - css_var_number("chart-width-max-left-spacing")
+    );
+
+    this.inner_margin = {
+      top: css_var_number("top-inner"),
+      bottom: css_var_number("bottom-inner"),
+    };
+
+    this.inner_width = this.width;
+    this.inner_height =
+      this.height - this.inner_margin.top - this.inner_margin.bottom;
+
+    this.repo_spacing = css_var_number("repo-space");
+  }
+
   ngAfterViewInit(): void {
-    this.height += this.dataService.repositories.length * 35;
-    this.real_height = Math.min(570, this.height);
-
-    this.svg = d3
-      .select(".chart-container")
-      .append("svg")
-      .attr(
-        "viewBox",
-        `0 0 ${this.width + this.margin.left + this.margin.right} ${
-          this.height + this.margin.top + this.margin.right
-        }`
-      );
-
-    this.svg_abs = d3
-      .select(".chart-container-absolute")
-      .append("svg")
-      .attr(
-        "viewBox",
-        `0 0 ${this.width + this.margin_abs.left + this.margin_abs.right} ${
-          Math.min(600, this.height) + 2 * 30 /*padding*/
-        } `
-      );
-
-    const overview = this;
-
-    this.chart_svg = this.svg
-      .append("g")
-      .attr(
-        "transform",
-        "translate(" + this.margin.left + "," + this.margin.top + ")"
-      );
-
-    this.data_g = this.chart_svg.append("g");
-
-    this.chart_abs_g = this.svg_abs
-      .append("g")
-      .attr(
-        "transform",
-        "translate(" + this.margin_abs.left + "," + this.margin_abs.top + ")"
-      );
-
-    this.data_g
-      .append("rect")
-      .attr("id", "data")
-      .attr("width", this.width)
-      .attr("height", this.height)
-      .attr("opacity", "0")
-      .on("click", (event: MouseEvent) => {
-        event.stopPropagation();
-        var rect = (event.target as any).getBoundingClientRect();
-        var x =
-          ((event.clientX - rect.left) / (rect.right - rect.left)) *
-          overview.width; //x position within the element.
-        let rawDate = overview.x_scale_copy.invert(x);
-        this.openContextMenu(x, event.pageY, rawDate);
-      });
-
-    d3.select(".chart-container")
-      .on("mousemove", function (e) {
-        overview.refreshTooltip(e.clientX, e.clientY);
-      })
-      .on("scroll", (e) => {
-        overview.refreshTooltip(e.clientX, e.clientY);
-        overview.refreshElementState();
-      })
-      .attr("tabindex", "0")
-      .attr("focusable", "true")
-      .on("keypress", (event) => {
-        if (event.keyCode === 32) {
-          this.resetZoom(false);
-        }
-      });
-
-    this.clip = this.chart_svg
-      .append("defs")
-      .append("svg:clipPath")
-      .attr("id", "clip")
-      .append("svg:rect")
-      .attr("width", this.width)
-      .attr("height", 2 * this.height)
-      .attr("fill", "black")
-      .attr("x", 0)
-      .attr("y", -this.height);
+    this.refresh();
 
     setTimeout(() => {
       if (this.dataService.repoToLoad) {
@@ -334,74 +294,53 @@ export class OverviewComponent
     this.resetZoom(true);
   }
 
-  loadGraphDataAndRefresh() {
-    this.margin = { top: 0, right: 30, bottom: 80, left: 250 };
-    this.margin_abs = { top: 30, right: 30, bottom: 80, left: 250 };
-    this.width = 1800 - this.margin.left - this.margin.right;
-    this.height = 200 - this.margin.top - this.margin.bottom;
-
-    const repositories: Repository[] = this.dataService.repositories.filter(
-      (repository) =>
-        !this.dataService.groupFilter ||
-        repository.tpGroup === this.dataService.groupFilter
+  refresh() {
+    this.updateVariableFromCss();
+    this.scrollable_height = Math.max(
+      this.height - this.inner_margin.top - this.inner_margin.bottom,
+      this.getDisplayedRepositories().length * this.repo_spacing
     );
 
-    this.height += repositories.length * 35;
-    this.real_height = Math.min(570, this.height);
-
-    this.svg.remove();
+    d3.select(window).on("resize", () => this.loadGraphDataAndRefresh());
 
     this.svg = d3
       .select(".chart-container")
       .append("svg")
-      .attr(
-        "viewBox",
-        `0 0 ${this.width + this.margin.left + this.margin.right} ${
-          this.height + this.margin.top + this.margin.right
-        }`
-      );
+      .attr("preserveAspectRatio", "none")
+      .attr("viewBox", `0 0 ${this.width} ${this.scrollable_height}`);
 
-    this.svg_abs.remove();
     this.svg_abs = d3
       .select(".chart-container-absolute")
       .append("svg")
-      .attr(
-        "viewBox",
-        `0 0 ${this.width + this.margin_abs.left + this.margin_abs.right} ${
-          Math.min(600, this.height) + 2 * 30 /*padding*/
-        } `
-      );
+      .attr("preserveAspectRatio", "none")
+      .attr("viewBox", `0 0 ${this.width} ${this.height}`);
 
     const overview = this;
 
+    const translation = [this.width - this.chart_width, 0];
+
     this.chart_svg = this.svg
       .append("g")
-      .attr(
-        "transform",
-        "translate(" + this.margin.left + "," + this.margin.top + ")"
-      );
+      .attr("transform", "translate(" + translation + ")");
 
     this.data_g = this.chart_svg.append("g");
 
     this.chart_abs_g = this.svg_abs
       .append("g")
-      .attr(
-        "transform",
-        "translate(" + this.margin_abs.left + "," + this.margin_abs.top + ")"
-      );
+      .attr("transform", "translate(" + translation + ")");
 
     this.data_g
       .append("rect")
       .attr("id", "data")
-      .attr("width", this.width)
-      .attr("height", this.height)
+      .attr("width", this.inner_width)
+      .attr("height", this.inner_height)
       .attr("opacity", "0")
       .on("click", (event: MouseEvent) => {
         event.stopPropagation();
         var rect = (event.target as any).getBoundingClientRect();
         var x =
           ((event.clientX - rect.left) / (rect.right - rect.left)) *
-          overview.width; //x position within the element.
+          overview.inner_width; //x position within the element.
         let rawDate = overview.x_scale_copy.invert(x);
         this.openContextMenu(x, event.pageY, rawDate);
       });
@@ -425,10 +364,17 @@ export class OverviewComponent
       .attr("id", "clip")
       .append("svg:rect")
       .attr("width", this.width)
-      .attr("height", 2 * this.height)
+      .attr("height", 2 * this.scrollable_height)
       .attr("fill", "black")
       .attr("x", 0)
-      .attr("y", -this.height);
+      .attr("y", -this.scrollable_height);
+  }
+
+  loadGraphDataAndRefresh() {
+    this.svg.remove();
+    this.svg_abs.remove();
+
+    this.refresh();
 
     this.loadGraphData();
   }
@@ -626,8 +572,8 @@ export class OverviewComponent
       .attr("class", "session")
       .attr("clip-path", "url(#clip)")
       .attr("x", this.xScaledTimeZoned(session.startDate))
-      .attr("height", this.height)
-      .attr("y", 0)
+      .attr("height", 100)
+      .attr("y", this.inner_margin.bottom + this.inner_height)
       .attr(
         "width",
         this.xScaledTimeZoned(session.endDate) -
@@ -679,13 +625,13 @@ export class OverviewComponent
     g.append("rect")
       // .attr("clip-path", "url(#clip)")
       .attr("x", 0)
-      .attr("width", 1)
       .attr("y", 0)
-      .attr("transform", "translate(" + [-1, 0] + ")")
-      .attr("height", 100000);
+      .attr("width", 1)
+      .attr("height", this.inner_height)
+      .attr("transform", "translate(" + [-1, 0] + ")");
 
     // Box
-    let box = g.append("rect").attr("y", 20);
+    let box = g.append("rect").attr("y", 0);
 
     // Text
     let text = g
@@ -709,7 +655,7 @@ export class OverviewComponent
     let x = this.xScaledTimeZoned(m.date);
 
     return g
-      .attr("transform", `translate(${x}, 0)`)
+      .attr("transform", `translate(${x}, ${this.inner_margin.top})`)
       .call((g) => g.classed("hidden", x < 0 || x > overview.width))
       .on("click", (e, d: Milestone) => {
         e.stopPropagation();
@@ -795,7 +741,7 @@ export class OverviewComponent
     this.x_scale = d3
       .scaleTime()
       .domain([minDate, maxDate])
-      .range([0, this.width])
+      .range([0, this.inner_width])
       .nice();
 
     this.x_scale_copy = this.x_scale.copy();
@@ -803,7 +749,7 @@ export class OverviewComponent
     this.x_axis = d3
       .axisBottom(this.x_scale_copy)
       .ticks(6)
-      .tickSize(-this.real_height);
+      .tickSize(-this.inner_height);
 
     this.x_axis.tickFormat(function (d) {
       if (!(d instanceof Date)) return "";
@@ -820,13 +766,16 @@ export class OverviewComponent
 
     this.x_g = this.axis_abs_g
       .append("g")
-      .attr("transform", "translate(" + [0, this.real_height] + ")")
+      .attr(
+        "transform",
+        "translate(" + [0, this.inner_height + this.inner_margin.bottom] + ")"
+      )
       .call(this.x_axis);
 
     this.y_scale = d3
       .scaleLinear()
       .domain([0, repositories.length + 1])
-      .range([0, this.height]);
+      .range([0, this.scrollable_height]);
 
     this.y_axis = d3
       .axisLeft(this.y_scale)
@@ -848,6 +797,7 @@ export class OverviewComponent
 
     // Use custom domain
     this.axis_abs_g.selectAll(".domain").style("opacity", "0");
+    this.axis_g.selectAll(".domain").style("opacity", "0");
 
     this.axis_g
       .append("g")
@@ -856,7 +806,7 @@ export class OverviewComponent
       .attr("x1", 0)
       .attr("x2", 0)
       .attr("y1", 0)
-      .attr("y2", this.height);
+      .attr("y2", this.scrollable_height);
 
     this.axis_g
       .append("g")
@@ -864,8 +814,8 @@ export class OverviewComponent
       .append("line")
       .attr("x1", 0)
       .attr("x2", this.width)
-      .attr("y1", this.height)
-      .attr("y2", this.height);
+      .attr("y1", this.scrollable_height)
+      .attr("y2", this.scrollable_height);
   }
 
   getCommitGroupPathD(first: Commit, last: Commit) {
@@ -1120,11 +1070,7 @@ export class OverviewComponent
 
   loadPoints() {
     const overview = this;
-    const repositories: Repository[] = this.dataService.repositories.filter(
-      (repository) =>
-        !this.dataService.groupFilter ||
-        repository.tpGroup === this.dataService.groupFilter
-    );
+    const repositories: Repository[] = this.getDisplayedRepositories();
 
     if (this.repository_g != null) this.repository_g.remove();
 
@@ -1386,7 +1332,10 @@ export class OverviewComponent
       .selectAll(".milestone")
       .attr(
         "transform",
-        (m: Milestone) => `translate(${overview.xScaledTimeZoned(m.date)}, 0)`
+        (m: Milestone) =>
+          `translate(${overview.xScaledTimeZoned(m.date)}, ${
+            this.inner_margin.top
+          })`
       );
   }
 
