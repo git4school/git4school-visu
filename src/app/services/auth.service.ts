@@ -24,7 +24,11 @@ export class AuthService {
     private router: Router,
     private http: HttpClient,
     private toastService: ToastService
-  ) {}
+  ) {
+    this.signing_in_promise = new Promise((res, rej) => {
+      this.signing_in_resolve = res;
+    });
+  }
 
   /**
    * The Github access token
@@ -32,6 +36,12 @@ export class AuthService {
   token = null;
   username = null;
   loading = false;
+
+  /**
+   *
+   */
+  signing_in_promise = null;
+  signing_in_resolve = null;
 
   /**
    * Returns the Github access token, so if its value is null, it's similar to a falsy value
@@ -53,7 +63,10 @@ export class AuthService {
       .auth()
       .setPersistence(auth.Auth.Persistence.LOCAL)
       .then(() => {
-        return firebase.auth().signInWithRedirect(provider);
+        return firebase
+          .auth()
+          .signInWithPopup(provider)
+          .then((v) => this.signing_in_resolve(v));
       })
       .catch((error) => {});
   }
@@ -63,21 +76,19 @@ export class AuthService {
    * If authentication is valid, we store the Github access token
    */
   callback(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      firebase
-        .auth()
-        .getRedirectResult()
-        .then((result) => {
-          if (result.credential) {
-            this.token = result.credential["accessToken"];
-            this.username = result.additionalUserInfo.username;
-          }
-          result.user ? resolve() : reject();
-        })
-        .catch((error) => {
-          this.toastService.error("An error occured", error.message);
-        });
-    });
+    return this.signing_in_promise.then(
+      (result) => {
+        if (result == null) throw new Error("An error occured");
+
+        if (result) {
+          this.token = result.credential["accessToken"];
+          this.username = result.additionalUserInfo.username;
+        }
+      },
+      (error) => {
+        throw new Error("An error occured : " + error);
+      }
+    );
   }
 
   /**
@@ -116,7 +127,7 @@ export class AuthService {
       if (!this.isSignedIn() && user) {
         const provider = new firebase.auth.GithubAuthProvider();
         provider.addScope("repo");
-        user.reauthenticateWithRedirect(provider);
+        this.signing_in_resolve(user.reauthenticateWithPopup(provider));
       }
     });
   }
