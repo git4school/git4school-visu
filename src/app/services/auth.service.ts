@@ -6,6 +6,7 @@ import { auth } from "firebase/app";
 import "firebase/auth";
 import { Observable } from "rxjs";
 import { ToastService } from "./toast.service";
+import { passBoolean } from "protractor/built/util";
 
 /**
  * A service used to sign in and sign out from Github
@@ -24,7 +25,9 @@ export class AuthService {
     private router: Router,
     private http: HttpClient,
     private toastService: ToastService
-  ) {}
+  ) {
+
+  }
 
   /**
    * The Github access token
@@ -43,41 +46,27 @@ export class AuthService {
   }
 
   /**
-   * Redirects to Github sign in URL with firebase
+   * Open a popup to Github signin with firebase and authenticate
    */
-  signIn(): Promise<void> {
+  async signIn(): Promise<void> {
+    this.loading = true;
     const provider = new firebase.auth.GithubAuthProvider();
     provider.addScope("repo");
-
-    return firebase
-      .auth()
-      .setPersistence(auth.Auth.Persistence.LOCAL)
-      .then(() => {
-        return firebase.auth().signInWithRedirect(provider);
-      })
-      .catch((error) => {});
-  }
-
-  /**
-   * Called when Github redirects to the application after signing in.
-   * If authentication is valid, we store the Github access token
-   */
-  callback(): Promise<void> {
-    return new Promise((resolve, reject) => {
+    try {
+      await firebase.auth().setPersistence(auth.Auth.Persistence.LOCAL);
       firebase
         .auth()
-        .getRedirectResult()
+        .signInWithPopup(provider)
         .then((result) => {
-          if (result.credential) {
-            this.token = result.credential["accessToken"];
-            this.username = result.additionalUserInfo.username;
-          }
-          result.user ? resolve() : reject();
+          this.token = result.credential["accessToken"];
+          this.username = result.additionalUserInfo.username;
         })
-        .catch((error) => {
-          this.toastService.error("An error occured", error.message);
+        .finally(() => {
+          this.loading = false;
         });
-    });
+    } catch (error) {
+      this.toastService.error("An error occured", error.message);
+    }
   }
 
   /**
@@ -113,10 +102,19 @@ export class AuthService {
 
   reauthenticate() {
     firebase.auth().onAuthStateChanged((user) => {
-      if (!this.isSignedIn() && user) {
+      if (user && !this.isSignedIn()) {
+        this.loading = true;
         const provider = new firebase.auth.GithubAuthProvider();
         provider.addScope("repo");
-        user.reauthenticateWithRedirect(provider);
+        user
+          .reauthenticateWithPopup(provider)
+          .then((result) => {
+            this.token = result.credential["accessToken"];
+            this.username = result.additionalUserInfo.username;
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       }
     });
   }

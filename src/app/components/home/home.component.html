@@ -15,16 +15,16 @@
             {{ "HOME-SUBTITLE" | translate }}
           </div>
           <div class="login m-4">
-            <button class="btn btn-outline-secondary btn-lg" [disabled]="authService.loading"
-              (click)="onSignInGithub()">
-              <span *ngIf="authService.loading; else loggedOut" class="spinner-grow " role="status"
-                aria-hidden="true"></span>
-              {{ 'NAVBAR.SIGN-IN' | translate }}
-
-              <ng-template #loggedOut>
-                <i class="fab fa-github fa-lg"></i>
-              </ng-template>
+            <button *ngIf="authService.loading; else loggedOut" class="btn btn-outline-secondary btn-lg"
+              [disabled]="authService.loading" (click)="onSignInGithub()">
+              <span class="spinner-grow " role="status" aria-hidden="true"></span> {{ 'NAVBAR.SIGN-IN' | translate }}
             </button>
+            <ng-template #loggedOut>
+              <button class="btn btn-outline-secondary btn-lg" [disabled]="authService.loading"
+                (click)="onSignInGithub()">
+                <i class="fab fa-github fa-lg"></i> {{ 'NAVBAR.SIGN-IN' | translate }}
+              </button>
+            </ng-template>
           </div>
         </div>
 
