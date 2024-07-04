@@ -47,21 +47,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.loading = false;
     if (!this.authService.isSignedIn()) {
       this.authService.reauthenticate();
-      this.authService.loading = true;
-      this.authService
-        .callback()
-        .then(
-          () => {
-            this.authService.loading = false;
-            this.router.navigate(["overview"]);
-          },
-          () => {
-            this.authService.loading = false;
-          }
-        )
-        .catch(() => {
-          this.authService.loading = false;
-        });
     }
   }
 
