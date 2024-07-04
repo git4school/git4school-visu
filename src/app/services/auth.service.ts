@@ -27,6 +27,7 @@ export class AuthService {
   ) {
     this.signing_in_promise = new Promise((res, rej) => {
       this.signing_in_resolve = res;
+      this.signing_in_reject = rej;
     });
   }
 
@@ -42,6 +43,7 @@ export class AuthService {
    */
   signing_in_promise = null;
   signing_in_resolve = null;
+  signing_in_reject = null;
 
   /**
    * Returns the Github access token, so if its value is null, it's similar to a falsy value
@@ -78,7 +80,10 @@ export class AuthService {
   callback(): Promise<void> {
     return this.signing_in_promise.then(
       (result) => {
-        if (result == null) throw new Error("An error occured");
+        if (result == null) {
+          this.signing_in_reject();
+          return;
+        }
 
         if (result) {
           this.token = result.credential["accessToken"];
@@ -128,6 +133,8 @@ export class AuthService {
         const provider = new firebase.auth.GithubAuthProvider();
         provider.addScope("repo");
         this.signing_in_resolve(user.reauthenticateWithPopup(provider));
+      } else {
+        this.signing_in_resolve(null);
       }
     });
   }
