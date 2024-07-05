@@ -1,8 +1,6 @@
 #chart {
-  --top-inner: 100px;
-  --bottom-inner: 100px;
-  --left-inner: 0px;
-  --right-inner: 0px;
+  --top-inner: 30px;
+  --bottom-inner: 20px;
 
   --chart-height: 100%;
 
@@ -14,9 +12,9 @@
   width: 100%;
   --chart-width-left-spacing-ratio: 90%;
   --chart-width-max-left-spacing: 50px;
-  // to change chart-with 
+  // to change chart-with
 
-  height: 600px;
+  height: 620px;
 }
 
 .chart-container {
@@ -31,9 +29,9 @@
   overscroll-behavior: none;
 }
 
-.chart-container-absolute{
+.chart-container-absolute {
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
@@ -44,7 +42,7 @@
   overflow: hidden;
 }
 
-.chart-container-absolute > svg {
+.chart-container-absolute>svg {
   position: relative;
 }
 
@@ -67,7 +65,7 @@
   user-select: none;
 }
 
-#commit_hover > p {
+#commit_hover>p {
   font-size: 10px;
   margin: 2px;
 }
@@ -76,7 +74,8 @@
   transform: translateY(-90px);
   width: fit-content;
 }
-#commit_group_hover > div {
+
+#commit_group_hover>div {
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
   font-size: 0;
@@ -85,7 +84,7 @@
 }
 
 
-#commit_group_hover > div > p {
+#commit_group_hover>div>p {
   font-size: 10px;
   margin: 2px;
 }
