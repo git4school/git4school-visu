@@ -46,7 +46,7 @@ export class Repository {
   static getFormattedName(
     last_name: string,
     first_name: string,
-    max_length: number,
+    max_length: number
   ): string {
     assert(max_length > 0);
 
@@ -83,6 +83,7 @@ export class Repository {
   }
 
   getDisplayName() {
+    if (this.name === this.getNameFromUrl()) return this.name;
     let displayName = this.name || "";
     if (displayName.length > Utils.OVERVIEW_NAME_LENGTH_LIMIT) {
       let numberOfSpace = (displayName.match(/ /g) || []).length;
@@ -94,7 +95,7 @@ export class Repository {
         displayName = Repository.getFormattedName(
           firstName,
           lastName,
-          Utils.OVERVIEW_NAME_LENGTH_LIMIT,
+          Utils.OVERVIEW_NAME_LENGTH_LIMIT
         );
       } else {
         let findLastName = displayName.match(/^([A-Z\-]+ )*/g);
@@ -102,7 +103,7 @@ export class Repository {
           displayName = Repository.getFormattedName(
             findLastName[0].trim(),
             displayName.substring(findLastName[0].length),
-            Utils.OVERVIEW_NAME_LENGTH_LIMIT,
+            Utils.OVERVIEW_NAME_LENGTH_LIMIT
           );
         } else {
           let lastspace = displayName.lastIndexOf(" ");
@@ -114,7 +115,7 @@ export class Repository {
           displayName = Repository.getFormattedName(
             lastName,
             firstName,
-            Utils.OVERVIEW_NAME_LENGTH_LIMIT,
+            Utils.OVERVIEW_NAME_LENGTH_LIMIT
           );
         }
       }
@@ -138,10 +139,7 @@ export class Repository {
 }
 
 export class Error {
-  constructor(
-    public type: ErrorType,
-    public message = "",
-  ) {}
+  constructor(public type: ErrorType, public message = "") {}
 }
 
 export const enum ErrorType {

@@ -4,6 +4,12 @@
 
 text.repo_name {
   font-size: 18px;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+text.repo_name:hover {
+  font-size: 16px;
 }
 
 .repository {

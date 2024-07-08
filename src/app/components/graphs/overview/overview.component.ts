@@ -27,6 +27,8 @@ import { Repository } from "../../../models/Repository.model";
 import { tick } from "@angular/core/testing";
 import { rejects } from "assert";
 import { Utils } from "../../../services/utils";
+import { EmotionService } from "../../../services/emotion.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "overview",
@@ -123,6 +125,8 @@ export class OverviewComponent
     private toastService: ToastService,
     public jsonManager: JsonManagerService,
     public dataService: DataService,
+    public router: Router,
+    public emotionService: EmotionService,
     protected loaderService: LoaderService,
     private modalService: NgbModal,
     protected assignmentsService: AssignmentsService
@@ -793,7 +797,11 @@ export class OverviewComponent
     this.y_g
       .selectAll(".tick")
       .selectAll("text")
-      .call((g) => g.classed("repo_name", true));
+      .call((g) => g.classed("repo_name", true))
+      .on("click", (e, d: number) => {
+        this.emotionService.selection = repositories[d - 1].getDisplayName();
+        this.router.navigate(["personal"]);
+      });
 
     // Use custom domain
     this.axis_abs_g.selectAll(".domain").style("opacity", "0");

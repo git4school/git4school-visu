@@ -167,6 +167,10 @@
   },
   "STUDENTS-COMMITS-GRAPH": {},
   "QUESTIONS-COMPLETION-GRAPH": {},
+  "PERSONAL-GRAPH": {
+    "EMOTION": "Emotion",
+    "DIFFICULTY": "Difficulté"
+  },
   "METADATA": {
     "PAGE-TITLE": "Editer les métadonnées",
     "TITLE": "Titre",
