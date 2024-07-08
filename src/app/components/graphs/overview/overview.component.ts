@@ -333,7 +333,7 @@ export class OverviewComponent
       .append("rect")
       .attr("id", "data")
       .attr("width", this.inner_width)
-      .attr("height", this.inner_height)
+      .attr("height", this.scrollable_height)
       .attr("opacity", "0")
       .on("click", (event: MouseEvent) => {
         event.stopPropagation();
@@ -342,7 +342,7 @@ export class OverviewComponent
           ((event.clientX - rect.left) / (rect.right - rect.left)) *
           overview.inner_width; //x position within the element.
         let rawDate = overview.x_scale_copy.invert(x);
-        this.openContextMenu(x, event.pageY, rawDate);
+        this.openContextMenu(event.pageX, event.pageY, rawDate);
       });
 
     d3.select(".chart-container")
@@ -1057,9 +1057,9 @@ export class OverviewComponent
     };
 
     if (spacing > 24 * 3600)
-      return `${date.getDate().toLocaleString(undefined, options)}/${date
-        .getMonth()
-        .toLocaleString(undefined, options)}/${date
+      return `${date.getDate().toLocaleString(undefined, options)}/${(
+        date.getMonth() + 1
+      ).toLocaleString(undefined, options)}/${date
         .getFullYear()
         .toLocaleString(undefined, options)}`;
     else
