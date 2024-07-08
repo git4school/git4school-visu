@@ -11,6 +11,7 @@ import { HomeNavLayoutComponent } from "@components/nav-layouts/home-nav-layout/
 import { AuthGuard } from "@guards/auth.guard";
 import { DataLoadingGuard } from "@guards/data-loading.guard";
 import { DataProvidedGuard } from "@guards/data-provided.guard";
+import { PersonalComponent } from "./components/graphs/personal/personal.component";
 
 const HOME_ROUTES: Routes = [
   { path: "home", component: HomeComponent },
@@ -33,6 +34,11 @@ const APP_ROUTES: Routes = [
     path: "questions-completion",
     canActivate: [AuthGuard, DataProvidedGuard],
     component: QuestionsCompletionComponent,
+  },
+  {
+    path: "personal",
+    canActivate: [AuthGuard, DataProvidedGuard],
+    component: PersonalComponent,
   },
   { path: "", redirectTo: "/home", pathMatch: "full" },
 ];

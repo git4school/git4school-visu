@@ -25,6 +25,7 @@
     "OVERVIEW": "Vue d'ensemble",
     "STUDENTS-COMMITS": "Commits des étudiants",
     "QUESTIONS-COMPLETION": "Avancement des questions",
+    "PERSONAL": "Personnel",
     "METADATA": "Métadonnées",
     "SIGN-IN": "S'identifier",
     "SIGN-OUT": "Se déconnecter",
@@ -153,13 +154,13 @@
       "CONFIRM": "Confirmer"
     },
     "REREAD-TOOLTIP": "Relire",
-    "COMMIT-TOOLTIP" : {
+    "COMMIT-TOOLTIP": {
       "BEGIN": "Début du groupe",
       "END": "Fin du groupe",
       "COMMIT_NUMBER": "Nombre de commits dans le groupe"
     }
   },
-  "COMMIT-TOOLTIP" : {
+  "COMMIT-TOOLTIP": {
     "START": "Début du groupe",
     "END": "Fin du groupe",
     "COMMIT_NUMBER": "Nombre de commits dans le groupe"

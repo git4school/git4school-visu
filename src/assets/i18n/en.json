@@ -26,6 +26,7 @@
     "OVERVIEW": "Overview",
     "STUDENTS-COMMITS": "Students commits",
     "QUESTIONS-COMPLETION": "Questions completion",
+    "PERSONAL": "Personal",
     "METADATA": "Metadata",
     "SIGN-IN": "Sign in",
     "SIGN-OUT": "Sign out",
@@ -154,7 +155,7 @@
       "QUESTIONS": "Questions"
     },
     "REREAD-TOOLTIP": "Reread",
-    "COMMIT-TOOLTIP" : {
+    "COMMIT-TOOLTIP": {
       "BEGIN": "Group begin",
       "END": "Group end",
       "COMMIT_NUMBER": "Number of commits in group"
