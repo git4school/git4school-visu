@@ -36,8 +36,12 @@ import { Utils } from "../../../services/utils";
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnDestroy {
+  static formatDay = d3.utcFormat("%d/%m/%Y");
+  static formatHour = d3.utcFormat("%H:%M");
+  static GROUP_HEIGHT = 12;
+  static CIRCLE_RADIUS = 12;
+
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
 
   minZoom: number;
@@ -104,8 +108,6 @@ export class OverviewComponent
   hovered_group_commit: Commit[];
   hovered_g: d3.Selection<any, any, any, any>;
 
-  static GROUP_HEIGHT = 12;
-  static CIRCLE_RADIUS = 12;
   brush: d3.BrushBehavior<any>;
   current_zoom: any;
   chart_abs_g: d3.Selection<SVGGElement, any, any, any>;
@@ -438,7 +440,7 @@ export class OverviewComponent
     if (!this.isContextualMenuShown()) {
       try {
         this.contextualMenu.openNew(x, y, date);
-      } catch (error) {}
+      } catch (error) { }
     } else {
       this.contextualMenu.close();
     }
@@ -577,7 +579,7 @@ export class OverviewComponent
       .attr(
         "width",
         this.xScaledTimeZoned(session.endDate) -
-          this.xScaledTimeZoned(session.startDate)
+        this.xScaledTimeZoned(session.startDate)
       )
       .on("click", (e) =>
         overview.openEditSessionContextMenu(
@@ -616,7 +618,7 @@ export class OverviewComponent
     parent: d3.Selection<any, any, any, any>,
     m: Milestone,
     class_: string,
-    index: number
+    index: number,
   ) {
     const overview = this;
     let g = parent.append("g").attr("class", class_);
@@ -826,9 +828,8 @@ export class OverviewComponent
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
         1.5 * OverviewComponent.CIRCLE_RADIUS
-      )} a ${OverviewComponent.CIRCLE_RADIUS} ${
-        OverviewComponent.CIRCLE_RADIUS
-      } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
+      )} a ${OverviewComponent.CIRCLE_RADIUS} ${OverviewComponent.CIRCLE_RADIUS
+        } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
     } else {
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
@@ -931,15 +932,14 @@ export class OverviewComponent
         spacing = Math.min(
           Math.abs(
             all_commits[j + 1].commitDate.getTime() -
-              commit.commitDate.getTime()
+            commit.commitDate.getTime()
           ),
           spacing
         );
       if (j > 0)
         spacing = Math.min(
           Math.abs(
-            all_commits[j - 1].commitDate.getTime() -
-              commit.commitDate.getTime()
+            all_commits[j - 1].commitDate.getTime() - commit.commitDate.getTime()
           ),
           spacing
         );
@@ -1014,8 +1014,8 @@ export class OverviewComponent
     return (
       !commit_before.isCloture &&
       this.xScaledTimeZoned(commit_after.commitDate) -
-        this.xScaledTimeZoned(commit_before.commitDate) <
-        Utils.COMMIT_FUSE_RANGE
+      this.xScaledTimeZoned(commit_before.commitDate) <
+      Utils.COMMIT_FUSE_RANGE
     );
   }
 
@@ -1046,9 +1046,6 @@ export class OverviewComponent
 
     return g;
   }
-
-  static formatDay = d3.utcFormat("%d/%m/%Y");
-  static formatHour = d3.utcFormat("%H:%M");
 
   static multiFormat(spacing: number, date: Date) {
     const options: Intl.NumberFormatOptions = {
@@ -1333,8 +1330,7 @@ export class OverviewComponent
       .attr(
         "transform",
         (m: Milestone) =>
-          `translate(${overview.xScaledTimeZoned(m.date)}, ${
-            this.inner_margin.top
+          `translate(${overview.xScaledTimeZoned(m.date)}, ${this.inner_margin.top
           })`
       );
   }
@@ -1350,7 +1346,7 @@ export class OverviewComponent
       .call(
         this.zoom.transform,
         (conserve ? this.current_zoom : undefined) ||
-          d3.zoomIdentity.translate(0, 0).scale(1)
+        d3.zoomIdentity.translate(0, 0).scale(1)
       );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);
