@@ -329,8 +329,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">src/app/app.component.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/app/app.component.ts:57</a></div>
                 </td>
             </tr>
 
@@ -546,21 +546,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.loading &#x3D; false;
     if (!this.authService.isSignedIn()) {
       this.authService.reauthenticate();
-      this.authService.loading &#x3D; true;
-      this.authService
-        .callback()
-        .then(
-          () &#x3D;&gt; {
-            this.authService.loading &#x3D; false;
-            this.router.navigate([&quot;overview&quot;]);
-          },
-          () &#x3D;&gt; {
-            this.authService.loading &#x3D; false;
-          }
-        )
-        .catch(() &#x3D;&gt; {
-          this.authService.loading &#x3D; false;
-        });
     }
   }
 

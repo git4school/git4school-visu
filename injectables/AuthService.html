@@ -107,15 +107,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#callback" >callback</a>
-                            </li>
-                            <li>
                                 <a href="#isSignedIn" >isSignedIn</a>
                             </li>
                             <li>
                                 <a href="#reauthenticate" >reauthenticate</a>
                             </li>
                             <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#signIn" >signIn</a>
                             </li>
                             <li>
@@ -147,7 +145,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/services/auth.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/auth.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -220,46 +218,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="callback"></a>
-                    <span class="name">
-                        <span ><b>callback</b></span>
-                        <a href="#callback"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>callback()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/app/services/auth.service.ts:65</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Called when Github redirects to the application after signing in.
-If authentication is valid, we store the Github access token</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="isSignedIn"></a>
                     <span class="name">
                         <span ><b>isSignedIn</b></span>
@@ -276,8 +234,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">src/app/services/auth.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">src/app/services/auth.service.ts:44</a></div>
                 </td>
             </tr>
 
@@ -321,8 +279,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="114"
-                            class="link-to-prism">src/app/services/auth.service.ts:114</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">src/app/services/auth.service.ts:103</a></div>
                 </td>
             </tr>
 
@@ -344,6 +302,7 @@ If authentication is valid, we store the Github access token</p>
                 <td class="col-md-4">
                     <a name="signIn"></a>
                     <span class="name">
+                        <span class="modifier">Async</span>
                         <span ><b>signIn</b></span>
                         <a href="#signIn"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -351,22 +310,23 @@ If authentication is valid, we store the Github access token</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>signIn()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>signIn()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/app/services/auth.service.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/services/auth.service.ts:51</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Redirects to Github sign in URL with firebase</p>
+                    <div class="io-description"><p>Open a popup to Github signin with firebase and authenticate</p>
 </div>
 
                     <div class="io-description">
@@ -397,8 +357,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">src/app/services/auth.service.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">src/app/services/auth.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -436,8 +396,8 @@ If authentication is valid, we store the Github access token</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">src/app/services/auth.service.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">src/app/services/auth.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -509,7 +469,7 @@ If authentication is valid, we store the Github access token</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/services/auth.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/services/auth.service.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -540,7 +500,7 @@ If authentication is valid, we store the Github access token</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/services/auth.service.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/services/auth.service.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -577,7 +537,7 @@ If authentication is valid, we store the Github access token</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/services/auth.service.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/auth.service.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -598,6 +558,7 @@ import { auth } from &quot;firebase/app&quot;;
 import &quot;firebase/auth&quot;;
 import { Observable } from &quot;rxjs&quot;;
 import { ToastService } from &quot;./toast.service&quot;;
+import { passBoolean } from &quot;protractor/built/util&quot;;
 
 /**
  * A service used to sign in and sign out from Github
@@ -616,7 +577,9 @@ export class AuthService {
     private router: Router,
     private http: HttpClient,
     private toastService: ToastService
-  ) {}
+  ) {
+
+  }
 
   /**
    * The Github access token
@@ -635,41 +598,27 @@ export class AuthService {
   }
 
   /**
-   * Redirects to Github sign in URL with firebase
+   * Open a popup to Github signin with firebase and authenticate
    */
-  signIn(): Promise&lt;void&gt; {
+  async signIn(): Promise&lt;void&gt; {
+    this.loading &#x3D; true;
     const provider &#x3D; new firebase.auth.GithubAuthProvider();
     provider.addScope(&quot;repo&quot;);
-
-    return firebase
-      .auth()
-      .setPersistence(auth.Auth.Persistence.LOCAL)
-      .then(() &#x3D;&gt; {
-        return firebase.auth().signInWithRedirect(provider);
-      })
-      .catch((error) &#x3D;&gt; {});
-  }
-
-  /**
-   * Called when Github redirects to the application after signing in.
-   * If authentication is valid, we store the Github access token
-   */
-  callback(): Promise&lt;void&gt; {
-    return new Promise((resolve, reject) &#x3D;&gt; {
+    try {
+      await firebase.auth().setPersistence(auth.Auth.Persistence.LOCAL);
       firebase
         .auth()
-        .getRedirectResult()
+        .signInWithPopup(provider)
         .then((result) &#x3D;&gt; {
-          if (result.credential) {
-            this.token &#x3D; result.credential[&quot;accessToken&quot;];
-            this.username &#x3D; result.additionalUserInfo.username;
-          }
-          result.user ? resolve() : reject();
+          this.token &#x3D; result.credential[&quot;accessToken&quot;];
+          this.username &#x3D; result.additionalUserInfo.username;
         })
-        .catch((error) &#x3D;&gt; {
-          this.toastService.error(&quot;An error occured&quot;, error.message);
+        .finally(() &#x3D;&gt; {
+          this.loading &#x3D; false;
         });
-    });
+    } catch (error) {
+      this.toastService.error(&quot;An error occured&quot;, error.message);
+    }
   }
 
   /**
@@ -705,10 +654,19 @@ export class AuthService {
 
   reauthenticate() {
     firebase.auth().onAuthStateChanged((user) &#x3D;&gt; {
-      if (!this.isSignedIn() &amp;&amp; user) {
+      if (user &amp;&amp; !this.isSignedIn()) {
+        this.loading &#x3D; true;
         const provider &#x3D; new firebase.auth.GithubAuthProvider();
         provider.addScope(&quot;repo&quot;);
-        user.reauthenticateWithRedirect(provider);
+        user
+          .reauthenticateWithPopup(provider)
+          .then((result) &#x3D;&gt; {
+            this.token &#x3D; result.credential[&quot;accessToken&quot;];
+            this.username &#x3D; result.additionalUserInfo.username;
+          })
+          .finally(() &#x3D;&gt; {
+            this.loading &#x3D; false;
+          });
       }
     });
   }
