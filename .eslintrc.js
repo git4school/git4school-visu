@@ -90,7 +90,7 @@ module.exports = {
             "off",
             "off"
         ],
-        "comma-dangle": "off",
+        "comma-dangle": ["error", "never"],
         "eol-last": "off",
         "import/no-deprecated": "warn",
         "import/order": "off",

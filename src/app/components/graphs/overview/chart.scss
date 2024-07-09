@@ -1,0 +1,98 @@
+.hidden {
+  display: none;
+}
+
+text.repo_name {
+  font-size: 18px;
+}
+
+.repository {
+  clip-path: url(#clip);
+}
+
+.tick_line {
+  stroke-width: 1px;
+  stroke: #e5e5e5;
+}
+
+.tick > line {
+  stroke-width: 1px;
+  stroke: #e5e5e5;
+}
+
+.axis > line {
+  stroke-width: 1px;
+  stroke: #e5e5e5;
+}
+
+.commit {
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.commit-cloture {
+  r: 7px;
+}
+
+.commit-normal {
+  width: 12px;
+  height: 12px;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translate(-6px, -6px) rotate(45deg);
+}
+
+.commit-normal:hover {
+  fill: white;
+  stroke: black;
+}
+
+.commit_line {
+  stroke: #999;
+  stroke-width: 2px;
+}
+
+.session {
+  stroke-width: 2px;
+  stroke: rgba(79, 195, 247, 1);
+  fill: rgba(33, 150, 243, 0.15);
+}
+
+.review {
+  stroke: blue;
+  fill: blue;
+  background-color: blue;
+}
+
+.correction {
+  stroke: red;
+  fill: red;
+  background-color: red;
+}
+
+.other {
+  stroke: black;
+  fill: black;
+  background-color: black;
+}
+
+.milestone {
+  pointer-events: auto;
+}
+
+.milestone > .milestone_label {
+  border-radius: 10;
+}
+
+.milestone > rect {
+  rx: 5px;
+  ry: 5px;
+}
+
+.milestone > text {
+  padding: 5px;
+  color: white;
+  fill: white;
+  stroke: white;
+  user-select: none;
+}

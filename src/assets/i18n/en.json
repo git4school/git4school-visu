@@ -153,7 +153,12 @@
       "CONFIRM": "Confirm",
       "QUESTIONS": "Questions"
     },
-    "REREAD-TOOLTIP": "Reread"
+    "REREAD-TOOLTIP": "Reread",
+    "COMMIT-TOOLTIP" : {
+      "BEGIN": "Group begin",
+      "END": "Group end",
+      "COMMIT_NUMBER": "Number of commits in group"
+    }
   },
   "STUDENTS-COMMITS-GRAPH": {},
   "QUESTIONS-COMPLETION-GRAPH": {},
