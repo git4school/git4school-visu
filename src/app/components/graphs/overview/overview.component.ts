@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewEncapsulation,
 } from "@angular/core";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { OverviewGraphContextualMenuComponent } from "@components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
@@ -18,24 +19,30 @@ import { DataService } from "@services/data.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
-import { BaseChartDirective } from "ng2-charts";
-import { Subscription } from "rxjs";
+import { Subscription, concat } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
+
+import * as d3 from "d3";
+import { Repository } from "../../../models/Repository.model";
+import { tick } from "@angular/core/testing";
+import { rejects } from "assert";
+import { Utils } from "../../../services/utils";
+import { EmotionService } from "../../../services/emotion.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "overview",
   templateUrl: "./overview.component.html",
-  styleUrls: ["./overview.component.scss"],
+  styleUrls: ["./overview.component.scss", "./chart.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class OverviewComponent
   extends BaseGraphComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  @ViewChild(BaseChartDirective, { static: true }) myChart;
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
 
   minZoom: number;
-  maxZoom: number;
 
   contextualMenuShown: boolean;
 
@@ -60,128 +67,71 @@ export class OverviewComponent
   typeModal: string;
   addModal: boolean;
   savedMilestoneModal: Milestone;
-  ////////////////////////
 
-  chartOptions = {
-    responsive: true,
-    aspectRatio: 2.4,
-    animation: {
-      duration: 0,
-    },
-    responsiveAnimationDuration: 0,
-    hover: {
-      mode: "nearest",
-      intersec: true,
-      animationDuration: 0,
-    },
-    interaction: {
-      mode: "nearest",
-    },
-    tooltips: {
-      callbacks: {
-        label(tooltipItem, data) {
-          return "";
-        },
-        beforeBody(tooltipItem, data) {
-          const commit =
-            data.datasets[tooltipItem[0].datasetIndex].data[
-              tooltipItem[0].index
-            ].commit;
-          return commit.message + "\n\n" + commit.author;
-        },
-      },
-      displayColors: false,
-    },
-    elements: {
-      line: {
-        fill: false,
-        borderWidth: 2,
-        tension: 0,
-      },
-      point: {
-        hitRadius: 8,
-        radius: 6,
-      },
-    },
-    scales: {
-      xAxes: [
-        {
-          offset: true,
-          type: "time",
-          time: {
-            unit: this.unit,
-            tooltipFormat: "DD/MM/YY HH:mm",
-            displayFormats: {
-              day: "DD/MM/YY",
-              week: "DD/MM/YY",
-              hour: "kk:mm",
-            },
-          },
-        },
-      ],
-      yAxes: [
-        {
-          type: "category",
-          labels: [],
-          offset: true,
-        },
-      ],
-    },
-    annotation: {
-      drawTime: "beforeDatasetsDraw",
-      events: ["click", "enter", "leave"],
-      annotations: [],
-    },
-    plugins: {
-      zoom: {
-        pan: {
-          enabled: false,
-          mode: "x",
-          onPan: ({ chart }) => {
-            this.saveMinMaxZoom(
-              chart.scales["x-axis-0"].min,
-              chart.scales["x-axis-0"].max
-            );
-          },
-        },
-        zoom: {
-          enabled: true,
-          drag: {
-            borderColor: "rgba(225,225,225,0.3)",
-            borderWidth: 5,
-            backgroundColor: "rgb(225,225,225)",
-          },
-          mode: "x",
-          speed: 0.3,
-          onZoom: ({ chart }) => {
-            this.saveMinMaxZoom(
-              chart.scales["x-axis-0"].min,
-              chart.scales["x-axis-0"].max
-            );
-            this.adaptScaleWithChart(chart);
-          },
-        },
-      },
-    },
-  };
+  // params
+  inner_margin;
+  margin_abs;
+  width;
+  height;
+  maxZoom: number;
+
+  // svg components
+  svg: d3.Selection<any, any, any, any>;
+  scrollable: d3.Selection<any, any, any, any>;
+  chart_svg: d3.Selection<any, any, any, any>;
+  x_g: d3.Selection<SVGGElement, any, any, any>;
+  y_g: d3.Selection<SVGGElement, any, any, any>;
+  repository_g: d3.Selection<any, any, any, any>;
+  repositories_g: d3.Selection<any, Repository, any, any>[];
+  axis_g: d3.Selection<SVGGElement, any, any, any>;
+  axis_abs_g: d3.Selection<SVGGElement, any, any, any>;
+  other_g: d3.Selection<any, any, any, any>;
+  session_g: d3.Selection<any, any, any, any>;
+  review_g: d3.Selection<any, any, any, any>;
+  correction_g: d3.Selection<any, any, any, any>;
+  commits_line_g: d3.Selection<any, any, any, any>;
+  data_g: d3.Selection<any, any, any, any>;
+  commits_g: d3.Selection<any, any, any, any>;
+
+  x_scale: d3.ScaleTime<any, any, any>;
+  x_scale_copy: d3.ScaleTime<any, any, any>; // Used by zooming
+  x_axis: d3.Axis<Date | d3.NumberValue>;
+  y_scale: d3.ScaleLinear<any, any, any>;
+  y_axis: d3.Axis<d3.NumberValue>;
+
+  clip: d3.Selection<any, any, any, any>;
+  zoom: d3.ZoomBehavior<any, any>;
+
+  hovered_commit: Commit;
+  hovered_group_commit: Commit[];
+  hovered_g: d3.Selection<any, any, any, any>;
+
+  static GROUP_HEIGHT = 12;
+  static CIRCLE_RADIUS = 12;
+  brush: d3.BrushBehavior<any>;
+  current_zoom: any;
+  chart_abs_g: d3.Selection<SVGGElement, any, any, any>;
+  svg_abs: d3.Selection<any, unknown, HTMLElement, any>;
+  real_height: number;
+  chart_width: number;
+  repo_spacing: number;
+  inner_width: number;
+  inner_height: number;
+  scrollable_height: number;
+  ////////////////////////
 
   constructor(
     private translateService: TranslateService,
     private toastService: ToastService,
     public jsonManager: JsonManagerService,
     public dataService: DataService,
+    public router: Router,
+    public emotionService: EmotionService,
     protected loaderService: LoaderService,
     private modalService: NgbModal,
     protected assignmentsService: AssignmentsService
   ) {
     super(loaderService, assignmentsService, dataService);
-  }
-
-  @HostListener("window:keyup", ["$event"])
-  keyEvent(event: KeyboardEvent) {
-    if (event.keyCode === 32) {
-      this.resetZoom();
-    }
   }
 
   ngOnInit(): void {
@@ -201,7 +151,48 @@ export class OverviewComponent
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
+  getDisplayedRepositories(): Repository[] {
+    return this.dataService.repositories.filter(
+      (repository) =>
+        !this.dataService.groupFilter ||
+        repository.tpGroup === this.dataService.groupFilter
+    );
+  }
+
+  commit_date_format = Utils.COMMIT_DATE_FORMAT;
+
+  updateVariableFromCss(): void {
+    let chart_div = document.getElementById("chart");
+
+    var style = getComputedStyle(chart_div);
+
+    var css_var_number = (name: string, dash = true) =>
+      Number.parseInt(style.getPropertyValue((dash ? "--" : "") + name));
+
+    let rect = chart_div.getBoundingClientRect();
+    this.width = rect.width;
+    this.height = rect.height;
+
+    this.chart_width = Math.min(
+      (css_var_number("chart-width-left-spacing-ratio") * this.width) / 100,
+      this.width - css_var_number("chart-width-max-left-spacing")
+    );
+
+    this.inner_margin = {
+      top: css_var_number("top-inner"),
+      bottom: css_var_number("bottom-inner"),
+    };
+
+    this.inner_width = this.width;
+    this.inner_height =
+      this.height - this.inner_margin.top - this.inner_margin.bottom;
+
+    this.repo_spacing = css_var_number("repo-space");
+  }
+
   ngAfterViewInit(): void {
+    this.refresh();
+
     setTimeout(() => {
       if (this.dataService.repoToLoad) {
         this.loadGraph(this.dataService.startDate, this.dataService.endDate);
@@ -216,6 +207,8 @@ export class OverviewComponent
 
         this.loading = false;
       }
+
+      this.refreshElementState();
     });
   }
 
@@ -245,36 +238,179 @@ export class OverviewComponent
     }
   }
 
+  refreshTooltip(x?: number, y?: number) {
+    if (x == null || y == null) {
+      return;
+    }
+    var tooltip = document.getElementById("tooltip");
+    if (tooltip == null) {
+      return;
+    }
+
+    tooltip.style.top = y + 20 + "px";
+    tooltip.style.left = x + 20 + "px";
+
+    if (this.hovered_g) {
+      if (this.hovered_g.select(":hover").empty()) {
+        this.hovered_commit = undefined;
+        this.hovered_group_commit = undefined;
+        this.hovered_g = null;
+      }
+    }
+  }
+
   loadGraphData() {
     this.loadAnnotations();
     this.loadPoints();
-    setTimeout(() => {
-      this.adaptScaleWithChart(this.myChart.chart);
-    });
+    this.setupZoom();
+  }
+
+  setupZoom() {
+    const overview = this;
+    this.zoom = d3
+      .zoom()
+      .on("zoom", (event) => {
+        if (overview.drag) {
+          return;
+        }
+
+        if (event.sourceEvent != null) {
+          overview.refreshTooltip(
+            event.sourceEvent.clientX,
+            event.sourceEvent.clientY
+          );
+        }
+
+        overview.current_zoom = event.transform;
+        overview.x_scale_copy = overview.current_zoom.rescaleX(
+          overview.x_scale
+        );
+        overview.x_g.call(this.x_axis.scale(overview.x_scale_copy));
+        overview.refreshElementState();
+      })
+      .filter((event) => {
+        return event.shiftKey || !(event instanceof WheelEvent);
+      })
+      .scaleExtent([0.5, overview.maxZoom]);
+
+    this.data_g = this.data_g.call(this.zoom).on("dblclick.zoom", null);
+
+    this.resetZoom(true);
+  }
+
+  refresh() {
+    this.updateVariableFromCss();
+    this.scrollable_height = Math.max(
+      this.height - this.inner_margin.top - this.inner_margin.bottom,
+      this.getDisplayedRepositories().length * this.repo_spacing
+    );
+
+    d3.select(window).on("resize", () => this.loadGraphDataAndRefresh());
+
+    this.svg = d3
+      .select(".chart-container")
+      .append("svg")
+      .attr("preserveAspectRatio", "none")
+      .attr("viewBox", `0 0 ${this.width} ${this.scrollable_height}`);
+
+    this.svg_abs = d3
+      .select(".chart-container-absolute")
+      .append("svg")
+      .attr("preserveAspectRatio", "none")
+      .attr("viewBox", `0 0 ${this.width} ${this.height}`);
+
+    const overview = this;
+
+    const translation = [this.width - this.chart_width, 0];
+
+    this.chart_svg = this.svg
+      .append("g")
+      .attr("transform", "translate(" + translation + ")");
+
+    this.data_g = this.chart_svg.append("g");
+
+    this.chart_abs_g = this.svg_abs
+      .append("g")
+      .attr("transform", "translate(" + translation + ")");
+
+    this.data_g
+      .append("rect")
+      .attr("id", "data")
+      .attr("width", this.inner_width)
+      .attr("height", this.scrollable_height)
+      .attr("opacity", "0")
+      .on("click", (event: MouseEvent) => {
+        event.stopPropagation();
+        var rect = (event.target as any).getBoundingClientRect();
+        var x =
+          ((event.clientX - rect.left) / (rect.right - rect.left)) *
+          overview.inner_width; //x position within the element.
+        let rawDate = overview.x_scale_copy.invert(x);
+        this.openContextMenu(event.pageX, event.pageY, rawDate);
+      });
+
+    d3.select(".chart-container")
+      .on("mousemove", function (e) {
+        overview.refreshTooltip(e.clientX, e.clientY);
+      })
+      .on("scroll", () => this.refreshElementState())
+      .attr("tabindex", "0")
+      .attr("focusable", "true")
+      .on("keypress", (event) => {
+        if (event.keyCode === 32) {
+          this.resetZoom(false);
+        }
+      });
+
+    this.clip = this.chart_svg
+      .append("defs")
+      .append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", this.width)
+      .attr("height", 2 * this.scrollable_height)
+      .attr("fill", "black")
+      .attr("x", 0)
+      .attr("y", -this.scrollable_height);
   }
 
   loadGraphDataAndRefresh() {
+    this.svg.remove();
+    this.svg_abs.remove();
+
+    this.refresh();
+
     this.loadGraphData();
-    this.refreshGraph();
-    this.adaptScaleWithChart(this.myChart.chart);
   }
 
   loadAnnotations() {
-    this.chartOptions.annotation.annotations = [];
+    let milestone_filter = (review: Milestone) =>
+      (!this.dataService.groupFilter ||
+        !review.tpGroup ||
+        review.tpGroup === this.dataService.groupFilter) &&
+      (!this.searchFilter.length ||
+        this.searchFilter.filter((question) =>
+          review.questions?.includes(question)
+        ).length);
+
+    if (this.session_g != null) this.session_g.remove();
+    if (this.review_g != null) this.session_g.remove();
+    if (this.correction_g != null) this.session_g.remove();
+    if (this.other_g != null) this.session_g.remove();
     if (this.dataService.sessions && this.showSessions) {
       this.loadSessions();
     }
 
     if (this.dataService.reviews && this.showReviews) {
-      this.loadReviews();
+      this.loadReviews(milestone_filter);
     }
 
     if (this.dataService.corrections && this.showCorrections) {
-      this.loadCorrections();
+      this.loadCorrections(milestone_filter);
     }
 
     if (this.dataService.others && this.showOthers) {
-      this.loadOthers();
+      this.loadOthers(milestone_filter);
     }
   }
 
@@ -304,7 +440,11 @@ export class OverviewComponent
 
   openContextMenu(x: number, y: number, date: Date) {
     if (!this.isContextualMenuShown()) {
-      this.contextualMenu.openNew(x, y, date);
+      try {
+        this.contextualMenu.openNew(x, y, date);
+      } catch (error) {}
+    } else {
+      this.contextualMenu.close();
     }
   }
 
@@ -429,307 +569,803 @@ export class OverviewComponent
     );
   }
 
+  getRectForSession(g: d3.Selection<any, any, any, any>, session: Session) {
+    const overview = this;
+    g.append("rect")
+      .datum(session)
+      .attr("class", "session")
+      .attr("clip-path", "url(#clip)")
+      .attr("x", this.xScaledTimeZoned(session.startDate))
+      .attr("height", 100)
+      .attr("y", this.inner_margin.bottom + this.inner_height)
+      .attr(
+        "width",
+        this.xScaledTimeZoned(session.endDate) -
+          this.xScaledTimeZoned(session.startDate)
+      )
+      .on("click", (e) =>
+        overview.openEditSessionContextMenu(
+          session,
+          e.pageX,
+          e.pageY,
+          overview.x_scale.invert(e.pageX)
+        )
+      );
+  }
+
   loadSessions() {
-    let me = this;
-    this.dataService.sessions
-      .filter(
-        (session) =>
-          !this.dataService.groupFilter ||
-          !session.tpGroup ||
-          session.tpGroup === this.dataService.groupFilter
-      )
-      .forEach((session) => {
-        this.chartOptions.annotation.annotations.push({
-          type: "box",
-          xScaleID: "x-axis-0",
-          yScaleID: "y-axis-0",
-          xMin: session.startDate,
-          xMax: session.endDate,
-          borderColor: "rgba(79, 195, 247,1.0)",
-          borderWidth: 2,
-          backgroundColor: "rgba(33, 150, 243, 0.15)",
-          onClick: function (e) {
-            const rawDate = me.getDateFromEvent(e);
-            me.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
-          },
+    let loaded_sessions: Session[] = this.dataService.sessions.filter(
+      (session) =>
+        !this.dataService.groupFilter ||
+        !session.tpGroup ||
+        session.tpGroup === this.dataService.groupFilter
+    );
+
+    this.session_g = this.chart_abs_g.append("g");
+
+    const overview = this;
+
+    setTimeout(() => {
+      this.session_g
+        .selectAll(".session")
+        .data(loaded_sessions)
+        .enter()
+        .each(function (d: Session) {
+          overview.getRectForSession(d3.select(this), d);
         });
+    });
+  }
+
+  getLineForMilestone(
+    parent: d3.Selection<any, any, any, any>,
+    m: Milestone,
+    class_: string,
+    index: number
+  ) {
+    const overview = this;
+    let g = parent.append("g").attr("class", class_);
+
+    // Line
+    g.append("rect")
+      // .attr("clip-path", "url(#clip)")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", 1)
+      .attr("height", this.inner_height)
+      .attr("transform", "translate(" + [-1, 0] + ")");
+
+    // Box
+    let box = g.append("rect").attr("y", 0);
+
+    // Text
+    let text = g
+      .append("text")
+      .attr("y", -8)
+      .text(m.label || m.type.substring(0, m.type.length - 1) + " " + index)
+      .attr("text-anchor", "middle");
+
+    let bbox = text.node().getBBox();
+
+    bbox.width += 4;
+    bbox.height += 5;
+    bbox.x -= 2;
+    bbox.y -= 1;
+
+    box.attr("width", bbox.width);
+    box.attr("height", bbox.height);
+    box.attr("x", -bbox.width / 2);
+    box.attr("y", bbox.y);
+
+    let x = this.xScaledTimeZoned(m.date);
+
+    return g
+      .attr("transform", `translate(${x}, ${this.inner_margin.top})`)
+      .call((g) => g.classed("hidden", x < 0 || x > overview.width))
+      .on("click", (e, d: Milestone) => {
+        e.stopPropagation();
+        const rawDate = this.x_scale.invert(e.pageX);
+        overview.openEditMilestoneContextMenu(d, e.pageX, e.pageY, rawDate); //, rawDate)
       });
   }
 
-  loadReviews() {
-    let me = this;
-    this.dataService.reviews
-      .filter(
-        (review) =>
-          (!this.dataService.groupFilter ||
-            !review.tpGroup ||
-            review.tpGroup === this.dataService.groupFilter) &&
-          (!this.searchFilter.length ||
-            this.searchFilter.filter((question) =>
-              review.questions?.includes(question)
-            ).length)
-      )
-      .forEach((review, index) => {
-        this.chartOptions.annotation.annotations.push({
-          type: "line",
-          mode: "vertical",
-          scaleID: "x-axis-0",
-          value: review.date,
-          borderColor: "blue",
-          borderWidth: 1,
-          label: {
-            content: review.label || "Review " + (index + 1),
-            enabled: true,
-            position: "top",
-          },
-          onClick: function (e) {
-            const rawDate = me.getDateFromEvent(e);
-            me.openEditMilestoneContextMenu(review, e.pageX, e.pageY, rawDate);
-          },
+  loadReviews(milestone_filter: (review: Milestone) => number | boolean) {
+    let loaded_reviews = this.dataService.reviews.filter(milestone_filter);
+
+    this.review_g = this.chart_abs_g.append("g");
+
+    const overview = this;
+
+    setTimeout(() => {
+      this.review_g
+        .selectAll(".review")
+        .data(loaded_reviews)
+        .enter()
+        .each(function (d: Milestone, i) {
+          overview.getLineForMilestone(
+            d3.select(this),
+            d,
+            "milestone review",
+            i
+          );
         });
-      });
+    });
   }
 
-  loadCorrections() {
-    let me = this;
-    this.dataService.corrections
-      .filter(
-        (correction) =>
-          (!this.dataService.groupFilter ||
-            !correction.tpGroup ||
-            correction.tpGroup === this.dataService.groupFilter) &&
-          (!this.searchFilter.length ||
-            this.searchFilter.filter((question) =>
-              correction.questions?.includes(question)
-            ).length)
-      )
-      .forEach((correction, index) => {
-        this.chartOptions.annotation.annotations.push({
-          type: "line",
-          mode: "vertical",
-          scaleID: "x-axis-0",
-          value: correction.date,
-          borderColor: "red",
-          borderWidth: 1,
-          label: {
-            content: correction.label || "Correction " + (index + 1),
-            enabled: true,
-            position: "top",
-          },
-          onClick: function (e) {
-            const rawDate = me.getDateFromEvent(e);
-            me.openEditMilestoneContextMenu(
-              correction,
-              e.pageX,
-              e.pageY,
-              rawDate
-            );
-          },
+  loadCorrections(milestone_filter: (review: Milestone) => number | boolean) {
+    let loaded_corrections =
+      this.dataService.corrections.filter(milestone_filter);
+
+    this.correction_g = this.chart_abs_g.append("g");
+
+    const overview = this;
+
+    setTimeout(() => {
+      this.correction_g
+        .selectAll(".correction")
+        .data(loaded_corrections)
+        .enter()
+        .each(function (d: Milestone, i) {
+          overview.getLineForMilestone(
+            d3.select(this),
+            d,
+            "milestone correction",
+            i
+          );
         });
-      });
+    });
   }
 
-  loadOthers() {
-    let me = this;
-    this.dataService.others
-      .filter(
-        (other) =>
-          (!this.dataService.groupFilter ||
-            !other.tpGroup ||
-            other.tpGroup === this.dataService.groupFilter) &&
-          (!this.searchFilter.length ||
-            this.searchFilter.filter((question) =>
-              other.questions?.includes(question)
-            ).length)
-      )
-      .forEach((other, index) => {
-        this.chartOptions.annotation.annotations.push({
-          type: "line",
-          mode: "vertical",
-          scaleID: "x-axis-0",
-          value: other.date,
-          borderColor: "black",
-          borderWidth: 1,
-          label: {
-            content: other.label || "Other " + (index + 1),
-            enabled: true,
-            position: "top",
-          },
-          onClick: function (e) {
-            const rawDate = me.getDateFromEvent(e);
-            me.openEditMilestoneContextMenu(other, e.pageX, e.pageY, rawDate);
-          },
+  loadOthers(milestone_filter: (review: Milestone) => number | boolean) {
+    let loaded_other = this.dataService.others.filter(milestone_filter);
+
+    this.other_g = this.chart_abs_g.append("g");
+
+    const overview = this;
+
+    setTimeout(() => {
+      this.other_g
+        .selectAll(".other")
+        .data(loaded_other)
+        .enter()
+        .each(function (d: Milestone, i) {
+          overview.getLineForMilestone(
+            d3.select(this),
+            d,
+            "milestone other",
+            i
+          );
         });
+    });
+  }
+
+  setupAxis(repositories: Repository[], minDate: Date, maxDate: Date) {
+    if (this.axis_g != null) this.axis_g.remove();
+    const overview = this;
+
+    this.x_scale = d3
+      .scaleTime()
+      .domain([minDate, maxDate])
+      .range([0, this.inner_width])
+      .nice();
+
+    this.x_scale_copy = this.x_scale.copy();
+
+    this.x_axis = d3
+      .axisBottom(this.x_scale_copy)
+      .ticks(6)
+      .tickSize(-this.inner_height);
+
+    this.x_axis.tickFormat(function (d) {
+      if (!(d instanceof Date)) return "";
+      let ticks = overview.x_scale_copy.ticks();
+      if (ticks[ticks.length - 1] == null || ticks[0] == null) return "";
+      let spacing =
+        (ticks[ticks.length - 1].getTime() - ticks[0].getTime()) / 1000;
+
+      return OverviewComponent.multiFormat(spacing, d);
+    });
+
+    this.axis_g = this.chart_svg.insert("g", ":first-child");
+    this.axis_abs_g = this.chart_abs_g.insert("g", ":first-child");
+
+    this.x_g = this.axis_abs_g
+      .append("g")
+      .attr(
+        "transform",
+        "translate(" + [0, this.inner_height + this.inner_margin.bottom] + ")"
+      )
+      .call(this.x_axis);
+
+    this.y_scale = d3
+      .scaleLinear()
+      .domain([0, repositories.length + 1])
+      .range([0, this.scrollable_height]);
+
+    this.y_axis = d3
+      .axisLeft(this.y_scale)
+      .tickValues([...Array(repositories.length + 1).keys()])
+      .tickFormat((d) => repositories[d.valueOf() - 1]?.name || "")
+      .tickSize(-this.width);
+
+    if (this.y_g != null) this.y_g.remove();
+    this.y_g = this.axis_g.append("g").call(this.y_axis);
+
+    // Hide the first tick use to prevent data from being placed on top of the chart
+    this.y_g.select(".tick:first-of-type").attr("opacity", "0");
+
+    // Set repo_name class
+    this.y_g
+      .selectAll(".tick")
+      .selectAll("text")
+      .call((g) => g.classed("repo_name", true))
+      .on("click", (e, d: number) => {
+        this.emotionService.selection = repositories[d - 1].getDisplayName();
+        this.router.navigate(["personal"]);
       });
+
+    // Use custom domain
+    this.axis_abs_g.selectAll(".domain").style("opacity", "0");
+    this.axis_g.selectAll(".domain").style("opacity", "0");
+
+    this.axis_g
+      .append("g")
+      .attr("class", "axis")
+      .append("line")
+      .attr("x1", 0)
+      .attr("x2", 0)
+      .attr("y1", 0)
+      .attr("y2", this.scrollable_height);
+
+    this.axis_g
+      .append("g")
+      .attr("class", "axis")
+      .append("line")
+      .attr("x1", 0)
+      .attr("x2", this.width)
+      .attr("y1", this.scrollable_height)
+      .attr("y2", this.scrollable_height);
+  }
+
+  getCommitGroupPathD(first: Commit, last: Commit) {
+    let begin_x = this.xScaledTimeZoned(first.commitDate);
+    let end_x = this.xScaledTimeZoned(last.commitDate);
+
+    if (last.isCloture) {
+      return `M 0 0 h ${Math.max(
+        end_x - begin_x,
+        1.5 * OverviewComponent.CIRCLE_RADIUS
+      )} a ${OverviewComponent.CIRCLE_RADIUS} ${
+        OverviewComponent.CIRCLE_RADIUS
+      } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
+    } else {
+      return `M 0 0 h ${Math.max(
+        end_x - begin_x,
+        1.5 * OverviewComponent.CIRCLE_RADIUS
+      )} v ${OverviewComponent.CIRCLE_RADIUS} H 0 z`;
+    }
+  }
+
+  getCommitGroupComponentFromScratch(
+    parent: d3.Selection<any, Repository, any, any>,
+    commits: Commit[]
+  ): d3.Selection<any, Commit[], any, any> {
+    let sorted = commits.sort(
+      (a, b) => a.commitDate.getTime() - b.commitDate.getTime()
+    );
+
+    let g = parent.append("g").datum(sorted);
+
+    let begin_x = this.xScaledTimeZoned(sorted[0].commitDate);
+    let end_x = this.xScaledTimeZoned(sorted[sorted.length - 1].commitDate);
+
+    g.attr("class", "commit-group commit")
+      .append("path")
+      .attr("d", this.getCommitGroupPathD(sorted[0], sorted[sorted.length - 1]))
+      .attr("transform", `translate(0, ${-OverviewComponent.GROUP_HEIGHT / 2})`)
+      .attr("fill", sorted[sorted.length - 1].color.color)
+      .attr("class", "data");
+
+    let range = 0;
+    for (let i = 0; i < commits.length - 1; i++) {
+      range = Math.max(
+        range,
+        commits[i + 1].commitDate.getTime() - commits[i].commitDate.getTime()
+      );
+    }
+
+    g.attr("group_range", range);
+    g.attr("transform", `translate(${begin_x}, 0)`)
+      .on("mouseenter", (e, d) => {
+        this.hovered_commit = undefined;
+        this.hovered_group_commit = d;
+        this.hovered_g = g;
+      })
+      .on("mouseleave", () => {
+        if (this.hovered_g === g) {
+          this.hovered_g = undefined;
+          this.hovered_group_commit = undefined;
+        }
+      });
+
+    return g;
+  }
+
+  getCommitGroupComponent(
+    parent: d3.Selection<any, Repository, any, any>,
+    group: d3.Selection<any, Commit[], any, any> | undefined,
+    commit: Commit
+  ): d3.Selection<any, any, any, any> {
+    let g;
+
+    if (group == null) {
+      let x = this.xScaledTimeZoned(commit.commitDate);
+
+      g = parent.append("g").datum([commit]);
+
+      g.attr("class", "commit-group")
+        .append("path")
+        .attr("d", this.getCommitGroupPathD(commit, commit))
+        .attr(
+          "transform",
+          `translate(0, ${-OverviewComponent.GROUP_HEIGHT / 2})`
+        )
+        .attr("fill", commit.color.color)
+        .attr("class", "data")
+        .on("mouseenter", (e, d) => (this.hovered_group_commit = d))
+        .on("mouseleave", () => {
+          this.hovered_group_commit = undefined;
+        });
+
+      g.attr("transform", `translate(${x}, 0)`);
+    } else {
+      if (group.select("path").empty()) {
+        let group_commit = group.datum()[0];
+        let before_date = group.attr("before_date");
+        let after_date = group.attr("after_date");
+        group.remove();
+        group = this.getCommitGroupComponent(parent, undefined, group_commit);
+        group.attr("before_date", before_date);
+        group.attr("after_date", after_date);
+      }
+
+      g = group;
+      let all_commits = group
+        .datum()
+        .concat(commit)
+        .sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
+      let spacing = Number.MAX_VALUE;
+      let j = all_commits.indexOf(commit);
+      if (j < all_commits.length - 1)
+        spacing = Math.min(
+          Math.abs(
+            all_commits[j + 1].commitDate.getTime() -
+              commit.commitDate.getTime()
+          ),
+          spacing
+        );
+      if (j > 0)
+        spacing = Math.min(
+          Math.abs(
+            all_commits[j - 1].commitDate.getTime() -
+              commit.commitDate.getTime()
+          ),
+          spacing
+        );
+
+      group.datum(all_commits);
+
+      let begin_x = this.xScaledTimeZoned(all_commits[0].commitDate);
+      let end_x = this.xScaledTimeZoned(
+        all_commits[all_commits.length - 1].commitDate
+      );
+
+      g.select("path")
+        .attr(
+          "d",
+          this.getCommitGroupPathD(
+            all_commits[0],
+            all_commits[all_commits.length - 1]
+          )
+        )
+        .attr("fill", all_commits[all_commits.length - 1].color.color);
+
+      g.attr("group_range", Math.max(spacing, g.attr("group_range") || 0));
+      g.attr("transform", `translate(${begin_x}, 0)`);
+    }
+
+    return g;
+  }
+
+  getCommitSimpleComponent(
+    parent: d3.Selection<any, Repository, any, any>,
+    commit: Commit
+  ): d3.Selection<any, Commit[], any, any> {
+    let g = parent.append("g").datum([commit]);
+
+    g.classed("simple-commit", true);
+
+    let x = this.xScaledTimeZoned(commit.commitDate);
+
+    let comp: d3.Selection<any, any, any, any> = g
+      .append("a")
+      .attr("href", (d) => d[0].url)
+      .attr("target", "_blank");
+
+    if (commit.isCloture) {
+      comp = comp.append("circle").attr("class", "commit-cloture");
+    } else {
+      comp = comp.append("rect").attr("class", "commit-normal");
+    }
+
+    comp.attr("fill", commit.color.color);
+    g.attr("date", (commit.commitDate as Date).getTime());
+
+    g.attr("transform", `translate(${x}, 0)`)
+      .on("mouseenter", () => {
+        this.hovered_commit = commit;
+        this.hovered_group_commit = undefined;
+        this.hovered_g = undefined;
+      })
+      .on("mouseleave", () => {
+        if (
+          this.hovered_commit &&
+          this.hovered_commit.commitDate === commit.commitDate
+        ) {
+          this.hovered_commit = undefined;
+        }
+      });
+
+    return g;
+  }
+
+  shouldGroupCommit(commit_before: Commit, commit_after: Commit): boolean {
+    return (
+      !commit_before.isCloture &&
+      this.xScaledTimeZoned(commit_after.commitDate) -
+        this.xScaledTimeZoned(commit_before.commitDate) <
+        Utils.COMMIT_FUSE_RANGE
+    );
+  }
+
+  getCommitComponent(
+    parent: d3.Selection<any, Repository, any, any>,
+    commit: Commit,
+    before: d3.Selection<any, Commit[], any, any>
+  ): d3.Selection<any, Commit[], any, any> {
+    let should_be_grouped_with_last =
+      before != null &&
+      this.shouldGroupCommit(before.datum()[before.datum().length - 1], commit);
+
+    let g: d3.Selection<any, any, any, any>;
+
+    const time = commit.commitDate.getTime();
+    if (!should_be_grouped_with_last) {
+      g = this.getCommitSimpleComponent(parent, commit);
+      if (before != null) {
+        g.attr("before_date", before.attr("end_date") || before.attr("date"));
+      }
+      g.attr("after_date", time);
+    } else {
+      g = this.getCommitGroupComponent(parent, before, commit);
+      g.attr("end_date", time);
+    }
+
+    g.classed("commit", true);
+
+    return g;
+  }
+
+  static formatDay = d3.utcFormat("%d/%m/%Y");
+  static formatHour = d3.utcFormat("%H:%M");
+
+  static multiFormat(spacing: number, date: Date) {
+    const options: Intl.NumberFormatOptions = {
+      useGrouping: false,
+      minimumIntegerDigits: 2,
+    };
+
+    if (spacing > 24 * 3600)
+      return `${date.getDate().toLocaleString(undefined, options)}/${(
+        date.getMonth() + 1
+      ).toLocaleString(undefined, options)}/${date
+        .getFullYear()
+        .toLocaleString(undefined, options)}`;
+    else
+      return `${date.getHours().toLocaleString(undefined, options)}:${date
+        .getMinutes()
+        .toLocaleString(undefined, options)}`;
   }
 
   loadPoints() {
-    const chartData = [];
-    const labels = [];
+    const overview = this;
+    const repositories: Repository[] = this.getDisplayedRepositories();
 
-    this.dataService.repositories
-      .filter(
-        (repository) =>
-          !this.dataService.groupFilter ||
-          repository.tpGroup === this.dataService.groupFilter
-      )
-      .forEach((repository) => {
-        const data = [];
-        const pointStyle = [];
-        const pointBackgroundColor = [];
-        const borderColor = "rgba(77, 77, 77, 0.5)";
-        labels.push(repository.getDisplayName());
-        repository.commits &&
-          repository.commits.forEach((commit) => {
-            if (
-              !this.searchFilter.length ||
-              this.searchFilter.includes(commit.question)
-            ) {
-              data.push({
-                x: commit.commitDate,
-                y: repository.getDisplayName(),
-                commit,
-              });
-              pointStyle.push(this.getPointStyle(commit));
-              pointBackgroundColor.push(commit.color.color);
-            }
-          });
-        chartData.push({
-          data,
-          pointStyle,
-          pointBackgroundColor,
-          borderColor,
+    if (this.repository_g != null) this.repository_g.remove();
+
+    this.repository_g = this.data_g.append("g");
+    this.repositories_g = new Array<any>(repositories.length);
+    let [minDate, maxDate] = d3.extent(
+      repositories.map((v) => v.commits).reduce((a, b) => a.concat(b), []),
+      (d) => d.commitDate
+    );
+    this.setupAxis(repositories, minDate, maxDate);
+
+    this.maxZoom = (maxDate.getTime() - minDate.getTime()) / (1000 * 60);
+
+    this.repository_g
+      .selectAll(".repository")
+      .data(repositories)
+      .enter()
+      .append("g")
+      .each(function (repository: Repository, i: number) {
+        overview.repositories_g[i] = d3.select(this);
+        overview.repositories_g[i].classed("repository", true);
+        overview.repositories_g[i]
+          .attr("repository_index", i)
+          .attr("transform", `translate(0, ${overview.y_scale(i + 1)})`);
+
+        let before = undefined;
+        let commits = repository.commits
+          .filter(
+            (commit) =>
+              !overview.searchFilter.length ||
+              overview.searchFilter.includes(commit.question)
+          )
+          .sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
+
+        let minDateTime: number, maxDateTime: number;
+
+        let lines = [];
+        let current_line: Commit | undefined = undefined;
+
+        commits.forEach((commit) => {
+          minDateTime =
+            minDateTime == null
+              ? commit.commitDate.getTime()
+              : Math.min(commit.commitDate.getTime(), minDateTime);
+          maxDateTime =
+            minDateTime == null
+              ? commit.commitDate.getTime()
+              : Math.max(commit.commitDate.getTime(), minDateTime);
+          if (commit.message === "Resume") current_line = commit;
+          else if (commit.message === "Pause" && current_line) {
+            lines.push([current_line.commitDate, commit.commitDate]);
+            current_line = undefined;
+          }
+          before = overview.getCommitComponent(d3.select(this), commit, before);
+        });
+
+        if (lines.length === 0) {
+          lines.push([new Date(minDateTime), new Date(maxDateTime)]);
+        }
+
+        lines.forEach(([d1, d2]) => {
+          overview.repositories_g[i]
+            .insert("line", ":first-child")
+            .attr("class", "commit_line")
+            .attr("min_date", d1.getTime())
+            .attr("max_date", d2.getTime())
+            .attr("x1", overview.xScaledTimeZoned(d1))
+            .attr("x2", overview.xScaledTimeZoned(d2));
         });
       });
-    this.chartData = chartData;
-    this.chartOptions.scales.yAxes[0].labels = labels;
   }
 
-  refreshGraph() {
-    this.myChart.chart.destroy();
-    this.myChart.ngOnInit();
-    this.selectZoom(this.drag);
-    this.updateZoom();
+  refreshRepoBySplittingGroup(repo_g) {
+    const overview = this;
+    repo_g.selectAll(".commit-group:not(.hidden)").each(function () {
+      let g = d3.select(this);
+      let range = Number.parseInt(g.attr("group_range"));
+      let date = Number.parseInt(g.attr("after_date"));
+
+      let range_in_pixel =
+        overview.xScaledTimeZoned(new Date(range + date)) -
+        overview.xScaledTimeZoned(new Date(date));
+
+      if (range_in_pixel >= Utils.COMMIT_FUSE_RANGE) {
+        if (overview.hovered_g === g) {
+          overview.hovered_g = undefined;
+          overview.hovered_group_commit = undefined;
+        }
+        let before = undefined;
+        let commits = g.datum() as Commit[];
+        g.remove();
+        commits.forEach((commit) => {
+          before = overview.getCommitComponent(repo_g, commit, before);
+        });
+      }
+    });
   }
 
-  onChartClick(event) {
-    if (event.active.length > 0) {
-      const data = this.getDataFromChart(event);
-      window.open(data.commit.url, "_blank");
+  refreshRepoByGrouping(repo_g) {
+    const overview = this;
+    let before = undefined;
+    let toCommit = [];
+    let toRemove = [];
+
+    repo_g
+      .selectAll(".commit:not(.hidden)")
+      .sort(
+        (a: Commit[], b: Commit[]) =>
+          a[0].commitDate.getTime() - b[0].commitDate.getTime()
+      )
+      .each(function (commit: Commit[]) {
+        let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
+
+        if (before == null) {
+          before = g;
+          return;
+        }
+
+        let last_commit: Commit = before.datum()[before.datum().length - 1];
+        if (overview.shouldGroupCommit(last_commit, commit[0])) {
+          let commits = commit.concat(before.datum());
+          toRemove.push(before, g);
+
+          let before_date = before.attr("before_date");
+          let after_date = g.attr("after_date");
+          before = overview.getCommitGroupComponentFromScratch(repo_g, commits);
+          before.classed("commit", false);
+          toCommit.push(before);
+          before.attr("before_date", before_date);
+          before.attr("after_date", after_date);
+        } else before = g;
+      })
+      .sort(
+        (a: Commit[], b: Commit[]) =>
+          a[0].commitDate.getTime() - b[0].commitDate.getTime()
+      );
+
+    toRemove.forEach((g) => g.remove());
+    toCommit.forEach((g) => g.classed("commit", true));
+  }
+
+  onBrush(event) {
+    // What are the selected boundaries?
+    let extent = event.selection;
+
+    // If no selection, back to initial coordinate. Otherwise, update X axis domain
+    if (!extent) {
+      this.x_scale_copy.domain([4, 8]);
     } else {
-      const rawDate = this.getDateFromEvent(event.event);
-      setTimeout(() => {
-        this.openContextMenu(event.event.pageX, event.event.pageY, rawDate);
+      this.x_scale_copy.domain([
+        this.x_scale_copy.invert(extent[0]),
+        this.x_scale_copy.invert(extent[1]),
+      ]);
+      this.brush.clear(this.svg);
+    }
+
+    // Update axis and area position
+    this.x_g.transition().duration(1000).call(d3.axisBottom(this.x_scale_copy));
+  }
+
+  getOffset(d: Date) {
+    return 0;
+    // return (
+    //   this.x_scale_copy(d) -
+    //   this.x_scale_copy(new Date(d.getTime() + d.getTimezoneOffset() * 60000))
+    // );
+  }
+
+  xScaledTimeZoned(d: Date) {
+    if (!d) {
+      return Number.MIN_VALUE;
+    }
+
+    return this.x_scale_copy(d) + this.getOffset(d);
+  }
+
+  refreshElementState() {
+    const containerRect = (d3.select(".chart-container") as any)
+      .node()
+      .getBoundingClientRect();
+    const overview = this;
+
+    if (overview.repository_g)
+      overview.repositories_g.forEach((repo_g, i: number) => {
+        repo_g.selectAll(".commit").each(function () {
+          let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
+
+          let node = repo_g.node();
+          let nodeRect = (node as any).getBoundingClientRect();
+
+          const nodeVisible =
+            nodeRect.right >= containerRect.left &&
+            nodeRect.left <= containerRect.right &&
+            nodeRect.bottom >= containerRect.top &&
+            nodeRect.top <= containerRect.bottom;
+
+          g.classed("hidden", !nodeVisible);
+        });
+
+        repo_g
+          .selectAll(".commit:not(.hidden)")
+          .attr(
+            "transform",
+            (commits: Commit[]) =>
+              `translate(${overview.xScaledTimeZoned(
+                commits[0].commitDate
+              )}, 0)`
+          );
+
+        repo_g
+          .selectAll("path:not(.hidden)")
+          .attr("d", (commits: Commit[]) =>
+            this.getCommitGroupPathD(commits[0], commits[commits.length - 1])
+          );
       });
-    }
+
+    this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
+      let g = d3.select(this);
+      let x = overview.xScaledTimeZoned(m.date);
+      g.classed("hidden", x < 0 || x > overview.width);
+    });
+
+    overview.repositories_g.forEach((repo_g) =>
+      this.refreshRepoBySplittingGroup(repo_g)
+    );
+    overview.repositories_g.forEach((repo_g) =>
+      this.refreshRepoByGrouping(repo_g)
+    );
+
+    overview.repositories_g.forEach((g, i) => {
+      g.selectAll(".commit_line")
+        .attr("x1", function () {
+          let real_x = overview.xScaledTimeZoned(
+            new Date(Number.parseInt(d3.select(this).attr("min_date")))
+          );
+          return Math.max(Math.min(real_x, overview.width), 0);
+        })
+        .attr("x2", function () {
+          let real_x = overview.xScaledTimeZoned(
+            new Date(Number.parseInt(d3.select(this).attr("max_date")))
+          );
+          return Math.max(Math.min(real_x, overview.width), 0);
+        });
+    });
+
+    this.session_g
+      .selectAll(".session")
+      .attr("x", (s: Session) => {
+        return overview.xScaledTimeZoned(s.startDate);
+      })
+      .attr(
+        "width",
+        (s: Session) =>
+          overview.xScaledTimeZoned(s.endDate) -
+          overview.xScaledTimeZoned(s.startDate)
+      );
+
+    this.chart_abs_g
+      .selectAll(".milestone")
+      .attr(
+        "transform",
+        (m: Milestone) =>
+          `translate(${overview.xScaledTimeZoned(m.date)}, ${
+            this.inner_margin.top
+          })`
+      );
   }
 
-  getDateFromEvent(event) {
-    const xAxis = this.myChart.chart.scales["x-axis-0"];
-    const x = event.offsetX;
-    return xAxis.getValueForPixel(x);
+  toggleDrag() {
+    this.drag = !this.drag;
   }
 
-  onChartHover(event) {
-    const data = this.getDataFromChart(event);
-  }
+  resetZoom(conserve?: boolean) {
+    this.data_g
+      .transition()
+      .duration(750)
+      .call(
+        this.zoom.transform,
+        (conserve ? this.current_zoom : undefined) ||
+          d3.zoomIdentity.translate(0, 0).scale(1)
+      );
 
-  selectUnit(unit: string) {
-    this.unit = unit;
-    this.myChart.chart.options.scales.xAxes[0].time.unit = unit;
-    this.myChart.chart.update();
-  }
-
-  changeUnit() {
-    if (this.unit === "week") {
-      this.selectUnit("day");
-    } else if (this.unit === "day") {
-      this.selectUnit("hour");
-    } else if (this.unit === "hour") {
-      this.selectUnit("week");
-    }
-  }
-
-  saveMinMaxZoom(min: number, max: number) {
-    this.minZoom = min;
-    this.maxZoom = max;
-  }
-
-  setMinMaxZoom(min: number, max: number) {
-    this.myChart.chart.options.scales.xAxes[0].ticks.min = min;
-    this.myChart.chart.options.scales.xAxes[0].ticks.max = max;
-    this.myChart.update();
-  }
-
-  updateZoom() {
-    this.setMinMaxZoom(this.minZoom, this.maxZoom);
-  }
-
-  getPointStyle(commit: Commit) {
-    if (commit.isCloture) {
-      return "circle";
-    } else {
-      return "rectRot";
-    }
-  }
-
-  getDataFromChart(event) {
-    const datasetIndex = event.active[0]._datasetIndex;
-    const dataIndex = event.active[0]._index;
-    return this.chartData[datasetIndex].data[dataIndex];
-  }
-
-  resetZoom() {
-    this.saveMinMaxZoom(null, null);
-    this.updateZoom();
-    this.adaptScaleWithChart(this.myChart.chart);
-  }
-
-  changeZoom() {
-    let zoomOptions = this.myChart.chart.options.plugins.zoom.zoom;
-
-    this.selectZoom(!zoomOptions.drag);
-
-    this.myChart.chart.update();
-  }
-
-  selectZoom(drag: boolean) {
-    let zoomOptions = this.myChart.chart.options.plugins.zoom.zoom;
-    let panOptions = this.myChart.chart.options.plugins.zoom.pan;
-
-    zoomOptions.drag = drag;
-    this.drag = drag;
-    panOptions.enabled = !drag;
+    // this.svg.append("g").attr("class", "brush").call(this.brush);
   }
 
   searchSubmit() {
     this.loadGraphDataAndRefresh();
-  }
-
-  adaptScaleWithChart(chart) {
-    let min = new Date(chart.scales["x-axis-0"].min);
-    let max = new Date(chart.scales["x-axis-0"].max);
-    this.adaptScale(min, max);
-  }
-
-  adaptScale(min, max) {
-    let distance = (max.getTime() - min.getTime()) / (1000 * 60 * 60 * 24);
-
-    if (this.unit === "day") {
-      if (Math.round(distance) > 7) {
-        this.selectUnit("week");
-      } else if (Math.floor(distance) < 1) {
-        this.selectUnit("hour");
-      }
-    } else if (this.unit === "week") {
-      if (Math.round(distance) < 9) {
-        this.selectUnit("day");
-      }
-    } else if (this.unit === "hour") {
-      if (Math.round(distance) > 1) {
-        this.selectUnit("day");
-      }
-    }
   }
 
   openUploadFileModal() {

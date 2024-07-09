@@ -1,0 +1,90 @@
+#chart {
+  --top-inner: 30px;
+  --bottom-inner: 20px;
+
+  --chart-height: 100%;
+
+  --repo-space: 30px;
+
+  min-height: min(calc(var(--top-inner) + var(--bottom-inner)), 100px);
+  max-height: var(--chart-height);
+
+  width: 100%;
+  --chart-width-left-spacing-ratio: 90%;
+  --chart-width-max-left-spacing: 50px;
+  // to change chart-with
+
+  height: 620px;
+}
+
+.chart-container {
+  position: relative;
+  top: var(--top-inner);
+  width: 100%;
+  height: 100%;
+  min-height: 0px;
+  max-height: calc(600px - var(--top-inner) - var(--bottom-inner));
+  vertical-align: top;
+  overflow: auto;
+  overscroll-behavior: none;
+}
+
+.chart-container-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0px;
+  max-height: 660px;
+  vertical-align: top;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.chart-container-absolute>svg {
+  position: relative;
+}
+
+.chart-container:focus {
+  outline: none;
+}
+
+#tooltip {
+  position: absolute;
+}
+
+#commit_hover {
+  width: fit-content;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  font-size: 0;
+  padding: 5px;
+  border-radius: 5px;
+  transform: translateY(-90px);
+  user-select: none;
+}
+
+#commit_hover>p {
+  font-size: 10px;
+  margin: 2px;
+}
+
+#commit_group_hover {
+  transform: translateY(-90px);
+  width: fit-content;
+}
+
+#commit_group_hover>div {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  font-size: 0;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+
+#commit_group_hover>div>p {
+  font-size: 10px;
+  margin: 2px;
+}

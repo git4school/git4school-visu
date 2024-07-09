@@ -25,6 +25,7 @@
     "OVERVIEW": "Vue d'ensemble",
     "STUDENTS-COMMITS": "Commits des étudiants",
     "QUESTIONS-COMPLETION": "Avancement des questions",
+    "PERSONAL": "Personnel",
     "METADATA": "Métadonnées",
     "SIGN-IN": "S'identifier",
     "SIGN-OUT": "Se déconnecter",
@@ -152,10 +153,24 @@
       "DELETE": "Supprimer le jalon",
       "CONFIRM": "Confirmer"
     },
-    "REREAD-TOOLTIP": "Relire"
+    "REREAD-TOOLTIP": "Relire",
+    "COMMIT-TOOLTIP": {
+      "BEGIN": "Début du groupe",
+      "END": "Fin du groupe",
+      "COMMIT_NUMBER": "Nombre de commits dans le groupe"
+    }
+  },
+  "COMMIT-TOOLTIP": {
+    "START": "Début du groupe",
+    "END": "Fin du groupe",
+    "COMMIT_NUMBER": "Nombre de commits dans le groupe"
   },
   "STUDENTS-COMMITS-GRAPH": {},
   "QUESTIONS-COMPLETION-GRAPH": {},
+  "PERSONAL-GRAPH": {
+    "EMOTION": "Emotion",
+    "DIFFICULTY": "Difficulté"
+  },
   "METADATA": {
     "PAGE-TITLE": "Editer les métadonnées",
     "TITLE": "Titre",
