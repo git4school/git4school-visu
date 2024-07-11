@@ -38,8 +38,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
 
   minZoom: number;
@@ -149,6 +148,7 @@ export class OverviewComponent
 
   ngOnDestroy(): void {
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
+    d3.select(window).on("resize", null);
   }
 
   getDisplayedRepositories(): Repository[] {
@@ -442,7 +442,7 @@ export class OverviewComponent
     if (!this.isContextualMenuShown()) {
       try {
         this.contextualMenu.openNew(x, y, date);
-      } catch (error) {}
+      } catch (error) { }
     } else {
       this.contextualMenu.close();
     }
@@ -581,7 +581,7 @@ export class OverviewComponent
       .attr(
         "width",
         this.xScaledTimeZoned(session.endDate) -
-          this.xScaledTimeZoned(session.startDate)
+        this.xScaledTimeZoned(session.startDate)
       )
       .on("click", (e) =>
         overview.openEditSessionContextMenu(
@@ -834,9 +834,8 @@ export class OverviewComponent
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
         1.5 * OverviewComponent.CIRCLE_RADIUS
-      )} a ${OverviewComponent.CIRCLE_RADIUS} ${
-        OverviewComponent.CIRCLE_RADIUS
-      } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
+      )} a ${OverviewComponent.CIRCLE_RADIUS} ${OverviewComponent.CIRCLE_RADIUS
+        } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
     } else {
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
@@ -939,7 +938,7 @@ export class OverviewComponent
         spacing = Math.min(
           Math.abs(
             all_commits[j + 1].commitDate.getTime() -
-              commit.commitDate.getTime()
+            commit.commitDate.getTime()
           ),
           spacing
         );
@@ -947,7 +946,7 @@ export class OverviewComponent
         spacing = Math.min(
           Math.abs(
             all_commits[j - 1].commitDate.getTime() -
-              commit.commitDate.getTime()
+            commit.commitDate.getTime()
           ),
           spacing
         );
@@ -1022,8 +1021,8 @@ export class OverviewComponent
     return (
       !commit_before.isCloture &&
       this.xScaledTimeZoned(commit_after.commitDate) -
-        this.xScaledTimeZoned(commit_before.commitDate) <
-        Utils.COMMIT_FUSE_RANGE
+      this.xScaledTimeZoned(commit_before.commitDate) <
+      Utils.COMMIT_FUSE_RANGE
     );
   }
 
@@ -1341,9 +1340,7 @@ export class OverviewComponent
       .attr(
         "transform",
         (m: Milestone) =>
-          `translate(${overview.xScaledTimeZoned(m.date)}, ${
-            this.inner_margin.top
-          })`
+          `translate(${overview.xScaledTimeZoned(m.date)}, ${this.inner_margin.top})`
       );
   }
 
@@ -1358,7 +1355,7 @@ export class OverviewComponent
       .call(
         this.zoom.transform,
         (conserve ? this.current_zoom : undefined) ||
-          d3.zoomIdentity.translate(0, 0).scale(1)
+        d3.zoomIdentity.translate(0, 0).scale(1)
       );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);
