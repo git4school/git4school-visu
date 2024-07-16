@@ -265,6 +265,8 @@ export class OverviewComponent
 
   setupZoom() {
     const overview = this;
+    d3.select(document.body)
+      .on("wheel.body", (e) => {}); // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
     this.zoom = d3
       .zoom()
       .on("zoom", (event) => {
@@ -287,6 +289,8 @@ export class OverviewComponent
         overview.refreshElementState();
       })
       .filter((event) => {
+        console.log(event);
+        
         return event.shiftKey || !(event instanceof WheelEvent);
       })
       .scaleExtent([0.5, overview.maxZoom]);
@@ -573,16 +577,16 @@ export class OverviewComponent
       .datum(session)
       .attr("class", "session")
       .attr("clip-path", "url(#clip)")
-      .attr("x", this.xScaledTimeZoned(session.startDate))
-      .attr("height", 100)
-      .attr("y", this.inner_margin.bottom + this.inner_height)
+      .attr("x", 0)
+      .attr("height", this.scrollable_height)
+      .attr("y", 0)
       .attr(
         "width",
         this.xScaledTimeZoned(session.endDate) -
         this.xScaledTimeZoned(session.startDate)
       )
       .on("click", (e) =>
-        overview.openEditSessionContextMenu(
+          overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
@@ -599,7 +603,7 @@ export class OverviewComponent
         session.tpGroup === this.dataService.groupFilter
     );
 
-    this.session_g = this.chart_abs_g.append("g");
+    this.session_g = this.data_g.append("g");
 
     const overview = this;
 
@@ -629,7 +633,7 @@ export class OverviewComponent
       .attr("x", 0)
       .attr("y", 0)
       .attr("width", 1)
-      .attr("height", this.inner_height)
+      .attr("height", this.inner_height - this.inner_margin.bottom)
       .attr("transform", "translate(" + [-1, 0] + ")");
 
     // Box
@@ -1133,9 +1137,9 @@ export class OverviewComponent
             .insert("line", ":first-child")
             .attr("class", "commit_line")
             .attr("min_date", d1.getTime())
-            .attr("max_date", d2.getTime())
-            .attr("x1", overview.xScaledTimeZoned(d1))
-            .attr("x2", overview.xScaledTimeZoned(d2));
+            .attr("max_date", d2.getTime());
+            // .attr("x1", overview.xScaledTimeZoned(d1))
+            // .attr("x2", overview.xScaledTimeZoned(d2));
         });
       });
   }
@@ -1297,21 +1301,21 @@ export class OverviewComponent
       this.refreshRepoByGrouping(repo_g)
     );
 
-    overview.repositories_g.forEach((g, i) => {
-      g.selectAll(".commit_line")
-        .attr("x1", function () {
-          let real_x = overview.xScaledTimeZoned(
-            new Date(Number.parseInt(d3.select(this).attr("min_date")))
-          );
-          return Math.max(Math.min(real_x, overview.width), 0);
-        })
-        .attr("x2", function () {
-          let real_x = overview.xScaledTimeZoned(
-            new Date(Number.parseInt(d3.select(this).attr("max_date")))
-          );
-          return Math.max(Math.min(real_x, overview.width), 0);
-        });
-    });
+    // overview.repositories_g.forEach((g, i) => {
+    //   g.selectAll(".commit_line")
+    //     .attr("x1", function () {
+    //       let real_x = overview.xScaledTimeZoned(
+    //         new Date(Number.parseInt(d3.select(this).attr("min_date")))
+    //       );
+    //       return Math.max(Math.min(real_x, overview.width), 0);
+    //     })
+    //     .attr("x2", function () {
+    //       let real_x = overview.xScaledTimeZoned(
+    //         new Date(Number.parseInt(d3.select(this).attr("max_date")))
+    //       );
+    //       return Math.max(Math.min(real_x, overview.width), 0);
+    //     });
+    // });
 
     this.session_g
       .selectAll(".session")
