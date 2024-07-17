@@ -289,8 +289,6 @@ export class OverviewComponent
         overview.refreshElementState();
       })
       .filter((event) => {
-        console.log(event);
-        
         return event.shiftKey || !(event instanceof WheelEvent);
       })
       .scaleExtent([0.5, overview.maxZoom]);
@@ -1301,21 +1299,22 @@ export class OverviewComponent
       this.refreshRepoByGrouping(repo_g)
     );
 
-    // overview.repositories_g.forEach((g, i) => {
-    //   g.selectAll(".commit_line")
-    //     .attr("x1", function () {
-    //       let real_x = overview.xScaledTimeZoned(
-    //         new Date(Number.parseInt(d3.select(this).attr("min_date")))
-    //       );
-    //       return Math.max(Math.min(real_x, overview.width), 0);
-    //     })
-    //     .attr("x2", function () {
-    //       let real_x = overview.xScaledTimeZoned(
-    //         new Date(Number.parseInt(d3.select(this).attr("max_date")))
-    //       );
-    //       return Math.max(Math.min(real_x, overview.width), 0);
-    //     });
-    // });
+    overview.repositories_g.forEach((g, i) => {
+      g.selectAll(".commit_line")
+        .attr("x1", function () {
+          let real_x = overview.xScaledTimeZoned(
+            new Date(Number.parseInt(d3.select(this).attr("min_date")))
+          ) || 0;
+          
+          return Math.max(Math.min(real_x, overview.width), 0);
+        })
+        .attr("x2", function () {
+          let real_x = overview.xScaledTimeZoned(
+            new Date(Number.parseInt(d3.select(this).attr("max_date")))
+          ) || 0;
+          return Math.max(Math.min(real_x, overview.width), 0);
+        });
+    });
 
     this.session_g
       .selectAll(".session")
