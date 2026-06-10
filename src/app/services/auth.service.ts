@@ -16,6 +16,13 @@ import { passBoolean } from "protractor/built/util";
 })
 export class AuthService {
   /**
+   * The Github access token
+   */
+  token = localStorage.getItem('dev_github_token') || null;
+  username = null;
+  loading = false;
+
+  /**
    * AuthService constructor
    * @param {Router} router
    * @param {HttpClient} http
@@ -25,16 +32,7 @@ export class AuthService {
     private router: Router,
     private http: HttpClient,
     private toastService: ToastService
-  ) {
-
-  }
-
-  /**
-   * The Github access token
-   */
-  token = null;
-  username = null;
-  loading = false;
+  ) {}
 
   /**
    * Returns the Github access token, so if its value is null, it's similar to a falsy value
