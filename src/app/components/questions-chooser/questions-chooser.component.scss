@@ -62,11 +62,23 @@
   .close-icon {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     margin-left: 0.4rem;
     cursor: pointer;
     opacity: 0.5;
     color: #1d4ed8;
     transition: opacity 0.2s;
+    position: relative;
+
+    /* Expanded invisible hit area */
+    &::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      bottom: -6px;
+      left: -6px;
+      right: -6px;
+    }
 
     &:hover {
       opacity: 1;

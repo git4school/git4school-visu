@@ -144,7 +144,7 @@ export class QuestionsChooserComponent
         this.questionSuggestions
           .filter(
             (question) =>
-              (!this.editable || !this.questions.includes(question)) &&
+              (!this.editable || !this.questions.includes(question) || question === this.editingOldValue) &&
               question.toLowerCase().indexOf((search || '').toLowerCase()) > -1
           )
           .slice(0, 10)

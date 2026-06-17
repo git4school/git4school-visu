@@ -20,9 +20,12 @@
                [(ngModel)]="editingCurrentText"
                [ngModelOptions]="{standalone: true}"
                [ngbTypeahead]="searchQuestionsEdit"
+               container="body"
                [resultTemplate]="rt"
                (selectItem)="onEditSelectItem($event)"
                (blur)="onEditBlur()"
+               (focus)="editFocus$.next(editingCurrentText)"
+               (click)="editFocus$.next(editingCurrentText)"
                (keydown)="onEditInputKeyDown($event)"
                size="{{ editingCurrentText.length || 1 }}" />
                
