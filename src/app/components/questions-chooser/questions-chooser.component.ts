@@ -57,7 +57,6 @@ export class QuestionsChooserComponent
   draggedGroupEnd: number | null = null;
   dropTargetIndex: number | null = null;
   dropPosition: 'left' | 'right' | null = null;
-  dropIndicatorLeft: number | null = null;
 
   constructor(private elementRef: ElementRef) {}
 
@@ -545,6 +544,11 @@ export class QuestionsChooserComponent
           }
       }
       
+      // Normalize to always use 'left' of the next element, to prevent ghost preview flickering
+      if (closestResult && closestResult.position === 'right' && closestResult.index < pills.length - 1) {
+          closestResult = { index: closestResult.index + 1, position: 'left', leftPx: closestResult.leftPx };
+      }
+      
       return closestResult;
   }
 
@@ -559,7 +563,6 @@ export class QuestionsChooserComponent
       if (!closest) {
           this.dropTargetIndex = null;
           this.dropPosition = null;
-          this.dropIndicatorLeft = null;
           return;
       }
 
@@ -567,7 +570,6 @@ export class QuestionsChooserComponent
       if (closest.index >= this.draggedGroupStart && closest.index <= this.draggedGroupEnd) {
           this.dropTargetIndex = null;
           this.dropPosition = null;
-          this.dropIndicatorLeft = null;
           return;
       }
 
@@ -579,16 +581,8 @@ export class QuestionsChooserComponent
       // If dropping inside a group but closest is an internal boundary, we must snap to the group boundary
       if (closest.position === 'left') {
           // snap to left of targetRange.start
-          const startRect = this.pillElements.toArray()[targetRange.start].nativeElement.getBoundingClientRect();
-          const containerRect = this.scrollContainer.nativeElement.getBoundingClientRect();
-          const scrollLeft = this.scrollContainer.nativeElement.scrollLeft;
-          this.dropIndicatorLeft = (startRect.left - containerRect.left + scrollLeft) - 6;
       } else {
           // snap to right of targetRange.end
-          const endRect = this.pillElements.toArray()[targetRange.end].nativeElement.getBoundingClientRect();
-          const containerRect = this.scrollContainer.nativeElement.getBoundingClientRect();
-          const scrollLeft = this.scrollContainer.nativeElement.scrollLeft;
-          this.dropIndicatorLeft = (endRect.right - containerRect.left + scrollLeft) + 6;
       }
   }
 
@@ -598,8 +592,12 @@ export class QuestionsChooserComponent
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
           this.dropTargetIndex = null;
           this.dropPosition = null;
-          this.dropIndicatorLeft = null;
       }
+  }
+
+  getDraggedItems() {
+      if (this.draggedGroupStart === null || this.draggedGroupEnd === null) return [];
+      return this.items.slice(this.draggedGroupStart, this.draggedGroupEnd + 1);
   }
 
   onContainerDrop(event: DragEvent) {
@@ -644,7 +642,6 @@ export class QuestionsChooserComponent
       this.draggedGroupEnd = null;
       this.dropTargetIndex = null;
       this.dropPosition = null;
-      this.dropIndicatorLeft = null;
   }
 
   rebuildDataArrays() {
