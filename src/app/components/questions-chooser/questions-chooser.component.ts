@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnDestroy, OnInit, ViewChild, ElementRef, HostListener } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnDestroy, OnInit, ViewChild, ViewChildren, QueryList, ElementRef, HostListener } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { merge, Observable, Subject } from "rxjs";
@@ -21,6 +21,7 @@ export class QuestionsChooserComponent
   @ViewChild("instance", { static: true }) instance: NgbTypeahead;
   @ViewChild("scrollContainer") scrollContainer: ElementRef;
   @ViewChild("inputField", { static: true }) inputField: ElementRef;
+  @ViewChildren("pillElements") pillElements: QueryList<ElementRef>;
   
   @Input() questions: string[] = [];
   @Input() questionSuggestions: string[] = [];
@@ -36,8 +37,15 @@ export class QuestionsChooserComponent
   question: string;
   items: { type: 'question' | 'commit', value: string }[] = [];
 
+  selectedPillIndex: number | null = null;
+  editingPillIndex: number | null = null;
+  editingOldValue: string | null = null;
+  editingOldType: 'question' | 'commit' | null = null;
+  editingCurrentText: string = '';
+
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
+  editFocus$ = new Subject<string>();
 
   constructor(private elementRef: ElementRef) {}
 
@@ -47,7 +55,64 @@ export class QuestionsChooserComponent
       if(this.instance && this.instance.isPopupOpen()) {
         this.instance.dismissPopup();
       }
+      if (this.selectedPillIndex !== null) {
+          if (this.editingPillIndex !== null) {
+              this.finishEditing();
+          }
+          this.selectedPillIndex = null;
+      }
     }
+  }
+
+  @HostListener('keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+      if (this.selectedPillIndex !== null) {
+          if (this.editingPillIndex !== null) {
+               return; // Let the editInput handle it
+          }
+
+          if (event.key === 'ArrowLeft') {
+              this.selectedPillIndex = Math.max(0, this.selectedPillIndex - 1);
+              this.scrollToSelectedPill();
+              this.focusSelectedPill();
+              event.preventDefault();
+          } else if (event.key === 'ArrowRight') {
+              if (this.selectedPillIndex === this.items.length - 1) {
+                  this.selectedPillIndex = null;
+                  this.inputField.nativeElement.focus();
+              } else {
+                  this.selectedPillIndex++;
+                  this.scrollToSelectedPill();
+                  this.focusSelectedPill();
+              }
+              event.preventDefault();
+          } else if (event.key === 'Delete' || event.key === 'Backspace') {
+              this.deleteItem(this.selectedPillIndex);
+              if (this.items.length === 0) {
+                  this.selectedPillIndex = null;
+                  this.inputField.nativeElement.focus();
+              } else {
+                  this.selectedPillIndex = Math.min(this.selectedPillIndex, this.items.length - 1);
+                  this.scrollToSelectedPill();
+                  this.focusSelectedPill();
+              }
+              event.preventDefault();
+          } else if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+              this.editingPillIndex = this.selectedPillIndex;
+              this.editingOldValue = this.items[this.selectedPillIndex].value;
+              this.editingOldType = this.items[this.selectedPillIndex].type;
+              this.editingCurrentText = event.key;
+              this.items[this.selectedPillIndex].value = event.key;
+              setTimeout(() => {
+                  if (this.editInputs && this.editInputs.length > 0) {
+                      const input = this.editInputs.first.nativeElement;
+                      input.focus();
+                      this.editFocus$.next(this.editingCurrentText);
+                  }
+              });
+              event.preventDefault();
+          }
+      }
   }
 
   searchQuestions = (text: Observable<string>) => {
@@ -62,6 +127,20 @@ export class QuestionsChooserComponent
             (question) =>
               !this.questions.includes(question) &&
               question.toLowerCase().indexOf(search.toLowerCase()) > -1
+          )
+          .slice(0, 10)
+      )
+    );
+  };
+
+  searchQuestionsEdit = (text: Observable<string>) => {
+    return merge(text, this.editFocus$).pipe(
+      map((search) =>
+        this.questionSuggestions
+          .filter(
+            (question) =>
+              !this.questions.includes(question) &&
+              question.toLowerCase().indexOf((search || '').toLowerCase()) > -1
           )
           .slice(0, 10)
       )
@@ -159,6 +238,180 @@ export class QuestionsChooserComponent
     if (!this.question && this.items.length > 0) {
       this.deleteItem(this.items.length - 1);
     }
+  }
+
+  onMainInputKeyDown(event: KeyboardEvent) {
+      if (!this.question && this.items.length > 0) {
+          if (event.key === 'ArrowLeft') {
+              if (this.instance && this.instance.isPopupOpen()) {
+                  this.instance.dismissPopup();
+              }
+              this.selectedPillIndex = this.items.length - 1;
+              event.stopPropagation();
+              this.scrollToSelectedPill();
+              this.focusSelectedPill();
+              event.preventDefault();
+          } else if (event.key === 'Backspace') {
+              this.deleteItem(this.items.length - 1);
+              event.preventDefault();
+          }
+      }
+  }
+
+  onInputFocus(event: any) {
+      this.focus$.next(event.target.value);
+      if (this.selectedPillIndex !== null) {
+          if (this.editingPillIndex !== null) this.finishEditing();
+          this.selectedPillIndex = null;
+      }
+  }
+
+  selectPill(index: number, event: MouseEvent) {
+      if (this.editingPillIndex !== null && this.editingPillIndex !== index) {
+          this.finishEditing();
+      }
+      this.selectedPillIndex = index;
+      this.focusSelectedPill();
+      event.stopPropagation();
+  }
+
+  onCloseClick(index: number, event: MouseEvent) {
+      this.deleteItem(index);
+      if (this.selectedPillIndex === index) {
+          if (this.items.length === 0) {
+              this.selectedPillIndex = null;
+              this.inputField.nativeElement.focus();
+          } else {
+              this.selectedPillIndex = Math.min(this.selectedPillIndex, this.items.length - 1);
+          }
+      } else if (this.selectedPillIndex !== null && this.selectedPillIndex > index) {
+          this.selectedPillIndex--;
+      }
+      if (this.selectedPillIndex !== null) {
+          this.focusSelectedPill();
+      }
+      event.stopPropagation();
+  }
+
+  @ViewChildren("editInputs") editInputs: QueryList<ElementRef>;
+
+  onEditBlur() {
+      setTimeout(() => {
+          this.finishEditing();
+      }, 150);
+  }
+
+  onEditSelectItem(event: any) {
+      this.editingCurrentText = event.item;
+      this.finishEditing();
+      this.focusSelectedPill();
+      event.preventDefault();
+  }
+
+  onEditInputKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Enter') {
+          setTimeout(() => {
+              this.finishEditing();
+              this.focusSelectedPill();
+          });
+      } else if (event.key === 'ArrowLeft') {
+          this.finishEditing();
+          this.selectedPillIndex = Math.max(0, this.selectedPillIndex - 1);
+          this.scrollToSelectedPill();
+          this.focusSelectedPill();
+          event.preventDefault();
+      } else if (event.key === 'ArrowRight') {
+          this.finishEditing();
+          if (this.selectedPillIndex === this.items.length - 1) {
+              this.selectedPillIndex = null;
+              this.inputField.nativeElement.focus();
+          } else {
+              this.selectedPillIndex++;
+              this.scrollToSelectedPill();
+              this.focusSelectedPill();
+          }
+          event.preventDefault();
+      }
+  }
+
+  finishEditing() {
+      if (this.editingPillIndex === null) return;
+      
+      const index = this.editingPillIndex;
+      const item = this.items[index];
+      const newValue = this.editingCurrentText.trim();
+      
+      if (this.editingOldType === 'question') {
+          this.questions = this.questions.filter(q => q !== this.editingOldValue);
+      } else {
+          this.commitMessages = this.commitMessages.filter(c => c !== this.editingOldValue);
+      }
+      
+      if (newValue === '' || this.questions.includes(newValue) || this.commitMessages.includes(newValue)) {
+          this.items.splice(index, 1);
+          if (this.selectedPillIndex >= this.items.length) {
+              this.selectedPillIndex = this.items.length > 0 ? this.items.length - 1 : null;
+              if (this.selectedPillIndex === null) {
+                  this.inputField.nativeElement.focus();
+              }
+          }
+      } else {
+          const isSuggestion = this.questionSuggestions.some(s => s.toLowerCase() === newValue.toLowerCase());
+          const newType = isSuggestion ? 'question' : 'commit';
+          item.type = newType;
+          item.value = newValue; 
+          
+          if (newType === 'question') {
+              this.questions.push(newValue);
+          } else {
+              this.commitMessages.push(newValue);
+          }
+      }
+      
+      this.onChange(this.questions);
+      this.commitMessagesChange.emit(this.commitMessages);
+      
+      this.editingPillIndex = null;
+      this.editingOldValue = null;
+      this.editingOldType = null;
+      this.editingCurrentText = '';
+  }
+
+  scrollToSelectedPill() {
+      setTimeout(() => {
+          if (this.selectedPillIndex !== null && this.pillElements) {
+              const pillArray = this.pillElements.toArray();
+              if (this.selectedPillIndex < pillArray.length) {
+                  const pillElement = pillArray[this.selectedPillIndex].nativeElement;
+                  const container = this.scrollContainer.nativeElement;
+                  const containerRect = container.getBoundingClientRect();
+                  const pillRect = pillElement.getBoundingClientRect();
+                  
+                  if (pillRect.left < containerRect.left) {
+                      container.scrollLeft -= (containerRect.left - pillRect.left + 10);
+                  } else if (pillRect.right > containerRect.right) {
+                      container.scrollLeft += (pillRect.right - containerRect.right + 10);
+                  }
+              }
+          }
+      });
+  }
+
+  focusSelectedPill() {
+      setTimeout(() => {
+          if (this.selectedPillIndex !== null && this.pillElements && this.pillElements.length > this.selectedPillIndex) {
+              this.pillElements.toArray()[this.selectedPillIndex].nativeElement.focus();
+          }
+      });
+  }
+
+  isCommitStyle(item: any, index: number) {
+      if (this.editingPillIndex === index) {
+          const textToEvaluate = this.editingCurrentText;
+          const isSuggestion = this.questionSuggestions.some(s => s.toLowerCase() === textToEvaluate.toLowerCase());
+          return !isSuggestion;
+      }
+      return item.type === 'commit';
   }
 
   onEnter() {

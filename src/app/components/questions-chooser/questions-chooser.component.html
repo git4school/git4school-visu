@@ -1,8 +1,28 @@
 <div class="pseudo-input-container form-control" [class.disabled]="disabled" (click)="inputField.focus()">
   <div #scrollContainer class="pills-scroll-container" [style.max-width]="maxPillsWidth" *ngIf="items.length > 0">
-    <div *ngFor="let item of items; let i = index" class="pill" [class.commit-pill]="item.type === 'commit'">
-      <span>{{item.value}}</span>
-      <span class="close-icon" *ngIf="!disabled" (click)="deleteItem(i); $event.stopPropagation()">
+    <div *ngFor="let item of items; let i = index" class="pill" 
+         #pillElements tabindex="-1"
+         [class.commit-pill]="isCommitStyle(item, i)"
+         [class.editing-pill]="editingPillIndex === i"
+         [class.selected-pill]="selectedPillIndex === i"
+         (click)="selectPill(i, $event)">
+         
+      <span *ngIf="editingPillIndex !== i">{{ item.value }}</span>
+      <input *ngIf="editingPillIndex === i"
+             #editInputs
+             name="editInput_{{i}}"
+             type="text"
+             class="edit-input"
+             [(ngModel)]="editingCurrentText"
+             [ngModelOptions]="{standalone: true}"
+             [ngbTypeahead]="searchQuestionsEdit"
+             [resultTemplate]="rt"
+             (selectItem)="onEditSelectItem($event)"
+             (blur)="onEditBlur()"
+             (keydown)="onEditInputKeyDown($event)"
+             size="{{ editingCurrentText.length || 1 }}" />
+             
+      <span class="close-icon" *ngIf="!disabled" (click)="onCloseClick(i, $event)">
         <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
             <line x1="16" y1="8" x2="8" y2="16"></line>
             <line x1="8" y1="8" x2="16" y2="16"></line>
@@ -12,9 +32,9 @@
   </div>
   
   <input #inputField type="text" class="transparent-input" [(ngModel)]="question" [ngbTypeahead]="searchQuestions"
-      [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter()" (keydown.backspace)="onBackspace()"
+      [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter()" (keydown)="onMainInputKeyDown($event)"
       placeholder="{{ !items.length ? ('QUESTIONS-CHOOSER-PLACEHOLDER' | translate) : '' }}" [disabled]="disabled"
-      (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)"
+      (focus)="onInputFocus($event)" (click)="click$.next($any($event).target.value)"
       #instance="ngbTypeahead" (selectItem)="onSelect($event)" />
 </div>
 
