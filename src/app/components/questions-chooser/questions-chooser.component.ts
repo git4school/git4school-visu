@@ -125,7 +125,7 @@ export class QuestionsChooserComponent
         this.questionSuggestions
           .filter(
             (question) =>
-              !this.questions.includes(question) &&
+              (!this.editable || !this.questions.includes(question)) &&
               question.toLowerCase().indexOf(search.toLowerCase()) > -1
           )
           .slice(0, 10)
@@ -139,7 +139,7 @@ export class QuestionsChooserComponent
         this.questionSuggestions
           .filter(
             (question) =>
-              !this.questions.includes(question) &&
+              (!this.editable || !this.questions.includes(question)) &&
               question.toLowerCase().indexOf((search || '').toLowerCase()) > -1
           )
           .slice(0, 10)
@@ -189,8 +189,8 @@ export class QuestionsChooserComponent
   addQuestion(text: string) {
     if (!text) return;
     
-    // Check if it's already added
-    if (this.questions.includes(text) || this.commitMessages.includes(text)) {
+    // Check if it's already added in editable mode
+    if (this.editable && (this.questions.includes(text) || this.commitMessages.includes(text))) {
       this.question = null;
       return;
     }
@@ -226,10 +226,18 @@ export class QuestionsChooserComponent
     this.items.splice(index, 1);
     
     if (item.type === 'question') {
-      this.questions = this.questions.filter(q => q !== item.value);
+      const idx = this.questions.indexOf(item.value);
+      if (idx !== -1) {
+          this.questions.splice(idx, 1);
+          this.questions = [...this.questions];
+      }
       this.onChange(this.questions);
     } else {
-      this.commitMessages = this.commitMessages.filter(c => c !== item.value);
+      const idx = this.commitMessages.indexOf(item.value);
+      if (idx !== -1) {
+          this.commitMessages.splice(idx, 1);
+          this.commitMessages = [...this.commitMessages];
+      }
       this.commitMessagesChange.emit(this.commitMessages);
     }
   }
@@ -342,12 +350,20 @@ export class QuestionsChooserComponent
       const newValue = this.editingCurrentText.trim();
       
       if (this.editingOldType === 'question') {
-          this.questions = this.questions.filter(q => q !== this.editingOldValue);
+          const idx = this.questions.indexOf(this.editingOldValue);
+          if (idx !== -1) {
+              this.questions.splice(idx, 1);
+              this.questions = [...this.questions];
+          }
       } else {
-          this.commitMessages = this.commitMessages.filter(c => c !== this.editingOldValue);
+          const idx = this.commitMessages.indexOf(this.editingOldValue);
+          if (idx !== -1) {
+              this.commitMessages.splice(idx, 1);
+              this.commitMessages = [...this.commitMessages];
+          }
       }
       
-      if (newValue === '' || this.questions.includes(newValue) || this.commitMessages.includes(newValue)) {
+      if (newValue === '' || (this.editable && (this.questions.includes(newValue) || this.commitMessages.includes(newValue)))) {
           this.items.splice(index, 1);
           if (this.selectedPillIndex >= this.items.length) {
               this.selectedPillIndex = this.items.length > 0 ? this.items.length - 1 : null;
