@@ -1,14 +1,31 @@
 <div class="pseudo-input-container form-control" [class.disabled]="disabled" (click)="inputField.focus()">
-  <div #scrollContainer class="pills-scroll-container" [style.max-width]="maxPillsWidth" *ngIf="items.length > 0">
+  <div #scrollContainer class="pills-scroll-container" 
+       [style.max-width]="maxPillsWidth" 
+       *ngIf="items.length > 0"
+       (dragover)="onContainerDragOver($event)"
+       (dragleave)="onContainerDragLeave($event)"
+       (drop)="onContainerDrop($event)"
+       style="position: relative;">
+       
+    <!-- Absolute Drop Indicator -->
+    <div *ngIf="dropIndicatorLeft !== null" 
+         class="drop-indicator" 
+         [style.left.px]="dropIndicatorLeft">
+    </div>
+
     <ng-container *ngFor="let item of items; let i = index">
       <div class="pill" 
            #pillElements tabindex="-1"
+           [draggable]="editingPillIndex === null"
+           (dragstart)="onDragStart($event, i)"
+           (dragend)="onDragEnd()"
            [class.commit-pill]="isCommitStyle(item, i)"
            [class.editing-pill]="editingPillIndex === i"
            [class.selected-pill]="selectedPillIndex === i"
            [class.merged-right]="isMergedRight(i)"
            [class.merged-left]="isMergedLeft(i)"
            [class.has-connector]="!editable && i < items.length - 1"
+           [class.dragging]="draggedGroupStart !== null && i >= draggedGroupStart && i <= draggedGroupEnd"
            (click)="selectPill(i, $event)">
            
         <span *ngIf="editingPillIndex !== i">{{ item.value }}</span>

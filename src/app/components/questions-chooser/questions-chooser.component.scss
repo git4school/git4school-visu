@@ -28,11 +28,25 @@
   height: 100%;
   box-sizing: border-box;
   
-  /* Hide scrollbar completely */
-  scrollbar-width: none; /* Firefox */
+  /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none;
   }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.drop-indicator {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  width: 4px;
+  background: #3b82f6;
+  border-radius: 2px;
+  z-index: 10;
+  pointer-events: none;
+  transform: translateX(-50%);
 }
 
 // ======================
@@ -54,6 +68,14 @@
   position: relative;
   flex-shrink: 0;
   transition: all 0.2s ease;
+  cursor: default; /* normal cursor */
+
+  &[draggable="true"] {
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
 
   &.has-connector {
     margin-right: 0;
@@ -115,6 +137,14 @@
       border-style: dashed !important;
       box-shadow: none !important;
       outline: none;
+  }
+
+  // ======================
+  // Drag and Drop
+  // ======================
+
+  &.dragging {
+    opacity: 0.4;
   }
 
   // ======================

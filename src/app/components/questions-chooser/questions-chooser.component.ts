@@ -52,6 +52,13 @@ export class QuestionsChooserComponent
   click$ = new Subject<string>();
   editFocus$ = new Subject<string>();
 
+  // Drag and Drop State
+  draggedGroupStart: number | null = null;
+  draggedGroupEnd: number | null = null;
+  dropTargetIndex: number | null = null;
+  dropPosition: 'left' | 'right' | null = null;
+  dropIndicatorLeft: number | null = null;
+
   constructor(private elementRef: ElementRef) {}
 
   @HostListener('document:click', ['$event'])
@@ -443,6 +450,211 @@ export class QuestionsChooserComponent
           }
       });
   }
+
+  // ============================================
+  // Drag and Drop Logic
+  // ============================================
+
+  getGroupRange(index: number): { start: number, end: number } {
+      let start = index;
+      while (start > 0 && this.items[start - 1].operatorAfter === 'AND') {
+          start--;
+      }
+      let end = index;
+      while (end < this.items.length - 1 && this.items[end].operatorAfter === 'AND') {
+          end++;
+      }
+      return { start, end };
+  }
+
+  onDragStart(event: DragEvent, index: number) {
+      if (this.editingPillIndex !== null) {
+          event.preventDefault();
+          return;
+      }
+      
+      const range = this.getGroupRange(index);
+      this.draggedGroupStart = range.start;
+      this.draggedGroupEnd = range.end;
+
+      if (event.dataTransfer) {
+          event.dataTransfer.effectAllowed = 'move';
+          // Hack to create a ghost image of the whole group
+          if (this.pillElements) {
+              const pillElements = this.pillElements.toArray();
+              const ghostContainer = document.createElement('div');
+              ghostContainer.style.position = 'absolute';
+              ghostContainer.style.top = '-1000px';
+              ghostContainer.style.display = 'flex';
+              ghostContainer.style.alignItems = 'center';
+              
+              for (let i = range.start; i <= range.end; i++) {
+                  if (pillElements[i]) {
+                      const clone = pillElements[i].nativeElement.cloneNode(true) as HTMLElement;
+                      clone.style.margin = '0';
+                      if (i < range.end) {
+                          clone.style.borderRight = '1px solid #cbd5e1';
+                          clone.style.borderTopRightRadius = '0';
+                          clone.style.borderBottomRightRadius = '0';
+                      }
+                      if (i > range.start) {
+                          clone.style.borderTopLeftRadius = '0';
+                          clone.style.borderBottomLeftRadius = '0';
+                      }
+                      ghostContainer.appendChild(clone);
+                  }
+              }
+              
+              document.body.appendChild(ghostContainer);
+              event.dataTransfer.setDragImage(ghostContainer, event.offsetX || 20, event.offsetY || 20);
+              
+              setTimeout(() => {
+                  document.body.removeChild(ghostContainer);
+              }, 0);
+          }
+      }
+  }
+
+  getClosestPillIndex(clientX: number): { index: number, position: 'left' | 'right', leftPx: number } | null {
+      if (!this.pillElements || this.pillElements.length === 0) return null;
+      
+      const pills = this.pillElements.toArray();
+      const containerRect = this.scrollContainer.nativeElement.getBoundingClientRect();
+      const scrollLeft = this.scrollContainer.nativeElement.scrollLeft;
+
+      let closestDistance = Infinity;
+      let closestResult: { index: number, position: 'left' | 'right', leftPx: number } | null = null;
+      
+      for (let i = 0; i < pills.length; i++) {
+          const rect = pills[i].nativeElement.getBoundingClientRect();
+          const relativeLeft = rect.left - containerRect.left + scrollLeft;
+          const relativeRight = rect.right - containerRect.left + scrollLeft;
+          
+          // Check left side
+          const distLeft = Math.abs(clientX - rect.left);
+          if (distLeft < closestDistance) {
+              closestDistance = distLeft;
+              closestResult = { index: i, position: 'left', leftPx: relativeLeft - 6 };
+          }
+          
+          // Check right side
+          const distRight = Math.abs(clientX - rect.right);
+          if (distRight < closestDistance) {
+              closestDistance = distRight;
+              closestResult = { index: i, position: 'right', leftPx: relativeRight + 6 };
+          }
+      }
+      
+      return closestResult;
+  }
+
+  onContainerDragOver(event: DragEvent) {
+      event.preventDefault(); // Necessary to allow dropping
+      if (this.draggedGroupStart === null || this.draggedGroupEnd === null) return;
+      if (event.dataTransfer) {
+          event.dataTransfer.dropEffect = 'move';
+      }
+
+      const closest = this.getClosestPillIndex(event.clientX);
+      if (!closest) {
+          this.dropTargetIndex = null;
+          this.dropPosition = null;
+          this.dropIndicatorLeft = null;
+          return;
+      }
+
+      // Check if dragging over itself
+      if (closest.index >= this.draggedGroupStart && closest.index <= this.draggedGroupEnd) {
+          this.dropTargetIndex = null;
+          this.dropPosition = null;
+          this.dropIndicatorLeft = null;
+          return;
+      }
+
+      const targetRange = this.getGroupRange(closest.index);
+      
+      this.dropTargetIndex = closest.position === 'left' ? targetRange.start : targetRange.end;
+      this.dropPosition = closest.position;
+      
+      // If dropping inside a group but closest is an internal boundary, we must snap to the group boundary
+      if (closest.position === 'left') {
+          // snap to left of targetRange.start
+          const startRect = this.pillElements.toArray()[targetRange.start].nativeElement.getBoundingClientRect();
+          const containerRect = this.scrollContainer.nativeElement.getBoundingClientRect();
+          const scrollLeft = this.scrollContainer.nativeElement.scrollLeft;
+          this.dropIndicatorLeft = (startRect.left - containerRect.left + scrollLeft) - 6;
+      } else {
+          // snap to right of targetRange.end
+          const endRect = this.pillElements.toArray()[targetRange.end].nativeElement.getBoundingClientRect();
+          const containerRect = this.scrollContainer.nativeElement.getBoundingClientRect();
+          const scrollLeft = this.scrollContainer.nativeElement.scrollLeft;
+          this.dropIndicatorLeft = (endRect.right - containerRect.left + scrollLeft) + 6;
+      }
+  }
+
+  onContainerDragLeave(event: DragEvent) {
+      if (!this.scrollContainer) return;
+      const rect = this.scrollContainer.nativeElement.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
+          this.dropTargetIndex = null;
+          this.dropPosition = null;
+          this.dropIndicatorLeft = null;
+      }
+  }
+
+  onContainerDrop(event: DragEvent) {
+      event.preventDefault();
+      this.onDrop(event);
+  }
+
+  onDrop(event: DragEvent) {
+      if (this.draggedGroupStart === null || this.draggedGroupEnd === null || this.dropTargetIndex === null || this.dropPosition === null) {
+          this.onDragEnd();
+          return;
+      }
+
+      // Calculate insert index
+      let insertIndex = this.dropPosition === 'left' ? this.dropTargetIndex : this.dropTargetIndex + 1;
+      
+      // If dropping after itself, adjust index
+      if (insertIndex > this.draggedGroupEnd) {
+          insertIndex -= (this.draggedGroupEnd - this.draggedGroupStart + 1);
+      } else if (insertIndex > this.draggedGroupStart && insertIndex <= this.draggedGroupEnd) {
+          this.onDragEnd();
+          return;
+      }
+
+      // Extract the dragged group
+      const draggedItems = this.items.splice(this.draggedGroupStart, this.draggedGroupEnd - this.draggedGroupStart + 1);
+      
+      if (draggedItems.length > 0) {
+          draggedItems[draggedItems.length - 1].operatorAfter = 'OR';
+      }
+
+      // Insert at new position
+      this.items.splice(insertIndex, 0, ...draggedItems);
+
+      this.rebuildDataArrays();
+      this.emitFilterGroups();
+      this.onDragEnd();
+  }
+
+  onDragEnd() {
+      this.draggedGroupStart = null;
+      this.draggedGroupEnd = null;
+      this.dropTargetIndex = null;
+      this.dropPosition = null;
+      this.dropIndicatorLeft = null;
+  }
+
+  rebuildDataArrays() {
+      this.questions = this.items.filter(i => i.type === 'question').map(i => i.value);
+      this.commitMessages = this.items.filter(i => i.type === 'commit').map(i => i.value);
+      this.onChange(this.questions);
+      this.commitMessagesChange.emit(this.commitMessages);
+  }
+
+  // --- End Drag and Drop ---
 
   isCommitStyle(item: any, index: number) {
       if (this.editingPillIndex === index) {
