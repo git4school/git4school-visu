@@ -3,10 +3,12 @@
     <questions-chooser
       #questionsChooser
       [questionSuggestions]="dataService.questions"
-      [editable]="true"
+      [editable]="false"
       [openOnFocus]="true"
       (ngModelChange)="loadGraphDataAndRefresh()"
       [(ngModel)]="searchFilter"
+      [(commitMessages)]="commitMessagesFilter"
+      (commitMessagesChange)="loadGraphDataAndRefresh()"
       [noQuestionMessage]="false"
     >
     </questions-chooser>
@@ -30,20 +32,18 @@
   </div>
   <div class="separator"></div>
   <div>
-    <div class="dropdown">
+    <div ngbDropdown class="dropdown">
       <button
-        class="btn btn-secondary dropdown-toggle"
+        class="btn btn-outline-secondary"
+        ngbDropdownToggle
         [disabled]="loading"
         type="button"
         id="dropdownMenuButton"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
         [ngbTooltip]="markersTooltip"
       >
         {{ "OVERVIEW-GRAPH.MARKERS.BUTTON" | translate }}
       </button>
-      <div class="dropdown-menu">
+      <div ngbDropdownMenu class="dropdown-menu">
         <form class="px-4 py-3">
           <div class="custom-control custom-switch">
             <input

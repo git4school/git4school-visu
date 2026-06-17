@@ -6,9 +6,8 @@
 .pseudo-input-container {
   display: flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
-  height: auto;
-  min-height: calc(1.5em + 0.75rem + 2px);
+  padding: 0 0.75rem;
+  height: calc(1.5em + 0.75rem + 2px);
   cursor: text;
   width: 100%;
   max-width: 100%;
