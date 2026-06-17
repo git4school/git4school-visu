@@ -5,10 +5,10 @@
       [questionSuggestions]="dataService.questions"
       [editable]="false"
       [openOnFocus]="true"
-      (ngModelChange)="loadGraphDataAndRefresh()"
-      [(ngModel)]="searchFilter"
-      [(commitMessages)]="commitMessagesFilter"
-      (commitMessagesChange)="loadGraphDataAndRefresh()"
+      [ngModel]="searchFilter"
+      (ngModelChange)="searchFilter = $event; loadGraphDataAndRefresh()"
+      [commitMessages]="commitMessagesFilter"
+      (commitMessagesChange)="commitMessagesFilter = $event; loadGraphDataAndRefresh()"
       [noQuestionMessage]="false"
     >
     </questions-chooser>

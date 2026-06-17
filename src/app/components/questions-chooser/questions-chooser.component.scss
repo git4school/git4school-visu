@@ -106,3 +106,8 @@
   font-size: 0.85rem;
   margin: 0.2rem 0;
 }
+
+:host ::ng-deep .dropdown-item.active {
+  background-color: #e9ecef;
+  color: #16181b;
+}
