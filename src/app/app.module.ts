@@ -1,8 +1,10 @@
 import { LOCATION_INITIALIZED, registerLocaleData } from "@angular/common";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import localeFr from "@angular/common/locales/fr";
+import localeRu from "@angular/common/locales/ru";
 import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { SharedUiModule } from "./shared/ui/shared-ui.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
@@ -49,6 +51,7 @@ import { HelpNavItemComponent } from "./components/nav-items/help-nav-item/help-
 import { AppNavLayoutComponent } from "./components/nav-layouts/app-nav-layout/app-nav-layout.component";
 import { HomeNavLayoutComponent } from "./components/nav-layouts/home-nav-layout/home-nav-layout.component";
 import { OverviewGraphContextualMenuComponent } from "./components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
+import { SidebarSettingsComponent } from './components/nav-layouts/sidebar-settings/sidebar-settings.component';
 
 /**
  * Firebase configuration file
@@ -86,11 +89,14 @@ export function appInitializerFactory(
       );
       locationInitialized.then(() => {
         registerLocaleData(localeFr);
-        translate.addLangs(["en", "fr"]);
+        registerLocaleData(localeRu);
+        translate.addLangs(["en", "fr", "ru"]);
         translate.setDefaultLang("en");
-        const langToSet = window.navigator.language
+        const savedLang = localStorage.getItem('language');
+        const browserLang = window.navigator.language
           ? window.navigator.language.slice(0, 2)
           : "en";
+        const langToSet = savedLang || browserLang;
         translate.use(langToSet).subscribe(
           () => {},
           (err) => {
@@ -126,6 +132,7 @@ export function appInitializerFactory(
     HelpNavItemComponent,
     EditSessionComponent,
     OverviewGraphContextualMenuComponent,
+    SidebarSettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,6 +143,7 @@ export function appInitializerFactory(
     ChartsModule,
     NgxSpinnerModule,
     FontAwesomeModule,
+    SharedUiModule,
     ToastrModule.forRoot({
       maxOpened: 3,
       newestOnTop: false,

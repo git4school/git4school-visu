@@ -14,6 +14,7 @@ export class ConfigurationComponent implements OnInit {
   @Input() assignment: Assignment;
   metadataModified: boolean;
   repositoriesModified: boolean;
+  activeTab: 'metadata' | 'repositories' = 'metadata';
 
   constructor(
     public translateService: TranslateService,

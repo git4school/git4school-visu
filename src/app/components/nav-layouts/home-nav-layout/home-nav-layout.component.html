@@ -1,29 +1,26 @@
-<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="home"><i
-                        class="fas fa-home mr-2"></i>{{ 'NAVBAR.HOME' | translate }}</a></li>
-            <li class="nav-item">
-                <help-nav-item></help-nav-item>
-            </li>
-
-            <ul class="nav navbar-nav navbar-center">
-                <span id="document-title" class="navbar-text">{{ this.dataService?.title }}</span>
-            </ul>
-        </ul>
-
+<nav class="navbar sticky-top">
+    <!-- LEFT SIDE: Brand & Navigation -->
+    <div class="navbar-left d-flex align-items-center flex-nowrap">
+        <button class="btn btn-icon btn-outline-secondary mr-3" style="border: none;" (click)="isSidebarOpen = true">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="d-flex align-items-center text-nowrap mr-4">
+            <span id="document-title" class="navbar-brand mb-0 mr-0">Git4School</span>
+        </div>
     </div>
-    <div class="navbar-collapse collapse order-3 dual-collapse2">
-        <ul class="navbar-nav ml-auto">
-            <auth-lang-nav-item></auth-lang-nav-item>
-        </ul>
+
+    <!-- RIGHT SIDE: Actions & Settings -->
+    <div class="navbar-right d-flex align-items-center flex-nowrap">
     </div>
 </nav>
 
 <div>
     <router-outlet></router-outlet>
+</div>
+
+<!-- Global Sidebar -->
+<div class="sidebar-backdrop" [class.show]="isSidebarOpen" (click)="isSidebarOpen = false"></div>
+<div class="sidebar-drawer shadow-lg" [class.show]="isSidebarOpen">
+
+    <app-sidebar-settings [isOpen]="isSidebarOpen" (onClose)="isSidebarOpen = false" class="d-flex flex-column flex-grow-1"></app-sidebar-settings>
 </div>

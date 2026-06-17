@@ -1,60 +1,61 @@
-<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="home"><i
-                        class="fas fa-home mr-2"></i>{{ 'NAVBAR.HOME' | translate }}</a></li>
-            <li class="nav-item dropdown" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-chart-line mr-2"></i>{{ 'NAVBAR.GRAPHS' | translate }}
+<div class="app-layout-wrapper d-flex flex-column" style="height: 100vh; overflow: hidden;">
+<nav class="navbar sticky-top">
+    <!-- LEFT SIDE: Brand & Navigation -->
+    <div class="navbar-left d-flex align-items-center flex-nowrap">
+        <button class="btn btn-icon btn-outline-secondary mr-3" style="border: none;" (click)="isSidebarOpen = true">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="d-flex align-items-center text-nowrap mr-4">
+            <button class="btn btn-back mr-3 d-flex align-items-center" routerLink="home">
+                <i class="fas fa-arrow-left"></i>
+                <span class="back-text">{{ 'NAVBAR.ASSIGNMENTS' | translate }}</span>
+            </button>
+            <div *ngIf="dataService.dataLoaded()" class="assignment-chip d-flex align-items-center">
+                <span [ngbTooltip]="dataService.title" placement="bottom">{{ truncatedTitle }}</span>
+                <button class="btn-action-icon ml-2" [ngbTooltip]="'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate" placement="bottom" (click)="openCurrentAssignmentConfig()">
+                    <i class="fas fa-cog" style="pointer-events: none;"></i>
+                </button>
+            </div>
+        </div>
+        
+        <ul class="navbar-nav flex-row align-items-center">
+            <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
+                <a class="nav-link" routerLink="overview">
+                    <i class="fas fa-layer-group mr-2"></i>{{ 'NAVBAR.OVERVIEW' | translate }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" routerLink="overview"><i class="fas fa-chart-line mr-2"></i>{{
-                        'NAVBAR.OVERVIEW' |
-                        translate }}</a>
-                    <a class="dropdown-item" routerLink="students-commits"><i class="fas fa-chart-bar mr-2"></i>{{
-                        'NAVBAR.STUDENTS-COMMITS' | translate }}</a>
-                    <a class="dropdown-item" routerLink="questions-completion"><i class="fas fa-question mr-2"></i>{{
-                        'NAVBAR.QUESTIONS-COMPLETION' | translate }}</a>
-                </div>
             </li>
-            <li class="nav-item">
-                <button type="button" class="mt-1 ml-1 btn btn-sm btn-secondary rounded-circle"
-                    [ngbTooltip]="editAssignmentTooltip" (click)="openCurrentAssignmentConfig()"><i
-                        class="fas fa-cog icon"></i></button>
+            <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
+                 <a class="nav-link" routerLink="students-commits">
+                    <i class="fas fa-code-branch mr-2"></i>{{ 'NAVBAR.STUDENTS-COMMITS' | translate }}
+                </a>
             </li>
-            <li class="nav-item">
-                <button type="button" class="mt-1 ml-1 btn btn-sm btn-secondary rounded-circle"
-                    [ngbTooltip]="downloadTooltip" (click)="download()"><i class="fas fa-download"></i></button>
+            <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
+                <a class="nav-link" routerLink="questions-completion">
+                    <i class="fas fa-tasks mr-2"></i>{{ 'NAVBAR.QUESTIONS-COMPLETION' | translate }}
+                </a>
             </li>
-            <li class="nav-item">
-                <help-nav-item></help-nav-item>
-            </li>
-
-            <ul class="nav navbar-nav navbar-center">
-                <span id="document-title" class="navbar-text">{{ this.dataService?.title }}</span>
-            </ul>
         </ul>
-
     </div>
-    <div class="navbar-collapse collapse order-3 dual-collapse2">
-        <ul class="navbar-nav ml-auto">
-            <auth-lang-nav-item></auth-lang-nav-item>
-        </ul>
+
+    <!-- RIGHT SIDE: Actions & Settings -->
+    <div class="navbar-right d-flex align-items-center flex-nowrap">
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
+<div class="container-fluid flex-grow-1 d-flex flex-column" style="overflow: hidden;">
+    <div class="row flex-grow-1" style="overflow: hidden;">
+        <div class="col-12 d-flex flex-column" style="overflow: hidden; padding-top: 1rem; padding-bottom: 1rem;">
             <router-outlet></router-outlet>
         </div>
     </div>
 </div>
 
-<ng-template #downloadTooltip>{{ 'OVERVIEW-GRAPH.DOWNLOAD-TOOLTIP' | translate }}</ng-template>
+<!-- Global Sidebar -->
+<div class="sidebar-backdrop" [class.show]="isSidebarOpen" (click)="isSidebarOpen = false"></div>
+<div class="sidebar-drawer shadow-lg" [class.show]="isSidebarOpen">
+
+    <app-sidebar-settings [isOpen]="isSidebarOpen" (onClose)="isSidebarOpen = false" class="d-flex flex-column flex-grow-1"></app-sidebar-settings>
+</div>
+
 <ng-template #editAssignmentTooltip>{{ 'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
+</div>

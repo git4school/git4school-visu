@@ -1,0 +1,67 @@
+@import 'variables';
+
+// Spacing Utilities (m-, p-, pt-, mt-, etc. to match bootstrap for easier migration)
+$spacing-map: (
+  0: 0,
+  1: $space-1,
+  2: $space-2,
+  3: $space-4,
+  4: $space-6,
+  5: $space-12,
+  auto: auto
+);
+
+@each $name, $size in $spacing-map {
+  // Margins
+  .m-#{$name} { margin: $size !important; }
+  .mt-#{$name} { margin-top: $size !important; }
+  .mb-#{$name} { margin-bottom: $size !important; }
+  .ml-#{$name} { margin-left: $size !important; }
+  .mr-#{$name} { margin-right: $size !important; }
+  .mx-#{$name} { margin-left: $size !important; margin-right: $size !important; }
+  .my-#{$name} { margin-top: $size !important; margin-bottom: $size !important; }
+
+  // Paddings
+  .p-#{$name} { padding: $size !important; }
+  .pt-#{$name} { padding-top: $size !important; }
+  .pb-#{$name} { padding-bottom: $size !important; }
+  .pl-#{$name} { padding-left: $size !important; }
+  .pr-#{$name} { padding-right: $size !important; }
+  .px-#{$name} { padding-left: $size !important; padding-right: $size !important; }
+  .py-#{$name} { padding-top: $size !important; padding-bottom: $size !important; }
+}
+
+// Text Utilities
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-primary { color: $color-primary !important; }
+.text-secondary { color: $color-secondary !important; }
+.text-success { color: $color-success !important; }
+.text-danger { color: $color-danger !important; }
+.text-warning { color: $color-warning !important; }
+.text-info { color: $color-info !important; }
+.text-muted { color: $color-text-muted !important; }
+
+// Background Utilities
+.bg-primary { background-color: $color-primary !important; }
+.bg-secondary { background-color: $color-secondary !important; }
+.bg-success { background-color: $color-success !important; }
+.bg-danger { background-color: $color-danger !important; }
+.bg-warning { background-color: $color-warning !important; }
+.bg-info { background-color: $color-info !important; }
+.bg-light { background-color: $color-bg-light !important; }
+.bg-white { background-color: $color-surface-light !important; }
+
+// Floating
+.float-left { float: left; }
+.float-right { float: right; }
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+// Visibility
+.hidden { display: none !important; }

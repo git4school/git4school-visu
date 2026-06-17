@@ -65,9 +65,9 @@
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="">
-                                    <button type="reset" class="btn btn-danger" (click)="cancelRow(group, i)"><i
+                                    <button type="reset" class="btn btn-icon btn-outline-danger btn-sm" (click)="cancelRow(group, i)"><i
                                             class="fas fa-times"></i></button>
-                                    <button type="submit" class="btn btn-success" (click)="validateRow(group)"><i
+                                    <button type="submit" class="btn btn-icon btn-outline-success btn-sm" (click)="validateRow(group)"><i
                                             class="fas fa-check"></i></button>
                                 </div>
                             </td>
@@ -88,9 +88,9 @@
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="">
-                                    <button type="button" class="btn btn-secondary" (click)="editRow(group)"><i
+                                    <button type="button" class="btn btn-icon btn-outline-secondary btn-sm" (click)="editRow(group)"><i
                                             class="fas fa-pencil-alt"></i></button>
-                                    <button type="button" class="btn btn-danger" (click)="onDeleteRow(i)"><i
+                                    <button type="button" class="btn btn-icon btn-outline-danger btn-sm" (click)="onDeleteRow(i)"><i
                                             class="far fa-trash-alt"></i></button>
                                 </div>
                             </td>
@@ -125,8 +125,8 @@
 <ng-template #deleteConfirmation>
     <div class="modal-header">
         <h4 class="modal-title">{{ "DELETE-REPOSITORY-CONFIRMATION-TITLE" | translate }}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modalRef.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
+        <button type="button" class="close-btn ml-auto" aria-label="Close" (click)="modalRef.dismiss('Cross click')">
+            <i class="fas fa-times"></i>
         </button>
     </div>
     <div class="modal-body">

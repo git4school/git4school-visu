@@ -4,6 +4,9 @@
         <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" [maxWidth]="65">
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                <div class="text-truncate" [title]="value">{{ getTruncatedText(value, 40) }}</div>
+            </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course"></ngx-datatable-column>
         <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program">
@@ -19,29 +22,29 @@
             <ng-template let-column="column" ngx-datatable-header-template>
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"
-                        [ngbTooltip]="createAssignmentTooltip">
+                        [ngbTooltip]="'HOME.CREATE-ASSIGNMENT-TOOLTIP' | translate">
                         <i class="fas fa-plus"></i>
                     </button>
-                    <button class="btn btn-secondary btn-sm" [ngbTooltip]="downloadTooltip" (click)="exportDB()"><i
+                    <button class="btn btn-secondary btn-sm" [ngbTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate" (click)="exportDB()"><i
                             class="fas fa-upload"></i></button>
                     <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
                     <button class="btn btn-secondary btn-sm" (click)="assignmentFile.click();"
-                        [ngbTooltip]="uploadTooltip"><i class="fas fa-download"></i></button>
+                        [ngbTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate"><i class="fas fa-download"></i></button>
                 </div>
 
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary left-right-btn" (click)="selectAssignment(row)"
-                        [ngbTooltip]="selectAssignmentTooltip" [disabled]="!authService.isSignedIn()">
+                        [ngbTooltip]="'HOME.SELECT-ASSIGNMENT-TOOLTIP' | translate" [disabled]="!authService.isSignedIn()">
                         <i class="far fa-arrow-alt-circle-right icon"></i>
                     </button>
                     <button type="button" class="btn btn-secondary spin-btn" (click)="openConfigurationModal(row)"
-                        [ngbTooltip]="editAssignmentTooltip">
+                        [ngbTooltip]="'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate">
                         <i class="fas fa-cog icon"></i>
                     </button>
                     <button type="button" class="btn btn-danger fill-btn" (click)="deleteAssignment(row)"
-                        [ngbTooltip]="deleteAssignmentTooltip">
+                        [ngbTooltip]="'HOME.DELETE-ASSIGNMENT-TOOLTIP' | translate">
                         <i class="far fa-trash-alt icon"></i>
                     </button>
                 </div>
@@ -49,10 +52,3 @@
         </ngx-datatable-column>
     </ngx-datatable>
 </div>
-
-<ng-template #createAssignmentTooltip>{{ 'HOME.CREATE-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
-<ng-template #selectAssignmentTooltip>{{ 'HOME.SELECT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
-<ng-template #editAssignmentTooltip>{{ 'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
-<ng-template #deleteAssignmentTooltip>{{ 'HOME.DELETE-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
-<ng-template #downloadTooltip>{{ 'EXPORT-ASSIGNMENTS-TOOLTIP' | translate }}</ng-template>
-<ng-template #uploadTooltip>{{ 'IMPORT-ASSIGNMENTS-TOOLTIP' | translate }}</ng-template>

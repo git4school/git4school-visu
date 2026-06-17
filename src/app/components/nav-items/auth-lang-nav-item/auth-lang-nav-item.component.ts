@@ -9,6 +9,12 @@ import { AuthService } from "@services/auth.service";
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthLangNavItemComponent implements OnInit {
+  langNames: { [key: string]: string } = {
+    en: "English",
+    fr: "Français",
+    ru: "Русский"
+  };
+
   constructor(
     public translateService: TranslateService,
     public authService: AuthService
@@ -18,6 +24,7 @@ export class AuthLangNavItemComponent implements OnInit {
 
   changeLanguage(language: string) {
     this.translateService.use(language);
+    localStorage.setItem('language', language);
   }
 
   /**

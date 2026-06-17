@@ -1,40 +1,43 @@
-<div class="d-flex flex-row p-3">
-  <div>
-    <select class="form-control" [disabled]=" !dataService.tpGroups.length || loading" [(ngModel)]="dataService.groupFilter"
-      (change)="this.loadGraphDataAndRefresh()">
-      <option [ngValue]="undefined" hidden disabled>{{ 'TP-GROUP-SELECT.PLACEHOLDER' | translate }}</option>
-      <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
-      <option value="">{{ 'TP-GROUP-SELECT.ALL' | translate }}</option>
-    </select>
+<div class="d-flex flex-column flex-grow-1" style="min-height: 0;">
+  <div class="toolbar">
+    <div>
+      <select class="form-control" [disabled]="!dataService.tpGroups.length || loading" [(ngModel)]="dataService.groupFilter" (change)="this.loadGraphDataAndRefresh()">
+        <option [ngValue]="undefined" hidden disabled>{{ 'TP-GROUP-SELECT.PLACEHOLDER' | translate }}</option>
+        <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>
+        <option value="">{{ 'TP-GROUP-SELECT.ALL' | translate }}</option>
+      </select>
+    </div>
+    <div class="separator"></div>
+    <div class="d-flex align-items-center flex-grow-1" style="max-width: 300px;">
+      <input type="range" class="custom-range mr-3" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="getAdjustedMaxTimestamp()" [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" step="86400000" [disabled]="!dataService.repositories.length || loading">
+      <span class="badge badge-secondary">{{ date | date:'yyyy-MM-dd HH:mm' }}</span>
+    </div>
+    <div class="separator"></div>
+    <div class="d-flex align-items-center">
+      <div class="mr-3 font-weight-bold text-muted small">{{ 'BAR-INDEX' | translate }} :</div>
+      <input type="range" class="custom-range mr-3" style="width: 100px;" (input)="changeBarIndex()" [(ngModel)]="dataService.barIndex" min="1" max="9" title="Bar" id="barSlider" step="1">
+      <span class="badge badge-secondary">{{ dataService.barIndex * 10 }}</span>
+    </div>
+    <div class="separator"></div>
+    <div class="btn-group">
+      <button class="btn btn-icon btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)" [ngbTooltip]="reloadTooltip" [disabled]="!dataService.repositories.length || loading">
+        <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
+      </button>
+    </div>
   </div>
-  <div class="separator"></div>
-  <div class="pt-2 w-25">
-    <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="getAdjustedMaxTimestamp()"
-      [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" step="86400000"
-      [disabled]="!dataService.repositories.length || loading">
+
+  <div class="graph-wrapper d-flex flex-column" style="flex: 1; position: relative; padding: 1rem;">
+    <div class="chart-container" style="flex: 1; min-height: 400px; position: relative;">
+      <canvas #myChart id="myChart" baseChart [chartType]="'bar'" [datasets]="chartData" [options]="chartOptions" [labels]="chartLabels" [legend]="true">
+      </canvas>
+    </div>
+    <div class="d-flex justify-content-end align-items-center mt-2">
+      <span class="text-muted small bg-surface rounded-pill px-3 py-1 border shadow-sm d-flex align-items-center" style="font-size: 0.85rem;">
+        <i class="fas fa-clock mr-2" style="color: var(--color-primary);"></i>
+        {{ date | date:'full':undefined:translateService.currentLang }}
+      </span>
+    </div>
   </div>
-  <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:'yyyy-MM-dd HH:mm' }}</span></div>
-  <div class="separator"></div>
-  <div class="mt-1 mr-2">{{ 'BAR-INDEX' | translate }} :</div>
-  <div class="pt-2">
-    <input type="range" class="custom-range" (input)="changeBarIndex()" [(ngModel)]="dataService.barIndex" min="1"
-      max="9" title="Bar" id="barSlider" step="1">
-  </div>
-  <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ dataService.barIndex * 10 }}</span></div>
-  <div class="separator"></div>
-  <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"
-    [ngbTooltip]="reloadTooltip" [disabled]="!dataService.repositories.length || loading">
-    <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>
-    <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>
-  </button>
-</div>
-<div class="chart-container">
-  <canvas #myChart id="myChart" baseChart [chartType]="'bar'" [datasets]="chartData" [options]="chartOptions"
-    [labels]="chartLabels" [legend]="true">
-  </canvas>
-</div>
-<div class="badge badge-light text-wrap float-right">
-  {{ date | date:'full':undefined:translateService.currentLang }}
 </div>
 
 <ng-template #dateTooltip>{{ 'DATE' | translate }}</ng-template>

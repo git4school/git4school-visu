@@ -1,103 +1,62 @@
-<div class="page-container d-flex flex-column">
+<div class="page-container d-flex flex-column" style="min-height: 100vh;">
   <div class="m-3 content-wrap" *ngIf="authService.isSignedIn()">
-    <h5 class="mb-3">
+    <h5 class="mb-3 text-primary">
       {{ 'HOME.ASSIGNMENT-LIST.TITLE' | translate }}
     </h5>
 
     <assignment-chooser></assignment-chooser>
   </div>
-  <div *ngIf="!authService.isSignedIn()">
-    <div class="title-area d-flex flex-column align-items-center justify-content-center">
-      <div class="title">
-        <div class="pre-carousel">
-          <h1 class="font-weight-bold mb-4">Git4School</h1>
-          <div class="subtitle">
-            {{ "HOME-SUBTITLE" | translate }}
-          </div>
-          <div class="login m-4">
-            <button *ngIf="authService.loading; else loggedOut" class="btn btn-outline-secondary btn-lg"
-              [disabled]="authService.loading" (click)="onSignInGithub()">
-              <span class="spinner-grow " role="status" aria-hidden="true"></span> {{ 'NAVBAR.SIGN-IN' | translate }}
+  
+  <div *ngIf="!authService.isSignedIn()" class="d-flex flex-column flex-grow-1">
+    <!-- Hero Section -->
+    <div class="hero-area d-flex flex-column align-items-center justify-content-center flex-grow-1 py-5">
+      <div class="text-center mb-5" style="max-width: 800px; padding: 0 2rem;">
+        <h1 class="font-weight-bold mb-3" style="font-size: 3.5rem; color: var(--color-primary); letter-spacing: -1px;">
+          Git4School
+        </h1>
+        <p class="subtitle mb-5" style="font-size: 1.25rem; color: var(--color-text-secondary); line-height: 1.6;">
+          {{ "HOME-SUBTITLE" | translate }}
+        </p>
+        
+        <div class="login-action">
+          <button *ngIf="authService.loading; else loggedOut" class="btn btn-primary btn-lg px-5 py-3" style="font-size: 1.1rem; border-radius: 8px;"
+            [disabled]="authService.loading" (click)="onSignInGithub()">
+            <span class="loading" role="status" aria-hidden="true"></span> {{ 'NAVBAR.SIGN-IN' | translate }}
+          </button>
+          <ng-template #loggedOut>
+            <button class="btn btn-primary btn-lg px-5 py-3" [disabled]="authService.loading"
+              (click)="onSignInGithub()" style="font-size: 1.1rem; border-radius: 8px; box-shadow: var(--shadow-md);">
+              <i class="fab fa-github fa-lg mr-2"></i> {{ 'NAVBAR.SIGN-IN' | translate }}
             </button>
-            <ng-template #loggedOut>
-              <button class="btn btn-outline-secondary btn-lg" [disabled]="authService.loading"
-                (click)="onSignInGithub()">
-                <i class="fab fa-github fa-lg"></i> {{ 'NAVBAR.SIGN-IN' | translate }}
-              </button>
-            </ng-template>
-          </div>
-        </div>
-
-        <div id="graphsCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <a href="assets/images/students-commits-tuto.png">
-                <img src="assets/images/students-commits-tuto.png" class="d-block w-100 carousel-image"
-                  alt="Students commits graph preview">
-              </a>
-            </div>
-            <div class="carousel-item">
-              <a href="assets/images/overview-tuto.png">
-                <img src="assets/images/overview-tuto.png" class="d-block w-100 carousel-image"
-                  alt="Overview graph preview">
-              </a>
-            </div>
-            <div class="carousel-item">
-              <a href="assets/images/questions-completion-tuto.png">
-                <img src="assets/images/questions-completion-tuto.png" class="d-block w-100 carousel-image"
-                  alt="Questions completion graph preview">
-              </a>
-            </div>
-          </div>
-          <a class="carousel-control-prev" href="#graphsCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#graphsCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
+          </ng-template>
         </div>
       </div>
-      <div (click)="scroll(footer)" class="mouseScroll">
-        <svg width="100%" height="5vh" viewBox="0 0 247 390" xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
-          <path id="wheel" d="M123.359,79.775l0,72.843" style="fill:none;stroke:#35c692;stroke-width:20px;" />
-          <path id="mouse"
-            d="M236.717,123.359c0,-62.565 -50.794,-113.359 -113.358,-113.359c-62.565,0 -113.359,50.794 -113.359,113.359l0,143.237c0,62.565 50.794,113.359 113.359,113.359c62.564,0 113.358,-50.794 113.358,-113.359l0,-143.237Z"
-            style="fill:none;stroke:#35c692;stroke-width:20px;" />
-        </svg>
+
+      <!-- Flat Feature Cards -->
+      <div class="container-fluid" style="max-width: 1200px; margin-top: 2rem;">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-sm-12 col-md-4 mb-4">
+            <div class="card p-3 text-center" style="border: 1px solid var(--color-border); box-shadow: none; background: var(--color-surface);">
+              <img src="assets/images/students-commits-tuto.png" class="d-block w-100 mb-3" style="border-radius: 4px;" alt="Students commits graph preview">
+              <h6 class="text-success font-weight-bold">{{ "HOME-OBJECTIVE-1" | translate }}</h6>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4 mb-4">
+            <div class="card p-3 text-center" style="border: 1px solid var(--color-border); box-shadow: none; background: var(--color-surface);">
+              <img src="assets/images/overview-tuto.png" class="d-block w-100 mb-3" style="border-radius: 4px;" alt="Overview graph preview">
+              <h6 class="text-primary font-weight-bold">{{ "HOME-OBJECTIVE-2" | translate }}</h6>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4 mb-4">
+            <div class="card p-3 text-center" style="border: 1px solid var(--color-border); box-shadow: none; background: var(--color-surface);">
+              <img src="assets/images/questions-completion-tuto.png" class="d-block w-100 mb-3" style="border-radius: 4px;" alt="Questions completion graph preview">
+              <h6 class="text-warning font-weight-bold">{{ "HOME-OBJECTIVE-3" | translate }}</h6>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div #objectives class="area">
-      <ul class="circles cards">
-        <div class="card">
-          <i class="fas fa-chart-line fa-6x m-2 mr-4 icon"></i>
-          <p>{{ "HOME-OBJECTIVE-1" | translate }}</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-exclamation-circle fa-6x m-2 mr-4 icon"></i>
-          <p>{{ "HOME-OBJECTIVE-2" | translate }}</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-graduation-cap fa-6x m-2 mr-4 icon"></i>
-          <p>{{ "HOME-OBJECTIVE-3" | translate }}</p>
-        </div>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
-    </div>
     <footer #footer class="home-footer p-2">
       <div class="d-flex justify-content-between">
         <div class="col ml-1">Version : {{ version }}</div>

@@ -22,6 +22,8 @@
   },
   "NAVBAR": {
     "HOME": "Home",
+    "ASSIGNMENTS-LIST": "Assignments list",
+    "ASSIGNMENTS": "Assignments",
     "GRAPHS": "Graphs",
     "OVERVIEW": "Overview",
     "STUDENTS-COMMITS": "Students commits",
@@ -30,6 +32,15 @@
     "SIGN-IN": "Sign in",
     "SIGN-OUT": "Sign out",
     "CONFIGURATION": "Configuration"
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "THEME": "Theme",
+    "SHOW-LEGEND": "Show overview graph legend",
+    "HELP": "Help",
+    "AUTH-LANG": "Language / Account",
+    "RECENT-ASSIGNMENTS": "Recent assignments",
+    "LANGUAGE": "Language"
   },
   "HOME": {
     "COPY": "Copy",

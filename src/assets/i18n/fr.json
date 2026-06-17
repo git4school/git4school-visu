@@ -21,14 +21,25 @@
   },
   "NAVBAR": {
     "HOME": "Accueil",
+    "ASSIGNMENTS-LIST": "Liste des devoirs",
+    "ASSIGNMENTS": "Devoirs",
     "GRAPHS": "Graphes",
     "OVERVIEW": "Vue d'ensemble",
-    "STUDENTS-COMMITS": "Commits des étudiants",
-    "QUESTIONS-COMPLETION": "Avancement des questions",
+    "STUDENTS-COMMITS": "Commits",
+    "QUESTIONS-COMPLETION": "Questions",
     "METADATA": "Métadonnées",
     "SIGN-IN": "S'identifier",
     "SIGN-OUT": "Se déconnecter",
     "CONFIGURATION": "Configuration"
+  },
+  "SETTINGS": {
+    "TITLE": "Paramètres",
+    "THEME": "Thème",
+    "SHOW-LEGEND": "Afficher la légende du graphe d'aperçu",
+    "HELP": "Aide",
+    "AUTH-LANG": "Langue / Compte",
+    "RECENT-ASSIGNMENTS": "Assignments récents",
+    "LANGUAGE": "Langue"
   },
   "HOME": {
     "COPY": "Copier",
@@ -106,12 +117,12 @@
       }
     },
     "ASSIGNMENT-LIST": {
-      "TITLE": "Liste des assignments"
+      "TITLE": "Liste des devoirs"
     },
-    "CREATE-ASSIGNMENT-TOOLTIP": "Créer un nouvel assignment",
-    "SELECT-ASSIGNMENT-TOOLTIP": "Sélectionner l'assignment et le charger",
-    "EDIT-ASSIGNMENT-TOOLTIP": "Modifier la configuration de l'assignment",
-    "DELETE-ASSIGNMENT-TOOLTIP": "Supprimer l'assignment"
+    "CREATE-ASSIGNMENT-TOOLTIP": "Créer un nouveau devoir",
+    "SELECT-ASSIGNMENT-TOOLTIP": "Sélectionner le devoir et le charger",
+    "EDIT-ASSIGNMENT-TOOLTIP": "Modifier la configuration du devoir",
+    "DELETE-ASSIGNMENT-TOOLTIP": "Supprimer le devoir"
   },
   "OVERVIEW-GRAPH": {
     "UPLOAD": {
@@ -131,7 +142,7 @@
     "RESET-ZOOM-TOOLTIP": "Réinitialisation du zoom (barre espace)",
     "CHANGE-ZOOM-TOOLTIP": "Changer le mode de zoom (glisser/roulette et déplacer)",
     "CHANGE-TIME-SCALE-TOOLTIP": "Changer l'échelle de temps",
-    "DOWNLOAD-TOOLTIP": "Télécharger le fichier de configuration de l'assignment courant",
+    "DOWNLOAD-TOOLTIP": "Télécharger le fichier de configuration du devoir courant",
     "RELOAD-TOOLTIP": "Recharger",
     "LEGEND": {
       "TITLE": "Légende",
@@ -265,10 +276,10 @@
     "TOOLTIP": "Des changements ont été apportés et doivent être sauvegardés"
   },
   "ERROR": "Erreur",
-  "IMPORT-SUCCESS": "Les assignments ont été importés avec succès",
-  "IMPORT-ERROR": "Une erreur a eu lieu et les assignments n'ont pas pu être importés",
-  "EXPORT-ASSIGNMENTS-TOOLTIP": "Exporter les assignments",
-  "IMPORT-ASSIGNMENTS-TOOLTIP": "Importer des assignments",
+  "IMPORT-SUCCESS": "Les devoirs ont été importés avec succès",
+  "IMPORT-ERROR": "Une erreur a eu lieu et les devoirs n'ont pas pu être importés",
+  "EXPORT-ASSIGNMENTS-TOOLTIP": "Exporter les devoirs",
+  "IMPORT-ASSIGNMENTS-TOOLTIP": "Importer des devoirs",
   "QUESTIONS-CHOOSER-PLACEHOLDER": "Pour ajouter une question, tapez la puis appuyez sur entrer",
   "NO-QUESTION": "Aucune question",
   "IMPORT-CONFIRMATION-TITLE": "Confirmation d'importation",
@@ -285,9 +296,9 @@
   "MILESTONE-NOTES": "Notes personnelles",
   "REQUIRED-FIELDS-TEXT": "Ces champs doivent être remplis pour valider le formulaire.",
   "ERROR-CANNOT-READ-FILE": "Le fichier n'a pas pu être lu",
-  "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED": "L'assignment à importer n'est pas bien formée",
-  "ERROR-IMPORT-ASSIGNMENTS-NOT-WELL-FORMED": "Un ou plusieurs assignments ne sont pas bien formés",
-  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "Aucun assignment n'a été trouvé",
+  "ERROR-IMPORT-ASSIGNMENT-NOT-WELL-FORMED": "Le devoir à importer n'est pas bien formé",
+  "ERROR-IMPORT-ASSIGNMENTS-NOT-WELL-FORMED": "Un ou plusieurs devoirs ne sont pas bien formés",
+  "ERROR-IMPORT-ASSIGNMENTS-NOT-FOUND": "Aucun devoir n'a été trouvé",
   "ADD-MILESTONE-CONTEXT-MENU": "Ajouter un nouveau jalon",
   "ADD-SESSION-CONTEXT-MENU": "Ajouter une nouvelle séance",
   "EDIT-MILESTONE-CONTEXT-MENU": "Editer le jalon",

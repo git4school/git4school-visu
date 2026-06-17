@@ -1,0 +1,66 @@
+/* =========================================
+   DATATABLE OVERRIDES (Minimalist / Flat)
+   ========================================= */
+
+.ngx-datatable.material {
+  background: var(--color-surface);
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg, 0.5rem);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+
+  .datatable-header {
+    border-bottom: 2px solid var(--color-border);
+    
+    .datatable-header-cell {
+      color: var(--color-text-secondary);
+      font-weight: 600;
+      padding: 0.75rem 1.25rem;
+      background-color: var(--color-bg-body);
+    }
+  }
+
+  .datatable-body {
+    .datatable-body-row {
+      border-bottom: 1px solid var(--color-border);
+      transition: background-color 0.2s ease;
+
+      &:hover,
+      &:hover .datatable-row-group {
+        background-color: var(--color-bg-body);
+      }
+
+      .datatable-body-cell {
+        padding: 0.75rem 1.25rem;
+        color: var(--color-text-primary);
+      }
+    }
+  }
+
+  .datatable-footer {
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-bg-body);
+    color: var(--color-text-secondary);
+    
+    .datatable-pager {
+      li {
+        &.active a {
+          background-color: var(--color-primary);
+          color: #fff;
+          font-weight: 600;
+        }
+
+        a {
+          color: var(--color-text-primary);
+          border-radius: var(--radius-sm, 0.25rem);
+          
+          &:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--color-primary);
+          }
+        }
+      }
+    }
+  }
+}

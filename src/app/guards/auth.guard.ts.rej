@@ -1,0 +1,17 @@
+@@ -10,7 +10,8 @@
+   constructor(private authService: AuthService, private router: Router) {}
+ 
+   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+-    return this.authService.user$.pipe(
++    return true; // Bypass for debugging
++/*    return this.authService.user$.pipe(
+       take(1),
+       map((user) => !!user),
+       tap((loggedIn) => {
+@@ -19,5 +20,6 @@
+         }
+       })
+     );
++*/
+   }
+ }

@@ -9,6 +9,8 @@ import { BaseChartDirective } from "ng2-charts";
 import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
 import { Utils } from "../../../services/utils";
+import * as Chart from "chart.js";
+import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
 
 /**
  * jquery
@@ -68,6 +70,7 @@ export class QuestionsCompletionComponent
    */
   chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     animation: {
       duration: 0, // general animation time
     },
@@ -273,6 +276,8 @@ export class QuestionsCompletionComponent
    * and we call loadGraphDataAndRefresh()
    */
   ngOnInit() {
+    Chart.pluginService.register(ChartDataLabels);
+
     setTimeout(() => {
       this.assignmentsModified$ = this.subscribeAssignmentModified();
       this.translateService.onLangChange.subscribe(() => {
@@ -295,6 +300,7 @@ export class QuestionsCompletionComponent
   }
 
   ngOnDestroy(): void {
+    Chart.pluginService.unregister(ChartDataLabels);
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 

@@ -70,6 +70,7 @@ export class StudentsCommitsComponent
       },
     },
     responsive: true,
+    maintainAspectRatio: false,
     aspectRatio: 2.4,
     animation: {
       duration: 0, // general animation time

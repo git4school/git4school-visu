@@ -3,8 +3,8 @@
         {{ (this.addMode ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') |
         translate }}
     </h5>
-    <button type="button" class="close" (click)="activeModalService.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
+    <button type="button" class="close-btn ml-auto" (click)="activeModalService.dismiss('Cross click')">
+        <i class="fas fa-times"></i>
     </button>
 </div>
 <div class="modal-body mx-2">

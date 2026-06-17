@@ -1,9 +1,9 @@
-<div class="d-flex flex-row p-3">
-  <div class="w-50">
+<div class="toolbar">
+  <div style="flex: 1; min-width: 0;">
     <questions-chooser
       #questionsChooser
       [questionSuggestions]="dataService.questions"
-      [editable]="false"
+      [editable]="true"
       [openOnFocus]="true"
       (ngModelChange)="loadGraphDataAndRefresh()"
       [(ngModel)]="searchFilter"
@@ -11,7 +11,7 @@
     >
     </questions-chooser>
   </div>
-  <div class="pl-2">
+  <div>
     <select
       class="form-control"
       [disabled]="!dataService.tpGroups?.length || loading"

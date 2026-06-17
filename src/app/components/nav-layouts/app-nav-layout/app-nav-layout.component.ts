@@ -5,6 +5,7 @@ import { AuthService } from "@services/auth.service";
 import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
+import { ThemeService } from "@services/theme.service";
 
 @Component({
   selector: "app-app-nav-layout",
@@ -18,13 +19,18 @@ export class AppNavLayoutComponent implements OnInit {
     public translateService: TranslateService,
     private assignmentsService: AssignmentsService,
     private databaseService: DatabaseService,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
+    public themeService: ThemeService
   ) {}
+
+  isSidebarOpen: boolean = false;
 
   ngOnInit(): void {}
 
-  download() {
-    this.assignmentsService.exportAssignment(this.dataService.assignment);
+  get truncatedTitle(): string {
+    const title = this.dataService.title;
+    if (!title) return '';
+    return title.length > 30 ? title.substring(0, 27) + '...' : title;
   }
 
   openCurrentAssignmentConfig() {

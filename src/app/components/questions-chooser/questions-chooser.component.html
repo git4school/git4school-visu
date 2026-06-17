@@ -1,23 +1,29 @@
-<div>
-    <input type="text" class="form-control" [(ngModel)]="question" [ngbTypeahead]="searchQuestions"
-        [editable]="editable" [resultTemplate]="rt" (keydown.enter)="onEnter()"
-        placeholder="{{ 'QUESTIONS-CHOOSER-PLACEHOLDER' | translate }}" [disabled]="disabled"
-        (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)"
-        #instance="ngbTypeahead" (selectItem)="onSelect($event)" />
+<div class="pseudo-input-container form-control" [class.disabled]="disabled" (click)="inputField.focus()">
+  <div #scrollContainer class="pills-scroll-container" [style.max-width]="maxPillsWidth" *ngIf="items.length > 0">
+    <div *ngFor="let item of items; let i = index" class="pill" [class.commit-pill]="item.type === 'commit'">
+      <span>{{item.value}}</span>
+      <span class="close-icon" *ngIf="!disabled" (click)="deleteItem(i); $event.stopPropagation()">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <line x1="16" y1="8" x2="8" y2="16"></line>
+            <line x1="8" y1="8" x2="16" y2="16"></line>
+        </svg>
+      </span>
+    </div>
+  </div>
+  
+  <input #inputField type="text" class="transparent-input" [(ngModel)]="question" [ngbTypeahead]="searchQuestions"
+      [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter()" (keydown.backspace)="onBackspace()"
+      placeholder="{{ !items.length ? ('QUESTIONS-CHOOSER-PLACEHOLDER' | translate) : '' }}" [disabled]="disabled"
+      (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)"
+      #instance="ngbTypeahead" (selectItem)="onSelect($event)" />
 </div>
-<div *ngFor="let question of questions; let i = index" class="d-inline-flex">
-    <span class="badge badge-pill badge-secondary mr-1">{{question}} <span class="clickable" *ngIf="!disabled"
-            (click)="deleteQuestion(i)">
-            <i class="fas fa-times ml-1"></i>
-        </span>
-    </span>
-</div>
-<div *ngIf="noQuestionMessage && !questions.length">
+
+<div *ngIf="noQuestionMessage && !items.length" class="mt-1">
     <small class="text-muted">{{ 'NO-QUESTION' | translate }}</small>
 </div>
 
 <ng-template #rt let-r="result" let-t="term">
-    <span class="badge badge-pill badge-secondary">
+    <div class="suggestion-pill">
         <ngb-highlight [result]="r" [term]="t"></ngb-highlight>
-    </span>
+    </div>
 </ng-template>

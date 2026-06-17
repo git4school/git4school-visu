@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
+import { ThemeService } from "@services/theme.service";
 
 @Component({
   selector: "app-home-nav-layout",
@@ -12,8 +13,11 @@ export class HomeNavLayoutComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public dataService: DataService,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    public themeService: ThemeService
   ) {}
+
+  isSidebarOpen: boolean = false;
 
   ngOnInit(): void {}
 }

@@ -3,12 +3,15 @@ import { Assignment } from "@models/Assignment.model";
 import { plainToClass } from "class-transformer";
 import Dexie from "dexie";
 import { JsonManagerService } from "./json-manager.service";
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class DatabaseService extends Dexie {
   assignments: Dexie.Table<Assignment, number>;
+  dbChanged = new Subject<void>();
+
   constructor(private fileService: JsonManagerService) {
     super("assignmentsdb");
     this.initDB();
@@ -29,11 +32,16 @@ export class DatabaseService extends Dexie {
   }
 
   saveAssignment(assignment: Assignment): Promise<number> {
-    return this.assignments.put(assignment);
+    return this.assignments.put(assignment).then(id => {
+      this.dbChanged.next();
+      return id;
+    });
   }
 
   deleteAssignment(id: number): Promise<void> {
-    return this.assignments.delete(id);
+    return this.assignments.delete(id).then(() => {
+      this.dbChanged.next();
+    });
   }
 
   getAssignmentById(id: number): Promise<Assignment> {

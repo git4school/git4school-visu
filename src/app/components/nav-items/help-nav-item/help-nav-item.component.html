@@ -1,6 +1,6 @@
-<button type="button" class="mt-1 ml-1 btn btn-sm btn-secondary rounded-circle" [ngbTooltip]="helpTooltip"
-    (click)="openUserDocumentation()">
-    <i class="fas fa-info"></i>
-</button>
+<div class="sidebar-item d-flex align-items-center" [ngbTooltip]="helpTooltip" (click)="openUserDocumentation()">
+    <i class="fas fa-question-circle sidebar-item-icon"></i>
+    <span>{{ 'SETTINGS.HELP' | translate }}</span>
+</div>
 
 <ng-template #helpTooltip>{{ 'HELP-TOOLTIP' | translate }}</ng-template>

@@ -1,13 +1,20 @@
-<div class="input-group">
-    <div class="input-group-prepend" *ngIf="authService.isSignedIn()">
-        <button class="btn btn-danger" (click)="onSignOut()">
-            <i class="fas fa-sign-out-alt mr-2"></i>{{'NAVBAR.SIGN-OUT' | translate }}
-        </button>
+<div class="d-flex flex-column w-100">
+    <!-- Language -->
+    <div class="sidebar-item d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-globe sidebar-item-icon"></i>
+            <span>{{ 'SETTINGS.LANGUAGE' | translate }}</span>
+        </div>
+        <select #langSelect (change)="changeLanguage(langSelect.value)" class="custom-select custom-select-sm" style="width: auto; border-radius: 6px; border-color: var(--color-border); background-color: var(--color-surface); color: var(--color-on-surface);">
+            <option *ngFor="let lang of translateService.getLangs()" [value]="lang" [selected]="lang === translateService.currentLang">
+                {{ langNames[lang] || lang }}
+            </option>
+        </select>
     </div>
-    <select #langSelect (change)="changeLanguage(langSelect.value)" class="form-control"
-        style="text-align-last:center; ">
-        <option *ngFor="let lang of translateService.getLangs()" [value]="lang"
-            [selected]="lang === translateService.currentLang" class="text-center">
-            {{ lang }}</option>
-    </select>
+    
+    <!-- Logout -->
+    <div class="sidebar-item d-flex align-items-center text-danger" *ngIf="authService.isSignedIn()" (click)="onSignOut()">
+        <i class="fas fa-sign-out-alt sidebar-item-icon text-danger"></i>
+        <span>{{ 'NAVBAR.SIGN-OUT' | translate }}</span>
+    </div>
 </div>

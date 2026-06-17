@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { TranslateService } from "@ngx-translate/core";
@@ -8,6 +8,7 @@ import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ToastService } from "@services/toast.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "assignment-chooser",
@@ -15,8 +16,9 @@ import { ToastService } from "@services/toast.service";
   styleUrls: ["./assignment-chooser.component.scss"],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssignmentChooserComponent implements OnInit {
+export class AssignmentChooserComponent implements OnInit, OnDestroy {
   assignments: Assignment[];
+  private dbSubscription: Subscription;
 
   constructor(
     private databaseService: DatabaseService,
@@ -26,18 +28,36 @@ export class AssignmentChooserComponent implements OnInit {
     private translateService: TranslateService,
     private toastService: ToastService,
     private assignmentsService: AssignmentsService,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.assignments = [];
     this.loadAssignments();
+    this.dbSubscription = this.databaseService.dbChanged.subscribe(() => {
+      this.loadAssignments();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dbSubscription) {
+      this.dbSubscription.unsubscribe();
+    }
   }
 
   async loadAssignments() {
     await this.databaseService
       .getAllAssignments()
-      .then((assignments) => (this.assignments = assignments));
+      .then((assignments) => {
+        this.assignments = [...assignments];
+        this.cdr.detectChanges();
+      });
+  }
+
+  getTruncatedText(text: string, limit: number = 30): string {
+    if (!text) return '';
+    return text.length > limit ? text.substring(0, limit - 3) + '...' : text;
   }
 
   selectAssignment(assignment: Assignment) {
@@ -50,7 +70,7 @@ export class AssignmentChooserComponent implements OnInit {
 
   deleteAssignment(assignment: Assignment) {
     this.databaseService.deleteAssignment(assignment.id);
-    this.loadAssignments();
+    // dbChanged will trigger loadAssignments()
   }
 
   createAssignment() {

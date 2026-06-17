@@ -1,3 +1,4 @@
+
 import {
   AfterViewInit,
   Component,
@@ -19,6 +20,7 @@ import { DataService } from "@services/data.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
+import { ThemeService } from "@services/theme.service";
 import { Subscription, concat } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
 
@@ -52,6 +54,8 @@ export class OverviewComponent
 
   typeaheadSettings;
   searchFilter: string[] = [];
+
+  commitMessagesFilter: string[] = [];
   unit = "day";
   drag = false;
   chartData = [{ data: [] }];
@@ -127,10 +131,13 @@ export class OverviewComponent
     public dataService: DataService,
     protected loaderService: LoaderService,
     private modalService: NgbModal,
-    protected assignmentsService: AssignmentsService
+    protected assignmentsService: AssignmentsService,
+    public themeService: ThemeService
   ) {
     super(loaderService, assignmentsService, dataService);
   }
+
+
 
   ngOnInit(): void {
     this.defaultSessionDuration =
@@ -146,6 +153,7 @@ export class OverviewComponent
   }
 
   ngOnDestroy(): void {
+    d3.select(window).on("resize.overview", null);
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
@@ -159,8 +167,13 @@ export class OverviewComponent
 
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
 
+  download() {
+    this.assignmentsService.exportAssignment(this.dataService.assignment);
+  }
+
   updateVariableFromCss(): void {
     let chart_div = document.getElementById("chart");
+    if (!chart_div) return;
 
     var style = getComputedStyle(chart_div);
 
@@ -181,9 +194,8 @@ export class OverviewComponent
       bottom: css_var_number("bottom-inner"),
     };
 
-    this.inner_width = this.width;
-    this.inner_height =
-      this.height - this.inner_margin.top - this.inner_margin.bottom;
+    this.inner_width = Math.max(1, this.width);
+    this.inner_height = Math.max(1, this.height - this.inner_margin.top - this.inner_margin.bottom);
 
     this.repo_spacing = css_var_number("repo-space");
   }
@@ -301,18 +313,25 @@ export class OverviewComponent
   refresh() {
     this.updateVariableFromCss();
     this.scrollable_height = Math.max(
+      1,
       this.height - this.inner_margin.top - this.inner_margin.bottom,
       this.getDisplayedRepositories().length * this.repo_spacing
     );
 
-    d3.select(window).on("resize", () => this.loadGraphDataAndRefresh());
+    d3.select(window).on("resize.overview", () => {
+      if (document.getElementById("chart")) {
+        this.loadGraphDataAndRefresh();
+      }
+    });
 
+    d3.select(".chart-container").selectAll("svg").remove();
     this.svg = d3
       .select(".chart-container")
       .append("svg")
       .attr("preserveAspectRatio", "none")
       .attr("viewBox", `0 0 ${this.width} ${this.scrollable_height}`);
 
+    d3.select(".chart-container-absolute").selectAll("svg").remove();
     this.svg_abs = d3
       .select(".chart-container-absolute")
       .append("svg")
@@ -772,7 +791,7 @@ export class OverviewComponent
       .append("g")
       .attr(
         "transform",
-        "translate(" + [0, this.inner_height + this.inner_margin.bottom] + ")"
+        "translate(" + [0, this.inner_height + this.inner_margin.top] + ")"
       )
       .call(this.x_axis);
 
@@ -1099,8 +1118,12 @@ export class OverviewComponent
         let commits = repository.commits
           .filter(
             (commit) =>
-              !overview.searchFilter.length ||
-              overview.searchFilter.includes(commit.question)
+              (!overview.searchFilter.length ||
+                overview.searchFilter.includes(commit.question)) &&
+              (!overview.commitMessagesFilter.length ||
+                overview.commitMessagesFilter.some((msg) =>
+                  commit.message.toLowerCase().includes(msg.toLowerCase())
+                ))
           )
           .sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
 
@@ -1379,4 +1402,5 @@ export class OverviewComponent
       this.dataService.questions
     );
   }
+
 }
