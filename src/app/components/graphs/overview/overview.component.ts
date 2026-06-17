@@ -1116,15 +1116,23 @@ export class OverviewComponent
 
         let before = undefined;
         let commits = repository.commits
-          .filter(
-            (commit) =>
-              (!overview.searchFilter.length ||
-                overview.searchFilter.includes(commit.question)) &&
-              (!overview.commitMessagesFilter.length ||
-                overview.commitMessagesFilter.some((msg) =>
-                  commit.message.toLowerCase().includes(msg.toLowerCase())
-                ))
-          )
+          .filter((commit) => {
+            const hasSearchFilter = overview.searchFilter.length > 0;
+            const hasCommitFilter = overview.commitMessagesFilter.length > 0;
+
+            if (!hasSearchFilter && !hasCommitFilter) return true;
+
+            const matchesSearch =
+              hasSearchFilter &&
+              overview.searchFilter.includes(commit.question);
+            const matchesCommit =
+              hasCommitFilter &&
+              overview.commitMessagesFilter.some((msg) =>
+                commit.message.toLowerCase().includes(msg.toLowerCase())
+              );
+
+            return matchesSearch || matchesCommit;
+          })
           .sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
 
         let minDateTime: number, maxDateTime: number;

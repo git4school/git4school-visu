@@ -20,6 +20,7 @@ export class QuestionsChooserComponent
   implements OnInit, ControlValueAccessor, OnDestroy {
   @ViewChild("instance", { static: true }) instance: NgbTypeahead;
   @ViewChild("scrollContainer") scrollContainer: ElementRef;
+  @ViewChild("inputField", { static: true }) inputField: ElementRef;
   
   @Input() questions: string[] = [];
   @Input() questionSuggestions: string[] = [];
@@ -64,6 +65,18 @@ export class QuestionsChooserComponent
     this.questionSuggestions = [...this.questionSuggestions];
     this.commitMessages = [...this.commitMessages];
     this.syncItemsFromInputs();
+
+    this.inputField.nativeElement.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        event.stopPropagation(); // Stop ngbTypeahead from processing the Tab key
+        if (this.instance.isPopupOpen()) {
+          this.instance.dismissPopup();
+        } else {
+          this.click$.next(this.question || '');
+        }
+      }
+    }, true); // Use capture phase
   }
 
   ngOnDestroy(): void {
