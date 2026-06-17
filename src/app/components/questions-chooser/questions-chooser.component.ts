@@ -4,6 +4,10 @@ import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { merge, Observable, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
+export interface FilterGroup {
+    criteria: { type: 'question' | 'commit', value: string }[];
+}
+
 @Component({
   selector: "questions-chooser",
   templateUrl: "./questions-chooser.component.html",
@@ -31,11 +35,12 @@ export class QuestionsChooserComponent
   @Input() maxPillsWidth: string = '50%';
   @Input() commitMessages: string[] = [];
   @Output() commitMessagesChange = new EventEmitter<string[]>();
+  @Output() filterGroupsChange = new EventEmitter<FilterGroup[]>();
   
   disabled: boolean;
 
   question: string;
-  items: { type: 'question' | 'commit', value: string }[] = [];
+  items: { type: 'question' | 'commit', value: string, operatorAfter?: 'AND' | 'OR' }[] = [];
 
   selectedPillIndex: number | null = null;
   editingPillIndex: number | null = null;
@@ -219,10 +224,20 @@ export class QuestionsChooserComponent
     this.items.push({ type, value: text });
     this.question = null;
     this.scrollToEnd();
+    this.emitFilterGroups();
   }
 
   deleteItem(index: number) {
     const item = this.items[index];
+
+    // Handle AND operator links when deleting from a merged group
+    if (index > 0 && this.items[index - 1].operatorAfter === 'AND' && (!item.operatorAfter || item.operatorAfter === 'OR')) {
+        // Deleting the last item of a group: remove the AND from the previous item
+        this.items[index - 1].operatorAfter = 'OR';
+    }
+    // If this item had AND linking to next, and previous also had AND to this,
+    // the previous keeps its AND to now point at the next item (chain stays)
+
     this.items.splice(index, 1);
     
     if (item.type === 'question') {
@@ -240,6 +255,7 @@ export class QuestionsChooserComponent
       }
       this.commitMessagesChange.emit(this.commitMessages);
     }
+    this.emitFilterGroups();
   }
 
   onBackspace() {
@@ -284,19 +300,25 @@ export class QuestionsChooserComponent
   }
 
   onCloseClick(index: number, event: MouseEvent) {
-      this.deleteItem(index);
-      if (this.selectedPillIndex === index) {
+      // Find the start of the merged group
+      let start = index;
+      while (start > 0 && this.items[start - 1].operatorAfter === 'AND') {
+          start--;
+      }
+      
+      // Delete from back to front to avoid index shifting during delete
+      for (let i = index; i >= start; i--) {
+          this.deleteItem(i);
+      }
+      
+      if (this.selectedPillIndex !== null) {
           if (this.items.length === 0) {
               this.selectedPillIndex = null;
               this.inputField.nativeElement.focus();
           } else {
               this.selectedPillIndex = Math.min(this.selectedPillIndex, this.items.length - 1);
+              this.focusSelectedPill();
           }
-      } else if (this.selectedPillIndex !== null && this.selectedPillIndex > index) {
-          this.selectedPillIndex--;
-      }
-      if (this.selectedPillIndex !== null) {
-          this.focusSelectedPill();
       }
       event.stopPropagation();
   }
@@ -391,6 +413,7 @@ export class QuestionsChooserComponent
       this.editingOldValue = null;
       this.editingOldType = null;
       this.editingCurrentText = '';
+      this.emitFilterGroups();
   }
 
   scrollToSelectedPill() {
@@ -456,6 +479,40 @@ export class QuestionsChooserComponent
 
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  // --- Connector / AND-OR logic (filter mode only) ---
+
+  toggleOperator(index: number, event: MouseEvent) {
+      event.stopPropagation();
+      const current = this.items[index].operatorAfter || 'OR';
+      this.items[index].operatorAfter = current === 'OR' ? 'AND' : 'OR';
+      this.emitFilterGroups();
+  }
+
+  emitFilterGroups() {
+      if (this.editable) return; // Only in filter mode
+
+      const groups: FilterGroup[] = [];
+      let currentGroup: { type: 'question' | 'commit', value: string }[] = [];
+
+      this.items.forEach((item, i) => {
+          currentGroup.push({ type: item.type, value: item.value });
+          if (item.operatorAfter !== 'AND' || i === this.items.length - 1) {
+              groups.push({ criteria: [...currentGroup] });
+              currentGroup = [];
+          }
+      });
+
+      this.filterGroupsChange.emit(groups);
+  }
+
+  isMergedRight(index: number): boolean {
+      return !this.editable && this.items[index]?.operatorAfter === 'AND';
+  }
+
+  isMergedLeft(index: number): boolean {
+      return !this.editable && index > 0 && this.items[index - 1]?.operatorAfter === 'AND';
   }
 
   private onChange = (_: any) => {};

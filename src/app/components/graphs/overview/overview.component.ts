@@ -29,6 +29,7 @@ import { Repository } from "../../../models/Repository.model";
 import { tick } from "@angular/core/testing";
 import { rejects } from "assert";
 import { Utils } from "../../../services/utils";
+import { FilterGroup } from "@components/questions-chooser/questions-chooser.component";
 
 @Component({
   selector: "overview",
@@ -56,6 +57,7 @@ export class OverviewComponent
   searchFilter: string[] = [];
 
   commitMessagesFilter: string[] = [];
+  filterGroups: FilterGroup[] = [];
   unit = "day";
   drag = false;
   chartData = [{ data: [] }];
@@ -1117,6 +1119,22 @@ export class OverviewComponent
         let before = undefined;
         let commits = repository.commits
           .filter((commit) => {
+            // If filterGroups are available, use AND/OR logic
+            if (overview.filterGroups && overview.filterGroups.length > 0) {
+                // OR between groups, AND within each group
+                return overview.filterGroups.some(group =>
+                    group.criteria.every(criterion => {
+                        if (criterion.type === 'question') {
+                            return commit.question === criterion.value;
+                        } else {
+                            return commit.message.toLowerCase()
+                                .includes(criterion.value.toLowerCase());
+                        }
+                    })
+                );
+            }
+
+            // Fallback: flat list logic (for backward compatibility)
             const hasSearchFilter = overview.searchFilter.length > 0;
             const hasCommitFilter = overview.commitMessagesFilter.length > 0;
 

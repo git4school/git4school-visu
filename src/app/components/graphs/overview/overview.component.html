@@ -10,6 +10,7 @@
       [maxPillsWidth]="'70%'"
       [commitMessages]="commitMessagesFilter"
       (commitMessagesChange)="commitMessagesFilter = $event; loadGraphDataAndRefresh()"
+      (filterGroupsChange)="filterGroups = $event; loadGraphDataAndRefresh()"
       [noQuestionMessage]="false"
     >
     </questions-chooser>
