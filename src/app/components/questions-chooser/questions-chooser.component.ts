@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnDestroy, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnDestroy, OnInit, ViewChild, ElementRef, HostListener } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { merge, Observable, Subject } from "rxjs";
@@ -39,7 +39,16 @@ export class QuestionsChooserComponent
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
 
-  constructor() {}
+  constructor(private elementRef: ElementRef) {}
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if(!this.elementRef.nativeElement.contains(event.target)) {
+      if(this.instance && this.instance.isPopupOpen()) {
+        this.instance.dismissPopup();
+      }
+    }
+  }
 
   searchQuestions = (text: Observable<string>) => {
     const clicksWithClosedPopup$ = this.click$.pipe(
