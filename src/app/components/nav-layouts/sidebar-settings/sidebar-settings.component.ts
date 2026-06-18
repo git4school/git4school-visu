@@ -60,7 +60,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
       const dateB = b.lastModificationDate ? new Date(b.lastModificationDate).getTime() : 0;
       return dateB - dateA;
     });
-    this.recentAssignments = all.slice(0, 5);
+    this.recentAssignments = all;
     this.cdr.detectChanges();
   }
 

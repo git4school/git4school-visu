@@ -118,3 +118,23 @@
 }
 
 
+
+.assignments-section {
+  .list-group {
+    max-height: 380px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--color-text-muted);
+    }
+  }
+}
