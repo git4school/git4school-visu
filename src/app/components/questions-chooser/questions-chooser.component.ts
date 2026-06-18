@@ -5,7 +5,7 @@ import { merge, Observable, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
 export interface FilterGroup {
-    criteria: { type: 'question' | 'commit', value: string }[];
+    criteria: { type: 'question' | 'commit', value: string, isExclusion?: boolean }[];
 }
 
 @Component({
@@ -41,13 +41,16 @@ export class QuestionsChooserComponent
   disabled: boolean;
 
   question: string;
-  items: { type: 'question' | 'commit', value: string, operatorAfter?: 'AND' | 'OR' }[] = [];
+  items: { type: 'question' | 'commit', value: string, operatorAfter?: 'AND' | 'OR', isExclusion?: boolean, rawValue?: string }[] = [];
 
   selectedPillIndex: number | null = null;
   editingPillIndex: number | null = null;
   editingOldValue: string | null = null;
   editingOldType: 'question' | 'commit' | null = null;
   editingCurrentText: string = '';
+  
+  isTypingExclusion: boolean = false;
+  editingIsExclusion: boolean = false;
 
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
@@ -133,8 +136,16 @@ export class QuestionsChooserComponent
               this.editingPillIndex = this.selectedPillIndex;
               this.editingOldValue = this.items[this.selectedPillIndex].value;
               this.editingOldType = this.items[this.selectedPillIndex].type;
-              this.editingCurrentText = event.key;
-              this.items[this.selectedPillIndex].value = event.key;
+              
+              if (!this.editable && event.key === '!') {
+                  this.editingIsExclusion = true;
+                  this.editingCurrentText = '';
+              } else {
+                  this.editingIsExclusion = false;
+                  this.editingCurrentText = event.key;
+              }
+              
+              this.items[this.selectedPillIndex].value = this.editingCurrentText;
               setTimeout(() => {
                   if (this.editInputs && this.editInputs.length > 0) {
                       const input = this.editInputs.first.nativeElement;
@@ -206,8 +217,24 @@ export class QuestionsChooserComponent
 
   syncItemsFromInputs() {
     this.items = [];
-    this.questions.forEach(q => this.items.push({ type: 'question', value: q }));
-    this.commitMessages.forEach(c => this.items.push({ type: 'commit', value: c }));
+    this.questions.forEach(q => {
+        const isExclusion = !this.editable && q.startsWith('!');
+        this.items.push({ 
+            type: 'question', 
+            value: isExclusion ? q.substring(1) : q, 
+            isExclusion, 
+            rawValue: q 
+        });
+    });
+    this.commitMessages.forEach(c => {
+        const isExclusion = !this.editable && c.startsWith('!');
+        this.items.push({ 
+            type: 'commit', 
+            value: isExclusion ? c.substring(1) : c, 
+            isExclusion, 
+            rawValue: c 
+        });
+    });
   }
 
   scrollToEnd() {
@@ -228,15 +255,22 @@ export class QuestionsChooserComponent
     }
 
     let type: 'question' | 'commit' = 'question';
+    let cleanText = text;
+    let isExclusion = this.isTypingExclusion;
     
     if (!this.editable) {
+        if (text.startsWith('!')) {
+            isExclusion = true;
+            cleanText = text.substring(1);
+        }
+        
         if (this.questionSuggestions && this.questionSuggestions.length > 0) {
-             const isSuggestion = this.questionSuggestions.some(s => s.toLowerCase() === text.toLowerCase());
-             if (!isSuggestion) {
-                 type = 'commit';
-             }
+                const isSuggestion = this.questionSuggestions.some(s => s.toLowerCase() === cleanText.toLowerCase());
+                if (!isSuggestion) {
+                    type = 'commit';
+                }
         } else {
-             type = 'commit';
+                type = 'commit';
         }
     }
 
@@ -248,40 +282,38 @@ export class QuestionsChooserComponent
         this.commitMessagesChange.emit(this.commitMessages);
     }
 
-    this.items.push({ type, value: text });
+    this.items.push({ type, value: cleanText, isExclusion, rawValue: text });
     this.question = null;
+    this.isTypingExclusion = false;
     this.scrollToEnd();
     this.emitFilterGroups();
   }
 
   deleteItem(index: number) {
     const item = this.items[index];
-
+    if (item.type === 'question') {
+        const idx = this.questions.indexOf(item.rawValue || item.value);
+        if (idx !== -1) {
+            this.questions.splice(idx, 1);
+            this.questions = [...this.questions];
+        }
+        this.onChange(this.questions);
+    } else {
+        const idx = this.commitMessages.indexOf(item.rawValue || item.value);
+        if (idx !== -1) {
+            this.commitMessages.splice(idx, 1);
+            this.commitMessages = [...this.commitMessages];
+        }
+        this.commitMessagesChange.emit(this.commitMessages);
+    }
+    
     // Handle AND operator links when deleting from a merged group
     if (index > 0 && this.items[index - 1].operatorAfter === 'AND' && (!item.operatorAfter || item.operatorAfter === 'OR')) {
         // Deleting the last item of a group: remove the AND from the previous item
         this.items[index - 1].operatorAfter = 'OR';
     }
-    // If this item had AND linking to next, and previous also had AND to this,
-    // the previous keeps its AND to now point at the next item (chain stays)
 
     this.items.splice(index, 1);
-    
-    if (item.type === 'question') {
-      const idx = this.questions.indexOf(item.value);
-      if (idx !== -1) {
-          this.questions.splice(idx, 1);
-          this.questions = [...this.questions];
-      }
-      this.onChange(this.questions);
-    } else {
-      const idx = this.commitMessages.indexOf(item.value);
-      if (idx !== -1) {
-          this.commitMessages.splice(idx, 1);
-          this.commitMessages = [...this.commitMessages];
-      }
-      this.commitMessagesChange.emit(this.commitMessages);
-    }
     this.emitFilterGroups();
   }
 
@@ -292,19 +324,26 @@ export class QuestionsChooserComponent
   }
 
   onMainInputKeyDown(event: KeyboardEvent) {
-      if (!this.question && this.items.length > 0) {
-          if (event.key === 'ArrowLeft') {
-              if (this.instance && this.instance.isPopupOpen()) {
-                  this.instance.dismissPopup();
+      if (!this.question) {
+          if (event.key === 'Backspace') {
+              if (this.isTypingExclusion) {
+                  this.isTypingExclusion = false;
+                  event.preventDefault();
+              } else if (this.items.length > 0) {
+                  this.deleteItem(this.items.length - 1);
+                  event.preventDefault();
               }
-              this.selectedPillIndex = this.items.length - 1;
-              event.stopPropagation();
-              this.scrollToSelectedPill();
-              this.focusSelectedPill();
-              event.preventDefault();
-          } else if (event.key === 'Backspace') {
-              this.deleteItem(this.items.length - 1);
-              event.preventDefault();
+          } else if (event.key === 'ArrowLeft' && this.items.length > 0) {
+              if (!this.isTypingExclusion) {
+                  if (this.instance && this.instance.isPopupOpen()) {
+                      this.instance.dismissPopup();
+                  }
+                  this.selectedPillIndex = this.items.length - 1;
+                  event.stopPropagation();
+                  this.scrollToSelectedPill();
+                  this.focusSelectedPill();
+                  event.preventDefault();
+              }
           }
       }
   }
@@ -425,6 +464,8 @@ export class QuestionsChooserComponent
           const newType = isSuggestion ? 'question' : 'commit';
           item.type = newType;
           item.value = newValue; 
+          item.isExclusion = this.editingIsExclusion;
+          item.rawValue = newValue;
           
           if (newType === 'question') {
               this.questions.push(newValue);
@@ -440,7 +481,31 @@ export class QuestionsChooserComponent
       this.editingOldValue = null;
       this.editingOldType = null;
       this.editingCurrentText = '';
+      this.editingIsExclusion = false;
       this.emitFilterGroups();
+  }
+
+  get isMainPillActive(): boolean {
+      return (this.question && this.question.length > 0) || this.isTypingExclusion;
+  }
+
+  onQuestionChange(value: string) {
+      this.question = value;
+      if (!this.editable && value && value.startsWith('!')) {
+          this.isTypingExclusion = true;
+          setTimeout(() => this.question = value.substring(1));
+      }
+  }
+
+  onEditQuestionChange(value: string) {
+      this.editingCurrentText = value;
+      if (!this.editable && value && value.startsWith('!')) {
+          this.editingIsExclusion = true;
+          setTimeout(() => this.editingCurrentText = value.substring(1));
+      } else if (value.length === 0) {
+          // Keep exclusion state if we just backspaced everything but didn't remove the exclusion flag yet?
+          // Or user requested "dès la première lettre, on oublie l'exclusion". This is handled on keydown.
+      }
   }
 
   scrollToSelectedPill() {
@@ -778,7 +843,7 @@ export class QuestionsChooserComponent
       }
       if (index === -2) {
           const textToEvaluate = item?.value || '';
-          if (textToEvaluate.length === 0) return false;
+          if (textToEvaluate.length === 0) return true;
           const isSuggestion = this.questionSuggestions.some(s => s.toLowerCase() === textToEvaluate.toLowerCase());
           return !isSuggestion;
       }
@@ -826,10 +891,10 @@ export class QuestionsChooserComponent
       if (this.editable) return; // Only in filter mode
 
       const groups: FilterGroup[] = [];
-      let currentGroup: { type: 'question' | 'commit', value: string }[] = [];
+      let currentGroup: { type: 'question' | 'commit', value: string, isExclusion?: boolean }[] = [];
 
       this.items.forEach((item, i) => {
-          currentGroup.push({ type: item.type, value: item.value });
+          currentGroup.push({ type: item.type, value: item.value, isExclusion: item.isExclusion });
           if (item.operatorAfter !== 'AND' || i === this.items.length - 1) {
               groups.push({ criteria: [...currentGroup] });
               currentGroup = [];

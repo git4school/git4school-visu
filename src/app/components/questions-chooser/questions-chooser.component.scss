@@ -134,6 +134,20 @@
       outline: none;
   }
 
+  &.exclusion-pill {
+    border-color: var(--danger, #dc3545) !important;
+    &::before {
+      content: '!';
+      color: var(--danger, #dc3545);
+      font-weight: bold;
+      margin-right: 3px;
+    }
+    
+    &.commit-pill::before {
+      color: var(--danger, #dc3545);
+    }
+  }
+
   // ======================
   // Drag and Drop
   // ======================

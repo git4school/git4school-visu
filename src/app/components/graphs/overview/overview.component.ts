@@ -1124,12 +1124,14 @@ export class OverviewComponent
                 // OR between groups, AND within each group
                 return overview.filterGroups.some(group =>
                     group.criteria.every(criterion => {
+                        let match = false;
                         if (criterion.type === 'question') {
-                            return commit.question === criterion.value;
+                            match = commit.question === criterion.value;
                         } else {
-                            return commit.message.toLowerCase()
+                            match = commit.message.toLowerCase()
                                 .includes(criterion.value.toLowerCase());
                         }
+                        return criterion.isExclusion ? !match : match;
                     })
                 );
             }

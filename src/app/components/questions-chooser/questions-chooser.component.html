@@ -28,6 +28,7 @@
            [class.merged-left]="isMergedLeft(i)"
            [class.has-connector]="!editable && i < items.length - 1"
            [class.dragging]="draggedGroupStart !== null && i >= draggedGroupStart && i <= draggedGroupEnd"
+           [class.exclusion-pill]="(editingPillIndex === i) ? editingIsExclusion : item.isExclusion"
            (click)="selectPill(i, $event)">
            
         <span *ngIf="editingPillIndex !== i">{{ item.value }}</span>
@@ -36,7 +37,8 @@
                name="editInput_{{i}}"
                type="text"
                class="edit-input"
-               [(ngModel)]="editingCurrentText"
+               [ngModel]="editingCurrentText"
+               (ngModelChange)="onEditQuestionChange($event)"
                [ngModelOptions]="{standalone: true}"
                [ngbTypeahead]="searchQuestionsEdit"
                container="body"
@@ -97,15 +99,16 @@
   </div>
   
   <div class="main-input-wrapper"
-       [class.flex-grow-1]="!question"
-       [class.pill]="question && question.length > 0"
-       [class.editing-pill]="question && question.length > 0"
-       [class.selected-pill]="question && question.length > 0"
-       [class.commit-pill]="question && question.length > 0 && isCommitStyle({value: question}, -2)">
-    <input #inputField type="text" [(ngModel)]="question" [ngbTypeahead]="searchQuestions"
-        [class.transparent-input]="!question"
-        [class.edit-input]="question && question.length > 0"
-        [attr.size]="(question && question.length > 0) ? (question.length || 1) : null"
+       [class.flex-grow-1]="!isMainPillActive"
+       [class.pill]="isMainPillActive"
+       [class.editing-pill]="isMainPillActive"
+       [class.selected-pill]="isMainPillActive"
+       [class.exclusion-pill]="isTypingExclusion"
+       [class.commit-pill]="isMainPillActive && isCommitStyle({value: question}, -2)">
+    <input #inputField type="text" [ngModel]="question" (ngModelChange)="onQuestionChange($event)" [ngbTypeahead]="searchQuestions"
+        [class.transparent-input]="!isMainPillActive"
+        [class.edit-input]="isMainPillActive"
+        [attr.size]="isMainPillActive ? (question?.length || 1) : null"
         [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter()" (keydown)="onMainInputKeyDown($event)"
         placeholder="{{ !items.length ? ('QUESTIONS-CHOOSER-PLACEHOLDER' | translate) : '' }}" [disabled]="disabled"
         container="body"
