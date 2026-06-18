@@ -281,6 +281,8 @@
   "EXPORT-ASSIGNMENTS-TOOLTIP": "Exporter les devoirs",
   "IMPORT-ASSIGNMENTS-TOOLTIP": "Importer des devoirs",
   "QUESTIONS-CHOOSER-PLACEHOLDER": "Pour ajouter une question, tapez la puis appuyez sur entrer",
+  "QUESTIONS-CHOOSER-AND": "ET",
+  "QUESTIONS-CHOOSER-OR": "OU",
   "NO-QUESTION": "Aucune question",
   "IMPORT-CONFIRMATION-TITLE": "Confirmation d'importation",
   "CANCEL": "Annuler",

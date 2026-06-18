@@ -26,6 +26,7 @@ export class QuestionsChooserComponent
   @ViewChild("scrollContainer") scrollContainer: ElementRef;
   @ViewChild("inputField", { static: true }) inputField: ElementRef;
   @ViewChildren("pillElements") pillElements: QueryList<ElementRef>;
+  @ViewChildren("connectorElements") connectorElements: QueryList<ElementRef>;
   
   @Input() questions: string[] = [];
   @Input() questionSuggestions: string[] = [];
@@ -58,6 +59,10 @@ export class QuestionsChooserComponent
   dropTargetIndex: number | null = null;
   dropPosition: 'left' | 'right' | null = null;
 
+  trackByFn(index: number, item: any): any {
+      return item;
+  }
+
   constructor(private elementRef: ElementRef) {}
 
   @HostListener('document:click', ['$event'])
@@ -82,7 +87,23 @@ export class QuestionsChooserComponent
                return; // Let the editInput handle it
           }
 
-          if (event.key === 'ArrowLeft') {
+          if (event.key === 'ArrowLeft' && (event.metaKey || event.ctrlKey)) {
+              const currentGroup = this.getGroupRange(this.selectedPillIndex);
+              if (currentGroup.start > 0) {
+                  const prevGroup = this.getGroupRange(currentGroup.start - 1);
+                  this.animateAndSwap(currentGroup, prevGroup, 'left');
+              }
+              event.preventDefault();
+              return;
+          } else if (event.key === 'ArrowRight' && (event.metaKey || event.ctrlKey)) {
+              const currentGroup = this.getGroupRange(this.selectedPillIndex);
+              if (currentGroup.end < this.items.length - 1) {
+                  const nextGroup = this.getGroupRange(currentGroup.end + 1);
+                  this.animateAndSwap(currentGroup, nextGroup, 'right');
+              }
+              event.preventDefault();
+              return;
+          } else if (event.key === 'ArrowLeft') {
               this.selectedPillIndex = Math.max(0, this.selectedPillIndex - 1);
               this.scrollToSelectedPill();
               this.focusSelectedPill();
@@ -642,6 +663,102 @@ export class QuestionsChooserComponent
       this.draggedGroupEnd = null;
       this.dropTargetIndex = null;
       this.dropPosition = null;
+  }
+
+  animateAndSwap(group1: {start: number, end: number}, group2: {start: number, end: number}, direction: 'left' | 'right') {
+      const pillEls = this.pillElements.toArray().map(el => el.nativeElement as HTMLElement);
+      const connEls = this.connectorElements ? this.connectorElements.toArray().map(el => el.nativeElement as HTMLElement) : [];
+      
+      const group1StartRect = pillEls[group1.start].getBoundingClientRect();
+      const group1EndRect = pillEls[group1.end].getBoundingClientRect();
+      const group2StartRect = pillEls[group2.start].getBoundingClientRect();
+      const group2EndRect = pillEls[group2.end].getBoundingClientRect();
+
+      const group1Left = group1StartRect.left;
+      const group1Right = group1EndRect.right;
+      const group2Left = group2StartRect.left;
+      const group2Right = group2EndRect.right;
+
+      let move1 = 0;
+      let move2 = 0;
+      if (direction === 'left') {
+          const distanceBetween = group1Left - group2Right;
+          const group1Width = group1Right - group1Left;
+          const group2Width = group2Right - group2Left;
+          
+          move1 = -(group2Width + distanceBetween);
+          move2 = group1Width + distanceBetween;
+      } else {
+          const distanceBetween = group2Left - group1Right;
+          const group1Width = group1Right - group1Left;
+          const group2Width = group2Right - group2Left;
+          
+          move1 = group2Width + distanceBetween;
+          move2 = -(group1Width + distanceBetween);
+      }
+
+      for (let i = group1.start; i <= group1.end; i++) {
+          pillEls[i].style.transition = 'transform 0.3s ease-in-out';
+          pillEls[i].style.transform = `translateX(${move1}px)`;
+          pillEls[i].style.zIndex = '10';
+          if (i < group1.end && connEls[i]) {
+              connEls[i].style.transition = 'transform 0.3s ease-in-out';
+              connEls[i].style.transform = `translateX(${move1}px)`;
+              connEls[i].style.zIndex = '10';
+          }
+      }
+      for (let i = group2.start; i <= group2.end; i++) {
+          pillEls[i].style.transition = 'transform 0.3s ease-in-out';
+          pillEls[i].style.transform = `translateX(${move2}px)`;
+          pillEls[i].style.zIndex = '9';
+          if (i < group2.end && connEls[i]) {
+              connEls[i].style.transition = 'transform 0.3s ease-in-out';
+              connEls[i].style.transform = `translateX(${move2}px)`;
+              connEls[i].style.zIndex = '9';
+          }
+      }
+      
+      setTimeout(() => {
+          const allEls = [...pillEls.slice(group1.start, group1.end + 1), ...pillEls.slice(group2.start, group2.end + 1)];
+          const allConns: HTMLElement[] = [];
+          for (let i = group1.start; i < group1.end; i++) if (connEls[i]) allConns.push(connEls[i]);
+          for (let i = group2.start; i < group2.end; i++) if (connEls[i]) allConns.push(connEls[i]);
+
+          allEls.forEach(el => {
+              el.style.transition = 'none';
+              el.style.transform = '';
+              el.style.zIndex = '';
+          });
+          allConns.forEach(el => {
+              el.style.transition = 'none';
+              el.style.transform = '';
+              el.style.zIndex = '';
+          });
+
+          this.draggedGroupStart = group1.start;
+          this.draggedGroupEnd = group1.end;
+          this.dropTargetIndex = direction === 'left' ? group2.start : group2.end;
+          this.dropPosition = direction === 'left' ? 'left' : 'right';
+          
+          const selectOffset = this.selectedPillIndex! - group1.start;
+          
+          this.onDrop(null as any);
+
+          if (direction === 'left') {
+              this.selectedPillIndex = group2.start + selectOffset;
+          } else {
+              this.selectedPillIndex = group1.start + (group2.end - group2.start + 1) + selectOffset;
+          }
+          
+          setTimeout(() => {
+             this.scrollToSelectedPill();
+             this.focusSelectedPill();
+
+             // Restore transition after DOM update
+             allEls.forEach(el => { el.style.transition = ''; });
+             allConns.forEach(el => { el.style.transition = ''; });
+          }, 50);
+      }, 300);
   }
 
   rebuildDataArrays() {

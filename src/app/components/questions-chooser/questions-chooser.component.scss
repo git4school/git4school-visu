@@ -216,8 +216,8 @@
       display: none; 
     }
     
-    .minus-icon {
-      /* Show the - icon */
+    .unlink-icon {
+      /* Show the unlink icon */
       display: flex;
       background: #ef4444; /* red split indicator */
     }
@@ -232,25 +232,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
-  min-width: 14px;
-  height: 14px;
+  padding: 0 4px;
+  height: 16px;
   flex-shrink: 0;
-  border-radius: 50%;
+  border-radius: 4px;
   background: #1d4ed8;
   color: white;
   opacity: 0;
   transform: scale(0.5);
   transition: all 0.2s ease;
   pointer-events: none; /* Let the parent .pill-connector handle hover */
-  
-  svg {
-    width: 10px;
-    height: 10px;
-  }
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.minus-icon {
+.unlink-icon {
   display: none; /* Hidden by default, only shown in .merged */
 }
 
@@ -292,7 +291,7 @@
   background: #3b82f6;
 }
 
-:host-context(body.dark-theme) .connector-icon.minus-icon {
+:host-context(body.dark-theme) .connector-icon.unlink-icon {
   background: #ef4444;
 }
 

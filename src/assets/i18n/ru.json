@@ -276,6 +276,8 @@
   "EXPORT-ASSIGNMENTS-TOOLTIP": "Экспорт заданий",
   "IMPORT-ASSIGNMENTS-TOOLTIP": "Импорт заданий",
   "QUESTIONS-CHOOSER-PLACEHOLDER": "Чтобы добавить вопрос, введите его и нажмите Enter",
+  "QUESTIONS-CHOOSER-AND": "И",
+  "QUESTIONS-CHOOSER-OR": "ИЛИ",
   "NO-QUESTION": "Нет вопроса",
   "IMPORT-CONFIRMATION-TITLE": "Подтверждение импорта",
   "CANCEL": "Отмена",

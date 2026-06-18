@@ -9,7 +9,7 @@
        
     <!-- Absolute Drop Indicator removed in favor of inline ghost preview -->
 
-    <ng-container *ngFor="let item of items; let i = index">
+    <ng-container *ngFor="let item of items; let i = index; trackBy: trackByFn">
       
       <!-- Preview Left -->
       <ng-container *ngIf="dropTargetIndex === i && dropPosition === 'left'">
@@ -58,20 +58,16 @@
 
       <!-- Connector -->
       <div *ngIf="!editable && i < items.length - 1"
+           #connectorElements
            class="pill-connector"
            [class.merged]="item.operatorAfter === 'AND'"
            (click)="toggleOperator(i, $event)">
            
-        <div class="connector-icon plus-icon" *ngIf="item.operatorAfter !== 'AND'">
-          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
+        <div class="connector-icon link-icon" *ngIf="item.operatorAfter !== 'AND'">
+          <span>{{ 'QUESTIONS-CHOOSER-AND' | translate }}</span>
         </div>
-        <div class="connector-icon minus-icon" *ngIf="item.operatorAfter === 'AND'">
-          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
+        <div class="connector-icon unlink-icon" *ngIf="item.operatorAfter === 'AND'">
+          <span>{{ 'QUESTIONS-CHOOSER-OR' | translate }}</span>
         </div>
       </div>
 

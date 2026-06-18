@@ -276,6 +276,8 @@
   "EXPORT-ASSIGNMENTS-TOOLTIP": "Export assignments",
   "IMPORT-ASSIGNMENTS-TOOLTIP": "Import assignments",
   "QUESTIONS-CHOOSER-PLACEHOLDER": "To add a question, type it and press enter",
+  "QUESTIONS-CHOOSER-AND": "AND",
+  "QUESTIONS-CHOOSER-OR": "OR",
   "NO-QUESTION": "No question",
   "IMPORT-CONFIRMATION-TITLE": "Import confirmation",
   "CANCEL": "Cancel",
