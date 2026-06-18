@@ -100,11 +100,22 @@
     </ng-template>
   </div>
   
-  <input #inputField type="text" class="transparent-input" [(ngModel)]="question" [ngbTypeahead]="searchQuestions"
-      [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter()" (keydown)="onMainInputKeyDown($event)"
-      placeholder="{{ !items.length ? ('QUESTIONS-CHOOSER-PLACEHOLDER' | translate) : '' }}" [disabled]="disabled"
-      (focus)="onInputFocus($event)" (click)="click$.next($any($event).target.value)"
-      #instance="ngbTypeahead" (selectItem)="onSelect($event)" />
+  <div class="main-input-wrapper"
+       [class.flex-grow-1]="!question"
+       [class.pill]="question && question.length > 0"
+       [class.editing-pill]="question && question.length > 0"
+       [class.selected-pill]="question && question.length > 0"
+       [class.commit-pill]="question && question.length > 0 && isCommitStyle({value: question}, -2)">
+    <input #inputField type="text" [(ngModel)]="question" [ngbTypeahead]="searchQuestions"
+        [class.transparent-input]="!question"
+        [class.edit-input]="question && question.length > 0"
+        [attr.size]="(question && question.length > 0) ? (question.length || 1) : null"
+        [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter()" (keydown)="onMainInputKeyDown($event)"
+        placeholder="{{ !items.length ? ('QUESTIONS-CHOOSER-PLACEHOLDER' | translate) : '' }}" [disabled]="disabled"
+        container="body"
+        (focus)="onInputFocus($event)" (click)="click$.next($any($event).target.value)"
+        #instance="ngbTypeahead" (selectItem)="onSelect($event)" />
+  </div>
 </div>
 
 <div *ngIf="noQuestionMessage && !items.length" class="mt-1">

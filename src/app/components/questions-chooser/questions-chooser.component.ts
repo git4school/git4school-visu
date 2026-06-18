@@ -659,6 +659,12 @@ export class QuestionsChooserComponent
           const isSuggestion = this.questionSuggestions.some(s => s.toLowerCase() === textToEvaluate.toLowerCase());
           return !isSuggestion;
       }
+      if (index === -2) {
+          const textToEvaluate = item?.value || '';
+          if (textToEvaluate.length === 0) return false;
+          const isSuggestion = this.questionSuggestions.some(s => s.toLowerCase() === textToEvaluate.toLowerCase());
+          return !isSuggestion;
+      }
       return item.type === 'commit';
   }
 
