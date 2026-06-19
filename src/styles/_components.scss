@@ -593,6 +593,163 @@
   }
 }
 
+.toolbar-actions {
+  flex-wrap: wrap;
+}
+
+.toolbar-select-wrapper {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  padding: 0 0 0 1rem;
+  height: 38px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+
+  &:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  .select-icon {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+  }
+
+  .select-label {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-right: 0.25rem;
+    white-space: nowrap;
+  }
+}
+
+.toolbar-select {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  padding: 0 2rem 0 0;
+  height: 100%;
+  max-width: 120px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  border-radius: 99px;
+  padding: 0 1rem;
+  height: 38px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  .btn-text {
+    white-space: nowrap;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Optional: Hide text on smaller screens and show only icon */
+  @media (max-width: 768px) {
+    padding: 0;
+    width: 38px;
+    height: 38px;
+    justify-content: center;
+    .btn-text {
+      display: none;
+    }
+  }
+}
+
+.toolbar-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  svg {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary);
+  }
+
+  &.anim-spin-hover:hover:not(:disabled) svg {
+    transform: rotate(180deg);
+  }
+
+  &.anim-scale-hover:hover:not(:disabled) svg {
+    transform: scale(1.15);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.toolbar-separator {
+  display: none; /* User requested removal */
+}
+
 .close-btn {
   background: transparent;
   border: none;

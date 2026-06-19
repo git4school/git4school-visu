@@ -1,5 +1,5 @@
-<div class="toolbar">
-  <div style="flex: 1; min-width: 0;">
+<div class="toolbar" style="gap: 2rem; flex-wrap: nowrap; overflow-x: auto;">
+  <div style="flex: 0 1 45%; min-width: 0;">
     <questions-chooser
       #questionsChooser
       [questionSuggestions]="dataService.questions"
@@ -15,38 +15,40 @@
     >
     </questions-chooser>
   </div>
-  <div>
-    <select
-      class="form-control"
-      [disabled]="!dataService.tpGroups?.length || loading"
-      [(ngModel)]="dataService.groupFilter"
-      (change)="this.loadGraphDataAndRefresh()"
-      placeholder="d.ff"
-    >
-      <option [ngValue]="undefined" hidden disabled>
-        {{ "TP-GROUP-SELECT.PLACEHOLDER" | translate }}
-      </option>
-      <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">
-        {{ tpGroup }}
-      </option>
-      <option value="">{{ "TP-GROUP-SELECT.ALL" | translate }}</option>
-    </select>
-  </div>
-  <div class="separator"></div>
-  <div>
-    <div ngbDropdown class="dropdown">
+    
+  <div class="toolbar-select-wrapper d-flex align-items-center">
+      <i class="fas fa-users select-icon"></i>
+      <span class="select-label d-none d-md-inline">{{ "TP-GROUP-SELECT.PLACEHOLDER" | translate }} :</span>
+      <select
+        class="toolbar-select"
+        [disabled]="!dataService.tpGroups?.length || loading"
+        [(ngModel)]="dataService.groupFilter"
+        (change)="this.loadGraphDataAndRefresh()"
+      >
+        <option [ngValue]="undefined" hidden disabled>
+          {{ "TP-GROUP-SELECT.ALL" | translate }}
+        </option>
+        <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">
+          {{ tpGroup }}
+        </option>
+        <option value="">{{ "TP-GROUP-SELECT.ALL" | translate }}</option>
+      </select>
+    </div>
+
+    <div ngbDropdown class="dropdown d-inline-block">
       <button
-        class="btn btn-outline-secondary"
+        class="toolbar-btn"
         ngbDropdownToggle
         [disabled]="loading"
         type="button"
         id="dropdownMenuButton"
         [ngbTooltip]="markersTooltip"
       >
-        {{ "OVERVIEW-GRAPH.MARKERS.BUTTON" | translate }}
+        <i class="fas fa-layer-group"></i>
+        <span class="btn-text">{{ "OVERVIEW-GRAPH.MARKERS.BUTTON" | translate }}</span>
       </button>
-      <div ngbDropdownMenu class="dropdown-menu">
-        <form class="px-4 py-3">
+      <div ngbDropdownMenu class="dropdown-menu shadow border-0" style="border-radius: 12px; padding: 0.5rem; min-width: 220px;">
+        <form class="px-2 py-2 d-flex flex-column gap-2">
           <div class="custom-control custom-switch">
             <input
               type="checkbox"
@@ -104,66 +106,40 @@
         </form>
       </div>
     </div>
-  </div>
-  <div class="separator"></div>
-  <div>
-    <div class="btn-group" role="group" aria-label="Interaction controls">
-      <button
-        class="btn btn-outline-secondary"
-        [disabled]="loading"
-        (click)="resetZoom(false)"
-        [ngbTooltip]="resetZoomTooltip"
-      >
-        <span class="fa-layers fa-fw">
-          <i class="fas fa-search"></i>
-          <i
-            class="fas fa-times"
-            data-fa-transform="shrink-8 up-1.6 left-2"
-          ></i>
-        </span>
-      </button>
-      <!-- <button
-        class="btn btn-outline-secondary"
-        [ngbTooltip]="changeZoomTooltip"
-        [disabled]="loading"
-        (click)="toggleDrag()"
-      >
-        <div *ngIf="drag">
-          <span class="fa-layers fa-fw">
-            <i
-              class="fas fa-mouse-pointer"
-              data-fa-transform="shrink-2 right-5 down-6"
-            ></i>
-            <i
-              class="far fa-square"
-              data-fa-transform="shrink-2 up-6 left-5"
-            ></i>
-          </span>
-        </div>
-        <div *ngIf="!drag">
-          <span class="fa-layers fa-fw">
-            <i
-              class="fas fa-mouse-pointer"
-              data-fa-transform="shrink-2 right-5 down-6"
-            ></i>
-            <i class="fas fa-arrows-alt-h" data-fa-transform="up-6 left-5"></i>
-          </span>
-        </div>
-      </button> -->
-    </div>
-  </div>
-  <div class="separator"></div>
-  <div>
+
     <button
-      class="btn btn-outline-secondary"
+      class="toolbar-icon-btn anim-scale-hover flex-shrink-0"
+      [disabled]="loading"
+      (click)="resetZoom(false)"
+      [ngbTooltip]="resetZoomTooltip"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        <line x1="8.5" y1="8.5" x2="13.5" y2="13.5"></line>
+        <line x1="13.5" y1="8.5" x2="8.5" y2="13.5"></line>
+      </svg>
+    </button>
+
+    <button
+      class="toolbar-icon-btn anim-spin-hover flex-shrink-0"
       (click)="loadGraph(dataService.startDate, dataService.endDate)"
       [disabled]="!dataService.repositories?.length || loading"
       [ngbTooltip]="reloadTooltip"
     >
-      <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>
-      <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>
+      <div *ngIf="loading" class="d-flex">
+        <svg class="fa-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
+          <path d="M21 3v5h-5"></path>
+        </svg>
+      </div>
+      <div *ngIf="!loading" class="d-flex">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
+          <path d="M21 3v5h-5"></path>
+        </svg>
+      </div>
     </button>
-  </div>
 </div>
 <div id="chart" style="position: relative">
   <div class="chart-container-absolute"></div>
