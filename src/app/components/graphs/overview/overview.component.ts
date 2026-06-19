@@ -163,11 +163,56 @@ export class OverviewComponent
   }
 
   getDisplayedRepositories(): Repository[] {
+    const isFilterActive = (this.filterGroups && this.filterGroups.length > 0) || 
+                           (this.searchFilter && this.searchFilter.length > 0) || 
+                           (this.commitMessagesFilter && this.commitMessagesFilter.length > 0);
+
     return this.dataService.repositories.filter(
-      (repository) =>
-        !this.dataService.groupFilter ||
-        repository.tpGroup === this.dataService.groupFilter
+      (repository) => {
+        if (this.dataService.groupFilter && repository.tpGroup !== this.dataService.groupFilter) {
+            return false;
+        }
+
+        if (isFilterActive) {
+            return repository.commits.some(commit => this.isCommitMatchingFilter(commit));
+        }
+
+        return true;
+      }
     );
+  }
+
+  isCommitMatchingFilter(commit: Commit): boolean {
+    if (this.filterGroups && this.filterGroups.length > 0) {
+        return this.filterGroups.some(group =>
+            group.criteria.every(criterion => {
+                let match = false;
+                if (criterion.type === 'question') {
+                    match = commit.question === criterion.value;
+                } else {
+                    match = commit.message.toLowerCase()
+                        .includes(criterion.value.toLowerCase());
+                }
+                return criterion.isExclusion ? !match : match;
+            })
+        );
+    }
+
+    const hasSearchFilter = this.searchFilter.length > 0;
+    const hasCommitFilter = this.commitMessagesFilter.length > 0;
+
+    if (!hasSearchFilter && !hasCommitFilter) return true;
+
+    const matchesSearch =
+      hasSearchFilter &&
+      this.searchFilter.includes(commit.question);
+    const matchesCommit =
+      hasCommitFilter &&
+      this.commitMessagesFilter.some((msg) =>
+        commit.message.toLowerCase().includes(msg.toLowerCase())
+      );
+
+    return matchesSearch || matchesCommit;
   }
 
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
@@ -1097,18 +1142,27 @@ export class OverviewComponent
 
     if (this.repository_g != null) this.repository_g.remove();
 
+    overview.filteredCommitsCount = 0;
+    overview.filteredStudentsCount = 0;
+
+    let allCommits = repositories.map((v) => v.commits).reduce((a, b) => a.concat(b), []);
+    if (allCommits.length === 0) {
+        if (this.axis_g != null) {
+            this.axis_g.remove();
+            this.axis_g = null;
+        }
+        return;
+    }
+
     this.repository_g = this.data_g.append("g");
     this.repositories_g = new Array<any>(repositories.length);
     let [minDate, maxDate] = d3.extent(
-      repositories.map((v) => v.commits).reduce((a, b) => a.concat(b), []),
+      allCommits,
       (d) => d.commitDate
     );
     this.setupAxis(repositories, minDate, maxDate);
 
     this.maxZoom = (maxDate.getTime() - minDate.getTime()) / (1000 * 60);
-
-    overview.filteredCommitsCount = 0;
-    overview.filteredStudentsCount = 0;
 
     this.repository_g
       .selectAll(".repository")
@@ -1124,41 +1178,7 @@ export class OverviewComponent
 
         let before = undefined;
         let commits = repository.commits
-          .filter((commit) => {
-            // If filterGroups are available, use AND/OR logic
-            if (overview.filterGroups && overview.filterGroups.length > 0) {
-                // OR between groups, AND within each group
-                return overview.filterGroups.some(group =>
-                    group.criteria.every(criterion => {
-                        let match = false;
-                        if (criterion.type === 'question') {
-                            match = commit.question === criterion.value;
-                        } else {
-                            match = commit.message.toLowerCase()
-                                .includes(criterion.value.toLowerCase());
-                        }
-                        return criterion.isExclusion ? !match : match;
-                    })
-                );
-            }
-
-            // Fallback: flat list logic (for backward compatibility)
-            const hasSearchFilter = overview.searchFilter.length > 0;
-            const hasCommitFilter = overview.commitMessagesFilter.length > 0;
-
-            if (!hasSearchFilter && !hasCommitFilter) return true;
-
-            const matchesSearch =
-              hasSearchFilter &&
-              overview.searchFilter.includes(commit.question);
-            const matchesCommit =
-              hasCommitFilter &&
-              overview.commitMessagesFilter.some((msg) =>
-                commit.message.toLowerCase().includes(msg.toLowerCase())
-              );
-
-            return matchesSearch || matchesCommit;
-          })
+          .filter((commit) => overview.isCommitMatchingFilter(commit))
           .sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
 
         overview.filteredCommitsCount += commits.length;
