@@ -126,6 +126,8 @@
     "DELETE-ASSIGNMENT-TOOLTIP": "Delete assignment"
   },
   "OVERVIEW-GRAPH": {
+    "COMMITS-DISPLAYED": "{{commits}} commits displayed by {{students}} student(s)",
+    "CLEAR-FILTERS": "Clear filters",
     "UPLOAD": {
       "TOOLTIP": "Upload JSON",
       "TITLE": "Upload file",

@@ -125,6 +125,8 @@
     "DELETE-ASSIGNMENT-TOOLTIP": "Supprimer le devoir"
   },
   "OVERVIEW-GRAPH": {
+    "COMMITS-DISPLAYED": "{{commits}} commits affichés par {{students}} étudiant·es",
+    "CLEAR-FILTERS": "Effacer les filtres",
     "UPLOAD": {
       "TOOLTIP": "Téléverser le JSON",
       "TITLE": "Téléverser un fichier",

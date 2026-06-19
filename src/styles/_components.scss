@@ -575,181 +575,6 @@
 /* =========================================
    TOOLBAR & MISC
    ========================================= */
-.toolbar {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  background-color: var(--color-surface);
-  padding: 0.4rem 1rem;
-  border-bottom: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-
-  .separator {
-    width: 1px;
-    height: 2rem;
-    background-color: var(--color-border);
-    margin: 0;
-  }
-}
-
-.toolbar-actions {
-  flex-wrap: wrap;
-}
-
-.toolbar-select-wrapper {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 99px;
-  padding: 0 0 0 1rem;
-  height: 38px;
-  transition: all 0.2s ease;
-
-  &:hover {
-    border-color: var(--color-primary);
-  }
-
-  &:focus-within {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  }
-
-  .select-icon {
-    color: var(--color-text-secondary);
-    font-size: 0.9rem;
-    margin-right: 0.5rem;
-  }
-
-  .select-label {
-    color: var(--color-text-secondary);
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-right: 0.25rem;
-    white-space: nowrap;
-  }
-}
-
-.toolbar-select {
-  appearance: none;
-  background-color: transparent;
-  border: none;
-  color: var(--color-text-secondary);
-  padding: 0 2rem 0 0;
-  height: 100%;
-  max-width: 120px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.7rem center;
-  background-size: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-
-  &:focus {
-    outline: none;
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-}
-
-.toolbar-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background-color: transparent;
-  border: none;
-  color: var(--color-text-secondary);
-  border-radius: 99px;
-  padding: 0 1rem;
-  height: 38px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  .btn-text {
-    white-space: nowrap;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: rgba(37, 99, 235, 0.1);
-    color: var(--color-primary);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  /* Optional: Hide text on smaller screens and show only icon */
-  @media (max-width: 768px) {
-    padding: 0;
-    width: 38px;
-    height: 38px;
-    justify-content: center;
-    .btn-text {
-      display: none;
-    }
-  }
-}
-
-.toolbar-icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background-color: transparent;
-  border: none;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  svg {
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  &:hover:not(:disabled) {
-    background-color: rgba(37, 99, 235, 0.1);
-    color: var(--color-primary);
-  }
-
-  &.anim-spin-hover:hover:not(:disabled) svg {
-    transform: rotate(180deg);
-  }
-
-  &.anim-scale-hover:hover:not(:disabled) svg {
-    transform: scale(1.15);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-}
-
-.toolbar-separator {
-  display: none; /* User requested removal */
-}
-
 .close-btn {
   background: transparent;
   border: none;
@@ -764,6 +589,137 @@
   &:hover {
     color: var(--color-danger);
     background-color: rgba(220, 38, 38, 0.1);
+  }
+}
+
+/* =========================================
+   NEXT-GEN MODERN UI (Inspired by AI Assistant)
+   ========================================= */
+
+.modern-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  .divider-vertical {
+    width: 1px;
+    height: 16px;
+    background-color: #e5e7eb;
+    margin: 0 0.25rem;
+  }
+}
+
+.btn-outline-ghost {
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background-color 0.15s, color 0.15s;
+  cursor: pointer;
+
+  svg {
+    color: #6b7280;
+    transition: color 0.15s;
+  }
+
+  &:hover, &[aria-expanded="true"] {
+    background-color: #f3f4f6;
+    color: #111827;
+    svg {
+      color: #111827;
+    }
+  }
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+.btn-icon-subtle {
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: background-color 0.15s, color 0.15s;
+  cursor: pointer;
+
+  svg {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #f3f4f6;
+    color: #111827;
+  }
+
+  &.anim-spin-hover:hover:not(:disabled) svg {
+    transform: rotate(180deg);
+  }
+
+  &.anim-scale-hover:hover:not(:disabled) svg {
+    transform: scale(1.15);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.modern-dropdown-menu {
+  border-radius: 12px;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 0.5rem;
+  font-size: 0.85rem;
+
+  .dropdown-item {
+    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    color: #374151;
+    font-weight: 500;
+    transition: background-color 0.15s, color 0.15s;
+
+    &:hover {
+      background-color: #f3f4f6;
+      color: #111827;
+    }
+  }
+
+  .dropdown-divider {
+    border-top: 1px solid #f3f4f6;
+    margin: 0.4rem 0;
+  }
+
+  .custom-control {
+    margin-bottom: 0.5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .custom-control-label {
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    margin-left: 0.25rem;
   }
 }
 
@@ -927,4 +883,182 @@
 .sidebar-backdrop.show ~ .sidebar-drawer .external-close-btn:hover {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* =========================================
+   MODERN SLIDER UI
+   ========================================= */
+
+.modern-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to right, #3b82f6 var(--slider-progress, 50%), #e5e7eb var(--slider-progress, 50%));
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 4px solid #3b82f6;
+    cursor: pointer;
+    box-shadow: 0 0 0 2px transparent;
+    transition: box-shadow 0.2s ease-in-out;
+  }
+
+  &::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  }
+
+  &::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 4px solid #3b82f6;
+    cursor: pointer;
+    box-shadow: 0 0 0 2px transparent;
+    transition: box-shadow 0.2s ease-in-out;
+  }
+
+  &::-moz-range-thumb:hover {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  }
+}
+
+/* =========================================
+   NOTION-STYLE UI
+   ========================================= */
+
+.notion-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 8px 12px;
+  background-color: transparent;
+  border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+  color: #37352f;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+
+  .btn-notion-ghost {
+    background: transparent;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.1s ease-in;
+    cursor: pointer;
+
+    svg {
+      color: rgba(55, 53, 47, 0.65);
+    }
+
+    &:hover, &[aria-expanded="true"] {
+      background: rgba(55, 53, 47, 0.08);
+    }
+    
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .btn-notion-icon {
+    background: transparent;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(55, 53, 47, 0.65);
+    transition: background 0.1s ease-in;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background: rgba(55, 53, 47, 0.08);
+      color: #37352f;
+    }
+
+    &.anim-spin-hover:hover:not(:disabled) svg {
+      transform: rotate(180deg);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  .notion-divider {
+    width: 1px;
+    height: 16px;
+    background-color: rgba(55, 53, 47, 0.16);
+    margin: 0 4px;
+  }
+
+  .notion-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: rgba(55, 53, 47, 0.65);
+
+    input[type="range"] {
+      accent-color: rgba(55, 53, 47, 0.8);
+      height: 4px;
+      cursor: pointer;
+    }
+
+    .notion-badge {
+      background: rgba(55, 53, 47, 0.08);
+      color: #37352f;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 12px;
+    }
+  }
+}
+
+.notion-dropdown-menu {
+  border-radius: 6px;
+  border: 1px solid rgba(55, 53, 47, 0.09);
+  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -5px rgba(0, 0, 0, 0.05);
+  padding: 6px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #37352f;
+
+  .dropdown-item {
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #37352f;
+    transition: background 0.1s ease-in;
+
+    &:hover {
+      background: rgba(55, 53, 47, 0.08);
+    }
+  }
+
+  .dropdown-divider {
+    border-top: 1px solid rgba(55, 53, 47, 0.09);
+    margin: 4px 0;
+  }
 }

@@ -66,6 +66,17 @@ export class QuestionsChooserComponent
       return item;
   }
 
+  public clearAll() {
+    this.items = [];
+    this.questions = [];
+    this.commitMessages = [];
+    this.selectedPillIndex = null;
+    this.editingPillIndex = null;
+    this.onChange(this.questions);
+    this.commitMessagesChange.emit(this.commitMessages);
+    this.emitFilterGroups();
+  }
+
   constructor(private elementRef: ElementRef) {}
 
   @HostListener('document:click', ['$event'])

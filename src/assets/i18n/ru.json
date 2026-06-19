@@ -126,6 +126,8 @@
     "DELETE-ASSIGNMENT-TOOLTIP": "Удалить задание"
   },
   "OVERVIEW-GRAPH": {
+    "COMMITS-DISPLAYED": "Отображено {{commits}} коммитов от {{students}} студентов",
+    "CLEAR-FILTERS": "Очистить фильтры",
     "UPLOAD": {
       "TOOLTIP": "Загрузить JSON",
       "TITLE": "Загрузить файл",

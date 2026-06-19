@@ -46,6 +46,7 @@ export class OverviewComponent
   static CIRCLE_RADIUS = 12;
 
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
+  @ViewChild('questionsChooser') questionsChooser;
 
   minZoom: number;
 
@@ -58,6 +59,8 @@ export class OverviewComponent
 
   commitMessagesFilter: string[] = [];
   filterGroups: FilterGroup[] = [];
+  filteredCommitsCount: number = 0;
+  filteredStudentsCount: number = 0;
   unit = "day";
   drag = false;
   chartData = [{ data: [] }];
@@ -1104,6 +1107,9 @@ export class OverviewComponent
 
     this.maxZoom = (maxDate.getTime() - minDate.getTime()) / (1000 * 60);
 
+    overview.filteredCommitsCount = 0;
+    overview.filteredStudentsCount = 0;
+
     this.repository_g
       .selectAll(".repository")
       .data(repositories)
@@ -1154,6 +1160,11 @@ export class OverviewComponent
             return matchesSearch || matchesCommit;
           })
           .sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
+
+        overview.filteredCommitsCount += commits.length;
+        if (commits.length > 0) {
+          overview.filteredStudentsCount++;
+        }
 
         let minDateTime: number, maxDateTime: number;
 
@@ -1408,6 +1419,17 @@ export class OverviewComponent
 
   searchSubmit() {
     this.loadGraphDataAndRefresh();
+  }
+
+  onFilterGroupsChange(groups: FilterGroup[]) {
+    this.filterGroups = groups;
+    this.loadGraphDataAndRefresh();
+  }
+
+  clearQuestionsFilter() {
+    if (this.questionsChooser) {
+      this.questionsChooser.clearAll();
+    }
   }
 
   openUploadFileModal() {
