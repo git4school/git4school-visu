@@ -26,7 +26,7 @@
     </div>
 
     <!-- Date Slider -->
-    <div class="modern-slider-container" style="width: 260px;">
+    <div class="modern-slider-container" style="min-width: 260px;">
       <div class="slider-header">
         <span class="slider-label">{{ 'DATE' | translate }}</span>
         <span class="slider-value">{{ date | date:'yyyy-MM-dd' }}</span>
@@ -35,7 +35,7 @@
     </div>
 
     <!-- Bar Index -->
-    <div class="modern-slider-container" style="width: 160px;">
+    <div class="modern-slider-container" style="min-width: 160px;">
       <div class="slider-header">
         <span class="slider-label">{{ 'BAR-INDEX' | translate }}</span>
         <span class="slider-value">{{ dataService.barIndex * 10 }}</span>
