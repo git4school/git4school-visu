@@ -26,16 +26,21 @@
     </div>
 
     <!-- Date Slider -->
-    <div class="d-flex align-items-center" style="width: 300px; gap: 1rem;">
-      <input type="range" class="modern-slider" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="getAdjustedMaxTimestamp()" [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" step="86400000" [disabled]="!dataService.repositories.length || loading" [style.--slider-progress.%]="(date - min) / (getAdjustedMaxTimestamp() - min) * 100">
-      <span class="badge" style="background-color: #f3f4f6; color: #374151; font-weight: 500; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: 9999px;">{{ date | date:'yyyy-MM-dd' }}</span>
+    <div class="modern-slider-container" style="width: 260px;">
+      <div class="slider-header">
+        <span class="slider-label">{{ 'DATE' | translate }}</span>
+        <span class="slider-value">{{ date | date:'yyyy-MM-dd' }}</span>
+      </div>
+      <input type="range" class="modern-slider" style="width: 100%;" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="getAdjustedMaxTimestamp()" [min]="this.min" id="dateSlider" step="86400000" [disabled]="!dataService.repositories.length || loading" [style.--slider-progress.%]="(date - min) / (getAdjustedMaxTimestamp() - min) * 100">
     </div>
 
     <!-- Bar Index -->
-    <div class="d-flex align-items-center" style="gap: 1rem;">
-      <div class="font-weight-bold" style="color: #6b7280; font-size: 0.85rem;">{{ 'BAR-INDEX' | translate }} :</div>
-      <input type="range" class="modern-slider" style="width: 100px;" (input)="changeBarIndex()" [(ngModel)]="dataService.barIndex" min="1" max="9" title="Bar" id="barSlider" step="1" [style.--slider-progress.%]="(dataService.barIndex - 1) / 8 * 100">
-      <span class="badge" style="background-color: #f3f4f6; color: #374151; font-weight: 500; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: 9999px;">{{ dataService.barIndex * 10 }}</span>
+    <div class="modern-slider-container" style="width: 160px;">
+      <div class="slider-header">
+        <span class="slider-label">{{ 'BAR-INDEX' | translate }}</span>
+        <span class="slider-value">{{ dataService.barIndex * 10 }}</span>
+      </div>
+      <input type="range" class="modern-slider" style="width: 100%;" (input)="changeBarIndex()" [(ngModel)]="dataService.barIndex" min="1" max="9" id="barSlider" step="1" [style.--slider-progress.%]="(dataService.barIndex - 1) / 8 * 100">
     </div>
 
     <!-- Reload Button -->
