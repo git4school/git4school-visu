@@ -129,6 +129,28 @@ export class OverviewComponent
   scrollable_height: number;
   ////////////////////////
 
+  public markerHoverState: any = {
+    sessions: { isHovered: false, wasClicked: false },
+    corrections: { isHovered: false, wasClicked: false },
+    reviews: { isHovered: false, wasClicked: false },
+    others: { isHovered: false, wasClicked: false }
+  };
+
+  onMarkerMouseEnter(marker: string) {
+    this.markerHoverState[marker].isHovered = true;
+    this.markerHoverState[marker].wasClicked = false;
+  }
+
+  onMarkerMouseLeave(marker: string) {
+    this.markerHoverState[marker].isHovered = false;
+    this.markerHoverState[marker].wasClicked = false;
+  }
+
+  onMarkerChange(marker: string) {
+    this.markerHoverState[marker].wasClicked = true;
+    this.loadGraphDataAndRefresh();
+  }
+
   constructor(
     private translateService: TranslateService,
     private toastService: ToastService,

@@ -57,22 +57,71 @@
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </button>
-      <div ngbDropdownMenu class="modern-dropdown-menu" style="min-width: 220px; padding: 0.75rem;">
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="sessionsSwitch" [(ngModel)]="showSessions" (change)="this.loadGraphDataAndRefresh()" [ngModelOptions]="{ standalone: true }"/>
-          <label class="custom-control-label" for="sessionsSwitch">{{ "OVERVIEW-GRAPH.MARKERS.SESSIONS" | translate }}</label>
-        </div>
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="correctionsSwitch" [(ngModel)]="showCorrections" (change)="this.loadGraphDataAndRefresh()" [ngModelOptions]="{ standalone: true }"/>
-          <label class="custom-control-label" for="correctionsSwitch">{{ "OVERVIEW-GRAPH.MARKERS.CORRECTIONS" | translate }}</label>
-        </div>
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" selected id="reviewsSwitch" [(ngModel)]="showReviews" (change)="this.loadGraphDataAndRefresh()" [ngModelOptions]="{ standalone: true }"/>
-          <label class="custom-control-label" for="reviewsSwitch">{{ "OVERVIEW-GRAPH.MARKERS.REVIEWS" | translate }}</label>
-        </div>
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" selected id="othersSwitch" [(ngModel)]="showOthers" (change)="this.loadGraphDataAndRefresh()" [ngModelOptions]="{ standalone: true }"/>
-          <label class="custom-control-label" for="othersSwitch">{{ "OVERVIEW-GRAPH.MARKERS.OTHERS" | translate }}</label>
+      <div ngbDropdownMenu class="modern-dropdown-menu border-0 shadow-lg" style="padding: 0.5rem; border-radius: 16px; min-width: 150px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <!-- Séances -->
+          <label class="marker-chip mb-0"
+                 [class.show-hover]="markerHoverState['sessions'].isHovered && !markerHoverState['sessions'].wasClicked"
+                 (mouseenter)="onMarkerMouseEnter('sessions')"
+                 (mouseleave)="onMarkerMouseLeave('sessions')">
+            <input type="checkbox" [(ngModel)]="showSessions" (change)="onMarkerChange('sessions')" [ngModelOptions]="{ standalone: true }"/>
+            <div class="chip-content">
+              <svg class="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect class="cal-body" x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line class="cal-pin" x1="16" y1="2" x2="16" y2="6"></line>
+                <line class="cal-pin" x1="8" y1="2" x2="8" y2="6"></line>
+                <line class="cal-line" x1="3" y1="10" x2="21" y2="10"></line>
+                <path class="cal-check" d="M9 16l2 2 4-4"></path>
+              </svg>
+              <span>{{ "OVERVIEW-GRAPH.MARKERS.SESSIONS" | translate }}</span>
+            </div>
+          </label>
+          
+          <!-- Corrections -->
+          <label class="marker-chip mb-0"
+                 [class.show-hover]="markerHoverState['corrections'].isHovered && !markerHoverState['corrections'].wasClicked"
+                 (mouseenter)="onMarkerMouseEnter('corrections')"
+                 (mouseleave)="onMarkerMouseLeave('corrections')">
+            <input type="checkbox" [(ngModel)]="showCorrections" (change)="onMarkerChange('corrections')" [ngModelOptions]="{ standalone: true }"/>
+            <div class="chip-content">
+              <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle class="check-circle" cx="12" cy="12" r="10"></circle>
+                <polyline class="check-tick" points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span>{{ "OVERVIEW-GRAPH.MARKERS.CORRECTIONS" | translate }}</span>
+            </div>
+          </label>
+
+          <!-- Revues -->
+          <label class="marker-chip mb-0"
+                 [class.show-hover]="markerHoverState['reviews'].isHovered && !markerHoverState['reviews'].wasClicked"
+                 (mouseenter)="onMarkerMouseEnter('reviews')"
+                 (mouseleave)="onMarkerMouseLeave('reviews')">
+            <input type="checkbox" [(ngModel)]="showReviews" (change)="onMarkerChange('reviews')" [ngModelOptions]="{ standalone: true }"/>
+            <div class="chip-content">
+              <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path class="eye-lid" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle class="eye-pupil" cx="12" cy="12" r="3"></circle>
+              </svg>
+              <span>{{ "OVERVIEW-GRAPH.MARKERS.REVIEWS" | translate }}</span>
+            </div>
+          </label>
+
+          <!-- Autres -->
+          <label class="marker-chip mb-0"
+                 [class.show-hover]="markerHoverState['others'].isHovered && !markerHoverState['others'].wasClicked"
+                 (mouseenter)="onMarkerMouseEnter('others')"
+                 (mouseleave)="onMarkerMouseLeave('others')">
+            <input type="checkbox" [(ngModel)]="showOthers" (change)="onMarkerChange('others')" [ngModelOptions]="{ standalone: true }"/>
+            <div class="chip-content">
+              <svg class="icon-dots" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle class="dot d1" cx="5" cy="12" r="2"></circle>
+                <circle class="dot d2" cx="12" cy="12" r="2"></circle>
+                <circle class="dot d3" cx="19" cy="12" r="2"></circle>
+              </svg>
+              <span>{{ "OVERVIEW-GRAPH.MARKERS.OTHERS" | translate }}</span>
+            </div>
+          </label>
         </div>
       </div>
     </div>

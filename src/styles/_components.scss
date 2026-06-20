@@ -436,7 +436,7 @@
       }
     }
 
-    &:not(.is-dark):hover {
+    &:not(.is-dark):hover:not(:focus) {
       .icon-sun {
         transform: scale(0) rotate(90deg);
         opacity: 0;
@@ -459,7 +459,7 @@
       }
       
       /* On hover in Dark Mode: Animate to Sun */
-      &:hover {
+      &:hover:not(:focus) {
         .icon-moon {
           transform: scale(0) rotate(-90deg);
           opacity: 0;
@@ -961,6 +961,170 @@
     padding: 0.3rem 0.6rem;
     border-radius: 8px;
     display: inline-block;
+  }
+}
+
+/* =========================================
+   MARKER CHIP (CONTROL CENTER STYLE)
+   ========================================= */
+.marker-chip {
+  cursor: pointer;
+  display: block;
+  user-select: none;
+  aspect-ratio: 1;
+  
+  input[type="checkbox"] {
+    display: none;
+  }
+  
+  .chip-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    border-radius: 14px;
+    background: #f3f4f6;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    width: 100%;
+    padding: 0.4rem 0.2rem;
+    
+    svg {
+      stroke: #6b7280;
+      transition: all 0.25s ease;
+      width: 20px;
+      height: 20px;
+    }
+    
+    span {
+      color: #6b7280;
+      font-weight: 600;
+      font-size: 0.6rem;
+      transition: all 0.25s ease;
+      line-height: 1.1;
+      text-align: center;
+      word-break: break-word;
+    }
+  }
+  
+  &:hover .chip-content {
+    background: #e5e7eb;
+    transform: scale(0.96);
+  }
+
+  input[type="checkbox"]:checked + .chip-content {
+    background: #3b82f6;
+    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+    
+    svg {
+      stroke: #ffffff;
+    }
+    
+    span {
+      color: #ffffff;
+    }
+  }
+
+  input[type="checkbox"]:checked:hover + .chip-content {
+    background: #2563eb;
+    transform: scale(0.96);
+  }
+}
+
+/* =========================================
+   MARKER ICONS ANIMATIONS
+   ========================================= */
+
+/* Calendar (Séances) */
+.icon-calendar {
+  .cal-check {
+    stroke-dasharray: 12;
+    stroke-dashoffset: 12;
+    transition: stroke-dashoffset 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .cal-pin {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+}
+
+/* Check (Corrections) */
+.icon-check {
+  .check-tick {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    transition: stroke-dashoffset 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: 12px 12px;
+  }
+  .check-circle {
+    stroke-dasharray: 63 63;
+    transition: stroke-dasharray 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: 12px 12px;
+  }
+}
+
+/* Eye (Revues) */
+.icon-eye {
+  .eye-pupil {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .eye-lid {
+    transition: transform 0.3s ease;
+    transform-origin: 12px 12px;
+  }
+}
+
+/* Dots (Autres) */
+.icon-dots {
+  .dot {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .d1 { transition-delay: 0s; }
+  .d2 { transition-delay: 0.05s; }
+  .d3 { transition-delay: 0.1s; }
+}
+
+/* Active & Hover States */
+/* Baseline ON state & Hover Preview Unchecked */
+input[type="checkbox"]:checked + .chip-content,
+.marker-chip.show-hover input[type="checkbox"]:not(:checked) + .chip-content {
+  .icon-calendar {
+    .cal-check { stroke-dashoffset: 0; }
+    .cal-pin { transform: translateY(-2px); }
+  }
+  .icon-check {
+    .check-tick { stroke-dashoffset: 0; transform: scale(1.15); }
+    .check-circle { stroke-dasharray: 51 63; transform: scale(0.9); }
+  }
+  .icon-eye {
+    .eye-pupil { transform: translateX(3px); }
+    .eye-lid { transform: scaleY(0.85); }
+  }
+  .icon-dots {
+    .d1 { transform: translateY(-2px); }
+    .d2 { transform: translateY(2px); }
+    .d3 { transform: translateY(-2px); }
+  }
+}
+
+/* Hover Preview Checked -> Revert to OFF */
+.marker-chip.show-hover input[type="checkbox"]:checked + .chip-content {
+  .icon-calendar {
+    .cal-check { stroke-dashoffset: 12; }
+    .cal-pin { transform: none; }
+  }
+  .icon-check {
+    .check-tick { stroke-dashoffset: 20; transform: none; }
+    .check-circle { stroke-dasharray: 63 63; transform: none; }
+  }
+  .icon-eye {
+    .eye-pupil { transform: none; }
+    .eye-lid { transform: none; }
+  }
+  .icon-dots {
+    .d1 { transform: none; }
+    .d2 { transform: none; }
+    .d3 { transform: none; }
   }
 }
 
