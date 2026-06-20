@@ -82,7 +82,7 @@
             
             <!-- Status Badge -->
             <span class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus">
-              {{ 'HOME.STATUS.' + assignment.uiStatus | uppercase | translate }}
+              {{ 'HOME.STATUS.' + assignment.uiStatus.toUpperCase() | translate }}
             </span>
           </div>
           <div class="meta-info text-muted d-flex align-items-center" style="font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
