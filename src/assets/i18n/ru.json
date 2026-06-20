@@ -123,7 +123,19 @@
     "CREATE-ASSIGNMENT-TOOLTIP": "Создать новое задание",
     "SELECT-ASSIGNMENT-TOOLTIP": "Выбрать задание и загрузить его",
     "EDIT-ASSIGNMENT-TOOLTIP": "Редактировать конфигурацию задания",
-    "DELETE-ASSIGNMENT-TOOLTIP": "Удалить задание"
+    "DELETE-ASSIGNMENT-TOOLTIP": "Удалить задание",
+    "CONNECT-PROMPT-TITLE": "Подключитесь к провайдеру",
+    "CONNECT-PROMPT-DESC": "Некоторые задания требуют подключения к GitHub или GitLab для доступа или изменения.",
+    "STATUS": {
+      "PREPARED": "Подготовлено",
+      "ONGOING": "В процессе",
+      "FINISHED": "Завершено",
+      "DEFAULT": "Не запланировано"
+    },
+    "NO-ASSIGNMENTS": "Задания не найдены",
+    "SORT-BY": "Сортировать по",
+    "MUST-LOGIN": "Для выполнения этого действия необходимо войти в систему",
+    "CREATE-ASSIGNMENT": "Новое задание"
   },
   "OVERVIEW-GRAPH": {
     "COMMITS-DISPLAYED": "Отображено {{commits}} коммитов от {{students}} студентов",
@@ -167,7 +179,7 @@
       "QUESTIONS": "Вопросы"
     },
     "REREAD-TOOLTIP": "Перечитать",
-    "COMMIT-TOOLTIP" : {
+    "COMMIT-TOOLTIP": {
       "BEGIN": "Начало группы",
       "END": "Конец группы",
       "COMMIT_NUMBER": "Количество коммитов в группе"

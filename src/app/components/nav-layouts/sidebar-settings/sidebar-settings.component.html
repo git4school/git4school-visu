@@ -7,26 +7,34 @@
     </button>
 
     <!-- Recent Assignments (Top Section) -->
-    <div class="assignments-section" *ngIf="recentAssignments.length > 0">
+    <div class="assignments-section">
         <div class="sidebar-section-header">
             <span class="sidebar-section-title">{{ 'SETTINGS.RECENT-ASSIGNMENTS' | translate }}</span>
             <div class="sidebar-section-line"></div>
         </div>
         <div class="list-group list-group-flush pt-1">
-            <div *ngFor="let assignment of recentAssignments" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between py-1 px-3 assignment-item" style="border: none; cursor: pointer;" (click)="openAssignment(assignment)">
-                <div class="d-flex align-items-center mr-2" style="flex: 1; min-width: 0;">
-                    <div class="placeholder-icon mr-2" style="width: 1.2rem; height: 1.2rem; border-radius: 50%; background-color: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: bold; flex-shrink: 0;">
-                        {{ assignment.title ? assignment.title.charAt(0).toUpperCase() : '?' }}
+            <ng-container *ngIf="recentAssignments.length > 0; else noAssignments">
+                <div *ngFor="let assignment of recentAssignments" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between py-1 px-3 assignment-item" style="border: none; cursor: pointer;" (click)="openAssignment(assignment)">
+                    <div class="d-flex align-items-center mr-2" style="flex: 1; min-width: 0;">
+                        <div class="placeholder-icon mr-2" style="width: 1.2rem; height: 1.2rem; border-radius: 50%; background-color: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: bold; flex-shrink: 0;">
+                            {{ assignment.title ? assignment.title.charAt(0).toUpperCase() : '?' }}
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                            <span class="d-block font-weight-bold text-truncate" style="color: var(--color-on-surface); font-size: 0.85rem;" [title]="assignment.title">{{ getTruncatedText(assignment.title, 30) }}</span>
+                            <span class="d-block text-muted text-truncate" style="font-size: 0.7rem;" [title]="assignment.metadata?.course">{{ getTruncatedText(assignment.metadata?.course, 35) }}</span>
+                        </div>
                     </div>
-                    <div style="flex: 1; min-width: 0;">
-                        <span class="d-block font-weight-bold text-truncate" style="color: var(--color-on-surface); font-size: 0.85rem;" [title]="assignment.title">{{ getTruncatedText(assignment.title, 30) }}</span>
-                        <span class="d-block text-muted text-truncate" style="font-size: 0.7rem;" [title]="assignment.metadata?.course">{{ getTruncatedText(assignment.metadata?.course, 35) }}</span>
-                    </div>
+                    <button class="btn-action-icon" (click)="$event.stopPropagation(); editAssignment(assignment)" title="Paramètres" style="min-width: 32px; min-height: 32px;">
+                        <i class="fas fa-cog"></i>
+                    </button>
                 </div>
-                <button class="btn-action-icon" (click)="$event.stopPropagation(); editAssignment(assignment)" title="Paramètres" style="min-width: 32px; min-height: 32px;">
-                    <i class="fas fa-cog"></i>
-                </button>
-            </div>
+            </ng-container>
+            <ng-template #noAssignments>
+                <div class="text-center py-3 text-muted">
+                    <i class="fas fa-folder-open mb-2" style="opacity: 0.5; font-size: 1.25rem;"></i>
+                    <div style="font-size: 0.8rem;">{{ 'HOME.NO-ASSIGNMENTS' | translate }}</div>
+                </div>
+            </ng-template>
         </div>
     </div>
 

@@ -123,7 +123,19 @@
     "CREATE-ASSIGNMENT-TOOLTIP": "Create a new assignment",
     "SELECT-ASSIGNMENT-TOOLTIP": "Select assignment and load it",
     "EDIT-ASSIGNMENT-TOOLTIP": "Edit assignment configuration",
-    "DELETE-ASSIGNMENT-TOOLTIP": "Delete assignment"
+    "DELETE-ASSIGNMENT-TOOLTIP": "Delete assignment",
+    "CONNECT-PROMPT-TITLE": "Connect to your provider",
+    "CONNECT-PROMPT-DESC": "Some assignments require you to be connected to GitHub or GitLab to be accessed or modified.",
+    "STATUS": {
+      "PREPARED": "Prepared",
+      "ONGOING": "Ongoing",
+      "FINISHED": "Finished",
+      "DEFAULT": "Not scheduled"
+    },
+    "NO-ASSIGNMENTS": "No assignments found",
+    "SORT-BY": "Sort by",
+    "MUST-LOGIN": "You must be logged in to perform this action",
+    "CREATE-ASSIGNMENT": "New Assignment"
   },
   "OVERVIEW-GRAPH": {
     "COMMITS-DISPLAYED": "{{commits}} commits displayed by {{students}} student(s)",
@@ -167,7 +179,7 @@
       "QUESTIONS": "Questions"
     },
     "REREAD-TOOLTIP": "Reread",
-    "COMMIT-TOOLTIP" : {
+    "COMMIT-TOOLTIP": {
       "BEGIN": "Group begin",
       "END": "Group end",
       "COMMIT_NUMBER": "Number of commits in group"

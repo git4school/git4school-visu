@@ -1,54 +1,120 @@
-<div>
-    <ngx-datatable #assignmentsTable class="material" [rows]="assignments" [columnMode]="'force'" rowHeight="auto"
-        headerHeight="auto" [sorts]="[{ prop: 'lastModificationDate', dir: 'desc' }]">
-        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.ID' | translate }}" prop="id" [maxWidth]="65">
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}" prop="title">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <div class="text-truncate" [title]="value">{{ getTruncatedText(value, 40) }}</div>
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}" prop="course"></ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}" prop="program">
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}" prop="year"></ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}">
-            <<ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.lastModificationDate | date: 'short' }}
-                </ng-template>
+<div class="assignment-container">
+  <!-- Top bar -->
+  <div class="top-bar d-flex justify-content-between align-items-center mb-4">
+    <div class="sort-controls d-flex align-items-center">
+      <span class="mr-2 text-muted" style="font-size: 0.9rem; font-weight: 500;">{{ 'HOME.SORT-BY' | translate }}:</span>
+      
+      <div ngbDropdown class="dropdown d-inline-block">
+        <button class="btn-outline-ghost" ngbDropdownToggle>
+          <span>{{ getSortLabel(sortField) | translate }}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div ngbDropdownMenu class="modern-dropdown-menu">
+          <button class="dropdown-item" (click)="sortBy('lastModificationDate')">
+            {{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}
+          </button>
+          <button class="dropdown-item" (click)="sortBy('title')">
+            {{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}
+          </button>
+          <button class="dropdown-item" (click)="sortBy('course')">
+            {{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}
+          </button>
+          <button class="dropdown-item" (click)="sortBy('program')">
+            {{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}
+          </button>
+          <button class="dropdown-item" (click)="sortBy('year')">
+            {{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}
+          </button>
+        </div>
+      </div>
 
-        </ngx-datatable-column>
-        <ngx-datatable-column [maxWidth]="170" [sortable]="false">
-            <ng-template let-column="column" ngx-datatable-header-template>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary btn-sm" (click)="createAssignment()"
-                        [ngbTooltip]="'HOME.CREATE-ASSIGNMENT-TOOLTIP' | translate">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <button class="btn btn-secondary btn-sm" [ngbTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate" (click)="exportDB()"><i
-                            class="fas fa-upload"></i></button>
-                    <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
-                    <button class="btn btn-secondary btn-sm" (click)="assignmentFile.click();"
-                        [ngbTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate"><i class="fas fa-download"></i></button>
-                </div>
+      <button class="btn btn-sm btn-icon ml-2" 
+              (click)="toggleSortDirection()"
+              (mouseenter)="onSortMouseEnter()"
+              (mouseleave)="onSortMouseLeave()"
+              [title]="'Sort order'">
+        <svg class="sort-direction-svg" 
+             [class.is-asc]="sortDirection === 'asc'" 
+             [class.show-hover]="isSortHovered && !sortWasClicked" 
+             width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <g class="sort-bars">
+            <line x1="4" y1="6" x2="14" y2="6"></line>
+            <line x1="4" y1="12" x2="10" y2="12"></line>
+            <line x1="4" y1="18" x2="6" y2="18"></line>
+          </g>
+          <g class="sort-arrow">
+            <line x1="19" y1="4" x2="19" y2="20"></line>
+            <polyline points="16 17 19 20 22 17"></polyline>
+          </g>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="actions-group">
+      <button type="button" class="btn btn-primary action-btn shadow-sm" (click)="createAssignment()" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.CREATE-ASSIGNMENT-TOOLTIP') | translate">
+        <i class="fas fa-plus mr-2"></i> {{ 'HOME.CREATE-ASSIGNMENT' | translate }}
+      </button>
+      <button class="btn btn-outline-secondary action-btn ml-2" (click)="exportDB()" [ngbTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
+        <i class="fas fa-upload"></i>
+      </button>
+      <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
+      <button class="btn btn-outline-secondary action-btn ml-2" (click)="assignmentFile.click();" [ngbTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate">
+        <i class="fas fa-download"></i>
+      </button>
+    </div>
+  </div>
 
-            </ng-template>
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary left-right-btn" (click)="selectAssignment(row)"
-                        [ngbTooltip]="'HOME.SELECT-ASSIGNMENT-TOOLTIP' | translate" [disabled]="!authService.isSignedIn()">
-                        <i class="far fa-arrow-alt-circle-right icon"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary spin-btn" (click)="openConfigurationModal(row)"
-                        [ngbTooltip]="'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate">
-                        <i class="fas fa-cog icon"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger fill-btn" (click)="deleteAssignment(row)"
-                        [ngbTooltip]="'HOME.DELETE-ASSIGNMENT-TOOLTIP' | translate">
-                        <i class="far fa-trash-alt icon"></i>
-                    </button>
-                </div>
-            </ng-template>
-        </ngx-datatable-column>
-    </ngx-datatable>
+  <!-- Assignment List -->
+  <div class="assignment-list">
+    <div class="assignment-card" *ngFor="let assignment of assignments" [ngClass]="{'disabled-card': !authService.isSignedIn()}">
+      <div class="card-content d-flex align-items-center">
+        <!-- Type Icon -->
+        <div class="type-indicator mr-4" [ngClass]="assignment.uiType">
+          <i class="fab fa-2x" [ngClass]="{'fa-github': assignment.uiType === 'github', 'fa-gitlab': assignment.uiType === 'gitlab'}"></i>
+        </div>
+
+        <!-- Main Info -->
+        <div class="info-main flex-grow-1" style="min-width: 0;">
+          <div class="d-flex align-items-center mb-1">
+            <h5 class="assignment-title mb-0 mr-3 text-truncate" style="max-width: 350px;" [ngbTooltip]="assignment.title" container="body">{{ assignment.title }}</h5>
+            
+            <!-- Status Badge -->
+            <span class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus">
+              {{ 'HOME.STATUS.' + assignment.uiStatus | uppercase | translate }}
+            </span>
+          </div>
+          <div class="meta-info text-muted d-flex align-items-center" style="font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <span class="meta-item" [ngbTooltip]="assignment.course || '-'" container="body"><i class="fas fa-graduation-cap mr-1"></i> {{ assignment.course || '-' }}</span>
+            <span class="meta-separator">&bull;</span>
+            <span class="meta-item" [ngbTooltip]="assignment.program || '-'" container="body"><i class="fas fa-book mr-1"></i> {{ assignment.program || '-' }}</span>
+            <span class="meta-separator">&bull;</span>
+            <span class="meta-item" [ngbTooltip]="assignment.year || '-'" container="body"><i class="far fa-calendar-alt mr-1"></i> {{ assignment.year || '-' }}</span>
+            <span class="meta-separator">&bull;</span>
+            <span class="meta-item"><i class="far fa-clock mr-1"></i> {{ assignment.lastModificationDate | date: 'short' }}</span>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="card-actions ml-4 d-flex">
+          <button type="button" class="btn btn-icon-action btn-light text-primary" (click)="selectAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
+            <i class="far fa-arrow-alt-circle-right"></i>
+          </button>
+          <button type="button" class="btn btn-icon-action btn-light text-secondary ml-2" (click)="openConfigurationModal(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.EDIT-ASSIGNMENT-TOOLTIP') | translate">
+            <i class="fas fa-cog"></i>
+          </button>
+          <button type="button" class="btn btn-icon-action btn-light text-danger ml-2" (click)="deleteAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.DELETE-ASSIGNMENT-TOOLTIP') | translate">
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Empty State -->
+    <div *ngIf="assignments.length === 0" class="empty-state text-center py-5 text-muted">
+      <i class="fas fa-folder-open fa-3x mb-3" style="opacity: 0.5;"></i>
+      <h5>{{ 'HOME.NO-ASSIGNMENTS' | translate }}</h5>
+    </div>
+  </div>
 </div>
