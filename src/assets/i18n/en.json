@@ -35,6 +35,7 @@
   },
   "SETTINGS": {
     "TITLE": "Settings",
+    "NO-ASSIGNMENTS-DISCONNECTED": "Log in to see your assignments",
     "THEME": "Theme",
     "SHOW-LEGEND": "Show overview graph legend",
     "HELP": "Help",

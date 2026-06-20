@@ -34,6 +34,7 @@
   },
   "SETTINGS": {
     "TITLE": "Paramètres",
+    "NO-ASSIGNMENTS-DISCONNECTED": "Connectez-vous pour voir vos devoirs",
     "THEME": "Thème",
     "SHOW-LEGEND": "Afficher la légende du graphe d'aperçu",
     "HELP": "Aide",

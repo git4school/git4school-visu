@@ -138,3 +138,8 @@
     }
   }
 }
+
+.provider-icon {
+  &.github { color: var(--color-github); }
+  &.gitlab { color: var(--color-gitlab); }
+}

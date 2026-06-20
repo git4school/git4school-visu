@@ -73,8 +73,8 @@
 
 .type-indicator {
   color: var(--color-text-secondary, #6c757d);
-  &.github { color: #24292e; }
-  &.gitlab { color: #fc6d26; }
+  &.github { color: var(--color-github); }
+  &.gitlab { color: var(--color-gitlab); }
 }
 
 .assignment-title {

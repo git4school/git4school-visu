@@ -8,6 +8,8 @@ import { DatabaseService } from '@services/database.service';
 import { ThemeService } from '@services/theme.service';
 import { Subscription } from 'rxjs';
 
+import { AuthService } from '@services/auth.service';
+
 @Component({
   selector: 'app-sidebar-settings',
   templateUrl: './sidebar-settings.component.html',
@@ -21,6 +23,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   isHovered: boolean = false;
   wasClicked: boolean = false;
   recentAssignments: Assignment[] = [];
+  totalAssignmentsCount: number = 0;
   private dbSubscription: Subscription;
 
   constructor(
@@ -30,6 +33,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private configurationService: ConfigurationService,
     private assignmentsService: AssignmentsService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -52,15 +56,35 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  computeType(assignment: Assignment): 'github' | 'gitlab' {
+    if (assignment.title && assignment.title.toLowerCase().includes('gitlab')) {
+      return 'gitlab';
+    }
+    return 'github';
+  }
+
   async loadRecentAssignments() {
     let all = await this.databaseService.getAllAssignments();
+    this.totalAssignmentsCount = all.length;
+
+    // Filter by connection
+    const isGithubConnected = !!this.authService.isSignedIn();
+    const isGitlabConnected = false; // Mock for now
+    
+    let filtered = all.filter(a => {
+      (a as any).uiType = this.computeType(a);
+      if ((a as any).uiType === 'github') return isGithubConnected;
+      if ((a as any).uiType === 'gitlab') return isGitlabConnected;
+      return false;
+    });
+
     // Sort by lastModificationDate descending (most recently modified or opened)
-    all.sort((a, b) => {
+    filtered.sort((a, b) => {
       const dateA = a.lastModificationDate ? new Date(a.lastModificationDate).getTime() : 0;
       const dateB = b.lastModificationDate ? new Date(b.lastModificationDate).getTime() : 0;
       return dateB - dateA;
     });
-    this.recentAssignments = all;
+    this.recentAssignments = filtered;
     this.cdr.detectChanges();
   }
 

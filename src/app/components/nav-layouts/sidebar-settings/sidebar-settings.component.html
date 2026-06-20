@@ -16,8 +16,8 @@
             <ng-container *ngIf="recentAssignments.length > 0; else noAssignments">
                 <div *ngFor="let assignment of recentAssignments" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between py-1 px-3 assignment-item" style="border: none; cursor: pointer;" (click)="openAssignment(assignment)">
                     <div class="d-flex align-items-center mr-2" style="flex: 1; min-width: 0;">
-                        <div class="placeholder-icon mr-2" style="width: 1.2rem; height: 1.2rem; border-radius: 50%; background-color: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: bold; flex-shrink: 0;">
-                            {{ assignment.title ? assignment.title.charAt(0).toUpperCase() : '?' }}
+                        <div class="provider-icon mr-3 d-flex align-items-center justify-content-center" style="width: 1.5rem;" [ngClass]="assignment.uiType">
+                            <i class="fab fa-lg" [ngClass]="{'fa-github': assignment.uiType === 'github', 'fa-gitlab': assignment.uiType === 'gitlab'}"></i>
                         </div>
                         <div style="flex: 1; min-width: 0;">
                             <span class="d-block font-weight-bold text-truncate" style="color: var(--color-on-surface); font-size: 0.85rem;" [title]="assignment.title">{{ getTruncatedText(assignment.title, 30) }}</span>
@@ -31,8 +31,14 @@
             </ng-container>
             <ng-template #noAssignments>
                 <div class="text-center py-3 text-muted">
-                    <i class="fas fa-folder-open mb-2" style="opacity: 0.5; font-size: 1.25rem;"></i>
-                    <div style="font-size: 0.8rem;">{{ 'HOME.NO-ASSIGNMENTS' | translate }}</div>
+                    <ng-container *ngIf="totalAssignmentsCount > 0; else trueEmpty">
+                        <i class="fas fa-link mb-2" style="opacity: 0.5; font-size: 1.25rem;"></i>
+                        <div style="font-size: 0.8rem;">{{ 'SETTINGS.NO-ASSIGNMENTS-DISCONNECTED' | translate }}</div>
+                    </ng-container>
+                    <ng-template #trueEmpty>
+                        <i class="fas fa-folder-open mb-2" style="opacity: 0.5; font-size: 1.25rem;"></i>
+                        <div style="font-size: 0.8rem;">{{ 'HOME.NO-ASSIGNMENTS' | translate }}</div>
+                    </ng-template>
                 </div>
             </ng-template>
         </div>
