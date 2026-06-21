@@ -68,7 +68,8 @@
 
   <!-- Filter Group -->
   <div class="mb-3">
-    <div class="filter-group">
+    <div class="filter-group" [attr.data-active]="filterType">
+      <div class="filter-indicator"></div>
       <button class="filter-btn" [class.active]="filterType === 'all'" (click)="setFilter('all')">{{ 'HOME.FILTER.ALL' | translate }}</button>
       <button class="filter-btn" [class.active]="filterType === 'github'" (click)="setFilter('github')">{{ 'HOME.FILTER.GITHUB' | translate }}</button>
       <button class="filter-btn" [class.active]="filterType === 'gitlab'" (click)="setFilter('gitlab')">{{ 'HOME.FILTER.GITLAB' | translate }}</button>
