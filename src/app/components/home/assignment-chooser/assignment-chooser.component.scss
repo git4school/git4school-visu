@@ -202,6 +202,92 @@
   }
 }
 
+.assignment-timeline {
+  align-items: center;
+  min-width: 220px;
+  justify-content: center;
+  color: #6b7280;
+  
+  .timeline-point {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 60px;
+    
+    .date {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: #111827;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    .year {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+  }
+
+  .timeline-connection {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+    min-width: 100px;
+
+    .progress-container {
+      width: 100%;
+      position: relative;
+    }
+
+    .total-duration {
+      position: absolute;
+      bottom: 12px;
+      left: 0;
+      right: 0;
+      font-size: 0.75rem;
+      color: #6b7280;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .progress-track {
+      height: 8px;
+      background-color: #f3f4f6;
+      border-radius: 9999px;
+      width: 100%;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 9999px;
+      position: relative;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .current-marker {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 0;
+      height: 0;
+      z-index: 2;
+      
+      .remaining-text {
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #8b5cf6;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
 .btn-icon-action {
   width: 32px;
   height: 32px;

@@ -141,6 +141,13 @@
       "ALL": "All",
       "GITHUB": "GitHub",
       "GITLAB": "GitLab"
+    },
+    "DURATION": {
+      "DAYS": "d",
+      "HOURS": "h",
+      "MINUTES": "m",
+      "REMAINING": "Remaining:",
+      "TOTAL": "Total:"
     }
   },
   "OVERVIEW-GRAPH": {

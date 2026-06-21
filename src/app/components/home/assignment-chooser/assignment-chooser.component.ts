@@ -70,6 +70,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
         this.assignments = assignments.map(a => {
           (a as any).uiStatus = this.computeStatus(a);
           (a as any).uiType = this.computeType(a);
+          (a as any).uiProgress = this.getProgress(a.startDate, a.endDate);
           return a;
         });
         this.sortAssignments();
@@ -148,6 +149,77 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       }
       return 0;
     });
+  }
+
+  getDuration(start: string, end: string): string {
+    if (!start || !end) return '';
+    const startM = moment(start);
+    const endM = moment(end);
+    const diffDays = endM.diff(startM, 'days');
+    
+    if (diffDays === 0) {
+      const diffHours = endM.diff(startM, 'hours');
+      if (diffHours === 0) {
+        const diffMinutes = endM.diff(startM, 'minutes');
+        return `${diffMinutes} ${this.translateService.instant('HOME.DURATION.MINUTES')}`;
+      }
+      return `${diffHours} ${this.translateService.instant('HOME.DURATION.HOURS')}`;
+    }
+    return `${diffDays} ${this.translateService.instant('HOME.DURATION.DAYS')}`;
+  }
+
+  getProgress(start: string, end: string): number {
+    if (!start || !end) return 0;
+    const startM = moment(start);
+    const endM = moment(end);
+    const now = moment();
+    
+    if (now.isBefore(startM)) return 0;
+    if (now.isAfter(endM)) return 100;
+    
+    const totalDuration = endM.valueOf() - startM.valueOf();
+    const passedDuration = now.valueOf() - startM.valueOf();
+    
+    if (totalDuration === 0) return 100;
+    return Math.round((passedDuration / totalDuration) * 100);
+  }
+
+  getProgressBarColor(progress: number): string {
+    if (progress === 100) return '#9ca3af';
+    const hue = 120 - (progress * 1.2);
+    // Gradient from slightly lighter/warmer hue to target hue
+    return `linear-gradient(90deg, hsl(${hue + 15}, 85%, 65%) 0%, hsl(${hue}, 85%, 55%) 100%)`;
+  }
+
+  getProgressBarTextColor(progress: number): string {
+    if (progress === 100) return '#9ca3af';
+    const hue = 120 - (progress * 1.2);
+    return `hsl(${hue}, 85%, 45%)`; // Slightly darker for text readability
+  }
+
+  getRemainingTime(end: string): string {
+    if (!end) return '';
+    const now = moment();
+    const endM = moment(end);
+    
+    if (now.isAfter(endM)) return '';
+    
+    const diffDays = endM.diff(now, 'days');
+    if (diffDays === 0) {
+      const diffHours = endM.diff(now, 'hours');
+      if (diffHours === 0) {
+        const diffMinutes = endM.diff(now, 'minutes');
+        return `${diffMinutes} ${this.translateService.instant('HOME.DURATION.MINUTES')}`;
+      }
+      return `${diffHours} ${this.translateService.instant('HOME.DURATION.HOURS')}`;
+    }
+    return `${diffDays} ${this.translateService.instant('HOME.DURATION.DAYS')}`;
+  }
+
+  formatDate(dateStr: string, format: string): string {
+    if (!dateStr) return '';
+    moment.locale(this.translateService.currentLang || 'en');
+    return moment(dateStr).format(format);
   }
 
   isSortHovered: boolean = false;

@@ -141,6 +141,13 @@
       "ALL": "Все",
       "GITHUB": "GitHub",
       "GITLAB": "GitLab"
+    },
+    "DURATION": {
+      "DAYS": "д",
+      "HOURS": "ч",
+      "MINUTES": "м",
+      "REMAINING": "Осталось:",
+      "TOTAL": "Всего:"
     }
   },
   "OVERVIEW-GRAPH": {

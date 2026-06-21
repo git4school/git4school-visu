@@ -106,8 +106,37 @@
           </div>
         </div>
 
+        <!-- Timeline (Dates) -->
+        <div class="assignment-timeline mx-4 d-flex" *ngIf="assignment.startDate && assignment.endDate" style="flex-shrink: 0;">
+          <div class="timeline-point text-right">
+            <div class="date">{{ formatDate(assignment.startDate, 'DD MMM') }}</div>
+            <div class="year">{{ formatDate(assignment.startDate, 'YYYY') }}</div>
+          </div>
+          <div class="timeline-connection">
+            <div class="progress-container w-100 position-relative">
+              <div class="total-duration text-center mb-2">{{ getDuration(assignment.startDate, assignment.endDate) }}</div>
+              
+              <div class="progress-track">
+                <div class="progress-fill" 
+                     [style.width.%]="assignment.uiProgress" 
+                     [style.background]="getProgressBarColor(assignment.uiProgress)">
+                  <div class="current-marker" *ngIf="assignment.uiProgress > 0 && assignment.uiProgress < 100">
+                    <div class="remaining-text" [style.color]="getProgressBarTextColor(assignment.uiProgress)">
+                      {{ getRemainingTime(assignment.endDate) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-point text-left">
+            <div class="date">{{ formatDate(assignment.endDate, 'DD MMM') }}</div>
+            <div class="year">{{ formatDate(assignment.endDate, 'YYYY') }}</div>
+          </div>
+        </div>
+
         <!-- Actions -->
-        <div class="card-actions ml-4 d-flex">
+        <div class="card-actions ml-4 d-flex" style="flex-shrink: 0;">
           <button type="button" class="btn btn-icon-action btn-light text-primary" (click)="selectAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
             <i class="far fa-arrow-alt-circle-right"></i>
           </button>
