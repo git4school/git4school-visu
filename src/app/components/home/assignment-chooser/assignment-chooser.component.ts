@@ -25,11 +25,100 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
   filterType: 'all' | 'github' | 'gitlab' = 'all';
 
+  searchQuery: string = '';
+  
+  advancedFilters = {
+    status: {
+      prepared: true,
+      ongoing: true,
+      finished: true,
+      default: true
+    },
+    course: '',
+    program: '',
+    year: ''
+  };
+
+  availableCourses: string[] = [];
+  availablePrograms: string[] = [];
+  availableYears: string[] = [];
+
+  // Selection state
+  selectionMode: boolean = false;
+  selectedAssignments: Set<string> = new Set();
+  hoveredAssignment: string | null = null;
+
   get filteredAssignments() {
-    if (this.filterType === 'all') {
-      return this.assignments;
+    let result = this.assignments;
+
+    // Apply old filterType
+    if (this.filterType !== 'all') {
+      result = result.filter(a => (a as any).uiType === this.filterType);
     }
-    return this.assignments.filter(a => (a as any).uiType === this.filterType);
+
+    // Apply search query
+    if (this.searchQuery && this.searchQuery.trim() !== '') {
+      const q = this.searchQuery.toLowerCase().trim();
+      result = result.filter(a => 
+        (a.title && a.title.toLowerCase().includes(q)) ||
+        (a.course && a.course.toLowerCase().includes(q)) ||
+        (a.program && a.program.toLowerCase().includes(q)) ||
+        (a.year && a.year.toLowerCase().includes(q))
+      );
+    }
+
+    // Apply advanced status filters
+    const statusFilters = this.advancedFilters.status;
+    const isAnyStatusFilterActive = statusFilters.prepared || statusFilters.ongoing || statusFilters.finished || statusFilters.default;
+    
+    if (isAnyStatusFilterActive) {
+      result = result.filter(a => {
+        const status = (a as any).uiStatus;
+        if (status === 'prepared' && statusFilters.prepared) return true;
+        if (status === 'ongoing' && statusFilters.ongoing) return true;
+        if (status === 'finished' && statusFilters.finished) return true;
+        if (status === 'default' && statusFilters.default) return true;
+        return false;
+      });
+    }
+
+    // Apply course filter
+    if (this.advancedFilters.course) {
+      result = result.filter(a => a.course === this.advancedFilters.course);
+    }
+
+    // Apply program filter
+    if (this.advancedFilters.program) {
+      result = result.filter(a => a.program === this.advancedFilters.program);
+    }
+
+    // Apply year filter
+    if (this.advancedFilters.year) {
+      result = result.filter(a => a.year === this.advancedFilters.year);
+    }
+
+    return result;
+  }
+
+  getActiveFiltersCount(): number {
+    let count = 0;
+    const s = this.advancedFilters.status;
+    if (!s.prepared || !s.ongoing || !s.finished || !s.default) count++;
+    if (this.advancedFilters.course) count++;
+    if (this.advancedFilters.program) count++;
+    if (this.advancedFilters.year) count++;
+    // filterType (All/Github/Gitlab) is tracked outside the new badge count to preserve its original behavior
+    return count;
+  }
+
+  resetAdvancedFilters() {
+    this.advancedFilters = {
+      status: { prepared: true, ongoing: true, finished: true, default: true },
+      course: '',
+      program: '',
+      year: ''
+    };
+    this.searchQuery = '';
   }
 
   setFilter(type: 'all' | 'github' | 'gitlab') {
@@ -73,9 +162,87 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
           (a as any).uiProgress = this.getProgress(a.startDate, a.endDate);
           return a;
         });
+
+        // Extract unique courses, programs, and years for filters
+        const coursesSet = new Set<string>();
+        const programsSet = new Set<string>();
+        const yearsSet = new Set<string>();
+        this.assignments.forEach(a => {
+          if (a.course) coursesSet.add(a.course);
+          if (a.program) programsSet.add(a.program);
+          if (a.year) yearsSet.add(a.year);
+        });
+        this.availableCourses = Array.from(coursesSet).sort();
+        this.availablePrograms = Array.from(programsSet).sort();
+        this.availableYears = Array.from(yearsSet).sort();
+
         this.sortAssignments();
         this.cdr.detectChanges();
       });
+  }
+
+  // --- Selection Logic ---
+
+  toggleSelection(id: string) {
+    if (this.selectedAssignments.has(id)) {
+      this.selectedAssignments.delete(id);
+    } else {
+      this.selectedAssignments.add(id);
+    }
+    this.selectionMode = this.selectedAssignments.size > 0;
+  }
+
+  isSelected(id: string): boolean {
+    return this.selectedAssignments.has(id);
+  }
+
+  isAllSelected(): boolean {
+    const visibleIds = this.filteredAssignments.map(a => a.id);
+    if (visibleIds.length === 0) return false;
+    return visibleIds.every(id => this.selectedAssignments.has(id));
+  }
+
+  toggleSelectAll() {
+    const visibleIds = this.filteredAssignments.map(a => a.id);
+    if (this.isAllSelected()) {
+      // Deselect all visible
+      visibleIds.forEach(id => this.selectedAssignments.delete(id));
+    } else {
+      // Select all visible
+      visibleIds.forEach(id => this.selectedAssignments.add(id));
+    }
+    this.selectionMode = this.selectedAssignments.size > 0;
+  }
+
+  cancelSelection() {
+    this.selectedAssignments.clear();
+    this.selectionMode = false;
+  }
+
+  async deleteSelected() {
+    if (this.selectedAssignments.size === 0) return;
+    
+    // Convert Set to Array to process deletion
+    const idsToDelete = Array.from(this.selectedAssignments);
+    
+    // We could use a specific bulk delete if AssignmentsService had one, 
+    // but here we just loop and delete one by one.
+    try {
+      for (const id of idsToDelete) {
+        await this.databaseService.deleteAssignment(id);
+      }
+      this.toastService.success(
+        this.translateService.instant("SUCCESS"),
+        `Supprimé ${idsToDelete.length} devoir(s)`
+      );
+      this.cancelSelection();
+      this.loadAssignments();
+    } catch (err) {
+      this.toastService.error(
+        this.translateService.instant("ERROR"),
+        "Erreur lors de la suppression"
+      );
+    }
   }
 
   computeStatus(assignment: Assignment): 'prepared' | 'ongoing' | 'finished' | 'default' {
@@ -281,7 +448,13 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   exportDB() {
-    this.assignmentsService.exportAssignments();
+    let assignmentsToExport;
+    if (this.selectionMode && this.selectedAssignments.size > 0) {
+      assignmentsToExport = this.assignments.filter(a => this.selectedAssignments.has(a.id));
+    } else {
+      assignmentsToExport = this.filteredAssignments;
+    }
+    this.assignmentsService.exportAssignments(assignmentsToExport);
   }
 
   importDB(blob: Blob) {

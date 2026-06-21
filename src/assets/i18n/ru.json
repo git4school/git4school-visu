@@ -44,6 +44,8 @@
     "LANGUAGE": "Язык"
   },
   "HOME": {
+    "SEARCH-PLACEHOLDER": "Поиск заданий...",
+    "FILTERS": "Фильтры",
     "COPY": "Копировать",
     "COPY-TOOLTIP": "Копировать в буфер обмена",
     "JSON-STRUCTURE": {
@@ -138,6 +140,14 @@
     "MUST-LOGIN": "Для выполнения этого действия необходимо войти в систему",
     "CREATE-ASSIGNMENT": "Новое задание",
     "FILTER": {
+      "STATUS": "Статус",
+      "COURSE": "Курс",
+      "ALL-COURSES": "Все курсы",
+      "PROGRAM": "Программа",
+      "ALL-PROGRAMS": "Все программы",
+      "YEAR": "Год",
+      "ALL-YEARS": "Все годы",
+      "RESET": "Сбросить",
       "ALL": "Все",
       "GITHUB": "GitHub",
       "GITLAB": "GitLab"

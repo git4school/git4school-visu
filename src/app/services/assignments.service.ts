@@ -60,12 +60,16 @@ export class AssignmentsService {
     });
   }
 
-  exportAssignments() {
-    this.databaseService
-      .exportDB()
-      .then((assignments) =>
-        this.fileService.saveJsonFile({ assignments }, "assignments")
-      );
+  exportAssignments(assignmentsToExport?: any[]) {
+    if (assignmentsToExport && assignmentsToExport.length > 0) {
+      this.fileService.saveJsonFile({ assignments: assignmentsToExport }, "assignments");
+    } else {
+      this.databaseService
+        .exportDB()
+        .then((assignments) =>
+          this.fileService.saveJsonFile({ assignments }, "assignments")
+        );
+    }
   }
 
   verifyAssignments(assignments: Assignment[]): boolean {

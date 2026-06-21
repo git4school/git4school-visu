@@ -1,7 +1,39 @@
 <div class="assignment-container">
+  <!-- Filter Group -->
+  <div class="mb-3 d-flex justify-content-between align-items-center">
+    <div class="filter-group" [attr.data-active]="filterType">
+      <div class="filter-indicator"></div>
+      <button class="filter-btn" [class.active]="filterType === 'all'" (click)="setFilter('all')">{{ 'HOME.FILTER.ALL' | translate }}</button>
+      <button class="filter-btn" [class.active]="filterType === 'github'" (click)="setFilter('github')">{{ 'HOME.FILTER.GITHUB' | translate }}</button>
+      <button class="filter-btn" [class.active]="filterType === 'gitlab'" (click)="setFilter('gitlab')">{{ 'HOME.FILTER.GITLAB' | translate }}</button>
+    </div>
+
+    <!-- Selection Actions -->
+    <div class="selection-actions" *ngIf="selectionMode">
+      <div class="d-flex align-items-center bg-white border rounded px-3 py-2 shadow-sm" style="background: var(--color-surface) !important; border-color: var(--color-border) !important;">
+        <div class="custom-control custom-checkbox mr-3">
+          <input type="checkbox" class="custom-control-input" id="selectAll" 
+                 [checked]="isAllSelected()" (change)="toggleSelectAll()">
+          <label class="custom-control-label font-weight-bold" for="selectAll" style="color: var(--color-text-primary); cursor: pointer; padding-top: 2px;">
+            {{ selectedAssignments.size }} sélectionné(s)
+          </label>
+        </div>
+        <div class="border-left pl-3 ml-1 d-flex">
+          <button class="btn btn-sm btn-outline-danger mr-2" (click)="deleteSelected()">
+            <i class="fas fa-trash"></i> Supprimer
+          </button>
+          <button class="btn btn-sm btn-outline-secondary" (click)="cancelSelection()">
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Top bar -->
   <div class="top-bar d-flex justify-content-between align-items-center mb-4">
-    <div class="sort-controls d-flex align-items-center">
+    <div class="left-controls d-flex align-items-center">
+      <div class="sort-controls d-flex align-items-center">
       <span class="mr-2 text-muted" style="font-size: 0.9rem; font-weight: 500;">{{ 'HOME.SORT-BY' | translate }}:</span>
       
       <div ngbDropdown class="dropdown d-inline-block">
@@ -52,36 +84,169 @@
       </button>
     </div>
     
-    <div class="actions-group">
-      <button type="button" class="btn btn-primary action-btn shadow-sm" (click)="createAssignment()" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.CREATE-ASSIGNMENT-TOOLTIP') | translate">
-        <i class="fas fa-plus mr-2"></i> {{ 'HOME.CREATE-ASSIGNMENT' | translate }}
-      </button>
-      <button class="btn btn-outline-secondary action-btn ml-2" (click)="exportDB()" [ngbTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
-        <i class="fas fa-upload"></i>
-      </button>
-      <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
-      <button class="btn btn-outline-secondary action-btn ml-2" (click)="assignmentFile.click();" [ngbTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate">
-        <i class="fas fa-download"></i>
-      </button>
-    </div>
-  </div>
+    <!-- Search and Filters Section -->
+    <div class="search-filters-group d-flex align-items-center ml-4">
+      <div class="search-input-wrapper position-relative mr-3" style="width: 250px;">
+        <svg class="search-icon position-absolute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" 
+               class="form-control modern-search-input w-100" 
+               [placeholder]="'HOME.SEARCH-PLACEHOLDER' | translate" 
+               [(ngModel)]="searchQuery">
+      </div>
+      
+      <div ngbDropdown class="dropdown d-inline-block filter-dropdown-container" [autoClose]="'outside'">
+        <button class="btn-outline-ghost" ngbDropdownToggle>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <polyline points="19 12 12 19 5 12"></polyline>
+          </svg>
+          <span class="font-weight-medium">{{ 'HOME.FILTERS' | translate }}</span>
+          <span class="filter-badge ml-2" *ngIf="getActiveFiltersCount() > 0">{{ getActiveFiltersCount() }}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div ngbDropdownMenu class="modern-dropdown-menu filter-panel-menu p-3" style="min-width: 250px;">
+          <div class="filter-section mb-3">
+            <h6 class="filter-section-title">{{ 'HOME.FILTER.STATUS' | translate }}</h6>
+            <div class="d-flex flex-wrap gap-2 mt-2 filter-chips">
+              <label class="filter-chip">
+                <input type="checkbox" [(ngModel)]="advancedFilters.status.prepared">
+                <span>{{ 'HOME.STATUS.PREPARED' | translate }}</span>
+              </label>
+              <label class="filter-chip">
+                <input type="checkbox" [(ngModel)]="advancedFilters.status.ongoing">
+                <span>{{ 'HOME.STATUS.ONGOING' | translate }}</span>
+              </label>
+              <label class="filter-chip">
+                <input type="checkbox" [(ngModel)]="advancedFilters.status.finished">
+                <span>{{ 'HOME.STATUS.FINISHED' | translate }}</span>
+              </label>
+              <label class="filter-chip">
+                <input type="checkbox" [(ngModel)]="advancedFilters.status.default">
+                <span>{{ 'HOME.STATUS.DEFAULT' | translate }}</span>
+              </label>
+            </div>
+          </div>
 
-  <!-- Filter Group -->
-  <div class="mb-3">
-    <div class="filter-group" [attr.data-active]="filterType">
-      <div class="filter-indicator"></div>
-      <button class="filter-btn" [class.active]="filterType === 'all'" (click)="setFilter('all')">{{ 'HOME.FILTER.ALL' | translate }}</button>
-      <button class="filter-btn" [class.active]="filterType === 'github'" (click)="setFilter('github')">{{ 'HOME.FILTER.GITHUB' | translate }}</button>
-      <button class="filter-btn" [class.active]="filterType === 'gitlab'" (click)="setFilter('gitlab')">{{ 'HOME.FILTER.GITLAB' | translate }}</button>
+          <div class="filter-section mb-3">
+            <h6 class="filter-section-title">{{ 'HOME.FILTER.COURSE' | translate }}</h6>
+            <div ngbDropdown class="d-block mt-1 w-100" container="body">
+              <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center" ngbDropdownToggle style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.375rem 0.75rem;">
+                <span class="text-truncate" style="font-weight: normal;">{{ advancedFilters.course || ('HOME.FILTER.ALL-COURSES' | translate) }}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div ngbDropdownMenu class="modern-dropdown-menu w-100">
+                <button class="dropdown-item" (click)="advancedFilters.course = ''">
+                  {{ 'HOME.FILTER.ALL-COURSES' | translate }}
+                </button>
+                <div class="dropdown-divider" *ngIf="availableCourses.length > 0"></div>
+                <button class="dropdown-item" *ngFor="let course of availableCourses" (click)="advancedFilters.course = course">
+                  {{ course }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-section mb-3">
+            <h6 class="filter-section-title">{{ 'HOME.FILTER.PROGRAM' | translate }}</h6>
+            <div ngbDropdown class="d-block mt-1 w-100" container="body">
+              <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center" ngbDropdownToggle style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.375rem 0.75rem;">
+                <span class="text-truncate" style="font-weight: normal;">{{ advancedFilters.program || ('HOME.FILTER.ALL-PROGRAMS' | translate) }}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div ngbDropdownMenu class="modern-dropdown-menu w-100">
+                <button class="dropdown-item" (click)="advancedFilters.program = ''">
+                  {{ 'HOME.FILTER.ALL-PROGRAMS' | translate }}
+                </button>
+                <div class="dropdown-divider" *ngIf="availablePrograms.length > 0"></div>
+                <button class="dropdown-item" *ngFor="let program of availablePrograms" (click)="advancedFilters.program = program">
+                  {{ program }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-section mb-3">
+            <h6 class="filter-section-title">{{ 'HOME.FILTER.YEAR' | translate }}</h6>
+            <div ngbDropdown class="d-block mt-1 w-100" container="body">
+              <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center" ngbDropdownToggle style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.375rem 0.75rem;">
+                <span class="text-truncate" style="font-weight: normal;">{{ advancedFilters.year || ('HOME.FILTER.ALL-YEARS' | translate) }}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div ngbDropdownMenu class="modern-dropdown-menu w-100">
+                <button class="dropdown-item" (click)="advancedFilters.year = ''">
+                  {{ 'HOME.FILTER.ALL-YEARS' | translate }}
+                </button>
+                <div class="dropdown-divider" *ngIf="availableYears.length > 0"></div>
+                <button class="dropdown-item" *ngFor="let year of availableYears" (click)="advancedFilters.year = year">
+                  {{ year }}
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="d-flex justify-content-end mt-4 pt-3 border-top filter-footer">
+            <button class="btn btn-sm btn-link text-muted" (click)="resetAdvancedFilters()" [disabled]="getActiveFiltersCount() === 0">
+              {{ 'HOME.FILTER.RESET' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> <!-- Closes search-filters-group -->
+  </div> <!-- Closes left-controls -->
+
+  <div class="actions-group d-flex" style="gap: 0.5rem;">
+    <div class="expandable-wrapper">
+      <button type="button" class="btn btn-primary action-btn square-btn expandable-btn shadow-sm" (click)="createAssignment()" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : '') | translate">
+        <span class="text">{{ 'HOME.CREATE-ASSIGNMENT' | translate }}</span>
+        <span class="icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </span>
+      </button>
     </div>
+    <button class="btn btn-outline-secondary action-btn square-btn" (click)="exportDB()" [ngbTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+    </button>
+    <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
+    <button class="btn btn-outline-secondary action-btn square-btn" (click)="assignmentFile.click();" [ngbTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+    </button>
   </div>
+</div>
 
   <!-- Assignment List -->
-  <div class="assignment-list">
-    <div class="assignment-card" *ngFor="let assignment of filteredAssignments" [ngClass]="{'disabled-card': !authService.isSignedIn()}">
+  <div class="assignment-list" [class.selection-mode]="selectionMode">
+    <div class="assignment-card" *ngFor="let assignment of filteredAssignments" 
+         [ngClass]="{'disabled-card': !authService.isSignedIn(), 'is-selected': isSelected(assignment.id)}"
+         (mouseenter)="hoveredAssignment = assignment.id"
+         (mouseleave)="hoveredAssignment = null"
+         (click)="authService.isSignedIn() && toggleSelection(assignment.id)">
       <div class="card-content d-flex align-items-center">
+        
+        <!-- Selection Checkbox -->
+        <div class="selection-checkbox mr-3" 
+             [class.visible]="selectionMode || hoveredAssignment === assignment.id"
+             (click)="$event.stopPropagation()">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" [id]="'check-' + assignment.id" 
+                   [checked]="isSelected(assignment.id)" 
+                   (change)="toggleSelection(assignment.id)">
+            <label class="custom-control-label" [for]="'check-' + assignment.id" style="cursor: pointer;"></label>
+          </div>
+        </div>
+
         <!-- Type Icon -->
-        <div class="type-indicator mr-4" [ngClass]="assignment.uiType">
+        <div class="type-indicator mr-3" [ngClass]="assignment.uiType">
           <i class="fab fa-2x" [ngClass]="{'fa-github': assignment.uiType === 'github', 'fa-gitlab': assignment.uiType === 'gitlab'}"></i>
         </div>
 
@@ -137,13 +302,13 @@
 
         <!-- Actions -->
         <div class="card-actions ml-4 d-flex" style="flex-shrink: 0;">
-          <button type="button" class="btn btn-icon-action btn-light text-primary" (click)="selectAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
+          <button type="button" class="btn btn-icon-action btn-light text-primary" (click)="$event.stopPropagation(); selectAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
             <i class="far fa-arrow-alt-circle-right"></i>
           </button>
-          <button type="button" class="btn btn-icon-action btn-light text-secondary ml-2" (click)="openConfigurationModal(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.EDIT-ASSIGNMENT-TOOLTIP') | translate">
+          <button type="button" class="btn btn-icon-action btn-light text-secondary ml-2" (click)="$event.stopPropagation(); openConfigurationModal(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.EDIT-ASSIGNMENT-TOOLTIP') | translate">
             <i class="fas fa-cog"></i>
           </button>
-          <button type="button" class="btn btn-icon-action btn-light text-danger ml-2" (click)="deleteAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.DELETE-ASSIGNMENT-TOOLTIP') | translate">
+          <button type="button" class="btn btn-icon-action btn-light text-danger ml-2" (click)="$event.stopPropagation(); deleteAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.DELETE-ASSIGNMENT-TOOLTIP') | translate">
             <i class="far fa-trash-alt"></i>
           </button>
         </div>

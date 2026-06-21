@@ -43,6 +43,8 @@
     "LANGUAGE": "Langue"
   },
   "HOME": {
+    "SEARCH-PLACEHOLDER": "Rechercher un devoir...",
+    "FILTERS": "Filtres",
     "COPY": "Copier",
     "COPY-TOOLTIP": "Copier dans le presse-papier",
     "JSON-STRUCTURE": {
@@ -137,6 +139,14 @@
     "MUST-LOGIN": "Vous devez être connecté pour effectuer cette action",
     "CREATE-ASSIGNMENT": "Nouveau devoir",
     "FILTER": {
+      "STATUS": "Statut",
+      "COURSE": "Cours",
+      "ALL-COURSES": "Tous les cours",
+      "PROGRAM": "Programme",
+      "ALL-PROGRAMS": "Tous les programmes",
+      "YEAR": "Année",
+      "ALL-YEARS": "Toutes les années",
+      "RESET": "Réinitialiser",
       "ALL": "Tous",
       "GITHUB": "GitHub",
       "GITLAB": "GitLab"

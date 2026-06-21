@@ -44,6 +44,8 @@
     "LANGUAGE": "Language"
   },
   "HOME": {
+    "SEARCH-PLACEHOLDER": "Search assignments...",
+    "FILTERS": "Filters",
     "COPY": "Copy",
     "COPY-TOOLTIP": "Copy to clipboard",
     "JSON-STRUCTURE": {
@@ -138,6 +140,14 @@
     "MUST-LOGIN": "You must be logged in to perform this action",
     "CREATE-ASSIGNMENT": "New Assignment",
     "FILTER": {
+      "STATUS": "Status",
+      "COURSE": "Course",
+      "ALL-COURSES": "All courses",
+      "PROGRAM": "Program",
+      "ALL-PROGRAMS": "All programs",
+      "YEAR": "Year",
+      "ALL-YEARS": "All years",
+      "RESET": "Reset",
       "ALL": "All",
       "GITHUB": "GitHub",
       "GITLAB": "GitLab"

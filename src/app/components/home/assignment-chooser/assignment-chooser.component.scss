@@ -84,6 +84,167 @@
       background-color: var(--color-bg-body);
     }
   }
+  .actions-group {
+    .square-btn {
+      width: 36px;
+      height: 36px;
+      padding: 0 !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      box-shadow: none !important;
+    }
+
+    .expandable-wrapper {
+      position: relative;
+      width: 36px;
+      height: 36px;
+
+      .expandable-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 36px;
+        width: 36px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition: width 0.3s ease, padding 0.3s ease;
+        z-index: 10;
+        
+        .icon {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+        }
+
+        .text {
+          opacity: 0;
+          padding-left: 12px;
+          padding-right: 4px;
+          transition: opacity 0.3s ease;
+        }
+
+        &:hover {
+          width: 170px;
+          transition-delay: 1s;
+          
+          .text {
+            opacity: 1;
+            transition-delay: 1s;
+          }
+        }
+      }
+    }
+  }
+}
+
+.search-filters-group {
+  .search-input-wrapper {
+    position: relative;
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-muted);
+      z-index: 5;
+      pointer-events: none;
+    }
+    .modern-search-input {
+      padding-left: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+      color: var(--color-text-primary);
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+      &:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        &::placeholder {
+          color: transparent;
+        }
+      }
+      &::placeholder {
+        color: var(--color-text-muted);
+        transition: color 0.2s ease;
+      }
+    }
+  }
+
+  .filter-dropdown-container {
+    .filter-badge {
+      background-color: var(--filter-bg);
+      color: var(--color-text-primary);
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 99px;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+  }
+
+  .filter-panel-menu {
+    width: 280px;
+    padding: 1rem;
+    
+    .filter-section-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .filter-chips {
+      .filter-chip {
+        display: inline-flex;
+        cursor: pointer;
+        margin: 0;
+        input[type="checkbox"] {
+          display: none;
+        }
+        span {
+          display: inline-block;
+          padding: 0.35rem 0.8rem;
+          border-radius: 6px;
+          border: none;
+          background-color: var(--color-bg-body);
+          color: var(--color-text-secondary);
+          font-size: 0.8rem;
+          font-weight: 500;
+          transition: all 0.15s ease;
+        }
+        input[type="checkbox"]:checked + span {
+          background-color: var(--color-primary);
+          color: #ffffff;
+        }
+        &:hover span {
+          filter: brightness(0.95);
+        }
+      }
+    }
+
+    .custom-select {
+      background-color: var(--color-surface);
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      &:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+      }
+    }
+  }
 }
 
 .assignment-list {
@@ -119,6 +280,30 @@
   &.disabled-card {
     opacity: 0.5;
     background: var(--color-bg-body);
+  }
+
+  &.is-selected {
+    background-color: rgba(59, 130, 246, 0.05);
+    border-left: 3px solid var(--color-primary);
+  }
+
+  .selection-checkbox {
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    &.visible {
+      width: auto;
+      opacity: 1;
+      overflow: visible;
+    }
+    
+    /* Make the custom checkbox a bit bigger/easier to click */
+    .custom-control-label::before,
+    .custom-control-label::after {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
   }
 }
 
