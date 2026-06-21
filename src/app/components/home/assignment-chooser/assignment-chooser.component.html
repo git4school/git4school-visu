@@ -31,7 +31,7 @@
   </div>
 
   <!-- Top bar -->
-  <div class="top-bar d-flex justify-content-between align-items-center mb-4">
+  <div class="top-bar d-flex justify-content-between align-items-center mb-2">
     <div class="left-controls d-flex align-items-center">
       <div class="sort-controls d-flex align-items-center">
       <span class="mr-2 text-muted" style="font-size: 0.9rem; font-weight: 500;">{{ 'HOME.SORT-BY' | translate }}:</span>
@@ -83,9 +83,10 @@
         </svg>
       </button>
     </div>
-    
+    <div class="divider-vertical mx-4"></div>
+
     <!-- Search and Filters Section -->
-    <div class="search-filters-group d-flex align-items-center ml-4">
+    <div class="search-filters-group d-flex align-items-center">
       <div class="search-input-wrapper position-relative mr-3" style="width: 250px;">
         <svg class="search-icon position-absolute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
@@ -100,8 +101,7 @@
       <div ngbDropdown class="dropdown d-inline-block filter-dropdown-container" [autoClose]="'outside'">
         <button class="btn-outline-ghost" ngbDropdownToggle>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <polyline points="19 12 12 19 5 12"></polyline>
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
           </svg>
           <span class="font-weight-medium">{{ 'HOME.FILTERS' | translate }}</span>
           <span class="filter-badge ml-2" *ngIf="getActiveFiltersCount() > 0">{{ getActiveFiltersCount() }}</span>
@@ -114,19 +114,19 @@
             <h6 class="filter-section-title">{{ 'HOME.FILTER.STATUS' | translate }}</h6>
             <div class="d-flex flex-wrap gap-2 mt-2 filter-chips">
               <label class="filter-chip">
-                <input type="checkbox" [(ngModel)]="advancedFilters.status.prepared">
+                <input type="checkbox" [(ngModel)]="advancedFilters.status.prepared" (ngModelChange)="savePreferences()">
                 <span>{{ 'HOME.STATUS.PREPARED' | translate }}</span>
               </label>
               <label class="filter-chip">
-                <input type="checkbox" [(ngModel)]="advancedFilters.status.ongoing">
+                <input type="checkbox" [(ngModel)]="advancedFilters.status.ongoing" (ngModelChange)="savePreferences()">
                 <span>{{ 'HOME.STATUS.ONGOING' | translate }}</span>
               </label>
               <label class="filter-chip">
-                <input type="checkbox" [(ngModel)]="advancedFilters.status.finished">
+                <input type="checkbox" [(ngModel)]="advancedFilters.status.finished" (ngModelChange)="savePreferences()">
                 <span>{{ 'HOME.STATUS.FINISHED' | translate }}</span>
               </label>
               <label class="filter-chip">
-                <input type="checkbox" [(ngModel)]="advancedFilters.status.default">
+                <input type="checkbox" [(ngModel)]="advancedFilters.status.default" (ngModelChange)="savePreferences()">
                 <span>{{ 'HOME.STATUS.DEFAULT' | translate }}</span>
               </label>
             </div>
@@ -135,18 +135,18 @@
           <div class="filter-section mb-3">
             <h6 class="filter-section-title">{{ 'HOME.FILTER.COURSE' | translate }}</h6>
             <div ngbDropdown class="d-block mt-1 w-100" container="body">
-              <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center" ngbDropdownToggle style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.375rem 0.75rem;">
-                <span class="text-truncate" style="font-weight: normal;">{{ advancedFilters.course || ('HOME.FILTER.ALL-COURSES' | translate) }}</span>
+              <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center" ngbDropdownToggle style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.375rem 0.75rem; max-width: 100%; overflow: hidden;">
+                <span class="text-truncate" style="font-weight: normal; text-align: left; min-width: 0; flex: 1; margin-right: 8px;">{{ advancedFilters.course || ('HOME.FILTER.ALL-COURSES' | translate) }}</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               </button>
               <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                <button class="dropdown-item" (click)="advancedFilters.course = ''">
+                <button class="dropdown-item text-truncate" (click)="advancedFilters.course = ''; savePreferences()">
                   {{ 'HOME.FILTER.ALL-COURSES' | translate }}
                 </button>
                 <div class="dropdown-divider" *ngIf="availableCourses.length > 0"></div>
-                <button class="dropdown-item" *ngFor="let course of availableCourses" (click)="advancedFilters.course = course">
+                <button class="dropdown-item text-truncate" *ngFor="let course of availableCourses" (click)="advancedFilters.course = course; savePreferences()" [title]="course">
                   {{ course }}
                 </button>
               </div>
@@ -156,18 +156,18 @@
           <div class="filter-section mb-3">
             <h6 class="filter-section-title">{{ 'HOME.FILTER.PROGRAM' | translate }}</h6>
             <div ngbDropdown class="d-block mt-1 w-100" container="body">
-              <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center" ngbDropdownToggle style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.375rem 0.75rem;">
-                <span class="text-truncate" style="font-weight: normal;">{{ advancedFilters.program || ('HOME.FILTER.ALL-PROGRAMS' | translate) }}</span>
+              <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center" ngbDropdownToggle style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.375rem 0.75rem; max-width: 100%; overflow: hidden;">
+                <span class="text-truncate" style="font-weight: normal; text-align: left; min-width: 0; flex: 1; margin-right: 8px;">{{ advancedFilters.program || ('HOME.FILTER.ALL-PROGRAMS' | translate) }}</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               </button>
               <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                <button class="dropdown-item" (click)="advancedFilters.program = ''">
+                <button class="dropdown-item text-truncate" (click)="advancedFilters.program = ''; savePreferences()">
                   {{ 'HOME.FILTER.ALL-PROGRAMS' | translate }}
                 </button>
                 <div class="dropdown-divider" *ngIf="availablePrograms.length > 0"></div>
-                <button class="dropdown-item" *ngFor="let program of availablePrograms" (click)="advancedFilters.program = program">
+                <button class="dropdown-item text-truncate" *ngFor="let program of availablePrograms" (click)="advancedFilters.program = program; savePreferences()" [title]="program">
                   {{ program }}
                 </button>
               </div>
@@ -177,18 +177,18 @@
           <div class="filter-section mb-3">
             <h6 class="filter-section-title">{{ 'HOME.FILTER.YEAR' | translate }}</h6>
             <div ngbDropdown class="d-block mt-1 w-100" container="body">
-              <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center" ngbDropdownToggle style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.375rem 0.75rem;">
-                <span class="text-truncate" style="font-weight: normal;">{{ advancedFilters.year || ('HOME.FILTER.ALL-YEARS' | translate) }}</span>
+              <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center" ngbDropdownToggle style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.375rem 0.75rem; max-width: 100%; overflow: hidden;">
+                <span class="text-truncate" style="font-weight: normal; text-align: left; min-width: 0; flex: 1; margin-right: 8px;">{{ advancedFilters.year || ('HOME.FILTER.ALL-YEARS' | translate) }}</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               </button>
               <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                <button class="dropdown-item" (click)="advancedFilters.year = ''">
+                <button class="dropdown-item text-truncate" (click)="advancedFilters.year = ''; savePreferences()">
                   {{ 'HOME.FILTER.ALL-YEARS' | translate }}
                 </button>
                 <div class="dropdown-divider" *ngIf="availableYears.length > 0"></div>
-                <button class="dropdown-item" *ngFor="let year of availableYears" (click)="advancedFilters.year = year">
+                <button class="dropdown-item text-truncate" *ngFor="let year of availableYears" (click)="advancedFilters.year = year; savePreferences()" [title]="year">
                   {{ year }}
                 </button>
               </div>

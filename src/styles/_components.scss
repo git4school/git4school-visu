@@ -603,12 +603,14 @@
   gap: 1.5rem;
   padding: 0.5rem 1rem;
   background-color: transparent;
-  .divider-vertical {
-    width: 1px;
-    height: 16px;
-    background-color: #e5e7eb;
-    margin: 0 0.25rem;
-  }
+  margin-bottom: 0;
+}
+
+.divider-vertical {
+  width: 1px;
+  height: 20px;
+  background-color: var(--color-border, #e5e7eb);
+  margin: 0 0.5rem;
 }
 
 .btn-outline-ghost {

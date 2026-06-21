@@ -45,8 +45,8 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
   // Selection state
   selectionMode: boolean = false;
-  selectedAssignments: Set<string> = new Set();
-  hoveredAssignment: string | null = null;
+  selectedAssignments: Set<number> = new Set();
+  hoveredAssignment: number | null = null;
 
   get filteredAssignments() {
     let result = this.assignments;
@@ -119,6 +119,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       year: ''
     };
     this.searchQuery = '';
+    this.savePreferences();
   }
 
   setFilter(type: 'all' | 'github' | 'gitlab') {
@@ -139,10 +140,33 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.assignments = [];
+    this.loadPreferences();
     this.loadAssignments();
     this.dbSubscription = this.databaseService.dbChanged.subscribe(() => {
       this.loadAssignments();
     });
+  }
+
+  loadPreferences() {
+    const prefs = localStorage.getItem('assignment-chooser-prefs');
+    if (prefs) {
+      try {
+        const parsed = JSON.parse(prefs);
+        if (parsed.sortField) this.sortField = parsed.sortField;
+        if (parsed.sortDirection) this.sortDirection = parsed.sortDirection;
+        if (parsed.advancedFilters) this.advancedFilters = parsed.advancedFilters;
+      } catch (e) {
+        console.error('Could not load preferences', e);
+      }
+    }
+  }
+
+  savePreferences() {
+    localStorage.setItem('assignment-chooser-prefs', JSON.stringify({
+      sortField: this.sortField,
+      sortDirection: this.sortDirection,
+      advancedFilters: this.advancedFilters
+    }));
   }
 
   ngOnDestroy(): void {
@@ -183,7 +207,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
   // --- Selection Logic ---
 
-  toggleSelection(id: string) {
+  toggleSelection(id: number) {
     if (this.selectedAssignments.has(id)) {
       this.selectedAssignments.delete(id);
     } else {
@@ -192,7 +216,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     this.selectionMode = this.selectedAssignments.size > 0;
   }
 
-  isSelected(id: string): boolean {
+  isSelected(id: number): boolean {
     return this.selectedAssignments.has(id);
   }
 
@@ -294,6 +318,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       this.sortDirection = 'desc'; // Default to desc when changing field
     }
     this.sortAssignments();
+    this.savePreferences();
   }
 
   sortAssignments() {

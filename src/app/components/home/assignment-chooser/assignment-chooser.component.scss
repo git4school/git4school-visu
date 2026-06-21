@@ -206,6 +206,7 @@
     }
 
     .filter-chips {
+      gap: 0.5rem;
       .filter-chip {
         display: inline-flex;
         cursor: pointer;
@@ -216,7 +217,7 @@
         span {
           display: inline-block;
           padding: 0.35rem 0.8rem;
-          border-radius: 6px;
+          border-radius: 99px;
           border: none;
           background-color: var(--color-bg-body);
           color: var(--color-text-secondary);
@@ -242,6 +243,17 @@
       &:focus {
         border-color: var(--color-primary);
         box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+      }
+    }
+
+    .filter-footer .btn-link {
+      background: transparent;
+      border: none;
+      text-decoration: none;
+      
+      &:hover {
+        background: var(--color-bg-body);
+        border-radius: 6px;
       }
     }
   }
