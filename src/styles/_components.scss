@@ -618,7 +618,7 @@
   border-radius: 8px;
   font-weight: 500;
   font-size: 0.85rem;
-  color: #374151;
+  color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -626,15 +626,15 @@
   cursor: pointer;
 
   svg {
-    color: #6b7280;
+    color: var(--color-text-muted);
     transition: color 0.15s;
   }
 
   &:hover, &[aria-expanded="true"] {
-    background-color: #f3f4f6;
-    color: #111827;
+    background-color: var(--filter-bg);
+    color: var(--color-text-primary);
     svg {
-      color: #111827;
+      color: var(--color-text-primary);
     }
   }
   
@@ -685,26 +685,27 @@
 
 .modern-dropdown-menu {
   border-radius: 12px;
-  border: 1px solid #f3f4f6;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
   padding: 0.5rem;
   font-size: 0.85rem;
 
   .dropdown-item {
     border-radius: 6px;
     padding: 0.4rem 0.75rem;
-    color: #374151;
+    color: var(--color-text-primary);
     font-weight: 500;
     transition: background-color 0.15s, color 0.15s;
 
     &:hover {
-      background-color: #f3f4f6;
-      color: #111827;
+      background-color: var(--color-bg-body);
+      color: var(--color-text-primary);
     }
   }
 
   .dropdown-divider {
-    border-top: 1px solid #f3f4f6;
+    border-top: 1px solid var(--color-border);
     margin: 0.4rem 0;
   }
 
@@ -717,7 +718,7 @@
 
   .custom-control-label {
     font-weight: 500;
-    color: #374151;
+    color: var(--color-text-primary);
     cursor: pointer;
     margin-left: 0.25rem;
   }

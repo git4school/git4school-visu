@@ -4,7 +4,7 @@
 
 .filter-group {
   display: inline-flex;
-  background: #f3f4f6;
+  background: var(--filter-bg);
   border-radius: 10px;
   padding: 4px;
   position: relative;
@@ -16,7 +16,7 @@
     bottom: 4px;
     left: 4px;
     width: 100px;
-    background: #ffffff;
+    background: var(--filter-indicator);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
     border-radius: 6px;
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -36,17 +36,17 @@
     text-align: center;
     font-size: 0.85rem;
     font-weight: 500;
-    color: #6b7280;
+    color: var(--filter-text);
     cursor: pointer;
     border-radius: 6px;
     transition: color 0.2s ease;
 
     &:hover:not(.active) {
-      color: #374151;
+      color: var(--color-text-primary);
     }
 
     &.active {
-      color: #111827;
+      color: var(--filter-text-active);
       font-weight: 600;
     }
   }
@@ -55,7 +55,7 @@
 .top-bar {
   .sort-controls span {
     font-size: 0.85rem;
-    color: #6b7280;
+    color: var(--color-text-secondary);
   }
 
   .action-btn {
@@ -67,39 +67,40 @@
   }
   
   .btn-primary.action-btn {
-    background-color: #111827;
-    border-color: #111827;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
     color: #ffffff;
     &:hover {
-      background-color: #374151;
+      background-color: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
     }
   }
 
   .btn-outline-secondary.action-btn {
-    border-color: #e5e7eb;
-    background-color: #ffffff;
-    color: #374151;
+    border-color: var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
     &:hover {
-      background-color: #f9fafb;
+      background-color: var(--color-bg-body);
     }
   }
 }
 
 .assignment-list {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   padding: 0;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow-sm);
 }
 
 .assignment-card {
   background: transparent;
   border: none;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--color-border);
   border-radius: 0;
   padding: 1.2rem 1.5rem;
   margin: 0;
@@ -112,12 +113,12 @@
   }
 
   &:hover:not(.disabled-card) {
-    background-color: #f9fafb;
+    background-color: var(--color-bg-body);
   }
 
   &.disabled-card {
-    opacity: 0.7;
-    background: #fcfcfc;
+    opacity: 0.5;
+    background: var(--color-bg-body);
   }
 }
 
@@ -140,7 +141,7 @@
 .assignment-title {
   font-weight: 500;
   font-size: 0.95rem;
-  color: #111827;
+  color: var(--color-text-primary);
   letter-spacing: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -160,20 +161,21 @@
   border: none;
 
   &.status-prepared {
-    background-color: #eff6ff;
-    color: #2563eb;
+    background-color: var(--badge-prepared-bg);
+    color: var(--badge-prepared-text);
   }
   &.status-ongoing {
-    background-color: #ecfdf5;
-    color: #059669;
+    background-color: var(--badge-ongoing-bg);
+    color: var(--badge-ongoing-text);
   }
   &.status-finished {
-    background-color: #fef2f2;
-    color: #dc2626;
+    background-color: var(--badge-finished-bg);
+    color: var(--badge-finished-text);
   }
   &.status-default {
-    background-color: #fffbeb;
-    color: #d97706;
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
   }
 }
 
@@ -183,12 +185,12 @@
   .meta-separator {
     margin: 0 0.5rem;
     opacity: 0.4;
-    color: #9ca3af;
+    color: var(--color-text-muted);
   }
   .meta-item {
     font-size: 0.8rem;
     font-weight: 400;
-    color: #6b7280;
+    color: var(--color-text-secondary);
     display: inline-block;
     vertical-align: middle;
     white-space: nowrap;
@@ -197,7 +199,7 @@
     max-width: 150px;
     
     i {
-      color: #9ca3af;
+      color: var(--color-text-muted);
     }
   }
 }
@@ -206,7 +208,7 @@
   align-items: center;
   min-width: 220px;
   justify-content: center;
-  color: #6b7280;
+  color: var(--timeline-text);
   
   .timeline-point {
     display: flex;
@@ -215,15 +217,15 @@
     min-width: 60px;
     
     .date {
-      font-size: 1.25rem;
-      font-weight: 400;
-      color: #111827;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--color-text-primary);
       line-height: 1.2;
       letter-spacing: -0.02em;
     }
     .year {
-      font-size: 0.75rem;
-      opacity: 0.7;
+      font-size: 0.7rem;
+      color: var(--color-text-secondary);
     }
   }
 
@@ -246,14 +248,14 @@
       left: 0;
       right: 0;
       font-size: 0.75rem;
-      color: #6b7280;
+      color: var(--timeline-text);
       font-weight: 500;
       text-align: center;
     }
 
     .progress-track {
       height: 8px;
-      background-color: #f3f4f6;
+      background-color: var(--timeline-track-bg);
       border-radius: 9999px;
       width: 100%;
       position: relative;
@@ -303,14 +305,14 @@
     font-size: 1rem;
   }
 
-  &.text-primary { color: #3b82f6 !important; }
-  &.text-secondary { color: #6b7280 !important; }
-  &.text-danger { color: #ef4444 !important; }
+  &.text-primary { color: var(--color-primary) !important; }
+  &.text-secondary { color: var(--color-text-secondary) !important; }
+  &.text-danger { color: var(--color-danger) !important; }
 
   &:hover:not(:disabled) {
-    &.text-primary { background: #eff6ff; color: #1d4ed8 !important; }
-    &.text-secondary { background: #f3f4f6; color: #374151 !important; }
-    &.text-danger { background: #fef2f2; color: #b91c1c !important; }
+    &.text-primary { background: rgba(59, 130, 246, 0.1); color: var(--color-primary-hover) !important; }
+    &.text-secondary { background: var(--color-bg-body); color: var(--color-text-primary) !important; }
+    &.text-danger { background: rgba(239, 68, 68, 0.1); color: var(--color-danger) !important; }
   }
 
   &:disabled {

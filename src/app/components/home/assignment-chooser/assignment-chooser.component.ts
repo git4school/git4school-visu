@@ -194,7 +194,9 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   getProgressBarTextColor(progress: number): string {
     if (progress === 100) return '#9ca3af';
     const hue = 120 - (progress * 1.2);
-    return `hsl(${hue}, 85%, 45%)`; // Slightly darker for text readability
+    const isDarkTheme = document.body.classList.contains('dark-theme');
+    const lightness = isDarkTheme ? 75 : 45; // Brighter for dark mode, darker for light mode
+    return `hsl(${hue}, 85%, ${lightness}%)`;
   }
 
   getRemainingTime(end: string): string {

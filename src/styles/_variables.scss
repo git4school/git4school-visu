@@ -33,6 +33,22 @@ $font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Robot
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+
+  // Components specific
+  --filter-bg: #f3f4f6;
+  --filter-indicator: #ffffff;
+  --filter-text: #6b7280;
+  --filter-text-active: #111827;
+
+  --badge-prepared-bg: #eff6ff;
+  --badge-prepared-text: #1d4ed8;
+  --badge-ongoing-bg: #ecfdf5;
+  --badge-ongoing-text: #047857;
+  --badge-finished-bg: #f3f4f6;
+  --badge-finished-text: #4b5563;
+
+  --timeline-track-bg: #f3f4f6;
+  --timeline-text: #6b7280;
 }
 
 body.dark-theme {
@@ -41,27 +57,43 @@ body.dark-theme {
   --color-surface: #1e293b;
   --color-border: #334155;
     
-    --color-text-primary: #f8fafc;
-    --color-text-secondary: #cbd5e1;
-    --color-text-muted: #64748b;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #64748b;
 
-    // Cognitive Palette adapted for Dark Mode
-    --color-primary: #3b82f6;       // Brighter blue for contrast
-    --color-primary-hover: #60a5fa;
-    --color-secondary: #94a3b8;     // Slate
-    --color-success: #10b981;       // Brighter green
-    --color-danger: #ef4444;        // Brighter red
-    --color-warning: #f59e0b;       // Brighter amber
-    --color-info: #38bdf8;          // Light blue
+  // Cognitive Palette adapted for Dark Mode
+  --color-primary: #3b82f6;       // Brighter blue for contrast
+  --color-primary-hover: #60a5fa;
+  --color-secondary: #94a3b8;     // Slate
+  --color-success: #10b981;       // Brighter green
+  --color-danger: #ef4444;        // Brighter red
+  --color-warning: #f59e0b;       // Brighter amber
+  --color-info: #38bdf8;          // Light blue
 
-    // Provider Colors
-    --color-github: #ffffff;
-    --color-gitlab: #fc6d26;
+  // Provider Colors
+  --color-github: #ffffff;
+  --color-gitlab: #fc6d26;
 
-    // Shadows in Dark Mode (Often zero or very subtle)
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  // Shadows in Dark Mode (Often zero or very subtle)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+
+  // Components specific
+  --filter-bg: #0f172a;
+  --filter-indicator: #334155;
+  --filter-text: #94a3b8;
+  --filter-text-active: #f8fafc;
+
+  --badge-prepared-bg: rgba(59, 130, 246, 0.15);
+  --badge-prepared-text: #60a5fa;
+  --badge-ongoing-bg: rgba(16, 185, 129, 0.15);
+  --badge-ongoing-text: #34d399;
+  --badge-finished-bg: rgba(148, 163, 184, 0.15);
+  --badge-finished-text: #94a3b8;
+
+  --timeline-track-bg: #334155;
+  --timeline-text: #94a3b8;
 }
 
 // Map SCSS variables to CSS custom properties so existing code works
