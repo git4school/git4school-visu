@@ -23,6 +23,19 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   sortField: string = "lastModificationDate";
   sortDirection: "asc" | "desc" = "desc";
 
+  filterType: 'all' | 'github' | 'gitlab' = 'all';
+
+  get filteredAssignments() {
+    if (this.filterType === 'all') {
+      return this.assignments;
+    }
+    return this.assignments.filter(a => (a as any).uiType === this.filterType);
+  }
+
+  setFilter(type: 'all' | 'github' | 'gitlab') {
+    this.filterType = type;
+  }
+
   constructor(
     private databaseService: DatabaseService,
     private dataService: DataService,

@@ -2,21 +2,44 @@
   font-family: 'Inter', 'Roboto', sans-serif;
 }
 
+.filter-group {
+  display: inline-flex;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+
+  .filter-btn {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    border-right: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    &:hover {
+      background: #f9fafb;
+      color: #374151;
+    }
+
+    &.active {
+      color: #111827;
+      background: #f3f4f6;
+    }
+  }
+}
+
 .top-bar {
   .sort-controls span {
     font-size: 0.85rem;
     color: #6b7280;
-  }
-  
-  .btn-outline-ghost {
-    border: 1px solid #e5e7eb;
-    background: #ffffff;
-    color: #374151;
-    border-radius: 6px;
-    padding: 0.35rem 0.75rem;
-    &:hover {
-      background: #f9fafb;
-    }
   }
 
   .action-btn {
@@ -43,23 +66,6 @@
     &:hover {
       background-color: #f9fafb;
     }
-  }
-}
-
-.btn-icon {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  color: #374151;
-  border-radius: 6px;
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  &:hover {
-    background: #f9fafb;
-    color: #111827;
   }
 }
 

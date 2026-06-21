@@ -136,7 +136,12 @@
     "NO-ASSIGNMENTS": "No assignments found",
     "SORT-BY": "Sort by",
     "MUST-LOGIN": "You must be logged in to perform this action",
-    "CREATE-ASSIGNMENT": "New Assignment"
+    "CREATE-ASSIGNMENT": "New Assignment",
+    "FILTER": {
+      "ALL": "All",
+      "GITHUB": "GitHub",
+      "GITLAB": "GitLab"
+    }
   },
   "OVERVIEW-GRAPH": {
     "COMMITS-DISPLAYED": "{{commits}} commits displayed by {{students}} student(s)",

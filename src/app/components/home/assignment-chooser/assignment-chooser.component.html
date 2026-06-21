@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <button class="btn btn-sm btn-icon ml-2" 
+      <button class="btn btn-sm btn-outline-ghost ml-2" 
               (click)="toggleSortDirection()"
               (mouseenter)="onSortMouseEnter()"
               (mouseleave)="onSortMouseLeave()"
@@ -66,9 +66,18 @@
     </div>
   </div>
 
+  <!-- Filter Group -->
+  <div class="mb-3">
+    <div class="filter-group">
+      <button class="filter-btn" [class.active]="filterType === 'all'" (click)="setFilter('all')">{{ 'HOME.FILTER.ALL' | translate }}</button>
+      <button class="filter-btn" [class.active]="filterType === 'github'" (click)="setFilter('github')">{{ 'HOME.FILTER.GITHUB' | translate }}</button>
+      <button class="filter-btn" [class.active]="filterType === 'gitlab'" (click)="setFilter('gitlab')">{{ 'HOME.FILTER.GITLAB' | translate }}</button>
+    </div>
+  </div>
+
   <!-- Assignment List -->
   <div class="assignment-list">
-    <div class="assignment-card" *ngFor="let assignment of assignments" [ngClass]="{'disabled-card': !authService.isSignedIn()}">
+    <div class="assignment-card" *ngFor="let assignment of filteredAssignments" [ngClass]="{'disabled-card': !authService.isSignedIn()}">
       <div class="card-content d-flex align-items-center">
         <!-- Type Icon -->
         <div class="type-indicator mr-4" [ngClass]="assignment.uiType">

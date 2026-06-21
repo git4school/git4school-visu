@@ -136,7 +136,12 @@
     "NO-ASSIGNMENTS": "Задания не найдены",
     "SORT-BY": "Сортировать по",
     "MUST-LOGIN": "Для выполнения этого действия необходимо войти в систему",
-    "CREATE-ASSIGNMENT": "Новое задание"
+    "CREATE-ASSIGNMENT": "Новое задание",
+    "FILTER": {
+      "ALL": "Все",
+      "GITHUB": "GitHub",
+      "GITLAB": "GitLab"
+    }
   },
   "OVERVIEW-GRAPH": {
     "COMMITS-DISPLAYED": "Отображено {{commits}} коммитов от {{students}} студентов",

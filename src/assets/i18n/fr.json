@@ -135,7 +135,12 @@
     "NO-ASSIGNMENTS": "Aucun devoir trouvé",
     "SORT-BY": "Trier par",
     "MUST-LOGIN": "Vous devez être connecté pour effectuer cette action",
-    "CREATE-ASSIGNMENT": "Nouveau devoir"
+    "CREATE-ASSIGNMENT": "Nouveau devoir",
+    "FILTER": {
+      "ALL": "Tous",
+      "GITHUB": "GitHub",
+      "GITLAB": "GitLab"
+    }
   },
   "OVERVIEW-GRAPH": {
     "COMMITS-DISPLAYED": "{{commits}} commits affichés par {{students}} étudiant·es",
