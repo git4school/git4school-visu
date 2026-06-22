@@ -345,5 +345,13 @@
   "TIME": "Время",
   "DELETE-REPOSITORY-CONFIRMATION-TITLE": "Подтверждение удаления",
   "DELETE-REPOSITORY-CONFIRMATION-MESSAGE": "Вы уверены, что хотите удалить этот репозиторий?",
-  "HIDE-CONFIRMATION-BOX": "Скрыть это окно подтверждения до следующей перезагрузки"
+  "HIDE-CONFIRMATION-BOX": "Скрыть это окно подтверждения до следующей перезагрузки",
+  "TODAY": "Сегодня",
+  "THIS_WEEK": "На этой неделе",
+  "THIS_MONTH": "В этом месяце",
+  "DATE-PLACEHOLDER": {
+    "DD": "ДД",
+    "MM": "ММ",
+    "YYYY": "ГГГГ"
+  }
 }

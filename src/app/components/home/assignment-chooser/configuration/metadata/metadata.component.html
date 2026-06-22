@@ -49,30 +49,14 @@
         </app-text-input>
       </div>
 
-      <!-- Start Date -->
-      <div class="col-md-3">
-        <div class="floating-group">
-          <input class="floating-input with-icon-right" type="search" placeholder=" " ngbDatepicker
-            #startDate="ngbDatepicker" formControlName="startDate" [showWeekNumbers]="true" id="startDate">
-          <label class="floating-label" for="startDate">{{ 'METADATA.START-DATE' | translate }}</label>
-          
-          <button class="floating-icon-right" (click)="startDate.toggle()" type="button" tabindex="-1">
-            <i class="far fa-calendar-alt"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- End Date -->
-      <div class="col-md-3">
-        <div class="floating-group">
-          <input class="floating-input with-icon-right" type="search" placeholder=" " ngbDatepicker
-            #endDate="ngbDatepicker" formControlName="endDate" [showWeekNumbers]="true" id="endDate">
-          <label class="floating-label" for="endDate">{{ 'METADATA.END-DATE' | translate }}</label>
-          
-          <button class="floating-icon-right" (click)="endDate.toggle()" type="button" tabindex="-1">
-            <i class="far fa-calendar-alt"></i>
-          </button>
-        </div>
+      <!-- Date Range Picker -->
+      <div class="col-md-6">
+        <app-date-range-picker
+          [startDate]="metadataForm.get('startDate').value"
+          (startDateChange)="metadataForm.get('startDate').setValue($event)"
+          [endDate]="metadataForm.get('endDate').value"
+          (endDateChange)="metadataForm.get('endDate').setValue($event)">
+        </app-date-range-picker>
       </div>
 
       <!-- Duration -->

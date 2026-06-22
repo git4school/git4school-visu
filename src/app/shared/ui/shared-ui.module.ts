@@ -5,10 +5,22 @@ import { DatepickerComponent } from "./datepicker/datepicker.component";
 import { FormsModule } from "@angular/forms";
 import { TextInputComponent } from "./text-input/text-input.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { DateRangePickerComponent } from "./date-range-picker/date-range-picker.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
-  declarations: [ModalComponent, DatepickerComponent, TextInputComponent],
-  imports: [CommonModule, FormsModule, NgbModule],
-  exports: [ModalComponent, DatepickerComponent, TextInputComponent]
+  declarations: [
+    ModalComponent,
+    DatepickerComponent,
+    TextInputComponent,
+    DateRangePickerComponent
+  ],
+  imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
+  exports: [
+    ModalComponent,
+    DatepickerComponent,
+    TextInputComponent,
+    DateRangePickerComponent
+  ]
 })
 export class SharedUiModule {}

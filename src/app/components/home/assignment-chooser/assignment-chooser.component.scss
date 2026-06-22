@@ -266,7 +266,6 @@
   display: flex;
   flex-direction: column;
   padding: 0;
-  overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
 
@@ -279,10 +278,16 @@
   margin: 0;
   transition: background-color 0.15s ease;
   position: relative;
-  overflow: hidden;
+
+  &:first-child {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
 
   &:last-child {
     border-bottom: none;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
   }
 
   &:hover:not(.disabled-card) {
@@ -544,7 +549,6 @@
   padding: 0;
   margin: 0 -1.5rem -1.2rem -1.5rem; /* Negative margins to stretch to card edges */
   animation: slideDown 0.3s ease-out;
-  overflow: hidden;
 
   .config-divider {
     margin: 0;

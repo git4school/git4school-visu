@@ -345,5 +345,13 @@
   "TIME": "Time",
   "DELETE-REPOSITORY-CONFIRMATION-TITLE": "Deletion confirmation",
   "DELETE-REPOSITORY-CONFIRMATION-MESSAGE": "Are you sure you want to remove this repository ?",
-  "HIDE-CONFIRMATION-BOX": "Hide this confirmation box until the next reload"
+  "HIDE-CONFIRMATION-BOX": "Hide this confirmation box until the next reload",
+  "TODAY": "Today",
+  "THIS_WEEK": "This Week",
+  "THIS_MONTH": "This Month",
+  "DATE-PLACEHOLDER": {
+    "DD": "DD",
+    "MM": "MM",
+    "YYYY": "YYYY"
+  }
 }
