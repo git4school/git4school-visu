@@ -99,15 +99,11 @@
       </div>
       
       <div ngbDropdown class="dropdown d-inline-block filter-dropdown-container" [autoClose]="'outside'">
-        <button class="btn-outline-ghost" ngbDropdownToggle>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+        <button class="btn-outline-ghost" ngbDropdownToggle [ngbTooltip]="'HOME.FILTERS' | translate">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
           </svg>
-          <span class="font-weight-medium">{{ 'HOME.FILTERS' | translate }}</span>
           <span class="filter-badge ml-2" *ngIf="getActiveFiltersCount() > 0">{{ getActiveFiltersCount() }}</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
         </button>
         <div ngbDropdownMenu class="modern-dropdown-menu filter-panel-menu p-3" style="min-width: 250px;">
           <div class="filter-section mb-3">

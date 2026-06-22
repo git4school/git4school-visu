@@ -31,7 +31,8 @@
       <div class="dp-value">
         <input #customInput type="number" 
                class="dp-custom-input" 
-               [value]="customMinutes" 
+               [value]="customMinutes || ''" 
+               placeholder="—"
                (change)="onCustomInputChange($event)"
                (keyup.enter)="onCustomInputChange($event)"
                (blur)="onCustomInputChange($event)">

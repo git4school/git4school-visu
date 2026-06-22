@@ -20,7 +20,7 @@ export class SessionDurationPickerComponent implements ControlValueAccessor, OnI
   
   // Internal state in minutes
   currentMinutes: number = 90;
-  customMinutes: number = 150; // Default custom value
+  customMinutes: number | null = null; // Default custom value
   
   // Standard preset options
   presets: number[] = [60, 90, 120];
@@ -55,6 +55,9 @@ export class SessionDurationPickerComponent implements ControlValueAccessor, OnI
       if (!this.presets.includes(this.currentMinutes)) {
         this.customMinutes = this.currentMinutes;
       }
+    } else {
+      this.currentMinutes = 0;
+      this.customMinutes = null;
     }
   }
 
@@ -77,8 +80,10 @@ export class SessionDurationPickerComponent implements ControlValueAccessor, OnI
   }
   
   selectCustom(): void {
-    this.currentMinutes = this.customMinutes;
-    this.emitChange();
+    if (this.customMinutes !== null) {
+      this.currentMinutes = this.customMinutes;
+      this.emitChange();
+    }
     
     // Focus the input when clicking the custom dial
     setTimeout(() => {
@@ -105,6 +110,7 @@ export class SessionDurationPickerComponent implements ControlValueAccessor, OnI
   }
   
   isCustomActive(): boolean {
-    return !this.presets.includes(this.currentMinutes) || this.currentMinutes === this.customMinutes;
+    if (!this.currentMinutes || this.currentMinutes <= 0) return false;
+    return !this.presets.includes(this.currentMinutes) || (this.customMinutes !== null && this.currentMinutes === this.customMinutes);
   }
 }
