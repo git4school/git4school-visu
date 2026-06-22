@@ -50,23 +50,28 @@
 
     <!-- Row 3: Dates, Duration -->
     <div class="form-row mt-2">
-      <!-- Date Range Picker -->
-      <div class="col-8">
-        <app-date-range-picker
-          [startDate]="metadataForm.get('startDate').value"
-          (startDateChange)="metadataForm.get('startDate').setValue($event)"
-          [endDate]="metadataForm.get('endDate').value"
-          (endDateChange)="metadataForm.get('endDate').setValue($event)">
-        </app-date-range-picker>
-      </div>
+      <div class="col-12 d-flex flex-nowrap align-items-end" style="gap: 2rem;">
+        <!-- Date Range Picker -->
+        <div style="flex: 0 1 360px;">
+          <app-date-range-picker
+            [startDate]="metadataForm.get('startDate').value"
+            (startDateChange)="metadataForm.get('startDate').setValue($event)"
+            [endDate]="metadataForm.get('endDate').value"
+            (endDateChange)="metadataForm.get('endDate').setValue($event)">
+          </app-date-range-picker>
+        </div>
 
-      <!-- Duration -->
-      <div class="col-4">
-        <div class="form-group required mb-2 d-flex align-items-center h-100" style="margin-top: -0.5rem;">
-          <label class="required-label mr-3 mb-0" for="defaultSessionDuration" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); white-space: nowrap;">{{ 'DEFAULT-SESSION-DURATION' | translate}}</label>
-          <ngb-timepicker id="defaultSessionDuration" formControlName="defaultSessionDuration" size="small"
-            [spinners]="false">
-          </ngb-timepicker>
+        <!-- Duration -->
+        <div style="flex: 1; min-width: max-content;">
+        <label class="duration-label">
+          {{ 'DURATION_OF_THE_SESSION' | translate }}
+        </label>
+        <div class="form-group mb-0">
+          <app-session-duration-picker 
+            id="defaultSessionDuration" 
+            formControlName="defaultSessionDuration">
+          </app-session-duration-picker>
+        </div>
         </div>
       </div>
     </div>

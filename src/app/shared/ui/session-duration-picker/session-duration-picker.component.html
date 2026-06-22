@@ -1,0 +1,43 @@
+<div class="duration-picker-container">
+  
+  <div class="dp-clocks">
+    <!-- Preset Clocks -->
+    <div class="dp-clock" 
+         *ngFor="let preset of presets" 
+         [class.active]="currentMinutes === preset"
+         (click)="selectDuration(preset)">
+      <svg class="dp-ticks" viewBox="0 0 100 100">
+        <line *ngFor="let angle of [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]"
+              x1="50" y1="4" x2="50" y2="11" 
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+              [attr.transform]="'rotate(' + angle + ' 50 50)'" />
+      </svg>
+      <div class="dp-value">
+        <span class="dp-number">{{ preset }}</span>
+        <span class="dp-unit">min</span>
+      </div>
+    </div>
+
+    <!-- Custom Clock -->
+    <div class="dp-clock custom-clock" 
+         [class.active]="isCustomActive()"
+         (click)="selectCustom()">
+      <svg class="dp-ticks" viewBox="0 0 100 100">
+        <line *ngFor="let angle of [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]"
+              x1="50" y1="4" x2="50" y2="11" 
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+              [attr.transform]="'rotate(' + angle + ' 50 50)'" />
+      </svg>
+      <div class="dp-value">
+        <input #customInput type="number" 
+               class="dp-custom-input" 
+               [value]="customMinutes" 
+               (change)="onCustomInputChange($event)"
+               (keyup.enter)="onCustomInputChange($event)"
+               (blur)="onCustomInputChange($event)">
+        <span class="dp-unit">min</span>
+      </div>
+    </div>
+  </div>
+
+</div>

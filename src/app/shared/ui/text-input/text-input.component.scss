@@ -6,7 +6,7 @@
   width: 100%;
   margin-bottom: 0.75rem;
   font-family: $font-family-sans;
-  height: 3rem;
+  height: 2.6rem;
   background-color: var(--color-surface);
   border-radius: 8px;
 
@@ -132,36 +132,8 @@
 
   /* Focused State */
   &.is-focused {
-    .text-input-fieldset {
-      border-color: #a855f7; /* Primary purple color */
-      border-width: 2px;
-      filter: drop-shadow(0 0 3px rgba(168, 85, 247, 0.25));
-    }
-
     .text-input-label {
-      color: #a855f7;
-    }
-  }
-
-  /* Invalid State */
-  &.is-invalid {
-    .text-input-fieldset {
-      border-color: var(--color-danger);
-    }
-    
-    &.is-focused .text-input-fieldset {
-      filter: drop-shadow(0 0 3px rgba(220, 53, 69, 0.25));
-    }
-
-    .text-input-label {
-      color: var(--color-danger);
-    }
-  }
-
-  /* Valid State */
-  &.is-valid {
-    .text-input-fieldset {
-      border-color: var(--color-success);
+      color: var(--color-primary);
     }
   }
 
@@ -195,7 +167,7 @@
 
   /* Ensures that if focused, primary color persists over has-value text-secondary color */
   &.is-focused .text-input-label {
-    color: #a855f7;
+    color: var(--color-primary);
   }
   &.is-focused.is-invalid .text-input-label {
     color: var(--color-danger);

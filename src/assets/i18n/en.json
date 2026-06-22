@@ -158,7 +158,8 @@
       "MINUTES": "m",
       "REMAINING": "Remaining:",
       "TOTAL": "Total:"
-    }
+    },
+    "UNSAVED-CHANGES": "Unsaved changes"
   },
   "OVERVIEW-GRAPH": {
     "COMMITS-DISPLAYED": "{{commits}} commits displayed by {{students}} student(s)",
@@ -354,5 +355,7 @@
     "MM": "MM",
     "YYYY": "YYYY"
   },
-  "EXPORT": "Export"
+  "EXPORT": "Export",
+  "DURATION_OF_THE_SESSION": "Duration of the session",
+  "DURATION_APPROXIMATE_HELP": "The time indicated is approximate, the duration of the session may take more or less."
 }

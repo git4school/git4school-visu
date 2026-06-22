@@ -57,7 +57,7 @@ export class ConfigurationComponent implements OnInit {
       ? this.metadataComp.metadataForm.valid
       : true;
     const reposValid = this.reposComp
-      ? this.reposComp.formGroups.every((fg) => fg.valid)
+      ? this.reposComp.formGroups.every((fg) => fg.valid || fg.disabled)
       : true;
     return metadataValid && reposValid;
   }

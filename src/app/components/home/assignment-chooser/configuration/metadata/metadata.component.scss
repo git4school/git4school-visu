@@ -1,0 +1,10 @@
+@import "../../../../../../styles/variables";
+
+.duration-label {
+  font-family: $font-family-sans;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.25rem;
+  display: block;
+}

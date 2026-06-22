@@ -8,19 +8,23 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { DateRangePickerComponent } from "./date-range-picker/date-range-picker.component";
 import { TranslateModule } from "@ngx-translate/core";
 
+import { SessionDurationPickerComponent } from "./session-duration-picker/session-duration-picker.component";
+
 @NgModule({
   declarations: [
     ModalComponent,
     DatepickerComponent,
     TextInputComponent,
-    DateRangePickerComponent
+    DateRangePickerComponent,
+    SessionDurationPickerComponent
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
     ModalComponent,
     DatepickerComponent,
     TextInputComponent,
-    DateRangePickerComponent
+    DateRangePickerComponent,
+    SessionDurationPickerComponent
   ]
 })
 export class SharedUiModule {}

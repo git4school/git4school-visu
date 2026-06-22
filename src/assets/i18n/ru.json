@@ -158,7 +158,8 @@
       "MINUTES": "м",
       "REMAINING": "Осталось:",
       "TOTAL": "Всего:"
-    }
+    },
+    "UNSAVED-CHANGES": "Несохраненные изменения"
   },
   "OVERVIEW-GRAPH": {
     "COMMITS-DISPLAYED": "Отображено {{commits}} коммитов от {{students}} студентов",
@@ -354,5 +355,7 @@
     "MM": "ММ",
     "YYYY": "ГГГГ"
   },
-  "EXPORT": "Экспорт"
+  "EXPORT": "Экспорт",
+  "DURATION_OF_THE_SESSION": "Продолжительность сессии",
+  "DURATION_APPROXIMATE_HELP": "Указанное время приблизительное, продолжительность сессии может быть больше или меньше."
 }

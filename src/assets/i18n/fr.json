@@ -157,7 +157,8 @@
       "MINUTES": "m",
       "REMAINING": "Restant :",
       "TOTAL": "Total :"
-    }
+    },
+    "UNSAVED-CHANGES": "Modifications non enregistrées"
   },
   "OVERVIEW-GRAPH": {
     "COMMITS-DISPLAYED": "{{commits}} commits affichés par {{students}} étudiant·es",
@@ -359,5 +360,7 @@
     "MM": "MM",
     "YYYY": "AAAA"
   },
-  "EXPORT": "Exporter"
+  "EXPORT": "Exporter",
+  "DURATION_OF_THE_SESSION": "Durée de la session",
+  "DURATION_APPROXIMATE_HELP": "Le temps indiqué est approximatif, la durée de la session peut être plus ou moins longue."
 }

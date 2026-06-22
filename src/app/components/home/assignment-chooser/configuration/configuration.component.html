@@ -3,27 +3,25 @@
         <h4 class="mb-0 d-flex align-items-center">
             <i class="fas fa-cog mr-2 text-primary"></i> 
             {{ 'Configurations' | translate }}
-            <span *ngIf="isModified" class="badge badge-warning ml-3" style="font-size: 0.7rem; font-weight: normal;">{{ 'HOME.UNSAVED-CHANGES' | translate }}</span>
+            <span *ngIf="isModified" class="text-warning ml-3 d-flex align-items-center" style="font-size: 0.8rem; font-weight: 500;">
+                <i class="fas fa-exclamation-circle mr-1"></i> {{ 'HOME.UNSAVED-CHANGES' | translate }}
+            </span>
         </h4>
         <div class="d-flex align-items-center">
-            <button class="btn btn-sm btn-outline-secondary mr-3" [title]="'OVERVIEW-GRAPH.UPLOAD.TOOLTIP' | translate" (click)="openUploadFileModal()">
-                <i class="fas fa-upload mr-1"></i> Import JSON
-            </button>
-            <div class="divider-vertical mx-2"></div>
-            <button class="btn btn-sm btn-outline-secondary ml-3 mr-2" (click)="onCancel()">
+            <button class="btn btn-sm btn-outline-secondary mr-2" (click)="onCancel()">
                 {{ 'CANCEL' | translate }}
             </button>
-            <button class="btn btn-sm btn-primary shadow-sm" (click)="onSaveGlobal()" [disabled]="!canSave()">
-                <i class="fas fa-save mr-1"></i> {{ 'SAVE' | translate }}
+            <button class="btn btn-sm btn-primary shadow-sm" style="text-transform: none;" (click)="onSaveGlobal()" [disabled]="!canSave()">
+                <i class="fas fa-save mr-1"></i> {{ 'METADATA.SAVE' | translate }}
             </button>
         </div>
     </div>
     <div class="config-body px-4 pb-4">
-        <div class="custom-tabs mb-4 d-flex border-bottom pb-0">
-            <button class="btn btn-tab mr-4" [ngClass]="activeTab === 'metadata' ? 'active-tab' : 'inactive-tab'" (click)="activeTab = 'metadata'">
+        <div class="modern-tabs-container mb-4 d-flex border-bottom pb-0">
+            <button class="modern-tab mr-4" [ngClass]="activeTab === 'metadata' ? 'active-tab' : 'inactive-tab'" (click)="activeTab = 'metadata'">
                 <i class="fas fa-info-circle mr-1"></i> {{ 'CONFIGURATION.EDIT-METADATA' | translate }}
             </button>
-            <button class="btn btn-tab" [ngClass]="activeTab === 'repositories' ? 'active-tab' : 'inactive-tab'" (click)="activeTab = 'repositories'">
+            <button class="modern-tab" [ngClass]="activeTab === 'repositories' ? 'active-tab' : 'inactive-tab'" (click)="activeTab = 'repositories'">
                 <i class="fas fa-database mr-1"></i> {{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate }}
             </button>
         </div>

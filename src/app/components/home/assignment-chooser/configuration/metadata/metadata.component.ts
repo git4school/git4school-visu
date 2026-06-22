@@ -92,8 +92,7 @@ export class MetadataComponent
       endDate: [this.metadata.endDate ? new Date(this.metadata.endDate) : null],
       questions: [this.metadata.questions],
       defaultSessionDuration: [
-        this.metadata.defaultSessionDuration,
-        Validators.required,
+        this.metadata.defaultSessionDuration || { hour: 1, minute: 30, second: 0 }
       ],
     });
   }
