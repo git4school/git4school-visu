@@ -596,8 +596,8 @@
 }
 
 .inline-configuration-wrapper {
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
+  background: transparent;
+  border-top: none;
   padding: 0;
   margin: 0 -1.5rem -1.2rem -1.5rem; /* Negative margins to stretch to card edges */
   animation: slideDown 0.3s ease-out forwards;

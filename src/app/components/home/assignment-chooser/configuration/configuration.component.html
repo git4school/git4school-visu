@@ -26,7 +26,7 @@
             </button>
         </div>
         
-        <div class="tab-content bg-light-surface rounded-lg p-3 border">
+        <div class="tab-content pt-2">
             <div [hidden]="activeTab !== 'metadata'">
                 <metadata #metadataComp [metadata]="assignment.metadata"
                     (modified)="metadataModified = true"></metadata>

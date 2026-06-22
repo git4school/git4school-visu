@@ -270,12 +270,18 @@
             </span>
           </div>
           <div class="meta-info text-muted d-flex align-items-center" style="font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" *ngIf="assignment.id !== -1">
-            <span class="meta-item" [ngbTooltip]="assignment.course || '-'" container="body"><i class="fas fa-graduation-cap mr-1"></i> {{ assignment.course || '-' }}</span>
-            <span class="meta-separator">&bull;</span>
-            <span class="meta-item" [ngbTooltip]="assignment.program || '-'" container="body"><i class="fas fa-book mr-1"></i> {{ assignment.program || '-' }}</span>
-            <span class="meta-separator">&bull;</span>
-            <span class="meta-item" [ngbTooltip]="assignment.year || '-'" container="body"><i class="far fa-calendar-alt mr-1"></i> {{ assignment.year || '-' }}</span>
-            <span class="meta-separator">&bull;</span>
+            <ng-container *ngIf="assignment.course">
+              <span class="meta-item" [ngbTooltip]="assignment.course" container="body"><i class="fas fa-book mr-1"></i> {{ assignment.course }}</span>
+              <span class="meta-separator">&bull;</span>
+            </ng-container>
+            <ng-container *ngIf="assignment.program">
+              <span class="meta-item" [ngbTooltip]="assignment.program" container="body"><i class="fas fa-graduation-cap mr-1"></i> {{ assignment.program }}</span>
+              <span class="meta-separator">&bull;</span>
+            </ng-container>
+            <ng-container *ngIf="assignment.year">
+              <span class="meta-item" [ngbTooltip]="assignment.year" container="body"><i class="far fa-calendar-alt mr-1"></i> {{ assignment.year }}</span>
+              <span class="meta-separator">&bull;</span>
+            </ng-container>
             <span class="meta-item"><i class="far fa-clock mr-1"></i> {{ assignment.lastModificationDate | date: 'short' }}</span>
           </div>
           <div class="meta-info text-muted" style="font-size: 0.85rem;" *ngIf="assignment.id === -1">
