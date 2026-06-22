@@ -40,7 +40,7 @@
     transition: border-color 0.2s, box-shadow 0.2s;
 
     &:hover {
-      border-color: #a855f7;
+      border-color: var(--color-primary);
     }
 
     .date-segments {
@@ -49,38 +49,43 @@
       gap: 0.25rem;
       
       .segment-input {
-        border: none;
-        background: transparent;
+        border: none !important;
+        background: transparent !important;
         color: var(--color-text-primary);
         font-size: 1rem;
         font-weight: 500;
         text-align: center;
-        outline: none;
+        outline: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        border-radius: 0 !important;
         
         &::placeholder {
           color: var(--color-text-muted);
           font-weight: 400;
         }
 
-        outline: none !important;
-        box-shadow: none !important;
-        border: none !important;
-
         &.day, &.month {
-          width: 26px;
+          width: 32px;
         }
         &.year {
-          width: 44px;
+          width: 50px;
         }
         
         &:focus {
-          color: #a855f7;
+          color: var(--color-primary);
         }
       }
 
       .separator {
         color: var(--color-text-muted);
         font-weight: 400;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0;
       }
     }
 
@@ -93,7 +98,7 @@
     .calendar-btn {
       background: transparent;
       border: none;
-      color: #3b82f6; /* Blue icon as per design */
+      color: var(--color-primary);
       font-size: 1.1rem;
       cursor: pointer;
       padding: 0;
@@ -103,7 +108,7 @@
       transition: color 0.2s;
       
       &:hover {
-        color: darken(#3b82f6, 10%);
+        color: var(--color-primary-hover);
       }
     }
   }
@@ -114,10 +119,10 @@
     top: calc(100% + 8px);
     left: 0;
     z-index: 1050;
-    background: #ffffff;
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-lg);
     padding: 1rem;
     width: max-content;
     animation: fadeIn 0.15s ease-out;
@@ -153,7 +158,7 @@
         transition: all 0.2s;
 
         &:hover {
-          background-color: rgba(0, 0, 0, 0.05);
+          background-color: var(--filter-bg);
           color: var(--color-text-primary);
         }
       }
@@ -209,21 +214,21 @@
           /* Hover state */
           &:hover:not(.selected-start):not(.selected-end) {
             .day-number {
-              background-color: rgba(0, 0, 0, 0.05);
+              background-color: var(--filter-bg);
             }
           }
 
           /* Today Outline */
           &.today {
             .day-number {
-              border: 1px solid #3b82f6;
-              color: #3b82f6;
+              border: 1px solid var(--color-primary);
+              color: var(--color-primary);
             }
           }
 
           /* Range Background */
           &.in-range {
-            background-color: #eff6ff; /* Light blue */
+            background-color: var(--badge-prepared-bg);
             
             &.today .day-number {
               border-color: transparent;
@@ -232,12 +237,12 @@
 
           /* Endpoints */
           &.selected-start, &.selected-end {
-            color: #ffffff;
+            color: white;
             
             .day-number {
-              background-color: #3b82f6;
-              color: #ffffff;
-              box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+              background-color: var(--color-primary);
+              color: white;
+              box-shadow: var(--shadow-sm);
             }
           }
 
@@ -249,7 +254,7 @@
               bottom: 0;
               right: 0;
               width: 50%;
-              background-color: #eff6ff;
+              background-color: var(--badge-prepared-bg);
               z-index: -1;
             }
           }
@@ -262,7 +267,7 @@
               bottom: 0;
               left: 0;
               width: 50%;
-              background-color: #eff6ff;
+              background-color: var(--badge-prepared-bg);
               z-index: -1;
             }
           }
@@ -297,8 +302,8 @@
         transition: all 0.2s;
 
         &:hover {
-          background-color: #f8fafc;
-          border-color: #cbd5e1;
+          background-color: var(--filter-bg);
+          border-color: var(--color-secondary);
           color: var(--color-text-primary);
         }
       }

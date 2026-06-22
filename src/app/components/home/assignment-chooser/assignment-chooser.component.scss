@@ -568,3 +568,45 @@
   }
 }
 
+
+.export-active {
+  position: relative;
+  color: var(--color-primary) !important;
+  background-color: transparent !important;
+  border: 1px solid transparent !important; /* To maintain spacing */
+  z-index: 1;
+
+  .marching-ants-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: visible; /* Prevent clipping of the stroke */
+    
+    rect {
+      fill: var(--badge-prepared-bg);
+      stroke: var(--color-primary);
+      stroke-width: 2px; /* 2px stroke, perfectly centered on the padding-box boundary */
+      stroke-dasharray: 8, 8; /* Sharp square dashes */
+      animation: marching-ants-anim 10s linear infinite;
+    }
+  }
+
+  &:hover {
+    .marching-ants-svg rect {
+      fill: var(--color-surface);
+    }
+  }
+}
+
+@keyframes marching-ants-anim {
+  from {
+    stroke-dashoffset: 160; /* Multiple of 16 (8+8) for seamless loop */
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

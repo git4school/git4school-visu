@@ -1,56 +1,57 @@
 <div class="metadata-form-container mt-2">
   <form onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
     
-    <!-- Row 1: Title, Course, Program -->
+    <!-- Row 1: Title -->
     <div class="form-row mt-2">
       <!-- Title -->
-      <div class="col-md-6">
+      <div class="col-12">
         <app-text-input
           id="title"
           formControlName="title"
           [label]="'METADATA.TITLE' | translate"
-          [helperText]="'METADATA.TITLE' | translate"
           [required]="true"
           [invalid]="metadataForm.controls.title.invalid && metadataForm.controls.title.touched"
           [valid]="!metadataForm.controls.title.invalid && metadataForm.controls.title.touched">
         </app-text-input>
       </div>
+    </div>
 
-      <!-- Course -->
-      <div class="col-md-3">
-        <app-text-input
-          id="course"
-          formControlName="course"
-          [label]="'METADATA.COURSE' | translate"
-          [helperText]="'METADATA.COURSE' | translate">
-        </app-text-input>
-      </div>
+    <!-- Row 2: Course, Program, Year (3-3-1 ratio) -->
+    <div class="form-row mt-2">
+      <div class="col-12 d-flex flex-nowrap" style="gap: 0.5rem;">
+        <!-- Course -->
+        <div style="flex: 3;">
+          <app-text-input
+            id="course"
+            formControlName="course"
+            [label]="'METADATA.COURSE' | translate">
+          </app-text-input>
+        </div>
 
-      <!-- Program -->
-      <div class="col-md-3">
-        <app-text-input
-          id="program"
-          formControlName="program"
-          [label]="'METADATA.PROGRAM' | translate"
-          [helperText]="'METADATA.PROGRAM' | translate">
-        </app-text-input>
+        <!-- Program -->
+        <div style="flex: 3;">
+          <app-text-input
+            id="program"
+            formControlName="program"
+            [label]="'METADATA.PROGRAM' | translate">
+          </app-text-input>
+        </div>
+
+        <!-- Year -->
+        <div style="flex: 1;">
+          <app-text-input
+            id="year"
+            formControlName="year"
+            [label]="'METADATA.YEAR' | translate">
+          </app-text-input>
+        </div>
       </div>
     </div>
 
-    <!-- Row 2: Year, Dates, Duration -->
+    <!-- Row 3: Dates, Duration -->
     <div class="form-row mt-2">
-      <!-- Year -->
-      <div class="col-md-2">
-        <app-text-input
-          id="year"
-          formControlName="year"
-          [label]="'METADATA.YEAR' | translate"
-          [helperText]="'METADATA.YEAR' | translate">
-        </app-text-input>
-      </div>
-
       <!-- Date Range Picker -->
-      <div class="col-md-6">
+      <div class="col-8">
         <app-date-range-picker
           [startDate]="metadataForm.get('startDate').value"
           (startDateChange)="metadataForm.get('startDate').setValue($event)"
@@ -60,7 +61,7 @@
       </div>
 
       <!-- Duration -->
-      <div class="col-md-4">
+      <div class="col-4">
         <div class="form-group required mb-2 d-flex align-items-center h-100" style="margin-top: -0.5rem;">
           <label class="required-label mr-3 mb-0" for="defaultSessionDuration" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); white-space: nowrap;">{{ 'DEFAULT-SESSION-DURATION' | translate}}</label>
           <ngb-timepicker id="defaultSessionDuration" formControlName="defaultSessionDuration" size="small"

@@ -145,7 +145,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
       this.setStartDate(clickedDate);
     } else if (this.startDate && !this.endDate) {
       if (clickedDate.isBefore(this.startDate)) {
-        this.setEndDate(this.startDate);
+        this.setEndDate(moment(this.startDate));
         this.setStartDate(clickedDate);
       } else {
         this.setEndDate(clickedDate);
@@ -153,7 +153,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
       this.closePopup();
     } else if (!this.startDate && this.endDate) {
       if (clickedDate.isAfter(this.endDate)) {
-        this.setStartDate(this.endDate);
+        this.setStartDate(moment(this.endDate));
         this.setEndDate(clickedDate);
       } else {
         this.setStartDate(clickedDate);

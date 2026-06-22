@@ -214,8 +214,15 @@
         </span>
       </button>
     </div>
-    <button class="btn btn-outline-secondary action-btn square-btn" (click)="exportDB()" [ngbTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+    <button class="btn btn-outline-secondary action-btn" 
+            [class.export-active]="selectionMode"
+            [class.square-btn]="!selectionMode"
+            (click)="exportDB()" [ngbTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
+      <svg *ngIf="selectionMode" class="marching-ants-svg" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100%" height="100%" rx="8" />
+      </svg>
+      <span *ngIf="selectionMode" class="text mr-2" style="font-weight: 500; position: relative; z-index: 2;">{{ 'EXPORT' | translate }}</span>
+      <svg class="icon" style="position: relative; z-index: 2;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
     </button>
     <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
     <button class="btn btn-outline-secondary action-btn square-btn" (click)="assignmentFile.click();" [ngbTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate">
