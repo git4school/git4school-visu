@@ -1,30 +1,40 @@
-<div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Configurations</h4>
-    <button class="btn btn-outline-secondary ml-3 btn-sm" [title]="'OVERVIEW-GRAPH.UPLOAD.TOOLTIP' | translate" (click)="openUploadFileModal()">
-        <i class="fas fa-upload"></i>
-    </button>
-    <button type="button" class="close-btn ml-auto" aria-label="Close" (click)="activeModalService.dismiss('Cross click')">
-        <i class="fas fa-times"></i>
-    </button>
-</div>
-<div class="modal-body">
-    <div class="p-2">
-        <div class="custom-tabs mb-4 d-flex">
-            <button class="btn mr-2" [ngClass]="activeTab === 'metadata' ? 'btn-primary' : 'btn-outline-secondary'" (click)="activeTab = 'metadata'">
-                {{ 'CONFIGURATION.EDIT-METADATA' | translate }}
+<div class="inline-config-container">
+    <div class="d-flex justify-content-between align-items-center mb-4 config-header px-4 pt-4">
+        <h4 class="mb-0 d-flex align-items-center">
+            <i class="fas fa-cog mr-2 text-primary"></i> 
+            {{ 'Configurations' | translate }}
+            <span *ngIf="isModified" class="badge badge-warning ml-3" style="font-size: 0.7rem; font-weight: normal;">{{ 'HOME.UNSAVED-CHANGES' | translate }}</span>
+        </h4>
+        <div class="d-flex align-items-center">
+            <button class="btn btn-sm btn-outline-secondary mr-3" [title]="'OVERVIEW-GRAPH.UPLOAD.TOOLTIP' | translate" (click)="openUploadFileModal()">
+                <i class="fas fa-upload mr-1"></i> Import JSON
             </button>
-            <button class="btn" [ngClass]="activeTab === 'repositories' ? 'btn-primary' : 'btn-outline-secondary'" (click)="activeTab = 'repositories'">
-                {{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate }}
+            <div class="divider-vertical mx-2"></div>
+            <button class="btn btn-sm btn-outline-secondary ml-3 mr-2" (click)="onCancel()">
+                {{ 'CANCEL' | translate }}
+            </button>
+            <button class="btn btn-sm btn-primary shadow-sm" (click)="onSaveGlobal()" [disabled]="!canSave()">
+                <i class="fas fa-save mr-1"></i> {{ 'SAVE' | translate }}
+            </button>
+        </div>
+    </div>
+    <div class="config-body px-4 pb-4">
+        <div class="custom-tabs mb-4 d-flex border-bottom pb-0">
+            <button class="btn btn-tab mr-4" [ngClass]="activeTab === 'metadata' ? 'active-tab' : 'inactive-tab'" (click)="activeTab = 'metadata'">
+                <i class="fas fa-info-circle mr-1"></i> {{ 'CONFIGURATION.EDIT-METADATA' | translate }}
+            </button>
+            <button class="btn btn-tab" [ngClass]="activeTab === 'repositories' ? 'active-tab' : 'inactive-tab'" (click)="activeTab = 'repositories'">
+                <i class="fas fa-database mr-1"></i> {{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate }}
             </button>
         </div>
         
-        <div class="tab-content">
-            <div *ngIf="activeTab === 'metadata'">
-                <metadata [metadata]="assignment.metadata" (saved)="saveMetadata($event)"
+        <div class="tab-content bg-light-surface rounded-lg p-3 border">
+            <div [hidden]="activeTab !== 'metadata'">
+                <metadata #metadataComp [metadata]="assignment.metadata"
                     (modified)="metadataModified = true"></metadata>
             </div>
-            <div *ngIf="activeTab === 'repositories'">
-                <edit-repositories [datas]="assignment.repositories" (saved)="saveRepositories($event)"
+            <div [hidden]="activeTab !== 'repositories'">
+                <edit-repositories #reposComp [datas]="assignment.repositories"
                     (modified)="repositoriesModified = true">
                 </edit-repositories>
             </div>

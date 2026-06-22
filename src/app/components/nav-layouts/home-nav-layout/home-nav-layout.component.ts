@@ -17,7 +17,7 @@ export class HomeNavLayoutComponent implements OnInit {
     public themeService: ThemeService
   ) {}
 
-  isSidebarOpen: boolean = false;
+  isSidebarOpen = false;
 
   ngOnInit(): void {}
 }

@@ -16,10 +16,10 @@ import { ToastService } from "./toast.service";
 })
 export class LoaderService {
   /**
-   * @param {CommitsService} commitsService The service that retrieves repositories and their commits from Github
-   * @param {DataService} dataService The service that stores the data
-   * @param {TranslateService} translateService The translation service
-   * @param {ToastService} toastService The service displaying error or warning toasts
+   * @param commitsService The service that retrieves repositories and their commits from Github
+   * @param dataService The service that stores the data
+   * @param translateService The translation service
+   * @param toastService The service displaying error or warning toasts
    */
   constructor(
     private commitsService: CommitsService,
@@ -33,10 +33,10 @@ export class LoaderService {
    *
    * Updates the commits metadata with associated milestones, such as their color.
    *
-   * @param {Repository[]} repositories
-   * @param {Milestone[]} reviews
-   * @param {Milestone[]} corrections
-   * @param {string[]} questions
+   * @param repositories
+   * @param reviews
+   * @param corrections
+   * @param questions
    */
   loadCommitsMetadata(
     repositories: Repository[],

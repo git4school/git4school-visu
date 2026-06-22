@@ -23,14 +23,14 @@ export class AppNavLayoutComponent implements OnInit {
     public themeService: ThemeService
   ) {}
 
-  isSidebarOpen: boolean = false;
+  isSidebarOpen = false;
 
   ngOnInit(): void {}
 
   get truncatedTitle(): string {
     const title = this.dataService.title;
-    if (!title) return '';
-    return title.length > 30 ? title.substring(0, 27) + '...' : title;
+    if (!title) return "";
+    return title.length > 30 ? title.substring(0, 27) + "..." : title;
   }
 
   openCurrentAssignmentConfig() {

@@ -19,7 +19,8 @@ import { BaseEditConfigurationComponent } from "../base-edit-configuration.compo
 })
 export class MetadataComponent
   extends BaseEditConfigurationComponent<Metadata>
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   @Input() metadata: Metadata;
   metadataForm: FormGroup;
 

@@ -13,7 +13,8 @@ import { BaseEditConfigurationComponent } from "./base-edit-configuration.compon
 })
 export abstract class BaseTabEditConfigurationComponent<Data>
   extends BaseEditConfigurationComponent<Data[]>
-  implements OnInit, AfterContentChecked {
+  implements OnInit, AfterContentChecked
+{
   @Input() datas: Data[];
   formGroups: FormGroup[];
 

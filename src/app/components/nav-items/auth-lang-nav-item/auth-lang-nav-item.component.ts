@@ -24,7 +24,7 @@ export class AuthLangNavItemComponent implements OnInit {
 
   changeLanguage(language: string) {
     this.translateService.use(language);
-    localStorage.setItem('language', language);
+    localStorage.setItem("language", language);
   }
 
   /**

@@ -1,0 +1,46 @@
+<div class="text-input-wrapper" 
+     [class.is-focused]="isFocused" 
+     [class.has-value]="hasValue"
+     [class.is-invalid]="invalid"
+     [class.is-valid]="valid"
+     [class.is-disabled]="isDisabled">
+
+  <fieldset class="text-input-fieldset" aria-hidden="true">
+    <legend class="text-input-legend">
+      <span class="notch-text">{{ label }} <span *ngIf="required" class="text-danger">*</span></span>
+    </legend>
+  </fieldset>
+
+  <div class="text-input-inner">
+    <input 
+      #inputElement
+      class="text-input-element" 
+      [type]="type" 
+      [id]="id"
+      [placeholder]="placeholder"
+      [disabled]="isDisabled"
+      [value]="value"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (keydown.enter)="onEnter($event)" />
+
+    <label class="text-input-label" [for]="id">
+      {{ label }} <span *ngIf="required" class="text-danger">*</span>
+    </label>
+
+    <div class="text-input-actions">
+      <button type="button" class="action-btn btn-clear" 
+              *ngIf="hasValue && !isDisabled" 
+              (click)="clearValue()" 
+              tabindex="-1">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <i class="far fa-question-circle action-btn btn-help" 
+         *ngIf="helperText"
+         [ngbTooltip]="helperText" 
+         container="body"></i>
+    </div>
+  </div>
+</div>

@@ -1,15 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
-  selector: 'app-datepicker',
-  templateUrl: './datepicker.component.html'
+  selector: "app-datepicker",
+  templateUrl: "./datepicker.component.html"
 })
 export class DatepickerComponent {
-  @Input() value: string = '';
-  @Input() label: string = '';
-  @Input() placeholder: string = 'yyyy-mm-dd';
-  @Input() required: boolean = false;
-  
+  @Input() value = "";
+  @Input() label = "";
+  @Input() placeholder = "yyyy-mm-dd";
+  @Input() required = false;
+
   @Output() valueChange = new EventEmitter<string>();
 
   onDateChange(event: any) {

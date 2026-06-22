@@ -14,7 +14,7 @@ import { environment } from "../../../environments/environment";
 export class HomeComponent implements OnInit {
   /**
    * HomeComponent constructor
-   * @param {AuthService} authService The service managing authentication
+   * @param authService The service managing authentication
    */
   constructor(public authService: AuthService) {}
 

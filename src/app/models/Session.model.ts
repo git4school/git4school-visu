@@ -17,7 +17,12 @@ export class Session {
    * @param endDate The date on which the session ends
    * @param tpGroup The associated tp group
    */
-  constructor(startDate: Date, endDate: Date, public tpGroup?: string, public notes?: string) {
+  constructor(
+    startDate: Date,
+    endDate: Date,
+    public tpGroup?: string,
+    public notes?: string
+  ) {
     this.startDate = moment(startDate).toDate();
     this.endDate = moment(endDate).toDate();
   }

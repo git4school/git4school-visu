@@ -44,7 +44,8 @@ export type SortDirection = "asc" | "desc" | "";
 })
 export class EditRepositoriesComponent
   extends BaseTabEditConfigurationComponent<Repository>
-  implements OnInit, AfterContentChecked {
+  implements OnInit, AfterContentChecked
+{
   /**
    * The template reference corresponding to the confirmation modal when deleting a repository
    */
@@ -80,12 +81,12 @@ export class EditRepositoriesComponent
 
   /**
    * EditRepositoriesComponent constructor
-   * @param {FormBuilder} fb The service to build formGroups
+   * @param fb The service to build formGroups
    * @param cdref
-   * @param {AuthService} authService The service managing authentication
-   * @param {NgbModal} modalService The service to open a modal
-   * @param {TranslateService} translateService The service for the localization
-   * @param {DataService} dataService The service to manage the application data at runtime
+   * @param authService The service managing authentication
+   * @param modalService The service to open a modal
+   * @param translateService The service for the localization
+   * @param dataService The service to manage the application data at runtime
    */
   constructor(
     protected fb: FormBuilder,
@@ -140,7 +141,6 @@ export class EditRepositoriesComponent
             this.addRow(repo);
           });
           this.modify();
-          this.submitForm();
         }
       },
       (error) => {}
@@ -157,7 +157,7 @@ export class EditRepositoriesComponent
 
   /**
    * Get the string to display in the error tooltip, translated in the right language
-   * @param {Error[]} errors The array of errors
+   * @param errors The array of errors
    * @returns A string with the errors translated in the right language
    */
   getErrorTooltip(errors: Error[]): string {
@@ -171,8 +171,8 @@ export class EditRepositoriesComponent
 
   /**
    * Cancel the edition of a row (repository) and set back its value
-   * @param {FormGroup} group The formGroup for the repository to cancel the edition
-   * @param {number} index The index of the formGroup in the array
+   * @param group The formGroup for the repository to cancel the edition
+   * @param index The index of the formGroup in the array
    */
   cancelRow(group: FormGroup, index: number) {
     super.cancelRow(group, index);
@@ -185,7 +185,7 @@ export class EditRepositoriesComponent
    * The method called when a header is clicked on to sort the table by the clicked property.
    *
    * See {@link sort}
-   * @param {string} property The property to sort the table with
+   * @param property The property to sort the table with
    */
   onSort(property: string) {
     this.lastPropertySorted === property
@@ -200,7 +200,7 @@ export class EditRepositoriesComponent
    * The method called when the "Delete" button is clicked on.
    * If the user has checked "Hide this confirmation box until the next reload",
    * the confirmation modal is not displayed
-   * @param {number} index The index of the formGroup to delete
+   * @param index The index of the formGroup to delete
    */
   onDeleteRow(index: number) {
     this.dataService.hideDeleteRepoConfirmation
@@ -210,7 +210,7 @@ export class EditRepositoriesComponent
 
   /**
    * Create the formGroup for a repository
-   * @param {Repository} data The repository to create the formGroup for
+   * @param data The repository to create the formGroup for
    * @returns The formGroup
    */
   protected createFormGroup(data?: Repository) {
@@ -276,7 +276,7 @@ export class EditRepositoriesComponent
   /**
    * Sort the table, the repositories array, by the chosen property.
    * The sorting used is an alphabetical sorting as all the properties of a repository are a string
-   * @param {string} property The property to sort the table with
+   * @param property The property to sort the table with
    */
   private sort(property: string) {
     if (!this.nameDirection) {
@@ -295,7 +295,7 @@ export class EditRepositoriesComponent
    * Delete the formGroup at the specified index, after the confirmation of the user.
    * If the user checks "Hide this confirmation box until the next reload",
    * updates the corresponding boolean in the application data
-   * @param {number} index The index of the formGroup in the array
+   * @param index The index of the formGroup in the array
    */
   private deleteRowWithDialog(index: number) {
     this.openDeleteConfirmation().then(

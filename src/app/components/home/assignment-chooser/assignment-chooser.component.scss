@@ -537,3 +537,30 @@
     transform: scaleY(1);
   }
 }
+
+.inline-configuration-wrapper {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: 0;
+  margin: 0 -1.5rem -1.2rem -1.5rem; /* Negative margins to stretch to card edges */
+  animation: slideDown 0.3s ease-out;
+  overflow: hidden;
+
+  .config-divider {
+    margin: 0;
+    border-top: 1px solid var(--color-border);
+    display: none; /* Hide if we already use border-top on wrapper */
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}
+

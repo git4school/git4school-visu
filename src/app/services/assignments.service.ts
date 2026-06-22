@@ -62,7 +62,10 @@ export class AssignmentsService {
 
   exportAssignments(assignmentsToExport?: any[]) {
     if (assignmentsToExport && assignmentsToExport.length > 0) {
-      this.fileService.saveJsonFile({ assignments: assignmentsToExport }, "assignments");
+      this.fileService.saveJsonFile(
+        { assignments: assignmentsToExport },
+        "assignments"
+      );
     } else {
       this.databaseService
         .exportDB()

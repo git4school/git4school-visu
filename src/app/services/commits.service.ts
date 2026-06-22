@@ -33,15 +33,15 @@ export class CommitsService {
 
   /**
    * CommitsService constructor
-   * @param {HttpClient} http
-   * @param {AuthService} authService
-   * @param {TranslateService} translateService
+   * @param http
+   * @param authService
+   * @param translateService
    */
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private translateService: TranslateService
-  ) { }
+  ) {}
 
   /**
    * Gets readMe and commits of every repository
@@ -170,13 +170,13 @@ export class CommitsService {
           if (link != null && link.includes("next")) {
             return this.http.get(
               res.headers.get("link").split(">;")[0].substring(1),
-              { headers: this.headers, observe: "response" },
+              { headers: this.headers, observe: "response" }
             );
           } else {
             return EMPTY;
           }
         }),
-        reduce((acc, res) => acc.concat(res.body), []),
+        reduce((acc, res) => acc.concat(res.body), [])
       );
   }
 
@@ -475,8 +475,8 @@ export class CommitsService {
           repository.name
         ].commitsCount
           ? (dict[repository.name]["commitTypes"][color.label].commitsCount /
-            dict[repository.name].commitsCount) *
-          100
+              dict[repository.name].commitsCount) *
+            100
           : 0;
       });
     });
@@ -575,9 +575,9 @@ export class CommitsService {
   /**
    * Fetch authenticated user's repositories from Github
    *
-   * @param {number} page The page of repositories to fetch
-   * @param {number} pageLimit The number of repositories to fetch per page
-   * @return {Observable<{ completed: boolean, repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   * @param page The page of repositories to fetch
+   * @param pageLimit The number of repositories to fetch per page
+   * @return An object containing the repositories and a boolean indicating if the results are complete
    */
   getRepositoriesByAuthenticatedUser(
     page = 1,
@@ -599,10 +599,10 @@ export class CommitsService {
   /**
    * Fetch repositories from Github according to the given search filter
    *
-   * @param {string} searchFilter The search filter used to fetch the repositories
-   * @param {number} page The page of repositories to fetch
-   * @param {number} pageLimit The number of repositories to fetch per page
-   * @return {Observable<{ completed: boolean, repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   * @param searchFilter The search filter used to fetch the repositories
+   * @param page The page of repositories to fetch
+   * @param pageLimit The number of repositories to fetch per page
+   * @return An object containing the repositories and a boolean indicating if the results are complete
    */
   getRepositoriesBySearch(
     searchFilter: string,

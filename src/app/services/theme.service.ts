@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class ThemeService {
   private isDark = false;
@@ -13,24 +13,24 @@ export class ThemeService {
   }
 
   loadTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
       this.isDark = true;
-      document.body.classList.add('dark-theme');
+      document.body.classList.add("dark-theme");
     } else {
       this.isDark = false;
-      document.body.classList.remove('dark-theme');
+      document.body.classList.remove("dark-theme");
     }
   }
 
   toggleTheme() {
     this.isDark = !this.isDark;
     if (this.isDark) {
-      document.body.classList.add('dark-theme');
-      localStorage.setItem('theme', 'dark');
+      document.body.classList.add("dark-theme");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.body.classList.remove('dark-theme');
-      localStorage.setItem('theme', 'light');
+      document.body.classList.remove("dark-theme");
+      localStorage.setItem("theme", "light");
     }
   }
 
@@ -39,15 +39,15 @@ export class ThemeService {
   }
 
   loadPreferences() {
-    const savedLegend = localStorage.getItem('showLegend');
+    const savedLegend = localStorage.getItem("showLegend");
     if (savedLegend !== null) {
-      this._showLegend = savedLegend === 'true';
+      this._showLegend = savedLegend === "true";
     }
   }
 
   toggleLegend() {
     this._showLegend = !this._showLegend;
-    localStorage.setItem('showLegend', this._showLegend.toString());
+    localStorage.setItem("showLegend", this._showLegend.toString());
   }
 
   get showLegend() {

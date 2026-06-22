@@ -32,7 +32,7 @@ export class DatabaseService extends Dexie {
   }
 
   saveAssignment(assignment: Assignment): Promise<number> {
-    return this.assignments.put(assignment).then(id => {
+    return this.assignments.put(assignment).then((id) => {
       this.dbChanged.next();
       return id;
     });

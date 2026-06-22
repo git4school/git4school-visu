@@ -230,8 +230,8 @@
          [ngClass]="{'disabled-card': !authService.isSignedIn(), 'is-selected': isSelected(assignment.id)}"
          (mouseenter)="hoveredAssignment = assignment.id"
          (mouseleave)="hoveredAssignment = null"
-         (click)="authService.isSignedIn() && toggleSelection(assignment.id)">
-      <div class="card-content d-flex align-items-center">
+         (click)="authService.isSignedIn() && editingAssignmentId !== assignment.id && toggleSelection(assignment.id)">
+      <div class="card-content d-flex align-items-center" *ngIf="editingAssignmentId !== assignment.id">
         
         <!-- Selection Checkbox -->
         <div class="selection-checkbox mr-3" 
@@ -240,7 +240,8 @@
           <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" [id]="'check-' + assignment.id" 
                    [checked]="isSelected(assignment.id)" 
-                   (change)="toggleSelection(assignment.id)">
+                   (change)="toggleSelection(assignment.id)"
+                   [disabled]="assignment.id === -1">
             <label class="custom-control-label" [for]="'check-' + assignment.id" style="cursor: pointer;"></label>
           </div>
         </div>
@@ -253,14 +254,17 @@
         <!-- Main Info -->
         <div class="info-main flex-grow-1" style="min-width: 0;">
           <div class="d-flex align-items-center mb-1">
-            <h5 class="assignment-title mb-0 mr-3 text-truncate" style="max-width: 350px;" [ngbTooltip]="assignment.title" container="body">{{ assignment.title }}</h5>
+            <h5 class="assignment-title mb-0 mr-3 text-truncate" style="max-width: 350px;" [ngbTooltip]="assignment.title" container="body">{{ assignment.title || ('HOME.NEW-ASSIGNMENT' | translate) }}</h5>
             
             <!-- Status Badge -->
-            <span class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus">
+            <span class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus" *ngIf="assignment.id !== -1">
               {{ 'HOME.STATUS.' + assignment.uiStatus.toUpperCase() | translate }}
             </span>
+            <span class="badge status-badge status-default" *ngIf="assignment.id === -1">
+              {{ 'HOME.NEW' | translate }}
+            </span>
           </div>
-          <div class="meta-info text-muted d-flex align-items-center" style="font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+          <div class="meta-info text-muted d-flex align-items-center" style="font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" *ngIf="assignment.id !== -1">
             <span class="meta-item" [ngbTooltip]="assignment.course || '-'" container="body"><i class="fas fa-graduation-cap mr-1"></i> {{ assignment.course || '-' }}</span>
             <span class="meta-separator">&bull;</span>
             <span class="meta-item" [ngbTooltip]="assignment.program || '-'" container="body"><i class="fas fa-book mr-1"></i> {{ assignment.program || '-' }}</span>
@@ -269,10 +273,13 @@
             <span class="meta-separator">&bull;</span>
             <span class="meta-item"><i class="far fa-clock mr-1"></i> {{ assignment.lastModificationDate | date: 'short' }}</span>
           </div>
+          <div class="meta-info text-muted" style="font-size: 0.85rem;" *ngIf="assignment.id === -1">
+            <span>{{ 'HOME.UNSAVED-CHANGES' | translate }}</span>
+          </div>
         </div>
 
         <!-- Timeline (Dates) -->
-        <div class="assignment-timeline mx-4 d-flex" *ngIf="assignment.startDate && assignment.endDate" style="flex-shrink: 0;">
+        <div class="assignment-timeline mx-4 d-flex" *ngIf="assignment.startDate && assignment.endDate && assignment.id !== -1" style="flex-shrink: 0;">
           <div class="timeline-point text-right">
             <div class="date">{{ formatDate(assignment.startDate, 'DD MMM') }}</div>
             <div class="year">{{ formatDate(assignment.startDate, 'YYYY') }}</div>
@@ -302,16 +309,25 @@
 
         <!-- Actions -->
         <div class="card-actions ml-4 d-flex" style="flex-shrink: 0;">
-          <button type="button" class="btn btn-icon-action btn-light text-primary" (click)="$event.stopPropagation(); selectAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
+          <button type="button" class="btn btn-icon-action btn-light text-primary" (click)="$event.stopPropagation(); selectAssignment(assignment)" [disabled]="!authService.isSignedIn() || assignment.id === -1" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
             <i class="far fa-arrow-alt-circle-right"></i>
           </button>
-          <button type="button" class="btn btn-icon-action btn-light text-secondary ml-2" (click)="$event.stopPropagation(); openConfigurationModal(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.EDIT-ASSIGNMENT-TOOLTIP') | translate">
+          <button type="button" class="btn btn-icon-action btn-light text-secondary ml-2" (click)="$event.stopPropagation(); editAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.EDIT-ASSIGNMENT-TOOLTIP') | translate">
             <i class="fas fa-cog"></i>
           </button>
-          <button type="button" class="btn btn-icon-action btn-light text-danger ml-2" (click)="$event.stopPropagation(); deleteAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.DELETE-ASSIGNMENT-TOOLTIP') | translate">
+          <button type="button" class="btn btn-icon-action btn-light text-danger ml-2" (click)="$event.stopPropagation(); deleteAssignment(assignment)" [disabled]="!authService.isSignedIn() || assignment.id === -1" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.DELETE-ASSIGNMENT-TOOLTIP') | translate">
             <i class="far fa-trash-alt"></i>
           </button>
         </div>
+      </div>
+      
+      <!-- Inline Configuration Section -->
+      <div class="inline-configuration-wrapper" *ngIf="editingAssignmentId === assignment.id">
+        <app-configuration 
+          [assignment]="assignment" 
+          (close)="cancelEdit()" 
+          (saved)="onAssignmentSaved($event)">
+        </app-configuration>
       </div>
     </div>
     

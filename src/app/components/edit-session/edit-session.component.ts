@@ -87,7 +87,7 @@ export class EditSessionComponent implements OnInit {
       startDate,
       endDate,
       form.value.tpGroup.trim() || "",
-      form.value.notes.trim() || "",
+      form.value.notes.trim() || ""
     );
 
     this.activeModalService.close(session);

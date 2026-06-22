@@ -19,3 +19,47 @@
     transform: translateY(0%);
   }
 }
+
+.inline-config-container {
+    .config-header {
+        h4 {
+            font-family: "Inter", "Roboto", sans-serif;
+            font-weight: 600;
+        }
+    }
+    
+    .divider-vertical {
+        width: 1px;
+        height: 24px;
+        background-color: var(--color-border);
+    }
+    
+    .custom-tabs {
+        .btn-tab {
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--color-text-secondary);
+            border-bottom: 2px solid transparent;
+            border-radius: 0;
+            transition: all 0.2s ease;
+            box-shadow: none !important;
+            
+            &:hover {
+                color: var(--color-text-primary);
+            }
+            
+            &.active-tab {
+                color: var(--color-primary);
+                border-bottom-color: var(--color-primary);
+            }
+        }
+    }
+    
+    .bg-light-surface {
+        background-color: var(--color-bg-body);
+    }
+}
+

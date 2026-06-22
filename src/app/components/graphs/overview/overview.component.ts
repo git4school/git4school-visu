@@ -1,4 +1,3 @@
-
 import {
   AfterViewInit,
   Component,
@@ -39,14 +38,15 @@ import { FilterGroup } from "@components/questions-chooser/questions-chooser.com
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   static formatDay = d3.utcFormat("%d/%m/%Y");
   static formatHour = d3.utcFormat("%H:%M");
   static GROUP_HEIGHT = 12;
   static CIRCLE_RADIUS = 12;
 
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
-  @ViewChild('questionsChooser') questionsChooser;
+  @ViewChild("questionsChooser") questionsChooser;
 
   minZoom: number;
 
@@ -59,8 +59,8 @@ export class OverviewComponent
 
   commitMessagesFilter: string[] = [];
   filterGroups: FilterGroup[] = [];
-  filteredCommitsCount: number = 0;
-  filteredStudentsCount: number = 0;
+  filteredCommitsCount = 0;
+  filteredStudentsCount = 0;
   unit = "day";
   drag = false;
   chartData = [{ data: [] }];
@@ -164,8 +164,6 @@ export class OverviewComponent
     super(loaderService, assignmentsService, dataService);
   }
 
-
-
   ngOnInit(): void {
     this.defaultSessionDuration =
       this.dataService.assignment.defaultSessionDuration;
@@ -185,39 +183,44 @@ export class OverviewComponent
   }
 
   getDisplayedRepositories(): Repository[] {
-    const isFilterActive = (this.filterGroups && this.filterGroups.length > 0) || 
-                           (this.searchFilter && this.searchFilter.length > 0) || 
-                           (this.commitMessagesFilter && this.commitMessagesFilter.length > 0);
+    const isFilterActive =
+      (this.filterGroups && this.filterGroups.length > 0) ||
+      (this.searchFilter && this.searchFilter.length > 0) ||
+      (this.commitMessagesFilter && this.commitMessagesFilter.length > 0);
 
-    return this.dataService.repositories.filter(
-      (repository) => {
-        if (this.dataService.groupFilter && repository.tpGroup !== this.dataService.groupFilter) {
-            return false;
-        }
-
-        if (isFilterActive) {
-            return repository.commits.some(commit => this.isCommitMatchingFilter(commit));
-        }
-
-        return true;
+    return this.dataService.repositories.filter((repository) => {
+      if (
+        this.dataService.groupFilter &&
+        repository.tpGroup !== this.dataService.groupFilter
+      ) {
+        return false;
       }
-    );
+
+      if (isFilterActive) {
+        return repository.commits.some((commit) =>
+          this.isCommitMatchingFilter(commit)
+        );
+      }
+
+      return true;
+    });
   }
 
   isCommitMatchingFilter(commit: Commit): boolean {
     if (this.filterGroups && this.filterGroups.length > 0) {
-        return this.filterGroups.some(group =>
-            group.criteria.every(criterion => {
-                let match = false;
-                if (criterion.type === 'question') {
-                    match = commit.question === criterion.value;
-                } else {
-                    match = commit.message.toLowerCase()
-                        .includes(criterion.value.toLowerCase());
-                }
-                return criterion.isExclusion ? !match : match;
-            })
-        );
+      return this.filterGroups.some((group) =>
+        group.criteria.every((criterion) => {
+          let match = false;
+          if (criterion.type === "question") {
+            match = commit.question === criterion.value;
+          } else {
+            match = commit.message
+              .toLowerCase()
+              .includes(criterion.value.toLowerCase());
+          }
+          return criterion.isExclusion ? !match : match;
+        })
+      );
     }
 
     const hasSearchFilter = this.searchFilter.length > 0;
@@ -226,8 +229,7 @@ export class OverviewComponent
     if (!hasSearchFilter && !hasCommitFilter) return true;
 
     const matchesSearch =
-      hasSearchFilter &&
-      this.searchFilter.includes(commit.question);
+      hasSearchFilter && this.searchFilter.includes(commit.question);
     const matchesCommit =
       hasCommitFilter &&
       this.commitMessagesFilter.some((msg) =>
@@ -267,7 +269,10 @@ export class OverviewComponent
     };
 
     this.inner_width = Math.max(1, this.width);
-    this.inner_height = Math.max(1, this.height - this.inner_margin.top - this.inner_margin.bottom);
+    this.inner_height = Math.max(
+      1,
+      this.height - this.inner_margin.top - this.inner_margin.bottom
+    );
 
     this.repo_spacing = css_var_number("repo-space");
   }
@@ -349,8 +354,7 @@ export class OverviewComponent
 
   setupZoom() {
     const overview = this;
-    d3.select(document.body)
-      .on("wheel.body", (e) => {}); // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
+    d3.select(document.body).on("wheel.body", (e) => {}); // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
     this.zoom = d3
       .zoom()
       .on("zoom", (event) => {
@@ -533,7 +537,7 @@ export class OverviewComponent
     if (!this.isContextualMenuShown()) {
       try {
         this.contextualMenu.openNew(x, y, date);
-      } catch (error) { }
+      } catch (error) {}
     } else {
       this.contextualMenu.close();
     }
@@ -672,10 +676,10 @@ export class OverviewComponent
       .attr(
         "width",
         this.xScaledTimeZoned(session.endDate) -
-        this.xScaledTimeZoned(session.startDate)
+          this.xScaledTimeZoned(session.startDate)
       )
       .on("click", (e) =>
-          overview.openEditSessionContextMenu(
+        overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
@@ -711,7 +715,7 @@ export class OverviewComponent
     parent: d3.Selection<any, any, any, any>,
     m: Milestone,
     class_: string,
-    index: number,
+    index: number
   ) {
     const overview = this;
     let g = parent.append("g").attr("class", class_);
@@ -921,8 +925,9 @@ export class OverviewComponent
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
         1.5 * OverviewComponent.CIRCLE_RADIUS
-      )} a ${OverviewComponent.CIRCLE_RADIUS} ${OverviewComponent.CIRCLE_RADIUS
-        } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
+      )} a ${OverviewComponent.CIRCLE_RADIUS} ${
+        OverviewComponent.CIRCLE_RADIUS
+      } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
     } else {
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
@@ -1025,14 +1030,15 @@ export class OverviewComponent
         spacing = Math.min(
           Math.abs(
             all_commits[j + 1].commitDate.getTime() -
-            commit.commitDate.getTime()
+              commit.commitDate.getTime()
           ),
           spacing
         );
       if (j > 0)
         spacing = Math.min(
           Math.abs(
-            all_commits[j - 1].commitDate.getTime() - commit.commitDate.getTime()
+            all_commits[j - 1].commitDate.getTime() -
+              commit.commitDate.getTime()
           ),
           spacing
         );
@@ -1107,8 +1113,8 @@ export class OverviewComponent
     return (
       !commit_before.isCloture &&
       this.xScaledTimeZoned(commit_after.commitDate) -
-      this.xScaledTimeZoned(commit_before.commitDate) <
-      Utils.COMMIT_FUSE_RANGE
+        this.xScaledTimeZoned(commit_before.commitDate) <
+        Utils.COMMIT_FUSE_RANGE
     );
   }
 
@@ -1167,21 +1173,20 @@ export class OverviewComponent
     overview.filteredCommitsCount = 0;
     overview.filteredStudentsCount = 0;
 
-    let allCommits = repositories.map((v) => v.commits).reduce((a, b) => a.concat(b), []);
+    let allCommits = repositories
+      .map((v) => v.commits)
+      .reduce((a, b) => a.concat(b), []);
     if (allCommits.length === 0) {
-        if (this.axis_g != null) {
-            this.axis_g.remove();
-            this.axis_g = null;
-        }
-        return;
+      if (this.axis_g != null) {
+        this.axis_g.remove();
+        this.axis_g = null;
+      }
+      return;
     }
 
     this.repository_g = this.data_g.append("g");
     this.repositories_g = new Array<any>(repositories.length);
-    let [minDate, maxDate] = d3.extent(
-      allCommits,
-      (d) => d.commitDate
-    );
+    let [minDate, maxDate] = d3.extent(allCommits, (d) => d.commitDate);
     this.setupAxis(repositories, minDate, maxDate);
 
     this.maxZoom = (maxDate.getTime() - minDate.getTime()) / (1000 * 60);
@@ -1240,8 +1245,8 @@ export class OverviewComponent
             .attr("class", "commit_line")
             .attr("min_date", d1.getTime())
             .attr("max_date", d2.getTime());
-            // .attr("x1", overview.xScaledTimeZoned(d1))
-            // .attr("x2", overview.xScaledTimeZoned(d2));
+          // .attr("x1", overview.xScaledTimeZoned(d1))
+          // .attr("x2", overview.xScaledTimeZoned(d2));
         });
       });
   }
@@ -1406,16 +1411,18 @@ export class OverviewComponent
     overview.repositories_g.forEach((g, i) => {
       g.selectAll(".commit_line")
         .attr("x1", function () {
-          let real_x = overview.xScaledTimeZoned(
-            new Date(Number.parseInt(d3.select(this).attr("min_date")))
-          ) || 0;
-          
+          let real_x =
+            overview.xScaledTimeZoned(
+              new Date(Number.parseInt(d3.select(this).attr("min_date")))
+            ) || 0;
+
           return Math.max(Math.min(real_x, overview.width), 0);
         })
         .attr("x2", function () {
-          let real_x = overview.xScaledTimeZoned(
-            new Date(Number.parseInt(d3.select(this).attr("max_date")))
-          ) || 0;
+          let real_x =
+            overview.xScaledTimeZoned(
+              new Date(Number.parseInt(d3.select(this).attr("max_date")))
+            ) || 0;
           return Math.max(Math.min(real_x, overview.width), 0);
         });
     });
@@ -1437,7 +1444,8 @@ export class OverviewComponent
       .attr(
         "transform",
         (m: Milestone) =>
-          `translate(${overview.xScaledTimeZoned(m.date)}, ${this.inner_margin.top
+          `translate(${overview.xScaledTimeZoned(m.date)}, ${
+            this.inner_margin.top
           })`
       );
   }
@@ -1453,7 +1461,7 @@ export class OverviewComponent
       .call(
         this.zoom.transform,
         (conserve ? this.current_zoom : undefined) ||
-        d3.zoomIdentity.translate(0, 0).scale(1)
+          d3.zoomIdentity.translate(0, 0).scale(1)
       );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);
@@ -1494,5 +1502,4 @@ export class OverviewComponent
       this.dataService.questions
     );
   }
-
 }

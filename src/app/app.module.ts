@@ -51,7 +51,7 @@ import { HelpNavItemComponent } from "./components/nav-items/help-nav-item/help-
 import { AppNavLayoutComponent } from "./components/nav-layouts/app-nav-layout/app-nav-layout.component";
 import { HomeNavLayoutComponent } from "./components/nav-layouts/home-nav-layout/home-nav-layout.component";
 import { OverviewGraphContextualMenuComponent } from "./components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
-import { SidebarSettingsComponent } from './components/nav-layouts/sidebar-settings/sidebar-settings.component';
+import { SidebarSettingsComponent } from "./components/nav-layouts/sidebar-settings/sidebar-settings.component";
 
 /**
  * Firebase configuration file
@@ -92,7 +92,7 @@ export function appInitializerFactory(
         registerLocaleData(localeRu);
         translate.addLangs(["en", "fr", "ru"]);
         translate.setDefaultLang("en");
-        const savedLang = localStorage.getItem('language');
+        const savedLang = localStorage.getItem("language");
         const browserLang = window.navigator.language
           ? window.navigator.language.slice(0, 2)
           : "en";

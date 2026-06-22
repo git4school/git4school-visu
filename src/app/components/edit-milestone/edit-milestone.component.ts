@@ -59,7 +59,7 @@ export class EditMilestoneComponent implements OnInit {
       form.value.questions,
       form.value.tpGroup.trim() || "",
       form.value.type,
-      form.value.notes.trim() || "",
+      form.value.notes.trim() || ""
     );
     this.activeModalService.close(milestone);
   }

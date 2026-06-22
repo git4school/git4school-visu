@@ -114,8 +114,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   private searchFilter;
 
   /**
-   * @param {NgbActiveModal} modalService The service to manage the modal
-   * @param {CommitsService} commitsService The service to fetch repositories
+   * @param modalService The service to manage the modal
+   * @param commitsService The service to fetch repositories
    */
   constructor(
     public modalService: NgbActiveModal,
@@ -125,7 +125,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   /**
    * Add the given repositories to the datatable and increment the next [page]{@link ModalAddRepositoriesComponent#page} to fetch
    *
-   * @param {Repository[]} repositories The repositories to add to the datatable
+   * @param repositories The repositories to add to the datatable
    */
   private updateResults(repositories: Repository[]) {
     this.rows = [...this.rows, ...repositories];
@@ -138,8 +138,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    *
    * It set [done]{@link ModalAddRepositoriesComponent#done} and [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with the fetched repositories
    *
-   * @param { Observable<{ completed: boolean, repositories: Repository[] }> } response The intermediate response from the service
-   * @return {Subscription}
+   * @param response The intermediate response from the service
+   * @return
    */
   private processIntermediateResponse(
     response: Observable<{
@@ -163,7 +163,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    * Fetch the repositories for the authenticated user
    * and [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with it
    *
-   * @param {number} page The page of repositories to fetch
+   * @param page The page of repositories to fetch
    */
   private updateResultsWithAuthenticatedUser(page: number) {
     this.processIntermediateResponse(
@@ -175,8 +175,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    * Fetch the repositories from the [search filter]{@link ModalAddRepositoriesComponent#searchFilter} and
    * [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with it
    *
-   * @param {string} searchFilter The search filter used to fetch the repositories
-   * @param {number} page The page of repositories to fetch
+   * @param searchFilter The search filter used to fetch the repositories
+   * @param page The page of repositories to fetch
    */
   private updateResultsWithSearchFilter(searchFilter: string, page: number) {
     this.processIntermediateResponse(
@@ -206,7 +206,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    * This identifies a row, so that the check mark assignment works well
    *
    * @param row A row element from the datatable, corresponding to a repository
-   * @return {string} The URL of the corresponding repository
+   * @return The URL of the corresponding repository
    */
   getId(row): string {
     return row.url;
@@ -217,7 +217,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    *
    * It [loads]{@link ModalAddRepositoriesComponent#loadResults} the repositories
    *
-   * @param {number} offsetY An indicator of the current scroll level
+   * @param offsetY An indicator of the current scroll level
    */
   onScroll(offsetY: number) {
     const viewHeight =
@@ -251,7 +251,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    *
    * It pushes the checked repositories into the [selected repositories]{@link ModalAddRepositoriesComponent#selected} array
    *
-   * @param {Repository[]} selected The repositories that has been selected
+   * @param selected The repositories that has been selected
    */
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);

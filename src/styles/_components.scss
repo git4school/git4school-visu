@@ -1261,3 +1261,125 @@ input[type="checkbox"]:checked + .chip-content,
     margin: 4px 0;
   }
 }
+
+/* =========================================
+   FLOATING LABEL INPUTS
+   ========================================= */
+.floating-group {
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  font-family: $font-family-sans;
+
+  .floating-icon-right,
+  .floating-clear {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.2s ease;
+    padding: 0;
+
+    &:hover {
+      color: var(--color-danger);
+    }
+  }
+
+  /* Specific positioning when both clear and help/datepicker icons are present */
+  .floating-clear.with-icon-right {
+    right: 2.25rem;
+  }
+
+  .floating-input {
+    width: 100%;
+    height: 3rem; /* Reduced height */
+    padding: 1rem 0.75rem 0.2rem 0.75rem;
+    font-size: 0.9rem; /* Slightly smaller text */
+    font-weight: 500;
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px; /* Slightly less rounded for smaller height */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+
+    &.with-icon-right {
+      padding-right: 2rem;
+    }
+    
+    &.with-clear-and-icon {
+      padding-right: 3.5rem;
+    }
+
+    /* Invalid State */
+    &.is-invalid {
+      border-color: var(--color-danger);
+    }
+
+    /* Valid State */
+    &.is-valid {
+      border-color: var(--color-success);
+    }
+
+    &:focus, &:active {
+      border-color: #a855f7;
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .floating-label {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    pointer-events: none;
+    transition: all 0.2s ease-out;
+    background-color: transparent;
+    padding: 0 0.2rem;
+    z-index: 1;
+  }
+
+  .floating-input:focus ~ .floating-label,
+  .floating-input:not(:placeholder-shown) ~ .floating-label {
+    top: 0;
+    transform: translateY(-50%) scale(0.85);
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    left: 0.5rem;
+  }
+
+  .floating-input:focus ~ .floating-label {
+    color: #a855f7;
+  }
+  
+  .floating-input.is-invalid:focus ~ .floating-label {
+    color: var(--color-danger);
+  }
+
+  .floating-hint {
+    position: absolute;
+    bottom: -1rem;
+    left: 0.75rem;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+  
+  .invalid-feedback {
+    position: absolute;
+    bottom: -1rem;
+    left: 0.75rem;
+    font-size: 0.7rem;
+    margin-top: 0;
+    display: block;
+  }
+}

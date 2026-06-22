@@ -18,15 +18,15 @@ export class AuthService {
   /**
    * The Github access token
    */
-  token = localStorage.getItem('dev_github_token') || null;
+  token = localStorage.getItem("dev_github_token") || null;
   username = null;
   loading = false;
 
   /**
    * AuthService constructor
-   * @param {Router} router
-   * @param {HttpClient} http
-   * @param {ToastService} toastService
+   * @param router
+   * @param http
+   * @param toastService
    */
   constructor(
     private router: Router,
