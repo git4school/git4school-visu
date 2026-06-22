@@ -1,15 +1,11 @@
-<div class="metadata-form-container mt-2">
+<div class="metadata-form-container">
   <form onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
-    
+
     <!-- Row 1: Title -->
     <div class="form-row mt-2">
       <!-- Title -->
       <div class="col-12">
-        <app-text-input
-          id="title"
-          formControlName="title"
-          [label]="'METADATA.TITLE' | translate"
-          [required]="true"
+        <app-text-input id="title" formControlName="title" [label]="'METADATA.TITLE' | translate" [required]="true"
           [invalid]="metadataForm.controls.title.invalid && metadataForm.controls.title.touched"
           [valid]="!metadataForm.controls.title.invalid && metadataForm.controls.title.touched">
         </app-text-input>
@@ -21,40 +17,44 @@
       <div class="col-12 d-flex flex-nowrap" style="gap: 0.5rem;">
         <!-- Course -->
         <div style="flex: 3;">
-          <app-text-input
-            id="course"
-            formControlName="course"
-            [label]="'METADATA.COURSE' | translate">
+          <app-text-input id="course" formControlName="course" [label]="'METADATA.COURSE' | translate">
           </app-text-input>
         </div>
 
         <!-- Program -->
         <div style="flex: 3;">
-          <app-text-input
-            id="program"
-            formControlName="program"
-            [label]="'METADATA.PROGRAM' | translate">
+          <app-text-input id="program" formControlName="program" [label]="'METADATA.PROGRAM' | translate">
           </app-text-input>
         </div>
 
         <!-- Year -->
         <div style="flex: 1;">
-          <app-text-input
-            id="year"
-            formControlName="year"
-            [label]="'METADATA.YEAR' | translate">
+          <app-text-input id="year" formControlName="year" [label]="'METADATA.YEAR' | translate">
           </app-text-input>
         </div>
       </div>
     </div>
 
-    <!-- Row 3: Dates, Duration -->
-    <div class="form-row mt-2">
+    <!-- Row 3: Questions -->
+    <div class="form-row mt-0 mb-3">
+      <div class="col-md-12">
+        <div class="form-group mb-0">
+          <label for="questionsChooser"
+            style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem;">{{
+            'QUESTIONS' | translate }}</label>
+          <questions-chooser #questionsChooser formControlName="questions" [editable]="true" [openOnFocus]="true"
+            [noQuestionMessage]="true" [maxPillsWidth]="'70%'">
+          </questions-chooser>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4: Dates, Duration -->
+    <div class="form-row mt-1">
       <div class="col-12 d-flex flex-nowrap align-items-end" style="gap: 2rem;">
         <!-- Date Range Picker -->
-        <div style="flex: 0 1 360px;">
-          <app-date-range-picker
-            [startDate]="metadataForm.get('startDate').value"
+        <div style="flex: 0 1 300px;">
+          <app-date-range-picker [startDate]="metadataForm.get('startDate').value"
             (startDateChange)="metadataForm.get('startDate').setValue($event)"
             [endDate]="metadataForm.get('endDate').value"
             (endDateChange)="metadataForm.get('endDate').setValue($event)">
@@ -63,27 +63,13 @@
 
         <!-- Duration -->
         <div style="flex: 1; min-width: max-content;">
-        <label class="duration-label">
-          {{ 'DURATION_OF_THE_SESSION' | translate }}
-        </label>
-        <div class="form-group mb-0">
-          <app-session-duration-picker 
-            id="defaultSessionDuration" 
-            formControlName="defaultSessionDuration">
-          </app-session-duration-picker>
-        </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 3: Questions -->
-    <div class="form-row mt-1">
-      <div class="col-md-12">
-        <div class="form-group mb-0">
-          <label for="questionsChooser" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem;">{{ 'QUESTIONS' | translate }}</label>
-          <questions-chooser #questionsChooser formControlName="questions"
-            [editable]="true" [openOnFocus]="true" [noQuestionMessage]="true">
-          </questions-chooser>
+          <label class="duration-label">
+            {{ 'DURATION_OF_THE_SESSION' | translate }}
+          </label>
+          <div class="form-group mb-0">
+            <app-session-duration-picker id="defaultSessionDuration" formControlName="defaultSessionDuration">
+            </app-session-duration-picker>
+          </div>
         </div>
       </div>
     </div>

@@ -11,18 +11,30 @@
     <!-- Start Date Segments -->
     <div class="date-segments" (click)="$event.stopPropagation()">
       <ng-container *ngIf="isFrench; else enStartFormat">
-        <input #startDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate" maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, 'day')" (keydown)="onKeyDown($event, true, 'day')" (blur)="onBlur(true)">
+        <input #startDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+          maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, 'day')"
+          (keydown)="onKeyDown($event, true, 'day')" (blur)="onBlur(true)">
         <span class="separator">/</span>
-        <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate" maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, 'month')" (keydown)="onKeyDown($event, true, 'month')" (blur)="onBlur(true)">
+        <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+          maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, 'month')"
+          (keydown)="onKeyDown($event, true, 'month')" (blur)="onBlur(true)">
         <span class="separator">/</span>
-        <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate" maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')" (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
+        <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+          maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
+          (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
       </ng-container>
       <ng-template #enStartFormat>
-        <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate" maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, 'month')" (keydown)="onKeyDown($event, true, 'month')" (blur)="onBlur(true)">
+        <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+          maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, 'month')"
+          (keydown)="onKeyDown($event, true, 'month')" (blur)="onBlur(true)">
         <span class="separator">/</span>
-        <input #startDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate" maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, 'day')" (keydown)="onKeyDown($event, true, 'day')" (blur)="onBlur(true)">
+        <input #startDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+          maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, 'day')"
+          (keydown)="onKeyDown($event, true, 'day')" (blur)="onBlur(true)">
         <span class="separator">/</span>
-        <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate" maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')" (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
+        <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+          maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
+          (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
       </ng-template>
     </div>
 
@@ -31,30 +43,42 @@
     <!-- End Date Segments -->
     <div class="date-segments" (click)="$event.stopPropagation()">
       <ng-container *ngIf="isFrench; else enEndFormat">
-        <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate" maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')" (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
+        <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+          maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
+          (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
         <span class="separator">/</span>
-        <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate" maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')" (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
+        <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+          maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
+          (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
         <span class="separator">/</span>
-        <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate" maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')" (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
+        <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+          maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
+          (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
       </ng-container>
       <ng-template #enEndFormat>
-        <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate" maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')" (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
+        <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+          maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
+          (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
         <span class="separator">/</span>
-        <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate" maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')" (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
+        <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+          maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
+          (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
         <span class="separator">/</span>
-        <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate" maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')" (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
+        <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+          maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
+          (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
       </ng-template>
     </div>
 
     <!-- Calendar Icon Button -->
-    <button type="button" class="calendar-btn" (click)="togglePopup(); $event.stopPropagation()">
+    <button type="button" class="calendar-btn pl-2" (click)="togglePopup(); $event.stopPropagation()">
       <i class="far fa-calendar-alt"></i>
     </button>
   </div>
 
   <!-- Popup Calendar Overlay -->
   <div class="calendar-popup" *ngIf="isOpen" (click)="$event.stopPropagation()" [class.drop-up]="dropUp">
-    
+
     <!-- Calendar Header -->
     <div class="calendar-header">
       <button type="button" class="nav-btn" (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>
@@ -69,15 +93,10 @@
       </div>
       <div class="days-grid">
         <ng-container *ngFor="let week of calendar">
-          <div class="day-cell" *ngFor="let day of week"
-               [class.outside-month]="!day.isCurrentMonth"
-               [class.selected-start]="isStartDate(day.date)"
-               [class.selected-end]="isEndDate(day.date)"
-               [class.in-range]="isInRange(day.date)"
-               [class.today]="day.isToday"
-               (click)="onDateClick(day)"
-               (mouseenter)="onDateHover(day)"
-               (mouseleave)="onDateLeave()">
+          <div class="day-cell" *ngFor="let day of week" [class.outside-month]="!day.isCurrentMonth"
+            [class.selected-start]="isStartDate(day.date)" [class.selected-end]="isEndDate(day.date)"
+            [class.in-range]="isInRange(day.date)" [class.today]="day.isToday" (click)="onDateClick(day)"
+            (mouseenter)="onDateHover(day)" (mouseleave)="onDateLeave()">
             <div class="day-number">{{ day.day }}</div>
           </div>
         </ng-container>
@@ -90,6 +109,6 @@
       <button type="button" class="quick-btn" (click)="setThisWeek()">{{ 'THIS_WEEK' | translate }}</button>
       <button type="button" class="quick-btn" (click)="setThisMonth()">{{ 'THIS_MONTH' | translate }}</button>
     </div>
-    
+
   </div>
 </div>

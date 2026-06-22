@@ -1,35 +1,41 @@
 <div class="inline-config-container">
-    <div class="d-flex justify-content-between align-items-center mb-4 config-header px-4 pt-4">
-        <h4 class="mb-0 d-flex align-items-center">
-            <i class="fas fa-cog mr-2 text-primary"></i> 
-            {{ 'Configurations' | translate }}
-            <span *ngIf="isModified" class="text-warning ml-3 d-flex align-items-center" style="font-size: 0.8rem; font-weight: 500;">
+    <div class="d-flex align-items-center justify-content-between mb-2 config-header border-bottom"
+        style="padding: 0.5rem 40px;">
+        <div class="d-flex align-items-center" style="gap: 1.5rem;">
+            <div class="filter-group" [attr.data-active]="activeTab">
+                <div class="filter-indicator"></div>
+                <button class="filter-btn" [class.active]="activeTab === 'metadata'" (click)="activeTab = 'metadata'">
+                    <i class="fas fa-info-circle mr-2"></i> {{ 'CONFIGURATION.EDIT-METADATA' | translate }}
+                </button>
+                <button class="filter-btn" [class.active]="activeTab === 'repositories'"
+                    (click)="activeTab = 'repositories'">
+                    <i class="fas fa-database mr-2"></i> {{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate }}
+                </button>
+            </div>
+            <span *ngIf="isModified" class="text-warning d-flex align-items-center"
+                style="font-size: 0.8rem; font-weight: 500;">
                 <i class="fas fa-exclamation-circle mr-1"></i> {{ 'HOME.UNSAVED-CHANGES' | translate }}
             </span>
-        </h4>
-        <div class="d-flex align-items-center">
-            <button class="btn btn-sm btn-outline-secondary mr-2" (click)="onCancel()">
+        </div>
+
+        <div class="d-flex align-items-center justify-content-end" style="gap: 0.5rem;">
+            <button class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;"
+                (click)="onCancel()">
                 {{ 'CANCEL' | translate }}
             </button>
-            <button class="btn btn-sm btn-primary shadow-sm" style="text-transform: none;" (click)="onSaveGlobal()" [disabled]="!canSave()">
-                <i class="fas fa-save mr-1"></i> {{ 'METADATA.SAVE' | translate }}
+            <button class="btn btn-primary shadow-sm"
+                style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;"
+                (click)="onSaveGlobal()" [disabled]="!canSave()">
+                <i class="fas fa-save mr-2"></i> {{ 'METADATA.SAVE' | translate }}
             </button>
         </div>
     </div>
-    <div class="config-body px-4 pb-4">
-        <div class="modern-tabs-container mb-4 d-flex border-bottom pb-0">
-            <button class="modern-tab mr-4" [ngClass]="activeTab === 'metadata' ? 'active-tab' : 'inactive-tab'" (click)="activeTab = 'metadata'">
-                <i class="fas fa-info-circle mr-1"></i> {{ 'CONFIGURATION.EDIT-METADATA' | translate }}
-            </button>
-            <button class="modern-tab" [ngClass]="activeTab === 'repositories' ? 'active-tab' : 'inactive-tab'" (click)="activeTab = 'repositories'">
-                <i class="fas fa-database mr-1"></i> {{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate }}
-            </button>
-        </div>
-        
-        <div class="tab-content pt-2">
+    <div class="config-body px-4 pb-4 pt-2">
+
+        <div class="tab-content pt-0">
             <div [hidden]="activeTab !== 'metadata'">
-                <metadata #metadataComp [metadata]="assignment.metadata"
-                    (modified)="metadataModified = true"></metadata>
+                <metadata #metadataComp [metadata]="assignment.metadata" (modified)="metadataModified = true">
+                </metadata>
             </div>
             <div [hidden]="activeTab !== 'repositories'">
                 <edit-repositories #reposComp [datas]="assignment.repositories"

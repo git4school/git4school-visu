@@ -12,7 +12,7 @@
     align-items: center;
     padding: 0 0.5rem;
     margin-bottom: 0.25rem;
-    
+
     .label-text {
       font-size: 0.85rem;
       color: var(--color-text-secondary);
@@ -20,7 +20,7 @@
       flex: 1;
       text-align: center;
     }
-    
+
     .label-button-spacer {
       width: 24px;
     }
@@ -47,7 +47,7 @@
       display: flex;
       align-items: center;
       gap: 0.25rem;
-      
+
       .segment-input {
         border: none !important;
         background: transparent !important;
@@ -62,19 +62,21 @@
         appearance: none !important;
         -webkit-appearance: none !important;
         border-radius: 0 !important;
-        
+
         &::placeholder {
           color: var(--color-text-muted);
           font-weight: 400;
         }
 
-        &.day, &.month {
+        &.day,
+        &.month {
           width: 32px;
         }
+
         &.year {
           width: 50px;
         }
-        
+
         &:focus {
           color: var(--color-primary);
         }
@@ -106,7 +108,7 @@
       align-items: center;
       justify-content: center;
       transition: color 0.2s;
-      
+
       &:hover {
         color: var(--color-primary-hover);
       }
@@ -169,7 +171,7 @@
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         margin-bottom: 0.5rem;
-        
+
         .weekday {
           text-align: center;
           font-size: 0.75rem;
@@ -182,7 +184,7 @@
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         row-gap: 4px;
-        
+
         .day-cell {
           position: relative;
           height: 36px;
@@ -229,16 +231,17 @@
           /* Range Background */
           &.in-range {
             background-color: var(--badge-prepared-bg);
-            
+
             &.today .day-number {
               border-color: transparent;
             }
           }
 
           /* Endpoints */
-          &.selected-start, &.selected-end {
+          &.selected-start,
+          &.selected-end {
             color: white;
-            
+
             .day-number {
               background-color: var(--color-primary);
               color: white;
@@ -274,7 +277,9 @@
 
           /* If start and end are on the same day, no range background */
           &.selected-start.selected-end {
-            &::before, &::after {
+
+            &::before,
+            &::after {
               display: none;
             }
           }
@@ -312,6 +317,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
