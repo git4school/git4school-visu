@@ -10,15 +10,15 @@
 
     <!-- Selection Actions -->
     <div class="selection-actions" *ngIf="selectionMode">
-      <div class="d-flex align-items-center bg-white border rounded px-3 py-2 shadow-sm" style="background: var(--color-surface) !important; border-color: var(--color-border) !important;">
-        <div class="custom-control custom-checkbox mr-3">
+      <div class="d-flex align-items-center bg-white border rounded px-3 shadow-sm" style="height: 36px; background: var(--color-surface) !important; border-color: var(--color-border) !important;">
+        <div class="custom-control custom-checkbox mr-3 d-flex align-items-center">
           <input type="checkbox" class="custom-control-input" id="selectAll" 
                  [checked]="isAllSelected()" (change)="toggleSelectAll()">
-          <label class="custom-control-label font-weight-bold" for="selectAll" style="color: var(--color-text-primary); cursor: pointer; padding-top: 2px;">
+          <label class="custom-control-label font-weight-bold mb-0" for="selectAll" style="color: var(--color-text-primary); cursor: pointer; padding-top: 2px;">
             {{ selectedAssignments.size }} sélectionné(s)
           </label>
         </div>
-        <div class="border-left pl-3 ml-1 d-flex">
+        <div class="border-left pl-3 ml-1 d-flex align-items-center">
           <button class="btn btn-sm btn-outline-danger mr-2" (click)="deleteSelected()">
             <i class="fas fa-trash"></i> Supprimer
           </button>
@@ -214,15 +214,13 @@
         </span>
       </button>
     </div>
-    <button class="btn btn-outline-secondary action-btn" 
+    <button class="btn btn-outline-secondary action-btn export-btn" 
             [class.export-active]="selectionMode"
-            [class.square-btn]="!selectionMode"
             (click)="exportDB()" [ngbTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
-      <svg *ngIf="selectionMode" class="marching-ants-svg" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100%" height="100%" rx="8" />
-      </svg>
-      <span *ngIf="selectionMode" class="text mr-2" style="font-weight: 500; position: relative; z-index: 2;">{{ 'EXPORT' | translate }}</span>
-      <svg class="icon" style="position: relative; z-index: 2;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+      <span class="text" style="font-weight: 500; position: relative; z-index: 2;">{{ 'EXPORT' | translate }}</span>
+      <span class="icon" style="position: relative; z-index: 2;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+      </span>
     </button>
     <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
     <button class="btn btn-outline-secondary action-btn square-btn" (click)="assignmentFile.click();" [ngbTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate">
@@ -234,28 +232,32 @@
   <!-- Assignment List -->
   <div class="assignment-list" [class.selection-mode]="selectionMode">
     <div class="assignment-card" *ngFor="let assignment of filteredAssignments" 
-         [ngClass]="{'disabled-card': !authService.isSignedIn(), 'is-selected': isSelected(assignment.id)}"
-         (mouseenter)="hoveredAssignment = assignment.id"
-         (mouseleave)="hoveredAssignment = null"
-         (click)="authService.isSignedIn() && editingAssignmentId !== assignment.id && toggleSelection(assignment.id)">
+         [ngClass]="{
+           'disabled-card': !authService.isSignedIn(), 
+           'is-selected': isSelected(assignment.id),
+           'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignmentId !== assignment.id
+         }">
       <div class="card-content d-flex align-items-center" *ngIf="editingAssignmentId !== assignment.id">
         
-        <!-- Selection Checkbox -->
-        <div class="selection-checkbox mr-3" 
-             [class.visible]="selectionMode || hoveredAssignment === assignment.id"
-             (click)="$event.stopPropagation()">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" [id]="'check-' + assignment.id" 
-                   [checked]="isSelected(assignment.id)" 
-                   (change)="toggleSelection(assignment.id)"
-                   [disabled]="assignment.id === -1">
-            <label class="custom-control-label" [for]="'check-' + assignment.id" style="cursor: pointer;"></label>
+        <!-- Selection Zone (Logo / Checkbox) -->
+        <div class="selection-zone mr-3" 
+             (mouseenter)="hoveredAssignment = assignment.id"
+             (mouseleave)="hoveredAssignment = null"
+             [class.disabled]="!authService.isSignedIn() || assignment.id === -1"
+             (click)="authService.isSignedIn() && assignment.id !== -1 && toggleSelection(assignment.id); $event.stopPropagation()">
+             
+          <!-- Logo -->
+          <div class="type-indicator-overlay" [ngClass]="assignment.uiType">
+            <i class="fab fa-2x" [ngClass]="{'fa-github': assignment.uiType === 'github', 'fa-gitlab': assignment.uiType === 'gitlab'}"></i>
           </div>
-        </div>
 
-        <!-- Type Icon -->
-        <div class="type-indicator mr-3" [ngClass]="assignment.uiType">
-          <i class="fab fa-2x" [ngClass]="{'fa-github': assignment.uiType === 'github', 'fa-gitlab': assignment.uiType === 'gitlab'}"></i>
+          <!-- Checkbox -->
+          <div class="selection-checkbox-overlay">
+            <div class="custom-control custom-checkbox" style="pointer-events: none;">
+              <input type="checkbox" class="custom-control-input" [id]="'check-' + assignment.id" [checked]="isSelected(assignment.id)">
+              <label class="custom-control-label" [for]="'check-' + assignment.id"></label>
+            </div>
+          </div>
         </div>
 
         <!-- Main Info -->

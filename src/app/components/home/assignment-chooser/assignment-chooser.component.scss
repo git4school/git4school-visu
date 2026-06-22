@@ -258,84 +258,135 @@
 }
 
 .assignment-list {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
   padding: 0;
-  box-shadow: var(--shadow-sm);
 }
 
 .assignment-card {
   background: transparent;
   border: none;
-  border-bottom: 1px solid var(--color-border);
   border-radius: 0;
-  padding: 1.2rem 1.5rem;
+  padding: 1.2rem 1.5rem 1.2rem 1.2rem; /* 1.2rem top/bottom/left, 1.5rem right */
   margin: 0;
-  transition: background-color 0.15s ease;
   position: relative;
+  z-index: 1;
 
-  &:first-child {
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-  }
-
-  &:last-child {
-    border-bottom: none;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-  }
-
-  &:hover:not(.disabled-card) {
-    background-color: var(--color-bg-body);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    z-index: -1;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
   }
 
   &.disabled-card {
-    opacity: 0.5;
-    background: var(--color-bg-body);
+    opacity: 0.6;
+    &::before {
+      background: var(--color-bg-body);
+      box-shadow: none;
+    }
   }
 
   &.is-selected {
-    background-color: rgba(59, 130, 246, 0.05);
-    border-left: 3px solid var(--color-primary);
+    &::before {
+      background-color: var(--color-primary-bg, #eff6ff);
+    }
   }
 
-  .selection-checkbox {
-    width: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: all 0.2s ease;
-    &.visible {
-      width: auto;
-      opacity: 1;
-      overflow: visible;
+  &.is-shrunk {
+    &::before {
+      left: calc(1.2rem + 40px - 0.5rem);
     }
     
-    /* Make the custom checkbox a bit bigger/easier to click */
-    .custom-control-label::before,
-    .custom-control-label::after {
-      width: 1.25rem;
-      height: 1.25rem;
+    .selection-zone {
+      .type-indicator-overlay {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      .selection-checkbox-overlay {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
   }
 }
 
-.type-indicator {
+.selection-zone {
+  position: relative;
   width: 40px;
   height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
+  border-radius: 6px;
   
-  i {
-    font-size: 1.5rem;
+  &:not(.disabled) {
+    cursor: pointer;
   }
 
-  &.github i { color: var(--color-github, #24292e); }
-  &.gitlab i { color: var(--color-gitlab, #fc6d26); }
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1.2rem;
+    bottom: -1.2rem;
+    left: -1.2rem;
+    right: -0.5rem;
+    z-index: 1;
+  }
+
+  .type-indicator-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+    
+    i {
+      font-size: 1.5rem;
+    }
+    &.github i { color: var(--color-github, #24292e); }
+    &.gitlab i { color: var(--color-gitlab, #fc6d26); }
+  }
+
+  .selection-checkbox-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+    left: -0.85rem;
+    
+    .custom-control {
+      min-height: 0;
+      padding-left: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+      
+      .custom-control-label {
+        &::before, &::after {
+          left: 0;
+          top: 0;
+          width: 1.25rem;
+          height: 1.25rem;
+        }
+      }
+    }
+  }
 }
 
 .assignment-title {
@@ -547,6 +598,9 @@
   padding: 0;
   margin: 0 -1.5rem -1.2rem -1.5rem; /* Negative margins to stretch to card edges */
   animation: slideDown 0.3s ease-out;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  overflow: hidden;
 
   .config-divider {
     margin: 0;
@@ -567,44 +621,47 @@
 }
 
 
-.export-active {
-  position: relative;
-  color: var(--color-primary) !important;
-  background-color: transparent !important;
-  border: 1px solid transparent !important; /* To maintain spacing */
-  z-index: 1;
+.export-btn {
+  height: 36px;
+  max-width: 36px;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.3s ease, padding 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  
+  .icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-  .marching-ants-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: visible; /* Prevent clipping of the stroke */
+  .text {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    margin: 0;
+    transition: opacity 0.3s ease, max-width 0.3s ease, margin 0.3s ease;
+  }
+
+  &.export-active {
+    max-width: 150px;
+    padding: 0 0.5rem 0 1rem !important;
+    background-color: var(--color-primary-bg) !important;
+    border-color: var(--color-primary-bg) !important;
+    color: var(--color-primary) !important;
     
-    rect {
-      fill: var(--badge-prepared-bg);
-      stroke: var(--color-primary);
-      stroke-width: 2px; /* 2px stroke, perfectly centered on the padding-box boundary */
-      stroke-dasharray: 8, 8; /* Sharp square dashes */
-      animation: marching-ants-anim 10s linear infinite;
-    }
-  }
-
-  &:hover {
-    .marching-ants-svg rect {
-      fill: var(--color-surface);
+    .text {
+      opacity: 1;
+      max-width: 100px;
+      margin-right: 0.5rem;
     }
   }
 }
 
-@keyframes marching-ants-anim {
-  from {
-    stroke-dashoffset: 160; /* Multiple of 16 (8+8) for seamless loop */
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
