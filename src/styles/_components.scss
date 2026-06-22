@@ -541,11 +541,13 @@
   color: $color-text-primary;
   text-align: left;
   list-style: none;
-  background-color: var(--color-surface);
+  background-color: var(--glass-bg);
   background-clip: padding-box;
-  border: 1px solid var(--color-border);
-  border-radius: $radius-md;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
   box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
 
   &.show {
     display: block;
@@ -565,10 +567,11 @@
   border: 0;
   transition: background-color $transition-fast;
 
-  &:hover {
+  &:hover, &.active, &:focus {
     color: var(--color-primary);
     text-decoration: none;
     background-color: var(--color-bg-body);
+    outline: none;
   }
 }
 
@@ -628,18 +631,22 @@
   cursor: pointer;
 
   svg {
-    color: var(--color-text-muted);
-    transition: color 0.15s;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover, &[aria-expanded="true"] {
     background-color: var(--filter-bg);
     color: var(--color-text-primary);
-    svg {
-      color: var(--color-text-primary);
-    }
   }
   
+  &.anim-spin-hover:hover:not(:disabled) svg {
+    transform: rotate(180deg);
+  }
+
+  &.anim-scale-hover:hover:not(:disabled) svg {
+    transform: scale(1.15);
+  }
+
   &:focus {
     outline: none;
   }
@@ -663,8 +670,8 @@
   }
 
   &:hover:not(:disabled) {
-    background-color: #f3f4f6;
-    color: #111827;
+    background-color: var(--color-bg-body);
+    color: var(--color-text-primary);
   }
 
   &.anim-spin-hover:hover:not(:disabled) svg {
@@ -687,8 +694,10 @@
 
 .modern-dropdown-menu {
   border-radius: 12px;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-surface);
+  border: 1px solid var(--glass-border);
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
   box-shadow: var(--shadow-md);
   padding: 0.5rem;
   font-size: 0.85rem;
@@ -1381,5 +1390,27 @@ input[type="checkbox"]:checked + .chip-content,
     font-size: 0.7rem;
     margin-top: 0;
     display: block;
+  }
+}
+
+/* =========================================
+   DATEPICKER (Glassmorphism)
+   ========================================= */
+ngb-datepicker {
+  background-color: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-lg) !important;
+  backdrop-filter: blur(24px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+
+  .ngb-dp-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid var(--glass-border) !important;
+  }
+  
+  .ngb-dp-weekdays {
+    background-color: transparent !important;
+    border-bottom: 1px solid var(--glass-border) !important;
   }
 }
