@@ -270,7 +270,8 @@
     "SEARCH-PLACEHOLDER": "Искать репозиторий...",
     "ADD-EMPTY-REPOSITORY": "Добавить репозиторий",
     "ADD-REPOSITORY": "Добавить несколько репозиториев",
-    "NEW-REPOSITORY": "Неизвестный студент"
+    "NEW-REPOSITORY": "Неизвестный студент",
+    "NO-REPOSITORIES": "Репозитории не найдены"
   },
   "CONFIGURATION": {
     "EDIT-METADATA": "Метаданные",

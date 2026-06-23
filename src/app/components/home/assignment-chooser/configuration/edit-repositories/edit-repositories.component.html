@@ -62,6 +62,12 @@
     </div>
 
     <div class="repository-list">
+        <!-- Empty State -->
+        <div *ngIf="filteredFormControls.length === 0" class="empty-state text-center py-3 text-muted">
+            <i class="fas fa-database fa-3x mb-2" style="opacity: 0.5;"></i>
+            <h5>{{ 'EDIT-REPOSITORIES.NO-REPOSITORIES' | translate }}</h5>
+        </div>
+
         <div *ngFor="let group of filteredFormControls; let i = index" [formGroup]="group" class="mb-2">
             
             <!-- View Mode -->
@@ -136,14 +142,15 @@
                         </app-text-input>
                     </div>
                     <div class="input-group-col col-tp">
-                        <app-text-input id="tpGroup-{{i}}" formControlName="tpGroup" [label]="'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate"></app-text-input>
+                        <app-text-input [id]="'repo-tp-' + getFormControls.indexOf(group)" formControlName="tpGroup"
+                                        [label]="'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate" [suggestions]="existingTpGroups"></app-text-input>
                     </div>
                     <div class="edit-actions">
                         <button type="button" class="btn-icon-action text-secondary" (click)="cancelRow(group, getFormControls.indexOf(group))" [appTooltip]="'CANCEL' | translate" style="width: 36px; height: 36px;">
                             <i class="fas fa-times"></i>
                         </button>
-                        <button type="button" class="btn-icon-action text-primary" (click)="saveRow(group)" [appTooltip]="'VALIDATE' | translate" [disabled]="group.invalid" style="width: 36px; height: 36px;">
-                            <i class="fas fa-check"></i>
+                        <button type="button" class="btn-icon-action text-primary" (click)="validateRow(group)" [appTooltip]="'VALIDATE' | translate" [disabled]="!group.valid" style="width: 36px; height: 36px;">
+                            <i class="fas" [ngClass]="group.pending ? 'fa-spinner fa-spin' : 'fa-check'"></i>
                         </button>
                     </div>
                 </div>

@@ -43,4 +43,16 @@
          container="body"></i>
     </div>
   </div>
+
+  <!-- Autocomplete Suggestions -->
+  <div class="suggestions-dropdown" *ngIf="showSuggestions && filteredSuggestions.length > 0">
+    <ul class="suggestion-list">
+      <li *ngFor="let suggestion of filteredSuggestions" 
+          class="suggestion-item" 
+          (click)="selectSuggestion(suggestion)">
+        <span class="suggestion-text">{{ suggestion }}</span>
+      </li>
+    </ul>
+  </div>
+
 </div>

@@ -270,7 +270,8 @@
     "SEARCH-PLACEHOLDER": "Search a repository...",
     "ADD-EMPTY-REPOSITORY": "Add a repository",
     "ADD-REPOSITORY": "Add multiple repositories",
-    "NEW-REPOSITORY": "Unknown student"
+    "NEW-REPOSITORY": "Unknown student",
+    "NO-REPOSITORIES": "No repositories found"
   },
   "CONFIGURATION": {
     "EDIT-METADATA": "Metadata",

@@ -30,6 +30,11 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
   @Input() valid = false;
   @Input() id = "";
 
+  @Input() suggestions: string[] = [];
+  showSuggestions = false;
+  filteredSuggestions: string[] = [];
+
+
   @ViewChild("inputElement", { static: false })
   inputElement: ElementRef<HTMLInputElement>;
 
@@ -66,15 +71,37 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
     this.onChange(this.value);
+    this.filterSuggestions();
+  }
+
+  filterSuggestions(): void {
+    if (this.suggestions && this.suggestions.length > 0) {
+      const query = (this.value || '').toLowerCase();
+      this.filteredSuggestions = this.suggestions.filter(s => s.toLowerCase().includes(query));
+      this.showSuggestions = true;
+    } else {
+      this.showSuggestions = false;
+    }
+  }
+
+  selectSuggestion(suggestion: string): void {
+    this.value = suggestion;
+    this.onChange(this.value);
+    this.showSuggestions = false;
+    // Set focus back or keep it blurred? Typically we just hide it.
   }
 
   onFocus(): void {
     this.isFocused = true;
+    this.filterSuggestions();
   }
 
   onBlur(): void {
     this.isFocused = false;
     this.onTouched();
+    setTimeout(() => {
+      this.showSuggestions = false;
+    }, 200);
   }
 
   clearValue(): void {

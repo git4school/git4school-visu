@@ -172,4 +172,55 @@
   &.is-focused.is-invalid .text-input-label {
     color: var(--color-danger);
   }
+
+  /* --- SUGGESTIONS DROPDOWN --- */
+  .suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: $radius-md;
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    animation: fadeIn 0.15s ease-out;
+
+    /* Custom scrollbar for modern feel */
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+
+    .suggestion-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .suggestion-item {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      color: var(--color-text-primary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background-color $transition-fast, color $transition-fast;
+
+      &:hover, &:focus {
+        background-color: var(--filter-bg);
+        color: var(--color-primary);
+        outline: none;
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 }

@@ -92,6 +92,13 @@ export class EditRepositoriesComponent
     });
   }
 
+  get existingTpGroups(): string[] {
+    const groups = this.getFormControls
+      .map(group => group.get('tpGroup')?.value)
+      .filter(val => val && val.trim() !== '');
+    return Array.from(new Set(groups)).sort();
+  }
+
   selectionMode = false;
   selectedRepositories: Set<number> = new Set();
   hoveredRepository: number | null = null;
