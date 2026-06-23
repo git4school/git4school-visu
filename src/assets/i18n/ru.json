@@ -299,7 +299,9 @@
     "COURSE": "Курс",
     "PROGRAM": "Программа",
     "YEAR": "Год",
-    "LAST-MODIFICATION-DATE": "Дата последнего изменения"
+    "LAST-MODIFICATION-DATE": "Дата последнего изменения",
+    "DAYS-REMAINING": "Оставшееся время",
+    "SORT-DIRECTION": "Изменить направление сортировки"
   },
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Пожалуйста, укажите вопросы"

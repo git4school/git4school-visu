@@ -10,6 +10,8 @@ import { TranslateModule } from "@ngx-translate/core";
 
 import { SessionDurationPickerComponent } from "./session-duration-picker/session-duration-picker.component";
 import { ToastsComponent } from "./toasts/toasts.component";
+import { TooltipComponent } from "./tooltip/tooltip.component";
+import { TooltipDirective } from "./tooltip/tooltip.directive";
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ToastsComponent } from "./toasts/toasts.component";
     TextInputComponent,
     DateRangePickerComponent,
     SessionDurationPickerComponent,
-    ToastsComponent
+    ToastsComponent,
+    TooltipComponent,
+    TooltipDirective
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -27,7 +31,9 @@ import { ToastsComponent } from "./toasts/toasts.component";
     TextInputComponent,
     DateRangePickerComponent,
     SessionDurationPickerComponent,
-    ToastsComponent
+    ToastsComponent,
+    TooltipComponent,
+    TooltipDirective
   ]
 })
 export class SharedUiModule {}

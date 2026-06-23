@@ -77,7 +77,7 @@
                         <td>
                             {{ group.get('name').value }}
                             <button *ngIf="group.get('errors').value.length" class="btn"
-                                [ngbTooltip]="getErrorTooltip(group.get('errors').value)">
+                                [appTooltip]="getErrorTooltip(group.get('errors').value)">
                                 <i class="fas fa-exclamation-triangle fa-lg blinking" style="color:Tomato"></i>
                             </button>
                         </td>
@@ -103,14 +103,14 @@
 
     <div class="btn-group mt-3" role="group ">
         <button class="btn btn-secondary" type="button" (click)="addRow()"
-            ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate }}">
+            [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
             <span class="fa-layers fa-fw">
                 <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7 "></i>
                 <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>
             </span>
         </button>
         <button class="btn btn-secondary" type="button" (click)="openAddRepositoriesModal()"
-            ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate }}">
+            [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate">
             <span class="fa-layers fa-fw">
                 <i class="fas fa-square" data-fa-mask="fas fa-database" data-fa-transform="grow-3 right-10"></i>
                 <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>

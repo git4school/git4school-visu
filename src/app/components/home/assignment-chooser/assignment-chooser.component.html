@@ -59,6 +59,9 @@
           <button class="dropdown-item" (click)="sortBy('year')">
             {{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}
           </button>
+          <button class="dropdown-item" (click)="sortBy('daysRemaining')">
+            {{ 'ASSIGNMENT-CHOOSER.DAYS-REMAINING' | translate }}
+          </button>
         </div>
       </div>
 
@@ -66,7 +69,7 @@
               (click)="toggleSortDirection()"
               (mouseenter)="onSortMouseEnter()"
               (mouseleave)="onSortMouseLeave()"
-              [title]="'Sort order'">
+              [appTooltip]="('ASSIGNMENT-CHOOSER.SORT-DIRECTION' | translate)">
         <svg class="sort-direction-svg" 
              [class.is-asc]="sortDirection === 'asc'" 
              [class.show-hover]="isSortHovered && !sortWasClicked" 
@@ -99,7 +102,7 @@
       </div>
       
       <div ngbDropdown class="dropdown d-inline-block filter-dropdown-container" [autoClose]="'outside'">
-        <button class="btn-outline-ghost" ngbDropdownToggle [ngbTooltip]="'HOME.FILTERS' | translate">
+        <button class="btn-outline-ghost" ngbDropdownToggle [appTooltip]="'HOME.FILTERS' | translate">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
           </svg>
@@ -203,7 +206,7 @@
 
   <div class="actions-group d-flex" style="gap: 0.5rem;">
     <div class="expandable-wrapper">
-      <button type="button" class="btn btn-primary action-btn square-btn expandable-btn shadow-sm" (click)="createAssignment()" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : '') | translate">
+      <button type="button" class="btn btn-primary action-btn square-btn expandable-btn shadow-sm" (click)="createAssignment()" [disabled]="!authService.isSignedIn()" [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : '') | translate">
         <span class="text">{{ 'HOME.CREATE-ASSIGNMENT' | translate }}</span>
         <span class="icon">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -212,14 +215,14 @@
     </div>
     <button class="btn btn-outline-secondary action-btn export-btn" 
             [class.export-active]="selectionMode"
-            (click)="exportDB()" [ngbTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
+            (click)="exportDB()" [appTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
       <span class="text" style="font-weight: 500; position: relative; z-index: 2;">{{ 'EXPORT' | translate }}</span>
       <span class="icon" style="position: relative; z-index: 2;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
       </span>
     </button>
     <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
-    <button class="btn btn-outline-secondary action-btn square-btn" (click)="assignmentFile.click();" [ngbTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate">
+    <button class="btn btn-outline-secondary action-btn square-btn" (click)="assignmentFile.click();" [appTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
     </button>
   </div>
@@ -259,7 +262,7 @@
         <!-- Main Info -->
         <div class="info-main flex-grow-1" style="min-width: 0;">
           <div class="d-flex align-items-center mb-1">
-            <h5 class="assignment-title mb-0 mr-3 text-truncate" style="max-width: 350px;" [ngbTooltip]="assignment.title" container="body">{{ assignment.title || ('HOME.NEW-ASSIGNMENT' | translate) }}</h5>
+            <h5 class="assignment-title mb-0 mr-3 text-truncate" style="max-width: 350px;" [appTooltip]="assignment.title" placement="bottom">{{ assignment.title || ('HOME.NEW-ASSIGNMENT' | translate) }}</h5>
             
             <!-- Status Badge -->
             <span class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus" *ngIf="assignment.id !== -1">
@@ -271,15 +274,15 @@
           </div>
           <div class="meta-info text-muted d-flex align-items-center" style="font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" *ngIf="assignment.id !== -1">
             <ng-container *ngIf="assignment.course">
-              <span class="meta-item" [ngbTooltip]="assignment.course" container="body"><i class="fas fa-book mr-1"></i> {{ assignment.course }}</span>
+              <span class="meta-item" [appTooltip]="assignment.course"><i class="fas fa-book mr-1"></i> {{ assignment.course }}</span>
               <span class="meta-separator">&bull;</span>
             </ng-container>
             <ng-container *ngIf="assignment.program">
-              <span class="meta-item" [ngbTooltip]="assignment.program" container="body"><i class="fas fa-graduation-cap mr-1"></i> {{ assignment.program }}</span>
+              <span class="meta-item" [appTooltip]="assignment.program"><i class="fas fa-graduation-cap mr-1"></i> {{ assignment.program }}</span>
               <span class="meta-separator">&bull;</span>
             </ng-container>
             <ng-container *ngIf="assignment.year">
-              <span class="meta-item" [ngbTooltip]="assignment.year" container="body"><i class="far fa-calendar-alt mr-1"></i> {{ assignment.year }}</span>
+              <span class="meta-item" [appTooltip]="assignment.year"><i class="far fa-calendar-alt mr-1"></i> {{ assignment.year }}</span>
               <span class="meta-separator">&bull;</span>
             </ng-container>
             <span class="meta-item"><i class="far fa-clock mr-1"></i> {{ assignment.lastModificationDate | date: 'short' }}</span>
@@ -320,13 +323,13 @@
 
         <!-- Actions -->
         <div class="card-actions ml-4 d-flex" style="flex-shrink: 0;">
-          <button type="button" class="btn btn-icon-action btn-light text-primary" (click)="$event.stopPropagation(); selectAssignment(assignment)" [disabled]="!authService.isSignedIn() || assignment.id === -1" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
+          <button type="button" class="btn btn-icon-action btn-light text-primary" (click)="$event.stopPropagation(); selectAssignment(assignment)" [disabled]="!authService.isSignedIn() || assignment.id === -1" [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
             <i class="far fa-arrow-alt-circle-right"></i>
           </button>
-          <button type="button" class="btn btn-icon-action btn-light text-secondary ml-2" (click)="$event.stopPropagation(); editAssignment(assignment)" [disabled]="!authService.isSignedIn()" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.EDIT-ASSIGNMENT-TOOLTIP') | translate">
+          <button type="button" class="btn btn-icon-action btn-light text-secondary ml-2" (click)="$event.stopPropagation(); editAssignment(assignment)" [disabled]="!authService.isSignedIn()" [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.EDIT-ASSIGNMENT-TOOLTIP') | translate">
             <i class="fas fa-cog"></i>
           </button>
-          <button type="button" class="btn btn-icon-action btn-light text-danger ml-2" (click)="$event.stopPropagation(); deleteAssignment(assignment)" [disabled]="!authService.isSignedIn() || assignment.id === -1" [ngbTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.DELETE-ASSIGNMENT-TOOLTIP') | translate">
+          <button type="button" class="btn btn-icon-action btn-light text-danger ml-2" (click)="$event.stopPropagation(); deleteAssignment(assignment)" [disabled]="!authService.isSignedIn() || assignment.id === -1" [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.DELETE-ASSIGNMENT-TOOLTIP') | translate">
             <i class="far fa-trash-alt"></i>
           </button>
         </div>

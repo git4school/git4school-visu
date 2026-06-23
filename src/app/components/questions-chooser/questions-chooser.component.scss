@@ -64,6 +64,9 @@
   flex-shrink: 0;
   transition: all 0.2s ease;
   cursor: default; /* normal cursor */
+  min-height: 24px;
+  min-width: 14px;
+  white-space: pre-wrap;
 
   &[draggable="true"] {
     cursor: grab;

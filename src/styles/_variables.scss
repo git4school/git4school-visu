@@ -54,6 +54,8 @@ $font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Robot
   // Glassmorphism
   --glass-bg: rgba(255, 255, 255, 0.55);
   --glass-border: rgba(226, 232, 240, 0.6);
+  
+  --tooltip-glass-bg: rgba(255, 255, 255, 0.85);
 }
 
 body.dark-theme {
@@ -104,6 +106,8 @@ body.dark-theme {
   // Glassmorphism
   --glass-bg: rgba(30, 41, 59, 0.55);
   --glass-border: rgba(51, 65, 85, 0.5);
+  
+  --tooltip-glass-bg: rgba(30, 41, 59, 0.85);
 }
 
 // Map SCSS variables to CSS custom properties so existing code works

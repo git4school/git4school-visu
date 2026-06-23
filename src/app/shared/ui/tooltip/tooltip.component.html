@@ -1,0 +1,13 @@
+<div class="tooltip-container" [class]="placement" [class.show]="show" [class.shortcut-pressed]="shortcutPressed">
+  <span class="tooltip-text">
+    <ng-container *ngIf="isString(content); else templateContent">
+      <span [innerHTML]="content"></span>
+    </ng-container>
+    <ng-template #templateContent>
+      <ng-container [ngTemplateOutlet]="contentAsTemplate()"></ng-container>
+    </ng-template>
+  </span>
+  <span class="tooltip-shortcut" *ngIf="shortcutKeys?.length">
+    {{ formattedShortcut }}
+  </span>
+</div>

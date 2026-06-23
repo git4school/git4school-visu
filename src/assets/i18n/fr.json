@@ -304,7 +304,9 @@
     "COURSE": "Cours",
     "PROGRAM": "Programme",
     "YEAR": "Année",
-    "LAST-MODIFICATION-DATE": "Date de la dernière modification"
+    "LAST-MODIFICATION-DATE": "Date de la dernière modification",
+    "DAYS-REMAINING": "Temps restant",
+    "SORT-DIRECTION": "Changer le sens de tri"
   },
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Veuillez indiquer des questions "

@@ -365,6 +365,8 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
         return "ASSIGNMENT-CHOOSER.PROGRAM";
       case "year":
         return "ASSIGNMENT-CHOOSER.YEAR";
+      case "daysRemaining":
+        return "ASSIGNMENT-CHOOSER.DAYS-REMAINING";
       default:
         return "ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE";
     }
@@ -386,6 +388,28 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       // Keep new assignment at the top always
       if (a.id === -1) return -1;
       if (b.id === -1) return 1;
+
+      if (this.sortField === "daysRemaining") {
+        const getPriority = (assignment: any) => {
+          if (!assignment.startDate || !assignment.endDate) return 3; // unprogrammed
+          if (this.getProgress(assignment.startDate, assignment.endDate) === 100) return 2; // finished
+          return 1; // active
+        };
+
+        const priorityA = getPriority(a);
+        const priorityB = getPriority(b);
+
+        if (priorityA !== priorityB) {
+          return priorityA - priorityB; // Always 1 -> 2 -> 3
+        }
+
+        let valA = priorityA === 1 ? moment(a.endDate).valueOf() : a.id;
+        let valB = priorityB === 1 ? moment(b.endDate).valueOf() : b.id;
+
+        if (valA < valB) return this.sortDirection === "asc" ? -1 : 1;
+        if (valA > valB) return this.sortDirection === "asc" ? 1 : -1;
+        return 0;
+      }
 
       let valA = a[this.sortField];
       let valB = b[this.sortField];

@@ -1,9 +1,11 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   HostListener,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from "@angular/core";
@@ -20,6 +22,7 @@ import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
 import { ThemeService } from "@services/theme.service";
+import { TooltipService } from "@services/tooltip.service";
 import { Subscription, concat } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
 
@@ -38,8 +41,7 @@ import { FilterGroup } from "@components/questions-chooser/questions-chooser.com
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnDestroy {
   static formatDay = d3.utcFormat("%d/%m/%Y");
   static formatHour = d3.utcFormat("%H:%M");
   static GROUP_HEIGHT = 12;
@@ -47,6 +49,17 @@ export class OverviewComponent
 
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
   @ViewChild("questionsChooser") questionsChooser;
+  @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
+
+  @HostListener('document:keydown.space', ['$event'])
+  handleResetZoomShortcut(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+      return;
+    }
+    event.preventDefault();
+    this.resetZoom(false);
+  }
 
   minZoom: number;
 
@@ -159,7 +172,8 @@ export class OverviewComponent
     protected loaderService: LoaderService,
     private modalService: NgbModal,
     protected assignmentsService: AssignmentsService,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    private tooltipService: TooltipService
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -329,20 +343,25 @@ export class OverviewComponent
     if (x == null || y == null) {
       return;
     }
-    var tooltip = document.getElementById("tooltip");
-    if (tooltip == null) {
-      return;
-    }
-
-    tooltip.style.top = y + 20 + "px";
-    tooltip.style.left = x + 20 + "px";
 
     if (this.hovered_g) {
       if (this.hovered_g.select(":hover").empty()) {
         this.hovered_commit = undefined;
         this.hovered_group_commit = undefined;
         this.hovered_g = null;
+        this.tooltipService.hide();
+        return;
       }
+    }
+
+    if (this.hovered_commit || this.hovered_group_commit) {
+      if (!this.tooltipService.isShowing()) {
+        this.tooltipService.showAtPosition(this.d3TooltipTemplate, x, y, 'right', undefined, true);
+      } else {
+        this.tooltipService.moveTooltip(x, y, 'right');
+      }
+    } else {
+      this.tooltipService.hide();
     }
   }
 
@@ -354,7 +373,7 @@ export class OverviewComponent
 
   setupZoom() {
     const overview = this;
-    d3.select(document.body).on("wheel.body", (e) => {}); // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
+    d3.select(document.body).on("wheel.body", (e) => { }); // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
     this.zoom = d3
       .zoom()
       .on("zoom", (event) => {
@@ -537,7 +556,7 @@ export class OverviewComponent
     if (!this.isContextualMenuShown()) {
       try {
         this.contextualMenu.openNew(x, y, date);
-      } catch (error) {}
+      } catch (error) { }
     } else {
       this.contextualMenu.close();
     }
@@ -676,7 +695,7 @@ export class OverviewComponent
       .attr(
         "width",
         this.xScaledTimeZoned(session.endDate) -
-          this.xScaledTimeZoned(session.startDate)
+        this.xScaledTimeZoned(session.startDate)
       )
       .on("click", (e) =>
         overview.openEditSessionContextMenu(
@@ -925,9 +944,8 @@ export class OverviewComponent
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
         1.5 * OverviewComponent.CIRCLE_RADIUS
-      )} a ${OverviewComponent.CIRCLE_RADIUS} ${
-        OverviewComponent.CIRCLE_RADIUS
-      } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
+      )} a ${OverviewComponent.CIRCLE_RADIUS} ${OverviewComponent.CIRCLE_RADIUS
+        } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
     } else {
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
@@ -1030,7 +1048,7 @@ export class OverviewComponent
         spacing = Math.min(
           Math.abs(
             all_commits[j + 1].commitDate.getTime() -
-              commit.commitDate.getTime()
+            commit.commitDate.getTime()
           ),
           spacing
         );
@@ -1038,7 +1056,7 @@ export class OverviewComponent
         spacing = Math.min(
           Math.abs(
             all_commits[j - 1].commitDate.getTime() -
-              commit.commitDate.getTime()
+            commit.commitDate.getTime()
           ),
           spacing
         );
@@ -1113,8 +1131,8 @@ export class OverviewComponent
     return (
       !commit_before.isCloture &&
       this.xScaledTimeZoned(commit_after.commitDate) -
-        this.xScaledTimeZoned(commit_before.commitDate) <
-        Utils.COMMIT_FUSE_RANGE
+      this.xScaledTimeZoned(commit_before.commitDate) <
+      Utils.COMMIT_FUSE_RANGE
     );
   }
 
@@ -1444,8 +1462,7 @@ export class OverviewComponent
       .attr(
         "transform",
         (m: Milestone) =>
-          `translate(${overview.xScaledTimeZoned(m.date)}, ${
-            this.inner_margin.top
+          `translate(${overview.xScaledTimeZoned(m.date)}, ${this.inner_margin.top
           })`
       );
   }
@@ -1461,7 +1478,7 @@ export class OverviewComponent
       .call(
         this.zoom.transform,
         (conserve ? this.current_zoom : undefined) ||
-          d3.zoomIdentity.translate(0, 0).scale(1)
+        d3.zoomIdentity.translate(0, 0).scale(1)
       );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);

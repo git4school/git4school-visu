@@ -299,7 +299,9 @@
     "COURSE": "Course",
     "PROGRAM": "Program",
     "YEAR": "Year",
-    "LAST-MODIFICATION-DATE": "Last modification date"
+    "LAST-MODIFICATION-DATE": "Last modification date",
+    "DAYS-REMAINING": "Time remaining",
+    "SORT-DIRECTION": "Change sort direction"
   },
   "EDIT-METADATA": {
     "QUESTIONS-ERROR-MESSAGE": "Please, provide questions"

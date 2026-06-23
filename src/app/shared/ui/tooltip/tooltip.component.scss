@@ -1,0 +1,66 @@
+@import "variables";
+@import "components";
+
+:host {
+  display: block;
+  position: absolute;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.tooltip-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--tooltip-glass-bg, var(--color-surface));
+  color: var(--text-color);
+  padding: 6px 12px;
+  border-radius: 20px; /* Pill format */
+  font-size: 12px;
+  font-family: var(--font-family, inherit);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  opacity: 0;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, scale 0.1s ease-out;
+
+  /* Glassmorphism / Minimalist */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  &.top { transform: translateY(10px); }
+  &.bottom { transform: translateY(-10px); }
+  &.left { transform: translateX(10px); }
+  &.right { transform: translateX(-10px); }
+
+  &.show {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.tooltip-text {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tooltip-shortcut {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  color: var(--text-muted, var(--text-color));
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  border: 1px solid var(--border-color);
+  transition: transform 0.1s ease-out, background-color 0.1s ease-out, opacity 0.1s ease-out;
+
+  .tooltip-container.shortcut-pressed & {
+    transform: scale(0.9);
+    opacity: 0.8;
+    background-color: var(--primary-color-alpha, rgba(128, 128, 128, 0.2));
+  }
+}

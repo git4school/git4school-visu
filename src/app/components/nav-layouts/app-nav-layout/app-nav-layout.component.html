@@ -11,8 +11,8 @@
                 <span class="back-text">{{ 'NAVBAR.ASSIGNMENTS' | translate }}</span>
             </button>
             <div *ngIf="dataService.dataLoaded()" class="assignment-chip d-flex align-items-center">
-                <span [ngbTooltip]="dataService.title" placement="bottom">{{ truncatedTitle }}</span>
-                <button class="btn-action-icon ml-2" [ngbTooltip]="'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate" placement="bottom" (click)="openCurrentAssignmentConfig()">
+                <span [appTooltip]="dataService.title" placement="bottom">{{ truncatedTitle }}</span>
+                <button class="btn-action-icon ml-2" [appTooltip]="'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate" placement="bottom" (click)="openCurrentAssignmentConfig()">
                     <i class="fas fa-cog" style="pointer-events: none;"></i>
                 </button>
             </div>

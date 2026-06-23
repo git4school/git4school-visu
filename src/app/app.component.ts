@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbTooltipConfig } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
@@ -32,13 +31,8 @@ export class AppComponent implements OnInit, OnDestroy {
     public dataService: DataService,
     private router: Router,
     public translateService: TranslateService,
-    private ngbTooltipConfig: NgbTooltipConfig,
     private themeService: ThemeService
   ) {
-    ngbTooltipConfig.openDelay = 500;
-    ngbTooltipConfig.triggers = "hover";
-    ngbTooltipConfig.container = "body";
-    ngbTooltipConfig.animation = true;
   }
 
   /**
