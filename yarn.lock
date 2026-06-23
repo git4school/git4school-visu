@@ -8646,13 +8646,6 @@ ngx-spinner@^9.0.2:
   resolved "https://registry.yarnpkg.com/ngx-spinner/-/ngx-spinner-9.0.2.tgz#18123741cec4f7a29fa63d8d9cb769e58f4b8b85"
   integrity sha512-Yoed+9389GMxHhyPavBA7S3JY5XF38hIhW+qcJuPcxwOJHkhnr6hZFtuSlp1oXMp3HySQPEskWks1joMtmztMA==
 
-ngx-toastr@^12.0.1:
-  version "12.1.0"
-  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-12.1.0.tgz#50f6eee4262f4ba342918f06f98a657f223194cf"
-  integrity sha512-rytCRBhvuudj614Kfj9GoIVQDrFuLvHSMP1YrMwTmR1SNkNJZOpGKmaSDCCBrNDkSrGouzMWBlFbl1UDBBsiqw==
-  dependencies:
-    tslib "^1.10.0"
-
 ngx-window-token@>=3.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-4.0.0.tgz#8d8553d193f0515eb28f04ccf2c598fbe6abaa34"

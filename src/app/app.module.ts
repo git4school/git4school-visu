@@ -42,7 +42,7 @@ import { ChartsModule } from "ng2-charts";
 import { ClipboardModule } from "ngx-clipboard";
 import { MarkdownModule } from "ngx-markdown";
 import { NgxSpinnerModule } from "ngx-spinner";
-import { ToastrModule } from "ngx-toastr";
+
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { EditSessionComponent } from "./components/edit-session/edit-session.component";
@@ -144,10 +144,6 @@ export function appInitializerFactory(
     NgxSpinnerModule,
     FontAwesomeModule,
     SharedUiModule,
-    ToastrModule.forRoot({
-      maxOpened: 3,
-      newestOnTop: false,
-    }),
     BrowserAnimationsModule,
     ClipboardModule,
     MarkdownModule.forRoot(),

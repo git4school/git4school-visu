@@ -5,7 +5,7 @@
     <div class="form-row mt-2">
       <!-- Title -->
       <div class="col-12">
-        <app-text-input id="title" formControlName="title" [label]="'METADATA.TITLE' | translate" [required]="true"
+        <app-text-input #titleInput id="title" formControlName="title" [label]="'METADATA.TITLE' | translate" [required]="true"
           [invalid]="metadataForm.controls.title.invalid && metadataForm.controls.title.touched"
           [valid]="!metadataForm.controls.title.invalid && metadataForm.controls.title.touched">
         </app-text-input>

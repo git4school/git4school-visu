@@ -19,7 +19,8 @@
       "@components/*": ["app/components/*"],
       "@guards/*": ["app/guards/*"],
       "@services/*": ["app/services/*"],
-      "@app/*": ["app/*"]
+      "@app/*": ["app/*"],
+      "@shared/*": ["app/shared/*"]
     }
   }
 }

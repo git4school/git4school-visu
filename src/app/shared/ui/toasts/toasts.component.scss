@@ -1,0 +1,80 @@
+@import "../../../../styles/variables";
+
+.toasts-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  pointer-events: none; /* Let clicks pass through the container */
+}
+
+.toast-pill {
+  pointer-events: auto; /* Re-enable clicks on the toast itself */
+  border-radius: 1.5rem; /* Fixed radius. Acts as a pill initially, and becomes a rounded rectangle naturally when height increases */
+  padding: 0.75rem 1.25rem;
+  box-shadow: $shadow-md;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 300px;
+  max-width: 500px;
+  transition: all $transition-normal;
+  
+  /* Initial state: no message visible */
+  .toast-message-container {
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
+    transition-delay: 0s;
+  }
+
+  /* Hover state after 0.5 second delay */
+  &:hover .toast-message-container {
+    max-height: 200px; /* Arbitrary large max-height for text */
+    opacity: 1;
+    margin-top: 0.5rem;
+    transition-delay: 0.5s; /* Reduced from 1s to 0.5s */
+  }
+
+  .toast-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+
+  .toast-message {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+}
+
+/* Pastel theme variations */
+.toast-success {
+  background-color: #d1fae5; /* Tailwind emerald-100 */
+  color: #064e3b; /* Tailwind emerald-900 */
+  border: 1px solid rgba(6, 78, 59, 0.1);
+}
+
+.toast-warning {
+  background-color: #ffedd5; /* Tailwind orange-100 */
+  color: #7c2d12; /* Tailwind orange-900 */
+  border: 1px solid rgba(124, 45, 18, 0.1);
+}
+
+.toast-error {
+  background-color: #ffe4e6; /* Tailwind rose-100 */
+  color: #881337; /* Tailwind rose-900 */
+  border: 1px solid rgba(136, 19, 55, 0.1);
+}

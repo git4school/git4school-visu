@@ -9,6 +9,7 @@ import { DateRangePickerComponent } from "./date-range-picker/date-range-picker.
 import { TranslateModule } from "@ngx-translate/core";
 
 import { SessionDurationPickerComponent } from "./session-duration-picker/session-duration-picker.component";
+import { ToastsComponent } from "./toasts/toasts.component";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SessionDurationPickerComponent } from "./session-duration-picker/sessio
     DatepickerComponent,
     TextInputComponent,
     DateRangePickerComponent,
-    SessionDurationPickerComponent
+    SessionDurationPickerComponent,
+    ToastsComponent
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -24,7 +26,8 @@ import { SessionDurationPickerComponent } from "./session-duration-picker/sessio
     DatepickerComponent,
     TextInputComponent,
     DateRangePickerComponent,
-    SessionDurationPickerComponent
+    SessionDurationPickerComponent,
+    ToastsComponent
   ]
 })
 export class SharedUiModule {}

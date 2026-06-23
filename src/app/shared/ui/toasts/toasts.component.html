@@ -1,0 +1,20 @@
+<div class="toasts-container">
+  <div *ngFor="let toast of toasts"
+       class="toast-pill"
+       [ngClass]="'toast-' + toast.type"
+       (click)="remove(toast.id)"
+       (mouseenter)="pauseTimer(toast)"
+       (mouseleave)="resumeTimer(toast)">
+    
+    <div class="toast-header">
+      <i class="fas fa-check-circle" *ngIf="toast.type === 'success'"></i>
+      <i class="fas fa-exclamation-triangle" *ngIf="toast.type === 'warning'"></i>
+      <i class="fas fa-exclamation-circle" *ngIf="toast.type === 'error'"></i>
+      <span class="toast-title" [innerHTML]="toast.title"></span>
+    </div>
+    
+    <div class="toast-message-container">
+      <div class="toast-message" [innerHTML]="toast.message"></div>
+    </div>
+  </div>
+</div>

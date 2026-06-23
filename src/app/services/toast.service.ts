@@ -1,33 +1,62 @@
 import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+import { BehaviorSubject } from "rxjs";
+
+export type ToastType = "success" | "warning" | "error";
+
+export interface Toast {
+  id: number;
+  type: ToastType;
+  title: string;
+  message: string;
+  timeoutId?: any;
+}
 
 @Injectable({
   providedIn: "root",
 })
 export class ToastService {
-  constructor(private toastr: ToastrService) {}
+  private toastsSubject = new BehaviorSubject<Toast[]>([]);
+  public toasts$ = this.toastsSubject.asObservable();
+  private idCounter = 0;
 
-  warning(titre, message) {
-    this.toastr.warning(message, titre, {
-      progressBar: true,
-      enableHtml: true,
-      timeOut: 7000,
-      extendedTimeOut: 5000,
-    });
+  constructor() {}
+
+  warning(titre: string, message: string) {
+    this.addToast("warning", titre, message);
   }
 
-  error(titre, message) {
-    this.toastr.error(message, titre, {
-      progressBar: true,
-      enableHtml: true,
-      timeOut: 7000,
-      extendedTimeOut: 5000,
-    });
+  error(titre: string, message: string) {
+    this.addToast("error", titre, message);
   }
 
-  success(titre, message) {
-    this.toastr.success(message, titre, {
-      progressBar: true,
-    });
+  success(titre: string, message: string) {
+    this.addToast("success", titre, message);
+  }
+
+  private addToast(type: ToastType, title: string, message: string) {
+    const id = this.idCounter++;
+    const toast: Toast = { id, type, title, message };
+    
+    // Auto-close after 4 seconds (as requested)
+    toast.timeoutId = setTimeout(() => this.remove(id), 4000);
+    
+    const currentToasts = this.toastsSubject.value;
+    // Max opened toasts limit (keep it to 3 like before, or just add and let CSS handle max)
+    // We'll limit to 3. If more than 3, remove the oldest one.
+    if (currentToasts.length >= 3) {
+      const oldest = currentToasts[0];
+      this.remove(oldest.id);
+    }
+    
+    this.toastsSubject.next([...this.toastsSubject.value, toast]);
+  }
+
+  remove(id: number) {
+    const currentToasts = this.toastsSubject.value;
+    const toast = currentToasts.find(t => t.id === id);
+    if (toast && toast.timeoutId) {
+      clearTimeout(toast.timeoutId);
+    }
+    this.toastsSubject.next(currentToasts.filter((t) => t.id !== id));
   }
 }
