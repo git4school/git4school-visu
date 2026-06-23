@@ -225,6 +225,7 @@
     "GRAPHS": "Graphiques & Visualisations",
     "ZOOM_IN": "Zoomer",
     "ZOOM_OUT": "Dézoomer",
+    "RESET_ZOOM": "Réinitialiser le zoom",
     "CLEAR_FILTERS": "Annuler les filtres",
     "RELOAD": "Recharger les données",
     "INTERACTIONS": "Interactions contextuelles",
