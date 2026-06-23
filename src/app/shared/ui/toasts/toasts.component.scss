@@ -78,3 +78,9 @@
   color: #881337; /* Tailwind rose-900 */
   border: 1px solid rgba(136, 19, 55, 0.1);
 }
+
+.toast-copy {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}

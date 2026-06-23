@@ -22,16 +22,19 @@
             <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
                 <a class="nav-link" routerLink="overview">
                     <i class="fas fa-layer-group mr-2"></i>{{ 'NAVBAR.OVERVIEW' | translate }}
+                    <span class="shortcut-badge" [class.shortcut-pressed-anim]="pressedShortcut === '1'">1</span>
                 </a>
             </li>
             <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
                  <a class="nav-link" routerLink="students-commits">
                     <i class="fas fa-code-branch mr-2"></i>{{ 'NAVBAR.STUDENTS-COMMITS' | translate }}
+                    <span class="shortcut-badge" [class.shortcut-pressed-anim]="pressedShortcut === '2'">2</span>
                 </a>
             </li>
             <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
                 <a class="nav-link" routerLink="questions-completion">
                     <i class="fas fa-tasks mr-2"></i>{{ 'NAVBAR.QUESTIONS-COMPLETION' | translate }}
+                    <span class="shortcut-badge" [class.shortcut-pressed-anim]="pressedShortcut === '3'">3</span>
                 </a>
             </li>
         </ul>
@@ -58,4 +61,81 @@
 </div>
 
 <ng-template #editAssignmentTooltip>{{ 'HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate }}</ng-template>
+
+<ng-template #shortcutsModal let-modal>
+  <div class="modal-header border-0 pb-0">
+    <h5 class="modal-title font-weight-bold" style="font-size: 1.25rem;">
+      <i class="fas fa-keyboard mr-2 text-primary"></i>
+      {{ 'MODAL-SHORTCUTS.TITLE' | translate }}
+    </h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body py-4 px-4">
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-md-6 mb-4">
+        <h6 class="text-uppercase text-muted font-weight-bold mb-3" style="font-size: 0.8rem; letter-spacing: 0.5px;">
+          {{ 'MODAL-SHORTCUTS.GLOBAL_NAV' | translate }}
+        </h6>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.TAB_OVERVIEW' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">1</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.TAB_STUDENTS' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">2</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.TAB_QUESTIONS' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">3</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.OPEN_SHORTCUTS' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">?</span>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="col-md-6 mb-4">
+        <h6 class="text-uppercase text-muted font-weight-bold mb-3" style="font-size: 0.8rem; letter-spacing: 0.5px;">
+          {{ 'MODAL-SHORTCUTS.GRAPHS' | translate }}
+        </h6>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.ZOOM_IN' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">+</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.ZOOM_OUT' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">-</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.CLEAR_FILTERS' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">Esc</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.RELOAD' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">R</span>
+        </div>
+      </div>
+
+      <!-- Bottom Span -->
+      <div class="col-md-12">
+        <h6 class="text-uppercase text-muted font-weight-bold mb-3" style="font-size: 0.8rem; letter-spacing: 0.5px;">
+          {{ 'MODAL-SHORTCUTS.INTERACTIONS' | translate }}
+        </h6>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.FOCUS_SEARCH' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">F</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>{{ 'MODAL-SHORTCUTS.COPY_HASH' | translate }}</span>
+          <span class="shortcut-badge px-2 py-1">C</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 </div>

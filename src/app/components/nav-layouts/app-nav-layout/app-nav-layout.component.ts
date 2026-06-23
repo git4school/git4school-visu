@@ -1,4 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, HostListener, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { AuthService } from "@services/auth.service";
@@ -20,10 +22,52 @@ export class AppNavLayoutComponent implements OnInit {
     private assignmentsService: AssignmentsService,
     private databaseService: DatabaseService,
     private configurationService: ConfigurationService,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    private router: Router,
+    private modalService: NgbModal
   ) {}
 
   isSidebarOpen = false;
+  pressedShortcut: string = null;
+  @ViewChild('shortcutsModal') shortcutsModal: ElementRef;
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    // Ignore shortcuts when typing in inputs
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+      return;
+    }
+
+    const key = event.key;
+    if (key === '1') {
+      this.triggerShortcutAndNavigate('1', 'overview');
+    } else if (key === '2') {
+      this.triggerShortcutAndNavigate('2', 'students-commits');
+    } else if (key === '3') {
+      this.triggerShortcutAndNavigate('3', 'questions-completion');
+    } else if (key === '?') {
+      this.triggerShortcut('?');
+      this.openShortcutsModal();
+    }
+  }
+
+  private triggerShortcutAndNavigate(key: string, route: string) {
+    if (!this.dataService.dataLoaded()) return;
+    this.triggerShortcut(key);
+    this.router.navigate([route]);
+  }
+
+  private triggerShortcut(key: string) {
+    this.pressedShortcut = key;
+    setTimeout(() => {
+      if (this.pressedShortcut === key) this.pressedShortcut = null;
+    }, 150);
+  }
+
+  openShortcutsModal() {
+    this.modalService.open(this.shortcutsModal, { size: 'lg', centered: true });
+  }
 
   ngOnInit(): void {}
 

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation, HostListener } from "@angular/core";
 import { CommitColor } from "@models/Commit.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
@@ -346,5 +346,30 @@ export class QuestionsCompletionComponent
       Math.ceil((this.max - this.min) / this.slider_step) * this.slider_step +
       this.min
     );
+  }
+
+  pressedShortcut: string = null;
+
+  @HostListener('document:keydown', ['$event'])
+  handleGlobalShortcuts(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+    
+    if (key === 'r') {
+      event.preventDefault();
+      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      this.triggerShortcut('r');
+    }
+  }
+
+  private triggerShortcut(key: string) {
+    this.pressedShortcut = key;
+    setTimeout(() => {
+      if (this.pressedShortcut === key) this.pressedShortcut = null;
+    }, 150);
   }
 }

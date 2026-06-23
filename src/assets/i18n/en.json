@@ -178,7 +178,7 @@
       "REVIEWS": "Reviews",
       "OTHERS": "Others"
     },
-    "RESET-ZOOM-TOOLTIP": "Reset zoom (space bar)",
+    "RESET-ZOOM-TOOLTIP": "Reset zoom",
     "CHANGE-ZOOM-TOOLTIP": "Change zoom mode (drag/wheel and pan)",
     "CHANGE-TIME-SCALE-TOOLTIP": "Change the time scale",
     "DOWNLOAD-TOOLTIP": "Download current assignment configuration file",
@@ -192,6 +192,7 @@
       "BETWEEN": "Between review and correction",
       "AFTER": "After correction"
     },
+
     "MODAL": {
       "TITLE-CREATE": "Create milestone",
       "TITLE-EDIT": "Edit milestone",
@@ -202,12 +203,32 @@
       "CONFIRM": "Confirm",
       "QUESTIONS": "Questions"
     },
-    "REREAD-TOOLTIP": "Reread",
-    "COMMIT-TOOLTIP": {
-      "BEGIN": "Group begin",
-      "END": "Group end",
-      "COMMIT_NUMBER": "Number of commits in group"
-    }
+    "REREAD-TOOLTIP": "Reread"
+  },
+  "COMMIT-TOOLTIP": {
+    "START": "Group start",
+    "END": "Group end",
+    "COMMIT_NUMBER": "Number of commits in the group",
+    "COPY_HASH": "Copy hash"
+  },
+  "MODAL-SHORTCUTS": {
+    "TITLE": "Keyboard Shortcuts",
+    "GLOBAL_NAV": "Global Navigation",
+    "TAB_OVERVIEW": "Overview Tab",
+    "TAB_STUDENTS": "Students Tab",
+    "TAB_QUESTIONS": "Questions Tab",
+    "OPEN_SHORTCUTS": "Open this modal",
+    "GRAPHS": "Graphs & Visualizations",
+    "ZOOM_IN": "Zoom In",
+    "ZOOM_OUT": "Zoom Out",
+    "CLEAR_FILTERS": "Clear Filters",
+    "RELOAD": "Reload Data",
+    "INTERACTIONS": "Contextual Interactions",
+    "FOCUS_SEARCH": "Focus Search Bar",
+    "COPY_HASH": "Copy Hovered Commit Hash"
+  },
+  "TOAST": {
+    "HASH_COPIED": "Commit hash copied!"
   },
   "STUDENTS-COMMITS-GRAPH": {},
   "QUESTIONS-COMPLETION-GRAPH": {},

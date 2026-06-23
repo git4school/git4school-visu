@@ -7,7 +7,7 @@
       <ng-container [ngTemplateOutlet]="contentAsTemplate()"></ng-container>
     </ng-template>
   </span>
-  <span class="tooltip-shortcut" *ngIf="shortcutKeys?.length">
+  <span class="shortcut-badge" [class.shortcut-pressed-anim]="shortcutPressed" *ngIf="shortcutKeys?.length">
     {{ formattedShortcut }}
   </span>
 </div>

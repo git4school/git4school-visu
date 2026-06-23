@@ -177,7 +177,7 @@
       "REVIEWS": "Revues",
       "OTHERS": "Autres"
     },
-    "RESET-ZOOM-TOOLTIP": "Réinitialisation du zoom (barre espace)",
+    "RESET-ZOOM-TOOLTIP": "Réinitialiser le zoom",
     "CHANGE-ZOOM-TOOLTIP": "Changer le mode de zoom (glisser/roulette et déplacer)",
     "CHANGE-TIME-SCALE-TOOLTIP": "Changer l'échelle de temps",
     "DOWNLOAD-TOOLTIP": "Télécharger le fichier de configuration du devoir courant",
@@ -191,6 +191,7 @@
       "BETWEEN": "Entre la revue et la correction",
       "AFTER": "Après la correction"
     },
+
     "MODAL": {
       "TITLE-CREATE": "Créer un jalon",
       "TITLE-EDIT": "Editer le jalon",
@@ -211,7 +212,27 @@
   "COMMIT-TOOLTIP": {
     "START": "Début du groupe",
     "END": "Fin du groupe",
-    "COMMIT_NUMBER": "Nombre de commits dans le groupe"
+    "COMMIT_NUMBER": "Nombre de commits dans le groupe",
+    "COPY_HASH": "Copier le hash"
+  },
+  "MODAL-SHORTCUTS": {
+    "TITLE": "Raccourcis clavier",
+    "GLOBAL_NAV": "Navigation globale",
+    "TAB_OVERVIEW": "Onglet Overview",
+    "TAB_STUDENTS": "Onglet Étudiants",
+    "TAB_QUESTIONS": "Onglet Questions",
+    "OPEN_SHORTCUTS": "Ouvrir cette modale",
+    "GRAPHS": "Graphiques & Visualisations",
+    "ZOOM_IN": "Zoomer",
+    "ZOOM_OUT": "Dézoomer",
+    "CLEAR_FILTERS": "Annuler les filtres",
+    "RELOAD": "Recharger les données",
+    "INTERACTIONS": "Interactions contextuelles",
+    "FOCUS_SEARCH": "Rechercher",
+    "COPY_HASH": "Copier le hash du commit survolé"
+  },
+  "TOAST": {
+    "HASH_COPIED": "Hash du commit copié !"
   },
   "STUDENTS-COMMITS-GRAPH": {},
   "QUESTIONS-COMPLETION-GRAPH": {},

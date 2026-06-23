@@ -51,14 +51,58 @@ export class OverviewComponent
   @ViewChild("questionsChooser") questionsChooser;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
 
-  @HostListener('document:keydown.space', ['$event'])
-  handleResetZoomShortcut(event: KeyboardEvent) {
+  pressedShortcut: string = null;
+
+  @HostListener('document:keydown', ['$event'])
+  handleGlobalShortcuts(event: KeyboardEvent) {
     const target = event.target as HTMLElement;
-    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
       return;
     }
-    event.preventDefault();
-    this.resetZoom(false);
+
+    const key = event.key.toLowerCase();
+    
+    if (key === 'escape') {
+      event.preventDefault();
+      this.clearQuestionsFilter();
+      this.triggerShortcut('escape');
+    } else if (key === 'r') {
+      event.preventDefault();
+      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      this.triggerShortcut('r');
+    } else if (key === 'c' && this.hovered_commit != null && this.hovered_group_commit == null) {
+      event.preventDefault();
+      this.copyCommitHash(this.hovered_commit.url);
+      this.triggerShortcut('c');
+    } else if (key === '+' || key === '=' || event.code === 'NumpadAdd') {
+      event.preventDefault();
+      this.zoomGraph(1.2);
+    } else if (key === '-' || event.code === 'NumpadSubtract') {
+      event.preventDefault();
+      this.zoomGraph(0.8);
+    }
+  }
+
+  private triggerShortcut(key: string) {
+    this.pressedShortcut = key;
+    setTimeout(() => {
+      if (this.pressedShortcut === key) this.pressedShortcut = null;
+    }, 150);
+  }
+
+  private zoomGraph(factor: number) {
+    if (!this.data_g || !this.zoom) return;
+    this.data_g.transition().duration(200).call(this.zoom.scaleBy, factor);
+  }
+
+  private copyCommitHash(url: string) {
+    if (!url) return;
+    const hash = url.split('/').pop();
+    if (hash) {
+      navigator.clipboard.writeText(hash).then(() => {
+        this.toastService.copy(this.translateService.instant('TOAST.HASH_COPIED'));
+      }).catch(err => console.error('Could not copy text: ', err));
+    }
   }
 
   minZoom: number;

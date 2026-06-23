@@ -178,7 +178,7 @@
       "REVIEWS": "Обзоры",
       "OTHERS": "Другие"
     },
-    "RESET-ZOOM-TOOLTIP": "Сбросить масштаб (пробел)",
+    "RESET-ZOOM-TOOLTIP": "Сбросить масштаб",
     "CHANGE-ZOOM-TOOLTIP": "Изменить режим масштабирования (перетаскивание/колесо и перемещение)",
     "CHANGE-TIME-SCALE-TOOLTIP": "Изменить шкалу времени",
     "DOWNLOAD-TOOLTIP": "Загрузить текущий файл конфигурации задания",
@@ -192,6 +192,7 @@
       "BETWEEN": "Между обзором и исправлением",
       "AFTER": "После исправления"
     },
+
     "MODAL": {
       "TITLE-CREATE": "Создать этап",
       "TITLE-EDIT": "Редактировать этап",
@@ -202,12 +203,32 @@
       "CONFIRM": "Подтвердить",
       "QUESTIONS": "Вопросы"
     },
-    "REREAD-TOOLTIP": "Перечитать",
-    "COMMIT-TOOLTIP": {
-      "BEGIN": "Начало группы",
-      "END": "Конец группы",
-      "COMMIT_NUMBER": "Количество коммитов в группе"
-    }
+    "REREAD-TOOLTIP": "Перечитать"
+  },
+  "COMMIT-TOOLTIP": {
+    "START": "Начало группы",
+    "END": "Конец группы",
+    "COMMIT_NUMBER": "Количество коммитов в группе",
+    "COPY_HASH": "Копировать хеш"
+  },
+  "MODAL-SHORTCUTS": {
+    "TITLE": "Сочетания клавиш",
+    "GLOBAL_NAV": "Глобальная навигация",
+    "TAB_OVERVIEW": "Вкладка Обзор",
+    "TAB_STUDENTS": "Вкладка Студенты",
+    "TAB_QUESTIONS": "Вкладка Вопросы",
+    "OPEN_SHORTCUTS": "Открыть это окно",
+    "GRAPHS": "Графики и визуализации",
+    "ZOOM_IN": "Увеличить",
+    "ZOOM_OUT": "Уменьшить",
+    "CLEAR_FILTERS": "Очистить фильтры",
+    "RELOAD": "Обновить данные",
+    "INTERACTIONS": "Контекстные действия",
+    "FOCUS_SEARCH": "Поиск",
+    "COPY_HASH": "Копировать хеш коммита"
+  },
+  "TOAST": {
+    "HASH_COPIED": "Хеш коммита скопирован!"
   },
   "STUDENTS-COMMITS-GRAPH": {},
   "QUESTIONS-COMPLETION-GRAPH": {},

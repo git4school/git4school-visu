@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
-export type ToastType = "success" | "warning" | "error";
+export type ToastType = "success" | "warning" | "error" | "copy";
 
 export interface Toast {
   id: number;
   type: ToastType;
   title: string;
-  message: string;
+  message?: string;
   timeoutId?: any;
 }
 
@@ -33,7 +33,11 @@ export class ToastService {
     this.addToast("success", titre, message);
   }
 
-  private addToast(type: ToastType, title: string, message: string) {
+  copy(titre: string, message?: string) {
+    this.addToast("copy", titre, message);
+  }
+
+  private addToast(type: ToastType, title: string, message?: string) {
     const id = this.idCounter++;
     const toast: Toast = { id, type, title, message };
     

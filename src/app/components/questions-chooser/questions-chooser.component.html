@@ -98,7 +98,7 @@
     </ng-template>
   </div>
   
-  <div class="main-input-wrapper"
+  <div class="main-input-wrapper position-relative d-flex align-items-center"
        [class.flex-grow-1]="!isMainPillActive"
        [class.pill]="isMainPillActive"
        [class.editing-pill]="isMainPillActive"
@@ -114,6 +114,10 @@
         container="body"
         (focus)="onInputFocus($event)" (click)="click$.next($any($event).target.value)"
         #instance="ngbTypeahead" (selectItem)="onSelect($event)" />
+    <span *ngIf="!items.length && !question" 
+          class="shortcut-badge position-absolute" 
+          [class.shortcut-pressed-anim]="pressedShortcut === 'f'"
+          style="right: 8px; pointer-events: none;">F</span>
   </div>
 </div>
 

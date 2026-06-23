@@ -57,6 +57,28 @@ export class QuestionsChooserComponent
 
   disabled: boolean;
 
+  pressedShortcut: string = null;
+
+  @HostListener('document:keydown', ['$event'])
+  handleGlobalKeyDown(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === 'f') {
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+        return;
+      }
+      event.preventDefault();
+      
+      this.pressedShortcut = 'f';
+      if (this.inputField && this.inputField.nativeElement) {
+        this.inputField.nativeElement.focus();
+      }
+
+      setTimeout(() => {
+        if (this.pressedShortcut === 'f') this.pressedShortcut = null;
+      }, 150);
+    }
+  }
+
   question: string;
   items: {
     type: "question" | "commit";
