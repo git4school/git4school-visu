@@ -192,7 +192,6 @@
       "BETWEEN": "Between review and correction",
       "AFTER": "After correction"
     },
-
     "MODAL": {
       "TITLE-CREATE": "Create milestone",
       "TITLE-EDIT": "Edit milestone",
@@ -267,7 +266,11 @@
     "TOOLTIP-ADD-REPOSITORY": "Add a repository",
     "TOOLTIP-ADD-REPOSITORIES": "Add multiple repositories",
     "TOOLTIP-SAVE": "Save",
-    "TOOLTIP-ADD-SESSION": "Add a session"
+    "TOOLTIP-ADD-SESSION": "Add a session",
+    "SEARCH-PLACEHOLDER": "Search a repository...",
+    "ADD-EMPTY-REPOSITORY": "Add a repository",
+    "ADD-REPOSITORY": "Add multiple repositories",
+    "NEW-REPOSITORY": "Unknown student"
   },
   "CONFIGURATION": {
     "EDIT-METADATA": "Metadata",
@@ -382,5 +385,8 @@
   "EXPORT": "Export",
   "DURATION_OF_THE_SESSION": "Duration of the session",
   "DURATION_APPROXIMATE_HELP": "The time indicated is approximate, the duration of the session may take more or less.",
-  "SORT_BY": "Sort by"
+  "SORT_BY": "Sort by",
+  "EDIT": "Edit",
+  "DELETE": "Delete",
+  "VALIDATE": "Validate"
 }

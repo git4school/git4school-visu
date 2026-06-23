@@ -191,7 +191,6 @@
       "BETWEEN": "Entre la revue et la correction",
       "AFTER": "Après la correction"
     },
-
     "MODAL": {
       "TITLE-CREATE": "Créer un jalon",
       "TITLE-EDIT": "Editer le jalon",
@@ -272,7 +271,11 @@
     "TOOLTIP-ADD-REPOSITORY": "Ajouter un dépôt",
     "TOOLTIP-ADD-REPOSITORIES": "Ajouter plusieurs dépôts",
     "TOOLTIP-SAVE": "Sauvegarder",
-    "TOOLTIP-ADD-SESSION": "Ajouter une séance"
+    "TOOLTIP-ADD-SESSION": "Ajouter une séance",
+    "SEARCH-PLACEHOLDER": "Rechercher un dépôt...",
+    "ADD-EMPTY-REPOSITORY": "Ajouter un dépôt",
+    "ADD-REPOSITORY": "Ajouter des dépôts",
+    "NEW-REPOSITORY": "Étudiant(e) inconnu(e)"
   },
   "CONFIGURATION": {
     "EDIT-METADATA": "Métadonnées",
@@ -387,5 +390,8 @@
   "EXPORT": "Exporter",
   "DURATION_OF_THE_SESSION": "Durée de la session",
   "DURATION_APPROXIMATE_HELP": "Le temps indiqué est approximatif, la durée de la session peut être plus ou moins longue.",
-  "SORT_BY": "Trier par"
+  "SORT_BY": "Trier par",
+  "EDIT": "Éditer",
+  "DELETE": "Supprimer",
+  "VALIDATE": "Valider"
 }

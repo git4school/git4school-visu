@@ -192,7 +192,6 @@
       "BETWEEN": "Между обзором и исправлением",
       "AFTER": "После исправления"
     },
-
     "MODAL": {
       "TITLE-CREATE": "Создать этап",
       "TITLE-EDIT": "Редактировать этап",
@@ -267,7 +266,11 @@
     "TOOLTIP-ADD-REPOSITORY": "Добавить репозиторий",
     "TOOLTIP-ADD-REPOSITORIES": "Добавить несколько репозиториев",
     "TOOLTIP-SAVE": "Сохранить",
-    "TOOLTIP-ADD-SESSION": "Добавить сеанс"
+    "TOOLTIP-ADD-SESSION": "Добавить сеанс",
+    "SEARCH-PLACEHOLDER": "Искать репозиторий...",
+    "ADD-EMPTY-REPOSITORY": "Добавить репозиторий",
+    "ADD-REPOSITORY": "Добавить несколько репозиториев",
+    "NEW-REPOSITORY": "Неизвестный студент"
   },
   "CONFIGURATION": {
     "EDIT-METADATA": "Метаданные",
@@ -382,5 +385,8 @@
   "EXPORT": "Экспорт",
   "DURATION_OF_THE_SESSION": "Продолжительность сессии",
   "DURATION_APPROXIMATE_HELP": "Указанное время приблизительное, продолжительность сессии может быть больше или меньше.",
-  "SORT_BY": "Сортировать по"
+  "SORT_BY": "Сортировать по",
+  "EDIT": "Редактировать",
+  "DELETE": "Удалить",
+  "VALIDATE": "Подтвердить"
 }
