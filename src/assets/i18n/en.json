@@ -389,5 +389,8 @@
   "SORT_BY": "Sort by",
   "EDIT": "Edit",
   "DELETE": "Delete",
-  "VALIDATE": "Validate"
+  "VALIDATE": "Validate",
+  "ERROR-MESSAGE-URL-REQUIRED": "URL is required",
+  "ERROR-MESSAGE-REPO-ALREADY-ADDED": "This repository has already been added",
+  "ERROR-MESSAGE-NO-ACCESS": "You do not have access to this repository (or it does not exist)"
 }

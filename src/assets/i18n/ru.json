@@ -389,5 +389,8 @@
   "SORT_BY": "Сортировать по",
   "EDIT": "Редактировать",
   "DELETE": "Удалить",
-  "VALIDATE": "Подтвердить"
+  "VALIDATE": "Подтвердить",
+  "ERROR-MESSAGE-URL-REQUIRED": "Требуется URL",
+  "ERROR-MESSAGE-REPO-ALREADY-ADDED": "Этот репозиторий уже добавлен",
+  "ERROR-MESSAGE-NO-ACCESS": "У вас нет доступа к этому репозиторию (или он не существует)"
 }

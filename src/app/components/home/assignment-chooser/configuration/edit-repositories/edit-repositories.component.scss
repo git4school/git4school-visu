@@ -235,9 +235,9 @@
     background: repeating-linear-gradient(
       -45deg,
       var(--color-surface),
-      var(--color-surface) 10px,
-      var(--color-primary-bg) 10px,
-      var(--color-primary-bg) 30px
+      var(--color-surface) 6px,
+      var(--color-primary-bg) 6px,
+      var(--color-primary-bg) 14px
     );
 
     .edit-row {
@@ -257,7 +257,7 @@
 
     .error-feedback {
       font-size: 0.8rem; color: var(--color-danger); margin-top: 0.25rem;
-      position: absolute; top: 100%; left: 0; white-space: nowrap;
+      white-space: normal; line-height: 1.2;
     }
   }
 
@@ -291,6 +291,12 @@
 .btn-icon-action {
   width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
   background: transparent; border: none; cursor: pointer; transition: all $transition-fast;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    color: var(--color-text-muted) !important;
+  }
 
   &:hover:not(:disabled) {
     &.text-primary { background: rgba(59, 130, 246, 0.1); color: var(--color-primary-hover) !important; }

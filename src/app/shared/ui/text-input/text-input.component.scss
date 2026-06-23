@@ -173,19 +173,9 @@
     color: var(--color-danger);
   }
 
+  
   /* --- SUGGESTIONS DROPDOWN --- */
   .suggestions-dropdown {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    right: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: $radius-md;
-    box-shadow: var(--shadow-md);
-    z-index: 1000;
-    max-height: 200px;
-    overflow-y: auto;
     animation: fadeIn 0.15s ease-out;
 
     /* Custom scrollbar for modern feel */
@@ -197,25 +187,21 @@
     }
     &::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
 
-    .suggestion-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .suggestion-item {
+      cursor: pointer;
+      &:active {
+        background-color: transparent;
+      }
     }
 
-    .suggestion-item {
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      color: var(--color-text-primary);
-      font-size: 0.9rem;
+    .suggestion-pill {
+      display: inline-block;
+      background-color: var(--color-primary-bg, #eff6ff);
+      color: var(--color-primary, #1d4ed8);
+      border-radius: 9999px;
+      padding: 0.1rem 0.5rem;
+      font-size: 0.8rem;
       font-weight: 500;
-      transition: background-color $transition-fast, color $transition-fast;
-
-      &:hover, &:focus {
-        background-color: var(--filter-bg);
-        color: var(--color-primary);
-        outline: none;
-      }
     }
   }
 

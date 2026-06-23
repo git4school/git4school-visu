@@ -18,6 +18,7 @@ import {
 import { Error, Repository } from "@models/Repository.model";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
+import { ToastService } from "@services/toast.service";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
 import { Observable, of, timer } from "rxjs";
@@ -172,6 +173,7 @@ export class EditRepositoriesComponent
     public authService: AuthService,
     private modalService: NgbModal,
     private translateService: TranslateService,
+    private toastService: ToastService,
     private dataService: DataService
   ) {
     super(fb, cdref);
@@ -281,9 +283,7 @@ export class EditRepositoriesComponent
    * @param index The index of the formGroup to delete
    */
   onDeleteRow(index: number) {
-    this.dataService.hideDeleteRepoConfirmation
-      ? this.deleteRow(index)
-      : this.deleteRowWithDialog(index);
+    this.deleteRow(index);
   }
 
   /**
@@ -297,7 +297,7 @@ export class EditRepositoriesComponent
         data?.url,
         {
           validators: [Validators.required, this.repoAlreadyAddedValidator()],
-          asyncValidators: [this.accessToRepoValidator()],
+          asyncValidators: [this.accessToRepoValidator(data?.url)],
         },
       ],
       name: [data?.name],
@@ -328,17 +328,22 @@ export class EditRepositoriesComponent
   /**
    * A validator checking if the authenticated user has access to the specified repository (and if it exists)
    */
-  private accessToRepoValidator(): AsyncValidatorFn {
+  private accessToRepoValidator(initialUrl?: string): AsyncValidatorFn {
     return (
       urlControl: AbstractControl
     ): Observable<ValidationErrors | null> => {
-      if (!urlControl.valueChanges || urlControl.pristine) {
+      if (urlControl.value === initialUrl) {
         return of(null);
       } else {
         return timer(1000).pipe(
           switchMap(() => this.authService.verifyUserAccess(urlControl.value)),
           map((res) => null),
-          catchError((err) => of({ noAccess: true }))
+          catchError((err) => {
+            const title = this.translateService.instant("ERROR");
+            const msg = this.translateService.instant("ERROR-MESSAGE-NO-ACCESS");
+            this.toastService.error(title, msg);
+            return of({ noAccess: true });
+          })
         );
       }
     };

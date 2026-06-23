@@ -140,6 +140,11 @@
                         <app-text-input id="url-{{i}}" formControlName="url" [label]="'EDIT-REPOSITORIES.COLUMN-URL' | translate" [required]="true"
                             [invalid]="group.get('url').invalid && (group.get('url').touched || group.get('url').dirty)">
                         </app-text-input>
+                        <div class="error-feedback" *ngIf="(group.get('url').hasError('required') || group.get('url').hasError('repoAlreadyAdded')) && (group.get('url').touched || group.get('url').dirty)">
+                            <ng-container *ngIf="group.get('url').hasError('required')">{{ 'ERROR-MESSAGE-URL-REQUIRED' | translate }}</ng-container>
+                            <ng-container *ngIf="group.get('url').hasError('repoAlreadyAdded')">{{ 'ERROR-MESSAGE-REPO-ALREADY-ADDED' | translate }}</ng-container>
+                            
+                        </div>
                     </div>
                     <div class="input-group-col col-tp">
                         <app-text-input [id]="'repo-tp-' + getFormControls.indexOf(group)" formControlName="tpGroup"
@@ -150,15 +155,11 @@
                             <i class="fas fa-times"></i>
                         </button>
                         <button type="button" class="btn-icon-action text-primary" (click)="validateRow(group)" [appTooltip]="'VALIDATE' | translate" [disabled]="!group.valid" style="width: 36px; height: 36px;">
-                            <i class="fas" [ngClass]="group.pending ? 'fa-spinner fa-spin' : 'fa-check'"></i>
+                            <i class="fas" [ngClass]="(group.status === 'PENDING' || group.get('url').status === 'PENDING') ? 'fa-spinner fa-spin' : 'fa-check'"></i>
                         </button>
                     </div>
                 </div>
-                <div class="error-feedback" *ngIf="group.get('url').invalid && (group.get('url').touched || group.get('url').dirty)">
-                    <ng-container *ngIf="group.get('url').hasError('required')">{{ 'ERROR-MESSAGE-URL-REQUIRED' | translate }}</ng-container>
-                    <ng-container *ngIf="group.get('url').hasError('repoAlreadyAdded')">{{ 'ERROR-MESSAGE-REPO-ALREADY-ADDED' | translate }}</ng-container>
-                    <ng-container *ngIf="group.get('url').hasError('noAccess')">{{ 'ERROR-MESSAGE-NO-ACCESS' | translate }}</ng-container>
-                </div>
+
             </div>
 
         </div>
@@ -185,21 +186,4 @@
     </div>
 </div>
 
-<ng-template #deleteConfirmation let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">{{ 'EDIT-REPOSITORIES.MODAL-DELETE.TITLE' | translate }}</h4>
-    </div>
-    <div class="modal-body">
-        <p>{{ 'EDIT-REPOSITORIES.MODAL-DELETE.BODY' | translate }}</p>
-    </div>
-    <div class="modal-footer d-flex justify-content-between align-items-center">
-        <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="hideConfirmation" #hideConfirmation>
-            <label class="custom-control-label" for="hideConfirmation">{{ 'HIDE-CONFIRMATION' | translate }}</label>
-        </div>
-        <div>
-            <button type="button" class="btn btn-outline-danger" (click)="modal.close(hideConfirmation.checked)">{{ 'DELETE' | translate }}</button>
-            <button type="button" class="btn btn-outline-secondary ml-2" (click)="modal.dismiss()">{{ 'CANCEL' | translate }}</button>
-        </div>
-    </div>
-</ng-template>
+

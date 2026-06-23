@@ -102,6 +102,7 @@ export abstract class BaseTabEditConfigurationComponent<Data>
 
   restoreRow(group: FormGroup) {
     group.setValue(group.get("save").value);
+    group.markAsPristine();
   }
 
   protected abstract createFormGroup(data?: Data);

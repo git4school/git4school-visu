@@ -90,12 +90,6 @@ export class ConfigurationComponent implements OnInit {
   }
 
   onCancel() {
-    if (this.isModified && this.assignment.id !== -1) {
-      let translation = this.translateService.instant("MESSAGE-UNSAVED-GUARD");
-      if (!confirm(translation)) {
-        return;
-      }
-    }
     this.close.emit();
   }
 

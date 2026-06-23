@@ -44,15 +44,12 @@
     </div>
   </div>
 
-  <!-- Autocomplete Suggestions -->
-  <div class="suggestions-dropdown" *ngIf="showSuggestions && filteredSuggestions.length > 0">
-    <ul class="suggestion-list">
-      <li *ngFor="let suggestion of filteredSuggestions" 
-          class="suggestion-item" 
-          (click)="selectSuggestion(suggestion)">
-        <span class="suggestion-text">{{ suggestion }}</span>
-      </li>
-    </ul>
+  <div class="dropdown-menu show suggestions-dropdown" *ngIf="showSuggestions && filteredSuggestions.length > 0" style="position: absolute; top: calc(100% + 4px); left: 0; right: 0; max-height: 200px; overflow-y: auto;">
+    <button type="button" *ngFor="let suggestion of filteredSuggestions" 
+            class="dropdown-item suggestion-item" 
+            (click)="selectSuggestion(suggestion)">
+      <div class="suggestion-pill">{{ suggestion }}</div>
+    </button>
   </div>
 
 </div>

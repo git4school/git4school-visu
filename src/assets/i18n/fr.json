@@ -394,5 +394,8 @@
   "SORT_BY": "Trier par",
   "EDIT": "Éditer",
   "DELETE": "Supprimer",
-  "VALIDATE": "Valider"
+  "VALIDATE": "Valider",
+  "ERROR-MESSAGE-URL-REQUIRED": "L'URL est requise",
+  "ERROR-MESSAGE-REPO-ALREADY-ADDED": "Ce dépôt a déjà été ajouté",
+  "ERROR-MESSAGE-NO-ACCESS": "Vous n'avez pas accès à ce dépôt (ou il n'existe pas)"
 }

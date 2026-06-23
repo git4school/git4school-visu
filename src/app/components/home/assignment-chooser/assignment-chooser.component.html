@@ -346,7 +346,7 @@
     </div>
     
     <!-- Empty State -->
-    <div *ngIf="assignments.length === 0" class="empty-state text-center py-5 text-muted">
+    <div *ngIf="filteredAssignments.length === 0" class="empty-state text-center py-5 text-muted">
       <i class="fas fa-folder-open fa-3x mb-3" style="opacity: 0.5;"></i>
       <h5>{{ 'HOME.NO-ASSIGNMENTS' | translate }}</h5>
     </div>
