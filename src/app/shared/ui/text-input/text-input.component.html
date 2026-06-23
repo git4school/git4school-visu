@@ -21,9 +21,15 @@
       [disabled]="isDisabled"
       [value]="value"
       (input)="onInput($event)"
-      (focus)="onFocus()"
+      (focus)="onFocus(); focus$.next($any($event).target.value)"
+      (click)="click$.next($any($event).target.value)"
       (blur)="onBlur()"
-      (keydown.enter)="onEnter($event)" />
+      (keydown.enter)="onEnter($event)"
+      
+      [ngbTypeahead]="suggestions?.length > 0 ? search : null"
+      #instance="ngbTypeahead"
+      (selectItem)="onSelectItem($event)"
+      container="body" />
 
     <label class="text-input-label" [for]="id">
       {{ label }} <span *ngIf="required" class="text-danger">*</span>
@@ -42,14 +48,6 @@
          [appTooltip]="helperText" 
          container="body"></i>
     </div>
-  </div>
-
-  <div class="dropdown-menu show suggestions-dropdown" *ngIf="showSuggestions && filteredSuggestions.length > 0" style="position: absolute; top: calc(100% + 4px); left: 0; right: 0; max-height: 200px; overflow-y: auto;">
-    <button type="button" *ngFor="let suggestion of filteredSuggestions" 
-            class="dropdown-item suggestion-item" 
-            (click)="selectSuggestion(suggestion)">
-      <div class="suggestion-pill">{{ suggestion }}</div>
-    </button>
   </div>
 
 </div>

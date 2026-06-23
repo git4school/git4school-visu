@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnInit,
+  ViewChild
 } from "@angular/core";
 import {
   FormBuilder,
@@ -16,9 +17,12 @@ import {
   NgbActiveModal,
   NgbDateAdapter,
   NgbDateNativeAdapter,
+  NgbTypeahead
 } from "@ng-bootstrap/ng-bootstrap";
 import { Utils } from "@services/utils";
 import * as moment from "moment";
+import { Observable, Subject, merge } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 @Component({
   selector: "app-edit-session",
@@ -34,6 +38,10 @@ export class EditSessionComponent implements OnInit {
   @Input() defaultSessionDuration;
   @Input() notes: string;
   sessionForm: FormGroup;
+
+  @ViewChild('instance') instance: NgbTypeahead;
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
 
   constructor(
     public activeModalService: NgbActiveModal,
@@ -74,6 +82,23 @@ export class EditSessionComponent implements OnInit {
       this.sessionForm.controls["endTime"].setValue(endTime);
     });
   }
+
+  searchGroup = (text$: Observable<string>) => {
+    const clicksWithClosedPopup$ = this.click$.pipe(
+      filter(() => !this.instance.isPopupOpen())
+    );
+    const inputFocus$ = this.focus$;
+    return merge(text$, clicksWithClosedPopup$, inputFocus$).pipe(
+      map((search) =>
+        (this.tpGroups || [])
+          .filter(
+            (group) =>
+              group.toLowerCase().indexOf((search || "").toLowerCase()) > -1
+          )
+          .slice(0, 10)
+      )
+    );
+  };
 
   deleteSession() {
     this.activeModalService.close(null);

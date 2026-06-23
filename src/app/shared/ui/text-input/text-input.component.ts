@@ -7,6 +7,9 @@ import {
   ViewChild
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { Observable, Subject, merge } from "rxjs";
+import { filter, map } from "rxjs/operators";
+import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-text-input",
@@ -31,12 +34,14 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
   @Input() id = "";
 
   @Input() suggestions: string[] = [];
-  showSuggestions = false;
-  filteredSuggestions: string[] = [];
-
 
   @ViewChild("inputElement", { static: false })
   inputElement: ElementRef<HTMLInputElement>;
+
+  @ViewChild("instance", { static: false }) instance: NgbTypeahead;
+
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
 
   value = "";
   isFocused = false;
@@ -48,6 +53,27 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
   constructor(private el: ElementRef) {}
 
   ngOnInit(): void {}
+
+  search = (text$: Observable<string>) => {
+    const clicksWithClosedPopup$ = this.click$.pipe(
+      filter(() => !this.instance || !this.instance.isPopupOpen())
+    );
+    const inputFocus$ = this.focus$;
+
+    return merge(text$, clicksWithClosedPopup$, inputFocus$).pipe(
+      map(term => {
+        if (!this.suggestions || this.suggestions.length === 0) return [];
+        const q = (term || '').toLowerCase();
+        return this.suggestions.filter(s => s.toLowerCase().includes(q)).slice(0, 10);
+      })
+    );
+  };
+
+  onSelectItem(event: NgbTypeaheadSelectItemEvent) {
+    this.value = event.item;
+    this.onChange(this.value);
+  }
+
 
   writeValue(value: any): void {
     if (value !== undefined) {
@@ -71,37 +97,15 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
     this.onChange(this.value);
-    this.filterSuggestions();
-  }
-
-  filterSuggestions(): void {
-    if (this.suggestions && this.suggestions.length > 0) {
-      const query = (this.value || '').toLowerCase();
-      this.filteredSuggestions = this.suggestions.filter(s => s.toLowerCase().includes(query));
-      this.showSuggestions = true;
-    } else {
-      this.showSuggestions = false;
-    }
-  }
-
-  selectSuggestion(suggestion: string): void {
-    this.value = suggestion;
-    this.onChange(this.value);
-    this.showSuggestions = false;
-    // Set focus back or keep it blurred? Typically we just hide it.
   }
 
   onFocus(): void {
     this.isFocused = true;
-    this.filterSuggestions();
   }
 
   onBlur(): void {
     this.isFocused = false;
     this.onTouched();
-    setTimeout(() => {
-      this.showSuggestions = false;
-    }, 200);
   }
 
   clearValue(): void {

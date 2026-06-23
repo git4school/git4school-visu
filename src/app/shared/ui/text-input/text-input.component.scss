@@ -173,40 +173,4 @@
     color: var(--color-danger);
   }
 
-  
-  /* --- SUGGESTIONS DROPDOWN --- */
-  .suggestions-dropdown {
-    animation: fadeIn 0.15s ease-out;
-
-    /* Custom scrollbar for modern feel */
-    &::-webkit-scrollbar { width: 6px; }
-    &::-webkit-scrollbar-track { background: transparent; }
-    &::-webkit-scrollbar-thumb {
-      background: var(--color-border);
-      border-radius: 3px;
-    }
-    &::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
-
-    .suggestion-item {
-      cursor: pointer;
-      &:active {
-        background-color: transparent;
-      }
-    }
-
-    .suggestion-pill {
-      display: inline-block;
-      background-color: var(--color-primary-bg, #eff6ff);
-      color: var(--color-primary, #1d4ed8);
-      border-radius: 9999px;
-      padding: 0.1rem 0.5rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 }

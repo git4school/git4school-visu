@@ -351,19 +351,3 @@
   }
 }
 
-.suggestion-pill {
-  display: inline-block;
-  background-color: #eff6ff;
-  color: #1d4ed8;
-  border-radius: 9999px;
-  padding: 0.1rem 0.5rem;
-  font-size: 0.8rem;
-  margin: 0.2rem 0;
-  font-weight: 500;
-}
-
-:host-context(body.dark-theme) .suggestion-pill {
-  background-color: rgba(96, 165, 250, 0.15);
-  color: #60a5fa;
-}
-
