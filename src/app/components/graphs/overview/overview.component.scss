@@ -60,43 +60,32 @@
   outline: none;
 }
 
-#tooltip {
-  position: absolute;
-}
-
-#commit_hover {
-  width: fit-content;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.7);
-  font-size: 0;
-  padding: 5px;
-  border-radius: 5px;
-  transform: translateY(-90px);
+#commit_hover, #commit_group_hover {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   user-select: none;
+  min-width: 200px;
+  max-width: 300px;
 }
 
-#commit_hover>p {
-  font-size: 10px;
-  margin: 2px;
-}
+#commit_hover > p, #commit_group_hover div > p {
+  margin: 0;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.4;
 
-#commit_group_hover {
-  transform: translateY(-90px);
-  width: fit-content;
-}
-
-#commit_group_hover>div {
-  color: white;
-  background-color: rgba(0, 0, 0, 0.7);
-  font-size: 0;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-
-#commit_group_hover>div>p {
-  font-size: 10px;
-  margin: 2px;
+  &:first-child {
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 4px;
+  }
+  
+  &:last-child {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
 }
 .legend-floating-container {
   position: absolute;
