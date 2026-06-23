@@ -117,6 +117,10 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
   }
 
   onEnter(event: KeyboardEvent): void {
+    if (this.instance && this.instance.isPopupOpen()) {
+      return; // Let NgbTypeahead handle it
+    }
+    
     event.preventDefault();
 
     // Find all focusable inputs and textareas in the DOM
