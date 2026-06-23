@@ -386,5 +386,6 @@
   },
   "EXPORT": "Exporter",
   "DURATION_OF_THE_SESSION": "Durée de la session",
-  "DURATION_APPROXIMATE_HELP": "Le temps indiqué est approximatif, la durée de la session peut être plus ou moins longue."
+  "DURATION_APPROXIMATE_HELP": "Le temps indiqué est approximatif, la durée de la session peut être plus ou moins longue.",
+  "SORT_BY": "Trier par"
 }

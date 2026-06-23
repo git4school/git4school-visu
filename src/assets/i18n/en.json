@@ -381,5 +381,6 @@
   },
   "EXPORT": "Export",
   "DURATION_OF_THE_SESSION": "Duration of the session",
-  "DURATION_APPROXIMATE_HELP": "The time indicated is approximate, the duration of the session may take more or less."
+  "DURATION_APPROXIMATE_HELP": "The time indicated is approximate, the duration of the session may take more or less.",
+  "SORT_BY": "Sort by"
 }

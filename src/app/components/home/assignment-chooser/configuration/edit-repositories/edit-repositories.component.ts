@@ -79,6 +79,77 @@ export class EditRepositoriesComponent
    */
   lastPropertySorted: string;
 
+  searchQuery: string = "";
+
+  get filteredFormControls() {
+    if (!this.searchQuery) return this.getFormControls;
+    const lowerQuery = this.searchQuery.toLowerCase();
+    return this.getFormControls.filter(group => {
+      const name = group.get('name')?.value?.toLowerCase() || '';
+      const url = group.get('url')?.value?.toLowerCase() || '';
+      const tpGroup = group.get('tpGroup')?.value?.toLowerCase() || '';
+      return name.includes(lowerQuery) || url.includes(lowerQuery) || tpGroup.includes(lowerQuery);
+    });
+  }
+
+  selectionMode = false;
+  selectedRepositories: Set<number> = new Set();
+  hoveredRepository: number | null = null;
+
+  toggleSelection(index: number) {
+    if (this.selectedRepositories.has(index)) {
+      this.selectedRepositories.delete(index);
+    } else {
+      this.selectedRepositories.add(index);
+    }
+    this.selectionMode = this.selectedRepositories.size > 0;
+  }
+
+  isSelected(index: number): boolean {
+    return this.selectedRepositories.has(index);
+  }
+
+  isAllSelected(): boolean {
+    const visibleIds = this.filteredFormControls.map(group => this.getFormControls.indexOf(group));
+    if (visibleIds.length === 0) return false;
+    return visibleIds.every((id) => this.selectedRepositories.has(id));
+  }
+
+  toggleSelectAll() {
+    const visibleIds = this.filteredFormControls.map(group => this.getFormControls.indexOf(group));
+    if (this.isAllSelected()) {
+      visibleIds.forEach((id) => this.selectedRepositories.delete(id));
+    } else {
+      visibleIds.forEach((id) => this.selectedRepositories.add(id));
+    }
+    this.selectionMode = this.selectedRepositories.size > 0;
+  }
+
+  cancelSelection() {
+    this.selectedRepositories.clear();
+    this.selectionMode = false;
+  }
+
+  deleteSelected() {
+    if (this.selectedRepositories.size === 0) return;
+    const indicesToDelete = Array.from(this.selectedRepositories).sort((a, b) => b - a);
+    
+    if (!this.dataService.hideDeleteRepoConfirmation) {
+      this.openDeleteConfirmation().then(
+        (hide) => {
+          this.dataService.hideDeleteRepoConfirmation = hide;
+          indicesToDelete.forEach(index => this.deleteRow(index));
+          this.cancelSelection();
+        },
+        () => {}
+      );
+    } else {
+      indicesToDelete.forEach(index => this.deleteRow(index));
+      this.cancelSelection();
+    }
+  }
+
+
   /**
    * EditRepositoriesComponent constructor
    * @param fb The service to build formGroups
@@ -91,7 +162,7 @@ export class EditRepositoriesComponent
   constructor(
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
-    private authService: AuthService,
+    public authService: AuthService,
     private modalService: NgbModal,
     private translateService: TranslateService,
     private dataService: DataService

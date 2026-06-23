@@ -1,150 +1,198 @@
 <div class="repositories-form-container">
-    <div class="overflow-auto" style="max-height:50vh;">
-        <table class="table table-hover table-striped ">
-            <thead>
-                <tr>
-                    <th class="sortable-column" scope="col" style="width: 25%;" (click)="onSort('name')">
-                        {{ 'EDIT-REPOSITORIES.COLUMN-NAME' | translate}}
-                        <ng-container *ngIf="lastPropertySorted === 'name'">
-                            <span *ngIf="nameDirection === ''"><i class="fas fa-sort"></i></span>
-                            <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
-                            <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
-                        </ng-container>
-                    </th>
-                    <th class="sortable-column" scope="col" style="width: 50%" (click)="onSort('url')">
-                        {{ 'EDIT-REPOSITORIES.COLUMN-URL' | translate}}
-                        <ng-container *ngIf="lastPropertySorted === 'url'">
-                            <span *ngIf="nameDirection === ''"><i class="fas fa-sort"></i></span>
-                            <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
-                            <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
-                        </ng-container>
-                    </th>
+    <!-- Top bar -->
+    <div class="sort-bar mb-3 d-flex position-relative align-items-center w-100">
+        <div class="d-flex align-items-center" style="gap: 1rem;">
+            <div class="d-flex align-items-center" style="gap: 0.5rem;">
+                <span class="sort-label mr-1">{{ 'SORT_BY' | translate }}:</span>
+                <button class="sort-pill" [class.active]="lastPropertySorted === 'name'" (click)="onSort('name')">
+                    {{ 'EDIT-REPOSITORIES.COLUMN-NAME' | translate }}
+                    <ng-container *ngIf="lastPropertySorted === 'name'">
+                        <span *ngIf="nameDirection === ''"><i class="fas fa-sort"></i></span>
+                        <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
+                        <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
+                    </ng-container>
+                </button>
+                <button class="sort-pill" [class.active]="lastPropertySorted === 'url'" (click)="onSort('url')">
+                    {{ 'EDIT-REPOSITORIES.COLUMN-URL' | translate }}
+                    <ng-container *ngIf="lastPropertySorted === 'url'">
+                        <span *ngIf="nameDirection === ''"><i class="fas fa-sort"></i></span>
+                        <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
+                        <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
+                    </ng-container>
+                </button>
+                <button class="sort-pill" [class.active]="lastPropertySorted === 'tpGroup'" (click)="onSort('tpGroup')">
+                    {{ 'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate }}
+                    <ng-container *ngIf="lastPropertySorted === 'tpGroup'">
+                        <span *ngIf="nameDirection === ''"><i class="fas fa-sort"></i></span>
+                        <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
+                        <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
+                    </ng-container>
+                </button>
+            </div>
 
-                    <th class="sortable-column" scope="col" style="width: 15%" (click)="onSort('tpGroup')">
-                        {{ 'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate}}
-                        <ng-container *ngIf="lastPropertySorted === 'tpGroup'">
-                            <span *ngIf="nameDirection === ''"><i class="fas fa-sort"></i></span>
-                            <span *ngIf="nameDirection === 'desc'"><i class="fas fa-sort-up"></i></span>
-                            <span *ngIf="nameDirection === 'asc'"><i class="fas fa-sort-down"></i></span>
-                        </ng-container>
-                    </th>
-                    <th scope="col" style="width: 10%"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngFor="let group of getFormControls; let i = index">
-                    <tr [formGroup]="group" *ngIf="group.get('isEditable').value"
-                        (keyup.enter)="validateRow(group)">
-                        <td>
-                            <app-text-input
-                                formControlName="name"
-                                [label]="'EDIT-REPOSITORIES.NAME' | translate">
-                            </app-text-input>
-                        </td>
-                        <td>
-                            <app-text-input
-                                formControlName="url"
-                                [type]="'url'"
-                                [label]="'EDIT-REPOSITORIES.URL' | translate"
-                                [invalid]="group.get('url').invalid && (group.get('url').dirty || group.get('url').touched)"
-                                [valid]="group.get('url').valid && (group.get('url').dirty || group.get('url').touched)">
-                            </app-text-input>
-                            <div *ngIf="group.get('url').errors && group.get('url').errors['noAccess']"
-                                class="invalid-feedback d-block position-static mt-1">
-                                {{ 'EDIT-REPOSITORIES.MESSAGE-INVALID-URL' | translate }}
-                            </div>
-                            <div *ngIf="group.get('url').errors && group.get('url').errors['repoAlreadyAdded']"
-                                class="invalid-feedback d-block position-static mt-1">
-                                {{ 'EDIT-REPOSITORIES.MESSAGE-REPO-ALREADY-ADDED' | translate }}
-                            </div>
-                        </td>
-                        <td>
-                            <app-text-input
-                                formControlName="tpGroup"
-                                [label]="'EDIT-REPOSITORIES.TP-GROUP' | translate">
-                            </app-text-input>
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="">
-                                <button type="reset" class="btn btn-icon btn-outline-danger btn-sm" (click)="cancelRow(group, i)"><i
-                                        class="fas fa-times"></i></button>
-                                <button type="submit" class="btn btn-icon btn-outline-success btn-sm" (click)="validateRow(group)"><i
-                                        class="fas fa-check"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr *ngIf="!group.get('isEditable').value">
-                        <td>
-                            {{ group.get('name').value }}
-                            <button *ngIf="group.get('errors').value.length" class="btn"
-                                [appTooltip]="getErrorTooltip(group.get('errors').value)">
-                                <i class="fas fa-exclamation-triangle fa-lg blinking" style="color:Tomato"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <a href="{{ group.get('url').value }}" target=”_blank”>{{ group.get('url').value }}</a>
-                        </td>
-                        <td>
-                            {{ group.get('tpGroup').value }}
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="">
-                                <button type="button" class="btn btn-icon btn-outline-secondary btn-sm" (click)="editRow(group)"><i
-                                        class="fas fa-pencil-alt"></i></button>
-                                <button type="button" class="btn btn-icon btn-outline-danger btn-sm" (click)="onDeleteRow(i)"><i
-                                        class="far fa-trash-alt"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                </ng-container>
-            </tbody>
-        </table>
+            <!-- Search -->
+            <div class="search-container position-relative">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" class="form-control modern-search-input" [placeholder]="'HOME.SEARCH-PLACEHOLDER' | translate" [(ngModel)]="searchQuery">
+            </div>
+        </div>
+
+        <!-- Selection Actions -->
+        <div class="selection-actions" *ngIf="selectionMode">
+            <div class="d-flex align-items-center bg-white border rounded px-3 shadow-sm" style="height: 36px; background: var(--color-surface) !important; border-color: var(--color-border) !important;">
+                <div class="custom-control custom-checkbox mr-3 d-flex align-items-center">
+                    <input type="checkbox" class="custom-control-input" id="selectAll" [checked]="isAllSelected()" (change)="toggleSelectAll()">
+                    <label class="custom-control-label font-weight-bold mb-0" for="selectAll" style="color: var(--color-text-primary); cursor: pointer; padding-top: 2px;">
+                        {{ selectedRepositories.size }} sélectionné(s)
+                    </label>
+                </div>
+                <div class="border-left pl-3 ml-1 d-flex align-items-center">
+                    <button class="btn btn-sm btn-outline-danger mr-2" (click)="deleteSelected()">
+                        <i class="fas fa-trash"></i> {{ 'DELETE' | translate }}
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary" (click)="cancelSelection()">
+                        {{ 'CANCEL' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="btn-group mt-3" role="group ">
-        <button class="btn btn-secondary" type="button" (click)="addRow()"
-            [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
-            <span class="fa-layers fa-fw">
-                <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7 "></i>
-                <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>
+    <div class="repository-list">
+        <div *ngFor="let group of filteredFormControls; let i = index" [formGroup]="group" class="mb-2">
+            
+            <!-- View Mode -->
+            <div class="repository-card" *ngIf="!group.get('isEditable').value"
+                 [class.is-selected]="isSelected(getFormControls.indexOf(group))"
+                 [class.is-shrunk]="(hoveredRepository === getFormControls.indexOf(group) || isSelected(getFormControls.indexOf(group)))">
+                
+                <div class="repo-info-container">
+                    <div class="selection-zone mr-3"
+                         (mouseenter)="hoveredRepository = getFormControls.indexOf(group)"
+                         (mouseleave)="hoveredRepository = null"
+                         (click)="toggleSelection(getFormControls.indexOf(group)); $event.stopPropagation()">
+                        <div class="type-indicator-overlay repo-icon m-0">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="selection-checkbox-overlay">
+                            <div class="custom-control custom-checkbox" style="pointer-events: none;">
+                                <input type="checkbox" class="custom-control-input" [id]="'check-repo-' + getFormControls.indexOf(group)" [checked]="isSelected(getFormControls.indexOf(group))">
+                                <label class="custom-control-label" [for]="'check-repo-' + getFormControls.indexOf(group)"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="repo-details">
+                        <div class="repo-name">
+                            {{ group.get('name').value || ('EDIT-REPOSITORIES.NEW-REPOSITORY' | translate) }}
+                            <button *ngIf="group.get('errors').value.length > 0" class="btn btn-outline-danger error-btn"
+                                    [appTooltip]="getErrorTooltip(group.get('errors').value)">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </button>
+                        </div>
+                        <a class="repo-url" [href]="group.get('url').value" target="_blank" (click)="$event.stopPropagation()">
+                            {{ group.get('url').value }}
+                            <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="repo-badge mr-3" *ngIf="group.get('tpGroup').value">
+                    {{ group.get('tpGroup').value }}
+                </div>
+                
+                <div class="repo-actions">
+                    <button type="button" class="btn-icon-action text-secondary" (click)="editRow(group)" [appTooltip]="'EDIT' | translate">
+                        <svg class="modern-icon icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path class="page" d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />
+                            <path class="pencil" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                    </button>
+                    <button type="button" class="btn-icon-action text-danger" (click)="onDeleteRow(getFormControls.indexOf(group))" [appTooltip]="'DELETE' | translate">
+                        <svg class="modern-icon icon-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path class="lid" d="M3 6h18 M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            <path class="bin" d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 5v6m4-6v6m4-6v6" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Edit Mode -->
+            <div class="repository-card-edit" *ngIf="group.get('isEditable').value">
+                <div class="edit-row">
+                    <div class="input-group-col col-name">
+                        <app-text-input id="name-{{i}}" formControlName="name" [label]="'EDIT-REPOSITORIES.COLUMN-NAME' | translate"></app-text-input>
+                    </div>
+                    <div class="input-group-col col-url">
+                        <app-text-input id="url-{{i}}" formControlName="url" [label]="'EDIT-REPOSITORIES.COLUMN-URL' | translate" [required]="true"
+                            [invalid]="group.get('url').invalid && (group.get('url').touched || group.get('url').dirty)">
+                        </app-text-input>
+                    </div>
+                    <div class="input-group-col col-tp">
+                        <app-text-input id="tpGroup-{{i}}" formControlName="tpGroup" [label]="'EDIT-REPOSITORIES.COLUMN-TP-GROUP' | translate"></app-text-input>
+                    </div>
+                    <div class="edit-actions">
+                        <button type="button" class="btn-icon-action text-secondary" (click)="cancelRow(group, getFormControls.indexOf(group))" [appTooltip]="'CANCEL' | translate" style="width: 36px; height: 36px;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button type="button" class="btn-icon-action text-primary" (click)="saveRow(group)" [appTooltip]="'VALIDATE' | translate" [disabled]="group.invalid" style="width: 36px; height: 36px;">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="error-feedback" *ngIf="group.get('url').invalid && (group.get('url').touched || group.get('url').dirty)">
+                    <ng-container *ngIf="group.get('url').hasError('required')">{{ 'ERROR-MESSAGE-URL-REQUIRED' | translate }}</ng-container>
+                    <ng-container *ngIf="group.get('url').hasError('repoAlreadyAdded')">{{ 'ERROR-MESSAGE-REPO-ALREADY-ADDED' | translate }}</ng-container>
+                    <ng-container *ngIf="group.get('url').hasError('noAccess')">{{ 'ERROR-MESSAGE-NO-ACCESS' | translate }}</ng-container>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bottom-actions">
+        <button type="button" class="btn-action" (click)="addRow()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-EMPTY-REPOSITORY' | translate">
+            <span class="fa-layers fa-fw mr-1">
+                <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>
+                <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>
             </span>
+            {{ 'EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY' | translate }}
         </button>
-        <button class="btn btn-secondary" type="button" (click)="openAddRepositoriesModal()"
-            [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate">
-            <span class="fa-layers fa-fw">
+        <button *ngIf="authService.isSignedIn()" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
+            <span class="fa-layers fa-fw mr-1">
                 <i class="fas fa-square" data-fa-mask="fas fa-database" data-fa-transform="grow-3 right-10"></i>
                 <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>
                 <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>
                 <i class="fas fa-plus" data-fa-transform="shrink-9 right-11 up-5"></i>
                 <i class="fas fa-plus" data-fa-transform="shrink-8 right-13 down-3"></i>
             </span>
+            {{ 'EDIT-REPOSITORIES.ADD-REPOSITORY' | translate }}
         </button>
     </div>
 </div>
 
-<ng-template #deleteConfirmation>
+<ng-template #deleteConfirmation let-modal>
     <div class="modal-header">
-        <h4 class="modal-title">{{ "DELETE-REPOSITORY-CONFIRMATION-TITLE" | translate }}</h4>
-        <button type="button" class="close-btn ml-auto" aria-label="Close" (click)="modalRef.dismiss('Cross click')">
-            <i class="fas fa-times"></i>
-        </button>
+        <h4 class="modal-title" id="modal-basic-title">{{ 'EDIT-REPOSITORIES.MODAL-DELETE.TITLE' | translate }}</h4>
     </div>
     <div class="modal-body">
-        <p>{{ "DELETE-REPOSITORY-CONFIRMATION-MESSAGE" | translate }}</p>
-
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" #hideConfirmation id="hideConfirmation">
-            <label class="form-check-label" for="hideConfirmation">
-                <small>{{ "HIDE-CONFIRMATION-BOX" | translate }}</small>
-            </label>
-        </div>
+        <p>{{ 'EDIT-REPOSITORIES.MODAL-DELETE.BODY' | translate }}</p>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="modalRef.dismiss('Cancel')">
-            {{ "CANCEL" | translate }}
-        </button>
-        <button type="button" class="btn btn-primary" (click)="modalRef.close(hideConfirmation.checked)">
-            {{ "CONFIRM" | translate }}
-        </button>
+    <div class="modal-footer d-flex justify-content-between align-items-center">
+        <div class="custom-control custom-checkbox mr-sm-2">
+            <input type="checkbox" class="custom-control-input" id="hideConfirmation" #hideConfirmation>
+            <label class="custom-control-label" for="hideConfirmation">{{ 'HIDE-CONFIRMATION' | translate }}</label>
+        </div>
+        <div>
+            <button type="button" class="btn btn-outline-danger" (click)="modal.close(hideConfirmation.checked)">{{ 'DELETE' | translate }}</button>
+            <button type="button" class="btn btn-outline-secondary ml-2" (click)="modal.dismiss()">{{ 'CANCEL' | translate }}</button>
+        </div>
     </div>
 </ng-template>
