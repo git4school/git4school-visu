@@ -646,7 +646,9 @@ export class CommitsService {
         }
       }
     `;
-    const variables = { queryString: searchFilter, cursor, pageLimit };
+    // We append fork:true because GitHub search excludes forks by default, 
+    // which hides many student assignment repositories.
+    const variables = { queryString: searchFilter + " fork:true", cursor, pageLimit };
     return this.http
       .post<{ data: any }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
       .pipe(
