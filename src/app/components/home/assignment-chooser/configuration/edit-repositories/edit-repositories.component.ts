@@ -292,6 +292,16 @@ export class EditRepositoriesComponent
    * @returns The formGroup
    */
   protected createFormGroup(data?: Repository) {
+    let avatarUrl = null;
+    if (data?.url) {
+      try {
+        const parts = data.url.split("/");
+        if (parts.length >= 4 && parts[2].includes("github.com")) {
+          avatarUrl = "https://github.com/" + parts[3] + ".png";
+        }
+      } catch (e) {}
+    }
+
     return this.fb.group({
       url: [
         data?.url,
@@ -303,6 +313,7 @@ export class EditRepositoriesComponent
       name: [data?.name],
       tpGroup: [data?.tpGroup],
       errors: [data ? data.errors : []],
+      avatarUrl: [avatarUrl],
       isEditable: false,
       isInvalid: false,
       save: {},
@@ -337,8 +348,16 @@ export class EditRepositoriesComponent
       } else {
         return timer(1000).pipe(
           switchMap(() => this.authService.verifyUserAccess(urlControl.value)),
-          map((res) => null),
+          map((res) => {
+            if (urlControl.parent && urlControl.parent.contains('avatarUrl')) {
+              urlControl.parent.get('avatarUrl').setValue(res?.owner?.avatar_url || null);
+            }
+            return null;
+          }),
           catchError((err) => {
+            if (urlControl.parent && urlControl.parent.contains('avatarUrl')) {
+              urlControl.parent.get('avatarUrl').setValue(null);
+            }
             const title = this.translateService.instant("ERROR");
             const msg = this.translateService.instant("ERROR-MESSAGE-NO-ACCESS");
             this.toastService.error(title, msg);

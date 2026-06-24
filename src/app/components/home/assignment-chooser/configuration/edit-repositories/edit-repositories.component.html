@@ -81,7 +81,8 @@
                          (mouseleave)="hoveredRepository = null"
                          (click)="toggleSelection(getFormControls.indexOf(group)); $event.stopPropagation()">
                         <div class="type-indicator-overlay repo-icon m-0">
-                            <i class="fas fa-database"></i>
+                            <img *ngIf="group.get('avatarUrl')?.value" [src]="group.get('avatarUrl').value" alt="Repository Avatar" class="repo-avatar-image">
+                            <i *ngIf="!group.get('avatarUrl')?.value" class="fas fa-database"></i>
                         </div>
                         <div class="selection-checkbox-overlay">
                             <div class="custom-control custom-checkbox" style="pointer-events: none;">
