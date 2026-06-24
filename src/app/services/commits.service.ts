@@ -586,7 +586,7 @@ export class CommitsService {
     const query = `
       query($cursor: String, $pageLimit: Int!) {
         viewer {
-          repositories(first: $pageLimit, after: $cursor, ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], orderBy: {field: CREATED_AT, direction: DESC}) {
+          repositories(first: $pageLimit, after: $cursor, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], orderBy: {field: CREATED_AT, direction: DESC}) {
             pageInfo {
               endCursor
               hasNextPage
