@@ -48,12 +48,6 @@ export class EditRepositoriesComponent
   implements OnInit, AfterContentChecked
 {
   /**
-   * The template reference corresponding to the confirmation modal when deleting a repository
-   */
-  @ViewChild("deleteConfirmation")
-  private deleteConfirmation: TemplateRef<any>;
-
-  /**
    * The matrix that defines the transition relationships between the sorting modes.
    *
    * See {@link SortDirection}
@@ -64,11 +58,6 @@ export class EditRepositoriesComponent
     // desc: "",    // I keep them in case we need it
     // "": "asc",
   };
-
-  /**
-   * The reference to the repository deletion modal when it is displayed
-   */
-  modalRef: NgbModalRef;
 
   /**
    * The current sorting mode, applied at the moment
@@ -142,19 +131,8 @@ export class EditRepositoriesComponent
     if (this.selectedRepositories.size === 0) return;
     const indicesToDelete = Array.from(this.selectedRepositories).sort((a, b) => b - a);
     
-    if (!this.dataService.hideDeleteRepoConfirmation) {
-      this.openDeleteConfirmation().then(
-        (hide) => {
-          this.dataService.hideDeleteRepoConfirmation = hide;
-          indicesToDelete.forEach(index => this.deleteRow(index));
-          this.cancelSelection();
-        },
-        () => {}
-      );
-    } else {
-      indicesToDelete.forEach(index => this.deleteRow(index));
-      this.cancelSelection();
-    }
+    indicesToDelete.forEach(index => this.deleteRow(index));
+    this.cancelSelection();
   }
 
 
@@ -391,30 +369,5 @@ export class EditRepositoriesComponent
           a.get(property).value?.localeCompare(b.get(property).value)
       );
     }
-  }
-
-  /**
-   * Delete the formGroup at the specified index, after the confirmation of the user.
-   * If the user checks "Hide this confirmation box until the next reload",
-   * updates the corresponding boolean in the application data
-   * @param index The index of the formGroup in the array
-   */
-  private deleteRowWithDialog(index: number) {
-    this.openDeleteConfirmation().then(
-      (hide) => {
-        this.dataService.hideDeleteRepoConfirmation = hide;
-        this.deleteRow(index);
-      },
-      () => {}
-    );
-  }
-
-  /**
-   * Open the delete confirmation for a repository
-   * @returns The result returned by the modal reference
-   */
-  private openDeleteConfirmation(): Promise<any> {
-    this.modalRef = this.modalService.open(this.deleteConfirmation);
-    return this.modalRef.result;
   }
 }

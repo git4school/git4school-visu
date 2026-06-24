@@ -99,29 +99,51 @@
   .repository-card, .repository-card-edit {
     display: flex;
     align-items: center;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
     border-radius: $radius-lg;
     padding: 1rem 1.25rem;
-    transition: all $transition-fast;
+    position: relative;
+    z-index: 1;
   }
 
   .repository-card {
     justify-content: space-between;
     cursor: default;
+    background: transparent;
+    border: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: $radius-lg;
+      z-index: -1;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, border-color 0.2s;
+    }
 
     &:hover {
-      background: var(--filter-bg);
-      border-color: var(--filter-bg);
+      &::before {
+        background: var(--filter-bg);
+        border-color: var(--filter-bg);
+      }
       .repo-actions { opacity: 1; }
     }
 
     &.is-selected {
-      background-color: var(--color-primary-bg, #eff6ff);
-      border-color: var(--color-primary);
+      &::before {
+        background-color: var(--color-primary-bg, #eff6ff);
+      }
     }
 
     &.is-shrunk {
+      &::before {
+        left: calc(1.25rem + 40px - 0.5rem);
+      }
+      
       .selection-zone {
         .type-indicator-overlay {
           opacity: 0;
