@@ -75,13 +75,13 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   rowHeight: number;
 
   /**
-   * The next page of the repositories to be fetched from Github
+   * The next cursor of the repositories to be fetched from Github
    *
-   * See [updateResults]{@link ModalAddRepositoriesComponent#updateResults} where it is incremented
+   * See [updateResults]{@link ModalAddRepositoriesComponent#updateResults}
    *
    * See [searchSubscription]{@link ModalAddRepositoriesComponent#searchSubscription} where it is reset
    */
-  private page: number;
+  private cursor: string;
 
   /**
    * The boolean indicating that there is no more next page to fetch the repositories
@@ -123,20 +123,19 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   ) {}
 
   /**
-   * Add the given repositories to the datatable and increment the next [page]{@link ModalAddRepositoriesComponent#page} to fetch
+   * Add the given repositories to the datatable
    *
    * @param repositories The repositories to add to the datatable
    */
   private updateResults(repositories: Repository[]) {
     this.rows = [...this.rows, ...repositories];
     this.loading = false;
-    this.page++;
   }
 
   /**
    * Process the intermediate response from the service retrieving the repositories.
    *
-   * It set [done]{@link ModalAddRepositoriesComponent#done} and [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with the fetched repositories
+   * It set [done]{@link ModalAddRepositoriesComponent#done}, [cursor]{@link ModalAddRepositoriesComponent#cursor} and [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with the fetched repositories
    *
    * @param response The intermediate response from the service
    * @return
@@ -145,12 +144,14 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
     response: Observable<{
       completed: boolean;
       repositories: Repository[];
+      cursor?: string;
     }>
   ): Subscription {
     return response
       .pipe(
         map((res) => {
           this.done = res.completed;
+          this.cursor = res.cursor;
           return res.repositories;
         })
       )
@@ -163,11 +164,11 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    * Fetch the repositories for the authenticated user
    * and [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with it
    *
-   * @param page The page of repositories to fetch
+   * @param cursor The cursor of repositories to fetch
    */
-  private updateResultsWithAuthenticatedUser(page: number) {
+  private updateResultsWithAuthenticatedUser(cursor?: string) {
     this.processIntermediateResponse(
-      this.commitsService.getRepositoriesByAuthenticatedUser(page)
+      this.commitsService.getRepositoriesByAuthenticatedUser(cursor)
     );
   }
 
@@ -176,11 +177,11 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
    * [update]{@link ModalAddRepositoriesComponent#updateResults} the datatable with it
    *
    * @param searchFilter The search filter used to fetch the repositories
-   * @param page The page of repositories to fetch
+   * @param cursor The cursor of repositories to fetch
    */
-  private updateResultsWithSearchFilter(searchFilter: string, page: number) {
+  private updateResultsWithSearchFilter(searchFilter: string, cursor?: string) {
     this.processIntermediateResponse(
-      this.commitsService.getRepositoriesBySearch(searchFilter, page)
+      this.commitsService.getRepositoriesBySearch(searchFilter, cursor)
     );
   }
 
@@ -194,9 +195,9 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   private loadResults() {
     this.loading = true;
     if (this.searchFilter) {
-      this.updateResultsWithSearchFilter(this.searchFilter, this.page);
+      this.updateResultsWithSearchFilter(this.searchFilter, this.cursor);
     } else {
-      this.updateResultsWithAuthenticatedUser(this.page);
+      this.updateResultsWithAuthenticatedUser(this.cursor);
     }
   }
 
@@ -281,14 +282,14 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
     this.headerHeight = 50;
     this.footerHeight = 50;
     this.rowHeight = 50;
-    this.page = 1;
+    this.cursor = undefined;
     this.done = false;
     this.searchFilterChanged = new Subject<string>();
     this.searchFilter = "";
     this.searchSubscription = this.searchFilterChanged
       .pipe(debounceTime(1000))
       .subscribe((searchFilter) => {
-        this.page = 1;
+        this.cursor = undefined;
         this.rows = [];
         this.loadResults();
       });

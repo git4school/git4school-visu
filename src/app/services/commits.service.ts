@@ -575,23 +575,44 @@ export class CommitsService {
   /**
    * Fetch authenticated user's repositories from Github
    *
-   * @param page The page of repositories to fetch
+   * @param cursor The cursor of repositories to fetch
    * @param pageLimit The number of repositories to fetch per page
-   * @return An object containing the repositories and a boolean indicating if the results are complete
+   * @return An object containing the repositories, a boolean indicating if the results are complete and the next cursor
    */
   getRepositoriesByAuthenticatedUser(
-    page = 1,
+    cursor?: string,
     pageLimit = 100
-  ): Observable<{ completed: boolean; repositories: Repository[] }> {
-    let url = `https://api.github.com/user/repos?per_page=${pageLimit}&page=${page}&sort=created`;
+  ): Observable<{ completed: boolean; repositories: Repository[]; cursor?: string }> {
+    const query = `
+      query($cursor: String, $pageLimit: Int!) {
+        viewer {
+          repositories(first: $pageLimit, after: $cursor, ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], orderBy: {field: CREATED_AT, direction: DESC}) {
+            pageInfo {
+              endCursor
+              hasNextPage
+            }
+            nodes {
+              name
+              url
+            }
+          }
+        }
+      }
+    `;
+    const variables = { cursor, pageLimit };
     return this.http
-      .get<any[]>(url, {
-        headers: this.headers,
-        observe: "response",
-      })
+      .post<{ data: any }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
       .pipe(
         map((response) => {
-          return this.processRawResponse(response.body, response.headers);
+          const repositoriesData = response.data.viewer.repositories;
+          const repositories = repositoriesData.nodes.map(
+            (node) => new Repository(node.url, node.name)
+          );
+          return {
+            completed: !repositoriesData.pageInfo.hasNextPage,
+            repositories: repositories,
+            cursor: repositoriesData.pageInfo.endCursor,
+          };
         })
       );
   }
@@ -600,24 +621,45 @@ export class CommitsService {
    * Fetch repositories from Github according to the given search filter
    *
    * @param searchFilter The search filter used to fetch the repositories
-   * @param page The page of repositories to fetch
+   * @param cursor The cursor of repositories to fetch
    * @param pageLimit The number of repositories to fetch per page
-   * @return An object containing the repositories and a boolean indicating if the results are complete
+   * @return An object containing the repositories, a boolean indicating if the results are complete and the next cursor
    */
   getRepositoriesBySearch(
     searchFilter: string,
-    page = 1,
+    cursor?: string,
     pageLimit = 100
-  ): Observable<{ completed: boolean; repositories: Repository[] }> {
-    let url = `https://api.github.com/search/repositories?q=${searchFilter}&per_page=${pageLimit}&page=${page}`;
+  ): Observable<{ completed: boolean; repositories: Repository[]; cursor?: string }> {
+    const query = `
+      query($queryString: String!, $cursor: String, $pageLimit: Int!) {
+        search(query: $queryString, type: REPOSITORY, first: $pageLimit, after: $cursor) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+          nodes {
+            ... on Repository {
+              name
+              url
+            }
+          }
+        }
+      }
+    `;
+    const variables = { queryString: searchFilter, cursor, pageLimit };
     return this.http
-      .get<{ items: any[]; incomplete_results: boolean }>(url, {
-        headers: this.headers,
-        observe: "response",
-      })
+      .post<{ data: any }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
       .pipe(
         map((response) => {
-          return this.processRawResponse(response.body.items, response.headers);
+          const searchData = response.data.search;
+          const repositories = searchData.nodes.map(
+            (node) => new Repository(node.url, node.name)
+          );
+          return {
+            completed: !searchData.pageInfo.hasNextPage,
+            repositories: repositories,
+            cursor: searchData.pageInfo.endCursor,
+          };
         })
       );
   }
@@ -651,22 +693,5 @@ export class CommitsService {
     return value ? value[0].trim() : null;
   }
 
-  /**
-   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
-   *
-   * @param rawRepositories Raw repositories with a JSON format
-   * @param headers Headers including "link" that we use to determine we just fetched the last page
-   */
-  private processRawResponse(
-    rawRepositories,
-    headers
-  ): { completed: boolean; repositories: Repository[] } {
-    const array = rawRepositories.map(
-      (data) => new Repository(data["html_url"], data["name"])
-    );
-    return {
-      completed: !headers?.get("link")?.match(/rel=\"last\"/),
-      repositories: array,
-    };
-  }
+
 }
