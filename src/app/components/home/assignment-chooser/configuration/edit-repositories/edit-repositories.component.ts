@@ -327,13 +327,13 @@ export class EditRepositoriesComponent
         return timer(1000).pipe(
           switchMap(() => this.authService.verifyUserAccess(urlControl.value)),
           map((res) => {
-            if (urlControl.parent && urlControl.parent.contains('avatarUrl')) {
+            if (urlControl.parent && urlControl.parent.get('avatarUrl')) {
               urlControl.parent.get('avatarUrl').setValue(res?.owner?.avatar_url || null);
             }
             return null;
           }),
           catchError((err) => {
-            if (urlControl.parent && urlControl.parent.contains('avatarUrl')) {
+            if (urlControl.parent && urlControl.parent.get('avatarUrl')) {
               urlControl.parent.get('avatarUrl').setValue(null);
             }
             const title = this.translateService.instant("ERROR");
