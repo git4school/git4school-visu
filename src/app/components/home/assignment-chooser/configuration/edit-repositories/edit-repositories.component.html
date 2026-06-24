@@ -156,7 +156,7 @@
                             <i class="fas fa-times"></i>
                         </button>
                         <button type="button" class="btn-icon-action text-primary" (click)="validateRow(group)" [appTooltip]="'VALIDATE' | translate" [disabled]="!group.valid" style="width: 36px; height: 36px;">
-                            <i class="fas" [ngClass]="(group.status === 'PENDING' || group.get('url').status === 'PENDING') ? 'fa-spinner fa-spin' : 'fa-check'"></i>
+                            <i class="fas fa-check"></i>
                         </button>
                     </div>
                 </div>

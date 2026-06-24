@@ -22,7 +22,7 @@ import { ToastService } from "@services/toast.service";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
 import { Observable, of, timer } from "rxjs";
-import { catchError, map, switchMap } from "rxjs/operators";
+import { catchError, map, switchMap, take } from "rxjs/operators";
 import { BaseTabEditConfigurationComponent } from "../base-tab-edit-configuration.component";
 import { ModalAddRepositoriesComponent } from "./modal-add-repositories/modal-add-repositories.component";
 
@@ -321,26 +321,27 @@ export class EditRepositoriesComponent
     return (
       urlControl: AbstractControl
     ): Observable<ValidationErrors | null> => {
-      if (urlControl.value === initialUrl) {
-        return of(null);
+      if (!urlControl.value || urlControl.value === initialUrl) {
+        return timer(10).pipe(map(() => null), take(1));
       } else {
         return timer(1000).pipe(
           switchMap(() => this.authService.verifyUserAccess(urlControl.value)),
           map((res) => {
             if (urlControl.parent && urlControl.parent.get('avatarUrl')) {
-              urlControl.parent.get('avatarUrl').setValue(res?.owner?.avatar_url || null);
+              urlControl.parent.get('avatarUrl').setValue(res?.owner?.avatar_url || null, { emitEvent: false });
             }
             return null;
           }),
           catchError((err) => {
             if (urlControl.parent && urlControl.parent.get('avatarUrl')) {
-              urlControl.parent.get('avatarUrl').setValue(null);
+              urlControl.parent.get('avatarUrl').setValue(null, { emitEvent: false });
             }
             const title = this.translateService.instant("ERROR");
             const msg = this.translateService.instant("ERROR-MESSAGE-NO-ACCESS");
             this.toastService.error(title, msg);
             return of({ noAccess: true });
-          })
+          }),
+          take(1)
         );
       }
     };
