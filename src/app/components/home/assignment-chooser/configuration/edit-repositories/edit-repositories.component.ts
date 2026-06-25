@@ -16,8 +16,9 @@ import {
   Validators,
 } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
+import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { ToastService } from "@services/toast.service";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
@@ -149,7 +150,7 @@ export class EditRepositoriesComponent
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
     public authService: AuthService,
-    private modalService: NgbModal,
+    private modalService: CustomModalService,
     private translateService: TranslateService,
     private toastService: ToastService,
     private dataService: DataService
@@ -179,9 +180,10 @@ export class EditRepositoriesComponent
    * If the modal is closed with the "Add" button, all the new selected repositories are saved in the assignment
    */
   openAddRepositoriesModal() {
-    let modalReference = this.modalService.open(ModalAddRepositoriesComponent, {
-      size: "xl",
-    });
+    let modalReference: CustomModalRef = this.modalService.open(
+      ModalAddRepositoriesComponent,
+      { size: "xl" }
+    );
     modalReference.componentInstance.repoList = this.getFormControls.map(
       (row) => Repository.withJSON(row.value)
     );

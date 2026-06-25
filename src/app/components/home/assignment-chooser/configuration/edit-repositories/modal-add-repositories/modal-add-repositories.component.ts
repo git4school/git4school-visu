@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Repository } from "@models/Repository.model";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { CommitsService } from "@services/commits.service";
 import { Observable, Subject, Subscription } from "rxjs";
 import { debounceTime, map } from "rxjs/operators";
@@ -37,7 +37,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   sortDesc: boolean = false;
 
   constructor(
-    public modalService: NgbActiveModal,
+    public activeModal: CustomModalRef,
     private commitsService: CommitsService,
     private ngZone: NgZone
   ) {}
@@ -112,7 +112,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
       repo.tpGroup = this.tpGroup;
       repo.name = "";
     });
-    this.modalService.close(this.selected);
+    this.activeModal.close(this.selected);
   }
 
   isSelected(repo: Repository): boolean {

@@ -177,14 +177,14 @@
     </div>
 
     <div class="bottom-actions">
-        <button type="button" class="btn-action" (click)="addRow()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-EMPTY-REPOSITORY' | translate">
+        <button type="button" class="btn-action" (click)="addRow()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
             <span class="fa-layers fa-fw mr-1">
                 <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>
                 <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>
             </span>
             {{ 'EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY' | translate }}
         </button>
-        <button *ngIf="authService.isSignedIn()" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
+        <button *ngIf="authService.isSignedIn()" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate">
             <span class="fa-layers fa-fw mr-1">
                 <i class="fas fa-square" data-fa-mask="fas fa-database" data-fa-transform="grow-3 right-10"></i>
                 <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>

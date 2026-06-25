@@ -1481,11 +1481,14 @@ body.dark-theme .suggestion-pill {
     z-index: 50;
     opacity: 0;
     transform: translateY(20px);
-    transition: all $transition-normal;
+    visibility: hidden;
+    transition: opacity $transition-normal, transform $transition-normal, visibility 0s linear 0.3s;
     
     &.show {
         opacity: 1;
         transform: translateY(0);
+        visibility: visible;
+        transition: opacity $transition-normal, transform $transition-normal, visibility 0s linear 0s;
     }
     
     &.floating-fixed {

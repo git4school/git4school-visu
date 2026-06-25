@@ -9,9 +9,12 @@ import {
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { Assignment } from "@models/Assignment.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Optional } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { DataService } from "@services/data.service";
 import { ToastService } from "@services/toast.service";
+import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { MetadataComponent } from "./metadata/metadata.component";
 import { EditRepositoriesComponent } from "./edit-repositories/edit-repositories.component";
 
@@ -22,6 +25,7 @@ import { EditRepositoriesComponent } from "./edit-repositories/edit-repositories
 })
 export class ConfigurationComponent implements OnInit {
   @Input() assignment: Assignment;
+  @Input() modalRef?: any;
   @Output() close = new EventEmitter<void>();
   @Output() saved = new EventEmitter<Assignment>();
 
@@ -36,7 +40,9 @@ export class ConfigurationComponent implements OnInit {
     public translateService: TranslateService,
     public dataService: DataService,
     private toastService: ToastService,
-    private modalService: NgbModal
+    private ngbModalService: NgbModal,
+    private modalService: CustomModalService,
+    @Optional() public activeModal: CustomModalRef
   ) {}
 
   ngOnInit(): void {
@@ -91,10 +97,15 @@ export class ConfigurationComponent implements OnInit {
 
   onCancel() {
     this.close.emit();
+    if (this.modalRef) {
+      this.modalRef.dismiss("cancel");
+    } else if (this.activeModal) {
+      this.activeModal.dismiss("cancel");
+    }
   }
 
   openUploadFileModal() {
-    let modalReference = this.modalService.open(FileChooserComponent, {});
+    let modalReference = this.ngbModalService.open(FileChooserComponent, {});
     modalReference.result
       .then((assignment) => {
         assignment.id = this.assignment.id;
@@ -132,6 +143,11 @@ export class ConfigurationComponent implements OnInit {
         this.assignment.id = id;
         this.successToast();
         this.saved.emit(this.assignment);
+        if (this.modalRef) {
+          this.modalRef.close(this.assignment);
+        } else if (this.activeModal) {
+          this.activeModal.close(this.assignment);
+        }
       })
       .catch(() => this.errorToast());
   }

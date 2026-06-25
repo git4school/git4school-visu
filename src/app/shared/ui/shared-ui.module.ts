@@ -12,6 +12,7 @@ import { SessionDurationPickerComponent } from "./session-duration-picker/sessio
 import { ToastsComponent } from "./toasts/toasts.component";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { TooltipDirective } from "./tooltip/tooltip.directive";
+import { CustomModalContainerComponent } from "./custom-modal/custom-modal-container/custom-modal-container.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TooltipDirective } from "./tooltip/tooltip.directive";
     SessionDurationPickerComponent,
     ToastsComponent,
     TooltipComponent,
-    TooltipDirective
+    TooltipDirective,
+    CustomModalContainerComponent
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -33,7 +35,9 @@ import { TooltipDirective } from "./tooltip/tooltip.directive";
     SessionDurationPickerComponent,
     ToastsComponent,
     TooltipComponent,
-    TooltipDirective
-  ]
+    TooltipDirective,
+    CustomModalContainerComponent
+  ],
+  entryComponents: [CustomModalContainerComponent]
 })
 export class SharedUiModule {}
