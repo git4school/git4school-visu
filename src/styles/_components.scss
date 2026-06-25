@@ -1606,3 +1606,29 @@ body.dark-theme .suggestion-pill {
         color: var(--color-text-primary);
     }
 }
+
+/* =========================================
+   SKELETON LOADER
+   ========================================= */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position-x: 200%;
+  }
+  100% {
+    background-position-x: 0%;
+  }
+}
+
+.skeleton-box {
+  animation: skeleton-shimmer 2s ease-out infinite;
+  background: linear-gradient(
+    100deg,
+    var(--filter-bg),
+    var(--filter-bg) 40%,
+    var(--color-surface) 50%,
+    var(--filter-bg) 60%
+  );
+  background-size: 200% 100%;
+  background-attachment: fixed;
+  border-radius: 0.25rem;
+}

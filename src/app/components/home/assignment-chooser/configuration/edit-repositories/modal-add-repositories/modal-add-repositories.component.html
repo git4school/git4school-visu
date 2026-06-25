@@ -67,14 +67,22 @@
                         </a>
                     </td>
                 </tr>
-                <tr *ngIf="loading" class="loading-row">
-                    <td colspan="3" class="text-center py-4">
-                        <div class="spinner-border spinner-border-sm text-primary mr-2" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <span class="text-muted small">Chargement...</span>
-                    </td>
-                </tr>
+                <ng-container *ngIf="loading">
+                    <tr *ngFor="let i of [1, 2, 3]" class="table-row" style="pointer-events: none;">
+                        <td class="checkbox-col pl-3 pr-4" style="width: 64px;">
+                            <div class="skeleton-box" style="width: 20px; height: 20px; border-radius: 4px; margin-top: 2px;"></div>
+                        </td>
+                        <td class="name-col font-weight-500">
+                            <div class="d-flex align-items-center py-1">
+                                <div class="skeleton-box mr-3" style="width: 40px; height: 40px; border-radius: 8px;"></div>
+                                <div class="skeleton-box" style="height: 1rem; width: 60%; max-width: 200px; border-radius: 4px;"></div>
+                            </div>
+                        </td>
+                        <td class="url-col pr-4">
+                            <div class="skeleton-box" style="height: 1rem; width: 80%; max-width: 300px; border-radius: 4px;"></div>
+                        </td>
+                    </tr>
+                </ng-container>
                 <tr *ngIf="!loading && rows.length === 0" class="empty-row">
                     <td colspan="3" class="text-center py-5 text-muted">
                         <i class="fas fa-database fa-3x mb-3 d-block mx-auto opacity-50"></i>
