@@ -1494,10 +1494,14 @@ body.dark-theme .suggestion-pill {
     }
 
     &.floating-sticky {
-        position: sticky;
+        position: absolute;
         bottom: 12px;
         z-index: 100;
-        margin-top: 1rem;
+        
+        &.show {
+            position: sticky;
+            margin-top: 1rem;
+        }
     }
 }
 
