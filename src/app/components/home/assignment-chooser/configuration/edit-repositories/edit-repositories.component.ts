@@ -182,7 +182,7 @@ export class EditRepositoriesComponent
   openAddRepositoriesModal() {
     let modalReference: CustomModalRef = this.modalService.open(
       ModalAddRepositoriesComponent,
-      { size: "xl" }
+      { size: "lg" }
     );
     modalReference.componentInstance.repoList = this.getFormControls.map(
       (row) => Repository.withJSON(row.value)

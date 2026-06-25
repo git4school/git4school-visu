@@ -16,7 +16,7 @@ import {
 export class CustomModalContainerComponent {
   @ViewChild('modalContent', { read: ViewContainerRef, static: true }) modalContent: ViewContainerRef;
 
-  public animationState: 'void' | 'enter' | 'leave' = 'enter';
+  public animationState: 'void' | 'enter' | 'leave' = 'void';
   public options: { size?: 'sm' | 'md' | 'lg' | 'xl'; beforeDismiss?: () => boolean | Promise<boolean> } = {};
 
   private componentRef: ComponentRef<any>;
@@ -25,7 +25,12 @@ export class CustomModalContainerComponent {
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private elementRef: ElementRef
-  ) {}
+  ) {
+    // Trigger enter animation on next frame to ensure CSS transition works
+    setTimeout(() => {
+      this.animationState = 'enter';
+    }, 10);
+  }
 
   public loadComponent<T>(componentType: Type<T>): T {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);

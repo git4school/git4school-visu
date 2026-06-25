@@ -16,7 +16,7 @@ export class ConfigurationService {
   openConfigurationModal(assignment: Assignment): Promise<any> {
     let translation = this.translateService.instant("MESSAGE-UNSAVED-GUARD");
     let customModalRef = this.modalService.open(ConfigurationComponent, {
-      size: "xl",
+      size: "lg",
       beforeDismiss: () => {
         return (
           !customModalRef.componentInstance.isModified || confirm(translation)

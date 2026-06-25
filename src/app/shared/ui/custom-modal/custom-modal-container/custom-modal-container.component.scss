@@ -11,7 +11,7 @@
   display: flex;
   align-items: flex-start; /* Align near top for slide down effect */
   justify-content: center;
-  padding-top: 5vh;
+  padding-top: 0;
   overflow-y: auto;
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -27,25 +27,26 @@
 
 .custom-modal-dialog {
   background-color: var(--color-bg-base, #ffffff);
-  border-radius: 16px;
+  border-radius: 0 0 24px 24px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
   position: relative;
   margin-bottom: 5vh;
+  margin-top: 0;
   
-  /* Slide down animation */
-  transform: translateY(-50px) scale(0.97);
+  /* Slide down animation like a notch */
+  transform: translateY(-100%);
   opacity: 0;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
   
   &.show {
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
     opacity: 1;
   }
   
   &.hide {
-    transform: translateY(-30px) scale(0.97);
+    transform: translateY(-100%);
     opacity: 0;
   }
   
@@ -73,8 +74,8 @@
 
 /* Ensure contents like modal-header inside respect border-radius */
 ::ng-deep .custom-modal-dialog .modal-header {
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 ::ng-deep .custom-modal-dialog .modal-body {
   border-bottom-left-radius: 16px;

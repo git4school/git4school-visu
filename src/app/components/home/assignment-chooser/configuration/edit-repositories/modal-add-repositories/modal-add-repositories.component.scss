@@ -49,6 +49,7 @@
 
 .modern-table-container {
     overflow-y: auto;
+    scrollbar-gutter: stable;
     background-color: var(--color-surface);
     overscroll-behavior: contain;
     
