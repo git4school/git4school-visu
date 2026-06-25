@@ -297,13 +297,15 @@
     "DELETE-BUTTON": "Удалить сеанс",
     "NOTES": "Личные заметки"
   },
-  "MODAL-ADD-REPOSITORIES": {
+"MODAL-ADD-REPOSITORIES": {
     "TITLE": "Добавить репозитории",
     "BUTTON-ADD": "Добавить",
     "COLUMN-NAME": "Имя",
     "COLUMN-URL": "URL",
-    "PLACEHOLDER-FILTER": "Фильтровать репозитории по URL",
-    "PLACEHOLDER-TPGROUP": "Введите группу TP для всех выбранных репозиториев"
+    "PLACEHOLDER-FILTER": "Отфильтровать репозитории по URL",
+    "PLACEHOLDER-TPGROUP": "Укажите группу TP для всех выбранных репозиториев",
+    "SELECTED-REPOSITORIES": "репозиториев выбрано",
+    "TP-GROUP": "Группа TP"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Добавить несколько репозиториев",
   "TOKEN-FIRST-NAME": "Имя",

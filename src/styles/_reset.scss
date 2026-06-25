@@ -9,6 +9,9 @@
 html, body {
   height: 100%;
   width: 100%;
+}
+
+body {
   font-family: $font-family-sans;
   background-color: var(--color-bg-body);
   color: var(--color-text-primary);

@@ -303,7 +303,9 @@
     "COLUMN-NAME": "Name",
     "COLUMN-URL": "URL",
     "PLACEHOLDER-FILTER": "Filter repositories by URL",
-    "PLACEHOLDER-TPGROUP": "Write the TP group for all selected repositories"
+    "PLACEHOLDER-TPGROUP": "Write the TP group for all selected repositories",
+    "SELECTED-REPOSITORIES": "repository(ies) selected",
+    "TP-GROUP": "TP Group"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Add multiple repositories",
   "TOKEN-FIRST-NAME": "First name",

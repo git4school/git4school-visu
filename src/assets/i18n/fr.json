@@ -308,7 +308,9 @@
     "COLUMN-NAME": "Nom",
     "COLUMN-URL": "URL",
     "PLACEHOLDER-FILTER": "Filtrer les dépôts selon l'URL",
-    "PLACEHOLDER-TPGROUP": "Indiquez le groupe de TP pour tous les dépôts sélectionnés"
+    "PLACEHOLDER-TPGROUP": "Indiquez le groupe de TP pour tous les dépôts sélectionnés",
+    "SELECTED-REPOSITORIES": "dépôt(s) sélectionné(s)",
+    "TP-GROUP": "Groupe de TP"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Ajouter plusieurs dépôts",
   "TOKEN-LAST-NAME": "NOM",

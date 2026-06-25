@@ -1,0 +1,295 @@
+@import "../../../../../../../styles/variables";
+
+.modal-body {
+    background-color: var(--color-surface);
+}
+
+.modern-input {
+    background-color: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    transition: $transition-fast;
+    border-radius: $radius-lg;
+    padding-left: 36px !important;
+    font-size: 0.95rem;
+    
+    &:focus {
+        box-shadow: none;
+        outline: none;
+    }
+    
+    &::placeholder {
+        color: var(--color-text-muted);
+    }
+}
+
+.search-input-wrapper {
+    position: relative;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-surface);
+    transition: all $transition-fast;
+    
+    &:focus-within {
+        border-color: var(--color-primary);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 12px;
+        color: var(--color-text-muted);
+        pointer-events: none;
+        z-index: 10;
+        font-size: 0.9rem;
+    }
+}
+
+.modern-table-container {
+    overflow-y: auto;
+    background-color: var(--color-surface);
+    overscroll-behavior: contain;
+    
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-border);
+        border-radius: $radius-full;
+    }
+}
+
+.modern-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    table-layout: fixed;
+    
+    th {
+        position: sticky;
+        top: 0;
+        background-color: var(--filter-bg);
+        z-index: 10;
+        border-bottom: none;
+        padding: 12px 0;
+        color: var(--color-text-muted);
+        font-size: 0.85rem;
+        font-weight: 500;
+        
+        &:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        
+        &:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+    }
+    
+    td {
+        padding: 16px 0;
+        border-bottom: 1px solid var(--filter-bg);
+        vertical-align: middle;
+    }
+    
+    .table-row {
+        cursor: default;
+        transition: background-color $transition-fast;
+        
+        &:hover {
+            background-color: var(--filter-bg);
+        }
+        
+        &.selected {
+            background-color: transparent;
+        }
+    }
+    
+    .checkbox-col {
+        width: 72px;
+    }
+    
+    .name-col {
+        width: 45%;
+    }
+    
+    .url-col {
+        width: 55%;
+    }
+}
+
+.custom-checkbox {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid var(--color-border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all $transition-fast;
+    
+    i, svg {
+        font-size: 10px;
+        color: transparent;
+        transition: all $transition-fast;
+    }
+    
+    &.checked {
+        border-color: var(--color-primary);
+        background-color: transparent;
+        i, svg {
+            color: var(--color-primary);
+        }
+    }
+}
+
+.repo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--color-bg-body);
+    border-radius: $radius-sm;
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.repo-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $radius-sm;
+}
+
+.repo-name-text {
+    font-size: 0.9rem;
+}
+
+.repo-url {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    align-self: flex-start;
+    max-width: 100%;
+    transition: color $transition-fast;
+
+    .ext-icon {
+        width: 0.85rem;
+        height: 0.85rem;
+        opacity: 0;
+        color: var(--color-text-muted);
+        transition: opacity $transition-fast;
+    }
+
+    &:hover {
+        color: var(--color-primary);
+        text-decoration: underline;
+
+        .ext-icon {
+            opacity: 1;
+            color: var(--color-primary);
+        }
+    }
+}
+
+.floating-action-bar-container {
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all $transition-normal;
+    
+    &.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.floating-action-bar {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    padding: 8px 12px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    pointer-events: auto;
+    width: max-content;
+}
+
+.bar-divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--color-border);
+    margin: 0 8px;
+}
+
+.bar-input {
+    border: none;
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 4px 8px;
+    font-size: 14px;
+    width: 90px;
+    
+    &::placeholder {
+        color: var(--color-text-muted);
+    }
+    
+    &:focus {
+        outline: none;
+    }
+}
+
+.bar-btn-add {
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 100px;
+    transition: $transition-fast;
+    
+    i {
+        color: var(--color-text-secondary);
+    }
+    
+    &:hover {
+        background-color: var(--filter-bg);
+    }
+}
+
+.bar-btn-close {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 12px;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    transition: $transition-fast;
+    margin-left: 8px;
+    
+    &:hover {
+        background-color: var(--filter-bg);
+        color: var(--color-text-primary);
+    }
+}
