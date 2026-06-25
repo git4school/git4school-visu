@@ -659,7 +659,7 @@
   }
 
   &.export-active {
-    max-width: 150px;
+    max-width: 250px;
     padding: 0 0.5rem 0 1rem !important;
     background-color: var(--color-primary-bg) !important;
     border-color: var(--color-primary-bg) !important;
@@ -667,7 +667,7 @@
     
     .text {
       opacity: 1;
-      max-width: 100px;
+      max-width: 200px;
       margin-right: 0.5rem;
     }
   }

@@ -135,12 +135,14 @@
       "DEFAULT": "Non programmé"
     },
     "NO-ASSIGNMENTS": "Aucun devoir trouvé",
+    "SELECTED-ASSIGNMENTS": "devoir(s) sélectionné(s)",
     "SORT-BY": "Trier par",
     "MUST-LOGIN": "Vous devez être connecté pour effectuer cette action",
     "CREATE-ASSIGNMENT": "Nouveau devoir",
     "FILTER": {
       "STATUS": "Statut",
       "COURSE": "Cours",
+    "ALL-COURSES": "Tous les cours",
       "ALL-COURSES": "Tous les cours",
       "PROGRAM": "Programme",
       "ALL-PROGRAMS": "Tous les programmes",
@@ -261,6 +263,8 @@
   "QUESTION": "Question",
   "QUESTIONS": "Questions",
   "EDIT-REPOSITORIES": {
+    "SELECTED-REPOSITORIES": "dépôt(s) sélectionné(s)",
+    "HEADER": "Configuration des dépôts",
     "PAGE-TITLE": "Editer les dépôts",
     "COLUMN-NAME": "Nom",
     "COLUMN-URL": "URL",
@@ -391,6 +395,7 @@
     "YYYY": "AAAA"
   },
   "EXPORT": "Exporter",
+  "EXPORT_SELECTION": "Exporter la sélection",
   "DURATION_OF_THE_SESSION": "Durée de la session",
   "DURATION_APPROXIMATE_HELP": "Le temps indiqué est approximatif, la durée de la session peut être plus ou moins longue.",
   "SORT_BY": "Trier par",

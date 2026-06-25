@@ -11,28 +11,7 @@
         'HOME.FILTER.GITLAB' | translate }}</button>
     </div>
 
-    <!-- Selection Actions -->
-    <div class="selection-actions" *ngIf="selectionMode">
-      <div class="d-flex align-items-center bg-white border rounded px-3 shadow-sm"
-        style="height: 36px; background: var(--color-surface) !important; border-color: var(--color-border) !important;">
-        <div class="custom-control custom-checkbox mr-3 d-flex align-items-center">
-          <input type="checkbox" class="custom-control-input" id="selectAll" [checked]="isAllSelected()"
-            (change)="toggleSelectAll()">
-          <label class="custom-control-label font-weight-bold mb-0" for="selectAll"
-            style="color: var(--color-text-primary); cursor: pointer; padding-top: 2px;">
-            {{ selectedAssignments.size }} sélectionné(s)
-          </label>
-        </div>
-        <div class="border-left pl-3 ml-1 d-flex align-items-center">
-          <button class="btn btn-sm btn-outline-danger mr-2" (click)="deleteSelected()">
-            <i class="fas fa-trash"></i> Supprimer
-          </button>
-          <button class="btn btn-sm btn-outline-secondary" (click)="cancelSelection()">
-            Annuler
-          </button>
-        </div>
-      </div>
-    </div>
+
   </div>
 
   <!-- Top bar -->
@@ -248,7 +227,7 @@
       </div>
       <button class="btn btn-outline-secondary action-btn export-btn" [class.export-active]="selectionMode"
         (click)="exportDB()" [appTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
-        <span class="text" style="font-weight: 500; position: relative; z-index: 2;">{{ 'EXPORT' | translate }}</span>
+        <span class="text" style="font-weight: 500; position: relative; z-index: 2;">{{ (selectionMode ? 'EXPORT_SELECTION' : 'EXPORT') | translate }}</span>
         <span class="icon" style="position: relative; z-index: 2;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
@@ -405,6 +384,34 @@
     <div *ngIf="filteredAssignments.length === 0" class="empty-state text-center py-5 text-muted">
       <i class="fas fa-folder-open fa-3x mb-3" style="opacity: 0.5;"></i>
       <h5>{{ 'HOME.NO-ASSIGNMENTS' | translate }}</h5>
+    </div>
+  </div>
+
+  <!-- Floating Action Bar for Selection Mode -->
+  <div class="floating-action-bar-container floating-fixed" [class.show]="selectionMode">
+    <div class="floating-action-bar">
+      <!-- Select All Checkbox -->
+      <div class="custom-control custom-checkbox d-flex align-items-center pl-2 pr-3" style="cursor: pointer;" (click)="toggleSelectAll()">
+        <input type="checkbox" class="custom-control-input" id="floatingSelectAll" [checked]="isAllSelected()" style="pointer-events: none;">
+        <label class="custom-control-label font-weight-bold mb-0" for="floatingSelectAll" style="color: var(--color-text-primary); pointer-events: none; padding-top: 2px;">
+          {{ selectedAssignments.size }} {{ 'HOME.SELECTED-ASSIGNMENTS' | translate }}
+        </label>
+      </div>
+
+      <div class="bar-divider"></div>
+
+      <!-- Delete Button -->
+      <button class="bar-btn-danger d-flex align-items-center" (click)="deleteSelected()">
+        <i class="fas fa-trash mr-2"></i>
+        <span class="font-weight-bold">{{ 'DELETE' | translate }}</span>
+      </button>
+
+      <div class="bar-divider"></div>
+
+      <!-- Close Button -->
+      <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="cancelSelection()">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
   </div>
 </div>

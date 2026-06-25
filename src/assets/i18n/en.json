@@ -136,6 +136,7 @@
       "DEFAULT": "Not scheduled"
     },
     "NO-ASSIGNMENTS": "No assignments found",
+    "SELECTED-ASSIGNMENTS": "assignment(s) selected",
     "SORT-BY": "Sort by",
     "MUST-LOGIN": "You must be logged in to perform this action",
     "CREATE-ASSIGNMENT": "New Assignment",
@@ -256,6 +257,8 @@
   "STUDENT": "Student",
   "QUESTION": "Question",
   "EDIT-REPOSITORIES": {
+    "SELECTED-REPOSITORIES": "repository(ies) selected",
+    "HEADER": "Repositories Configuration",
     "PAGE-TITLE": "Edit repositories",
     "COLUMN-NAME": "Name",
     "COLUMN-URL": "URL",
@@ -386,6 +389,7 @@
     "YYYY": "YYYY"
   },
   "EXPORT": "Export",
+  "EXPORT_SELECTION": "Export the selection",
   "DURATION_OF_THE_SESSION": "Duration of the session",
   "DURATION_APPROXIMATE_HELP": "The time indicated is approximate, the duration of the session may take more or less.",
   "SORT_BY": "Sort by",

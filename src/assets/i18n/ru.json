@@ -136,6 +136,7 @@
       "DEFAULT": "Не запланировано"
     },
     "NO-ASSIGNMENTS": "Задания не найдены",
+    "SELECTED-ASSIGNMENTS": "заданий выбрано",
     "SORT-BY": "Сортировать по",
     "MUST-LOGIN": "Для выполнения этого действия необходимо войти в систему",
     "CREATE-ASSIGNMENT": "Новое задание",
@@ -153,7 +154,7 @@
       "GITLAB": "GitLab"
     },
     "DURATION": {
-      "DAYS": "д",
+      "DAYS": "дн",
       "HOURS": "ч",
       "MINUTES": "м",
       "REMAINING": "Осталось:",
@@ -256,6 +257,8 @@
   "STUDENT": "Студент",
   "QUESTION": "Вопрос",
   "EDIT-REPOSITORIES": {
+    "SELECTED-REPOSITORIES": "репозиториев выбрано",
+    "HEADER": "Конфигурация репозиториев",
     "PAGE-TITLE": "Редактировать репозитории",
     "COLUMN-NAME": "Имя",
     "COLUMN-URL": "URL",
