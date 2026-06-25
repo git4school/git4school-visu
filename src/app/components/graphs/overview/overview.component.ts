@@ -421,7 +421,7 @@ export class OverviewComponent
     this.zoom = d3
       .zoom()
       .on("zoom", (event) => {
-        if (overview.drag) {
+        if (overview.drag || !overview.x_scale) {
           return;
         }
 
@@ -1410,8 +1410,8 @@ export class OverviewComponent
   }
 
   xScaledTimeZoned(d: Date) {
-    if (!d) {
-      return Number.MIN_VALUE;
+    if (!d || !this.x_scale_copy) {
+      return -1000;
     }
 
     return this.x_scale_copy(d) + this.getOffset(d);
@@ -1462,6 +1462,8 @@ export class OverviewComponent
       let x = overview.xScaledTimeZoned(m.date);
       g.classed("hidden", x < 0 || x > overview.width);
     });
+
+    if (!overview.repositories_g) return;
 
     overview.repositories_g.forEach((repo_g) =>
       this.refreshRepoBySplittingGroup(repo_g)

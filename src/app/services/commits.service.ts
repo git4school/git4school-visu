@@ -12,6 +12,7 @@ import {
   map,
   reduce,
   switchMap,
+  tap,
 } from "rxjs/operators";
 import { AuthService } from "./auth.service";
 import { Utils } from "./utils";
@@ -54,32 +55,253 @@ export class CommitsService {
     startDate?: string,
     endDate?: string
   ): Observable<any[]> {
-    const tab = [];
-    repoTab.forEach((repository) => {
-      tab.push(
-        this.getRepository(repository.url, startDate, endDate).pipe(
-          map(([identityData, commitsData]) => {
-            if (commitsData.errors) {
-              repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
-            } else {
-              repository.commits = commitsData.commits;
-            }
+    const t0 = performance.now();
 
-            if (!repository.name) {
-              repository.name =
-                identityData?.name || repository.getNameFromUrl();
-            }
-            if (!repository.tpGroup) {
-              repository.tpGroup =
-                identityData?.tpGroup || Utils.DEFAULT_TP_GROUP;
-            }
+    const CHUNK_SIZE = 4;
+    const chunks: Repository[][] = [];
+    for (let i = 0; i < repoTab.length; i += CHUNK_SIZE) {
+      chunks.push(repoTab.slice(i, i + CHUNK_SIZE));
+    }
 
-            return repository;
-          })
-        )
-      );
+    if (chunks.length === 0) {
+      return of([]);
+    }
+
+    const chunkObservables = chunks.map((chunk) =>
+      this.getBatchedRepositories(chunk, startDate, endDate)
+    );
+
+    return forkJoin(chunkObservables).pipe(
+      map((results) => results.reduce((acc, val) => acc.concat(val), [])),
+      tap(() => {
+        const t1 = performance.now();
+        console.log(`[Performance] getRepositories (GraphQL Batched) took ${Math.round(t1 - t0)} ms for ${repoTab.length} repos`);
+      })
+    );
+  }
+
+  private getBatchedRepositories(
+    repoTab: Repository[],
+    startDate?: string,
+    endDate?: string
+  ): Observable<any[]> {
+    const repoInfos = repoTab.map((repo, index) => {
+      const parts = repo.url.split('/');
+      return { alias: `repo${index}`, owner: parts[3], name: parts[4], repository: repo };
     });
-    return forkJoin(tab).pipe(defaultIfEmpty([]));
+
+    const hasSince = !!startDate;
+    const hasUntil = !!endDate;
+
+    let query = `query`;
+    const queryParams = [];
+    if (hasSince) queryParams.push(`$since: GitTimestamp!`);
+    if (hasUntil) queryParams.push(`$until: GitTimestamp!`);
+    if (queryParams.length > 0) {
+      query += `(` + queryParams.join(', ') + `)`;
+    }
+    query += ` {\n`;
+
+    repoInfos.forEach((info) => {
+      let historyArgs = `first: 100`;
+      if (hasSince) historyArgs += `, since: $since`;
+      if (hasUntil) historyArgs += `, until: $until`;
+
+      query += `
+        ${info.alias}: repository(owner: "${info.owner}", name: "${info.name}") {
+          defaultBranchRef {
+            target {
+              ... on Commit {
+                history(${historyArgs}) {
+                  pageInfo {
+                    hasNextPage
+                    endCursor
+                  }
+                  nodes {
+                    message
+                    author {
+                      name
+                    }
+                    committedDate
+                    url
+                  }
+                }
+              }
+            }
+          }
+          identity: object(expression: "HEAD:IDENTITY.json") {
+            ... on Blob { text }
+          }
+          readme: object(expression: "HEAD:README.md") {
+            ... on Blob { text }
+          }
+        }
+      `;
+    });
+    query += '}';
+
+    let sinceMoment = startDate ? moment(startDate).toDate().toISOString() : null;
+    let untilMoment = endDate ? moment(endDate).toDate().toISOString() : null;
+
+    const variables: any = {};
+    if (sinceMoment) variables.since = sinceMoment;
+    if (untilMoment) variables.until = untilMoment;
+
+    return this.http
+      .post<{ data?: any, errors?: any[] }>('https://api.github.com/graphql', { query, variables }, { headers: this.headers })
+      .pipe(
+        switchMap((response) => {
+          if (response.errors) {
+            console.error("GraphQL reported errors:", response.errors);
+          }
+
+          const results = [];
+          const reposWithNextPage = [];
+
+          repoInfos.forEach((info) => {
+            const repoData = response?.data?.[info.alias];
+            if (!repoData) {
+               info.repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
+               results.push(info.repository);
+               return;
+            }
+
+            const identityData = repoData.identity?.text;
+            const readmeData = repoData.readme?.text;
+            let name = "";
+            let tpGroup = "";
+
+            if (identityData) {
+              try {
+                const identityParsed = JSON.parse(identityData);
+                name = this.getNameFromIdentity(identityParsed);
+                tpGroup = identityParsed.group;
+              } catch (e) {}
+            } else if (readmeData) {
+              name = this.getNameFromReadMe(readmeData);
+              tpGroup = this.getTPGroupFromReadMe(readmeData);
+            }
+
+            const history = repoData.defaultBranchRef?.target?.history;
+            let commits = [];
+            let hasNextPage = false;
+            let endCursor = null;
+
+            if (history) {
+              commits = history.nodes.map((node) => Commit.withGraphQLJSON(node));
+              hasNextPage = history.pageInfo.hasNextPage;
+              endCursor = history.pageInfo.endCursor;
+            }
+
+            info.repository.commits = commits;
+            
+            if (!info.repository.name) {
+              info.repository.name = name || info.repository.getNameFromUrl();
+            }
+            if (!info.repository.tpGroup) {
+              info.repository.tpGroup = tpGroup || Utils.DEFAULT_TP_GROUP;
+            }
+
+            results.push(info.repository);
+
+            if (hasNextPage) {
+              reposWithNextPage.push({ repository: info.repository, owner: info.owner, name: info.name, cursor: endCursor });
+            }
+          });
+
+          if (reposWithNextPage.length > 0) {
+            return this.fetchRemainingCommits(reposWithNextPage, startDate, endDate).pipe(
+              map(() => results)
+            );
+          } else {
+            return of(results);
+          }
+        }),
+        catchError((error) => {
+          console.error("GraphQL batch error", error);
+          return of(repoTab);
+        })
+      );
+  }
+
+  private fetchRemainingCommits(
+    reposWithNextPage: { repository: Repository; owner: string; name: string; cursor: string }[],
+    startDate?: string,
+    endDate?: string
+  ): Observable<any> {
+    let query = 'query($since: GitTimestamp, $until: GitTimestamp) {\n';
+    
+    reposWithNextPage.forEach((info, index) => {
+      query += `
+        repo${index}: repository(owner: "${info.owner}", name: "${info.name}") {
+          defaultBranchRef {
+            target {
+              ... on Commit {
+                history(first: 100, after: "${info.cursor}", since: $since, until: $until) {
+                  pageInfo {
+                    hasNextPage
+                    endCursor
+                  }
+                  nodes {
+                    message
+                    author {
+                      name
+                    }
+                    committedDate
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      `;
+    });
+    query += '}';
+
+    let sinceMoment = startDate ? moment(startDate).toDate().toISOString() : null;
+    let untilMoment = endDate ? moment(endDate).toDate().toISOString() : null;
+
+    const variables: any = {};
+    if (sinceMoment) variables.since = sinceMoment;
+    if (untilMoment) variables.until = untilMoment;
+
+    return this.http
+      .post<{ data?: any, errors?: any[] }>('https://api.github.com/graphql', { query, variables }, { headers: this.headers })
+      .pipe(
+        switchMap((response) => {
+          if (response.errors) {
+            console.error("GraphQL fetchRemainingCommits errors:", response.errors);
+          }
+
+          const nextReposWithNextPage = [];
+
+          reposWithNextPage.forEach((info, index) => {
+            const history = response?.data?.[`repo${index}`]?.defaultBranchRef?.target?.history;
+            if (history) {
+              const moreCommits = history.nodes.map((node) => Commit.withGraphQLJSON(node));
+              info.repository.commits.push(...moreCommits);
+
+              if (history.pageInfo.hasNextPage) {
+                nextReposWithNextPage.push({
+                  ...info,
+                  cursor: history.pageInfo.endCursor,
+                });
+              }
+            }
+          });
+
+          if (nextReposWithNextPage.length > 0) {
+            return this.fetchRemainingCommits(nextReposWithNextPage, startDate, endDate);
+          } else {
+            return of(null);
+          }
+        }),
+        catchError((error) => {
+          console.error("fetchRemainingCommits batch error", error);
+          return of(null);
+        })
+      );
   }
 
   /**

@@ -109,6 +109,20 @@ export class Commit {
   }
 
   /**
+   * Initialize a Commit from the GraphQL JSON object
+   * @param json The GraphQL JSON node
+   * @returns A commit
+   */
+  static withGraphQLJSON(json): Commit {
+    return new Commit(
+      json.message,
+      json.author?.name || "Unknown",
+      json.committedDate ? new Date(json.committedDate) : new Date(),
+      json.url
+    );
+  }
+
+  /**
    * Updates the isEnSeance variable
    * @param startDate The date before which commits are not processed
    * @param endDate The date after which commits are not processed
