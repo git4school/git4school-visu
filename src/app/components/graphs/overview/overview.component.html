@@ -177,6 +177,34 @@
 
   <div class="chart-container-absolute"></div>
   <div class="chart-container"></div>
+
+  <!-- SKELETON LOADER OVERLAY -->
+  <div *ngIf="loading" class="chart-skeleton-overlay d-flex" style="position: absolute; top: var(--top-inner, 28px); left: 0; right: 0; bottom: 0; width: 100%; z-index: 50; background: var(--color-surface); padding-bottom: 20px; pointer-events: none;">
+      <!-- Y-Axis (Repository names) -->
+      <div class="d-flex flex-column" style="width: 15%; min-width: 120px; max-width: 200px; padding-top: 20px;">
+          <div *ngFor="let w of [50, 80, 60, 40, 90, 70, 55, 85, 45, 75, 65, 35, 85, 50, 70, 40, 90, 60, 80, 55, 75, 45, 85, 50, 65]" class="d-flex align-items-center justify-content-end pr-3" style="height: 30px;">
+              <div class="skeleton-box" [style.width.%]="w" style="height: 12px; border-radius: 4px;"></div>
+          </div>
+      </div>
+      <!-- Graph Area with horizontal lines -->
+      <div class="flex-grow-1 d-flex flex-column position-relative" style="padding-top: 20px; border-left: 1px solid var(--color-border); overflow: hidden;">
+          <!-- Vertical grid lines -->
+          <div class="position-absolute h-100 d-flex justify-content-between w-100" style="top: 0; left: 0; padding: 0 5%;">
+              <div *ngFor="let i of [1,2,3,4,5,6]" style="width: 1px; height: 100%; background-color: var(--color-border); opacity: 0.3;"></div>
+          </div>
+          <!-- Horizontal tracks and fake commits -->
+          <div *ngFor="let offsets of [[20, 45], [60], [15, 30, 80], [], [50, 75], [10], [40, 60, 90], [25], [5, 85], [35, 55], [20], [40, 70], [], [15, 60], [30, 50, 80], [10, 90], [45], [25, 75], [5, 40, 85], [], [35, 65], [15], [55, 90], [20, 60], [10, 40, 80]]" class="d-flex align-items-center w-100" style="position: relative; height: 30px;">
+              <div class="skeleton-box" style="height: 1px; width: 100%; opacity: 0.2;"></div>
+              <!-- Random dots to simulate commits -->
+              <div *ngFor="let offset of offsets" class="skeleton-box" style="position: absolute; width: 10px; height: 10px; border-radius: 50%;" [style.left.%]="offset"></div>
+          </div>
+
+          <!-- X-Axis (Dates) -->
+          <div class="position-absolute w-100 d-flex justify-content-between" style="bottom: -15px; left: 0; padding: 0 5%;">
+              <div *ngFor="let i of [1,2,3,4,5,6]" class="skeleton-box" style="height: 10px; width: 50px; border-radius: 4px;"></div>
+          </div>
+      </div>
+  </div>
   
   <div *ngIf="themeService.showLegend" class="legend-floating-container">
     <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" (mouseleave)="legendDropdown.close()">

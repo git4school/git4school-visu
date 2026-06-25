@@ -468,6 +468,8 @@ export class OverviewComponent
       .select(".chart-container")
       .append("svg")
       .attr("preserveAspectRatio", "none")
+      .attr("width", this.width)
+      .attr("height", this.scrollable_height)
       .attr("viewBox", `0 0 ${this.width} ${this.scrollable_height}`);
 
     d3.select(".chart-container-absolute").selectAll("svg").remove();
@@ -475,6 +477,8 @@ export class OverviewComponent
       .select(".chart-container-absolute")
       .append("svg")
       .attr("preserveAspectRatio", "none")
+      .attr("width", this.width)
+      .attr("height", this.height)
       .attr("viewBox", `0 0 ${this.width} ${this.height}`);
 
     const overview = this;
