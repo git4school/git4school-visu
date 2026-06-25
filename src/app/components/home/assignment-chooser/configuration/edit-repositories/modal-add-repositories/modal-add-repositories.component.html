@@ -1,7 +1,10 @@
 <div class="modal-header border-bottom-0 pb-3 pt-4 px-4 align-items-center">
-    <h4 class="modal-title font-weight-bold m-0" style="font-size: 1.25rem; color: var(--color-text-primary);" id="modal-basic-title">{{ 'MODAL-ADD-REPOSITORIES.TITLE' | translate }}</h4>
-    <button type="button" class="close-btn ml-auto d-flex align-items-center justify-content-center" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <i class="fas fa-times text-muted"></i>
+    <button class="btn-outline-ghost d-flex align-items-center" style="padding-left: 0;" (click)="activeModal.dismiss('Cross click')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span class="font-weight-bold" style="font-size: 1.1rem; color: var(--color-text-primary);">{{ 'MODAL-ADD-REPOSITORIES.BACK' | translate }}</span>
     </button>
 </div>
 <div class="modal-body pt-0 pb-4 px-0 d-flex flex-column position-relative" style="height: 500px;">
@@ -9,8 +12,11 @@
     <div class="px-4 mb-3 d-flex align-items-center">
         <!-- Search Bar mimicking the target "Customize/Filter" area style -->
         <div class="search-input-wrapper flex-grow-1" style="margin-right: 6px;">
-            <i class="fas fa-search search-icon"></i>
-            <input class="form-control modern-input" type="text"
+            <svg class="search-icon position-absolute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input class="form-control modern-search-input" type="text"
                 placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER' | translate }}" (keyup)="onSearch($event)"
                 ngbAutofocus />
         </div>

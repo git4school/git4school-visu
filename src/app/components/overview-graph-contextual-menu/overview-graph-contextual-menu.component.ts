@@ -10,7 +10,8 @@ import { EditMilestoneComponent } from "@components/edit-milestone/edit-mileston
 import { EditSessionComponent } from "@components/edit-session/edit-session.component";
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
-import { NgbDropdown, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
+import { NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
 import { Utils } from "@services/utils";
 
 @Component({
@@ -44,7 +45,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
   session: Session;
   date: Date;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private customModalService: CustomModalService) {}
 
   ngOnInit(): void {
     this.setEditModes(false, false);
@@ -113,7 +114,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
   }
 
   openMilestoneModal(milestone: Milestone) {
-    let modalReference = this.modalService.open(EditMilestoneComponent, {});
+    let modalReference = this.customModalService.open(EditMilestoneComponent, {});
     modalReference.componentInstance.milestone = milestone;
     modalReference.componentInstance.addMode = !this.editMilestoneMode;
     modalReference.componentInstance.tpGroups = this.tpGroups;
@@ -127,7 +128,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
   }
 
   openSessionModal(session: Session) {
-    let modalReference = this.modalService.open(EditSessionComponent, {});
+    let modalReference = this.customModalService.open(EditSessionComponent, {});
     modalReference.componentInstance.session = session;
     modalReference.componentInstance.defaultSessionDuration =
       this.defaultSessionDuration;

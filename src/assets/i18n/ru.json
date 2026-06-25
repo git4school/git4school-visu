@@ -302,10 +302,11 @@
   },
 "MODAL-ADD-REPOSITORIES": {
     "TITLE": "Добавить репозитории",
+    "BACK": "Вернуться к репозиториям",
     "BUTTON-ADD": "Добавить",
     "COLUMN-NAME": "Имя",
     "COLUMN-URL": "URL",
-    "PLACEHOLDER-FILTER": "Отфильтровать репозитории по URL",
+    "PLACEHOLDER-FILTER": "Поиск репозиториев",
     "PLACEHOLDER-TPGROUP": "Укажите группу TP для всех выбранных репозиториев",
     "SELECTED-REPOSITORIES": "репозиториев выбрано",
     "TP-GROUP": "Группа TP"

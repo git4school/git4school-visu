@@ -302,10 +302,11 @@
   },
   "MODAL-ADD-REPOSITORIES": {
     "TITLE": "Add repositories",
+    "BACK": "Back to repositories",
     "BUTTON-ADD": "Add",
     "COLUMN-NAME": "Name",
     "COLUMN-URL": "URL",
-    "PLACEHOLDER-FILTER": "Filter repositories by URL",
+    "PLACEHOLDER-FILTER": "Search repositories",
     "PLACEHOLDER-TPGROUP": "Write the TP group for all selected repositories",
     "SELECTED-REPOSITORIES": "repository(ies) selected",
     "TP-GROUP": "TP Group"

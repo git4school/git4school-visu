@@ -1,9 +1,8 @@
-<div class="modal-header">
-    <h5 class="modal-title">
-        {{ (this.addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') |
-        translate }}
-    </h5>
-    <button type="button" class="close-btn ml-auto" (click)="activeModalService.dismiss('Cross click')">
+<div class="modal-header border-bottom-0 pb-3 pt-4 px-4 align-items-center">
+    <h4 class="modal-title font-weight-bold m-0" style="font-size: 1.25rem; color: var(--color-text-primary);">
+        {{ (this.addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') | translate }}
+    </h4>
+    <button type="button" class="btn-icon-action text-secondary ml-auto" aria-label="Close" (click)="activeModalService.dismiss('Cross click')">
         <i class="fas fa-times"></i>
     </button>
 </div>

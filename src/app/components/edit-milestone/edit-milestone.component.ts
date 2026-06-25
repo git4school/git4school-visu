@@ -8,11 +8,11 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Milestone } from "@models/Milestone.model";
 import {
-  NgbActiveModal,
   NgbDateAdapter,
   NgbDateNativeAdapter,
   NgbTypeahead
 } from "@ng-bootstrap/ng-bootstrap";
+import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { Utils } from "@services/utils";
 import * as moment from "moment";
 import { Observable, Subject, merge } from "rxjs";
@@ -39,11 +39,15 @@ export class EditMilestoneComponent implements OnInit {
   click$ = new Subject<string>();
 
   constructor(
-    public activeModalService: NgbActiveModal,
+    public activeModalService: CustomModalRef,
     public fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.initForm();
+  }
+
+  private initForm() {
     this.milestoneForm = this.fb.group({
       date: [this.milestone.date, Validators.required],
       time: [Utils.getTimeFromDate(this.milestone.date), Validators.required],

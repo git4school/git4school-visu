@@ -308,10 +308,11 @@
   },
   "MODAL-ADD-REPOSITORIES": {
     "TITLE": "Ajouter des dépôts",
+    "BACK": "Retour aux dépôts",
     "BUTTON-ADD": "Ajouter",
     "COLUMN-NAME": "Nom",
     "COLUMN-URL": "URL",
-    "PLACEHOLDER-FILTER": "Filtrer les dépôts selon l'URL",
+    "PLACEHOLDER-FILTER": "Rechercher des dépôts",
     "PLACEHOLDER-TPGROUP": "Indiquez le groupe de TP pour tous les dépôts sélectionnés",
     "SELECTED-REPOSITORIES": "dépôt(s) sélectionné(s)",
     "TP-GROUP": "Groupe de TP"
