@@ -26,9 +26,9 @@ export class TooltipService {
       
       // Calculate position
       const rect = element.getBoundingClientRect();
-      this.setPosition(rect, placement);
-      
-      this.tooltipComponentRef.instance.reveal();
+      this.setPosition(rect, placement).then(() => {
+        this.tooltipComponentRef?.instance.reveal();
+      });
     }, this.SHOW_DELAY);
   }
 
@@ -51,8 +51,9 @@ export class TooltipService {
         height: 0
       } as DOMRect;
       
-      this.setPosition(rect, placement);
-      this.tooltipComponentRef.instance.reveal();
+      this.setPosition(rect, placement).then(() => {
+        this.tooltipComponentRef?.instance.reveal();
+      });
     };
 
     if (instant) {
@@ -109,51 +110,62 @@ export class TooltipService {
     return componentRef;
   }
 
-  private setPosition(rect: DOMRect, placement: 'top' | 'bottom' | 'left' | 'right') {
-    if (!this.tooltipComponentRef) return;
-    
-    const domElem = (this.tooltipComponentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-    
-    // We need to render it slightly offscreen to get its dimensions if not already known, 
-    // but the position is absolute, so we can just set it. 
-    // In Angular, sometimes we need to wait a tick for DOM update to get the size of the tooltip itself.
-    // We'll use a fast approach:
-    setTimeout(() => {
-      const tooltipRect = domElem.getBoundingClientRect();
-      let top = 0;
-      let left = 0;
-      const offset = 8; // distance from element
-
-      switch (placement) {
-        case 'top':
-          top = rect.top - tooltipRect.height - offset;
-          left = rect.left + (rect.width - tooltipRect.width) / 2;
-          break;
-        case 'bottom':
-          top = rect.bottom + offset;
-          left = rect.left + (rect.width - tooltipRect.width) / 2;
-          break;
-        case 'left':
-          top = rect.top + (rect.height - tooltipRect.height) / 2;
-          left = rect.left - tooltipRect.width - offset;
-          break;
-        case 'right':
-          top = rect.top + (rect.height - tooltipRect.height) / 2;
-          left = rect.right + offset;
-          break;
+  private setPosition(rect: DOMRect, placement: 'top' | 'bottom' | 'left' | 'right'): Promise<void> {
+    return new Promise(resolve => {
+      if (!this.tooltipComponentRef) {
+        resolve();
+        return;
       }
+      
+      const domElem = (this.tooltipComponentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+      
+      // We need to render it slightly offscreen to get its dimensions if not already known, 
+      // but the position is absolute, so we can just set it. 
+      // In Angular, sometimes we need to wait a tick for DOM update to get the size of the tooltip itself.
+      // We'll use a fast approach:
+      setTimeout(() => {
+        if (!this.tooltipComponentRef) {
+          resolve();
+          return;
+        }
 
-      // Add scroll offset
-      top += window.scrollY;
-      left += window.scrollX;
+        const tooltipRect = domElem.getBoundingClientRect();
+        let top = 0;
+        let left = 0;
+        const offset = 8; // distance from element
 
-      // Basic bounds checking
-      if (left < 0) left = 8;
-      if (top < 0) top = 8;
-      if (left + tooltipRect.width > window.innerWidth) left = window.innerWidth - tooltipRect.width - 8;
+        switch (placement) {
+          case 'top':
+            top = rect.top - tooltipRect.height - offset;
+            left = rect.left + (rect.width - tooltipRect.width) / 2;
+            break;
+          case 'bottom':
+            top = rect.bottom + offset;
+            left = rect.left + (rect.width - tooltipRect.width) / 2;
+            break;
+          case 'left':
+            top = rect.top + (rect.height - tooltipRect.height) / 2;
+            left = rect.left - tooltipRect.width - offset;
+            break;
+          case 'right':
+            top = rect.top + (rect.height - tooltipRect.height) / 2;
+            left = rect.right + offset;
+            break;
+        }
 
-      domElem.style.top = `${top}px`;
-      domElem.style.left = `${left}px`;
+        // Add scroll offset
+        top += window.scrollY;
+        left += window.scrollX;
+
+        // Basic bounds checking
+        if (left < 0) left = 8;
+        if (top < 0) top = 8;
+        if (left + tooltipRect.width > window.innerWidth) left = window.innerWidth - tooltipRect.width - 8;
+
+        domElem.style.top = `${top}px`;
+        domElem.style.left = `${left}px`;
+        resolve();
+      });
     });
   }
 }
