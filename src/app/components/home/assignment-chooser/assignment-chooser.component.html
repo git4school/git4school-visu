@@ -273,7 +273,7 @@
 
   <!-- Assignment List -->
   <div class="assignment-list" [class.selection-mode]="selectionMode">
-    <div class="assignment-card" *ngFor="let assignment of filteredAssignments" [ngClass]="{
+    <div class="assignment-card" *ngFor="let assignment of filteredAssignments" [id]="'assignment-card-' + assignment.id" [ngClass]="{
            'disabled-card': !authService.isSignedIn(), 
            'is-selected': isSelected(assignment.id),
            'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignmentId !== assignment.id

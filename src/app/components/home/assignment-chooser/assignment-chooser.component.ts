@@ -573,6 +573,14 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     }
 
     this.editingAssignmentId = assignment.id;
+
+    setTimeout(() => {
+      const el = document.getElementById('assignment-card-' + assignment.id);
+      if (el) {
+        el.style.setProperty('scroll-margin-top', '80px');
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 150);
   }
 
   cancelEdit() {

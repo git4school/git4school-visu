@@ -29,6 +29,7 @@ $spacing-map: (
   .pr-#{$name} { padding-right: $size !important; }
   .px-#{$name} { padding-left: $size !important; padding-right: $size !important; }
   .py-#{$name} { padding-top: $size !important; padding-bottom: $size !important; }
+  .pb-#{$name} { padding-bottom: $size !important; }
 }
 
 // Text Utilities
@@ -65,3 +66,12 @@ $spacing-map: (
 
 // Visibility
 .hidden { display: none !important; }
+
+// Positioning
+.sticky-top {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
