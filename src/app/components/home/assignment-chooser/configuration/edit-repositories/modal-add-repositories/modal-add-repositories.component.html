@@ -16,7 +16,7 @@
         </div>
     </div>
     
-    <div class="modern-table-container flex-grow-1 px-4" (scroll)="onScroll($event)">
+    <div #reposTable class="modern-table-container flex-grow-1 px-4">
         <table class="modern-table w-100" style="border-collapse: separate; border-spacing: 0;">
             <thead>
                 <tr>
@@ -38,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let row of rows" 
+                <tr *ngFor="let row of rows; trackBy: trackByUrl" 
                     [class.selected]="isSelected(row)" 
                     (click)="toggleSelection(row)"
                     class="table-row">
@@ -106,7 +106,6 @@
                 <span class="font-weight-bold" style="color: var(--color-primary);">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</span>
             </button>
             
-            <div class="bar-divider"></div>
             
             <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="clearSelection()">
                 <i class="fas fa-times"></i>

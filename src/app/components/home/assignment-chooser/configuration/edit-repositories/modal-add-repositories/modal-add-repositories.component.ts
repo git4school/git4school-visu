@@ -1,7 +1,9 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Input,
+  NgZone,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -23,6 +25,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   rows: Repository[];
   loading: boolean;
   selected: Repository[];
+  selectedUrls: Set<string> = new Set();
   tpGroup: string;
   private cursor: string;
   private done: boolean;
@@ -35,7 +38,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
 
   constructor(
     public modalService: NgbActiveModal,
-    private commitsService: CommitsService
+    private commitsService: CommitsService,
+    private ngZone: NgZone
   ) {}
 
   private updateResults(repositories: Repository[]) {
@@ -97,7 +101,9 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
     const endOfScrolling = target.scrollHeight - target.scrollTop <= target.clientHeight + 50;
 
     if (!this.loading && !this.done && endOfScrolling) {
-      this.loadResults();
+      this.ngZone.run(() => {
+        this.loadResults();
+      });
     }
   }
 
@@ -110,15 +116,17 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   }
 
   isSelected(repo: Repository): boolean {
-    return this.selected.some((r) => Repository.isEqual(r, repo));
+    return this.selectedUrls.has(repo.url);
   }
 
   toggleSelection(repo: Repository) {
     const index = this.selected.findIndex((r) => Repository.isEqual(r, repo));
     if (index > -1) {
       this.selected.splice(index, 1);
+      this.selectedUrls.delete(repo.url);
     } else {
       this.selected.push(repo);
+      this.selectedUrls.add(repo.url);
     }
   }
 
@@ -129,13 +137,16 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   toggleSelectAll() {
     if (this.isAllSelected()) {
       this.selected = [];
+      this.selectedUrls.clear();
     } else {
       this.selected = [...this.rows];
+      this.selectedUrls = new Set(this.rows.map(r => r.url));
     }
   }
 
   clearSelection() {
     this.selected = [];
+    this.selectedUrls.clear();
   }
 
   onSearch(event) {
@@ -176,6 +187,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
 
   private initAttributes() {
     this.selected = [];
+    this.selectedUrls = new Set();
     this.rows = [];
     this.loading = false;
     this.tpGroup = "";
@@ -197,7 +209,22 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
     this.loadResults();
   }
 
+  ngAfterViewInit() {
+    this.ngZone.runOutsideAngular(() => {
+      if (this.datatable && this.datatable.nativeElement) {
+        this.datatable.nativeElement.addEventListener('scroll', this.onScroll.bind(this));
+      }
+    });
+  }
+
+  trackByUrl(index: number, repo: Repository): string {
+    return repo.url;
+  }
+
   ngOnDestroy(): void {
     this.searchSubscription.unsubscribe();
+    if (this.datatable && this.datatable.nativeElement) {
+      this.datatable.nativeElement.removeEventListener('scroll', this.onScroll.bind(this));
+    }
   }
 }
