@@ -137,7 +137,7 @@
                         <button type="button" class="btn-icon-action text-secondary" (click)="cancelRow(group, getFormControls.indexOf(group))" [appTooltip]="'CANCEL' | translate" style="width: 36px; height: 36px;">
                             <i class="fas fa-times"></i>
                         </button>
-                        <button type="button" class="btn-icon-action text-primary" (click)="validateRow(group)" [appTooltip]="'VALIDATE' | translate" [disabled]="!group.valid" style="width: 36px; height: 36px;">
+                        <button [id]="'tour-validate-repo-' + i" type="button" class="btn-icon-action text-primary" (click)="validateRow(group)" [appTooltip]="'VALIDATE' | translate" [disabled]="!group.valid" style="width: 36px; height: 36px;">
                             <i class="fas fa-check"></i>
                         </button>
                     </div>
@@ -177,14 +177,14 @@
     </div>
 
     <div class="bottom-actions">
-        <button type="button" class="btn-action" (click)="addRow()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
+        <button id="tour-add-empty-repo-btn" type="button" class="btn-action" (click)="addRow()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
             <span class="fa-layers fa-fw mr-1">
                 <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>
                 <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>
             </span>
             {{ 'EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY' | translate }}
         </button>
-        <button *ngIf="authService.isSignedIn()" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate">
+        <button id="tour-add-search-repo-btn" *ngIf="authService.isSignedIn()" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate">
             <span class="fa-layers fa-fw mr-1">
                 <i class="fas fa-square" data-fa-mask="fas fa-database" data-fa-transform="grow-3 right-10"></i>
                 <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>

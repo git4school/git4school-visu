@@ -16,7 +16,7 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input class="form-control modern-search-input" type="text"
+            <input id="tour-modal-search-input" class="form-control modern-search-input" type="text"
                 placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER' | translate }}" (keyup)="onSearch($event)"
                 ngbAutofocus />
         </div>
@@ -111,12 +111,12 @@
             
             <div class="action-inputs d-flex align-items-center px-3">
                 <i class="fas fa-users mr-2" style="color: var(--color-text-muted);"></i>
-                <input type="text" class="bar-input" [(ngModel)]="tpGroup" [placeholder]="'MODAL-ADD-REPOSITORIES.TP-GROUP' | translate" [title]="'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP' | translate">
+                <input id="tour-modal-tp-group" type="text" class="bar-input" [(ngModel)]="tpGroup" [placeholder]="'MODAL-ADD-REPOSITORIES.TP-GROUP' | translate" [title]="'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP' | translate">
             </div>
             
             <div class="bar-divider"></div>
             
-            <button class="bar-btn-primary d-flex align-items-center" (click)="onClose()">
+            <button id="tour-modal-add-btn" class="bar-btn-primary d-flex align-items-center" (click)="onClose()">
                 <span class="font-weight-bold" style="color: var(--color-primary);">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</span>
             </button>
             

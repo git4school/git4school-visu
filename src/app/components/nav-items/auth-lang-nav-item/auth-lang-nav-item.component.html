@@ -12,6 +12,12 @@
         </select>
     </div>
     
+    <!-- Replay Tour -->
+    <div class="sidebar-item d-flex align-items-center" *ngIf="authService.isSignedIn()" (click)="replayTour()">
+        <i class="fas fa-play sidebar-item-icon text-primary"></i>
+        <span>{{ 'TOUR.REPLAY' | translate }}</span>
+    </div>
+
     <!-- Logout -->
     <div class="sidebar-item d-flex align-items-center text-danger" *ngIf="authService.isSignedIn()" (click)="onSignOut()">
         <i class="fas fa-sign-out-alt sidebar-item-icon text-danger"></i>

@@ -7,7 +7,7 @@
                 <button class="filter-btn" [class.active]="activeTab === 'metadata'" (click)="activeTab = 'metadata'">
                     <i class="fas fa-info-circle mr-2"></i> {{ 'CONFIGURATION.EDIT-METADATA' | translate }}
                 </button>
-                <button class="filter-btn" [class.active]="activeTab === 'repositories'"
+                <button id="tour-repositories-tab" class="filter-btn" [class.active]="activeTab === 'repositories'"
                     (click)="activeTab = 'repositories'">
                     <i class="fas fa-database mr-2"></i> {{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate }}
                 </button>
@@ -23,7 +23,7 @@
                 (click)="onCancel()">
                 {{ 'CANCEL' | translate }}
             </button>
-            <button class="btn btn-primary shadow-sm"
+            <button id="tour-save-btn" class="btn btn-primary shadow-sm"
                 style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;"
                 (click)="onSaveGlobal()" [disabled]="!canSave()">
                 <i class="fas fa-save mr-2"></i> {{ 'METADATA.SAVE' | translate }}

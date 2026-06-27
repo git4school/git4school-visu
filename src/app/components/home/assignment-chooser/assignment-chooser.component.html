@@ -212,7 +212,7 @@
 
     <div class="actions-group d-flex" style="gap: 0.5rem;">
       <div class="expandable-wrapper">
-        <button type="button" class="btn btn-primary action-btn square-btn expandable-btn shadow-sm"
+        <button id="tour-create-assignment-btn" type="button" class="btn btn-primary action-btn square-btn expandable-btn shadow-sm"
           (click)="createAssignment()" [disabled]="!authService.isSignedIn()"
           [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : '') | translate">
           <span class="text">{{ 'HOME.CREATE-ASSIGNMENT' | translate }}</span>
@@ -225,7 +225,7 @@
           </span>
         </button>
       </div>
-      <button class="btn btn-outline-secondary action-btn export-btn" [class.export-active]="selectionMode"
+      <button id="tour-export-btn" class="btn btn-outline-secondary action-btn export-btn" [class.export-active]="selectionMode"
         (click)="exportDB()" [appTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
         <span class="text" style="font-weight: 500; position: relative; z-index: 2;">{{ (selectionMode ? 'EXPORT_SELECTION' : 'EXPORT') | translate }}</span>
         <span class="icon" style="position: relative; z-index: 2;">
@@ -238,7 +238,7 @@
         </span>
       </button>
       <input #assignmentFile type="file" (change)="changeListener($event)" hidden>
-      <button class="btn btn-outline-secondary action-btn square-btn" (click)="assignmentFile.click();"
+      <button id="tour-import-btn" class="btn btn-outline-secondary action-btn square-btn" (click)="assignmentFile.click();"
         [appTooltip]="'IMPORT-ASSIGNMENTS-TOOLTIP' | translate">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round">
@@ -353,7 +353,7 @@
 
         <!-- Actions -->
         <div class="card-actions ml-4 d-flex" style="flex-shrink: 0;">
-          <button type="button" class="btn btn-icon-action btn-light text-primary"
+          <button [id]="'tour-access-btn-' + assignment.id" type="button" class="btn btn-icon-action btn-light text-primary"
             (click)="$event.stopPropagation(); selectAssignment(assignment)"
             [disabled]="!authService.isSignedIn() || assignment.id === -1"
             [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">

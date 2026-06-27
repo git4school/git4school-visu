@@ -36,7 +36,7 @@
     </div>
 
     <!-- Row 3: Questions -->
-    <div class="form-row mt-0 mb-3">
+    <div id="tour-questions" class="form-row mt-0 mb-3">
       <div class="col-md-12">
         <div class="form-group mb-0">
           <label for="questionsChooser"
@@ -50,7 +50,7 @@
     </div>
 
     <!-- Row 4: Dates, Duration -->
-    <div class="form-row mt-1">
+    <div id="tour-dates" class="form-row mt-1">
       <div class="col-12 d-flex flex-nowrap align-items-end" style="gap: 2rem;">
         <!-- Date Range Picker -->
         <div style="flex: 0 1 300px;">
@@ -61,11 +61,8 @@
           </app-date-range-picker>
         </div>
 
-        <!-- Duration -->
-        <div style="flex: 1; min-width: max-content;">
-          <label class="duration-label">
-            {{ 'DURATION_OF_THE_SESSION' | translate }}
-          </label>
+        <div class="duration-section d-flex flex-column justify-content-end" style="flex: 0 1 auto; margin-bottom: 2px;">
+          <label class="text-muted mb-1">{{ 'DEFAULT-SESSION-DURATION' | translate }}</label>
           <div class="form-group mb-0">
             <app-session-duration-picker id="defaultSessionDuration" formControlName="defaultSessionDuration">
             </app-session-duration-picker>
