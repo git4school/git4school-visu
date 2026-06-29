@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Toast, ToastService } from '@services/toast.service';
+import { Component, OnInit } from "@angular/core";
+import { Toast, ToastService } from "@services/toast.service";
 
 @Component({
-  selector: 'app-toasts',
-  templateUrl: './toasts.component.html',
-  styleUrls: ['./toasts.component.scss']
+  selector: "app-toasts",
+  templateUrl: "./toasts.component.html",
+  styleUrls: ["./toasts.component.scss"],
 })
 export class ToastsComponent implements OnInit {
   toasts: Toast[] = [];
@@ -12,7 +12,7 @@ export class ToastsComponent implements OnInit {
   constructor(private toastService: ToastService) {}
 
   ngOnInit(): void {
-    this.toastService.toasts$.subscribe(toasts => {
+    this.toastService.toasts$.subscribe((toasts) => {
       this.toasts = toasts;
     });
   }

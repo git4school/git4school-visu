@@ -1,27 +1,34 @@
-import { Component, forwardRef, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import {
+  Component,
+  forwardRef,
+  OnInit,
+  ElementRef,
+  ViewChild,
+} from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  selector: 'app-session-duration-picker',
-  templateUrl: './session-duration-picker.component.html',
-  styleUrls: ['./session-duration-picker.component.scss'],
+  selector: "app-session-duration-picker",
+  templateUrl: "./session-duration-picker.component.html",
+  styleUrls: ["./session-duration-picker.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SessionDurationPickerComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
-export class SessionDurationPickerComponent implements ControlValueAccessor, OnInit {
-  
-  @ViewChild('customInput') customInput: ElementRef<HTMLInputElement>;
-  
+export class SessionDurationPickerComponent
+  implements ControlValueAccessor, OnInit
+{
+  @ViewChild("customInput") customInput: ElementRef<HTMLInputElement>;
+
   // Internal state in minutes
-  currentMinutes: number = 90;
+  currentMinutes = 90;
   customMinutes: number | null = null; // Default custom value
-  
+
   // Standard preset options
   presets: number[] = [60, 90, 120];
 
@@ -44,7 +51,7 @@ export class SessionDurationPickerComponent implements ControlValueAccessor, OnI
     return {
       hour: Math.floor(minutes / 60),
       minute: minutes % 60,
-      second: 0
+      second: 0,
     };
   }
 
@@ -68,7 +75,7 @@ export class SessionDurationPickerComponent implements ControlValueAccessor, OnI
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-  
+
   setDisabledState(isDisabled: boolean): void {
     // Implement if needed
   }
@@ -78,13 +85,13 @@ export class SessionDurationPickerComponent implements ControlValueAccessor, OnI
     this.currentMinutes = minutes;
     this.emitChange();
   }
-  
+
   selectCustom(): void {
     if (this.customMinutes !== null) {
       this.currentMinutes = this.customMinutes;
       this.emitChange();
     }
-    
+
     // Focus the input when clicking the custom dial
     setTimeout(() => {
       if (this.customInput) {
@@ -108,9 +115,13 @@ export class SessionDurationPickerComponent implements ControlValueAccessor, OnI
     this.onChange(this.toTimeStruct(this.currentMinutes));
     this.onTouched();
   }
-  
+
   isCustomActive(): boolean {
     if (!this.currentMinutes || this.currentMinutes <= 0) return false;
-    return !this.presets.includes(this.currentMinutes) || (this.customMinutes !== null && this.currentMinutes === this.customMinutes);
+    return (
+      !this.presets.includes(this.currentMinutes) ||
+      (this.customMinutes !== null &&
+        this.currentMinutes === this.customMinutes)
+    );
   }
 }

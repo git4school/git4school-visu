@@ -3,7 +3,7 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from "@angular/core";
 
 @Component({
@@ -11,7 +11,7 @@ import {
   templateUrl: "./modal.component.html",
   // No style url needed since we use global SCSS
   // Using ViewEncapsulation.None would be an option, but we just rely on global classes
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ModalComponent {
   @Input() isOpen = false;

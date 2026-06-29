@@ -70,23 +70,27 @@ export class EditRepositoriesComponent
    */
   lastPropertySorted: string;
 
-  searchQuery: string = "";
+  searchQuery = "";
 
   get filteredFormControls() {
     if (!this.searchQuery) return this.getFormControls;
     const lowerQuery = this.searchQuery.toLowerCase();
-    return this.getFormControls.filter(group => {
-      const name = group.get('name')?.value?.toLowerCase() || '';
-      const url = group.get('url')?.value?.toLowerCase() || '';
-      const tpGroup = group.get('tpGroup')?.value?.toLowerCase() || '';
-      return name.includes(lowerQuery) || url.includes(lowerQuery) || tpGroup.includes(lowerQuery);
+    return this.getFormControls.filter((group) => {
+      const name = group.get("name")?.value?.toLowerCase() || "";
+      const url = group.get("url")?.value?.toLowerCase() || "";
+      const tpGroup = group.get("tpGroup")?.value?.toLowerCase() || "";
+      return (
+        name.includes(lowerQuery) ||
+        url.includes(lowerQuery) ||
+        tpGroup.includes(lowerQuery)
+      );
     });
   }
 
   get existingTpGroups(): string[] {
     const groups = this.getFormControls
-      .map(group => group.get('tpGroup')?.value)
-      .filter(val => val && val.trim() !== '');
+      .map((group) => group.get("tpGroup")?.value)
+      .filter((val) => val && val.trim() !== "");
     return Array.from(new Set(groups)).sort();
   }
 
@@ -108,13 +112,17 @@ export class EditRepositoriesComponent
   }
 
   isAllSelected(): boolean {
-    const visibleIds = this.filteredFormControls.map(group => this.getFormControls.indexOf(group));
+    const visibleIds = this.filteredFormControls.map((group) =>
+      this.getFormControls.indexOf(group)
+    );
     if (visibleIds.length === 0) return false;
     return visibleIds.every((id) => this.selectedRepositories.has(id));
   }
 
   toggleSelectAll() {
-    const visibleIds = this.filteredFormControls.map(group => this.getFormControls.indexOf(group));
+    const visibleIds = this.filteredFormControls.map((group) =>
+      this.getFormControls.indexOf(group)
+    );
     if (this.isAllSelected()) {
       visibleIds.forEach((id) => this.selectedRepositories.delete(id));
     } else {
@@ -130,12 +138,13 @@ export class EditRepositoriesComponent
 
   deleteSelected() {
     if (this.selectedRepositories.size === 0) return;
-    const indicesToDelete = Array.from(this.selectedRepositories).sort((a, b) => b - a);
-    
-    indicesToDelete.forEach(index => this.deleteRow(index));
+    const indicesToDelete = Array.from(this.selectedRepositories).sort(
+      (a, b) => b - a
+    );
+
+    indicesToDelete.forEach((index) => this.deleteRow(index));
     this.cancelSelection();
   }
-
 
   /**
    * EditRepositoriesComponent constructor
@@ -324,22 +333,31 @@ export class EditRepositoriesComponent
       urlControl: AbstractControl
     ): Observable<ValidationErrors | null> => {
       if (!urlControl.value || urlControl.value === initialUrl) {
-        return timer(10).pipe(map(() => null), take(1));
+        return timer(10).pipe(
+          map(() => null),
+          take(1)
+        );
       } else {
         return timer(1000).pipe(
           switchMap(() => this.authService.verifyUserAccess(urlControl.value)),
           map((res) => {
-            if (urlControl.parent && urlControl.parent.get('avatarUrl')) {
-              urlControl.parent.get('avatarUrl').setValue(res?.owner?.avatar_url || null, { emitEvent: false });
+            if (urlControl.parent && urlControl.parent.get("avatarUrl")) {
+              urlControl.parent
+                .get("avatarUrl")
+                .setValue(res?.owner?.avatar_url || null, { emitEvent: false });
             }
             return null;
           }),
           catchError((err) => {
-            if (urlControl.parent && urlControl.parent.get('avatarUrl')) {
-              urlControl.parent.get('avatarUrl').setValue(null, { emitEvent: false });
+            if (urlControl.parent && urlControl.parent.get("avatarUrl")) {
+              urlControl.parent
+                .get("avatarUrl")
+                .setValue(null, { emitEvent: false });
             }
             const title = this.translateService.instant("ERROR");
-            const msg = this.translateService.instant("ERROR-MESSAGE-NO-ACCESS");
+            const msg = this.translateService.instant(
+              "ERROR-MESSAGE-NO-ACCESS"
+            );
             this.toastService.error(title, msg);
             return of({ noAccess: true });
           }),

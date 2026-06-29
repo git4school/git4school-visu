@@ -16,6 +16,7 @@ import { StudentsCommitsComponent } from "@components/graphs/students-commits/st
 import { AssignmentChooserComponent } from "@components/home/assignment-chooser/assignment-chooser.component";
 import { ConfigurationComponent } from "@components/home/assignment-chooser/configuration/configuration.component";
 import { EditRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component";
+// eslint-disable-next-line max-len
 import { ModalAddRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component";
 import { MetadataComponent } from "@components/home/assignment-chooser/configuration/metadata/metadata.component";
 import { HomeComponent } from "@components/home/home.component";

@@ -55,10 +55,7 @@ export class AuthService {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then((result) => {
-          this.token = result.credential["accessToken"];
-          this.username = result.additionalUserInfo.username;
-        })
+        .then((result) => this.handleAuthResult(result))
         .finally(() => {
           this.loading = false;
         });
@@ -106,14 +103,16 @@ export class AuthService {
         provider.addScope("repo");
         user
           .reauthenticateWithPopup(provider)
-          .then((result) => {
-            this.token = result.credential["accessToken"];
-            this.username = result.additionalUserInfo.username;
-          })
+          .then((result) => this.handleAuthResult(result))
           .finally(() => {
             this.loading = false;
           });
       }
     });
+  }
+
+  private handleAuthResult(result: any) {
+    this.token = result.credential["accessToken"];
+    this.username = result.additionalUserInfo.username;
   }
 }

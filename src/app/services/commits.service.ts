@@ -75,7 +75,11 @@ export class CommitsService {
       map((results) => results.reduce((acc, val) => acc.concat(val), [])),
       tap(() => {
         const t1 = performance.now();
-        console.log(`[Performance] getRepositories (GraphQL Batched) took ${Math.round(t1 - t0)} ms for ${repoTab.length} repos`);
+        console.log(
+          `[Performance] getRepositories (GraphQL Batched) took ${Math.round(
+            t1 - t0
+          )} ms for ${repoTab.length} repos`
+        );
       })
     );
   }
@@ -86,49 +90,37 @@ export class CommitsService {
     endDate?: string
   ): Observable<any[]> {
     const repoInfos = repoTab.map((repo, index) => {
-      const parts = repo.url.split('/');
-      return { alias: `repo${index}`, owner: parts[3], name: parts[4], repository: repo };
+      const parts = repo.url.split("/");
+      return {
+        alias: `repo${index}`,
+        owner: parts[3],
+        name: parts[4],
+        repository: repo,
+      };
     });
 
     const hasSince = !!startDate;
     const hasUntil = !!endDate;
 
-    let query = `query`;
+    let query = "query";
     const queryParams = [];
-    if (hasSince) queryParams.push(`$since: GitTimestamp!`);
-    if (hasUntil) queryParams.push(`$until: GitTimestamp!`);
+    if (hasSince) queryParams.push("$since: GitTimestamp!");
+    if (hasUntil) queryParams.push("$until: GitTimestamp!");
     if (queryParams.length > 0) {
-      query += `(` + queryParams.join(', ') + `)`;
+      query += "(" + queryParams.join(", ") + ")";
     }
-    query += ` {\n`;
+    query += " {\n";
 
     repoInfos.forEach((info) => {
-      let historyArgs = `first: 100`;
-      if (hasSince) historyArgs += `, since: $since`;
-      if (hasUntil) historyArgs += `, until: $until`;
+      let historyArgs = "first: 100";
+      if (hasSince) historyArgs += ", since: $since";
+      if (hasUntil) historyArgs += ", until: $until";
 
       query += `
-        ${info.alias}: repository(owner: "${info.owner}", name: "${info.name}") {
-          defaultBranchRef {
-            target {
-              ... on Commit {
-                history(${historyArgs}) {
-                  pageInfo {
-                    hasNextPage
-                    endCursor
-                  }
-                  nodes {
-                    message
-                    author {
-                      name
-                    }
-                    committedDate
-                    url
-                  }
-                }
-              }
-            }
-          }
+        ${info.alias}: repository(owner: "${info.owner}", name: "${
+        info.name
+      }") {
+${this.getCommitHistoryQueryFragment(historyArgs)}
           identity: object(expression: "HEAD:IDENTITY.json") {
             ... on Blob { text }
           }
@@ -138,9 +130,11 @@ export class CommitsService {
         }
       `;
     });
-    query += '}';
+    query += "}";
 
-    let sinceMoment = startDate ? moment(startDate).toDate().toISOString() : null;
+    let sinceMoment = startDate
+      ? moment(startDate).toDate().toISOString()
+      : null;
     let untilMoment = endDate ? moment(endDate).toDate().toISOString() : null;
 
     const variables: any = {};
@@ -148,7 +142,11 @@ export class CommitsService {
     if (untilMoment) variables.until = untilMoment;
 
     return this.http
-      .post<{ data?: any, errors?: any[] }>('https://api.github.com/graphql', { query, variables }, { headers: this.headers })
+      .post<{ data?: any; errors?: any[] }>(
+        "https://api.github.com/graphql",
+        { query, variables },
+        { headers: this.headers }
+      )
       .pipe(
         switchMap((response) => {
           if (response.errors) {
@@ -161,9 +159,11 @@ export class CommitsService {
           repoInfos.forEach((info) => {
             const repoData = response?.data?.[info.alias];
             if (!repoData) {
-               info.repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
-               results.push(info.repository);
-               return;
+              info.repository.errors.push(
+                new Error(ErrorType.COMMITS_NOT_FOUND)
+              );
+              results.push(info.repository);
+              return;
             }
 
             const identityData = repoData.identity?.text;
@@ -188,13 +188,15 @@ export class CommitsService {
             let endCursor = null;
 
             if (history) {
-              commits = history.nodes.map((node) => Commit.withGraphQLJSON(node));
+              commits = history.nodes.map((node) =>
+                Commit.withGraphQLJSON(node)
+              );
               hasNextPage = history.pageInfo.hasNextPage;
               endCursor = history.pageInfo.endCursor;
             }
 
             info.repository.commits = commits;
-            
+
             if (!info.repository.name) {
               info.repository.name = name || info.repository.getNameFromUrl();
             }
@@ -205,14 +207,21 @@ export class CommitsService {
             results.push(info.repository);
 
             if (hasNextPage) {
-              reposWithNextPage.push({ repository: info.repository, owner: info.owner, name: info.name, cursor: endCursor });
+              reposWithNextPage.push({
+                repository: info.repository,
+                owner: info.owner,
+                name: info.name,
+                cursor: endCursor,
+              });
             }
           });
 
           if (reposWithNextPage.length > 0) {
-            return this.fetchRemainingCommits(reposWithNextPage, startDate, endDate).pipe(
-              map(() => results)
-            );
+            return this.fetchRemainingCommits(
+              reposWithNextPage,
+              startDate,
+              endDate
+            ).pipe(map(() => results));
           } else {
             return of(results);
           }
@@ -225,41 +234,31 @@ export class CommitsService {
   }
 
   private fetchRemainingCommits(
-    reposWithNextPage: { repository: Repository; owner: string; name: string; cursor: string }[],
+    reposWithNextPage: {
+      repository: Repository;
+      owner: string;
+      name: string;
+      cursor: string;
+    }[],
     startDate?: string,
     endDate?: string
   ): Observable<any> {
-    let query = 'query($since: GitTimestamp, $until: GitTimestamp) {\n';
-    
+    let query = "query($since: GitTimestamp, $until: GitTimestamp) {\n";
+
     reposWithNextPage.forEach((info, index) => {
       query += `
         repo${index}: repository(owner: "${info.owner}", name: "${info.name}") {
-          defaultBranchRef {
-            target {
-              ... on Commit {
-                history(first: 100, after: "${info.cursor}", since: $since, until: $until) {
-                  pageInfo {
-                    hasNextPage
-                    endCursor
-                  }
-                  nodes {
-                    message
-                    author {
-                      name
-                    }
-                    committedDate
-                    url
-                  }
-                }
-              }
-            }
-          }
+${this.getCommitHistoryQueryFragment(
+  `first: 100, after: "${info.cursor}", since: $since, until: $until`
+)}
         }
       `;
     });
-    query += '}';
+    query += "}";
 
-    let sinceMoment = startDate ? moment(startDate).toDate().toISOString() : null;
+    let sinceMoment = startDate
+      ? moment(startDate).toDate().toISOString()
+      : null;
     let untilMoment = endDate ? moment(endDate).toDate().toISOString() : null;
 
     const variables: any = {};
@@ -267,19 +266,30 @@ export class CommitsService {
     if (untilMoment) variables.until = untilMoment;
 
     return this.http
-      .post<{ data?: any, errors?: any[] }>('https://api.github.com/graphql', { query, variables }, { headers: this.headers })
+      .post<{ data?: any; errors?: any[] }>(
+        "https://api.github.com/graphql",
+        { query, variables },
+        { headers: this.headers }
+      )
       .pipe(
         switchMap((response) => {
           if (response.errors) {
-            console.error("GraphQL fetchRemainingCommits errors:", response.errors);
+            console.error(
+              "GraphQL fetchRemainingCommits errors:",
+              response.errors
+            );
           }
 
           const nextReposWithNextPage = [];
 
           reposWithNextPage.forEach((info, index) => {
-            const history = response?.data?.[`repo${index}`]?.defaultBranchRef?.target?.history;
+            const history =
+              response?.data?.[`repo${index}`]?.defaultBranchRef?.target
+                ?.history;
             if (history) {
-              const moreCommits = history.nodes.map((node) => Commit.withGraphQLJSON(node));
+              const moreCommits = history.nodes.map((node) =>
+                Commit.withGraphQLJSON(node)
+              );
               info.repository.commits.push(...moreCommits);
 
               if (history.pageInfo.hasNextPage) {
@@ -292,7 +302,11 @@ export class CommitsService {
           });
 
           if (nextReposWithNextPage.length > 0) {
-            return this.fetchRemainingCommits(nextReposWithNextPage, startDate, endDate);
+            return this.fetchRemainingCommits(
+              nextReposWithNextPage,
+              startDate,
+              endDate
+            );
           } else {
             return of(null);
           }
@@ -303,8 +317,6 @@ export class CommitsService {
         })
       );
   }
-
-
 
   /**
    * Inits a map for "questions-completion" graph
@@ -578,7 +590,8 @@ export class CommitsService {
 
   /**
    * Compares the level of progress between two questions
-   * @returns A number representing the difference in progress between two questions. If the number is positive, q1 is more advanced, otherwise, q2 is more advanced
+   * @returns A number representing the difference in progress between two questions.
+   * If the number is positive, q1 is more advanced, otherwise, q2 is more advanced
    */
   compareQuestions(q1, q2, questions): number {
     return questions.indexOf(q1) - questions.indexOf(q2);
@@ -604,11 +617,21 @@ export class CommitsService {
   getRepositoriesByAuthenticatedUser(
     cursor?: string,
     pageLimit = 100
-  ): Observable<{ completed: boolean; repositories: Repository[]; cursor?: string }> {
+  ): Observable<{
+    completed: boolean;
+    repositories: Repository[];
+    cursor?: string;
+  }> {
     const query = `
       query($cursor: String, $pageLimit: Int!) {
         viewer {
-          repositories(first: $pageLimit, after: $cursor, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], orderBy: {field: CREATED_AT, direction: DESC}) {
+          repositories(
+            first: $pageLimit
+            after: $cursor
+            affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
+            ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
+            orderBy: { field: CREATED_AT, direction: DESC }
+          ) {
             pageInfo {
               endCursor
               hasNextPage
@@ -623,7 +646,11 @@ export class CommitsService {
     `;
     const variables = { cursor, pageLimit };
     return this.http
-      .post<{ data: any }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
+      .post<{ data: any }>(
+        "https://api.github.com/graphql",
+        { query, variables },
+        { headers: this.headers }
+      )
       .pipe(
         map((response) => {
           const repositoriesData = response.data.viewer.repositories;
@@ -651,7 +678,11 @@ export class CommitsService {
     searchFilter: string,
     cursor?: string,
     pageLimit = 100
-  ): Observable<{ completed: boolean; repositories: Repository[]; cursor?: string }> {
+  ): Observable<{
+    completed: boolean;
+    repositories: Repository[];
+    cursor?: string;
+  }> {
     const query = `
       query($queryString: String!, $cursor: String, $pageLimit: Int!) {
         search(query: $queryString, type: REPOSITORY, first: $pageLimit, after: $cursor) {
@@ -668,11 +699,19 @@ export class CommitsService {
         }
       }
     `;
-    // We append fork:true because GitHub search excludes forks by default, 
+    // We append fork:true because GitHub search excludes forks by default,
     // which hides many student assignment repositories.
-    const variables = { queryString: searchFilter + " fork:true", cursor, pageLimit };
+    const variables = {
+      queryString: searchFilter + " fork:true",
+      cursor,
+      pageLimit,
+    };
     return this.http
-      .post<{ data: any }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
+      .post<{ data: any }>(
+        "https://api.github.com/graphql",
+        { query, variables },
+        { headers: this.headers }
+      )
       .pipe(
         map((response) => {
           const searchData = response.data.search;
@@ -717,5 +756,27 @@ export class CommitsService {
     return value ? value[0].trim() : null;
   }
 
-
+  private getCommitHistoryQueryFragment(historyArgs: string): string {
+    return `
+          defaultBranchRef {
+            target {
+              ... on Commit {
+                history(${historyArgs}) {
+                  pageInfo {
+                    hasNextPage
+                    endCursor
+                  }
+                  nodes {
+                    message
+                    author {
+                      name
+                    }
+                    committedDate
+                    url
+                  }
+                }
+              }
+            }
+          }`;
+  }
 }

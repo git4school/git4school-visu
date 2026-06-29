@@ -114,7 +114,10 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
   }
 
   openMilestoneModal(milestone: Milestone) {
-    let modalReference = this.customModalService.open(EditMilestoneComponent, {});
+    let modalReference = this.customModalService.open(
+      EditMilestoneComponent,
+      {}
+    );
     modalReference.componentInstance.milestone = milestone;
     modalReference.componentInstance.addMode = !this.editMilestoneMode;
     modalReference.componentInstance.tpGroups = this.tpGroups;

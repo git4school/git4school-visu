@@ -61,7 +61,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
 
   constructor(
     private elementRef: ElementRef,
-    private translateService: TranslateService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -108,7 +108,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
         const viewportHeight = window.innerHeight;
         const spaceBelow = viewportHeight - rect.bottom;
         const spaceAbove = rect.top;
-        
+
         // Popup is approx 380px tall. Drop up if space below is insufficient AND space above is larger.
         this.dropUp = spaceBelow < 380 && spaceAbove > spaceBelow;
       });
@@ -240,11 +240,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     this.closePopup();
   }
 
-  onInputType(
-    event: Event,
-    isStart: boolean,
-    field: "day" | "month" | "year",
-  ) {
+  onInputType(event: Event, isStart: boolean, field: "day" | "month" | "year") {
     const input = event.target as HTMLInputElement;
     let value = input.value.replace(/\D/g, ""); // Keep only digits
 
@@ -276,7 +272,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
   onKeyDown(
     event: KeyboardEvent,
     isStart: boolean,
-    field: "day" | "month" | "year",
+    field: "day" | "month" | "year"
   ) {
     const input = event.target as HTMLInputElement;
     if (event.key === "Backspace" && input.value === "") {
@@ -297,7 +293,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     const startOfWeek = moment().startOf("week");
     for (let i = 0; i < 7; i++) {
       this.weekDays.push(
-        startOfWeek.clone().add(i, "days").format("ddd").toUpperCase(),
+        startOfWeek.clone().add(i, "days").format("ddd").toUpperCase()
       );
     }
 

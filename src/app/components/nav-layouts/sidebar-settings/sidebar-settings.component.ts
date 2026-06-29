@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
@@ -27,6 +27,7 @@ import { AuthService } from "@services/auth.service";
 })
 export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isOpen = false;
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onClose = new EventEmitter<void>();
 
   isHovered = false;

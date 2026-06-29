@@ -4,12 +4,15 @@ import {
   forwardRef,
   Input,
   OnInit,
-  ViewChild
+  ViewChild,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable, Subject, merge } from "rxjs";
 import { filter, map } from "rxjs/operators";
-import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbTypeahead,
+  NgbTypeaheadSelectItemEvent,
+} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-text-input",
@@ -19,9 +22,9 @@ import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-boot
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TextInputComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TextInputComponent implements ControlValueAccessor, OnInit {
   @Input() label = "";
@@ -61,10 +64,12 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
     const inputFocus$ = this.focus$;
 
     return merge(text$, clicksWithClosedPopup$, inputFocus$).pipe(
-      map(term => {
+      map((term) => {
         if (!this.suggestions || this.suggestions.length === 0) return [];
-        const q = (term || '').toLowerCase();
-        return this.suggestions.filter(s => s.toLowerCase().includes(q)).slice(0, 10);
+        const q = (term || "").toLowerCase();
+        return this.suggestions
+          .filter((s) => s.toLowerCase().includes(q))
+          .slice(0, 10);
       })
     );
   };
@@ -73,7 +78,6 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
     this.value = event.item;
     this.onChange(this.value);
   }
-
 
   writeValue(value: any): void {
     if (value !== undefined) {
@@ -120,13 +124,14 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
     if (this.instance && this.instance.isPopupOpen()) {
       return; // Let NgbTypeahead handle it
     }
-    
+
     event.preventDefault();
 
     // Find all focusable inputs and textareas in the DOM
     const focusableElements = Array.from(
       document.querySelectorAll(
-        "input:not([disabled]):not([type=\"hidden\"]):not([type=\"checkbox\"]):not([type=\"radio\"]), textarea:not([disabled])"
+        // eslint-disable-next-line @typescript-eslint/quotes
+        'input:not([disabled]):not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), textarea:not([disabled])'
       )
     ) as HTMLElement[];
 

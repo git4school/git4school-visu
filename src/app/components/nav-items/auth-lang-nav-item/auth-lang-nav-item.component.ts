@@ -10,12 +10,13 @@ import { TourService } from "@services/tour.service";
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthLangNavItemComponent implements OnInit {
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onClose = new EventEmitter<void>();
 
   langNames: { [key: string]: string } = {
     en: "English",
     fr: "Français",
-    ru: "Русский"
+    ru: "Русский",
   };
 
   constructor(
@@ -52,7 +53,7 @@ export class AuthLangNavItemComponent implements OnInit {
     this.onClose.emit();
     // Use timeout to let the sidebar close animation finish
     setTimeout(() => {
-        this.tourService.startTour();
+      this.tourService.startTour();
     }, 300);
   }
 }

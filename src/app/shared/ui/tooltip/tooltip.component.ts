@@ -1,19 +1,26 @@
-import { Component, HostListener, Input, OnInit, ChangeDetectorRef, TemplateRef } from '@angular/core';
-import { OsUtils } from '../../../utils/os.utils';
+import {
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  ChangeDetectorRef,
+  TemplateRef,
+} from "@angular/core";
+import { OsUtils } from "../../../utils/os.utils";
 
 @Component({
-  selector: 'app-tooltip',
-  templateUrl: './tooltip.component.html',
-  styleUrls: ['./tooltip.component.scss']
+  selector: "app-tooltip",
+  templateUrl: "./tooltip.component.html",
+  styleUrls: ["./tooltip.component.scss"],
 })
 export class TooltipComponent implements OnInit {
-  @Input() content: string | TemplateRef<any> = '';
-  @Input() placement: 'top' | 'bottom' | 'left' | 'right' = 'top';
+  @Input() content: string | TemplateRef<any> = "";
+  @Input() placement: "top" | "bottom" | "left" | "right" = "top";
   @Input() shortcutKeys?: string[];
-  
+
   show = false;
   shortcutPressed = false;
-  formattedShortcut: string = '';
+  formattedShortcut = "";
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -24,7 +31,7 @@ export class TooltipComponent implements OnInit {
   }
 
   isString(val: any): boolean {
-    return typeof val === 'string';
+    return typeof val === "string";
   }
 
   contentAsTemplate(): TemplateRef<any> {
@@ -39,7 +46,7 @@ export class TooltipComponent implements OnInit {
 
   // We listen to keydown globally. If the tooltip is shown, and it has a shortcut,
   // we check if the pressed keys match.
-  @HostListener('document:keydown', ['$event'])
+  @HostListener("document:keydown", ["$event"])
   handleKeyDown(event: KeyboardEvent) {
     if (!this.show || !this.shortcutKeys || this.shortcutKeys.length === 0) {
       return;
@@ -49,24 +56,24 @@ export class TooltipComponent implements OnInit {
     const isCmdOrCtrl = isMac ? event.metaKey : event.ctrlKey;
     const isAlt = event.altKey;
     const isShift = event.shiftKey;
-    
+
     // Simple matching logic
     // Usually shortcuts are like ['mod', 'K'] or ['shift', 'alt', 'T']
     let match = true;
-    
+
     for (const key of this.shortcutKeys) {
       const lower = key.toLowerCase();
-      if (lower === 'mod' || lower === 'ctrl' || lower === 'cmd') {
+      if (lower === "mod" || lower === "ctrl" || lower === "cmd") {
         if (!isCmdOrCtrl) match = false;
-      } else if (lower === 'alt' || lower === 'opt') {
+      } else if (lower === "alt" || lower === "opt") {
         if (!isAlt) match = false;
-      } else if (lower === 'shift') {
+      } else if (lower === "shift") {
         if (!isShift) match = false;
       } else {
         // Character key
         let expectedKey = lower;
-        if (expectedKey === 'space') expectedKey = ' ';
-        
+        if (expectedKey === "space") expectedKey = " ";
+
         if (event.key.toLowerCase() !== expectedKey) {
           match = false;
         }
@@ -74,7 +81,9 @@ export class TooltipComponent implements OnInit {
     }
 
     // Also check if any modifier was pressed but not in the list
-    const hasModInList = this.shortcutKeys.some(k => ['mod', 'ctrl', 'cmd'].includes(k.toLowerCase()));
+    const hasModInList = this.shortcutKeys.some((k) =>
+      ["mod", "ctrl", "cmd"].includes(k.toLowerCase())
+    );
     if (isCmdOrCtrl && !hasModInList) match = false;
 
     if (match) {

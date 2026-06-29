@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener, OnDestroy } from "@angular/core";
 import { CommitColor } from "@models/Commit.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
@@ -27,7 +27,7 @@ declare var $: any;
 })
 export class StudentsCommitsComponent
   extends BaseGraphComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   readonly slider_step = Utils.SLIDER_STEP;
 
@@ -351,19 +351,23 @@ export class StudentsCommitsComponent
 
   pressedShortcut: string = null;
 
-  @HostListener('document:keydown', ['$event'])
+  @HostListener("document:keydown", ["$event"])
   handleGlobalShortcuts(event: KeyboardEvent) {
     const target = event.target as HTMLElement;
-    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+    if (
+      target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.isContentEditable
+    ) {
       return;
     }
 
     const key = event.key.toLowerCase();
-    
-    if (key === 'r') {
+
+    if (key === "r") {
       event.preventDefault();
       this.loadGraph(this.dataService.startDate, this.dataService.endDate);
-      this.triggerShortcut('r');
+      this.triggerShortcut("r");
     }
   }
 

@@ -3,14 +3,14 @@ import {
   CanDeactivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  UrlTree
+  UrlTree,
 } from "@angular/router";
 import { Observable } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
 import { map, catchError } from "rxjs/operators";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class DataSavedGuard implements CanDeactivate<unknown> {
   constructor(private translateService: TranslateService) {}

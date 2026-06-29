@@ -5,19 +5,23 @@ import {
   ElementRef,
   Type,
   ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+  ViewContainerRef,
+} from "@angular/core";
 
 @Component({
-  selector: 'app-custom-modal-container',
-  templateUrl: './custom-modal-container.component.html',
-  styleUrls: ['./custom-modal-container.component.scss']
+  selector: "app-custom-modal-container",
+  templateUrl: "./custom-modal-container.component.html",
+  styleUrls: ["./custom-modal-container.component.scss"],
 })
 export class CustomModalContainerComponent {
-  @ViewChild('modalContent', { read: ViewContainerRef, static: true }) modalContent: ViewContainerRef;
+  @ViewChild("modalContent", { read: ViewContainerRef, static: true })
+  modalContent: ViewContainerRef;
 
-  public animationState: 'void' | 'enter' | 'leave' = 'void';
-  public options: { size?: 'sm' | 'md' | 'lg' | 'xl'; beforeDismiss?: () => boolean | Promise<boolean> } = {};
+  public animationState: "void" | "enter" | "leave" = "void";
+  public options: {
+    size?: "sm" | "md" | "lg" | "xl";
+    beforeDismiss?: () => boolean | Promise<boolean>;
+  } = {};
 
   private componentRef: ComponentRef<any>;
   private dismissCallback: (reason?: any) => void;
@@ -28,12 +32,13 @@ export class CustomModalContainerComponent {
   ) {
     // Trigger enter animation on next frame to ensure CSS transition works
     setTimeout(() => {
-      this.animationState = 'enter';
+      this.animationState = "enter";
     }, 10);
   }
 
   public loadComponent<T>(componentType: Type<T>): T {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
+    const componentFactory =
+      this.componentFactoryResolver.resolveComponentFactory(componentType);
     this.modalContent.clear();
     this.componentRef = this.modalContent.createComponent(componentFactory);
     return this.componentRef.instance;
@@ -45,7 +50,7 @@ export class CustomModalContainerComponent {
 
   public onBackdropClick() {
     if (this.dismissCallback) {
-      this.dismissCallback('backdrop click');
+      this.dismissCallback("backdrop click");
     }
   }
 
@@ -55,7 +60,7 @@ export class CustomModalContainerComponent {
 
   public destroyModal(): Promise<void> {
     return new Promise((resolve) => {
-      this.animationState = 'leave';
+      this.animationState = "leave";
       // Wait for animation to finish
       setTimeout(() => {
         resolve();

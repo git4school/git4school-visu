@@ -1,5 +1,35 @@
+/* eslint-disable max-len */
 import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import * as moment from "moment";
+
+const eventSchema = {
+  type: "array",
+  uniqueItems: true,
+  items: {
+    properties: {
+      date: {
+        type: "string",
+        pattern:
+          // eslint-disable-next-line max-len
+          "([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)",
+      },
+      label: {
+        type: "string",
+      },
+      tpGroup: {
+        type: "string",
+      },
+      questions: {
+        type: "array",
+        uniqueItems: true,
+        items: {
+          type: "string",
+        },
+      },
+    },
+    required: ["date"],
+  },
+};
 
 export class Utils {
   static readonly DEFAULT_SESSION_DURATION = {
@@ -9,6 +39,7 @@ export class Utils {
   };
   static readonly DEFAULT_TP_GROUP = "1";
   static readonly DATE_FORMAT =
+    // eslint-disable-next-line max-len
     "([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)";
 
   static readonly SLIDER_STEP = 86400000;
@@ -141,84 +172,9 @@ export class Utils {
           required: ["startDate", "endDate"],
         },
       },
-      reviews: {
-        type: "array",
-        uniqueItems: true,
-        items: {
-          properties: {
-            date: {
-              type: "string",
-              pattern: Utils.DATE_FORMAT,
-            },
-            label: {
-              type: "string",
-            },
-            tpGroup: {
-              type: "string",
-            },
-            questions: {
-              type: "array",
-              uniqueItems: true,
-              items: {
-                type: "string",
-              },
-            },
-          },
-          required: ["date"],
-        },
-      },
-      corrections: {
-        type: "array",
-        uniqueItems: true,
-        items: {
-          properties: {
-            date: {
-              type: "string",
-              pattern: Utils.DATE_FORMAT,
-            },
-            label: {
-              type: "string",
-            },
-            tpGroup: {
-              type: "string",
-            },
-            questions: {
-              type: "array",
-              uniqueItems: true,
-              items: {
-                type: "string",
-              },
-            },
-          },
-          required: ["date"],
-        },
-      },
-      others: {
-        type: "array",
-        uniqueItems: true,
-        items: {
-          properties: {
-            date: {
-              type: "string",
-              pattern: Utils.DATE_FORMAT,
-            },
-            label: {
-              type: "string",
-            },
-            tpGroup: {
-              type: "string",
-            },
-            questions: {
-              type: "array",
-              uniqueItems: true,
-              items: {
-                type: "string",
-              },
-            },
-          },
-          required: ["date"],
-        },
-      },
+      reviews: eventSchema,
+      corrections: eventSchema,
+      others: eventSchema,
     },
     required: ["title", "questions", "repositories"],
   };

@@ -1,21 +1,37 @@
-import { Directive, ElementRef, HostListener, Input, OnDestroy, TemplateRef } from '@angular/core';
-import { TooltipService } from '../../../services/tooltip.service';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  TemplateRef,
+} from "@angular/core";
+import { TooltipService } from "../../../services/tooltip.service";
 
 @Directive({
-  selector: '[appTooltip]'
+  selector: "[appTooltip]",
 })
 export class TooltipDirective implements OnDestroy {
-  @Input('appTooltip') content: string | TemplateRef<any> | { text: string | TemplateRef<any>, shortcut?: string[] } = '';
-  @Input() placement: 'top' | 'bottom' | 'left' | 'right' = 'top';
+  @Input("appTooltip") content:
+    | string
+    | TemplateRef<any>
+    | { text: string | TemplateRef<any>; shortcut?: string[] } = "";
+  @Input() placement: "top" | "bottom" | "left" | "right" = "top";
 
-  constructor(private elementRef: ElementRef, private tooltipService: TooltipService) {}
+  constructor(
+    private elementRef: ElementRef,
+    private tooltipService: TooltipService
+  ) {}
 
-  @HostListener('mouseenter')
+  @HostListener("mouseenter")
   onMouseEnter() {
-    let text: string | TemplateRef<any> = '';
+    let text: string | TemplateRef<any> = "";
     let shortcut: string[] | undefined;
 
-    if (typeof this.content === 'string' || this.content instanceof TemplateRef) {
+    if (
+      typeof this.content === "string" ||
+      this.content instanceof TemplateRef
+    ) {
       text = this.content;
     } else if (this.content) {
       text = this.content.text;
@@ -23,16 +39,21 @@ export class TooltipDirective implements OnDestroy {
     }
 
     if (text) {
-      this.tooltipService.show(text, this.elementRef.nativeElement, this.placement, shortcut);
+      this.tooltipService.show(
+        text,
+        this.elementRef.nativeElement,
+        this.placement,
+        shortcut
+      );
     }
   }
 
-  @HostListener('mouseleave')
+  @HostListener("mouseleave")
   onMouseLeave() {
     this.tooltipService.hide();
   }
 
-  @HostListener('window:blur')
+  @HostListener("window:blur")
   onWindowBlur() {
     this.tooltipService.hide();
   }

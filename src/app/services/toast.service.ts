@@ -40,10 +40,10 @@ export class ToastService {
   private addToast(type: ToastType, title: string, message?: string) {
     const id = this.idCounter++;
     const toast: Toast = { id, type, title, message };
-    
+
     // Auto-close after 4 seconds (as requested)
     toast.timeoutId = setTimeout(() => this.remove(id), 4000);
-    
+
     const currentToasts = this.toastsSubject.value;
     // Max opened toasts limit (keep it to 3 like before, or just add and let CSS handle max)
     // We'll limit to 3. If more than 3, remove the oldest one.
@@ -51,13 +51,13 @@ export class ToastService {
       const oldest = currentToasts[0];
       this.remove(oldest.id);
     }
-    
+
     this.toastsSubject.next([...this.toastsSubject.value, toast]);
   }
 
   remove(id: number) {
     const currentToasts = this.toastsSubject.value;
-    const toast = currentToasts.find(t => t.id === id);
+    const toast = currentToasts.find((t) => t.id === id);
     if (toast && toast.timeoutId) {
       clearTimeout(toast.timeoutId);
     }

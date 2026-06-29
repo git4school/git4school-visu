@@ -4,7 +4,7 @@ import {
   TemplateRef,
   ViewChild,
   ChangeDetectorRef,
-  OnDestroy
+  OnDestroy,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
@@ -39,11 +39,11 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       prepared: true,
       ongoing: true,
       finished: true,
-      default: true
+      default: true,
     },
     course: "",
     program: "",
-    year: ""
+    year: "",
   };
 
   availableCourses: string[] = [];
@@ -145,7 +145,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       status: { prepared: true, ongoing: true, finished: true, default: true },
       course: "",
       program: "",
-      year: ""
+      year: "",
     };
     this.searchQuery = "";
     this.savePreferences();
@@ -197,7 +197,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       JSON.stringify({
         sortField: this.sortField,
         sortDirection: this.sortDirection,
-        advancedFilters: this.advancedFilters
+        advancedFilters: this.advancedFilters,
       })
     );
   }
@@ -392,7 +392,10 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       if (this.sortField === "daysRemaining") {
         const getPriority = (assignment: any) => {
           if (!assignment.startDate || !assignment.endDate) return 3; // unprogrammed
-          if (this.getProgress(assignment.startDate, assignment.endDate) === 100) return 2; // finished
+          if (
+            this.getProgress(assignment.startDate, assignment.endDate) === 100
+          )
+            return 2; // finished
           return 1; // active
         };
 
@@ -575,10 +578,10 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     this.editingAssignmentId = assignment.id;
 
     setTimeout(() => {
-      const el = document.getElementById('assignment-card-' + assignment.id);
+      const el = document.getElementById("assignment-card-" + assignment.id);
       if (el) {
-        el.style.setProperty('scroll-margin-top', '80px');
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        el.style.setProperty("scroll-margin-top", "80px");
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }, 150);
   }

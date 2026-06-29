@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
   selector: "app-datepicker",
-  templateUrl: "./datepicker.component.html"
+  templateUrl: "./datepicker.component.html",
 })
 export class DatepickerComponent {
   @Input() value = "";

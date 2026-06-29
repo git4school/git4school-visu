@@ -19,7 +19,9 @@ import { debounceTime, map } from "rxjs/operators";
   templateUrl: "./modal-add-repositories.component.html",
   styleUrls: ["./modal-add-repositories.component.scss"],
 })
-export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
+export class ModalAddRepositoriesComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @ViewChild("reposTable", { read: ElementRef }) datatable: ElementRef;
   @Input() repoList: Repository[];
   rows: Repository[];
@@ -33,8 +35,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   private searchFilterChanged: Subject<string>;
   private searchFilter;
 
-  sortBy: string = '';
-  sortDesc: boolean = false;
+  sortBy = "";
+  sortDesc = false;
 
   constructor(
     public activeModal: CustomModalRef,
@@ -98,7 +100,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
 
   onScroll(event: Event) {
     const target = event.target as HTMLElement;
-    const endOfScrolling = target.scrollHeight - target.scrollTop <= target.clientHeight + 50;
+    const endOfScrolling =
+      target.scrollHeight - target.scrollTop <= target.clientHeight + 50;
 
     if (!this.loading && !this.done && endOfScrolling) {
       this.ngZone.run(() => {
@@ -140,7 +143,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
       this.selectedUrls.clear();
     } else {
       this.selected = [...this.rows];
-      this.selectedUrls = new Set(this.rows.map(r => r.url));
+      this.selectedUrls = new Set(this.rows.map((r) => r.url));
     }
   }
 
@@ -167,8 +170,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   applySort() {
     if (!this.sortBy) return;
     this.rows.sort((a, b) => {
-      let valA = a[this.sortBy] ? a[this.sortBy].toLowerCase() : '';
-      let valB = b[this.sortBy] ? b[this.sortBy].toLowerCase() : '';
+      let valA = a[this.sortBy] ? a[this.sortBy].toLowerCase() : "";
+      let valB = b[this.sortBy] ? b[this.sortBy].toLowerCase() : "";
       if (valA < valB) return this.sortDesc ? 1 : -1;
       if (valA > valB) return this.sortDesc ? -1 : 1;
       return 0;
@@ -176,8 +179,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   }
 
   getAvatarUrl(repo: Repository): string | null {
-    if (repo.url && repo.url.includes('github.com')) {
-      const parts = repo.url.split('/');
+    if (repo.url && repo.url.includes("github.com")) {
+      const parts = repo.url.split("/");
       if (parts.length >= 4) {
         return `https://github.com/${parts[3]}.png?size=40`;
       }
@@ -212,7 +215,10 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
       if (this.datatable && this.datatable.nativeElement) {
-        this.datatable.nativeElement.addEventListener('scroll', this.onScroll.bind(this));
+        this.datatable.nativeElement.addEventListener(
+          "scroll",
+          this.onScroll.bind(this)
+        );
       }
     });
   }
@@ -224,7 +230,10 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.searchSubscription.unsubscribe();
     if (this.datatable && this.datatable.nativeElement) {
-      this.datatable.nativeElement.removeEventListener('scroll', this.onScroll.bind(this));
+      this.datatable.nativeElement.removeEventListener(
+        "scroll",
+        this.onScroll.bind(this)
+      );
     }
   }
 }

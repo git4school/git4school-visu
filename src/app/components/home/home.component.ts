@@ -18,25 +18,25 @@ export class HomeComponent implements OnInit {
    * @param authService The service managing authentication
    */
   constructor(
-      public authService: AuthService,
-      private tourService: TourService
+    public authService: AuthService,
+    private tourService: TourService
   ) {}
 
   version = environment.version;
 
   ngOnInit() {
-      // Small timeout to ensure DOM is ready
-      setTimeout(() => {
-          if (this.authService.isSignedIn() && this.tourService.shouldShowTour()) {
-              this.tourService.startTour();
-          }
-      }, 500);
+    // Small timeout to ensure DOM is ready
+    setTimeout(() => {
+      if (this.authService.isSignedIn() && this.tourService.shouldShowTour()) {
+        this.tourService.startTour();
+      }
+    }, 500);
   }
 
   async onSignInGithub() {
     await this.authService.signIn();
     if (this.authService.isSignedIn() && this.tourService.shouldShowTour()) {
-        setTimeout(() => this.tourService.startTour(), 500);
+      setTimeout(() => this.tourService.startTour(), 500);
     }
   }
 

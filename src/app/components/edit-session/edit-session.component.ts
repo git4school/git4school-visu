@@ -3,7 +3,7 @@ import {
   Component,
   Input,
   OnInit,
-  ViewChild
+  ViewChild,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -16,7 +16,7 @@ import { Session } from "@models/Session.model";
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
-  NgbTypeahead
+  NgbTypeahead,
 } from "@ng-bootstrap/ng-bootstrap";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { Utils } from "@services/utils";
@@ -39,7 +39,7 @@ export class EditSessionComponent implements OnInit {
   @Input() notes: string;
   sessionForm: FormGroup;
 
-  @ViewChild('instance') instance: NgbTypeahead;
+  @ViewChild("instance") instance: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
 

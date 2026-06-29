@@ -41,7 +41,8 @@ import { FilterGroup } from "@components/questions-chooser/questions-chooser.com
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   static formatDay = d3.utcFormat("%d/%m/%Y");
   static formatHour = d3.utcFormat("%H:%M");
   static GROUP_HEIGHT = 12;
@@ -50,60 +51,6 @@ export class OverviewComponent
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
   @ViewChild("questionsChooser") questionsChooser;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
-
-  pressedShortcut: string = null;
-
-  @HostListener('document:keydown', ['$event'])
-  handleGlobalShortcuts(event: KeyboardEvent) {
-    const target = event.target as HTMLElement;
-    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
-      return;
-    }
-
-    const key = event.key.toLowerCase();
-    
-    if (key === 'escape') {
-      event.preventDefault();
-      this.clearQuestionsFilter();
-      this.triggerShortcut('escape');
-    } else if (key === 'r') {
-      event.preventDefault();
-      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
-      this.triggerShortcut('r');
-    } else if (key === 'c' && this.hovered_commit != null && this.hovered_group_commit == null) {
-      event.preventDefault();
-      this.copyCommitHash(this.hovered_commit.url);
-      this.triggerShortcut('c');
-    } else if (key === '+' || key === '=' || event.code === 'NumpadAdd') {
-      event.preventDefault();
-      this.zoomGraph(1.2);
-    } else if (key === '-' || event.code === 'NumpadSubtract') {
-      event.preventDefault();
-      this.zoomGraph(0.8);
-    }
-  }
-
-  private triggerShortcut(key: string) {
-    this.pressedShortcut = key;
-    setTimeout(() => {
-      if (this.pressedShortcut === key) this.pressedShortcut = null;
-    }, 150);
-  }
-
-  private zoomGraph(factor: number) {
-    if (!this.data_g || !this.zoom) return;
-    this.data_g.transition().duration(200).call(this.zoom.scaleBy, factor);
-  }
-
-  private copyCommitHash(url: string) {
-    if (!url) return;
-    const hash = url.split('/').pop();
-    if (hash) {
-      navigator.clipboard.writeText(hash).then(() => {
-        this.toastService.copy(this.translateService.instant('TOAST.HASH_COPIED'));
-      }).catch(err => console.error('Could not copy text: ', err));
-    }
-  }
 
   minZoom: number;
 
@@ -190,7 +137,7 @@ export class OverviewComponent
     sessions: { isHovered: false, wasClicked: false },
     corrections: { isHovered: false, wasClicked: false },
     reviews: { isHovered: false, wasClicked: false },
-    others: { isHovered: false, wasClicked: false }
+    others: { isHovered: false, wasClicked: false },
   };
 
   onMarkerMouseEnter(marker: string) {
@@ -233,6 +180,73 @@ export class OverviewComponent
         this.updateLang();
       }
     );
+  }
+
+  pressedShortcut: string = null;
+
+  @HostListener("document:keydown", ["$event"])
+  handleGlobalShortcuts(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (
+      target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.isContentEditable
+    ) {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+
+    if (key === "escape") {
+      event.preventDefault();
+      this.clearQuestionsFilter();
+      this.triggerShortcut("escape");
+    } else if (key === "r") {
+      event.preventDefault();
+      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      this.triggerShortcut("r");
+    } else if (
+      key === "c" &&
+      this.hovered_commit != null &&
+      this.hovered_group_commit == null
+    ) {
+      event.preventDefault();
+      this.copyCommitHash(this.hovered_commit.url);
+      this.triggerShortcut("c");
+    } else if (key === "+" || key === "=" || event.code === "NumpadAdd") {
+      event.preventDefault();
+      this.zoomGraph(1.2);
+    } else if (key === "-" || event.code === "NumpadSubtract") {
+      event.preventDefault();
+      this.zoomGraph(0.8);
+    }
+  }
+
+  private triggerShortcut(key: string) {
+    this.pressedShortcut = key;
+    setTimeout(() => {
+      if (this.pressedShortcut === key) this.pressedShortcut = null;
+    }, 150);
+  }
+
+  private zoomGraph(factor: number) {
+    if (!this.data_g || !this.zoom) return;
+    this.data_g.transition().duration(200).call(this.zoom.scaleBy, factor);
+  }
+
+  private copyCommitHash(url: string) {
+    if (!url) return;
+    const hash = url.split("/").pop();
+    if (hash) {
+      navigator.clipboard
+        .writeText(hash)
+        .then(() => {
+          this.toastService.copy(
+            this.translateService.instant("TOAST.HASH_COPIED")
+          );
+        })
+        .catch((err) => console.error("Could not copy text: ", err));
+    }
   }
 
   ngOnDestroy(): void {
@@ -400,9 +414,16 @@ export class OverviewComponent
 
     if (this.hovered_commit || this.hovered_group_commit) {
       if (!this.tooltipService.isShowing()) {
-        this.tooltipService.showAtPosition(this.d3TooltipTemplate, x, y, 'right', undefined, true);
+        this.tooltipService.showAtPosition(
+          this.d3TooltipTemplate,
+          x,
+          y,
+          "right",
+          undefined,
+          true
+        );
       } else {
-        this.tooltipService.moveTooltip(x, y, 'right');
+        this.tooltipService.moveTooltip(x, y, "right");
       }
     } else {
       this.tooltipService.hide();
@@ -417,7 +438,8 @@ export class OverviewComponent
 
   setupZoom() {
     const overview = this;
-    d3.select(document.body).on("wheel.body", (e) => { }); // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
+    // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
+    d3.select(document.body).on("wheel.body", (e) => {});
     this.zoom = d3
       .zoom()
       .on("zoom", (event) => {
@@ -604,7 +626,7 @@ export class OverviewComponent
     if (!this.isContextualMenuShown()) {
       try {
         this.contextualMenu.openNew(x, y, date);
-      } catch (error) { }
+      } catch (error) {}
     } else {
       this.contextualMenu.close();
     }
@@ -743,7 +765,7 @@ export class OverviewComponent
       .attr(
         "width",
         this.xScaledTimeZoned(session.endDate) -
-        this.xScaledTimeZoned(session.startDate)
+          this.xScaledTimeZoned(session.startDate)
       )
       .on("click", (e) =>
         overview.openEditSessionContextMenu(
@@ -992,8 +1014,9 @@ export class OverviewComponent
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
         1.5 * OverviewComponent.CIRCLE_RADIUS
-      )} a ${OverviewComponent.CIRCLE_RADIUS} ${OverviewComponent.CIRCLE_RADIUS
-        } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
+      )} a ${OverviewComponent.CIRCLE_RADIUS} ${
+        OverviewComponent.CIRCLE_RADIUS
+      } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
     } else {
       return `M 0 0 h ${Math.max(
         end_x - begin_x,
@@ -1096,7 +1119,7 @@ export class OverviewComponent
         spacing = Math.min(
           Math.abs(
             all_commits[j + 1].commitDate.getTime() -
-            commit.commitDate.getTime()
+              commit.commitDate.getTime()
           ),
           spacing
         );
@@ -1104,7 +1127,7 @@ export class OverviewComponent
         spacing = Math.min(
           Math.abs(
             all_commits[j - 1].commitDate.getTime() -
-            commit.commitDate.getTime()
+              commit.commitDate.getTime()
           ),
           spacing
         );
@@ -1179,8 +1202,8 @@ export class OverviewComponent
     return (
       !commit_before.isCloture &&
       this.xScaledTimeZoned(commit_after.commitDate) -
-      this.xScaledTimeZoned(commit_before.commitDate) <
-      Utils.COMMIT_FUSE_RANGE
+        this.xScaledTimeZoned(commit_before.commitDate) <
+        Utils.COMMIT_FUSE_RANGE
     );
   }
 
@@ -1512,7 +1535,8 @@ export class OverviewComponent
       .attr(
         "transform",
         (m: Milestone) =>
-          `translate(${overview.xScaledTimeZoned(m.date)}, ${this.inner_margin.top
+          `translate(${overview.xScaledTimeZoned(m.date)}, ${
+            this.inner_margin.top
           })`
       );
   }
@@ -1528,7 +1552,7 @@ export class OverviewComponent
       .call(
         this.zoom.transform,
         (conserve ? this.current_zoom : undefined) ||
-        d3.zoomIdentity.translate(0, 0).scale(1)
+          d3.zoomIdentity.translate(0, 0).scale(1)
       );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);

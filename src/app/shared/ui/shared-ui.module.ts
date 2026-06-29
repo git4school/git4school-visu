@@ -24,7 +24,7 @@ import { CustomModalContainerComponent } from "./custom-modal/custom-modal-conta
     ToastsComponent,
     TooltipComponent,
     TooltipDirective,
-    CustomModalContainerComponent
+    CustomModalContainerComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -36,8 +36,8 @@ import { CustomModalContainerComponent } from "./custom-modal/custom-modal-conta
     ToastsComponent,
     TooltipComponent,
     TooltipDirective,
-    CustomModalContainerComponent
+    CustomModalContainerComponent,
   ],
-  entryComponents: [CustomModalContainerComponent]
+  entryComponents: [CustomModalContainerComponent],
 })
 export class SharedUiModule {}

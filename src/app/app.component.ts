@@ -32,8 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     public translateService: TranslateService,
     private themeService: ThemeService
-  ) {
-  }
+  ) {}
 
   /**
    * This method is called once the component is loaded.

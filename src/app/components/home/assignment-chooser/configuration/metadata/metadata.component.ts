@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Metadata } from "@models/Metadata.model";
 import { NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
@@ -23,7 +30,7 @@ export class MetadataComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   @Input() metadata: Metadata;
-  @ViewChild('titleInput') titleInput: TextInputComponent;
+  @ViewChild("titleInput") titleInput: TextInputComponent;
   metadataForm: FormGroup;
 
   /**
@@ -102,7 +109,11 @@ export class MetadataComponent
       endDate: [this.metadata.endDate ? new Date(this.metadata.endDate) : null],
       questions: [this.metadata.questions],
       defaultSessionDuration: [
-        this.metadata.defaultSessionDuration || { hour: 1, minute: 30, second: 0 }
+        this.metadata.defaultSessionDuration || {
+          hour: 1,
+          minute: 30,
+          second: 0,
+        },
       ],
     });
   }

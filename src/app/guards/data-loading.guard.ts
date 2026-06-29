@@ -3,7 +3,7 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
-  CanDeactivate
+  CanDeactivate,
 } from "@angular/router";
 import { Observable } from "rxjs";
 
@@ -13,7 +13,7 @@ import { OverviewComponent } from "@components/graphs/overview/overview.componen
  * This guard ensures that loading is finished
  */
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class DataLoadingGuard implements CanDeactivate<OverviewComponent> {
   /**

@@ -9,7 +9,7 @@ import {
   ViewChildren,
   QueryList,
   ElementRef,
-  HostListener
+  HostListener,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
@@ -59,22 +59,26 @@ export class QuestionsChooserComponent
 
   pressedShortcut: string = null;
 
-  @HostListener('document:keydown', ['$event'])
+  @HostListener("document:keydown", ["$event"])
   handleGlobalKeyDown(event: KeyboardEvent) {
-    if (event.key.toLowerCase() === 'f') {
+    if (event.key.toLowerCase() === "f") {
       const target = event.target as HTMLElement;
-      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable
+      ) {
         return;
       }
       event.preventDefault();
-      
-      this.pressedShortcut = 'f';
+
+      this.pressedShortcut = "f";
       if (this.inputField && this.inputField.nativeElement) {
         this.inputField.nativeElement.focus();
       }
 
       setTimeout(() => {
-        if (this.pressedShortcut === 'f') this.pressedShortcut = null;
+        if (this.pressedShortcut === "f") this.pressedShortcut = null;
       }, 150);
     }
   }
@@ -166,33 +170,14 @@ export class QuestionsChooserComponent
         event.preventDefault();
         return;
       } else if (event.key === "ArrowLeft") {
-        this.selectedPillIndex = Math.max(0, this.selectedPillIndex - 1);
-        this.scrollToSelectedPill();
-        this.focusSelectedPill();
+        this.navigateLeft();
         event.preventDefault();
       } else if (event.key === "ArrowRight") {
-        if (this.selectedPillIndex === this.items.length - 1) {
-          this.selectedPillIndex = null;
-          this.inputField.nativeElement.focus();
-        } else {
-          this.selectedPillIndex++;
-          this.scrollToSelectedPill();
-          this.focusSelectedPill();
-        }
+        this.navigateRight();
         event.preventDefault();
       } else if (event.key === "Delete" || event.key === "Backspace") {
         this.deleteItem(this.selectedPillIndex);
-        if (this.items.length === 0) {
-          this.selectedPillIndex = null;
-          this.inputField.nativeElement.focus();
-        } else {
-          this.selectedPillIndex = Math.min(
-            this.selectedPillIndex,
-            this.items.length - 1
-          );
-          this.scrollToSelectedPill();
-          this.focusSelectedPill();
-        }
+        this.focusAfterDelete();
         event.preventDefault();
       } else if (
         event.key.length === 1 &&
@@ -296,7 +281,7 @@ export class QuestionsChooserComponent
         type: "question",
         value: isExclusion ? q.substring(1) : q,
         isExclusion,
-        rawValue: q
+        rawValue: q,
       });
     });
     this.commitMessages.forEach((c) => {
@@ -305,7 +290,7 @@ export class QuestionsChooserComponent
         type: "commit",
         value: isExclusion ? c.substring(1) : c,
         isExclusion,
-        rawValue: c
+        rawValue: c,
       });
     });
   }
@@ -461,16 +446,7 @@ export class QuestionsChooserComponent
     }
 
     if (this.selectedPillIndex !== null) {
-      if (this.items.length === 0) {
-        this.selectedPillIndex = null;
-        this.inputField.nativeElement.focus();
-      } else {
-        this.selectedPillIndex = Math.min(
-          this.selectedPillIndex,
-          this.items.length - 1
-        );
-        this.focusSelectedPill();
-      }
+      this.focusAfterDelete();
     }
     event.stopPropagation();
   }
@@ -498,20 +474,11 @@ export class QuestionsChooserComponent
       });
     } else if (event.key === "ArrowLeft") {
       this.finishEditing();
-      this.selectedPillIndex = Math.max(0, this.selectedPillIndex - 1);
-      this.scrollToSelectedPill();
-      this.focusSelectedPill();
+      this.navigateLeft();
       event.preventDefault();
     } else if (event.key === "ArrowRight") {
       this.finishEditing();
-      if (this.selectedPillIndex === this.items.length - 1) {
-        this.selectedPillIndex = null;
-        this.inputField.nativeElement.focus();
-      } else {
-        this.selectedPillIndex++;
-        this.scrollToSelectedPill();
-        this.focusSelectedPill();
-      }
+      this.navigateRight();
       event.preventDefault();
     }
   }
@@ -638,6 +605,37 @@ export class QuestionsChooserComponent
     });
   }
 
+  private navigateLeft() {
+    this.selectedPillIndex = Math.max(0, this.selectedPillIndex - 1);
+    this.scrollToSelectedPill();
+    this.focusSelectedPill();
+  }
+
+  private navigateRight() {
+    if (this.selectedPillIndex === this.items.length - 1) {
+      this.selectedPillIndex = null;
+      this.inputField.nativeElement.focus();
+    } else {
+      this.selectedPillIndex++;
+      this.scrollToSelectedPill();
+      this.focusSelectedPill();
+    }
+  }
+
+  private focusAfterDelete() {
+    if (this.items.length === 0) {
+      this.selectedPillIndex = null;
+      this.inputField.nativeElement.focus();
+    } else {
+      this.selectedPillIndex = Math.min(
+        this.selectedPillIndex,
+        this.items.length - 1
+      );
+      this.scrollToSelectedPill();
+      this.focusSelectedPill();
+    }
+  }
+
   // ============================================
   // Drag and Drop Logic
   // ============================================
@@ -740,7 +738,7 @@ export class QuestionsChooserComponent
         closestResult = {
           index: i,
           position: "left",
-          leftPx: relativeLeft - 6
+          leftPx: relativeLeft - 6,
         };
       }
 
@@ -751,7 +749,7 @@ export class QuestionsChooserComponent
         closestResult = {
           index: i,
           position: "right",
-          leftPx: relativeRight + 6
+          leftPx: relativeRight + 6,
         };
       }
     }
@@ -765,7 +763,7 @@ export class QuestionsChooserComponent
       closestResult = {
         index: closestResult.index + 1,
         position: "left",
-        leftPx: closestResult.leftPx
+        leftPx: closestResult.leftPx,
       };
     }
 
@@ -955,7 +953,7 @@ export class QuestionsChooserComponent
     setTimeout(() => {
       const allEls = [
         ...pillEls.slice(group1.start, group1.end + 1),
-        ...pillEls.slice(group2.start, group2.end + 1)
+        ...pillEls.slice(group2.start, group2.end + 1),
       ];
       const allConns: HTMLElement[] = [];
       for (let i = group1.start; i < group1.end; i++)
@@ -979,6 +977,7 @@ export class QuestionsChooserComponent
       this.dropTargetIndex = direction === "left" ? group2.start : group2.end;
       this.dropPosition = direction === "left" ? "left" : "right";
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const selectOffset = this.selectedPillIndex! - group1.start;
 
       this.onDrop(null as any);
@@ -1088,7 +1087,7 @@ export class QuestionsChooserComponent
       currentGroup.push({
         type: item.type,
         value: item.value,
-        isExclusion: item.isExclusion
+        isExclusion: item.isExclusion,
       });
       if (item.operatorAfter !== "AND" || i === this.items.length - 1) {
         groups.push({ criteria: [...currentGroup] });
