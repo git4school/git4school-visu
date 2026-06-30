@@ -340,7 +340,7 @@ export class OverviewComponent
       bottom: css_var_number("bottom-inner"),
     };
 
-    this.inner_width = Math.max(1, this.width);
+    this.inner_width = Math.max(1, this.chart_width);
     this.inner_height = Math.max(
       1,
       this.height - this.inner_margin.top - this.inner_margin.bottom
@@ -930,8 +930,7 @@ export class OverviewComponent
     this.x_scale = d3
       .scaleTime()
       .domain([minDate, maxDate])
-      .range([0, this.inner_width])
-      .nice();
+      .range([0, this.inner_width]);
 
     this.x_scale_copy = this.x_scale.copy();
 
@@ -1317,6 +1316,16 @@ export class OverviewComponent
     this.repository_g = this.data_g.append("g");
     this.repositories_g = new Array<any>(repositories.length);
     let [minDate, maxDate] = d3.extent(allCommits, (d) => d.commitDate);
+    
+    // Add 2% padding to the graph's time domain so elements don't touch the edges
+    if (minDate && maxDate) {
+      let timeDiff = maxDate.getTime() - minDate.getTime();
+      if (timeDiff === 0) timeDiff = 24 * 3600 * 1000; // 1 day minimum span
+      let padding = timeDiff * 0.02;
+      minDate = new Date(minDate.getTime() - padding);
+      maxDate = new Date(maxDate.getTime() + padding);
+    }
+
     this.setupAxis(repositories, minDate, maxDate);
 
     this.maxZoom = (maxDate.getTime() - minDate.getTime()) / (1000 * 60);
