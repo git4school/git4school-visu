@@ -82,7 +82,6 @@ export class QuestionsCompletionComponent
       duration: 0, // general animation time
     },
     responsiveAnimationDuration: 0,
-    aspectRatio: 2.4,
     legend: {
       position: "bottom",
     },
