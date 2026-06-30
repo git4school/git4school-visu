@@ -540,8 +540,9 @@ export class OverviewComponent
       .on("scroll", () => this.refreshElementState())
       .attr("tabindex", "0")
       .attr("focusable", "true")
-      .on("keypress", (event) => {
-        if (event.keyCode === 32) {
+      .on("keydown", (event: KeyboardEvent) => {
+        if (event.code === "Space" || event.keyCode === 32) {
+          event.preventDefault();
           this.resetZoom(false);
         }
       });
