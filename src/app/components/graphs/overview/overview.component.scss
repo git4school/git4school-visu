@@ -60,6 +60,10 @@
   outline: none;
 }
 
+.chart-container > svg {
+  display: block;
+}
+
 #commit_hover, #commit_group_hover {
   display: flex;
   flex-direction: column;
