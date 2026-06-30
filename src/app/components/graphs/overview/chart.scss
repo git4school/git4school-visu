@@ -56,46 +56,68 @@ text.repo_name {
 }
 
 .session {
-  stroke-width: 2px;
-  stroke: rgba(79, 195, 247, 1);
-  fill: rgba(33, 150, 243, 0.15);
-}
-
-.review {
-  stroke: blue;
-  fill: blue;
-  background-color: blue;
-}
-
-.correction {
-  stroke: red;
-  fill: red;
-  background-color: red;
-}
-
-.other {
-  stroke: black;
-  fill: black;
-  background-color: black;
+  stroke-width: 1px;
+  stroke: var(--color-info);
+  fill: var(--color-primary-bg);
+  rx: 8px;
+  ry: 8px;
+  transition: fill var(--transition-normal);
+  
+  &:hover {
+    fill: rgba(56, 189, 248, 0.25);
+  }
 }
 
 .milestone {
   pointer-events: auto;
+  cursor: pointer;
+
+  > rect:first-child {
+    transition: width var(--transition-fast), transform var(--transition-fast);
+  }
+  
+  &:hover > rect:first-child {
+    width: 2px;
+    transform: translate(-1px, 0);
+  }
+
+  > rect:nth-child(2) {
+    rx: 12px;
+    ry: 12px;
+    transition: filter var(--transition-normal), transform var(--transition-normal);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+  
+  &:hover > rect:nth-child(2) {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  }
+
+  > text {
+    fill: var(--color-surface);
+    user-select: none;
+    font-family: var(--font-family-sans);
+    font-size: 12px;
+    font-weight: 500;
+    transition: transform var(--transition-normal);
+  }
+
+  &:hover > text {
+    transform: translateY(-2px);
+  }
 }
 
-.milestone > .milestone_label {
-  border-radius: 10;
+.review {
+  > rect { fill: var(--color-primary); stroke: var(--color-primary); }
+  > rect:first-child { fill: var(--color-primary); }
 }
 
-.milestone > rect {
-  rx: 5px;
-  ry: 5px;
+.correction {
+  > rect { fill: var(--color-danger); stroke: var(--color-danger); }
+  > rect:first-child { fill: var(--color-danger); }
 }
 
-.milestone > text {
-  padding: 5px;
-  color: white;
-  fill: white;
-  stroke: white;
-  user-select: none;
+.other {
+  > rect { fill: var(--color-secondary); stroke: var(--color-secondary); }
+  > rect:first-child { fill: var(--color-secondary); }
 }

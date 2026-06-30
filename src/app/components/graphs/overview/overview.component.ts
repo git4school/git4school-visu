@@ -816,8 +816,8 @@ export class OverviewComponent
       .attr("x", 0)
       .attr("y", 0)
       .attr("width", 1)
-      .attr("height", this.inner_height - this.inner_margin.bottom)
-      .attr("transform", "translate(" + [-1, 0] + ")");
+      .attr("height", this.inner_height)
+      .attr("transform", "translate(" + [-0.5, 0] + ")");
 
     // Box
     let box = g.append("rect").attr("y", 0);
@@ -825,16 +825,17 @@ export class OverviewComponent
     // Text
     let text = g
       .append("text")
-      .attr("y", -8)
+      .attr("y", -6)
       .text(m.label || m.type.substring(0, m.type.length - 1) + " " + index)
       .attr("text-anchor", "middle");
 
     let bbox = text.node().getBBox();
 
-    bbox.width += 4;
-    bbox.height += 5;
-    bbox.x -= 2;
-    bbox.y -= 1;
+    // Adjust for pill padding
+    bbox.width += 16;
+    bbox.height += 10;
+    bbox.x -= 8;
+    bbox.y -= 5;
 
     box.attr("width", bbox.width);
     box.attr("height", bbox.height);
