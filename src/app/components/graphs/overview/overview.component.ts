@@ -560,12 +560,14 @@ export class OverviewComponent
   }
 
   loadGraphDataAndRefresh() {
-    this.svg.remove();
-    this.svg_abs.remove();
+    setTimeout(() => {
+      this.svg.remove();
+      this.svg_abs.remove();
 
-    this.refresh();
+      this.refresh();
 
-    this.loadGraphData();
+      this.loadGraphData();
+    });
   }
 
   loadAnnotations() {
@@ -841,6 +843,15 @@ export class OverviewComponent
     box.attr("height", bbox.height);
     box.attr("x", -bbox.width / 2);
     box.attr("y", bbox.y);
+
+    // Hitbox (transparent, plus large pour faciliter le clic)
+    g.append("rect")
+      .attr("class", "hitbox")
+      .attr("width", bbox.width + 30)
+      .attr("height", bbox.height + 30)
+      .attr("x", -(bbox.width + 30) / 2)
+      .attr("y", bbox.y - 15)
+      .attr("style", "cursor: pointer; pointer-events: all;");
 
     let x = this.xScaledTimeZoned(m.date);
 

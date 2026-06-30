@@ -10,6 +10,10 @@
   --top-inner: 28px;
   --bottom-inner: 20px;
 
+  &.no-milestones {
+    --top-inner: 0px;
+  }
+
   --chart-height: 100%;
 
   --repo-space: 30px;

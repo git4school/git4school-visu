@@ -173,10 +173,10 @@
   </ng-container>
 </div>
 
-<div id="chart" style="position: relative;">
+<div id="chart" style="position: relative;" [class.no-milestones]="loading || (!showReviews && !showCorrections && !showOthers)">
 
-  <div class="chart-container-absolute"></div>
-  <div class="chart-container"></div>
+  <div class="chart-container-absolute" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
+  <div class="chart-container" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
 
   <!-- SKELETON LOADER OVERLAY -->
   <div *ngIf="loading" class="chart-skeleton-overlay d-flex" style="position: absolute; top: var(--top-inner, 28px); left: 0; right: 0; bottom: 0; width: 100%; z-index: 50; background: var(--color-surface); padding-bottom: 20px; pointer-events: none;">

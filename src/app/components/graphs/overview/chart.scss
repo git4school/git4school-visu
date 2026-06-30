@@ -108,16 +108,18 @@ text.repo_name {
 }
 
 .review {
-  > rect { fill: var(--color-primary); stroke: var(--color-primary); }
-  > rect:first-child { fill: var(--color-primary); }
+  > rect:first-child, > rect:nth-child(2) { fill: var(--color-primary); stroke: var(--color-primary); }
 }
 
 .correction {
-  > rect { fill: var(--color-danger); stroke: var(--color-danger); }
-  > rect:first-child { fill: var(--color-danger); }
+  > rect:first-child, > rect:nth-child(2) { fill: var(--color-danger); stroke: var(--color-danger); }
 }
 
 .other {
-  > rect { fill: var(--color-secondary); stroke: var(--color-secondary); }
-  > rect:first-child { fill: var(--color-secondary); }
+  > rect:first-child, > rect:nth-child(2) { fill: var(--color-secondary); stroke: var(--color-secondary); }
+}
+
+.hitbox {
+  fill: transparent !important;
+  stroke: none !important;
 }
