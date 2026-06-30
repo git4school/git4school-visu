@@ -43,7 +43,9 @@ text.repo_name {
   transform: translate(-6px, -6px) rotate(45deg);
 }
 
-.commit-normal:hover {
+.commit-normal:hover,
+.commit-cloture:hover,
+.commit-group:hover > path {
   fill: white;
   stroke: black;
 }

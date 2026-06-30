@@ -294,6 +294,17 @@
         {{ hovered_group_commit.length }}
       </p>
     </div>
+    <div class="mt-2 text-right d-flex align-items-center justify-content-end" style="gap: 0.5rem; font-size: 0.75rem; color: var(--color-text-muted);">
+      <span>{{ 'COMMIT-TOOLTIP.ZOOM' | translate }}</span>
+      <div class="shortcut-badge d-flex align-items-center justify-content-center" style="width: auto; padding: 0 4px; height: 20px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>
+          <path d="M5 9h14"></path>
+          <path d="M12 2v7"></path>
+          <path d="M5 9V9C5 5.134 8.134 2 12 2V9H5Z" fill="currentColor"></path>
+        </svg>
+      </div>
+    </div>
   </div>
 </ng-template>
 

@@ -1105,6 +1105,11 @@ export class OverviewComponent
           this.hovered_g = undefined;
           this.hovered_group_commit = undefined;
         }
+      })
+      .on("click", (e, d) => {
+        e.stopPropagation();
+        let currentRange = parseFloat(g.attr("group_range")) || 0;
+        this.zoomToGroup(d, currentRange);
       });
 
     return g;
@@ -1135,6 +1140,12 @@ export class OverviewComponent
         .on("mouseleave", () => {
           this.hovered_group_commit = undefined;
         });
+
+      g.on("click", (e, d) => {
+        e.stopPropagation();
+        let currentRange = parseFloat(g.attr("group_range")) || 0;
+        this.zoomToGroup(d, currentRange);
+      });
 
       g.attr("transform", `translate(${x}, 0)`);
     } else {
@@ -1606,6 +1617,28 @@ export class OverviewComponent
       );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);
+  }
+
+  zoomToGroup(commits: Commit[], range: number) {
+    if (!commits || commits.length < 2 || range <= 0) return;
+
+    let time_domain = this.x_scale.domain();
+    let minDate = time_domain[0].valueOf() as number;
+    let maxDate = time_domain[1].valueOf() as number;
+    let dt = maxDate - minDate;
+
+    let target_k = ((Utils.COMMIT_FUSE_RANGE + 5) * dt) / (range * this.inner_width);
+    target_k = Math.min(target_k, this.maxZoom);
+
+    let centerTime = (commits[0].commitDate.getTime() + commits[commits.length - 1].commitDate.getTime()) / 2;
+    let translate_x = this.inner_width / 2 - ((centerTime - minDate) / dt) * this.inner_width * target_k;
+
+    let transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
+
+    this.data_g
+      .transition()
+      .duration(750)
+      .call(this.zoom.transform, transform);
   }
 
   searchSubmit() {

@@ -209,7 +209,8 @@
     "START": "Group start",
     "END": "Group end",
     "COMMIT_NUMBER": "Number of commits in the group",
-    "COPY_HASH": "Copy hash"
+    "COPY_HASH": "Copy hash",
+    "ZOOM": "Zoom"
   },
   "MODAL-SHORTCUTS": {
     "TITLE": "Keyboard Shortcuts",
