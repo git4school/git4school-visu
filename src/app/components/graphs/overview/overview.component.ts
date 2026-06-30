@@ -968,7 +968,9 @@ export class OverviewComponent
     this.y_axis = d3
       .axisLeft(this.y_scale)
       .tickValues([...Array(repositories.length + 1).keys()])
-      .tickFormat((d) => repositories[d.valueOf() - 1]?.name || "")
+      .tickFormat((d) => {
+        return repositories[d.valueOf() - 1]?.name || "";
+      })
       .tickSize(-this.width);
 
     if (this.y_g != null) this.y_g.remove();
@@ -977,11 +979,49 @@ export class OverviewComponent
     // Hide the first tick use to prevent data from being placed on top of the chart
     this.y_g.select(".tick:first-of-type").attr("opacity", "0");
 
-    // Set repo_name class
+    // Set repo_name class, align to left, and use custom tooltip
+    const leftSpace = this.width - this.chart_width;
+    const leftX = -leftSpace + 5;
+    
     this.y_g
       .selectAll(".tick")
       .selectAll("text")
-      .call((g) => g.classed("repo_name", true));
+      .call((g) => g.classed("repo_name", true))
+      .attr("text-anchor", "start")
+      .attr("x", leftX)
+      .each(function (this: SVGTextElement) {
+        const maxW = leftSpace - 15;
+        let textStr = this.textContent || "";
+        if (this.getComputedTextLength() > maxW && textStr.length > 0) {
+          let i = textStr.length;
+          while (this.getComputedTextLength() > maxW && i > 0) {
+            this.textContent = textStr.substring(0, i) + "...";
+            i--;
+          }
+        }
+      })
+      .on("mouseenter", function (event: MouseEvent, d: any) {
+        event.stopPropagation();
+        const repo = repositories[d.valueOf() - 1];
+        if (repo?.name) {
+          overview.tooltipService.showAtPosition(
+            repo.name,
+            event.clientX,
+            event.clientY,
+            "right"
+          );
+        }
+      })
+      .on("mousemove", function (event: MouseEvent) {
+        event.stopPropagation();
+        if (overview.tooltipService.isShowing()) {
+          overview.tooltipService.moveTooltip(event.clientX, event.clientY, "right");
+        }
+      })
+      .on("mouseleave", function (event: MouseEvent) {
+        event.stopPropagation();
+        overview.tooltipService.hide();
+      });
 
     // Use custom domain
     this.axis_abs_g.selectAll(".domain").style("opacity", "0");
