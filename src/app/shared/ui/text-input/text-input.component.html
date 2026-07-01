@@ -12,7 +12,7 @@
   </fieldset>
 
   <div class="text-input-inner">
-    <ng-container *ngIf="suggestions && suggestions.length > 0">
+    <ng-container *ngIf="suggestions !== undefined">
       <input 
         #inputElement
         class="text-input-element" 
@@ -40,7 +40,7 @@
       </ng-template>
     </ng-container>
 
-    <ng-container *ngIf="!suggestions || suggestions.length === 0">
+    <ng-container *ngIf="suggestions === undefined">
       <input 
         #inputElement
         class="text-input-element" 

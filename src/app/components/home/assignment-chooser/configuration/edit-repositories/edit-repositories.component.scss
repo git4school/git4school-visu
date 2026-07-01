@@ -263,11 +263,11 @@
     );
 
     .edit-row {
-      display: flex; gap: 1rem; align-items: center; width: 100%;
+      display: flex; gap: 0.5rem; align-items: center; width: 100%;
 
       .input-group-col {
         display: flex; flex-direction: column; gap: 0.25rem; position: relative;
-        &.col-name { flex: 2; } &.col-url { flex: 3; } &.col-tp { flex: 1; }
+        &.col-name { flex: 2; } &.col-url { flex: 3; } &.col-tp { flex: 1.5; }
         ::ng-deep .form-group { margin-bottom: 0; }
         ::ng-deep .text-input-wrapper { margin-bottom: 0; }
       }
