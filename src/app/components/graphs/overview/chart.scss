@@ -2,6 +2,11 @@
   display: none;
 }
 
+text.repo_name, .tick > text {
+  fill: var(--color-text-secondary);
+  font-family: var(--font-family-sans);
+}
+
 text.repo_name {
   font-size: 13px;
   cursor: default;
@@ -11,24 +16,21 @@ text.repo_name {
   clip-path: url(#clip);
 }
 
-.tick_line {
+// Lignes de grille et d'axes factorisées
+.tick_line, .tick > line, .axis > line, .domain {
   stroke-width: 1px;
-  stroke: #e5e5e5;
-}
-
-.tick > line {
-  stroke-width: 1px;
-  stroke: #e5e5e5;
-}
-
-.axis > line {
-  stroke-width: 1px;
-  stroke: #e5e5e5;
+  stroke: var(--color-border);
 }
 
 .commit {
-  stroke: #fff;
+  stroke: var(--color-surface); /* Bordure blanche en mode clair pour séparer du fond */
   stroke-width: 2px;
+  transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
+}
+
+body.dark-theme .commit {
+  stroke: var(--color-text-secondary); /* Bordure claire pour faire ressortir en mode sombre */
+  stroke-width: 1.5px;
 }
 
 .commit-cloture {
@@ -43,16 +45,30 @@ text.repo_name {
   transform: translate(-6px, -6px) rotate(45deg);
 }
 
-.commit-normal:hover,
+.commit-group > path {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translate(0, -6px); /* Remplace l'attribut SVG pour fluidifier la transition */
+  transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
+}
+
 .commit-cloture:hover,
 .commit-group:hover > path {
-  fill: white;
-  stroke: black;
+  fill: var(--color-surface);
+  stroke: var(--color-text-primary);
+  transform: translate(0, -6px) scale(1.1);
+}
+
+.commit-normal:hover {
+  fill: var(--color-surface);
+  stroke: var(--color-text-primary);
+  transform: translate(-6px, -6px) rotate(45deg) scale(1.1);
 }
 
 .commit_line {
-  stroke: #999;
+  stroke: var(--color-text-muted);
   stroke-width: 2px;
+  opacity: 0.5;
 }
 
 .session {

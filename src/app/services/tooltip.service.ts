@@ -148,6 +148,85 @@ export class TooltipService {
     return componentRef;
   }
 
+  private calculatePosition(
+    rect: DOMRect,
+    tooltipRect: DOMRect,
+    placement: "top" | "bottom" | "left" | "right",
+    offset: number
+  ): { t: number; l: number } {
+    let t = 0;
+    let l = 0;
+    switch (placement) {
+      case "top":
+        t = rect.top - tooltipRect.height - offset;
+        l = rect.left + (rect.width - tooltipRect.width) / 2;
+        break;
+      case "bottom":
+        t = rect.bottom + offset;
+        l = rect.left + (rect.width - tooltipRect.width) / 2;
+        break;
+      case "left":
+        t = rect.top + (rect.height - tooltipRect.height) / 2;
+        l = rect.left - tooltipRect.width - offset;
+        break;
+      case "right":
+        t = rect.top + (rect.height - tooltipRect.height) / 2;
+        l = rect.right + offset;
+        break;
+    }
+    return { t, l };
+  }
+
+  private adjustPlacementToFit(
+    rect: DOMRect,
+    tooltipRect: DOMRect,
+    placement: "top" | "bottom" | "left" | "right",
+    offset: number
+  ): { top: number; left: number } {
+    let { t: top, l: left } = this.calculatePosition(rect, tooltipRect, placement, offset);
+
+    // Dynamic placement adjustment to prevent hiding the hovered item
+    if (placement === "right" && left + tooltipRect.width > window.innerWidth - 8) {
+      const alternative = this.calculatePosition(rect, tooltipRect, "left", offset);
+      if (alternative.l >= 8) {
+        top = alternative.t;
+        left = alternative.l;
+      }
+    } else if (placement === "left" && left < 8) {
+      const alternative = this.calculatePosition(rect, tooltipRect, "right", offset);
+      if (alternative.l + tooltipRect.width <= window.innerWidth - 8) {
+        top = alternative.t;
+        left = alternative.l;
+      }
+    } else if (placement === "top" && top < 8) {
+      const alternative = this.calculatePosition(rect, tooltipRect, "bottom", offset);
+      if (alternative.t + tooltipRect.height <= window.innerHeight - 8) {
+        top = alternative.t;
+        left = alternative.l;
+      }
+    } else if (placement === "bottom" && top + tooltipRect.height > window.innerHeight - 8) {
+      const alternative = this.calculatePosition(rect, tooltipRect, "top", offset);
+      if (alternative.t >= 8) {
+        top = alternative.t;
+        left = alternative.l;
+      }
+    }
+
+    return { top, left };
+  }
+
+  private ensureWithinBounds(top: number, left: number, tooltipRect: DOMRect): { top: number; left: number } {
+    if (left < 8) left = 8;
+    if (top < 8) top = 8;
+    if (left + tooltipRect.width > window.innerWidth - 8) {
+      left = window.innerWidth - tooltipRect.width - 8;
+    }
+    if (top + tooltipRect.height > window.innerHeight - 8) {
+      top = window.innerHeight - tooltipRect.height - 8;
+    }
+    return { top, left };
+  }
+
   private setPosition(
     rect: DOMRect,
     placement: "top" | "bottom" | "left" | "right"
@@ -173,38 +252,13 @@ export class TooltipService {
         }
 
         const tooltipRect = domElem.getBoundingClientRect();
-        let top = 0;
-        let left = 0;
-        const offset = 8; // distance from element
+        const offset = 12; // distance from element
 
-        switch (placement) {
-          case "top":
-            top = rect.top - tooltipRect.height - offset;
-            left = rect.left + (rect.width - tooltipRect.width) / 2;
-            break;
-          case "bottom":
-            top = rect.bottom + offset;
-            left = rect.left + (rect.width - tooltipRect.width) / 2;
-            break;
-          case "left":
-            top = rect.top + (rect.height - tooltipRect.height) / 2;
-            left = rect.left - tooltipRect.width - offset;
-            break;
-          case "right":
-            top = rect.top + (rect.height - tooltipRect.height) / 2;
-            left = rect.right + offset;
-            break;
-        }
-
-        // Add scroll offset
-        top += window.scrollY;
-        left += window.scrollX;
-
-        // Basic bounds checking
-        if (left < 0) left = 8;
-        if (top < 0) top = 8;
-        if (left + tooltipRect.width > window.innerWidth)
-          left = window.innerWidth - tooltipRect.width - 8;
+        let { top, left } = this.adjustPlacementToFit(rect, tooltipRect, placement, offset);
+        
+        const bounded = this.ensureWithinBounds(top, left, tooltipRect);
+        top = bounded.top + window.scrollY;
+        left = bounded.left + window.scrollX;
 
         domElem.style.top = `${top}px`;
         domElem.style.left = `${left}px`;
