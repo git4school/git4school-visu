@@ -42,7 +42,7 @@
           <label for="questionsChooser"
             style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem;">{{
             'QUESTIONS' | translate }}</label>
-          <questions-chooser #questionsChooser formControlName="questions" [editable]="true" [openOnFocus]="true"
+          <questions-chooser #questionsChooser formControlName="questions" [mode]="'add'" [openOnFocus]="true"
             [noQuestionMessage]="true" [maxPillsWidth]="'70%'">
           </questions-chooser>
         </div>

@@ -4,7 +4,7 @@
     <questions-chooser
       #questionsChooser
       [questionSuggestions]="dataService.questions"
-      [editable]="false"
+      [mode]="'search'"
       [openOnFocus]="true"
       [ngModel]="searchFilter"
       (ngModelChange)="searchFilter = $event; loadGraphDataAndRefresh()"

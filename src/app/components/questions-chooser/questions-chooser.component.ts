@@ -11,6 +11,7 @@ import {
   ElementRef,
   HostListener,
 } from "@angular/core";
+import { ChangeDetectorRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { merge, Observable, Subject } from "rxjs";
@@ -47,7 +48,7 @@ export class QuestionsChooserComponent
 
   @Input() questions: string[] = [];
   @Input() questionSuggestions: string[] = [];
-  @Input() editable = true;
+  @Input() mode: "choose" | "add" | "search" = "search";
   @Input() openOnFocus = false;
   @Input() noQuestionMessage = true;
   @Input() maxPillsWidth = "50%";
@@ -61,6 +62,7 @@ export class QuestionsChooserComponent
 
   @HostListener("document:keydown", ["$event"])
   handleGlobalKeyDown(event: KeyboardEvent) {
+    if (this.mode !== "search") return;
     if (event.key.toLowerCase() === "f") {
       const target = event.target as HTMLElement;
       if (
@@ -126,7 +128,7 @@ export class QuestionsChooserComponent
     this.emitFilterGroups();
   }
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef) {}
 
   @HostListener("document:click", ["$event"])
   clickout(event) {
@@ -189,7 +191,7 @@ export class QuestionsChooserComponent
         this.editingOldValue = this.items[this.selectedPillIndex].value;
         this.editingOldType = this.items[this.selectedPillIndex].type;
 
-        if (!this.editable && event.key === "!") {
+        if (this.mode === "search" && event.key === "!") {
           this.editingIsExclusion = true;
           this.editingCurrentText = "";
         } else {
@@ -220,7 +222,7 @@ export class QuestionsChooserComponent
         this.questionSuggestions
           .filter(
             (question) =>
-              (!this.editable || !this.questions.includes(question)) &&
+              (this.mode === "search" || !this.questions.includes(question)) &&
               question.toLowerCase().indexOf(search.toLowerCase()) > -1
           )
           .slice(0, 10)
@@ -234,7 +236,7 @@ export class QuestionsChooserComponent
         this.questionSuggestions
           .filter(
             (question) =>
-              (!this.editable ||
+              (this.mode === "search" ||
                 !this.questions.includes(question) ||
                 question === this.editingOldValue) &&
               question.toLowerCase().indexOf((search || "").toLowerCase()) > -1
@@ -276,7 +278,7 @@ export class QuestionsChooserComponent
   syncItemsFromInputs() {
     this.items = [];
     this.questions.forEach((q) => {
-      const isExclusion = !this.editable && q.startsWith("!");
+      const isExclusion = this.mode === "search" && q.startsWith("!");
       this.items.push({
         type: "question",
         value: isExclusion ? q.substring(1) : q,
@@ -285,7 +287,7 @@ export class QuestionsChooserComponent
       });
     });
     this.commitMessages.forEach((c) => {
-      const isExclusion = !this.editable && c.startsWith("!");
+      const isExclusion = this.mode === "search" && c.startsWith("!");
       this.items.push({
         type: "commit",
         value: isExclusion ? c.substring(1) : c,
@@ -309,7 +311,7 @@ export class QuestionsChooserComponent
 
     // Check if it's already added in editable mode
     if (
-      this.editable &&
+      this.mode !== "search" &&
       (this.questions.includes(text) || this.commitMessages.includes(text))
     ) {
       this.question = null;
@@ -320,21 +322,25 @@ export class QuestionsChooserComponent
     let cleanText = text;
     let isExclusion = this.isTypingExclusion;
 
-    if (!this.editable) {
-      if (text.startsWith("!")) {
-        isExclusion = true;
-        cleanText = text.substring(1);
-      }
+    if (this.mode === "search" && text.startsWith("!")) {
+      isExclusion = true;
+      cleanText = text.substring(1);
+    }
 
-      if (this.questionSuggestions && this.questionSuggestions.length > 0) {
-        const isSuggestion = this.questionSuggestions.some(
-          (s) => s.toLowerCase() === cleanText.toLowerCase()
-        );
-        if (!isSuggestion) {
-          type = "commit";
-        }
-      } else {
+    if (this.mode === "search") {
+      const isSuggestion = this.questionSuggestions && this.questionSuggestions.some(
+        (s) => s.toLowerCase() === cleanText.toLowerCase()
+      );
+      if (!isSuggestion) {
         type = "commit";
+      }
+    } else if (this.mode === "choose") {
+      const isSuggestion = this.questionSuggestions && this.questionSuggestions.some(
+        (s) => s.toLowerCase() === cleanText.toLowerCase()
+      );
+      if (!isSuggestion) {
+        this.question = null;
+        return;
       }
     }
 
@@ -506,9 +512,10 @@ export class QuestionsChooserComponent
 
     if (
       newValue === "" ||
-      (this.editable &&
+      (this.mode !== "search" &&
         (this.questions.includes(newValue) ||
-          this.commitMessages.includes(newValue)))
+          this.commitMessages.includes(newValue))) ||
+      (this.mode === "choose" && !this.questionSuggestions.some((s) => s.toLowerCase() === newValue.toLowerCase()))
     ) {
       this.items.splice(index, 1);
       if (this.selectedPillIndex >= this.items.length) {
@@ -554,7 +561,7 @@ export class QuestionsChooserComponent
 
   onQuestionChange(value: string) {
     this.question = value;
-    if (!this.editable && value && value.startsWith("!")) {
+    if (this.mode === "search" && value && value.startsWith("!")) {
       this.isTypingExclusion = true;
       setTimeout(() => (this.question = value.substring(1)));
     }
@@ -562,7 +569,7 @@ export class QuestionsChooserComponent
 
   onEditQuestionChange(value: string) {
     this.editingCurrentText = value;
-    if (!this.editable && value && value.startsWith("!")) {
+    if (this.mode === "search" && value && value.startsWith("!")) {
       this.editingIsExclusion = true;
       setTimeout(() => (this.editingCurrentText = value.substring(1)));
     } else if (value.length === 0) {
@@ -874,6 +881,7 @@ export class QuestionsChooserComponent
 
     // Insert at new position
     this.items.splice(insertIndex, 0, ...draggedItems);
+    this.items = [...this.items];
 
     this.rebuildDataArrays();
     this.emitFilterGroups();
@@ -988,6 +996,7 @@ export class QuestionsChooserComponent
         this.selectedPillIndex =
           group1.start + (group2.end - group2.start + 1) + selectOffset;
       }
+      this.cdr.detectChanges();
 
       setTimeout(() => {
         this.scrollToSelectedPill();
@@ -1018,6 +1027,7 @@ export class QuestionsChooserComponent
   // --- End Drag and Drop ---
 
   isCommitStyle(item: any, index: number) {
+    if (this.mode !== 'search') return false;
     if (this.editingPillIndex === index) {
       const textToEvaluate = this.editingCurrentText;
       const isSuggestion = this.questionSuggestions.some(
@@ -1074,7 +1084,7 @@ export class QuestionsChooserComponent
   }
 
   emitFilterGroups() {
-    if (this.editable) return; // Only in filter mode
+    if (this.mode !== "search") return; // Only in search mode
 
     const groups: FilterGroup[] = [];
     let currentGroup: {
@@ -1099,12 +1109,12 @@ export class QuestionsChooserComponent
   }
 
   isMergedRight(index: number): boolean {
-    return !this.editable && this.items[index]?.operatorAfter === "AND";
+    return this.mode === "search" && this.items[index]?.operatorAfter === "AND";
   }
 
   isMergedLeft(index: number): boolean {
     return (
-      !this.editable &&
+      this.mode === "search" &&
       index > 0 &&
       this.items[index - 1]?.operatorAfter === "AND"
     );

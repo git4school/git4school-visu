@@ -1467,6 +1467,10 @@ body.dark-theme .suggestion-pill {
   color: #60a5fa;
 }
 
+ngb-typeahead-window {
+  z-index: 1060 !important; /* Pour s'assurer qu'il passe toujours au-dessus des modales Bootstrap (1050) */
+}
+
 /* =========================================
    FLOATING ACTION BAR
    ========================================= */
