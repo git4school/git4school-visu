@@ -1,8 +1,8 @@
 <div class="date-range-container">
   <!-- Labels -->
   <div class="labels-row">
-    <span class="label-text">{{ 'METADATA.START-DATE' | translate }}</span>
-    <span class="label-text">{{ 'METADATA.END-DATE' | translate }}</span>
+    <span class="label-text">{{ (singleMode ? singleLabel : startLabel) | translate }}</span>
+    <span class="label-text" *ngIf="!singleMode">{{ endLabel | translate }}</span>
     <span class="label-button-spacer"></span>
   </div>
 
@@ -38,10 +38,10 @@
       </ng-template>
     </div>
 
-    <span class="arrow-separator"><i class="fas fa-arrow-right"></i></span>
+    <span class="arrow-separator" *ngIf="!singleMode"><i class="fas fa-arrow-right"></i></span>
 
     <!-- End Date Segments -->
-    <div class="date-segments" (click)="$event.stopPropagation()">
+    <div class="date-segments" (click)="$event.stopPropagation()" *ngIf="!singleMode">
       <ng-container *ngIf="isFrench; else enEndFormat">
         <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
           maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
@@ -106,8 +106,8 @@
     <!-- Quick Selectors Footer -->
     <div class="calendar-footer">
       <button type="button" class="quick-btn" (click)="setToday()">{{ 'TODAY' | translate }}</button>
-      <button type="button" class="quick-btn" (click)="setThisWeek()">{{ 'THIS_WEEK' | translate }}</button>
-      <button type="button" class="quick-btn" (click)="setThisMonth()">{{ 'THIS_MONTH' | translate }}</button>
+      <button type="button" class="quick-btn" (click)="setThisWeek()" *ngIf="!singleMode">{{ 'THIS_WEEK' | translate }}</button>
+      <button type="button" class="quick-btn" (click)="setThisMonth()" *ngIf="!singleMode">{{ 'THIS_MONTH' | translate }}</button>
     </div>
 
   </div>

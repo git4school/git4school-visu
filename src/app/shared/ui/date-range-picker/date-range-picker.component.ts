@@ -8,6 +8,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
@@ -28,9 +29,16 @@ export interface CalendarDay {
 export class DateRangePickerComponent implements OnInit, OnDestroy {
   @Input() startDate: Date | null = null;
   @Input() endDate: Date | null = null;
+  @Input() singleMode = false;
+  @Input() date: Date | null = null;
+  
+  @Input() startLabel = 'METADATA.START-DATE';
+  @Input() endLabel = 'METADATA.END-DATE';
+  @Input() singleLabel = 'DATE';
 
   @Output() startDateChange = new EventEmitter<Date | null>();
   @Output() endDateChange = new EventEmitter<Date | null>();
+  @Output() dateChange = new EventEmitter<Date | null>();
 
   @ViewChild("startDay", { static: false }) startDayEl: ElementRef;
   @ViewChild("startMonth", { static: false }) startMonthEl: ElementRef;
@@ -61,7 +69,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
 
   constructor(
     private elementRef: ElementRef,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -70,24 +79,33 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
       this.updateLocale();
     });
 
-    if (this.startDate) {
-      this.viewDate = moment(this.startDate);
-      this.updateInputStrings(true, moment(this.startDate));
-    } else if (this.endDate) {
-      this.viewDate = moment(this.endDate);
-    }
-
-    if (this.endDate) {
-      this.updateInputStrings(false, moment(this.endDate));
+    if (this.singleMode && this.date) {
+      this.viewDate = moment(this.date);
+      this.updateInputStrings(true, moment(this.date));
+    } else if (!this.singleMode) {
+      if (this.startDate) {
+        this.viewDate = moment(this.startDate);
+        this.updateInputStrings(true, moment(this.startDate));
+      }
+      if (this.endDate) {
+        if (!this.startDate) {
+          this.viewDate = moment(this.endDate);
+        }
+        this.updateInputStrings(false, moment(this.endDate));
+      }
     }
 
     this.generateCalendar();
+
+    // Use capture phase to bypass stopPropagation() called by modals
+    document.addEventListener("click", this.onDocumentClick, { capture: true });
   }
 
   ngOnDestroy(): void {
     if (this.langSubscription) {
       this.langSubscription.unsubscribe();
     }
+    document.removeEventListener("click", this.onDocumentClick, { capture: true });
   }
 
   get currentMonthName(): string {
@@ -96,8 +114,11 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
 
   togglePopup() {
     this.isOpen = !this.isOpen;
+    this.cdr.markForCheck();
     if (this.isOpen) {
-      if (this.startDate) {
+      if (this.singleMode && this.date) {
+        this.viewDate = moment(this.date);
+      } else if (!this.singleMode && this.startDate) {
         this.viewDate = moment(this.startDate);
       }
       this.generateCalendar();
@@ -118,12 +139,24 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
   }
 
   closePopup() {
-    this.isOpen = false;
+    if (this.isOpen) {
+      this.isOpen = false;
+      this.cdr.markForCheck();
+    }
   }
 
-  @HostListener("document:click", ["$event"])
-  onClickOutside(event: Event) {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
+  private onDocumentClick = (event: Event) => {
+    if (this.isOpen && !this.elementRef.nativeElement.contains(event.target as Node)) {
+      this.closePopup();
+    }
+  };
+
+  @HostListener("focusout", ["$event"])
+  onFocusOut(event: FocusEvent) {
+    const relatedTarget = event.relatedTarget as HTMLElement | null;
+    // If relatedTarget is null, it means focus moved to a non-focusable element (e.g. clicking the page body).
+    // The document:click listener handles outside clicks, so we only handle explicit focus moves here (like tabbing).
+    if (relatedTarget && !this.elementRef.nativeElement.contains(relatedTarget)) {
       this.closePopup();
     }
   }
@@ -141,9 +174,18 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
   onDateClick(day: CalendarDay) {
     const clickedDate = day.date.clone().startOf("day");
 
+    if (this.singleMode) {
+      this.setSingleDate(clickedDate);
+      this.closePopup();
+      return;
+    }
+
     if (!this.startDate && !this.endDate) {
       this.setStartDate(clickedDate);
-    } else if (this.startDate && !this.endDate) {
+      return;
+    } 
+    
+    if (this.startDate && !this.endDate) {
       if (clickedDate.isBefore(this.startDate)) {
         this.setEndDate(moment(this.startDate));
         this.setStartDate(clickedDate);
@@ -151,7 +193,10 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
         this.setEndDate(clickedDate);
       }
       this.closePopup();
-    } else if (!this.startDate && this.endDate) {
+      return;
+    } 
+    
+    if (!this.startDate && this.endDate) {
       if (clickedDate.isAfter(this.endDate)) {
         this.setStartDate(moment(this.endDate));
         this.setEndDate(clickedDate);
@@ -159,11 +204,12 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
         this.setStartDate(clickedDate);
       }
       this.closePopup();
-    } else {
-      // Both exist. Reset and start over
-      this.setStartDate(clickedDate);
-      this.setEndDate(null);
-    }
+      return;
+    } 
+    
+    // Both exist. Reset and start over
+    this.setStartDate(clickedDate);
+    this.setEndDate(null);
   }
 
   onDateHover(day: CalendarDay) {
@@ -175,6 +221,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
   }
 
   isStartDate(date: moment.Moment): boolean {
+    if (this.singleMode) {
+      return !!this.date && date.isSame(moment(this.date), "day");
+    }
     return !!this.startDate && date.isSame(moment(this.startDate), "day");
   }
 
@@ -183,29 +232,21 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
   }
 
   isInRange(date: moment.Moment): boolean {
-    if (this.startDate && this.endDate) {
-      return (
-        date.isAfter(moment(this.startDate), "day") &&
-        date.isBefore(moment(this.endDate), "day")
-      );
+    if (this.singleMode) return false;
+
+    const start = this.startDate ? moment(this.startDate) : null;
+    const end = this.endDate ? moment(this.endDate) : null;
+
+    if (start && end) {
+      return date.isAfter(start, "day") && date.isBefore(end, "day");
     }
 
-    if (this.startDate && !this.endDate && this.hoverDate) {
-      if (this.hoverDate.isAfter(moment(this.startDate), "day")) {
-        return (
-          date.isAfter(moment(this.startDate), "day") &&
-          date.isSameOrBefore(this.hoverDate, "day")
-        );
-      }
+    if (start && !end && this.hoverDate && this.hoverDate.isAfter(start, "day")) {
+      return date.isAfter(start, "day") && date.isSameOrBefore(this.hoverDate, "day");
     }
 
-    if (!this.startDate && this.endDate && this.hoverDate) {
-      if (this.hoverDate.isBefore(moment(this.endDate), "day")) {
-        return (
-          date.isBefore(moment(this.endDate), "day") &&
-          date.isSameOrAfter(this.hoverDate, "day")
-        );
-      }
+    if (!start && end && this.hoverDate && this.hoverDate.isBefore(end, "day")) {
+      return date.isBefore(end, "day") && date.isSameOrAfter(this.hoverDate, "day");
     }
 
     return false;
@@ -213,8 +254,12 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
 
   setToday() {
     const today = moment().startOf("day");
-    this.setStartDate(today);
-    this.setEndDate(today);
+    if (this.singleMode) {
+      this.setSingleDate(today);
+    } else {
+      this.setStartDate(today);
+      this.setEndDate(today);
+    }
     this.viewDate = today.clone();
     this.generateCalendar();
     this.closePopup();
@@ -276,7 +321,13 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
   ) {
     const input = event.target as HTMLInputElement;
     if (event.key === "Backspace" && input.value === "") {
-      this.focusPrevious(isStart, field);
+      this.focusPrevious(isStart, field, 'end');
+    } else if (event.key === "ArrowLeft" && input.selectionStart === 0) {
+      event.preventDefault();
+      this.focusPrevious(isStart, field, 'end');
+    } else if (event.key === "ArrowRight" && input.selectionEnd === input.value.length) {
+      event.preventDefault();
+      this.focusNext(isStart, field, 'start');
     }
   }
 
@@ -328,6 +379,12 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     this.startDateChange.emit(this.startDate);
   }
 
+  private setSingleDate(date: moment.Moment | null) {
+    this.date = date ? date.toDate() : null;
+    this.updateInputStrings(true, date);
+    this.dateChange.emit(this.date);
+  }
+
   private setEndDate(date: moment.Moment | null) {
     this.endDate = date ? date.toDate() : null;
     this.updateInputStrings(false, date);
@@ -358,61 +415,75 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private focusNext(isStart: boolean, field: "day" | "month" | "year") {
+  private focusNext(isStart: boolean, field: "day" | "month" | "year", cursorPosition?: 'start' | 'end') {
     let nextEl: ElementRef | undefined;
+    const isYearAndNotSingle = field === "year" && !this.singleMode;
+    const goToEnd = this.isFrench ? this.endDayEl : this.endMonthEl;
+
     if (isStart) {
       if (this.isFrench) {
-        // DD / MM / YYYY
         if (field === "day") nextEl = this.startMonthEl;
-        if (field === "month") nextEl = this.startYearEl;
-        if (field === "year")
-          nextEl = this.isFrench ? this.endDayEl : this.endMonthEl;
+        else if (field === "month") nextEl = this.startYearEl;
+        else if (isYearAndNotSingle) nextEl = goToEnd;
       } else {
-        // MM / DD / YYYY
         if (field === "month") nextEl = this.startDayEl;
-        if (field === "day") nextEl = this.startYearEl;
-        if (field === "year")
-          nextEl = this.isFrench ? this.endDayEl : this.endMonthEl;
+        else if (field === "day") nextEl = this.startYearEl;
+        else if (isYearAndNotSingle) nextEl = goToEnd;
       }
     } else {
       if (this.isFrench) {
         if (field === "day") nextEl = this.endMonthEl;
-        if (field === "month") nextEl = this.endYearEl;
+        else if (field === "month") nextEl = this.endYearEl;
       } else {
         if (field === "month") nextEl = this.endDayEl;
-        if (field === "day") nextEl = this.endYearEl;
+        else if (field === "day") nextEl = this.endYearEl;
       }
     }
 
     if (nextEl) {
-      nextEl.nativeElement.focus();
+      const el = nextEl.nativeElement as HTMLInputElement;
+      el.focus();
+      if (cursorPosition) {
+        // Need a small timeout to ensure cursor placement happens after focus event is fully processed
+        setTimeout(() => {
+          const pos = cursorPosition === 'start' ? 0 : el.value.length;
+          el.setSelectionRange(pos, pos);
+        });
+      }
     }
   }
 
-  private focusPrevious(isStart: boolean, field: "day" | "month" | "year") {
+  private focusPrevious(isStart: boolean, field: "day" | "month" | "year", cursorPosition?: 'start' | 'end') {
     let prevEl: ElementRef | undefined;
     if (isStart) {
       if (this.isFrench) {
         if (field === "month") prevEl = this.startDayEl;
-        if (field === "year") prevEl = this.startMonthEl;
+        else if (field === "year") prevEl = this.startMonthEl;
       } else {
         if (field === "day") prevEl = this.startMonthEl;
-        if (field === "year") prevEl = this.startDayEl;
+        else if (field === "year") prevEl = this.startDayEl;
       }
     } else {
       if (this.isFrench) {
         if (field === "day") prevEl = this.startYearEl;
-        if (field === "month") prevEl = this.endDayEl;
-        if (field === "year") prevEl = this.endMonthEl;
+        else if (field === "month") prevEl = this.endDayEl;
+        else if (field === "year") prevEl = this.endMonthEl;
       } else {
         if (field === "month") prevEl = this.startYearEl;
-        if (field === "day") prevEl = this.endMonthEl;
-        if (field === "year") prevEl = this.endDayEl;
+        else if (field === "day") prevEl = this.endMonthEl;
+        else if (field === "year") prevEl = this.endDayEl;
       }
     }
 
     if (prevEl) {
-      prevEl.nativeElement.focus();
+      const el = prevEl.nativeElement as HTMLInputElement;
+      el.focus();
+      if (cursorPosition) {
+        setTimeout(() => {
+          const pos = cursorPosition === 'start' ? 0 : el.value.length;
+          el.setSelectionRange(pos, pos);
+        });
+      }
     }
   }
 
@@ -421,29 +492,35 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     const month = isStart ? this.startMonthStr : this.endMonthStr;
     const year = isStart ? this.startYearStr : this.endYearStr;
 
+    if (day.length === 0 && month.length === 0 && year.length === 0) {
+      if (this.singleMode) this.setSingleDate(null);
+      else if (isStart) this.setStartDate(null);
+      else this.setEndDate(null);
+      return;
+    }
+
     if (day.length === 2 && month.length === 2 && year.length === 4) {
       const parsed = moment(`${year}-${month}-${day}`, "YYYY-MM-DD", true);
-      if (parsed.isValid()) {
-        if (isStart) {
-          this.setStartDate(parsed);
-          // If start becomes > end, clear end
-          if (this.endDate && parsed.isAfter(moment(this.endDate))) {
-            this.setEndDate(null);
-          }
-        } else {
-          this.setEndDate(parsed);
-          // If end becomes < start, swap them
-          if (this.startDate && parsed.isBefore(moment(this.startDate))) {
-            this.setEndDate(moment(this.startDate));
-            this.setStartDate(parsed);
-          }
-        }
+      if (!parsed.isValid()) return;
+
+      if (this.singleMode) {
+        this.setSingleDate(parsed);
+        return;
       }
-    } else if (day.length === 0 && month.length === 0 && year.length === 0) {
+
       if (isStart) {
-        this.setStartDate(null);
+        this.setStartDate(parsed);
+        // If start becomes > end, clear end
+        if (this.endDate && parsed.isAfter(moment(this.endDate))) {
+          this.setEndDate(null);
+        }
       } else {
-        this.setEndDate(null);
+        this.setEndDate(parsed);
+        // If end becomes < start, swap them
+        if (this.startDate && parsed.isBefore(moment(this.startDate))) {
+          this.setEndDate(moment(this.startDate));
+          this.setStartDate(parsed);
+        }
       }
     }
   }
