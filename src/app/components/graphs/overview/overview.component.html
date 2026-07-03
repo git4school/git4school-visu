@@ -258,11 +258,11 @@
     >
       <p>{{ hovered_group_commit[hovered_group_commit.length - 1].message }}</p>
       <p>
-        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.BEGIN" | translate }} :
+        {{ "COMMIT-TOOLTIP.START" | translate }} :
         {{ commit_date_format(hovered_group_commit[0].commitDate) }}
       </p>
       <p>
-        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.END" | translate }} :
+        {{ "COMMIT-TOOLTIP.END" | translate }} :
         {{
           commit_date_format(
             hovered_group_commit[hovered_group_commit.length - 1].commitDate
@@ -270,7 +270,7 @@
         }}
       </p>
       <p>
-        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
+        {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
         {{ hovered_group_commit.length }}
       </p>
     </div>
@@ -278,11 +278,11 @@
       *ngIf="!hovered_group_commit[hovered_group_commit.length - 1].isCloture"
     >
       <p>
-        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.BEGIN" | translate }} :
+        {{ "COMMIT-TOOLTIP.START" | translate }} :
         {{ commit_date_format(hovered_group_commit[0].commitDate) }}
       </p>
       <p>
-        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.END" | translate }} :
+        {{ "COMMIT-TOOLTIP.END" | translate }} :
         {{
           commit_date_format(
             hovered_group_commit[hovered_group_commit.length - 1].commitDate
@@ -290,7 +290,7 @@
         }}
       </p>
       <p>
-        {{ "OVERVIEW-GRAPH.COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
+        {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :
         {{ hovered_group_commit.length }}
       </p>
     </div>
