@@ -9,6 +9,8 @@ import {
   Output,
   ViewChild,
   ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges
 } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
@@ -26,7 +28,7 @@ export interface CalendarDay {
   templateUrl: "./date-range-picker.component.html",
   styleUrls: ["./date-range-picker.component.scss"],
 })
-export class DateRangePickerComponent implements OnInit, OnDestroy {
+export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() startDate: Date | null = null;
   @Input() endDate: Date | null = null;
   @Input() singleMode = false;
@@ -73,6 +75,36 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['date'] && this.singleMode) {
+      if (this.date) {
+        this.viewDate = moment(this.date);
+        this.updateInputStrings(true, moment(this.date));
+      } else {
+        this.updateInputStrings(true, null);
+      }
+    }
+    
+    if (!this.singleMode) {
+      if (changes['startDate']) {
+        if (this.startDate) {
+          this.viewDate = moment(this.startDate);
+          this.updateInputStrings(true, moment(this.startDate));
+        } else {
+          this.updateInputStrings(true, null);
+        }
+      }
+      if (changes['endDate']) {
+        if (this.endDate) {
+          if (!this.startDate) this.viewDate = moment(this.endDate);
+          this.updateInputStrings(false, moment(this.endDate));
+        } else {
+          this.updateInputStrings(false, null);
+        }
+      }
+    }
+  }
+
   ngOnInit(): void {
     this.updateLocale();
     this.langSubscription = this.translateService.onLangChange.subscribe(() => {
@@ -114,7 +146,6 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
 
   togglePopup() {
     this.isOpen = !this.isOpen;
-    this.cdr.markForCheck();
     if (this.isOpen) {
       if (this.singleMode && this.date) {
         this.viewDate = moment(this.date);
@@ -123,19 +154,18 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
       }
       this.generateCalendar();
 
-      // Check available space
-      setTimeout(() => {
-        const rect = this.elementRef.nativeElement.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        const spaceBelow = viewportHeight - rect.bottom;
-        const spaceAbove = rect.top;
+      // Check available space synchronously to avoid flash
+      const rect = this.elementRef.nativeElement.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const spaceBelow = viewportHeight - rect.bottom;
+      const spaceAbove = rect.top;
 
-        // Popup is approx 380px tall. Drop up if space below is insufficient AND space above is larger.
-        this.dropUp = spaceBelow < 380 && spaceAbove > spaceBelow;
-      });
+      // Popup is approx 380px tall. Drop up if space below is insufficient AND space above is larger.
+      this.dropUp = spaceBelow < 380 && spaceAbove > spaceBelow;
     } else {
       this.dropUp = false;
     }
+    this.cdr.markForCheck();
   }
 
   closePopup() {
@@ -285,6 +315,42 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     this.closePopup();
   }
 
+  private setFieldValue(isStart: boolean, field: "day" | "month" | "year", value: string) {
+    if (isStart) {
+      if (field === "day") this.startDayStr = value;
+      else if (field === "month") this.startMonthStr = value;
+      else if (field === "year") this.startYearStr = value;
+    } else {
+      if (field === "day") this.endDayStr = value;
+      else if (field === "month") this.endMonthStr = value;
+      else if (field === "year") this.endYearStr = value;
+    }
+  }
+
+  private padMonth(monthStr: string): string {
+    return monthStr.length === 1 ? `0${monthStr}` : monthStr;
+  }
+
+  private getMaxDays(isStart: boolean): number {
+    const monthStr = isStart ? this.startMonthStr : this.endMonthStr;
+    const yearStr = isStart ? this.startYearStr : this.endYearStr;
+    if (monthStr.length === 2 && yearStr.length >= 4) {
+      const parsed = moment(`${yearStr}-${monthStr}-01`, "YYYY-MM-DD", true);
+      if (parsed.isValid()) return parsed.daysInMonth();
+    }
+    return 31;
+  }
+
+  private padAndValidateDay(dayStr: string, maxDays: number): string {
+    let dStr = dayStr;
+    if (dStr.length === 1) dStr = `0${dStr}`;
+    if (dStr.length === 2) {
+      const d = parseInt(dStr, 10);
+      if (d > maxDays) dStr = maxDays.toString();
+    }
+    return dStr;
+  }
+
   onInputType(event: Event, isStart: boolean, field: "day" | "month" | "year") {
     const input = event.target as HTMLInputElement;
     let value = input.value.replace(/\D/g, ""); // Keep only digits
@@ -295,48 +361,22 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     }
 
     if (value.length > 0) {
-      let num = parseInt(value, 10);
+      const num = parseInt(value, 10);
       if (field === "month") {
         if (num > 12) value = "12";
         if (value.length === 2 && num === 0) value = "01";
-        
         // Auto-pad if first digit is > 1
-        if (value.length === 1 && num > 1) {
-          value = `0${num}`;
-        }
+        if (value.length === 1 && num > 1) value = `0${num}`;
       } else if (field === "day") {
-        let maxDays = 31;
-        // Optionally calculate max days if month and year are valid
-        const monthStr = isStart ? this.startMonthStr : this.endMonthStr;
-        const yearStr = isStart ? this.startYearStr : this.endYearStr;
-        if (monthStr.length === 2 && yearStr.length >= 4) {
-           const parsed = moment(`${yearStr}-${monthStr}-01`, "YYYY-MM-DD", true);
-           if (parsed.isValid()) {
-             maxDays = parsed.daysInMonth();
-           }
-        }
-        
+        const maxDays = this.getMaxDays(isStart);
         if (num > maxDays) value = maxDays.toString();
         if (value.length === 2 && num === 0) value = "01";
-        
         // Auto-pad if first digit is > 3
-        if (value.length === 1 && num > 3) {
-          value = `0${num}`;
-        }
+        if (value.length === 1 && num > 3) value = `0${num}`;
       }
     }
 
-    // Update local state
-    if (isStart) {
-      if (field === "day") this.startDayStr = value;
-      if (field === "month") this.startMonthStr = value;
-      if (field === "year") this.startYearStr = value;
-    } else {
-      if (field === "day") this.endDayStr = value;
-      if (field === "month") this.endMonthStr = value;
-      if (field === "year") this.endYearStr = value;
-    }
-
+    this.setFieldValue(isStart, field, value);
     input.value = value;
 
     // Auto-advance
@@ -365,35 +405,12 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
 
   onBlur(isStart: boolean) {
     if (isStart) {
-      if (this.startDayStr.length === 1) this.startDayStr = `0${this.startDayStr}`;
-      if (this.startMonthStr.length === 1) this.startMonthStr = `0${this.startMonthStr}`;
-      
-      if (this.startMonthStr.length === 2 && this.startYearStr.length >= 4 && this.startDayStr.length === 2) {
-        const parsed = moment(`${this.startYearStr}-${this.startMonthStr}-01`, "YYYY-MM-DD", true);
-        if (parsed.isValid()) {
-          const maxDays = parsed.daysInMonth();
-          const d = parseInt(this.startDayStr, 10);
-          if (d > maxDays) {
-            this.startDayStr = maxDays.toString();
-          }
-        }
-      }
+      this.startMonthStr = this.padMonth(this.startMonthStr);
+      this.startDayStr = this.padAndValidateDay(this.startDayStr, this.getMaxDays(true));
     } else {
-      if (this.endDayStr.length === 1) this.endDayStr = `0${this.endDayStr}`;
-      if (this.endMonthStr.length === 1) this.endMonthStr = `0${this.endMonthStr}`;
-      
-      if (this.endMonthStr.length === 2 && this.endYearStr.length >= 4 && this.endDayStr.length === 2) {
-        const parsed = moment(`${this.endYearStr}-${this.endMonthStr}-01`, "YYYY-MM-DD", true);
-        if (parsed.isValid()) {
-          const maxDays = parsed.daysInMonth();
-          const d = parseInt(this.endDayStr, 10);
-          if (d > maxDays) {
-            this.endDayStr = maxDays.toString();
-          }
-        }
-      }
+      this.endMonthStr = this.padMonth(this.endMonthStr);
+      this.endDayStr = this.padAndValidateDay(this.endDayStr, this.getMaxDays(false));
     }
-
     this.tryParseDate(isStart);
   }
 
@@ -477,36 +494,46 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private focusNext(isStart: boolean, field: "day" | "month" | "year", cursorPosition?: 'start' | 'end') {
-    let nextEl: ElementRef | undefined;
-    const isYearAndNotSingle = field === "year" && !this.singleMode;
-    const goToEnd = this.isFrench ? this.endDayEl : this.endMonthEl;
-
+  private getElementFor(isStart: boolean, field: "day" | "month" | "year"): ElementRef | undefined {
     if (isStart) {
-      if (this.isFrench) {
-        if (field === "day") nextEl = this.startMonthEl;
-        else if (field === "month") nextEl = this.startYearEl;
-        else if (isYearAndNotSingle) nextEl = goToEnd;
-      } else {
-        if (field === "month") nextEl = this.startDayEl;
-        else if (field === "day") nextEl = this.startYearEl;
-        else if (isYearAndNotSingle) nextEl = goToEnd;
-      }
+      if (field === "day") return this.startDayEl;
+      if (field === "month") return this.startMonthEl;
+      if (field === "year") return this.startYearEl;
     } else {
-      if (this.isFrench) {
-        if (field === "day") nextEl = this.endMonthEl;
-        else if (field === "month") nextEl = this.endYearEl;
-      } else {
-        if (field === "month") nextEl = this.endDayEl;
-        else if (field === "day") nextEl = this.endYearEl;
-      }
+      if (field === "day") return this.endDayEl;
+      if (field === "month") return this.endMonthEl;
+      if (field === "year") return this.endYearEl;
     }
+    return undefined;
+  }
 
+  private get orderedElements(): ElementRef[] {
+    const startEls = this.isFrench 
+      ? [this.startDayEl, this.startMonthEl, this.startYearEl] 
+      : [this.startMonthEl, this.startDayEl, this.startYearEl];
+
+    if (this.singleMode) return startEls;
+
+    const endEls = this.isFrench 
+      ? [this.endDayEl, this.endMonthEl, this.endYearEl] 
+      : [this.endMonthEl, this.endDayEl, this.endYearEl];
+
+    return [...startEls, ...endEls];
+  }
+
+  private moveFocus(isStart: boolean, field: "day" | "month" | "year", direction: 1 | -1, cursorPosition?: 'start' | 'end') {
+    const currentEl = this.getElementFor(isStart, field);
+    if (!currentEl) return;
+    
+    const elements = this.orderedElements;
+    const currentIndex = elements.indexOf(currentEl);
+    if (currentIndex === -1) return;
+    
+    const nextEl = elements[currentIndex + direction];
     if (nextEl) {
       const el = nextEl.nativeElement as HTMLInputElement;
       el.focus();
       if (cursorPosition) {
-        // Need a small timeout to ensure cursor placement happens after focus event is fully processed
         setTimeout(() => {
           const pos = cursorPosition === 'start' ? 0 : el.value.length;
           el.setSelectionRange(pos, pos);
@@ -515,38 +542,12 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private focusPrevious(isStart: boolean, field: "day" | "month" | "year", cursorPosition?: 'start' | 'end') {
-    let prevEl: ElementRef | undefined;
-    if (isStart) {
-      if (this.isFrench) {
-        if (field === "month") prevEl = this.startDayEl;
-        else if (field === "year") prevEl = this.startMonthEl;
-      } else {
-        if (field === "day") prevEl = this.startMonthEl;
-        else if (field === "year") prevEl = this.startDayEl;
-      }
-    } else {
-      if (this.isFrench) {
-        if (field === "day") prevEl = this.startYearEl;
-        else if (field === "month") prevEl = this.endDayEl;
-        else if (field === "year") prevEl = this.endMonthEl;
-      } else {
-        if (field === "month") prevEl = this.startYearEl;
-        else if (field === "day") prevEl = this.endMonthEl;
-        else if (field === "year") prevEl = this.endDayEl;
-      }
-    }
+  private focusNext(isStart: boolean, field: "day" | "month" | "year", cursorPosition?: 'start' | 'end') {
+    this.moveFocus(isStart, field, 1, cursorPosition);
+  }
 
-    if (prevEl) {
-      const el = prevEl.nativeElement as HTMLInputElement;
-      el.focus();
-      if (cursorPosition) {
-        setTimeout(() => {
-          const pos = cursorPosition === 'start' ? 0 : el.value.length;
-          el.setSelectionRange(pos, pos);
-        });
-      }
-    }
+  private focusPrevious(isStart: boolean, field: "day" | "month" | "year", cursorPosition?: 'start' | 'end') {
+    this.moveFocus(isStart, field, -1, cursorPosition);
   }
 
   private tryParseDate(isStart: boolean) {
