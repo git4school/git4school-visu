@@ -13,6 +13,7 @@ import { ToastsComponent } from "./toasts/toasts.component";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { TooltipDirective } from "./tooltip/tooltip.directive";
 import { CustomModalContainerComponent } from "./custom-modal/custom-modal-container/custom-modal-container.component";
+import { TypePickerComponent } from "./type-picker/type-picker.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CustomModalContainerComponent } from "./custom-modal/custom-modal-conta
     TooltipComponent,
     TooltipDirective,
     CustomModalContainerComponent,
+    TypePickerComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -37,6 +39,7 @@ import { CustomModalContainerComponent } from "./custom-modal/custom-modal-conta
     TooltipComponent,
     TooltipDirective,
     CustomModalContainerComponent,
+    TypePickerComponent,
   ],
   entryComponents: [CustomModalContainerComponent],
 })

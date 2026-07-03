@@ -13,6 +13,7 @@ import { Utils } from "@services/utils";
 import * as moment from "moment";
 import { Observable, Subject, merge } from "rxjs";
 import { filter, map } from "rxjs/operators";
+import { TypePickerOption } from "@shared/ui/type-picker/type-picker.component";
 
 @Component({
   selector: "edit-milestone",
@@ -32,6 +33,12 @@ export class EditMilestoneComponent implements OnInit {
   @ViewChild("instance") instance: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
+
+  milestoneTypes: TypePickerOption[] = [
+    { value: 'corrections', label: 'CORRECTION', color: 'var(--color-danger)' },
+    { value: 'reviews', label: 'REVIEW', color: 'var(--color-primary)' },
+    { value: 'others', label: 'OTHER', color: 'var(--color-secondary)' }
+  ];
 
   constructor(
     public activeModalService: CustomModalRef,

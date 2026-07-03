@@ -52,11 +52,12 @@
         <div class="form-group required">
             <label class="col-form-label required-label">{{ 'MILESTONE-TYPE' | translate
                 }}</label><br>
-            <app-milestone-type-selector 
+            <app-type-picker 
                 formControlName="type"
+                [options]="milestoneTypes"
                 [isInvalid]="milestoneForm.controls.type.invalid"
                 errorMessage="{{ 'NO-MILESTONE-TYPE-FEEDBACK' | translate }}">
-            </app-milestone-type-selector>
+            </app-type-picker>
 
         </div>
 
