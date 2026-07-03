@@ -9,6 +9,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
+import { MilestoneTypeSelectorComponent } from "@components/edit-milestone/milestone-type-selector/milestone-type-selector.component";
 import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.component";
 import { OverviewComponent } from "@components/graphs/overview/overview.component";
 import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
@@ -126,6 +127,7 @@ export function appInitializerFactory(
     AssignmentChooserComponent,
     FileChooserComponent,
     EditMilestoneComponent,
+    MilestoneTypeSelectorComponent,
     QuestionsChooserComponent,
     HomeNavLayoutComponent,
     AppNavLayoutComponent,

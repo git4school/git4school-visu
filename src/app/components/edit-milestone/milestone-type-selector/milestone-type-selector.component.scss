@@ -1,0 +1,167 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.milestone-type-selector {
+  width: 100%;
+  display: flex;
+}
+
+.type-group {
+  display: flex;
+  flex-direction: column;
+  background: var(--filter-bg);
+  border-radius: 24px;
+  padding: 12px;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  transition: all 0.3s ease;
+  
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &.is-invalid {
+    background: rgba(239, 68, 68, 0.05);
+    box-shadow: inset 0 0 0 1px var(--color-danger);
+  }
+
+  .buttons-row {
+    display: flex;
+    position: relative;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .error-msg {
+    width: 100%;
+    text-align: center;
+    color: var(--color-danger);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(239, 68, 68, 0.2);
+    animation: slideDownFade 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  @keyframes slideDownFade {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .type-indicator {
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    width: calc((100% - 16px) / 3); /* (100% - 16px total gap) / 3 */
+    height: 3px; /* shrink to bottom line when NOT hovered */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.33, 1), 
+                background-color 0.3s ease,
+                height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+                border-radius 0.3s ease,
+                opacity 0.2s ease,
+                bottom 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 0;
+    background: var(--filter-indicator);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+
+  &[data-active=""],
+  &[data-active="null"],
+  &:not([data-active]) {
+    &:not([data-hover]), &[data-hover="null"], &[data-hover=""] {
+      .type-indicator {
+        opacity: 0;
+        transform: scaleX(0) !important;
+      }
+    }
+  }
+
+  /* 1. POSITION AND COLOR */
+  /* Fallback: use data-active for position when not in pill mode, or when hovered is empty */
+  &[data-active="corrections"] .type-indicator { transform: translateX(0) scaleX(0.6); background: var(--color-danger); }
+  &[data-active="reviews"] .type-indicator { transform: translateX(calc(100% + 8px)) scaleX(0.6); background: var(--color-primary); }
+  &[data-active="others"] .type-indicator { transform: translateX(calc(200% + 16px)) scaleX(0.6); background: var(--color-secondary); }
+
+  /* Pill Mode: override position and color using data-hover */
+  &[data-mode="pill"][data-hover="corrections"] .type-indicator { transform: translateX(0) scaleX(1); background: var(--color-danger); }
+  &[data-mode="pill"][data-hover="reviews"] .type-indicator { transform: translateX(calc(100% + 8px)) scaleX(1); background: var(--color-primary); }
+  &[data-mode="pill"][data-hover="others"] .type-indicator { transform: translateX(calc(200% + 16px)) scaleX(1); background: var(--color-secondary); }
+
+  /* Pill Mode fallback: if data-hover is missing but we are in pill mode, use data-active and scaleX(1) */
+  &[data-mode="pill"]:not([data-hover="corrections"]):not([data-hover="reviews"]):not([data-hover="others"]) {
+    &[data-active="corrections"] .type-indicator { transform: translateX(0) scaleX(1); background: var(--color-danger); }
+    &[data-active="reviews"] .type-indicator { transform: translateX(calc(100% + 8px)) scaleX(1); background: var(--color-primary); }
+    &[data-active="others"] .type-indicator { transform: translateX(calc(200% + 16px)) scaleX(1); background: var(--color-secondary); }
+  }
+
+  /* 2. SHAPE AND SIZE */
+  &[data-mode="pill"] .type-indicator {
+    height: 100%;
+    bottom: 0;
+    border-radius: 12px;
+  }
+
+  /* 4. TEXT COLOR */
+  .type-btn {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none;
+    flex: 1;
+    padding: 0.4rem 0; /* Reduced from 0.6rem to wrap the text tighter vertically */
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--filter-text);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+
+    &:hover:not(.active) {
+      color: var(--color-text-primary);
+    }
+    
+    // Base active styling (weight)
+    &.active {
+      font-weight: 600;
+    }
+  }
+
+  /* Text colors when NO pill is over them (lisere mode, or pill is somewhere else) */
+  &[data-active="corrections"] .type-btn[data-type="corrections"] { color: var(--color-danger); }
+  &[data-active="reviews"] .type-btn[data-type="reviews"] { color: var(--color-primary); }
+  &[data-active="others"] .type-btn[data-type="others"] { color: var(--color-secondary); }
+
+  /* When pill is over a button, its text becomes white */
+  &[data-mode="pill"][data-hover="corrections"] .type-btn[data-type="corrections"] { color: #ffffff !important; }
+  &[data-mode="pill"][data-hover="reviews"] .type-btn[data-type="reviews"] { color: #ffffff !important; }
+  &[data-mode="pill"][data-hover="others"] .type-btn[data-type="others"] { color: #ffffff !important; }
+
+  /* If pill is on active button because of group padding hover */
+  &[data-mode="pill"]:not([data-hover="corrections"]):not([data-hover="reviews"]):not([data-hover="others"]) {
+    &[data-active="corrections"] .type-btn[data-type="corrections"] { color: #ffffff !important; }
+    &[data-active="reviews"] .type-btn[data-type="reviews"] { color: #ffffff !important; }
+    &[data-active="others"] .type-btn[data-type="others"] { color: #ffffff !important; }
+  }
+}
+
+body.dark-theme {
+  .type-group {
+    /* Need to ensure white text overrides nicely */
+    &[data-mode="pill"][data-hover="corrections"] .type-btn[data-type="corrections"] { color: #ffffff !important; }
+    &[data-mode="pill"][data-hover="reviews"] .type-btn[data-type="reviews"] { color: #ffffff !important; }
+    &[data-mode="pill"][data-hover="others"] .type-btn[data-type="others"] { color: #ffffff !important; }
+  }
+}

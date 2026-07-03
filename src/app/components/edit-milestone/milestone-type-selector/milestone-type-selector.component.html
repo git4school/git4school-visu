@@ -1,0 +1,29 @@
+<div class="milestone-type-selector">
+  <div class="type-group" 
+       [attr.data-active]="value" 
+       [attr.data-hover]="hoveredValue"
+       [attr.data-mode]="displayMode"
+       [class.disabled]="isDisabled"
+       [class.is-invalid]="isInvalid"
+       (mouseenter)="onGroupMouseEnter()"
+       (mouseleave)="onGroupMouseLeave()">
+    
+    <div class="buttons-row">
+      <div class="type-indicator"></div>
+      
+      <button *ngFor="let type of types"
+              type="button"
+              class="type-btn"
+              [attr.data-type]="type.value"
+              [class.active]="value === type.value"
+              (click)="selectType(type.value)"
+              (mouseenter)="onButtonMouseEnter(type.value)">
+        {{ type.label | translate }}
+      </button>
+    </div>
+
+    <div class="error-msg" *ngIf="isInvalid && errorMessage">
+      <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+    </div>
+  </div>
+</div>
