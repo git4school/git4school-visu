@@ -186,6 +186,7 @@ export class OverviewComponent
 
   @HostListener("document:keydown", ["$event"])
   handleGlobalShortcuts(event: KeyboardEvent) {
+    if (document.body.classList.contains("modal-open")) return;
     const target = event.target as HTMLElement;
     if (
       target.tagName === "INPUT" ||
@@ -219,6 +220,10 @@ export class OverviewComponent
     } else if (key === "-" || event.code === "NumpadSubtract") {
       event.preventDefault();
       this.zoomGraph(0.8);
+    } else if (event.code === "Space" || key === " ") {
+      event.preventDefault();
+      this.resetZoom(false);
+      this.triggerShortcut("space");
     }
   }
 
@@ -539,13 +544,7 @@ export class OverviewComponent
       })
       .on("scroll", () => this.refreshElementState())
       .attr("tabindex", "0")
-      .attr("focusable", "true")
-      .on("keydown", (event: KeyboardEvent) => {
-        if (event.code === "Space" || event.keyCode === 32) {
-          event.preventDefault();
-          this.resetZoom(false);
-        }
-      });
+      .attr("focusable", "true");
 
     this.clip = this.chart_svg
       .append("defs")
