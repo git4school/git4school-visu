@@ -62,7 +62,8 @@
         </div>
 
         <div class="duration-section d-flex flex-column justify-content-end" style="flex: 0 1 auto; margin-bottom: 2px;">
-          <label class="text-muted mb-1">{{ 'DEFAULT-SESSION-DURATION' | translate }}</label>
+          <label for="defaultSessionDuration"
+            style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem;">{{ 'DEFAULT-SESSION-DURATION' | translate }}</label>
           <div class="form-group mb-0">
             <app-session-duration-picker id="defaultSessionDuration" formControlName="defaultSessionDuration">
             </app-session-duration-picker>
