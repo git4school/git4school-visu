@@ -294,6 +294,38 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
       value = value.substring(0, maxLength);
     }
 
+    if (value.length > 0) {
+      let num = parseInt(value, 10);
+      if (field === "month") {
+        if (num > 12) value = "12";
+        if (value.length === 2 && num === 0) value = "01";
+        
+        // Auto-pad if first digit is > 1
+        if (value.length === 1 && num > 1) {
+          value = `0${num}`;
+        }
+      } else if (field === "day") {
+        let maxDays = 31;
+        // Optionally calculate max days if month and year are valid
+        const monthStr = isStart ? this.startMonthStr : this.endMonthStr;
+        const yearStr = isStart ? this.startYearStr : this.endYearStr;
+        if (monthStr.length === 2 && yearStr.length >= 4) {
+           const parsed = moment(`${yearStr}-${monthStr}-01`, "YYYY-MM-DD", true);
+           if (parsed.isValid()) {
+             maxDays = parsed.daysInMonth();
+           }
+        }
+        
+        if (num > maxDays) value = maxDays.toString();
+        if (value.length === 2 && num === 0) value = "01";
+        
+        // Auto-pad if first digit is > 3
+        if (value.length === 1 && num > 3) {
+          value = `0${num}`;
+        }
+      }
+    }
+
     // Update local state
     if (isStart) {
       if (field === "day") this.startDayStr = value;
@@ -332,6 +364,36 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
   }
 
   onBlur(isStart: boolean) {
+    if (isStart) {
+      if (this.startDayStr.length === 1) this.startDayStr = `0${this.startDayStr}`;
+      if (this.startMonthStr.length === 1) this.startMonthStr = `0${this.startMonthStr}`;
+      
+      if (this.startMonthStr.length === 2 && this.startYearStr.length >= 4 && this.startDayStr.length === 2) {
+        const parsed = moment(`${this.startYearStr}-${this.startMonthStr}-01`, "YYYY-MM-DD", true);
+        if (parsed.isValid()) {
+          const maxDays = parsed.daysInMonth();
+          const d = parseInt(this.startDayStr, 10);
+          if (d > maxDays) {
+            this.startDayStr = maxDays.toString();
+          }
+        }
+      }
+    } else {
+      if (this.endDayStr.length === 1) this.endDayStr = `0${this.endDayStr}`;
+      if (this.endMonthStr.length === 1) this.endMonthStr = `0${this.endMonthStr}`;
+      
+      if (this.endMonthStr.length === 2 && this.endYearStr.length >= 4 && this.endDayStr.length === 2) {
+        const parsed = moment(`${this.endYearStr}-${this.endMonthStr}-01`, "YYYY-MM-DD", true);
+        if (parsed.isValid()) {
+          const maxDays = parsed.daysInMonth();
+          const d = parseInt(this.endDayStr, 10);
+          if (d > maxDays) {
+            this.endDayStr = maxDays.toString();
+          }
+        }
+      }
+    }
+
     this.tryParseDate(isStart);
   }
 
