@@ -147,25 +147,30 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   togglePopup() {
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
-      if (this.singleMode && this.date) {
-        this.viewDate = moment(this.date);
-      } else if (!this.singleMode && this.startDate) {
-        this.viewDate = moment(this.startDate);
-      }
+      this.initViewDate();
       this.generateCalendar();
-
-      // Check available space synchronously to avoid flash
-      const rect = this.elementRef.nativeElement.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const spaceBelow = viewportHeight - rect.bottom;
-      const spaceAbove = rect.top;
-
-      // Popup is approx 380px tall. Drop up if space below is insufficient AND space above is larger.
-      this.dropUp = spaceBelow < 380 && spaceAbove > spaceBelow;
+      this.updatePopupDirection();
     } else {
       this.dropUp = false;
     }
     this.cdr.markForCheck();
+  }
+
+  private initViewDate(): void {
+    if (this.singleMode && this.date) {
+      this.viewDate = moment(this.date);
+    } else if (!this.singleMode && this.startDate) {
+      this.viewDate = moment(this.startDate);
+    }
+  }
+
+  private updatePopupDirection(): void {
+    const rect = this.elementRef.nativeElement.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    // Popup is approx 380px tall. Drop up if space below is insufficient AND space above is larger.
+    this.dropUp = spaceBelow < 380 && spaceAbove > spaceBelow;
   }
 
   closePopup() {
