@@ -8,6 +8,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  NgZone,
 } from "@angular/core";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { OverviewGraphContextualMenuComponent } from "@components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
@@ -164,7 +165,8 @@ export class OverviewComponent
     private modalService: NgbModal,
     protected assignmentsService: AssignmentsService,
     public themeService: ThemeService,
-    private tooltipService: TooltipService
+    private tooltipService: TooltipService,
+    private ngZone: NgZone
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -528,6 +530,16 @@ export class OverviewComponent
       .attr("width", this.inner_width)
       .attr("height", this.scrollable_height)
       .attr("opacity", "0")
+      .on("contextmenu", (event: MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        var rect = (event.target as any).getBoundingClientRect();
+        var x =
+          ((event.clientX - rect.left) / (rect.right - rect.left)) *
+          overview.inner_width;
+        let rawDate = overview.x_scale_copy.invert(x);
+        this.openContextMenu(event.pageX, event.pageY, rawDate);
+      })
       .on("click", (event: MouseEvent) => {
         event.stopPropagation();
         var rect = (event.target as any).getBoundingClientRect();
@@ -611,7 +623,9 @@ export class OverviewComponent
     date: Date
   ) {
     this.contextualMenu.close();
-    this.contextualMenu.openEditMilestone(review, x, y, date);
+    this.ngZone.run(() => {
+      this.contextualMenu.openEditMilestone(review, x, y, date);
+    });
   }
 
   openEditSessionContextMenu(
@@ -621,14 +635,16 @@ export class OverviewComponent
     date: Date
   ) {
     this.contextualMenu.close();
-    this.contextualMenu.openEditSession(session, x, y, date);
+    this.ngZone.run(() => {
+      this.contextualMenu.openEditSession(session, x, y, date);
+    });
   }
 
   openContextMenu(x: number, y: number, date: Date) {
     if (!this.isContextualMenuShown()) {
-      try {
+      this.ngZone.run(() => {
         this.contextualMenu.openNew(x, y, date);
-      } catch (error) {}
+      });
     } else {
       this.contextualMenu.close();
     }
@@ -769,14 +785,25 @@ export class OverviewComponent
         this.xScaledTimeZoned(session.endDate) -
           this.xScaledTimeZoned(session.startDate)
       )
-      .on("click", (e) =>
+      .on("contextmenu", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
           overview.x_scale.invert(e.pageX)
-        )
-      );
+        );
+      })
+      .on("click", (e) => {
+        e.stopPropagation();
+        overview.openEditSessionContextMenu(
+          session,
+          e.pageX,
+          e.pageY,
+          overview.x_scale.invert(e.pageX)
+        );
+      });
   }
 
   loadSessions() {
@@ -857,10 +884,16 @@ export class OverviewComponent
     return g
       .attr("transform", `translate(${x}, ${this.inner_margin.top})`)
       .call((g) => g.classed("hidden", x < 0 || x > overview.width))
-      .on("click", (e, d: Milestone) => {
+      .on("contextmenu", (e) => {
+        e.preventDefault();
         e.stopPropagation();
-        const rawDate = this.x_scale.invert(e.pageX);
-        overview.openEditMilestoneContextMenu(d, e.pageX, e.pageY, rawDate); //, rawDate)
+        const rawDate = overview.x_scale.invert(e.pageX);
+        overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
+      })
+      .on("click", (e) => {
+        e.stopPropagation();
+        const rawDate = overview.x_scale.invert(e.pageX);
+        overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       });
   }
 
