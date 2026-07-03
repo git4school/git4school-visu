@@ -276,6 +276,10 @@
   position: relative;
   z-index: 1;
 
+  &.is-editing {
+    z-index: 10;
+  }
+
   &::before {
     content: '';
     position: absolute;
