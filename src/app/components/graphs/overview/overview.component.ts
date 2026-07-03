@@ -337,10 +337,32 @@ export class OverviewComponent
     this.width = rect.width;
     this.height = rect.height;
 
-    this.chart_width = Math.min(
-      (css_var_number("chart-width-left-spacing-ratio") * this.width) / 100,
-      this.width - css_var_number("chart-width-max-left-spacing")
+    let maxAllowedMargin = Math.max(
+      ((100 - css_var_number("chart-width-left-spacing-ratio")) * this.width) / 100,
+      css_var_number("chart-width-max-left-spacing")
     );
+
+    let maxNameWidth = 0;
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    const repos = this.dataService.repositories ? this.getDisplayedRepositories() : [];
+    
+    if (context && repos.length > 0) {
+      context.font = "13px " + (style.getPropertyValue("--font-family-sans") || "sans-serif");
+      for (const repo of repos) {
+        const w = context.measureText(repo.name || "").width;
+        if (w > maxNameWidth) maxNameWidth = w;
+      }
+    }
+
+    let actualMargin = Math.min(maxNameWidth + 25, maxAllowedMargin);
+    
+    // Fallback to maxAllowedMargin if we couldn't measure
+    if (maxNameWidth === 0 && repos.length > 0) {
+        actualMargin = maxAllowedMargin;
+    }
+
+    this.chart_width = Math.max(1, this.width - actualMargin);
 
     this.inner_margin = {
       top: css_var_number("top-inner"),
@@ -563,7 +585,7 @@ export class OverviewComponent
       .append("svg:clipPath")
       .attr("id", "clip")
       .append("svg:rect")
-      .attr("width", this.width)
+      .attr("width", this.inner_width)
       .attr("height", 2 * this.scrollable_height)
       .attr("fill", "black")
       .attr("x", 0)
@@ -1015,7 +1037,7 @@ export class OverviewComponent
       .tickFormat((d) => {
         return repositories[d.valueOf() - 1]?.name || "";
       })
-      .tickSize(-this.width);
+      .tickSize(-this.inner_width);
 
     if (this.y_g != null) this.y_g.remove();
     this.y_g = this.axis_g.append("g").call(this.y_axis);
@@ -1036,11 +1058,27 @@ export class OverviewComponent
       .each(function (this: SVGTextElement) {
         const maxW = leftSpace - 15;
         let textStr = this.textContent || "";
+        
+        // Initial check if it exceeds width
         if (this.getComputedTextLength() > maxW && textStr.length > 0) {
-          let i = textStr.length;
-          while (this.getComputedTextLength() > maxW && i > 0) {
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+          if (context) {
+            let style = window.getComputedStyle(this);
+            context.font = style.fontSize + " " + style.fontFamily;
+            
+            let i = textStr.length;
+            while (context.measureText(textStr.substring(0, i) + "...").width > maxW && i > 0) {
+              i--;
+            }
             this.textContent = textStr.substring(0, i) + "...";
-            i--;
+          } else {
+            // Fallback just in case canvas is not supported
+            let i = textStr.length;
+            while (this.getComputedTextLength() > maxW && i > 0) {
+              this.textContent = textStr.substring(0, i) + "...";
+              i--;
+            }
           }
         }
       })
@@ -1085,7 +1123,7 @@ export class OverviewComponent
       .attr("class", "axis")
       .append("line")
       .attr("x1", 0)
-      .attr("x2", this.width)
+      .attr("x2", this.inner_width)
       .attr("y1", this.scrollable_height)
       .attr("y2", this.scrollable_height);
   }
