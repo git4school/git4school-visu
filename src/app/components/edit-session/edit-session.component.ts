@@ -14,8 +14,6 @@ import {
 } from "@angular/forms";
 import { Session } from "@models/Session.model";
 import {
-  NgbDateAdapter,
-  NgbDateNativeAdapter,
   NgbTypeahead,
 } from "@ng-bootstrap/ng-bootstrap";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
@@ -28,7 +26,6 @@ import { filter, map } from "rxjs/operators";
   selector: "app-edit-session",
   templateUrl: "./edit-session.component.html",
   styleUrls: ["./edit-session.component.scss"],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditSessionComponent implements OnInit {

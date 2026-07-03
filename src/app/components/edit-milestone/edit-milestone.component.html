@@ -11,17 +11,13 @@
     <form [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
         <div class="form-row">
             <div class="form-group col-8 required">
-                <label for="date" class="col-form-label required-label">{{ 'DATE' | translate }}</label>
-                <div class="input-group">
-                    <input id="date" class="form-control" placeholder="yyyy-mm-dd" formControlName="date" ngbDatepicker
-                        #d="ngbDatepicker" name="date" [showWeekNumbers]="true">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                            <i class="far fa-calendar-alt"></i>
-                        </button>
-                    </div>
-                </div>
-
+                <label class="col-form-label required-label">{{ 'DATE' | translate }}</label>
+                <app-date-range-picker
+                    [singleMode]="true"
+                    [singleLabel]="' '"
+                    [date]="milestoneForm.get('date')?.value"
+                    (dateChange)="milestoneForm.get('date')?.setValue($event); milestoneForm.get('date')?.markAsDirty()">
+                </app-date-range-picker>
             </div>
             <div class="form-group col-4 required">
                 <label for="time" class="col-form-label required-label">

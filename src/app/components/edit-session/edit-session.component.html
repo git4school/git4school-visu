@@ -9,19 +9,13 @@
 <div class="modal-body mx-2">
     <form [formGroup]="sessionForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
         <div class="form-group required">
-            <!-- date -->
-            <label for="date" class="required-label">
-                {{ 'EDIT-SESSION.DATE-LABEL' | translate }}
-            </label>
-            <div class="input-group">
-                <input id="date" class="form-control" placeholder="yyyy-mm-dd" formControlName="date" ngbDatepicker
-                    #d="ngbDatepicker" name="date" [showWeekNumbers]="true">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                        <i class="far fa-calendar-alt"></i>
-                    </button>
-                </div>
-            </div>
+            <label class="required-label">{{ 'EDIT-SESSION.DATE-LABEL' | translate }}</label>
+            <app-date-range-picker
+                [singleMode]="true"
+                [singleLabel]="' '"
+                [date]="sessionForm.get('date')?.value"
+                (dateChange)="sessionForm.get('date')?.setValue($event); sessionForm.get('date')?.markAsDirty()">
+            </app-date-range-picker>
         </div>
         <div class="form-row">
             <div class="form-group col required">
