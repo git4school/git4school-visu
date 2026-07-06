@@ -276,15 +276,38 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       return date.isAfter(start, "day") && date.isBefore(end, "day");
     }
 
-    if (start && !end && this.hoverDate && this.hoverDate.isAfter(start, "day")) {
-      return date.isAfter(start, "day") && date.isSameOrBefore(this.hoverDate, "day");
-    }
-
-    if (!start && end && this.hoverDate && this.hoverDate.isBefore(end, "day")) {
-      return date.isBefore(end, "day") && date.isSameOrAfter(this.hoverDate, "day");
+    if (start && !end && this.hoverDate) {
+      if (this.hoverDate.isAfter(start, "day")) {
+        return date.isAfter(start, "day") && date.isBefore(this.hoverDate, "day");
+      } else if (this.hoverDate.isBefore(start, "day")) {
+        return date.isBefore(start, "day") && date.isAfter(this.hoverDate, "day");
+      }
     }
 
     return false;
+  }
+
+  isRangeRight(date: moment.Moment): boolean {
+    if (this.singleMode || !this.startDate || !date.isSame(this.startDate, 'day')) return false;
+    if (this.endDate && moment(this.endDate).isAfter(this.startDate, 'day')) return true;
+    if (!this.endDate && this.hoverDate && this.hoverDate.isAfter(this.startDate, 'day')) return true;
+    return false;
+  }
+
+  isRangeLeft(date: moment.Moment): boolean {
+    if (this.singleMode || !this.startDate || !date.isSame(this.startDate, 'day')) return false;
+    if (!this.endDate && this.hoverDate && this.hoverDate.isBefore(this.startDate, 'day')) return true;
+    return false;
+  }
+
+  isHoverForwardEnd(date: moment.Moment): boolean {
+    if (this.singleMode || this.endDate || !this.startDate || !this.hoverDate) return false;
+    return date.isSame(this.hoverDate, 'day') && this.hoverDate.isAfter(this.startDate, 'day');
+  }
+
+  isHoverBackwardStart(date: moment.Moment): boolean {
+    if (this.singleMode || this.endDate || !this.startDate || !this.hoverDate) return false;
+    return date.isSame(this.hoverDate, 'day') && this.hoverDate.isBefore(this.startDate, 'day');
   }
 
   setToday() {

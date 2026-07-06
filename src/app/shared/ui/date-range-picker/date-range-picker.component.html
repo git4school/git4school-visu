@@ -79,6 +79,22 @@
   <!-- Popup Calendar Overlay -->
   <div class="calendar-popup" *ngIf="isOpen" (click)="$event.stopPropagation()" [class.drop-up]="dropUp">
 
+    <!-- Quick Selectors Header -->
+    <div class="calendar-quick-selectors">
+      <button type="button" class="quick-btn" (click)="setToday()">
+        <svg class="sparkle-icon purple" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
+        <span>{{ 'TODAY' | translate }}</span>
+      </button>
+      <button type="button" class="quick-btn" (click)="setThisWeek()" *ngIf="!singleMode">
+        <svg class="sparkle-icon yellow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
+        <span>{{ 'THIS_WEEK' | translate }}</span>
+      </button>
+      <button type="button" class="quick-btn" (click)="setThisMonth()" *ngIf="!singleMode">
+        <svg class="sparkle-icon blue" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
+        <span>{{ 'THIS_MONTH' | translate }}</span>
+      </button>
+    </div>
+
     <!-- Calendar Header -->
     <div class="calendar-header">
       <button type="button" class="nav-btn" (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>
@@ -95,19 +111,15 @@
         <ng-container *ngFor="let week of calendar">
           <div class="day-cell" *ngFor="let day of week" [class.outside-month]="!day.isCurrentMonth"
             [class.selected-start]="isStartDate(day.date)" [class.selected-end]="isEndDate(day.date)"
-            [class.in-range]="isInRange(day.date)" [class.today]="day.isToday" (click)="onDateClick(day)"
+            [class.in-range]="isInRange(day.date)" [class.today]="day.isToday"
+            [class.range-right]="isRangeRight(day.date)" [class.range-left]="isRangeLeft(day.date)"
+            [class.hover-end]="isHoverForwardEnd(day.date)" [class.hover-start]="isHoverBackwardStart(day.date)"
+            (click)="onDateClick(day)"
             (mouseenter)="onDateHover(day)" (mouseleave)="onDateLeave()">
             <div class="day-number">{{ day.day }}</div>
           </div>
         </ng-container>
       </div>
-    </div>
-
-    <!-- Quick Selectors Footer -->
-    <div class="calendar-footer">
-      <button type="button" class="quick-btn" (click)="setToday()">{{ 'TODAY' | translate }}</button>
-      <button type="button" class="quick-btn" (click)="setThisWeek()" *ngIf="!singleMode">{{ 'THIS_WEEK' | translate }}</button>
-      <button type="button" class="quick-btn" (click)="setThisMonth()" *ngIf="!singleMode">{{ 'THIS_MONTH' | translate }}</button>
     </div>
 
   </div>
