@@ -855,18 +855,9 @@ export class OverviewComponent
     });
   }
 
-  getLineForMilestone(
-    parent: d3.Selection<any, any, any, any>,
-    m: Milestone,
-    class_: string,
-    index: number
-  ) {
-    const overview = this;
-    let g = parent.append("g").attr("class", class_);
-
+  private buildMilestoneGraphics(g: d3.Selection<any, any, any, any>, m: Milestone, index: number) {
     // Line
     g.append("rect")
-      // .attr("clip-path", "url(#clip)")
       .attr("x", 0)
       .attr("y", 0)
       .attr("width", 1)
@@ -904,99 +895,134 @@ export class OverviewComponent
       .attr("x", -(bbox.width + 30) / 2)
       .attr("y", bbox.y - 15)
       .attr("style", "cursor: grab; pointer-events: all;");
+  }
 
-    let x = this.xScaledTimeZoned(m.date);
-    
-    const dragBehavior = d3.drag<any, any>()
+  private setupMilestoneDragBehavior(m: Milestone) {
+    const overview = this;
+    return d3.drag<any, any>()
       .on("start", function(event) {
-        overview.isDraggingMilestone = true;
-        d3.select(this).raise();
-        d3.select(this).select(".hitbox").attr("style", "cursor: grabbing; pointer-events: all;");
-        
-        // Add time indicator
-        if (overview.axis_abs_g) {
-          overview.dragTimeIndicator = overview.axis_abs_g.append("g")
-            .attr("class", "drag-time-indicator")
-            .attr("transform", `translate(${event.x}, ${overview.inner_height + overview.inner_margin.top})`);
-            
-          overview.dragTimeIndicator.append("path")
-            .attr("d", "M -5 0 L 5 0 L 0 -5 Z")
-            .attr("fill", "var(--primary)")
-            .attr("transform", "translate(0, 0)");
-            
-          overview.dragTimeIndicator.append("text")
-            .attr("y", 15)
-            .attr("text-anchor", "middle")
-            .style("fill", "var(--primary)")
-            .style("font-size", "12px")
-            .style("font-weight", "bold");
-        }
+        overview.onMilestoneDragStart(event, d3.select(this));
       })
       .on("drag", function(event) {
-        // Compute x coordinate based on event
-        let currentX = Math.max(0, Math.min(overview.inner_width, event.x));
-        
-        // Update milestone position and date
-        m.date = overview.x_scale_copy.invert(currentX);
-        d3.select(this).attr("transform", `translate(${currentX}, ${overview.inner_margin.top})`);
-        
-        // Update time indicator
-        if (overview.dragTimeIndicator) {
-          overview.dragTimeIndicator.attr("transform", `translate(${currentX}, ${overview.inner_height + overview.inner_margin.top})`);
-          overview.dragTimeIndicator.select("text").text(OverviewComponent.formatDay(m.date) + " " + OverviewComponent.formatHour(m.date));
-        }
-
-        // Edge scrolling logic
-        const scrollMargin = 50;
-        const scrollSpeed = 5;
-        let dx = 0;
-
-        if (currentX < scrollMargin) {
-          dx = scrollSpeed; // scroll left
-        } else if (currentX > overview.inner_width - scrollMargin) {
-          dx = -scrollSpeed; // scroll right
-        }
-
-        if (dx !== 0) {
-          if (!overview.dragScrollTimer) {
-            overview.dragScrollTimer = d3.timer(() => {
-              if (overview.zoom && overview.data_g) {
-                // Apply zoom translation
-                overview.data_g.call(overview.zoom.translateBy, dx / (overview.current_zoom?.k || 1), 0);
-                
-                // Recalculate x position based on new zoom
-                let updatedX = overview.xScaledTimeZoned(m.date);
-                updatedX = Math.max(0, Math.min(overview.inner_width, updatedX));
-                d3.select(this).attr("transform", `translate(${updatedX}, ${overview.inner_margin.top})`);
-                
-                if (overview.dragTimeIndicator) {
-                  overview.dragTimeIndicator.attr("transform", `translate(${updatedX}, ${overview.inner_height + overview.inner_margin.top})`);
-                }
-              }
-            });
-          }
-        } else if (overview.dragScrollTimer) {
-          overview.dragScrollTimer.stop();
-          overview.dragScrollTimer = null;
-        }
+        overview.onMilestoneDrag(event, d3.select(this), m);
       })
-      .on("end", function(event) {
-        overview.isDraggingMilestone = false;
-        d3.select(this).select(".hitbox").attr("style", "cursor: grab; pointer-events: all;");
-        
-        if (overview.dragScrollTimer) {
-          overview.dragScrollTimer.stop();
-          overview.dragScrollTimer = null;
-        }
-        
-        if (overview.dragTimeIndicator) {
-          overview.dragTimeIndicator.remove();
-          overview.dragTimeIndicator = null;
-        }
-        
-        // Save the updated milestone date
-        overview.saveData();
+      .on("end", function() {
+        overview.onMilestoneDragEnd(d3.select(this));
       });
+  }
+
+  private onMilestoneDragStart(event: any, element: d3.Selection<any, any, any, any>) {
+    this.isDraggingMilestone = true;
+    element.raise();
+    element.select(".hitbox").attr("style", "cursor: grabbing; pointer-events: all;");
+    this.createDragTimeIndicator(event.x);
+  }
+
+  private onMilestoneDrag(event: any, element: d3.Selection<any, any, any, any>, m: Milestone) {
+    let currentX = Math.max(0, Math.min(this.inner_width, event.x));
+    
+    m.date = this.x_scale_copy.invert(currentX);
+    element.attr("transform", `translate(${currentX}, ${this.inner_margin.top})`);
+    
+    this.updateDragTimeIndicator(currentX, m.date);
+    this.handleDragEdgeScrolling(currentX, element, m);
+  }
+
+  private onMilestoneDragEnd(element: d3.Selection<any, any, any, any>) {
+    this.isDraggingMilestone = false;
+    element.select(".hitbox").attr("style", "cursor: grab; pointer-events: all;");
+    
+    this.stopDragScrollTimer();
+    this.removeDragTimeIndicator();
+    this.saveData();
+  }
+
+  private createDragTimeIndicator(x: number) {
+    if (!this.axis_abs_g) return;
+    
+    this.dragTimeIndicator = this.axis_abs_g.append("g")
+      .attr("class", "drag-time-indicator")
+      .attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
+      
+    this.dragTimeIndicator.append("path")
+      .attr("d", "M -5 0 L 5 0 L 0 -5 Z")
+      .attr("fill", "var(--primary)");
+      
+    this.dragTimeIndicator.append("text")
+      .attr("y", 15)
+      .attr("text-anchor", "middle")
+      .style("fill", "var(--primary)")
+      .style("font-size", "12px")
+      .style("font-weight", "bold");
+  }
+
+  private updateDragTimeIndicator(x: number, date: Date) {
+    if (!this.dragTimeIndicator) return;
+    
+    this.dragTimeIndicator.attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
+    this.dragTimeIndicator.select("text")
+      .text(`${OverviewComponent.formatDay(date)} ${OverviewComponent.formatHour(date)}`);
+  }
+
+  private removeDragTimeIndicator() {
+    if (this.dragTimeIndicator) {
+      this.dragTimeIndicator.remove();
+      this.dragTimeIndicator = null;
+    }
+  }
+
+  private handleDragEdgeScrolling(currentX: number, element: d3.Selection<any, any, any, any>, m: Milestone) {
+    const scrollMargin = 50;
+    const scrollSpeed = 5;
+    let dx = 0;
+
+    if (currentX < scrollMargin) {
+      dx = scrollSpeed;
+    } else if (currentX > this.inner_width - scrollMargin) {
+      dx = -scrollSpeed;
+    }
+
+    if (dx !== 0) {
+      if (!this.dragScrollTimer) {
+        this.dragScrollTimer = d3.timer(() => this.performDragScroll(dx, element, m));
+      }
+    } else {
+      this.stopDragScrollTimer();
+    }
+  }
+
+  private performDragScroll(dx: number, element: d3.Selection<any, any, any, any>, m: Milestone) {
+    if (!this.zoom || !this.data_g) return;
+    
+    this.data_g.call(this.zoom.translateBy, dx / (this.current_zoom?.k || 1), 0);
+    
+    let updatedX = this.xScaledTimeZoned(m.date);
+    updatedX = Math.max(0, Math.min(this.inner_width, updatedX));
+    element.attr("transform", `translate(${updatedX}, ${this.inner_margin.top})`);
+    
+    this.updateDragTimeIndicator(updatedX, m.date);
+  }
+
+  private stopDragScrollTimer() {
+    if (this.dragScrollTimer) {
+      this.dragScrollTimer.stop();
+      this.dragScrollTimer = null;
+    }
+  }
+
+  getLineForMilestone(
+    parent: d3.Selection<any, any, any, any>,
+    m: Milestone,
+    class_: string,
+    index: number
+  ) {
+    const overview = this;
+    let g = parent.append("g").attr("class", class_);
+
+    this.buildMilestoneGraphics(g, m, index);
+
+    let x = this.xScaledTimeZoned(m.date);
+    const dragBehavior = this.setupMilestoneDragBehavior(m);
 
     return g
       .attr("transform", `translate(${x}, ${this.inner_margin.top})`)
