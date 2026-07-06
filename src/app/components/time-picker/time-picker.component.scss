@@ -1,0 +1,185 @@
+@import 'variables';
+
+.time-picker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $space-2;
+  user-select: none;
+  touch-action: none;
+}
+
+.clock-face {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+  margin: 0 auto;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  body.dark-theme & {
+    background-color: #333333;
+  }
+}
+
+.period-arc {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.clock-face-inner {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  pointer-events: none;
+}
+
+.clock-ticks {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.clock-tick {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .tick-line {
+    width: 2px;
+    height: 6px;
+    background-color: var(--color-text-muted);
+    border-radius: 2px;
+    margin-top: 6px;
+  }
+
+  .tick-dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--color-text-muted);
+    border-radius: 50%;
+    margin-top: 7px;
+  }
+
+  .clock-tick-label {
+    margin-top: 2px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+}
+
+.clock-icon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  
+  &.moon-icon {
+    top: 60px;
+  }
+  
+  &.sun-icon {
+    bottom: 60px;
+  }
+}
+
+.time-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  pointer-events: none;
+
+  .handle-dot {
+    position: absolute;
+    top: 2px; // Center in the 24px outer ring: 12px center. 12 - 10 = 2
+    left: -10px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    pointer-events: auto;
+    cursor: grab;
+    border: 2px solid var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    transition: transform $transition-fast;
+
+    &:active {
+      cursor: grabbing;
+      transform: scale(1.2);
+    }
+    
+    &.hover-dot {
+      background-color: var(--color-text-muted);
+      opacity: 0.5;
+      cursor: pointer;
+      border: none;
+      width: 14px;
+      height: 14px;
+      left: -7px;
+      top: 5px; // 12 - 7 = 5
+      box-shadow: none;
+    }
+  }
+  
+  &.start-handle .handle-dot, &.end-handle .handle-dot {
+    background-color: var(--color-primary);
+  }
+}
+
+.center-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  .time-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    transition: color $transition-fast;
+    outline: none;
+    text-align: center;
+    min-width: 100px;
+    padding: 4px 8px;
+    border-radius: $radius-md;
+    
+    &:focus, &:hover {
+      background-color: var(--color-bg-body);
+    }
+
+    &.is-hovering {
+      color: var(--color-text-muted);
+    }
+  }
+  
+  .duration-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+  }
+}

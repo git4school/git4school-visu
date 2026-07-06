@@ -50,9 +50,11 @@ export class EditMilestoneComponent implements OnInit {
   }
 
   private initForm() {
+    const t = Utils.getTimeFromDate(this.milestone.date);
+    const timeStr = t ? `${t.hour.toString().padStart(2, '0')}:${t.minute.toString().padStart(2, '0')}` : '12:00';
     this.milestoneForm = this.fb.group({
       date: [this.milestone.date, Validators.required],
-      time: [Utils.getTimeFromDate(this.milestone.date), Validators.required],
+      time: [timeStr, Validators.required],
       label: [this.milestone.label],
       tpGroup: [this.milestone.tpGroup || ""],
       questions: [this.milestone.questions],
@@ -84,8 +86,10 @@ export class EditMilestoneComponent implements OnInit {
 
   submitMilestone() {
     let form = this.milestoneForm;
+    const [h, m] = form.value.time.split(':').map(Number);
+    const date = moment(form.value.date).set({ hour: h, minute: m }).toDate();
     const milestone = new Milestone(
-      moment(form.value.date).set(form.value.time).toDate(),
+      date,
       form.value.label.trim(),
       form.value.questions,
       form.value.tpGroup.trim() || "",

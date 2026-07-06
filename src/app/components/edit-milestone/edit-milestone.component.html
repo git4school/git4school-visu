@@ -1,16 +1,24 @@
-<div class="modal-header border-bottom-0 pb-3 pt-4 px-4 align-items-center">
+<div class="modal-header border-bottom-0 pb-3 pt-4 px-4 align-items-center flex-nowrap w-100">
     <h4 class="modal-title font-weight-bold m-0" style="font-size: 1.25rem; color: var(--color-text-primary);">
         {{ (this.addMode ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') |
         translate }}
     </h4>
-    <button type="button" class="btn-icon-action text-secondary ml-auto" aria-label="Close" (click)="activeModalService.dismiss('Cross click')">
-        <i class="fas fa-times"></i>
-    </button>
+    <div class="d-flex align-items-center ml-auto" style="gap: 0.5rem;">
+        <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
+            {{ 'CANCEL' | translate }}
+        </button>
+        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="deleteMilestone()">
+            <i class="fas fa-trash-alt mr-2"></i> {{ 'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="submitMilestone()" [disabled]="!milestoneForm.valid">
+            <i class="fas fa-save mr-2"></i> {{ 'OVERVIEW-GRAPH.MODAL.CONFIRM' | translate }}
+        </button>
+    </div>
 </div>
 <div class="modal-body mx-2">
     <form [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
         <div class="form-row">
-            <div class="form-group col-8 required">
+            <div class="form-group col-12 required">
                 <label class="col-form-label required-label">{{ 'DATE' | translate }}</label>
                 <app-date-range-picker
                     [singleMode]="true"
@@ -19,14 +27,17 @@
                     (dateChange)="milestoneForm.get('date')?.setValue($event); milestoneForm.get('date')?.markAsDirty()">
                 </app-date-range-picker>
             </div>
-            <div class="form-group col-4 required">
+            <div class="form-group col-12 required">
                 <label for="time" class="col-form-label required-label">
                     {{ 'TIME' | translate }}
                 </label>
-                <ngb-timepicker id="time" formControlName="time" [ngClass]="{
-                    'is-invalid': milestoneForm.invalid,
-                    'is-valid': milestoneForm.valid}" [spinners]="false">
-                </ngb-timepicker>
+                <div class="d-flex justify-content-center w-100 mt-2">
+                    <app-time-picker 
+                        mode="single" 
+                        [time]="milestoneForm.get('time')?.value" 
+                        (timeChange)="milestoneForm.get('time')?.setValue($event); milestoneForm.get('time')?.markAsDirty()">
+                    </app-time-picker>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -70,11 +81,5 @@
             <span class="text-danger">*</span> {{ "REQUIRED-FIELDS-TEXT" | translate }}
         </div>
 
-        <hr>
-        <button *ngIf="!addMode" type="button" class="btn btn-danger col-5" (click)="deleteMilestone()">{{
-            'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}</button>
-        <button type="submit" class="btn btn-primary col-5 float-right mb-3" (click)="submitMilestone()"
-            [disabled]="!milestoneForm.valid">{{
-            'OVERVIEW-GRAPH.MODAL.CONFIRM' | translate }}</button>
     </form>
 </div>

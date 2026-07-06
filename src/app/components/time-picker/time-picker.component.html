@@ -1,0 +1,103 @@
+<div class="time-picker-container" [class.is-period]="mode === 'period'">
+  <!-- Top mode switch if needed, but not in requirements except for the clock itself -->
+  
+  <div class="clock-face" 
+       #clockFace
+       (mousedown)="onMouseDown($event, 'face')"
+       (touchstart)="onMouseDown($event, 'face')"
+       (mousemove)="!isDragging && onMouseMove($event)"
+       (touchmove)="!isDragging && onMouseMove($event)"
+       (mouseleave)="onMouseLeave()">
+    
+    <!-- 1. Period Gradient (mode === 'period') -->
+    <!-- Put gradient behind everything, only visible on the outer ring -->
+    <div class="period-arc" *ngIf="mode === 'period'"
+         [style.background]="getPeriodGradient()">
+    </div>
+
+    <!-- 2. Inner White Circle (masks the center of the gradient) -->
+    <div class="clock-face-inner"></div>
+
+    <!-- 3. Clock ticks -->
+    <div class="clock-ticks">
+      <div *ngFor="let tick of ticks; let i = index" 
+           class="clock-tick" 
+           [style.transform]="'rotate(' + (i * 15) + 'deg)'">
+        
+        <!-- Even tick: line and number -->
+        <ng-container *ngIf="i % 2 === 0">
+          <div class="tick-line"></div>
+          <div class="clock-tick-label" [style.transform]="'rotate(' + (-i * 15) + 'deg)'">
+            {{ getTickLabel(i) }}
+          </div>
+        </ng-container>
+
+        <!-- Odd tick: dot -->
+        <ng-container *ngIf="i % 2 !== 0">
+          <div class="tick-dot"></div>
+        </ng-container>
+
+      </div>
+    </div>
+
+    <!-- Icons -->
+    <div class="clock-icon moon-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="var(--color-primary)"></path>
+        <!-- Stars -->
+        <path d="M19 4L19.5 5.5L21 6L19.5 6.5L19 8L18.5 6.5L17 6L18.5 5.5L19 4Z" fill="var(--color-primary)"></path>
+        <path d="M15 8L15.3 9L16.3 9.3L15.3 9.6L15 10.6L14.7 9.6L13.7 9.3L14.7 9L15 8Z" fill="var(--color-primary)"></path>
+      </svg>
+    </div>
+    
+    <div class="clock-icon sun-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="5" stroke="var(--color-warning)" stroke-width="2"></circle>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="var(--color-warning)" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+    </div>
+
+    <!-- Handles -->
+    <div *ngIf="mode === 'single' && time" 
+         class="time-handle"
+         [style.transform]="'rotate(' + getAngleFromTime(time) + 'deg)'">
+       <div class="handle-dot"></div>
+    </div>
+
+    <ng-container *ngIf="mode === 'period'">
+      <div *ngIf="startTime" class="time-handle start-handle"
+           [style.transform]="'rotate(' + getAngleFromTime(startTime) + 'deg)'"
+           (mousedown)="$event.stopPropagation(); onMouseDown($event, 'start')"
+           (touchstart)="$event.stopPropagation(); onMouseDown($event, 'start')">
+        <div class="handle-dot"></div>
+      </div>
+      <div *ngIf="endTime" class="time-handle end-handle"
+           [style.transform]="'rotate(' + getAngleFromTime(endTime) + 'deg)'"
+           (mousedown)="$event.stopPropagation(); onMouseDown($event, 'end')"
+           (touchstart)="$event.stopPropagation(); onMouseDown($event, 'end')">
+        <div class="handle-dot"></div>
+      </div>
+    </ng-container>
+
+    <div *ngIf="hoverTime && (!isDragging || dragMode === 'new')" class="time-handle hover-handle"
+         [style.transform]="'rotate(' + getAngleFromTime(hoverTime) + 'deg)'">
+      <div class="handle-dot hover-dot"></div>
+    </div>
+
+    <!-- Center Display -->
+    <div class="center-display" (mousedown)="$event.stopPropagation()">
+      <div class="time-text" 
+           [class.is-hovering]="hoverTime !== null"
+           contenteditable="true"
+           spellcheck="false"
+           [innerText]="centerMainDisplay"
+           (blur)="onCenterInputBlur($event, mode === 'single' ? 'single' : 'start')"
+           (keydown)="onCenterInputKeydown($event)">
+      </div>
+      <div class="duration-text" *ngIf="mode === 'period'">
+        {{ durationDisplay }}
+      </div>
+    </div>
+
+  </div>
+</div>
