@@ -101,13 +101,12 @@
   left: 50%;
   transform: translateX(-50%);
   pointer-events: none;
-  
   &.moon-icon {
-    top: 28px;
+    top: 56px;
   }
   
   &.sun-icon {
-    bottom: 28px;
+    bottom: 56px;
   }
 }
 
@@ -206,16 +205,19 @@
   }
   
   .duration-text {
+    position: absolute;
+    top: 100%;
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--color-text-secondary);
     margin-top: 4px;
+    white-space: nowrap;
   }
 }
 
 .time-picker-container.is-period {
   .center-display .time-text {
-    font-size: 1.25rem;
-    white-space: nowrap;
+    font-size: 1.45rem;
+    white-space: pre-line;
   }
 }
