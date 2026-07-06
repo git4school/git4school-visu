@@ -56,7 +56,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
     if (this.hoverTime) {
       if (this.mode === 'period' && this.isDragging && this.dragMode === 'new') {
         const start = this.startTime || '00:00';
-        return `${this.formatTimeDisplay(start)} - ${this.formatTimeDisplay(this.hoverTime)}`;
+        return `${this.formatTimeDisplay(start)} -\n${this.formatTimeDisplay(this.hoverTime)}`;
       }
       return this.formatTimeDisplay(this.hoverTime);
     }
@@ -65,9 +65,9 @@ export class TimePickerComponent implements OnInit, OnChanges {
       return this.time ? this.formatTimeDisplay(this.time) : '--:--';
     } else {
       if (this.startTime && this.endTime) {
-        return `${this.formatTimeDisplay(this.startTime)} - ${this.formatTimeDisplay(this.endTime)}`;
+        return `${this.formatTimeDisplay(this.startTime)} -\n${this.formatTimeDisplay(this.endTime)}`;
       }
-      return '--:-- - --:--';
+      return '--:-- -\n--:--';
     }
   }
 
@@ -157,13 +157,12 @@ export class TimePickerComponent implements OnInit, OnChanges {
     let startAngle = (startMins / (24 * 60)) * 360;
     let endAngle = (endMins / (24 * 60)) * 360;
 
-    const color = 'var(--color-primary-bg)'; 
+    const color = 'var(--color-primary)'; 
     const trans = 'transparent';
 
     if (endAngle >= startAngle) {
-      return `conic-gradient(from 0deg, ${trans} ${startAngle}deg, ${color} ${startAngle}deg ${endAngle}deg, ${trans} ${endAngle}deg)`;
+      return `conic-gradient(from 0deg, ${trans} 0deg ${startAngle}deg, ${color} ${startAngle}deg ${endAngle}deg, ${trans} ${endAngle}deg 360deg)`;
     } else {
-      // Wraps around midnight
       return `conic-gradient(from 0deg, ${color} ${endAngle}deg, ${trans} ${endAngle}deg ${startAngle}deg, ${color} ${startAngle}deg)`;
     }
   }
@@ -275,6 +274,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
 
     // Just to get the initial hover time exactly at click pos:
     this.onMouseMove(event);
+    this.hasMovedSinceMousedown = false; // Reset it because onMouseMove sets it to true!
 
     if (this.mode === 'single') {
       this.dragMode = 'single';
@@ -321,20 +321,29 @@ export class TimePickerComponent implements OnInit, OnChanges {
 
   onCenterInputBlur(event: any, type: 'single' | 'start' | 'end') {
     const val = event.target.innerText.trim();
-    if (this.isValidTime(val)) {
-      const parsed = this.parseInputTime(val);
-      if (type === 'single') {
-        this.time = parsed;
-        this.timeChange.emit(this.time);
-      } else if (type === 'start') {
-        this.startTime = parsed;
-        this.periodChange.emit({ start: this.startTime, end: this.endTime });
-      } else if (type === 'end') {
-        this.endTime = parsed;
+    if (this.mode === 'period') {
+      const parts = val.split(/[-\n]+/).map((p: string) => p.trim());
+      if (parts.length >= 2 && this.isValidTime(parts[0]) && this.isValidTime(parts[1])) {
+        this.startTime = this.parseInputTime(parts[0]);
+        this.endTime = this.parseInputTime(parts[1]);
+        this.enforcePeriodLogic();
         this.periodChange.emit({ start: this.startTime, end: this.endTime });
       }
+    } else {
+      if (this.isValidTime(val)) {
+        this.time = this.parseInputTime(val);
+        this.timeChange.emit(this.time);
+      }
     }
-    // After parsing, enforce start <= end
+
+    // Re-render to format nicely. Using a timeout to ensure it happens after value change.
+    setTimeout(() => {
+      event.target.innerText = this.centerMainDisplay;
+      this.cd.markForCheck();
+    });
+  }
+
+  private enforcePeriodLogic() {
     if (this.mode === 'period') {
       const s = this.timeToMinutes(this.startTime);
       const e = this.timeToMinutes(this.endTime);
@@ -342,12 +351,6 @@ export class TimePickerComponent implements OnInit, OnChanges {
         [this.startTime, this.endTime] = [this.endTime, this.startTime];
       }
     }
-
-    // Re-render to format nicely. Using a timeout to ensure it happens after value change.
-    setTimeout(() => {
-      event.target.innerText = this.formatTimeDisplay(type === 'single' ? this.time : (type === 'start' ? this.startTime : this.endTime));
-      this.cd.markForCheck();
-    });
   }
 
   onCenterInputKeydown(event: KeyboardEvent) {
