@@ -124,7 +124,7 @@ export class OverviewComponent
 
   brush: d3.BrushBehavior<any>;
   current_zoom: any;
-  chart_abs_g: d3.Selection<SVGGElement, any, any, any>;
+  chart_abs_g: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   svg_abs: d3.Selection<any, unknown, HTMLElement, any>;
   real_height: number;
   chart_width: number;
@@ -134,6 +134,7 @@ export class OverviewComponent
   scrollable_height: number;
 
   isDraggingMilestone = false;
+  hasMovedDuringDrag = false;
   dragScrollTimer: d3.Timer;
   dragTimeIndicator: d3.Selection<any, any, any, any>;
   ////////////////////////
@@ -513,8 +514,12 @@ export class OverviewComponent
     );
 
     d3.select(window).on("resize.overview", () => {
-      if (document.getElementById("chart")) {
-        this.loadGraphDataAndRefresh();
+      const chart_div = document.getElementById("chart");
+      if (chart_div) {
+        const newWidth = chart_div.getBoundingClientRect().width;
+        if (Math.abs(newWidth - this.width) > 1) { // Only refresh if width actually changed
+          this.loadGraphDataAndRefresh();
+        }
       }
     });
 
@@ -598,11 +603,7 @@ export class OverviewComponent
 
   loadGraphDataAndRefresh() {
     setTimeout(() => {
-      this.svg.remove();
-      this.svg_abs.remove();
-
       this.refresh();
-
       this.loadGraphData();
     });
   }
@@ -913,12 +914,14 @@ export class OverviewComponent
 
   private onMilestoneDragStart(event: any, element: d3.Selection<any, any, any, any>) {
     this.isDraggingMilestone = true;
+    this.hasMovedDuringDrag = false;
     element.raise();
     element.select(".hitbox").attr("style", "cursor: grabbing; pointer-events: all;");
     this.createDragTimeIndicator(event.x);
   }
 
   private onMilestoneDrag(event: any, element: d3.Selection<any, any, any, any>, m: Milestone) {
+    this.hasMovedDuringDrag = true;
     let currentX = Math.max(0, Math.min(this.inner_width, event.x));
     
     m.date = this.x_scale_copy.invert(currentX);
@@ -934,7 +937,12 @@ export class OverviewComponent
     
     this.stopDragScrollTimer();
     this.removeDragTimeIndicator();
-    this.saveData();
+
+    if (this.hasMovedDuringDrag) {
+      this.saveData();
+      // Optional: Update tooltip position or refresh
+      this.loadGraphDataAndRefresh(); // Force redraw properly to sync zoom/pan states if needed, but only if moved.
+    }
   }
 
   private createDragTimeIndicator(x: number) {
@@ -944,24 +952,54 @@ export class OverviewComponent
       .attr("class", "drag-time-indicator")
       .attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
       
+    // Triangle pointer
     this.dragTimeIndicator.append("path")
-      .attr("d", "M -5 0 L 5 0 L 0 -5 Z")
-      .attr("fill", "var(--primary)");
+      .attr("d", "M -6 5 L 6 5 L 0 -1 Z")
+      .attr("fill", "var(--color-surface)")
+      .attr("stroke", "var(--color-border)")
+      .attr("stroke-width", "1px");
+      
+    // Pill background
+    this.dragTimeIndicator.append("rect")
+      .attr("class", "pill-bg")
+      .attr("x", -50)
+      .attr("y", 4)
+      .attr("width", 100)
+      .attr("height", 24)
+      .attr("rx", 12)
+      .style("fill", "var(--color-surface)")
+      .style("stroke", "var(--color-border)")
+      .style("stroke-width", "1px")
+      .style("filter", "drop-shadow(0px 2px 4px rgba(0,0,0,0.15))");
       
     this.dragTimeIndicator.append("text")
-      .attr("y", 15)
+      .attr("y", 20)
       .attr("text-anchor", "middle")
-      .style("fill", "var(--primary)")
-      .style("font-size", "12px")
-      .style("font-weight", "bold");
+      .style("fill", "var(--color-on-surface)")
+      .style("font-size", "11px")
+      .style("font-weight", "600")
+      .style("pointer-events", "none");
   }
 
   private updateDragTimeIndicator(x: number, date: Date) {
     if (!this.dragTimeIndicator) return;
     
     this.dragTimeIndicator.attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
-    this.dragTimeIndicator.select("text")
-      .text(`${OverviewComponent.formatDay(date)} ${OverviewComponent.formatHour(date)}`);
+    
+    const timeString = `${OverviewComponent.formatDay(date)} ${OverviewComponent.formatHour(date)}`;
+    const textEl = this.dragTimeIndicator.select("text");
+    textEl.text(timeString);
+
+    // Dynamically adjust the pill width
+    const textNode = textEl.node() as SVGTextElement;
+    if (textNode) {
+      const bbox = textNode.getBBox();
+      const padding = 20; // 10px padding on each side
+      const width = Math.max(80, bbox.width + padding); // minimum width
+      this.dragTimeIndicator.select(".pill-bg")
+        .attr("width", width)
+        .attr("x", -width / 2);
+    }
   }
 
   private removeDragTimeIndicator() {
