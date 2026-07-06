@@ -34,12 +34,13 @@ export class TimePickerComponent implements OnInit, OnChanges {
 
   @Input() defaultDuration = 120; // Default session duration in minutes
 
-  @ViewChild('clockFace', { static: true }) clockFace: ElementRef<HTMLElement>;
+  @ViewChild('touchArea', { static: true }) touchArea: ElementRef<HTMLElement>;
 
   hoverTime: string | null = null;
   isDragging = false;
   dragMode: 'new' | 'start' | 'end' | 'single' | null = null;
   hasMovedSinceMousedown = false;
+  dragOriginTime: string | null = null;
 
   ticks: number[] = Array.from({ length: 24 }, (_, i) => i);
   
@@ -175,12 +176,24 @@ export class TimePickerComponent implements OnInit, OnChanges {
   }
 
   onMouseMove(event: MouseEvent | TouchEvent) {
-    const rect = this.clockFace.nativeElement.getBoundingClientRect();
+    const rect = this.touchArea.nativeElement.getBoundingClientRect();
     const clientX = event instanceof MouseEvent ? event.clientX : (event as TouchEvent).touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : (event as TouchEvent).touches[0].clientY;
     
     const x = clientX - rect.left - rect.width / 2;
     const y = clientY - rect.top - rect.height / 2;
+    
+    // Ignore if inside inner circle (130 - 24 = 106px radius) unless dragging
+    if (!this.isDragging) {
+      const distance = Math.sqrt(x*x + y*y);
+      if (distance < 106) {
+        if (this.hoverTime !== null) {
+          this.hoverTime = null;
+          this.cd.markForCheck();
+        }
+        return;
+      }
+    }
     
     let angle = Math.atan2(y, x) * (180 / Math.PI) + 90;
     if (angle < 0) angle += 360;
@@ -199,12 +212,36 @@ export class TimePickerComponent implements OnInit, OnChanges {
         this.time = newTime;
         this.timeChange.emit(this.time);
       } else {
-        if (this.dragMode === 'new') {
-          this.endTime = newTime;
+        if (this.dragMode === 'new' && this.dragOriginTime) {
+          const minsOrigin = this.timeToMinutes(this.dragOriginTime);
+          const minsNew = this.timeToMinutes(newTime);
+          if (minsNew < minsOrigin) {
+            this.startTime = newTime;
+            this.endTime = this.dragOriginTime;
+          } else {
+            this.startTime = this.dragOriginTime;
+            this.endTime = newTime;
+          }
         } else if (this.dragMode === 'start') {
-          this.startTime = newTime;
+          const minsNew = this.timeToMinutes(newTime);
+          const minsEnd = this.timeToMinutes(this.endTime);
+          if (minsNew > minsEnd) {
+            this.startTime = this.endTime;
+            this.endTime = newTime;
+            this.dragMode = 'end';
+          } else {
+            this.startTime = newTime;
+          }
         } else if (this.dragMode === 'end') {
-          this.endTime = newTime;
+          const minsNew = this.timeToMinutes(newTime);
+          const minsStart = this.timeToMinutes(this.startTime);
+          if (minsNew < minsStart) {
+            this.endTime = this.startTime;
+            this.startTime = newTime;
+            this.dragMode = 'start';
+          } else {
+            this.endTime = newTime;
+          }
         }
         this.periodChange.emit({ start: this.startTime, end: this.endTime });
       }
@@ -222,6 +259,16 @@ export class TimePickerComponent implements OnInit, OnChanges {
   }
 
   onMouseDown(event: MouseEvent | TouchEvent, type: 'start' | 'end' | 'face' = 'face') {
+    if (type === 'face') {
+      const rect = this.touchArea.nativeElement.getBoundingClientRect();
+      const clientX = event instanceof MouseEvent ? event.clientX : (event as TouchEvent).touches[0].clientX;
+      const clientY = event instanceof MouseEvent ? event.clientY : (event as TouchEvent).touches[0].clientY;
+      const x = clientX - rect.left - rect.width / 2;
+      const y = clientY - rect.top - rect.height / 2;
+      const distance = Math.sqrt(x*x + y*y);
+      if (distance < 106) return; // Do nothing if clicked inside inner circle
+    }
+
     event.preventDefault(); // prevent text selection
     this.isDragging = true;
     this.hasMovedSinceMousedown = false;
@@ -240,7 +287,9 @@ export class TimePickerComponent implements OnInit, OnChanges {
         this.dragMode = 'end';
       } else {
         this.dragMode = 'new';
+        this.dragOriginTime = this.hoverTime;
         this.startTime = this.hoverTime;
+        this.endTime = this.hoverTime;
         // Don't set end time yet, wait for drag or mouse up
       }
     }
@@ -250,13 +299,22 @@ export class TimePickerComponent implements OnInit, OnChanges {
   @HostListener('document:touchend')
   onMouseUp() {
     if (this.isDragging) {
-      if (this.mode === 'period' && this.dragMode === 'new' && !this.hasMovedSinceMousedown) {
+      if (this.mode === 'period' && this.dragMode === 'new' && !this.hasMovedSinceMousedown && this.dragOriginTime) {
         // Just a click on the face without dragging
-        this.endTime = this.minutesToTime(this.timeToMinutes(this.startTime) + this.defaultDuration);
+        const originMins = this.timeToMinutes(this.dragOriginTime);
+        const endMins = originMins + this.defaultDuration;
+        if (endMins >= 24 * 60) {
+           this.startTime = this.minutesToTime(originMins);
+           this.endTime = '23:55';
+        } else {
+           this.startTime = this.dragOriginTime;
+           this.endTime = this.minutesToTime(endMins);
+        }
         this.periodChange.emit({ start: this.startTime, end: this.endTime });
       }
       this.isDragging = false;
       this.dragMode = null;
+      this.dragOriginTime = null;
       this.cd.markForCheck();
     }
   }
@@ -276,6 +334,15 @@ export class TimePickerComponent implements OnInit, OnChanges {
         this.periodChange.emit({ start: this.startTime, end: this.endTime });
       }
     }
+    // After parsing, enforce start <= end
+    if (this.mode === 'period') {
+      const s = this.timeToMinutes(this.startTime);
+      const e = this.timeToMinutes(this.endTime);
+      if (s > e) {
+        [this.startTime, this.endTime] = [this.endTime, this.startTime];
+      }
+    }
+
     // Re-render to format nicely. Using a timeout to ensure it happens after value change.
     setTimeout(() => {
       event.target.innerText = this.formatTimeDisplay(type === 'single' ? this.time : (type === 'start' ? this.startTime : this.endTime));

@@ -1,13 +1,16 @@
 <div class="time-picker-container" [class.is-period]="mode === 'period'">
   <!-- Top mode switch if needed, but not in requirements except for the clock itself -->
   
-  <div class="clock-face" 
-       #clockFace
+  <!-- Enlarged touch area for easier dragging around the clock -->
+  <div class="clock-touch-area" 
+       #touchArea
        (mousedown)="onMouseDown($event, 'face')"
        (touchstart)="onMouseDown($event, 'face')"
        (mousemove)="!isDragging && onMouseMove($event)"
        (touchmove)="!isDragging && onMouseMove($event)"
        (mouseleave)="onMouseLeave()">
+       
+    <div class="clock-face">
     
     <!-- 1. Period Gradient (mode === 'period') -->
     <!-- Put gradient behind everything, only visible on the outer ring -->
@@ -97,6 +100,8 @@
       <div class="duration-text" *ngIf="mode === 'period'">
         {{ durationDisplay }}
       </div>
+    </div>
+
     </div>
 
   </div>

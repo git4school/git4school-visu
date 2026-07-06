@@ -9,13 +9,23 @@
   touch-action: none;
 }
 
-.clock-face {
+.clock-touch-area {
   position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: default;
+}
+
+.clock-face {
+  position: absolute;
   width: 260px;
   height: 260px;
   border-radius: 50%;
   background-color: var(--color-border);
-  margin: 0 auto;
   cursor: pointer;
   transition: background-color $transition-fast;
 
@@ -122,6 +132,14 @@
     border: 2px solid var(--color-surface);
     box-shadow: var(--shadow-sm);
     transition: transform $transition-fast;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -12px; left: -12px; right: -12px; bottom: -12px;
+      border-radius: 50%;
+      cursor: inherit;
+    }
 
     &:active {
       cursor: grabbing;
