@@ -42,6 +42,13 @@ export class TimePickerComponent implements OnInit, OnChanges {
   hasMovedSinceMousedown = false;
   dragOriginTime: string | null = null;
   isHoveringHandle = false;
+  hoveredHandle: 'start' | 'end' | null = null;
+
+  displayHour1 = '12';
+  displayMinute1 = '00';
+  displayHour2 = '12';
+  displayMinute2 = '00';
+  focusedInput: string | null = null;
 
   ticks: number[] = Array.from({ length: 24 }, (_, i) => i);
   
@@ -106,10 +113,13 @@ export class TimePickerComponent implements OnInit, OnChanges {
       this.startTime = '12:00';
       this.endTime = this.minutesToTime(this.timeToMinutes('12:00') + this.defaultDuration);
     }
+    this.syncLocalInputs();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // React to external changes if necessary
+    if (changes['time'] || changes['startTime'] || changes['endTime']) {
+      this.syncLocalInputs();
+    }
   }
 
   getTickLabel(tick: number): string {
@@ -171,6 +181,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
   onMouseLeave() {
     if (!this.isDragging) {
       this.hoverTime = null;
+      this.syncLocalInputs();
       this.cd.markForCheck();
     }
   }
@@ -189,6 +200,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
       if (distance < 106) {
         if (this.hoverTime !== null) {
           this.hoverTime = null;
+          this.syncLocalInputs();
           this.cd.markForCheck();
         }
         return;
@@ -247,6 +259,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
       }
     }
     
+    this.syncLocalInputs();
     this.cd.markForCheck();
   }
 
@@ -316,32 +329,114 @@ export class TimePickerComponent implements OnInit, OnChanges {
       this.isDragging = false;
       this.dragMode = null;
       this.dragOriginTime = null;
+      this.syncLocalInputs();
       this.cd.markForCheck();
     }
   }
 
-  onCenterInputBlur(event: any, type: 'single' | 'start' | 'end') {
-    const val = event.target.innerText.trim();
-    if (this.mode === 'period') {
-      const parts = val.split(/[-\n]+/).map((p: string) => p.trim());
-      if (parts.length >= 2 && this.isValidTime(parts[0]) && this.isValidTime(parts[1])) {
-        this.startTime = this.parseInputTime(parts[0]);
-        this.endTime = this.parseInputTime(parts[1]);
-        this.enforcePeriodLogic();
-        this.periodChange.emit({ start: this.startTime, end: this.endTime });
+  isRowHovering(index: number): boolean {
+    if (this.mode === 'single') return this.hoverTime !== null;
+    if (!this.hoverTime) return false;
+    
+    if (this.isDragging) {
+      if (this.dragMode === 'start') return index === 1;
+      if (this.dragMode === 'end') return index === 2;
+      if (this.dragMode === 'new') {
+        if (this.dragOriginTime) {
+          const o = this.timeToMinutes(this.dragOriginTime);
+          const n = this.timeToMinutes(this.hoverTime);
+          if (n < o) return index === 1; // start is moving
+          return index === 2; // end is moving
+        }
+        return index === 2;
       }
-    } else {
-      if (this.isValidTime(val)) {
-        this.time = this.parseInputTime(val);
-        this.timeChange.emit(this.time);
-      }
+      return false;
     }
 
-    // Re-render to format nicely. Using a timeout to ensure it happens after value change.
-    setTimeout(() => {
-      event.target.innerText = this.centerMainDisplay;
-      this.cd.markForCheck();
-    });
+    if (this.hoveredHandle === 'start') return index === 1;
+    if (this.hoveredHandle === 'end') return index === 2;
+    
+    // Hovering empty face
+    return true; 
+  }
+
+  syncLocalInputs() {
+    if (this.focusedInput) return;
+    
+    if (this.mode === 'single') {
+      const time = this.hoverTime || this.time || '12:00';
+      this.displayHour1 = time.split(':')[0];
+      this.displayMinute1 = time.split(':')[1];
+    } else {
+      if (!this.isDragging && this.hoverTime && !this.hoveredHandle) {
+         this.displayHour1 = this.hoverTime.split(':')[0];
+         this.displayMinute1 = this.hoverTime.split(':')[1];
+         this.displayHour2 = this.hoverTime.split(':')[0];
+         this.displayMinute2 = this.hoverTime.split(':')[1];
+      } else {
+         let t1 = this.startTime || '12:00';
+         if (!this.isDragging && this.hoveredHandle === 'start' && this.hoverTime) t1 = this.hoverTime;
+         this.displayHour1 = t1.split(':')[0];
+         this.displayMinute1 = t1.split(':')[1];
+
+         let t2 = this.endTime || '12:00';
+         if (!this.isDragging && this.hoveredHandle === 'end' && this.hoverTime) t2 = this.hoverTime;
+         this.displayHour2 = t2.split(':')[0];
+         this.displayMinute2 = t2.split(':')[1];
+      }
+    }
+  }
+
+  onTimeInput(event: Event, type: string) {
+    const input = event.target as HTMLInputElement;
+    let val = input.value.replace(/[^0-9]/g, '');
+    
+    if (type.startsWith('hour')) {
+      if (parseInt(val, 10) > 23) val = '23';
+    } else {
+      if (parseInt(val, 10) > 59) val = '59';
+    }
+    input.value = val;
+
+    if (type === 'hour1') this.displayHour1 = val;
+    if (type === 'minute1') this.displayMinute1 = val;
+    if (type === 'hour2') this.displayHour2 = val;
+    if (type === 'minute2') this.displayMinute2 = val;
+
+    if (val.length === 2) {
+      const next = input.nextElementSibling?.nextElementSibling as HTMLInputElement;
+      if (next && next.tagName === 'INPUT') {
+        next.focus();
+        next.select();
+      }
+    }
+  }
+
+  onTimeBlur(type: string) {
+    this.focusedInput = null;
+
+    if (type === 'hour1' && this.displayHour1) this.displayHour1 = this.displayHour1.padStart(2, '0');
+    if (type === 'minute1' && this.displayMinute1) this.displayMinute1 = this.displayMinute1.padStart(2, '0');
+    if (type === 'hour2' && this.displayHour2) this.displayHour2 = this.displayHour2.padStart(2, '0');
+    if (type === 'minute2' && this.displayMinute2) this.displayMinute2 = this.displayMinute2.padStart(2, '0');
+
+    if (this.mode === 'single') {
+      const h = this.displayHour1 || '12';
+      const m = this.displayMinute1 || '00';
+      this.time = `${h}:${m}`;
+      this.timeChange.emit(this.time);
+    } else {
+      const h1 = this.displayHour1 || '12';
+      const m1 = this.displayMinute1 || '00';
+      const h2 = this.displayHour2 || '12';
+      const m2 = this.displayMinute2 || '00';
+      this.startTime = `${h1}:${m1}`;
+      this.endTime = `${h2}:${m2}`;
+      this.enforcePeriodLogic();
+      this.periodChange.emit({ start: this.startTime, end: this.endTime });
+    }
+    this.syncLocalInputs();
+    this.cd.markForCheck();
   }
 
   private enforcePeriodLogic() {
@@ -354,7 +449,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  onCenterInputKeydown(event: KeyboardEvent) {
+  onTimeKeydown(event: KeyboardEvent, type: string) {
     if (event.key === 'Enter') {
       event.preventDefault();
       (event.target as HTMLElement).blur();

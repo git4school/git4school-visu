@@ -96,13 +96,59 @@
 
     <!-- Center Display -->
     <div class="center-display" (mousedown)="$event.stopPropagation()">
-      <div class="time-text" 
-           [class.is-hovering]="hoverTime !== null"
-           contenteditable="true"
-           spellcheck="false"
-           [innerText]="centerMainDisplay"
-           (blur)="onCenterInputBlur($event, mode === 'single' ? 'single' : 'start')"
-           (keydown)="onCenterInputKeydown($event)">
+      <div class="time-inputs-container">
+        <!-- Single Mode -->
+        <ng-container *ngIf="mode === 'single'">
+          <div class="time-row" [class.is-hovering]="isRowHovering(1)">
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayHour1" 
+                   (focus)="focusedInput = 'hour1'"
+                   (input)="onTimeInput($event, 'hour1')" 
+                   (keydown)="onTimeKeydown($event, 'hour1')"
+                   (blur)="onTimeBlur('hour1')">
+            <span class="colon">:</span>
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayMinute1" 
+                   (focus)="focusedInput = 'minute1'"
+                   (input)="onTimeInput($event, 'minute1')" 
+                   (keydown)="onTimeKeydown($event, 'minute1')"
+                   (blur)="onTimeBlur('minute1')">
+          </div>
+        </ng-container>
+
+        <!-- Period Mode -->
+        <ng-container *ngIf="mode === 'period'">
+          <div class="time-row" [class.is-hovering]="isRowHovering(1)">
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayHour1" 
+                   (focus)="focusedInput = 'hour1'"
+                   (input)="onTimeInput($event, 'hour1')" 
+                   (keydown)="onTimeKeydown($event, 'hour1')"
+                   (blur)="onTimeBlur('hour1')">
+            <span class="colon">:</span>
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayMinute1" 
+                   (focus)="focusedInput = 'minute1'"
+                   (input)="onTimeInput($event, 'minute1')" 
+                   (keydown)="onTimeKeydown($event, 'minute1')"
+                   (blur)="onTimeBlur('minute1')">
+          </div>
+          <div class="time-row" [class.is-hovering]="isRowHovering(2)">
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayHour2" 
+                   (focus)="focusedInput = 'hour2'"
+                   (input)="onTimeInput($event, 'hour2')" 
+                   (keydown)="onTimeKeydown($event, 'hour2')"
+                   (blur)="onTimeBlur('hour2')">
+            <span class="colon">:</span>
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayMinute2" 
+                   (focus)="focusedInput = 'minute2'"
+                   (input)="onTimeInput($event, 'minute2')" 
+                   (keydown)="onTimeKeydown($event, 'minute2')"
+                   (blur)="onTimeBlur('minute2')">
+          </div>
+        </ng-container>
       </div>
       <div class="duration-text" *ngIf="mode === 'period'">
         {{ durationDisplay }}

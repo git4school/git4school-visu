@@ -49,7 +49,8 @@
   bottom: 24px;
   border-radius: 50%;
   background-color: var(--color-surface);
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: default;
 }
 
 .clock-ticks {
@@ -189,19 +190,59 @@
   align-items: center;
   justify-content: center;
   
-  .time-text {
+  .time-inputs-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .time-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--color-text-primary);
-    outline: none;
-    text-align: center;
     transition: color $transition-fast;
-    white-space: pre-line;
     line-height: 1.2;
 
     &.is-hovering {
       color: var(--color-text-muted);
+      .time-input {
+        color: var(--color-text-muted);
+      }
     }
+  }
+
+  .time-input {
+    width: 2ch;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &::selection {
+      background-color: var(--color-primary-hover);
+      color: var(--color-primary);
+    }
+  }
+
+  .colon {
+    margin: 0 2px;
   }
   
   .duration-text {
@@ -216,8 +257,7 @@
 }
 
 .time-picker-container.is-period {
-  .center-display .time-text {
+  .center-display .time-row {
     font-size: 1.45rem;
-    white-space: pre-line;
   }
 }
