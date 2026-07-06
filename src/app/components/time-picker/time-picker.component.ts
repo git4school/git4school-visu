@@ -41,6 +41,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
   dragMode: 'new' | 'start' | 'end' | 'single' | null = null;
   hasMovedSinceMousedown = false;
   dragOriginTime: string | null = null;
+  isHoveringHandle = false;
 
   ticks: number[] = Array.from({ length: 24 }, (_, i) => i);
   
@@ -56,7 +57,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
     if (this.hoverTime) {
       if (this.mode === 'period' && this.isDragging && this.dragMode === 'new') {
         const start = this.startTime || '00:00';
-        return `${this.formatTimeDisplay(start)} -\n${this.formatTimeDisplay(this.hoverTime)}`;
+        return `${this.formatTimeDisplay(start)} \u2192 ${this.formatTimeDisplay(this.hoverTime)}`;
       }
       return this.formatTimeDisplay(this.hoverTime);
     }
@@ -65,9 +66,9 @@ export class TimePickerComponent implements OnInit, OnChanges {
       return this.time ? this.formatTimeDisplay(this.time) : '--:--';
     } else {
       if (this.startTime && this.endTime) {
-        return `${this.formatTimeDisplay(this.startTime)} -\n${this.formatTimeDisplay(this.endTime)}`;
+        return `${this.formatTimeDisplay(this.startTime)} \u2192 ${this.formatTimeDisplay(this.endTime)}`;
       }
-      return '--:-- -\n--:--';
+      return '--:-- \u2192 --:--';
     }
   }
 

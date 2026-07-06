@@ -23,23 +23,14 @@
 
     <!-- 3. Clock ticks -->
     <div class="clock-ticks">
-      <div *ngFor="let tick of ticks; let i = index" 
-           class="clock-tick" 
-           [style.transform]="'rotate(' + (i * 15) + 'deg)'">
-        
-        <!-- Even tick: line and number -->
-        <ng-container *ngIf="i % 2 === 0">
-          <div class="tick-line"></div>
-          <div class="clock-tick-label" [style.transform]="'rotate(' + (-i * 15) + 'deg)'">
-            {{ getTickLabel(i) }}
+      <div class="clock-tick" *ngFor="let tick of ticks" [style.transform]="'rotate(' + (tick * 15) + 'deg)'">
+        <ng-container *ngIf="tick !== 0 && tick !== 12">
+          <div class="tick-line" *ngIf="tick % 2 === 0"></div>
+          <div class="tick-dot" *ngIf="tick % 2 !== 0"></div>
+          <div class="clock-tick-label" *ngIf="tick % 2 === 0" [style.transform]="'rotate(-' + (tick * 15) + 'deg)'">
+            {{ getTickLabel(tick) }}
           </div>
         </ng-container>
-
-        <!-- Odd tick: dot -->
-        <ng-container *ngIf="i % 2 !== 0">
-          <div class="tick-dot"></div>
-        </ng-container>
-
       </div>
     </div>
 
@@ -64,27 +55,45 @@
     <div *ngIf="mode === 'single' && time" 
          class="time-handle"
          [style.transform]="'rotate(' + getAngleFromTime(time) + 'deg)'">
-       <div class="handle-dot"></div>
+       <div class="handle-hitbox"
+            (mouseenter)="isHoveringHandle = true"
+            (mouseleave)="isHoveringHandle = false"
+            (mousedown)="$event.stopPropagation(); onMouseDown($event, 'single')"
+            (touchstart)="$event.stopPropagation(); onMouseDown($event, 'single')">
+         <div class="handle-visual"></div>
+       </div>
     </div>
 
     <ng-container *ngIf="mode === 'period'">
-      <div *ngIf="startTime" class="time-handle start-handle"
-           [style.transform]="'rotate(' + getAngleFromTime(startTime) + 'deg)'"
-           (mousedown)="$event.stopPropagation(); onMouseDown($event, 'start')"
-           (touchstart)="$event.stopPropagation(); onMouseDown($event, 'start')">
-        <div class="handle-dot"></div>
+      <div *ngIf="startTime" class="time-handle start-handle" 
+           [style.transform]="'rotate(' + getAngleFromTime(startTime) + 'deg)'">
+        <div class="arc-cap"></div>
+        <div class="handle-hitbox"
+             (mouseenter)="isHoveringHandle = true"
+             (mouseleave)="isHoveringHandle = false"
+             (mousedown)="$event.stopPropagation(); onMouseDown($event, 'start')"
+             (touchstart)="$event.stopPropagation(); onMouseDown($event, 'start')">
+          <div class="handle-visual"></div>
+        </div>
       </div>
-      <div *ngIf="endTime" class="time-handle end-handle"
-           [style.transform]="'rotate(' + getAngleFromTime(endTime) + 'deg)'"
-           (mousedown)="$event.stopPropagation(); onMouseDown($event, 'end')"
-           (touchstart)="$event.stopPropagation(); onMouseDown($event, 'end')">
-        <div class="handle-dot"></div>
+      
+      <!-- END Handle -->
+      <div *ngIf="endTime" class="time-handle end-handle" 
+           [style.transform]="'rotate(' + getAngleFromTime(endTime) + 'deg)'">
+        <div class="arc-cap"></div>
+        <div class="handle-hitbox"
+             (mouseenter)="isHoveringHandle = true"
+             (mouseleave)="isHoveringHandle = false"
+             (mousedown)="$event.stopPropagation(); onMouseDown($event, 'end')"
+             (touchstart)="$event.stopPropagation(); onMouseDown($event, 'end')">
+          <div class="handle-visual"></div>
+        </div>
       </div>
     </ng-container>
 
-    <div *ngIf="hoverTime && (!isDragging || dragMode === 'new')" class="time-handle hover-handle"
+    <div *ngIf="hoverTime && !isHoveringHandle && (!isDragging || dragMode === 'new')" class="time-handle hover-handle"
          [style.transform]="'rotate(' + getAngleFromTime(hoverTime) + 'deg)'">
-      <div class="handle-dot hover-dot"></div>
+      <div class="hover-indicator"></div>
     </div>
 
     <!-- Center Display -->
