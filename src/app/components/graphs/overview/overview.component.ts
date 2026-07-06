@@ -44,8 +44,8 @@ export class OverviewComponent
   extends BaseGraphComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  static formatDay = d3.utcFormat("%d/%m/%Y");
-  static formatHour = d3.utcFormat("%H:%M");
+  static formatDay = d3.timeFormat("%d/%m/%Y");
+  static formatHour = d3.timeFormat("%H:%M");
   static GROUP_HEIGHT = 12;
   static CIRCLE_RADIUS = 12;
 
@@ -132,6 +132,10 @@ export class OverviewComponent
   inner_width: number;
   inner_height: number;
   scrollable_height: number;
+
+  isDraggingMilestone = false;
+  dragScrollTimer: d3.Timer;
+  dragTimeIndicator: d3.Selection<any, any, any, any>;
   ////////////////////////
 
   public markerHoverState: any = {
@@ -899,20 +903,115 @@ export class OverviewComponent
       .attr("height", bbox.height + 30)
       .attr("x", -(bbox.width + 30) / 2)
       .attr("y", bbox.y - 15)
-      .attr("style", "cursor: pointer; pointer-events: all;");
+      .attr("style", "cursor: grab; pointer-events: all;");
 
     let x = this.xScaledTimeZoned(m.date);
+    
+    const dragBehavior = d3.drag<any, any>()
+      .on("start", function(event) {
+        overview.isDraggingMilestone = true;
+        d3.select(this).raise();
+        d3.select(this).select(".hitbox").attr("style", "cursor: grabbing; pointer-events: all;");
+        
+        // Add time indicator
+        if (overview.axis_abs_g) {
+          overview.dragTimeIndicator = overview.axis_abs_g.append("g")
+            .attr("class", "drag-time-indicator")
+            .attr("transform", `translate(${event.x}, ${overview.inner_height + overview.inner_margin.top})`);
+            
+          overview.dragTimeIndicator.append("path")
+            .attr("d", "M -5 0 L 5 0 L 0 -5 Z")
+            .attr("fill", "var(--primary)")
+            .attr("transform", "translate(0, 0)");
+            
+          overview.dragTimeIndicator.append("text")
+            .attr("y", 15)
+            .attr("text-anchor", "middle")
+            .style("fill", "var(--primary)")
+            .style("font-size", "12px")
+            .style("font-weight", "bold");
+        }
+      })
+      .on("drag", function(event) {
+        // Compute x coordinate based on event
+        let currentX = Math.max(0, Math.min(overview.inner_width, event.x));
+        
+        // Update milestone position and date
+        m.date = overview.x_scale_copy.invert(currentX);
+        d3.select(this).attr("transform", `translate(${currentX}, ${overview.inner_margin.top})`);
+        
+        // Update time indicator
+        if (overview.dragTimeIndicator) {
+          overview.dragTimeIndicator.attr("transform", `translate(${currentX}, ${overview.inner_height + overview.inner_margin.top})`);
+          overview.dragTimeIndicator.select("text").text(OverviewComponent.formatDay(m.date) + " " + OverviewComponent.formatHour(m.date));
+        }
+
+        // Edge scrolling logic
+        const scrollMargin = 50;
+        const scrollSpeed = 5;
+        let dx = 0;
+
+        if (currentX < scrollMargin) {
+          dx = scrollSpeed; // scroll left
+        } else if (currentX > overview.inner_width - scrollMargin) {
+          dx = -scrollSpeed; // scroll right
+        }
+
+        if (dx !== 0) {
+          if (!overview.dragScrollTimer) {
+            overview.dragScrollTimer = d3.timer(() => {
+              if (overview.zoom && overview.data_g) {
+                // Apply zoom translation
+                overview.data_g.call(overview.zoom.translateBy, dx / (overview.current_zoom?.k || 1), 0);
+                
+                // Recalculate x position based on new zoom
+                let updatedX = overview.xScaledTimeZoned(m.date);
+                updatedX = Math.max(0, Math.min(overview.inner_width, updatedX));
+                d3.select(this).attr("transform", `translate(${updatedX}, ${overview.inner_margin.top})`);
+                
+                if (overview.dragTimeIndicator) {
+                  overview.dragTimeIndicator.attr("transform", `translate(${updatedX}, ${overview.inner_height + overview.inner_margin.top})`);
+                }
+              }
+            });
+          }
+        } else if (overview.dragScrollTimer) {
+          overview.dragScrollTimer.stop();
+          overview.dragScrollTimer = null;
+        }
+      })
+      .on("end", function(event) {
+        overview.isDraggingMilestone = false;
+        d3.select(this).select(".hitbox").attr("style", "cursor: grab; pointer-events: all;");
+        
+        if (overview.dragScrollTimer) {
+          overview.dragScrollTimer.stop();
+          overview.dragScrollTimer = null;
+        }
+        
+        if (overview.dragTimeIndicator) {
+          overview.dragTimeIndicator.remove();
+          overview.dragTimeIndicator = null;
+        }
+        
+        // Save the updated milestone date
+        overview.saveData();
+      });
 
     return g
       .attr("transform", `translate(${x}, ${this.inner_margin.top})`)
       .call((g) => g.classed("hidden", x < 0 || x > overview.width))
+      .call(dragBehavior)
       .on("contextmenu", (e) => {
+        if (overview.isDraggingMilestone) return;
         e.preventDefault();
         e.stopPropagation();
         const rawDate = overview.x_scale.invert(e.pageX);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
+        if (overview.isDraggingMilestone) return;
+        if (e.defaultPrevented) return; // Ignore click triggered by drag
         e.stopPropagation();
         const rawDate = overview.x_scale.invert(e.pageX);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
