@@ -1,9 +1,9 @@
-<div class="modal-header border-bottom-0 pb-3 pt-4 px-4 align-items-center flex-nowrap w-100">
+<div class="modal-header border-bottom-0 pb-3 pt-4 px-4 d-flex justify-content-between align-items-center flex-nowrap w-100">
     <h4 class="modal-title font-weight-bold m-0" style="font-size: 1.25rem; color: var(--color-text-primary);">
         {{ (this.addMode ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') |
         translate }}
     </h4>
-    <div class="d-flex align-items-center ml-auto" style="gap: 0.5rem;">
+    <div class="d-flex align-items-center" style="gap: 0.5rem;">
         <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
             {{ 'CANCEL' | translate }}
         </button>
@@ -17,42 +17,46 @@
 </div>
 <div class="modal-body mx-2">
     <form [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
-        <div class="form-row">
-            <div class="form-group col-12 required">
-                <label class="col-form-label required-label">{{ 'DATE' | translate }}</label>
-                <app-date-range-picker
-                    [singleMode]="true"
-                    [singleLabel]="' '"
-                    [date]="milestoneForm.get('date')?.value"
-                    (dateChange)="milestoneForm.get('date')?.setValue($event); milestoneForm.get('date')?.markAsDirty()">
-                </app-date-range-picker>
-            </div>
-            <div class="form-group col-12 required">
-                <label for="time" class="col-form-label required-label">
-                    {{ 'TIME' | translate }}
-                </label>
-                <div class="d-flex justify-content-center w-100 mt-2">
-                    <app-time-picker 
-                        mode="single" 
-                        [time]="milestoneForm.get('time')?.value" 
-                        (timeChange)="milestoneForm.get('time')?.setValue($event); milestoneForm.get('time')?.markAsDirty()">
-                    </app-time-picker>
+        <div class="d-flex w-100 mb-3 flex-nowrap" style="gap: 2rem;">
+            <div class="d-flex flex-column" style="flex: 1; min-width: 0; gap: 0.75rem;">
+                <div class="form-group mb-0">
+                    <label class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.LABEL' | translate }}</label>
+                    <app-text-input id="label" formControlName="label" [placeholder]="'OVERVIEW-GRAPH.MODAL.LABEL' | translate"></app-text-input>
+                </div>
+                <div class="form-group mb-0">
+                    <label class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate }}</label>
+                    <app-text-input id="tpGroup" formControlName="tpGroup" [placeholder]="'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate" [suggestions]="tpGroups"></app-text-input>
+                </div>
+                <div class="form-group mb-0 required h-100 d-flex flex-column">
+                    <label class="col-form-label required-label">{{ 'DATE' | translate }}</label>
+                    <div class="flex-grow-1 d-flex align-items-center w-100">
+                        <app-date-range-picker class="w-100 d-block"
+                            [singleMode]="true"
+                            [singleLabel]="' '"
+                            [date]="milestoneForm.get('date')?.value"
+                            (dateChange)="milestoneForm.get('date')?.setValue($event); milestoneForm.get('date')?.markAsDirty()">
+                        </app-date-range-picker>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="label" class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.LABEL' | translate }}</label>
-            <input type="text" class="form-control" id="label" formControlName="label">
-        </div>
-        <div class="form-group">
-            <label for="tpGroup" class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate }}</label>
-            <input id="tpGroup" type="text" class="form-control" formControlName="tpGroup"
-                   placeholder="d.ff"
-                   [ngbTypeahead]="searchGroup"
-                   container="body"
-                   (focus)="focus$.next($any($event).target.value)"
-                   (click)="click$.next($any($event).target.value)"
-                   #instance="ngbTypeahead" />
+            <div class="d-flex flex-column" style="flex: 1; min-width: 0;">
+                <div class="form-group required h-100 d-flex flex-column mb-0">
+                    <label for="time" class="col-form-label required-label w-100">
+                        {{ 'TIME' | translate }}
+                    </label>
+                    <div class="d-flex justify-content-center align-items-center flex-grow-1 w-100 mt-2">
+                        <div class="d-flex justify-content-center align-items-center" style="width: 225px; height: 225px; align-self: center;">
+                            <div style="transform: scale(0.75); transform-origin: center;">
+                                <app-time-picker 
+                                    mode="single" 
+                                    [time]="milestoneForm.get('time')?.value" 
+                                    (timeChange)="milestoneForm.get('time')?.setValue($event); milestoneForm.get('time')?.markAsDirty()">
+                                </app-time-picker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label for="questionsChooser" class="col-form-label">{{ 'QUESTIONS' | translate }}</label>
@@ -73,7 +77,7 @@
         </div>
 
         <div class="form-group">
-            <label for="notes">{{ 'MILESTONE-NOTES' | translate }}</label>
+            <label for="notes" class="col-form-label">{{ 'MILESTONE-NOTES' | translate }}</label>
             <textarea class="form-control" id="notes" rows="5" formControlName="notes"></textarea>
         </div>
 
