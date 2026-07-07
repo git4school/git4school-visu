@@ -32,6 +32,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() startDate: Date | null = null;
   @Input() endDate: Date | null = null;
   @Input() singleMode = false;
+  @Input() enableTime = false;
   @Input() date: Date | null = null;
   
   @Input() startLabel = 'METADATA.START-DATE';
@@ -45,6 +46,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild("startDay", { static: false }) startDayEl: ElementRef;
   @ViewChild("startMonth", { static: false }) startMonthEl: ElementRef;
   @ViewChild("startYear", { static: false }) startYearEl: ElementRef;
+  @ViewChild("startHour", { static: false }) startHourEl: ElementRef;
+  @ViewChild("startMinute", { static: false }) startMinuteEl: ElementRef;
   @ViewChild("endDay", { static: false }) endDayEl: ElementRef;
   @ViewChild("endMonth", { static: false }) endMonthEl: ElementRef;
   @ViewChild("endYear", { static: false }) endYearEl: ElementRef;
@@ -61,6 +64,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   startDayStr = "";
   startMonthStr = "";
   startYearStr = "";
+  startHourStr = "";
+  startMinuteStr = "";
   endDayStr = "";
   endMonthStr = "";
   endYearStr = "";
@@ -210,8 +215,18 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     const clickedDate = day.date.clone().startOf("day");
 
     if (this.singleMode) {
+      if (this.enableTime) {
+        if (this.date) {
+          clickedDate.hour(moment(this.date).hour()).minute(moment(this.date).minute());
+        } else {
+          clickedDate.hour(12).minute(0);
+        }
+      }
+      
       this.setSingleDate(clickedDate);
-      this.closePopup();
+      if (!this.enableTime) {
+        this.closePopup();
+      }
       return;
     }
 
@@ -253,6 +268,26 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
   onDateLeave() {
     this.hoverDate = null;
+  }
+
+  onTimeChange(newTime: string) {
+    if (!this.date) {
+      // If no date is set, use today
+      const today = moment().startOf('day');
+      const [h, m] = newTime.split(':');
+      today.hour(parseInt(h, 10)).minute(parseInt(m, 10));
+      this.setSingleDate(today);
+    } else {
+      const updatedDate = moment(this.date);
+      const [h, m] = newTime.split(':');
+      updatedDate.hour(parseInt(h, 10)).minute(parseInt(m, 10));
+      this.setSingleDate(updatedDate);
+    }
+  }
+
+  get timeString(): string {
+    if (!this.date) return '12:00';
+    return moment(this.date).format('HH:mm');
   }
 
   isStartDate(date: moment.Moment): boolean {
@@ -311,7 +346,11 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setToday() {
-    const today = moment().startOf("day");
+    const today = moment();
+    if (!this.enableTime || !this.singleMode) {
+      today.startOf("day");
+    }
+    
     if (this.singleMode) {
       this.setSingleDate(today);
     } else {
@@ -343,11 +382,13 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     this.closePopup();
   }
 
-  private setFieldValue(isStart: boolean, field: "day" | "month" | "year", value: string) {
+  private setFieldValue(isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute", value: string) {
     if (isStart) {
       if (field === "day") this.startDayStr = value;
       else if (field === "month") this.startMonthStr = value;
       else if (field === "year") this.startYearStr = value;
+      else if (field === "hour") this.startHourStr = value;
+      else if (field === "minute") this.startMinuteStr = value;
     } else {
       if (field === "day") this.endDayStr = value;
       else if (field === "month") this.endMonthStr = value;
@@ -379,7 +420,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     return dStr;
   }
 
-  onInputType(event: Event, isStart: boolean, field: "day" | "month" | "year") {
+  onInputType(event: Event, isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute") {
     const input = event.target as HTMLInputElement;
     let value = input.value.replace(/\D/g, ""); // Keep only digits
 
@@ -401,6 +442,12 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         if (value.length === 2 && num === 0) value = "01";
         // Auto-pad if first digit is > 3
         if (value.length === 1 && num > 3) value = `0${num}`;
+      } else if (field === "hour") {
+        if (num > 23) value = "23";
+        if (value.length === 1 && num > 2) value = `0${num}`;
+      } else if (field === "minute") {
+        if (num > 59) value = "59";
+        if (value.length === 1 && num > 5) value = `0${num}`;
       }
     }
 
@@ -417,7 +464,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   onKeyDown(
     event: KeyboardEvent,
     isStart: boolean,
-    field: "day" | "month" | "year"
+    field: "day" | "month" | "year" | "hour" | "minute"
   ) {
     const input = event.target as HTMLInputElement;
     if (event.key === "Backspace" && input.value === "") {
@@ -435,6 +482,10 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     if (isStart) {
       this.startMonthStr = this.padMonth(this.startMonthStr);
       this.startDayStr = this.padAndValidateDay(this.startDayStr, this.getMaxDays(true));
+      if (this.enableTime && this.singleMode) {
+        if (this.startHourStr && this.startHourStr.length === 1) this.startHourStr = `0${this.startHourStr}`;
+        if (this.startMinuteStr && this.startMinuteStr.length === 1) this.startMinuteStr = `0${this.startMinuteStr}`;
+      }
     } else {
       this.endMonthStr = this.padMonth(this.endMonthStr);
       this.endDayStr = this.padAndValidateDay(this.endDayStr, this.getMaxDays(false));
@@ -504,10 +555,16 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         this.startDayStr = date.format("DD");
         this.startMonthStr = date.format("MM");
         this.startYearStr = date.format("YYYY");
+        if (this.enableTime && this.singleMode) {
+          this.startHourStr = date.format("HH");
+          this.startMinuteStr = date.format("mm");
+        }
       } else {
         this.startDayStr = "";
         this.startMonthStr = "";
         this.startYearStr = "";
+        this.startHourStr = "";
+        this.startMinuteStr = "";
       }
     } else {
       if (date) {
@@ -522,11 +579,13 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private getElementFor(isStart: boolean, field: "day" | "month" | "year"): ElementRef | undefined {
+  private getElementFor(isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute"): ElementRef | undefined {
     if (isStart) {
       if (field === "day") return this.startDayEl;
       if (field === "month") return this.startMonthEl;
       if (field === "year") return this.startYearEl;
+      if (field === "hour") return this.startHourEl;
+      if (field === "minute") return this.startMinuteEl;
     } else {
       if (field === "day") return this.endDayEl;
       if (field === "month") return this.endMonthEl;
@@ -540,6 +599,10 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       ? [this.startDayEl, this.startMonthEl, this.startYearEl] 
       : [this.startMonthEl, this.startDayEl, this.startYearEl];
 
+    if (this.enableTime && this.singleMode) {
+      startEls.push(this.startHourEl, this.startMinuteEl);
+    }
+
     if (this.singleMode) return startEls;
 
     const endEls = this.isFrench 
@@ -549,7 +612,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     return [...startEls, ...endEls];
   }
 
-  private moveFocus(isStart: boolean, field: "day" | "month" | "year", direction: 1 | -1, cursorPosition?: 'start' | 'end') {
+  private moveFocus(isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute", direction: 1 | -1, cursorPosition?: 'start' | 'end') {
     const currentEl = this.getElementFor(isStart, field);
     if (!currentEl) return;
     
@@ -570,11 +633,11 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private focusNext(isStart: boolean, field: "day" | "month" | "year", cursorPosition?: 'start' | 'end') {
+  private focusNext(isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute", cursorPosition?: 'start' | 'end') {
     this.moveFocus(isStart, field, 1, cursorPosition);
   }
 
-  private focusPrevious(isStart: boolean, field: "day" | "month" | "year", cursorPosition?: 'start' | 'end') {
+  private focusPrevious(isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute", cursorPosition?: 'start' | 'end') {
     this.moveFocus(isStart, field, -1, cursorPosition);
   }
 
@@ -582,6 +645,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     const day = isStart ? this.startDayStr : this.endDayStr;
     const month = isStart ? this.startMonthStr : this.endMonthStr;
     const year = isStart ? this.startYearStr : this.endYearStr;
+    const hour = (isStart && this.enableTime && this.singleMode) ? this.startHourStr : null;
+    const minute = (isStart && this.enableTime && this.singleMode) ? this.startMinuteStr : null;
 
     if (day.length === 0 && month.length === 0 && year.length === 0) {
       if (this.singleMode) this.setSingleDate(null);
@@ -591,7 +656,16 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (day.length === 2 && month.length === 2 && year.length === 4) {
-      const parsed = moment(`${year}-${month}-${day}`, "YYYY-MM-DD", true);
+      let format = "YYYY-MM-DD";
+      let dateString = `${year}-${month}-${day}`;
+      
+      if (hour !== null && minute !== null) {
+        if (hour.length !== 2 || minute.length !== 2) return; // Wait for full time input
+        format = "YYYY-MM-DD HH:mm";
+        dateString = `${year}-${month}-${day} ${hour}:${minute}`;
+      }
+
+      const parsed = moment(dateString, format, true);
       if (!parsed.isValid()) return;
 
       if (this.singleMode) {

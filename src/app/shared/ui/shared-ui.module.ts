@@ -14,6 +14,7 @@ import { TooltipComponent } from "./tooltip/tooltip.component";
 import { TooltipDirective } from "./tooltip/tooltip.directive";
 import { CustomModalContainerComponent } from "./custom-modal/custom-modal-container/custom-modal-container.component";
 import { TypePickerComponent } from "./type-picker/type-picker.component";
+import { TimePickerComponent } from "../../components/time-picker/time-picker.component";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { TypePickerComponent } from "./type-picker/type-picker.component";
     TooltipDirective,
     CustomModalContainerComponent,
     TypePickerComponent,
+    TimePickerComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -40,6 +42,7 @@ import { TypePickerComponent } from "./type-picker/type-picker.component";
     TooltipDirective,
     CustomModalContainerComponent,
     TypePickerComponent,
+    TimePickerComponent,
   ],
   entryComponents: [CustomModalContainerComponent],
 })

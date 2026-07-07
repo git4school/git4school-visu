@@ -53,7 +53,6 @@ import { AppNavLayoutComponent } from "./components/nav-layouts/app-nav-layout/a
 import { HomeNavLayoutComponent } from "./components/nav-layouts/home-nav-layout/home-nav-layout.component";
 import { OverviewGraphContextualMenuComponent } from "./components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
 import { SidebarSettingsComponent } from "./components/nav-layouts/sidebar-settings/sidebar-settings.component";
-import { TimePickerComponent } from "./components/time-picker/time-picker.component";
 
 /**
  * Firebase configuration file
@@ -135,7 +134,6 @@ export function appInitializerFactory(
     EditSessionComponent,
     OverviewGraphContextualMenuComponent,
     SidebarSettingsComponent,
-    TimePickerComponent,
   ],
   imports: [
     BrowserModule,

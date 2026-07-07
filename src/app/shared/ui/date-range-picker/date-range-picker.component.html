@@ -22,6 +22,16 @@
         <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
           maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
           (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
+        <ng-container *ngIf="singleMode && enableTime">
+          <span class="separator">&nbsp;</span>
+          <input #startHour type="text" class="segment-input hour" placeholder="HH"
+            maxlength="2" [value]="startHourStr" (input)="onInputType($event, true, 'hour')"
+            (keydown)="onKeyDown($event, true, 'hour')" (blur)="onBlur(true)">
+          <span class="separator">:</span>
+          <input #startMinute type="text" class="segment-input minute" placeholder="MM"
+            maxlength="2" [value]="startMinuteStr" (input)="onInputType($event, true, 'minute')"
+            (keydown)="onKeyDown($event, true, 'minute')" (blur)="onBlur(true)">
+        </ng-container>
       </ng-container>
       <ng-template #enStartFormat>
         <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
@@ -35,6 +45,16 @@
         <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
           maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
           (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
+        <ng-container *ngIf="singleMode && enableTime">
+          <span class="separator">&nbsp;</span>
+          <input #startHour type="text" class="segment-input hour" placeholder="HH"
+            maxlength="2" [value]="startHourStr" (input)="onInputType($event, true, 'hour')"
+            (keydown)="onKeyDown($event, true, 'hour')" (blur)="onBlur(true)">
+          <span class="separator">:</span>
+          <input #startMinute type="text" class="segment-input minute" placeholder="MM"
+            maxlength="2" [value]="startMinuteStr" (input)="onInputType($event, true, 'minute')"
+            (keydown)="onKeyDown($event, true, 'minute')" (blur)="onBlur(true)">
+        </ng-container>
       </ng-template>
     </div>
 
@@ -95,31 +115,44 @@
       </button>
     </div>
 
-    <!-- Calendar Header -->
-    <div class="calendar-header">
-      <button type="button" class="nav-btn" (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>
-      <span class="current-month">{{ currentMonthName }}</span>
-      <button type="button" class="nav-btn" (click)="nextMonth()"><i class="fas fa-chevron-right"></i></button>
-    </div>
+    <div class="popup-content-layout">
+      <!-- Calendar Side -->
+      <div class="calendar-side">
+        <!-- Calendar Header -->
+        <div class="calendar-header">
+          <button type="button" class="nav-btn" (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>
+          <span class="current-month">{{ currentMonthName }}</span>
+          <button type="button" class="nav-btn" (click)="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+        </div>
 
-    <!-- Calendar Body -->
-    <div class="calendar-body">
-      <div class="weekdays-row">
-        <span class="weekday" *ngFor="let d of weekDays">{{ d }}</span>
-      </div>
-      <div class="days-grid">
-        <ng-container *ngFor="let week of calendar">
-          <div class="day-cell" *ngFor="let day of week" [class.outside-month]="!day.isCurrentMonth"
-            [class.selected-start]="isStartDate(day.date)" [class.selected-end]="isEndDate(day.date)"
-            [class.in-range]="isInRange(day.date)" [class.today]="day.isToday"
-            [class.range-right]="isRangeRight(day.date)" [class.range-left]="isRangeLeft(day.date)"
-            [class.hover-end]="isHoverForwardEnd(day.date)" [class.hover-start]="isHoverBackwardStart(day.date)"
-            (click)="onDateClick(day)"
-            (mouseenter)="onDateHover(day)" (mouseleave)="onDateLeave()">
-            <div class="day-number">{{ day.day }}</div>
+        <!-- Calendar Body -->
+        <div class="calendar-body">
+          <div class="weekdays-row">
+            <span class="weekday" *ngFor="let d of weekDays">{{ d }}</span>
           </div>
-        </ng-container>
+          <div class="days-grid">
+            <ng-container *ngFor="let week of calendar">
+              <div class="day-cell" *ngFor="let day of week" [class.outside-month]="!day.isCurrentMonth"
+                [class.selected-start]="isStartDate(day.date)" [class.selected-end]="isEndDate(day.date)"
+                [class.in-range]="isInRange(day.date)" [class.today]="day.isToday"
+                [class.range-right]="isRangeRight(day.date)" [class.range-left]="isRangeLeft(day.date)"
+                [class.hover-end]="isHoverForwardEnd(day.date)" [class.hover-start]="isHoverBackwardStart(day.date)"
+                (click)="onDateClick(day)"
+                (mouseenter)="onDateHover(day)" (mouseleave)="onDateLeave()">
+                <div class="day-number">{{ day.day }}</div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
       </div>
+
+      <!-- Time Picker Side -->
+      <ng-container *ngIf="singleMode && enableTime">
+        <div class="time-picker-divider"></div>
+        <div class="time-picker-side">
+          <app-time-picker [mode]="'single'" [time]="timeString" (timeChange)="onTimeChange($event)"></app-time-picker>
+        </div>
+      </ng-container>
     </div>
 
   </div>
