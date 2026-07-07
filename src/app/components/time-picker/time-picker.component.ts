@@ -191,8 +191,12 @@ export class TimePickerComponent implements OnInit, OnChanges {
     const clientX = event instanceof MouseEvent ? event.clientX : (event as TouchEvent).touches[0].clientX;
     const clientY = event instanceof MouseEvent ? event.clientY : (event as TouchEvent).touches[0].clientY;
     
-    const x = clientX - rect.left - rect.width / 2;
-    const y = clientY - rect.top - rect.height / 2;
+    // Calculate CSS transform scale to handle scaled integrations
+    const scaleX = rect.width / 300;
+    const scaleY = rect.height / 300;
+
+    const x = (clientX - rect.left - rect.width / 2) / scaleX;
+    const y = (clientY - rect.top - rect.height / 2) / scaleY;
     
     // Ignore if inside inner circle (130 - 24 = 106px radius) unless dragging
     if (!this.isDragging) {
@@ -276,8 +280,12 @@ export class TimePickerComponent implements OnInit, OnChanges {
       const rect = this.touchArea.nativeElement.getBoundingClientRect();
       const clientX = event instanceof MouseEvent ? event.clientX : (event as TouchEvent).touches[0].clientX;
       const clientY = event instanceof MouseEvent ? event.clientY : (event as TouchEvent).touches[0].clientY;
-      const x = clientX - rect.left - rect.width / 2;
-      const y = clientY - rect.top - rect.height / 2;
+      
+      const scaleX = rect.width / 300;
+      const scaleY = rect.height / 300;
+
+      const x = (clientX - rect.left - rect.width / 2) / scaleX;
+      const y = (clientY - rect.top - rect.height / 2) / scaleY;
       const distance = Math.sqrt(x*x + y*y);
       if (distance < 106) return; // Do nothing if clicked inside inner circle
     }
