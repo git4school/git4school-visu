@@ -9,7 +9,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Milestone } from "@models/Milestone.model";
 import { Observable, Subject, merge } from "rxjs";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
-import { Utils } from "@services/utils";
 import * as moment from "moment";
 import { TypePickerOption } from "@shared/ui/type-picker/type-picker.component";
 
@@ -44,11 +43,8 @@ export class EditMilestoneComponent implements OnInit {
   }
 
   private initForm() {
-    const t = Utils.getTimeFromDate(this.milestone.date);
-    const timeStr = t ? `${t.hour.toString().padStart(2, '0')}:${t.minute.toString().padStart(2, '0')}` : '12:00';
     this.milestoneForm = this.fb.group({
       date: [this.milestone.date, Validators.required],
-      time: [timeStr, Validators.required],
       label: [this.milestone.label],
       tpGroup: [this.milestone.tpGroup || ""],
       questions: [this.milestone.questions],
@@ -64,8 +60,7 @@ export class EditMilestoneComponent implements OnInit {
 
   submitMilestone() {
     let form = this.milestoneForm;
-    const [h, m] = form.value.time.split(':').map(Number);
-    const date = moment(form.value.date).set({ hour: h, minute: m }).toDate();
+    const date = moment(form.value.date).toDate();
     const milestone = new Milestone(
       date,
       form.value.label.trim(),
