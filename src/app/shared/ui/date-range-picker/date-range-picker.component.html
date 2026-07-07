@@ -1,8 +1,8 @@
 <div class="date-range-container">
   <!-- Labels -->
   <div class="labels-row">
-    <span class="label-text">{{ (singleMode ? singleLabel : startLabel) | translate }}</span>
-    <span class="label-text" *ngIf="!singleMode">{{ endLabel | translate }}</span>
+    <span class="label-text">{{ (isSingleDate ? singleLabel : startLabel) | translate }}</span>
+    <span class="label-text" *ngIf="!isSingleDate">{{ endLabel | translate }}</span>
     <span class="label-button-spacer"></span>
   </div>
 
@@ -22,7 +22,7 @@
         <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
           maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
           (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
-        <ng-container *ngIf="singleMode && enableTime">
+        <ng-container *ngIf="isSingleDate && hasTime">
           <span class="separator">&nbsp;</span>
           <input #startHour type="text" class="segment-input hour" placeholder="HH"
             maxlength="2" [value]="startHourStr" (input)="onInputType($event, true, 'hour')"
@@ -31,6 +31,16 @@
           <input #startMinute type="text" class="segment-input minute" placeholder="MM"
             maxlength="2" [value]="startMinuteStr" (input)="onInputType($event, true, 'minute')"
             (keydown)="onKeyDown($event, true, 'minute')" (blur)="onBlur(true)">
+          <ng-container *ngIf="mode === 'datetime-period'">
+             <span class="arrow-separator" style="margin: 0 0.5rem; font-size: 0.8rem; color: var(--color-text-secondary);"><i class="fas fa-arrow-right"></i></span>
+             <input #endHour type="text" class="segment-input hour" placeholder="HH"
+               maxlength="2" [value]="endHourStr" (input)="onInputType($event, false, 'hour')"
+               (keydown)="onKeyDown($event, false, 'hour')" (blur)="onBlur(false)">
+             <span class="separator">:</span>
+             <input #endMinute type="text" class="segment-input minute" placeholder="MM"
+               maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, 'minute')"
+               (keydown)="onKeyDown($event, false, 'minute')" (blur)="onBlur(false)">
+          </ng-container>
         </ng-container>
       </ng-container>
       <ng-template #enStartFormat>
@@ -45,7 +55,7 @@
         <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
           maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
           (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
-        <ng-container *ngIf="singleMode && enableTime">
+        <ng-container *ngIf="isSingleDate && hasTime">
           <span class="separator">&nbsp;</span>
           <input #startHour type="text" class="segment-input hour" placeholder="HH"
             maxlength="2" [value]="startHourStr" (input)="onInputType($event, true, 'hour')"
@@ -54,14 +64,24 @@
           <input #startMinute type="text" class="segment-input minute" placeholder="MM"
             maxlength="2" [value]="startMinuteStr" (input)="onInputType($event, true, 'minute')"
             (keydown)="onKeyDown($event, true, 'minute')" (blur)="onBlur(true)">
+          <ng-container *ngIf="mode === 'datetime-period'">
+             <span class="arrow-separator" style="margin: 0 0.5rem; font-size: 0.8rem; color: var(--color-text-secondary);"><i class="fas fa-arrow-right"></i></span>
+             <input #endHour type="text" class="segment-input hour" placeholder="HH"
+               maxlength="2" [value]="endHourStr" (input)="onInputType($event, false, 'hour')"
+               (keydown)="onKeyDown($event, false, 'hour')" (blur)="onBlur(false)">
+             <span class="separator">:</span>
+             <input #endMinute type="text" class="segment-input minute" placeholder="MM"
+               maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, 'minute')"
+               (keydown)="onKeyDown($event, false, 'minute')" (blur)="onBlur(false)">
+          </ng-container>
         </ng-container>
       </ng-template>
     </div>
 
-    <span class="arrow-separator" *ngIf="!singleMode"><i class="fas fa-arrow-right"></i></span>
+    <span class="arrow-separator" *ngIf="!isSingleDate"><i class="fas fa-arrow-right"></i></span>
 
     <!-- End Date Segments -->
-    <div class="date-segments" (click)="$event.stopPropagation()" *ngIf="!singleMode">
+    <div class="date-segments" (click)="$event.stopPropagation()" *ngIf="!isSingleDate">
       <ng-container *ngIf="isFrench; else enEndFormat">
         <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
           maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
@@ -105,11 +125,11 @@
         <svg class="sparkle-icon purple" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
         <span>{{ 'TODAY' | translate }}</span>
       </button>
-      <button type="button" class="quick-btn" (click)="setThisWeek()" *ngIf="!singleMode">
+      <button type="button" class="quick-btn" (click)="setThisWeek()" *ngIf="!isSingleDate">
         <svg class="sparkle-icon yellow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
         <span>{{ 'THIS_WEEK' | translate }}</span>
       </button>
-      <button type="button" class="quick-btn" (click)="setThisMonth()" *ngIf="!singleMode">
+      <button type="button" class="quick-btn" (click)="setThisMonth()" *ngIf="!isSingleDate">
         <svg class="sparkle-icon blue" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>
         <span>{{ 'THIS_MONTH' | translate }}</span>
       </button>
@@ -147,10 +167,11 @@
       </div>
 
       <!-- Time Picker Side -->
-      <ng-container *ngIf="singleMode && enableTime">
+      <ng-container *ngIf="isSingleDate && hasTime">
         <div class="time-picker-divider"></div>
         <div class="time-picker-side">
-          <app-time-picker [mode]="'single'" [time]="timeString" (timeChange)="onTimeChange($event)"></app-time-picker>
+          <app-time-picker *ngIf="mode === 'datetime'" [mode]="'single'" [time]="timeString" (timeChange)="onTimeChange($event)"></app-time-picker>
+          <app-time-picker *ngIf="mode === 'datetime-period'" [mode]="'period'" [startTime]="startTime" [endTime]="endTime" [defaultDuration]="defaultDuration" (periodChange)="onPeriodChange($event)"></app-time-picker>
         </div>
       </ng-container>
     </div>

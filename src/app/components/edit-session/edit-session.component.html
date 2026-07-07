@@ -17,32 +17,20 @@
 <div class="modal-body mx-2">
     <form [formGroup]="sessionForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
         <div class="form-group required">
-            <label class="required-label">{{ 'EDIT-SESSION.DATE-LABEL' | translate }}</label>
+            <label class="required-label">{{ 'EDIT-SESSION.DATE-LABEL' | translate }} / {{ 'TIME' | translate }}</label>
             <app-date-range-picker
-                [singleMode]="true"
+                [mode]="'datetime-period'"
                 [singleLabel]="' '"
                 [date]="sessionForm.get('date')?.value"
-                (dateChange)="sessionForm.get('date')?.setValue($event); sessionForm.get('date')?.markAsDirty()">
+                [startTime]="sessionForm.get('startTime')?.value"
+                [endTime]="sessionForm.get('endTime')?.value"
+                [defaultDuration]="defaultSessionDuration ? defaultSessionDuration.hour * 60 + defaultSessionDuration.minute : 120"
+                (dateChange)="sessionForm.get('date')?.setValue($event); sessionForm.get('date')?.markAsDirty()"
+                (periodChange)="onPeriodChange($event)">
             </app-date-range-picker>
-        </div>
-        <div class="form-row">
-            <div class="form-group col required">
-                <label class="required-label">
-                    {{ 'EDIT-SESSION.START-TIME-LABEL' | translate }} / {{ 'EDIT-SESSION.END-TIME-LABEL' | translate }}
-                </label>
-                <div class="d-flex justify-content-center w-100 mt-2">
-                    <app-time-picker 
-                        mode="period" 
-                        [startTime]="sessionForm.get('startTime')?.value"
-                        [endTime]="sessionForm.get('endTime')?.value"
-                        [defaultDuration]="defaultSessionDuration ? defaultSessionDuration.hour * 60 + defaultSessionDuration.minute : 120"
-                        (periodChange)="onPeriodChange($event)">
-                    </app-time-picker>
-                </div>
-                <div *ngIf="sessionForm.errors" class="small form-text text-danger mt-2">
-                    <div *ngIf="sessionForm.errors['endTimeBeforeStartTime']">
-                        {{ 'EDIT-SESSION.MESSAGE-ENDTIME-BEFORE-STARTTIME' | translate }}
-                    </div>
+            <div *ngIf="sessionForm.errors" class="small form-text text-danger mt-2">
+                <div *ngIf="sessionForm.errors['endTimeBeforeStartTime']">
+                    {{ 'EDIT-SESSION.MESSAGE-ENDTIME-BEFORE-STARTTIME' | translate }}
                 </div>
             </div>
         </div>

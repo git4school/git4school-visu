@@ -31,8 +31,14 @@ export interface CalendarDay {
 export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() startDate: Date | null = null;
   @Input() endDate: Date | null = null;
-  @Input() singleMode = false;
-  @Input() enableTime = false;
+  @Input() mode: 'date-range' | 'date' | 'datetime' | 'datetime-period' = 'date-range';
+  @Input() startTime: string = '12:00';
+  @Input() endTime: string = '14:00';
+  @Input() defaultDuration = 120;
+  @Output() periodChange = new EventEmitter<{ start: string; end: string }>();
+
+  get isSingleDate(): boolean { return this.mode !== 'date-range'; }
+  get hasTime(): boolean { return this.mode === 'datetime' || this.mode === 'datetime-period'; }
   @Input() date: Date | null = null;
   
   @Input() startLabel = 'METADATA.START-DATE';
@@ -48,6 +54,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild("startYear", { static: false }) startYearEl: ElementRef;
   @ViewChild("startHour", { static: false }) startHourEl: ElementRef;
   @ViewChild("startMinute", { static: false }) startMinuteEl: ElementRef;
+  @ViewChild("endHour", { static: false }) endHourEl: ElementRef;
+  @ViewChild("endMinute", { static: false }) endMinuteEl: ElementRef;
   @ViewChild("endDay", { static: false }) endDayEl: ElementRef;
   @ViewChild("endMonth", { static: false }) endMonthEl: ElementRef;
   @ViewChild("endYear", { static: false }) endYearEl: ElementRef;
@@ -69,6 +77,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   endDayStr = "";
   endMonthStr = "";
   endYearStr = "";
+  endHourStr = "";
+  endMinuteStr = "";
 
   isFrench = false;
 
@@ -81,7 +91,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['date'] && this.singleMode) {
+    if (changes['date'] && this.isSingleDate) {
       if (this.date) {
         this.viewDate = moment(this.date);
         this.updateInputStrings(true, moment(this.date));
@@ -90,7 +100,18 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
     
-    if (!this.singleMode) {
+    if (this.mode === 'datetime-period') {
+      if (changes['startTime'] && this.startTime) {
+        this.startHourStr = this.startTime.split(':')[0];
+        this.startMinuteStr = this.startTime.split(':')[1];
+      }
+      if (changes['endTime'] && this.endTime) {
+        this.endHourStr = this.endTime.split(':')[0];
+        this.endMinuteStr = this.endTime.split(':')[1];
+      }
+    }
+    
+    if (!this.isSingleDate) {
       if (changes['startDate']) {
         if (this.startDate) {
           this.viewDate = moment(this.startDate);
@@ -116,10 +137,23 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       this.updateLocale();
     });
 
-    if (this.singleMode && this.date) {
+    if (this.mode === 'datetime-period') {
+      if (this.startTime) {
+        this.startHourStr = this.startTime.split(':')[0];
+        this.startMinuteStr = this.startTime.split(':')[1];
+      }
+      if (this.endTime) {
+        this.endHourStr = this.endTime.split(':')[0];
+        this.endMinuteStr = this.endTime.split(':')[1];
+      }
+    }
+    
+    if (this.isSingleDate && this.date) {
       this.viewDate = moment(this.date);
       this.updateInputStrings(true, moment(this.date));
-    } else if (!this.singleMode) {
+    }
+    
+    if (!this.isSingleDate) {
       if (this.startDate) {
         this.viewDate = moment(this.startDate);
         this.updateInputStrings(true, moment(this.startDate));
@@ -162,9 +196,20 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private initViewDate(): void {
-    if (this.singleMode && this.date) {
+    if (this.mode === 'datetime-period') {
+      if (this.startTime) {
+        this.startHourStr = this.startTime.split(':')[0];
+        this.startMinuteStr = this.startTime.split(':')[1];
+      }
+      if (this.endTime) {
+        this.endHourStr = this.endTime.split(':')[0];
+        this.endMinuteStr = this.endTime.split(':')[1];
+      }
+    }
+    
+    if (this.isSingleDate && this.date) {
       this.viewDate = moment(this.date);
-    } else if (!this.singleMode && this.startDate) {
+    } else if (!this.isSingleDate && this.startDate) {
       this.viewDate = moment(this.startDate);
     }
   }
@@ -214,8 +259,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   onDateClick(day: CalendarDay) {
     const clickedDate = day.date.clone().startOf("day");
 
-    if (this.singleMode) {
-      if (this.enableTime) {
+    if (this.isSingleDate) {
+      if (this.hasTime) {
         if (this.date) {
           clickedDate.hour(moment(this.date).hour()).minute(moment(this.date).minute());
         } else {
@@ -224,7 +269,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       }
       
       this.setSingleDate(clickedDate);
-      if (!this.enableTime) {
+      if (!this.hasTime) {
         this.closePopup();
       }
       return;
@@ -270,6 +315,16 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     this.hoverDate = null;
   }
 
+  onPeriodChange(period: { start: string, end: string }) {
+    this.startTime = period.start;
+    this.endTime = period.end;
+    this.startHourStr = this.startTime.split(':')[0];
+    this.startMinuteStr = this.startTime.split(':')[1];
+    this.endHourStr = this.endTime.split(':')[0];
+    this.endMinuteStr = this.endTime.split(':')[1];
+    this.periodChange.emit(period);
+  }
+
   onTimeChange(newTime: string) {
     if (!this.date) {
       // If no date is set, use today
@@ -291,7 +346,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   isStartDate(date: moment.Moment): boolean {
-    if (this.singleMode) {
+    if (this.isSingleDate) {
       return !!this.date && date.isSame(moment(this.date), "day");
     }
     return !!this.startDate && date.isSame(moment(this.startDate), "day");
@@ -302,7 +357,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   isInRange(date: moment.Moment): boolean {
-    if (this.singleMode) return false;
+    if (this.isSingleDate) return false;
 
     const start = this.startDate ? moment(this.startDate) : null;
     const end = this.endDate ? moment(this.endDate) : null;
@@ -323,36 +378,46 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   isRangeRight(date: moment.Moment): boolean {
-    if (this.singleMode || !this.startDate || !date.isSame(this.startDate, 'day')) return false;
+    if (this.isSingleDate || !this.startDate || !date.isSame(this.startDate, 'day')) return false;
     if (this.endDate && moment(this.endDate).isAfter(this.startDate, 'day')) return true;
     if (!this.endDate && this.hoverDate && this.hoverDate.isAfter(this.startDate, 'day')) return true;
     return false;
   }
 
   isRangeLeft(date: moment.Moment): boolean {
-    if (this.singleMode || !this.startDate || !date.isSame(this.startDate, 'day')) return false;
+    if (this.isSingleDate || !this.startDate || !date.isSame(this.startDate, 'day')) return false;
     if (!this.endDate && this.hoverDate && this.hoverDate.isBefore(this.startDate, 'day')) return true;
     return false;
   }
 
   isHoverForwardEnd(date: moment.Moment): boolean {
-    if (this.singleMode || this.endDate || !this.startDate || !this.hoverDate) return false;
+    if (this.isSingleDate || this.endDate || !this.startDate || !this.hoverDate) return false;
     return date.isSame(this.hoverDate, 'day') && this.hoverDate.isAfter(this.startDate, 'day');
   }
 
   isHoverBackwardStart(date: moment.Moment): boolean {
-    if (this.singleMode || this.endDate || !this.startDate || !this.hoverDate) return false;
+    if (this.isSingleDate || this.endDate || !this.startDate || !this.hoverDate) return false;
     return date.isSame(this.hoverDate, 'day') && this.hoverDate.isBefore(this.startDate, 'day');
   }
 
   setToday() {
     const today = moment();
-    if (!this.enableTime || !this.singleMode) {
+    if (!this.hasTime || !this.isSingleDate) {
       today.startOf("day");
     }
     
-    if (this.singleMode) {
+    if (this.isSingleDate) {
       this.setSingleDate(today);
+      if (this.mode === 'datetime-period') {
+        const endDate = today.clone().add(this.defaultDuration, 'minutes');
+        this.startTime = today.format('HH:mm');
+        this.endTime = endDate.format('HH:mm');
+        this.startHourStr = today.format('HH');
+        this.startMinuteStr = today.format('mm');
+        this.endHourStr = endDate.format('HH');
+        this.endMinuteStr = endDate.format('mm');
+        this.periodChange.emit({ start: this.startTime, end: this.endTime });
+      }
     } else {
       this.setStartDate(today);
       this.setEndDate(today);
@@ -482,13 +547,18 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     if (isStart) {
       this.startMonthStr = this.padMonth(this.startMonthStr);
       this.startDayStr = this.padAndValidateDay(this.startDayStr, this.getMaxDays(true));
-      if (this.enableTime && this.singleMode) {
+      if (this.hasTime && this.isSingleDate) {
         if (this.startHourStr && this.startHourStr.length === 1) this.startHourStr = `0${this.startHourStr}`;
         if (this.startMinuteStr && this.startMinuteStr.length === 1) this.startMinuteStr = `0${this.startMinuteStr}`;
       }
     } else {
-      this.endMonthStr = this.padMonth(this.endMonthStr);
-      this.endDayStr = this.padAndValidateDay(this.endDayStr, this.getMaxDays(false));
+      if (this.mode === 'datetime-period') {
+        if (this.endHourStr && this.endHourStr.length === 1) this.endHourStr = `0${this.endHourStr}`;
+        if (this.endMinuteStr && this.endMinuteStr.length === 1) this.endMinuteStr = `0${this.endMinuteStr}`;
+      } else {
+        this.endMonthStr = this.padMonth(this.endMonthStr);
+        this.endDayStr = this.padAndValidateDay(this.endDayStr, this.getMaxDays(false));
+      }
     }
     this.tryParseDate(isStart);
   }
@@ -555,7 +625,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         this.startDayStr = date.format("DD");
         this.startMonthStr = date.format("MM");
         this.startYearStr = date.format("YYYY");
-        if (this.enableTime && this.singleMode) {
+        if (this.hasTime && this.isSingleDate) {
           this.startHourStr = date.format("HH");
           this.startMinuteStr = date.format("mm");
         }
@@ -587,6 +657,10 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       if (field === "hour") return this.startHourEl;
       if (field === "minute") return this.startMinuteEl;
     } else {
+      if (this.mode === 'datetime-period') {
+        if (field === "hour") return this.endHourEl;
+        if (field === "minute") return this.endMinuteEl;
+      }
       if (field === "day") return this.endDayEl;
       if (field === "month") return this.endMonthEl;
       if (field === "year") return this.endYearEl;
@@ -599,11 +673,11 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       ? [this.startDayEl, this.startMonthEl, this.startYearEl] 
       : [this.startMonthEl, this.startDayEl, this.startYearEl];
 
-    if (this.enableTime && this.singleMode) {
+    if (this.hasTime && this.isSingleDate) {
       startEls.push(this.startHourEl, this.startMinuteEl);
     }
 
-    if (this.singleMode) return startEls;
+    if (this.isSingleDate) return startEls;
 
     const endEls = this.isFrench 
       ? [this.endDayEl, this.endMonthEl, this.endYearEl] 
@@ -642,14 +716,14 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private tryParseDate(isStart: boolean) {
-    const day = isStart ? this.startDayStr : this.endDayStr;
-    const month = isStart ? this.startMonthStr : this.endMonthStr;
-    const year = isStart ? this.startYearStr : this.endYearStr;
-    const hour = (isStart && this.enableTime && this.singleMode) ? this.startHourStr : null;
-    const minute = (isStart && this.enableTime && this.singleMode) ? this.startMinuteStr : null;
+    const day = this.isSingleDate ? this.startDayStr : (isStart ? this.startDayStr : this.endDayStr);
+    const month = this.isSingleDate ? this.startMonthStr : (isStart ? this.startMonthStr : this.endMonthStr);
+    const year = this.isSingleDate ? this.startYearStr : (isStart ? this.startYearStr : this.endYearStr);
+    const hour = (isStart && this.hasTime && this.isSingleDate) ? this.startHourStr : null;
+    const minute = (isStart && this.hasTime && this.isSingleDate) ? this.startMinuteStr : null;
 
     if (day.length === 0 && month.length === 0 && year.length === 0) {
-      if (this.singleMode) this.setSingleDate(null);
+      if (this.isSingleDate) this.setSingleDate(null);
       else if (isStart) this.setStartDate(null);
       else this.setEndDate(null);
       return;
@@ -668,8 +742,16 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       const parsed = moment(dateString, format, true);
       if (!parsed.isValid()) return;
 
-      if (this.singleMode) {
+      if (this.isSingleDate) {
         this.setSingleDate(parsed);
+        if (this.mode === 'datetime-period') {
+           if (this.endHourStr.length === 2 && this.endMinuteStr.length === 2 &&
+               this.startHourStr.length === 2 && this.startMinuteStr.length === 2) {
+               this.startTime = `${this.startHourStr}:${this.startMinuteStr}`;
+               this.endTime = `${this.endHourStr}:${this.endMinuteStr}`;
+               this.periodChange.emit({ start: this.startTime, end: this.endTime });
+           }
+        }
         return;
       }
 

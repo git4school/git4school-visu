@@ -29,8 +29,7 @@
             <div class="form-group mb-0 required">
                 <label class="col-form-label required-label">{{ 'DATE' | translate }} / {{ 'TIME' | translate }}</label>
                 <app-date-range-picker class="w-100 d-block"
-                    [singleMode]="true"
-                    [enableTime]="true"
+                    [mode]="'datetime'"
                     [singleLabel]="' '"
                     [date]="milestoneForm.get('date')?.value"
                     (dateChange)="milestoneForm.get('date')?.setValue($event); milestoneForm.get('date')?.markAsDirty()">
