@@ -35,6 +35,8 @@ body.dark-theme .commit {
 
 .commit-cloture {
   r: 7px;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .commit-normal {
@@ -52,7 +54,12 @@ body.dark-theme .commit {
   transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
 }
 
-.commit-cloture:hover,
+.commit-cloture:hover {
+  fill: var(--color-surface);
+  stroke: var(--color-text-primary);
+  transform: scale(1.1);
+}
+
 .commit-group:hover > path {
   fill: var(--color-surface);
   stroke: var(--color-text-primary);
