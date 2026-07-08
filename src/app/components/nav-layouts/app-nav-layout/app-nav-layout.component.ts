@@ -33,9 +33,39 @@ export class AppNavLayoutComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  isSidebarOpen = false;
+  isSidebarPinned = false;
+  isSidebarHovered = false;
   pressedShortcut: string = null;
   @ViewChild("shortcutsModal") shortcutsModal: ElementRef;
+
+  ngOnInit(): void {
+    const savedPin = localStorage.getItem("sidebarPinned");
+    if (savedPin) {
+      this.isSidebarPinned = savedPin === "true";
+    }
+  }
+
+  toggleSidebarPin() {
+    this.isSidebarPinned = !this.isSidebarPinned;
+    localStorage.setItem("sidebarPinned", String(this.isSidebarPinned));
+  }
+
+  closeSidebar() {
+    this.isSidebarHovered = false;
+  }
+
+  hoverTimeout: any;
+
+  onSidebarEnter() {
+    clearTimeout(this.hoverTimeout);
+    this.isSidebarHovered = true;
+  }
+
+  onSidebarLeave() {
+    this.hoverTimeout = setTimeout(() => {
+      this.isSidebarHovered = false;
+    }, 200);
+  }
 
   @HostListener("document:keydown", ["$event"])
   handleKeyDown(event: KeyboardEvent) {
@@ -79,7 +109,9 @@ export class AppNavLayoutComponent implements OnInit {
     this.modalService.open(this.shortcutsModal, { size: "lg", centered: true });
   }
 
-  ngOnInit(): void {}
+  get isHome(): boolean {
+    return this.router.url.includes('/home');
+  }
 
   get truncatedTitle(): string {
     const title = this.dataService.title;

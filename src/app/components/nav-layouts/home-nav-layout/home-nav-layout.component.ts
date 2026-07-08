@@ -17,7 +17,35 @@ export class HomeNavLayoutComponent implements OnInit {
     public themeService: ThemeService
   ) {}
 
-  isSidebarOpen = false;
+  isSidebarPinned = false;
+  isSidebarHovered = false;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const savedPin = localStorage.getItem("sidebarPinned");
+    if (savedPin) {
+      this.isSidebarPinned = savedPin === "true";
+    }
+  }
+
+  toggleSidebarPin() {
+    this.isSidebarPinned = !this.isSidebarPinned;
+    localStorage.setItem("sidebarPinned", String(this.isSidebarPinned));
+  }
+
+  closeSidebar() {
+    this.isSidebarHovered = false;
+  }
+
+  hoverTimeout: any;
+
+  onSidebarEnter() {
+    clearTimeout(this.hoverTimeout);
+    this.isSidebarHovered = true;
+  }
+
+  onSidebarLeave() {
+    this.hoverTimeout = setTimeout(() => {
+      this.isSidebarHovered = false;
+    }, 200);
+  }
 }

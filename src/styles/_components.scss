@@ -235,41 +235,49 @@
 /* =========================================
    OFFCANVAS SIDEBAR
    ========================================= */
-.sidebar-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
+.sidebar-spacer {
+  position: relative;
+  width: 0;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100vh;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(5px);
-  z-index: 1040;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+  flex-shrink: 0;
   
-  &.show {
-    opacity: 1;
-    pointer-events: auto;
+  &.pinned {
+    width: 310px;
+    max-width: 85vw;
   }
 }
 
-.sidebar-drawer {
-  position: fixed;
-  top: 0;
+.sidebar-actual-panel {
+  position: absolute;
+  top: 60px;
   left: 0;
-  width: 320px;
+  width: 310px;
   max-width: 85vw;
-  height: 100vh;
+  height: calc(100vh - 60px - 1rem);
+  border-radius: 12px;
   background-color: var(--color-surface);
-  z-index: 1045;
   transform: translateX(-100%);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s, height 0.3s, border-radius 0.3s;
+  z-index: 1045;
+  box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
-  
-  &.show {
+  border: 1px solid transparent;
+
+  &.hovered:not(.pinned) {
+    transform: translateX(1rem);
+    border-color: var(--color-border);
+  }
+
+  &.pinned {
     transform: translateX(0);
+    top: 0;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    border-right: 1px solid var(--color-border);
   }
   
   .sidebar-header {
@@ -277,25 +285,6 @@
     position: sticky;
     top: 0;
     z-index: 10;
-  }
-  
-  .close-btn {
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    color: var(--color-text-secondary);
-    background: transparent;
-    border: none;
-    transition: background-color $transition-fast, color $transition-fast;
-    
-    &:hover {
-      background-color: var(--color-bg-body);
-      color: var(--color-primary);
-    }
   }
 }
 
@@ -312,6 +301,11 @@
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
+
+  .btn:focus, .btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 
   .btn-back {
     background-color: transparent;

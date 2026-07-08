@@ -38,8 +38,11 @@ const APP_ROUTES: Routes = [
 ];
 
 const ROUTES: Routes = [
-  { path: "", component: AppNavLayoutComponent, children: APP_ROUTES },
-  { path: "", component: HomeNavLayoutComponent, children: HOME_ROUTES },
+  { 
+    path: "", 
+    component: AppNavLayoutComponent, 
+    children: [...APP_ROUTES, ...HOME_ROUTES] 
+  },
   { path: "**", redirectTo: "/not-found" },
 ];
 
