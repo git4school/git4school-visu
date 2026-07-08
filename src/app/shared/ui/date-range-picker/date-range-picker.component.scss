@@ -131,6 +131,11 @@
     width: max-content;
     animation: fadeIn 0.15s ease-out;
 
+    &.align-right {
+      left: auto;
+      right: 0;
+    }
+
     &.drop-up {
       top: auto;
       bottom: calc(100% + 8px);

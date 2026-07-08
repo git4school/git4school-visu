@@ -116,8 +116,7 @@
     </button>
   </div>
 
-  <!-- Popup Calendar Overlay -->
-  <div class="calendar-popup" *ngIf="isOpen" (click)="$event.stopPropagation()" [class.drop-up]="dropUp">
+  <div class="calendar-popup" *ngIf="isOpen" (click)="$event.stopPropagation()" [class.drop-up]="dropUp" [class.align-right]="alignRight">
 
     <!-- Quick Selectors Header -->
     <div class="calendar-quick-selectors">

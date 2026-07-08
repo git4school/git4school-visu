@@ -62,6 +62,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
   isOpen = false;
   dropUp = false;
+  alignRight = false;
   viewDate: moment.Moment = moment();
   hoverDate: moment.Moment | null = null;
 
@@ -191,6 +192,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       this.updatePopupDirection();
     } else {
       this.dropUp = false;
+      this.alignRight = false;
     }
     this.cdr.markForCheck();
   }
@@ -221,6 +223,10 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
     // Popup is approx 380px tall. Drop up if space below is insufficient AND space above is larger.
     this.dropUp = spaceBelow < 380 && spaceAbove > spaceBelow;
+
+    const spaceRight = window.innerWidth - rect.left;
+    const estimatedWidth = (this.isSingleDate && this.hasTime) || this.mode === 'datetime-period' ? 650 : 350;
+    this.alignRight = spaceRight < estimatedWidth;
   }
 
   closePopup() {
