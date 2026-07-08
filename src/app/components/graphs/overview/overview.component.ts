@@ -1691,8 +1691,6 @@ export class OverviewComponent
               .attr("class", "commit_line")
               .attr("min_date", d1.getTime())
               .attr("max_date", d2.getTime());
-            // .attr("x1", overview.xScaledTimeZoned(d1))
-            // .attr("x2", overview.xScaledTimeZoned(d2));
           });
         }
       });
