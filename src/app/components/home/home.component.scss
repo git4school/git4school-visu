@@ -17,3 +17,9 @@
     box-shadow: var(--shadow-md);
   }
 }
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
