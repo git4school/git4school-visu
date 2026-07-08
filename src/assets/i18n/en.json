@@ -164,6 +164,10 @@
     "UNSAVED-CHANGES": "Unsaved changes"
   },
   "OVERVIEW-GRAPH": {
+    "NO-COMMITS-TITLE": "No commits found",
+    "NO-COMMITS-DESC": "No commits were found for the selected period or with the current filters.",
+    "NO-REPOSITORIES-TITLE": "No repositories found",
+    "NO-REPOSITORIES-DESC": "There are no repositories to display. Please check your filters or import data.",
     "COMMITS-DISPLAYED": "{{commits}} commits displayed by {{students}} student(s)",
     "CLEAR-FILTERS": "Clear filters",
     "UPLOAD": {

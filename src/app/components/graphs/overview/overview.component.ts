@@ -132,6 +132,8 @@ export class OverviewComponent
   inner_width: number;
   inner_height: number;
   scrollable_height: number;
+  private resizeObserver: any;
+  private resizeTimeout: any;
 
   isDraggingMilestone = false;
   hasMovedDuringDrag = false;
@@ -262,7 +264,9 @@ export class OverviewComponent
   }
 
   ngOnDestroy(): void {
-    d3.select(window).on("resize.overview", null);
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
@@ -465,8 +469,9 @@ export class OverviewComponent
   }
 
   loadGraphData() {
-    this.loadAnnotations();
+    if (!this.data_g) return;
     this.loadPoints();
+    this.loadAnnotations();
     this.setupZoom();
   }
 
@@ -506,6 +511,7 @@ export class OverviewComponent
   }
 
   refresh() {
+    if (!document.getElementById("chart")) return;
     this.updateVariableFromCss();
     this.scrollable_height = Math.max(
       1,
@@ -513,15 +519,37 @@ export class OverviewComponent
       this.getDisplayedRepositories().length * this.repo_spacing
     );
 
-    d3.select(window).on("resize.overview", () => {
-      const chart_div = document.getElementById("chart");
-      if (chart_div) {
-        const newWidth = chart_div.getBoundingClientRect().width;
-        if (Math.abs(newWidth - this.width) > 1) { // Only refresh if width actually changed
-          this.loadGraphDataAndRefresh();
+    if (!this.resizeObserver && (window as any).ResizeObserver) {
+      this.resizeObserver = new (window as any).ResizeObserver((entries: any[]) => {
+        for (let entry of entries) {
+          const chart_div = document.getElementById("chart");
+          if (!chart_div) continue;
+          
+          const newWidth = chart_div.getBoundingClientRect().width;
+          const newHeight = chart_div.getBoundingClientRect().height;
+          if (newWidth > 0 && (Math.abs(newWidth - (this.width || 0)) > 1 || Math.abs(newHeight - (this.height || 0)) > 1)) {
+            if (this.resizeTimeout) {
+              clearTimeout(this.resizeTimeout);
+            }
+            this.resizeTimeout = setTimeout(() => {
+              this.width = chart_div.getBoundingClientRect().width;
+              this.height = Math.max(
+                chart_div.getBoundingClientRect().height,
+                this.inner_margin.top +
+                  this.inner_margin.bottom +
+                  this.getDisplayedRepositories().length * this.repo_spacing
+              );
+              this.loadGraphDataAndRefresh();
+            }, 100);
+          }
         }
-      }
-    });
+      });
+    }
+
+    const chart_div = document.getElementById("chart");
+    if (chart_div) {
+      this.resizeObserver.observe(chart_div);
+    }
 
     d3.select(".chart-container").selectAll("svg").remove();
     this.svg = d3
@@ -601,11 +629,15 @@ export class OverviewComponent
       .attr("y", -this.scrollable_height);
   }
 
+  processingData = false;
+
   loadGraphDataAndRefresh() {
+    this.processingData = true;
     setTimeout(() => {
       this.refresh();
       this.loadGraphData();
-    });
+      this.processingData = false;
+    }, 0);
   }
 
   loadAnnotations() {
@@ -618,10 +650,14 @@ export class OverviewComponent
           review.questions?.includes(question)
         ).length);
 
-    if (this.session_g != null) this.session_g.remove();
-    if (this.review_g != null) this.session_g.remove();
-    if (this.correction_g != null) this.session_g.remove();
-    if (this.other_g != null) this.session_g.remove();
+    if (this.session_g != null) { this.session_g.remove(); this.session_g = null; }
+    if (this.review_g != null) { this.review_g.remove(); this.review_g = null; }
+    if (this.correction_g != null) { this.correction_g.remove(); this.correction_g = null; }
+    if (this.other_g != null) { this.other_g.remove(); this.other_g = null; }
+    
+    if (this.filteredCommitsCount === 0) {
+      return;
+    }
     if (this.dataService.sessions && this.showSessions) {
       this.loadSessions();
     }
@@ -1561,7 +1597,8 @@ export class OverviewComponent
     let allCommits = repositories
       .map((v) => v.commits)
       .reduce((a, b) => a.concat(b), []);
-    if (allCommits.length === 0) {
+      
+    if (repositories.length === 0) {
       if (this.axis_g != null) {
         this.axis_g.remove();
         this.axis_g = null;
@@ -1571,7 +1608,22 @@ export class OverviewComponent
 
     this.repository_g = this.data_g.append("g");
     this.repositories_g = new Array<any>(repositories.length);
-    let [minDate, maxDate] = d3.extent(allCommits, (d) => d.commitDate);
+    
+    let minDate: Date, maxDate: Date;
+    
+    if (allCommits.length === 0) {
+      minDate = this.dataService.startDate ? new Date(this.dataService.startDate) : new Date(Date.now() - 7 * 24 * 3600 * 1000);
+      maxDate = this.dataService.endDate ? new Date(this.dataService.endDate) : new Date();
+      if (minDate > maxDate) {
+        const temp = minDate;
+        minDate = maxDate;
+        maxDate = temp;
+      }
+    } else {
+      let ext = d3.extent(allCommits, (d) => d.commitDate);
+      minDate = ext[0];
+      maxDate = ext[1];
+    }
     
     // Add 2% padding to the graph's time domain so elements don't touch the edges
     if (minDate && maxDate) {
@@ -1606,43 +1658,43 @@ export class OverviewComponent
         overview.filteredCommitsCount += commits.length;
         if (commits.length > 0) {
           overview.filteredStudentsCount++;
-        }
 
-        let minDateTime: number, maxDateTime: number;
+          let minDateTime: number, maxDateTime: number;
 
-        let lines = [];
-        let current_line: Commit | undefined = undefined;
+          let lines = [];
+          let current_line: Commit | undefined = undefined;
 
-        commits.forEach((commit) => {
-          minDateTime =
-            minDateTime == null
-              ? commit.commitDate.getTime()
-              : Math.min(commit.commitDate.getTime(), minDateTime);
-          maxDateTime =
-            minDateTime == null
-              ? commit.commitDate.getTime()
-              : Math.max(commit.commitDate.getTime(), minDateTime);
-          if (commit.message === "Resume") current_line = commit;
-          else if (commit.message === "Pause" && current_line) {
-            lines.push([current_line.commitDate, commit.commitDate]);
-            current_line = undefined;
+          commits.forEach((commit) => {
+            minDateTime =
+              minDateTime == null
+                ? commit.commitDate.getTime()
+                : Math.min(commit.commitDate.getTime(), minDateTime);
+            maxDateTime =
+              maxDateTime == null
+                ? commit.commitDate.getTime()
+                : Math.max(commit.commitDate.getTime(), maxDateTime);
+            if (commit.message === "Resume") current_line = commit;
+            else if (commit.message === "Pause" && current_line) {
+              lines.push([current_line.commitDate, commit.commitDate]);
+              current_line = undefined;
+            }
+            before = overview.getCommitComponent(d3.select(this), commit, before);
+          });
+
+          if (lines.length === 0) {
+            lines.push([new Date(minDateTime), new Date(maxDateTime)]);
           }
-          before = overview.getCommitComponent(d3.select(this), commit, before);
-        });
 
-        if (lines.length === 0) {
-          lines.push([new Date(minDateTime), new Date(maxDateTime)]);
+          lines.forEach(([d1, d2]) => {
+            overview.repositories_g[i]
+              .insert("line", ":first-child")
+              .attr("class", "commit_line")
+              .attr("min_date", d1.getTime())
+              .attr("max_date", d2.getTime());
+            // .attr("x1", overview.xScaledTimeZoned(d1))
+            // .attr("x2", overview.xScaledTimeZoned(d2));
+          });
         }
-
-        lines.forEach(([d1, d2]) => {
-          overview.repositories_g[i]
-            .insert("line", ":first-child")
-            .attr("class", "commit_line")
-            .attr("min_date", d1.getTime())
-            .attr("max_date", d2.getTime());
-          // .attr("x1", overview.xScaledTimeZoned(d1))
-          // .attr("x2", overview.xScaledTimeZoned(d2));
-        });
       });
   }
 
@@ -1824,17 +1876,19 @@ export class OverviewComponent
         });
     });
 
-    this.session_g
-      .selectAll(".session")
-      .attr("x", (s: Session) => {
-        return overview.xScaledTimeZoned(s.startDate);
-      })
-      .attr(
-        "width",
-        (s: Session) =>
-          overview.xScaledTimeZoned(s.endDate) -
-          overview.xScaledTimeZoned(s.startDate)
-      );
+    if (this.session_g) {
+      this.session_g
+        .selectAll(".session")
+        .attr("x", (s: Session) => {
+          return overview.xScaledTimeZoned(s.startDate);
+        })
+        .attr(
+          "width",
+          (s: Session) =>
+            overview.xScaledTimeZoned(s.endDate) -
+            overview.xScaledTimeZoned(s.startDate)
+        );
+    }
 
     this.chart_abs_g
       .selectAll(".milestone")

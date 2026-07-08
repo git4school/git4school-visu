@@ -165,6 +165,10 @@
     "UNSAVED-CHANGES": "Modifications non enregistrées"
   },
   "OVERVIEW-GRAPH": {
+    "NO-COMMITS-TITLE": "Aucun commit trouvé",
+    "NO-COMMITS-DESC": "Aucun commit n'a été trouvé pour la période sélectionnée ou avec les filtres actuels.",
+    "NO-REPOSITORIES-TITLE": "Aucun dépôt trouvé",
+    "NO-REPOSITORIES-DESC": "Il n'y a pas de dépôts à afficher. Veuillez vérifier vos filtres ou importer des données.",
     "COMMITS-DISPLAYED": "{{commits}} commits affichés par {{students}} étudiant·es",
     "CLEAR-FILTERS": "Effacer les filtres",
     "UPLOAD": {
