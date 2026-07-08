@@ -174,4 +174,16 @@
     color: var(--color-danger);
   }
 
+  &.no-floating-label {
+    border: 1px solid var(--color-border);
+    transition: border-color 0.2s ease, filter 0.2s ease;
+    
+    &.is-focused {
+      border-color: var(--color-primary);
+    }
+    &.is-invalid {
+      border-color: var(--color-danger);
+    }
+  }
+
 }

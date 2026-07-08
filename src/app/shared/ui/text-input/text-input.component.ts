@@ -36,6 +36,7 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
   @Input() valid = false;
   @Input() id = "";
 
+  @Input() floatingLabel = true;
   @Input() suggestions?: string[];
 
   @ViewChild("inputElement", { static: false })
