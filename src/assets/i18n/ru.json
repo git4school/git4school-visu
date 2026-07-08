@@ -41,6 +41,7 @@
     "HELP": "Помощь",
     "AUTH-LANG": "Язык / Аккаунт",
     "RECENT-ASSIGNMENTS": "Последние задания",
+    "TOGGLE-DISPLAY-LIMIT": "Изменить количество отображаемых заданий",
     "LANGUAGE": "Язык"
   },
   "HOME": {

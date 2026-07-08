@@ -41,6 +41,7 @@
     "HELP": "Help",
     "AUTH-LANG": "Language / Account",
     "RECENT-ASSIGNMENTS": "Recent assignments",
+    "TOGGLE-DISPLAY-LIMIT": "Change number of assignments displayed",
     "LANGUAGE": "Language"
   },
   "HOME": {

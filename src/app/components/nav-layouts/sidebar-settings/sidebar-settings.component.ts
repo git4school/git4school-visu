@@ -34,6 +34,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   wasClicked = false;
   recentAssignments: Assignment[] = [];
   totalAssignmentsCount = 0;
+  displayLimit: number | 'all' = 5;
   private dbSubscription: Subscription;
 
   constructor(
@@ -48,6 +49,13 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    const savedLimit = localStorage.getItem('recentAssignmentsLimit');
+    if (savedLimit === 'all') {
+      this.displayLimit = 'all';
+    } else if (savedLimit) {
+      this.displayLimit = parseInt(savedLimit, 10);
+    }
+
     this.loadRecentAssignments();
     this.dbSubscription = this.databaseService.dbChanged.subscribe(() => {
       this.loadRecentAssignments();
@@ -98,6 +106,11 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
         : 0;
       return dateB - dateA;
     });
+
+    if (this.displayLimit !== 'all') {
+      filtered = filtered.slice(0, this.displayLimit);
+    }
+
     this.recentAssignments = filtered;
     this.cdr.detectChanges();
   }
@@ -155,5 +168,17 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   onClickTheme() {
     this.themeService.toggleTheme();
     this.wasClicked = true;
+  }
+
+  toggleDisplayLimit() {
+    if (this.displayLimit === 5) {
+      this.displayLimit = 10;
+    } else if (this.displayLimit === 10) {
+      this.displayLimit = 'all';
+    } else {
+      this.displayLimit = 5;
+    }
+    localStorage.setItem('recentAssignmentsLimit', String(this.displayLimit));
+    this.loadRecentAssignments();
   }
 }

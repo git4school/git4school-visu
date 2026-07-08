@@ -143,3 +143,33 @@
   &.github { color: var(--color-github); }
   &.gitlab { color: var(--color-gitlab); }
 }
+
+.limit-toggle-pill {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+
+  &:hover {
+    background-color: var(--color-bg-body);
+    color: var(--color-on-surface);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  i {
+    font-size: 0.7rem;
+  }
+}
