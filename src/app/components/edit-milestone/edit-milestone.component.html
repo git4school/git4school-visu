@@ -1,9 +1,5 @@
-<div class="modal-header border-bottom-0 pb-3 pt-4 px-4 d-flex justify-content-between align-items-center flex-nowrap w-100">
-    <h4 class="modal-title font-weight-bold m-0" style="font-size: 1.25rem; color: var(--color-text-primary);">
-        {{ (this.addMode ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') |
-        translate }}
-    </h4>
-    <div class="d-flex align-items-center" style="gap: 0.5rem;">
+<div class="modal-header border-bottom-0 pb-1 pt-3 d-flex justify-content-between align-items-center flex-nowrap w-100" style="padding-left: 40px; padding-right: 40px;">
+    <div class="d-flex align-items-center" style="gap: 0.5rem; width: 100%; justify-content: flex-end;">
         <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
             {{ 'CANCEL' | translate }}
         </button>
@@ -11,23 +7,24 @@
             <i class="fas fa-trash-alt mr-2"></i> {{ 'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}
         </button>
         <button type="button" class="btn btn-primary shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="submitMilestone()" [disabled]="!milestoneForm.valid">
-            <i class="fas fa-save mr-2"></i> {{ 'OVERVIEW-GRAPH.MODAL.CONFIRM' | translate }}
+            <i class="fas" [ngClass]="addMode ? 'fa-plus' : 'fa-save'" class="mr-2"></i> 
+            {{ (addMode ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') | translate }}
         </button>
     </div>
 </div>
-<div class="modal-body mx-2">
+<div class="modal-body pt-2 pb-4" style="padding-left: 40px; padding-right: 40px;">
     <form [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
-        <div class="d-flex flex-column mb-3" style="gap: 0.75rem;">
-            <div class="form-group mb-0">
-                <label class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.LABEL' | translate }}</label>
-                <app-text-input id="label" formControlName="label" [placeholder]="'OVERVIEW-GRAPH.MODAL.LABEL' | translate"></app-text-input>
+        
+        <!-- Row 1: Label (left), Date/Time (right) -->
+        <div class="d-flex mb-2" style="gap: 0.75rem; align-items: flex-end;">
+            <div class="form-group mb-0" style="flex: 1;">
+                <label class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'OVERVIEW-GRAPH.MODAL.LABEL' | translate }}</label>
+                <app-text-input id="label" formControlName="label" [floatingLabel]="false">
+                </app-text-input>
             </div>
-            <div class="form-group mb-0">
-                <label class="col-form-label">{{ 'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate }}</label>
-                <app-text-input id="tpGroup" formControlName="tpGroup" [placeholder]="'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate" [suggestions]="tpGroups"></app-text-input>
-            </div>
-            <div class="form-group mb-0 required">
-                <label class="col-form-label required-label">{{ 'DATE' | translate }} / {{ 'TIME' | translate }}</label>
+            
+            <div class="form-group mb-0 required" style="flex: 1;">
+                <label class="mb-1 required-label" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'DATE' | translate }} / {{ 'TIME' | translate }}</label>
                 <app-date-range-picker class="w-100 d-block"
                     [mode]="'datetime'"
                     [singleLabel]="' '"
@@ -36,31 +33,37 @@
                 </app-date-range-picker>
             </div>
         </div>
-        <div class="form-group">
-            <label for="questionsChooser" class="col-form-label">{{ 'QUESTIONS' | translate }}</label>
-            <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="questions"
-                [mode]="'choose'" [openOnFocus]="true">
-            </questions-chooser>
+
+        <!-- Row 2: Groupe de TP (left, 30%), Questions (right, 70%) -->
+        <div class="d-flex mb-2" style="gap: 0.75rem; align-items: flex-end;">
+            <div class="form-group mb-0" style="flex: 0 0 30%;">
+                <label class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate }}</label>
+                <app-text-input id="tpGroup" formControlName="tpGroup" [floatingLabel]="false" [suggestions]="tpGroups"></app-text-input>
+            </div>
+            
+            <div class="form-group mb-0" style="flex: 1;">
+                <label for="questionsChooser" class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'QUESTIONS' | translate }}</label>
+                <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="questions"
+                    [mode]="'choose'" [openOnFocus]="true" [maxPillsWidth]="'65%'">
+                </questions-chooser>
+            </div>
         </div>
-        <div class="form-group required">
-            <label class="col-form-label required-label">{{ 'MILESTONE-TYPE' | translate
-                }}</label><br>
+
+        <!-- Row 3: Type -->
+        <div class="form-group mb-2 required">
+            <label class="mb-1 required-label" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'MILESTONE-TYPE' | translate }}</label>
             <app-type-picker 
                 formControlName="type"
                 [options]="milestoneTypes"
-                [isInvalid]="milestoneForm.controls.type.invalid"
+                [isInvalid]="milestoneForm.controls.type?.invalid"
                 errorMessage="{{ 'NO-MILESTONE-TYPE-FEEDBACK' | translate }}">
             </app-type-picker>
-
         </div>
 
-        <div class="form-group">
-            <label for="notes" class="col-form-label">{{ 'MILESTONE-NOTES' | translate }}</label>
-            <textarea class="form-control" id="notes" rows="5" formControlName="notes"></textarea>
-        </div>
-
-        <div class="my-3">
-            <span class="text-danger">*</span> {{ "REQUIRED-FIELDS-TEXT" | translate }}
+        <!-- Row 4: Notes -->
+        <div class="form-group mb-0">
+            <label for="notes" class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'MILESTONE-NOTES' | translate }}</label>
+            <textarea class="form-control" id="notes" rows="4" formControlName="notes" style="resize: none; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.75rem; font-size: 0.95rem; box-shadow: none;"></textarea>
         </div>
 
     </form>

@@ -1,0 +1,23 @@
+:host ::ng-deep {
+    .text-input-wrapper {
+        margin-bottom: 0 !important;
+    }
+
+    app-date-range-picker {
+        .date-range-container .input-trigger {
+            height: 2.6rem !important;
+        }
+    }
+
+    questions-chooser {
+        .pseudo-input-container {
+            height: 2.6rem !important;
+        }
+    }
+
+    app-type-picker {
+        .type-picker-wrapper, .picker-container {
+            height: 2.6rem !important;
+        }
+    }
+}
