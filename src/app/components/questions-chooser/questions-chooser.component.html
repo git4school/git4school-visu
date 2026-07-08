@@ -121,9 +121,6 @@
   </div>
 </div>
 
-<div *ngIf="noQuestionMessage && !items.length" class="mt-1">
-    <small class="text-muted">{{ 'NO-QUESTION' | translate }}</small>
-</div>
 
 <ng-template #rt let-r="result" let-t="term">
     <div class="suggestion-pill">
