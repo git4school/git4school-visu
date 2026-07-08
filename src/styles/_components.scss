@@ -243,7 +243,7 @@
   flex-shrink: 0;
   
   &.pinned {
-    width: 310px;
+    width: var(--sidebar-width, 310px);
     max-width: 85vw;
   }
 }
@@ -252,7 +252,7 @@
   position: absolute;
   top: 60px;
   left: 0;
-  width: 310px;
+  width: var(--sidebar-width, 310px);
   max-width: 85vw;
   height: calc(100vh - 60px - 1rem);
   border-radius: 12px;
@@ -287,6 +287,31 @@
     z-index: 10;
   }
 }
+
+.app-layout-wrapper.is-resizing {
+  cursor: ew-resize !important;
+  user-select: none;
+  
+  .sidebar-spacer, .sidebar-actual-panel {
+    transition: none !important;
+  }
+}
+
+.sidebar-resizer {
+  position: absolute;
+  top: 0;
+  right: -3px; /* Slightly overflow the border to increase hit area */
+  bottom: 0;
+  width: 6px;
+  cursor: ew-resize;
+  z-index: 1050;
+  transition: background-color 0.2s;
+  
+  &:hover, .app-layout-wrapper.is-resizing & {
+    background-color: rgba(37, 99, 235, 0.5); /* Primary color with transparency */
+  }
+}
+
 
 /* =========================================
    NAVBAR (Redesigned & Pill-shaped)

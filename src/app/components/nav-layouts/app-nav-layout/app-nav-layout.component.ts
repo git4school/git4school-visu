@@ -36,12 +36,21 @@ export class AppNavLayoutComponent implements OnInit {
   isSidebarPinned = false;
   isSidebarHovered = false;
   pressedShortcut: string = null;
+  sidebarWidth: number = 310;
+  isResizing: boolean = false;
   @ViewChild("shortcutsModal") shortcutsModal: ElementRef;
 
   ngOnInit(): void {
     const savedPin = localStorage.getItem("sidebarPinned");
     if (savedPin) {
       this.isSidebarPinned = savedPin === "true";
+    }
+    const savedWidth = localStorage.getItem("sidebarWidth");
+    if (savedWidth) {
+      const parsed = parseInt(savedWidth, 10);
+      if (!isNaN(parsed)) {
+        this.sidebarWidth = parsed;
+      }
     }
   }
 
@@ -89,6 +98,36 @@ export class AppNavLayoutComponent implements OnInit {
     } else if (key === "?") {
       this.triggerShortcut("?");
       this.openShortcutsModal();
+    }
+  }
+
+  onResizeStart(event: MouseEvent) {
+    event.preventDefault(); // Prevent text selection during drag
+    this.isResizing = true;
+  }
+
+  @HostListener("document:mousemove", ["$event"])
+  onResize(event: MouseEvent) {
+    if (!this.isResizing) return;
+    
+    // Calculate new width based on mouse X position
+    let newWidth = event.clientX;
+    
+    // Apply constraints
+    const minWidth = 250;
+    const maxWidth = Math.min(600, window.innerWidth * 0.85);
+    
+    if (newWidth < minWidth) newWidth = minWidth;
+    if (newWidth > maxWidth) newWidth = maxWidth;
+    
+    this.sidebarWidth = newWidth;
+  }
+
+  @HostListener("document:mouseup")
+  onResizeEnd() {
+    if (this.isResizing) {
+      this.isResizing = false;
+      localStorage.setItem("sidebarWidth", this.sidebarWidth.toString());
     }
   }
 

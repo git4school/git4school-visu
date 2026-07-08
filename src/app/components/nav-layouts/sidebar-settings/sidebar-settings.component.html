@@ -20,8 +20,8 @@
                             <i class="fab fa-lg" [ngClass]="{'fa-github': assignment.uiType === 'github', 'fa-gitlab': assignment.uiType === 'gitlab'}"></i>
                         </div>
                         <div style="flex: 1; min-width: 0;">
-                            <span class="d-block font-weight-bold text-truncate" style="color: var(--color-on-surface); font-size: 0.85rem;" [title]="assignment.title">{{ getTruncatedText(assignment.title, 30) }}</span>
-                            <span class="d-block text-muted text-truncate" style="font-size: 0.7rem;" [title]="assignment.metadata?.course">{{ getTruncatedText(assignment.metadata?.course, 35) }}</span>
+                            <span class="d-block font-weight-bold" style="color: var(--color-on-surface); font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" [title]="assignment.title">{{ assignment.title }}</span>
+                            <span class="d-block text-muted" style="font-size: 0.7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" [title]="assignment.metadata?.course">{{ assignment.metadata?.course }}</span>
                         </div>
                     </div>
                     <button class="btn-action-icon" (click)="$event.stopPropagation(); editAssignment(assignment)" title="Paramètres" style="min-width: 32px; min-height: 32px;">
