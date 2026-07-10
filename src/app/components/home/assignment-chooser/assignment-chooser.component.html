@@ -30,22 +30,22 @@
             </svg>
           </button>
           <div ngbDropdownMenu class="modern-dropdown-menu">
-            <button class="dropdown-item" (click)="sortBy('lastModificationDate')">
+            <button class="dropdown-item" [class.active]="sortField === 'lastModificationDate'" (click)="sortBy('lastModificationDate')">
               {{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}
             </button>
-            <button class="dropdown-item" (click)="sortBy('title')">
+            <button class="dropdown-item" [class.active]="sortField === 'title'" (click)="sortBy('title')">
               {{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}
             </button>
-            <button class="dropdown-item" (click)="sortBy('course')">
+            <button class="dropdown-item" [class.active]="sortField === 'course'" (click)="sortBy('course')">
               {{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}
             </button>
-            <button class="dropdown-item" (click)="sortBy('program')">
+            <button class="dropdown-item" [class.active]="sortField === 'program'" (click)="sortBy('program')">
               {{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}
             </button>
-            <button class="dropdown-item" (click)="sortBy('year')">
+            <button class="dropdown-item" [class.active]="sortField === 'year'" (click)="sortBy('year')">
               {{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}
             </button>
-            <button class="dropdown-item" (click)="sortBy('daysRemaining')">
+            <button class="dropdown-item" [class.active]="sortField === 'daysRemaining'" (click)="sortBy('daysRemaining')">
               {{ 'ASSIGNMENT-CHOOSER.DAYS-REMAINING' | translate }}
             </button>
           </div>
@@ -133,12 +133,12 @@
                   </svg>
                 </button>
                 <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                  <button class="dropdown-item text-truncate" (click)="advancedFilters.course = ''; savePreferences()">
+                  <button class="dropdown-item text-truncate" [class.active]="!advancedFilters.course" (click)="advancedFilters.course = ''; savePreferences()">
                     {{ 'HOME.FILTER.ALL-COURSES' | translate }}
                   </button>
                   <div class="dropdown-divider" *ngIf="availableCourses.length > 0"></div>
                   <button class="dropdown-item text-truncate" *ngFor="let course of availableCourses"
-                    (click)="advancedFilters.course = course; savePreferences()" [title]="course">
+                    [class.active]="advancedFilters.course === course" (click)="advancedFilters.course = course; savePreferences()" [title]="course">
                     {{ course }}
                   </button>
                 </div>
@@ -160,12 +160,12 @@
                   </svg>
                 </button>
                 <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                  <button class="dropdown-item text-truncate" (click)="advancedFilters.program = ''; savePreferences()">
+                  <button class="dropdown-item text-truncate" [class.active]="!advancedFilters.program" (click)="advancedFilters.program = ''; savePreferences()">
                     {{ 'HOME.FILTER.ALL-PROGRAMS' | translate }}
                   </button>
                   <div class="dropdown-divider" *ngIf="availablePrograms.length > 0"></div>
                   <button class="dropdown-item text-truncate" *ngFor="let program of availablePrograms"
-                    (click)="advancedFilters.program = program; savePreferences()" [title]="program">
+                    [class.active]="advancedFilters.program === program" (click)="advancedFilters.program = program; savePreferences()" [title]="program">
                     {{ program }}
                   </button>
                 </div>
@@ -187,12 +187,12 @@
                   </svg>
                 </button>
                 <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                  <button class="dropdown-item text-truncate" (click)="advancedFilters.year = ''; savePreferences()">
+                  <button class="dropdown-item text-truncate" [class.active]="!advancedFilters.year" (click)="advancedFilters.year = ''; savePreferences()">
                     {{ 'HOME.FILTER.ALL-YEARS' | translate }}
                   </button>
                   <div class="dropdown-divider" *ngIf="availableYears.length > 0"></div>
                   <button class="dropdown-item text-truncate" *ngFor="let year of availableYears"
-                    (click)="advancedFilters.year = year; savePreferences()" [title]="year">
+                    [class.active]="advancedFilters.year === year" (click)="advancedFilters.year = year; savePreferences()" [title]="year">
                     {{ year }}
                   </button>
                 </div>

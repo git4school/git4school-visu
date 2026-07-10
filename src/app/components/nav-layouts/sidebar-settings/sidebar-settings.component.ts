@@ -19,6 +19,8 @@ import { ThemeService } from "@services/theme.service";
 import { Subscription } from "rxjs";
 
 import { AuthService } from "@services/auth.service";
+import { TranslateService } from "@ngx-translate/core";
+import { TourService } from "@services/tour.service";
 
 @Component({
   selector: "app-sidebar-settings",
@@ -44,7 +46,9 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private configurationService: ConfigurationService,
     private assignmentsService: AssignmentsService,
-    private authService: AuthService,
+    public authService: AuthService,
+    public translateService: TranslateService,
+    private tourService: TourService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -180,5 +184,38 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     }
     localStorage.setItem('recentAssignmentsLimit', String(this.displayLimit));
     this.loadRecentAssignments();
+  }
+
+  langNames: { [key: string]: string } = {
+    en: "English",
+    fr: "Français",
+    ru: "Русский",
+  };
+
+  get currentLang() {
+    return this.translateService.currentLang || localStorage.getItem("language") || this.translateService.defaultLang || "en";
+  }
+
+  changeLanguage(language: string) {
+    this.translateService.use(language);
+    localStorage.setItem("language", language);
+  }
+
+  onSignOut() {
+    this.authService.signOut();
+  }
+
+  replayTour() {
+    this.onClose.emit();
+    setTimeout(() => {
+      this.tourService.startTour();
+    }, 300);
+  }
+
+  openUserDocumentation() {
+    window.open(
+      "https://github.com/Fabio1210/git4school-visu/wiki/Tutoriel-d'utilisation",
+      "_blank"
+    );
   }
 }

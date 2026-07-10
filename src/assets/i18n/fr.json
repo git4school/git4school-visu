@@ -43,7 +43,10 @@
     "TOGGLE-DISPLAY-LIMIT": "Changer le nombre de devoirs affichés",
     "TUTO-BTN": "Tutoriel",
     "AUTH-LANG": "Langue / Compte",
-    "LANGUAGE": "Langue"
+    "LANGUAGE": "Langue",
+    "APPEARANCE": "Apparence",
+    "HELP-TUTORIAL": "Aide & Tutoriel",
+    "ACCOUNT": "Compte"
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Rechercher un devoir...",

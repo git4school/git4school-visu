@@ -42,7 +42,10 @@
     "AUTH-LANG": "Language / Account",
     "RECENT-ASSIGNMENTS": "Recent assignments",
     "TOGGLE-DISPLAY-LIMIT": "Change number of assignments displayed",
-    "LANGUAGE": "Language"
+    "LANGUAGE": "Language",
+    "APPEARANCE": "Appearance",
+    "HELP-TUTORIAL": "Help & Tutorial",
+    "ACCOUNT": "Account"
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Search assignments...",

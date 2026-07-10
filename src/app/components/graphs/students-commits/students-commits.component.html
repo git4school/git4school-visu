@@ -15,11 +15,11 @@
         </svg>
       </button>
       <div ngbDropdownMenu class="modern-dropdown-menu">
-        <button class="dropdown-item py-2" (click)="dataService.groupFilter = ''; loadGraphDataAndRefresh()">
+        <button class="dropdown-item py-2" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = ''; loadGraphDataAndRefresh()">
           {{ "TP-GROUP-SELECT.ALL" | translate }}
         </button>
         <div class="dropdown-divider"></div>
-        <button class="dropdown-item py-2" *ngFor="let tpGroup of dataService.tpGroups" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh()">
+        <button class="dropdown-item py-2" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh()">
           {{ tpGroup }}
         </button>
       </div>

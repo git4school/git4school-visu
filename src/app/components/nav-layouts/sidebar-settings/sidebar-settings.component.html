@@ -46,8 +46,9 @@
 
     <!-- Settings (Pushed to bottom) -->
     <div class="settings-section mt-auto pt-2 pb-4">
+        <!-- Appearance Group -->
         <div class="sidebar-section-header">
-            <span class="sidebar-section-title">{{ 'SETTINGS.TITLE' | translate }}</span>
+            <span class="sidebar-section-title">{{ 'SETTINGS.APPEARANCE' | translate }}</span>
             <div class="sidebar-section-line"></div>
         </div>
         
@@ -76,22 +77,73 @@
             </svg>
         </div>
 
+        <!-- Language -->
+        <div ngbDropdown placement="bottom-right" class="w-100">
+            <div ngbDropdownToggle class="sidebar-item d-flex align-items-center justify-content-between" style="cursor: pointer; outline: none; border: none; background: transparent; display: flex !important;">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-globe sidebar-item-icon"></i>
+                    <span>{{ 'SETTINGS.LANGUAGE' | translate }}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span style="font-size: 0.85rem; font-weight: 500; margin-right: 0.5rem; color: var(--color-text-secondary);">
+                        {{ langNames[currentLang] || currentLang }}
+                    </span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-text-secondary);">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+            </div>
+            
+            <div ngbDropdownMenu class="modern-dropdown-menu">
+                <button *ngFor="let lang of translateService.getLangs()" class="dropdown-item" [class.active]="lang === currentLang" (click)="changeLanguage(lang)" style="font-weight: 500; padding: 0.4rem 1rem;">
+                    {{ langNames[lang] || lang }}
+                </button>
+            </div>
+        </div>
+
         <!-- Legend Toggle -->
         <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="themeService.toggleLegend()">
             <div class="d-flex align-items-center">
                 <i class="fas fa-list sidebar-item-icon"></i>
                 <span>{{ "SETTINGS.SHOW-LEGEND" | translate }}</span>
             </div>
-            <label class="modern-toggle">
+            <label class="modern-toggle ml-3">
                 <input type="checkbox" [checked]="themeService.showLegend">
                 <span class="toggle-slider"></span>
             </label>
         </div>
 
-        <!-- Help -->
-        <help-nav-item></help-nav-item>
+        <!-- Help Group -->
+        <div class="sidebar-section-header mt-3">
+            <span class="sidebar-section-title">{{ 'SETTINGS.HELP-TUTORIAL' | translate }}</span>
+            <div class="sidebar-section-line"></div>
+        </div>
 
-        <!-- Language & Auth -->
-        <auth-lang-nav-item (onClose)="onClose.emit()"></auth-lang-nav-item>
+        <!-- Help -->
+        <div class="sidebar-item d-flex align-items-center" [appTooltip]="helpTooltip" (click)="openUserDocumentation()">
+            <i class="fas fa-question-circle sidebar-item-icon"></i>
+            <span>{{ 'SETTINGS.HELP' | translate }}</span>
+        </div>
+        <ng-template #helpTooltip>{{ 'HELP-TOOLTIP' | translate }}</ng-template>
+
+        <!-- Replay Tour -->
+        <div class="sidebar-item d-flex align-items-center" *ngIf="authService.isSignedIn()" (click)="replayTour()">
+            <i class="fas fa-play sidebar-item-icon text-primary"></i>
+            <span>{{ 'TOUR.REPLAY' | translate }}</span>
+        </div>
+
+        <!-- Account Group -->
+        <ng-container *ngIf="authService.isSignedIn()">
+            <div class="sidebar-section-header mt-3">
+                <span class="sidebar-section-title">{{ 'SETTINGS.ACCOUNT' | translate }}</span>
+                <div class="sidebar-section-line"></div>
+            </div>
+
+            <!-- Sign Out -->
+            <div class="sidebar-item d-flex align-items-center" (click)="onSignOut()">
+                <i class="fas fa-sign-out-alt sidebar-item-icon" style="color: var(--color-danger);"></i>
+                <span style="color: var(--color-danger);">{{ 'NAVBAR.SIGN-OUT' | translate }}</span>
+            </div>
+        </ng-container>
     </div>
 </div>

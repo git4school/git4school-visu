@@ -80,6 +80,20 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
 }
 
 
@@ -172,4 +186,8 @@
   i {
     font-size: 0.7rem;
   }
+}
+
+::ng-deep .sidebar-item .dropdown-toggle::after {
+  display: none !important;
 }

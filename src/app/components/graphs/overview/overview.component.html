@@ -34,11 +34,11 @@
         </svg>
       </button>
       <div ngbDropdownMenu class="modern-dropdown-menu">
-        <button class="dropdown-item" (click)="dataService.groupFilter = ''; loadGraphDataAndRefresh()">
+        <button class="dropdown-item" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = ''; loadGraphDataAndRefresh()">
           {{ "TP-GROUP-SELECT.ALL" | translate }}
         </button>
         <div class="dropdown-divider"></div>
-        <button class="dropdown-item" *ngFor="let tpGroup of dataService.tpGroups" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh()">
+        <button class="dropdown-item" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh()">
           {{ tpGroup }}
         </button>
       </div>
@@ -232,12 +232,12 @@
   
   <div *ngIf="themeService.showLegend" class="legend-floating-container">
     <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" (mouseleave)="legendDropdown.close()">
-      <button class="btn btn-light legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>
+      <button class="btn legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>
         <i class="fas fa-info" style="min-width: 14px;"></i>
         <span class="legend-text">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</span>
       </button>
-      <div ngbDropdownMenu aria-labelledby="legendDropup" class="p-3" style="min-width: 250px; font-size: 0.85rem; line-height: 1.8;">
-        <h6 class="dropdown-header px-0 text-dark mb-2" style="font-weight: 600;">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</h6>
+      <div ngbDropdownMenu aria-labelledby="legendDropup" class="modern-dropdown-menu p-3" style="min-width: 250px; font-size: 0.85rem; line-height: 1.8;">
+        <h6 class="dropdown-header px-0 mb-2" style="font-weight: 600;">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</h6>
         <div><i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i> {{ "OVERVIEW-GRAPH.LEGEND.COMMIT" | translate }}</div>
         <div><i class="far fa-circle fa-fw"></i> {{ "OVERVIEW-GRAPH.LEGEND.CLOSING" | translate }}</div>
         <div><i class="fas fa-circle fa-fw" style="color: rgb(77, 77, 77)"></i> {{ "OVERVIEW-GRAPH.LEGEND.INTERMEDIATE" | translate }}</div>
