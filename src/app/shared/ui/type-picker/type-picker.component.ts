@@ -140,7 +140,7 @@ export class TypePickerComponent implements ControlValueAccessor, AfterViewInit 
       backgroundColor: targetOption.color || 'var(--color-primary)',
       height: isPill ? '100%' : '3px',
       borderRadius: isPill ? '12px' : '4px 4px 0 0',
-      bottom: isPill ? '0' : '-12px'
+      bottom: isPill ? '0' : '-6px'
     };
     
     this.cdr.markForCheck();

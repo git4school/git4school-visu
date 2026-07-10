@@ -7,6 +7,9 @@
         .date-range-container .input-trigger {
             height: 2.6rem !important;
         }
+        .date-range-container .labels-row {
+            display: none !important;
+        }
     }
 
     questions-chooser {
