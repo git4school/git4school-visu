@@ -8,27 +8,27 @@ export const CommitColor = {
   BEFORE: {
     label: "Before review",
     name: "green",
-    color: "rgb(53, 198, 146)",
+    color: "var(--color-success)",
   },
   BETWEEN: {
     label: "Between review and correction",
     name: "orange",
-    color: "rgb(255, 127, 74)",
+    color: "var(--color-warning)",
   },
   AFTER: {
     label: "After correction",
     name: "red",
-    color: "rgb(203, 91, 68)",
+    color: "var(--color-danger)",
   },
   INTERMEDIATE: {
     label: "Intermediate commit",
-    name: "black",
-    color: "rgb(77, 77, 77)",
+    name: "slate",
+    color: "var(--color-commit-intermediate)",
   },
   NOCOMMIT: {
     label: "Not finished",
-    name: "lightgrey",
-    color: "lightgrey",
+    name: "muted",
+    color: "var(--color-border)",
   },
 };
 

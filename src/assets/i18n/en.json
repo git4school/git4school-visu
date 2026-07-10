@@ -196,6 +196,7 @@
       "TITLE": "Legend",
       "COMMIT": "Commit",
       "CLOSING": "Closing commit",
+      "COMMIT-GROUP": "Commit group",
       "INTERMEDIATE": "Intermediate commit",
       "BEFORE": "Before review",
       "BETWEEN": "Between review and correction",

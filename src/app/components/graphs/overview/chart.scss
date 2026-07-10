@@ -29,7 +29,7 @@ text.repo_name {
 }
 
 body.dark-theme .commit {
-  stroke: var(--color-text-secondary); /* Bordure claire pour faire ressortir en mode sombre */
+  stroke: var(--color-border); /* Bordure subtile, ni trop claire ni trop sombre */
   stroke-width: 1.5px;
 }
 

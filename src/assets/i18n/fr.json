@@ -197,6 +197,7 @@
       "TITLE": "Légende",
       "COMMIT": "Commit",
       "CLOSING": "Commit de fermeture",
+      "COMMIT-GROUP": "Groupe de commits",
       "INTERMEDIATE": "Commit intermédiaire",
       "BEFORE": "Avant la revue",
       "BETWEEN": "Entre la revue et la correction",

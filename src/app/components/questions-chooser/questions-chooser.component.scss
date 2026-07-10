@@ -28,6 +28,7 @@
   overflow-y: hidden;
   white-space: nowrap;
   height: 100%;
+  min-width: 0; /* Prevents intrinsic content size from overriding flex constraints */
   box-sizing: border-box;
   
   /* Hide scrollbar for Chrome, Safari and Opera */
@@ -345,8 +346,13 @@
   }
 }
 
+:host-context(body.dark-theme) .transparent-input {
+  color: var(--color-text-primary);
+}
+
 .main-input-wrapper {
   transition: none !important;
+  min-width: 0;
   &.flex-grow-1 {
     flex-grow: 1;
   }
