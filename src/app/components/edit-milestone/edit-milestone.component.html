@@ -62,8 +62,21 @@
 
         <!-- Row 4: Notes -->
         <div class="form-group mb-0">
-            <label for="notes" class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'MILESTONE-NOTES' | translate }}</label>
-            <textarea class="form-control" id="notes" rows="4" formControlName="notes" style="resize: none; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.75rem; font-size: 0.95rem; box-shadow: none; margin-top: 4px;"></textarea>
+            <button type="button" class="btn-outline-ghost w-100 d-flex justify-content-between align-items-center" (click)="notesOpen = !notesOpen" style="margin-left: -0.6rem; width: calc(100% + 1.2rem) !important;">
+                <span style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary);">
+                    {{ 'MILESTONE-NOTES' | translate }}
+                </span>
+                <div class="d-flex align-items-center">
+                    <span *ngIf="milestoneForm.get('notes').value && !notesOpen" style="font-size: 0.85rem; color: var(--color-text-muted); margin-right: 0.5rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 150px;">
+                        {{ milestoneForm.get('notes').value }}
+                    </span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-text-secondary); transition: transform 0.2s ease-in-out;" [style.transform]="notesOpen ? 'rotate(180deg)' : 'rotate(0)'">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+            </button>
+            
+            <textarea *ngIf="notesOpen" class="form-control" id="notes" rows="4" formControlName="notes" style="resize: none; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.75rem; font-size: 0.95rem; box-shadow: none; margin-top: 4px;"></textarea>
         </div>
 
     </form>

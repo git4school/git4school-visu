@@ -42,6 +42,8 @@ export class EditMilestoneComponent implements OnInit {
     this.initForm();
   }
 
+  notesOpen = false;
+
   private initForm() {
     this.milestoneForm = this.fb.group({
       date: [this.milestone.date, Validators.required],
@@ -51,6 +53,11 @@ export class EditMilestoneComponent implements OnInit {
       type: [this.milestone.type, Validators.required],
       notes: [this.milestone.notes || ""],
     });
+    
+    // Open the notes section if there's already text in it
+    if (this.milestone.notes && this.milestone.notes.trim().length > 0) {
+      this.notesOpen = true;
+    }
   }
 
 
