@@ -57,7 +57,7 @@
                         <div class="d-flex align-items-center">
                             <div class="repo-icon mr-3 d-flex align-items-center justify-content-center">
                                 <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
-                                <i *ngIf="!getAvatarUrl(row)" class="fas fa-database"></i>
+                                <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
                             </div>
                             <span class="text-truncate repo-name-text" style="max-width: 250px;">{{ row.name }}</span>
                         </div>
@@ -91,7 +91,7 @@
                 </ng-container>
                 <tr *ngIf="!loading && rows.length === 0" class="empty-row">
                     <td colspan="3" class="text-center py-5 text-muted">
-                        <i class="fas fa-database fa-3x mb-3 d-block mx-auto opacity-50"></i>
+                        <app-repo-icon mode="empty" class="mb-3 d-block mx-auto opacity-50" style="font-size: 3em;"></app-repo-icon>
                         <h5>{{ 'EDIT-REPOSITORIES.NO-REPOSITORIES' | translate }}</h5>
                     </td>
                 </tr>

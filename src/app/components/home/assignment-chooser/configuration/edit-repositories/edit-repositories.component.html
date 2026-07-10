@@ -45,8 +45,8 @@
 
     <div class="repository-list">
         <!-- Empty State -->
-        <div *ngIf="filteredFormControls.length === 0" class="empty-state text-center py-3 text-muted">
-            <i class="fas fa-database fa-3x mb-2" style="opacity: 0.5;"></i>
+        <div class="empty-state text-center py-3 text-muted" *ngIf="getFormControls.length === 0">
+            <app-repo-icon mode="empty" class="mb-2" style="font-size: 3em; opacity: 0.5;"></app-repo-icon>
             <h5>{{ 'EDIT-REPOSITORIES.NO-REPOSITORIES' | translate }}</h5>
         </div>
 
@@ -64,7 +64,7 @@
                          (click)="toggleSelection(getFormControls.indexOf(group)); $event.stopPropagation()">
                         <div class="type-indicator-overlay repo-icon m-0">
                             <img *ngIf="group.get('avatarUrl')?.value" [src]="group.get('avatarUrl').value" alt="Repository Avatar" class="repo-avatar-image">
-                            <i *ngIf="!group.get('avatarUrl')?.value" class="fas fa-database"></i>
+                            <app-repo-icon *ngIf="!group.get('avatarUrl')?.value"></app-repo-icon>
                         </div>
                         <div class="selection-checkbox-overlay">
                             <div class="custom-control custom-checkbox" style="pointer-events: none;">
@@ -178,20 +178,11 @@
 
     <div class="bottom-actions">
         <button id="tour-add-empty-repo-btn" type="button" class="btn-action" (click)="addRow()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
-            <span class="fa-layers fa-fw mr-1">
-                <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>
-                <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>
-            </span>
+            <app-repo-icon mode="add" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>
             {{ 'EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY' | translate }}
         </button>
         <button id="tour-add-search-repo-btn" *ngIf="authService.isSignedIn()" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate">
-            <span class="fa-layers fa-fw mr-1">
-                <i class="fas fa-square" data-fa-mask="fas fa-database" data-fa-transform="grow-3 right-10"></i>
-                <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>
-                <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>
-                <i class="fas fa-plus" data-fa-transform="shrink-9 right-11 up-5"></i>
-                <i class="fas fa-plus" data-fa-transform="shrink-8 right-13 down-3"></i>
-            </span>
+            <app-repo-icon mode="add-multiple" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>
             {{ 'EDIT-REPOSITORIES.ADD-REPOSITORY' | translate }}
         </button>
     </div>
