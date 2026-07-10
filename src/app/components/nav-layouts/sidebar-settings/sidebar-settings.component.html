@@ -82,10 +82,10 @@
                 <i class="fas fa-list sidebar-item-icon"></i>
                 <span>{{ "SETTINGS.SHOW-LEGEND" | translate }}</span>
             </div>
-            <div class="custom-control custom-switch" style="pointer-events: none;">
-                <input type="checkbox" class="custom-control-input" id="legendSwitchSettings" [checked]="themeService.showLegend">
-                <label class="custom-control-label" for="legendSwitchSettings"></label>
-            </div>
+            <label class="modern-toggle">
+                <input type="checkbox" [checked]="themeService.showLegend">
+                <span class="toggle-slider"></span>
+            </label>
         </div>
 
         <!-- Help -->

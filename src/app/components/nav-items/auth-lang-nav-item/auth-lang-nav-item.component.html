@@ -5,7 +5,7 @@
             <i class="fas fa-globe sidebar-item-icon"></i>
             <span>{{ 'SETTINGS.LANGUAGE' | translate }}</span>
         </div>
-        <select #langSelect (change)="changeLanguage(langSelect.value)" class="custom-select custom-select-sm" style="width: auto; border-radius: 6px; border-color: var(--color-border); background-color: var(--color-surface); color: var(--color-on-surface);">
+        <select #langSelect (change)="changeLanguage(langSelect.value)" class="modern-select">
             <option *ngFor="let lang of translateService.getLangs()" [value]="lang" [selected]="lang === translateService.currentLang">
                 {{ langNames[lang] || lang }}
             </option>
