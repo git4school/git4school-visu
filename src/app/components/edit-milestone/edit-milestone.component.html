@@ -1,10 +1,11 @@
 <div class="modal-header border-bottom-0 pb-1 pt-3 d-flex justify-content-between align-items-center flex-nowrap w-100" style="padding-left: 40px; padding-right: 40px;">
-    <div class="d-flex align-items-center" style="gap: 0.5rem; width: 100%; justify-content: flex-end;">
-        <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
-            {{ 'CANCEL' | translate }}
-        </button>
-        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="deleteMilestone()">
-            <i class="fas fa-trash-alt mr-2"></i> {{ 'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}
+    <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
+        {{ 'CANCEL' | translate }}
+    </button>
+    <div class="d-flex align-items-center" style="gap: 0.5rem;">
+        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm btn-hover-expand" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="deleteMilestone()">
+            <i class="fas fa-trash-alt"></i>
+            <span class="hover-text">{{ 'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}</span>
         </button>
         <button type="button" class="btn btn-primary shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="submitMilestone()" [disabled]="!milestoneForm.valid">
             <i class="fas" [ngClass]="addMode ? 'fa-plus' : 'fa-save'" class="mr-2"></i> 
@@ -15,7 +16,18 @@
 <div class="modal-body pt-2 pb-4" style="padding-left: 40px; padding-right: 40px;">
     <form [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
         
-        <!-- Row 1: Label (left), Date/Time (right) -->
+        <!-- Row 1: Type -->
+        <div class="form-group mb-2 required">
+            <label class="mb-1 required-label" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'MILESTONE-TYPE' | translate }}</label>
+            <app-type-picker 
+                formControlName="type"
+                [options]="milestoneTypes"
+                [isInvalid]="milestoneForm.controls.type?.invalid"
+                errorMessage="{{ 'NO-MILESTONE-TYPE-FEEDBACK' | translate }}">
+            </app-type-picker>
+        </div>
+
+        <!-- Row 2: Label (left), Date/Time (right) -->
         <div class="d-flex mb-2" style="gap: 0.75rem; align-items: flex-end;">
             <div class="form-group mb-0" style="flex: 1;">
                 <label class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'OVERVIEW-GRAPH.MODAL.LABEL' | translate }}</label>
@@ -34,7 +46,7 @@
             </div>
         </div>
 
-        <!-- Row 2: Groupe de TP (left, 30%), Questions (right, 70%) -->
+        <!-- Row 3: Groupe de TP (left, 30%), Questions (right, 70%) -->
         <div class="d-flex mb-2" style="gap: 0.75rem; align-items: flex-end;">
             <div class="form-group mb-0" style="flex: 0 0 30%;">
                 <label class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate }}</label>
@@ -49,16 +61,7 @@
             </div>
         </div>
 
-        <!-- Row 3: Type -->
-        <div class="form-group mb-2 required">
-            <label class="mb-1 required-label" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'MILESTONE-TYPE' | translate }}</label>
-            <app-type-picker 
-                formControlName="type"
-                [options]="milestoneTypes"
-                [isInvalid]="milestoneForm.controls.type?.invalid"
-                errorMessage="{{ 'NO-MILESTONE-TYPE-FEEDBACK' | translate }}">
-            </app-type-picker>
-        </div>
+
 
         <!-- Row 4: Notes -->
         <div class="form-group mb-0">
