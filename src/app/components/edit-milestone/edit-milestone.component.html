@@ -78,8 +78,11 @@
                     </svg>
                 </div>
             </button>
-            
-            <textarea *ngIf="notesOpen" class="form-control" id="notes" rows="4" formControlName="notes" style="resize: none; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.75rem; font-size: 0.95rem; box-shadow: none; margin-top: 4px;"></textarea>
+            <div class="notes-anim-wrapper" [class.is-open]="notesOpen">
+                <div class="notes-anim-inner">
+                    <textarea class="form-control notes-textarea" id="notes" rows="4" formControlName="notes" style="resize: none; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.75rem; font-size: 0.95rem; margin-top: 4px;"></textarea>
+                </div>
+            </div>
         </div>
 
     </form>
