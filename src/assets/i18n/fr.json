@@ -468,5 +468,10 @@
     "NEXT": "Suivant",
     "PREVIOUS": "Précédent",
     "DONE": "Terminer"
+  },
+  "DISPLAY-MODE": {
+    "OPACITY": "Mode Opacité (Densité)",
+    "HEIGHT": "Mode Hauteur (Densité)",
+    "TEXT": "Mode Texte (Nombre exact)"
   }
 }

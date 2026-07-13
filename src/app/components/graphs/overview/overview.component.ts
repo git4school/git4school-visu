@@ -59,6 +59,12 @@ export class OverviewComponent
 
   assignmentsModified$: Subscription;
 
+  displayModes = {
+    opacity: false,
+    height: false,
+    text: false
+  };
+
   typeaheadSettings;
   searchFilter: string[] = [];
 
@@ -179,6 +185,13 @@ export class OverviewComponent
   }
 
   ngOnInit(): void {
+    const savedModes = localStorage.getItem('commitDisplayModes');
+    if (savedModes) {
+      try {
+        this.displayModes = JSON.parse(savedModes);
+      } catch (e) {}
+    }
+    
     this.defaultSessionDuration =
       this.dataService.assignment.defaultSessionDuration;
     this.contextualMenuShown = false;
@@ -1327,22 +1340,23 @@ export class OverviewComponent
       .attr("y2", this.scrollable_height);
   }
 
-  getCommitGroupPathD(first: Commit, last: Commit) {
+  getCommitGroupPathD(first: Commit, last: Commit, height: number = OverviewComponent.GROUP_HEIGHT) {
     let begin_x = this.xScaledTimeZoned(first.commitDate);
     let end_x = this.xScaledTimeZoned(last.commitDate);
+    
+    let actualWidth = end_x - begin_x;
+    let minWidth = 1.5 * OverviewComponent.CIRCLE_RADIUS; // 18px
+    let width = Math.max(actualWidth, minWidth);
+    
+    // Centering the minimum width box over the actual width
+    let offset = - (width - actualWidth) / 2;
 
     if (last.isCloture) {
-      return `M 0 0 h ${Math.max(
-        end_x - begin_x,
-        1.5 * OverviewComponent.CIRCLE_RADIUS
-      )} a ${OverviewComponent.CIRCLE_RADIUS} ${
+      return `M ${offset} 0 h ${width} a ${OverviewComponent.CIRCLE_RADIUS} ${
         OverviewComponent.CIRCLE_RADIUS
-      } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
+      } 0 0 1 0 ${height} H ${offset} z`;
     } else {
-      return `M 0 0 h ${Math.max(
-        end_x - begin_x,
-        1.5 * OverviewComponent.CIRCLE_RADIUS
-      )} v ${OverviewComponent.CIRCLE_RADIUS} H 0 z`;
+      return `M ${offset} 0 h ${width} v ${height} H ${offset} z`;
     }
   }
 
@@ -1361,8 +1375,8 @@ export class OverviewComponent
 
     g.attr("class", "commit-group commit")
       .append("path")
-      .attr("d", this.getCommitGroupPathD(sorted[0], sorted[sorted.length - 1]))
-      .attr("transform", `translate(0, ${-OverviewComponent.GROUP_HEIGHT / 2})`)
+      .attr("d", this.getCommitGroupPathD(sorted[0], sorted[sorted.length - 1], OverviewComponent.GROUP_HEIGHT))
+      .style("--y-offset", `${-OverviewComponent.GROUP_HEIGHT / 2}px`)
       .attr("fill", sorted[sorted.length - 1].color.color)
       .attr("class", "data");
 
@@ -1410,11 +1424,8 @@ export class OverviewComponent
 
       g.attr("class", "commit-group")
         .append("path")
-        .attr("d", this.getCommitGroupPathD(commit, commit))
-        .attr(
-          "transform",
-          `translate(0, ${-OverviewComponent.GROUP_HEIGHT / 2})`
-        )
+        .attr("d", this.getCommitGroupPathD(commit, commit, OverviewComponent.GROUP_HEIGHT))
+        .style("--y-offset", `${-OverviewComponent.GROUP_HEIGHT / 2}px`)
         .attr("fill", commit.color.color)
         .attr("class", "data")
         .on("mouseenter", (e, d) => (this.hovered_group_commit = d))
@@ -1476,9 +1487,11 @@ export class OverviewComponent
           "d",
           this.getCommitGroupPathD(
             all_commits[0],
-            all_commits[all_commits.length - 1]
+            all_commits[all_commits.length - 1],
+            OverviewComponent.GROUP_HEIGHT
           )
         )
+        .style("--y-offset", `${-OverviewComponent.GROUP_HEIGHT / 2}px`)
         .attr("fill", all_commits[all_commits.length - 1].color.color);
 
       g.attr("group_range", Math.max(spacing, g.attr("group_range") || 0));
@@ -1833,11 +1846,6 @@ export class OverviewComponent
               )}, 0)`
           );
 
-        repo_g
-          .selectAll("path:not(.hidden)")
-          .attr("d", (commits: Commit[]) =>
-            this.getCommitGroupPathD(commits[0], commits[commits.length - 1])
-          );
       });
 
     this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
@@ -1897,6 +1905,95 @@ export class OverviewComponent
             this.inner_margin.top
           })`
       );
+
+    // --- GLOBAL PROPOSITIONS UPDATE ---
+    let maxGroupCommits = 1;
+    let minGroupCommits = Number.MAX_VALUE;
+    
+    if (overview.repositories_g) {
+      if (overview.displayModes.opacity || overview.displayModes.height) {
+        overview.repositories_g.forEach((repo_g) => {
+          repo_g.selectAll(".commit").each(function() {
+            let commits: Commit[] = d3.select(this).datum() as Commit[];
+            if (commits && commits.length > 1) {
+               if (commits.length > maxGroupCommits) maxGroupCommits = commits.length;
+               if (commits.length < minGroupCommits) minGroupCommits = commits.length;
+            }
+          });
+        });
+        if (minGroupCommits === Number.MAX_VALUE) minGroupCommits = 1;
+      }
+
+      overview.repositories_g.forEach((repo_g) => {
+        repo_g.selectAll(".commit:not(.hidden)").each(function() {
+          let g = d3.select(this);
+          let commits: Commit[] = g.datum() as Commit[];
+          let path = g.select("path");
+          
+          let height = OverviewComponent.GROUP_HEIGHT;
+          let opacity = 1.0;
+          
+          if (commits.length > 1) {
+             if (overview.displayModes.height) {
+                 if (maxGroupCommits > minGroupCommits) {
+                   let ratio = (Math.log(commits.length) - Math.log(minGroupCommits)) / (Math.log(maxGroupCommits) - Math.log(minGroupCommits));
+                   height = 12 + ratio * 20; // 12px to 32px
+                 } else {
+                   height = 18;
+                 }
+             }
+             if (overview.displayModes.opacity) {
+                 if (maxGroupCommits > minGroupCommits) {
+                   let ratio = (Math.log(commits.length) - Math.log(minGroupCommits)) / (Math.log(maxGroupCommits) - Math.log(minGroupCommits));
+                   opacity = 0.4 + ratio * 0.6; // 0.4 to 1.0
+                 } else {
+                   opacity = 0.7;
+                 }
+             }
+          }
+          
+          path.attr("d", overview.getCommitGroupPathD(commits[0], commits[commits.length - 1], height));
+          path.style("--y-offset", `${-height / 2}px`);
+          
+          if (overview.displayModes.text && commits.length > 1) {
+            let text = g.select("text.commit-count");
+            if (text.empty()) {
+              text = g.append("text")
+                .attr("class", "commit-count")
+                .attr("y", 2.5) // Slightly adjusted for smaller font
+                .attr("text-anchor", "middle")
+                .attr("fill", "white")
+                .style("font-size", "8.5px")
+                .style("font-weight", "normal")
+                .style("stroke", "none") // Prevent inheriting the thick stroke from .commit
+                .style("pointer-events", "none");
+            }
+            
+            let begin_x = overview.xScaledTimeZoned(commits[0].commitDate);
+            let end_x = overview.xScaledTimeZoned(commits[commits.length - 1].commitDate);
+            let actualWidth = end_x - begin_x;
+            let minWidth = 1.5 * OverviewComponent.CIRCLE_RADIUS;
+            let width = Math.max(actualWidth, minWidth);
+            let offset = - (width - actualWidth) / 2;
+            let center_x = offset + width / 2;
+            
+            text.attr("x", center_x).text(commits.length);
+          } else {
+            g.select("text.commit-count").remove();
+          }
+          
+          if (overview.displayModes.opacity) {
+            g.attr("opacity", opacity);
+          } else {
+            g.attr("opacity", 1.0);
+          }
+        });
+      });
+      // Raise individual commits so they are drawn on top of commit groups
+      overview.repositories_g.forEach((repo_g) => {
+        repo_g.selectAll(".commit:not(.commit-group)").raise();
+      });
+    }
   }
 
   toggleDrag() {
@@ -1914,6 +2011,12 @@ export class OverviewComponent
       );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);
+  }
+
+  toggleDisplayMode(mode: 'opacity' | 'height' | 'text') {
+    this.displayModes[mode] = !this.displayModes[mode];
+    localStorage.setItem('commitDisplayModes', JSON.stringify(this.displayModes));
+    this.refreshElementState();
   }
 
   zoomToGroup(commits: Commit[], range: number) {

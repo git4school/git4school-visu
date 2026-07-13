@@ -666,6 +666,11 @@
     color: var(--color-text-primary);
   }
   
+  &.active {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary);
+  }
+  
   &.anim-spin-hover:hover:not(:disabled) svg {
     transform: rotate(180deg);
   }
@@ -676,6 +681,7 @@
 
   &:focus {
     outline: none;
+    box-shadow: none !important;
   }
 }
 

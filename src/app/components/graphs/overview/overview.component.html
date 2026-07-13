@@ -126,6 +126,40 @@
       </div>
     </div>
 
+    <!-- Display Modes Group (sans séparateur avec les marqueurs) -->
+    <div class="btn-group" role="group" style="margin-right: 0.25rem;">
+      <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
+              [class.active]="displayModes.opacity" 
+              (click)="toggleDisplayMode('opacity')"
+              [appTooltip]="{ text: ('DISPLAY-MODE.OPACITY' | translate) }">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" stroke-opacity="0.3" fill="currentColor" fill-opacity="0.3"></circle>
+          <circle cx="12" cy="12" r="6" stroke-opacity="0.7" fill="currentColor" fill-opacity="0.7"></circle>
+          <circle cx="12" cy="12" r="2" stroke-opacity="1" fill="currentColor"></circle>
+        </svg>
+      </button>
+      <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
+              [class.active]="displayModes.height" 
+              (click)="toggleDisplayMode('height')"
+              [appTooltip]="{ text: ('DISPLAY-MODE.HEIGHT' | translate) }">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="10" width="4" height="4" fill="currentColor"></rect>
+          <rect x="10" y="7" width="4" height="10" fill="currentColor"></rect>
+          <rect x="17" y="4" width="4" height="16" fill="currentColor"></rect>
+        </svg>
+      </button>
+      <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
+              [class.active]="displayModes.text" 
+              (click)="toggleDisplayMode('text')"
+              [appTooltip]="{ text: ('DISPLAY-MODE.TEXT' | translate) }">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 7 4 4 20 4 20 7"></polyline>
+          <line x1="9" y1="20" x2="15" y2="20"></line>
+          <line x1="12" y1="4" x2="12" y2="20"></line>
+        </svg>
+      </button>
+    </div>
+
     <div class="divider-vertical"></div>
 
     <button class="btn-outline-ghost anim-scale-hover" (click)="resetZoom(false)" [appTooltip]="{ text: ('OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP' | translate), shortcut: ['Space'] }">

@@ -466,5 +466,10 @@
     "NEXT": "Next",
     "PREVIOUS": "Previous",
     "DONE": "Done"
+  },
+  "DISPLAY-MODE": {
+    "OPACITY": "Opacity Mode (Density)",
+    "HEIGHT": "Height Mode (Density)",
+    "TEXT": "Text Mode (Exact number)"
   }
 }

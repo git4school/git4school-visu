@@ -50,7 +50,7 @@ body.dark-theme .commit {
 .commit-group > path {
   transform-box: fill-box;
   transform-origin: center;
-  transform: translate(0, -6px); /* Remplace l'attribut SVG pour fluidifier la transition */
+  transform: translate(0, var(--y-offset, -6px)); /* Utilise une variable CSS pour la hauteur dynamique */
   transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
 }
 
@@ -63,7 +63,7 @@ body.dark-theme .commit {
 .commit-group:hover > path {
   fill: var(--color-surface);
   stroke: var(--color-text-primary);
-  transform: translate(0, -6px) scale(1.1);
+  transform: translate(0, var(--y-offset, -6px)) scale(1.1);
 }
 
 .commit-normal:hover {
