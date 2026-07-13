@@ -1814,186 +1814,168 @@ export class OverviewComponent
   }
 
   refreshElementState() {
-    const containerRect = (d3.select(".chart-container") as any)
-      .node()
-      .getBoundingClientRect();
-    const overview = this;
+    this.updateNodesVisibilityAndTransforms();
+    this.updateMilestoneVisibility();
 
-    if (overview.repository_g)
-      overview.repositories_g.forEach((repo_g, i: number) => {
-        repo_g.selectAll(".commit").each(function () {
-          let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
+    if (!this.repositories_g) return;
 
-          let node = repo_g.node();
-          let nodeRect = (node as any).getBoundingClientRect();
+    this.updateCommitGroups();
+    this.updateConnectingLines();
+    this.updateSessionsTransforms();
+    this.updateMilestoneTransforms();
+    this.updateDisplayModes();
+    this.raiseIndividualCommits();
+  }
 
-          const nodeVisible =
-            nodeRect.right >= containerRect.left &&
-            nodeRect.left <= containerRect.right &&
-            nodeRect.bottom >= containerRect.top &&
-            nodeRect.top <= containerRect.bottom;
-
-          g.classed("hidden", !nodeVisible);
-        });
-
-        repo_g
-          .selectAll(".commit:not(.hidden)")
-          .attr(
-            "transform",
-            (commits: Commit[]) =>
-              `translate(${overview.xScaledTimeZoned(
-                commits[0].commitDate
-              )}, 0)`
-          );
-
+  private updateNodesVisibilityAndTransforms() {
+    if (!this.repository_g) return;
+    
+    const containerRect = (d3.select(".chart-container") as any).node().getBoundingClientRect();
+    
+    this.repositories_g.forEach((repo_g) => {
+      repo_g.selectAll(".commit").each(function () {
+        let nodeRect = (repo_g.node() as any).getBoundingClientRect();
+        const nodeVisible =
+          nodeRect.right >= containerRect.left && nodeRect.left <= containerRect.right &&
+          nodeRect.bottom >= containerRect.top && nodeRect.top <= containerRect.bottom;
+        d3.select(this).classed("hidden", !nodeVisible);
       });
 
-    this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
-      let g = d3.select(this);
-      let x = overview.xScaledTimeZoned(m.date);
-      g.classed("hidden", x < 0 || x > overview.width);
+      repo_g.selectAll(".commit:not(.hidden)").attr("transform", (commits: Commit[]) =>
+        `translate(${this.xScaledTimeZoned(commits[0].commitDate)}, 0)`
+      );
     });
+  }
 
-    if (!overview.repositories_g) return;
+  private updateMilestoneVisibility() {
+    const overview = this;
+    this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
+      let x = overview.xScaledTimeZoned(m.date);
+      d3.select(this).classed("hidden", x < 0 || x > overview.width);
+    });
+  }
 
-    overview.repositories_g.forEach((repo_g) =>
-      this.refreshRepoBySplittingGroup(repo_g)
-    );
-    overview.repositories_g.forEach((repo_g) =>
-      this.refreshRepoByGrouping(repo_g)
-    );
+  private updateCommitGroups() {
+    this.repositories_g.forEach((repo_g) => this.refreshRepoBySplittingGroup(repo_g));
+    this.repositories_g.forEach((repo_g) => this.refreshRepoByGrouping(repo_g));
+  }
 
-    overview.repositories_g.forEach((g, i) => {
+  private updateConnectingLines() {
+    const overview = this;
+    this.repositories_g.forEach((g) => {
       g.selectAll(".commit_line")
         .attr("x1", function () {
-          let real_x =
-            overview.xScaledTimeZoned(
-              new Date(Number.parseInt(d3.select(this).attr("min_date")))
-            ) || 0;
-
-          return Math.max(Math.min(real_x, overview.width), 0);
+          let min_d = new Date(Number.parseInt(d3.select(this).attr("min_date")));
+          return Math.max(Math.min(overview.xScaledTimeZoned(min_d) || 0, overview.width), 0);
         })
         .attr("x2", function () {
-          let real_x =
-            overview.xScaledTimeZoned(
-              new Date(Number.parseInt(d3.select(this).attr("max_date")))
-            ) || 0;
-          return Math.max(Math.min(real_x, overview.width), 0);
+          let max_d = new Date(Number.parseInt(d3.select(this).attr("max_date")));
+          return Math.max(Math.min(overview.xScaledTimeZoned(max_d) || 0, overview.width), 0);
         });
     });
+  }
 
-    if (this.session_g) {
-      this.session_g
-        .selectAll(".session")
-        .attr("x", (s: Session) => {
-          return overview.xScaledTimeZoned(s.startDate);
-        })
-        .attr(
-          "width",
-          (s: Session) =>
-            overview.xScaledTimeZoned(s.endDate) -
-            overview.xScaledTimeZoned(s.startDate)
-        );
-    }
+  private updateSessionsTransforms() {
+    if (!this.session_g) return;
+    this.session_g.selectAll(".session")
+      .attr("x", (s: Session) => this.xScaledTimeZoned(s.startDate))
+      .attr("width", (s: Session) => this.xScaledTimeZoned(s.endDate) - this.xScaledTimeZoned(s.startDate));
+  }
 
-    this.chart_abs_g
-      .selectAll(".milestone")
-      .attr(
-        "transform",
-        (m: Milestone) =>
-          `translate(${overview.xScaledTimeZoned(m.date)}, ${
-            this.inner_margin.top
-          })`
+  private updateMilestoneTransforms() {
+    this.chart_abs_g.selectAll(".milestone")
+      .attr("transform", (m: Milestone) =>
+        `translate(${this.xScaledTimeZoned(m.date)}, ${this.inner_margin.top})`
       );
+  }
 
-    // --- GLOBAL PROPOSITIONS UPDATE ---
+  private updateDisplayModes() {
+    const minMax = this.calculateGlobalMinMaxCommits();
+    this.repositories_g.forEach((repo_g) => this.applyGroupDisplayModes(repo_g, minMax.min, minMax.max));
+  }
+
+  private calculateGlobalMinMaxCommits(): { min: number, max: number } {
     let maxGroupCommits = 1;
     let minGroupCommits = Number.MAX_VALUE;
     
-    if (overview.repositories_g) {
-      if (overview.displayModes.opacity || overview.displayModes.height) {
-        overview.repositories_g.forEach((repo_g) => {
-          repo_g.selectAll(".commit").each(function() {
-            let commits: Commit[] = d3.select(this).datum() as Commit[];
-            if (commits && commits.length > 1) {
-               if (commits.length > maxGroupCommits) maxGroupCommits = commits.length;
-               if (commits.length < minGroupCommits) minGroupCommits = commits.length;
-            }
-          });
-        });
-        if (minGroupCommits === Number.MAX_VALUE) minGroupCommits = 1;
-      }
-
-      overview.repositories_g.forEach((repo_g) => {
-        repo_g.selectAll(".commit:not(.hidden)").each(function() {
-          let g = d3.select(this);
-          let commits: Commit[] = g.datum() as Commit[];
-          let path = g.select("path");
-          
-          let height = OverviewComponent.GROUP_HEIGHT;
-          let opacity = 1.0;
-          
-          if (commits.length > 1) {
-             if (overview.displayModes.height) {
-                 if (maxGroupCommits > minGroupCommits) {
-                   let ratio = (Math.log(commits.length) - Math.log(minGroupCommits)) / (Math.log(maxGroupCommits) - Math.log(minGroupCommits));
-                   height = 12 + ratio * 20; // 12px to 32px
-                 } else {
-                   height = 18;
-                 }
-             }
-             if (overview.displayModes.opacity) {
-                 if (maxGroupCommits > minGroupCommits) {
-                   let ratio = (Math.log(commits.length) - Math.log(minGroupCommits)) / (Math.log(maxGroupCommits) - Math.log(minGroupCommits));
-                   opacity = 0.4 + ratio * 0.6; // 0.4 to 1.0
-                 } else {
-                   opacity = 0.7;
-                 }
-             }
-          }
-          
-          path.attr("d", overview.getCommitGroupPathD(commits[0], commits[commits.length - 1], height));
-          path.style("--y-offset", `${-height / 2}px`);
-          
-          if (overview.displayModes.text && commits.length > 1) {
-            let text = g.select("text.commit-count");
-            if (text.empty()) {
-              text = g.append("text")
-                .attr("class", "commit-count")
-                .attr("y", 2.5) // Slightly adjusted for smaller font
-                .attr("text-anchor", "middle")
-                .attr("fill", "white")
-                .style("font-size", "8.5px")
-                .style("font-weight", "normal")
-                .style("stroke", "none") // Prevent inheriting the thick stroke from .commit
-                .style("pointer-events", "none");
-            }
-            
-            let begin_x = overview.xScaledTimeZoned(commits[0].commitDate);
-            let end_x = overview.xScaledTimeZoned(commits[commits.length - 1].commitDate);
-            let actualWidth = end_x - begin_x;
-            let minWidth = 1.5 * OverviewComponent.CIRCLE_RADIUS;
-            let width = Math.max(actualWidth, minWidth);
-            let offset = - (width - actualWidth) / 2;
-            let center_x = offset + width / 2;
-            
-            text.attr("x", center_x).text(commits.length);
-          } else {
-            g.select("text.commit-count").remove();
-          }
-          
-          if (overview.displayModes.opacity) {
-            g.attr("opacity", opacity);
-          } else {
-            g.attr("opacity", 1.0);
+    if (this.displayModes.opacity || this.displayModes.height) {
+      this.repositories_g.forEach((repo_g) => {
+        repo_g.selectAll(".commit").each(function() {
+          let commits = d3.select(this).datum() as Commit[];
+          if (commits && commits.length > 1) {
+             if (commits.length > maxGroupCommits) maxGroupCommits = commits.length;
+             if (commits.length < minGroupCommits) minGroupCommits = commits.length;
           }
         });
       });
-      // Raise individual commits so they are drawn on top of commit groups
-      overview.repositories_g.forEach((repo_g) => {
-        repo_g.selectAll(".commit:not(.commit-group)").raise();
-      });
+      if (minGroupCommits === Number.MAX_VALUE) minGroupCommits = 1;
     }
+    
+    return { min: minGroupCommits, max: maxGroupCommits };
+  }
+
+  private applyGroupDisplayModes(repo_g: any, minGroupCommits: number, maxGroupCommits: number) {
+    const overview = this;
+    repo_g.selectAll(".commit:not(.hidden)").each(function() {
+      let g = d3.select(this);
+      let commits = g.datum() as Commit[];
+      if (commits.length <= 1) return;
+
+      let height = overview.getGroupHeight(commits.length, minGroupCommits, maxGroupCommits);
+      let opacity = overview.getGroupOpacity(commits.length, minGroupCommits, maxGroupCommits);
+      
+      overview.updateGroupPath(g, commits, height);
+      overview.updateGroupText(g, commits);
+      
+      g.attr("opacity", overview.displayModes.opacity ? opacity : 1.0);
+    });
+  }
+
+  private getGroupHeight(count: number, min: number, max: number): number {
+    if (!this.displayModes.height) return OverviewComponent.GROUP_HEIGHT;
+    if (max <= min) return 18;
+    
+    let ratio = (Math.log(count) - Math.log(min)) / (Math.log(max) - Math.log(min));
+    return 12 + ratio * 20; // 12px to 32px
+  }
+
+  private getGroupOpacity(count: number, min: number, max: number): number {
+    if (!this.displayModes.opacity) return 1.0;
+    if (max <= min) return 0.7;
+    
+    let ratio = (Math.log(count) - Math.log(min)) / (Math.log(max) - Math.log(min));
+    return 0.4 + ratio * 0.6; // 0.4 to 1.0
+  }
+
+  private updateGroupPath(g: any, commits: Commit[], height: number) {
+    let path = g.select("path");
+    path.attr("d", this.getCommitGroupPathD(commits[0], commits[commits.length - 1], height));
+    path.style("--y-offset", `${-height / 2}px`);
+  }
+
+  private updateGroupText(g: any, commits: Commit[]) {
+    let text = g.select("text.commit-count");
+    if (this.displayModes.text) {
+      if (text.empty()) {
+        text = g.append("text").attr("class", "commit-count")
+          .attr("y", 2.5).attr("text-anchor", "middle").attr("fill", "white")
+          .style("font-size", "8.5px").style("font-weight", "normal").style("stroke", "none")
+          .style("pointer-events", "none");
+      }
+      
+      let actualWidth = this.xScaledTimeZoned(commits[commits.length - 1].commitDate) - this.xScaledTimeZoned(commits[0].commitDate);
+      let center_x = actualWidth / 2;
+      
+      text.attr("x", center_x).text(commits.length);
+    } else {
+      text.remove();
+    }
+  }
+
+  private raiseIndividualCommits() {
+    this.repositories_g.forEach((repo_g) => {
+      repo_g.selectAll(".commit:not(.commit-group)").raise();
+    });
   }
 
   toggleDrag() {
