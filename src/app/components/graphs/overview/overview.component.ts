@@ -1723,43 +1723,40 @@ export class OverviewComponent
       });
   }
 
-  refreshRepoBySplittingGroup(repo_g) {
-    const overview = this;
-    let didSplit = false;
-    repo_g.selectAll(".commit-group").each(function () {
-      let g = d3.select(this);
-      let commits = g.datum() as Commit[];
-      
-      let needsSplit = false;
-      for (let i = 0; i < commits.length - 1; i++) {
-        if (!overview.shouldGroupCommit(commits[i], commits[i+1])) {
-          needsSplit = true;
-          break;
-        }
+  private checkGroupNeedsSplit(commits: Commit[]): boolean {
+    for (let i = 0; i < commits.length - 1; i++) {
+      if (!this.shouldGroupCommit(commits[i], commits[i + 1])) {
+        return true;
       }
+    }
+    return false;
+  }
 
-      if (needsSplit) {
+  private splitCommitGroup(g: any, commits: Commit[], repo_g: any) {
+    if (this.hovered_g === g) {
+      this.hovered_g = undefined;
+      this.hovered_group_commit = undefined;
+    }
+    let before = undefined;
+    g.remove();
+    commits.forEach((commit) => {
+      before = this.getCommitComponent(repo_g, commit, before);
+    });
+  }
+
+  refreshRepoBySplittingGroup(repo_g: any): boolean {
+    let didSplit = false;
+    repo_g.selectAll(".commit-group").each((commits: Commit[], i: number, nodes: any) => {
+      let g = d3.select(nodes[i]);
+      if (this.checkGroupNeedsSplit(commits)) {
         didSplit = true;
-        if (overview.hovered_g === g) {
-          overview.hovered_g = undefined;
-          overview.hovered_group_commit = undefined;
-        }
-        let before = undefined;
-        g.remove();
-        commits.forEach((commit) => {
-          before = overview.getCommitComponent(repo_g, commit, before);
-        });
+        this.splitCommitGroup(g, commits, repo_g);
       }
     });
     return didSplit;
   }
 
-  refreshRepoByGrouping(repo_g, didSplit: boolean = false) {
-    const overview = this;
-    let before = undefined;
-    let toCommit = [];
-    let toRemove = [];
-
+  private getSortedCommitNodes(repo_g: any): any[] {
     let nodes = repo_g.selectAll(".commit").nodes();
     nodes.sort((a: any, b: any) => {
       let aDatum = a.__data__ as Commit[];
@@ -1767,45 +1764,57 @@ export class OverviewComponent
       if (!aDatum || !aDatum[0] || !bDatum || !bDatum[0]) return 0;
       return aDatum[0].commitDate.getTime() - bDatum[0].commitDate.getTime();
     });
+    return nodes;
+  }
 
-    d3.selectAll(nodes).each(function (commit: Commit[]) {
-      let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
+  private mergeCommitNodes(before: any, g: any, commits: Commit[], repo_g: any, toRemove: any[], toCommit: any[]): any {
+    toRemove.push(before, g);
+    let before_date = before.attr("before_date");
+    let after_date = g.attr("after_date");
+    let newGroup = this.getCommitGroupComponentFromScratch(repo_g, commits);
+    newGroup.classed("commit", false);
+    toCommit.push(newGroup);
+    newGroup.attr("before_date", before_date);
+    newGroup.attr("after_date", after_date);
+    return newGroup;
+  }
 
-        if (before == null) {
-          before = g;
-          return;
-        }
-
-        let last_commit: Commit = before.datum()[before.datum().length - 1];
-        if (overview.shouldGroupCommit(last_commit, commit[0])) {
-          let commits = commit.concat(before.datum());
-          toRemove.push(before, g);
-
-          let before_date = before.attr("before_date");
-          let after_date = g.attr("after_date");
-          before = overview.getCommitGroupComponentFromScratch(repo_g, commits);
-          before.classed("commit", false);
-          toCommit.push(before);
-          before.attr("before_date", before_date);
-          before.attr("after_date", after_date);
-        } else before = g;
-      });
-
+  private applyGroupDOMUpdates(repo_g: any, toRemove: any[], toCommit: any[], needsSort: boolean) {
     toRemove.forEach((g) => g.remove());
     toCommit.forEach((g) => g.classed("commit", true));
 
-    let changed = toRemove.length > 0 || toCommit.length > 0;
-    if (changed || didSplit) {
-      // Sort commit groups so right groups (higher date) are drawn first, and left groups on top
+    if (toRemove.length > 0 || toCommit.length > 0 || needsSort) {
       repo_g.selectAll(".commit-group").sort((a: Commit[], b: Commit[]) => {
         let aDate = a[0] ? a[0].commitDate.getTime() : 0;
         let bDate = b[0] ? b[0].commitDate.getTime() : 0;
         return bDate - aDate;
       });
-
-      // Ensure individual commits stay on top of everything
       repo_g.selectAll(".commit:not(.commit-group)").raise();
     }
+  }
+
+  refreshRepoByGrouping(repo_g: any, didSplit: boolean = false) {
+    let before: any = undefined;
+    let toCommit: any[] = [];
+    let toRemove: any[] = [];
+    let nodes = this.getSortedCommitNodes(repo_g);
+
+    d3.selectAll(nodes).each((commit: Commit[], i: number, domNodes: any) => {
+      let g = d3.select(domNodes[i]);
+      if (before == null) {
+        before = g;
+        return;
+      }
+      let last_commit: Commit = before.datum()[before.datum().length - 1];
+      if (this.shouldGroupCommit(last_commit, commit[0])) {
+        let mergedCommits = commit.concat(before.datum());
+        before = this.mergeCommitNodes(before, g, mergedCommits, repo_g, toRemove, toCommit);
+      } else {
+        before = g;
+      }
+    });
+
+    this.applyGroupDOMUpdates(repo_g, toRemove, toCommit, didSplit);
   }
 
   onBrush(event) {
