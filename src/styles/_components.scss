@@ -1280,7 +1280,9 @@
 /* Active & Hover States */
 /* Baseline ON state & Hover Preview Unchecked */
 input[type="checkbox"]:checked + .chip-content,
-.marker-chip.show-hover input[type="checkbox"]:not(:checked) + .chip-content {
+.marker-chip.show-hover input[type="checkbox"]:not(:checked) + .chip-content,
+.btn-group .btn.active,
+.btn-group .btn.show-hover:not(.active) {
   .icon-calendar {
     .cal-check { stroke-dashoffset: 0; }
     .cal-pin { transform: translateY(-2px); }
@@ -1301,7 +1303,8 @@ input[type="checkbox"]:checked + .chip-content,
 }
 
 /* Hover Preview Checked -> Revert to OFF */
-.marker-chip.show-hover input[type="checkbox"]:checked + .chip-content {
+.marker-chip.show-hover input[type="checkbox"]:checked + .chip-content,
+.btn-group .btn.show-hover.active {
   .icon-calendar {
     .cal-check { stroke-dashoffset: 12; }
     .cal-pin { transform: none; }
