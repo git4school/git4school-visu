@@ -174,6 +174,16 @@ export class OverviewComponent
     this.loadGraphDataAndRefresh();
   }
 
+  saveMarkerPreferences() {
+    const preferences = {
+      showSessions: this.showSessions,
+      showCorrections: this.showCorrections,
+      showReviews: this.showReviews,
+      showOthers: this.showOthers
+    };
+    localStorage.setItem('markerPreferences', JSON.stringify(preferences));
+  }
+
   constructor(
     private translateService: TranslateService,
     private toastService: ToastService,
@@ -194,6 +204,17 @@ export class OverviewComponent
     if (savedModes) {
       try {
         this.displayModes = JSON.parse(savedModes);
+      } catch (e) {}
+    }
+
+    const savedMarkers = localStorage.getItem('markerPreferences');
+    if (savedMarkers) {
+      try {
+        const parsed = JSON.parse(savedMarkers);
+        this.showSessions = parsed.showSessions ?? true;
+        this.showCorrections = parsed.showCorrections ?? true;
+        this.showReviews = parsed.showReviews ?? true;
+        this.showOthers = parsed.showOthers ?? true;
       } catch (e) {}
     }
     

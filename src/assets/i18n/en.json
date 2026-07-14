@@ -468,6 +468,7 @@
     "DONE": "Done"
   },
   "DISPLAY-MODE": {
+    "TITLE": "Commits",
     "OPACITY": "Opacity Mode (Density)",
     "HEIGHT": "Height Mode (Density)",
     "TEXT": "Text Mode (Exact number)"

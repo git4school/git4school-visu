@@ -45,100 +45,110 @@
     </div>
 
     <!-- Markers Group -->
-    <div class="btn-group" role="group" style="margin-right: 0.25rem;">
-      <!-- Séances -->
-      <button type="button" class="btn btn-outline-ghost anim-scale-hover"
-              [class.active]="showSessions"
-              [class.show-hover]="markerHoverState['sessions'].isHovered && !markerHoverState['sessions'].wasClicked"
-              (click)="showSessions = !showSessions; onMarkerChange('sessions')"
-              (mouseenter)="onMarkerMouseEnter('sessions')"
-              (mouseleave)="onMarkerMouseLeave('sessions')"
-              [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.SESSIONS' | translate) }">
-        <svg class="icon-calendar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect class="cal-body" x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-          <line class="cal-pin" x1="16" y1="2" x2="16" y2="6"></line>
-          <line class="cal-pin" x1="8" y1="2" x2="8" y2="6"></line>
-          <line class="cal-line" x1="3" y1="10" x2="21" y2="10"></line>
-          <path class="cal-check" d="M9 16l2 2 4-4"></path>
-        </svg>
-      </button>
+    <div class="d-flex flex-column align-items-center" style="position: relative; margin-right: 0.25rem;">
+      <div class="btn-group" role="group">
+        <!-- Séances -->
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover"
+                [class.active]="showSessions"
+                [class.show-hover]="markerHoverState['sessions'].isHovered && !markerHoverState['sessions'].wasClicked"
+                (click)="showSessions = !showSessions; saveMarkerPreferences(); onMarkerChange('sessions')"
+                (mouseenter)="onMarkerMouseEnter('sessions')"
+                (mouseleave)="onMarkerMouseLeave('sessions')"
+                [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.SESSIONS' | translate) }">
+          <svg class="icon-calendar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect class="cal-body" x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line class="cal-pin" x1="16" y1="2" x2="16" y2="6"></line>
+            <line class="cal-pin" x1="8" y1="2" x2="8" y2="6"></line>
+            <line class="cal-line" x1="3" y1="10" x2="21" y2="10"></line>
+            <path class="cal-check" d="M9 16l2 2 4-4"></path>
+          </svg>
+        </button>
 
-      <!-- Corrections -->
-      <button type="button" class="btn btn-outline-ghost anim-scale-hover"
-              [class.active]="showCorrections"
-              [class.show-hover]="markerHoverState['corrections'].isHovered && !markerHoverState['corrections'].wasClicked"
-              (click)="showCorrections = !showCorrections; onMarkerChange('corrections')"
-              (mouseenter)="onMarkerMouseEnter('corrections')"
-              (mouseleave)="onMarkerMouseLeave('corrections')"
-              [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.CORRECTIONS' | translate) }">
-        <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle class="check-circle" cx="12" cy="12" r="10"></circle>
-          <polyline class="check-tick" points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
-      </button>
+        <!-- Corrections -->
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover"
+                [class.active]="showCorrections"
+                [class.show-hover]="markerHoverState['corrections'].isHovered && !markerHoverState['corrections'].wasClicked"
+                (click)="showCorrections = !showCorrections; saveMarkerPreferences(); onMarkerChange('corrections')"
+                (mouseenter)="onMarkerMouseEnter('corrections')"
+                (mouseleave)="onMarkerMouseLeave('corrections')"
+                [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.CORRECTIONS' | translate) }">
+          <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle class="check-circle" cx="12" cy="12" r="10"></circle>
+            <polyline class="check-tick" points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </button>
 
-      <!-- Revues -->
-      <button type="button" class="btn btn-outline-ghost anim-scale-hover"
-              [class.active]="showReviews"
-              [class.show-hover]="markerHoverState['reviews'].isHovered && !markerHoverState['reviews'].wasClicked"
-              (click)="showReviews = !showReviews; onMarkerChange('reviews')"
-              (mouseenter)="onMarkerMouseEnter('reviews')"
-              (mouseleave)="onMarkerMouseLeave('reviews')"
-              [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.REVIEWS' | translate) }">
-        <svg class="icon-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path class="eye-lid" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle class="eye-pupil" cx="12" cy="12" r="3"></circle>
-        </svg>
-      </button>
+        <!-- Revues -->
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover"
+                [class.active]="showReviews"
+                [class.show-hover]="markerHoverState['reviews'].isHovered && !markerHoverState['reviews'].wasClicked"
+                (click)="showReviews = !showReviews; saveMarkerPreferences(); onMarkerChange('reviews')"
+                (mouseenter)="onMarkerMouseEnter('reviews')"
+                (mouseleave)="onMarkerMouseLeave('reviews')"
+                [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.REVIEWS' | translate) }">
+          <svg class="icon-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path class="eye-lid" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle class="eye-pupil" cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
 
-      <!-- Autres -->
-      <button type="button" class="btn btn-outline-ghost anim-scale-hover"
-              [class.active]="showOthers"
-              [class.show-hover]="markerHoverState['others'].isHovered && !markerHoverState['others'].wasClicked"
-              (click)="showOthers = !showOthers; onMarkerChange('others')"
-              (mouseenter)="onMarkerMouseEnter('others')"
-              (mouseleave)="onMarkerMouseLeave('others')"
-              [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.OTHERS' | translate) }">
-        <svg class="icon-dots" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle class="dot d1" cx="5" cy="12" r="2"></circle>
-          <circle class="dot d2" cx="12" cy="12" r="2"></circle>
-          <circle class="dot d3" cx="19" cy="12" r="2"></circle>
-        </svg>
-      </button>
+        <!-- Autres -->
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover"
+                [class.active]="showOthers"
+                [class.show-hover]="markerHoverState['others'].isHovered && !markerHoverState['others'].wasClicked"
+                (click)="showOthers = !showOthers; saveMarkerPreferences(); onMarkerChange('others')"
+                (mouseenter)="onMarkerMouseEnter('others')"
+                (mouseleave)="onMarkerMouseLeave('others')"
+                [appTooltip]="{ text: ('OVERVIEW-GRAPH.MARKERS.OTHERS' | translate) }">
+          <svg class="icon-dots" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle class="dot d1" cx="5" cy="12" r="2"></circle>
+            <circle class="dot d2" cx="12" cy="12" r="2"></circle>
+            <circle class="dot d3" cx="19" cy="12" r="2"></circle>
+          </svg>
+        </button>
+      </div>
+      <span style="position: absolute; top: 100%; margin-top: 4px; font-size: 0.65rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; pointer-events: none; white-space: nowrap;">
+        {{ "OVERVIEW-GRAPH.MARKERS.BUTTON" | translate }}
+      </span>
     </div>
 
     <!-- Display Modes Group (sans séparateur avec les marqueurs) -->
-    <div class="btn-group" role="group" style="margin-right: 0.25rem;">
-      <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
-              [class.active]="displayModes.opacity" 
-              (click)="toggleDisplayMode('opacity')"
-              [appTooltip]="{ text: ('DISPLAY-MODE.OPACITY' | translate) }">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10" stroke-opacity="0.3" fill="currentColor" fill-opacity="0.3"></circle>
-          <circle cx="12" cy="12" r="6" stroke-opacity="0.7" fill="currentColor" fill-opacity="0.7"></circle>
-          <circle cx="12" cy="12" r="2" stroke-opacity="1" fill="currentColor"></circle>
-        </svg>
-      </button>
-      <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
-              [class.active]="displayModes.height" 
-              (click)="toggleDisplayMode('height')"
-              [appTooltip]="{ text: ('DISPLAY-MODE.HEIGHT' | translate) }">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="10" width="4" height="4" fill="currentColor"></rect>
-          <rect x="10" y="7" width="4" height="10" fill="currentColor"></rect>
-          <rect x="17" y="4" width="4" height="16" fill="currentColor"></rect>
-        </svg>
-      </button>
-      <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
-              [class.active]="displayModes.text" 
-              (click)="toggleDisplayMode('text')"
-              [appTooltip]="{ text: ('DISPLAY-MODE.TEXT' | translate) }">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="4 7 4 4 20 4 20 7"></polyline>
-          <line x1="9" y1="20" x2="15" y2="20"></line>
-          <line x1="12" y1="4" x2="12" y2="20"></line>
-        </svg>
-      </button>
+    <div class="d-flex flex-column align-items-center" style="position: relative; margin-right: 0.25rem;">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
+                [class.active]="displayModes.opacity" 
+                (click)="toggleDisplayMode('opacity')"
+                [appTooltip]="{ text: ('DISPLAY-MODE.OPACITY' | translate) }">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.3" fill="currentColor" fill-opacity="0.3"></circle>
+            <circle cx="12" cy="12" r="6" stroke-opacity="0.7" fill="currentColor" fill-opacity="0.7"></circle>
+            <circle cx="12" cy="12" r="2" stroke-opacity="1" fill="currentColor"></circle>
+          </svg>
+        </button>
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
+                [class.active]="displayModes.height" 
+                (click)="toggleDisplayMode('height')"
+                [appTooltip]="{ text: ('DISPLAY-MODE.HEIGHT' | translate) }">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="10" width="4" height="4" fill="currentColor"></rect>
+            <rect x="10" y="7" width="4" height="10" fill="currentColor"></rect>
+            <rect x="17" y="4" width="4" height="16" fill="currentColor"></rect>
+          </svg>
+        </button>
+        <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
+                [class.active]="displayModes.text" 
+                (click)="toggleDisplayMode('text')"
+                [appTooltip]="{ text: ('DISPLAY-MODE.TEXT' | translate) }">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+            <line x1="9" y1="20" x2="15" y2="20"></line>
+            <line x1="12" y1="4" x2="12" y2="20"></line>
+          </svg>
+        </button>
+      </div>
+      <span style="position: absolute; top: 100%; margin-top: 4px; font-size: 0.65rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; pointer-events: none; white-space: nowrap;">
+        {{ "DISPLAY-MODE.TITLE" | translate }}
+      </span>
     </div>
 
     <div class="divider-vertical"></div>

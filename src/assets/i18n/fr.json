@@ -470,6 +470,7 @@
     "DONE": "Terminer"
   },
   "DISPLAY-MODE": {
+    "TITLE": "Commits",
     "OPACITY": "Mode Opacité (Densité)",
     "HEIGHT": "Mode Hauteur (Densité)",
     "TEXT": "Mode Texte (Nombre exact)"
