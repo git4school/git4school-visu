@@ -142,6 +142,9 @@ export class OverviewComponent
   private resizeTimeout: any;
   private last_zoom_k: number = 0;
   private zoomTimeoutId: any = null;
+  isRefreshing: boolean = false;
+  private isThrottledGroupUpdate = false;
+  private needsGroupUpdate = false;
 
   isDraggingMilestone = false;
   hasMovedDuringDrag = false;
@@ -512,8 +515,15 @@ export class OverviewComponent
         overview.x_scale_copy = overview.current_zoom.rescaleX(
           overview.x_scale
         );
-        overview.x_g.call(this.x_axis.scale(overview.x_scale_copy));
-        overview.refreshElementState();
+
+        if (!overview.isRefreshing) {
+          overview.isRefreshing = true;
+          requestAnimationFrame(() => {
+            overview.x_g.call(this.x_axis.scale(overview.x_scale_copy));
+            overview.refreshElementState();
+            overview.isRefreshing = false;
+          });
+        }
       })
       .filter((event) => {
         return event.shiftKey || !(event instanceof WheelEvent);
@@ -1752,8 +1762,9 @@ export class OverviewComponent
 
     let nodes = repo_g.selectAll(".commit").nodes();
     nodes.sort((a: any, b: any) => {
-      let aDatum = d3.select(a).datum() as Commit[];
-      let bDatum = d3.select(b).datum() as Commit[];
+      let aDatum = a.__data__ as Commit[];
+      let bDatum = b.__data__ as Commit[];
+      if (!aDatum || !aDatum[0] || !bDatum || !bDatum[0]) return 0;
       return aDatum[0].commitDate.getTime() - bDatum[0].commitDate.getTime();
     });
 
@@ -1841,7 +1852,7 @@ export class OverviewComponent
     let zoomChanged = this.last_zoom_k !== (this.current_zoom ? this.current_zoom.k : 1);
     
     if (zoomChanged) {
-      this.updateCommitGroups();
+      this.throttledUpdateCommitGroups();
       this.last_zoom_k = this.current_zoom ? this.current_zoom.k : 1;
     }
     
@@ -1851,26 +1862,43 @@ export class OverviewComponent
     this.updateDisplayModes();
   }
 
+  private throttledUpdateCommitGroups() {
+    if (this.isThrottledGroupUpdate) {
+      this.needsGroupUpdate = true;
+      return;
+    }
+    this.isThrottledGroupUpdate = true;
+    this.needsGroupUpdate = false;
+    this.updateCommitGroups();
+
+    setTimeout(() => {
+      this.isThrottledGroupUpdate = false;
+      if (this.needsGroupUpdate) {
+        this.throttledUpdateCommitGroups();
+      }
+    }, 100); // 100ms throttle
+  }
+
   private updateNodesVisibilityAndTransforms() {
-    if (!this.repository_g) return;
+    if (!this.repository_g || !this.repositories_g) return;
     
-    const containerRect = (d3.select(".chart-container") as any).node().getBoundingClientRect();
+    const overview = this;
+    const padding = 100; // pixels of margin before hiding
     
     this.repositories_g.forEach((repo_g) => {
-      repo_g.selectAll(".commit").each(function () {
-        let nodeRect = (repo_g.node() as any).getBoundingClientRect();
-        const nodeVisible =
-          nodeRect.right >= containerRect.left && nodeRect.left <= containerRect.right &&
-          nodeRect.bottom >= containerRect.top && nodeRect.top <= containerRect.bottom;
-        d3.select(this).classed("hidden", !nodeVisible);
+      repo_g.selectAll(".commit").classed("hidden", (commits: Commit[]) => {
+        if (!commits || !commits[0]) return false;
+        let x = overview.xScaledTimeZoned(commits[0].commitDate);
+        return x < -padding || x > overview.width + padding;
       });
 
-      repo_g.selectAll(".commit:not(.hidden)").attr("transform", (commits: Commit[]) =>
-        `translate(${this.xScaledTimeZoned(commits[0].commitDate)}, 0)`
-      );
+      repo_g.selectAll(".commit:not(.hidden)").attr("transform", (commits: Commit[]) => {
+        if (!commits || !commits[0]) return "";
+        return `translate(${overview.xScaledTimeZoned(commits[0].commitDate)}, 0)`;
+      });
 
-      const overview = this;
       repo_g.selectAll(".commit-group:not(.hidden)").each(function(commits: Commit[]) {
+        if (!commits || !commits[0]) return;
         let g = d3.select(this);
         let path = g.select("path");
         if (!path.empty()) {
