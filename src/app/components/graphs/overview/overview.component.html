@@ -123,9 +123,9 @@
                 (mouseleave)="onModeMouseLeave('opacity')"
                 [appTooltip]="{ text: ('DISPLAY-MODE.OPACITY' | translate) }">
           <svg class="icon-opacity" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle class="op-outer" cx="12" cy="12" r="10" fill="currentColor"></circle>
-            <circle class="op-mid" cx="12" cy="12" r="6" fill="currentColor"></circle>
-            <circle class="op-inner" cx="12" cy="12" r="2" fill="currentColor"></circle>
+            <rect class="op-outer" fill="currentColor"></rect>
+            <rect class="op-mid" fill="currentColor"></rect>
+            <rect class="op-inner" fill="currentColor"></rect>
           </svg>
         </button>
         <button type="button" class="btn btn-outline-ghost anim-scale-hover" 

@@ -1279,14 +1279,22 @@
 
 /* Opacity */
 .icon-opacity {
-  circle {
-    transition: r 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+  rect {
+    transition: x 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                y 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                rx 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
                 stroke-opacity 0.4s ease,
                 fill-opacity 0.4s ease;
     transform-origin: 12px 12px;
   }
   .op-outer, .op-mid, .op-inner {
-    r: 8px;
+    x: 4px;
+    y: 4px;
+    width: 16px;
+    height: 16px;
+    rx: 4px;
     stroke-opacity: 1;
     fill-opacity: 1;
   }
@@ -1327,9 +1335,9 @@ input[type="checkbox"]:checked + .chip-content,
     .d3 { transform: translateY(-2px); }
   }
   .icon-opacity {
-    .op-outer { r: 10px; stroke-opacity: 0.3; fill-opacity: 0.3; }
-    .op-mid { r: 6px; stroke-opacity: 0.7; fill-opacity: 0.7; }
-    .op-inner { r: 2px; stroke-opacity: 1; fill-opacity: 1; }
+    .op-outer { x: 2px; y: 2px; width: 20px; height: 20px; rx: 6px; stroke-opacity: 0.3; fill-opacity: 0.3; }
+    .op-mid { x: 6px; y: 6px; width: 12px; height: 12px; rx: 4px; stroke-opacity: 0.7; fill-opacity: 0.7; }
+    .op-inner { x: 10px; y: 10px; width: 4px; height: 4px; rx: 1px; stroke-opacity: 1; fill-opacity: 1; }
   }
   .icon-height {
     .bar-1 { y: 10px; height: 4px; }
@@ -1359,7 +1367,7 @@ input[type="checkbox"]:checked + .chip-content,
     .d3 { transform: none; }
   }
   .icon-opacity {
-    .op-outer, .op-mid, .op-inner { r: 8px; stroke-opacity: 1; fill-opacity: 1; }
+    .op-outer, .op-mid, .op-inner { x: 4px; y: 4px; width: 16px; height: 16px; rx: 4px; stroke-opacity: 1; fill-opacity: 1; }
   }
   .icon-height {
     .bar-1 { y: 10px; height: 4px; }
