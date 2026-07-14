@@ -178,5 +178,16 @@ export class Utils {
     },
     required: ["title", "questions", "repositories"],
   };
+  static getCssVariable(variableName: string): string {
+    if (!variableName) return variableName;
+    let varName = variableName.trim();
+    if (varName.startsWith("var(")) {
+      varName = varName.substring(4, varName.length - 1).trim();
+    }
+    if (varName.startsWith("--")) {
+      return getComputedStyle(document.body).getPropertyValue(varName).trim() || variableName;
+    }
+    return variableName;
+  }
   constructor() {}
 }

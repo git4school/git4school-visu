@@ -425,9 +425,9 @@ ${this.getCommitHistoryQueryFragment(
     colors.forEach((color) => {
       data.push({
         label: color.label,
-        backgroundColor: color.color,
-        hoverBackgroundColor: color.color,
-        borderColor: "grey",
+        backgroundColor: Utils.getCssVariable(color.color),
+        hoverBackgroundColor: Utils.getCssVariable(color.color),
+        borderColor: Utils.getCssVariable("var(--color-border)"),
         data: questions.map((question) => {
           return {
             y: dict[question][color.label].percentage,
@@ -537,9 +537,9 @@ ${this.getCommitHistoryQueryFragment(
       datalabels: {
         display: true,
       },
-      borderColor: "lightblue",
-      hoverBackgroundColor: "lightblue",
-      backgroundColor: "lightblue",
+      borderColor: Utils.getCssVariable("var(--color-info)"),
+      hoverBackgroundColor: Utils.getCssVariable("var(--color-info)"),
+      backgroundColor: Utils.getCssVariable("var(--color-info)"),
       data: Object.entries(dict).map((studentData) => {
         return {
           y: studentData[1]["commitsCount"],
@@ -551,7 +551,7 @@ ${this.getCommitHistoryQueryFragment(
 
     data.push({
       label: "Question progression",
-      borderColor: "blue",
+      borderColor: Utils.getCssVariable("var(--color-primary)"),
       type: "line",
       fill: false,
       hitRadius: 0,
@@ -571,9 +571,9 @@ ${this.getCommitHistoryQueryFragment(
     colors.forEach((color) => {
       data.push({
         label: color.label,
-        backgroundColor: color.color,
-        hoverBackgroundColor: color.color,
-        borderColor: "grey",
+        backgroundColor: Utils.getCssVariable(color.color),
+        hoverBackgroundColor: Utils.getCssVariable(color.color),
+        borderColor: Utils.getCssVariable("var(--color-border)"),
         yAxisID: "A",
         data: Object.entries(dict).map((student) => {
           return {

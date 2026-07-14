@@ -255,10 +255,10 @@ export class QuestionsCompletionComponent
   getGridLines(): any {
     let index = 10 - this.dataService.barIndex;
     let lineWidth = new Array(11).fill(1);
-    let color = new Array(11).fill("rgba(0, 0, 0, 0.1)");
+    let color = new Array(11).fill(Utils.getCssVariable("var(--color-border)"));
 
     lineWidth[index] = 5;
-    color[index] = CommitColor.AFTER.color;
+    color[index] = Utils.getCssVariable(CommitColor.AFTER.color);
 
     return {
       lineWidth: lineWidth,
