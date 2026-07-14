@@ -117,22 +117,28 @@
       <div class="btn-group" role="group">
         <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
                 [class.active]="displayModes.opacity" 
+                [class.show-hover]="modeHoverState['opacity'].isHovered && !modeHoverState['opacity'].wasClicked"
                 (click)="toggleDisplayMode('opacity')"
+                (mouseenter)="onModeMouseEnter('opacity')"
+                (mouseleave)="onModeMouseLeave('opacity')"
                 [appTooltip]="{ text: ('DISPLAY-MODE.OPACITY' | translate) }">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" stroke-opacity="0.3" fill="currentColor" fill-opacity="0.3"></circle>
-            <circle cx="12" cy="12" r="6" stroke-opacity="0.7" fill="currentColor" fill-opacity="0.7"></circle>
-            <circle cx="12" cy="12" r="2" stroke-opacity="1" fill="currentColor"></circle>
+          <svg class="icon-opacity" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle class="op-outer" cx="12" cy="12" r="10" fill="currentColor"></circle>
+            <circle class="op-mid" cx="12" cy="12" r="6" fill="currentColor"></circle>
+            <circle class="op-inner" cx="12" cy="12" r="2" fill="currentColor"></circle>
           </svg>
         </button>
         <button type="button" class="btn btn-outline-ghost anim-scale-hover" 
                 [class.active]="displayModes.height" 
+                [class.show-hover]="modeHoverState['height'].isHovered && !modeHoverState['height'].wasClicked"
                 (click)="toggleDisplayMode('height')"
+                (mouseenter)="onModeMouseEnter('height')"
+                (mouseleave)="onModeMouseLeave('height')"
                 [appTooltip]="{ text: ('DISPLAY-MODE.HEIGHT' | translate) }">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="10" width="4" height="4" fill="currentColor"></rect>
-            <rect x="10" y="7" width="4" height="10" fill="currentColor"></rect>
-            <rect x="17" y="4" width="4" height="16" fill="currentColor"></rect>
+          <svg class="icon-height" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect class="bar-1" x="3" y="10" width="4" height="4" fill="currentColor"></rect>
+            <rect class="bar-2" x="10" y="7" width="4" height="10" fill="currentColor"></rect>
+            <rect class="bar-3" x="17" y="4" width="4" height="16" fill="currentColor"></rect>
           </svg>
         </button>
         <button type="button" class="btn btn-outline-ghost anim-scale-hover" 

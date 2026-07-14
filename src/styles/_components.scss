@@ -1277,6 +1277,32 @@
   .d3 { transition-delay: 0.1s; }
 }
 
+/* Opacity */
+.icon-opacity {
+  circle {
+    transition: r 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                stroke-opacity 0.4s ease,
+                fill-opacity 0.4s ease;
+    transform-origin: 12px 12px;
+  }
+  .op-outer, .op-mid, .op-inner {
+    r: 8px;
+    stroke-opacity: 1;
+    fill-opacity: 1;
+  }
+}
+
+/* Height */
+.icon-height {
+  rect {
+    transition: y 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .bar-1 { y: 10px; height: 4px; }
+  .bar-2 { y: 10px; height: 4px; }
+  .bar-3 { y: 10px; height: 4px; }
+}
+
 /* Active & Hover States */
 /* Baseline ON state & Hover Preview Unchecked */
 input[type="checkbox"]:checked + .chip-content,
@@ -1300,6 +1326,16 @@ input[type="checkbox"]:checked + .chip-content,
     .d2 { transform: translateY(2px); }
     .d3 { transform: translateY(-2px); }
   }
+  .icon-opacity {
+    .op-outer { r: 10px; stroke-opacity: 0.3; fill-opacity: 0.3; }
+    .op-mid { r: 6px; stroke-opacity: 0.7; fill-opacity: 0.7; }
+    .op-inner { r: 2px; stroke-opacity: 1; fill-opacity: 1; }
+  }
+  .icon-height {
+    .bar-1 { y: 10px; height: 4px; }
+    .bar-2 { y: 7px; height: 10px; }
+    .bar-3 { y: 4px; height: 16px; }
+  }
 }
 
 /* Hover Preview Checked -> Revert to OFF */
@@ -1321,6 +1357,14 @@ input[type="checkbox"]:checked + .chip-content,
     .d1 { transform: none; }
     .d2 { transform: none; }
     .d3 { transform: none; }
+  }
+  .icon-opacity {
+    .op-outer, .op-mid, .op-inner { r: 8px; stroke-opacity: 1; fill-opacity: 1; }
+  }
+  .icon-height {
+    .bar-1 { y: 10px; height: 4px; }
+    .bar-2 { y: 10px; height: 4px; }
+    .bar-3 { y: 10px; height: 4px; }
   }
 }
 

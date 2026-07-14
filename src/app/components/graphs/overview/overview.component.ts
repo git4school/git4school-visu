@@ -152,6 +152,22 @@ export class OverviewComponent
   dragTimeIndicator: d3.Selection<any, any, any, any>;
   ////////////////////////
 
+  public modeHoverState: any = {
+    opacity: { isHovered: false, wasClicked: false },
+    height: { isHovered: false, wasClicked: false },
+    text: { isHovered: false, wasClicked: false },
+  };
+
+  onModeMouseEnter(mode: string) {
+    this.modeHoverState[mode].isHovered = true;
+    this.modeHoverState[mode].wasClicked = false;
+  }
+
+  onModeMouseLeave(mode: string) {
+    this.modeHoverState[mode].isHovered = false;
+    this.modeHoverState[mode].wasClicked = false;
+  }
+
   public markerHoverState: any = {
     sessions: { isHovered: false, wasClicked: false },
     corrections: { isHovered: false, wasClicked: false },
@@ -2086,6 +2102,7 @@ export class OverviewComponent
 
   toggleDisplayMode(mode: 'opacity' | 'height' | 'text') {
     this.displayModes[mode] = !this.displayModes[mode];
+    this.modeHoverState[mode].wasClicked = true;
     localStorage.setItem('commitDisplayModes', JSON.stringify(this.displayModes));
     this.refreshElementState();
   }
