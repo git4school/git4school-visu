@@ -140,6 +140,8 @@ export class OverviewComponent
   scrollable_height: number;
   private resizeObserver: any;
   private resizeTimeout: any;
+  private last_zoom_k: number = 0;
+  private zoomTimeoutId: any = null;
 
   isDraggingMilestone = false;
   hasMovedDuringDrag = false;
@@ -1345,16 +1347,18 @@ export class OverviewComponent
     let end_x = this.xScaledTimeZoned(last.commitDate);
     
     let actualWidth = end_x - begin_x;
-    let minWidth = 1.5 * OverviewComponent.CIRCLE_RADIUS; // 18px
+    let minWidth = 10; // Reduced from 14
     let width = Math.max(actualWidth, minWidth);
     
-    // Centering the minimum width box over the actual width
-    let offset = - (width - actualWidth) / 2;
+    let arcRadius = height / 2;
+    let extraWidth = last.isCloture ? arcRadius : 0;
+    
+    // Centers the visual shape (including the arc) over the actual commit span.
+    let visualWidth = width + extraWidth;
+    let offset = (actualWidth - visualWidth) / 2;
 
     if (last.isCloture) {
-      return `M ${offset} 0 h ${width} a ${OverviewComponent.CIRCLE_RADIUS} ${
-        OverviewComponent.CIRCLE_RADIUS
-      } 0 0 1 0 ${height} H ${offset} z`;
+      return `M ${offset} 0 h ${width} a ${arcRadius} ${arcRadius} 0 0 1 0 ${height} H ${offset} z`;
     } else {
       return `M ${offset} 0 h ${width} v ${height} H ${offset} z`;
     }
@@ -1368,7 +1372,7 @@ export class OverviewComponent
       (a, b) => a.commitDate.getTime() - b.commitDate.getTime()
     );
 
-    let g = parent.append("g").datum(sorted);
+    let g = parent.insert("g", ".commit:not(.commit-group)").datum(sorted);
 
     let begin_x = this.xScaledTimeZoned(sorted[0].commitDate);
     let end_x = this.xScaledTimeZoned(sorted[sorted.length - 1].commitDate);
@@ -1420,7 +1424,7 @@ export class OverviewComponent
     if (group == null) {
       let x = this.xScaledTimeZoned(commit.commitDate);
 
-      g = parent.append("g").datum([commit]);
+      g = parent.insert("g", ".commit:not(.commit-group)").datum([commit]);
 
       g.attr("class", "commit-group")
         .append("path")
@@ -1711,44 +1715,50 @@ export class OverviewComponent
 
   refreshRepoBySplittingGroup(repo_g) {
     const overview = this;
-    repo_g.selectAll(".commit-group:not(.hidden)").each(function () {
+    let didSplit = false;
+    repo_g.selectAll(".commit-group").each(function () {
       let g = d3.select(this);
-      let range = Number.parseInt(g.attr("group_range"));
-      let date = Number.parseInt(g.attr("after_date"));
+      let commits = g.datum() as Commit[];
+      
+      let needsSplit = false;
+      for (let i = 0; i < commits.length - 1; i++) {
+        if (!overview.shouldGroupCommit(commits[i], commits[i+1])) {
+          needsSplit = true;
+          break;
+        }
+      }
 
-      let range_in_pixel =
-        overview.xScaledTimeZoned(new Date(range + date)) -
-        overview.xScaledTimeZoned(new Date(date));
-
-      if (range_in_pixel >= Utils.COMMIT_FUSE_RANGE) {
+      if (needsSplit) {
+        didSplit = true;
         if (overview.hovered_g === g) {
           overview.hovered_g = undefined;
           overview.hovered_group_commit = undefined;
         }
         let before = undefined;
-        let commits = g.datum() as Commit[];
         g.remove();
         commits.forEach((commit) => {
           before = overview.getCommitComponent(repo_g, commit, before);
         });
       }
     });
+    return didSplit;
   }
 
-  refreshRepoByGrouping(repo_g) {
+  refreshRepoByGrouping(repo_g, didSplit: boolean = false) {
     const overview = this;
     let before = undefined;
     let toCommit = [];
     let toRemove = [];
 
-    repo_g
-      .selectAll(".commit:not(.hidden)")
-      .sort(
-        (a: Commit[], b: Commit[]) =>
-          a[0].commitDate.getTime() - b[0].commitDate.getTime()
-      )
-      .each(function (commit: Commit[]) {
-        let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
+    let nodes = repo_g.selectAll(".commit").nodes();
+    nodes.sort((a: any, b: any) => {
+      let aDatum = d3.select(a).datum() as Commit[];
+      let bDatum = d3.select(b).datum() as Commit[];
+      return aDatum[0].commitDate.getTime() - bDatum[0].commitDate.getTime();
+    });
+
+    d3.selectAll(nodes).each(function (commit: Commit[]) {
+      let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
 
         if (before == null) {
           before = g;
@@ -1768,14 +1778,23 @@ export class OverviewComponent
           before.attr("before_date", before_date);
           before.attr("after_date", after_date);
         } else before = g;
-      })
-      .sort(
-        (a: Commit[], b: Commit[]) =>
-          a[0].commitDate.getTime() - b[0].commitDate.getTime()
-      );
+      });
 
     toRemove.forEach((g) => g.remove());
     toCommit.forEach((g) => g.classed("commit", true));
+
+    let changed = toRemove.length > 0 || toCommit.length > 0;
+    if (changed || didSplit) {
+      // Sort commit groups so right groups (higher date) are drawn first, and left groups on top
+      repo_g.selectAll(".commit-group").sort((a: Commit[], b: Commit[]) => {
+        let aDate = a[0] ? a[0].commitDate.getTime() : 0;
+        let bDate = b[0] ? b[0].commitDate.getTime() : 0;
+        return bDate - aDate;
+      });
+
+      // Ensure individual commits stay on top of everything
+      repo_g.selectAll(".commit:not(.commit-group)").raise();
+    }
   }
 
   onBrush(event) {
@@ -1819,12 +1838,17 @@ export class OverviewComponent
 
     if (!this.repositories_g) return;
 
-    this.updateCommitGroups();
+    let zoomChanged = this.last_zoom_k !== (this.current_zoom ? this.current_zoom.k : 1);
+    
+    if (zoomChanged) {
+      this.updateCommitGroups();
+      this.last_zoom_k = this.current_zoom ? this.current_zoom.k : 1;
+    }
+    
     this.updateConnectingLines();
     this.updateSessionsTransforms();
     this.updateMilestoneTransforms();
     this.updateDisplayModes();
-    this.raiseIndividualCommits();
   }
 
   private updateNodesVisibilityAndTransforms() {
@@ -1844,6 +1868,15 @@ export class OverviewComponent
       repo_g.selectAll(".commit:not(.hidden)").attr("transform", (commits: Commit[]) =>
         `translate(${this.xScaledTimeZoned(commits[0].commitDate)}, 0)`
       );
+
+      const overview = this;
+      repo_g.selectAll(".commit-group:not(.hidden)").each(function(commits: Commit[]) {
+        let g = d3.select(this);
+        let path = g.select("path");
+        if (!path.empty()) {
+          path.attr("d", overview.getCommitGroupPathD(commits[0], commits[commits.length - 1], OverviewComponent.GROUP_HEIGHT));
+        }
+      });
     });
   }
 
@@ -1856,8 +1889,10 @@ export class OverviewComponent
   }
 
   private updateCommitGroups() {
-    this.repositories_g.forEach((repo_g) => this.refreshRepoBySplittingGroup(repo_g));
-    this.repositories_g.forEach((repo_g) => this.refreshRepoByGrouping(repo_g));
+    this.repositories_g.forEach((repo_g) => {
+      let split = this.refreshRepoBySplittingGroup(repo_g);
+      this.refreshRepoByGrouping(repo_g, split);
+    });
   }
 
   private updateConnectingLines() {
@@ -1900,7 +1935,7 @@ export class OverviewComponent
     
     if (this.displayModes.opacity || this.displayModes.height) {
       this.repositories_g.forEach((repo_g) => {
-        repo_g.selectAll(".commit").each(function() {
+        repo_g.selectAll(".commit-group").each(function() {
           let commits = d3.select(this).datum() as Commit[];
           if (commits && commits.length > 1) {
              if (commits.length > maxGroupCommits) maxGroupCommits = commits.length;
@@ -1916,7 +1951,7 @@ export class OverviewComponent
 
   private applyGroupDisplayModes(repo_g: any, minGroupCommits: number, maxGroupCommits: number) {
     const overview = this;
-    repo_g.selectAll(".commit:not(.hidden)").each(function() {
+    repo_g.selectAll(".commit-group:not(.hidden)").each(function() {
       let g = d3.select(this);
       let commits = g.datum() as Commit[];
       if (commits.length <= 1) return;
@@ -1972,11 +2007,7 @@ export class OverviewComponent
     }
   }
 
-  private raiseIndividualCommits() {
-    this.repositories_g.forEach((repo_g) => {
-      repo_g.selectAll(".commit:not(.commit-group)").raise();
-    });
-  }
+
 
   toggleDrag() {
     this.drag = !this.drag;
