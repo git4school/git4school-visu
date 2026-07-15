@@ -201,7 +201,8 @@
       "INTERMEDIATE": "Commit intermédiaire",
       "BEFORE": "Avant la revue",
       "BETWEEN": "Entre la revue et la correction",
-      "AFTER": "Après la correction"
+      "AFTER": "Après la correction",
+      "NOCOMMIT": "Non terminé"
     },
     "MODAL": {
       "TITLE-CREATE": "Créer un jalon",
@@ -268,6 +269,7 @@
   "STUDENT": "Etudiant",
   "QUESTION": "Question",
   "QUESTIONS": "Questions",
+  "LAST-CLOSED-QUESTION": "Dernière question résolue",
   "EDIT-REPOSITORIES": {
     "SELECTED-REPOSITORIES": "dépôt(s) sélectionné(s)",
     "HEADER": "Configuration des dépôts",
@@ -474,5 +476,8 @@
     "OPACITY": "Mode Opacité (Densité)",
     "HEIGHT": "Mode Hauteur (Densité)",
     "TEXT": "Mode Texte (Nombre exact)"
-  }
+  },
+  "PERCENT-COMMITS": "% des commits",
+  "QUESTIONS": "Questions",
+  "STUDENTS": "Étudiant·es"
 }

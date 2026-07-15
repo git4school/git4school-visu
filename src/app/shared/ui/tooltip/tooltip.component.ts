@@ -17,6 +17,7 @@ export class TooltipComponent implements OnInit {
   @Input() content: string | TemplateRef<any> = "";
   @Input() placement: "top" | "bottom" | "left" | "right" = "top";
   @Input() shortcutKeys?: string[];
+  @Input() context?: any;
 
   show = false;
   shortcutPressed = false;

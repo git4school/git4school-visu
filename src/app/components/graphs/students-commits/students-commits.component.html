@@ -49,20 +49,85 @@
         </svg>
       </div>
     </button>
-  </div>
 
-  <div class="graph-wrapper d-flex flex-column" style="flex: 1; position: relative; padding: 1rem;">
-    <div class="chart-container" style="flex: 1; min-height: 400px; position: relative;">
-      <canvas #myChart id="myChart" baseChart [chartType]="'bar'" [datasets]="chartData" [options]="chartOptions" [labels]="chartLabels" [legend]="true">
-      </canvas>
-    </div>
-    <div class="d-flex justify-content-end align-items-center mt-2">
-      <span class="text-muted small bg-surface rounded-pill px-3 py-1 border shadow-sm d-flex align-items-center" style="font-size: 0.85rem;">
+    <div class="d-flex align-items-center ml-auto">
+      <span class="text-muted small bg-surface rounded-pill px-3 py-1 border shadow-sm d-flex align-items-center date-display" style="font-size: 0.85rem;">
         <i class="fas fa-clock mr-2" style="color: var(--color-primary);"></i>
-        {{ date | date:'full':undefined:translateService.currentLang }}
+        <span class="date-full">{{ date | date:'full':undefined:translateService.currentLang }}</span>
+        <span class="date-short">{{ date | date:'medium':undefined:translateService.currentLang }}</span>
       </span>
     </div>
   </div>
+
+  <div class="graph-wrapper d-flex flex-column" style="flex: 1; position: relative;">
+    <!-- Chart -->
+    <div #chartContainer class="chart-container" style="flex: 1; min-height: 0; position: relative; width: 100%; overflow: hidden;">
+    </div>
+
+    <!-- Legend -->
+    <div *ngIf="themeService.showLegend && chartData?.length > 0" class="legend-floating-container" [class.invisible]="loading">
+      <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" [autoClose]="'outside'" (mouseleave)="legendDropdown.close()">
+        <button class="btn legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>
+          <i class="fas fa-info" style="min-width: 14px;"></i>
+          <span class="legend-text">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</span>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="legendDropup" class="modern-dropdown-menu p-3" style="min-width: 250px; font-size: 0.85rem; line-height: 1.8;">
+          <h6 class="dropdown-header px-0 mb-2" style="font-weight: 600;">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</h6>
+          
+          <div *ngFor="let color of commitColors" 
+               class="d-flex align-items-center mb-2" 
+               style="cursor: pointer; user-select: none; transition: opacity 0.2s;"
+               [style.opacity]="hiddenCategories.has(color.label) ? '0.4' : '1'"
+               (click)="toggleCategory(color.label)">
+            <span style="display: inline-block; width: 30px; height: 12px; margin-right: 10px; border-radius: 2px;"
+                  [style.background-color]="color.color"></span>
+            <span style="color: var(--color-text-secondary)">{{ color.labelKey | translate }}</span>
+          </div>
+
+          <div class="dropdown-divider my-2"></div>
+          
+          <div class="d-flex align-items-center" style="cursor: pointer; user-select: none; transition: opacity 0.2s;"
+               [style.opacity]="showProgressionLine ? '1' : '0.4'"
+               (click)="toggleProgressionLine()">
+            <svg width="24" height="12" style="margin-right: 12px;">
+              <line x1="0" y1="6" x2="24" y2="6" stroke="var(--color-primary)" stroke-width="2"></line>
+              <circle cx="12" cy="6" r="4" fill="var(--color-surface)" stroke="var(--color-primary)" stroke-width="2"></circle>
+            </svg>
+            <span style="color: var(--color-text-secondary)">{{ ('QUESTION' | translate) + ' progression' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #d3TooltipTemplate let-tooltipData="tooltipData">
+  <div *ngIf="tooltipData" style="min-width: 250px; padding: 0.5rem;">
+    <div class="d-flex align-items-center mb-3 pb-2" style="border-bottom: 1px solid var(--color-border); gap: 10px;">
+      <div class="header-icon" style="font-size: 1.5rem; color: var(--color-primary);">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <div class="header-content d-flex flex-column" style="min-width: 0; flex: 1;">
+        <div class="marquee-container" style="max-width: 250px; padding-bottom: 2px;">
+          <span class="header-title font-weight-bold marquee-content" style="font-size: 1rem;">{{ tooltipData.student }}</span>
+        </div>
+        <span class="header-subtitle text-primary" style="font-size: 0.85rem;">{{ tooltipData.lastQuestionDone ? ('LAST-CLOSED-QUESTION' | translate) + ' : ' + tooltipData.lastQuestionDone : '' }}</span>
+      </div>
+    </div>
+    <div class="modern-tooltip-body">
+      <div class="stat-row mb-2 pb-2" style="border-bottom: 1px solid var(--color-border);">
+        <span class="stat-label">{{ 'COMMITS-COUNT' | translate }}</span>
+        <span class="stat-value" style="font-size: 1rem;">{{ tooltipData.commitsCount }}</span>
+      </div>
+      <div class="stat-row" *ngFor="let stat of tooltipData.stats">
+        <span class="stat-label d-flex align-items-center">
+          <span class="color-dot mr-2" [style.backgroundColor]="stat.color"></span>
+          {{ stat.labelKey | translate }}
+        </span>
+        <span class="stat-value font-weight-normal">{{ stat.count }} ({{ stat.percentage | number:'1.0-2' }}%)</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <ng-template #dateTooltip>{{ 'DATE' | translate }}</ng-template>

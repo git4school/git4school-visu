@@ -74,15 +74,17 @@
                         </div>
                     </div>
 
-                    <div class="repo-details">
-                        <div class="repo-name">
-                            {{ group.get('name').value || ('EDIT-REPOSITORIES.NEW-REPOSITORY' | translate) }}
-                            <button *ngIf="group.get('errors').value.length > 0" class="btn btn-outline-danger error-btn"
-                                    [appTooltip]="getErrorTooltip(group.get('errors').value)">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </button>
+                    <div class="repo-details" style="margin-right: 1rem;">
+                        <div class="repo-name marquee-container" style="max-width: 100%;">
+                            <span class="marquee-content d-flex align-items-center gap-2">
+                                {{ group.get('name').value || ('EDIT-REPOSITORIES.NEW-REPOSITORY' | translate) }}
+                                <button *ngIf="group.get('errors').value.length > 0" class="btn btn-outline-danger error-btn ml-2"
+                                        [appTooltip]="getErrorTooltip(group.get('errors').value)">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </button>
+                            </span>
                         </div>
-                        <a class="repo-url" [href]="group.get('url').value" target="_blank" (click)="$event.stopPropagation()">
+                        <a class="repo-url" [href]="group.get('url').value" target="_blank" (click)="$event.stopPropagation()" style="margin-top: 0.25rem;">
                             {{ group.get('url').value }}
                             <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>

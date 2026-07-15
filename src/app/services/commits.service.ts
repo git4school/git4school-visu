@@ -417,28 +417,21 @@ ${this.getCommitHistoryQueryFragment(
    * Returns the data to use in the "questions-completion" graph
    * @param dict The data about questions
    * @param colors The commit colors to handle
-   * @param questions The quesitons to handle
-   * @returns A map with all the data needed by the "questions-completion" graph
+   * @param questions The questions to handle
+   * @returns An array of objects optimized for D3 stacking
    */
   loadQuestions(dict, colors, questions: string[], translations): any[] {
-    let data = [];
-    colors.forEach((color) => {
-      data.push({
-        label: color.label,
-        backgroundColor: Utils.getCssVariable(color.color),
-        hoverBackgroundColor: Utils.getCssVariable(color.color),
-        borderColor: Utils.getCssVariable("var(--color-border)"),
-        data: questions.map((question) => {
-          return {
-            y: dict[question][color.label].percentage,
-            data: dict[question][color.label],
-            translations,
-          };
-        }),
+    return questions.map((question) => {
+      let result: any = {
+        question: question,
+        translations: translations
+      };
+      colors.forEach((color) => {
+        result[color.label] = dict[question][color.label].percentage;
+        result[color.label + '_data'] = dict[question][color.label];
       });
+      return result;
     });
-
-    return data;
   }
 
   /**
@@ -522,70 +515,24 @@ ${this.getCommitHistoryQueryFragment(
    * Returns the data to use in the "students-commits" graph
    * @param dict The data about students
    * @param colors The commit colors to handle
-   * @returns A map with all the data needed by the "students-commits" graph
+   * @returns An array of objects optimized for D3 graphing
    */
   loadStudents(dict: Object, colors, translations): any[] {
-    let data = [];
-
-    data.push({
-      label: "# of commits",
-      yAxisID: "C",
-      type: "line",
-      pointHitRadius: 0,
-      fill: false,
-      borderWidth: 2,
-      datalabels: {
-        display: true,
-      },
-      borderColor: Utils.getCssVariable("var(--color-info)"),
-      hoverBackgroundColor: Utils.getCssVariable("var(--color-info)"),
-      backgroundColor: Utils.getCssVariable("var(--color-info)"),
-      data: Object.entries(dict).map((studentData) => {
-        return {
-          y: studentData[1]["commitsCount"],
-          data: studentData[1],
-          translations,
-        };
-      }),
-    });
-
-    data.push({
-      label: "Question progression",
-      borderColor: Utils.getCssVariable("var(--color-primary)"),
-      type: "line",
-      fill: false,
-      hitRadius: 0,
-      hoverRadius: 0,
-      datalabels: {
-        display: true,
-      },
-      yAxisID: "B",
-      data: Object.entries(dict).map((studentData) => {
-        return {
-          y: studentData[1]["lastQuestionDone"],
-          data: studentData[1],
-        };
-      }),
-    });
-
-    colors.forEach((color) => {
-      data.push({
-        label: color.label,
-        backgroundColor: Utils.getCssVariable(color.color),
-        hoverBackgroundColor: Utils.getCssVariable(color.color),
-        borderColor: Utils.getCssVariable("var(--color-border)"),
-        yAxisID: "A",
-        data: Object.entries(dict).map((student) => {
-          return {
-            y: student[1]["commitTypes"][color.label].percentage,
-            data: student[1]["commitTypes"][color.label],
-            translations,
-          };
-        }),
+    return Object.values(dict).map((studentData: any) => {
+      let result: any = {
+        student: studentData.name,
+        commitsCount: studentData.commitsCount,
+        lastQuestionDone: studentData.lastQuestionDone,
+        url: studentData.url,
+        tpGroup: studentData.tpGroup,
+        translations: translations
+      };
+      colors.forEach((color) => {
+        result[color.label] = studentData.commitTypes[color.label].percentage;
+        result[color.label + '_data'] = studentData.commitTypes[color.label];
       });
+      return result;
     });
-
-    return data;
   }
 
   /**

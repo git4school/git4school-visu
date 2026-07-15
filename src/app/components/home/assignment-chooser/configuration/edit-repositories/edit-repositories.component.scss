@@ -218,7 +218,6 @@
 
       .repo-name {
         font-weight: 600; color: var(--color-text-primary); font-size: 0.95rem; margin-bottom: 0.1rem;
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 0.5rem;
         .error-btn { padding: 0; background: transparent; border: none; line-height: 1; }
       }
 

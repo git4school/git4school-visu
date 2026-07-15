@@ -7,26 +7,31 @@ import { Type } from "class-transformer";
 export const CommitColor = {
   BEFORE: {
     label: "Before review",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.BEFORE",
     name: "green",
     color: "var(--color-success)",
   },
   BETWEEN: {
     label: "Between review and correction",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.BETWEEN",
     name: "orange",
     color: "var(--color-warning)",
   },
   AFTER: {
     label: "After correction",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.AFTER",
     name: "red",
     color: "var(--color-danger)",
   },
   INTERMEDIATE: {
     label: "Intermediate commit",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.INTERMEDIATE",
     name: "slate",
     color: "var(--color-commit-intermediate)",
   },
   NOCOMMIT: {
     label: "Not finished",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.NOCOMMIT",
     name: "muted",
     color: "var(--color-border)",
   },

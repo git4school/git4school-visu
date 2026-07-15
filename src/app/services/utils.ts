@@ -189,5 +189,13 @@ export class Utils {
     }
     return variableName;
   }
+  static truncateMiddle(str: string, maxLength: number): string {
+    if (!str || str.length <= maxLength) return str;
+    const charsToShow = Math.max(1, maxLength - 3);
+    const frontChars = Math.ceil(charsToShow / 2);
+    const backChars = Math.floor(charsToShow / 2);
+    return str.substring(0, frontChars) + '...' + str.substring(str.length - backChars);
+  }
+
   constructor() {}
 }

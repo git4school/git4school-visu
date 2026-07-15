@@ -1320,28 +1320,7 @@ export class OverviewComponent
         const maxW = leftSpace - 15;
         let textStr = this.textContent || "";
         
-        // Initial check if it exceeds width
-        if (this.getComputedTextLength() > maxW && textStr.length > 0) {
-          const canvas = document.createElement("canvas");
-          const context = canvas.getContext("2d");
-          if (context) {
-            let style = window.getComputedStyle(this);
-            context.font = style.fontSize + " " + style.fontFamily;
-            
-            let i = textStr.length;
-            while (context.measureText(textStr.substring(0, i) + "...").width > maxW && i > 0) {
-              i--;
-            }
-            this.textContent = textStr.substring(0, i) + "...";
-          } else {
-            // Fallback just in case canvas is not supported
-            let i = textStr.length;
-            while (this.getComputedTextLength() > maxW && i > 0) {
-              this.textContent = textStr.substring(0, i) + "...";
-              i--;
-            }
-          }
-        }
+        this.textContent = Utils.truncateMiddle(textStr, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
       })
       .on("mouseenter", function (event: MouseEvent, d: any) {
         event.stopPropagation();
@@ -1955,6 +1934,7 @@ export class OverviewComponent
   }
 
   private updateMilestoneVisibility() {
+    if (!this.chart_abs_g) return;
     const overview = this;
     this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
       let x = overview.xScaledTimeZoned(m.date);

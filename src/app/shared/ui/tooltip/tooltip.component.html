@@ -4,7 +4,7 @@
       <span [innerHTML]="content"></span>
     </ng-container>
     <ng-template #templateContent>
-      <ng-container [ngTemplateOutlet]="contentAsTemplate()"></ng-container>
+      <ng-container [ngTemplateOutlet]="contentAsTemplate()" [ngTemplateOutletContext]="context"></ng-container>
     </ng-template>
   </span>
   <span class="shortcut-badge" [class.shortcut-pressed-anim]="shortcutPressed" *ngIf="shortcutKeys?.length">

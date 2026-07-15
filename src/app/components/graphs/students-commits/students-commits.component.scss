@@ -5,3 +5,59 @@
   min-height: 0;
   width: 100%;
 }
+
+.modern-tooltip-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+
+  .header-icon {
+    margin-right: 8px;
+    color: var(--color-primary);
+  }
+
+  .header-content {
+    display: flex;
+    flex-direction: column;
+
+    .header-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--color-text-primary);
+    }
+
+    .header-subtitle {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.modern-tooltip-body {
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    gap: 1.5rem;
+
+    .stat-label {
+      font-weight: 500;
+      color: var(--color-text-primary);
+      font-size: 0.85rem;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      color: var(--color-text-primary);
+      font-size: 0.85rem;
+    }
+
+    .color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+}

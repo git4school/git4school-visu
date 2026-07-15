@@ -58,7 +58,8 @@ export class TooltipService {
     y: number,
     placement: "top" | "bottom" | "left" | "right" = "top",
     shortcutKeys?: string[],
-    instant: boolean = false
+    instant: boolean = false,
+    context?: any
   ) {
     this.hide();
 
@@ -66,7 +67,8 @@ export class TooltipService {
       this.tooltipComponentRef = this.createTooltipComponent(
         content,
         placement,
-        shortcutKeys
+        shortcutKeys,
+        context
       );
 
       // Simulate a rect for position calculation
@@ -128,7 +130,8 @@ export class TooltipService {
   private createTooltipComponent(
     content: string | TemplateRef<any>,
     placement: "top" | "bottom" | "left" | "right",
-    shortcutKeys?: string[]
+    shortcutKeys?: string[],
+    context?: any
   ): ComponentRef<TooltipComponent> {
     const componentFactory =
       this.componentFactoryResolver.resolveComponentFactory(TooltipComponent);
@@ -138,6 +141,9 @@ export class TooltipService {
     componentRef.instance.placement = placement;
     if (shortcutKeys) {
       componentRef.instance.shortcutKeys = shortcutKeys;
+    }
+    if (context) {
+      componentRef.instance.context = context;
     }
 
     this.appRef.attachView(componentRef.hostView);

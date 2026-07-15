@@ -30,6 +30,9 @@ $spacing-map: (
   .px-#{$name} { padding-left: $size !important; padding-right: $size !important; }
   .py-#{$name} { padding-top: $size !important; padding-bottom: $size !important; }
   .pb-#{$name} { padding-bottom: $size !important; }
+
+  // Gaps
+  .gap-#{$name} { gap: $size !important; }
 }
 
 // Text Utilities
@@ -75,3 +78,22 @@ $spacing-map: (
   z-index: 1020;
 }
 
+/* Auto-scrolling marquee for long text */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  container-type: inline-size;
+}
+
+.marquee-content {
+  display: inline-block;
+  min-width: 100%;
+  width: max-content;
+  padding-right: 24px;
+  animation: marquee-scroll 4s ease-in-out infinite alternate;
+}
+
+@keyframes marquee-scroll {
+  0%, 15% { transform: translateX(0); }
+  85%, 100% { transform: translateX(min(0px, calc(100cqw - 100%))); }
+}
