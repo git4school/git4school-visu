@@ -496,20 +496,6 @@ export class QuestionsChooserComponent
     const item = this.items[index];
     const newValue = this.editingCurrentText.trim();
 
-    if (this.editingOldType === "question") {
-      const idx = this.questions.indexOf(this.editingOldValue);
-      if (idx !== -1) {
-        this.questions.splice(idx, 1);
-        this.questions = [...this.questions];
-      }
-    } else {
-      const idx = this.commitMessages.indexOf(this.editingOldValue);
-      if (idx !== -1) {
-        this.commitMessages.splice(idx, 1);
-        this.commitMessages = [...this.commitMessages];
-      }
-    }
-
     if (
       newValue === "" ||
       (this.mode !== "search" &&
@@ -517,6 +503,19 @@ export class QuestionsChooserComponent
           this.commitMessages.includes(newValue))) ||
       (this.mode === "choose" && !this.questionSuggestions.some((s) => s.toLowerCase() === newValue.toLowerCase()))
     ) {
+      if (this.editingOldType === "question") {
+        const idx = this.questions.indexOf(this.editingOldValue);
+        if (idx !== -1) {
+          this.questions.splice(idx, 1);
+          this.questions = [...this.questions];
+        }
+      } else {
+        const idx = this.commitMessages.indexOf(this.editingOldValue);
+        if (idx !== -1) {
+          this.commitMessages.splice(idx, 1);
+          this.commitMessages = [...this.commitMessages];
+        }
+      }
       this.items.splice(index, 1);
       if (this.selectedPillIndex >= this.items.length) {
         this.selectedPillIndex =
@@ -526,19 +525,54 @@ export class QuestionsChooserComponent
         }
       }
     } else {
-      const isSuggestion = this.questionSuggestions.some(
-        (s) => s.toLowerCase() === newValue.toLowerCase()
-      );
-      const newType = isSuggestion ? "question" : "commit";
+      let newType: "question" | "commit" = "question";
+      if (this.mode === "search") {
+        const isSuggestion = this.questionSuggestions.some(
+          (s) => s.toLowerCase() === newValue.toLowerCase()
+        );
+        if (!isSuggestion) {
+          newType = "commit";
+        }
+      } else if (this.mode === "choose") {
+        const isSuggestion = this.questionSuggestions.some(
+          (s) => s.toLowerCase() === newValue.toLowerCase()
+        );
+        newType = isSuggestion ? "question" : "commit";
+      }
+
       item.type = newType;
       item.value = newValue;
       item.isExclusion = this.editingIsExclusion;
       item.rawValue = newValue;
 
-      if (newType === "question") {
-        this.questions.push(newValue);
+      if (this.editingOldType === "question") {
+        const idx = this.questions.indexOf(this.editingOldValue);
+        if (idx !== -1) {
+          if (newType === "question") {
+            this.questions[idx] = newValue;
+            this.questions = [...this.questions];
+          } else {
+            this.questions.splice(idx, 1);
+            this.questions = [...this.questions];
+            this.commitMessages.push(newValue);
+          }
+        } else {
+          if (newType === "question") this.questions.push(newValue);
+        }
       } else {
-        this.commitMessages.push(newValue);
+        const idx = this.commitMessages.indexOf(this.editingOldValue);
+        if (idx !== -1) {
+          if (newType === "commit") {
+            this.commitMessages[idx] = newValue;
+            this.commitMessages = [...this.commitMessages];
+          } else {
+            this.commitMessages.splice(idx, 1);
+            this.commitMessages = [...this.commitMessages];
+            this.questions.push(newValue);
+          }
+        } else {
+          if (newType === "commit") this.commitMessages.push(newValue);
+        }
       }
     }
 
