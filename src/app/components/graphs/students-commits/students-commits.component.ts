@@ -32,6 +32,8 @@ export class StudentsCommitsComponent
   implements OnInit, OnDestroy
 {
   @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;
+  @ViewChild("leftAxisContainer", { static: true }) leftAxisContainer: ElementRef;
+  @ViewChild("rightAxisContainer", { static: true }) rightAxisContainer: ElementRef;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
 
   readonly slider_step = Utils.SLIDER_STEP;
@@ -41,6 +43,7 @@ export class StudentsCommitsComponent
   min: number;
   max: number;
   chartData: any[] = [];
+  chartMargin: any;
   
   commitColors = [
     CommitColor.INTERMEDIATE,
@@ -154,18 +157,34 @@ export class StudentsCommitsComponent
     this.drawGraph();
   }
 
+  updateBar() {
+    this.drawGraph();
+  }
+
+  onScroll(event: Event) {
+    // Left empty since CSS positioning takes over, but retained if needed
+  }
+
   drawGraph() {
     const element = this.chartContainer.nativeElement;
+    const leftElement = this.leftAxisContainer.nativeElement;
+    const rightElement = this.rightAxisContainer.nativeElement;
     d3.select(element).selectAll("*").remove();
+    d3.select(leftElement).selectAll("*").remove();
+    d3.select(rightElement).selectAll("*").remove();
 
     if (!this.chartData || this.chartData.length === 0) return;
 
     const margin = { top: 40, right: 80, bottom: 100, left: 60 };
-    const width = element.clientWidth - margin.left - margin.right;
+    const minBarWidth = 60;
+    const requiredWidth = this.chartData.length * minBarWidth;
+    const width = Math.max(element.clientWidth - margin.left - margin.right, requiredWidth);
     const height = element.clientHeight - margin.top - margin.bottom;
 
     if (width <= 0 || height <= 0) return;
 
+    this.chartMargin = margin;
+    
     this.svg = d3
       .select(element)
       .append("svg")
@@ -216,43 +235,77 @@ export class StudentsCommitsComponent
       .style("fill", "var(--color-text-primary)")
       .style("font-size", "11px");
 
-    // Left Y-Axis
-    this.svg
+    const svgLeft = d3.select(leftElement).append("svg")
+      .style("display", "block")
+      .attr("width", margin.left)
+      .attr("height", height + margin.top + margin.bottom)
+      .style("pointer-events", "none");
+
+    const leftPath = `M 0 0 L ${margin.left} 0 L ${margin.left} ${margin.top + height} L ${margin.left - margin.bottom} ${margin.top + height + margin.bottom} L 0 ${margin.top + height + margin.bottom} Z`;
+    svgLeft.append("path")
+      .attr("d", leftPath)
+      .attr("fill", "var(--color-bg-body)")
+      .style("pointer-events", "auto");
+
+    const leftG = svgLeft
       .append("g")
-      .call(d3.axisLeft(yLeft).ticks(10).tickFormat((d) => d + "%"))
+      .attr("transform", `translate(${margin.left},${margin.top})`)
+      .style("pointer-events", "auto");
+      
+    leftG.call(d3.axisLeft(yLeft).ticks(10).tickFormat((d) => d + "%"))
       .selectAll("text")
       .style("fill", "var(--color-text-primary)")
       .style("font-size", "11px");
+      
+    leftG.selectAll(".domain").remove();
+    leftG.selectAll(".tick line").remove();
 
     // Left Y-Axis Label
-    this.svg.append("text")
+    leftG.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left + 5)
+      .attr("y", 0 - 60 + 5)
       .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .style("fill", "var(--color-text-secondary)")
-      .style("font-size", "11px")
+      .style("font-size", "12px")
       .text(this.translateService.instant("PERCENT-COMMITS"));
 
-    // Right Y-Axis
-    this.svg
+    const svgRightWidth = margin.right + margin.bottom;
+    const svgRight = d3.select(rightElement).append("svg")
+      .style("display", "block")
+      .attr("width", svgRightWidth)
+      .attr("height", height + margin.top + margin.bottom)
+      .style("pointer-events", "none");
+
+    const rightPath = `M ${margin.bottom} 0 L ${svgRightWidth} 0 L ${svgRightWidth} ${margin.top + height + margin.bottom} L 0 ${margin.top + height + margin.bottom} L ${margin.bottom} ${margin.top + height} Z`;
+    svgRight.append("path")
+      .attr("d", rightPath)
+      .attr("fill", "var(--color-bg-body)")
+      .style("pointer-events", "auto");
+
+    const rightG = svgRight
       .append("g")
-      .attr("transform", `translate(${width}, 0)`)
-      .call(d3.axisRight(yRight))
+      .attr("transform", `translate(${margin.bottom},${margin.top})`)
+      .style("pointer-events", "auto");
+      
+    rightG.call(d3.axisRight(yRight))
       .selectAll("text")
       .style("fill", "var(--color-text-primary)")
       .style("font-size", "11px");
+      
+    rightG.selectAll(".domain").remove();
+    rightG.selectAll(".tick line").remove();
 
     // Right Y-Axis Label
-    this.svg.append("text")
+    rightG.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", width + margin.right - 5)
+      .attr("y", margin.right - 20)
       .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .style("fill", "var(--color-text-secondary)")
-      .style("font-size", "11px")
+      .style("font-size", "12px")
       .text(this.translateService.instant("QUESTIONS"));
 
     // Gridlines for left axis
@@ -281,13 +334,19 @@ export class StudentsCommitsComponent
       .attr("width", x.bandwidth() * 1.2)
       .attr("height", height)
       .style("fill", "transparent")
-      .on("mouseover", (event, d) => this.showTooltip(event, d, colors))
+      .on("mouseover", (event, d) => {
+        this.showTooltip(event, d, colors);
+        this.svg.selectAll("rect.bar").filter((rectD: any) => rectD.data.student === d.student).style("opacity", 0.8);
+      })
       .on("mousemove", (event) => {
         if (this.tooltipService.isShowing()) {
           this.tooltipService.moveTooltip(event.clientX, event.clientY, "right");
         }
       })
-      .on("mouseout", () => this.tooltipService.hide());
+      .on("mouseout", (event, d) => {
+        this.tooltipService.hide();
+        this.svg.selectAll("rect.bar").filter((rectD: any) => rectD.data.student === d.student).style("opacity", 1);
+      });
 
     // Draw Stacked Bars
     const visibleColors = colors.filter(c => !this.hiddenCategories.has(c.label));
@@ -313,7 +372,8 @@ export class StudentsCommitsComponent
         return isNaN(h) ? 0 : h;
       })
       .attr("width", x.bandwidth())
-      .style("pointer-events", "none");
+      .style("pointer-events", "none")
+      .style("transition", "opacity 0.2s");
 
     // Badges for total commits (on top of each bar)
     const badgeGroup = this.svg.append("g").attr("class", "badges");

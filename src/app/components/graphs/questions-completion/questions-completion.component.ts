@@ -32,6 +32,7 @@ export class QuestionsCompletionComponent
   implements OnInit, OnDestroy
 {
   @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;
+  @ViewChild("leftAxisContainer", { static: true }) leftAxisContainer: ElementRef;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
 
   readonly slider_step = Utils.SLIDER_STEP;
@@ -144,14 +145,16 @@ export class QuestionsCompletionComponent
 
   drawGraph() {
     const element = this.chartContainer.nativeElement;
+    const leftElement = this.leftAxisContainer.nativeElement;
     d3.select(element).selectAll("*").remove();
+    d3.select(leftElement).selectAll("*").remove();
 
-    if (!this.chartData || this.chartData.length === 0) {
-      return;
-    }
+    if (!this.chartData || this.chartData.length === 0) return;
 
     const margin = { top: 40, right: 30, bottom: 60, left: 60 };
-    const width = element.clientWidth - margin.left - margin.right;
+    const minBarWidth = 60;
+    const requiredWidth = this.chartData.length * minBarWidth;
+    const width = Math.max(element.clientWidth - margin.left - margin.right, requiredWidth);
     const height = element.clientHeight - margin.top - margin.bottom;
 
     if (width <= 0 || height <= 0) return;
@@ -197,17 +200,35 @@ export class QuestionsCompletionComponent
       .style("fill", "var(--color-text-primary)")
       .style("font-size", "12px");
 
-    this.svg
+    const svgLeft = d3.select(leftElement).append("svg")
+      .style("display", "block")
+      .attr("width", margin.left)
+      .attr("height", height + margin.top + margin.bottom)
+      .style("pointer-events", "none");
+
+    const leftPath = `M 0 0 L ${margin.left} 0 L ${margin.left} ${margin.top + height} L ${margin.left - margin.bottom} ${margin.top + height + margin.bottom} L 0 ${margin.top + height + margin.bottom} Z`;
+    svgLeft.append("path")
+      .attr("d", leftPath)
+      .attr("fill", "var(--color-bg-body)")
+      .style("pointer-events", "auto");
+
+    const leftG = svgLeft
       .append("g")
-      .call(d3.axisLeft(y).ticks(10).tickFormat((d) => d + "%"))
+      .attr("transform", `translate(${margin.left},${margin.top})`)
+      .style("pointer-events", "auto");
+      
+    leftG.call(d3.axisLeft(y).ticks(10).tickFormat((d) => d + "%"))
       .selectAll("text")
       .style("fill", "var(--color-text-primary)")
       .style("font-size", "12px");
+      
+    leftG.selectAll(".domain").remove();
+    leftG.selectAll(".tick line").remove();
 
     // Left Y-Axis Label
-    this.svg.append("text")
+    leftG.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left + 5)
+      .attr("y", 0 - 60 + 5)
       .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
@@ -263,7 +284,7 @@ export class QuestionsCompletionComponent
       .attr("width", x.bandwidth())
       .attr("rx", 2)
       .attr("ry", 2)
-      .style("cursor", "pointer")
+      .style("cursor", "default")
       .style("transition", "opacity 0.2s")
       .on("mouseover", (event, d) => {
         d3.select(event.currentTarget).style("opacity", 0.8);
@@ -344,6 +365,10 @@ export class QuestionsCompletionComponent
 
   updateBar() {
     this.drawGraph();
+  }
+
+  onScroll(event: Event) {
+    // Left empty since CSS positioning takes over, but retained if needed
   }
 
   changeBarIndex() {

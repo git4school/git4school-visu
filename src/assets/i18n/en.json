@@ -37,7 +37,7 @@
     "TITLE": "Settings",
     "NO-ASSIGNMENTS-DISCONNECTED": "Log in to see your assignments",
     "THEME": "Theme",
-    "SHOW-LEGEND": "Show overview graph legend",
+    "SHOW-LEGEND": "Show graphs legend",
     "HELP": "Help",
     "AUTH-LANG": "Language / Account",
     "RECENT-ASSIGNMENTS": "Recent assignments",
@@ -267,6 +267,7 @@
   "BAR-INDEX": "Bar index",
   "STUDENT": "Student",
   "QUESTION": "Question",
+  "QUESTION-PROGRESSION": "Question progression",
   "LAST-CLOSED-QUESTION": "Last closed question",
   "EDIT-REPOSITORIES": {
     "SELECTED-REPOSITORIES": "repository(ies) selected",

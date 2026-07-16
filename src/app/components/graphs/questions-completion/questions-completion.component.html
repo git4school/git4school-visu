@@ -69,8 +69,12 @@
   </div>
 
   <div class="graph-wrapper d-flex flex-column" style="flex: 1; position: relative;">
-    <!-- Chart -->
-    <div #chartContainer class="chart-container" style="flex: 1; min-height: 0; position: relative; width: 100%; overflow: hidden;">
+    <div class="d-flex" style="flex: 1; min-height: 0; width: 100%; position: relative;">
+      <!-- Left Axis -->
+      <div #leftAxisContainer style="position: absolute; left: 0; top: 0; bottom: 0; width: 60px; z-index: 10; pointer-events: none;"></div>
+      <!-- Chart -->
+      <div #chartContainer class="chart-container" style="flex: 1; min-height: 0; position: relative; width: 100%; overflow-x: auto; overflow-y: hidden;">
+      </div>
     </div>
 
     <!-- Legend -->

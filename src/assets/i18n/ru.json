@@ -37,7 +37,7 @@
     "TITLE": "Настройки",
     "NO-ASSIGNMENTS-DISCONNECTED": "Войдите, чтобы увидеть свои задания",
     "THEME": "Тема",
-    "SHOW-LEGEND": "Показать легенду обзорного графика",
+    "SHOW-LEGEND": "Показать легенду графиков",
     "HELP": "Помощь",
     "AUTH-LANG": "Язык / Аккаунт",
     "RECENT-ASSIGNMENTS": "Последние задания",
@@ -267,6 +267,7 @@
   "BAR-INDEX": "Индекс столбца",
   "STUDENT": "Студент",
   "QUESTION": "Вопрос",
+  "QUESTION-PROGRESSION": "Прогресс по вопросам",
   "EDIT-REPOSITORIES": {
     "SELECTED-REPOSITORIES": "репозиториев выбрано",
     "HEADER": "Конфигурация репозиториев",
