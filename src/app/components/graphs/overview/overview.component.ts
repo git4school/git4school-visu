@@ -12,7 +12,7 @@ import {
 } from "@angular/core";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { OverviewGraphContextualMenuComponent } from "@components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
-import { Commit } from "@models/Commit.model";
+import { Commit, CommitColor } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
 import { NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
@@ -72,6 +72,13 @@ export class OverviewComponent
   filterGroups: FilterGroup[] = [];
   filteredCommitsCount = 0;
   filteredStudentsCount = 0;
+  hiddenCategories = new Set<string>();
+  commitColors = [
+    CommitColor.INTERMEDIATE,
+    CommitColor.BEFORE,
+    CommitColor.BETWEEN,
+    CommitColor.AFTER,
+  ];
   unit = "day";
   drag = false;
   chartData = [{ data: [] }];
@@ -369,6 +376,16 @@ export class OverviewComponent
     const hasSearchFilter = this.searchFilter.length > 0;
     const hasCommitFilter = this.commitMessagesFilter.length > 0;
 
+    if (this.hiddenCategories.has(commit.color.label)) {
+      return false;
+    }
+    if (this.hiddenCategories.has('CLOSING') && commit.isCloture) {
+      return false;
+    }
+    if (this.hiddenCategories.has('COMMIT') && !commit.isCloture) {
+      return false; // Wait, should this hide all non-cloture commits? Let's just use it to hide normal commits.
+    }
+
     if (!hasSearchFilter && !hasCommitFilter) return true;
 
     const matchesSearch =
@@ -380,6 +397,47 @@ export class OverviewComponent
       );
 
     return matchesSearch || matchesCommit;
+  }
+
+  toggleCategory(label: string) {
+    if (label === 'SESSION') {
+      this.showSessions = !this.showSessions;
+      this.saveMarkerPreferences();
+      this.loadGraphDataAndRefresh();
+      return;
+    }
+    if (label === 'REVIEW') {
+      this.showReviews = !this.showReviews;
+      this.saveMarkerPreferences();
+      this.loadGraphDataAndRefresh();
+      return;
+    }
+    if (label === 'CORRECTION') {
+      this.showCorrections = !this.showCorrections;
+      this.saveMarkerPreferences();
+      this.loadGraphDataAndRefresh();
+      return;
+    }
+    if (label === 'OTHER') {
+      this.showOthers = !this.showOthers;
+      this.saveMarkerPreferences();
+      this.loadGraphDataAndRefresh();
+      return;
+    }
+
+    if (this.hiddenCategories.has(label)) {
+      this.hiddenCategories.delete(label);
+    } else {
+      // Prevent hiding all colors
+      if (this.commitColors.find(c => c.label === label)) {
+        let hiddenColors = 0;
+        this.commitColors.forEach(c => { if (this.hiddenCategories.has(c.label)) hiddenColors++; });
+        if (hiddenColors === this.commitColors.length - 1) return;
+      }
+      this.hiddenCategories.add(label);
+    }
+    
+    this.loadGraphDataAndRefresh();
   }
 
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
@@ -1923,8 +1981,15 @@ export class OverviewComponent
       });
 
       repo_g.selectAll(".commit-group:not(.hidden)").each(function(commits: Commit[]) {
-        if (!commits || !commits[0]) return;
         let g = d3.select(this);
+        if (overview.hiddenCategories.has('COMMIT-GROUP')) {
+          g.style("display", "none");
+          return;
+        } else {
+          g.style("display", null);
+        }
+        
+        if (!commits || !commits[0]) return;
         let path = g.select("path");
         if (!path.empty()) {
           path.attr("d", overview.getCommitGroupPathD(commits[0], commits[commits.length - 1], OverviewComponent.GROUP_HEIGHT));

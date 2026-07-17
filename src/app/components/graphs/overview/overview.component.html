@@ -17,9 +17,8 @@
     </questions-chooser>
   </div>
 
-  <!-- Right Side: Action Tools -->
-  <div class="d-flex align-items-center" style="gap: 0.25rem;">
-    <!-- Group Selector Dropdown -->
+  <!-- Middle: Group Selector -->
+  <div>
     <div ngbDropdown class="dropdown d-inline-block">
       <button class="btn-outline-ghost" ngbDropdownToggle>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -43,7 +42,10 @@
         </button>
       </div>
     </div>
+  </div>
 
+  <!-- Right Side: Action Tools -->
+  <div class="d-flex align-items-center" style="gap: 0.25rem;">
     <!-- Markers Group -->
     <div class="d-flex flex-column align-items-center" style="position: relative; margin-right: 0.25rem;">
       <div class="btn-group" role="group">
@@ -269,24 +271,61 @@
       </button>
       <div ngbDropdownMenu aria-labelledby="legendDropup" class="modern-dropdown-menu p-3" style="min-width: 250px; font-size: 0.85rem; line-height: 1.8;">
         <h6 class="dropdown-header px-0 mb-2" style="font-weight: 600;">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</h6>
-        <div><i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i> {{ "OVERVIEW-GRAPH.LEGEND.COMMIT" | translate }}</div>
-        <div><span class="fa-fw d-inline-block text-center"><span style="display: inline-block; width: 15px; height: 10px; border: 1.5px solid currentColor; vertical-align: middle; margin-top: -2px;"></span></span> {{ "OVERVIEW-GRAPH.LEGEND.COMMIT-GROUP" | translate }}</div>
-        <div><i class="far fa-circle fa-fw"></i> {{ "OVERVIEW-GRAPH.LEGEND.CLOSING" | translate }}</div>
-        <div><i class="fas fa-circle fa-fw" style="color: var(--color-commit-intermediate)"></i> {{ "OVERVIEW-GRAPH.LEGEND.INTERMEDIATE" | translate }}</div>
-        <div><i class="fas fa-circle fa-fw" style="color: var(--color-success)"></i> {{ "OVERVIEW-GRAPH.LEGEND.BEFORE" | translate }}</div>
-        <div><i class="fas fa-circle fa-fw" style="color: var(--color-warning)"></i> {{ "OVERVIEW-GRAPH.LEGEND.BETWEEN" | translate }}</div>
-        <div><i class="fas fa-circle fa-fw" style="color: var(--color-danger)"></i> {{ "OVERVIEW-GRAPH.LEGEND.AFTER" | translate }}</div>
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('COMMIT') ? '0.4' : '1'" (click)="toggleCategory('COMMIT')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i></div>
+          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT" | translate }}</span>
+        </div>
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('COMMIT-GROUP') ? '0.4' : '1'" (click)="toggleCategory('COMMIT-GROUP')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><span class="fa-fw d-inline-block text-center"><span style="display: inline-block; width: 15px; height: 10px; border: 1.5px solid currentColor; vertical-align: middle; margin-top: -2px;"></span></span></div>
+          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT-GROUP" | translate }}</span>
+        </div>
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('CLOSING') ? '0.4' : '1'" (click)="toggleCategory('CLOSING')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-circle fa-fw"></i></div>
+          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.CLOSING" | translate }}</span>
+        </div>
+        
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.INTERMEDIATE') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.INTERMEDIATE')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-commit-intermediate)"></i></div>
+          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.INTERMEDIATE" | translate }}</span>
+        </div>
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.BEFORE') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.BEFORE')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-success)"></i></div>
+          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BEFORE" | translate }}</span>
+        </div>
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.BETWEEN') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.BETWEEN')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-warning)"></i></div>
+          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BETWEEN" | translate }}</span>
+        </div>
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has('OVERVIEW-GRAPH.LEGEND.AFTER') ? '0.4' : '1'" (click)="toggleCategory('OVERVIEW-GRAPH.LEGEND.AFTER')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-danger)"></i></div>
+          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.AFTER" | translate }}</span>
+        </div>
+        
         <div class="dropdown-divider my-2"></div>
-        <div><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-primary)"></i> {{ "REVIEW" | translate }}</div>
-        <div><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-danger)"></i> {{ "CORRECTION" | translate }}</div>
-        <div><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-secondary)"></i> {{ "OTHER" | translate }}</div>
+        
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showReviews ? '1' : '0.4'" (click)="toggleCategory('REVIEW')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-primary)"></i></div>
+          <span style="color: var(--color-text-secondary)">{{ "REVIEW" | translate }}</span>
+        </div>
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showCorrections ? '1' : '0.4'" (click)="toggleCategory('CORRECTION')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-danger)"></i></div>
+          <span style="color: var(--color-text-secondary)">{{ "CORRECTION" | translate }}</span>
+        </div>
+        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showOthers ? '1' : '0.4'" (click)="toggleCategory('OTHER')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-secondary)"></i></div>
+          <span style="color: var(--color-text-secondary)">{{ "OTHER" | translate }}</span>
+        </div>
+        
         <div class="dropdown-divider my-2"></div>
-        <div>
-          <span class="fa-layers fa-fw">
-            <i class="fas fa-square" style="color: rgba(33, 150, 243, 0.15)"></i>
-            <i class="far fa-square" style="color: rgba(79, 195, 247, 1)"></i>
-          </span>
-          {{ "SESSION" | translate }}
+        
+        <div class="d-flex align-items-center" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showSessions ? '1' : '0.4'" (click)="toggleCategory('SESSION')">
+          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;">
+            <span class="fa-layers fa-fw">
+              <i class="fas fa-square" style="color: rgba(33, 150, 243, 0.15)"></i>
+              <i class="far fa-square" style="color: rgba(79, 195, 247, 1)"></i>
+            </span>
+          </div>
+          <span style="color: var(--color-text-secondary)">{{ "SESSION" | translate }}</span>
         </div>
       </div>
     </div>
