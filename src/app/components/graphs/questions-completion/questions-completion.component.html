@@ -92,7 +92,7 @@
                style="cursor: pointer; user-select: none; transition: opacity 0.2s;"
                [style.opacity]="hiddenCategories.has(color.label) ? '0.4' : '1'"
                (click)="toggleCategory(color.label)">
-            <span style="display: inline-block; width: 30px; height: 12px; margin-right: 10px; border-radius: 2px;"
+            <span style="display: inline-block; width: 30px; min-width: 30px; height: 12px; flex-shrink: 0; margin-right: 10px; border-radius: 2px;"
                   [style.background-color]="color.color"></span>
             <span style="color: var(--color-text-secondary)">{{ color.labelKey | translate }}</span>
           </div>

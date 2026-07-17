@@ -152,7 +152,7 @@ export class QuestionsCompletionComponent
     if (!this.chartData || this.chartData.length === 0) return;
 
     const margin = { top: 40, right: 30, bottom: 60, left: 60 };
-    const minBarWidth = 60;
+    const minBarWidth = 100;
     const requiredWidth = this.chartData.length * minBarWidth;
     const width = Math.max(element.clientWidth - margin.left - margin.right, requiredWidth);
     const height = element.clientHeight - margin.top - margin.bottom;
