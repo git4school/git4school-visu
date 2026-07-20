@@ -1,24 +1,24 @@
-<div class="modal-header border-bottom-0 pb-3 pt-4 px-4 align-items-center flex-nowrap w-100">
-    <h4 class="modal-title font-weight-bold m-0" style="font-size: 1.25rem; color: var(--color-text-primary);">
-        {{ (this.addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') | translate }}
-    </h4>
-    <div class="d-flex align-items-center ml-auto" style="gap: 0.5rem;">
-        <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
-            {{ 'CANCEL' | translate }}
-        </button>
-        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="deleteSession()">
-            <i class="fas fa-trash-alt mr-2"></i> {{ 'EDIT-SESSION.DELETE-BUTTON' | translate }}
+<div class="modal-header border-bottom-0 pb-1 pt-3 d-flex justify-content-between align-items-center flex-nowrap w-100" style="padding-left: 40px; padding-right: 40px;">
+    <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
+        {{ 'CANCEL' | translate }}
+    </button>
+    <div class="d-flex align-items-center" style="gap: 0.5rem;">
+        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm btn-hover-expand" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="deleteSession()">
+            <i class="fas fa-trash-alt"></i>
+            <span class="hover-text">{{ 'EDIT-SESSION.DELETE-BUTTON' | translate }}</span>
         </button>
         <button type="button" class="btn btn-primary shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="submitSession()" [disabled]="!sessionForm.valid">
-            <i class="fas fa-save mr-2"></i> {{ 'OVERVIEW-GRAPH.MODAL.CONFIRM' | translate }}
+            <i class="fas" [ngClass]="addMode ? 'fa-plus' : 'fa-save'" class="mr-2"></i> 
+            {{ (addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') | translate }}
         </button>
     </div>
 </div>
-<div class="modal-body mx-2">
+<div class="modal-body pt-2 pb-4" style="padding-left: 40px; padding-right: 40px;">
     <form [formGroup]="sessionForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
-        <div class="form-group required">
-            <label class="required-label">{{ 'EDIT-SESSION.DATE-LABEL' | translate }} / {{ 'TIME' | translate }}</label>
-            <app-date-range-picker
+        
+        <div class="form-group mb-2 required">
+            <label class="mb-1 required-label" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'EDIT-SESSION.DATE-LABEL' | translate }} / {{ 'TIME' | translate }}</label>
+            <app-date-range-picker class="w-100 d-block"
                 [mode]="'datetime-period'"
                 [singleLabel]="' '"
                 [date]="sessionForm.get('date')?.value"
@@ -35,27 +35,30 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <!-- tpGroup -->
-            <label for="tpGroup">
-                {{ 'EDIT-SESSION.TP-GROUP-LABEL' | translate }}
-            </label>
-            <input id="tpGroup" type="text" class="form-control" formControlName="tpGroup"
-                   placeholder="d.ff"
-                   [ngbTypeahead]="searchGroup"
-                   container="body"
-                   (focus)="focus$.next($any($event).target.value)"
-                   (click)="click$.next($any($event).target.value)"
-                   #instance="ngbTypeahead" />
+        <div class="form-group mb-2">
+            <label class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'EDIT-SESSION.TP-GROUP-LABEL' | translate }}</label>
+            <app-text-input id="tpGroup" formControlName="tpGroup" [floatingLabel]="false" [suggestions]="tpGroups"></app-text-input>
         </div>
 
-        <div class="form-group">
-            <label for="notes">{{ 'EDIT-SESSION.NOTES' | translate }}</label>
-            <textarea class="form-control" id="notes" rows="5" formControlName="notes"></textarea>
-        </div>
-
-        <div class="my-3">
-            <span class="text-danger">*</span> {{ "REQUIRED-FIELDS-TEXT" | translate }}
+        <div class="form-group mb-0">
+            <button type="button" class="btn-outline-ghost w-100 d-flex justify-content-between align-items-center" (click)="notesOpen = !notesOpen" style="margin-left: -0.6rem; width: calc(100% + 1.2rem) !important;">
+                <span style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary);">
+                    {{ 'EDIT-SESSION.NOTES' | translate }}
+                </span>
+                <div class="d-flex align-items-center">
+                    <span *ngIf="sessionForm.get('notes').value && !notesOpen" style="font-size: 0.85rem; color: var(--color-text-muted); margin-right: 0.5rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 150px;">
+                        {{ sessionForm.get('notes').value }}
+                    </span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-text-secondary); transition: transform 0.2s ease-in-out;" [style.transform]="notesOpen ? 'rotate(180deg)' : 'rotate(0)'">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+            </button>
+            <div class="notes-anim-wrapper" [class.is-open]="notesOpen">
+                <div class="notes-anim-inner">
+                    <textarea class="form-control notes-textarea" id="notes" rows="4" formControlName="notes" style="resize: none; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.75rem; font-size: 0.95rem; margin-top: 4px;"></textarea>
+                </div>
+            </div>
         </div>
 
     </form>
