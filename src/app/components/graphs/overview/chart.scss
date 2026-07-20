@@ -81,13 +81,14 @@ body.dark-theme .commit {
 .session {
   stroke-width: 1px;
   stroke: var(--color-info);
-  fill: var(--color-primary-bg);
+  fill: var(--color-info);
+  fill-opacity: 0.1;
   rx: 8px;
   ry: 8px;
-  transition: fill var(--transition-normal);
+  transition: fill-opacity var(--transition-normal);
   
   &:hover {
-    fill: rgba(56, 189, 248, 0.25);
+    fill-opacity: 0.25;
   }
 }
 

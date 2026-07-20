@@ -334,7 +334,7 @@
 </ng-template>
 <ng-template #d3TooltipTemplate>
   <div
-    *ngIf="hovered_commit != null && hovered_group_commit == null"
+    *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null"
     id="commit_hover"
   >
     <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>
@@ -345,8 +345,20 @@
       <span class="shortcut-badge" [class.shortcut-pressed-anim]="pressedShortcut === 'c'">C</span>
     </div>
   </div>
+  
   <div
-    *ngIf="hovered_group_commit != null && hovered_commit == null"
+    *ngIf="hovered_session != null && hovered_commit == null && hovered_group_commit == null"
+    id="session_hover"
+    style="max-width: 250px; word-wrap: break-word;"
+  >
+    <div class="d-flex align-items-center mb-2" style="gap: 0.5rem; color: var(--color-primary); font-weight: 500;">
+        <span>{{ 'EDIT-SESSION.NOTES' | translate }}</span>
+    </div>
+    <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary);">{{ hovered_session.notes }}</p>
+  </div>
+
+  <div
+    *ngIf="hovered_group_commit != null && hovered_commit == null && hovered_session == null"
     id="commit_group_hover"
   >
     <div

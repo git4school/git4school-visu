@@ -132,6 +132,7 @@ export class OverviewComponent
   zoom: d3.ZoomBehavior<any, any>;
 
   hovered_commit: Commit;
+  hovered_session: Session;
   hovered_group_commit: Commit[];
   hovered_g: d3.Selection<any, any, any, any>;
 
@@ -553,7 +554,7 @@ export class OverviewComponent
       return;
     }
 
-    if (this.hovered_g) {
+    if (this.hovered_g && (this.hovered_commit || this.hovered_group_commit)) {
       if (this.hovered_g.select(":hover").empty()) {
         this.hovered_commit = undefined;
         this.hovered_group_commit = undefined;
@@ -563,7 +564,7 @@ export class OverviewComponent
       }
     }
 
-    if (this.hovered_commit || this.hovered_group_commit) {
+    if (this.hovered_commit || this.hovered_group_commit || this.hovered_session) {
       if (!this.tooltipService.isShowing()) {
         this.tooltipService.showAtPosition(
           this.d3TooltipTemplate,
@@ -956,18 +957,11 @@ export class OverviewComponent
 
   getRectForSession(g: d3.Selection<any, any, any, any>, session: Session) {
     const overview = this;
-    g.append("rect")
+    
+    let group = g.append("g")
       .datum(session)
-      .attr("class", "session")
+      .attr("class", "session-container")
       .attr("clip-path", "url(#clip)")
-      .attr("x", 0)
-      .attr("height", this.scrollable_height)
-      .attr("y", 0)
-      .attr(
-        "width",
-        this.xScaledTimeZoned(session.endDate) -
-          this.xScaledTimeZoned(session.startDate)
-      )
       .on("contextmenu", (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -987,6 +981,46 @@ export class OverviewComponent
           overview.x_scale.invert(e.pageX)
         );
       });
+
+    group.append("rect")
+      .attr("class", "session")
+      .attr("x", this.xScaledTimeZoned(session.startDate))
+      .attr("height", this.scrollable_height)
+      .attr("y", 0)
+      .attr(
+        "width",
+        Math.max(0, this.xScaledTimeZoned(session.endDate) -
+          this.xScaledTimeZoned(session.startDate))
+      );
+
+    if (session.notes) {
+      group.append("foreignObject")
+        .attr("class", "session-icon")
+        .attr("x", this.xScaledTimeZoned(session.startDate) + 4)
+        .attr("y", 4)
+        .attr("width", 24)
+        .attr("height", 24)
+        .on("mouseenter", (e, d) => {
+          e.stopPropagation();
+          overview.hovered_session = d;
+          overview.hovered_commit = undefined;
+          overview.hovered_group_commit = undefined;
+          overview.hovered_g = d3.select(e.currentTarget);
+          overview.refreshTooltip(e.clientX, e.clientY);
+        })
+        .on("mousemove", (e) => {
+          e.stopPropagation();
+          if (overview.hovered_session) {
+            overview.refreshTooltip(e.clientX, e.clientY);
+          }
+        })
+        .on("mouseleave", (e) => {
+          e.stopPropagation();
+          overview.hovered_session = undefined;
+          overview.refreshTooltip();
+        })
+        .html(`<button class="btn btn-outline-ghost anim-scale-hover d-flex align-items-center justify-content-center p-0 m-0" style="width: 100%; height: 100%; border: none; background: transparent; color: var(--color-primary); box-shadow: none;"><i class="fas fa-comment-alt" style="font-size: 13px;"></i></button>`);
+    }
   }
 
   loadSessions() {
@@ -2033,7 +2067,14 @@ export class OverviewComponent
     if (!this.session_g) return;
     this.session_g.selectAll(".session")
       .attr("x", (s: Session) => this.xScaledTimeZoned(s.startDate))
-      .attr("width", (s: Session) => this.xScaledTimeZoned(s.endDate) - this.xScaledTimeZoned(s.startDate));
+      .attr("width", (s: Session) => Math.max(0, this.xScaledTimeZoned(s.endDate) - this.xScaledTimeZoned(s.startDate)));
+      
+    this.session_g.selectAll(".session-icon")
+      .attr("x", (s: Session) => this.xScaledTimeZoned(s.startDate) + 4)
+      .style("display", (s: Session) => {
+        const width = this.xScaledTimeZoned(s.endDate) - this.xScaledTimeZoned(s.startDate);
+        return width < 32 ? "none" : null;
+      });
   }
 
   private updateMilestoneTransforms() {
