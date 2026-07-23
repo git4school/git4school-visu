@@ -1,20 +1,13 @@
-.custom-modal-backdrop {
+.custom-modal-blur-layer {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background-color: rgba(17, 24, 39, 0.4);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 1050;
-  display: flex;
-  align-items: flex-start; /* Align near top for slide down effect */
-  justify-content: center;
-  padding-top: 0;
-  overflow-y: auto;
+  z-index: 1040;
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
   
   &.show {
     opacity: 1;
@@ -23,6 +16,16 @@
   &.hide {
     opacity: 0;
   }
+}
+
+.custom-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  display: flex;
+  align-items: flex-start; /* Align near top for slide down effect */
+  justify-content: center;
+  overflow-y: auto;
 }
 
 .custom-modal-dialog {
