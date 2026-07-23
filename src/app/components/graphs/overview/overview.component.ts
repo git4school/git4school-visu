@@ -1031,7 +1031,7 @@ export class OverviewComponent
         session.tpGroup === this.dataService.groupFilter
     );
 
-    this.session_g = this.data_g.append("g");
+    this.session_g = this.data_g.insert("g", () => this.repository_g ? this.repository_g.node() : null);
 
     const overview = this;
 
@@ -2065,16 +2065,24 @@ export class OverviewComponent
 
   private updateSessionsTransforms() {
     if (!this.session_g) return;
-    this.session_g.selectAll(".session")
-      .attr("x", (s: Session) => this.xScaledTimeZoned(s.startDate))
-      .attr("width", (s: Session) => Math.max(0, this.xScaledTimeZoned(s.endDate) - this.xScaledTimeZoned(s.startDate)));
-      
-    this.session_g.selectAll(".session-icon")
-      .attr("x", (s: Session) => this.xScaledTimeZoned(s.startDate) + 4)
-      .style("display", (s: Session) => {
-        const width = this.xScaledTimeZoned(s.endDate) - this.xScaledTimeZoned(s.startDate);
-        return width < 32 ? "none" : null;
-      });
+    const overview = this;
+
+    this.session_g.selectAll(".session-container").each(function(s: Session) {
+      const g = d3.select(this);
+      const x1 = overview.xScaledTimeZoned(s.startDate);
+      const x2 = overview.xScaledTimeZoned(s.endDate);
+      const width = Math.max(0, x2 - x1);
+
+      g.select(".session")
+        .attr("x", x1)
+        .attr("width", width);
+
+      const icon = g.select(".session-icon");
+      if (!icon.empty()) {
+        icon.attr("x", x1 + 4)
+            .style("visibility", width < 32 ? "hidden" : "visible");
+      }
+    });
   }
 
   private updateMilestoneTransforms() {
