@@ -78,6 +78,11 @@ export class EditSessionComponent implements OnInit {
       notes: [this.session.notes || ""],
     });
     this.sessionForm.setValidators(this.endTimeValidator());
+    
+    // Open the notes section if there's already text in it
+    if (this.session.notes && this.session.notes.trim().length > 0) {
+      this.notesOpen = true;
+    }
   }
 
   onPeriodChange(event: { start: string; end: string }) {
