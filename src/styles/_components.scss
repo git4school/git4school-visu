@@ -264,6 +264,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid transparent;
+  overflow: hidden; /* Clips scrollbars to the rounded corners */
 
   &.hovered:not(.pinned) {
     transform: translateX(1rem);
@@ -302,12 +303,24 @@
   top: 0;
   right: -3px; /* Slightly overflow the border to increase hit area */
   bottom: 0;
-  width: 6px;
+  width: 8px;
   cursor: ew-resize;
   z-index: 1050;
-  transition: background-color 0.2s;
   
-  &:hover, .app-layout-wrapper.is-resizing & {
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 32px;
+    background-color: transparent;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  
+  &:hover::after, .app-layout-wrapper.is-resizing &::after {
     background-color: rgba(37, 99, 235, 0.5); /* Primary color with transparency */
   }
 }
