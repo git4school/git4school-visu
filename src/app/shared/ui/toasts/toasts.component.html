@@ -1,21 +1,33 @@
-<div class="toasts-container">
-  <div *ngFor="let toast of toasts"
-       class="toast-pill"
-       [ngClass]="'toast-' + toast.type"
-       (click)="remove(toast.id)"
-       (mouseenter)="pauseTimer(toast)"
-       (mouseleave)="resumeTimer(toast)">
+<div class="toasts-container"
+     (mouseenter)="onMouseEnter()"
+     (mouseleave)="onMouseLeave()">
+  <div *ngFor="let toast of toasts; let i = index; let last = last; trackBy: trackById"
+       class="toast-wrapper"
+       [class.expanded]="isHovered"
+       [class.hidden-stacked]="(toasts.length - 1 - i) >= 3"
+       [style.z-index]="i"
+       [style.--index]="toasts.length - 1 - i"
+       [style.--offset]="getOffset(i) + 'px'">
     
-    <div class="toast-header">
-      <i class="fas fa-check-circle" *ngIf="toast.type === 'success'"></i>
-      <i class="fas fa-exclamation-triangle" *ngIf="toast.type === 'warning'"></i>
-      <i class="fas fa-exclamation-circle" *ngIf="toast.type === 'error'"></i>
-      <i class="far fa-copy" *ngIf="toast.type === 'copy'"></i>
-      <span class="toast-title" [innerHTML]="toast.title"></span>
-    </div>
-    
-    <div class="toast-message-container" *ngIf="toast.message">
-      <div class="toast-message" [innerHTML]="toast.message"></div>
+    <div class="toast-pill"
+         [@toastEntry]
+         [ngClass]="'toast-' + toast.type"
+         (click)="remove(toast.id)"
+         (mouseenter)="pauseTimer(toast)"
+         (mouseleave)="resumeTimer(toast)"
+         #toastElement>
+      
+      <div class="toast-header">
+        <i class="fas fa-check-circle" *ngIf="toast.type === 'success'"></i>
+        <i class="fas fa-exclamation-triangle" *ngIf="toast.type === 'warning'"></i>
+        <i class="fas fa-exclamation-circle" *ngIf="toast.type === 'error'"></i>
+        <i class="far fa-copy" *ngIf="toast.type === 'copy'"></i>
+        <span class="toast-title" [innerHTML]="toast.title"></span>
+      </div>
+      
+      <div class="toast-message-container" *ngIf="toast.message">
+        <div class="toast-message" [innerHTML]="toast.message"></div>
+      </div>
     </div>
   </div>
 </div>

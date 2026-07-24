@@ -4,13 +4,30 @@
   position: fixed;
   bottom: 2rem;
   left: 50%;
-  transform: translateX(-50%);
   z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  pointer-events: none; /* Let clicks pass through the container */
+  pointer-events: none;
+}
+
+.toast-wrapper {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  transition: transform 0.4s cubic-bezier(0.2, 1, 0.2, 1), opacity 0.4s ease;
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+.toast-wrapper:not(.expanded) {
+  transform: translateX(-50%) translateY(calc(var(--index) * -16px)) scale(calc(1 - var(--index) * 0.05));
+}
+
+.toast-wrapper.expanded {
+  transform: translateX(-50%) translateY(calc(var(--offset) * -1));
+}
+
+.toast-wrapper:not(.expanded).hidden-stacked {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .toast-pill {
