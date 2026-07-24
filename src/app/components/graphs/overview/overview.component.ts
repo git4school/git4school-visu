@@ -2069,17 +2069,20 @@ export class OverviewComponent
 
     this.session_g.selectAll(".session-container").each(function(s: Session) {
       const g = d3.select(this);
-      const x1 = overview.xScaledTimeZoned(s.startDate);
-      const x2 = overview.xScaledTimeZoned(s.endDate);
-      const width = Math.max(0, x2 - x1);
+      const rawX1 = overview.xScaledTimeZoned(s.startDate);
+      const rawX2 = overview.xScaledTimeZoned(s.endDate);
+      
+      const cx1 = Math.max(-50, Math.min(overview.width + 50, rawX1));
+      const cx2 = Math.max(-50, Math.min(overview.width + 50, rawX2));
+      const width = Math.max(0, cx2 - cx1);
 
       g.select(".session")
-        .attr("x", x1)
+        .attr("x", cx1)
         .attr("width", width);
 
       const icon = g.select(".session-icon");
       if (!icon.empty()) {
-        icon.attr("x", x1 + 4)
+        icon.attr("x", rawX1 + 4)
             .style("visibility", width < 32 ? "hidden" : "visible");
       }
     });

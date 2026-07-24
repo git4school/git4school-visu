@@ -25,7 +25,6 @@ text.repo_name {
 .commit {
   stroke: var(--color-surface); /* Bordure blanche en mode clair pour séparer du fond */
   stroke-width: 2px;
-  transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
 }
 
 body.dark-theme .commit {
@@ -37,6 +36,7 @@ body.dark-theme .commit {
   r: 7px;
   transform-box: fill-box;
   transform-origin: center;
+  transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
 }
 
 .commit-normal {
@@ -45,6 +45,7 @@ body.dark-theme .commit {
   transform-box: fill-box;
   transform-origin: center;
   transform: translate(-6px, -6px) rotate(45deg);
+  transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
 }
 
 .commit-group > path {
