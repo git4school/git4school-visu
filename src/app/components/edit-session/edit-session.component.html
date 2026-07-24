@@ -3,13 +3,12 @@
         {{ 'CANCEL' | translate }}
     </button>
     <div class="d-flex align-items-center" style="gap: 0.5rem;">
-        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm btn-hover-expand" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="deleteSession()">
+        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm btn-hover-expand" style="font-weight: 500; border-radius: 8px; padding: 0.35rem 0.8rem; font-size: 0.85rem; text-transform: none;" (click)="deleteSession()">
             <i class="fas fa-trash-alt"></i>
             <span class="hover-text">{{ 'EDIT-SESSION.DELETE-BUTTON' | translate }}</span>
         </button>
-        <button type="button" class="btn btn-primary shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem; text-transform: none;" (click)="submitSession()" [disabled]="!sessionForm.valid">
-            <i class="fas" [ngClass]="addMode ? 'fa-plus' : 'fa-save'" class="mr-2"></i> 
-            {{ (addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') | translate }}
+        <button type="button" class="btn btn-primary shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.35rem 0.8rem; font-size: 0.85rem; text-transform: none;" (click)="submitSession()" [disabled]="!sessionForm.valid">
+            <i class="fas mr-2" [ngClass]="addMode ? 'fa-plus' : 'fa-save'"></i>{{ (addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') | translate }}
         </button>
     </div>
 </div>
