@@ -331,6 +331,7 @@ export class OverviewComponent
       this.resizeObserver.disconnect();
     }
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
+    document.body.style.overscrollBehaviorX = "auto";
   }
 
   getDisplayedRepositories(): Repository[] {
@@ -628,6 +629,31 @@ export class OverviewComponent
 
     this.data_g = this.data_g.call(this.zoom).on("dblclick.zoom", null);
 
+    d3.select(".chart-container").on("wheel", (event: WheelEvent) => {
+      // Zooming is handled by d3.zoom if shiftKey is pressed
+      if (event.shiftKey) return;
+
+      let dx = event.deltaX;
+      let dy = event.deltaY;
+
+      // Handle ctrl+wheel to scroll horizontally if the device only emits deltaY
+      if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
+        dx = dy;
+        dy = 0;
+      }
+
+      // If there is significant horizontal scrolling, or ctrl key is pressed
+      if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+        event.preventDefault(); // Prevent browser back/forward or default scroll
+        event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
+
+        if (this.zoom && this.data_g) {
+          // Pan horizontally
+          this.data_g.call(this.zoom.translateBy, -dx / (this.current_zoom?.k || 1), 0);
+        }
+      }
+    }, { passive: false });
+
     this.resetZoom(true);
   }
 
@@ -672,14 +698,34 @@ export class OverviewComponent
       this.resizeObserver.observe(chart_div);
     }
 
-    d3.select(".chart-container").selectAll("svg").remove();
-    this.svg = d3
-      .select(".chart-container")
+    const container = d3.select(".chart-container");
+    container.selectAll("svg").remove();
+    container.selectAll(".scroll-dummy").remove();
+    
+    this.svg = container
       .append("svg")
       .attr("preserveAspectRatio", "none")
       .attr("width", this.width)
       .attr("height", this.scrollable_height)
       .attr("viewBox", `0 0 ${this.width} ${this.scrollable_height}`);
+
+    container
+      .append("div")
+      .attr("class", "scroll-dummy")
+      .style("width", "calc(100% + 2px)")
+      .style("height", "1px")
+      .style("position", "absolute")
+      .style("top", "0")
+      .style("left", "0")
+      .style("pointer-events", "none");
+
+    const node = container.node() as HTMLElement;
+    if (node) {
+      // Ensure the layout is updated before setting scrollLeft
+      setTimeout(() => {
+        node.scrollLeft = 1;
+      }, 0);
+    }
 
     d3.select(".chart-container-absolute").selectAll("svg").remove();
     this.svg_abs = d3
@@ -734,7 +780,19 @@ export class OverviewComponent
       .on("mousemove", function (e) {
         overview.refreshTooltip(e.clientX, e.clientY);
       })
-      .on("scroll", () => this.refreshElementState())
+      .on("mouseenter", () => {
+        document.body.style.overscrollBehaviorX = "none";
+      })
+      .on("mouseleave", () => {
+        document.body.style.overscrollBehaviorX = "auto";
+      })
+      .on("scroll", (event) => {
+        const node = event.target as HTMLElement;
+        if (node && (node.scrollLeft <= 0 || node.scrollLeft >= 2)) {
+          node.scrollLeft = 1;
+        }
+        this.refreshElementState();
+      })
       .attr("tabindex", "0")
       .attr("focusable", "true");
 

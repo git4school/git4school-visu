@@ -29,21 +29,27 @@
   flex: 1;
 }
 
-.chart-container {
+#chart .chart-container {
   position: absolute;
   top: var(--top-inner);
   bottom: var(--bottom-inner);
-  width: 100%;
+  left: 0;
+  right: -12px;
   height: auto;
   min-height: 0px;
   max-height: none;
   vertical-align: top;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
   overscroll-behavior: none;
+  touch-action: pan-y;
 }
 
-.chart-container-absolute {
+#chart .chart-container::-webkit-scrollbar:horizontal {
+  display: none;
+}
+
+#chart .chart-container-absolute {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -57,15 +63,15 @@
   overflow: hidden;
 }
 
-.chart-container-absolute>svg {
+#chart .chart-container-absolute>svg {
   position: relative;
 }
 
-.chart-container:focus {
+#chart .chart-container:focus {
   outline: none;
 }
 
-.chart-container > svg {
+#chart .chart-container > svg {
   display: block;
 }
 
