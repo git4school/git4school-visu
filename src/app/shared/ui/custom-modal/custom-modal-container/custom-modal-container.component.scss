@@ -1,30 +1,10 @@
 @import 'variables';
 
-.custom-modal-blur-layer {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(17, 24, 39, 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 1040;
-  opacity: 0;
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  
-  &.show {
-    opacity: 1;
-  }
-  
-  &.hide {
-    opacity: 0;
-  }
-}
-
 .custom-modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 1050;
-  background-color: rgba(17, 24, 39, 0.4);
+  background-color: rgba(15, 23, 42, 0.45);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -33,41 +13,51 @@
   padding: 1rem;
   
   opacity: 0;
-  transition: opacity 0.3s ease;
+  pointer-events: none;
+  transition: opacity $transition-drawer-exit;
+  will-change: opacity;
   
   &.show {
     opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s ease-out;
   }
   
   &.hide {
     opacity: 0;
+    pointer-events: none;
+    transition: opacity $transition-drawer-exit;
   }
 }
 
 .custom-modal-dialog {
   background-color: var(--color-surface, #ffffff);
   border-radius: 32px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
   position: relative;
   margin-bottom: 1rem;
   margin-top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow: visible;
   
-  /* Slide up animation */
-  transform: translateY(150%);
+  /* Hardware acceleration & initial position */
+  transform: translate3d(0, 100%, 0);
   opacity: 0;
-  transition: transform $transition-drawer, opacity 0.4s ease;
+  will-change: transform, opacity;
+  transition: transform $transition-drawer-exit, opacity $transition-drawer-exit;
   
   &.show {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
+    transition: transform $transition-drawer-enter, opacity 0.3s ease-out;
   }
-
   
   &.hide {
-    transform: translateY(150%);
+    transform: translate3d(0, 100%, 0);
     opacity: 0;
+    transition: transform $transition-drawer-exit, opacity $transition-drawer-exit;
   }
   
   /* Sizes */

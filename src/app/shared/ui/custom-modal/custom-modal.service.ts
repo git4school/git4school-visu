@@ -83,8 +83,13 @@ export class CustomModalService {
       }
     });
 
+    // Lock body scroll while modal is open
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     // Cleanup when modal closes
     customModalRef.result.finally(() => {
+      document.body.style.overflow = previousBodyOverflow;
       this.appRef.detachView(containerRef.hostView);
       containerRef.destroy();
     });

@@ -27,6 +27,10 @@
     box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
   }
 
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
   &:disabled {
     opacity: 0.65;
     cursor: not-allowed;
@@ -448,7 +452,8 @@
 
     .icon-sun, .icon-moon {
       position: absolute;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform, opacity;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease-out;
     }
     
     /* Default (Light Mode): Show Sun */
@@ -457,7 +462,7 @@
       opacity: 1;
     }
     .icon-moon {
-      transform: scale(0) rotate(-90deg);
+      transform: scale(0.8) rotate(-45deg);
       opacity: 0;
     }
     
@@ -470,7 +475,7 @@
 
     &:not(.is-dark):hover:not(:focus) {
       .icon-sun {
-        transform: scale(0) rotate(90deg);
+        transform: scale(0.8) rotate(45deg);
         opacity: 0;
       }
       .icon-moon {
@@ -482,7 +487,7 @@
     /* Dark Mode: Show Moon */
     &.is-dark {
       .icon-sun {
-        transform: scale(0) rotate(90deg);
+        transform: scale(0.8) rotate(45deg);
         opacity: 0;
       }
       .icon-moon {
@@ -493,7 +498,7 @@
       /* On hover in Dark Mode: Animate to Sun */
       &:hover:not(:focus) {
         .icon-moon {
-          transform: scale(0) rotate(-90deg);
+          transform: scale(0.8) rotate(-45deg);
           opacity: 0;
         }
         .icon-sun {
@@ -709,6 +714,10 @@
   &:hover, &[aria-expanded="true"] {
     background-color: var(--filter-bg);
     color: var(--color-text-primary);
+  }
+  
+  &:active:not(:disabled) {
+    transform: scale(0.94);
   }
   
   &.active {

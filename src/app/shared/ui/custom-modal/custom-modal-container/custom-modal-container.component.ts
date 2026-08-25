@@ -1,8 +1,11 @@
 import {
+  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
   ComponentRef,
   ElementRef,
+  HostListener,
+  OnInit,
   Type,
   ViewChild,
   ViewContainerRef,
@@ -13,7 +16,7 @@ import {
   templateUrl: "./custom-modal-container.component.html",
   styleUrls: ["./custom-modal-container.component.scss"],
 })
-export class CustomModalContainerComponent {
+export class CustomModalContainerComponent implements OnInit {
   @ViewChild("modalContent", { read: ViewContainerRef, static: true })
   modalContent: ViewContainerRef;
 
@@ -28,12 +31,26 @@ export class CustomModalContainerComponent {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private elementRef: ElementRef
-  ) {
-    // Trigger enter animation on next frame to ensure CSS transition works
-    setTimeout(() => {
-      this.animationState = "enter";
-    }, 10);
+    private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    // Double requestAnimationFrame ensures browser paints initial frame before triggering transition
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.animationState = "enter";
+        this.cdr.detectChanges();
+      });
+    });
+  }
+
+  @HostListener("document:keydown.escape", ["$event"])
+  onEscapeKey(event: KeyboardEvent) {
+    if (this.animationState === "enter" && this.dismissCallback) {
+      event.preventDefault();
+      this.dismissCallback("escape");
+    }
   }
 
   public loadComponent<T>(componentType: Type<T>): T {
@@ -61,10 +78,11 @@ export class CustomModalContainerComponent {
   public destroyModal(): Promise<void> {
     return new Promise((resolve) => {
       this.animationState = "leave";
-      // Wait for animation to finish
+      this.cdr.detectChanges();
+      // Synchronized with $transition-drawer-exit (200ms)
       setTimeout(() => {
         resolve();
-      }, 300); // 300ms matches the CSS transition duration
+      }, 200);
     });
   }
 }
