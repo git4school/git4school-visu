@@ -71,9 +71,9 @@
   background-color: $color-surface-light;
   background-clip: padding-box;
   border: 1px solid $color-border;
-  border-radius: $radius-lg;
+  border-radius: 32px;
   outline: 0;
-  box-shadow: $shadow-lg;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0,0,0,0.02);
 
   .modal-header {
     display: flex;

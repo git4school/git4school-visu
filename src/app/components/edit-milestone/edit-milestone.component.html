@@ -1,16 +1,10 @@
 <div class="modal-header border-bottom-0 pb-1 pt-3 d-flex justify-content-between align-items-center flex-nowrap w-100" style="padding-left: 40px; padding-right: 40px;">
-    <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
-        {{ 'CANCEL' | translate }}
+    <h5 class="modal-title m-0" style="font-weight: 600; font-size: 1.1rem; color: var(--color-text-primary);">
+        {{ (addMode ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') | translate }}
+    </h5>
+    <button type="button" class="btn btn-outline-ghost" style="border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-hover);" (click)="activeModalService.dismiss('Cross click')">
+        <i class="fas fa-times"></i>
     </button>
-    <div class="d-flex align-items-center" style="gap: 0.5rem;">
-        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm btn-hover-expand" style="font-weight: 500; border-radius: 8px; padding: 0.35rem 0.8rem; font-size: 0.85rem; text-transform: none;" (click)="deleteMilestone()">
-            <i class="fas fa-trash-alt"></i>
-            <span class="hover-text">{{ 'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}</span>
-        </button>
-        <button type="button" class="btn btn-primary shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.35rem 0.8rem; font-size: 0.85rem; text-transform: none;" (click)="submitMilestone()" [disabled]="!milestoneForm.valid">
-            <i class="fas mr-2" [ngClass]="addMode ? 'fa-plus' : 'fa-save'"></i>{{ (addMode ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') | translate }}
-        </button>
-    </div>
 </div>
 <div class="modal-body pt-2 pb-4" style="padding-left: 40px; padding-right: 40px;">
     <form [formGroup]="milestoneForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
@@ -85,4 +79,18 @@
         </div>
 
     </form>
+</div>
+<div class="modal-footer border-top-0 pt-0 pb-4 d-flex justify-content-between align-items-center w-100" style="padding-left: 40px; padding-right: 40px;">
+    <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
+        {{ 'CANCEL' | translate }}
+    </button>
+    <div class="d-flex align-items-center" style="gap: 0.5rem;">
+        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm btn-hover-expand" style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.9rem; text-transform: none;" (click)="deleteMilestone()">
+            <i class="fas fa-trash-alt mr-2"></i>
+            <span>{{ 'OVERVIEW-GRAPH.MODAL.DELETE' | translate }}</span>
+        </button>
+        <button type="button" class="btn btn-primary shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1.5rem; font-size: 0.9rem; text-transform: none;" (click)="submitMilestone()" [disabled]="!milestoneForm.valid">
+            <i class="fas mr-2" [ngClass]="addMode ? 'fa-plus' : 'fa-save'"></i>{{ (addMode ? 'OVERVIEW-GRAPH.MODAL.TITLE-CREATE' : 'OVERVIEW-GRAPH.MODAL.TITLE-EDIT') | translate }}
+        </button>
+    </div>
 </div>

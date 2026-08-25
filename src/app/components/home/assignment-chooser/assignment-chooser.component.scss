@@ -604,7 +604,7 @@
   border-top: none;
   padding: 0;
   margin: 0 -1.5rem -1.2rem -1.5rem; /* Negative margins to stretch to card edges */
-  animation: slideDown 0.3s ease-out forwards;
+  animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   overflow: visible;
@@ -620,6 +620,8 @@
   0% {
     opacity: 0;
     max-height: 0;
+    transform: translateY(-10px) scale(0.98);
+    transform-origin: top center;
     overflow: hidden;
   }
   99% {
@@ -628,6 +630,8 @@
   100% {
     opacity: 1;
     max-height: 1000px;
+    transform: translateY(0) scale(1);
+    transform-origin: top center;
     overflow: visible;
   }
 }

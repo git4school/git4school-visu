@@ -1,6 +1,6 @@
 <div class="inline-config-container">
-    <div class="d-flex align-items-center justify-content-between mb-2 config-header border-bottom"
-        style="padding: 1rem 40px 0.5rem 40px;">
+    <div class="d-flex align-items-center justify-content-between mb-2 config-header border-bottom-0"
+        style="padding: 1.5rem 40px 0.5rem 40px;">
         <div class="d-flex align-items-center" style="gap: 1.5rem;">
             <div class="filter-group" [attr.data-active]="activeTab">
                 <div class="filter-indicator"></div>
@@ -18,17 +18,9 @@
             </span>
         </div>
 
-        <div class="d-flex align-items-center justify-content-end" style="gap: 0.5rem;">
-            <button class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.4rem 1rem;"
-                (click)="onCancel()">
-                {{ 'CANCEL' | translate }}
-            </button>
-            <button id="tour-save-btn" class="btn btn-primary shadow-sm"
-                style="font-weight: 500; border-radius: 8px; padding: 0.35rem 0.8rem; font-size: 0.85rem; text-transform: none;"
-                (click)="onSaveGlobal()" [disabled]="!canSave()">
-                <i class="fas fa-save mr-2"></i> {{ 'METADATA.SAVE' | translate }}
-            </button>
-        </div>
+        <button *ngIf="activeModal || modalRef" type="button" class="btn btn-outline-ghost" style="border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-hover);" (click)="onCancel()">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
     <div class="config-body px-4 pb-4 pt-2">
 
@@ -42,6 +34,20 @@
                     (modified)="repositoriesModified = true">
                 </edit-repositories>
             </div>
+        </div>
+        </div>
+        
+
+    <div class="modal-footer border-top-0 pt-0 pb-4 d-flex justify-content-between align-items-center w-100" style="padding-left: 40px; padding-right: 40px;">
+        <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1rem;" (click)="onCancel()">
+            {{ 'CANCEL' | translate }}
+        </button>
+        <div class="d-flex align-items-center" style="gap: 0.5rem;">
+            <button id="tour-save-btn" class="btn btn-primary shadow-sm"
+                style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1.5rem; font-size: 0.9rem; text-transform: none;"
+                (click)="onSaveGlobal()" [disabled]="!canSave()">
+                <i class="fas fa-save mr-2"></i> {{ 'METADATA.SAVE' | translate }}
+            </button>
         </div>
     </div>
 </div>
