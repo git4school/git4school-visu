@@ -35,6 +35,7 @@ export class ConfigurationComponent implements OnInit {
   metadataModified: boolean;
   repositoriesModified: boolean;
   activeTab: "metadata" | "repositories" = "metadata";
+  reposInitialized = false;
 
   constructor(
     public translateService: TranslateService,
@@ -48,6 +49,13 @@ export class ConfigurationComponent implements OnInit {
   ngOnInit(): void {
     this.metadataModified = false;
     this.repositoriesModified = false;
+  }
+
+  selectTab(tab: "metadata" | "repositories") {
+    this.activeTab = tab;
+    if (tab === "repositories") {
+      this.reposInitialized = true;
+    }
   }
 
   get isModified() {

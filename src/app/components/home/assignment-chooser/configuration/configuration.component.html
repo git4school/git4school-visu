@@ -4,11 +4,11 @@
         <div class="d-flex align-items-center" style="gap: 1.5rem;">
             <div class="filter-group" [attr.data-active]="activeTab">
                 <div class="filter-indicator"></div>
-                <button class="filter-btn" [class.active]="activeTab === 'metadata'" (click)="activeTab = 'metadata'">
+                <button class="filter-btn" [class.active]="activeTab === 'metadata'" (click)="selectTab('metadata')">
                     <i class="fas fa-info-circle mr-2"></i> {{ 'CONFIGURATION.EDIT-METADATA' | translate }}
                 </button>
                 <button id="tour-repositories-tab" class="filter-btn" [class.active]="activeTab === 'repositories'"
-                    (click)="activeTab = 'repositories'">
+                    (click)="selectTab('repositories')">
                     <app-repo-icon class="mr-2"></app-repo-icon> {{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate }}
                 </button>
             </div>
@@ -29,7 +29,7 @@
                 <metadata #metadataComp [metadata]="assignment.metadata" (modified)="metadataModified = true">
                 </metadata>
             </div>
-            <div [hidden]="activeTab !== 'repositories'">
+            <div *ngIf="reposInitialized" [hidden]="activeTab !== 'repositories'">
                 <edit-repositories #reposComp [datas]="assignment.repositories"
                     (modified)="repositoriesModified = true">
                 </edit-repositories>

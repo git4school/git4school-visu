@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   ChangeDetectorRef,
   Component,
   OnInit,
@@ -46,7 +45,7 @@ export type SortDirection = "asc" | "desc" | "";
 })
 export class EditRepositoriesComponent
   extends BaseTabEditConfigurationComponent<Repository>
-  implements OnInit, AfterContentChecked
+  implements OnInit
 {
   /**
    * The matrix that defines the transition relationships between the sorting modes.
@@ -178,10 +177,10 @@ export class EditRepositoriesComponent
   }
 
   /**
-   * @ignore
+   * TrackBy function for *ngFor performance
    */
-  ngAfterContentChecked() {
-    super.ngAfterContentChecked();
+  trackByRepo(index: number, group: FormGroup): any {
+    return group.get("url")?.value || index;
   }
 
   /**

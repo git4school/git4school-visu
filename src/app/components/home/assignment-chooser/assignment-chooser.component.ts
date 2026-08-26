@@ -566,6 +566,10 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     this.editAssignment(assignment);
   }
 
+  trackByAssignmentId(index: number, item: any): any {
+    return item?.id !== undefined ? item.id : index;
+  }
+
   editAssignment(assignment: any) {
     if (!this.authService.isSignedIn()) return;
 
@@ -577,13 +581,15 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
     this.editingAssignmentId = assignment.id;
 
-    setTimeout(() => {
-      const el = document.getElementById("assignment-card-" + assignment.id);
-      if (el) {
-        el.style.setProperty("scroll-margin-top", "80px");
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 150);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = document.getElementById("assignment-card-" + assignment.id);
+        if (el) {
+          el.style.setProperty("scroll-margin-top", "80px");
+          el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      });
+    });
   }
 
   cancelEdit() {

@@ -70,11 +70,13 @@ export class MetadataComponent
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      if (this.titleInput && this.titleInput.inputElement) {
-        this.titleInput.inputElement.nativeElement.focus();
-      }
-    }, 50);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (this.titleInput && this.titleInput.inputElement) {
+          this.titleInput.inputElement.nativeElement.focus({ preventScroll: true });
+        }
+      });
+    });
   }
 
   ngOnDestroy() {}

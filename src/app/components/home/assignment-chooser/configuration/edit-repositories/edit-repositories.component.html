@@ -50,7 +50,7 @@
             <h5>{{ 'EDIT-REPOSITORIES.NO-REPOSITORIES' | translate }}</h5>
         </div>
 
-        <div *ngFor="let group of filteredFormControls; let i = index" [formGroup]="group" class="mb-2">
+        <div *ngFor="let group of filteredFormControls; let i = index; trackBy: trackByRepo" [formGroup]="group" class="mb-2">
             
             <!-- View Mode -->
             <div class="repository-card" *ngIf="!group.get('isEditable').value"

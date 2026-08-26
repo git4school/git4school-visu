@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   ChangeDetectorRef,
   Component,
   Input,
@@ -13,7 +12,7 @@ import { BaseEditConfigurationComponent } from "./base-edit-configuration.compon
 })
 export abstract class BaseTabEditConfigurationComponent<Data>
   extends BaseEditConfigurationComponent<Data[]>
-  implements OnInit, AfterContentChecked
+  implements OnInit
 {
   @Input() datas: Data[];
   formGroups: FormGroup[];
@@ -24,10 +23,6 @@ export abstract class BaseTabEditConfigurationComponent<Data>
 
   ngOnInit(): void {
     this.initForm(this.datas);
-  }
-
-  ngAfterContentChecked(): void {
-    this.cdref.detectChanges();
   }
 
   get getFormControls() {
