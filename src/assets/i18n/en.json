@@ -219,6 +219,7 @@
     "START": "Group start",
     "END": "Group end",
     "COMMIT_NUMBER": "Number of commits in the group",
+    "OPEN_COMMIT": "Open commit",
     "COPY_HASH": "Copy hash",
     "ZOOM": "Zoom"
   },

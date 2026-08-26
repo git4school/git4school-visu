@@ -1708,6 +1708,13 @@ ngb-datepicker {
     opacity: 0.8;
     background-color: var(--primary-color-alpha, rgba(128, 128, 128, 0.2));
   }
+
+  &.mouse-badge {
+    width: auto;
+    padding: 0 4px;
+    height: 20px;
+    margin-left: 2px;
+  }
 }
 
 body.dark-theme .shortcut-badge {

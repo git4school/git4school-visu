@@ -220,6 +220,7 @@
     "START": "Début du groupe",
     "END": "Fin du groupe",
     "COMMIT_NUMBER": "Nombre de commits dans le groupe",
+    "OPEN_COMMIT": "Ouvrir le commit",
     "COPY_HASH": "Copier le hash",
     "ZOOM": "Zoomer"
   },
