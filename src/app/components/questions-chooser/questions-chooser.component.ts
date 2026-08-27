@@ -33,6 +33,8 @@ export interface TypeaheadFilterItem {
   isLastItem?: boolean;
 }
 
+declare var ResizeObserver: any;
+
 @Component({
   selector: "questions-chooser",
   templateUrl: "./questions-chooser.component.html",
@@ -51,6 +53,8 @@ export class QuestionsChooserComponent
   @ViewChild("instance", { static: true }) instance: NgbTypeahead;
   @ViewChild("scrollContainer") scrollContainer: ElementRef;
   @ViewChild("inputField", { static: true }) inputField: ElementRef;
+  @ViewChild("inputActionsGroup") inputActionsGroup: ElementRef;
+  @ViewChild("quickHelpPopover") quickHelpPopover: ElementRef;
   @ViewChildren("pillElements") pillElements: QueryList<ElementRef>;
   @ViewChildren("connectorElements") connectorElements: QueryList<ElementRef>;
 
@@ -68,6 +72,14 @@ export class QuestionsChooserComponent
 
   pressedShortcut: string = null;
   showQuickHelp = false;
+  helpShiftX = 0;
+  helpShiftY = 0;
+  isShifted = false;
+
+  private bodyMutationObserver: MutationObserver | null = null;
+  private typeaheadElObserved: HTMLElement | null = null;
+  private typeaheadMutationObserver: MutationObserver | null = null;
+  private typeaheadResizeObserver: any = null;
 
   get placeholderKey(): string {
     if (this.items.length > 0) return "";
@@ -76,9 +88,188 @@ export class QuestionsChooserComponent
       : "QUESTIONS-CHOOSER-PLACEHOLDER";
   }
 
+  getHelpTransform(): string {
+    if (this.isShifted && (this.helpShiftX !== 0 || this.helpShiftY !== 0)) {
+      return `translate3d(${this.helpShiftX}px, ${this.helpShiftY}px, 0)`;
+    }
+    return "translate3d(0, 0, 0)";
+  }
+
   toggleQuickHelp(event?: MouseEvent) {
-    if (event) event.stopPropagation();
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    const wasPopupOpen = !!(this.instance && this.instance.isPopupOpen());
     this.showQuickHelp = !this.showQuickHelp;
+    if (this.showQuickHelp) {
+      if (wasPopupOpen) {
+        setTimeout(() => {
+          if (this.instance && !this.instance.isPopupOpen()) {
+            this.click$.next(this.question || "");
+          }
+          this.updateHelpPosition();
+        });
+      }
+      this.cdr.detectChanges();
+      this.updateHelpPosition();
+      this.startObservingTypeahead();
+    } else {
+      this.stopObservingTypeahead();
+      this.resetHelpPosition();
+    }
+  }
+
+  closeQuickHelp(event?: MouseEvent) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    if (this.showQuickHelp) {
+      this.showQuickHelp = false;
+      this.stopObservingTypeahead();
+      this.resetHelpPosition();
+    }
+  }
+
+  updateHelpPosition() {
+    if (!this.showQuickHelp) {
+      this.resetHelpPosition();
+      return;
+    }
+
+    const typeaheadEl = document.querySelector("ngb-typeahead-window") as HTMLElement;
+    const isTypeaheadVisible =
+      typeaheadEl &&
+      ((this.instance && this.instance.isPopupOpen()) ||
+        (typeaheadEl.offsetParent !== null && window.getComputedStyle(typeaheadEl).display !== "none"));
+
+    const containerEl = this.elementRef.nativeElement.querySelector(".pseudo-input-container") as HTMLElement;
+    if (!isTypeaheadVisible || !containerEl) {
+      this.resetHelpPosition();
+      return;
+    }
+
+    // Attach MutationObserver & ResizeObserver directly to typeaheadEl for instant position tracking
+    this.attachTypeaheadObservers(typeaheadEl);
+
+    const typeaheadRect = typeaheadEl.getBoundingClientRect();
+    const containerRect = containerEl.getBoundingClientRect();
+    const helpWidth = 360;
+
+    // Resting position of quick-help-popover relative to viewport (top: calc(100% + 8px), right: 0 relative to pseudo-input-container):
+    const restingTop = containerRect.bottom + 8;
+    const restingLeft = containerRect.right - helpWidth;
+
+    // Target position:
+    // Top EXACTLY aligned with top of typeahead popover
+    const targetTop = typeaheadRect.top;
+    // Left placed to the right of typeahead popover with tight 4px gap
+    const gap = 4;
+    let targetLeft = typeaheadRect.right + gap;
+
+    // Clamp with right edge of viewport with 12px safety margin
+    const maxLeft = window.innerWidth - helpWidth - 12;
+    const minLeft = 12;
+    targetLeft = Math.max(minLeft, Math.min(targetLeft, maxLeft));
+
+    const dx = Math.round(targetLeft - restingLeft);
+    const dy = Math.round(targetTop - restingTop);
+
+    if (this.helpShiftX !== dx || this.helpShiftY !== dy || !this.isShifted) {
+      this.helpShiftX = dx;
+      this.helpShiftY = dy;
+      this.isShifted = true;
+      this.cdr.markForCheck();
+    }
+  }
+
+  resetHelpPosition() {
+    this.detachTypeaheadObservers();
+    if (this.helpShiftX !== 0 || this.helpShiftY !== 0 || this.isShifted) {
+      this.helpShiftX = 0;
+      this.helpShiftY = 0;
+      this.isShifted = false;
+      this.cdr.markForCheck();
+    }
+  }
+
+  private attachTypeaheadObservers(typeaheadEl: HTMLElement) {
+    if (this.typeaheadElObserved === typeaheadEl) {
+      return;
+    }
+    this.detachTypeaheadObservers();
+    this.typeaheadElObserved = typeaheadEl;
+
+    if (typeof MutationObserver !== "undefined") {
+      this.typeaheadMutationObserver = new MutationObserver(() => {
+        this.updateHelpPosition();
+      });
+      this.typeaheadMutationObserver.observe(typeaheadEl, {
+        attributes: true,
+        attributeFilter: ["style", "class"],
+        childList: true,
+      });
+    }
+
+    if (typeof ResizeObserver !== "undefined") {
+      this.typeaheadResizeObserver = new ResizeObserver(() => {
+        this.updateHelpPosition();
+      });
+      this.typeaheadResizeObserver.observe(typeaheadEl);
+    }
+  }
+
+  private detachTypeaheadObservers() {
+    if (this.typeaheadMutationObserver) {
+      this.typeaheadMutationObserver.disconnect();
+      this.typeaheadMutationObserver = null;
+    }
+    if (this.typeaheadResizeObserver) {
+      this.typeaheadResizeObserver.disconnect();
+      this.typeaheadResizeObserver = null;
+    }
+    this.typeaheadElObserved = null;
+  }
+
+  private startObservingTypeahead() {
+    this.stopObservingTypeahead();
+
+    if (typeof MutationObserver !== "undefined") {
+      this.bodyMutationObserver = new MutationObserver(() => {
+        this.updateHelpPosition();
+      });
+
+      this.bodyMutationObserver.observe(document.body, {
+        childList: true,
+        subtree: false,
+      });
+    }
+
+    const typeaheadEl = document.querySelector("ngb-typeahead-window") as HTMLElement;
+    if (typeaheadEl) {
+      this.attachTypeaheadObservers(typeaheadEl);
+    }
+
+    this.updateHelpPosition();
+    requestAnimationFrame(() => this.updateHelpPosition());
+    setTimeout(() => this.updateHelpPosition(), 50);
+  }
+
+  private stopObservingTypeahead() {
+    if (this.bodyMutationObserver) {
+      this.bodyMutationObserver.disconnect();
+      this.bodyMutationObserver = null;
+    }
+    this.detachTypeaheadObservers();
+  }
+
+  @HostListener("window:resize")
+  @HostListener("window:scroll")
+  onWindowResizeOrScroll() {
+    if (this.showQuickHelp) {
+      this.updateHelpPosition();
+    }
   }
 
   typeaheadFormatter = (item: any) => {
@@ -90,6 +281,8 @@ export class QuestionsChooserComponent
     if (this.mode !== "search") return;
     if (this.showQuickHelp && event.key === "Escape") {
       this.showQuickHelp = false;
+      this.stopObservingTypeahead();
+      this.resetHelpPosition();
       event.preventDefault();
       return;
     }
@@ -163,6 +356,10 @@ export class QuestionsChooserComponent
   @HostListener("document:click", ["$event"])
   clickout(event) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
+      const typeaheadWindow = document.querySelector("ngb-typeahead-window");
+      if (typeaheadWindow && typeaheadWindow.contains(event.target)) {
+        return;
+      }
       if (this.instance && this.instance.isPopupOpen()) {
         this.instance.dismissPopup();
       }
@@ -174,6 +371,8 @@ export class QuestionsChooserComponent
       }
       if (this.showQuickHelp) {
         this.showQuickHelp = false;
+        this.stopObservingTypeahead();
+        this.resetHelpPosition();
       }
     }
   }
@@ -303,7 +502,11 @@ export class QuestionsChooserComponent
           return matchingQuestions;
         }
 
-        return this.buildTypeaheadResults(cleanSearch, matchingQuestions, isExclusion);
+        const results = this.buildTypeaheadResults(cleanSearch, matchingQuestions, isExclusion);
+        if (this.showQuickHelp) {
+          setTimeout(() => this.updateHelpPosition(), 0);
+        }
+        return results;
       })
     );
   };
@@ -324,11 +527,11 @@ export class QuestionsChooserComponent
           )
           .slice(0, 8);
 
-        if (this.mode !== "search") {
-          return matchingQuestions;
+        const results = this.buildTypeaheadResults(cleanSearch, matchingQuestions, isExclusion);
+        if (this.showQuickHelp) {
+          setTimeout(() => this.updateHelpPosition(), 0);
         }
-
-        return this.buildTypeaheadResults(cleanSearch, matchingQuestions, isExclusion);
+        return results;
       })
     );
   };
@@ -358,6 +561,7 @@ export class QuestionsChooserComponent
   }
 
   ngOnDestroy(): void {
+    this.stopObservingTypeahead();
     this.focus$.unsubscribe();
     this.click$.unsubscribe();
   }
@@ -494,6 +698,8 @@ export class QuestionsChooserComponent
   onMainInputKeyDown(event: KeyboardEvent) {
     if (this.showQuickHelp && event.key === "Escape") {
       this.showQuickHelp = false;
+      this.stopObservingTypeahead();
+      this.resetHelpPosition();
       event.preventDefault();
       return;
     }
@@ -712,9 +918,6 @@ export class QuestionsChooserComponent
 
   onQuestionChange(value: string) {
     this.question = value;
-    if (this.showQuickHelp) {
-      this.showQuickHelp = false;
-    }
     if (this.mode === "search" && value && value.startsWith("!")) {
       this.isTypingExclusion = true;
       setTimeout(() => (this.question = value.substring(1)));

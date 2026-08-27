@@ -157,10 +157,11 @@
         #instance="ngbTypeahead" (selectItem)="onSelect($event)" />
   </div>
 
-  <!-- Right Actions: Quick Help Button & Popover -->
-  <div class="input-actions-group d-flex align-items-center ml-auto position-relative" *ngIf="mode === 'search'">
+  <!-- Right Actions: Quick Help Button -->
+  <div class="input-actions-group d-flex align-items-center ml-auto" #inputActionsGroup *ngIf="mode === 'search'">
     <button type="button" class="btn-help-ghost anim-scale-hover"
             (click)="toggleQuickHelp($event)"
+            (mousedown)="$event.stopPropagation(); $event.preventDefault()"
             [class.active]="showQuickHelp"
             [attr.aria-expanded]="showQuickHelp"
             [title]="'QUESTIONS-CHOOSER-HELP.TITLE' | translate">
@@ -170,9 +171,16 @@
         <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
     </button>
+  </div>
 
-    <!-- Quick Help Popover Card -->
-    <div class="quick-help-popover" *ngIf="showQuickHelp" (click)="$event.stopPropagation()">
+  <!-- Quick Help Popover Card -->
+  <div class="quick-help-popover" 
+       #quickHelpPopover
+       *ngIf="showQuickHelp && mode === 'search'" 
+       [style.transform]="getHelpTransform()"
+       [class.is-shifted]="isShifted"
+       (mousedown)="$event.stopPropagation(); $event.preventDefault()"
+       (click)="$event.stopPropagation()">
       <div class="quick-help-header d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center" style="gap: 6px;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);">
@@ -182,7 +190,7 @@
           </svg>
           <span class="quick-help-title font-weight-bold">{{ 'QUESTIONS-CHOOSER-HELP.TITLE' | translate }}</span>
         </div>
-        <button type="button" class="btn-close-popover" (click)="showQuickHelp = false">
+        <button type="button" class="btn-close-popover" (click)="closeQuickHelp($event)">
           <svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -289,7 +297,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <ng-template #rt let-r="result" let-t="term">
   <div class="typeahead-item-container" [class.is-commit]="r?.type === 'commit'">
