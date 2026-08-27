@@ -1727,8 +1727,8 @@ body.dark-theme .shortcut-badge {
    ========================================= */
 .suggestion-pill {
   display: inline-block;
-  background-color: #eff6ff;
-  color: #1d4ed8;
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
   border-radius: 9999px;
   padding: 0.1rem 0.5rem;
   font-size: 0.8rem;
@@ -1737,12 +1737,12 @@ body.dark-theme .shortcut-badge {
 }
 
 body.dark-theme .suggestion-pill {
-  background-color: rgba(96, 165, 250, 0.15);
-  color: #60a5fa;
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
 }
 
 ngb-typeahead-window {
-  z-index: 1060 !important; /* Pour s'assurer qu'il passe toujours au-dessus des modales Bootstrap (1050) */
+  z-index: $zindex-typeahead-dropdown !important; /* Centralisé via _variables.scss */
   background-color: var(--tooltip-glass-bg) !important;
   backdrop-filter: blur(24px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
@@ -1750,7 +1750,6 @@ ngb-typeahead-window {
   border-radius: 12px !important;
   box-shadow: var(--shadow-lg) !important;
   padding: 6px 0 !important;
-  min-width: 290px !important;
   overflow: hidden;
 
   .dropdown-item {
@@ -1761,11 +1760,23 @@ ngb-typeahead-window {
     border: 0 !important;
     white-space: normal;
 
+    // Standard suggestion in text-input (TP group, etc.)
+    .text-input-suggestion {
+      padding: 0.35rem 0.85rem;
+      width: 100%;
+      transition: background-color $transition-fast;
+    }
+
+    &:hover,
     &.active {
       background: transparent !important;
-      color: var(--color-text-primary) !important;
-      font-weight: 400 !important;
 
+      .text-input-suggestion {
+        background-color: var(--color-hover) !important;
+      }
+    }
+
+    &.active {
       .typeahead-row-content {
         background-color: var(--color-hover) !important;
       }

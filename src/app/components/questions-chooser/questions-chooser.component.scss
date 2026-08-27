@@ -1,3 +1,5 @@
+@import "variables";
+
 :host {
   display: block;
   width: 100%;
@@ -348,7 +350,7 @@
 
   &.active {
     color: var(--color-primary);
-    background-color: rgba(37, 99, 235, 0.12);
+    background-color: var(--color-primary-bg);
   }
 
   &:active {
@@ -368,7 +370,7 @@
   border: 1px solid var(--glass-border);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
-  z-index: 1050;
+  z-index: $zindex-quick-help-popover;
   padding: 12px 14px;
   font-size: 0.78rem;
   color: var(--color-text-primary);
@@ -512,6 +514,7 @@
 
 .typeahead-item-container {
   width: 100%;
+  min-width: 290px;
 }
 
 .typeahead-section-header {
@@ -676,11 +679,11 @@
     color: var(--color-text-muted);
     &:hover {
       color: var(--color-primary);
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--color-hover);
     }
     &.active {
       color: var(--color-primary);
-      background: rgba(96, 165, 250, 0.15);
+      background: var(--color-primary-bg);
     }
   }
 

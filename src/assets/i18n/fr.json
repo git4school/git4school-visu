@@ -507,6 +507,7 @@
     "SHORTCUT_NAV": "Naviguer entre filtres",
     "SHORTCUT_REORDER": "Réordonner les filtres",
     "SHORTCUT_DELETE": "Supprimer le filtre",
-    "SHORTCUT_CLEAR": "Effacer tous les filtres"
+    "SHORTCUT_CLEAR": "Effacer tous les filtres",
+    "KEY_DELETE": "Suppr"
   }
 }

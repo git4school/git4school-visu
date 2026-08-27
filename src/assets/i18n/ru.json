@@ -504,6 +504,7 @@
     "SHORTCUT_NAV": "Навигация по фильтрам",
     "SHORTCUT_REORDER": "Изменить порядок фильтров",
     "SHORTCUT_DELETE": "Удалить фильтр",
-    "SHORTCUT_CLEAR": "Очистить все фильтры"
+    "SHORTCUT_CLEAR": "Очистить все фильтры",
+    "KEY_DELETE": "Удал."
   }
 }

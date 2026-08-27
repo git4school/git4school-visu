@@ -25,6 +25,14 @@ export interface FilterGroup {
   }[];
 }
 
+export interface TypeaheadFilterItem {
+  type: "question" | "commit";
+  value: string;
+  isExclusion?: boolean;
+  isFirstQuestion?: boolean;
+  isLastItem?: boolean;
+}
+
 @Component({
   selector: "questions-chooser",
   templateUrl: "./questions-chooser.component.html",
@@ -237,6 +245,42 @@ export class QuestionsChooserComponent
     }
   }
 
+  buildTypeaheadResults(
+    cleanSearch: string,
+    matchingQuestions: string[],
+    isExclusion: boolean
+  ): TypeaheadFilterItem[] {
+    const results: TypeaheadFilterItem[] = [];
+
+    // 1. Put matching questions in first (so they are selected by default)
+    matchingQuestions.forEach((q, idx) => {
+      results.push({
+        type: "question",
+        value: q,
+        isExclusion: isExclusion,
+        isFirstQuestion: idx === 0,
+        isLastItem: false,
+      });
+    });
+
+    // 2. Put commit search underneath for free-text search (even if matching questions exist)
+    if (cleanSearch.length > 0) {
+      results.push({
+        type: "commit",
+        value: cleanSearch,
+        isExclusion: isExclusion,
+        isFirstQuestion: false,
+        isLastItem: false,
+      });
+    }
+
+    if (results.length > 0) {
+      results[results.length - 1].isLastItem = true;
+    }
+
+    return results;
+  }
+
   searchQuestions = (text: Observable<string>) => {
     const clicksWithClosedPopup$ = this.click$.pipe(
       filter(() => !this.instance.isPopupOpen())
@@ -259,35 +303,7 @@ export class QuestionsChooserComponent
           return matchingQuestions;
         }
 
-        const results: any[] = [];
-
-        // 1. Put matching questions in first (so they are selected by default)
-        matchingQuestions.forEach((q, idx) => {
-          results.push({
-            type: "question",
-            value: q,
-            isExclusion: isExclusion,
-            isFirstQuestion: idx === 0,
-            isLastItem: false,
-          });
-        });
-
-        // 2. Put commit search underneath for free-text search (even if matching questions exist)
-        if (cleanSearch.length > 0) {
-          results.push({
-            type: "commit",
-            value: cleanSearch,
-            isExclusion: isExclusion,
-            isFirstQuestion: false,
-            isLastItem: false,
-          });
-        }
-
-        if (results.length > 0) {
-          results[results.length - 1].isLastItem = true;
-        }
-
-        return results;
+        return this.buildTypeaheadResults(cleanSearch, matchingQuestions, isExclusion);
       })
     );
   };
@@ -312,32 +328,7 @@ export class QuestionsChooserComponent
           return matchingQuestions;
         }
 
-        const results: any[] = [];
-        matchingQuestions.forEach((q, idx) => {
-          results.push({
-            type: "question",
-            value: q,
-            isExclusion: isExclusion,
-            isFirstQuestion: idx === 0,
-            isLastItem: false,
-          });
-        });
-
-        if (cleanSearch.length > 0) {
-          results.push({
-            type: "commit",
-            value: cleanSearch,
-            isExclusion: isExclusion,
-            isFirstQuestion: false,
-            isLastItem: false,
-          });
-        }
-
-        if (results.length > 0) {
-          results[results.length - 1].isLastItem = true;
-        }
-
-        return results;
+        return this.buildTypeaheadResults(cleanSearch, matchingQuestions, isExclusion);
       })
     );
   };
