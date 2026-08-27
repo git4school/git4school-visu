@@ -13,12 +13,19 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible; // Allow popover to overflow properly
+  position: relative;
 
   &.disabled {
     background-color: #e9ecef;
     cursor: not-allowed;
   }
+}
+
+.search-leading-icon {
+  color: var(--color-text-muted);
+  margin-right: 6px;
+  flex-shrink: 0;
 }
 
 .pills-scroll-container {
@@ -64,7 +71,13 @@
   outline: none;
   position: relative;
   flex-shrink: 0;
-  transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out, box-shadow 150ms ease-out, transform 150ms ease-out;
+  transition: background-color 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              color 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              border-color 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              transform 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              border-radius 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              margin-right 150ms cubic-bezier(0.23, 1, 0.32, 1);
   cursor: default; /* normal cursor */
   min-height: 24px;
   min-width: 14px;
@@ -145,16 +158,16 @@
   }
 
   &.exclusion-pill {
-    border-color: var(--danger, #dc3545) !important;
+    border-color: var(--color-danger, #dc2626) !important;
     &::before {
       content: '!';
-      color: var(--danger, #dc3545);
+      color: var(--color-danger, #dc2626);
       font-weight: bold;
       margin-right: 3px;
     }
     
     &.commit-pill::before {
-      color: var(--danger, #dc3545);
+      color: var(--color-danger, #dc2626);
     }
   }
 
@@ -195,6 +208,21 @@
   }
 }
 
+.pill-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  opacity: 0.85;
+
+  &.question-icon {
+    color: #1d4ed8;
+  }
+
+  &.commit-icon {
+    color: var(--color-text-secondary, #475569);
+  }
+}
+
 .edit-input {
     border: none;
     outline: none;
@@ -214,16 +242,17 @@
 
 .pill-connector {
   position: relative;
-  width: 0.5rem; /* The 8px gap */
+  width: 0.5rem; /* The standard 8px gap */
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: width 0.2s ease, background-color 0.2s ease;
+  transition: width 150ms cubic-bezier(0.23, 1, 0.32, 1), background-color 150ms ease-out;
   z-index: 1;
+  flex-shrink: 0; /* Prevents connectors from collapsing when many pills exist */
 
-  /* Expanded invisible hit area to make the 8px gap easier to hover/click */
+  /* Expanded invisible hit area to make the gap easier to hover/click */
   &::before {
     content: '';
     position: absolute;
@@ -243,7 +272,7 @@
     .unlink-icon {
       /* Show the unlink icon */
       display: flex;
-      background: #ef4444; /* red split indicator */
+      background: var(--color-danger, #dc2626); /* red split indicator */
     }
 
     &:hover {
@@ -256,21 +285,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 4px;
-  height: 16px;
+  padding: 0 5px;
+  height: 18px;
   flex-shrink: 0;
-  border-radius: 4px;
-  background: #1d4ed8;
+  border-radius: 9999px;
+  background: var(--color-primary, #2563eb);
   color: white;
   opacity: 0;
   transform: scale(0.92);
-  transition: opacity 150ms ease-out, transform 150ms ease-out;
-  pointer-events: none; /* Let the parent .pill-connector handle hover */
-  font-size: 0.6rem;
+  transition: opacity 140ms cubic-bezier(0.23, 1, 0.32, 1), transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none; /* Let parent handle hover */
+  font-size: 0.62rem;
   font-weight: 700;
   line-height: 1;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
+  position: absolute;
+  z-index: 2;
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .unlink-icon {
@@ -283,51 +319,390 @@
 }
 
 // ======================
+// Input Actions & Quick Help
+// ======================
+
+.input-actions-group {
+  gap: 4px;
+}
+
+.btn-help-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: color 150ms ease-out, background-color 150ms ease-out, transform 150ms ease-out;
+
+  &:hover {
+    color: var(--color-primary);
+    background-color: var(--color-hover);
+  }
+
+  &.active {
+    color: var(--color-primary);
+    background-color: rgba(37, 99, 235, 0.12);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.quick-help-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  background-color: var(--tooltip-glass-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1050;
+  padding: 12px 14px;
+  font-size: 0.78rem;
+  color: var(--color-text-primary);
+  transform-origin: top right;
+  animation: popoverEnter 160ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+
+  .quick-help-header {
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 10px;
+
+    .quick-help-title {
+      font-size: 0.82rem;
+      color: var(--color-text-primary);
+    }
+
+    .btn-close-popover {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      padding: 2px;
+      display: inline-flex;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: color 140ms ease-out, background-color 140ms ease-out;
+
+      &:hover {
+        color: var(--color-text-primary);
+        background-color: var(--color-hover);
+      }
+    }
+  }
+
+  .quick-help-features {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    .help-feature-card {
+      background: var(--color-hover);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 7px 10px;
+
+      .mini-pill {
+        padding: 0.05rem 0.4rem;
+        font-size: 0.72rem;
+        min-height: 20px;
+        margin-right: 8px;
+        margin-top: 1px;
+        flex-shrink: 0;
+
+        .pill-icon {
+          margin-right: 3px;
+        }
+      }
+
+      .feature-info {
+        min-width: 0;
+      }
+
+      .feature-name {
+        font-size: 0.76rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        line-height: 1.2;
+        margin-bottom: 2px;
+      }
+
+      .feature-desc {
+        font-size: 0.71rem;
+        color: var(--color-text-secondary);
+        line-height: 1.35;
+      }
+    }
+  }
+
+  .quick-help-shortcuts {
+    border-top: 1px solid var(--color-border);
+
+    .shortcuts-header {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+    }
+
+    .shortcuts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .shortcut-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .shortcut-badge {
+          min-width: 20px;
+          height: 19px;
+          padding: 0 5px;
+          font-size: 0.65rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          background: var(--color-border);
+          color: var(--color-text-primary);
+          font-weight: 600;
+        }
+
+        .shortcut-plus, .shortcut-or {
+          font-size: 0.65rem;
+          color: var(--color-text-muted);
+          font-weight: 600;
+        }
+
+        .shortcut-desc {
+          font-size: 0.73rem;
+          color: var(--color-text-secondary);
+        }
+      }
+    }
+  }
+}
+
+@keyframes popoverEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+// ======================
+// Typeahead Item Styles
+// ======================
+
+.typeahead-item-container {
+  width: 100%;
+}
+
+.typeahead-section-header {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  padding: 4px 10px 4px 10px;
+  margin: 0 4px 2px 4px;
+  border-bottom: 1px solid var(--color-border);
+  pointer-events: none;
+  background: transparent;
+
+  .header-icon {
+    color: var(--color-primary);
+  }
+}
+
+.typeahead-row-content {
+  padding: 0.35rem 0.85rem;
+  width: 100%;
+  transition: background-color 100ms ease-out;
+
+  &.exclusion-row {
+    .commit-query-term {
+      color: var(--color-danger, #dc2626);
+    }
+  }
+}
+
+.exclusion-badge {
+  color: var(--color-danger, #dc2626);
+  font-weight: 700;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.typeahead-commit-row {
+  font-size: 0.8rem;
+  color: var(--color-text-primary);
+  font-weight: 400;
+
+  .commit-row-text {
+    color: var(--color-text-secondary);
+    font-size: 0.78rem;
+    font-weight: 400;
+
+    .commit-query-term {
+      color: var(--color-text-primary);
+      font-weight: 500;
+    }
+  }
+}
+
+.enter-badge {
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  margin-left: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 120ms ease;
+  font-weight: 500;
+}
+
+.typeahead-cheat-sheet {
+  padding: 6px 10px 2px 10px;
+  margin: 4px 4px 0 4px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.68rem;
+  font-weight: 400 !important;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  background: transparent;
+
+  .cheat-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 3px;
+    border-radius: 3px;
+    background: var(--color-border);
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    font-size: 0.62rem;
+    line-height: 1;
+  }
+
+  .cheat-label {
+    font-size: 0.68rem;
+    font-weight: 400 !important;
+    color: var(--color-text-muted);
+  }
+
+  .cheat-sep {
+    opacity: 0.3;
+    font-size: 0.6rem;
+  }
+}
+
+// ======================
 // Dark theme
 // ======================
 
-:host-context(body.dark-theme) .pill {
-  background-color: rgba(96, 165, 250, 0.15);
-  color: #60a5fa;
-  
-  .close-icon { color: #60a5fa; }
-
-  &.selected-pill {
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 1px #60a5fa;
-  }
-
-  &.commit-pill {
-    background-color: transparent;
-    color: var(--color-text-secondary, #94a3b8);
-    border-color: var(--color-border, #475569);
+:host-context(body.dark-theme) {
+  .pill {
+    background-color: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+    
+    .close-icon { color: #60a5fa; }
 
     &.selected-pill {
-        border-color: var(--color-text-secondary, #94a3b8);
-        box-shadow: 0 0 0 1px var(--color-text-secondary, #94a3b8);
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 1px #60a5fa;
     }
 
-    .close-icon { color: var(--color-text-secondary, #94a3b8); }
+    &.commit-pill {
+      background-color: transparent;
+      color: var(--color-text-secondary, #94a3b8);
+      border-color: var(--color-border, #475569);
+
+      &.selected-pill {
+          border-color: var(--color-text-secondary, #94a3b8);
+          box-shadow: 0 0 0 1px var(--color-text-secondary, #94a3b8);
+      }
+
+      .close-icon { color: var(--color-text-secondary, #94a3b8); }
+    }
   }
-}
 
-:host-context(body.dark-theme) .connector-icon {
-  background: #3b82f6;
-}
+  .pill-icon.question-icon {
+    color: #60a5fa;
+  }
+  
+  .pill-icon.commit-icon {
+    color: var(--color-text-secondary, #94a3b8);
+  }
 
-:host-context(body.dark-theme) .connector-icon.unlink-icon {
-  background: #ef4444;
-}
+  .connector-icon {
+    background: #3b82f6;
+  }
 
-:host-context(body.dark-theme) .pill.merged-right:not(.commit-pill) {
-  border-right-color: var(--color-border, #475569);
-}
+  .connector-icon.unlink-icon {
+    background: var(--color-danger, #dc2626);
+  }
 
-:host-context(body.dark-theme) .pill-connector.merged {
-  background-color: transparent;
+  .pill.merged-right:not(.commit-pill) {
+    border-right-color: var(--color-border, #475569);
+  }
 
-  &:hover {
+  .pill-connector.merged {
     background-color: transparent;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .btn-help-ghost {
+    color: var(--color-text-muted);
+    &:hover {
+      color: var(--color-primary);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    &.active {
+      color: var(--color-primary);
+      background: rgba(96, 165, 250, 0.15);
+    }
+  }
+
+  .quick-help-popover {
+    .help-feature-card {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .shortcut-row .shortcut-badge {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--color-text-primary, #f8fafc);
+    }
+  }
+
+  .typeahead-cheat-sheet .cheat-badge {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-text-secondary, #cbd5e1);
+  }
+
+  .transparent-input {
+    color: var(--color-text-primary);
   }
 }
 
@@ -351,10 +726,6 @@
   }
 }
 
-:host-context(body.dark-theme) .transparent-input {
-  color: var(--color-text-primary);
-}
-
 .main-input-wrapper {
   transition: none !important;
   min-width: 0;
@@ -362,4 +733,7 @@
     flex-grow: 1;
   }
 }
+
+
+
 

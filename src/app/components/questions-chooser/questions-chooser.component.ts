@@ -59,10 +59,32 @@ export class QuestionsChooserComponent
   disabled: boolean;
 
   pressedShortcut: string = null;
+  showQuickHelp = false;
+
+  get placeholderKey(): string {
+    if (this.items.length > 0) return "";
+    return this.mode === "search"
+      ? "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER"
+      : "QUESTIONS-CHOOSER-PLACEHOLDER";
+  }
+
+  toggleQuickHelp(event?: MouseEvent) {
+    if (event) event.stopPropagation();
+    this.showQuickHelp = !this.showQuickHelp;
+  }
+
+  typeaheadFormatter = (item: any) => {
+    return typeof item === "string" ? item : item?.value || "";
+  };
 
   @HostListener("document:keydown", ["$event"])
   handleGlobalKeyDown(event: KeyboardEvent) {
     if (this.mode !== "search") return;
+    if (this.showQuickHelp && event.key === "Escape") {
+      this.showQuickHelp = false;
+      event.preventDefault();
+      return;
+    }
     if (event.key.toLowerCase() === "f") {
       const target = event.target as HTMLElement;
       if (
@@ -142,6 +164,9 @@ export class QuestionsChooserComponent
         }
         this.selectedPillIndex = null;
       }
+      if (this.showQuickHelp) {
+        this.showQuickHelp = false;
+      }
     }
   }
 
@@ -218,31 +243,102 @@ export class QuestionsChooserComponent
     );
     const inputFocus$ = this.focus$;
     return merge(text, clicksWithClosedPopup$, inputFocus$).pipe(
-      map((search) =>
-        this.questionSuggestions
+      map((searchRaw) => {
+        const raw = (searchRaw || "").trim();
+        const isExclusion = this.isTypingExclusion || raw.startsWith("!");
+        const cleanSearch = raw.startsWith("!") ? raw.substring(1).trim() : raw;
+        const matchingQuestions = this.questionSuggestions
           .filter(
             (question) =>
               (this.mode === "search" || !this.questions.includes(question)) &&
-              question.toLowerCase().indexOf(search.toLowerCase()) > -1
+              question.toLowerCase().indexOf(cleanSearch.toLowerCase()) > -1
           )
-          .slice(0, 10)
-      )
+          .slice(0, 8);
+
+        if (this.mode !== "search") {
+          return matchingQuestions;
+        }
+
+        const results: any[] = [];
+
+        // 1. Put matching questions in first (so they are selected by default)
+        matchingQuestions.forEach((q, idx) => {
+          results.push({
+            type: "question",
+            value: q,
+            isExclusion: isExclusion,
+            isFirstQuestion: idx === 0,
+            isLastItem: false,
+          });
+        });
+
+        // 2. Put commit search underneath for free-text search (even if matching questions exist)
+        if (cleanSearch.length > 0) {
+          results.push({
+            type: "commit",
+            value: cleanSearch,
+            isExclusion: isExclusion,
+            isFirstQuestion: false,
+            isLastItem: false,
+          });
+        }
+
+        if (results.length > 0) {
+          results[results.length - 1].isLastItem = true;
+        }
+
+        return results;
+      })
     );
   };
 
   searchQuestionsEdit = (text: Observable<string>) => {
     return merge(text, this.editFocus$).pipe(
-      map((search) =>
-        this.questionSuggestions
+      map((searchRaw) => {
+        const raw = (searchRaw || "").trim();
+        const isExclusion = this.editingIsExclusion || raw.startsWith("!");
+        const cleanSearch = raw.startsWith("!") ? raw.substring(1).trim() : raw;
+        const matchingQuestions = this.questionSuggestions
           .filter(
             (question) =>
               (this.mode === "search" ||
                 !this.questions.includes(question) ||
                 question === this.editingOldValue) &&
-              question.toLowerCase().indexOf((search || "").toLowerCase()) > -1
+              question.toLowerCase().indexOf(cleanSearch.toLowerCase()) > -1
           )
-          .slice(0, 10)
-      )
+          .slice(0, 8);
+
+        if (this.mode !== "search") {
+          return matchingQuestions;
+        }
+
+        const results: any[] = [];
+        matchingQuestions.forEach((q, idx) => {
+          results.push({
+            type: "question",
+            value: q,
+            isExclusion: isExclusion,
+            isFirstQuestion: idx === 0,
+            isLastItem: false,
+          });
+        });
+
+        if (cleanSearch.length > 0) {
+          results.push({
+            type: "commit",
+            value: cleanSearch,
+            isExclusion: isExclusion,
+            isFirstQuestion: false,
+            isLastItem: false,
+          });
+        }
+
+        if (results.length > 0) {
+          results[results.length - 1].isLastItem = true;
+        }
+
+        return results;
+      })
     );
   };
 
@@ -306,19 +402,9 @@ export class QuestionsChooserComponent
     }, 0);
   }
 
-  addQuestion(text: string) {
+  addQuestion(text: string, explicitType?: "question" | "commit") {
     if (!text) return;
 
-    // Check if it's already added in editable mode
-    if (
-      this.mode !== "search" &&
-      (this.questions.includes(text) || this.commitMessages.includes(text))
-    ) {
-      this.question = null;
-      return;
-    }
-
-    let type: "question" | "commit" = "question";
     let cleanText = text;
     let isExclusion = this.isTypingExclusion;
 
@@ -327,21 +413,38 @@ export class QuestionsChooserComponent
       cleanText = text.substring(1);
     }
 
-    if (this.mode === "search") {
-      const isSuggestion = this.questionSuggestions && this.questionSuggestions.some(
-        (s) => s.toLowerCase() === cleanText.toLowerCase()
-      );
-      if (!isSuggestion) {
-        type = "commit";
+    let type: "question" | "commit" = explicitType || "question";
+
+    if (!explicitType) {
+      if (this.mode === "search") {
+        const isSuggestion =
+          this.questionSuggestions &&
+          this.questionSuggestions.some(
+            (s) => s.toLowerCase() === cleanText.toLowerCase()
+          );
+        if (!isSuggestion) {
+          type = "commit";
+        }
+      } else if (this.mode === "choose") {
+        const isSuggestion =
+          this.questionSuggestions &&
+          this.questionSuggestions.some(
+            (s) => s.toLowerCase() === cleanText.toLowerCase()
+          );
+        if (!isSuggestion) {
+          this.question = null;
+          return;
+        }
       }
-    } else if (this.mode === "choose") {
-      const isSuggestion = this.questionSuggestions && this.questionSuggestions.some(
-        (s) => s.toLowerCase() === cleanText.toLowerCase()
-      );
-      if (!isSuggestion) {
-        this.question = null;
-        return;
-      }
+    }
+
+    // Check if it's already added in editable mode
+    if (
+      this.mode !== "search" &&
+      (this.questions.includes(text) || this.commitMessages.includes(text))
+    ) {
+      this.question = null;
+      return;
     }
 
     if (type === "question") {
@@ -398,6 +501,21 @@ export class QuestionsChooserComponent
   }
 
   onMainInputKeyDown(event: KeyboardEvent) {
+    if (this.showQuickHelp && event.key === "Escape") {
+      this.showQuickHelp = false;
+      event.preventDefault();
+      return;
+    }
+    if (
+      event.key === "?" &&
+      !this.question &&
+      !this.isTypingExclusion &&
+      this.mode === "search"
+    ) {
+      event.preventDefault();
+      this.toggleQuickHelp();
+      return;
+    }
     if (!this.question) {
       if (event.key === "Backspace") {
         if (this.isTypingExclusion) {
@@ -466,8 +584,14 @@ export class QuestionsChooserComponent
   }
 
   onEditSelectItem(event: any) {
-    this.editingCurrentText = event.item;
-    this.finishEditing();
+    let itemType: "question" | "commit" | undefined;
+    if (typeof event.item === "string") {
+      this.editingCurrentText = event.item;
+    } else {
+      this.editingCurrentText = event.item?.value || "";
+      itemType = event.item?.type;
+    }
+    this.finishEditing(itemType);
     this.focusSelectedPill();
     event.preventDefault();
   }
@@ -489,7 +613,7 @@ export class QuestionsChooserComponent
     }
   }
 
-  finishEditing() {
+  finishEditing(explicitType?: "question" | "commit") {
     if (this.editingPillIndex === null) return;
 
     const index = this.editingPillIndex;
@@ -525,19 +649,21 @@ export class QuestionsChooserComponent
         }
       }
     } else {
-      let newType: "question" | "commit" = "question";
-      if (this.mode === "search") {
-        const isSuggestion = this.questionSuggestions.some(
-          (s) => s.toLowerCase() === newValue.toLowerCase()
-        );
-        if (!isSuggestion) {
-          newType = "commit";
+      let newType: "question" | "commit" = explicitType || "question";
+      if (!explicitType) {
+        if (this.mode === "search") {
+          const isSuggestion = this.questionSuggestions.some(
+            (s) => s.toLowerCase() === newValue.toLowerCase()
+          );
+          if (!isSuggestion) {
+            newType = "commit";
+          }
+        } else if (this.mode === "choose") {
+          const isSuggestion = this.questionSuggestions.some(
+            (s) => s.toLowerCase() === newValue.toLowerCase()
+          );
+          newType = isSuggestion ? "question" : "commit";
         }
-      } else if (this.mode === "choose") {
-        const isSuggestion = this.questionSuggestions.some(
-          (s) => s.toLowerCase() === newValue.toLowerCase()
-        );
-        newType = isSuggestion ? "question" : "commit";
       }
 
       item.type = newType;
@@ -595,6 +721,9 @@ export class QuestionsChooserComponent
 
   onQuestionChange(value: string) {
     this.question = value;
+    if (this.showQuickHelp) {
+      this.showQuickHelp = false;
+    }
     if (this.mode === "search" && value && value.startsWith("!")) {
       this.isTypingExclusion = true;
       setTimeout(() => (this.question = value.substring(1)));
@@ -1081,11 +1210,23 @@ export class QuestionsChooserComponent
   }
 
   onEnter() {
+    if (this.instance && this.instance.isPopupOpen()) {
+      return;
+    }
     this.addQuestion(this.question);
   }
 
   onSelect(item) {
-    this.addQuestion(item.item);
+    let val: string;
+    let itemType: "question" | "commit" | undefined;
+    if (typeof item.item === "string") {
+      val = item.item;
+    } else {
+      const rawVal = item.item?.value || "";
+      val = item.item?.isExclusion && !rawVal.startsWith("!") ? "!" + rawVal : rawVal;
+      itemType = item.item?.type;
+    }
+    this.addQuestion(val, itemType);
     item.preventDefault();
   }
 

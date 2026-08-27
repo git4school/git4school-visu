@@ -478,5 +478,32 @@
   "LAST-CLOSED-QUESTION": "Последний закрытый вопрос",
   "PERCENT-COMMITS": "% коммитов",
   "QUESTIONS": "Вопросы",
-  "STUDENTS": "Студенты"
+  "STUDENTS": "Студенты",
+  "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER": "Поиск вопроса (напр. 1.1) или ключевого слова коммита...",
+  "QUESTIONS-CHOOSER-QUESTIONS-HEADER": "Вопросы задания",
+  "QUESTIONS-CHOOSER-SEARCH-COMMITS": "Искать в сообщениях коммитов:",
+  "QUESTIONS-CHOOSER-EXCLUDE-COMMITS": "Исключить коммиты, содержащие:",
+  "QUESTIONS-CHOOSER-EXCLUDE-QUESTION": "Исключить вопрос:",
+  "QUESTIONS-CHOOSER-PRESS-ENTER": "Enter",
+  "QUESTIONS-CHOOSER-CHEAT-EXCLUDE": "Исключить",
+  "QUESTIONS-CHOOSER-CHEAT-SUGGESTIONS": "Подсказки",
+  "QUESTIONS-CHOOSER-CHEAT-HELP": "Справка",
+  "QUESTIONS-CHOOSER-HELP": {
+    "TITLE": "Справка по поиску",
+    "QUESTIONS_TITLE": "Вопросы задания",
+    "QUESTIONS_DESC": "Фильтрует коммиты, относящиеся к определенному вопросу (напр. #1 или 1.1).",
+    "COMMITS_TITLE": "Сообщения коммитов",
+    "COMMITS_DESC": "Свободный текстовый поиск по всем сообщениям коммитов (напр. fix).",
+    "EXCLUSION_TITLE": "Фильтр исключения (!)",
+    "EXCLUSION_DESC": "Введите '!' перед термином (напр. !wip), чтобы скрыть эти коммиты.",
+    "OPERATORS_TITLE": "Комбинации И / ИЛИ",
+    "OPERATORS_DESC": "Раздельные плашки = ИЛИ. Нажмите между плашками, чтобы объединить через И.",
+    "SHORTCUTS_TITLE": "Сочетания клавиш",
+    "SHORTCUT_FOCUS": "Фокус на поиске",
+    "SHORTCUT_SUGGESTIONS": "Показать / скрыть подсказки",
+    "SHORTCUT_NAV": "Навигация по фильтрам",
+    "SHORTCUT_REORDER": "Изменить порядок фильтров",
+    "SHORTCUT_DELETE": "Удалить фильтр",
+    "SHORTCUT_CLEAR": "Очистить все фильтры"
+  }
 }

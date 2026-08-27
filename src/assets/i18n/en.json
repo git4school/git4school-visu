@@ -479,5 +479,32 @@
   },
   "PERCENT-COMMITS": "% of commits",
   "QUESTIONS": "Questions",
-  "STUDENTS": "Students"
+  "STUDENTS": "Students",
+  "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER": "Search a question (e.g. 1.1) or a commit keyword...",
+  "QUESTIONS-CHOOSER-QUESTIONS-HEADER": "Assignment Questions",
+  "QUESTIONS-CHOOSER-SEARCH-COMMITS": "Search in commit messages:",
+  "QUESTIONS-CHOOSER-EXCLUDE-COMMITS": "Exclude commits containing:",
+  "QUESTIONS-CHOOSER-EXCLUDE-QUESTION": "Exclude question:",
+  "QUESTIONS-CHOOSER-PRESS-ENTER": "Enter",
+  "QUESTIONS-CHOOSER-CHEAT-EXCLUDE": "Exclude",
+  "QUESTIONS-CHOOSER-CHEAT-SUGGESTIONS": "Suggestions",
+  "QUESTIONS-CHOOSER-CHEAT-HELP": "Help",
+  "QUESTIONS-CHOOSER-HELP": {
+    "TITLE": "Search Help",
+    "QUESTIONS_TITLE": "Assignment Questions",
+    "QUESTIONS_DESC": "Filters commits related to a specific question (e.g. #1 or 1.1).",
+    "COMMITS_TITLE": "Commit Messages",
+    "COMMITS_DESC": "Free text search across all commit messages (e.g. fix).",
+    "EXCLUSION_TITLE": "Exclusion Filter (!)",
+    "EXCLUSION_DESC": "Type '!' before your term (e.g. !wip) to hide these commits.",
+    "OPERATORS_TITLE": "AND / OR Combinations",
+    "OPERATORS_DESC": "Separate pills = OR. Click between two pills to combine with AND.",
+    "SHORTCUTS_TITLE": "Keyboard Shortcuts",
+    "SHORTCUT_FOCUS": "Focus search",
+    "SHORTCUT_SUGGESTIONS": "Show / hide suggestions",
+    "SHORTCUT_NAV": "Navigate filters",
+    "SHORTCUT_REORDER": "Reorder filters",
+    "SHORTCUT_DELETE": "Delete filter",
+    "SHORTCUT_CLEAR": "Clear all filters"
+  }
 }

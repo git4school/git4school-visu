@@ -481,5 +481,32 @@
   },
   "PERCENT-COMMITS": "% des commits",
   "QUESTIONS": "Questions",
-  "STUDENTS": "Étudiant·es"
+  "STUDENTS": "Étudiant·es",
+  "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER": "Rechercher une question (ex: 1.1) ou un mot-clé de commit...",
+  "QUESTIONS-CHOOSER-QUESTIONS-HEADER": "Questions du TP",
+  "QUESTIONS-CHOOSER-SEARCH-COMMITS": "Rechercher dans les messages de commit :",
+  "QUESTIONS-CHOOSER-EXCLUDE-COMMITS": "Exclure les commits contenant :",
+  "QUESTIONS-CHOOSER-EXCLUDE-QUESTION": "Exclure la question :",
+  "QUESTIONS-CHOOSER-PRESS-ENTER": "Entrée",
+  "QUESTIONS-CHOOSER-CHEAT-EXCLUDE": "Exclure",
+  "QUESTIONS-CHOOSER-CHEAT-SUGGESTIONS": "Suggestions",
+  "QUESTIONS-CHOOSER-CHEAT-HELP": "Aide",
+  "QUESTIONS-CHOOSER-HELP": {
+    "TITLE": "Aide à la recherche",
+    "QUESTIONS_TITLE": "Questions du TP",
+    "QUESTIONS_DESC": "Filtre les commits associés à une question spécifique (ex: #1 ou 1.1).",
+    "COMMITS_TITLE": "Messages de commit",
+    "COMMITS_DESC": "Recherche textuelle libre dans tous les messages de commit (ex: fix).",
+    "EXCLUSION_TITLE": "Filtre d'exclusion (!)",
+    "EXCLUSION_DESC": "Tapez '!' devant votre terme (ex: !wip) pour masquer ces commits.",
+    "OPERATORS_TITLE": "Combinaisons ET / OU",
+    "OPERATORS_DESC": "Pilules séparées = OU. Cliquez entre deux pilules pour les lier avec ET.",
+    "SHORTCUTS_TITLE": "Raccourcis clavier",
+    "SHORTCUT_FOCUS": "Activer la recherche",
+    "SHORTCUT_SUGGESTIONS": "Afficher / masquer les suggestions",
+    "SHORTCUT_NAV": "Naviguer entre filtres",
+    "SHORTCUT_REORDER": "Réordonner les filtres",
+    "SHORTCUT_DELETE": "Supprimer le filtre",
+    "SHORTCUT_CLEAR": "Effacer tous les filtres"
+  }
 }

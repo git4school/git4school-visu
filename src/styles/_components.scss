@@ -1743,6 +1743,39 @@ body.dark-theme .suggestion-pill {
 
 ngb-typeahead-window {
   z-index: 1060 !important; /* Pour s'assurer qu'il passe toujours au-dessus des modales Bootstrap (1050) */
+  background-color: var(--tooltip-glass-bg) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: 6px 0 !important;
+  min-width: 290px !important;
+  overflow: hidden;
+
+  .dropdown-item {
+    padding: 0 !important;
+    background: transparent !important;
+    color: var(--color-text-primary) !important;
+    font-weight: 400 !important;
+    border: 0 !important;
+    white-space: normal;
+
+    &.active {
+      background: transparent !important;
+      color: var(--color-text-primary) !important;
+      font-weight: 400 !important;
+
+      .typeahead-row-content {
+        background-color: var(--color-hover) !important;
+      }
+
+      .enter-badge {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+    }
+  }
 }
 
 /* =========================================
