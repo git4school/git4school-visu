@@ -474,26 +474,6 @@
         align-items: center;
         gap: 8px;
 
-        .shortcut-badge {
-          min-width: 20px;
-          height: 19px;
-          padding: 0 5px;
-          font-size: 0.65rem;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 4px;
-          background: var(--color-border);
-          color: var(--color-text-primary);
-          font-weight: 600;
-        }
-
-        .shortcut-plus, .shortcut-or {
-          font-size: 0.65rem;
-          color: var(--color-text-muted);
-          font-weight: 600;
-        }
-
         .shortcut-desc {
           font-size: 0.73rem;
           color: var(--color-text-secondary);
@@ -594,21 +574,6 @@
   pointer-events: none;
   background: transparent;
 
-  .cheat-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 14px;
-    height: 14px;
-    padding: 0 3px;
-    border-radius: 3px;
-    background: var(--color-border);
-    color: var(--color-text-secondary);
-    font-weight: 600;
-    font-size: 0.62rem;
-    line-height: 1;
-  }
-
   .cheat-label {
     font-size: 0.68rem;
     font-weight: 400 !important;
@@ -697,15 +662,6 @@
       border-color: rgba(255, 255, 255, 0.08);
     }
 
-    .shortcut-row .shortcut-badge {
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--color-text-primary, #f8fafc);
-    }
-  }
-
-  .typeahead-cheat-sheet .cheat-badge {
-    background: rgba(255, 255, 255, 0.12);
-    color: var(--color-text-secondary, #cbd5e1);
   }
 
   .transparent-input {

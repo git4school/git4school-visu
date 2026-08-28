@@ -26,6 +26,7 @@ import { ThemeService } from "@services/theme.service";
 import { TooltipService } from "@services/tooltip.service";
 import { Subscription, concat } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
+import { OsUtils } from "../../../utils/os.utils";
 
 import * as d3 from "d3";
 import { Repository } from "../../../models/Repository.model";
@@ -259,12 +260,7 @@ export class OverviewComponent
   @HostListener("document:keydown", ["$event"])
   handleGlobalShortcuts(event: KeyboardEvent) {
     if (document.body.classList.contains("modal-open")) return;
-    const target = event.target as HTMLElement;
-    if (
-      target.tagName === "INPUT" ||
-      target.tagName === "TEXTAREA" ||
-      target.isContentEditable
-    ) {
+    if (OsUtils.isTypingInInput(event)) {
       return;
     }
 
@@ -279,13 +275,13 @@ export class OverviewComponent
       this.loadGraph(this.dataService.startDate, this.dataService.endDate);
       this.triggerShortcut("r");
     } else if (
-      key === "c" &&
+      key === "h" &&
       this.hovered_commit != null &&
       this.hovered_group_commit == null
     ) {
       event.preventDefault();
       this.copyCommitHash(this.hovered_commit.url);
-      this.triggerShortcut("c");
+      this.triggerShortcut("h");
     } else if (key === "+" || key === "=" || event.code === "NumpadAdd") {
       event.preventDefault();
       this.zoomGraph(1.2);

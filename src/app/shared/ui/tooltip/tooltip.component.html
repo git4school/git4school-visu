@@ -7,7 +7,10 @@
       <ng-container [ngTemplateOutlet]="contentAsTemplate()" [ngTemplateOutletContext]="context"></ng-container>
     </ng-template>
   </span>
-  <span class="shortcut-badge" [class.shortcut-pressed-anim]="shortcutPressed" *ngIf="shortcutKeys?.length">
-    {{ formattedShortcut }}
-  </span>
+  <div class="shortcut-combo ml-1" *ngIf="parsedShortcutKeys?.length">
+    <ng-container *ngFor="let key of parsedShortcutKeys; let last = last">
+      <kbd class="shortcut-key" [class.shortcut-pressed-anim]="shortcutPressed">{{ key }}</kbd>
+      <span class="key-sep" *ngIf="!last && !isMac">+</span>
+    </ng-container>
+  </div>
 </div>

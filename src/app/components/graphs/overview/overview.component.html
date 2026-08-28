@@ -352,7 +352,7 @@
       </div>
       <div class="tooltip-helper-item d-flex align-items-center">
         <span>{{ 'COMMIT-TOOLTIP.COPY_HASH' | translate }}</span>
-        <span class="shortcut-badge" [class.shortcut-pressed-anim]="pressedShortcut === 'c'">C</span>
+        <kbd class="shortcut-key" [class.shortcut-pressed-anim]="pressedShortcut === 'h'">H</kbd>
       </div>
     </div>
   </div>
@@ -421,14 +421,14 @@
 </ng-template>
 
 <ng-template #mouseLeftClickIcon>
-  <div class="shortcut-badge mouse-badge d-flex align-items-center justify-content-center">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>
       <path d="M5 9h14"></path>
       <path d="M12 2v7"></path>
       <path d="M5 9V9C5 5.134 8.134 2 12 2V9H5Z" fill="currentColor"></path>
     </svg>
-  </div>
+  </span>
 </ng-template>
 
 

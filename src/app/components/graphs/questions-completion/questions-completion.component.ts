@@ -19,6 +19,7 @@ import { ThemeService } from "@services/theme.service";
 import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
 import { Utils } from "../../../services/utils";
+import { OsUtils } from "../../../utils/os.utils";
 import * as d3 from "d3";
 
 @Component({
@@ -419,12 +420,7 @@ export class QuestionsCompletionComponent
 
   @HostListener("document:keydown", ["$event"])
   handleGlobalShortcuts(event: KeyboardEvent) {
-    const target = event.target as HTMLElement;
-    if (
-      target.tagName === "INPUT" ||
-      target.tagName === "TEXTAREA" ||
-      target.isContentEditable
-    ) {
+    if (OsUtils.isTypingInInput(event)) {
       return;
     }
 

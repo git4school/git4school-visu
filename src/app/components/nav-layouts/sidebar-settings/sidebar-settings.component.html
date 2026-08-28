@@ -119,12 +119,24 @@
             <div class="sidebar-section-line"></div>
         </div>
 
-        <!-- Help -->
-        <div class="sidebar-item d-flex align-items-center" [appTooltip]="helpTooltip" (click)="openUserDocumentation()">
-            <i class="fas fa-question-circle sidebar-item-icon"></i>
-            <span>{{ 'SETTINGS.HELP' | translate }}</span>
+        <!-- Keyboard Shortcuts -->
+        <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="openShortcuts()">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-keyboard sidebar-item-icon"></i>
+                <span>{{ 'SETTINGS.SHORTCUTS' | translate }}</span>
+            </div>
+            <kbd class="shortcut-key">?</kbd>
         </div>
-        <ng-template #helpTooltip>{{ 'HELP-TOOLTIP' | translate }}</ng-template>
+
+        <!-- Documentation -->
+        <div class="sidebar-item d-flex align-items-center justify-content-between" [appTooltip]="docsTooltip" (click)="openUserDocumentation()">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-book sidebar-item-icon"></i>
+                <span>{{ 'SETTINGS.DOCUMENTATION' | translate }}</span>
+            </div>
+            <i class="fas fa-external-link-alt text-muted mr-1" style="font-size: 0.75rem; opacity: 0.6;"></i>
+        </div>
+        <ng-template #docsTooltip>{{ 'SETTINGS.DOCS-TOOLTIP' | translate }}</ng-template>
 
         <!-- Replay Tour -->
         <div class="sidebar-item d-flex align-items-center" *ngIf="authService.isSignedIn()" (click)="replayTour()">

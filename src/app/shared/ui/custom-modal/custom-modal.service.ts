@@ -19,16 +19,23 @@ export interface CustomModalOptions {
   providedIn: "root",
 })
 export class CustomModalService {
+  private openModalsCount = 0;
+
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
     private injector: Injector
   ) {}
 
+  public hasOpenModals(): boolean {
+    return this.openModalsCount > 0;
+  }
+
   public open<T>(
     componentType: Type<T>,
     options: CustomModalOptions = {}
   ): CustomModalRef {
+    this.openModalsCount++;
     // 1. Create the container component (the overlay and modal dialog)
     const containerFactory =
       this.componentFactoryResolver.resolveComponentFactory(
@@ -89,6 +96,7 @@ export class CustomModalService {
 
     // Cleanup when modal closes
     customModalRef.result.finally(() => {
+      this.openModalsCount = Math.max(0, this.openModalsCount - 1);
       document.body.style.overflow = previousBodyOverflow;
       this.appRef.detachView(containerRef.hostView);
       containerRef.destroy();

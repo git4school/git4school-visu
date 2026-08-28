@@ -1,0 +1,120 @@
+@import 'variables';
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.modal-header-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-size: 1rem;
+}
+
+.modal-title {
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--color-text-primary);
+  letter-spacing: -0.015em;
+}
+
+.modal-subtitle {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  letter-spacing: -0.005em;
+}
+
+.btn-close-modal {
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-hover);
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  transition: background-color $transition-fast, color $transition-fast, transform 100ms ease-out;
+
+  &:hover {
+    background: var(--color-border);
+    color: var(--color-text-primary);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+.shortcuts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.shortcuts-column {
+  display: flex;
+  flex-direction: column;
+
+  &:not(:last-child) {
+    @media (min-width: 861px) {
+      padding-right: 2rem;
+      border-right: 1px solid var(--color-border);
+    }
+  }
+}
+
+.shortcuts-column-header {
+  .column-icon {
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    opacity: 0.9;
+  }
+
+  .column-title {
+    font-size: 0.775rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-secondary);
+  }
+}
+
+.shortcuts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.375rem 0;
+  gap: 0.75rem;
+
+  .shortcut-label {
+    font-size: 0.825rem;
+    color: var(--color-text-primary);
+    font-weight: 400;
+    line-height: 1.35;
+  }
+}
+
+
+.footer-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.01em;
+  user-select: none;
+}

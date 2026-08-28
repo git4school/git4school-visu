@@ -260,36 +260,36 @@
           <div class="shortcuts-header mb-2 font-weight-bold">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUTS_TITLE' | translate }}</div>
           <div class="shortcuts-list">
             <div class="shortcut-row">
-              <span class="shortcut-badge">F</span>
+              <kbd class="shortcut-key shortcut-key-sm">F</kbd>
               <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_FOCUS' | translate }}</span>
             </div>
             <div class="shortcut-row">
-              <span class="shortcut-badge">⇥ Tab</span>
+              <kbd class="shortcut-key shortcut-key-sm">⇥ Tab</kbd>
               <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_SUGGESTIONS' | translate }}</span>
             </div>
             <div class="shortcut-row">
-              <div class="d-flex" style="gap: 3px;">
-                <span class="shortcut-badge">←</span>
-                <span class="shortcut-badge">→</span>
+              <div class="shortcut-combo">
+                <kbd class="shortcut-key shortcut-key-sm">←</kbd>
+                <kbd class="shortcut-key shortcut-key-sm">→</kbd>
               </div>
               <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_NAV' | translate }}</span>
             </div>
             <div class="shortcut-row">
-              <div class="d-flex align-items-center" style="gap: 3px;">
-                <span class="shortcut-badge">⌘</span>
-                <span class="shortcut-plus">+</span>
-                <span class="shortcut-badge">←</span>
-                <span class="shortcut-or">/</span>
-                <span class="shortcut-badge">→</span>
+              <div class="shortcut-combo">
+                <kbd class="shortcut-key shortcut-key-sm">{{ modifierKey }}</kbd>
+                <span class="key-sep">+</span>
+                <kbd class="shortcut-key shortcut-key-sm">←</kbd>
+                <span class="key-sep">/</span>
+                <kbd class="shortcut-key shortcut-key-sm">→</kbd>
               </div>
               <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_REORDER' | translate }}</span>
             </div>
             <div class="shortcut-row">
-              <span class="shortcut-badge">{{ 'QUESTIONS-CHOOSER-HELP.KEY_DELETE' | translate }}</span>
+              <kbd class="shortcut-key shortcut-key-sm">{{ 'MODAL-SHORTCUTS.KEY_DELETE' | translate }}</kbd>
               <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_DELETE' | translate }}</span>
             </div>
             <div class="shortcut-row">
-              <span class="shortcut-badge">Esc</span>
+              <kbd class="shortcut-key shortcut-key-sm">{{ 'MODAL-SHORTCUTS.KEY_ESC' | translate }}</kbd>
               <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_CLEAR' | translate }}</span>
             </div>
           </div>
@@ -348,17 +348,17 @@
     <!-- Bottom Cheat Sheet in Search Mode -->
     <div class="typeahead-cheat-sheet d-flex align-items-center justify-content-start" *ngIf="mode === 'search' && r?.isLastItem" (click)="$event.stopPropagation()" style="gap: 8px;">
       <div class="d-flex align-items-center cheat-group" style="gap: 4px;">
-        <span class="cheat-badge">!</span>
+        <kbd class="shortcut-key shortcut-key-sm">!</kbd>
         <span class="cheat-label">{{ 'QUESTIONS-CHOOSER-CHEAT-EXCLUDE' | translate }}</span>
       </div>
       <span class="cheat-sep">•</span>
       <div class="d-flex align-items-center cheat-group" style="gap: 4px;">
-        <span class="cheat-badge">⇥ Tab</span>
+        <kbd class="shortcut-key shortcut-key-sm">⇥ Tab</kbd>
         <span class="cheat-label">{{ 'QUESTIONS-CHOOSER-CHEAT-SUGGESTIONS' | translate }}</span>
       </div>
       <span class="cheat-sep">•</span>
       <div class="d-flex align-items-center cheat-group" style="gap: 4px;">
-        <span class="cheat-badge">?</span>
+        <kbd class="shortcut-key shortcut-key-sm">?</kbd>
         <span class="cheat-label">{{ 'QUESTIONS-CHOOSER-CHEAT-HELP' | translate }}</span>
       </div>
     </div>

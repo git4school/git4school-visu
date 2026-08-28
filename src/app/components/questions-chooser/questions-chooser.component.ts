@@ -16,6 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { merge, Observable, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
+import { OsUtils } from "../../utils/os.utils";
 
 export interface FilterGroup {
   criteria: {
@@ -276,6 +277,10 @@ export class QuestionsChooserComponent
     return typeof item === "string" ? item : item?.value || "";
   };
 
+  get modifierKey(): string {
+    return OsUtils.modifierKey;
+  }
+
   @HostListener("document:keydown", ["$event"])
   handleGlobalKeyDown(event: KeyboardEvent) {
     if (this.mode !== "search") return;
@@ -287,12 +292,7 @@ export class QuestionsChooserComponent
       return;
     }
     if (event.key.toLowerCase() === "f") {
-      const target = event.target as HTMLElement;
-      if (
-        target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.isContentEditable
-      ) {
+      if (OsUtils.isTypingInInput(event)) {
         return;
       }
       event.preventDefault();
@@ -384,7 +384,7 @@ export class QuestionsChooserComponent
         return; // Let the editInput handle it
       }
 
-      if (event.key === "ArrowLeft" && (event.metaKey || event.ctrlKey)) {
+      if (event.key === "ArrowLeft" && OsUtils.isModifierPressed(event)) {
         const currentGroup = this.getGroupRange(this.selectedPillIndex);
         if (currentGroup.start > 0) {
           const prevGroup = this.getGroupRange(currentGroup.start - 1);
@@ -394,7 +394,7 @@ export class QuestionsChooserComponent
         return;
       } else if (
         event.key === "ArrowRight" &&
-        (event.metaKey || event.ctrlKey)
+        OsUtils.isModifierPressed(event)
       ) {
         const currentGroup = this.getGroupRange(this.selectedPillIndex);
         if (currentGroup.end < this.items.length - 1) {

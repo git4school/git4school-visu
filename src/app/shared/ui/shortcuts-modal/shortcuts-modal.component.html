@@ -1,0 +1,136 @@
+<div class="modal-header border-bottom-0 pb-2 pt-4 d-flex justify-content-between align-items-center flex-nowrap w-100 px-4">
+  <div class="d-flex align-items-center">
+    <div class="modal-header-icon mr-3 d-flex align-items-center justify-content-center">
+      <i class="fas fa-keyboard"></i>
+    </div>
+    <div>
+      <h5 class="modal-title m-0">
+        {{ 'MODAL-SHORTCUTS.TITLE' | translate }}
+      </h5>
+      <p class="modal-subtitle mb-0">
+        {{ 'MODAL-SHORTCUTS.SUBTITLE' | translate }}
+      </p>
+    </div>
+  </div>
+  <button type="button" class="btn btn-close-modal" (click)="close()" [attr.aria-label]="'MODAL-SHORTCUTS.CLOSE' | translate">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+
+<div class="modal-body py-3 px-4">
+  <div class="shortcuts-grid">
+    <!-- Column 1: Global Navigation -->
+    <div class="shortcuts-column">
+      <div class="shortcuts-column-header d-flex align-items-center mb-3">
+        <i class="fas fa-compass column-icon mr-2"></i>
+        <span class="column-title">
+          {{ 'MODAL-SHORTCUTS.SECTION_GLOBAL_NAV' | translate }}
+        </span>
+      </div>
+      <div class="shortcuts-list">
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_OVERVIEW' | translate }}</span>
+          <kbd class="shortcut-key">1</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_STUDENTS' | translate }}</span>
+          <kbd class="shortcut-key">2</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_QUESTIONS' | translate }}</span>
+          <kbd class="shortcut-key">3</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_CONFIG' | translate }}</span>
+          <kbd class="shortcut-key">C</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_SHORTCUTS' | translate }}</span>
+          <kbd class="shortcut-key">?</kbd>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 2: Graphs & Visualizations -->
+    <div class="shortcuts-column">
+      <div class="shortcuts-column-header d-flex align-items-center mb-3">
+        <i class="fas fa-chart-line column-icon mr-2"></i>
+        <span class="column-title">
+          {{ 'MODAL-SHORTCUTS.SECTION_GRAPHS' | translate }}
+        </span>
+      </div>
+      <div class="shortcuts-list">
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_ZOOM_IN' | translate }}</span>
+          <kbd class="shortcut-key">+</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_ZOOM_OUT' | translate }}</span>
+          <kbd class="shortcut-key">-</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_RESET_ZOOM' | translate }}</span>
+          <kbd class="shortcut-key">{{ 'MODAL-SHORTCUTS.KEY_SPACE' | translate }}</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_RELOAD' | translate }}</span>
+          <kbd class="shortcut-key">R</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_COPY_HASH' | translate }}</span>
+          <kbd class="shortcut-key">H</kbd>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 3: Filter Bar & Search -->
+    <div class="shortcuts-column">
+      <div class="shortcuts-column-header d-flex align-items-center mb-3">
+        <i class="fas fa-filter column-icon mr-2"></i>
+        <span class="column-title">
+          {{ 'MODAL-SHORTCUTS.SECTION_FILTERS' | translate }}
+        </span>
+      </div>
+      <div class="shortcuts-list">
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_FOCUS' | translate }}</span>
+          <kbd class="shortcut-key">F</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_CLEAR' | translate }}</span>
+          <kbd class="shortcut-key">{{ 'MODAL-SHORTCUTS.KEY_ESC' | translate }}</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_NAVIGATE' | translate }}</span>
+          <div class="shortcut-combo">
+            <kbd class="shortcut-key">←</kbd>
+            <kbd class="shortcut-key">→</kbd>
+          </div>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_MOVE' | translate }}</span>
+          <div class="shortcut-combo">
+            <kbd class="shortcut-key">{{ isMac ? '⌘' : 'Ctrl' }}</kbd>
+            <span class="key-sep">+</span>
+            <kbd class="shortcut-key">←</kbd>
+            <kbd class="shortcut-key">→</kbd>
+          </div>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_DELETE' | translate }}</span>
+          <kbd class="shortcut-key">{{ 'MODAL-SHORTCUTS.KEY_DELETE' | translate }}</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_EXCLUDE' | translate }}</span>
+          <kbd class="shortcut-key">!</kbd>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer border-top-0 pt-2 pb-4 px-4 d-flex justify-content-center align-items-center w-100">
+  <span class="footer-hint">
+    {{ 'MODAL-SHORTCUTS.CLOSE_HINT' | translate:{ key1: '?', key2: ('MODAL-SHORTCUTS.KEY_ESC' | translate) } }}
+  </span>
+</div>

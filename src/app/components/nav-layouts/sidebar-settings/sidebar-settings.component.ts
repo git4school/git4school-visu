@@ -21,6 +21,8 @@ import { Subscription } from "rxjs";
 import { AuthService } from "@services/auth.service";
 import { TranslateService } from "@ngx-translate/core";
 import { TourService } from "@services/tour.service";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
+import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
 
 @Component({
   selector: "app-sidebar-settings",
@@ -49,6 +51,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     public authService: AuthService,
     public translateService: TranslateService,
     private tourService: TourService,
+    private customModalService: CustomModalService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -213,9 +216,11 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   openUserDocumentation() {
-    window.open(
-      "https://github.com/Fabio1210/git4school-visu/wiki/Tutoriel-d'utilisation",
-      "_blank"
-    );
+    window.open("https://git4school.github.io/", "_blank");
+  }
+
+  openShortcuts() {
+    this.onClose.emit();
+    this.customModalService.open(ShortcutsModalComponent, { size: "lg" });
   }
 }

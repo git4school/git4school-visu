@@ -17,6 +17,8 @@ import { TypePickerComponent } from "./type-picker/type-picker.component";
 import { TimePickerComponent } from "../../components/time-picker/time-picker.component";
 import { RepoIconComponent } from "./repo-icon/repo-icon.component";
 
+import { ShortcutsModalComponent } from "./shortcuts-modal/shortcuts-modal.component";
+
 @NgModule({
   declarations: [
     ModalComponent,
@@ -30,7 +32,8 @@ import { RepoIconComponent } from "./repo-icon/repo-icon.component";
     CustomModalContainerComponent,
     TypePickerComponent,
     TimePickerComponent,
-    RepoIconComponent
+    RepoIconComponent,
+    ShortcutsModalComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -45,8 +48,9 @@ import { RepoIconComponent } from "./repo-icon/repo-icon.component";
     CustomModalContainerComponent,
     TypePickerComponent,
     TimePickerComponent,
-    RepoIconComponent
+    RepoIconComponent,
+    ShortcutsModalComponent,
   ],
-  entryComponents: [CustomModalContainerComponent],
+  entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent],
 })
 export class SharedUiModule {}

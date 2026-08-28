@@ -3,9 +3,12 @@ import {
   HostListener,
   Input,
   OnInit,
+  OnDestroy,
   ChangeDetectorRef,
   TemplateRef,
 } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { Subscription } from "rxjs";
 import { OsUtils } from "../../../utils/os.utils";
 
 @Component({
@@ -13,7 +16,7 @@ import { OsUtils } from "../../../utils/os.utils";
   templateUrl: "./tooltip.component.html",
   styleUrls: ["./tooltip.component.scss"],
 })
-export class TooltipComponent implements OnInit {
+export class TooltipComponent implements OnInit, OnDestroy {
   @Input() content: string | TemplateRef<any> = "";
   @Input() placement: "top" | "bottom" | "left" | "right" = "top";
   @Input() shortcutKeys?: string[];
@@ -22,12 +25,40 @@ export class TooltipComponent implements OnInit {
   show = false;
   shortcutPressed = false;
   formattedShortcut = "";
+  parsedShortcutKeys: string[] = [];
+  isMac = false;
+  private langSub?: Subscription;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit() {
+    this.isMac = OsUtils.isMac();
+    this.updateFormattedShortcuts();
+    this.langSub = this.translateService.onLangChange.subscribe(() => {
+      this.updateFormattedShortcuts();
+      this.cdr.markForCheck();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.langSub) {
+      this.langSub.unsubscribe();
+    }
+  }
+
+  private updateFormattedShortcuts() {
     if (this.shortcutKeys && this.shortcutKeys.length > 0) {
-      this.formattedShortcut = OsUtils.formatShortcut(this.shortcutKeys);
+      this.formattedShortcut = OsUtils.formatShortcut(
+        this.shortcutKeys,
+        this.translateService
+      );
+      this.parsedShortcutKeys = OsUtils.formatShortcutKeys(
+        this.shortcutKeys,
+        this.translateService
+      );
     }
   }
 

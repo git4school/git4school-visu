@@ -2,11 +2,8 @@ import {
   Component,
   HostListener,
   OnInit,
-  ViewChild,
-  ElementRef,
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { AuthService } from "@services/auth.service";
@@ -14,6 +11,10 @@ import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ThemeService } from "@services/theme.service";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
+import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
+import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
+import { OsUtils } from "../../../utils/os.utils";
 
 @Component({
   selector: "app-app-nav-layout",
@@ -30,7 +31,7 @@ export class AppNavLayoutComponent implements OnInit {
     private configurationService: ConfigurationService,
     public themeService: ThemeService,
     private router: Router,
-    private modalService: NgbModal
+    private customModalService: CustomModalService
   ) {}
 
   isSidebarPinned = false;
@@ -38,7 +39,7 @@ export class AppNavLayoutComponent implements OnInit {
   pressedShortcut: string = null;
   sidebarWidth: number = 310;
   isResizing: boolean = false;
-  @ViewChild("shortcutsModal") shortcutsModal: ElementRef;
+  private shortcutsModalRef: CustomModalRef | null = null;
 
   ngOnInit(): void {
     const savedPin = localStorage.getItem("sidebarPinned");
@@ -78,17 +79,11 @@ export class AppNavLayoutComponent implements OnInit {
 
   @HostListener("document:keydown", ["$event"])
   handleKeyDown(event: KeyboardEvent) {
-    // Ignore shortcuts when typing in inputs
-    const target = event.target as HTMLElement;
-    if (
-      target.tagName === "INPUT" ||
-      target.tagName === "TEXTAREA" ||
-      target.isContentEditable
-    ) {
+    if (OsUtils.isTypingInInput(event)) {
       return;
     }
 
-    const key = event.key;
+    const key = event.key.toLowerCase();
     if (key === "1") {
       this.triggerShortcutAndNavigate("1", "overview");
     } else if (key === "2") {
@@ -97,7 +92,19 @@ export class AppNavLayoutComponent implements OnInit {
       this.triggerShortcutAndNavigate("3", "questions-completion");
     } else if (key === "?") {
       this.triggerShortcut("?");
-      this.openShortcutsModal();
+      this.toggleShortcutsModal();
+    } else if (key === "c") {
+      if (this.dataService.dataLoaded() && !this.isHome && this.dataService.assignment) {
+        const hasActiveModal =
+          this.customModalService.hasOpenModals() ||
+          document.body.classList.contains("modal-open");
+
+        if (!hasActiveModal) {
+          event.preventDefault();
+          this.triggerShortcut("c");
+          this.openCurrentAssignmentConfig();
+        }
+      }
     }
   }
 
@@ -144,8 +151,33 @@ export class AppNavLayoutComponent implements OnInit {
     }, 150);
   }
 
+  toggleShortcutsModal() {
+    if (this.shortcutsModalRef) {
+      this.shortcutsModalRef.dismiss("Toggle close");
+      this.shortcutsModalRef = null;
+      return;
+    }
+
+    const hasActiveModal =
+      this.customModalService.hasOpenModals() ||
+      document.body.classList.contains("modal-open");
+
+    if (hasActiveModal) {
+      return;
+    }
+
+    this.shortcutsModalRef = this.customModalService.open(
+      ShortcutsModalComponent,
+      { size: "lg" }
+    );
+
+    this.shortcutsModalRef.result.finally(() => {
+      this.shortcutsModalRef = null;
+    });
+  }
+
   openShortcutsModal() {
-    this.modalService.open(this.shortcutsModal, { size: "lg", centered: true });
+    this.toggleShortcutsModal();
   }
 
   get isHome(): boolean {
