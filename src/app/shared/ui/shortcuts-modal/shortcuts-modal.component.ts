@@ -1,6 +1,6 @@
 import { Component, HostListener, Optional } from "@angular/core";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
-import { OsUtils } from "@app/utils/os.utils";
+import { OsUtils } from "@utils/os.utils";
 
 @Component({
   selector: "app-shortcuts-modal",
@@ -14,15 +14,13 @@ export class ShortcutsModalComponent {
     return OsUtils.isMac();
   }
 
+  get modifierKey(): string {
+    return OsUtils.modifierKey;
+  }
+
   @HostListener("document:keydown", ["$event"])
   onKeyDown(event: KeyboardEvent) {
-    const target = event.target as HTMLElement;
-    if (
-      target &&
-      (target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.isContentEditable)
-    ) {
+    if (OsUtils.isTypingInInput(event)) {
       return;
     }
 

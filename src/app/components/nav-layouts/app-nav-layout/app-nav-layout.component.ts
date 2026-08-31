@@ -14,7 +14,7 @@ import { ThemeService } from "@services/theme.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
-import { OsUtils } from "../../../utils/os.utils";
+import { OsUtils } from "@utils/os.utils";
 
 @Component({
   selector: "app-app-nav-layout",
@@ -95,17 +95,20 @@ export class AppNavLayoutComponent implements OnInit {
       this.toggleShortcutsModal();
     } else if (key === "c") {
       if (this.dataService.dataLoaded() && !this.isHome && this.dataService.assignment) {
-        const hasActiveModal =
-          this.customModalService.hasOpenModals() ||
-          document.body.classList.contains("modal-open");
-
-        if (!hasActiveModal) {
+        if (!this.hasActiveModal) {
           event.preventDefault();
           this.triggerShortcut("c");
           this.openCurrentAssignmentConfig();
         }
       }
     }
+  }
+
+  private get hasActiveModal(): boolean {
+    return (
+      this.customModalService.hasOpenModals() ||
+      document.body.classList.contains("modal-open")
+    );
   }
 
   onResizeStart(event: MouseEvent) {
@@ -158,11 +161,7 @@ export class AppNavLayoutComponent implements OnInit {
       return;
     }
 
-    const hasActiveModal =
-      this.customModalService.hasOpenModals() ||
-      document.body.classList.contains("modal-open");
-
-    if (hasActiveModal) {
+    if (this.hasActiveModal) {
       return;
     }
 

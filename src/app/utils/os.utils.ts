@@ -23,6 +23,18 @@ export class OsUtils {
     );
   }
 
+  private static resolveKeyTranslation(
+    key: string,
+    fallback: string,
+    translateService?: TranslateService
+  ): string {
+    if (translateService) {
+      const trans = translateService.instant(key);
+      if (trans && trans !== key) return trans;
+    }
+    return fallback;
+  }
+
   static formatShortcutKeys(keys: string[], translateService?: TranslateService): string[] {
     const isMac = this.isMac();
     return keys.map((key) => {
@@ -35,35 +47,19 @@ export class OsUtils {
       }
       if (lower === "shift") {
         if (isMac) return "⇧";
-        if (translateService) {
-          const trans = translateService.instant("MODAL-SHORTCUTS.KEY_SHIFT");
-          if (trans && trans !== "MODAL-SHORTCUTS.KEY_SHIFT") return trans;
-        }
-        return "Shift";
+        return this.resolveKeyTranslation("MODAL-SHORTCUTS.KEY_SHIFT", "Shift", translateService);
       }
       if (lower === "enter") {
         return "↵";
       }
       if (lower === "esc" || lower === "escape" || lower === "échap" || lower === "echap") {
-        if (translateService) {
-          const trans = translateService.instant("MODAL-SHORTCUTS.KEY_ESC");
-          if (trans && trans !== "MODAL-SHORTCUTS.KEY_ESC") return trans;
-        }
-        return "Esc";
+        return this.resolveKeyTranslation("MODAL-SHORTCUTS.KEY_ESC", "Esc", translateService);
       }
       if (lower === "space" || lower === "espace") {
-        if (translateService) {
-          const trans = translateService.instant("MODAL-SHORTCUTS.KEY_SPACE");
-          if (trans && trans !== "MODAL-SHORTCUTS.KEY_SPACE") return trans;
-        }
-        return "Space";
+        return this.resolveKeyTranslation("MODAL-SHORTCUTS.KEY_SPACE", "Space", translateService);
       }
       if (lower === "delete" || lower === "del" || lower === "suppr") {
-        if (translateService) {
-          const trans = translateService.instant("MODAL-SHORTCUTS.KEY_DELETE");
-          if (trans && trans !== "MODAL-SHORTCUTS.KEY_DELETE") return trans;
-        }
-        return "Del";
+        return this.resolveKeyTranslation("MODAL-SHORTCUTS.KEY_DELETE", "Del", translateService);
       }
       return key.toUpperCase();
     });

@@ -19,7 +19,7 @@ import { ThemeService } from "@services/theme.service";
 import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
 import { Utils } from "../../../services/utils";
-import { OsUtils } from "../../../utils/os.utils";
+import { OsUtils } from "@utils/os.utils";
 import * as d3 from "d3";
 
 @Component({

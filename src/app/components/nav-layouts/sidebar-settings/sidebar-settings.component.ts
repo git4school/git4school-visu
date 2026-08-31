@@ -23,6 +23,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { TourService } from "@services/tour.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
+import { environment } from "@environments/environment";
 
 @Component({
   selector: "app-sidebar-settings",
@@ -216,7 +217,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   openUserDocumentation() {
-    window.open("https://git4school.github.io/", "_blank");
+    window.open(environment.documentationUrl, "_blank");
   }
 
   openShortcuts() {

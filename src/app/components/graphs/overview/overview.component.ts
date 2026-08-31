@@ -26,7 +26,7 @@ import { ThemeService } from "@services/theme.service";
 import { TooltipService } from "@services/tooltip.service";
 import { Subscription, concat } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
-import { OsUtils } from "../../../utils/os.utils";
+import { OsUtils } from "@utils/os.utils";
 
 import * as d3 from "d3";
 import { Repository } from "../../../models/Repository.model";

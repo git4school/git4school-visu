@@ -8,6 +8,7 @@
 export const environment = {
   production: false,
   version: require("../../package.json").version,
+  documentationUrl: "https://git4school.github.io/",
 };
 
 /*

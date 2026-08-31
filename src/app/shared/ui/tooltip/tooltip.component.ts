@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
-import { OsUtils } from "../../../utils/os.utils";
+import { OsUtils } from "@utils/os.utils";
 
 @Component({
   selector: "app-tooltip",

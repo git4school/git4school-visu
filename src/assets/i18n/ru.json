@@ -252,7 +252,7 @@
     "FILTER_EXCLUDE": "Исключить критерий",
     "KEY_SPACE": "Пробел",
     "KEY_ESC": "Esc",
-    "KEY_DELETE": "Del",
+    "KEY_DELETE": "Удал.",
     "KEY_SHIFT": "Shift"
   },
   "TOAST": {

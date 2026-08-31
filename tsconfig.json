@@ -38,6 +38,12 @@
       ],
       "@shared/*": [
         "app/shared/*"
+      ],
+      "@utils/*": [
+        "app/utils/*"
+      ],
+      "@environments/*": [
+        "environments/*"
       ]
     }
   }

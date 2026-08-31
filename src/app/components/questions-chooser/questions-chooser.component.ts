@@ -16,7 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { merge, Observable, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
-import { OsUtils } from "../../utils/os.utils";
+import { OsUtils } from "@utils/os.utils";
 
 export interface FilterGroup {
   criteria: {
