@@ -40,23 +40,30 @@
                 </div>
                 
                 <ul class="navbar-nav flex-row align-items-center" *ngIf="!isHome">
+                    <!-- 1. Overview -->
                     <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
-                        <a class="nav-link" routerLink="overview">
+                        <a class="nav-link" routerLink="overview"
+                           [appTooltip]="{ text: ('NAVBAR.OVERVIEW-TOOLTIP' | translate), shortcut: ['1'] }"
+                           placement="bottom">
                             <i class="fas fa-layer-group mr-2"></i>{{ 'NAVBAR.OVERVIEW' | translate }}
-                            <kbd class="shortcut-key" [class.shortcut-pressed-anim]="pressedShortcut === '1'">1</kbd>
                         </a>
+                    </li>
 
-                    </li>
+                    <!-- 2. Students Commits -->
                     <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
-                         <a class="nav-link" routerLink="students-commits">
+                         <a class="nav-link" routerLink="students-commits"
+                            [appTooltip]="{ text: ('NAVBAR.STUDENTS-COMMITS-TOOLTIP' | translate), shortcut: ['2'] }"
+                            placement="bottom">
                             <i class="fas fa-code-branch mr-2"></i>{{ 'NAVBAR.STUDENTS-COMMITS' | translate }}
-                            <kbd class="shortcut-key" [class.shortcut-pressed-anim]="pressedShortcut === '2'">2</kbd>
                         </a>
                     </li>
+
+                    <!-- 3. Questions Completion -->
                     <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
-                        <a class="nav-link" routerLink="questions-completion">
+                        <a class="nav-link" routerLink="questions-completion"
+                           [appTooltip]="{ text: ('NAVBAR.QUESTIONS-COMPLETION-TOOLTIP' | translate), shortcut: ['3'] }"
+                           placement="bottom">
                             <i class="fas fa-tasks mr-2"></i>{{ 'NAVBAR.QUESTIONS-COMPLETION' | translate }}
-                            <kbd class="shortcut-key" [class.shortcut-pressed-anim]="pressedShortcut === '3'">3</kbd>
                         </a>
                     </li>
                 </ul>
