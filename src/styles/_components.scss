@@ -339,7 +339,7 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  padding: 0.4rem 1.5rem;
+  padding: $navbar-padding-y $navbar-padding-x;
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
@@ -531,33 +531,83 @@
 .navbar-nav {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   padding-left: 0;
-  margin-bottom: 0;
+  margin-bottom: -$navbar-padding-y;
   list-style: none;
   gap: 0.5rem;
+  position: relative;
 }
 
 .nav-item {
+  display: flex;
+  position: relative;
+
   .nav-link {
+    position: relative;
     display: flex;
     align-items: center;
-    padding: 0.5rem 1rem;
-    color: var(--color-text-secondary);
-    transition: all $transition-fast;
+    padding: 0.45rem 0.75rem 0.65rem 0.75rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    border-radius: 99px; /* Pill shape */
-    background-color: transparent;
+    border-radius: 0;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    transition: color $transition-tactile, transform $transition-tactile;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
 
-    &:hover {
-      color: var(--color-primary);
-      background-color: var(--color-bg-body);
+    i {
+      transition: transform $transition-snap, color $transition-tactile;
+    }
+
+    &:hover:not(.active) {
+      color: var(--color-text-primary);
+      background: transparent;
+
+      &::after {
+        transform: scaleX(1);
+        opacity: 0.45;
+      }
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 4px;
+      right: 4px;
+      height: 3px;
+      border-radius: 99px;
+      background-color: var(--color-primary);
+      box-shadow: none;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform $transition-snap, opacity $transition-fast;
+      opacity: 0;
+      pointer-events: none;
     }
 
     &.active {
       color: var(--color-primary);
-      background-color: rgba(37, 99, 235, 0.1); /* Subtle primary color background */
       font-weight: 600;
+      background: transparent;
+
+      i {
+        color: var(--color-primary);
+        transform: translateY(-1px) scale(1.06);
+      }
+
+      &::after {
+        transform: scaleX(1);
+        opacity: 1;
+      }
     }
   }
 }

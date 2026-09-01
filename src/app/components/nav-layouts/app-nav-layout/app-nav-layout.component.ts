@@ -16,6 +16,14 @@ import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
 import { OsUtils } from "@utils/os.utils";
 
+export interface NavTab {
+  route: string;
+  icon: string;
+  labelKey: string;
+  tooltipKey: string;
+  shortcut: string[];
+}
+
 @Component({
   selector: "app-app-nav-layout",
   templateUrl: "./app-nav-layout.component.html",
@@ -36,10 +44,33 @@ export class AppNavLayoutComponent implements OnInit {
 
   isSidebarPinned = false;
   isSidebarHovered = false;
-  pressedShortcut: string = null;
   sidebarWidth: number = 310;
   isResizing: boolean = false;
   private shortcutsModalRef: CustomModalRef | null = null;
+
+  readonly navTabs: NavTab[] = [
+    {
+      route: "overview",
+      icon: "fas fa-layer-group",
+      labelKey: "NAVBAR.OVERVIEW",
+      tooltipKey: "NAVBAR.OVERVIEW-TOOLTIP",
+      shortcut: ["1"],
+    },
+    {
+      route: "students-commits",
+      icon: "fas fa-code-branch",
+      labelKey: "NAVBAR.STUDENTS-COMMITS",
+      tooltipKey: "NAVBAR.STUDENTS-COMMITS-TOOLTIP",
+      shortcut: ["2"],
+    },
+    {
+      route: "questions-completion",
+      icon: "fas fa-tasks",
+      labelKey: "NAVBAR.QUESTIONS-COMPLETION",
+      tooltipKey: "NAVBAR.QUESTIONS-COMPLETION-TOOLTIP",
+      shortcut: ["3"],
+    },
+  ];
 
   ngOnInit(): void {
     const savedPin = localStorage.getItem("sidebarPinned");
@@ -85,19 +116,17 @@ export class AppNavLayoutComponent implements OnInit {
 
     const key = event.key.toLowerCase();
     if (key === "1") {
-      this.triggerShortcutAndNavigate("1", "overview");
+      this.navigateTab("overview");
     } else if (key === "2") {
-      this.triggerShortcutAndNavigate("2", "students-commits");
+      this.navigateTab("students-commits");
     } else if (key === "3") {
-      this.triggerShortcutAndNavigate("3", "questions-completion");
+      this.navigateTab("questions-completion");
     } else if (key === "?") {
-      this.triggerShortcut("?");
       this.toggleShortcutsModal();
     } else if (key === "c") {
       if (this.dataService.dataLoaded() && !this.isHome && this.dataService.assignment) {
         if (!this.hasActiveModal) {
           event.preventDefault();
-          this.triggerShortcut("c");
           this.openCurrentAssignmentConfig();
         }
       }
@@ -141,17 +170,9 @@ export class AppNavLayoutComponent implements OnInit {
     }
   }
 
-  private triggerShortcutAndNavigate(key: string, route: string) {
+  private navigateTab(route: string) {
     if (!this.dataService.dataLoaded()) return;
-    this.triggerShortcut(key);
     this.router.navigate([route]);
-  }
-
-  private triggerShortcut(key: string) {
-    this.pressedShortcut = key;
-    setTimeout(() => {
-      if (this.pressedShortcut === key) this.pressedShortcut = null;
-    }, 150);
   }
 
   toggleShortcutsModal() {

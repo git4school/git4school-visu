@@ -39,31 +39,12 @@
                     </ng-template>
                 </div>
                 
-                <ul class="navbar-nav flex-row align-items-center" *ngIf="!isHome">
-                    <!-- 1. Overview -->
-                    <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
-                        <a class="nav-link" routerLink="overview"
-                           [appTooltip]="{ text: ('NAVBAR.OVERVIEW-TOOLTIP' | translate), shortcut: ['1'] }"
+                <ul class="navbar-nav flex-row align-items-center" *ngIf="!isHome && dataService.dataLoaded()">
+                    <li class="nav-item" *ngFor="let tab of navTabs">
+                        <a class="nav-link" [routerLink]="tab.route" routerLinkActive="active"
+                           [appTooltip]="{ text: (tab.tooltipKey | translate), shortcut: tab.shortcut }"
                            placement="bottom">
-                            <i class="fas fa-layer-group mr-2"></i>{{ 'NAVBAR.OVERVIEW' | translate }}
-                        </a>
-                    </li>
-
-                    <!-- 2. Students Commits -->
-                    <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
-                         <a class="nav-link" routerLink="students-commits"
-                            [appTooltip]="{ text: ('NAVBAR.STUDENTS-COMMITS-TOOLTIP' | translate), shortcut: ['2'] }"
-                            placement="bottom">
-                            <i class="fas fa-code-branch mr-2"></i>{{ 'NAVBAR.STUDENTS-COMMITS' | translate }}
-                        </a>
-                    </li>
-
-                    <!-- 3. Questions Completion -->
-                    <li class="nav-item" routerLinkActive="active" *ngIf="dataService.dataLoaded()">
-                        <a class="nav-link" routerLink="questions-completion"
-                           [appTooltip]="{ text: ('NAVBAR.QUESTIONS-COMPLETION-TOOLTIP' | translate), shortcut: ['3'] }"
-                           placement="bottom">
-                            <i class="fas fa-tasks mr-2"></i>{{ 'NAVBAR.QUESTIONS-COMPLETION' | translate }}
+                            <i [class]="tab.icon + ' mr-2'"></i>{{ tab.labelKey | translate }}
                         </a>
                     </li>
                 </ul>
