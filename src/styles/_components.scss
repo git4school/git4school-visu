@@ -970,20 +970,31 @@
   }
 
   .sidebar-item-icon {
-    width: 1.25rem;
-    text-align: left;
+    width: 1.15rem;
+    height: 1.15rem;
+    flex-shrink: 0;
     margin-right: 0.75rem;
     color: var(--color-text-muted);
     font-size: 0.9rem;
-    transition: color 0.2s ease;
+    transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    stroke: currentColor;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   
   &:hover .sidebar-item-icon {
     color: var(--color-primary);
   }
   
-  &.text-danger:hover .sidebar-item-icon {
-    color: #dc3545; /* Bootstrap danger color */
+  &.text-danger .sidebar-item-icon,
+  .sidebar-item-icon.text-danger {
+    color: var(--color-danger);
+  }
+
+  &.text-danger:hover .sidebar-item-icon,
+  &:hover .sidebar-item-icon.text-danger {
+    color: var(--color-danger);
   }
 }
 

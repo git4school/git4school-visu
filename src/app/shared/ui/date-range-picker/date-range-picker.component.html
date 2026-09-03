@@ -1,29 +1,52 @@
 <div class="date-range-container">
   <!-- Labels -->
-  <div class="labels-row">
-    <span class="label-text">{{ (isSingleDate ? singleLabel : startLabel) | translate }}</span>
-    <span class="label-text" *ngIf="!isSingleDate">{{ endLabel | translate }}</span>
+  <div class="labels-row" *ngIf="!isSingleDate">
+    <span class="label-text start-label">{{ startLabel | translate }}</span>
+    <span class="label-arrow-spacer"></span>
+    <span class="label-text end-label">{{ endLabel | translate }}</span>
+    <span class="label-button-spacer"></span>
+  </div>
+  <div class="labels-row" *ngIf="isSingleDate && singleLabel && singleLabel.trim() !== ''">
+    <span class="label-text single-label">{{ singleLabel | translate }}</span>
     <span class="label-button-spacer"></span>
   </div>
 
   <!-- Input Trigger -->
   <div class="input-trigger" (click)="togglePopup()">
-    <!-- Start Date Segments -->
-    <div class="date-segments" (click)="$event.stopPropagation()">
-      <ng-container *ngIf="isFrench; else enStartFormat">
-        <input #startDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
-          maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, 'day')"
-          (keydown)="onKeyDown($event, true, 'day')" (blur)="onBlur(true)">
-        <span class="separator">/</span>
-        <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
-          maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, 'month')"
-          (keydown)="onKeyDown($event, true, 'month')" (blur)="onBlur(true)">
-        <span class="separator">/</span>
-        <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
-          maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
-          (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
+    <div class="segments-group">
+      <!-- Start Date Segments -->
+      <div class="date-segments" (click)="$event.stopPropagation()">
+        <!-- Date Segments (Locale specific order) -->
+        <ng-container *ngIf="isFrench; else enStartFormat">
+          <input #startDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+            maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, 'day')"
+            (keydown)="onKeyDown($event, true, 'day')" (blur)="onBlur(true)">
+          <span class="separator">/</span>
+          <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+            maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, 'month')"
+            (keydown)="onKeyDown($event, true, 'month')" (blur)="onBlur(true)">
+          <span class="separator">/</span>
+          <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+            maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
+            (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
+        </ng-container>
+        <ng-template #enStartFormat>
+          <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+            maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, 'month')"
+            (keydown)="onKeyDown($event, true, 'month')" (blur)="onBlur(true)">
+          <span class="separator">/</span>
+          <input #startDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+            maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, 'day')"
+            (keydown)="onKeyDown($event, true, 'day')" (blur)="onBlur(true)">
+          <span class="separator">/</span>
+          <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+            maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
+            (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
+        </ng-template>
+
+        <!-- Time Segments (Universal format) -->
         <ng-container *ngIf="isSingleDate && hasTime">
-          <span class="separator">&nbsp;</span>
+          <span class="date-time-spacer"></span>
           <input #startHour type="text" class="segment-input hour" placeholder="HH"
             maxlength="2" [value]="startHourStr" (input)="onInputType($event, true, 'hour')"
             (keydown)="onKeyDown($event, true, 'hour')" (blur)="onBlur(true)">
@@ -32,86 +55,53 @@
             maxlength="2" [value]="startMinuteStr" (input)="onInputType($event, true, 'minute')"
             (keydown)="onKeyDown($event, true, 'minute')" (blur)="onBlur(true)">
           <ng-container *ngIf="mode === 'datetime-period'">
-             <span class="arrow-separator" style="margin: 0 0.5rem; font-size: 0.8rem; color: var(--color-text-secondary);"><i class="fas fa-arrow-right"></i></span>
-             <input #endHour type="text" class="segment-input hour" placeholder="HH"
-               maxlength="2" [value]="endHourStr" (input)="onInputType($event, false, 'hour')"
-               (keydown)="onKeyDown($event, false, 'hour')" (blur)="onBlur(false)">
-             <span class="separator">:</span>
-             <input #endMinute type="text" class="segment-input minute" placeholder="MM"
-               maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, 'minute')"
-               (keydown)="onKeyDown($event, false, 'minute')" (blur)="onBlur(false)">
+            <span class="time-arrow-separator"><i class="fas fa-arrow-right"></i></span>
+            <input #endHour type="text" class="segment-input hour" placeholder="HH"
+              maxlength="2" [value]="endHourStr" (input)="onInputType($event, false, 'hour')"
+              (keydown)="onKeyDown($event, false, 'hour')" (blur)="onBlur(false)">
+            <span class="separator">:</span>
+            <input #endMinute type="text" class="segment-input minute" placeholder="MM"
+              maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, 'minute')"
+              (keydown)="onKeyDown($event, false, 'minute')" (blur)="onBlur(false)">
           </ng-container>
         </ng-container>
-      </ng-container>
-      <ng-template #enStartFormat>
-        <input #startMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
-          maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, 'month')"
-          (keydown)="onKeyDown($event, true, 'month')" (blur)="onBlur(true)">
-        <span class="separator">/</span>
-        <input #startDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
-          maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, 'day')"
-          (keydown)="onKeyDown($event, true, 'day')" (blur)="onBlur(true)">
-        <span class="separator">/</span>
-        <input #startYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
-          maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, 'year')"
-          (keydown)="onKeyDown($event, true, 'year')" (blur)="onBlur(true)">
-        <ng-container *ngIf="isSingleDate && hasTime">
-          <span class="separator">&nbsp;</span>
-          <input #startHour type="text" class="segment-input hour" placeholder="HH"
-            maxlength="2" [value]="startHourStr" (input)="onInputType($event, true, 'hour')"
-            (keydown)="onKeyDown($event, true, 'hour')" (blur)="onBlur(true)">
-          <span class="separator">:</span>
-          <input #startMinute type="text" class="segment-input minute" placeholder="MM"
-            maxlength="2" [value]="startMinuteStr" (input)="onInputType($event, true, 'minute')"
-            (keydown)="onKeyDown($event, true, 'minute')" (blur)="onBlur(true)">
-          <ng-container *ngIf="mode === 'datetime-period'">
-             <span class="arrow-separator" style="margin: 0 0.5rem; font-size: 0.8rem; color: var(--color-text-secondary);"><i class="fas fa-arrow-right"></i></span>
-             <input #endHour type="text" class="segment-input hour" placeholder="HH"
-               maxlength="2" [value]="endHourStr" (input)="onInputType($event, false, 'hour')"
-               (keydown)="onKeyDown($event, false, 'hour')" (blur)="onBlur(false)">
-             <span class="separator">:</span>
-             <input #endMinute type="text" class="segment-input minute" placeholder="MM"
-               maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, 'minute')"
-               (keydown)="onKeyDown($event, false, 'minute')" (blur)="onBlur(false)">
-          </ng-container>
+      </div>
+
+      <span class="arrow-separator" *ngIf="!isSingleDate"><i class="fas fa-arrow-right"></i></span>
+
+      <!-- End Date Segments -->
+      <div class="date-segments" (click)="$event.stopPropagation()" *ngIf="!isSingleDate">
+        <ng-container *ngIf="isFrench; else enEndFormat">
+          <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+            maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
+            (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
+          <span class="separator">/</span>
+          <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+            maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
+            (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
+          <span class="separator">/</span>
+          <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+            maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
+            (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
         </ng-container>
-      </ng-template>
-    </div>
-
-    <span class="arrow-separator" *ngIf="!isSingleDate"><i class="fas fa-arrow-right"></i></span>
-
-    <!-- End Date Segments -->
-    <div class="date-segments" (click)="$event.stopPropagation()" *ngIf="!isSingleDate">
-      <ng-container *ngIf="isFrench; else enEndFormat">
-        <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
-          maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
-          (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
-        <span class="separator">/</span>
-        <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
-          maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
-          (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
-        <span class="separator">/</span>
-        <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
-          maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
-          (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
-      </ng-container>
-      <ng-template #enEndFormat>
-        <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
-          maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
-          (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
-        <span class="separator">/</span>
-        <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
-          maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
-          (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
-        <span class="separator">/</span>
-        <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
-          maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
-          (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
-      </ng-template>
+        <ng-template #enEndFormat>
+          <input #endMonth type="text" class="segment-input month" [placeholder]="'DATE-PLACEHOLDER.MM' | translate"
+            maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, 'month')"
+            (keydown)="onKeyDown($event, false, 'month')" (blur)="onBlur(false)">
+          <span class="separator">/</span>
+          <input #endDay type="text" class="segment-input day" [placeholder]="'DATE-PLACEHOLDER.DD' | translate"
+            maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, 'day')"
+            (keydown)="onKeyDown($event, false, 'day')" (blur)="onBlur(false)">
+          <span class="separator">/</span>
+          <input #endYear type="text" class="segment-input year" [placeholder]="'DATE-PLACEHOLDER.YYYY' | translate"
+            maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, 'year')"
+            (keydown)="onKeyDown($event, false, 'year')" (blur)="onBlur(false)">
+        </ng-template>
+      </div>
     </div>
 
     <!-- Calendar Icon Button -->
-    <button type="button" class="calendar-btn pl-2" (click)="togglePopup(); $event.stopPropagation()">
+    <button type="button" class="calendar-btn" (click)="togglePopup(); $event.stopPropagation()">
       <i class="far fa-calendar-alt"></i>
     </button>
   </div>

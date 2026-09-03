@@ -9,21 +9,37 @@
 
   .labels-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 0.5rem;
+    padding: 0 0.75rem;
     margin-bottom: 0.25rem;
 
     .label-text {
       font-size: 0.85rem;
       color: var(--color-text-secondary);
       font-weight: 500;
-      flex: 1;
       text-align: center;
+
+      &.start-label,
+      &.end-label {
+        width: 104px;
+        flex: 0 0 104px;
+      }
+
+      &.single-label {
+        text-align: left;
+        flex: 1;
+      }
+    }
+
+    .label-arrow-spacer {
+      width: 25px;
+      flex: 0 0 25px;
     }
 
     .label-button-spacer {
+      margin-left: auto;
       width: 24px;
+      flex: 0 0 24px;
     }
   }
 
@@ -40,14 +56,22 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
     transition: border-color 0.2s, box-shadow 0.2s;
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       border-color: var(--color-primary);
+    }
+
+    .segments-group {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
     }
 
     .date-segments {
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 2px;
+      flex-shrink: 0;
 
       .segment-input {
         border: none !important;
@@ -63,6 +87,7 @@
         appearance: none !important;
         -webkit-appearance: none !important;
         border-radius: 0 !important;
+        flex-shrink: 0;
 
         &::placeholder {
           color: var(--color-text-muted);
@@ -73,11 +98,11 @@
         &.month,
         &.hour,
         &.minute {
-          width: 32px;
+          width: 22px;
         }
 
         &.year {
-          width: 50px;
+          width: 40px;
         }
 
         &:focus {
@@ -88,16 +113,48 @@
       .separator {
         color: var(--color-text-muted);
         font-weight: 400;
+        font-size: 0.85rem;
         border: none !important;
         margin: 0 !important;
         padding: 0;
+        user-select: none;
+        pointer-events: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .date-time-spacer {
+        display: inline-block;
+        width: 0.85rem;
+        flex-shrink: 0;
+      }
+
+      .time-arrow-separator {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-secondary);
+        font-size: 0.75rem;
+        margin: 0 0.35rem;
+        flex-shrink: 0;
+        user-select: none;
+        pointer-events: none;
       }
     }
 
     .arrow-separator {
-      color: var(--color-text-muted);
-      font-size: 0.85rem;
-      padding: 0 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+      font-size: 0.8rem;
+      margin: 0 0.35rem;
+      width: 14px;
+      flex-shrink: 0;
+      user-select: none;
+      pointer-events: none;
     }
 
     .calendar-btn {
@@ -111,6 +168,8 @@
       align-items: center;
       justify-content: center;
       transition: color 0.2s;
+      flex-shrink: 0;
+      margin-left: auto;
 
       &:hover {
         color: var(--color-primary-hover);

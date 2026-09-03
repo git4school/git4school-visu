@@ -25,18 +25,26 @@
                         </div>
                     </div>
                     <button class="btn-action-icon" (click)="$event.stopPropagation(); editAssignment(assignment)" title="Paramètres" style="min-width: 32px; min-height: 32px;">
-                        <i class="fas fa-cog"></i>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
                     </button>
                 </div>
             </ng-container>
             <ng-template #noAssignments>
                 <div class="text-center py-3 text-muted">
                     <ng-container *ngIf="totalAssignmentsCount > 0; else trueEmpty">
-                        <i class="fas fa-link mb-2" style="opacity: 0.5; font-size: 1.25rem;"></i>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2" style="opacity: 0.5;">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                        </svg>
                         <div style="font-size: 0.8rem;">{{ 'SETTINGS.NO-ASSIGNMENTS-DISCONNECTED' | translate }}</div>
                     </ng-container>
                     <ng-template #trueEmpty>
-                        <i class="fas fa-folder-open mb-2" style="opacity: 0.5; font-size: 1.25rem;"></i>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2" style="opacity: 0.5;">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
                         <div style="font-size: 0.8rem;">{{ 'HOME.NO-ASSIGNMENTS' | translate }}</div>
                     </ng-template>
                 </div>
@@ -55,10 +63,15 @@
         <!-- Theme Toggle -->
         <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="onClickTheme()" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
             <div class="d-flex align-items-center">
-                <i class="fas fa-palette sidebar-item-icon"></i>
+                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
+                    <circle cx="7.5" cy="10.5" r="1" fill="currentColor"></circle>
+                    <circle cx="12" cy="7.5" r="1" fill="currentColor"></circle>
+                    <circle cx="16.5" cy="10.5" r="1" fill="currentColor"></circle>
+                </svg>
                 <span>{{ "SETTINGS.THEME" | translate }}</span>
             </div>
-            <svg class="theme-toggle-svg" [class.is-dark]="themeService.isDarkMode" [class.show-hover]="isHovered && !wasClicked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1.25rem; height: 1.25rem; pointer-events: none;">
+            <svg class="theme-toggle-svg" [class.is-dark]="themeService.isDarkMode" [class.show-hover]="isHovered && !wasClicked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 1.25rem; height: 1.25rem; pointer-events: none;">
                 <mask id="moon-mask">
                     <rect x="0" y="0" width="100%" height="100%" fill="white" />
                     <circle class="moon-mask-circle" cx="30" cy="10" r="6" fill="black" />
@@ -81,14 +94,17 @@
         <div ngbDropdown placement="bottom-right" class="w-100">
             <div ngbDropdownToggle class="sidebar-item d-flex align-items-center justify-content-between" style="cursor: pointer; outline: none; border: none; background: transparent; display: flex !important;">
                 <div class="d-flex align-items-center">
-                    <i class="fas fa-globe sidebar-item-icon"></i>
+                    <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9.5"></circle>
+                        <path d="M2.5 12h19 M12 2.5a14 14 0 0 1 0 19 M12 2.5a14 14 0 0 0 0 19"></path>
+                    </svg>
                     <span>{{ 'SETTINGS.LANGUAGE' | translate }}</span>
                 </div>
                 <div class="d-flex align-items-center">
                     <span style="font-size: 0.85rem; font-weight: 500; margin-right: 0.5rem; color: var(--color-text-secondary);">
                         {{ langNames[currentLang] || currentLang }}
                     </span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-text-secondary);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-text-secondary);">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </div>
@@ -104,7 +120,9 @@
         <!-- Legend Toggle -->
         <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="themeService.toggleLegend()">
             <div class="d-flex align-items-center">
-                <i class="fas fa-list sidebar-item-icon"></i>
+                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 5h18 M3 12h12 M3 19h16"></path>
+                </svg>
                 <span>{{ "SETTINGS.SHOW-LEGEND" | translate }}</span>
             </div>
             <label class="modern-toggle ml-3">
@@ -122,7 +140,10 @@
         <!-- Keyboard Shortcuts -->
         <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="openShortcuts()">
             <div class="d-flex align-items-center">
-                <i class="fas fa-keyboard sidebar-item-icon"></i>
+                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="3"></rect>
+                    <path d="M6 9h.01 M10 9h.01 M14 9h.01 M18 9h.01 M6 13h.01 M10 13h.01 M14 13h.01 M18 13h.01 M8 17h8"></path>
+                </svg>
                 <span>{{ 'SETTINGS.SHORTCUTS' | translate }}</span>
             </div>
             <kbd class="shortcut-key">?</kbd>
@@ -131,16 +152,26 @@
         <!-- Documentation -->
         <div class="sidebar-item d-flex align-items-center justify-content-between" [appTooltip]="docsTooltip" (click)="openUserDocumentation()">
             <div class="d-flex align-items-center">
-                <i class="fas fa-book sidebar-item-icon"></i>
+                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
                 <span>{{ 'SETTINGS.DOCUMENTATION' | translate }}</span>
             </div>
-            <i class="fas fa-external-link-alt text-muted mr-1" style="font-size: 0.75rem; opacity: 0.6;"></i>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted mr-1" style="opacity: 0.6; flex-shrink: 0;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
         </div>
         <ng-template #docsTooltip>{{ 'SETTINGS.DOCS-TOOLTIP' | translate }}</ng-template>
 
         <!-- Replay Tour -->
         <div class="sidebar-item d-flex align-items-center" *ngIf="authService.isSignedIn()" (click)="replayTour()">
-            <i class="fas fa-play sidebar-item-icon text-primary"></i>
+            <svg class="sidebar-item-icon text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>
+            </svg>
             <span>{{ 'TOUR.REPLAY' | translate }}</span>
         </div>
 
@@ -153,7 +184,11 @@
 
             <!-- Sign Out -->
             <div class="sidebar-item d-flex align-items-center" (click)="onSignOut()">
-                <i class="fas fa-sign-out-alt sidebar-item-icon" style="color: var(--color-danger);"></i>
+                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-danger);">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
                 <span style="color: var(--color-danger);">{{ 'NAVBAR.SIGN-OUT' | translate }}</span>
             </div>
         </ng-container>
