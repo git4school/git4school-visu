@@ -234,22 +234,22 @@
 
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
-            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
-  CanDeactivate
-} from &#x27;@angular/router&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
+  CanDeactivate,
+} from &quot;@angular/router&quot;;
+import { Observable } from &quot;rxjs&quot;;
 
-import { OverviewComponent } from &#x27;@components/graphs/overview/overview.component&#x27;;
+import { OverviewComponent } from &quot;@components/graphs/overview/overview.component&quot;;
 
 /**
  * This guard ensures that loading is finished
  */
 @Injectable({
-  providedIn: &#x27;root&#x27;
+  providedIn: &quot;root&quot;,
 })
 export class DataLoadingGuard implements CanDeactivate&lt;OverviewComponent&gt; {
   /**

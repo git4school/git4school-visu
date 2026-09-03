@@ -283,7 +283,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>exportAssignments()</code>
+<code>exportAssignments(assignmentsToExport?: any[])</code>
                 </td>
             </tr>
 
@@ -300,8 +300,40 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignmentsToExport</td>
+                                    <td>
+                                            <code>any[]</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -465,8 +497,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">src/app/services/assignments.service.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">src/app/services/assignments.service.ts:87</a></div>
                 </td>
             </tr>
 
@@ -534,8 +566,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">src/app/services/assignments.service.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">src/app/services/assignments.service.ts:78</a></div>
                 </td>
             </tr>
 
@@ -682,12 +714,19 @@ export class AssignmentsService {
     });
   }
 
-  exportAssignments() {
-    this.databaseService
-      .exportDB()
-      .then((assignments) &#x3D;&gt;
-        this.fileService.saveJsonFile({ assignments }, &quot;assignments&quot;)
+  exportAssignments(assignmentsToExport?: any[]) {
+    if (assignmentsToExport &amp;&amp; assignmentsToExport.length &gt; 0) {
+      this.fileService.saveJsonFile(
+        { assignments: assignmentsToExport },
+        &quot;assignments&quot;
       );
+    } else {
+      this.databaseService
+        .exportDB()
+        .then((assignments) &#x3D;&gt;
+          this.fileService.saveJsonFile({ assignments }, &quot;assignments&quot;)
+        );
+    }
   }
 
   verifyAssignments(assignments: Assignment[]): boolean {

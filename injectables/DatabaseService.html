@@ -87,6 +87,9 @@
                             <li>
                                 <a href="#assignments" >assignments</a>
                             </li>
+                            <li>
+                                <a href="#dbChanged" >dbChanged</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -143,7 +146,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/database.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/services/database.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -206,8 +209,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/app/services/database.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">src/app/services/database.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -275,8 +278,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/app/services/database.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">src/app/services/database.service.ts:53</a></div>
                 </td>
             </tr>
 
@@ -312,8 +315,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">src/app/services/database.service.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/app/services/database.service.ts:28</a></div>
                 </td>
             </tr>
 
@@ -349,8 +352,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">src/app/services/database.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/services/database.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -418,8 +421,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/services/database.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">src/app/services/database.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -487,8 +490,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/app/services/database.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">src/app/services/database.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -524,8 +527,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/app/services/database.service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">src/app/services/database.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -598,7 +601,32 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/database.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/database.service.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dbChanged"></a>
+                    <span class="name">
+                        <span ><b>dbChanged</b></span>
+                        <a href="#dbChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/services/database.service.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -616,12 +644,15 @@ import { Assignment } from &quot;@models/Assignment.model&quot;;
 import { plainToClass } from &quot;class-transformer&quot;;
 import Dexie from &quot;dexie&quot;;
 import { JsonManagerService } from &quot;./json-manager.service&quot;;
+import { Subject } from &quot;rxjs&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class DatabaseService extends Dexie {
   assignments: Dexie.Table&lt;Assignment, number&gt;;
+  dbChanged &#x3D; new Subject&lt;void&gt;();
+
   constructor(private fileService: JsonManagerService) {
     super(&quot;assignmentsdb&quot;);
     this.initDB();
@@ -642,11 +673,16 @@ export class DatabaseService extends Dexie {
   }
 
   saveAssignment(assignment: Assignment): Promise&lt;number&gt; {
-    return this.assignments.put(assignment);
+    return this.assignments.put(assignment).then((id) &#x3D;&gt; {
+      this.dbChanged.next();
+      return id;
+    });
   }
 
   deleteAssignment(id: number): Promise&lt;void&gt; {
-    return this.assignments.delete(id);
+    return this.assignments.delete(id).then(() &#x3D;&gt; {
+      this.dbChanged.next();
+    });
   }
 
   getAssignmentById(id: number): Promise&lt;Assignment&gt; {

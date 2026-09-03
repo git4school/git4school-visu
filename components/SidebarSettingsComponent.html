@@ -1,0 +1,2422 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  SidebarSettingsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-sidebar-settings</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./sidebar-settings.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./sidebar-settings.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#dbSubscription" >dbSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#displayLimit" >displayLimit</a>
+                            </li>
+                            <li>
+                                <a href="#isHovered" >isHovered</a>
+                            </li>
+                            <li>
+                                <a href="#langNames" >langNames</a>
+                            </li>
+                            <li>
+                                <a href="#recentAssignments" >recentAssignments</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#themeService" >themeService</a>
+                            </li>
+                            <li>
+                                <a href="#totalAssignmentsCount" >totalAssignmentsCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#translateService" >translateService</a>
+                            </li>
+                            <li>
+                                <a href="#wasClicked" >wasClicked</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#changeLanguage" >changeLanguage</a>
+                            </li>
+                            <li>
+                                <a href="#computeType" >computeType</a>
+                            </li>
+                            <li>
+                                <a href="#editAssignment" >editAssignment</a>
+                            </li>
+                            <li>
+                                <a href="#getTruncatedText" >getTruncatedText</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#loadRecentAssignments" >loadRecentAssignments</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onClickTheme" >onClickTheme</a>
+                            </li>
+                            <li>
+                                <a href="#onMouseEnter" >onMouseEnter</a>
+                            </li>
+                            <li>
+                                <a href="#onMouseLeave" >onMouseLeave</a>
+                            </li>
+                            <li>
+                                <a href="#onSignOut" >onSignOut</a>
+                            </li>
+                            <li>
+                                <a href="#openAssignment" >openAssignment</a>
+                            </li>
+                            <li>
+                                <a href="#openShortcuts" >openShortcuts</a>
+                            </li>
+                            <li>
+                                <a href="#openUserDocumentation" >openUserDocumentation</a>
+                            </li>
+                            <li>
+                                <a href="#replayTour" >replayTour</a>
+                            </li>
+                            <li>
+                                <a href="#toggleDisplayLimit" >toggleDisplayLimit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isOpen" >isOpen</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#onClose" >onClose</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#currentLang" >currentLang</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(themeService: <a href="../injectables/ThemeService.html" target="_self">ThemeService</a>, databaseService: <a href="../injectables/DatabaseService.html" target="_self">DatabaseService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, configurationService: <a href="../injectables/ConfigurationService.html" target="_self">ConfigurationService</a>, assignmentsService: <a href="../injectables/AssignmentsService.html" target="_self">AssignmentsService</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, translateService: TranslateService, tourService: <a href="../injectables/TourService.html" target="_self">TourService</a>, customModalService: <a href="../injectables/CustomModalService.html" target="_self">CustomModalService</a>, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:43</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>themeService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ThemeService.html" target="_self" >ThemeService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>databaseService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>configurationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfigurationService.html" target="_self" >ConfigurationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>assignmentsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AssignmentsService.html" target="_self" >AssignmentsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>translateService</td>
+                                                  
+                                                        <td>
+                                                                    <code>TranslateService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>tourService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TourService.html" target="_self" >TourService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>customModalService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CustomModalService.html" target="_self" >CustomModalService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdr</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isOpen"></a>
+                        <b>isOpen</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onClose"></a>
+                        <b>onClose</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:36</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeLanguage"></a>
+                    <span class="name">
+                        <span ><b>changeLanguage</b></span>
+                        <a href="#changeLanguage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>changeLanguage(language: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="203"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:203</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>language</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="computeType"></a>
+                    <span class="name">
+                        <span ><b>computeType</b></span>
+                        <a href="#computeType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>computeType(assignment: <a href="../classes/Assignment.html" target="_self">Assignment</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:85</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>&quot;github&quot; | &quot;gitlab&quot;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editAssignment"></a>
+                    <span class="name">
+                        <span ><b>editAssignment</b></span>
+                        <a href="#editAssignment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>editAssignment(assignment: <a href="../classes/Assignment.html" target="_self">Assignment</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:143</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTruncatedText"></a>
+                    <span class="name">
+                        <span ><b>getTruncatedText</b></span>
+                        <a href="#getTruncatedText"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTruncatedText(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, limit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:126</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>limit</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>30</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadRecentAssignments"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>loadRecentAssignments</b></span>
+                        <a href="#loadRecentAssignments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadRecentAssignments()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:92</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:73</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:79</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:59</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClickTheme"></a>
+                    <span class="name">
+                        <span ><b>onClickTheme</b></span>
+                        <a href="#onClickTheme"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClickTheme()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:176</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMouseEnter"></a>
+                    <span class="name">
+                        <span ><b>onMouseEnter</b></span>
+                        <a href="#onMouseEnter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMouseEnter()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:166</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMouseLeave"></a>
+                    <span class="name">
+                        <span ><b>onMouseLeave</b></span>
+                        <a href="#onMouseLeave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMouseLeave()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:171</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSignOut"></a>
+                    <span class="name">
+                        <span ><b>onSignOut</b></span>
+                        <a href="#onSignOut"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSignOut()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:208</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openAssignment"></a>
+                    <span class="name">
+                        <span ><b>openAssignment</b></span>
+                        <a href="#openAssignment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openAssignment(assignment: <a href="../classes/Assignment.html" target="_self">Assignment</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:131</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openShortcuts"></a>
+                    <span class="name">
+                        <span ><b>openShortcuts</b></span>
+                        <a href="#openShortcuts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openShortcuts()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="223"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:223</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openUserDocumentation"></a>
+                    <span class="name">
+                        <span ><b>openUserDocumentation</b></span>
+                        <a href="#openUserDocumentation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openUserDocumentation()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:219</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="replayTour"></a>
+                    <span class="name">
+                        <span ><b>replayTour</b></span>
+                        <a href="#replayTour"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>replayTour()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:212</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleDisplayLimit"></a>
+                    <span class="name">
+                        <span ><b>toggleDisplayLimit</b></span>
+                        <a href="#toggleDisplayLimit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleDisplayLimit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:181</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dbSubscription"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>dbSubscription</b></span>
+                        <a href="#dbSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayLimit"></a>
+                    <span class="name">
+                        <span ><b>displayLimit</b></span>
+                        <a href="#displayLimit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | &quot;all&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>5</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isHovered"></a>
+                    <span class="name">
+                        <span ><b>isHovered</b></span>
+                        <a href="#isHovered"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="langNames"></a>
+                    <span class="name">
+                        <span ><b>langNames</b></span>
+                        <a href="#langNames"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    en: &quot;English&quot;,
+    fr: &quot;Français&quot;,
+    ru: &quot;Русский&quot;,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:193</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="recentAssignments"></a>
+                    <span class="name">
+                        <span ><b>recentAssignments</b></span>
+                        <a href="#recentAssignments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Assignment.html" target="_self" >Assignment[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="themeService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>themeService</b></span>
+                        <a href="#themeService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ThemeService.html" target="_self" >ThemeService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalAssignmentsCount"></a>
+                    <span class="name">
+                        <span ><b>totalAssignmentsCount</b></span>
+                        <a href="#totalAssignmentsCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="translateService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>translateService</b></span>
+                        <a href="#translateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TranslateService</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="wasClicked"></a>
+                    <span class="name">
+                        <span ><b>wasClicked</b></span>
+                        <a href="#wasClicked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentLang"></a>
+                        <span class="name"><b>currentLang</b><a href="#currentLang"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>currentLang()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="199" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/sidebar-settings.component.ts:199</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+  Output,
+  ChangeDetectorRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from &quot;@angular/core&quot;;
+import { Router } from &quot;@angular/router&quot;;
+import { Assignment } from &quot;@models/Assignment.model&quot;;
+import { AssignmentsService } from &quot;@services/assignments.service&quot;;
+import { ConfigurationService } from &quot;@services/configuration.service&quot;;
+import { DataService } from &quot;@services/data.service&quot;;
+import { DatabaseService } from &quot;@services/database.service&quot;;
+import { ThemeService } from &quot;@services/theme.service&quot;;
+import { Subscription } from &quot;rxjs&quot;;
+
+import { AuthService } from &quot;@services/auth.service&quot;;
+import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import { TourService } from &quot;@services/tour.service&quot;;
+import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
+import { ShortcutsModalComponent } from &quot;@shared/ui/shortcuts-modal/shortcuts-modal.component&quot;;
+import { environment } from &quot;@environments/environment&quot;;
+
+@Component({
+  selector: &quot;app-sidebar-settings&quot;,
+  templateUrl: &quot;./sidebar-settings.component.html&quot;,
+  styleUrls: [&quot;./sidebar-settings.component.scss&quot;],
+})
+export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() isOpen &#x3D; false;
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
+  @Output() onClose &#x3D; new EventEmitter&lt;void&gt;();
+
+  isHovered &#x3D; false;
+  wasClicked &#x3D; false;
+  recentAssignments: Assignment[] &#x3D; [];
+  totalAssignmentsCount &#x3D; 0;
+  displayLimit: number | &#x27;all&#x27; &#x3D; 5;
+  private dbSubscription: Subscription;
+
+  constructor(
+    public themeService: ThemeService,
+    private databaseService: DatabaseService,
+    private dataService: DataService,
+    private router: Router,
+    private configurationService: ConfigurationService,
+    private assignmentsService: AssignmentsService,
+    public authService: AuthService,
+    public translateService: TranslateService,
+    private tourService: TourService,
+    private customModalService: CustomModalService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    const savedLimit &#x3D; localStorage.getItem(&#x27;recentAssignmentsLimit&#x27;);
+    if (savedLimit &#x3D;&#x3D;&#x3D; &#x27;all&#x27;) {
+      this.displayLimit &#x3D; &#x27;all&#x27;;
+    } else if (savedLimit) {
+      this.displayLimit &#x3D; parseInt(savedLimit, 10);
+    }
+
+    this.loadRecentAssignments();
+    this.dbSubscription &#x3D; this.databaseService.dbChanged.subscribe(() &#x3D;&gt; {
+      this.loadRecentAssignments();
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes[&quot;isOpen&quot;] &amp;&amp; changes[&quot;isOpen&quot;].currentValue &#x3D;&#x3D;&#x3D; true) {
+      this.loadRecentAssignments();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.dbSubscription) {
+      this.dbSubscription.unsubscribe();
+    }
+  }
+
+  computeType(assignment: Assignment): &quot;github&quot; | &quot;gitlab&quot; {
+    if (assignment.title &amp;&amp; assignment.title.toLowerCase().includes(&quot;gitlab&quot;)) {
+      return &quot;gitlab&quot;;
+    }
+    return &quot;github&quot;;
+  }
+
+  async loadRecentAssignments() {
+    let all &#x3D; await this.databaseService.getAllAssignments();
+    this.totalAssignmentsCount &#x3D; all.length;
+
+    // Filter by connection
+    const isGithubConnected &#x3D; !!this.authService.isSignedIn();
+    const isGitlabConnected &#x3D; false; // Mock for now
+
+    let filtered &#x3D; all.filter((a) &#x3D;&gt; {
+      (a as any).uiType &#x3D; this.computeType(a);
+      if ((a as any).uiType &#x3D;&#x3D;&#x3D; &quot;github&quot;) return isGithubConnected;
+      if ((a as any).uiType &#x3D;&#x3D;&#x3D; &quot;gitlab&quot;) return isGitlabConnected;
+      return false;
+    });
+
+    // Sort by lastModificationDate descending (most recently modified or opened)
+    filtered.sort((a, b) &#x3D;&gt; {
+      const dateA &#x3D; a.lastModificationDate
+        ? new Date(a.lastModificationDate).getTime()
+        : 0;
+      const dateB &#x3D; b.lastModificationDate
+        ? new Date(b.lastModificationDate).getTime()
+        : 0;
+      return dateB - dateA;
+    });
+
+    if (this.displayLimit !&#x3D;&#x3D; &#x27;all&#x27;) {
+      filtered &#x3D; filtered.slice(0, this.displayLimit);
+    }
+
+    this.recentAssignments &#x3D; filtered;
+    this.cdr.detectChanges();
+  }
+
+  getTruncatedText(text: string, limit: number &#x3D; 30): string {
+    if (!text) return &quot;&quot;;
+    return text.length &gt; limit ? text.substring(0, limit - 3) + &quot;...&quot; : text;
+  }
+
+  openAssignment(assignment: Assignment) {
+    this.databaseService
+      .getAssignmentById(assignment.id)
+      .then((fullAssignment) &#x3D;&gt; {
+        this.dataService.assignment &#x3D; fullAssignment;
+        this.dataService.groupFilter &#x3D; &quot;&quot;;
+        this.onClose.emit();
+        this.assignmentsService.assignmentModified.next();
+        this.router.navigate([&quot;/overview&quot;]);
+      });
+  }
+
+  editAssignment(assignment: Assignment) {
+    this.databaseService
+      .getAssignmentById(assignment.id)
+      .then((fullAssignment) &#x3D;&gt; {
+        this.configurationService
+          .openConfigurationModal(fullAssignment)
+          .finally(() &#x3D;&gt; {
+            this.loadRecentAssignments();
+            if (
+              this.dataService.assignment &amp;&amp;
+              this.dataService.assignment.id &#x3D;&#x3D;&#x3D; fullAssignment.id
+            ) {
+              this.databaseService
+                .getAssignmentById(fullAssignment.id)
+                .then((updated) &#x3D;&gt; {
+                  this.dataService.assignment &#x3D; updated;
+                  this.assignmentsService.assignmentModified.next();
+                });
+            }
+          });
+      });
+  }
+
+  onMouseEnter() {
+    this.isHovered &#x3D; true;
+    this.wasClicked &#x3D; false;
+  }
+
+  onMouseLeave() {
+    this.isHovered &#x3D; false;
+    this.wasClicked &#x3D; false;
+  }
+
+  onClickTheme() {
+    this.themeService.toggleTheme();
+    this.wasClicked &#x3D; true;
+  }
+
+  toggleDisplayLimit() {
+    if (this.displayLimit &#x3D;&#x3D;&#x3D; 5) {
+      this.displayLimit &#x3D; 10;
+    } else if (this.displayLimit &#x3D;&#x3D;&#x3D; 10) {
+      this.displayLimit &#x3D; &#x27;all&#x27;;
+    } else {
+      this.displayLimit &#x3D; 5;
+    }
+    localStorage.setItem(&#x27;recentAssignmentsLimit&#x27;, String(this.displayLimit));
+    this.loadRecentAssignments();
+  }
+
+  langNames: { [key: string]: string } &#x3D; {
+    en: &quot;English&quot;,
+    fr: &quot;Français&quot;,
+    ru: &quot;Русский&quot;,
+  };
+
+  get currentLang() {
+    return this.translateService.currentLang || localStorage.getItem(&quot;language&quot;) || this.translateService.defaultLang || &quot;en&quot;;
+  }
+
+  changeLanguage(language: string) {
+    this.translateService.use(language);
+    localStorage.setItem(&quot;language&quot;, language);
+  }
+
+  onSignOut() {
+    this.authService.signOut();
+  }
+
+  replayTour() {
+    this.onClose.emit();
+    setTimeout(() &#x3D;&gt; {
+      this.tourService.startTour();
+    }, 300);
+  }
+
+  openUserDocumentation() {
+    window.open(environment.documentationUrl, &quot;_blank&quot;);
+  }
+
+  openShortcuts() {
+    this.onClose.emit();
+    this.customModalService.open(ShortcutsModalComponent, { size: &quot;lg&quot; });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;sidebar-body d-flex flex-column h-100&quot;&gt;
+
+    &lt;!-- Recent Assignments (Top Section) --&gt;
+    &lt;div class&#x3D;&quot;assignments-section&quot;&gt;
+        &lt;div class&#x3D;&quot;sidebar-section-header&quot;&gt;
+            &lt;span class&#x3D;&quot;sidebar-section-title&quot;&gt;{{ &#x27;SETTINGS.RECENT-ASSIGNMENTS&#x27; | translate }}&lt;/span&gt;
+            &lt;button class&#x3D;&quot;limit-toggle-pill mr-3&quot; (click)&#x3D;&quot;toggleDisplayLimit()&quot; [title]&#x3D;&quot;&#x27;SETTINGS.TOGGLE-DISPLAY-LIMIT&#x27; | translate&quot;&gt;
+                &lt;ng-container *ngIf&#x3D;&quot;displayLimit !&#x3D;&#x3D; &#x27;all&#x27;&quot;&gt;{{ displayLimit }}&lt;/ng-container&gt;
+                &lt;svg *ngIf&#x3D;&quot;displayLimit &#x3D;&#x3D;&#x3D; &#x27;all&#x27;&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;14&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                    &lt;path d&#x3D;&quot;M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 1 0 0-8c-2 0-4 1.33-6 4Z&quot;/&gt;
+                &lt;/svg&gt;
+            &lt;/button&gt;
+            &lt;div class&#x3D;&quot;sidebar-section-line&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;list-group list-group-flush pt-1&quot;&gt;
+            &lt;ng-container *ngIf&#x3D;&quot;recentAssignments.length &gt; 0; else noAssignments&quot;&gt;
+                &lt;div *ngFor&#x3D;&quot;let assignment of recentAssignments&quot; class&#x3D;&quot;list-group-item list-group-item-action d-flex align-items-center justify-content-between py-1 px-3 assignment-item&quot; style&#x3D;&quot;border: none; cursor: pointer;&quot; (click)&#x3D;&quot;openAssignment(assignment)&quot;&gt;
+                    &lt;div class&#x3D;&quot;d-flex align-items-center mr-2&quot; style&#x3D;&quot;flex: 1; min-width: 0;&quot;&gt;
+                        &lt;div class&#x3D;&quot;provider-icon mr-3 d-flex align-items-center justify-content-center&quot; style&#x3D;&quot;width: 1.5rem;&quot; [ngClass]&#x3D;&quot;assignment.uiType&quot;&gt;
+                            &lt;i class&#x3D;&quot;fab fa-lg&quot; [ngClass]&#x3D;&quot;{&#x27;fa-github&#x27;: assignment.uiType &#x3D;&#x3D;&#x3D; &#x27;github&#x27;, &#x27;fa-gitlab&#x27;: assignment.uiType &#x3D;&#x3D;&#x3D; &#x27;gitlab&#x27;}&quot;&gt;&lt;/i&gt;
+                        &lt;/div&gt;
+                        &lt;div style&#x3D;&quot;flex: 1; min-width: 0;&quot;&gt;
+                            &lt;span class&#x3D;&quot;d-block font-weight-bold&quot; style&#x3D;&quot;color: var(--color-on-surface); font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;&quot; [title]&#x3D;&quot;assignment.title&quot;&gt;{{ assignment.title }}&lt;/span&gt;
+                            &lt;span class&#x3D;&quot;d-block text-muted&quot; style&#x3D;&quot;font-size: 0.7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;&quot; [title]&#x3D;&quot;assignment.metadata?.course&quot;&gt;{{ assignment.metadata?.course }}&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;button class&#x3D;&quot;btn-action-icon&quot; (click)&#x3D;&quot;$event.stopPropagation(); editAssignment(assignment)&quot; title&#x3D;&quot;Paramètres&quot; style&#x3D;&quot;min-width: 32px; min-height: 32px;&quot;&gt;
+                        &lt;svg width&#x3D;&quot;14&quot; height&#x3D;&quot;14&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                            &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;3&quot;&gt;&lt;/circle&gt;
+                            &lt;path d&#x3D;&quot;M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z&quot;&gt;&lt;/path&gt;
+                        &lt;/svg&gt;
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/ng-container&gt;
+            &lt;ng-template #noAssignments&gt;
+                &lt;div class&#x3D;&quot;text-center py-3 text-muted&quot;&gt;
+                    &lt;ng-container *ngIf&#x3D;&quot;totalAssignmentsCount &gt; 0; else trueEmpty&quot;&gt;
+                        &lt;svg width&#x3D;&quot;22&quot; height&#x3D;&quot;22&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; class&#x3D;&quot;mb-2&quot; style&#x3D;&quot;opacity: 0.5;&quot;&gt;
+                            &lt;path d&#x3D;&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;
+                            &lt;path d&#x3D;&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;
+                        &lt;/svg&gt;
+                        &lt;div style&#x3D;&quot;font-size: 0.8rem;&quot;&gt;{{ &#x27;SETTINGS.NO-ASSIGNMENTS-DISCONNECTED&#x27; | translate }}&lt;/div&gt;
+                    &lt;/ng-container&gt;
+                    &lt;ng-template #trueEmpty&gt;
+                        &lt;svg width&#x3D;&quot;22&quot; height&#x3D;&quot;22&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; class&#x3D;&quot;mb-2&quot; style&#x3D;&quot;opacity: 0.5;&quot;&gt;
+                            &lt;path d&#x3D;&quot;M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z&quot;&gt;&lt;/path&gt;
+                        &lt;/svg&gt;
+                        &lt;div style&#x3D;&quot;font-size: 0.8rem;&quot;&gt;{{ &#x27;HOME.NO-ASSIGNMENTS&#x27; | translate }}&lt;/div&gt;
+                    &lt;/ng-template&gt;
+                &lt;/div&gt;
+            &lt;/ng-template&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Settings (Pushed to bottom) --&gt;
+    &lt;div class&#x3D;&quot;settings-section mt-auto pt-2 pb-4&quot;&gt;
+        &lt;!-- Appearance Group --&gt;
+        &lt;div class&#x3D;&quot;sidebar-section-header&quot;&gt;
+            &lt;span class&#x3D;&quot;sidebar-section-title&quot;&gt;{{ &#x27;SETTINGS.APPEARANCE&#x27; | translate }}&lt;/span&gt;
+            &lt;div class&#x3D;&quot;sidebar-section-line&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;!-- Theme Toggle --&gt;
+        &lt;div class&#x3D;&quot;sidebar-item d-flex align-items-center justify-content-between&quot; (click)&#x3D;&quot;onClickTheme()&quot; (mouseenter)&#x3D;&quot;onMouseEnter()&quot; (mouseleave)&#x3D;&quot;onMouseLeave()&quot;&gt;
+            &lt;div class&#x3D;&quot;d-flex align-items-center&quot;&gt;
+                &lt;svg class&#x3D;&quot;sidebar-item-icon&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                    &lt;path d&#x3D;&quot;M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z&quot;&gt;&lt;/path&gt;
+                    &lt;circle cx&#x3D;&quot;7.5&quot; cy&#x3D;&quot;10.5&quot; r&#x3D;&quot;1&quot; fill&#x3D;&quot;currentColor&quot;&gt;&lt;/circle&gt;
+                    &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;7.5&quot; r&#x3D;&quot;1&quot; fill&#x3D;&quot;currentColor&quot;&gt;&lt;/circle&gt;
+                    &lt;circle cx&#x3D;&quot;16.5&quot; cy&#x3D;&quot;10.5&quot; r&#x3D;&quot;1&quot; fill&#x3D;&quot;currentColor&quot;&gt;&lt;/circle&gt;
+                &lt;/svg&gt;
+                &lt;span&gt;{{ &quot;SETTINGS.THEME&quot; | translate }}&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;svg class&#x3D;&quot;theme-toggle-svg&quot; [class.is-dark]&#x3D;&quot;themeService.isDarkMode&quot; [class.show-hover]&#x3D;&quot;isHovered &amp;&amp; !wasClicked&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; style&#x3D;&quot;width: 1.25rem; height: 1.25rem; pointer-events: none;&quot;&gt;
+                &lt;mask id&#x3D;&quot;moon-mask&quot;&gt;
+                    &lt;rect x&#x3D;&quot;0&quot; y&#x3D;&quot;0&quot; width&#x3D;&quot;100%&quot; height&#x3D;&quot;100%&quot; fill&#x3D;&quot;white&quot; /&gt;
+                    &lt;circle class&#x3D;&quot;moon-mask-circle&quot; cx&#x3D;&quot;30&quot; cy&#x3D;&quot;10&quot; r&#x3D;&quot;6&quot; fill&#x3D;&quot;black&quot; /&gt;
+                &lt;/mask&gt;
+                &lt;circle class&#x3D;&quot;sun-core&quot; cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;6&quot; mask&#x3D;&quot;url(#moon-mask)&quot; fill&#x3D;&quot;currentColor&quot; /&gt;
+                &lt;g class&#x3D;&quot;sun-rays&quot; stroke&#x3D;&quot;currentColor&quot;&gt;
+                    &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;1&quot; x2&#x3D;&quot;12&quot; y2&#x3D;&quot;3&quot; /&gt;
+                    &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;21&quot; x2&#x3D;&quot;12&quot; y2&#x3D;&quot;23&quot; /&gt;
+                    &lt;line x1&#x3D;&quot;4.22&quot; y1&#x3D;&quot;4.22&quot; x2&#x3D;&quot;5.64&quot; y2&#x3D;&quot;5.64&quot; /&gt;
+                    &lt;line x1&#x3D;&quot;18.36&quot; y1&#x3D;&quot;18.36&quot; x2&#x3D;&quot;19.78&quot; y2&#x3D;&quot;19.78&quot; /&gt;
+                    &lt;line x1&#x3D;&quot;1&quot; y1&#x3D;&quot;12&quot; x2&#x3D;&quot;3&quot; y2&#x3D;&quot;12&quot; /&gt;
+                    &lt;line x1&#x3D;&quot;21&quot; y1&#x3D;&quot;12&quot; x2&#x3D;&quot;23&quot; y2&#x3D;&quot;12&quot; /&gt;
+                    &lt;line x1&#x3D;&quot;4.22&quot; y1&#x3D;&quot;19.78&quot; x2&#x3D;&quot;5.64&quot; y2&#x3D;&quot;18.36&quot; /&gt;
+                    &lt;line x1&#x3D;&quot;18.36&quot; y1&#x3D;&quot;5.64&quot; x2&#x3D;&quot;19.78&quot; y2&#x3D;&quot;4.22&quot; /&gt;
+                &lt;/g&gt;
+            &lt;/svg&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Language --&gt;
+        &lt;div ngbDropdown placement&#x3D;&quot;bottom-right&quot; class&#x3D;&quot;w-100&quot;&gt;
+            &lt;div ngbDropdownToggle class&#x3D;&quot;sidebar-item d-flex align-items-center justify-content-between&quot; style&#x3D;&quot;cursor: pointer; outline: none; border: none; background: transparent; display: flex !important;&quot;&gt;
+                &lt;div class&#x3D;&quot;d-flex align-items-center&quot;&gt;
+                    &lt;svg class&#x3D;&quot;sidebar-item-icon&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                        &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;9.5&quot;&gt;&lt;/circle&gt;
+                        &lt;path d&#x3D;&quot;M2.5 12h19 M12 2.5a14 14 0 0 1 0 19 M12 2.5a14 14 0 0 0 0 19&quot;&gt;&lt;/path&gt;
+                    &lt;/svg&gt;
+                    &lt;span&gt;{{ &#x27;SETTINGS.LANGUAGE&#x27; | translate }}&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;d-flex align-items-center&quot;&gt;
+                    &lt;span style&#x3D;&quot;font-size: 0.85rem; font-weight: 500; margin-right: 0.5rem; color: var(--color-text-secondary);&quot;&gt;
+                        {{ langNames[currentLang] || currentLang }}
+                    &lt;/span&gt;
+                    &lt;svg width&#x3D;&quot;14&quot; height&#x3D;&quot;14&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; style&#x3D;&quot;color: var(--color-text-secondary);&quot;&gt;
+                        &lt;polyline points&#x3D;&quot;6 9 12 15 18 9&quot;&gt;&lt;/polyline&gt;
+                    &lt;/svg&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;div ngbDropdownMenu class&#x3D;&quot;modern-dropdown-menu&quot;&gt;
+                &lt;button *ngFor&#x3D;&quot;let lang of translateService.getLangs()&quot; class&#x3D;&quot;dropdown-item&quot; [class.active]&#x3D;&quot;lang &#x3D;&#x3D;&#x3D; currentLang&quot; (click)&#x3D;&quot;changeLanguage(lang)&quot; style&#x3D;&quot;font-weight: 500; padding: 0.4rem 1rem;&quot;&gt;
+                    {{ langNames[lang] || lang }}
+                &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Legend Toggle --&gt;
+        &lt;div class&#x3D;&quot;sidebar-item d-flex align-items-center justify-content-between&quot; (click)&#x3D;&quot;themeService.toggleLegend()&quot;&gt;
+            &lt;div class&#x3D;&quot;d-flex align-items-center&quot;&gt;
+                &lt;svg class&#x3D;&quot;sidebar-item-icon&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                    &lt;path d&#x3D;&quot;M3 5h18 M3 12h12 M3 19h16&quot;&gt;&lt;/path&gt;
+                &lt;/svg&gt;
+                &lt;span&gt;{{ &quot;SETTINGS.SHOW-LEGEND&quot; | translate }}&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;label class&#x3D;&quot;modern-toggle ml-3&quot;&gt;
+                &lt;input type&#x3D;&quot;checkbox&quot; [checked]&#x3D;&quot;themeService.showLegend&quot;&gt;
+                &lt;span class&#x3D;&quot;toggle-slider&quot;&gt;&lt;/span&gt;
+            &lt;/label&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Help Group --&gt;
+        &lt;div class&#x3D;&quot;sidebar-section-header mt-3&quot;&gt;
+            &lt;span class&#x3D;&quot;sidebar-section-title&quot;&gt;{{ &#x27;SETTINGS.HELP-TUTORIAL&#x27; | translate }}&lt;/span&gt;
+            &lt;div class&#x3D;&quot;sidebar-section-line&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Keyboard Shortcuts --&gt;
+        &lt;div class&#x3D;&quot;sidebar-item d-flex align-items-center justify-content-between&quot; (click)&#x3D;&quot;openShortcuts()&quot;&gt;
+            &lt;div class&#x3D;&quot;d-flex align-items-center&quot;&gt;
+                &lt;svg class&#x3D;&quot;sidebar-item-icon&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                    &lt;rect x&#x3D;&quot;2&quot; y&#x3D;&quot;4&quot; width&#x3D;&quot;20&quot; height&#x3D;&quot;16&quot; rx&#x3D;&quot;3&quot;&gt;&lt;/rect&gt;
+                    &lt;path d&#x3D;&quot;M6 9h.01 M10 9h.01 M14 9h.01 M18 9h.01 M6 13h.01 M10 13h.01 M14 13h.01 M18 13h.01 M8 17h8&quot;&gt;&lt;/path&gt;
+                &lt;/svg&gt;
+                &lt;span&gt;{{ &#x27;SETTINGS.SHORTCUTS&#x27; | translate }}&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;?&lt;/kbd&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Documentation --&gt;
+        &lt;div class&#x3D;&quot;sidebar-item d-flex align-items-center justify-content-between&quot; [appTooltip]&#x3D;&quot;docsTooltip&quot; (click)&#x3D;&quot;openUserDocumentation()&quot;&gt;
+            &lt;div class&#x3D;&quot;d-flex align-items-center&quot;&gt;
+                &lt;svg class&#x3D;&quot;sidebar-item-icon&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                    &lt;path d&#x3D;&quot;M4 19.5A2.5 2.5 0 0 1 6.5 17H20&quot;&gt;&lt;/path&gt;
+                    &lt;path d&#x3D;&quot;M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z&quot;&gt;&lt;/path&gt;
+                &lt;/svg&gt;
+                &lt;span&gt;{{ &#x27;SETTINGS.DOCUMENTATION&#x27; | translate }}&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;svg width&#x3D;&quot;13&quot; height&#x3D;&quot;13&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; class&#x3D;&quot;text-muted mr-1&quot; style&#x3D;&quot;opacity: 0.6; flex-shrink: 0;&quot;&gt;
+                &lt;path d&#x3D;&quot;M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6&quot;&gt;&lt;/path&gt;
+                &lt;polyline points&#x3D;&quot;15 3 21 3 21 9&quot;&gt;&lt;/polyline&gt;
+                &lt;line x1&#x3D;&quot;10&quot; y1&#x3D;&quot;14&quot; x2&#x3D;&quot;21&quot; y2&#x3D;&quot;3&quot;&gt;&lt;/line&gt;
+            &lt;/svg&gt;
+        &lt;/div&gt;
+        &lt;ng-template #docsTooltip&gt;{{ &#x27;SETTINGS.DOCS-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
+
+        &lt;!-- Replay Tour --&gt;
+        &lt;div class&#x3D;&quot;sidebar-item d-flex align-items-center&quot; *ngIf&#x3D;&quot;authService.isSignedIn()&quot; (click)&#x3D;&quot;replayTour()&quot;&gt;
+            &lt;svg class&#x3D;&quot;sidebar-item-icon text-primary&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;
+                &lt;polygon points&#x3D;&quot;10 8 16 12 10 16 10 8&quot; fill&#x3D;&quot;currentColor&quot;&gt;&lt;/polygon&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;{{ &#x27;TOUR.REPLAY&#x27; | translate }}&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Account Group --&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;authService.isSignedIn()&quot;&gt;
+            &lt;div class&#x3D;&quot;sidebar-section-header mt-3&quot;&gt;
+                &lt;span class&#x3D;&quot;sidebar-section-title&quot;&gt;{{ &#x27;SETTINGS.ACCOUNT&#x27; | translate }}&lt;/span&gt;
+                &lt;div class&#x3D;&quot;sidebar-section-line&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Sign Out --&gt;
+            &lt;div class&#x3D;&quot;sidebar-item d-flex align-items-center&quot; (click)&#x3D;&quot;onSignOut()&quot;&gt;
+                &lt;svg class&#x3D;&quot;sidebar-item-icon&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; style&#x3D;&quot;color: var(--color-danger);&quot;&gt;
+                    &lt;path d&#x3D;&quot;M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4&quot;&gt;&lt;/path&gt;
+                    &lt;polyline points&#x3D;&quot;16 17 21 12 16 7&quot;&gt;&lt;/polyline&gt;
+                    &lt;line x1&#x3D;&quot;21&quot; y1&#x3D;&quot;12&quot; x2&#x3D;&quot;9&quot; y2&#x3D;&quot;12&quot;&gt;&lt;/line&gt;
+                &lt;/svg&gt;
+                &lt;span style&#x3D;&quot;color: var(--color-danger);&quot;&gt;{{ &#x27;NAVBAR.SIGN-OUT&#x27; | translate }}&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/ng-container&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./sidebar-settings.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.theme-toggle-svg {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--color-on-surface);
+
+  .moon-mask-circle {
+    transition: cx 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                cy 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sun-core {
+    transition: r 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sun-rays {
+    transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+  }
+
+  /* Normal Dark Mode (Moon) */
+  &amp;.is-dark {
+    transform: rotate(40deg);
+    
+    .moon-mask-circle {
+      cx: 12;
+      cy: 4;
+    }
+    
+    .sun-core {
+      r: 9;
+    }
+
+    .sun-rays {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.5);
+    }
+  }
+
+  /* Light mode + Hover -&gt; Show Moon */
+  &amp;:not(.is-dark).show-hover {
+    transform: rotate(40deg);
+    
+    .moon-mask-circle {
+      cx: 12;
+      cy: 4;
+    }
+    
+    .sun-core {
+      r: 9;
+    }
+
+    .sun-rays {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.5);
+    }
+  }
+
+  /* Dark mode + Hover -&gt; Show Sun */
+  &amp;.is-dark.show-hover {
+    transform: rotate(0deg);
+    
+    .moon-mask-circle {
+      cx: 30;
+      cy: 10;
+    }
+    
+    .sun-core {
+      r: 6;
+    }
+
+    .sun-rays {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  &amp;::-webkit-scrollbar {
+    width: 4px;
+  }
+  &amp;::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &amp;::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+  }
+  &amp;::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+}
+
+
+.settings-row {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin: -0.5rem;
+}
+
+.settings-row:hover {
+  transform: translateX(4px);
+  background-color: var(--color-background);
+}
+
+.assignment-item {
+  border-radius: 6px;
+  margin: 0 0.5rem 0.25rem 0.5rem;
+  background-color: transparent !important;
+  transition: background-color 0.2s ease;
+
+  .btn-action-icon {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  &amp;:hover {
+    background-color: var(--color-bg-body) !important;
+    
+    .btn-action-icon {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+
+
+.assignments-section {
+  .list-group {
+    max-height: 380px;
+    overflow-y: auto;
+    &amp;::-webkit-scrollbar {
+      width: 4px;
+    }
+    &amp;::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &amp;::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 4px;
+    }
+    &amp;::-webkit-scrollbar-thumb:hover {
+      background: var(--color-text-muted);
+    }
+  }
+}
+
+.provider-icon {
+  &amp;.github { color: var(--color-github); }
+  &amp;.gitlab { color: var(--color-gitlab); }
+}
+
+.limit-toggle-pill {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+
+  &amp;:hover {
+    background-color: var(--color-bg-body);
+    color: var(--color-on-surface);
+  }
+
+  &amp;:active {
+    transform: scale(0.95);
+  }
+
+  i {
+    font-size: 0.7rem;
+  }
+}
+
+::ng-deep .sidebar-item .dropdown-toggle::after {
+  display: none !important;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="sidebar-body d-flex flex-column h-100">    <!-- Recent Assignments (Top Section) -->    <div class="assignments-section">        <div class="sidebar-section-header">            <span class="sidebar-section-title">{{ \'SETTINGS.RECENT-ASSIGNMENTS\' | translate }}</span>            <button class="limit-toggle-pill mr-3" (click)="toggleDisplayLimit()" [title]="\'SETTINGS.TOGGLE-DISPLAY-LIMIT\' | translate">                <ng-container *ngIf="displayLimit !== \'all\'">{{ displayLimit }}</ng-container>                <svg *ngIf="displayLimit === \'all\'" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">                    <path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 1 0 0-8c-2 0-4 1.33-6 4Z"/>                </svg>            </button>            <div class="sidebar-section-line"></div>        </div>        <div class="list-group list-group-flush pt-1">            <ng-container *ngIf="recentAssignments.length > 0; else noAssignments">                <div *ngFor="let assignment of recentAssignments" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between py-1 px-3 assignment-item" style="border: none; cursor: pointer;" (click)="openAssignment(assignment)">                    <div class="d-flex align-items-center mr-2" style="flex: 1; min-width: 0;">                        <div class="provider-icon mr-3 d-flex align-items-center justify-content-center" style="width: 1.5rem;" [ngClass]="assignment.uiType">                            <i class="fab fa-lg" [ngClass]="{\'fa-github\': assignment.uiType === \'github\', \'fa-gitlab\': assignment.uiType === \'gitlab\'}"></i>                        </div>                        <div style="flex: 1; min-width: 0;">                            <span class="d-block font-weight-bold" style="color: var(--color-on-surface); font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" [title]="assignment.title">{{ assignment.title }}</span>                            <span class="d-block text-muted" style="font-size: 0.7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" [title]="assignment.metadata?.course">{{ assignment.metadata?.course }}</span>                        </div>                    </div>                    <button class="btn-action-icon" (click)="$event.stopPropagation(); editAssignment(assignment)" title="Paramètres" style="min-width: 32px; min-height: 32px;">                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">                            <circle cx="12" cy="12" r="3"></circle>                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>                        </svg>                    </button>                </div>            </ng-container>            <ng-template #noAssignments>                <div class="text-center py-3 text-muted">                    <ng-container *ngIf="totalAssignmentsCount > 0; else trueEmpty">                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2" style="opacity: 0.5;">                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>                        </svg>                        <div style="font-size: 0.8rem;">{{ \'SETTINGS.NO-ASSIGNMENTS-DISCONNECTED\' | translate }}</div>                    </ng-container>                    <ng-template #trueEmpty>                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2" style="opacity: 0.5;">                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>                        </svg>                        <div style="font-size: 0.8rem;">{{ \'HOME.NO-ASSIGNMENTS\' | translate }}</div>                    </ng-template>                </div>            </ng-template>        </div>    </div>    <!-- Settings (Pushed to bottom) -->    <div class="settings-section mt-auto pt-2 pb-4">        <!-- Appearance Group -->        <div class="sidebar-section-header">            <span class="sidebar-section-title">{{ \'SETTINGS.APPEARANCE\' | translate }}</span>            <div class="sidebar-section-line"></div>        </div>                <!-- Theme Toggle -->        <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="onClickTheme()" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">            <div class="d-flex align-items-center">                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>                    <circle cx="7.5" cy="10.5" r="1" fill="currentColor"></circle>                    <circle cx="12" cy="7.5" r="1" fill="currentColor"></circle>                    <circle cx="16.5" cy="10.5" r="1" fill="currentColor"></circle>                </svg>                <span>{{ "SETTINGS.THEME" | translate }}</span>            </div>            <svg class="theme-toggle-svg" [class.is-dark]="themeService.isDarkMode" [class.show-hover]="isHovered && !wasClicked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 1.25rem; height: 1.25rem; pointer-events: none;">                <mask id="moon-mask">                    <rect x="0" y="0" width="100%" height="100%" fill="white" />                    <circle class="moon-mask-circle" cx="30" cy="10" r="6" fill="black" />                </mask>                <circle class="sun-core" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />                <g class="sun-rays" stroke="currentColor">                    <line x1="12" y1="1" x2="12" y2="3" />                    <line x1="12" y1="21" x2="12" y2="23" />                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />                    <line x1="1" y1="12" x2="3" y2="12" />                    <line x1="21" y1="12" x2="23" y2="12" />                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />                </g>            </svg>        </div>        <!-- Language -->        <div ngbDropdown placement="bottom-right" class="w-100">            <div ngbDropdownToggle class="sidebar-item d-flex align-items-center justify-content-between" style="cursor: pointer; outline: none; border: none; background: transparent; display: flex !important;">                <div class="d-flex align-items-center">                    <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">                        <circle cx="12" cy="12" r="9.5"></circle>                        <path d="M2.5 12h19 M12 2.5a14 14 0 0 1 0 19 M12 2.5a14 14 0 0 0 0 19"></path>                    </svg>                    <span>{{ \'SETTINGS.LANGUAGE\' | translate }}</span>                </div>                <div class="d-flex align-items-center">                    <span style="font-size: 0.85rem; font-weight: 500; margin-right: 0.5rem; color: var(--color-text-secondary);">                        {{ langNames[currentLang] || currentLang }}                    </span>                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-text-secondary);">                        <polyline points="6 9 12 15 18 9"></polyline>                    </svg>                </div>            </div>                        <div ngbDropdownMenu class="modern-dropdown-menu">                <button *ngFor="let lang of translateService.getLangs()" class="dropdown-item" [class.active]="lang === currentLang" (click)="changeLanguage(lang)" style="font-weight: 500; padding: 0.4rem 1rem;">                    {{ langNames[lang] || lang }}                </button>            </div>        </div>        <!-- Legend Toggle -->        <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="themeService.toggleLegend()">            <div class="d-flex align-items-center">                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">                    <path d="M3 5h18 M3 12h12 M3 19h16"></path>                </svg>                <span>{{ "SETTINGS.SHOW-LEGEND" | translate }}</span>            </div>            <label class="modern-toggle ml-3">                <input type="checkbox" [checked]="themeService.showLegend">                <span class="toggle-slider"></span>            </label>        </div>        <!-- Help Group -->        <div class="sidebar-section-header mt-3">            <span class="sidebar-section-title">{{ \'SETTINGS.HELP-TUTORIAL\' | translate }}</span>            <div class="sidebar-section-line"></div>        </div>        <!-- Keyboard Shortcuts -->        <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="openShortcuts()">            <div class="d-flex align-items-center">                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">                    <rect x="2" y="4" width="20" height="16" rx="3"></rect>                    <path d="M6 9h.01 M10 9h.01 M14 9h.01 M18 9h.01 M6 13h.01 M10 13h.01 M14 13h.01 M18 13h.01 M8 17h8"></path>                </svg>                <span>{{ \'SETTINGS.SHORTCUTS\' | translate }}</span>            </div>            <kbd class="shortcut-key">?</kbd>        </div>        <!-- Documentation -->        <div class="sidebar-item d-flex align-items-center justify-content-between" [appTooltip]="docsTooltip" (click)="openUserDocumentation()">            <div class="d-flex align-items-center">                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>                </svg>                <span>{{ \'SETTINGS.DOCUMENTATION\' | translate }}</span>            </div>            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted mr-1" style="opacity: 0.6; flex-shrink: 0;">                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>                <polyline points="15 3 21 3 21 9"></polyline>                <line x1="10" y1="14" x2="21" y2="3"></line>            </svg>        </div>        <ng-template #docsTooltip>{{ \'SETTINGS.DOCS-TOOLTIP\' | translate }}</ng-template>        <!-- Replay Tour -->        <div class="sidebar-item d-flex align-items-center" *ngIf="authService.isSignedIn()" (click)="replayTour()">            <svg class="sidebar-item-icon text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">                <circle cx="12" cy="12" r="10"></circle>                <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>            </svg>            <span>{{ \'TOUR.REPLAY\' | translate }}</span>        </div>        <!-- Account Group -->        <ng-container *ngIf="authService.isSignedIn()">            <div class="sidebar-section-header mt-3">                <span class="sidebar-section-title">{{ \'SETTINGS.ACCOUNT\' | translate }}</span>                <div class="sidebar-section-line"></div>            </div>            <!-- Sign Out -->            <div class="sidebar-item d-flex align-items-center" (click)="onSignOut()">                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-danger);">                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>                    <polyline points="16 17 21 12 16 7"></polyline>                    <line x1="21" y1="12" x2="9" y2="12"></line>                </svg>                <span style="color: var(--color-danger);">{{ \'NAVBAR.SIGN-OUT\' | translate }}</span>            </div>        </ng-container>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
+    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
+    var ACTUAL_COMPONENT = {'name': 'SidebarSettingsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SidebarSettingsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

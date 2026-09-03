@@ -108,7 +108,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/guards/data-saved.guard.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/guards/data-saved.guard.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -171,8 +171,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/app/guards/data-saved.guard.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">src/app/guards/data-saved.guard.ts:18</a></div>
                 </td>
             </tr>
 
@@ -260,25 +260,35 @@
 
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
-            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Component } from &#x27;@angular/core&#x27;;
-import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from &#x27;@angular/router&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { TranslateService } from &#x27;@ngx-translate/core&#x27;;
-import { map, catchError } from &#x27;rxjs/operators&#x27;;
+            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Component } from &quot;@angular/core&quot;;
+import {
+  CanDeactivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  UrlTree,
+} from &quot;@angular/router&quot;;
+import { Observable } from &quot;rxjs&quot;;
+import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import { map, catchError } from &quot;rxjs/operators&quot;;
 
 @Injectable({
-  providedIn: &#x27;root&#x27;
+  providedIn: &quot;root&quot;,
 })
 export class DataSavedGuard implements CanDeactivate&lt;unknown&gt; {
-  constructor(private translateService: TranslateService) { }
+  constructor(private translateService: TranslateService) {}
 
   canDeactivate(
     component: unknown,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable&lt;boolean | UrlTree&gt; | Promise&lt;boolean | UrlTree&gt; | boolean | UrlTree {
-    let translation &#x3D; this.translateService.instant(&#x27;MESSAGE-UNSAVED-GUARD&#x27;);
-    return !component[&#x27;isModified&#x27;] || confirm(translation);
+    nextState?: RouterStateSnapshot
+  ):
+    | Observable&lt;boolean | UrlTree&gt;
+    | Promise&lt;boolean | UrlTree&gt;
+    | boolean
+    | UrlTree {
+    let translation &#x3D; this.translateService.instant(&quot;MESSAGE-UNSAVED-GUARD&quot;);
+    return !component[&quot;isModified&quot;] || confirm(translation);
   }
 }
 </code></pre>

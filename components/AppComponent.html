@@ -190,7 +190,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, translateService: TranslateService, ngbTooltipConfig: NgbTooltipConfig)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, translateService: TranslateService, themeService: <a href="../injectables/ThemeService.html" target="_self">ThemeService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -278,10 +278,10 @@
                                                         </td>
                                                 </tr>
                                                 <tr>
-                                                        <td>ngbTooltipConfig</td>
+                                                        <td>themeService</td>
                                                   
                                                         <td>
-                                                                    <code>NgbTooltipConfig</code>
+                                                                        <code><a href="../injectables/ThemeService.html" target="_self" >ThemeService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -289,6 +289,8 @@
                                                     </td>
                                                     
                                                         <td>
+                                                                <p>Service used to handle theme</p>
+
                                                         </td>
                                                 </tr>
                                         </tbody>
@@ -329,8 +331,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/app/app.component.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">src/app/app.component.ts:53</a></div>
                 </td>
             </tr>
 
@@ -369,8 +371,8 @@ Disconnects the user</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/app/app.component.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">src/app/app.component.ts:41</a></div>
                 </td>
             </tr>
 
@@ -415,7 +417,7 @@ If the user is not signed in, call the the sign in method.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/app.component.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/app.component.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -447,7 +449,7 @@ If the user is not signed in, call the the sign in method.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/app.component.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/app.component.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -479,7 +481,7 @@ If the user is not signed in, call the the sign in method.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/app.component.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/app.component.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -499,10 +501,10 @@ If the user is not signed in, call the the sign in method.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnDestroy, OnInit } from &quot;@angular/core&quot;;
 import { Router } from &quot;@angular/router&quot;;
-import { NgbTooltipConfig } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { AuthService } from &quot;@services/auth.service&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
+import { ThemeService } from &quot;@services/theme.service&quot;;
 import * as Chart from &quot;chart.js&quot;;
 // import * as ChartDataLabels from &quot;chartjs-plugin-datalabels&quot;;
 import { default as ChartDataLabels } from &quot;chartjs-plugin-datalabels&quot;;
@@ -523,19 +525,15 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param dataService Service used to store and get data
    * @param router
    * @param translateService Service used to translate the application
+   * @param themeService Service used to handle theme
    */
   constructor(
     public authService: AuthService,
     public dataService: DataService,
     private router: Router,
     public translateService: TranslateService,
-    private ngbTooltipConfig: NgbTooltipConfig
-  ) {
-    ngbTooltipConfig.openDelay &#x3D; 500;
-    ngbTooltipConfig.triggers &#x3D; &quot;hover&quot;;
-    ngbTooltipConfig.container &#x3D; &quot;body&quot;;
-    ngbTooltipConfig.animation &#x3D; true;
-  }
+    private themeService: ThemeService
+  ) {}
 
   /**
    * This method is called once the component is loaded.
@@ -561,7 +559,9 @@ export class AppComponent implements OnInit, OnDestroy {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;router-outlet&gt;&lt;/router-outlet&gt;</code></pre>
+        <pre class="line-numbers"><code class="language-html">&lt;router-outlet&gt;&lt;/router-outlet&gt;
+&lt;app-toasts&gt;&lt;/app-toasts&gt;
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
@@ -596,9 +596,9 @@ export class AppComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><router-outlet></router-outlet></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
-    var DIRECTIVES = [];
+        var COMPONENT_TEMPLATE = '<div><router-outlet></router-outlet><app-toasts></app-toasts></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
+    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'AppComponent'};
 </script>
 <script src="../js/tree.js"></script>

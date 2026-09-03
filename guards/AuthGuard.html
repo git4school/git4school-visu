@@ -226,19 +226,19 @@
   ActivatedRouteSnapshot,
   CanActivate,
   RouterStateSnapshot,
-  Router
-} from &#x27;@angular/router&#x27;;
-import { Observable } from &#x27;rxjs/Observable&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
-import &#x27;firebase/auth&#x27;;
+  Router,
+} from &quot;@angular/router&quot;;
+import { Observable } from &quot;rxjs/Observable&quot;;
+import { Injectable } from &quot;@angular/core&quot;;
+import &quot;firebase/auth&quot;;
 
-import { AuthService } from &#x27;@services/auth.service&#x27;;
+import { AuthService } from &quot;@services/auth.service&quot;;
 
 /**
  * This guard ensures the user is connected with a Github account
  */
 @Injectable({
-  providedIn: &#x27;root&#x27;
+  providedIn: &quot;root&quot;,
 })
 export class AuthGuard implements CanActivate {
   /**
@@ -256,7 +256,7 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isSignedIn()) {
       return true;
     } else {
-      this.router.navigate([&#x27;/home&#x27;]);
+      this.router.navigate([&quot;/home&quot;]);
     }
   }
 }

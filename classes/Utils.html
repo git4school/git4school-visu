@@ -144,11 +144,19 @@
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#getCssVariable" >getCssVariable</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#getTimeFromDate" >getTimeFromDate</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
                                 <a href="#getTimeInterval" >getTimeInterval</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#truncateMiddle" >truncateMiddle</a>
                             </li>
                         </ul>
                     </td>
@@ -173,7 +181,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="224" class="link-to-prism">src/app/services/utils.ts:224</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/services/utils.ts:198</a></div>
                             </td>
                         </tr>
 
@@ -206,7 +214,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/utils.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/services/utils.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -234,12 +242,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>5</code>
+                        <i>Default value : </i><code>15</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/services/utils.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/services/utils.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -335,84 +343,9 @@
           required: [&quot;startDate&quot;, &quot;endDate&quot;],
         },
       },
-      reviews: {
-        type: &quot;array&quot;,
-        uniqueItems: true,
-        items: {
-          properties: {
-            date: {
-              type: &quot;string&quot;,
-              pattern: Utils.DATE_FORMAT,
-            },
-            label: {
-              type: &quot;string&quot;,
-            },
-            tpGroup: {
-              type: &quot;string&quot;,
-            },
-            questions: {
-              type: &quot;array&quot;,
-              uniqueItems: true,
-              items: {
-                type: &quot;string&quot;,
-              },
-            },
-          },
-          required: [&quot;date&quot;],
-        },
-      },
-      corrections: {
-        type: &quot;array&quot;,
-        uniqueItems: true,
-        items: {
-          properties: {
-            date: {
-              type: &quot;string&quot;,
-              pattern: Utils.DATE_FORMAT,
-            },
-            label: {
-              type: &quot;string&quot;,
-            },
-            tpGroup: {
-              type: &quot;string&quot;,
-            },
-            questions: {
-              type: &quot;array&quot;,
-              uniqueItems: true,
-              items: {
-                type: &quot;string&quot;,
-              },
-            },
-          },
-          required: [&quot;date&quot;],
-        },
-      },
-      others: {
-        type: &quot;array&quot;,
-        uniqueItems: true,
-        items: {
-          properties: {
-            date: {
-              type: &quot;string&quot;,
-              pattern: Utils.DATE_FORMAT,
-            },
-            label: {
-              type: &quot;string&quot;,
-            },
-            tpGroup: {
-              type: &quot;string&quot;,
-            },
-            questions: {
-              type: &quot;array&quot;,
-              uniqueItems: true,
-              items: {
-                type: &quot;string&quot;,
-              },
-            },
-          },
-          required: [&quot;date&quot;],
-        },
-      },
+      reviews: eventSchema,
+      corrections: eventSchema,
+      others: eventSchema,
     },
     required: [&quot;title&quot;, &quot;questions&quot;, &quot;repositories&quot;],
   }</code>
@@ -420,7 +353,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/services/utils.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/services/utils.ts:106</a></div>
                         </td>
                     </tr>
 
@@ -453,7 +386,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/utils.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/services/utils.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -490,7 +423,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">src/app/services/utils.ts:5</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/services/utils.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -523,7 +456,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/services/utils.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/utils.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -556,7 +489,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/services/utils.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/services/utils.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -589,7 +522,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/services/utils.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/services/utils.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -625,8 +558,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/services/utils.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">src/app/services/utils.ts:73</a></div>
                 </td>
             </tr>
 
@@ -708,8 +641,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">src/app/services/utils.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/app/services/utils.ts:81</a></div>
                 </td>
             </tr>
 
@@ -773,6 +706,77 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getCssVariable"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>getCssVariable</b></span>
+                        <a href="#getCssVariable"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCssVariable(variableName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">src/app/services/utils.ts:181</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>variableName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getTimeFromDate"></a>
                     <span class="name">
                         <span class="modifier">Static</span>
@@ -791,8 +795,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">src/app/services/utils.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">src/app/services/utils.ts:64</a></div>
                 </td>
             </tr>
 
@@ -862,8 +866,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">src/app/services/utils.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/app/services/utils.ts:93</a></div>
                 </td>
             </tr>
 
@@ -935,6 +939,89 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="truncateMiddle"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>truncateMiddle</b></span>
+                        <a href="#truncateMiddle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>truncateMiddle(str: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, maxLength: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">src/app/services/utils.ts:192</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>str</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>maxLength</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
 
@@ -948,6 +1035,35 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgbTimeStruct } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import * as moment from &quot;moment&quot;;
 
+const eventSchema &#x3D; {
+  type: &quot;array&quot;,
+  uniqueItems: true,
+  items: {
+    properties: {
+      date: {
+        type: &quot;string&quot;,
+        pattern:
+          // eslint-disable-next-line max-len
+          &quot;([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)&quot;,
+      },
+      label: {
+        type: &quot;string&quot;,
+      },
+      tpGroup: {
+        type: &quot;string&quot;,
+      },
+      questions: {
+        type: &quot;array&quot;,
+        uniqueItems: true,
+        items: {
+          type: &quot;string&quot;,
+        },
+      },
+    },
+    required: [&quot;date&quot;],
+  },
+};
+
 export class Utils {
   static readonly DEFAULT_SESSION_DURATION &#x3D; {
     hour: 1,
@@ -956,11 +1072,12 @@ export class Utils {
   };
   static readonly DEFAULT_TP_GROUP &#x3D; &quot;1&quot;;
   static readonly DATE_FORMAT &#x3D;
+    // eslint-disable-next-line max-len
     &quot;([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5][0-9])|([0-9]{4}-[0-1]?[0-9]-[0-3]?[0-9]T[0-2]?[0-9]:[0-5][0-9](:[0-5][0-9])?(.[0-9]{3}Z?)?)&quot;;
 
   static readonly SLIDER_STEP &#x3D; 86400000;
   static readonly OVERVIEW_NAME_LENGTH_LIMIT &#x3D; 20;
-  static readonly COMMIT_FUSE_RANGE &#x3D; 5;
+  static readonly COMMIT_FUSE_RANGE &#x3D; 15;
   static readonly COMMIT_DATE_FORMAT &#x3D; (date: Date) &#x3D;&gt; {
     const options: Intl.NumberFormatOptions &#x3D; {
       useGrouping: false,
@@ -1088,87 +1205,31 @@ export class Utils {
           required: [&quot;startDate&quot;, &quot;endDate&quot;],
         },
       },
-      reviews: {
-        type: &quot;array&quot;,
-        uniqueItems: true,
-        items: {
-          properties: {
-            date: {
-              type: &quot;string&quot;,
-              pattern: Utils.DATE_FORMAT,
-            },
-            label: {
-              type: &quot;string&quot;,
-            },
-            tpGroup: {
-              type: &quot;string&quot;,
-            },
-            questions: {
-              type: &quot;array&quot;,
-              uniqueItems: true,
-              items: {
-                type: &quot;string&quot;,
-              },
-            },
-          },
-          required: [&quot;date&quot;],
-        },
-      },
-      corrections: {
-        type: &quot;array&quot;,
-        uniqueItems: true,
-        items: {
-          properties: {
-            date: {
-              type: &quot;string&quot;,
-              pattern: Utils.DATE_FORMAT,
-            },
-            label: {
-              type: &quot;string&quot;,
-            },
-            tpGroup: {
-              type: &quot;string&quot;,
-            },
-            questions: {
-              type: &quot;array&quot;,
-              uniqueItems: true,
-              items: {
-                type: &quot;string&quot;,
-              },
-            },
-          },
-          required: [&quot;date&quot;],
-        },
-      },
-      others: {
-        type: &quot;array&quot;,
-        uniqueItems: true,
-        items: {
-          properties: {
-            date: {
-              type: &quot;string&quot;,
-              pattern: Utils.DATE_FORMAT,
-            },
-            label: {
-              type: &quot;string&quot;,
-            },
-            tpGroup: {
-              type: &quot;string&quot;,
-            },
-            questions: {
-              type: &quot;array&quot;,
-              uniqueItems: true,
-              items: {
-                type: &quot;string&quot;,
-              },
-            },
-          },
-          required: [&quot;date&quot;],
-        },
-      },
+      reviews: eventSchema,
+      corrections: eventSchema,
+      others: eventSchema,
     },
     required: [&quot;title&quot;, &quot;questions&quot;, &quot;repositories&quot;],
   };
+  static getCssVariable(variableName: string): string {
+    if (!variableName) return variableName;
+    let varName &#x3D; variableName.trim();
+    if (varName.startsWith(&quot;var(&quot;)) {
+      varName &#x3D; varName.substring(4, varName.length - 1).trim();
+    }
+    if (varName.startsWith(&quot;--&quot;)) {
+      return getComputedStyle(document.body).getPropertyValue(varName).trim() || variableName;
+    }
+    return variableName;
+  }
+  static truncateMiddle(str: string, maxLength: number): string {
+    if (!str || str.length &lt;&#x3D; maxLength) return str;
+    const charsToShow &#x3D; Math.max(1, maxLength - 3);
+    const frontChars &#x3D; Math.ceil(charsToShow / 2);
+    const backChars &#x3D; Math.floor(charsToShow / 2);
+    return str.substring(0, frontChars) + &#x27;...&#x27; + str.substring(str.length - backChars);
+  }
+
   constructor() {}
 }
 </code></pre>

@@ -90,7 +90,6 @@ or by selecting it in the list of repositories retrieved from Github</p>
     </p>
     <p class="comment">
                     <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/AfterContentChecked" target="_blank" >AfterContentChecked</a></code>
     </p>
 
 
@@ -150,14 +149,14 @@ or by selecting it in the list of repositories retrieved from Github</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#deleteConfirmation" >deleteConfirmation</a>
+                                    <span class="modifier">Public</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                <a href="#hoveredRepository" >hoveredRepository</a>
                             </li>
                             <li>
                                 <a href="#lastPropertySorted" >lastPropertySorted</a>
-                            </li>
-                            <li>
-                                <a href="#modalRef" >modalRef</a>
                             </li>
                             <li>
                                 <a href="#nameDirection" >nameDirection</a>
@@ -165,6 +164,15 @@ or by selecting it in the list of repositories retrieved from Github</p>
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#rotateMatrix" >rotateMatrix</a>
+                            </li>
+                            <li>
+                                <a href="#searchQuery" >searchQuery</a>
+                            </li>
+                            <li>
+                                <a href="#selectedRepositories" >selectedRepositories</a>
+                            </li>
+                            <li>
+                                <a href="#selectionMode" >selectionMode</a>
                             </li>
                             <li>
                                 <a href="#formGroups" >formGroups</a>
@@ -192,15 +200,23 @@ or by selecting it in the list of repositories retrieved from Github</p>
                                 <a href="#cancelRow" >cancelRow</a>
                             </li>
                             <li>
+                                <a href="#cancelSelection" >cancelSelection</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#createFormGroup" >createFormGroup</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#deleteRowWithDialog" >deleteRowWithDialog</a>
+                                <a href="#deleteSelected" >deleteSelected</a>
                             </li>
                             <li>
                                 <a href="#getErrorTooltip" >getErrorTooltip</a>
+                            </li>
+                            <li>
+                                <a href="#isAllSelected" >isAllSelected</a>
+                            </li>
+                            <li>
+                                <a href="#isSelected" >isSelected</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
@@ -213,10 +229,6 @@ or by selecting it in the list of repositories retrieved from Github</p>
                             </li>
                             <li>
                                 <a href="#openAddRepositoriesModal" >openAddRepositoriesModal</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#openDeleteConfirmation" >openDeleteConfirmation</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -234,6 +246,15 @@ or by selecting it in the list of repositories retrieved from Github</p>
                                 <a href="#submitForm" >submitForm</a>
                             </li>
                             <li>
+                                <a href="#toggleSelectAll" >toggleSelectAll</a>
+                            </li>
+                            <li>
+                                <a href="#toggleSelection" >toggleSelection</a>
+                            </li>
+                            <li>
+                                <a href="#trackByRepo" >trackByRepo</a>
+                            </li>
+                            <li>
                                 <a href="#addRow" >addRow</a>
                             </li>
                             <li>
@@ -247,9 +268,6 @@ or by selecting it in the list of repositories retrieved from Github</p>
                             </li>
                             <li>
                                 <a href="#isEditable" >isEditable</a>
-                            </li>
-                            <li>
-                                <a href="#ngAfterContentChecked" >ngAfterContentChecked</a>
                             </li>
                             <li>
                                 <a href="#populateRows" >populateRows</a>
@@ -313,6 +331,23 @@ or by selecting it in the list of repositories retrieved from Github</p>
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#filteredFormControls" >filteredFormControls</a>
+                                </li>
+                                <li>
+                                    <a href="#existingTpGroups" >existingTpGroups</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -323,12 +358,12 @@ or by selecting it in the list of repositories retrieved from Github</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, cdref: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, modalService: NgbModal, translateService: TranslateService, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>)</code>
+<code>constructor(fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, cdref: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, modalService: <a href="../injectables/CustomModalService.html" target="_self">CustomModalService</a>, translateService: TranslateService, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:146</a></div>
                             </td>
                         </tr>
 
@@ -398,7 +433,7 @@ or by selecting it in the list of repositories retrieved from Github</p>
                                                         <td>modalService</td>
                                                   
                                                         <td>
-                                                                    <code>NgbModal</code>
+                                                                        <code><a href="../injectables/CustomModalService.html" target="_self" >CustomModalService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -424,6 +459,20 @@ or by selecting it in the list of repositories retrieved from Github</p>
                                                         <td>
                                                                 <p>The service for the localization</p>
 
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>toastService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ToastService.html" target="_self" >ToastService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -563,15 +612,15 @@ or by selecting it in the list of repositories retrieved from Github</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>accessToRepoValidator()</code>
+                    <code>accessToRepoValidator(initialUrl?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="253"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:253</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="330"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:330</a></div>
                 </td>
             </tr>
 
@@ -582,8 +631,40 @@ or by selecting it in the list of repositories retrieved from Github</p>
 </div>
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>initialUrl</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://angular.io/api/forms/AsyncValidatorFn" target="_blank" >AsyncValidatorFn</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -615,7 +696,7 @@ or by selecting it in the list of repositories retrieved from Github</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:177</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:245</a></code>
 </div>
                 </td>
             </tr>
@@ -691,6 +772,43 @@ or by selecting it in the list of repositories retrieved from Github</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="cancelSelection"></a>
+                    <span class="name">
+                        <span ><b>cancelSelection</b></span>
+                        <a href="#cancelSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelSelection()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:133</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="createFormGroup"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
@@ -715,7 +833,7 @@ or by selecting it in the list of repositories retrieved from Github</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:216</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:282</a></code>
 </div>
                 </td>
             </tr>
@@ -776,77 +894,34 @@ or by selecting it in the list of repositories retrieved from Github</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="deleteRowWithDialog"></a>
+                    <a name="deleteSelected"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>deleteRowWithDialog</b></span>
-                        <a href="#deleteRowWithDialog"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>deleteSelected</b></span>
+                        <a href="#deleteSelected"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteRowWithDialog(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>deleteSelected()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="300"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:300</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="138"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:138</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Delete the formGroup at the specified index, after the confirmation of the user.
-If the user checks &quot;Hide this confirmation box until the next reload&quot;,
-updates the corresponding boolean in the application data</p>
-</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>index</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>The index of the formGroup in the array</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -872,8 +947,8 @@ updates the corresponding boolean in the application data</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="231"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:231</a></div>
                 </td>
             </tr>
 
@@ -933,6 +1008,112 @@ updates the corresponding boolean in the application data</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isAllSelected"></a>
+                    <span class="name">
+                        <span ><b>isAllSelected</b></span>
+                        <a href="#isAllSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isAllSelected()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:113</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSelected"></a>
+                    <span class="name">
+                        <span ><b>isSelected</b></span>
+                        <a href="#isSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isSelected(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:109</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="ngOnInit"></a>
                     <span class="name">
                         <span ><b>ngOnInit</b></span>
@@ -955,7 +1136,7 @@ updates the corresponding boolean in the application data</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:104</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:172</a></code>
 </div>
                 </td>
             </tr>
@@ -994,8 +1175,8 @@ updates the corresponding boolean in the application data</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="205"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:205</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="273"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:273</a></div>
                 </td>
             </tr>
 
@@ -1072,8 +1253,8 @@ the confirmation modal is not displayed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="190"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:190</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="258"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:258</a></div>
                 </td>
             </tr>
 
@@ -1149,8 +1330,8 @@ the confirmation modal is not displayed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="122"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:122</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:190</a></div>
                 </td>
             </tr>
 
@@ -1163,53 +1344,6 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="openDeleteConfirmation"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>openDeleteConfirmation</b></span>
-                        <a href="#openDeleteConfirmation"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>openDeleteConfirmation()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="314"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:314</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Open the delete confirmation for a repository</p>
-</div>
-
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>The result returned by the modal reference</p>
 
                     </div>
                 </td>
@@ -1238,8 +1372,8 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="237"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:237</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="314"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:314</a></div>
                 </td>
             </tr>
 
@@ -1279,8 +1413,8 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="272"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:272</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="372"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:372</a></div>
                 </td>
             </tr>
 
@@ -1320,8 +1454,8 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="281"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:281</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="381"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:381</a></div>
                 </td>
             </tr>
 
@@ -1403,7 +1537,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:153</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:221</a></code>
 </div>
                 </td>
             </tr>
@@ -1417,6 +1551,195 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSelectAll"></a>
+                    <span class="name">
+                        <span ><b>toggleSelectAll</b></span>
+                        <a href="#toggleSelectAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSelectAll()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:121</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSelection"></a>
+                    <span class="name">
+                        <span ><b>toggleSelection</b></span>
+                        <a href="#toggleSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSelection(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:100</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="trackByRepo"></a>
+                    <span class="name">
+                        <span ><b>trackByRepo</b></span>
+                        <a href="#trackByRepo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>trackByRepo(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, group: <a href="https://angular.io/api/forms/FormGroup" target="_blank">FormGroup</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="182"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:182</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>TrackBy function for *ngFor performance</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>group</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1448,7 +1771,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:52</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:48</a></code>
 </div>
                 </td>
             </tr>
@@ -1523,7 +1846,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:74</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:70</a></code>
 </div>
                 </td>
             </tr>
@@ -1598,7 +1921,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:63</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:59</a></code>
 </div>
                 </td>
             </tr>
@@ -1673,7 +1996,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:41</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:37</a></code>
 </div>
                 </td>
             </tr>
@@ -1748,7 +2071,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:37</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:33</a></code>
 </div>
                 </td>
             </tr>
@@ -1801,49 +2124,6 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="ngAfterContentChecked"></a>
-                    <span class="name">
-                        <span ><b>ngAfterContentChecked</b></span>
-                        <a href="#ngAfterContentChecked"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngAfterContentChecked()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:28</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="populateRows"></a>
                     <span class="name">
                         <span ><b>populateRows</b></span>
@@ -1866,7 +2146,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:46</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:42</a></code>
 </div>
                 </td>
             </tr>
@@ -1941,7 +2221,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:69</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:65</a></code>
 </div>
                 </td>
             </tr>
@@ -2016,7 +2296,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:102</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:98</a></code>
 </div>
                 </td>
             </tr>
@@ -2091,7 +2371,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:98</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:94</a></code>
 </div>
                 </td>
             </tr>
@@ -2166,7 +2446,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:80</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:76</a></code>
 </div>
                 </td>
             </tr>
@@ -2347,41 +2627,62 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="deleteConfirmation"></a>
+                    <a name="authService"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>deleteConfirmation</b></span>
-                        <a href="#deleteConfirmation"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Public</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+                        <i>Type : </i>        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;deleteConfirmation&#x27;)<br />
-                        </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="160" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:160</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>The template reference corresponding to the confirmation modal when deleting a repository</p>
-</div>
+                    <div class="io-description">The service managing authentication</div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hoveredRepository"></a>
+                    <span class="name">
+                        <span ><b>hoveredRepository</b></span>
+                        <a href="#hoveredRepository"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:98</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -2404,45 +2705,13 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:70</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>The <a href="../classes/Repository.html">Repository</a> property on which the sorting is applied</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="modalRef"></a>
-                    <span class="name">
-                        <span ><b>modalRef</b></span>
-                        <a href="#modalRef"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>NgbModalRef</code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:69</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The reference to the repository deletion modal when it is displayed</p>
 </div>
                 </td>
             </tr>
@@ -2468,7 +2737,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -2511,7 +2780,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -2522,6 +2791,93 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchQuery"></a>
+                    <span class="name">
+                        <span ><b>searchQuery</b></span>
+                        <a href="#searchQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedRepositories"></a>
+                    <span class="name">
+                        <span ><b>selectedRepositories</b></span>
+                        <a href="#selectedRepositories"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Set&lt;number&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Set()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectionMode"></a>
+                    <span class="name">
+                        <span ><b>selectionMode</b></span>
+                        <a href="#selectionMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -2592,12 +2948,60 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
     </table>
 </section>
 
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filteredFormControls"></a>
+                        <span class="name"><b>filteredFormControls</b><a href="#filteredFormControls"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>filteredFormControls()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:74</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="existingTpGroups"></a>
+                        <span class="name"><b>existingTpGroups</b><a href="#existingTpGroups"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>existingTpGroups()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:89</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
 </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  AfterContentChecked,
   ChangeDetectorRef,
   Component,
   OnInit,
@@ -2614,12 +3018,14 @@ import {
   Validators,
 } from &quot;@angular/forms&quot;;
 import { Error, Repository } from &quot;@models/Repository.model&quot;;
-import { NgbModal, NgbModalRef } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
+import { CustomModalRef } from &quot;@shared/ui/custom-modal/custom-modal-ref&quot;;
+import { ToastService } from &quot;@services/toast.service&quot;;
 import { AuthService } from &quot;@services/auth.service&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
 import { Observable, of, timer } from &quot;rxjs&quot;;
-import { catchError, map, switchMap } from &quot;rxjs/operators&quot;;
+import { catchError, map, switchMap, take } from &quot;rxjs/operators&quot;;
 import { BaseTabEditConfigurationComponent } from &quot;../base-tab-edit-configuration.component&quot;;
 import { ModalAddRepositoriesComponent } from &quot;./modal-add-repositories/modal-add-repositories.component&quot;;
 
@@ -2642,13 +3048,8 @@ export type SortDirection &#x3D; &quot;asc&quot; | &quot;desc&quot; | &quot;&quo
 })
 export class EditRepositoriesComponent
   extends BaseTabEditConfigurationComponent&lt;Repository&gt;
-  implements OnInit, AfterContentChecked {
-  /**
-   * The template reference corresponding to the confirmation modal when deleting a repository
-   */
-  @ViewChild(&quot;deleteConfirmation&quot;)
-  private deleteConfirmation: TemplateRef&lt;any&gt;;
-
+  implements OnInit
+{
   /**
    * The matrix that defines the transition relationships between the sorting modes.
    *
@@ -2662,11 +3063,6 @@ export class EditRepositoriesComponent
   };
 
   /**
-   * The reference to the repository deletion modal when it is displayed
-   */
-  modalRef: NgbModalRef;
-
-  /**
    * The current sorting mode, applied at the moment
    */
   nameDirection: SortDirection;
@@ -2676,21 +3072,98 @@ export class EditRepositoriesComponent
    */
   lastPropertySorted: string;
 
+  searchQuery &#x3D; &quot;&quot;;
+
+  get filteredFormControls() {
+    if (!this.searchQuery) return this.getFormControls;
+    const lowerQuery &#x3D; this.searchQuery.toLowerCase();
+    return this.getFormControls.filter((group) &#x3D;&gt; {
+      const name &#x3D; group.get(&quot;name&quot;)?.value?.toLowerCase() || &quot;&quot;;
+      const url &#x3D; group.get(&quot;url&quot;)?.value?.toLowerCase() || &quot;&quot;;
+      const tpGroup &#x3D; group.get(&quot;tpGroup&quot;)?.value?.toLowerCase() || &quot;&quot;;
+      return (
+        name.includes(lowerQuery) ||
+        url.includes(lowerQuery) ||
+        tpGroup.includes(lowerQuery)
+      );
+    });
+  }
+
+  get existingTpGroups(): string[] {
+    const groups &#x3D; this.getFormControls
+      .map((group) &#x3D;&gt; group.get(&quot;tpGroup&quot;)?.value)
+      .filter((val) &#x3D;&gt; val &amp;&amp; val.trim() !&#x3D;&#x3D; &quot;&quot;);
+    return Array.from(new Set(groups)).sort();
+  }
+
+  selectionMode &#x3D; false;
+  selectedRepositories: Set&lt;number&gt; &#x3D; new Set();
+  hoveredRepository: number | null &#x3D; null;
+
+  toggleSelection(index: number) {
+    if (this.selectedRepositories.has(index)) {
+      this.selectedRepositories.delete(index);
+    } else {
+      this.selectedRepositories.add(index);
+    }
+    this.selectionMode &#x3D; this.selectedRepositories.size &gt; 0;
+  }
+
+  isSelected(index: number): boolean {
+    return this.selectedRepositories.has(index);
+  }
+
+  isAllSelected(): boolean {
+    const visibleIds &#x3D; this.filteredFormControls.map((group) &#x3D;&gt;
+      this.getFormControls.indexOf(group)
+    );
+    if (visibleIds.length &#x3D;&#x3D;&#x3D; 0) return false;
+    return visibleIds.every((id) &#x3D;&gt; this.selectedRepositories.has(id));
+  }
+
+  toggleSelectAll() {
+    const visibleIds &#x3D; this.filteredFormControls.map((group) &#x3D;&gt;
+      this.getFormControls.indexOf(group)
+    );
+    if (this.isAllSelected()) {
+      visibleIds.forEach((id) &#x3D;&gt; this.selectedRepositories.delete(id));
+    } else {
+      visibleIds.forEach((id) &#x3D;&gt; this.selectedRepositories.add(id));
+    }
+    this.selectionMode &#x3D; this.selectedRepositories.size &gt; 0;
+  }
+
+  cancelSelection() {
+    this.selectedRepositories.clear();
+    this.selectionMode &#x3D; false;
+  }
+
+  deleteSelected() {
+    if (this.selectedRepositories.size &#x3D;&#x3D;&#x3D; 0) return;
+    const indicesToDelete &#x3D; Array.from(this.selectedRepositories).sort(
+      (a, b) &#x3D;&gt; b - a
+    );
+
+    indicesToDelete.forEach((index) &#x3D;&gt; this.deleteRow(index));
+    this.cancelSelection();
+  }
+
   /**
    * EditRepositoriesComponent constructor
-   * @param {FormBuilder} fb The service to build formGroups
+   * @param fb The service to build formGroups
    * @param cdref
-   * @param {AuthService} authService The service managing authentication
-   * @param {NgbModal} modalService The service to open a modal
-   * @param {TranslateService} translateService The service for the localization
-   * @param {DataService} dataService The service to manage the application data at runtime
+   * @param authService The service managing authentication
+   * @param modalService The service to open a modal
+   * @param translateService The service for the localization
+   * @param dataService The service to manage the application data at runtime
    */
   constructor(
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
-    private authService: AuthService,
-    private modalService: NgbModal,
+    public authService: AuthService,
+    private modalService: CustomModalService,
     private translateService: TranslateService,
+    private toastService: ToastService,
     private dataService: DataService
   ) {
     super(fb, cdref);
@@ -2707,10 +3180,10 @@ export class EditRepositoriesComponent
   }
 
   /**
-   * @ignore
+   * TrackBy function for *ngFor performance
    */
-  ngAfterContentChecked() {
-    super.ngAfterContentChecked();
+  trackByRepo(index: number, group: FormGroup): any {
+    return group.get(&quot;url&quot;)?.value || index;
   }
 
   /**
@@ -2718,9 +3191,10 @@ export class EditRepositoriesComponent
    * If the modal is closed with the &quot;Add&quot; button, all the new selected repositories are saved in the assignment
    */
   openAddRepositoriesModal() {
-    let modalReference &#x3D; this.modalService.open(ModalAddRepositoriesComponent, {
-      size: &quot;xl&quot;,
-    });
+    let modalReference: CustomModalRef &#x3D; this.modalService.open(
+      ModalAddRepositoriesComponent,
+      { size: &quot;lg&quot; }
+    );
     modalReference.componentInstance.repoList &#x3D; this.getFormControls.map(
       (row) &#x3D;&gt; Repository.withJSON(row.value)
     );
@@ -2738,7 +3212,6 @@ export class EditRepositoriesComponent
             this.addRow(repo);
           });
           this.modify();
-          this.submitForm();
         }
       },
       (error) &#x3D;&gt; {}
@@ -2755,7 +3228,7 @@ export class EditRepositoriesComponent
 
   /**
    * Get the string to display in the error tooltip, translated in the right language
-   * @param {Error[]} errors The array of errors
+   * @param errors The array of errors
    * @returns A string with the errors translated in the right language
    */
   getErrorTooltip(errors: Error[]): string {
@@ -2769,8 +3242,8 @@ export class EditRepositoriesComponent
 
   /**
    * Cancel the edition of a row (repository) and set back its value
-   * @param {FormGroup} group The formGroup for the repository to cancel the edition
-   * @param {number} index The index of the formGroup in the array
+   * @param group The formGroup for the repository to cancel the edition
+   * @param index The index of the formGroup in the array
    */
   cancelRow(group: FormGroup, index: number) {
     super.cancelRow(group, index);
@@ -2783,7 +3256,7 @@ export class EditRepositoriesComponent
    * The method called when a header is clicked on to sort the table by the clicked property.
    *
    * See {@link sort}
-   * @param {string} property The property to sort the table with
+   * @param property The property to sort the table with
    */
   onSort(property: string) {
     this.lastPropertySorted &#x3D;&#x3D;&#x3D; property
@@ -2798,31 +3271,40 @@ export class EditRepositoriesComponent
    * The method called when the &quot;Delete&quot; button is clicked on.
    * If the user has checked &quot;Hide this confirmation box until the next reload&quot;,
    * the confirmation modal is not displayed
-   * @param {number} index The index of the formGroup to delete
+   * @param index The index of the formGroup to delete
    */
   onDeleteRow(index: number) {
-    this.dataService.hideDeleteRepoConfirmation
-      ? this.deleteRow(index)
-      : this.deleteRowWithDialog(index);
+    this.deleteRow(index);
   }
 
   /**
    * Create the formGroup for a repository
-   * @param {Repository} data The repository to create the formGroup for
+   * @param data The repository to create the formGroup for
    * @returns The formGroup
    */
   protected createFormGroup(data?: Repository) {
+    let avatarUrl &#x3D; null;
+    if (data?.url) {
+      try {
+        const parts &#x3D; data.url.split(&quot;/&quot;);
+        if (parts.length &gt;&#x3D; 4 &amp;&amp; parts[2].includes(&quot;github.com&quot;)) {
+          avatarUrl &#x3D; &quot;https://github.com/&quot; + parts[3] + &quot;.png&quot;;
+        }
+      } catch (e) {}
+    }
+
     return this.fb.group({
       url: [
         data?.url,
         {
           validators: [Validators.required, this.repoAlreadyAddedValidator()],
-          asyncValidators: [this.accessToRepoValidator()],
+          asyncValidators: [this.accessToRepoValidator(data?.url)],
         },
       ],
       name: [data?.name],
       tpGroup: [data?.tpGroup],
       errors: [data ? data.errors : []],
+      avatarUrl: [avatarUrl],
       isEditable: false,
       isInvalid: false,
       save: {},
@@ -2848,17 +3330,40 @@ export class EditRepositoriesComponent
   /**
    * A validator checking if the authenticated user has access to the specified repository (and if it exists)
    */
-  private accessToRepoValidator(): AsyncValidatorFn {
+  private accessToRepoValidator(initialUrl?: string): AsyncValidatorFn {
     return (
       urlControl: AbstractControl
     ): Observable&lt;ValidationErrors | null&gt; &#x3D;&gt; {
-      if (!urlControl.valueChanges || urlControl.pristine) {
-        return of(null);
+      if (!urlControl.value || urlControl.value &#x3D;&#x3D;&#x3D; initialUrl) {
+        return timer(10).pipe(
+          map(() &#x3D;&gt; null),
+          take(1)
+        );
       } else {
         return timer(1000).pipe(
           switchMap(() &#x3D;&gt; this.authService.verifyUserAccess(urlControl.value)),
-          map((res) &#x3D;&gt; null),
-          catchError((err) &#x3D;&gt; of({ noAccess: true }))
+          map((res) &#x3D;&gt; {
+            if (urlControl.parent &amp;&amp; urlControl.parent.get(&quot;avatarUrl&quot;)) {
+              urlControl.parent
+                .get(&quot;avatarUrl&quot;)
+                .setValue(res?.owner?.avatar_url || null, { emitEvent: false });
+            }
+            return null;
+          }),
+          catchError((err) &#x3D;&gt; {
+            if (urlControl.parent &amp;&amp; urlControl.parent.get(&quot;avatarUrl&quot;)) {
+              urlControl.parent
+                .get(&quot;avatarUrl&quot;)
+                .setValue(null, { emitEvent: false });
+            }
+            const title &#x3D; this.translateService.instant(&quot;ERROR&quot;);
+            const msg &#x3D; this.translateService.instant(
+              &quot;ERROR-MESSAGE-NO-ACCESS&quot;
+            );
+            this.toastService.error(title, msg);
+            return of({ noAccess: true });
+          }),
+          take(1)
         );
       }
     };
@@ -2874,7 +3379,7 @@ export class EditRepositoriesComponent
   /**
    * Sort the table, the repositories array, by the chosen property.
    * The sorting used is an alphabetical sorting as all the properties of a repository are a string
-   * @param {string} property The property to sort the table with
+   * @param property The property to sort the table with
    */
   private sort(property: string) {
     if (!this.nameDirection) {
@@ -2888,188 +3393,203 @@ export class EditRepositoriesComponent
       );
     }
   }
-
-  /**
-   * Delete the formGroup at the specified index, after the confirmation of the user.
-   * If the user checks &quot;Hide this confirmation box until the next reload&quot;,
-   * updates the corresponding boolean in the application data
-   * @param {number} index The index of the formGroup in the array
-   */
-  private deleteRowWithDialog(index: number) {
-    this.openDeleteConfirmation().then(
-      (hide) &#x3D;&gt; {
-        this.dataService.hideDeleteRepoConfirmation &#x3D; hide;
-        this.deleteRow(index);
-      },
-      () &#x3D;&gt; {}
-    );
-  }
-
-  /**
-   * Open the delete confirmation for a repository
-   * @returns The result returned by the modal reference
-   */
-  private openDeleteConfirmation(): Promise&lt;any&gt; {
-    this.modalRef &#x3D; this.modalService.open(this.deleteConfirmation);
-    return this.modalRef.result;
-  }
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;card&quot;&gt;
-    &lt;div class&#x3D;&quot;card-header&quot;&gt;
-        &lt;h4&gt;{{ &#x27;EDIT-REPOSITORIES.PAGE-TITLE&#x27; | translate }} &lt;span *ngIf&#x3D;&quot;isModified&quot; [ngbTooltip]&#x3D;&quot;toSaveTooltip&quot;
-                class&#x3D;&quot;ml-1&quot;&gt;
-                &lt;i class&#x3D;&quot;fas fa-save text-primary fa-sm up-down&quot;&gt;&lt;/i&gt;
-            &lt;/span&gt;&lt;/h4&gt;
-    &lt;/div&gt;
-    &lt;div class&#x3D;&quot;card-body&quot;&gt;
-        &lt;div class&#x3D;&quot;overflow-auto&quot; style&#x3D;&quot;max-height:50vh;&quot;&gt;
-            &lt;table class&#x3D;&quot;table table-hover table-striped &quot;&gt;
-                &lt;thead&gt;
-                    &lt;tr&gt;
-                        &lt;th class&#x3D;&quot;sortable-column&quot; scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 25%;&quot; (click)&#x3D;&quot;onSort(&#x27;name&#x27;)&quot;&gt;
-                            {{ &#x27;EDIT-REPOSITORIES.COLUMN-NAME&#x27; | translate}}
-                            &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;name&#x27;&quot;&gt;
-                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-down&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                            &lt;/ng-container&gt;
-                        &lt;/th&gt;
-                        &lt;th class&#x3D;&quot;sortable-column&quot; scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 50%&quot; (click)&#x3D;&quot;onSort(&#x27;url&#x27;)&quot;&gt;
-                            {{ &#x27;EDIT-REPOSITORIES.COLUMN-URL&#x27; | translate}}
-                            &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;url&#x27;&quot;&gt;
-                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-down&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                            &lt;/ng-container&gt;
-                        &lt;/th&gt;
-
-                        &lt;th class&#x3D;&quot;sortable-column&quot; scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 15%&quot; (click)&#x3D;&quot;onSort(&#x27;tpGroup&#x27;)&quot;&gt;
-                            {{ &#x27;EDIT-REPOSITORIES.COLUMN-TP-GROUP&#x27; | translate}}
-                            &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;tpGroup&#x27;&quot;&gt;
-                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                                &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-down&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-                            &lt;/ng-container&gt;
-                        &lt;/th&gt;
-                        &lt;th scope&#x3D;&quot;col&quot; style&#x3D;&quot;width: 10%&quot;&gt;&lt;/th&gt;
-                    &lt;/tr&gt;
-                &lt;/thead&gt;
-                &lt;tbody&gt;
-                    &lt;ng-container *ngFor&#x3D;&quot;let group of getFormControls; let i &#x3D; index&quot;&gt;
-                        &lt;tr [formGroup]&#x3D;&quot;group&quot; *ngIf&#x3D;&quot;group.get(&#x27;isEditable&#x27;).value&quot;
-                            (keyup.enter)&#x3D;&quot;validateRow(group)&quot;&gt;
-                            &lt;td&gt;
-                                &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; formControlName&#x3D;&quot;name&quot; placeholder&#x3D;&quot;git4school&quot;&gt;
-                            &lt;/td&gt;
-                            &lt;td&gt;
-                                &lt;input type&#x3D;&quot;url&quot; [ngClass]&#x3D;&quot;{
-                                        &#x27;is-invalid&#x27;: group.invalid,
-                                        &#x27;is-valid&#x27;: group.valid,
-                                        &#x27;loading&#x27;: group.pending}&quot; class&#x3D;&quot;form-control&quot; formControlName&#x3D;&quot;url&quot;
-                                    placeholder&#x3D;&quot;https://github.com/git4school/git4school-visu&quot;&gt;
-                                &lt;div *ngIf&#x3D;&quot;group.get(&#x27;url&#x27;).errors &amp;&amp; group.get(&#x27;url&#x27;).errors[&#x27;noAccess&#x27;]&quot;
-                                    class&#x3D;&quot;invalid-feedback&quot;&gt;
-                                    {{ &#x27;EDIT-REPOSITORIES.MESSAGE-INVALID-URL&#x27; | translate }}
-                                &lt;/div&gt;
-                                &lt;div *ngIf&#x3D;&quot;group.get(&#x27;url&#x27;).errors &amp;&amp; group.get(&#x27;url&#x27;).errors[&#x27;repoAlreadyAdded&#x27;]&quot;
-                                    class&#x3D;&quot;invalid-feedback&quot;&gt;
-                                    {{ &#x27;EDIT-REPOSITORIES.MESSAGE-REPO-ALREADY-ADDED&#x27; | translate }}
-                                &lt;/div&gt;
-                            &lt;/td&gt;
-                            &lt;td&gt;
-                                &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; formControlName&#x3D;&quot;tpGroup&quot; placeholder&#x3D;&quot;1.1&quot;&gt;
-                            &lt;/td&gt;
-                            &lt;td&gt;
-                                &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; aria-label&#x3D;&quot;&quot;&gt;
-                                    &lt;button type&#x3D;&quot;reset&quot; class&#x3D;&quot;btn btn-danger&quot; (click)&#x3D;&quot;cancelRow(group, i)&quot;&gt;&lt;i
-                                            class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-                                    &lt;button type&#x3D;&quot;submit&quot; class&#x3D;&quot;btn btn-success&quot; (click)&#x3D;&quot;validateRow(group)&quot;&gt;&lt;i
-                                            class&#x3D;&quot;fas fa-check&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-                                &lt;/div&gt;
-                            &lt;/td&gt;
-                        &lt;/tr&gt;
-                        &lt;tr *ngIf&#x3D;&quot;!group.get(&#x27;isEditable&#x27;).value&quot;&gt;
-                            &lt;td&gt;
-                                {{ group.get(&#x27;name&#x27;).value }}
-                                &lt;button *ngIf&#x3D;&quot;group.get(&#x27;errors&#x27;).value.length&quot; class&#x3D;&quot;btn&quot;
-                                    [ngbTooltip]&#x3D;&quot;getErrorTooltip(group.get(&#x27;errors&#x27;).value)&quot;&gt;
-                                    &lt;i class&#x3D;&quot;fas fa-exclamation-triangle fa-lg blinking&quot; style&#x3D;&quot;color:Tomato&quot;&gt;&lt;/i&gt;
-                                &lt;/button&gt;
-                            &lt;/td&gt;
-                            &lt;td&gt;
-                                &lt;a href&#x3D;&quot;{{ group.get(&#x27;url&#x27;).value }}&quot; target&#x3D;”_blank”&gt;{{ group.get(&#x27;url&#x27;).value }}&lt;/a&gt;
-                            &lt;/td&gt;
-                            &lt;td&gt;
-                                {{ group.get(&#x27;tpGroup&#x27;).value }}
-                            &lt;/td&gt;
-                            &lt;td&gt;
-                                &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; aria-label&#x3D;&quot;&quot;&gt;
-                                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-secondary&quot; (click)&#x3D;&quot;editRow(group)&quot;&gt;&lt;i
-                                            class&#x3D;&quot;fas fa-pencil-alt&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-                                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger&quot; (click)&#x3D;&quot;onDeleteRow(i)&quot;&gt;&lt;i
-                                            class&#x3D;&quot;far fa-trash-alt&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-                                &lt;/div&gt;
-                            &lt;/td&gt;
-                        &lt;/tr&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;repositories-form-container&quot;&gt;
+    &lt;!-- Top bar --&gt;
+    &lt;div class&#x3D;&quot;sort-bar mb-3 d-flex position-relative align-items-center w-100&quot;&gt;
+        &lt;div class&#x3D;&quot;d-flex align-items-center&quot; style&#x3D;&quot;gap: 1rem;&quot;&gt;
+            &lt;div class&#x3D;&quot;d-flex align-items-center&quot; style&#x3D;&quot;gap: 0.5rem;&quot;&gt;
+                &lt;span class&#x3D;&quot;sort-label mr-1&quot;&gt;{{ &#x27;SORT_BY&#x27; | translate }}:&lt;/span&gt;
+                &lt;button class&#x3D;&quot;sort-pill&quot; [class.active]&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;name&#x27;&quot; (click)&#x3D;&quot;onSort(&#x27;name&#x27;)&quot;&gt;
+                    {{ &#x27;EDIT-REPOSITORIES.COLUMN-NAME&#x27; | translate }}
+                    &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;name&#x27;&quot;&gt;
+                        &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-down&quot;&gt;&lt;/i&gt;&lt;/span&gt;
                     &lt;/ng-container&gt;
-                &lt;/tbody&gt;
-            &lt;/table&gt;
+                &lt;/button&gt;
+                &lt;button class&#x3D;&quot;sort-pill&quot; [class.active]&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;url&#x27;&quot; (click)&#x3D;&quot;onSort(&#x27;url&#x27;)&quot;&gt;
+                    {{ &#x27;EDIT-REPOSITORIES.COLUMN-URL&#x27; | translate }}
+                    &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;url&#x27;&quot;&gt;
+                        &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-down&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                    &lt;/ng-container&gt;
+                &lt;/button&gt;
+                &lt;button class&#x3D;&quot;sort-pill&quot; [class.active]&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;tpGroup&#x27;&quot; (click)&#x3D;&quot;onSort(&#x27;tpGroup&#x27;)&quot;&gt;
+                    {{ &#x27;EDIT-REPOSITORIES.COLUMN-TP-GROUP&#x27; | translate }}
+                    &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;tpGroup&#x27;&quot;&gt;
+                        &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-down&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                    &lt;/ng-container&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Search --&gt;
+            &lt;div class&#x3D;&quot;search-container position-relative&quot;&gt;
+                &lt;svg class&#x3D;&quot;search-icon&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                    &lt;circle cx&#x3D;&quot;11&quot; cy&#x3D;&quot;11&quot; r&#x3D;&quot;8&quot;&gt;&lt;/circle&gt;
+                    &lt;line x1&#x3D;&quot;21&quot; y1&#x3D;&quot;21&quot; x2&#x3D;&quot;16.65&quot; y2&#x3D;&quot;16.65&quot;&gt;&lt;/line&gt;
+                &lt;/svg&gt;
+                &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control modern-search-input&quot; [placeholder]&#x3D;&quot;&#x27;EDIT-REPOSITORIES.SEARCH-PLACEHOLDER&#x27; | translate&quot; [(ngModel)]&#x3D;&quot;searchQuery&quot;&gt;
+            &lt;/div&gt;
         &lt;/div&gt;
 
-        &lt;div class&#x3D;&quot;btn-group mt-2&quot; role&#x3D;&quot;group &quot;&gt;
-            &lt;button class&#x3D;&quot;btn btn-secondary&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;addRow()&quot;
-                ngbTooltip&#x3D;&quot;{{ &#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY&#x27; | translate }}&quot;&gt;
-                &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
-                    &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-mask&#x3D;&quot;fas fa-database&quot; data-fa-transform&#x3D;&quot;shrink-6 right-7 &quot;&gt;&lt;/i&gt;
-                    &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-7 right-7 &quot;&gt;&lt;/i&gt;
-                &lt;/span&gt;
-            &lt;/button&gt;
-            &lt;button class&#x3D;&quot;btn btn-secondary&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;openAddRepositoriesModal()&quot;
-                ngbTooltip&#x3D;&quot;{{ &#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES&#x27; | translate }}&quot;&gt;
-                &lt;span class&#x3D;&quot;fa-layers fa-fw&quot;&gt;
-                    &lt;i class&#x3D;&quot;fas fa-square&quot; data-fa-mask&#x3D;&quot;fas fa-database&quot; data-fa-transform&#x3D;&quot;grow-3 right-10&quot;&gt;&lt;/i&gt;
-                    &lt;i class&#x3D;&quot;fas fa-circle&quot; data-fa-mask&#x3D;&quot;fas fa-database&quot; data-fa-transform&#x3D;&quot;shrink-6 right-7&quot;&gt;&lt;/i&gt;
-                    &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-7 right-7&quot;&gt;&lt;/i&gt;
-                    &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-9 right-11 up-5&quot;&gt;&lt;/i&gt;
-                    &lt;i class&#x3D;&quot;fas fa-plus&quot; data-fa-transform&#x3D;&quot;shrink-8 right-13 down-3&quot;&gt;&lt;/i&gt;
-                &lt;/span&gt;
-            &lt;/button&gt;
+
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;repository-list&quot;&gt;
+        &lt;!-- Empty State --&gt;
+        &lt;div class&#x3D;&quot;empty-state text-center py-3 text-muted&quot; *ngIf&#x3D;&quot;getFormControls.length &#x3D;&#x3D;&#x3D; 0&quot;&gt;
+            &lt;app-repo-icon mode&#x3D;&quot;empty&quot; class&#x3D;&quot;mb-2&quot; style&#x3D;&quot;font-size: 3em; opacity: 0.5;&quot;&gt;&lt;/app-repo-icon&gt;
+            &lt;h5&gt;{{ &#x27;EDIT-REPOSITORIES.NO-REPOSITORIES&#x27; | translate }}&lt;/h5&gt;
+        &lt;/div&gt;
+
+        &lt;div *ngFor&#x3D;&quot;let group of filteredFormControls; let i &#x3D; index; trackBy: trackByRepo&quot; [formGroup]&#x3D;&quot;group&quot; class&#x3D;&quot;mb-2&quot;&gt;
+            
+            &lt;!-- View Mode --&gt;
+            &lt;div class&#x3D;&quot;repository-card&quot; *ngIf&#x3D;&quot;!group.get(&#x27;isEditable&#x27;).value&quot;
+                 [class.is-selected]&#x3D;&quot;isSelected(getFormControls.indexOf(group))&quot;
+                 [class.is-shrunk]&#x3D;&quot;(hoveredRepository &#x3D;&#x3D;&#x3D; getFormControls.indexOf(group) || isSelected(getFormControls.indexOf(group)))&quot;&gt;
+                
+                &lt;div class&#x3D;&quot;repo-info-container&quot;&gt;
+                    &lt;div class&#x3D;&quot;selection-zone mr-3&quot;
+                         (mouseenter)&#x3D;&quot;hoveredRepository &#x3D; getFormControls.indexOf(group)&quot;
+                         (mouseleave)&#x3D;&quot;hoveredRepository &#x3D; null&quot;
+                         (click)&#x3D;&quot;toggleSelection(getFormControls.indexOf(group)); $event.stopPropagation()&quot;&gt;
+                        &lt;div class&#x3D;&quot;type-indicator-overlay repo-icon m-0&quot;&gt;
+                            &lt;img *ngIf&#x3D;&quot;group.get(&#x27;avatarUrl&#x27;)?.value&quot; [src]&#x3D;&quot;group.get(&#x27;avatarUrl&#x27;).value&quot; alt&#x3D;&quot;Repository Avatar&quot; class&#x3D;&quot;repo-avatar-image&quot;&gt;
+                            &lt;app-repo-icon *ngIf&#x3D;&quot;!group.get(&#x27;avatarUrl&#x27;)?.value&quot;&gt;&lt;/app-repo-icon&gt;
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;selection-checkbox-overlay&quot;&gt;
+                            &lt;div class&#x3D;&quot;custom-control custom-checkbox&quot; style&#x3D;&quot;pointer-events: none;&quot;&gt;
+                                &lt;input type&#x3D;&quot;checkbox&quot; class&#x3D;&quot;custom-control-input&quot; [id]&#x3D;&quot;&#x27;check-repo-&#x27; + getFormControls.indexOf(group)&quot; [checked]&#x3D;&quot;isSelected(getFormControls.indexOf(group))&quot;&gt;
+                                &lt;label class&#x3D;&quot;custom-control-label&quot; [for]&#x3D;&quot;&#x27;check-repo-&#x27; + getFormControls.indexOf(group)&quot;&gt;&lt;/label&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+
+                    &lt;div class&#x3D;&quot;repo-details&quot; style&#x3D;&quot;margin-right: 1rem;&quot;&gt;
+                        &lt;div class&#x3D;&quot;repo-name marquee-container&quot; style&#x3D;&quot;max-width: 100%;&quot;&gt;
+                            &lt;span class&#x3D;&quot;marquee-content d-flex align-items-center gap-2&quot;&gt;
+                                {{ group.get(&#x27;name&#x27;).value || (&#x27;EDIT-REPOSITORIES.NEW-REPOSITORY&#x27; | translate) }}
+                                &lt;button *ngIf&#x3D;&quot;group.get(&#x27;errors&#x27;).value.length &gt; 0&quot; class&#x3D;&quot;btn btn-outline-danger error-btn ml-2&quot;
+                                        [appTooltip]&#x3D;&quot;getErrorTooltip(group.get(&#x27;errors&#x27;).value)&quot;&gt;
+                                    &lt;i class&#x3D;&quot;fas fa-exclamation-triangle&quot;&gt;&lt;/i&gt;
+                                &lt;/button&gt;
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;a class&#x3D;&quot;repo-url&quot; [href]&#x3D;&quot;group.get(&#x27;url&#x27;).value&quot; target&#x3D;&quot;_blank&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot; style&#x3D;&quot;margin-top: 0.25rem;&quot;&gt;
+                            {{ group.get(&#x27;url&#x27;).value }}
+                            &lt;svg class&#x3D;&quot;ext-icon&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                                &lt;path d&#x3D;&quot;M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6&quot;&gt;&lt;/path&gt;
+                                &lt;polyline points&#x3D;&quot;15 3 21 3 21 9&quot;&gt;&lt;/polyline&gt;
+                                &lt;line x1&#x3D;&quot;10&quot; y1&#x3D;&quot;14&quot; x2&#x3D;&quot;21&quot; y2&#x3D;&quot;3&quot;&gt;&lt;/line&gt;
+                            &lt;/svg&gt;
+                        &lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class&#x3D;&quot;repo-badge mr-3&quot; *ngIf&#x3D;&quot;group.get(&#x27;tpGroup&#x27;).value&quot;&gt;
+                    {{ group.get(&#x27;tpGroup&#x27;).value }}
+                &lt;/div&gt;
+                
+                &lt;div class&#x3D;&quot;repo-actions&quot;&gt;
+                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-icon-action text-secondary&quot; (click)&#x3D;&quot;editRow(group)&quot; [appTooltip]&#x3D;&quot;&#x27;EDIT&#x27; | translate&quot;&gt;
+                        &lt;svg class&#x3D;&quot;modern-icon icon-edit&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                            &lt;path class&#x3D;&quot;page&quot; d&#x3D;&quot;M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5&quot; /&gt;
+                            &lt;path class&#x3D;&quot;pencil&quot; d&#x3D;&quot;M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z&quot; /&gt;
+                        &lt;/svg&gt;
+                    &lt;/button&gt;
+                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-icon-action text-danger&quot; (click)&#x3D;&quot;onDeleteRow(getFormControls.indexOf(group))&quot; [appTooltip]&#x3D;&quot;&#x27;DELETE&#x27; | translate&quot;&gt;
+                        &lt;svg class&#x3D;&quot;modern-icon icon-delete&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                            &lt;path class&#x3D;&quot;lid&quot; d&#x3D;&quot;M3 6h18 M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2&quot; /&gt;
+                            &lt;path class&#x3D;&quot;bin&quot; d&#x3D;&quot;M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 5v6m4-6v6m4-6v6&quot; /&gt;
+                        &lt;/svg&gt;
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Edit Mode --&gt;
+            &lt;div class&#x3D;&quot;repository-card-edit&quot; *ngIf&#x3D;&quot;group.get(&#x27;isEditable&#x27;).value&quot;&gt;
+                &lt;div class&#x3D;&quot;edit-row&quot;&gt;
+                    &lt;div class&#x3D;&quot;input-group-col col-name&quot;&gt;
+                        &lt;app-text-input id&#x3D;&quot;name-{{i}}&quot; formControlName&#x3D;&quot;name&quot; [label]&#x3D;&quot;&#x27;EDIT-REPOSITORIES.COLUMN-NAME&#x27; | translate&quot;&gt;&lt;/app-text-input&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;input-group-col col-url&quot;&gt;
+                        &lt;app-text-input id&#x3D;&quot;url-{{i}}&quot; formControlName&#x3D;&quot;url&quot; [label]&#x3D;&quot;&#x27;EDIT-REPOSITORIES.COLUMN-URL&#x27; | translate&quot; [required]&#x3D;&quot;true&quot;
+                            [invalid]&#x3D;&quot;group.get(&#x27;url&#x27;).invalid &amp;&amp; (group.get(&#x27;url&#x27;).touched || group.get(&#x27;url&#x27;).dirty)&quot;&gt;
+                        &lt;/app-text-input&gt;
+                        &lt;div class&#x3D;&quot;error-feedback&quot; *ngIf&#x3D;&quot;(group.get(&#x27;url&#x27;).hasError(&#x27;required&#x27;) || group.get(&#x27;url&#x27;).hasError(&#x27;repoAlreadyAdded&#x27;)) &amp;&amp; (group.get(&#x27;url&#x27;).touched || group.get(&#x27;url&#x27;).dirty)&quot;&gt;
+                            &lt;ng-container *ngIf&#x3D;&quot;group.get(&#x27;url&#x27;).hasError(&#x27;required&#x27;)&quot;&gt;{{ &#x27;ERROR-MESSAGE-URL-REQUIRED&#x27; | translate }}&lt;/ng-container&gt;
+                            &lt;ng-container *ngIf&#x3D;&quot;group.get(&#x27;url&#x27;).hasError(&#x27;repoAlreadyAdded&#x27;)&quot;&gt;{{ &#x27;ERROR-MESSAGE-REPO-ALREADY-ADDED&#x27; | translate }}&lt;/ng-container&gt;
+                            
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;input-group-col col-tp&quot;&gt;
+                        &lt;app-text-input [id]&#x3D;&quot;&#x27;repo-tp-&#x27; + getFormControls.indexOf(group)&quot; formControlName&#x3D;&quot;tpGroup&quot;
+                                        [label]&#x3D;&quot;&#x27;EDIT-REPOSITORIES.COLUMN-TP-GROUP&#x27; | translate&quot; [suggestions]&#x3D;&quot;existingTpGroups&quot;&gt;&lt;/app-text-input&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;edit-actions&quot;&gt;
+                        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-icon-action text-secondary&quot; (click)&#x3D;&quot;cancelRow(group, getFormControls.indexOf(group))&quot; [appTooltip]&#x3D;&quot;&#x27;CANCEL&#x27; | translate&quot; style&#x3D;&quot;width: 36px; height: 36px;&quot;&gt;
+                            &lt;i class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;
+                        &lt;/button&gt;
+                        &lt;button [id]&#x3D;&quot;&#x27;tour-validate-repo-&#x27; + i&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-icon-action text-primary&quot; (click)&#x3D;&quot;validateRow(group)&quot; [appTooltip]&#x3D;&quot;&#x27;VALIDATE&#x27; | translate&quot; [disabled]&#x3D;&quot;!group.valid&quot; style&#x3D;&quot;width: 36px; height: 36px;&quot;&gt;
+                            &lt;i class&#x3D;&quot;fas fa-check&quot;&gt;&lt;/i&gt;
+                        &lt;/button&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+            &lt;/div&gt;
+
+        &lt;/div&gt;
+
+        &lt;!-- Floating Action Bar for Selection Mode --&gt;
+        &lt;div class&#x3D;&quot;floating-action-bar-container floating-sticky&quot; [class.show]&#x3D;&quot;selectionMode&quot;&gt;
+            &lt;div class&#x3D;&quot;floating-action-bar&quot;&gt;
+                &lt;!-- Select All Checkbox --&gt;
+                &lt;div class&#x3D;&quot;custom-control custom-checkbox d-flex align-items-center pl-2 pr-3&quot; style&#x3D;&quot;cursor: pointer;&quot; (click)&#x3D;&quot;toggleSelectAll()&quot;&gt;
+                    &lt;input type&#x3D;&quot;checkbox&quot; class&#x3D;&quot;custom-control-input&quot; id&#x3D;&quot;floatingSelectAll&quot; [checked]&#x3D;&quot;isAllSelected()&quot; style&#x3D;&quot;pointer-events: none;&quot;&gt;
+                    &lt;label class&#x3D;&quot;custom-control-label font-weight-bold mb-0&quot; for&#x3D;&quot;floatingSelectAll&quot; style&#x3D;&quot;color: var(--color-text-primary); pointer-events: none; padding-top: 2px;&quot;&gt;
+                        {{ selectedRepositories.size }} {{ &#x27;EDIT-REPOSITORIES.SELECTED-REPOSITORIES&#x27; | translate }}
+                    &lt;/label&gt;
+                &lt;/div&gt;
+
+
+                &lt;div class&#x3D;&quot;bar-divider&quot;&gt;&lt;/div&gt;
+
+                &lt;!-- Delete Button --&gt;
+                &lt;button class&#x3D;&quot;bar-btn-danger d-flex align-items-center&quot; (click)&#x3D;&quot;deleteSelected()&quot;&gt;
+                    &lt;i class&#x3D;&quot;fas fa-trash mr-2&quot;&gt;&lt;/i&gt;
+                    &lt;span class&#x3D;&quot;font-weight-bold&quot;&gt;{{ &#x27;DELETE&#x27; | translate }}&lt;/span&gt;
+                &lt;/button&gt;
+
+
+                &lt;!-- Close Button --&gt;
+                &lt;button class&#x3D;&quot;bar-btn-icon d-flex align-items-center justify-content-center&quot; (click)&#x3D;&quot;cancelSelection()&quot;&gt;
+                    &lt;i class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;/div&gt;
 
-&lt;ng-template #deleteConfirmation&gt;
-    &lt;div class&#x3D;&quot;modal-header&quot;&gt;
-        &lt;h4 class&#x3D;&quot;modal-title&quot;&gt;{{ &quot;DELETE-REPOSITORY-CONFIRMATION-TITLE&quot; | translate }}&lt;/h4&gt;
-        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close&quot; aria-label&#x3D;&quot;Close&quot; (click)&#x3D;&quot;modalRef.dismiss(&#x27;Cross click&#x27;)&quot;&gt;
-            &lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
+    &lt;div class&#x3D;&quot;bottom-actions&quot;&gt;
+        &lt;button id&#x3D;&quot;tour-add-empty-repo-btn&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-action&quot; (click)&#x3D;&quot;addRow()&quot; [appTooltip]&#x3D;&quot;&#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY&#x27; | translate&quot;&gt;
+            &lt;app-repo-icon mode&#x3D;&quot;add&quot; class&#x3D;&quot;mr-1&quot; style&#x3D;&quot;font-size: 1.25em;&quot;&gt;&lt;/app-repo-icon&gt;
+            {{ &#x27;EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY&#x27; | translate }}
+        &lt;/button&gt;
+        &lt;button id&#x3D;&quot;tour-add-search-repo-btn&quot; *ngIf&#x3D;&quot;authService.isSignedIn()&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-action&quot; (click)&#x3D;&quot;openAddRepositoriesModal()&quot; [appTooltip]&#x3D;&quot;&#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES&#x27; | translate&quot;&gt;
+            &lt;app-repo-icon mode&#x3D;&quot;add-multiple&quot; class&#x3D;&quot;mr-1&quot; style&#x3D;&quot;font-size: 1.25em;&quot;&gt;&lt;/app-repo-icon&gt;
+            {{ &#x27;EDIT-REPOSITORIES.ADD-REPOSITORY&#x27; | translate }}
         &lt;/button&gt;
     &lt;/div&gt;
-    &lt;div class&#x3D;&quot;modal-body&quot;&gt;
-        &lt;p&gt;{{ &quot;DELETE-REPOSITORY-CONFIRMATION-MESSAGE&quot; | translate }}&lt;/p&gt;
-
-        &lt;div class&#x3D;&quot;form-check&quot;&gt;
-            &lt;input class&#x3D;&quot;form-check-input&quot; type&#x3D;&quot;checkbox&quot; #hideConfirmation id&#x3D;&quot;hideConfirmation&quot;&gt;
-            &lt;label class&#x3D;&quot;form-check-label&quot; for&#x3D;&quot;hideConfirmation&quot;&gt;
-                &lt;small&gt;{{ &quot;HIDE-CONFIRMATION-BOX&quot; | translate }}&lt;/small&gt;
-            &lt;/label&gt;
-        &lt;/div&gt;
     &lt;/div&gt;
-    &lt;div class&#x3D;&quot;modal-footer&quot;&gt;
-        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-danger&quot; (click)&#x3D;&quot;modalRef.dismiss(&#x27;Cancel&#x27;)&quot;&gt;
-            {{ &quot;CANCEL&quot; | translate }}
-        &lt;/button&gt;
-        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;modalRef.close(hideConfirmation.checked)&quot;&gt;
-            {{ &quot;CONFIRM&quot; | translate }}
-        &lt;/button&gt;
-    &lt;/div&gt;
-&lt;/ng-template&gt;
-
-&lt;ng-template #toSaveTooltip&gt;{{ &#x27;TO-SAVE.TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;</code></pre>
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
@@ -3097,11 +3617,430 @@ export class EditRepositoriesComponent
     transform: translateY(0%);
   }
 }
-</code></pre>
+
+.inline-config-container {
+  .config-header {
+    h4 {
+      font-family: &quot;Inter&quot;, &quot;Roboto&quot;, sans-serif;
+      font-weight: 600;
+    }
+  }
+
+  .divider-vertical {
+    width: 1px;
+    height: 24px;
+    background-color: var(--color-border);
+  }
+
+  .filter-group {
+    display: inline-flex;
+    background: var(--filter-bg);
+    border-radius: 10px;
+    padding: 4px;
+    position: relative;
+    z-index: 1;
+
+    .filter-indicator {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 4px;
+      width: 150px;
+      background: var(--filter-indicator);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+      border-radius: 6px;
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: -1;
+    }
+
+    &amp;[data-active&#x3D;&quot;metadata&quot;] .filter-indicator {
+      transform: translateX(0);
+    }
+
+    &amp;[data-active&#x3D;&quot;repositories&quot;] .filter-indicator {
+      transform: translateX(150px);
+    }
+
+    .filter-btn {
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none;
+      width: 150px;
+      padding: 0.5rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--filter-text);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &amp;:hover:not(.active) {
+        color: var(--color-text-primary);
+      }
+
+      &amp;.active {
+        color: var(--filter-text-active);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .bg-light-surface {
+    background-color: var(--color-bg-body);
+  }
+}</code></pre>
                 <p class="comment">
                     <code>./edit-repositories.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss"></code></pre>
+                <pre class="line-numbers"><code class="language-scss">@import &quot;../../../../../../styles/variables&quot;;
+
+.repositories-form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+  position: relative;
+
+  .sort-bar {
+    .sort-label {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+
+    .sort-pill {
+      background: var(--color-bg-body);
+      border: none;
+      color: var(--color-text-secondary);
+      border-radius: $radius-full;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all $transition-normal;
+
+      &amp;:hover {
+        background: var(--color-surface);
+        color: var(--color-text-primary);
+      }
+
+      &amp;.active {
+        background: var(--color-primary-bg);
+        color: var(--color-primary);
+        font-weight: 600;
+      }
+
+      i { font-size: 0.75rem; }
+    }
+
+    .search-container { position: relative;
+      width: 250px;
+      .search-icon {
+        position: absolute;
+        left: 0.85rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1rem;
+        height: 1rem;
+        color: var(--color-text-muted);
+      }
+      .modern-search-input {
+        padding-left: 2.25rem;
+        border-radius: $radius-full;
+        border: 1px solid var(--color-border);
+        background: var(--color-bg-body);
+        font-size: 0.85rem;
+        height: 32px;
+        transition: all $transition-fast;
+
+        &amp;:focus {
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 2px var(--color-primary-bg);
+          outline: none;
+
+          &amp;::placeholder {
+            color: transparent;
+          }
+        }
+      }
+    }
+
+    .selection-actions {
+      position: absolute;
+      right: 0;
+      z-index: 10;
+    }
+  }
+
+  .repository-list {
+    display: flex;
+    flex-direction: column;
+    padding-right: 0.5rem;
+    max-height: 50vh;
+    overflow-y: auto;
+
+    &amp;::-webkit-scrollbar { width: 6px; }
+    &amp;::-webkit-scrollbar-track { background: transparent; }
+    &amp;::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 3px;
+    }
+    &amp;::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+  }
+
+  .repository-card, .repository-card-edit {
+    display: flex;
+    align-items: center;
+    border-radius: $radius-lg;
+    padding: 1rem 1.25rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .repository-card {
+    justify-content: space-between;
+    cursor: default;
+    background: transparent;
+    border: none;
+
+    &amp;::before {
+      content: &#x27;&#x27;;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: $radius-lg;
+      z-index: -1;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, border-color 0.2s;
+    }
+
+    &amp;:hover {
+      &amp;::before {
+        background: var(--filter-bg);
+        border-color: var(--filter-bg);
+      }
+      .repo-actions { opacity: 1; }
+    }
+
+    &amp;.is-selected {
+      &amp;::before {
+        background-color: var(--color-primary-bg, #eff6ff);
+      }
+    }
+
+    &amp;.is-shrunk {
+      &amp;::before {
+        left: calc(1.25rem + 40px - 0.5rem);
+      }
+      
+      .selection-zone {
+        .type-indicator-overlay {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        .selection-checkbox-overlay {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+
+    .repo-info-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .selection-zone {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border-radius: $radius-md;
+      
+      &amp;:not(.disabled) { cursor: pointer; }
+
+      &amp;::before {
+        content: &#x27;&#x27;;
+        position: absolute;
+        top: -1rem; bottom: -1rem;
+        left: -1.25rem; right: -0.5rem;
+        z-index: 1;
+      }
+
+      .type-indicator-overlay {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        transition: all $transition-fast;
+        opacity: 1; transform: scale(1); z-index: 2;
+      }
+
+      .selection-checkbox-overlay {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        opacity: 0; transform: scale(0.5);
+        transition: all $transition-fast; z-index: 2;
+        left: -0.85rem;
+        
+        .custom-control {
+          min-height: 0; padding-left: 0; width: 1.25rem; height: 1.25rem;
+          .custom-control-label {
+            &amp;::before, &amp;::after { left: 0; top: 0; width: 1.25rem; height: 1.25rem; }
+          }
+        }
+      }
+    }
+
+    .repo-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      background: var(--color-bg-body);
+      border-radius: $radius-sm;
+      color: var(--color-text-secondary);
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+
+    .repo-details {
+      display: flex; flex-direction: column; flex: 1; min-width: 0;
+
+      .repo-name {
+        font-weight: 600; color: var(--color-text-primary); font-size: 0.95rem; margin-bottom: 0.1rem;
+        .error-btn { padding: 0; background: transparent; border: none; line-height: 1; }
+      }
+
+      .repo-url {
+        font-size: 0.8rem; color: var(--color-text-muted); text-decoration: none;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        align-self: flex-start; max-width: 100%;
+
+        .ext-icon {
+          width: 0.85rem; height: 0.85rem; opacity: 0; color: var(--color-text-muted);
+          transition: opacity $transition-fast; margin-left: 0.25rem;
+        }
+
+        &amp;:hover {
+          color: var(--color-primary); text-decoration: underline;
+          .ext-icon { opacity: 1; }
+        }
+      }
+    }
+
+    .repo-badge {
+      display: inline-flex; align-items: center; padding: 0.25rem 0.6rem;
+      background: var(--color-bg-body); border: 1px solid var(--color-border);
+      color: var(--color-text-secondary); border-radius: $radius-full;
+      font-size: 0.75rem; font-weight: 600; white-space: nowrap;
+    }
+
+    .repo-actions {
+      display: flex; gap: 0.35rem; margin-left: 1rem; opacity: 0.7; transition: opacity $transition-fast; flex-shrink: 0;
+    }
+  }
+
+  .repository-card-edit {
+    flex-direction: column; align-items: stretch;
+    border: none; box-shadow: none;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--color-surface),
+      var(--color-surface) 6px,
+      var(--color-primary-bg) 6px,
+      var(--color-primary-bg) 14px
+    );
+
+    .edit-row {
+      display: flex; gap: 0.5rem; align-items: center; width: 100%;
+
+      .input-group-col {
+        display: flex; flex-direction: column; gap: 0.25rem; position: relative;
+        &amp;.col-name { flex: 2; } &amp;.col-url { flex: 3; } &amp;.col-tp { flex: 1.5; }
+        ::ng-deep .form-group { margin-bottom: 0; }
+        ::ng-deep .text-input-wrapper { margin-bottom: 0; }
+      }
+
+      .edit-actions {
+        display: flex; gap: 0.35rem; margin-top: 0; margin-bottom: 0;
+      }
+    }
+
+    .error-feedback {
+      font-size: 0.8rem; color: var(--color-danger); margin-top: 0.25rem;
+      white-space: normal; line-height: 1.2;
+    }
+  }
+
+  .bottom-actions {
+    display: flex; gap: 0.75rem; margin-top: 1rem; padding-top: 1rem;
+
+    .btn-action {
+      display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+      border-radius: $radius-md; font-weight: 500; font-size: 0.9rem;
+      transition: all $transition-fast; border: 1px solid var(--color-border);
+      background: var(--color-surface); color: var(--color-text-primary); cursor: pointer;
+
+      &amp;:hover {
+        background: var(--color-bg-body); transform: translateY(-1px); box-shadow: var(--shadow-sm);
+      }
+
+      i { font-size: 1rem; color: var(--color-text-secondary); }
+    }
+  }
+}
+
+.blinking { animation: blinker 1s linear infinite; }
+@keyframes blinker { 50% { opacity: 0; } }
+
+.modern-icon {
+  width: 1.1rem; height: 1.1rem; transition: color $transition-fast;
+  &amp;.icon-edit .pencil { transition: transform $transition-fast; }
+  &amp;.icon-delete .lid { transition: transform $transition-fast ease-in-out; transform-origin: 21px 6px; }
+}
+
+.btn-icon-action {
+  width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; cursor: pointer; transition: all $transition-fast;
+
+  &amp;:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    color: var(--color-text-muted) !important;
+  }
+
+  &amp;:hover:not(:disabled) {
+    &amp;.text-primary { background: rgba(59, 130, 246, 0.1); color: var(--color-primary-hover) !important; }
+    &amp;.text-secondary { background: var(--color-bg-body); color: var(--color-text-primary) !important; }
+    &amp;.text-danger { background: rgba(239, 68, 68, 0.1); color: var(--color-danger) !important; }
+    
+    .modern-icon.icon-edit .pencil { animation: writing 0.8s ease-in-out infinite; }
+    .modern-icon.icon-delete .lid { transform: rotate(12deg) translateY(-1px); }
+  }
+}
+
+@keyframes writing {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1.5px, 1.5px); }
+  50% { transform: translate(0.5px, -0.5px); }
+  75% { transform: translate(-1px, 1px); }
+}
+
+.repo-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $radius-sm;
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -3129,9 +4068,9 @@ export class EditRepositoriesComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="card">    <div class="card-header">        <h4>{{ \'EDIT-REPOSITORIES.PAGE-TITLE\' | translate }} <span *ngIf="isModified" [ngbTooltip]="toSaveTooltip"                class="ml-1">                <i class="fas fa-save text-primary fa-sm up-down"></i>            </span></h4>    </div>    <div class="card-body">        <div class="overflow-auto" style="max-height:50vh;">            <table class="table table-hover table-striped ">                <thead>                    <tr>                        <th class="sortable-column" scope="col" style="width: 25%;" (click)="onSort(\'name\')">                            {{ \'EDIT-REPOSITORIES.COLUMN-NAME\' | translate}}                            <ng-container *ngIf="lastPropertySorted === \'name\'">                                <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                                <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                                <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                            </ng-container>                        </th>                        <th class="sortable-column" scope="col" style="width: 50%" (click)="onSort(\'url\')">                            {{ \'EDIT-REPOSITORIES.COLUMN-URL\' | translate}}                            <ng-container *ngIf="lastPropertySorted === \'url\'">                                <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                                <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                                <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                            </ng-container>                        </th>                        <th class="sortable-column" scope="col" style="width: 15%" (click)="onSort(\'tpGroup\')">                            {{ \'EDIT-REPOSITORIES.COLUMN-TP-GROUP\' | translate}}                            <ng-container *ngIf="lastPropertySorted === \'tpGroup\'">                                <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                                <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                                <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                            </ng-container>                        </th>                        <th scope="col" style="width: 10%"></th>                    </tr>                </thead>                <tbody>                    <ng-container *ngFor="let group of getFormControls; let i = index">                        <tr [formGroup]="group" *ngIf="group.get(\'isEditable\').value"                            (keyup.enter)="validateRow(group)">                            <td>                                <input type="text" class="form-control" formControlName="name" placeholder="git4school">                            </td>                            <td>                                <input type="url" [ngClass]="{                                        \'is-invalid\': group.invalid,                                        \'is-valid\': group.valid,                                        \'loading\': group.pending}" class="form-control" formControlName="url"                                    placeholder="https://github.com/git4school/git4school-visu">                                <div *ngIf="group.get(\'url\').errors && group.get(\'url\').errors[\'noAccess\']"                                    class="invalid-feedback">                                    {{ \'EDIT-REPOSITORIES.MESSAGE-INVALID-URL\' | translate }}                                </div>                                <div *ngIf="group.get(\'url\').errors && group.get(\'url\').errors[\'repoAlreadyAdded\']"                                    class="invalid-feedback">                                    {{ \'EDIT-REPOSITORIES.MESSAGE-REPO-ALREADY-ADDED\' | translate }}                                </div>                            </td>                            <td>                                <input type="text" class="form-control" formControlName="tpGroup" placeholder="1.1">                            </td>                            <td>                                <div class="btn-group" role="group" aria-label="">                                    <button type="reset" class="btn btn-danger" (click)="cancelRow(group, i)"><i                                            class="fas fa-times"></i></button>                                    <button type="submit" class="btn btn-success" (click)="validateRow(group)"><i                                            class="fas fa-check"></i></button>                                </div>                            </td>                        </tr>                        <tr *ngIf="!group.get(\'isEditable\').value">                            <td>                                {{ group.get(\'name\').value }}                                <button *ngIf="group.get(\'errors\').value.length" class="btn"                                    [ngbTooltip]="getErrorTooltip(group.get(\'errors\').value)">                                    <i class="fas fa-exclamation-triangle fa-lg blinking" style="color:Tomato"></i>                                </button>                            </td>                            <td>                                <a href="{{ group.get(\'url\').value }}" target=”_blank”>{{ group.get(\'url\').value }}</a>                            </td>                            <td>                                {{ group.get(\'tpGroup\').value }}                            </td>                            <td>                                <div class="btn-group" role="group" aria-label="">                                    <button type="button" class="btn btn-secondary" (click)="editRow(group)"><i                                            class="fas fa-pencil-alt"></i></button>                                    <button type="button" class="btn btn-danger" (click)="onDeleteRow(i)"><i                                            class="far fa-trash-alt"></i></button>                                </div>                            </td>                        </tr>                    </ng-container>                </tbody>            </table>        </div>        <div class="btn-group mt-2" role="group ">            <button class="btn btn-secondary" type="button" (click)="addRow()"                ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY\' | translate }}">                <span class="fa-layers fa-fw">                    <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7 "></i>                    <i class="fas fa-plus" data-fa-transform="shrink-7 right-7 "></i>                </span>            </button>            <button class="btn btn-secondary" type="button" (click)="openAddRepositoriesModal()"                ngbTooltip="{{ \'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES\' | translate }}">                <span class="fa-layers fa-fw">                    <i class="fas fa-square" data-fa-mask="fas fa-database" data-fa-transform="grow-3 right-10"></i>                    <i class="fas fa-circle" data-fa-mask="fas fa-database" data-fa-transform="shrink-6 right-7"></i>                    <i class="fas fa-plus" data-fa-transform="shrink-7 right-7"></i>                    <i class="fas fa-plus" data-fa-transform="shrink-9 right-11 up-5"></i>                    <i class="fas fa-plus" data-fa-transform="shrink-8 right-13 down-3"></i>                </span>            </button>        </div>    </div></div><ng-template #deleteConfirmation>    <div class="modal-header">        <h4 class="modal-title">{{ "DELETE-REPOSITORY-CONFIRMATION-TITLE" | translate }}</h4>        <button type="button" class="close" aria-label="Close" (click)="modalRef.dismiss(\'Cross click\')">            <span aria-hidden="true">&times;</span>        </button>    </div>    <div class="modal-body">        <p>{{ "DELETE-REPOSITORY-CONFIRMATION-MESSAGE" | translate }}</p>        <div class="form-check">            <input class="form-check-input" type="checkbox" #hideConfirmation id="hideConfirmation">            <label class="form-check-label" for="hideConfirmation">                <small>{{ "HIDE-CONFIRMATION-BOX" | translate }}</small>            </label>        </div>    </div>    <div class="modal-footer">        <button type="button" class="btn btn-danger" (click)="modalRef.dismiss(\'Cancel\')">            {{ "CANCEL" | translate }}        </button>        <button type="button" class="btn btn-primary" (click)="modalRef.close(hideConfirmation.checked)">            {{ "CONFIRM" | translate }}        </button>    </div></ng-template><ng-template #toSaveTooltip>{{ \'TO-SAVE.TOOLTIP\' | translate }}</ng-template></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
-    var DIRECTIVES = [];
+        var COMPONENT_TEMPLATE = '<div><div class="repositories-form-container">    <!-- Top bar -->    <div class="sort-bar mb-3 d-flex position-relative align-items-center w-100">        <div class="d-flex align-items-center" style="gap: 1rem;">            <div class="d-flex align-items-center" style="gap: 0.5rem;">                <span class="sort-label mr-1">{{ \'SORT_BY\' | translate }}:</span>                <button class="sort-pill" [class.active]="lastPropertySorted === \'name\'" (click)="onSort(\'name\')">                    {{ \'EDIT-REPOSITORIES.COLUMN-NAME\' | translate }}                    <ng-container *ngIf="lastPropertySorted === \'name\'">                        <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                        <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                        <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                    </ng-container>                </button>                <button class="sort-pill" [class.active]="lastPropertySorted === \'url\'" (click)="onSort(\'url\')">                    {{ \'EDIT-REPOSITORIES.COLUMN-URL\' | translate }}                    <ng-container *ngIf="lastPropertySorted === \'url\'">                        <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                        <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                        <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                    </ng-container>                </button>                <button class="sort-pill" [class.active]="lastPropertySorted === \'tpGroup\'" (click)="onSort(\'tpGroup\')">                    {{ \'EDIT-REPOSITORIES.COLUMN-TP-GROUP\' | translate }}                    <ng-container *ngIf="lastPropertySorted === \'tpGroup\'">                        <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                        <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                        <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                    </ng-container>                </button>            </div>            <!-- Search -->            <div class="search-container position-relative">                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                    <circle cx="11" cy="11" r="8"></circle>                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>                </svg>                <input type="text" class="form-control modern-search-input" [placeholder]="\'EDIT-REPOSITORIES.SEARCH-PLACEHOLDER\' | translate" [(ngModel)]="searchQuery">            </div>        </div>    </div>    <div class="repository-list">        <!-- Empty State -->        <div class="empty-state text-center py-3 text-muted" *ngIf="getFormControls.length === 0">            <app-repo-icon mode="empty" class="mb-2" style="font-size: 3em; opacity: 0.5;"></app-repo-icon>            <h5>{{ \'EDIT-REPOSITORIES.NO-REPOSITORIES\' | translate }}</h5>        </div>        <div *ngFor="let group of filteredFormControls; let i = index; trackBy: trackByRepo" [formGroup]="group" class="mb-2">                        <!-- View Mode -->            <div class="repository-card" *ngIf="!group.get(\'isEditable\').value"                 [class.is-selected]="isSelected(getFormControls.indexOf(group))"                 [class.is-shrunk]="(hoveredRepository === getFormControls.indexOf(group) || isSelected(getFormControls.indexOf(group)))">                                <div class="repo-info-container">                    <div class="selection-zone mr-3"                         (mouseenter)="hoveredRepository = getFormControls.indexOf(group)"                         (mouseleave)="hoveredRepository = null"                         (click)="toggleSelection(getFormControls.indexOf(group)); $event.stopPropagation()">                        <div class="type-indicator-overlay repo-icon m-0">                            <img *ngIf="group.get(\'avatarUrl\')?.value" [src]="group.get(\'avatarUrl\').value" alt="Repository Avatar" class="repo-avatar-image">                            <app-repo-icon *ngIf="!group.get(\'avatarUrl\')?.value"></app-repo-icon>                        </div>                        <div class="selection-checkbox-overlay">                            <div class="custom-control custom-checkbox" style="pointer-events: none;">                                <input type="checkbox" class="custom-control-input" [id]="\'check-repo-\' + getFormControls.indexOf(group)" [checked]="isSelected(getFormControls.indexOf(group))">                                <label class="custom-control-label" [for]="\'check-repo-\' + getFormControls.indexOf(group)"></label>                            </div>                        </div>                    </div>                    <div class="repo-details" style="margin-right: 1rem;">                        <div class="repo-name marquee-container" style="max-width: 100%;">                            <span class="marquee-content d-flex align-items-center gap-2">                                {{ group.get(\'name\').value || (\'EDIT-REPOSITORIES.NEW-REPOSITORY\' | translate) }}                                <button *ngIf="group.get(\'errors\').value.length > 0" class="btn btn-outline-danger error-btn ml-2"                                        [appTooltip]="getErrorTooltip(group.get(\'errors\').value)">                                    <i class="fas fa-exclamation-triangle"></i>                                </button>                            </span>                        </div>                        <a class="repo-url" [href]="group.get(\'url\').value" target="_blank" (click)="$event.stopPropagation()" style="margin-top: 0.25rem;">                            {{ group.get(\'url\').value }}                            <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>                                <polyline points="15 3 21 3 21 9"></polyline>                                <line x1="10" y1="14" x2="21" y2="3"></line>                            </svg>                        </a>                    </div>                </div>                <div class="repo-badge mr-3" *ngIf="group.get(\'tpGroup\').value">                    {{ group.get(\'tpGroup\').value }}                </div>                                <div class="repo-actions">                    <button type="button" class="btn-icon-action text-secondary" (click)="editRow(group)" [appTooltip]="\'EDIT\' | translate">                        <svg class="modern-icon icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                            <path class="page" d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />                            <path class="pencil" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />                        </svg>                    </button>                    <button type="button" class="btn-icon-action text-danger" (click)="onDeleteRow(getFormControls.indexOf(group))" [appTooltip]="\'DELETE\' | translate">                        <svg class="modern-icon icon-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                            <path class="lid" d="M3 6h18 M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />                            <path class="bin" d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 5v6m4-6v6m4-6v6" />                        </svg>                    </button>                </div>            </div>            <!-- Edit Mode -->            <div class="repository-card-edit" *ngIf="group.get(\'isEditable\').value">                <div class="edit-row">                    <div class="input-group-col col-name">                        <app-text-input id="name-{{i}}" formControlName="name" [label]="\'EDIT-REPOSITORIES.COLUMN-NAME\' | translate"></app-text-input>                    </div>                    <div class="input-group-col col-url">                        <app-text-input id="url-{{i}}" formControlName="url" [label]="\'EDIT-REPOSITORIES.COLUMN-URL\' | translate" [required]="true"                            [invalid]="group.get(\'url\').invalid && (group.get(\'url\').touched || group.get(\'url\').dirty)">                        </app-text-input>                        <div class="error-feedback" *ngIf="(group.get(\'url\').hasError(\'required\') || group.get(\'url\').hasError(\'repoAlreadyAdded\')) && (group.get(\'url\').touched || group.get(\'url\').dirty)">                            <ng-container *ngIf="group.get(\'url\').hasError(\'required\')">{{ \'ERROR-MESSAGE-URL-REQUIRED\' | translate }}</ng-container>                            <ng-container *ngIf="group.get(\'url\').hasError(\'repoAlreadyAdded\')">{{ \'ERROR-MESSAGE-REPO-ALREADY-ADDED\' | translate }}</ng-container>                                                    </div>                    </div>                    <div class="input-group-col col-tp">                        <app-text-input [id]="\'repo-tp-\' + getFormControls.indexOf(group)" formControlName="tpGroup"                                        [label]="\'EDIT-REPOSITORIES.COLUMN-TP-GROUP\' | translate" [suggestions]="existingTpGroups"></app-text-input>                    </div>                    <div class="edit-actions">                        <button type="button" class="btn-icon-action text-secondary" (click)="cancelRow(group, getFormControls.indexOf(group))" [appTooltip]="\'CANCEL\' | translate" style="width: 36px; height: 36px;">                            <i class="fas fa-times"></i>                        </button>                        <button [id]="\'tour-validate-repo-\' + i" type="button" class="btn-icon-action text-primary" (click)="validateRow(group)" [appTooltip]="\'VALIDATE\' | translate" [disabled]="!group.valid" style="width: 36px; height: 36px;">                            <i class="fas fa-check"></i>                        </button>                    </div>                </div>            </div>        </div>        <!-- Floating Action Bar for Selection Mode -->        <div class="floating-action-bar-container floating-sticky" [class.show]="selectionMode">            <div class="floating-action-bar">                <!-- Select All Checkbox -->                <div class="custom-control custom-checkbox d-flex align-items-center pl-2 pr-3" style="cursor: pointer;" (click)="toggleSelectAll()">                    <input type="checkbox" class="custom-control-input" id="floatingSelectAll" [checked]="isAllSelected()" style="pointer-events: none;">                    <label class="custom-control-label font-weight-bold mb-0" for="floatingSelectAll" style="color: var(--color-text-primary); pointer-events: none; padding-top: 2px;">                        {{ selectedRepositories.size }} {{ \'EDIT-REPOSITORIES.SELECTED-REPOSITORIES\' | translate }}                    </label>                </div>                <div class="bar-divider"></div>                <!-- Delete Button -->                <button class="bar-btn-danger d-flex align-items-center" (click)="deleteSelected()">                    <i class="fas fa-trash mr-2"></i>                    <span class="font-weight-bold">{{ \'DELETE\' | translate }}</span>                </button>                <!-- Close Button -->                <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="cancelSelection()">                    <i class="fas fa-times"></i>                </button>            </div>        </div>    </div>    <div class="bottom-actions">        <button id="tour-add-empty-repo-btn" type="button" class="btn-action" (click)="addRow()" [appTooltip]="\'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY\' | translate">            <app-repo-icon mode="add" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>            {{ \'EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY\' | translate }}        </button>        <button id="tour-add-search-repo-btn" *ngIf="authService.isSignedIn()" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="\'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES\' | translate">            <app-repo-icon mode="add-multiple" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>            {{ \'EDIT-REPOSITORIES.ADD-REPOSITORY\' | translate }}        </button>    </div>    </div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
+    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'EditRepositoriesComponent'};
 </script>
 <script src="../js/tree.js"></script>

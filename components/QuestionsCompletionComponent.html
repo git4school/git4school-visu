@@ -69,13 +69,6 @@
 </p>
 
 
-    <p class="comment">
-        <h3>Description</h3>
-    </p>
-    <p class="comment">
-        <p>This component displays a graph with the questions completion</p>
-
-    </p>
 
     <p class="comment">
         <h3>Extends</h3>
@@ -99,6 +92,10 @@
         <tbody>
 
 
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
 
 
 
@@ -152,13 +149,16 @@
                                 <a href="#assignmentsModified$" >assignmentsModified$</a>
                             </li>
                             <li>
+                                <a href="#chartContainer" >chartContainer</a>
+                            </li>
+                            <li>
                                 <a href="#chartData" >chartData</a>
                             </li>
                             <li>
-                                <a href="#chartLabels" >chartLabels</a>
+                                <a href="#commitColors" >commitColors</a>
                             </li>
                             <li>
-                                <a href="#chartOptions" >chartOptions</a>
+                                <a href="#d3TooltipTemplate" >d3TooltipTemplate</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -171,17 +171,35 @@
                                 <a href="#dict" >dict</a>
                             </li>
                             <li>
+                                <a href="#hiddenCategories" >hiddenCategories</a>
+                            </li>
+                            <li>
+                                <a href="#leftAxisContainer" >leftAxisContainer</a>
+                            </li>
+                            <li>
                                 <a href="#max" >max</a>
                             </li>
                             <li>
                                 <a href="#min" >min</a>
                             </li>
                             <li>
-                                <a href="#myChart" >myChart</a>
+                                <a href="#pressedShortcut" >pressedShortcut</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#resizeObserver" >resizeObserver</a>
                             </li>
                             <li>
                                     <span class="modifier">Readonly</span>
                                 <a href="#slider_step" >slider_step</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#svg" >svg</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#themeService" >themeService</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -207,10 +225,13 @@
                                 <a href="#changeBarIndex" >changeBarIndex</a>
                             </li>
                             <li>
+                                <a href="#drawGraph" >drawGraph</a>
+                            </li>
+                            <li>
                                 <a href="#getAdjustedMaxTimestamp" >getAdjustedMaxTimestamp</a>
                             </li>
                             <li>
-                                <a href="#getGridLines" >getGridLines</a>
+                                <a href="#handleGlobalShortcuts" >handleGlobalShortcuts</a>
                             </li>
                             <li>
                                 <a href="#initDateSlider" >initDateSlider</a>
@@ -226,6 +247,16 @@
                             </li>
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onScroll" >onScroll</a>
+                            </li>
+                            <li>
+                                <a href="#toggleCategory" >toggleCategory</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#triggerShortcut" >triggerShortcut</a>
                             </li>
                             <li>
                                 <a href="#updateBar" >updateBar</a>
@@ -246,6 +277,20 @@
 
 
 
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#document:keydown" >document:keydown</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
         </tbody>
     </table>
@@ -257,19 +302,17 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, commitsService: <a href="../injectables/CommitsService.html" target="_self">CommitsService</a>, translateService: TranslateService, loaderService: <a href="../injectables/LoaderService.html" target="_self">LoaderService</a>, assignmentsService: <a href="../injectables/AssignmentsService.html" target="_self">AssignmentsService</a>)</code>
+<code>constructor(dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, commitsService: <a href="../injectables/CommitsService.html" target="_self">CommitsService</a>, translateService: TranslateService, loaderService: <a href="../injectables/LoaderService.html" target="_self">LoaderService</a>, assignmentsService: <a href="../injectables/AssignmentsService.html" target="_self">AssignmentsService</a>, tooltipService: <a href="../injectables/TooltipService.html" target="_self">TooltipService</a>, themeService: <a href="../injectables/ThemeService.html" target="_self">ThemeService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:183</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:58</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>QuestionsCompletionComponent constructor</p>
-</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -278,7 +321,6 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
-                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -293,10 +335,6 @@
                                                             No
                                                     </td>
                                                     
-                                                        <td>
-                                                                <p>Service used to store and get data</p>
-
-                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>commitsService</td>
@@ -309,10 +347,6 @@
                                                             No
                                                     </td>
                                                     
-                                                        <td>
-                                                                <p>Service used to update dict variable</p>
-
-                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>translateService</td>
@@ -325,10 +359,6 @@
                                                             No
                                                     </td>
                                                     
-                                                        <td>
-                                                                <p>Service used to translate the application</p>
-
-                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>loaderService</td>
@@ -341,8 +371,6 @@
                                                             No
                                                     </td>
                                                     
-                                                        <td>
-                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>assignmentsService</td>
@@ -355,8 +383,30 @@
                                                             No
                                                     </td>
                                                     
+                                                </tr>
+                                                <tr>
+                                                        <td>tooltipService</td>
+                                                  
                                                         <td>
+                                                                        <code><a href="../injectables/TooltipService.html" target="_self" >TooltipService</a></code>
                                                         </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>themeService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ThemeService.html" target="_self" >ThemeService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -370,7 +420,41 @@
 
 
 
+    <section>
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:keydown"></a>
+                    <span class="name">
+                        <span ><b>document:keydown</b></span>
+                        <a href="#document:keydown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:keydown(event: KeyboardEvent)</code>
+                </td>
+            </tr>
 
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="422"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:422</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</section>
     <section>
     
     <h3 id="methods">
@@ -396,16 +480,51 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="264"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:264</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="375"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:375</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Updates bar index and refreshes the graph</p>
-</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawGraph"></a>
+                    <span class="name">
+                        <span ><b>drawGraph</b></span>
+                        <a href="#drawGraph"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawGraph()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:147</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -435,25 +554,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="338"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:338</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="412"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:412</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the nearest upper value reachable by the slider</p>
-</div>
 
-                    <div>
-                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>A value for slider max compatible with slider step</p>
 
                     </div>
                 </td>
@@ -464,24 +575,31 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getGridLines"></a>
+                    <a name="handleGlobalShortcuts"></a>
                     <span class="name">
-                        <span ><b>getGridLines</b></span>
-                        <a href="#getGridLines"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>handleGlobalShortcuts</b></span>
+                        <a href="#handleGlobalShortcuts"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getGridLines()</code>
+<code>handleGlobalShortcuts(event: KeyboardEvent)</code>
                 </td>
             </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:keydown&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="246"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:246</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="422"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:422</a></div>
                 </td>
             </tr>
 
@@ -490,8 +608,40 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>KeyboardEvent</code>
+                                    </td>
 
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -517,8 +667,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="315"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:315</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="393"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:393</a></div>
                 </td>
             </tr>
 
@@ -560,7 +710,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:301</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:379</a></code>
 </div>
                 </td>
             </tr>
@@ -647,7 +797,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:204</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:109</a></code>
 </div>
                 </td>
             </tr>
@@ -655,8 +805,6 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Updates dict variable with questions data and loads graph labels which displays data on the graph</p>
-</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -686,8 +834,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="297"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:297</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:102</a></div>
                 </td>
             </tr>
 
@@ -729,7 +877,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:275</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:72</a></code>
 </div>
                 </td>
             </tr>
@@ -737,13 +885,219 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>When the component is initialized, we initialize date, max and min
-and we call loadGraphDataAndRefresh()</p>
-</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onScroll"></a>
+                    <span class="name">
+                        <span ><b>onScroll</b></span>
+                        <a href="#onScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onScroll(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="371"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:371</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleCategory"></a>
+                    <span class="name">
+                        <span ><b>toggleCategory</b></span>
+                        <a href="#toggleCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleCategory(label: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="443"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:443</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>label</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="triggerShortcut"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>triggerShortcut</b></span>
+                        <a href="#triggerShortcut"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>triggerShortcut(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="436"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:436</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -769,16 +1123,14 @@ and we call loadGraphDataAndRefresh()</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="242"
-                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:242</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="367"
+                            class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:367</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Updates the bar index in the chart options with the current bar index from dataService</p>
-</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1041,7 +1393,42 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chartContainer"></a>
+                    <span class="name">
+                        <span ><b>chartContainer</b></span>
+                        <a href="#chartContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;chartContainer&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -1061,27 +1448,58 @@ and we call loadGraphDataAndRefresh()</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="commitColors"></a>
+                    <span class="name">
+                        <span ><b>commitColors</b></span>
+                        <a href="#commitColors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Type : </i>    <code>[]</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>[{ data: [] }]</code>
+                        <i>Default value : </i><code>[
+    CommitColor.INTERMEDIATE,
+    CommitColor.BEFORE,
+    CommitColor.BETWEEN,
+    CommitColor.AFTER,
+    CommitColor.NOCOMMIT,
+  ]</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:183</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:48</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The data for chart js</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -1089,171 +1507,34 @@ and we call loadGraphDataAndRefresh()</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="chartLabels"></a>
+                    <a name="d3TooltipTemplate"></a>
                     <span class="name">
-                        <span ><b>chartLabels</b></span>
-                        <a href="#chartLabels"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:64</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The graph labels, which corresponds to the questions</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="chartOptions"></a>
-                    <span class="name">
-                        <span ><b>chartOptions</b></span>
-                        <a href="#chartOptions"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>d3TooltipTemplate</b></span>
+                        <a href="#d3TooltipTemplate"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                        <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>{
-    responsive: true,
-    animation: {
-      duration: 0, // general animation time
-    },
-    responsiveAnimationDuration: 0,
-    aspectRatio: 2.4,
-    legend: {
-      position: &quot;bottom&quot;,
-    },
-    tooltips: {
-      mode: &quot;nearest&quot;,
-      position: &quot;average&quot;,
-      callbacks: {
-        beforeTitle(tooltipItem, data) {
-          return (
-            data.datasets[tooltipItem[0].datasetIndex].data[
-              tooltipItem[0].index
-            ].translations[&quot;QUESTION&quot;] +
-            &quot; : &quot; +
-            tooltipItem[0].label
-          );
-        },
-        title(tooltipItem, data) {
-          return data.datasets[tooltipItem[0].datasetIndex].label;
-        },
-        beforeBody(tooltipItem, data) {
-          return (
-            &quot;\n&quot; +
-            data.datasets[tooltipItem[0].datasetIndex].data[
-              tooltipItem[0].index
-            ].translations[&quot;COMMITS-COUNT&quot;] +
-            &quot; : &quot; +
-            data.datasets[tooltipItem[0].datasetIndex].data[
-              tooltipItem[0].index
-            ].data.count +
-            &quot;\n&quot; +
-            data.datasets[tooltipItem[0].datasetIndex].data[
-              tooltipItem[0].index
-            ].translations[&quot;COMMITS-PERCENTAGE&quot;] +
-            &quot; : &quot; +
-            tooltipItem[0].yLabel.toFixed(2) +
-            &quot;%&quot;
-          );
-        },
-        label(tooltipItem, data) {
-          return &quot;&quot;;
-        },
-        footer(tooltipItem, data) {
-          return data.datasets[tooltipItem[0].datasetIndex].data[
-            tooltipItem[0].index
-          ].data.students.map((student) &#x3D;&gt; student.name);
-        },
-      },
-      displayColors: false,
-    },
-    title: {
-      display: false,
-      text: &quot;Chart.js Bar Chart - Stacked&quot;,
-    },
-    scales: {
-      xAxes: [
-        {
-          stacked: true,
-          scaleLabel: {
-            display: true,
-            labelString: &quot;Questions&quot;,
-          },
-        },
-      ],
-      yAxes: [
-        {
-          stacked: true,
-          ticks: {
-            max: 100,
-          },
-          scaleLabel: {
-            display: true,
-            labelString: &quot;% of commits&quot;,
-          },
-          gridLines: this.getGridLines(),
-        },
-      ],
-    },
-    plugins: {
-      datalabels: {
-        clamp: true,
-        clip: &quot;auto&quot;,
-        color: &quot;white&quot;,
-        display: function (context) {
-          return context.dataset.data[context.dataIndex].y &gt; 3;
-        },
-        font: {
-          weight: &quot;bold&quot;,
-        },
-        backgroundColor: function (context) {
-          return context.dataset.backgroundColor;
-        },
-        borderRadius: 4,
-        formatter: function (value, context) {
-          return (
-            context.dataset.data[context.dataIndex].data.count +
-            &quot; (&quot; +
-            context.dataset.data[context.dataIndex].y.toFixed(2) +
-            &quot;%)&quot;
-          );
-        },
-      },
-    },
-  }</code>
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;d3TooltipTemplate&#x27;)<br />
+                        </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:37</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The options for chart js</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -1277,15 +1558,10 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="192" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:192</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:61</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description">Service used to store and get data</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -1312,12 +1588,6 @@ and we call loadGraphDataAndRefresh()</p>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The date after which the commits will not be considered, this shows the progression of the tp group on a given date</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -1345,16 +1615,70 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:45</a></div>
                         </td>
                     </tr>
 
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>The data about questions</p>
-</div>
+                    <a name="hiddenCategories"></a>
+                    <span class="name">
+                        <span ><b>hiddenCategories</b></span>
+                        <a href="#hiddenCategories"><span class="icon ion-ios-link"></span></a>
+                    </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Set&lt;string&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="leftAxisContainer"></a>
+                    <span class="name">
+                        <span ><b>leftAxisContainer</b></span>
+                        <a href="#leftAxisContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;leftAxisContainer&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -1377,17 +1701,10 @@ and we call loadGraphDataAndRefresh()</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:44</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The maximum date that can be traced back to, in the form of a timestamp.
-It corresponds to the last update date</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -1410,17 +1727,10 @@ It corresponds to the last update date</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:43</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The minimum date that can be traced back to, in the form of a timestamp.
-It corresponds to the date of the most recent commit among all the repositories</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -1428,34 +1738,57 @@ It corresponds to the date of the most recent commit among all the repositories<
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="myChart"></a>
+                    <a name="pressedShortcut"></a>
                     <span class="name">
-                        <span ><b>myChart</b></span>
-                        <a href="#myChart"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>pressedShortcut</b></span>
+                        <a href="#pressedShortcut"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(BaseChartDirective, {static: true})<br />
-                        </code>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="419" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:419</a></div>
                         </td>
                     </tr>
 
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>The chart object from the DOM</p>
-</div>
+                    <a name="resizeObserver"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>resizeObserver</b></span>
+                        <a href="#resizeObserver"><span class="icon ion-ios-link"></span></a>
+                    </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -1478,7 +1811,61 @@ It corresponds to the date of the most recent commit among all the repositories<
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="svg"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>svg</b></span>
+                        <a href="#svg"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="themeService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>themeService</b></span>
+                        <a href="#themeService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ThemeService.html" target="_self" >ThemeService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -1505,15 +1892,10 @@ It corresponds to the date of the most recent commit among all the repositories<
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="194" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:194</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/components/graphs/questions-completion/questions-completion.component.ts:63</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description">Service used to translate the application</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -1556,216 +1938,122 @@ It corresponds to the date of the most recent commit among all the repositories<
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnDestroy, OnInit, ViewChild } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation,
+} from &quot;@angular/core&quot;;
 import { CommitColor } from &quot;@models/Commit.model&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { AssignmentsService } from &quot;@services/assignments.service&quot;;
 import { CommitsService } from &quot;@services/commits.service&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
 import { LoaderService } from &quot;@services/loader.service&quot;;
-import { BaseChartDirective } from &quot;ng2-charts&quot;;
+import { TooltipService } from &quot;@services/tooltip.service&quot;;
+import { ThemeService } from &quot;@services/theme.service&quot;;
 import { Subscription } from &quot;rxjs&quot;;
 import { BaseGraphComponent } from &quot;../base-graph.component&quot;;
 import { Utils } from &quot;../../../services/utils&quot;;
+import { OsUtils } from &quot;@utils/os.utils&quot;;
+import * as d3 from &quot;d3&quot;;
 
-/**
- * jquery
- */
-declare var $: any;
-
-/**
- * This component displays a graph with the questions completion
- */
 @Component({
   selector: &quot;questions-completion&quot;,
   templateUrl: &quot;./questions-completion.component.html&quot;,
   styleUrls: [&quot;./questions-completion.component.scss&quot;],
+  encapsulation: ViewEncapsulation.None,
 })
 export class QuestionsCompletionComponent
   extends BaseGraphComponent
   implements OnInit, OnDestroy
 {
-  /**
-   * The chart object from the DOM
-   */
-  @ViewChild(BaseChartDirective, { static: true }) myChart;
+  @ViewChild(&quot;chartContainer&quot;, { static: true }) chartContainer: ElementRef;
+  @ViewChild(&quot;leftAxisContainer&quot;, { static: true }) leftAxisContainer: ElementRef;
+  @ViewChild(&quot;d3TooltipTemplate&quot;) d3TooltipTemplate!: TemplateRef&lt;any&gt;;
 
   readonly slider_step &#x3D; Utils.SLIDER_STEP;
-
   assignmentsModified$: Subscription;
 
-  /**
-   * The date after which the commits will not be considered, this shows the progression of the tp group on a given date
-   */
   date: number;
-
-  /**
-   * The minimum date that can be traced back to, in the form of a timestamp.
-   * It corresponds to the date of the most recent commit among all the repositories
-   */
   min: number;
-
-  /**
-   * The maximum date that can be traced back to, in the form of a timestamp.
-   * It corresponds to the last update date
-   */
   max: number;
-
-  /**
-   * The data about questions
-   */
   dict &#x3D; {};
+  chartData: any[] &#x3D; [];
+  
+  commitColors &#x3D; [
+    CommitColor.INTERMEDIATE,
+    CommitColor.BEFORE,
+    CommitColor.BETWEEN,
+    CommitColor.AFTER,
+    CommitColor.NOCOMMIT,
+  ];
+  hiddenCategories &#x3D; new Set&lt;string&gt;();
 
-  /**
-   * The graph labels, which corresponds to the questions
-   */
-  chartLabels;
+  private svg: any;
+  private resizeObserver: any;
 
-  /**
-   * The options for chart js
-   */
-  chartOptions &#x3D; {
-    responsive: true,
-    animation: {
-      duration: 0, // general animation time
-    },
-    responsiveAnimationDuration: 0,
-    aspectRatio: 2.4,
-    legend: {
-      position: &quot;bottom&quot;,
-    },
-    tooltips: {
-      mode: &quot;nearest&quot;,
-      position: &quot;average&quot;,
-      callbacks: {
-        beforeTitle(tooltipItem, data) {
-          return (
-            data.datasets[tooltipItem[0].datasetIndex].data[
-              tooltipItem[0].index
-            ].translations[&quot;QUESTION&quot;] +
-            &quot; : &quot; +
-            tooltipItem[0].label
-          );
-        },
-        title(tooltipItem, data) {
-          return data.datasets[tooltipItem[0].datasetIndex].label;
-        },
-        beforeBody(tooltipItem, data) {
-          return (
-            &quot;\n&quot; +
-            data.datasets[tooltipItem[0].datasetIndex].data[
-              tooltipItem[0].index
-            ].translations[&quot;COMMITS-COUNT&quot;] +
-            &quot; : &quot; +
-            data.datasets[tooltipItem[0].datasetIndex].data[
-              tooltipItem[0].index
-            ].data.count +
-            &quot;\n&quot; +
-            data.datasets[tooltipItem[0].datasetIndex].data[
-              tooltipItem[0].index
-            ].translations[&quot;COMMITS-PERCENTAGE&quot;] +
-            &quot; : &quot; +
-            tooltipItem[0].yLabel.toFixed(2) +
-            &quot;%&quot;
-          );
-        },
-        label(tooltipItem, data) {
-          return &quot;&quot;;
-        },
-        footer(tooltipItem, data) {
-          return data.datasets[tooltipItem[0].datasetIndex].data[
-            tooltipItem[0].index
-          ].data.students.map((student) &#x3D;&gt; student.name);
-        },
-      },
-      displayColors: false,
-    },
-    title: {
-      display: false,
-      text: &quot;Chart.js Bar Chart - Stacked&quot;,
-    },
-    scales: {
-      xAxes: [
-        {
-          stacked: true,
-          scaleLabel: {
-            display: true,
-            labelString: &quot;Questions&quot;,
-          },
-        },
-      ],
-      yAxes: [
-        {
-          stacked: true,
-          ticks: {
-            max: 100,
-          },
-          scaleLabel: {
-            display: true,
-            labelString: &quot;% of commits&quot;,
-          },
-          gridLines: this.getGridLines(),
-        },
-      ],
-    },
-    plugins: {
-      datalabels: {
-        clamp: true,
-        clip: &quot;auto&quot;,
-        color: &quot;white&quot;,
-        display: function (context) {
-          return context.dataset.data[context.dataIndex].y &gt; 3;
-        },
-        font: {
-          weight: &quot;bold&quot;,
-        },
-        backgroundColor: function (context) {
-          return context.dataset.backgroundColor;
-        },
-        borderRadius: 4,
-        formatter: function (value, context) {
-          return (
-            context.dataset.data[context.dataIndex].data.count +
-            &quot; (&quot; +
-            context.dataset.data[context.dataIndex].y.toFixed(2) +
-            &quot;%)&quot;
-          );
-        },
-      },
-    },
-  };
-
-  /**
-   * The data for chart js
-   */
-  chartData &#x3D; [{ data: [] }];
-
-  /**
-   * QuestionsCompletionComponent constructor
-   * @param dataService Service used to store and get data
-   * @param commitsService Service used to update dict variable
-   * @param translateService Service used to translate the application
-   */
   constructor(
     public dataService: DataService,
     private commitsService: CommitsService,
     public translateService: TranslateService,
     protected loaderService: LoaderService,
-    protected assignmentsService: AssignmentsService
+    protected assignmentsService: AssignmentsService,
+    private tooltipService: TooltipService,
+    public themeService: ThemeService
   ) {
     super(loaderService, assignmentsService, dataService);
   }
 
-  /**
-   * Updates dict variable with questions data and loads graph labels which displays data on the graph
-   */
+  ngOnInit() {
+    setTimeout(() &#x3D;&gt; {
+      this.assignmentsModified$ &#x3D; this.subscribeAssignmentModified();
+      this.translateService.onLangChange.subscribe(() &#x3D;&gt; {
+        this.loadGraphDataAndRefresh();
+      });
+
+      if (this.dataService.repoToLoad) {
+        this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      } else {
+        this.loading &#x3D; true;
+        this.initDateSlider();
+        this.loadGraphMetadata(
+          this.dataService.repositories,
+          this.dataService.reviews,
+          this.dataService.corrections,
+          this.dataService.questions
+        );
+        this.loading &#x3D; false;
+      }
+
+      this.resizeObserver &#x3D; new (window as any).ResizeObserver(() &#x3D;&gt; {
+        if (this.chartData &amp;&amp; this.chartData.length &gt; 0) {
+          this.drawGraph();
+        }
+      });
+      this.resizeObserver.observe(this.chartContainer.nativeElement);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAssignmentModified(this.assignmentsModified$);
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+  }
+
   loadGraphDataAndRefresh() {
     let translations &#x3D; this.translateService.instant([
       &quot;QUESTION&quot;,
       &quot;COMMITS-COUNT&quot;,
       &quot;COMMITS-PERCENTAGE&quot;,
+      &quot;STUDENTS&quot;
     ]);
-    this.chartLabels &#x3D; this.dataService.questions;
+
     let colors &#x3D; [
       CommitColor.BEFORE,
       CommitColor.BETWEEN,
@@ -1792,68 +2080,240 @@ export class QuestionsCompletionComponent
       this.dataService.questions,
       translations
     );
+
+    this.drawGraph();
   }
 
-  /**
-   * Updates the bar index in the chart options with the current bar index from dataService
-   */
+  drawGraph() {
+    const element &#x3D; this.chartContainer.nativeElement;
+    const leftElement &#x3D; this.leftAxisContainer.nativeElement;
+    d3.select(element).selectAll(&quot;*&quot;).remove();
+    d3.select(leftElement).selectAll(&quot;*&quot;).remove();
+
+    if (!this.chartData || this.chartData.length &#x3D;&#x3D;&#x3D; 0) return;
+
+    const margin &#x3D; { top: 40, right: 30, bottom: 60, left: 60 };
+    const minBarWidth &#x3D; 100;
+    const requiredWidth &#x3D; this.chartData.length * minBarWidth;
+    const width &#x3D; Math.max(element.clientWidth - margin.left - margin.right, requiredWidth);
+    const height &#x3D; element.clientHeight - margin.top - margin.bottom;
+
+    if (width &lt;&#x3D; 0 || height &lt;&#x3D; 0) return;
+
+    this.svg &#x3D; d3
+      .select(element)
+      .append(&quot;svg&quot;)
+      .style(&quot;display&quot;, &quot;block&quot;)
+      .attr(&quot;width&quot;, width + margin.left + margin.right)
+      .attr(&quot;height&quot;, height + margin.top + margin.bottom)
+      .append(&quot;g&quot;)
+      .attr(&quot;transform&quot;, &#x60;translate(${margin.left},${margin.top})&#x60;);
+
+    const colors &#x3D; [
+      CommitColor.BEFORE,
+      CommitColor.BETWEEN,
+      CommitColor.AFTER,
+      CommitColor.NOCOMMIT,
+    ];
+
+    const keys &#x3D; colors.map((c) &#x3D;&gt; c.label).filter(k &#x3D;&gt; !this.hiddenCategories.has(k));
+    const stackedData &#x3D; d3.stack().keys(keys)(this.chartData);
+
+    // Scales
+    const x &#x3D; d3
+      .scaleBand()
+      .domain(this.chartData.map((d) &#x3D;&gt; d.question))
+      .range([0, width])
+      .padding(0.3);
+
+    const y &#x3D; d3.scaleLinear().domain([0, 100]).range([height, 0]);
+
+    // Axes
+    this.svg
+      .append(&quot;g&quot;)
+      .attr(&quot;transform&quot;, &#x60;translate(0,${height})&#x60;)
+      .call(d3.axisBottom(x))
+      .selectAll(&quot;text&quot;)
+      .style(&quot;text-anchor&quot;, &quot;end&quot;)
+      .attr(&quot;dx&quot;, &quot;-.8em&quot;)
+      .attr(&quot;dy&quot;, &quot;.15em&quot;)
+      .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+      .style(&quot;fill&quot;, &quot;var(--color-text-primary)&quot;)
+      .style(&quot;font-size&quot;, &quot;12px&quot;);
+
+    const svgLeft &#x3D; d3.select(leftElement).append(&quot;svg&quot;)
+      .style(&quot;display&quot;, &quot;block&quot;)
+      .attr(&quot;width&quot;, margin.left)
+      .attr(&quot;height&quot;, height + margin.top + margin.bottom)
+      .style(&quot;pointer-events&quot;, &quot;none&quot;);
+
+    const leftPath &#x3D; &#x60;M 0 0 L ${margin.left} 0 L ${margin.left} ${margin.top + height} L ${margin.left - margin.bottom} ${margin.top + height + margin.bottom} L 0 ${margin.top + height + margin.bottom} Z&#x60;;
+    svgLeft.append(&quot;path&quot;)
+      .attr(&quot;d&quot;, leftPath)
+      .attr(&quot;fill&quot;, &quot;var(--color-bg-body)&quot;)
+      .style(&quot;pointer-events&quot;, &quot;auto&quot;);
+
+    const leftG &#x3D; svgLeft
+      .append(&quot;g&quot;)
+      .attr(&quot;transform&quot;, &#x60;translate(${margin.left},${margin.top})&#x60;)
+      .style(&quot;pointer-events&quot;, &quot;auto&quot;);
+      
+    leftG.call(d3.axisLeft(y).ticks(10).tickFormat((d) &#x3D;&gt; d + &quot;%&quot;))
+      .selectAll(&quot;text&quot;)
+      .style(&quot;fill&quot;, &quot;var(--color-text-primary)&quot;)
+      .style(&quot;font-size&quot;, &quot;12px&quot;);
+      
+    leftG.selectAll(&quot;.domain&quot;).remove();
+    leftG.selectAll(&quot;.tick line&quot;).remove();
+
+    // Left Y-Axis Label
+    leftG.append(&quot;text&quot;)
+      .attr(&quot;transform&quot;, &quot;rotate(-90)&quot;)
+      .attr(&quot;y&quot;, 0 - 60 + 5)
+      .attr(&quot;x&quot;, 0 - (height / 2))
+      .attr(&quot;dy&quot;, &quot;1em&quot;)
+      .style(&quot;text-anchor&quot;, &quot;middle&quot;)
+      .style(&quot;fill&quot;, &quot;var(--color-text-secondary)&quot;)
+      .style(&quot;font-size&quot;, &quot;12px&quot;)
+      .text(this.translateService.instant(&quot;PERCENT-COMMITS&quot;));
+
+    // Gridlines
+    const yAxisGrid &#x3D; d3.axisLeft(y).tickSize(-width).tickFormat(() &#x3D;&gt; &quot;&quot;).ticks(10);
+    this.svg
+      .append(&quot;g&quot;)
+      .attr(&quot;class&quot;, &quot;grid&quot;)
+      .call(yAxisGrid)
+      .selectAll(&quot;line&quot;)
+      .style(&quot;stroke&quot;, &quot;var(--color-border)&quot;)
+      .style(&quot;stroke-opacity&quot;, &quot;0.5&quot;)
+      .style(&quot;shape-rendering&quot;, &quot;crispEdges&quot;);
+
+    // Remove domain lines for cleaner look
+    this.svg.selectAll(&quot;.domain&quot;).remove();
+
+    // Custom horizontal gridline (barIndex feature)
+    const targetPercentage &#x3D; this.dataService.barIndex * 10;
+    this.svg
+      .append(&quot;line&quot;)
+      .attr(&quot;x1&quot;, 0)
+      .attr(&quot;x2&quot;, width)
+      .attr(&quot;y1&quot;, y(targetPercentage))
+      .attr(&quot;y2&quot;, y(targetPercentage))
+      .style(&quot;stroke&quot;, CommitColor.AFTER.color)
+      .style(&quot;stroke-width&quot;, 3)
+      .style(&quot;stroke-dasharray&quot;, &quot;5,5&quot;);
+
+    // Draw Bars
+    const visibleColors &#x3D; colors.filter(c &#x3D;&gt; !this.hiddenCategories.has(c.label));
+
+    const groups &#x3D; this.svg
+      .selectAll(&quot;g.layer&quot;)
+      .data(stackedData)
+      .enter()
+      .append(&quot;g&quot;)
+      .classed(&quot;layer&quot;, true)
+      .style(&quot;fill&quot;, (d, i) &#x3D;&gt; visibleColors[i].color);
+
+    groups
+      .selectAll(&quot;rect&quot;)
+      .data((d) &#x3D;&gt; d)
+      .enter()
+      .append(&quot;rect&quot;)
+      .attr(&quot;x&quot;, (d) &#x3D;&gt; x(d.data.question))
+      .attr(&quot;y&quot;, (d) &#x3D;&gt; y(d[1]))
+      .attr(&quot;height&quot;, (d) &#x3D;&gt; y(d[0]) - y(d[1]))
+      .attr(&quot;width&quot;, x.bandwidth())
+      .attr(&quot;rx&quot;, 2)
+      .attr(&quot;ry&quot;, 2)
+      .style(&quot;cursor&quot;, &quot;default&quot;)
+      .style(&quot;transition&quot;, &quot;opacity 0.2s&quot;)
+      .on(&quot;mouseover&quot;, (event, d) &#x3D;&gt; {
+        d3.select(event.currentTarget).style(&quot;opacity&quot;, 0.8);
+      })
+      .on(&quot;mousemove&quot;, (event, d) &#x3D;&gt; {
+        // Find which key this data point belongs to
+        const layerData &#x3D; d3.select(event.currentTarget.parentNode).datum() as any;
+        const key &#x3D; layerData.key;
+        const colorObj &#x3D; colors.find(c &#x3D;&gt; c.label &#x3D;&#x3D;&#x3D; key);
+        const dataObj &#x3D; d.data[key + &quot;_data&quot;];
+        
+        if (dataObj) {
+          const colorObj &#x3D; this.commitColors.find(c &#x3D;&gt; c.label &#x3D;&#x3D;&#x3D; key);
+          const tooltipData &#x3D; {
+            question: d.data.question,
+            category: key,
+            categoryKey: colorObj ? colorObj.labelKey : key,
+            count: dataObj.count,
+            percentage: d.data[key],
+            students: dataObj.students.map((s) &#x3D;&gt; Utils.truncateMiddle(s.name, 25)),
+          };
+
+          if (!this.tooltipService.isShowing()) {
+            this.tooltipService.showAtPosition(
+              this.d3TooltipTemplate,
+              event.clientX,
+              event.clientY,
+              &quot;right&quot;,
+              undefined,
+              true,
+              { tooltipData }
+            );
+          } else {
+            this.tooltipService.moveTooltip(event.clientX, event.clientY, &quot;right&quot;);
+          }
+        }
+      })
+      .on(&quot;mouseout&quot;, (event) &#x3D;&gt; {
+        d3.select(event.currentTarget).style(&quot;opacity&quot;, 1);
+        this.tooltipService.hide();
+      });
+      
+    // Add text labels inside bars if large enough
+    groups
+      .selectAll(&quot;text.bar-label&quot;)
+      .data((d) &#x3D;&gt; d)
+      .enter()
+      .append(&quot;text&quot;)
+      .classed(&quot;bar-label&quot;, true)
+      .attr(&quot;x&quot;, (d) &#x3D;&gt; x(d.data.question) + x.bandwidth() / 2)
+      .attr(&quot;y&quot;, (d) &#x3D;&gt; y(d[1]) + (y(d[0]) - y(d[1])) / 2)
+      .attr(&quot;dy&quot;, &quot;.35em&quot;)
+      .attr(&quot;text-anchor&quot;, &quot;middle&quot;)
+      .style(&quot;fill&quot;, function() {
+        const layerData &#x3D; d3.select(this.parentNode).datum() as any;
+        if (layerData.key &#x3D;&#x3D;&#x3D; &quot;Not finished&quot;) {
+          return &quot;var(--color-text-primary)&quot;;
+        }
+        return &quot;white&quot;;
+      })
+      .style(&quot;font-size&quot;, &quot;11px&quot;)
+      .style(&quot;font-weight&quot;, &quot;bold&quot;)
+      .style(&quot;pointer-events&quot;, &quot;none&quot;)
+      .text(function(d) {
+        const percentage &#x3D; d[1] - d[0];
+        if (percentage &gt; 5) {
+          // Find the actual count
+          const layerData &#x3D; d3.select(this.parentNode).datum() as any;
+          const key &#x3D; layerData.key;
+          const dataObj &#x3D; d.data[key + &quot;_data&quot;];
+          if (dataObj &amp;&amp; dataObj.count &gt; 0) {
+            return &#x60;${dataObj.count} (${percentage.toFixed(0)}%)&#x60;;
+          }
+        }
+        return &quot;&quot;;
+      });
+  }
+
   updateBar() {
-    this.chartOptions.scales.yAxes[0].gridLines &#x3D; this.getGridLines();
+    this.drawGraph();
   }
 
-  getGridLines(): any {
-    let index &#x3D; 10 - this.dataService.barIndex;
-    let lineWidth &#x3D; new Array(11).fill(1);
-    let color &#x3D; new Array(11).fill(&quot;rgba(0, 0, 0, 0.1)&quot;);
-
-    lineWidth[index] &#x3D; 5;
-    color[index] &#x3D; CommitColor.AFTER.color;
-
-    return {
-      lineWidth: lineWidth,
-      color: color,
-      zeroLineWidth: 0,
-    };
+  onScroll(event: Event) {
+    // Left empty since CSS positioning takes over, but retained if needed
   }
 
-  /**
-   * Updates bar index and refreshes the graph
-   */
   changeBarIndex() {
     this.updateBar();
-    this.myChart.chart.update();
-    this.myChart.chart.destroy();
-    this.myChart.ngOnInit();
-  }
-
-  /**
-   * When the component is initialized, we initialize date, max and min
-   * and we call loadGraphDataAndRefresh()
-   */
-  ngOnInit() {
-    setTimeout(() &#x3D;&gt; {
-      this.assignmentsModified$ &#x3D; this.subscribeAssignmentModified();
-      this.translateService.onLangChange.subscribe(() &#x3D;&gt; {
-        this.loadGraphDataAndRefresh();
-      });
-      if (this.dataService.repoToLoad) {
-        this.loadGraph(this.dataService.startDate, this.dataService.endDate);
-      } else {
-        this.loading &#x3D; true;
-        this.initDateSlider();
-        this.loadGraphMetadata(
-          this.dataService.repositories,
-          this.dataService.reviews,
-          this.dataService.corrections,
-          this.dataService.questions
-        );
-        this.loading &#x3D; false;
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribeAssignmentModified(this.assignmentsModified$);
   }
 
   loadGraph(startDate?: string, endDate?: string) {
@@ -1889,62 +2349,183 @@ export class QuestionsCompletionComponent
     }
   }
 
-  /**
-   * Returns the nearest upper value reachable by the slider
-   * @returns A value for slider max compatible with slider step
-   */
   getAdjustedMaxTimestamp() {
     return (
       Math.ceil((this.max - this.min) / this.slider_step) * this.slider_step +
       this.min
     );
   }
+
+  pressedShortcut: string &#x3D; null;
+
+  @HostListener(&quot;document:keydown&quot;, [&quot;$event&quot;])
+  handleGlobalShortcuts(event: KeyboardEvent) {
+    if (OsUtils.isTypingInInput(event)) {
+      return;
+    }
+
+    const key &#x3D; event.key.toLowerCase();
+
+    if (key &#x3D;&#x3D;&#x3D; &quot;r&quot;) {
+      event.preventDefault();
+      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      this.triggerShortcut(&quot;r&quot;);
+    }
+  }
+
+  private triggerShortcut(key: string) {
+    this.pressedShortcut &#x3D; key;
+    setTimeout(() &#x3D;&gt; {
+      if (this.pressedShortcut &#x3D;&#x3D;&#x3D; key) this.pressedShortcut &#x3D; null;
+    }, 150);
+  }
+
+  toggleCategory(label: string) {
+    if (this.hiddenCategories.has(label)) {
+      this.hiddenCategories.delete(label);
+    } else {
+      // Don&#x27;t hide if it&#x27;s the last one
+      if (this.hiddenCategories.size &#x3D;&#x3D;&#x3D; this.commitColors.length - 1) return;
+      this.hiddenCategories.add(label);
+    }
+    this.drawGraph();
+  }
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;d-flex flex-row p-3&quot;&gt;
-  &lt;div&gt;
-    &lt;select class&#x3D;&quot;form-control&quot; [disabled]&#x3D;&quot; !dataService.tpGroups.length || loading&quot; [(ngModel)]&#x3D;&quot;dataService.groupFilter&quot;
-      (change)&#x3D;&quot;this.loadGraphDataAndRefresh()&quot;&gt;
-      &lt;option [ngValue]&#x3D;&quot;undefined&quot; hidden disabled&gt;{{ &#x27;TP-GROUP-SELECT.PLACEHOLDER&#x27; | translate }}&lt;/option&gt;
-      &lt;option *ngFor&#x3D;&quot;let tpGroup of dataService.tpGroups&quot; [value]&#x3D;&quot;tpGroup&quot;&gt;{{tpGroup}}&lt;/option&gt;
-      &lt;option value&#x3D;&quot;&quot;&gt;{{ &#x27;TP-GROUP-SELECT.ALL&#x27; | translate }}&lt;/option&gt;
-    &lt;/select&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;d-flex flex-column flex-grow-1&quot; style&#x3D;&quot;min-height: 0;&quot;&gt;
+  &lt;div class&#x3D;&quot;modern-toolbar&quot;&gt;
+    &lt;!-- Group Selector Dropdown --&gt;
+    &lt;div ngbDropdown class&#x3D;&quot;dropdown d-inline-block&quot;&gt;
+      &lt;button class&#x3D;&quot;btn-outline-ghost&quot; ngbDropdownToggle&gt;
+        &lt;svg width&#x3D;&quot;16&quot; height&#x3D;&quot;16&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+          &lt;path d&#x3D;&quot;M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2&quot;&gt;&lt;/path&gt;
+          &lt;circle cx&#x3D;&quot;9&quot; cy&#x3D;&quot;7&quot; r&#x3D;&quot;4&quot;&gt;&lt;/circle&gt;
+          &lt;path d&#x3D;&quot;M23 21v-2a4 4 0 0 0-3-3.87&quot;&gt;&lt;/path&gt;
+          &lt;path d&#x3D;&quot;M16 3.13a4 4 0 0 1 0 7.75&quot;&gt;&lt;/path&gt;
+        &lt;/svg&gt;
+        &lt;span&gt;{{ dataService.groupFilter || (&#x27;TP-GROUP-SELECT.ALL&#x27; | translate) }}&lt;/span&gt;
+        &lt;svg width&#x3D;&quot;14&quot; height&#x3D;&quot;14&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+          &lt;polyline points&#x3D;&quot;6 9 12 15 18 9&quot;&gt;&lt;/polyline&gt;
+        &lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;div ngbDropdownMenu class&#x3D;&quot;modern-dropdown-menu&quot;&gt;
+        &lt;button class&#x3D;&quot;dropdown-item py-2&quot; [class.active]&#x3D;&quot;!dataService.groupFilter&quot; (click)&#x3D;&quot;dataService.groupFilter &#x3D; &#x27;&#x27;; loadGraphDataAndRefresh()&quot;&gt;
+          {{ &quot;TP-GROUP-SELECT.ALL&quot; | translate }}
+        &lt;/button&gt;
+        &lt;div class&#x3D;&quot;dropdown-divider&quot;&gt;&lt;/div&gt;
+        &lt;button class&#x3D;&quot;dropdown-item py-2&quot; *ngFor&#x3D;&quot;let tpGroup of dataService.tpGroups&quot; [class.active]&#x3D;&quot;dataService.groupFilter &#x3D;&#x3D;&#x3D; tpGroup&quot; (click)&#x3D;&quot;dataService.groupFilter &#x3D; tpGroup; loadGraphDataAndRefresh()&quot;&gt;
+          {{ tpGroup }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Date Slider --&gt;
+    &lt;div class&#x3D;&quot;modern-slider-container&quot; style&#x3D;&quot;min-width: 260px;&quot;&gt;
+      &lt;div class&#x3D;&quot;slider-header&quot;&gt;
+        &lt;span class&#x3D;&quot;slider-label&quot;&gt;{{ &#x27;DATE&#x27; | translate }}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;slider-value&quot;&gt;{{ date | date:&#x27;yyyy-MM-dd&#x27; }}&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;modern-slider&quot; style&#x3D;&quot;width: 100%;&quot; (input)&#x3D;&quot;loadGraphDataAndRefresh()&quot; [(ngModel)]&#x3D;&quot;date&quot; [max]&#x3D;&quot;getAdjustedMaxTimestamp()&quot; [min]&#x3D;&quot;this.min&quot; id&#x3D;&quot;dateSlider&quot; step&#x3D;&quot;86400000&quot; [disabled]&#x3D;&quot;!dataService.repositories.length || loading&quot; [style.--slider-progress.%]&#x3D;&quot;(date - min) / (getAdjustedMaxTimestamp() - min) * 100&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Bar Index --&gt;
+    &lt;div class&#x3D;&quot;modern-slider-container&quot; style&#x3D;&quot;min-width: 160px;&quot;&gt;
+      &lt;div class&#x3D;&quot;slider-header&quot;&gt;
+        &lt;span class&#x3D;&quot;slider-label&quot;&gt;{{ &#x27;BAR-INDEX&#x27; | translate }}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;slider-value&quot;&gt;{{ dataService.barIndex * 10 }}&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;modern-slider&quot; style&#x3D;&quot;width: 100%;&quot; (input)&#x3D;&quot;changeBarIndex()&quot; [(ngModel)]&#x3D;&quot;dataService.barIndex&quot; min&#x3D;&quot;1&quot; max&#x3D;&quot;9&quot; id&#x3D;&quot;barSlider&quot; step&#x3D;&quot;1&quot; [style.--slider-progress.%]&#x3D;&quot;(dataService.barIndex - 1) / 8 * 100&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Reload Button --&gt;
+    &lt;button class&#x3D;&quot;btn-outline-ghost anim-spin-hover&quot; (click)&#x3D;&quot;loadGraph(dataService.startDate, dataService.endDate)&quot; [disabled]&#x3D;&quot;!dataService.repositories.length || loading&quot; [appTooltip]&#x3D;&quot;{ text: (&#x27;OVERVIEW-GRAPH.RELOAD-TOOLTIP&#x27; | translate), shortcut: [&#x27;R&#x27;] }&quot;&gt;
+      &lt;div *ngIf&#x3D;&quot;loading&quot; class&#x3D;&quot;d-flex&quot;&gt;
+        &lt;svg class&#x3D;&quot;fa-spin&quot; width&#x3D;&quot;18&quot; height&#x3D;&quot;18&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+          &lt;path d&#x3D;&quot;M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8&quot;&gt;&lt;/path&gt;
+          &lt;path d&#x3D;&quot;M21 3v5h-5&quot;&gt;&lt;/path&gt;
+        &lt;/svg&gt;
+      &lt;/div&gt;
+      &lt;div *ngIf&#x3D;&quot;!loading&quot; class&#x3D;&quot;d-flex&quot;&gt;
+        &lt;svg width&#x3D;&quot;18&quot; height&#x3D;&quot;18&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+          &lt;path d&#x3D;&quot;M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8&quot;&gt;&lt;/path&gt;
+          &lt;path d&#x3D;&quot;M21 3v5h-5&quot;&gt;&lt;/path&gt;
+        &lt;/svg&gt;
+      &lt;/div&gt;
+    &lt;/button&gt;
+
+    &lt;div class&#x3D;&quot;d-flex align-items-center ml-auto&quot;&gt;
+      &lt;span class&#x3D;&quot;text-muted small bg-surface rounded-pill px-3 py-1 border shadow-sm d-flex align-items-center date-display&quot; style&#x3D;&quot;font-size: 0.85rem;&quot;&gt;
+        &lt;i class&#x3D;&quot;fas fa-clock mr-2&quot; style&#x3D;&quot;color: var(--color-primary);&quot;&gt;&lt;/i&gt;
+        &lt;span class&#x3D;&quot;date-full&quot;&gt;{{ date | date:&#x27;full&#x27;:undefined:translateService.currentLang }}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;date-short&quot;&gt;{{ date | date:&#x27;medium&#x27;:undefined:translateService.currentLang }}&lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
-  &lt;div class&#x3D;&quot;separator&quot;&gt;&lt;/div&gt;
-  &lt;div class&#x3D;&quot;pt-2 w-25&quot;&gt;
-    &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;custom-range&quot; (input)&#x3D;&quot;loadGraphDataAndRefresh()&quot; [(ngModel)]&#x3D;&quot;date&quot; [max]&#x3D;&quot;getAdjustedMaxTimestamp()&quot;
-      [min]&#x3D;&quot;this.min&quot; [ngbTooltip]&#x3D;&quot;dateTooltip&quot; id&#x3D;&quot;dateSlider&quot; step&#x3D;&quot;86400000&quot;
-      [disabled]&#x3D;&quot;!dataService.repositories.length || loading&quot;&gt;
+
+  &lt;div class&#x3D;&quot;graph-wrapper d-flex flex-column&quot; style&#x3D;&quot;flex: 1; position: relative;&quot;&gt;
+    &lt;div class&#x3D;&quot;d-flex&quot; style&#x3D;&quot;flex: 1; min-height: 0; width: 100%; position: relative;&quot;&gt;
+      &lt;!-- Left Axis --&gt;
+      &lt;div #leftAxisContainer style&#x3D;&quot;position: absolute; left: 0; top: 0; bottom: 0; width: 60px; z-index: 10; pointer-events: none;&quot;&gt;&lt;/div&gt;
+      &lt;!-- Chart --&gt;
+      &lt;div #chartContainer class&#x3D;&quot;chart-container&quot; style&#x3D;&quot;flex: 1; min-height: 0; position: relative; width: 100%; overflow-x: auto; overflow-y: hidden;&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Legend --&gt;
+    &lt;div *ngIf&#x3D;&quot;themeService.showLegend &amp;&amp; chartData?.length &gt; 0&quot; class&#x3D;&quot;legend-floating-container&quot; [class.invisible]&#x3D;&quot;loading&quot;&gt;
+      &lt;div ngbDropdown #legendDropdown&#x3D;&quot;ngbDropdown&quot; placement&#x3D;&quot;top-right&quot; class&#x3D;&quot;d-inline-block&quot; [autoClose]&#x3D;&quot;&#x27;outside&#x27;&quot; (mouseleave)&#x3D;&quot;legendDropdown.close()&quot;&gt;
+        &lt;button class&#x3D;&quot;btn legend-expand-btn shadow-sm&quot; id&#x3D;&quot;legendDropup&quot; ngbDropdownToggle&gt;
+          &lt;i class&#x3D;&quot;fas fa-info&quot; style&#x3D;&quot;min-width: 14px;&quot;&gt;&lt;/i&gt;
+          &lt;span class&#x3D;&quot;legend-text&quot;&gt;{{ &quot;OVERVIEW-GRAPH.LEGEND.TITLE&quot; | translate }}&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;div ngbDropdownMenu aria-labelledby&#x3D;&quot;legendDropup&quot; class&#x3D;&quot;modern-dropdown-menu p-3&quot; style&#x3D;&quot;min-width: 250px; font-size: 0.85rem; line-height: 1.8;&quot;&gt;
+          &lt;h6 class&#x3D;&quot;dropdown-header px-0 mb-2&quot; style&#x3D;&quot;font-weight: 600;&quot;&gt;{{ &quot;OVERVIEW-GRAPH.LEGEND.TITLE&quot; | translate }}&lt;/h6&gt;
+          
+          &lt;div *ngFor&#x3D;&quot;let color of commitColors&quot; 
+               class&#x3D;&quot;d-flex align-items-center mb-2&quot; 
+               style&#x3D;&quot;cursor: pointer; user-select: none; transition: opacity 0.2s;&quot;
+               [style.opacity]&#x3D;&quot;hiddenCategories.has(color.label) ? &#x27;0.4&#x27; : &#x27;1&#x27;&quot;
+               (click)&#x3D;&quot;toggleCategory(color.label)&quot;&gt;
+            &lt;span style&#x3D;&quot;display: inline-block; width: 30px; min-width: 30px; height: 12px; flex-shrink: 0; margin-right: 10px; border-radius: 2px;&quot;
+                  [style.background-color]&#x3D;&quot;color.color&quot;&gt;&lt;/span&gt;
+            &lt;span style&#x3D;&quot;color: var(--color-text-secondary)&quot;&gt;{{ color.labelKey | translate }}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
-  &lt;div class&#x3D;&quot;mt-1 ml-2&quot;&gt;&lt;span class&#x3D;&quot;badge badge-secondary&quot;&gt;{{ date | date:&#x27;yyyy-MM-dd HH:mm&#x27; }}&lt;/span&gt;&lt;/div&gt;
-  &lt;div class&#x3D;&quot;separator&quot;&gt;&lt;/div&gt;
-  &lt;div class&#x3D;&quot;mt-1 mr-2&quot;&gt;{{ &#x27;BAR-INDEX&#x27; | translate }} :&lt;/div&gt;
-  &lt;div class&#x3D;&quot;pt-2&quot;&gt;
-    &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;custom-range&quot; (input)&#x3D;&quot;changeBarIndex()&quot; [(ngModel)]&#x3D;&quot;dataService.barIndex&quot; min&#x3D;&quot;1&quot;
-      max&#x3D;&quot;9&quot; title&#x3D;&quot;Bar&quot; id&#x3D;&quot;barSlider&quot; step&#x3D;&quot;1&quot;&gt;
-  &lt;/div&gt;
-  &lt;div class&#x3D;&quot;mt-1 ml-2&quot;&gt;&lt;span class&#x3D;&quot;badge badge-secondary&quot;&gt;{{ dataService.barIndex * 10 }}&lt;/span&gt;&lt;/div&gt;
-  &lt;div class&#x3D;&quot;separator&quot;&gt;&lt;/div&gt;
-  &lt;button class&#x3D;&quot;btn btn-outline-secondary&quot; (click)&#x3D;&quot;loadGraph(dataService.startDate, dataService.endDate)&quot;
-    [ngbTooltip]&#x3D;&quot;reloadTooltip&quot; [disabled]&#x3D;&quot;!dataService.repositories.length || loading&quot;&gt;
-    &lt;div *ngIf&#x3D;&quot;loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sync-alt fa-spin&quot;&gt;&lt;/i&gt;&lt;/div&gt;
-    &lt;div *ngIf&#x3D;&quot;!loading&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sync-alt&quot;&gt;&lt;/i&gt;&lt;/div&gt;
-  &lt;/button&gt;
-&lt;/div&gt;
-&lt;div class&#x3D;&quot;chart-container&quot;&gt;
-  &lt;canvas #myChart id&#x3D;&quot;myChart&quot; baseChart [chartType]&#x3D;&quot;&#x27;bar&#x27;&quot; [datasets]&#x3D;&quot;chartData&quot; [options]&#x3D;&quot;chartOptions&quot;
-    [labels]&#x3D;&quot;chartLabels&quot; [legend]&#x3D;&quot;true&quot;&gt;
-  &lt;/canvas&gt;
-&lt;/div&gt;
-&lt;div class&#x3D;&quot;badge badge-light text-wrap float-right&quot;&gt;
-  {{ date | date:&#x27;full&#x27;:undefined:translateService.currentLang }}
 &lt;/div&gt;
 
+&lt;ng-template #d3TooltipTemplate let-tooltipData&#x3D;&quot;tooltipData&quot;&gt;
+  &lt;div *ngIf&#x3D;&quot;tooltipData&quot; style&#x3D;&quot;min-width: 250px; padding: 0.5rem;&quot;&gt;
+    &lt;div class&#x3D;&quot;d-flex align-items-center mb-3 pb-2&quot; style&#x3D;&quot;border-bottom: 1px solid var(--color-border); gap: 10px;&quot;&gt;
+      &lt;div class&#x3D;&quot;header-icon&quot; style&#x3D;&quot;font-size: 1.5rem; color: var(--color-primary);&quot;&gt;
+        &lt;i class&#x3D;&quot;fas fa-question-circle&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;header-content d-flex flex-column&quot;&gt;
+        &lt;span class&#x3D;&quot;header-title font-weight-bold&quot; style&#x3D;&quot;font-size: 1rem;&quot;&gt;{{ tooltipData.question }}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;header-subtitle text-primary&quot; style&#x3D;&quot;font-size: 0.85rem;&quot;&gt;{{ tooltipData.categoryKey | translate }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;modern-tooltip-body&quot;&gt;
+      &lt;div class&#x3D;&quot;stat-row&quot;&gt;
+        &lt;span class&#x3D;&quot;stat-label&quot;&gt;{{ &#x27;COMMITS-COUNT&#x27; | translate }}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;stat-value&quot;&gt;{{ tooltipData.count }} ({{ tooltipData.percentage | number:&#x27;1.0-2&#x27; }}%)&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;modern-tooltip-footer&quot; *ngIf&#x3D;&quot;tooltipData.students &amp;&amp; tooltipData.students.length &gt; 0&quot;&gt;
+      &lt;div class&#x3D;&quot;footer-title&quot;&gt;{{ &#x27;STUDENTS&#x27; | translate }}&lt;/div&gt;
+      &lt;div class&#x3D;&quot;d-flex flex-wrap gap-2 mt-2&quot; style&#x3D;&quot;max-width: 350px;&quot;&gt;
+        &lt;span *ngFor&#x3D;&quot;let student of tooltipData.students&quot; class&#x3D;&quot;student-badge&quot;&gt;{{ student }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+
 &lt;ng-template #dateTooltip&gt;{{ &#x27;DATE&#x27; | translate }}&lt;/ng-template&gt;
-&lt;ng-template #reloadTooltip&gt;{{ &#x27;OVERVIEW-GRAPH.RELOAD-TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;
 </code></pre>
     </div>
 
@@ -1952,7 +2533,86 @@ export class QuestionsCompletionComponent
                 <p class="comment">
                     <code>./questions-completion.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss"></code></pre>
+                <pre class="line-numbers"><code class="language-scss">:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.modern-tooltip-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+
+  .header-icon {
+    margin-right: 8px;
+    color: var(--color-primary);
+  }
+
+  .header-content {
+    display: flex;
+    flex-direction: column;
+
+    .header-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--color-text-primary);
+    }
+
+    .header-subtitle {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+    }
+  }
+}
+
+.modern-tooltip-body {
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    gap: 1.5rem;
+
+    .stat-label {
+      font-weight: 500;
+      color: var(--color-text-primary);
+      font-size: 0.85rem;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      color: var(--color-text-primary);
+      font-size: 0.85rem;
+    }
+  }
+}
+
+.modern-tooltip-footer {
+  margin-top: 8px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 8px;
+
+  .footer-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+  }
+
+  .student-badge {
+    font-size: 0.75rem;
+    background: var(--color-border);
+    color: var(--color-text-primary);
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: none;
+  }
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -1980,9 +2640,9 @@ export class QuestionsCompletionComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="d-flex flex-row p-3">  <div>    <select class="form-control" [disabled]=" !dataService.tpGroups.length || loading" [(ngModel)]="dataService.groupFilter"      (change)="this.loadGraphDataAndRefresh()">      <option [ngValue]="undefined" hidden disabled>{{ \'TP-GROUP-SELECT.PLACEHOLDER\' | translate }}</option>      <option *ngFor="let tpGroup of dataService.tpGroups" [value]="tpGroup">{{tpGroup}}</option>      <option value="">{{ \'TP-GROUP-SELECT.ALL\' | translate }}</option>    </select>  </div>  <div class="separator"></div>  <div class="pt-2 w-25">    <input type="range" class="custom-range" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="getAdjustedMaxTimestamp()"      [min]="this.min" [ngbTooltip]="dateTooltip" id="dateSlider" step="86400000"      [disabled]="!dataService.repositories.length || loading">  </div>  <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ date | date:\'yyyy-MM-dd HH:mm\' }}</span></div>  <div class="separator"></div>  <div class="mt-1 mr-2">{{ \'BAR-INDEX\' | translate }} :</div>  <div class="pt-2">    <input type="range" class="custom-range" (input)="changeBarIndex()" [(ngModel)]="dataService.barIndex" min="1"      max="9" title="Bar" id="barSlider" step="1">  </div>  <div class="mt-1 ml-2"><span class="badge badge-secondary">{{ dataService.barIndex * 10 }}</span></div>  <div class="separator"></div>  <button class="btn btn-outline-secondary" (click)="loadGraph(dataService.startDate, dataService.endDate)"    [ngbTooltip]="reloadTooltip" [disabled]="!dataService.repositories.length || loading">    <div *ngIf="loading"><i class="fas fa-sync-alt fa-spin"></i></div>    <div *ngIf="!loading"><i class="fas fa-sync-alt"></i></div>  </button></div><div class="chart-container">  <canvas #myChart id="myChart" baseChart [chartType]="\'bar\'" [datasets]="chartData" [options]="chartOptions"    [labels]="chartLabels" [legend]="true">  </canvas></div><div class="badge badge-light text-wrap float-right">  {{ date | date:\'full\':undefined:translateService.currentLang }}</div><ng-template #dateTooltip>{{ \'DATE\' | translate }}</ng-template><ng-template #reloadTooltip>{{ \'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate }}</ng-template></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
-    var DIRECTIVES = [];
+        var COMPONENT_TEMPLATE = '<div><div class="d-flex flex-column flex-grow-1" style="min-height: 0;">  <div class="modern-toolbar">    <!-- Group Selector Dropdown -->    <div ngbDropdown class="dropdown d-inline-block">      <button class="btn-outline-ghost" ngbDropdownToggle>        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>          <circle cx="9" cy="7" r="4"></circle>          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>        </svg>        <span>{{ dataService.groupFilter || (\'TP-GROUP-SELECT.ALL\' | translate) }}</span>        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <polyline points="6 9 12 15 18 9"></polyline>        </svg>      </button>      <div ngbDropdownMenu class="modern-dropdown-menu">        <button class="dropdown-item py-2" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = \'\'; loadGraphDataAndRefresh()">          {{ "TP-GROUP-SELECT.ALL" | translate }}        </button>        <div class="dropdown-divider"></div>        <button class="dropdown-item py-2" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh()">          {{ tpGroup }}        </button>      </div>    </div>    <!-- Date Slider -->    <div class="modern-slider-container" style="min-width: 260px;">      <div class="slider-header">        <span class="slider-label">{{ \'DATE\' | translate }}</span>        <span class="slider-value">{{ date | date:\'yyyy-MM-dd\' }}</span>      </div>      <input type="range" class="modern-slider" style="width: 100%;" (input)="loadGraphDataAndRefresh()" [(ngModel)]="date" [max]="getAdjustedMaxTimestamp()" [min]="this.min" id="dateSlider" step="86400000" [disabled]="!dataService.repositories.length || loading" [style.--slider-progress.%]="(date - min) / (getAdjustedMaxTimestamp() - min) * 100">    </div>    <!-- Bar Index -->    <div class="modern-slider-container" style="min-width: 160px;">      <div class="slider-header">        <span class="slider-label">{{ \'BAR-INDEX\' | translate }}</span>        <span class="slider-value">{{ dataService.barIndex * 10 }}</span>      </div>      <input type="range" class="modern-slider" style="width: 100%;" (input)="changeBarIndex()" [(ngModel)]="dataService.barIndex" min="1" max="9" id="barSlider" step="1" [style.--slider-progress.%]="(dataService.barIndex - 1) / 8 * 100">    </div>    <!-- Reload Button -->    <button class="btn-outline-ghost anim-spin-hover" (click)="loadGraph(dataService.startDate, dataService.endDate)" [disabled]="!dataService.repositories.length || loading" [appTooltip]="{ text: (\'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate), shortcut: [\'R\'] }">      <div *ngIf="loading" class="d-flex">        <svg class="fa-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>          <path d="M21 3v5h-5"></path>        </svg>      </div>      <div *ngIf="!loading" class="d-flex">        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>          <path d="M21 3v5h-5"></path>        </svg>      </div>    </button>    <div class="d-flex align-items-center ml-auto">      <span class="text-muted small bg-surface rounded-pill px-3 py-1 border shadow-sm d-flex align-items-center date-display" style="font-size: 0.85rem;">        <i class="fas fa-clock mr-2" style="color: var(--color-primary);"></i>        <span class="date-full">{{ date | date:\'full\':undefined:translateService.currentLang }}</span>        <span class="date-short">{{ date | date:\'medium\':undefined:translateService.currentLang }}</span>      </span>    </div>  </div>  <div class="graph-wrapper d-flex flex-column" style="flex: 1; position: relative;">    <div class="d-flex" style="flex: 1; min-height: 0; width: 100%; position: relative;">      <!-- Left Axis -->      <div #leftAxisContainer style="position: absolute; left: 0; top: 0; bottom: 0; width: 60px; z-index: 10; pointer-events: none;"></div>      <!-- Chart -->      <div #chartContainer class="chart-container" style="flex: 1; min-height: 0; position: relative; width: 100%; overflow-x: auto; overflow-y: hidden;">      </div>    </div>    <!-- Legend -->    <div *ngIf="themeService.showLegend && chartData?.length > 0" class="legend-floating-container" [class.invisible]="loading">      <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" [autoClose]="\'outside\'" (mouseleave)="legendDropdown.close()">        <button class="btn legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>          <i class="fas fa-info" style="min-width: 14px;"></i>          <span class="legend-text">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</span>        </button>        <div ngbDropdownMenu aria-labelledby="legendDropup" class="modern-dropdown-menu p-3" style="min-width: 250px; font-size: 0.85rem; line-height: 1.8;">          <h6 class="dropdown-header px-0 mb-2" style="font-weight: 600;">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</h6>                    <div *ngFor="let color of commitColors"                class="d-flex align-items-center mb-2"                style="cursor: pointer; user-select: none; transition: opacity 0.2s;"               [style.opacity]="hiddenCategories.has(color.label) ? \'0.4\' : \'1\'"               (click)="toggleCategory(color.label)">            <span style="display: inline-block; width: 30px; min-width: 30px; height: 12px; flex-shrink: 0; margin-right: 10px; border-radius: 2px;"                  [style.background-color]="color.color"></span>            <span style="color: var(--color-text-secondary)">{{ color.labelKey | translate }}</span>          </div>        </div>      </div>    </div>  </div></div><ng-template #d3TooltipTemplate let-tooltipData="tooltipData">  <div *ngIf="tooltipData" style="min-width: 250px; padding: 0.5rem;">    <div class="d-flex align-items-center mb-3 pb-2" style="border-bottom: 1px solid var(--color-border); gap: 10px;">      <div class="header-icon" style="font-size: 1.5rem; color: var(--color-primary);">        <i class="fas fa-question-circle"></i>      </div>      <div class="header-content d-flex flex-column">        <span class="header-title font-weight-bold" style="font-size: 1rem;">{{ tooltipData.question }}</span>        <span class="header-subtitle text-primary" style="font-size: 0.85rem;">{{ tooltipData.categoryKey | translate }}</span>      </div>    </div>    <div class="modern-tooltip-body">      <div class="stat-row">        <span class="stat-label">{{ \'COMMITS-COUNT\' | translate }}</span>        <span class="stat-value">{{ tooltipData.count }} ({{ tooltipData.percentage | number:\'1.0-2\' }}%)</span>      </div>    </div>    <div class="modern-tooltip-footer" *ngIf="tooltipData.students && tooltipData.students.length > 0">      <div class="footer-title">{{ \'STUDENTS\' | translate }}</div>      <div class="d-flex flex-wrap gap-2 mt-2" style="max-width: 350px;">        <span *ngFor="let student of tooltipData.students" class="student-badge">{{ student }}</span>      </div>    </div>  </div></ng-template><ng-template #dateTooltip>{{ \'DATE\' | translate }}</ng-template></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
+    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'QuestionsCompletionComponent'};
 </script>
 <script src="../js/tree.js"></script>

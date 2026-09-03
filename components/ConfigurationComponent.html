@@ -94,6 +94,10 @@
 
 
 
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-configuration</code></td>
+            </tr>
 
             <tr>
                 <td class="col-md-3">styleUrls</td>
@@ -132,14 +136,26 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#activeModalService" >activeModalService</a>
+                                <a href="#activeModal" >activeModal</a>
+                            </li>
+                            <li>
+                                <a href="#activeTab" >activeTab</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#dataService" >dataService</a>
                             </li>
                             <li>
+                                <a href="#metadataComp" >metadataComp</a>
+                            </li>
+                            <li>
                                 <a href="#metadataModified" >metadataModified</a>
+                            </li>
+                            <li>
+                                <a href="#reposComp" >reposComp</a>
+                            </li>
+                            <li>
+                                <a href="#reposInitialized" >reposInitialized</a>
                             </li>
                             <li>
                                 <a href="#repositoriesModified" >repositoriesModified</a>
@@ -161,10 +177,19 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#canSave" >canSave</a>
+                            </li>
+                            <li>
                                 <a href="#errorToast" >errorToast</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onCancel" >onCancel</a>
+                            </li>
+                            <li>
+                                <a href="#onSaveGlobal" >onSaveGlobal</a>
                             </li>
                             <li>
                                 <a href="#openUploadFileModal" >openUploadFileModal</a>
@@ -174,10 +199,7 @@
                                 <a href="#saveAssignment" >saveAssignment</a>
                             </li>
                             <li>
-                                <a href="#saveMetadata" >saveMetadata</a>
-                            </li>
-                            <li>
-                                <a href="#saveRepositories" >saveRepositories</a>
+                                <a href="#selectTab" >selectTab</a>
                             </li>
                             <li>
                                 <a href="#successToast" >successToast</a>
@@ -197,10 +219,30 @@
                             <li>
                                 <a href="#assignment" >assignment</a>
                             </li>
+                            <li>
+                                <a href="#modalRef" >modalRef</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                <a href="#saved" >saved</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
 
 
@@ -228,12 +270,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(translateService: TranslateService, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>, activeModalService: NgbActiveModal, modalService: NgbModal)</code>
+<code>constructor(translateService: TranslateService, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>, ngbModalService: NgbModal, modalService: <a href="../injectables/CustomModalService.html" target="_self">CustomModalService</a>, activeModal: <a href="../classes/CustomModalRef.html" target="_self">CustomModalRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -287,10 +329,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>activeModalService</td>
+                                                        <td>ngbModalService</td>
                                                   
                                                         <td>
-                                                                    <code>NgbActiveModal</code>
+                                                                    <code>NgbModal</code>
                                                         </td>
                                                   
                                                     <td>
@@ -302,7 +344,19 @@
                                                         <td>modalService</td>
                                                   
                                                         <td>
-                                                                    <code>NgbModal</code>
+                                                                        <code><a href="../injectables/CustomModalService.html" target="_self" >CustomModalService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activeModal</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/CustomModalRef.html" target="_self" >CustomModalRef</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -337,7 +391,73 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:27</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="modalRef"></a>
+                        <b>modalRef</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:28</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="close"></a>
+                        <b>close</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:29</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="saved"></a>
+                        <b>saved</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:30</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -345,12 +465,48 @@
 </section>
 
 
-
     <section>
     
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canSave"></a>
+                    <span class="name">
+                        <span ><b>canSave</b></span>
+                        <a href="#canSave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>canSave()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:69</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -371,8 +527,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:137</a></div>
                 </td>
             </tr>
 
@@ -408,8 +564,82 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:49</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCancel"></a>
+                    <span class="name">
+                        <span ><b>onCancel</b></span>
+                        <a href="#onCancel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCancel()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:106</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSaveGlobal"></a>
+                    <span class="name">
+                        <span ><b>onSaveGlobal</b></span>
+                        <a href="#onSaveGlobal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSaveGlobal()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:79</a></div>
                 </td>
             </tr>
 
@@ -445,8 +675,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:115</a></div>
                 </td>
             </tr>
 
@@ -484,8 +714,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:139</a></div>
                 </td>
             </tr>
 
@@ -505,24 +735,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="saveMetadata"></a>
+                    <a name="selectTab"></a>
                     <span class="name">
-                        <span ><b>saveMetadata</b></span>
-                        <a href="#saveMetadata"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>selectTab</b></span>
+                        <a href="#selectTab"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>saveMetadata(metadata)</code>
+<code>selectTab(tab: "metadata" | "repositories")</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:54</a></div>
                 </td>
             </tr>
 
@@ -537,77 +767,16 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>metadata</td>
-
+                                    <td>tab</td>
                                     <td>
-                                        No
+                                            <code>&quot;metadata&quot; | &quot;repositories&quot;</code>
                                     </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="saveRepositories"></a>
-                    <span class="name">
-                        <span ><b>saveRepositories</b></span>
-                        <a href="#saveRepositories"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>saveRepositories(repositories)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:43</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>repositories</td>
 
                                     <td>
                                         No
@@ -651,8 +820,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:126</a></div>
                 </td>
             </tr>
 
@@ -678,23 +847,63 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="activeModalService"></a>
+                    <a name="activeModal"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
-                        <span ><b>activeModalService</b></span>
-                        <a href="#activeModalService"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>activeModal</b></span>
+                        <a href="#activeModal"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>NgbActiveModal</code>
+                        <i>Type : </i>        <code><a href="../classes/CustomModalRef.html" target="_self" >CustomModalRef</a></code>
 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Optional()<br />
+                        </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeTab"></a>
+                    <span class="name">
+                        <span ><b>activeTab</b></span>
+                        <a href="#activeTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;metadata&quot; | &quot;repositories&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;metadata&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -721,7 +930,42 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="metadataComp"></a>
+                    <span class="name">
+                        <span ><b>metadataComp</b></span>
+                        <a href="#metadataComp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Metadata.html" target="_self" >MetadataComponent</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;metadataComp&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -747,7 +991,67 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reposComp"></a>
+                    <span class="name">
+                        <span ><b>reposComp</b></span>
+                        <a href="#reposComp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/EditRepositoriesComponent.html" target="_self" >EditRepositoriesComponent</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;reposComp&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reposInitialized"></a>
+                    <span class="name">
+                        <span ><b>reposInitialized</b></span>
+                        <a href="#reposInitialized"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -773,7 +1077,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -800,7 +1104,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -829,7 +1133,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/configuration.component.ts:61</a></div>
                                 </td>
                             </tr>
 
@@ -840,29 +1144,52 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnInit } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from &quot;@angular/core&quot;;
 import { FileChooserComponent } from &quot;@components/file-chooser/file-chooser.component&quot;;
 import { Assignment } from &quot;@models/Assignment.model&quot;;
-import { NgbActiveModal, NgbModal } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import { NgbModal } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import { Optional } from &quot;@angular/core&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
 import { ToastService } from &quot;@services/toast.service&quot;;
+import { CustomModalRef } from &quot;@shared/ui/custom-modal/custom-modal-ref&quot;;
+import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
+import { MetadataComponent } from &quot;./metadata/metadata.component&quot;;
+import { EditRepositoriesComponent } from &quot;./edit-repositories/edit-repositories.component&quot;;
 
 @Component({
+  selector: &quot;app-configuration&quot;,
   templateUrl: &quot;./configuration.component.html&quot;,
   styleUrls: [&quot;./configuration.component.scss&quot;],
 })
 export class ConfigurationComponent implements OnInit {
   @Input() assignment: Assignment;
+  @Input() modalRef?: any;
+  @Output() close &#x3D; new EventEmitter&lt;void&gt;();
+  @Output() saved &#x3D; new EventEmitter&lt;Assignment&gt;();
+
+  @ViewChild(&quot;metadataComp&quot;) metadataComp: MetadataComponent;
+  @ViewChild(&quot;reposComp&quot;) reposComp: EditRepositoriesComponent;
+
   metadataModified: boolean;
   repositoriesModified: boolean;
+  activeTab: &quot;metadata&quot; | &quot;repositories&quot; &#x3D; &quot;metadata&quot;;
+  reposInitialized &#x3D; false;
 
   constructor(
     public translateService: TranslateService,
     public dataService: DataService,
     private toastService: ToastService,
-    public activeModalService: NgbActiveModal,
-    private modalService: NgbModal
+    private ngbModalService: NgbModal,
+    private modalService: CustomModalService,
+    @Optional() public activeModal: CustomModalRef
   ) {}
 
   ngOnInit(): void {
@@ -870,34 +1197,74 @@ export class ConfigurationComponent implements OnInit {
     this.repositoriesModified &#x3D; false;
   }
 
-  get isModified() {
-    return this.metadataModified || this.repositoriesModified;
+  selectTab(tab: &quot;metadata&quot; | &quot;repositories&quot;) {
+    this.activeTab &#x3D; tab;
+    if (tab &#x3D;&#x3D;&#x3D; &quot;repositories&quot;) {
+      this.reposInitialized &#x3D; true;
+    }
   }
 
-  saveMetadata(metadata) {
-    this.assignment.metadata &#x3D; metadata;
+  get isModified() {
+    return (
+      this.metadataModified ||
+      this.repositoriesModified ||
+      this.assignment.id &#x3D;&#x3D;&#x3D; -1
+    );
+  }
+
+  canSave(): boolean {
+    const metadataValid &#x3D; this.metadataComp
+      ? this.metadataComp.metadataForm.valid
+      : true;
+    const reposValid &#x3D; this.reposComp
+      ? this.reposComp.formGroups.every((fg) &#x3D;&gt; fg.valid || fg.disabled)
+      : true;
+    return metadataValid &amp;&amp; reposValid;
+  }
+
+  onSaveGlobal() {
+    // Collect data from child components if they exist
+    if (this.metadataComp) {
+      let modifiedMetadata &#x3D; this.metadataComp.metadataForm.value;
+      this.assignment.metadata.title &#x3D; modifiedMetadata.title;
+      this.assignment.metadata.course &#x3D; modifiedMetadata.course;
+      this.assignment.metadata.program &#x3D; modifiedMetadata.program;
+      this.assignment.metadata.year &#x3D; modifiedMetadata.year;
+      this.assignment.metadata.startDate &#x3D; modifiedMetadata.startDate;
+      this.assignment.metadata.endDate &#x3D; modifiedMetadata.endDate;
+      this.assignment.metadata.questions &#x3D; modifiedMetadata.questions;
+      this.assignment.metadata.defaultSessionDuration &#x3D;
+        modifiedMetadata.defaultSessionDuration;
+    }
+
+    if (this.reposComp) {
+      this.assignment.repositories &#x3D; this.reposComp.getFormControls.map(
+        (row) &#x3D;&gt; row.value
+      );
+    }
 
     this.metadataModified &#x3D; false;
-
-    this.saveAssignment();
-  }
-
-  saveRepositories(repositories) {
-    this.assignment.repositories &#x3D; repositories;
-
     this.repositoriesModified &#x3D; false;
 
     this.saveAssignment();
   }
 
+  onCancel() {
+    this.close.emit();
+    if (this.modalRef) {
+      this.modalRef.dismiss(&quot;cancel&quot;);
+    } else if (this.activeModal) {
+      this.activeModal.dismiss(&quot;cancel&quot;);
+    }
+  }
+
   openUploadFileModal() {
-    let modalReference &#x3D; this.modalService.open(FileChooserComponent, {});
+    let modalReference &#x3D; this.ngbModalService.open(FileChooserComponent, {});
     modalReference.result
       .then((assignment) &#x3D;&gt; {
         assignment.id &#x3D; this.assignment.id;
         this.assignment &#x3D; assignment;
         this.saveAssignment();
-        this.activeModalService.close();
       })
       .catch(() &#x3D;&gt; {});
   }
@@ -917,9 +1284,25 @@ export class ConfigurationComponent implements OnInit {
 
   private saveAssignment() {
     this.dataService.repoToLoad &#x3D; true;
+    // If it&#x27;s a new assignment (id &#x3D;&#x3D;&#x3D; -1), delete the temporary ID so DatabaseService creates a real one
+    const isNew &#x3D; this.assignment.id &#x3D;&#x3D;&#x3D; -1;
+    let assignmentToSave &#x3D; Object.assign(new Assignment(), this.assignment);
+    if (isNew) {
+      delete assignmentToSave.id;
+    }
+
     this.dataService
-      .saveData(this.assignment)
-      .then(() &#x3D;&gt; this.successToast())
+      .saveData(assignmentToSave)
+      .then((id) &#x3D;&gt; {
+        this.assignment.id &#x3D; id;
+        this.successToast();
+        this.saved.emit(this.assignment);
+        if (this.modalRef) {
+          this.modalRef.close(this.assignment);
+        } else if (this.activeModal) {
+          this.activeModal.close(this.assignment);
+        }
+      })
       .catch(() &#x3D;&gt; this.errorToast());
   }
 }
@@ -927,41 +1310,59 @@ export class ConfigurationComponent implements OnInit {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;modal-header&quot;&gt;
-    &lt;h4 class&#x3D;&quot;modal-title&quot; id&#x3D;&quot;modal-basic-title&quot;&gt;Configurations&lt;/h4&gt;
-    &lt;button class&#x3D;&quot;btn btn-outline-secondary ml-3&quot; [ngbTooltip]&#x3D;&quot;uploadTooltip&quot; (click)&#x3D;&quot;openUploadFileModal()&quot;&gt;&lt;i
-            class&#x3D;&quot;fas fa-upload&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close&quot; aria-label&#x3D;&quot;Close&quot; (click)&#x3D;&quot;activeModalService.dismiss(&#x27;Cross click&#x27;)&quot;&gt;
-        &lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
-    &lt;/button&gt;
-&lt;/div&gt;
-&lt;div class&#x3D;&quot;modal-body&quot;&gt;
-    &lt;div class&#x3D;&quot;p-2&quot;&gt;
-        &lt;nav&gt;
-            &lt;div class&#x3D;&quot;nav nav-pills mb-3&quot; id&#x3D;&quot;nav-tab&quot; role&#x3D;&quot;tablist&quot;&gt;
-                &lt;a class&#x3D;&quot;nav-item nav-link active&quot; id&#x3D;&quot;nav-home-tab&quot; data-toggle&#x3D;&quot;tab&quot; href&#x3D;&quot;#edit-metadata&quot; role&#x3D;&quot;tab&quot;
-                    aria-controls&#x3D;&quot;nav-home&quot; aria-selected&#x3D;&quot;true&quot;&gt;{{ &#x27;CONFIGURATION.EDIT-METADATA&#x27; | translate }}&lt;/a&gt;
-                &lt;a class&#x3D;&quot;nav-item nav-link&quot; id&#x3D;&quot;nav-profile-tab&quot; data-toggle&#x3D;&quot;tab&quot; href&#x3D;&quot;#edit-repositories&quot; role&#x3D;&quot;tab&quot;
-                    aria-controls&#x3D;&quot;nav-profile&quot; aria-selected&#x3D;&quot;false&quot;&gt;{{ &#x27;CONFIGURATION.EDIT-REPOSITORIES&#x27; | translate
-                    }}&lt;/a&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;inline-config-container&quot;&gt;
+    &lt;div class&#x3D;&quot;d-flex align-items-center justify-content-between mb-2 config-header border-bottom-0&quot;
+        style&#x3D;&quot;padding: 1.5rem 40px 0.5rem 40px;&quot;&gt;
+        &lt;div class&#x3D;&quot;d-flex align-items-center&quot; style&#x3D;&quot;gap: 1.5rem;&quot;&gt;
+            &lt;div class&#x3D;&quot;filter-group&quot; [attr.data-active]&#x3D;&quot;activeTab&quot;&gt;
+                &lt;div class&#x3D;&quot;filter-indicator&quot;&gt;&lt;/div&gt;
+                &lt;button class&#x3D;&quot;filter-btn&quot; [class.active]&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;metadata&#x27;&quot; (click)&#x3D;&quot;selectTab(&#x27;metadata&#x27;)&quot;&gt;
+                    &lt;i class&#x3D;&quot;fas fa-info-circle mr-2&quot;&gt;&lt;/i&gt; {{ &#x27;CONFIGURATION.EDIT-METADATA&#x27; | translate }}
+                &lt;/button&gt;
+                &lt;button id&#x3D;&quot;tour-repositories-tab&quot; class&#x3D;&quot;filter-btn&quot; [class.active]&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;repositories&#x27;&quot;
+                    (click)&#x3D;&quot;selectTab(&#x27;repositories&#x27;)&quot;&gt;
+                    &lt;app-repo-icon class&#x3D;&quot;mr-2&quot;&gt;&lt;/app-repo-icon&gt; {{ &#x27;CONFIGURATION.EDIT-REPOSITORIES&#x27; | translate }}
+                &lt;/button&gt;
             &lt;/div&gt;
-        &lt;/nav&gt;
-        &lt;div class&#x3D;&quot;tab-content&quot; id&#x3D;&quot;nav-tabContent&quot;&gt;
-            &lt;div class&#x3D;&quot;tab-pane fade show active&quot; id&#x3D;&quot;edit-metadata&quot; role&#x3D;&quot;tabpanel&quot;
-                aria-labelledby&#x3D;&quot;edit-metadata-tab&quot;&gt;
-                &lt;metadata [metadata]&#x3D;&quot;assignment.metadata&quot; (saved)&#x3D;&quot;saveMetadata($event)&quot;
-                    (modified)&#x3D;&quot;metadataModified &#x3D; true&quot;&gt;&lt;/metadata&gt;
+            &lt;span *ngIf&#x3D;&quot;isModified&quot; class&#x3D;&quot;text-warning d-flex align-items-center&quot;
+                style&#x3D;&quot;font-size: 0.8rem; font-weight: 500;&quot;&gt;
+                &lt;i class&#x3D;&quot;fas fa-exclamation-circle mr-1&quot;&gt;&lt;/i&gt; {{ &#x27;HOME.UNSAVED-CHANGES&#x27; | translate }}
+            &lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;button *ngIf&#x3D;&quot;activeModal || modalRef&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-outline-ghost&quot; style&#x3D;&quot;border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-hover);&quot; (click)&#x3D;&quot;onCancel()&quot;&gt;
+            &lt;i class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;config-body px-4 pb-4 pt-2&quot;&gt;
+
+        &lt;div class&#x3D;&quot;tab-content pt-0&quot;&gt;
+            &lt;div [hidden]&#x3D;&quot;activeTab !&#x3D;&#x3D; &#x27;metadata&#x27;&quot;&gt;
+                &lt;metadata #metadataComp [metadata]&#x3D;&quot;assignment.metadata&quot; (modified)&#x3D;&quot;metadataModified &#x3D; true&quot;&gt;
+                &lt;/metadata&gt;
             &lt;/div&gt;
-            &lt;div class&#x3D;&quot;tab-pane fade&quot; id&#x3D;&quot;edit-repositories&quot; role&#x3D;&quot;tabpanel&quot; aria-labelledby&#x3D;&quot;edit-repositories-tab&quot;&gt;
-                &lt;edit-repositories [datas]&#x3D;&quot;assignment.repositories&quot; (saved)&#x3D;&quot;saveRepositories($event)&quot;
+            &lt;div *ngIf&#x3D;&quot;reposInitialized&quot; [hidden]&#x3D;&quot;activeTab !&#x3D;&#x3D; &#x27;repositories&#x27;&quot;&gt;
+                &lt;edit-repositories #reposComp [datas]&#x3D;&quot;assignment.repositories&quot;
                     (modified)&#x3D;&quot;repositoriesModified &#x3D; true&quot;&gt;
                 &lt;/edit-repositories&gt;
             &lt;/div&gt;
         &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
+        &lt;/div&gt;
+        
 
-&lt;ng-template #uploadTooltip&gt;{{ &#x27;OVERVIEW-GRAPH.UPLOAD.TOOLTIP&#x27; | translate }}&lt;/ng-template&gt;</code></pre>
+    &lt;div class&#x3D;&quot;modal-footer border-top-0 pt-0 pb-4 d-flex justify-content-between align-items-center w-100&quot; style&#x3D;&quot;padding-left: 40px; padding-right: 40px;&quot;&gt;
+        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-outline-ghost&quot; style&#x3D;&quot;font-weight: 500; border-radius: 8px; padding: 0.5rem 1rem;&quot; (click)&#x3D;&quot;onCancel()&quot;&gt;
+            {{ &#x27;CANCEL&#x27; | translate }}
+        &lt;/button&gt;
+        &lt;div class&#x3D;&quot;d-flex align-items-center&quot; style&#x3D;&quot;gap: 0.5rem;&quot;&gt;
+            &lt;button id&#x3D;&quot;tour-save-btn&quot; class&#x3D;&quot;btn btn-primary shadow-sm&quot;
+                style&#x3D;&quot;font-weight: 500; border-radius: 8px; padding: 0.5rem 1.5rem; font-size: 0.9rem; text-transform: none;&quot;
+                (click)&#x3D;&quot;onSaveGlobal()&quot; [disabled]&#x3D;&quot;!canSave()&quot;&gt;
+                &lt;i class&#x3D;&quot;fas fa-save mr-2&quot;&gt;&lt;/i&gt; {{ &#x27;METADATA.SAVE&#x27; | translate }}
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
@@ -989,7 +1390,82 @@ export class ConfigurationComponent implements OnInit {
     transform: translateY(0%);
   }
 }
-</code></pre>
+
+.inline-config-container {
+  .config-header {
+    h4 {
+      font-family: &quot;Inter&quot;, &quot;Roboto&quot;, sans-serif;
+      font-weight: 600;
+    }
+  }
+
+  .divider-vertical {
+    width: 1px;
+    height: 24px;
+    background-color: var(--color-border);
+  }
+
+  .filter-group {
+    display: inline-flex;
+    background: var(--filter-bg);
+    border-radius: 10px;
+    padding: 4px;
+    position: relative;
+    z-index: 1;
+
+    .filter-indicator {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 4px;
+      width: 150px;
+      background: var(--filter-indicator);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+      border-radius: 6px;
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: -1;
+    }
+
+    &amp;[data-active&#x3D;&quot;metadata&quot;] .filter-indicator {
+      transform: translateX(0);
+    }
+
+    &amp;[data-active&#x3D;&quot;repositories&quot;] .filter-indicator {
+      transform: translateX(150px);
+    }
+
+    .filter-btn {
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none;
+      width: 150px;
+      padding: 0.5rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--filter-text);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &amp;:hover:not(.active) {
+        color: var(--color-text-primary);
+      }
+
+      &amp;.active {
+        color: var(--filter-text-active);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .bg-light-surface {
+    background-color: var(--color-bg-body);
+  }
+}</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -1017,9 +1493,9 @@ export class ConfigurationComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modal-header">    <h4 class="modal-title" id="modal-basic-title">Configurations</h4>    <button class="btn btn-outline-secondary ml-3" [ngbTooltip]="uploadTooltip" (click)="openUploadFileModal()"><i            class="fas fa-upload"></i></button>    <button type="button" class="close" aria-label="Close" (click)="activeModalService.dismiss(\'Cross click\')">        <span aria-hidden="true">&times;</span>    </button></div><div class="modal-body">    <div class="p-2">        <nav>            <div class="nav nav-pills mb-3" id="nav-tab" role="tablist">                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#edit-metadata" role="tab"                    aria-controls="nav-home" aria-selected="true">{{ \'CONFIGURATION.EDIT-METADATA\' | translate }}</a>                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#edit-repositories" role="tab"                    aria-controls="nav-profile" aria-selected="false">{{ \'CONFIGURATION.EDIT-REPOSITORIES\' | translate                    }}</a>            </div>        </nav>        <div class="tab-content" id="nav-tabContent">            <div class="tab-pane fade show active" id="edit-metadata" role="tabpanel"                aria-labelledby="edit-metadata-tab">                <metadata [metadata]="assignment.metadata" (saved)="saveMetadata($event)"                    (modified)="metadataModified = true"></metadata>            </div>            <div class="tab-pane fade" id="edit-repositories" role="tabpanel" aria-labelledby="edit-repositories-tab">                <edit-repositories [datas]="assignment.repositories" (saved)="saveRepositories($event)"                    (modified)="repositoriesModified = true">                </edit-repositories>            </div>        </div>    </div></div><ng-template #uploadTooltip>{{ \'OVERVIEW-GRAPH.UPLOAD.TOOLTIP\' | translate }}</ng-template></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
-    var DIRECTIVES = [];
+        var COMPONENT_TEMPLATE = '<div><div class="inline-config-container">    <div class="d-flex align-items-center justify-content-between mb-2 config-header border-bottom-0"        style="padding: 1.5rem 40px 0.5rem 40px;">        <div class="d-flex align-items-center" style="gap: 1.5rem;">            <div class="filter-group" [attr.data-active]="activeTab">                <div class="filter-indicator"></div>                <button class="filter-btn" [class.active]="activeTab === \'metadata\'" (click)="selectTab(\'metadata\')">                    <i class="fas fa-info-circle mr-2"></i> {{ \'CONFIGURATION.EDIT-METADATA\' | translate }}                </button>                <button id="tour-repositories-tab" class="filter-btn" [class.active]="activeTab === \'repositories\'"                    (click)="selectTab(\'repositories\')">                    <app-repo-icon class="mr-2"></app-repo-icon> {{ \'CONFIGURATION.EDIT-REPOSITORIES\' | translate }}                </button>            </div>            <span *ngIf="isModified" class="text-warning d-flex align-items-center"                style="font-size: 0.8rem; font-weight: 500;">                <i class="fas fa-exclamation-circle mr-1"></i> {{ \'HOME.UNSAVED-CHANGES\' | translate }}            </span>        </div>        <button *ngIf="activeModal || modalRef" type="button" class="btn btn-outline-ghost" style="border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-hover);" (click)="onCancel()">            <i class="fas fa-times"></i>        </button>    </div>    <div class="config-body px-4 pb-4 pt-2">        <div class="tab-content pt-0">            <div [hidden]="activeTab !== \'metadata\'">                <metadata #metadataComp [metadata]="assignment.metadata" (modified)="metadataModified = true">                </metadata>            </div>            <div *ngIf="reposInitialized" [hidden]="activeTab !== \'repositories\'">                <edit-repositories #reposComp [datas]="assignment.repositories"                    (modified)="repositoriesModified = true">                </edit-repositories>            </div>        </div>        </div>            <div class="modal-footer border-top-0 pt-0 pb-4 d-flex justify-content-between align-items-center w-100" style="padding-left: 40px; padding-right: 40px;">        <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1rem;" (click)="onCancel()">            {{ \'CANCEL\' | translate }}        </button>        <div class="d-flex align-items-center" style="gap: 0.5rem;">            <button id="tour-save-btn" class="btn btn-primary shadow-sm"                style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1.5rem; font-size: 0.9rem; text-transform: none;"                (click)="onSaveGlobal()" [disabled]="!canSave()">                <i class="fas fa-save mr-2"></i> {{ \'METADATA.SAVE\' | translate }}            </button>        </div>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
+    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'ConfigurationComponent'};
 </script>
 <script src="../js/tree.js"></script>

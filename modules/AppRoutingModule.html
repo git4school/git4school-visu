@@ -82,7 +82,6 @@ import { QuestionsCompletionComponent } from &quot;@components/graphs/questions-
 import { StudentsCommitsComponent } from &quot;@components/graphs/students-commits/students-commits.component&quot;;
 import { HomeComponent } from &quot;@components/home/home.component&quot;;
 import { AppNavLayoutComponent } from &quot;@components/nav-layouts/app-nav-layout/app-nav-layout.component&quot;;
-import { HomeNavLayoutComponent } from &quot;@components/nav-layouts/home-nav-layout/home-nav-layout.component&quot;;
 import { AuthGuard } from &quot;@guards/auth.guard&quot;;
 import { DataLoadingGuard } from &quot;@guards/data-loading.guard&quot;;
 import { DataProvidedGuard } from &quot;@guards/data-provided.guard&quot;;
@@ -113,8 +112,27 @@ const APP_ROUTES: Routes &#x3D; [
 ];
 
 const ROUTES: Routes &#x3D; [
-  { path: &quot;&quot;, component: AppNavLayoutComponent, children: APP_ROUTES },
-  { path: &quot;&quot;, component: HomeNavLayoutComponent, children: HOME_ROUTES },
+  { 
+    path: &quot;&quot;, 
+    component: AppNavLayoutComponent, 
+    children: [{
+            path: &quot;overview&quot;,
+            canActivate: [AuthGuard, DataProvidedGuard],
+            canDeactivate: [DataLoadingGuard],
+            component: OverviewComponent,
+          }, {
+            path: &quot;students-commits&quot;,
+            canActivate: [AuthGuard, DataProvidedGuard],
+            component: StudentsCommitsComponent,
+          }, {
+            path: &quot;questions-completion&quot;,
+            canActivate: [AuthGuard, DataProvidedGuard],
+            component: QuestionsCompletionComponent,
+          }, { path: &quot;&quot;, redirectTo: &quot;/home&quot;, pathMatch: &quot;full&quot; },
+        { path: &quot;home&quot;, component: HomeComponent },
+        { path: &quot;not-found&quot;, component: FourOhFourComponent }
+    ] 
+  },
   { path: &quot;**&quot;, redirectTo: &quot;/not-found&quot; },
 ];
 

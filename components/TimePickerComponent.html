@@ -1,0 +1,3591 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  TimePickerComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/time-picker/time-picker.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-time-picker</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./time-picker.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./time-picker.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#displayHour1" >displayHour1</a>
+                            </li>
+                            <li>
+                                <a href="#displayHour2" >displayHour2</a>
+                            </li>
+                            <li>
+                                <a href="#displayMinute1" >displayMinute1</a>
+                            </li>
+                            <li>
+                                <a href="#displayMinute2" >displayMinute2</a>
+                            </li>
+                            <li>
+                                <a href="#dragMode" >dragMode</a>
+                            </li>
+                            <li>
+                                <a href="#dragOriginTime" >dragOriginTime</a>
+                            </li>
+                            <li>
+                                <a href="#focusedInput" >focusedInput</a>
+                            </li>
+                            <li>
+                                <a href="#hasMovedSinceMousedown" >hasMovedSinceMousedown</a>
+                            </li>
+                            <li>
+                                <a href="#hoveredHandle" >hoveredHandle</a>
+                            </li>
+                            <li>
+                                <a href="#hoverTime" >hoverTime</a>
+                            </li>
+                            <li>
+                                <a href="#isDragging" >isDragging</a>
+                            </li>
+                            <li>
+                                <a href="#isHoveringHandle" >isHoveringHandle</a>
+                            </li>
+                            <li>
+                                <a href="#ticks" >ticks</a>
+                            </li>
+                            <li>
+                                <a href="#touchArea" >touchArea</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#enforcePeriodLogic" >enforcePeriodLogic</a>
+                            </li>
+                            <li>
+                                <a href="#formatTimeDisplay" >formatTimeDisplay</a>
+                            </li>
+                            <li>
+                                <a href="#getAngleFromTime" >getAngleFromTime</a>
+                            </li>
+                            <li>
+                                <a href="#getPeriodGradient" >getPeriodGradient</a>
+                            </li>
+                            <li>
+                                <a href="#getTickLabel" >getTickLabel</a>
+                            </li>
+                            <li>
+                                <a href="#isRowHovering" >isRowHovering</a>
+                            </li>
+                            <li>
+                                <a href="#isValidTime" >isValidTime</a>
+                            </li>
+                            <li>
+                                <a href="#minutesToTime" >minutesToTime</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onDocumentMouseMove" >onDocumentMouseMove</a>
+                            </li>
+                            <li>
+                                <a href="#onMouseDown" >onMouseDown</a>
+                            </li>
+                            <li>
+                                <a href="#onMouseLeave" >onMouseLeave</a>
+                            </li>
+                            <li>
+                                <a href="#onMouseMove" >onMouseMove</a>
+                            </li>
+                            <li>
+                                <a href="#onMouseUp" >onMouseUp</a>
+                            </li>
+                            <li>
+                                <a href="#onTimeBlur" >onTimeBlur</a>
+                            </li>
+                            <li>
+                                <a href="#onTimeInput" >onTimeInput</a>
+                            </li>
+                            <li>
+                                <a href="#onTimeKeydown" >onTimeKeydown</a>
+                            </li>
+                            <li>
+                                <a href="#parseInputTime" >parseInputTime</a>
+                            </li>
+                            <li>
+                                <a href="#syncLocalInputs" >syncLocalInputs</a>
+                            </li>
+                            <li>
+                                <a href="#timeToMinutes" >timeToMinutes</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#defaultDuration" >defaultDuration</a>
+                            </li>
+                            <li>
+                                <a href="#endTime" >endTime</a>
+                            </li>
+                            <li>
+                                <a href="#mode" >mode</a>
+                            </li>
+                            <li>
+                                <a href="#startTime" >startTime</a>
+                            </li>
+                            <li>
+                                <a href="#time" >time</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#periodChange" >periodChange</a>
+                            </li>
+                            <li>
+                                <a href="#timeChange" >timeChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#document:mousemove" >document:mousemove</a>
+                            </li>
+                            <li>
+                                <a href="#document:mouseup" >document:mouseup</a>
+                            </li>
+                            <li>
+                                <a href="#document:touchend" >document:touchend</a>
+                            </li>
+                            <li>
+                                <a href="#document:touchmove" >document:touchmove</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#isAmPm" >isAmPm</a>
+                                </li>
+                                <li>
+                                    <a href="#formattedHoverTime" >formattedHoverTime</a>
+                                </li>
+                                <li>
+                                    <a href="#centerMainDisplay" >centerMainDisplay</a>
+                                </li>
+                                <li>
+                                    <a href="#durationDisplay" >durationDisplay</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(translate: TranslateService, cd: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:104</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>translate</td>
+                                                  
+                                                        <td>
+                                                                    <code>TranslateService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cd</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="defaultDuration"></a>
+                        <b>defaultDuration</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>120</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:35</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="endTime"></a>
+                        <b>endTime</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:32</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mode"></a>
+                        <b>mode</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;single&quot; | &quot;period&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;single&#x27;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="startTime"></a>
+                        <b>startTime</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:31</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="time"></a>
+                        <b>time</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:28</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="periodChange"></a>
+                        <b>periodChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:33</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="timeChange"></a>
+                        <b>timeChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:29</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:mousemove"></a>
+                    <span class="name">
+                        <span ><b>document:mousemove</b></span>
+                        <a href="#document:mousemove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:mousemove(event: MouseEvent | TouchEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="272"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:272</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:mouseup"></a>
+                    <span class="name">
+                        <span ><b>document:mouseup</b></span>
+                        <a href="#document:mouseup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:mouseup()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="322"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:322</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:touchend"></a>
+                    <span class="name">
+                        <span ><b>document:touchend</b></span>
+                        <a href="#document:touchend"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:touchend()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="322"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:322</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:touchmove"></a>
+                    <span class="name">
+                        <span ><b>document:touchmove</b></span>
+                        <a href="#document:touchmove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:touchmove(event: MouseEvent | TouchEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="272"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:272</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enforcePeriodLogic"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>enforcePeriodLogic</b></span>
+                        <a href="#enforcePeriodLogic"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>enforcePeriodLogic()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="450"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:450</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatTimeDisplay"></a>
+                    <span class="name">
+                        <span ><b>formatTimeDisplay</b></span>
+                        <a href="#formatTimeDisplay"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatTimeDisplay(timeStr: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>timeStr</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAngleFromTime"></a>
+                    <span class="name">
+                        <span ><b>getAngleFromTime</b></span>
+                        <a href="#getAngleFromTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAngleFromTime(timeStr: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:158</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>timeStr</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPeriodGradient"></a>
+                    <span class="name">
+                        <span ><b>getPeriodGradient</b></span>
+                        <a href="#getPeriodGradient"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPeriodGradient()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:163</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTickLabel"></a>
+                    <span class="name">
+                        <span ><b>getTickLabel</b></span>
+                        <a href="#getTickLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTickLabel(tick: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:125</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tick</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isRowHovering"></a>
+                    <span class="name">
+                        <span ><b>isRowHovering</b></span>
+                        <a href="#isRowHovering"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isRowHovering(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="345"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:345</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isValidTime"></a>
+                    <span class="name">
+                        <span ><b>isValidTime</b></span>
+                        <a href="#isValidTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isValidTime(timeStr: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="467"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:467</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>timeStr</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="minutesToTime"></a>
+                    <span class="name">
+                        <span ><b>minutesToTime</b></span>
+                        <a href="#minutesToTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>minutesToTime(minutes: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:151</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>minutes</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:119</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:108</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDocumentMouseMove"></a>
+                    <span class="name">
+                        <span ><b>onDocumentMouseMove</b></span>
+                        <a href="#onDocumentMouseMove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDocumentMouseMove(event: MouseEvent | TouchEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:mousemove&#x27;, [&#x27;$event&#x27;])<br />@HostListener(&#x27;document:touchmove&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="272"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:272</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent | TouchEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMouseDown"></a>
+                    <span class="name">
+                        <span ><b>onMouseDown</b></span>
+                        <a href="#onMouseDown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMouseDown(event: MouseEvent | TouchEvent, type: "start" | "end" | "face")</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="278"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:278</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent | TouchEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                            <code>&quot;start&quot; | &quot;end&quot; | &quot;face&quot;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&#x27;face&#x27;</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMouseLeave"></a>
+                    <span class="name">
+                        <span ><b>onMouseLeave</b></span>
+                        <a href="#onMouseLeave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMouseLeave()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:181</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMouseMove"></a>
+                    <span class="name">
+                        <span ><b>onMouseMove</b></span>
+                        <a href="#onMouseMove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMouseMove(event: MouseEvent | TouchEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="189"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:189</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent | TouchEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMouseUp"></a>
+                    <span class="name">
+                        <span ><b>onMouseUp</b></span>
+                        <a href="#onMouseUp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMouseUp()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:mouseup&#x27;)<br />@HostListener(&#x27;document:touchend&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="322"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:322</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTimeBlur"></a>
+                    <span class="name">
+                        <span ><b>onTimeBlur</b></span>
+                        <a href="#onTimeBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onTimeBlur(type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="423"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:423</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTimeInput"></a>
+                    <span class="name">
+                        <span ><b>onTimeInput</b></span>
+                        <a href="#onTimeInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onTimeInput(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>, type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="398"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:398</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTimeKeydown"></a>
+                    <span class="name">
+                        <span ><b>onTimeKeydown</b></span>
+                        <a href="#onTimeKeydown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onTimeKeydown(event: KeyboardEvent, type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="460"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:460</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>KeyboardEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseInputTime"></a>
+                    <span class="name">
+                        <span ><b>parseInputTime</b></span>
+                        <a href="#parseInputTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>parseInputTime(timeStr: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="474"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:474</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>timeStr</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="syncLocalInputs"></a>
+                    <span class="name">
+                        <span ><b>syncLocalInputs</b></span>
+                        <a href="#syncLocalInputs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>syncLocalInputs()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="371"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:371</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timeToMinutes"></a>
+                    <span class="name">
+                        <span ><b>timeToMinutes</b></span>
+                        <a href="#timeToMinutes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>timeToMinutes(timeStr: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:144</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>timeStr</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayHour1"></a>
+                    <span class="name">
+                        <span ><b>displayHour1</b></span>
+                        <a href="#displayHour1"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;12&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayHour2"></a>
+                    <span class="name">
+                        <span ><b>displayHour2</b></span>
+                        <a href="#displayHour2"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;12&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayMinute1"></a>
+                    <span class="name">
+                        <span ><b>displayMinute1</b></span>
+                        <a href="#displayMinute1"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;00&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayMinute2"></a>
+                    <span class="name">
+                        <span ><b>displayMinute2</b></span>
+                        <a href="#displayMinute2"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;00&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dragMode"></a>
+                    <span class="name">
+                        <span ><b>dragMode</b></span>
+                        <a href="#dragMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;new&quot; | &quot;start&quot; | &quot;end&quot; | &quot;single&quot; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dragOriginTime"></a>
+                    <span class="name">
+                        <span ><b>dragOriginTime</b></span>
+                        <a href="#dragOriginTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusedInput"></a>
+                    <span class="name">
+                        <span ><b>focusedInput</b></span>
+                        <a href="#focusedInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasMovedSinceMousedown"></a>
+                    <span class="name">
+                        <span ><b>hasMovedSinceMousedown</b></span>
+                        <a href="#hasMovedSinceMousedown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hoveredHandle"></a>
+                    <span class="name">
+                        <span ><b>hoveredHandle</b></span>
+                        <a href="#hoveredHandle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;start&quot; | &quot;end&quot; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hoverTime"></a>
+                    <span class="name">
+                        <span ><b>hoverTime</b></span>
+                        <a href="#hoverTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isDragging"></a>
+                    <span class="name">
+                        <span ><b>isDragging</b></span>
+                        <a href="#isDragging"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isHoveringHandle"></a>
+                    <span class="name">
+                        <span ><b>isHoveringHandle</b></span>
+                        <a href="#isHoveringHandle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ticks"></a>
+                    <span class="name">
+                        <span ><b>ticks</b></span>
+                        <a href="#ticks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Array.from({ length: 24 }, (_, i) &#x3D;&gt; i)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="touchArea"></a>
+                    <span class="name">
+                        <span ><b>touchArea</b></span>
+                        <a href="#touchArea"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;touchArea&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isAmPm"></a>
+                        <span class="name"><b>isAmPm</b><a href="#isAmPm"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isAmPm()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:55</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formattedHoverTime"></a>
+                        <span class="name"><b>formattedHoverTime</b><a href="#formattedHoverTime"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>formattedHoverTime()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:59</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="centerMainDisplay"></a>
+                        <span class="name"><b>centerMainDisplay</b><a href="#centerMainDisplay"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>centerMainDisplay()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:63</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="durationDisplay"></a>
+                        <span class="name"><b>durationDisplay</b><a href="#durationDisplay"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>durationDisplay()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/components/time-picker/time-picker.component.ts:82</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from &#x27;@angular/core&#x27;;
+import { TranslateService } from &#x27;@ngx-translate/core&#x27;;
+import * as moment from &#x27;moment&#x27;;
+
+@Component({
+  selector: &#x27;app-time-picker&#x27;,
+  templateUrl: &#x27;./time-picker.component.html&#x27;,
+  styleUrls: [&#x27;./time-picker.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class TimePickerComponent implements OnInit, OnChanges {
+  @Input() mode: &#x27;single&#x27; | &#x27;period&#x27; &#x3D; &#x27;single&#x27;;
+  
+  // Format: &#x27;HH:mm&#x27;
+  @Input() time: string;
+  @Output() timeChange &#x3D; new EventEmitter&lt;string&gt;();
+
+  @Input() startTime: string;
+  @Input() endTime: string;
+  @Output() periodChange &#x3D; new EventEmitter&lt;{ start: string; end: string }&gt;();
+
+  @Input() defaultDuration &#x3D; 120; // Default session duration in minutes
+
+  @ViewChild(&#x27;touchArea&#x27;, { static: true }) touchArea: ElementRef&lt;HTMLElement&gt;;
+
+  hoverTime: string | null &#x3D; null;
+  isDragging &#x3D; false;
+  dragMode: &#x27;new&#x27; | &#x27;start&#x27; | &#x27;end&#x27; | &#x27;single&#x27; | null &#x3D; null;
+  hasMovedSinceMousedown &#x3D; false;
+  dragOriginTime: string | null &#x3D; null;
+  isHoveringHandle &#x3D; false;
+  hoveredHandle: &#x27;start&#x27; | &#x27;end&#x27; | null &#x3D; null;
+
+  displayHour1 &#x3D; &#x27;12&#x27;;
+  displayMinute1 &#x3D; &#x27;00&#x27;;
+  displayHour2 &#x3D; &#x27;12&#x27;;
+  displayMinute2 &#x3D; &#x27;00&#x27;;
+  focusedInput: string | null &#x3D; null;
+
+  ticks: number[] &#x3D; Array.from({ length: 24 }, (_, i) &#x3D;&gt; i);
+  
+  get isAmPm(): boolean {
+    return this.translate.currentLang &#x3D;&#x3D;&#x3D; &#x27;en&#x27;;
+  }
+
+  get formattedHoverTime(): string {
+    return this.hoverTime ? this.formatTimeDisplay(this.hoverTime) : &#x27;&#x27;;
+  }
+
+  get centerMainDisplay(): string {
+    if (this.hoverTime) {
+      if (this.mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27; &amp;&amp; this.isDragging &amp;&amp; this.dragMode &#x3D;&#x3D;&#x3D; &#x27;new&#x27;) {
+        const start &#x3D; this.startTime || &#x27;00:00&#x27;;
+        return &#x60;${this.formatTimeDisplay(start)}\n${this.formatTimeDisplay(this.hoverTime)}&#x60;;
+      }
+      return this.formatTimeDisplay(this.hoverTime);
+    }
+    
+    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;single&#x27;) {
+      return this.time ? this.formatTimeDisplay(this.time) : &#x27;--:--&#x27;;
+    } else {
+      if (this.startTime &amp;&amp; this.endTime) {
+        return &#x60;${this.formatTimeDisplay(this.startTime)}\n${this.formatTimeDisplay(this.endTime)}&#x60;;
+      }
+      return &#x27;--:--\n--:--&#x27;;
+    }
+  }
+
+  get durationDisplay(): string {
+    if (this.mode !&#x3D;&#x3D; &#x27;period&#x27;) return &#x27;&#x27;;
+    let startStr &#x3D; this.startTime;
+    let endStr &#x3D; this.endTime;
+
+    if (this.hoverTime &amp;&amp; this.isDragging &amp;&amp; this.dragMode &#x3D;&#x3D;&#x3D; &#x27;new&#x27;) {
+       endStr &#x3D; this.hoverTime;
+    }
+
+    if (!startStr || !endStr) return &#x27;&#x27;;
+
+    const startMins &#x3D; this.timeToMinutes(startStr);
+    const endMins &#x3D; this.timeToMinutes(endStr);
+    let diff &#x3D; endMins - startMins;
+    if (diff &lt; 0) diff +&#x3D; 24 * 60; // handle wrap around midnight
+
+    const hours &#x3D; Math.floor(diff / 60);
+    const mins &#x3D; diff % 60;
+    if (hours &gt; 0) {
+      return &#x60;${hours}h${mins &gt; 0 ? mins : &#x27;&#x27;}&#x60;;
+    }
+    return &#x60;${mins}m&#x60;;
+  }
+
+  constructor(private translate: TranslateService, private cd: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    if (!this.time &amp;&amp; this.mode &#x3D;&#x3D;&#x3D; &#x27;single&#x27;) {
+      this.time &#x3D; &#x27;12:00&#x27;;
+    }
+    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27; &amp;&amp; (!this.startTime || !this.endTime)) {
+      this.startTime &#x3D; &#x27;12:00&#x27;;
+      this.endTime &#x3D; this.minutesToTime(this.timeToMinutes(&#x27;12:00&#x27;) + this.defaultDuration);
+    }
+    this.syncLocalInputs();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes[&#x27;time&#x27;] || changes[&#x27;startTime&#x27;] || changes[&#x27;endTime&#x27;]) {
+      this.syncLocalInputs();
+    }
+  }
+
+  getTickLabel(tick: number): string {
+    if (this.isAmPm) {
+      if (tick &#x3D;&#x3D;&#x3D; 0) return &#x27;12&#x27;; // 12 AM
+      if (tick &#x3D;&#x3D;&#x3D; 12) return &#x27;12&#x27;; // 12 PM
+      return (tick % 12).toString();
+    }
+    return tick.toString();
+  }
+
+  formatTimeDisplay(timeStr: string): string {
+    if (!timeStr) return &#x27;&#x27;;
+    if (!this.isAmPm) return timeStr;
+    const [h, m] &#x3D; timeStr.split(&#x27;:&#x27;).map(Number);
+    const ampm &#x3D; h &gt;&#x3D; 12 ? &#x27;PM&#x27; : &#x27;AM&#x27;;
+    const hour &#x3D; h % 12 || 12;
+    return &#x60;${hour}:${m.toString().padStart(2, &#x27;0&#x27;)} ${ampm}&#x60;;
+  }
+
+  // Parses &#x27;HH:mm&#x27; to minutes from 00:00
+  timeToMinutes(timeStr: string): number {
+    if (!timeStr) return 0;
+    const [h, m] &#x3D; timeStr.split(&#x27;:&#x27;).map(Number);
+    return h * 60 + m;
+  }
+
+  // Formats minutes from 00:00 to &#x27;HH:mm&#x27;
+  minutesToTime(minutes: number): string {
+    minutes &#x3D; ((minutes % (24 * 60)) + 24 * 60) % (24 * 60);
+    const h &#x3D; Math.floor(minutes / 60);
+    const m &#x3D; minutes % 60;
+    return &#x60;${h.toString().padStart(2, &#x27;0&#x27;)}:${m.toString().padStart(2, &#x27;0&#x27;)}&#x60;;
+  }
+
+  getAngleFromTime(timeStr: string): number {
+    const mins &#x3D; this.timeToMinutes(timeStr);
+    return (mins / (24 * 60)) * 360;
+  }
+
+  getPeriodGradient(): string {
+    if (this.mode !&#x3D;&#x3D; &#x27;period&#x27; || !this.startTime || !this.endTime) return &#x27;none&#x27;;
+    const startMins &#x3D; this.timeToMinutes(this.startTime);
+    const endMins &#x3D; this.timeToMinutes(this.endTime);
+    
+    let startAngle &#x3D; (startMins / (24 * 60)) * 360;
+    let endAngle &#x3D; (endMins / (24 * 60)) * 360;
+
+    const color &#x3D; &#x27;var(--color-primary)&#x27;; 
+    const trans &#x3D; &#x27;transparent&#x27;;
+
+    if (endAngle &gt;&#x3D; startAngle) {
+      return &#x60;conic-gradient(from 0deg, ${trans} 0deg ${startAngle}deg, ${color} ${startAngle}deg ${endAngle}deg, ${trans} ${endAngle}deg 360deg)&#x60;;
+    } else {
+      return &#x60;conic-gradient(from 0deg, ${color} ${endAngle}deg, ${trans} ${endAngle}deg ${startAngle}deg, ${color} ${startAngle}deg)&#x60;;
+    }
+  }
+
+  onMouseLeave() {
+    if (!this.isDragging) {
+      this.hoverTime &#x3D; null;
+      this.syncLocalInputs();
+      this.cd.markForCheck();
+    }
+  }
+
+  onMouseMove(event: MouseEvent | TouchEvent) {
+    const rect &#x3D; this.touchArea.nativeElement.getBoundingClientRect();
+    const clientX &#x3D; event instanceof MouseEvent ? event.clientX : (event as TouchEvent).touches[0].clientX;
+    const clientY &#x3D; event instanceof MouseEvent ? event.clientY : (event as TouchEvent).touches[0].clientY;
+    
+    // Calculate CSS transform scale to handle scaled integrations
+    const scaleX &#x3D; rect.width / 300;
+    const scaleY &#x3D; rect.height / 300;
+
+    const x &#x3D; (clientX - rect.left - rect.width / 2) / scaleX;
+    const y &#x3D; (clientY - rect.top - rect.height / 2) / scaleY;
+    
+    // Ignore if inside inner circle (130 - 24 &#x3D; 106px radius) unless dragging
+    if (!this.isDragging) {
+      const distance &#x3D; Math.sqrt(x*x + y*y);
+      if (distance &lt; 106) {
+        if (this.hoverTime !&#x3D;&#x3D; null) {
+          this.hoverTime &#x3D; null;
+          this.syncLocalInputs();
+          this.cd.markForCheck();
+        }
+        return;
+      }
+    }
+    
+    let angle &#x3D; Math.atan2(y, x) * (180 / Math.PI) + 90;
+    if (angle &lt; 0) angle +&#x3D; 360;
+    
+    // Convert angle to minutes
+    const totalMinutes &#x3D; (angle / 360) * 24 * 60;
+    // Snap to 5 minutes
+    const snappedMinutes &#x3D; Math.round(totalMinutes / 5) * 5;
+    const newTime &#x3D; this.minutesToTime(snappedMinutes);
+
+    this.hoverTime &#x3D; newTime;
+
+    if (this.isDragging) {
+      this.hasMovedSinceMousedown &#x3D; true;
+      if (this.mode &#x3D;&#x3D;&#x3D; &#x27;single&#x27;) {
+        this.time &#x3D; newTime;
+        this.timeChange.emit(this.time);
+      } else {
+        if (this.dragMode &#x3D;&#x3D;&#x3D; &#x27;new&#x27; &amp;&amp; this.dragOriginTime) {
+          const minsOrigin &#x3D; this.timeToMinutes(this.dragOriginTime);
+          const minsNew &#x3D; this.timeToMinutes(newTime);
+          if (minsNew &lt; minsOrigin) {
+            this.startTime &#x3D; newTime;
+            this.endTime &#x3D; this.dragOriginTime;
+          } else {
+            this.startTime &#x3D; this.dragOriginTime;
+            this.endTime &#x3D; newTime;
+          }
+        } else if (this.dragMode &#x3D;&#x3D;&#x3D; &#x27;start&#x27;) {
+          const minsNew &#x3D; this.timeToMinutes(newTime);
+          const minsEnd &#x3D; this.timeToMinutes(this.endTime);
+          if (minsNew &gt; minsEnd) {
+            this.startTime &#x3D; this.endTime;
+            this.endTime &#x3D; newTime;
+            this.dragMode &#x3D; &#x27;end&#x27;;
+          } else {
+            this.startTime &#x3D; newTime;
+          }
+        } else if (this.dragMode &#x3D;&#x3D;&#x3D; &#x27;end&#x27;) {
+          const minsNew &#x3D; this.timeToMinutes(newTime);
+          const minsStart &#x3D; this.timeToMinutes(this.startTime);
+          if (minsNew &lt; minsStart) {
+            this.endTime &#x3D; this.startTime;
+            this.startTime &#x3D; newTime;
+            this.dragMode &#x3D; &#x27;start&#x27;;
+          } else {
+            this.endTime &#x3D; newTime;
+          }
+        }
+        this.periodChange.emit({ start: this.startTime, end: this.endTime });
+      }
+    }
+    
+    this.syncLocalInputs();
+    this.cd.markForCheck();
+  }
+
+  @HostListener(&#x27;document:mousemove&#x27;, [&#x27;$event&#x27;])
+  @HostListener(&#x27;document:touchmove&#x27;, [&#x27;$event&#x27;])
+  onDocumentMouseMove(event: MouseEvent | TouchEvent) {
+    if (this.isDragging) {
+      this.onMouseMove(event);
+    }
+  }
+
+  onMouseDown(event: MouseEvent | TouchEvent, type: &#x27;start&#x27; | &#x27;end&#x27; | &#x27;face&#x27; &#x3D; &#x27;face&#x27;) {
+    if (type &#x3D;&#x3D;&#x3D; &#x27;face&#x27;) {
+      const rect &#x3D; this.touchArea.nativeElement.getBoundingClientRect();
+      const clientX &#x3D; event instanceof MouseEvent ? event.clientX : (event as TouchEvent).touches[0].clientX;
+      const clientY &#x3D; event instanceof MouseEvent ? event.clientY : (event as TouchEvent).touches[0].clientY;
+      
+      const scaleX &#x3D; rect.width / 300;
+      const scaleY &#x3D; rect.height / 300;
+
+      const x &#x3D; (clientX - rect.left - rect.width / 2) / scaleX;
+      const y &#x3D; (clientY - rect.top - rect.height / 2) / scaleY;
+      const distance &#x3D; Math.sqrt(x*x + y*y);
+      if (distance &lt; 106) return; // Do nothing if clicked inside inner circle
+    }
+
+    event.preventDefault(); // prevent text selection
+    this.isDragging &#x3D; true;
+    this.hasMovedSinceMousedown &#x3D; false;
+
+    // Just to get the initial hover time exactly at click pos:
+    this.onMouseMove(event);
+    this.hasMovedSinceMousedown &#x3D; false; // Reset it because onMouseMove sets it to true!
+
+    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;single&#x27;) {
+      this.dragMode &#x3D; &#x27;single&#x27;;
+      this.time &#x3D; this.hoverTime;
+      this.timeChange.emit(this.time);
+    } else {
+      if (type &#x3D;&#x3D;&#x3D; &#x27;start&#x27;) {
+        this.dragMode &#x3D; &#x27;start&#x27;;
+      } else if (type &#x3D;&#x3D;&#x3D; &#x27;end&#x27;) {
+        this.dragMode &#x3D; &#x27;end&#x27;;
+      } else {
+        this.dragMode &#x3D; &#x27;new&#x27;;
+        this.dragOriginTime &#x3D; this.hoverTime;
+        this.startTime &#x3D; this.hoverTime;
+        this.endTime &#x3D; this.hoverTime;
+        // Don&#x27;t set end time yet, wait for drag or mouse up
+      }
+    }
+  }
+
+  @HostListener(&#x27;document:mouseup&#x27;)
+  @HostListener(&#x27;document:touchend&#x27;)
+  onMouseUp() {
+    if (this.isDragging) {
+      if (this.mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27; &amp;&amp; this.dragMode &#x3D;&#x3D;&#x3D; &#x27;new&#x27; &amp;&amp; !this.hasMovedSinceMousedown &amp;&amp; this.dragOriginTime) {
+        // Just a click on the face without dragging
+        const originMins &#x3D; this.timeToMinutes(this.dragOriginTime);
+        const endMins &#x3D; originMins + this.defaultDuration;
+        if (endMins &gt;&#x3D; 24 * 60) {
+           this.startTime &#x3D; this.minutesToTime(originMins);
+           this.endTime &#x3D; &#x27;23:55&#x27;;
+        } else {
+           this.startTime &#x3D; this.dragOriginTime;
+           this.endTime &#x3D; this.minutesToTime(endMins);
+        }
+        this.periodChange.emit({ start: this.startTime, end: this.endTime });
+      }
+      this.isDragging &#x3D; false;
+      this.dragMode &#x3D; null;
+      this.dragOriginTime &#x3D; null;
+      this.syncLocalInputs();
+      this.cd.markForCheck();
+    }
+  }
+
+  isRowHovering(index: number): boolean {
+    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;single&#x27;) return this.hoverTime !&#x3D;&#x3D; null;
+    if (!this.hoverTime) return false;
+    
+    if (this.isDragging) {
+      if (this.dragMode &#x3D;&#x3D;&#x3D; &#x27;start&#x27;) return index &#x3D;&#x3D;&#x3D; 1;
+      if (this.dragMode &#x3D;&#x3D;&#x3D; &#x27;end&#x27;) return index &#x3D;&#x3D;&#x3D; 2;
+      if (this.dragMode &#x3D;&#x3D;&#x3D; &#x27;new&#x27;) {
+        if (this.dragOriginTime) {
+          const o &#x3D; this.timeToMinutes(this.dragOriginTime);
+          const n &#x3D; this.timeToMinutes(this.hoverTime);
+          if (n &lt; o) return index &#x3D;&#x3D;&#x3D; 1; // start is moving
+          return index &#x3D;&#x3D;&#x3D; 2; // end is moving
+        }
+        return index &#x3D;&#x3D;&#x3D; 2;
+      }
+      return false;
+    }
+
+    if (this.hoveredHandle &#x3D;&#x3D;&#x3D; &#x27;start&#x27;) return index &#x3D;&#x3D;&#x3D; 1;
+    if (this.hoveredHandle &#x3D;&#x3D;&#x3D; &#x27;end&#x27;) return index &#x3D;&#x3D;&#x3D; 2;
+    
+    // Hovering empty face
+    return true; 
+  }
+
+  syncLocalInputs() {
+    if (this.focusedInput) return;
+    
+    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;single&#x27;) {
+      const time &#x3D; this.hoverTime || this.time || &#x27;12:00&#x27;;
+      this.displayHour1 &#x3D; time.split(&#x27;:&#x27;)[0];
+      this.displayMinute1 &#x3D; time.split(&#x27;:&#x27;)[1];
+    } else {
+      if (!this.isDragging &amp;&amp; this.hoverTime &amp;&amp; !this.hoveredHandle) {
+         this.displayHour1 &#x3D; this.hoverTime.split(&#x27;:&#x27;)[0];
+         this.displayMinute1 &#x3D; this.hoverTime.split(&#x27;:&#x27;)[1];
+         this.displayHour2 &#x3D; this.hoverTime.split(&#x27;:&#x27;)[0];
+         this.displayMinute2 &#x3D; this.hoverTime.split(&#x27;:&#x27;)[1];
+      } else {
+         let t1 &#x3D; this.startTime || &#x27;12:00&#x27;;
+         if (!this.isDragging &amp;&amp; this.hoveredHandle &#x3D;&#x3D;&#x3D; &#x27;start&#x27; &amp;&amp; this.hoverTime) t1 &#x3D; this.hoverTime;
+         this.displayHour1 &#x3D; t1.split(&#x27;:&#x27;)[0];
+         this.displayMinute1 &#x3D; t1.split(&#x27;:&#x27;)[1];
+
+         let t2 &#x3D; this.endTime || &#x27;12:00&#x27;;
+         if (!this.isDragging &amp;&amp; this.hoveredHandle &#x3D;&#x3D;&#x3D; &#x27;end&#x27; &amp;&amp; this.hoverTime) t2 &#x3D; this.hoverTime;
+         this.displayHour2 &#x3D; t2.split(&#x27;:&#x27;)[0];
+         this.displayMinute2 &#x3D; t2.split(&#x27;:&#x27;)[1];
+      }
+    }
+  }
+
+  onTimeInput(event: Event, type: string) {
+    const input &#x3D; event.target as HTMLInputElement;
+    let val &#x3D; input.value.replace(/[^0-9]/g, &#x27;&#x27;);
+    
+    if (type.startsWith(&#x27;hour&#x27;)) {
+      if (parseInt(val, 10) &gt; 23) val &#x3D; &#x27;23&#x27;;
+    } else {
+      if (parseInt(val, 10) &gt; 59) val &#x3D; &#x27;59&#x27;;
+    }
+    input.value &#x3D; val;
+
+    if (type &#x3D;&#x3D;&#x3D; &#x27;hour1&#x27;) this.displayHour1 &#x3D; val;
+    if (type &#x3D;&#x3D;&#x3D; &#x27;minute1&#x27;) this.displayMinute1 &#x3D; val;
+    if (type &#x3D;&#x3D;&#x3D; &#x27;hour2&#x27;) this.displayHour2 &#x3D; val;
+    if (type &#x3D;&#x3D;&#x3D; &#x27;minute2&#x27;) this.displayMinute2 &#x3D; val;
+
+    if (val.length &#x3D;&#x3D;&#x3D; 2) {
+      const next &#x3D; input.nextElementSibling?.nextElementSibling as HTMLInputElement;
+      if (next &amp;&amp; next.tagName &#x3D;&#x3D;&#x3D; &#x27;INPUT&#x27;) {
+        next.focus();
+        next.select();
+      }
+    }
+  }
+
+  onTimeBlur(type: string) {
+    this.focusedInput &#x3D; null;
+
+    if (type &#x3D;&#x3D;&#x3D; &#x27;hour1&#x27; &amp;&amp; this.displayHour1) this.displayHour1 &#x3D; this.displayHour1.padStart(2, &#x27;0&#x27;);
+    if (type &#x3D;&#x3D;&#x3D; &#x27;minute1&#x27; &amp;&amp; this.displayMinute1) this.displayMinute1 &#x3D; this.displayMinute1.padStart(2, &#x27;0&#x27;);
+    if (type &#x3D;&#x3D;&#x3D; &#x27;hour2&#x27; &amp;&amp; this.displayHour2) this.displayHour2 &#x3D; this.displayHour2.padStart(2, &#x27;0&#x27;);
+    if (type &#x3D;&#x3D;&#x3D; &#x27;minute2&#x27; &amp;&amp; this.displayMinute2) this.displayMinute2 &#x3D; this.displayMinute2.padStart(2, &#x27;0&#x27;);
+
+    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;single&#x27;) {
+      const h &#x3D; this.displayHour1 || &#x27;12&#x27;;
+      const m &#x3D; this.displayMinute1 || &#x27;00&#x27;;
+      this.time &#x3D; &#x60;${h}:${m}&#x60;;
+      this.timeChange.emit(this.time);
+    } else {
+      const h1 &#x3D; this.displayHour1 || &#x27;12&#x27;;
+      const m1 &#x3D; this.displayMinute1 || &#x27;00&#x27;;
+      const h2 &#x3D; this.displayHour2 || &#x27;12&#x27;;
+      const m2 &#x3D; this.displayMinute2 || &#x27;00&#x27;;
+      this.startTime &#x3D; &#x60;${h1}:${m1}&#x60;;
+      this.endTime &#x3D; &#x60;${h2}:${m2}&#x60;;
+      this.enforcePeriodLogic();
+      this.periodChange.emit({ start: this.startTime, end: this.endTime });
+    }
+    this.syncLocalInputs();
+    this.cd.markForCheck();
+  }
+
+  private enforcePeriodLogic() {
+    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27;) {
+      const s &#x3D; this.timeToMinutes(this.startTime);
+      const e &#x3D; this.timeToMinutes(this.endTime);
+      if (s &gt; e) {
+        [this.startTime, this.endTime] &#x3D; [this.endTime, this.startTime];
+      }
+    }
+  }
+
+  onTimeKeydown(event: KeyboardEvent, type: string) {
+    if (event.key &#x3D;&#x3D;&#x3D; &#x27;Enter&#x27;) {
+      event.preventDefault();
+      (event.target as HTMLElement).blur();
+    }
+  }
+
+  isValidTime(timeStr: string): boolean {
+    if (this.isAmPm) {
+      return /^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM|am|pm)$/.test(timeStr);
+    }
+    return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(timeStr);
+  }
+
+  parseInputTime(timeStr: string): string {
+    if (!this.isAmPm) {
+      const [h, m] &#x3D; timeStr.split(&#x27;:&#x27;).map(Number);
+      return &#x60;${h.toString().padStart(2, &#x27;0&#x27;)}:${m.toString().padStart(2, &#x27;0&#x27;)}&#x60;;
+    } else {
+      const match &#x3D; timeStr.match(/^(0?[1-9]|1[0-2]):([0-5][0-9])\s?(AM|PM|am|pm)$/);
+      if (match) {
+        let h &#x3D; parseInt(match[1], 10);
+        const m &#x3D; parseInt(match[2], 10);
+        const ampm &#x3D; match[3].toUpperCase();
+        if (ampm &#x3D;&#x3D;&#x3D; &#x27;PM&#x27; &amp;&amp; h &lt; 12) h +&#x3D; 12;
+        if (ampm &#x3D;&#x3D;&#x3D; &#x27;AM&#x27; &amp;&amp; h &#x3D;&#x3D;&#x3D; 12) h &#x3D; 0;
+        return &#x60;${h.toString().padStart(2, &#x27;0&#x27;)}:${m.toString().padStart(2, &#x27;0&#x27;)}&#x60;;
+      }
+      return &#x27;12:00&#x27;;
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;time-picker-container&quot; [class.is-period]&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27;&quot;&gt;
+  &lt;!-- Top mode switch if needed, but not in requirements except for the clock itself --&gt;
+  
+  &lt;!-- Enlarged touch area for easier dragging around the clock --&gt;
+  &lt;div class&#x3D;&quot;clock-touch-area&quot; 
+       #touchArea
+       (mousedown)&#x3D;&quot;onMouseDown($event, &#x27;face&#x27;)&quot;
+       (touchstart)&#x3D;&quot;onMouseDown($event, &#x27;face&#x27;)&quot;
+       (mousemove)&#x3D;&quot;!isDragging &amp;&amp; onMouseMove($event)&quot;
+       (touchmove)&#x3D;&quot;!isDragging &amp;&amp; onMouseMove($event)&quot;
+       (mouseleave)&#x3D;&quot;onMouseLeave()&quot;&gt;
+       
+    &lt;div class&#x3D;&quot;clock-face&quot;&gt;
+    
+    &lt;!-- 1. Period Gradient (mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27;) --&gt;
+    &lt;!-- Put gradient behind everything, only visible on the outer ring --&gt;
+    &lt;div class&#x3D;&quot;period-arc&quot; *ngIf&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27;&quot;
+         [style.background]&#x3D;&quot;getPeriodGradient()&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- 2. Inner White Circle (masks the center of the gradient) --&gt;
+    &lt;div class&#x3D;&quot;clock-face-inner&quot;&gt;&lt;/div&gt;
+
+    &lt;!-- 3. Clock ticks --&gt;
+    &lt;div class&#x3D;&quot;clock-ticks&quot;&gt;
+      &lt;div class&#x3D;&quot;clock-tick&quot; *ngFor&#x3D;&quot;let tick of ticks&quot; [style.transform]&#x3D;&quot;&#x27;rotate(&#x27; + (tick * 15) + &#x27;deg)&#x27;&quot;&gt;
+        &lt;div class&#x3D;&quot;tick-line&quot; *ngIf&#x3D;&quot;tick % 2 &#x3D;&#x3D;&#x3D; 0&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;tick-dot&quot; *ngIf&#x3D;&quot;tick % 2 !&#x3D;&#x3D; 0&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;clock-tick-label&quot; *ngIf&#x3D;&quot;tick % 2 &#x3D;&#x3D;&#x3D; 0&quot; [style.transform]&#x3D;&quot;&#x27;rotate(-&#x27; + (tick * 15) + &#x27;deg)&#x27;&quot;&gt;
+          {{ getTickLabel(tick) }}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Icons --&gt;
+    &lt;div class&#x3D;&quot;clock-icon moon-icon&quot;&gt;
+      &lt;svg width&#x3D;&quot;14&quot; height&#x3D;&quot;14&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+        &lt;path d&#x3D;&quot;M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z&quot; fill&#x3D;&quot;var(--color-primary)&quot;&gt;&lt;/path&gt;
+        &lt;!-- Stars --&gt;
+        &lt;path d&#x3D;&quot;M19 4L19.5 5.5L21 6L19.5 6.5L19 8L18.5 6.5L17 6L18.5 5.5L19 4Z&quot; fill&#x3D;&quot;var(--color-primary)&quot;&gt;&lt;/path&gt;
+        &lt;path d&#x3D;&quot;M15 8L15.3 9L16.3 9.3L15.3 9.6L15 10.6L14.7 9.6L13.7 9.3L14.7 9L15 8Z&quot; fill&#x3D;&quot;var(--color-primary)&quot;&gt;&lt;/path&gt;
+      &lt;/svg&gt;
+    &lt;/div&gt;
+    
+    &lt;div class&#x3D;&quot;clock-icon sun-icon&quot;&gt;
+      &lt;svg width&#x3D;&quot;16&quot; height&#x3D;&quot;16&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+        &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;5&quot; stroke&#x3D;&quot;var(--color-warning)&quot; stroke-width&#x3D;&quot;2&quot;&gt;&lt;/circle&gt;
+        &lt;path d&#x3D;&quot;M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42&quot; stroke&#x3D;&quot;var(--color-warning)&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot;&gt;&lt;/path&gt;
+      &lt;/svg&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Handles --&gt;
+    &lt;div *ngIf&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;single&#x27; &amp;&amp; time&quot; 
+         class&#x3D;&quot;time-handle&quot;
+         [style.transform]&#x3D;&quot;&#x27;rotate(&#x27; + getAngleFromTime(time) + &#x27;deg)&#x27;&quot;&gt;
+       &lt;div class&#x3D;&quot;handle-hitbox&quot;
+            (mouseenter)&#x3D;&quot;isHoveringHandle &#x3D; true&quot;
+            (mouseleave)&#x3D;&quot;isHoveringHandle &#x3D; false&quot;
+            (mousedown)&#x3D;&quot;$event.stopPropagation(); onMouseDown($event, &#x27;single&#x27;)&quot;
+            (touchstart)&#x3D;&quot;$event.stopPropagation(); onMouseDown($event, &#x27;single&#x27;)&quot;&gt;
+         &lt;div class&#x3D;&quot;handle-visual&quot;&gt;&lt;/div&gt;
+       &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;ng-container *ngIf&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27;&quot;&gt;
+      &lt;div *ngIf&#x3D;&quot;startTime&quot; class&#x3D;&quot;time-handle start-handle&quot; 
+           [style.transform]&#x3D;&quot;&#x27;rotate(&#x27; + getAngleFromTime(startTime) + &#x27;deg)&#x27;&quot;&gt;
+        &lt;div class&#x3D;&quot;arc-cap&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;handle-hitbox&quot;
+             (mouseenter)&#x3D;&quot;isHoveringHandle &#x3D; true&quot;
+             (mouseleave)&#x3D;&quot;isHoveringHandle &#x3D; false&quot;
+             (mousedown)&#x3D;&quot;$event.stopPropagation(); onMouseDown($event, &#x27;start&#x27;)&quot;
+             (touchstart)&#x3D;&quot;$event.stopPropagation(); onMouseDown($event, &#x27;start&#x27;)&quot;&gt;
+          &lt;div class&#x3D;&quot;handle-visual&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      
+      &lt;!-- END Handle --&gt;
+      &lt;div *ngIf&#x3D;&quot;endTime&quot; class&#x3D;&quot;time-handle end-handle&quot; 
+           [style.transform]&#x3D;&quot;&#x27;rotate(&#x27; + getAngleFromTime(endTime) + &#x27;deg)&#x27;&quot;&gt;
+        &lt;div class&#x3D;&quot;arc-cap&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;handle-hitbox&quot;
+             (mouseenter)&#x3D;&quot;isHoveringHandle &#x3D; true&quot;
+             (mouseleave)&#x3D;&quot;isHoveringHandle &#x3D; false&quot;
+             (mousedown)&#x3D;&quot;$event.stopPropagation(); onMouseDown($event, &#x27;end&#x27;)&quot;
+             (touchstart)&#x3D;&quot;$event.stopPropagation(); onMouseDown($event, &#x27;end&#x27;)&quot;&gt;
+          &lt;div class&#x3D;&quot;handle-visual&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/ng-container&gt;
+
+    &lt;div *ngIf&#x3D;&quot;hoverTime &amp;&amp; !isHoveringHandle &amp;&amp; (!isDragging || dragMode &#x3D;&#x3D;&#x3D; &#x27;new&#x27;)&quot; class&#x3D;&quot;time-handle hover-handle&quot;
+         [style.transform]&#x3D;&quot;&#x27;rotate(&#x27; + getAngleFromTime(hoverTime) + &#x27;deg)&#x27;&quot;&gt;
+      &lt;div class&#x3D;&quot;hover-indicator&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Center Display --&gt;
+    &lt;div class&#x3D;&quot;center-display&quot; (mousedown)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
+      &lt;div class&#x3D;&quot;time-inputs-container&quot;&gt;
+        &lt;!-- Single Mode --&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;single&#x27;&quot;&gt;
+          &lt;div class&#x3D;&quot;time-row&quot; [class.is-hovering]&#x3D;&quot;isRowHovering(1)&quot;&gt;
+            &lt;input type&#x3D;&quot;text&quot; inputmode&#x3D;&quot;numeric&quot; maxlength&#x3D;&quot;2&quot; class&#x3D;&quot;time-input&quot;
+                   [value]&#x3D;&quot;displayHour1&quot; 
+                   (focus)&#x3D;&quot;focusedInput &#x3D; &#x27;hour1&#x27;&quot;
+                   (input)&#x3D;&quot;onTimeInput($event, &#x27;hour1&#x27;)&quot; 
+                   (keydown)&#x3D;&quot;onTimeKeydown($event, &#x27;hour1&#x27;)&quot;
+                   (blur)&#x3D;&quot;onTimeBlur(&#x27;hour1&#x27;)&quot;&gt;
+            &lt;span class&#x3D;&quot;colon&quot;&gt;:&lt;/span&gt;
+            &lt;input type&#x3D;&quot;text&quot; inputmode&#x3D;&quot;numeric&quot; maxlength&#x3D;&quot;2&quot; class&#x3D;&quot;time-input&quot;
+                   [value]&#x3D;&quot;displayMinute1&quot; 
+                   (focus)&#x3D;&quot;focusedInput &#x3D; &#x27;minute1&#x27;&quot;
+                   (input)&#x3D;&quot;onTimeInput($event, &#x27;minute1&#x27;)&quot; 
+                   (keydown)&#x3D;&quot;onTimeKeydown($event, &#x27;minute1&#x27;)&quot;
+                   (blur)&#x3D;&quot;onTimeBlur(&#x27;minute1&#x27;)&quot;&gt;
+          &lt;/div&gt;
+        &lt;/ng-container&gt;
+
+        &lt;!-- Period Mode --&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27;&quot;&gt;
+          &lt;div class&#x3D;&quot;time-row&quot; [class.is-hovering]&#x3D;&quot;isRowHovering(1)&quot;&gt;
+            &lt;input type&#x3D;&quot;text&quot; inputmode&#x3D;&quot;numeric&quot; maxlength&#x3D;&quot;2&quot; class&#x3D;&quot;time-input&quot;
+                   [value]&#x3D;&quot;displayHour1&quot; 
+                   (focus)&#x3D;&quot;focusedInput &#x3D; &#x27;hour1&#x27;&quot;
+                   (input)&#x3D;&quot;onTimeInput($event, &#x27;hour1&#x27;)&quot; 
+                   (keydown)&#x3D;&quot;onTimeKeydown($event, &#x27;hour1&#x27;)&quot;
+                   (blur)&#x3D;&quot;onTimeBlur(&#x27;hour1&#x27;)&quot;&gt;
+            &lt;span class&#x3D;&quot;colon&quot;&gt;:&lt;/span&gt;
+            &lt;input type&#x3D;&quot;text&quot; inputmode&#x3D;&quot;numeric&quot; maxlength&#x3D;&quot;2&quot; class&#x3D;&quot;time-input&quot;
+                   [value]&#x3D;&quot;displayMinute1&quot; 
+                   (focus)&#x3D;&quot;focusedInput &#x3D; &#x27;minute1&#x27;&quot;
+                   (input)&#x3D;&quot;onTimeInput($event, &#x27;minute1&#x27;)&quot; 
+                   (keydown)&#x3D;&quot;onTimeKeydown($event, &#x27;minute1&#x27;)&quot;
+                   (blur)&#x3D;&quot;onTimeBlur(&#x27;minute1&#x27;)&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;time-row&quot; [class.is-hovering]&#x3D;&quot;isRowHovering(2)&quot;&gt;
+            &lt;input type&#x3D;&quot;text&quot; inputmode&#x3D;&quot;numeric&quot; maxlength&#x3D;&quot;2&quot; class&#x3D;&quot;time-input&quot;
+                   [value]&#x3D;&quot;displayHour2&quot; 
+                   (focus)&#x3D;&quot;focusedInput &#x3D; &#x27;hour2&#x27;&quot;
+                   (input)&#x3D;&quot;onTimeInput($event, &#x27;hour2&#x27;)&quot; 
+                   (keydown)&#x3D;&quot;onTimeKeydown($event, &#x27;hour2&#x27;)&quot;
+                   (blur)&#x3D;&quot;onTimeBlur(&#x27;hour2&#x27;)&quot;&gt;
+            &lt;span class&#x3D;&quot;colon&quot;&gt;:&lt;/span&gt;
+            &lt;input type&#x3D;&quot;text&quot; inputmode&#x3D;&quot;numeric&quot; maxlength&#x3D;&quot;2&quot; class&#x3D;&quot;time-input&quot;
+                   [value]&#x3D;&quot;displayMinute2&quot; 
+                   (focus)&#x3D;&quot;focusedInput &#x3D; &#x27;minute2&#x27;&quot;
+                   (input)&#x3D;&quot;onTimeInput($event, &#x27;minute2&#x27;)&quot; 
+                   (keydown)&#x3D;&quot;onTimeKeydown($event, &#x27;minute2&#x27;)&quot;
+                   (blur)&#x3D;&quot;onTimeBlur(&#x27;minute2&#x27;)&quot;&gt;
+          &lt;/div&gt;
+        &lt;/ng-container&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;duration-text&quot; *ngIf&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;period&#x27;&quot;&gt;
+        {{ durationDisplay }}
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./time-picker.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;variables&#x27;;
+
+.time-picker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $space-2;
+  user-select: none;
+  touch-action: none;
+}
+
+.clock-touch-area {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: default;
+}
+
+.clock-face {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  body.dark-theme &amp; {
+    background-color: #333333;
+  }
+}
+
+.period-arc {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.clock-face-inner {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  pointer-events: auto;
+  cursor: default;
+}
+
+.clock-ticks {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.clock-tick {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .tick-line {
+    width: 2px;
+    height: 6px;
+    background-color: var(--color-text-muted);
+    border-radius: 2px;
+    margin-top: 6px;
+  }
+
+  .tick-dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--color-text-muted);
+    border-radius: 50%;
+    margin-top: 7px;
+  }
+
+  .clock-tick-label {
+    margin-top: 2px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+}
+
+.clock-icon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  &amp;.moon-icon {
+    top: 56px;
+  }
+  
+  &amp;.sun-icon {
+    bottom: 56px;
+  }
+}
+
+.arc-cap {
+  position: absolute;
+  top: 0;
+  left: -12px;
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.time-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+
+  .handle-hitbox {
+    position: absolute;
+    top: -13px;
+    left: -25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    pointer-events: auto;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+
+    &amp;:active {
+      cursor: grabbing;
+      .handle-visual {
+        transform: scale(1.2);
+      }
+    }
+    
+    &amp;:hover .handle-visual {
+      background-color: var(--color-primary-hover);
+    }
+  }
+
+  .handle-visual {
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-primary);
+    border: 2px solid var(--color-surface);
+    border-radius: 50%;
+    transition: transform $transition-fast;
+    pointer-events: none;
+  }
+
+  .hover-indicator {
+    position: absolute;
+    top: 6px;
+    left: -6px;
+    width: 12px;
+    height: 12px;
+    background-color: var(--color-text-muted);
+    opacity: 0.5;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+}
+
+.center-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  .time-inputs-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .time-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    transition: color $transition-fast;
+    line-height: 1.2;
+
+    &amp;.is-hovering {
+      color: var(--color-text-muted);
+      .time-input {
+        color: var(--color-text-muted);
+      }
+    }
+  }
+
+  .time-input {
+    width: 2ch;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    -moz-appearance: textfield;
+
+    &amp;::-webkit-outer-spin-button,
+    &amp;::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &amp;::selection {
+      background-color: var(--color-primary-hover);
+      color: var(--color-primary);
+    }
+  }
+
+  .colon {
+    margin: 0 2px;
+  }
+  
+  .duration-text {
+    position: absolute;
+    top: 100%;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+    white-space: nowrap;
+  }
+}
+
+.time-picker-container.is-period {
+  .center-display .time-row {
+    font-size: 1.45rem;
+  }
+}
+:host { display: block; }
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="time-picker-container" [class.is-period]="mode === \'period\'">  <!-- Top mode switch if needed, but not in requirements except for the clock itself -->    <!-- Enlarged touch area for easier dragging around the clock -->  <div class="clock-touch-area"        #touchArea       (mousedown)="onMouseDown($event, \'face\')"       (touchstart)="onMouseDown($event, \'face\')"       (mousemove)="!isDragging && onMouseMove($event)"       (touchmove)="!isDragging && onMouseMove($event)"       (mouseleave)="onMouseLeave()">           <div class="clock-face">        <!-- 1. Period Gradient (mode === \'period\') -->    <!-- Put gradient behind everything, only visible on the outer ring -->    <div class="period-arc" *ngIf="mode === \'period\'"         [style.background]="getPeriodGradient()">    </div>    <!-- 2. Inner White Circle (masks the center of the gradient) -->    <div class="clock-face-inner"></div>    <!-- 3. Clock ticks -->    <div class="clock-ticks">      <div class="clock-tick" *ngFor="let tick of ticks" [style.transform]="\'rotate(\' + (tick * 15) + \'deg)\'">        <div class="tick-line" *ngIf="tick % 2 === 0"></div>        <div class="tick-dot" *ngIf="tick % 2 !== 0"></div>        <div class="clock-tick-label" *ngIf="tick % 2 === 0" [style.transform]="\'rotate(-\' + (tick * 15) + \'deg)\'">          {{ getTickLabel(tick) }}        </div>      </div>    </div>    <!-- Icons -->    <div class="clock-icon moon-icon">      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="var(--color-primary)"></path>        <!-- Stars -->        <path d="M19 4L19.5 5.5L21 6L19.5 6.5L19 8L18.5 6.5L17 6L18.5 5.5L19 4Z" fill="var(--color-primary)"></path>        <path d="M15 8L15.3 9L16.3 9.3L15.3 9.6L15 10.6L14.7 9.6L13.7 9.3L14.7 9L15 8Z" fill="var(--color-primary)"></path>      </svg>    </div>        <div class="clock-icon sun-icon">      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">        <circle cx="12" cy="12" r="5" stroke="var(--color-warning)" stroke-width="2"></circle>        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="var(--color-warning)" stroke-width="2" stroke-linecap="round"></path>      </svg>    </div>    <!-- Handles -->    <div *ngIf="mode === \'single\' && time"          class="time-handle"         [style.transform]="\'rotate(\' + getAngleFromTime(time) + \'deg)\'">       <div class="handle-hitbox"            (mouseenter)="isHoveringHandle = true"            (mouseleave)="isHoveringHandle = false"            (mousedown)="$event.stopPropagation(); onMouseDown($event, \'single\')"            (touchstart)="$event.stopPropagation(); onMouseDown($event, \'single\')">         <div class="handle-visual"></div>       </div>    </div>    <ng-container *ngIf="mode === \'period\'">      <div *ngIf="startTime" class="time-handle start-handle"            [style.transform]="\'rotate(\' + getAngleFromTime(startTime) + \'deg)\'">        <div class="arc-cap"></div>        <div class="handle-hitbox"             (mouseenter)="isHoveringHandle = true"             (mouseleave)="isHoveringHandle = false"             (mousedown)="$event.stopPropagation(); onMouseDown($event, \'start\')"             (touchstart)="$event.stopPropagation(); onMouseDown($event, \'start\')">          <div class="handle-visual"></div>        </div>      </div>            <!-- END Handle -->      <div *ngIf="endTime" class="time-handle end-handle"            [style.transform]="\'rotate(\' + getAngleFromTime(endTime) + \'deg)\'">        <div class="arc-cap"></div>        <div class="handle-hitbox"             (mouseenter)="isHoveringHandle = true"             (mouseleave)="isHoveringHandle = false"             (mousedown)="$event.stopPropagation(); onMouseDown($event, \'end\')"             (touchstart)="$event.stopPropagation(); onMouseDown($event, \'end\')">          <div class="handle-visual"></div>        </div>      </div>    </ng-container>    <div *ngIf="hoverTime && !isHoveringHandle && (!isDragging || dragMode === \'new\')" class="time-handle hover-handle"         [style.transform]="\'rotate(\' + getAngleFromTime(hoverTime) + \'deg)\'">      <div class="hover-indicator"></div>    </div>    <!-- Center Display -->    <div class="center-display" (mousedown)="$event.stopPropagation()">      <div class="time-inputs-container">        <!-- Single Mode -->        <ng-container *ngIf="mode === \'single\'">          <div class="time-row" [class.is-hovering]="isRowHovering(1)">            <input type="text" inputmode="numeric" maxlength="2" class="time-input"                   [value]="displayHour1"                    (focus)="focusedInput = \'hour1\'"                   (input)="onTimeInput($event, \'hour1\')"                    (keydown)="onTimeKeydown($event, \'hour1\')"                   (blur)="onTimeBlur(\'hour1\')">            <span class="colon">:</span>            <input type="text" inputmode="numeric" maxlength="2" class="time-input"                   [value]="displayMinute1"                    (focus)="focusedInput = \'minute1\'"                   (input)="onTimeInput($event, \'minute1\')"                    (keydown)="onTimeKeydown($event, \'minute1\')"                   (blur)="onTimeBlur(\'minute1\')">          </div>        </ng-container>        <!-- Period Mode -->        <ng-container *ngIf="mode === \'period\'">          <div class="time-row" [class.is-hovering]="isRowHovering(1)">            <input type="text" inputmode="numeric" maxlength="2" class="time-input"                   [value]="displayHour1"                    (focus)="focusedInput = \'hour1\'"                   (input)="onTimeInput($event, \'hour1\')"                    (keydown)="onTimeKeydown($event, \'hour1\')"                   (blur)="onTimeBlur(\'hour1\')">            <span class="colon">:</span>            <input type="text" inputmode="numeric" maxlength="2" class="time-input"                   [value]="displayMinute1"                    (focus)="focusedInput = \'minute1\'"                   (input)="onTimeInput($event, \'minute1\')"                    (keydown)="onTimeKeydown($event, \'minute1\')"                   (blur)="onTimeBlur(\'minute1\')">          </div>          <div class="time-row" [class.is-hovering]="isRowHovering(2)">            <input type="text" inputmode="numeric" maxlength="2" class="time-input"                   [value]="displayHour2"                    (focus)="focusedInput = \'hour2\'"                   (input)="onTimeInput($event, \'hour2\')"                    (keydown)="onTimeKeydown($event, \'hour2\')"                   (blur)="onTimeBlur(\'hour2\')">            <span class="colon">:</span>            <input type="text" inputmode="numeric" maxlength="2" class="time-input"                   [value]="displayMinute2"                    (focus)="focusedInput = \'minute2\'"                   (input)="onTimeInput($event, \'minute2\')"                    (keydown)="onTimeKeydown($event, \'minute2\')"                   (blur)="onTimeBlur(\'minute2\')">          </div>        </ng-container>      </div>      <div class="duration-text" *ngIf="mode === \'period\'">        {{ durationDisplay }}      </div>    </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
+    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
+    var ACTUAL_COMPONENT = {'name': 'TimePickerComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'TimePickerComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -165,6 +165,7 @@ a user guide or help with the structure of the configuration file or the ReadMe 
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#onSignInGithub" >onSignInGithub</a>
                             </li>
                             <li>
@@ -188,12 +189,12 @@ a user guide or help with the structure of the configuration file or the ReadMe 
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, tourService: <a href="../injectables/TourService.html" target="_self">TourService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/components/home/home.component.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/components/home/home.component.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -227,6 +228,20 @@ a user guide or help with the structure of the configuration file or the ReadMe 
                                                         <td>
                                                                 <p>The service managing authentication</p>
 
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>tourService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TourService.html" target="_self" >TourService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
                                                         </td>
                                                 </tr>
                                         </tbody>
@@ -267,8 +282,8 @@ a user guide or help with the structure of the configuration file or the ReadMe 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/app/components/home/home.component.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/app/components/home/home.component.ts:27</a></div>
                 </td>
             </tr>
 
@@ -290,6 +305,7 @@ a user guide or help with the structure of the configuration file or the ReadMe 
                 <td class="col-md-4">
                     <a name="onSignInGithub"></a>
                     <span class="name">
+                        <span class="modifier">Async</span>
                         <span ><b>onSignInGithub</b></span>
                         <a href="#onSignInGithub"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -297,15 +313,16 @@ a user guide or help with the structure of the configuration file or the ReadMe 
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onSignInGithub()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onSignInGithub()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">src/app/components/home/home.component.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/app/components/home/home.component.ts:36</a></div>
                 </td>
             </tr>
 
@@ -314,7 +331,7 @@ a user guide or help with the structure of the configuration file or the ReadMe 
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                     </div>
                 </td>
@@ -341,8 +358,8 @@ a user guide or help with the structure of the configuration file or the ReadMe 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">src/app/components/home/home.component.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/components/home/home.component.ts:43</a></div>
                 </td>
             </tr>
 
@@ -416,7 +433,7 @@ a user guide or help with the structure of the configuration file or the ReadMe 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/components/home/home.component.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/components/home/home.component.ts:21</a></div>
                         </td>
                     </tr>
 
@@ -446,7 +463,7 @@ a user guide or help with the structure of the configuration file or the ReadMe 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/components/home/home.component.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/home/home.component.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -461,6 +478,7 @@ a user guide or help with the structure of the configuration file or the ReadMe 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &quot;@angular/core&quot;;
 import { AuthService } from &quot;@services/auth.service&quot;;
+import { TourService } from &quot;@services/tour.service&quot;;
 import { environment } from &quot;../../../environments/environment&quot;;
 
 /**
@@ -475,16 +493,29 @@ import { environment } from &quot;../../../environments/environment&quot;;
 export class HomeComponent implements OnInit {
   /**
    * HomeComponent constructor
-   * @param {AuthService} authService The service managing authentication
+   * @param authService The service managing authentication
    */
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    private tourService: TourService
+  ) {}
 
   version &#x3D; environment.version;
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Small timeout to ensure DOM is ready
+    setTimeout(() &#x3D;&gt; {
+      if (this.authService.isSignedIn() &amp;&amp; this.tourService.shouldShowTour()) {
+        this.tourService.startTour();
+      }
+    }, 500);
+  }
 
-  onSignInGithub() {
-    this.authService.signIn();
+  async onSignInGithub() {
+    await this.authService.signIn();
+    if (this.authService.isSignedIn() &amp;&amp; this.tourService.shouldShowTour()) {
+      setTimeout(() &#x3D;&gt; this.tourService.startTour(), 500);
+    }
   }
 
   scroll(el: HTMLElement) {
@@ -495,394 +526,74 @@ export class HomeComponent implements OnInit {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;page-container d-flex flex-column&quot;&gt;
-  &lt;div class&#x3D;&quot;m-3 content-wrap&quot; *ngIf&#x3D;&quot;authService.isSignedIn()&quot;&gt;
-    &lt;h5 class&#x3D;&quot;mb-3&quot;&gt;
-      {{ &#x27;HOME.ASSIGNMENT-LIST.TITLE&#x27; | translate }}
-    &lt;/h5&gt;
-
-    &lt;assignment-chooser&gt;&lt;/assignment-chooser&gt;
-  &lt;/div&gt;
-  &lt;div *ngIf&#x3D;&quot;!authService.isSignedIn()&quot;&gt;
-    &lt;div class&#x3D;&quot;title-area d-flex flex-column align-items-center justify-content-center&quot;&gt;
-      &lt;div class&#x3D;&quot;title&quot;&gt;
-        &lt;div class&#x3D;&quot;pre-carousel&quot;&gt;
-          &lt;h1 class&#x3D;&quot;font-weight-bold mb-4&quot;&gt;Git4School&lt;/h1&gt;
-          &lt;div class&#x3D;&quot;subtitle&quot;&gt;
-            {{ &quot;HOME-SUBTITLE&quot; | translate }}
-          &lt;/div&gt;
-          &lt;div class&#x3D;&quot;login m-4&quot;&gt;
-            &lt;button *ngIf&#x3D;&quot;authService.loading; else loggedOut&quot; class&#x3D;&quot;btn btn-outline-secondary btn-lg&quot;
-              [disabled]&#x3D;&quot;authService.loading&quot; (click)&#x3D;&quot;onSignInGithub()&quot;&gt;
-              &lt;span class&#x3D;&quot;spinner-grow &quot; role&#x3D;&quot;status&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/span&gt; {{ &#x27;NAVBAR.SIGN-IN&#x27; | translate }}
-            &lt;/button&gt;
-            &lt;ng-template #loggedOut&gt;
-              &lt;button class&#x3D;&quot;btn btn-outline-secondary btn-lg&quot; [disabled]&#x3D;&quot;authService.loading&quot;
-                (click)&#x3D;&quot;onSignInGithub()&quot;&gt;
-                &lt;i class&#x3D;&quot;fab fa-github fa-lg&quot;&gt;&lt;/i&gt; {{ &#x27;NAVBAR.SIGN-IN&#x27; | translate }}
-              &lt;/button&gt;
-            &lt;/ng-template&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-
-        &lt;div id&#x3D;&quot;graphsCarousel&quot; class&#x3D;&quot;carousel slide&quot; data-ride&#x3D;&quot;carousel&quot; data-interval&#x3D;&quot;5000&quot;&gt;
-          &lt;div class&#x3D;&quot;carousel-inner&quot;&gt;
-            &lt;div class&#x3D;&quot;carousel-item active&quot;&gt;
-              &lt;a href&#x3D;&quot;assets/images/students-commits-tuto.png&quot;&gt;
-                &lt;img src&#x3D;&quot;assets/images/students-commits-tuto.png&quot; class&#x3D;&quot;d-block w-100 carousel-image&quot;
-                  alt&#x3D;&quot;Students commits graph preview&quot;&gt;
-              &lt;/a&gt;
-            &lt;/div&gt;
-            &lt;div class&#x3D;&quot;carousel-item&quot;&gt;
-              &lt;a href&#x3D;&quot;assets/images/overview-tuto.png&quot;&gt;
-                &lt;img src&#x3D;&quot;assets/images/overview-tuto.png&quot; class&#x3D;&quot;d-block w-100 carousel-image&quot;
-                  alt&#x3D;&quot;Overview graph preview&quot;&gt;
-              &lt;/a&gt;
-            &lt;/div&gt;
-            &lt;div class&#x3D;&quot;carousel-item&quot;&gt;
-              &lt;a href&#x3D;&quot;assets/images/questions-completion-tuto.png&quot;&gt;
-                &lt;img src&#x3D;&quot;assets/images/questions-completion-tuto.png&quot; class&#x3D;&quot;d-block w-100 carousel-image&quot;
-                  alt&#x3D;&quot;Questions completion graph preview&quot;&gt;
-              &lt;/a&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-          &lt;a class&#x3D;&quot;carousel-control-prev&quot; href&#x3D;&quot;#graphsCarousel&quot; role&#x3D;&quot;button&quot; data-slide&#x3D;&quot;prev&quot;&gt;
-            &lt;span class&#x3D;&quot;carousel-control-prev-icon&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/span&gt;
-            &lt;span class&#x3D;&quot;sr-only&quot;&gt;Previous&lt;/span&gt;
-          &lt;/a&gt;
-          &lt;a class&#x3D;&quot;carousel-control-next&quot; href&#x3D;&quot;#graphsCarousel&quot; role&#x3D;&quot;button&quot; data-slide&#x3D;&quot;next&quot;&gt;
-            &lt;span class&#x3D;&quot;carousel-control-next-icon&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/span&gt;
-            &lt;span class&#x3D;&quot;sr-only&quot;&gt;Next&lt;/span&gt;
-          &lt;/a&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div (click)&#x3D;&quot;scroll(footer)&quot; class&#x3D;&quot;mouseScroll&quot;&gt;
-        &lt;svg width&#x3D;&quot;100%&quot; height&#x3D;&quot;5vh&quot; viewBox&#x3D;&quot;0 0 247 390&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
-          xmlns:xlink&#x3D;&quot;http://www.w3.org/1999/xlink&quot;
-          style&#x3D;&quot;fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;&quot;&gt;
-          &lt;path id&#x3D;&quot;wheel&quot; d&#x3D;&quot;M123.359,79.775l0,72.843&quot; style&#x3D;&quot;fill:none;stroke:#35c692;stroke-width:20px;&quot; /&gt;
-          &lt;path id&#x3D;&quot;mouse&quot;
-            d&#x3D;&quot;M236.717,123.359c0,-62.565 -50.794,-113.359 -113.358,-113.359c-62.565,0 -113.359,50.794 -113.359,113.359l0,143.237c0,62.565 50.794,113.359 113.359,113.359c62.564,0 113.358,-50.794 113.358,-113.359l0,-143.237Z&quot;
-            style&#x3D;&quot;fill:none;stroke:#35c692;stroke-width:20px;&quot; /&gt;
-        &lt;/svg&gt;
-      &lt;/div&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;page-container d-flex flex-column flex-grow-1&quot; style&#x3D;&quot;min-height: 100%;&quot;&gt;
+  &lt;div class&#x3D;&quot;content-wrap d-flex flex-column flex-grow-1 p-4&quot;&gt;
+    &lt;!-- Header --&gt;
+    &lt;div class&#x3D;&quot;d-flex justify-content-between align-items-center mb-4&quot;&gt;
+      &lt;h2 class&#x3D;&quot;font-weight-bold&quot; style&#x3D;&quot;color: var(--color-primary); margin: 0;&quot;&gt;
+        {{ &#x27;HOME.ASSIGNMENT-LIST.TITLE&#x27; | translate }}
+      &lt;/h2&gt;
     &lt;/div&gt;
 
-    &lt;div #objectives class&#x3D;&quot;area&quot;&gt;
-      &lt;ul class&#x3D;&quot;circles cards&quot;&gt;
-        &lt;div class&#x3D;&quot;card&quot;&gt;
-          &lt;i class&#x3D;&quot;fas fa-chart-line fa-6x m-2 mr-4 icon&quot;&gt;&lt;/i&gt;
-          &lt;p&gt;{{ &quot;HOME-OBJECTIVE-1&quot; | translate }}&lt;/p&gt;
-        &lt;/div&gt;
-        &lt;div class&#x3D;&quot;card&quot;&gt;
-          &lt;i class&#x3D;&quot;fas fa-exclamation-circle fa-6x m-2 mr-4 icon&quot;&gt;&lt;/i&gt;
-          &lt;p&gt;{{ &quot;HOME-OBJECTIVE-2&quot; | translate }}&lt;/p&gt;
-        &lt;/div&gt;
-        &lt;div class&#x3D;&quot;card&quot;&gt;
-          &lt;i class&#x3D;&quot;fas fa-graduation-cap fa-6x m-2 mr-4 icon&quot;&gt;&lt;/i&gt;
-          &lt;p&gt;{{ &quot;HOME-OBJECTIVE-3&quot; | translate }}&lt;/p&gt;
-        &lt;/div&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;/li&gt;
-      &lt;/ul&gt;
-    &lt;/div&gt;
-    &lt;footer #footer class&#x3D;&quot;home-footer p-2&quot;&gt;
-      &lt;div class&#x3D;&quot;d-flex justify-content-between&quot;&gt;
-        &lt;div class&#x3D;&quot;col ml-1&quot;&gt;Version : {{ version }}&lt;/div&gt;
-        &lt;div class&#x3D;&quot;col text-center&quot;&gt;Copyright © 2019 Université Toulouse 3 Paul Sabatier.&lt;/div&gt;
-        &lt;div class&#x3D;&quot;col&quot;&gt;
-          &lt;a href&#x3D;&quot; https://github.com/git4school/git4school-visu&quot; class&#x3D;&quot;float-right&quot; [ngbTooltip]&#x3D;&quot;goToGithubTooltip&quot;&gt;
-            &lt;i class&#x3D;&quot;fab fa-github fa-lg&quot; style&#x3D;&quot;color: white;&quot;&gt;&lt;/i&gt;
-          &lt;/a&gt;
-        &lt;/div&gt;
+    &lt;!-- Login Prompt if unauthenticated --&gt;
+    &lt;div *ngIf&#x3D;&quot;!authService.isSignedIn()&quot; class&#x3D;&quot;login-prompt mb-4 p-4 rounded d-flex justify-content-between align-items-center&quot; style&#x3D;&quot;background: var(--color-surface); border: 1px solid var(--color-border);&quot;&gt;
+      &lt;div&gt;
+        &lt;h5 class&#x3D;&quot;mb-1 text-primary font-weight-bold&quot;&gt;&lt;i class&#x3D;&quot;fas fa-info-circle mr-2&quot;&gt;&lt;/i&gt;{{ &#x27;HOME.CONNECT-PROMPT-TITLE&#x27; | translate }}&lt;/h5&gt;
+        &lt;p class&#x3D;&quot;mb-0&quot; style&#x3D;&quot;color: var(--color-text-secondary);&quot;&gt;{{ &#x27;HOME.CONNECT-PROMPT-DESC&#x27; | translate }}&lt;/p&gt;
       &lt;/div&gt;
-    &lt;/footer&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+      &lt;button class&#x3D;&quot;btn btn-primary d-flex align-items-center&quot; [disabled]&#x3D;&quot;authService.loading&quot; (click)&#x3D;&quot;onSignInGithub()&quot; style&#x3D;&quot;border-radius: 20px; padding: 0.5rem 1.5rem;&quot;&gt;
+        &lt;span *ngIf&#x3D;&quot;authService.loading&quot; class&#x3D;&quot;spinner-border spinner-border-sm mr-2&quot; role&#x3D;&quot;status&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/span&gt;
+        &lt;i *ngIf&#x3D;&quot;!authService.loading&quot; class&#x3D;&quot;fab fa-github mr-2&quot;&gt;&lt;/i&gt;
+        {{ &#x27;NAVBAR.SIGN-IN&#x27; | translate }}
+      &lt;/button&gt;
+    &lt;/div&gt;
 
-&lt;ng-template #goToGithubTooltip&gt;{{ &quot;GO-TO-GITHUB-TOOLTIP&quot; | translate }}&lt;/ng-template&gt;</code></pre>
+    &lt;!-- Assignment Chooser always visible --&gt;
+    &lt;div class&#x3D;&quot;flex-grow-1&quot;&gt;
+      &lt;assignment-chooser&gt;&lt;/assignment-chooser&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;footer class&#x3D;&quot;home-footer p-3 mt-auto d-flex justify-content-between align-items-center text-muted&quot; style&#x3D;&quot;background: var(--color-surface); border-top: 1px solid var(--color-border); font-size: 0.9rem;&quot;&gt;
+    &lt;div&gt;Version : {{ version }}&lt;/div&gt;
+    &lt;div&gt;Copyright © 2019 Université Toulouse 3 Paul Sabatier.&lt;/div&gt;
+    &lt;div&gt;
+      &lt;a href&#x3D;&quot;https://github.com/git4school/git4school-visu&quot; target&#x3D;&quot;_blank&quot; [appTooltip]&#x3D;&quot;&#x27;GO-TO-GITHUB-TOOLTIP&#x27; | translate&quot; style&#x3D;&quot;color: var(--color-text-secondary);&quot;&gt;
+        &lt;i class&#x3D;&quot;fab fa-github fa-lg&quot;&gt;&lt;/i&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/footer&gt;
+&lt;/div&gt;</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
                 <p class="comment">
                     <code>./home.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import url(&quot;https://fonts.googleapis.com/css?family&#x3D;Exo:400,700&quot;);
-
-$objBackgroundColor: #35c692;
-
-.title-area {
-  height: 95vh;
-  font-family: &quot;Exo&quot;, sans-serif;
-  text-align: center;
-  align-items: center;
-  color: rgb(71, 71, 71);
-
-  h1 {
-    font-size: 7vh;
+                <pre class="line-numbers"><code class="language-scss">.home-footer {
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.02);
+  
+  a {
+    transition: color 0.2s ease;
+    &amp;:hover {
+      color: var(--color-primary) !important;
+    }
   }
 }
 
-.title {
-  width: 46.9vw;
+.login-prompt {
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s ease;
+  
+  &amp;:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+:host {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.pre-carousel {
-  width: 41.7vw;
-}
-
-.subtitle {
-  font-size: 2.25vh;
-  color: rgb(109, 109, 109);
-}
-
-////////////////// CAROUSEL /////////////////////
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  height: 3vh;
-  width: 3vh;
-  position: relative;
-  filter: invert(1);
-}
-
-.carousel-control-prev-icon {
-  right: 5vw;
-}
-
-.carousel-control-next-icon {
-  left: 5vw;
-}
-
-////////////////////////////////////////
-
-.area {
-  position: relative;
-  box-sizing: border-box;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.area::after {
-  position: absolute;
-  content: &quot;&quot;;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background: $objBackgroundColor;
-  transform-origin: right bottom;
-  transform: skewY(-3deg);
-  z-index: -1;
-  box-shadow: 0 -5px 10px rgba(212, 212, 212, 0.425);
-}
-
-.circles {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.circles li {
-  position: absolute;
-  display: block;
-  list-style: none;
-  width: 20px;
-  height: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  animation: animate 25s linear infinite;
-  bottom: -150px;
-}
-
-.circles li:nth-child(1) {
-  left: 25%;
-  width: 80px;
-  height: 80px;
-  animation-delay: 0s;
-}
-
-.circles li:nth-child(2) {
-  left: 10%;
-  width: 20px;
-  height: 20px;
-  animation-delay: 2s;
-  animation-duration: 12s;
-}
-
-.circles li:nth-child(3) {
-  left: 70%;
-  width: 20px;
-  height: 20px;
-  animation-delay: 4s;
-}
-
-.circles li:nth-child(4) {
-  left: 40%;
-  width: 60px;
-  height: 60px;
-  animation-delay: 0s;
-  animation-duration: 18s;
-}
-
-.circles li:nth-child(5) {
-  left: 65%;
-  width: 20px;
-  height: 20px;
-  animation-delay: 0s;
-}
-
-.circles li:nth-child(6) {
-  left: 75%;
-  width: 110px;
-  height: 110px;
-  animation-delay: 3s;
-}
-
-.circles li:nth-child(7) {
-  left: 35%;
-  width: 150px;
-  height: 150px;
-  animation-delay: 7s;
-}
-
-.circles li:nth-child(8) {
-  left: 50%;
-  width: 25px;
-  height: 25px;
-  animation-delay: 15s;
-  animation-duration: 45s;
-}
-
-.circles li:nth-child(9) {
-  left: 20%;
-  width: 15px;
-  height: 15px;
-  animation-delay: 2s;
-  animation-duration: 35s;
-}
-
-.circles li:nth-child(10) {
-  left: 85%;
-  width: 150px;
-  height: 150px;
-  animation-delay: 0s;
-  animation-duration: 11s;
-}
-
-.circles li:nth-child(11) {
-  left: 15%;
-  width: 110px;
-  height: 110px;
-  animation-delay: 3s;
-  animation-duration: 12s;
-}
-
-@keyframes animate {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-    border-radius: 0;
-  }
-
-  100% {
-    transform: translateY(-1000px) rotate(720deg);
-    opacity: 0;
-    border-radius: 50%;
-  }
-}
-
-////////////////////////////////////
-
-.cards {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-top: 6vh;
-  padding-bottom: 4vh;
-}
-
-.card {
-  font-family: &quot;Exo&quot;, sans-serif;
-  z-index: 5;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background: linear-gradient(
-    to left top,
-    rgba(255, 255, 255, 0.904),
-    rgba(255, 255, 255, 0.774)
-  );
-  border-radius: 10px;
-  margin: 2rem 0;
-  padding: 2rem;
-  width: 41.7vw;
-  box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.212);
-
-  .icon {
-    z-index: 10;
-    color: #a8aeb1;
-  }
-
-  transition: all 0.3s ease-out;
-}
-
-.card:hover {
-  box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.575);
-  transform: scale(1.03);
-}
-
-.card::after {
-  transition: transform 0.3s ease-out;
-}
-
-.home-footer {
-  font-family: &quot;Exo&quot;, sans-serif;
-  background: #24a576;
-  box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.212);
-  height: 40px;
-  color: #ffffffe5;
-}
-
-p {
-  margin: 0;
-}
-
-///////////////// MOUSE SCROLL ////////////////////
-
-@keyframes scroll {
-  0% {
-    transform: translateY(0);
-  }
-
-  30% {
-    transform: translateY(100px);
-  }
-}
-
-svg #wheel {
-  animation: scroll ease 1.5s infinite;
-}
-
-.mouseScroll {
-  cursor: pointer;
-  position: absolute;
-  bottom: 1vh;
+  flex-grow: 1;
 }
 </code></pre>
     </div>
@@ -912,9 +623,9 @@ svg #wheel {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="page-container d-flex flex-column">  <div class="m-3 content-wrap" *ngIf="authService.isSignedIn()">    <h5 class="mb-3">      {{ \'HOME.ASSIGNMENT-LIST.TITLE\' | translate }}    </h5>    <assignment-chooser></assignment-chooser>  </div>  <div *ngIf="!authService.isSignedIn()">    <div class="title-area d-flex flex-column align-items-center justify-content-center">      <div class="title">        <div class="pre-carousel">          <h1 class="font-weight-bold mb-4">Git4School</h1>          <div class="subtitle">            {{ "HOME-SUBTITLE" | translate }}          </div>          <div class="login m-4">            <button *ngIf="authService.loading; else loggedOut" class="btn btn-outline-secondary btn-lg"              [disabled]="authService.loading" (click)="onSignInGithub()">              <span class="spinner-grow " role="status" aria-hidden="true"></span> {{ \'NAVBAR.SIGN-IN\' | translate }}            </button>            <ng-template #loggedOut>              <button class="btn btn-outline-secondary btn-lg" [disabled]="authService.loading"                (click)="onSignInGithub()">                <i class="fab fa-github fa-lg"></i> {{ \'NAVBAR.SIGN-IN\' | translate }}              </button>            </ng-template>          </div>        </div>        <div id="graphsCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">          <div class="carousel-inner">            <div class="carousel-item active">              <a href="assets/images/students-commits-tuto.png">                <img src="assets/images/students-commits-tuto.png" class="d-block w-100 carousel-image"                  alt="Students commits graph preview">              </a>            </div>            <div class="carousel-item">              <a href="assets/images/overview-tuto.png">                <img src="assets/images/overview-tuto.png" class="d-block w-100 carousel-image"                  alt="Overview graph preview">              </a>            </div>            <div class="carousel-item">              <a href="assets/images/questions-completion-tuto.png">                <img src="assets/images/questions-completion-tuto.png" class="d-block w-100 carousel-image"                  alt="Questions completion graph preview">              </a>            </div>          </div>          <a class="carousel-control-prev" href="#graphsCarousel" role="button" data-slide="prev">            <span class="carousel-control-prev-icon" aria-hidden="true"></span>            <span class="sr-only">Previous</span>          </a>          <a class="carousel-control-next" href="#graphsCarousel" role="button" data-slide="next">            <span class="carousel-control-next-icon" aria-hidden="true"></span>            <span class="sr-only">Next</span>          </a>        </div>      </div>      <div (click)="scroll(footer)" class="mouseScroll">        <svg width="100%" height="5vh" viewBox="0 0 247 390" xmlns="http://www.w3.org/2000/svg"          xmlns:xlink="http://www.w3.org/1999/xlink"          style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">          <path id="wheel" d="M123.359,79.775l0,72.843" style="fill:none;stroke:#35c692;stroke-width:20px;" />          <path id="mouse"            d="M236.717,123.359c0,-62.565 -50.794,-113.359 -113.358,-113.359c-62.565,0 -113.359,50.794 -113.359,113.359l0,143.237c0,62.565 50.794,113.359 113.359,113.359c62.564,0 113.358,-50.794 113.358,-113.359l0,-143.237Z"            style="fill:none;stroke:#35c692;stroke-width:20px;" />        </svg>      </div>    </div>    <div #objectives class="area">      <ul class="circles cards">        <div class="card">          <i class="fas fa-chart-line fa-6x m-2 mr-4 icon"></i>          <p>{{ "HOME-OBJECTIVE-1" | translate }}</p>        </div>        <div class="card">          <i class="fas fa-exclamation-circle fa-6x m-2 mr-4 icon"></i>          <p>{{ "HOME-OBJECTIVE-2" | translate }}</p>        </div>        <div class="card">          <i class="fas fa-graduation-cap fa-6x m-2 mr-4 icon"></i>          <p>{{ "HOME-OBJECTIVE-3" | translate }}</p>        </div>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>        <li></li>      </ul>    </div>    <footer #footer class="home-footer p-2">      <div class="d-flex justify-content-between">        <div class="col ml-1">Version : {{ version }}</div>        <div class="col text-center">Copyright © 2019 Université Toulouse 3 Paul Sabatier.</div>        <div class="col">          <a href=" https://github.com/git4school/git4school-visu" class="float-right" [ngbTooltip]="goToGithubTooltip">            <i class="fab fa-github fa-lg" style="color: white;"></i>          </a>        </div>      </div>    </footer>  </div></div><ng-template #goToGithubTooltip>{{ "GO-TO-GITHUB-TOOLTIP" | translate }}</ng-template></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': ''},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'HomeNavLayoutComponent', 'selector': 'app-home-nav-layout'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'}];
-    var DIRECTIVES = [];
+        var COMPONENT_TEMPLATE = '<div><div class="page-container d-flex flex-column flex-grow-1" style="min-height: 100%;">  <div class="content-wrap d-flex flex-column flex-grow-1 p-4">    <!-- Header -->    <div class="d-flex justify-content-between align-items-center mb-4">      <h2 class="font-weight-bold" style="color: var(--color-primary); margin: 0;">        {{ \'HOME.ASSIGNMENT-LIST.TITLE\' | translate }}      </h2>    </div>    <!-- Login Prompt if unauthenticated -->    <div *ngIf="!authService.isSignedIn()" class="login-prompt mb-4 p-4 rounded d-flex justify-content-between align-items-center" style="background: var(--color-surface); border: 1px solid var(--color-border);">      <div>        <h5 class="mb-1 text-primary font-weight-bold"><i class="fas fa-info-circle mr-2"></i>{{ \'HOME.CONNECT-PROMPT-TITLE\' | translate }}</h5>        <p class="mb-0" style="color: var(--color-text-secondary);">{{ \'HOME.CONNECT-PROMPT-DESC\' | translate }}</p>      </div>      <button class="btn btn-primary d-flex align-items-center" [disabled]="authService.loading" (click)="onSignInGithub()" style="border-radius: 20px; padding: 0.5rem 1.5rem;">        <span *ngIf="authService.loading" class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>        <i *ngIf="!authService.loading" class="fab fa-github mr-2"></i>        {{ \'NAVBAR.SIGN-IN\' | translate }}      </button>    </div>    <!-- Assignment Chooser always visible -->    <div class="flex-grow-1">      <assignment-chooser></assignment-chooser>    </div>  </div>  <footer class="home-footer p-3 mt-auto d-flex justify-content-between align-items-center text-muted" style="background: var(--color-surface); border-top: 1px solid var(--color-border); font-size: 0.9rem;">    <div>Version : {{ version }}</div>    <div>Copyright © 2019 Université Toulouse 3 Paul Sabatier.</div>    <div>      <a href="https://github.com/git4school/git4school-visu" target="_blank" [appTooltip]="\'GO-TO-GITHUB-TOOLTIP\' | translate" style="color: var(--color-text-secondary);">        <i class="fab fa-github fa-lg"></i>      </a>    </div>  </footer></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
+    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'HomeComponent'};
 </script>
 <script src="../js/tree.js"></script>

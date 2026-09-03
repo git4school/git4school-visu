@@ -100,7 +100,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(translateService: TranslateService, modalService: NgbModal)</code>
+<code>constructor(translateService: TranslateService, modalService: <a href="../injectables/CustomModalService.html" target="_self">CustomModalService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -138,7 +138,7 @@
                                                         <td>modalService</td>
                                                   
                                                         <td>
-                                                                    <code>NgbModal</code>
+                                                                        <code><a href="../injectables/CustomModalService.html" target="_self" >CustomModalService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -238,8 +238,8 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { ConfigurationComponent } from &quot;@components/home/assignment-chooser/configuration/configuration.component&quot;;
 import { Assignment } from &quot;@models/Assignment.model&quot;;
-import { NgbModal } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -247,21 +247,22 @@ import { TranslateService } from &quot;@ngx-translate/core&quot;;
 export class ConfigurationService {
   constructor(
     private translateService: TranslateService,
-    private modalService: NgbModal
+    private modalService: CustomModalService
   ) {}
 
   openConfigurationModal(assignment: Assignment): Promise&lt;any&gt; {
     let translation &#x3D; this.translateService.instant(&quot;MESSAGE-UNSAVED-GUARD&quot;);
-    let modalReference &#x3D; this.modalService.open(ConfigurationComponent, {
-      size: &quot;xl&quot;,
+    let customModalRef &#x3D; this.modalService.open(ConfigurationComponent, {
+      size: &quot;lg&quot;,
       beforeDismiss: () &#x3D;&gt; {
         return (
-          !modalReference.componentInstance.isModified || confirm(translation)
+          !customModalRef.componentInstance.isModified || confirm(translation)
         );
       },
     });
-    modalReference.componentInstance.assignment &#x3D; assignment;
-    return modalReference.result;
+    customModalRef.componentInstance.assignment &#x3D; assignment;
+    customModalRef.componentInstance.modalRef &#x3D; customModalRef;
+    return customModalRef.result;
   }
 }
 </code></pre>

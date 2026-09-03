@@ -195,7 +195,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">src/app/models/Repository.model.ts:143</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">src/app/models/Repository.model.ts:141</a></div>
                         </td>
                     </tr>
 
@@ -222,7 +222,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/app/models/Repository.model.ts:142</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">src/app/models/Repository.model.ts:141</a></div>
                         </td>
                     </tr>
 
@@ -289,7 +289,7 @@ export class Repository {
   static getFormattedName(
     last_name: string,
     first_name: string,
-    max_length: number,
+    max_length: number
   ): string {
     assert(max_length &gt; 0);
 
@@ -337,7 +337,7 @@ export class Repository {
         displayName &#x3D; Repository.getFormattedName(
           firstName,
           lastName,
-          Utils.OVERVIEW_NAME_LENGTH_LIMIT,
+          Utils.OVERVIEW_NAME_LENGTH_LIMIT
         );
       } else {
         let findLastName &#x3D; displayName.match(/^([A-Z\-]+ )*/g);
@@ -345,7 +345,7 @@ export class Repository {
           displayName &#x3D; Repository.getFormattedName(
             findLastName[0].trim(),
             displayName.substring(findLastName[0].length),
-            Utils.OVERVIEW_NAME_LENGTH_LIMIT,
+            Utils.OVERVIEW_NAME_LENGTH_LIMIT
           );
         } else {
           let lastspace &#x3D; displayName.lastIndexOf(&quot; &quot;);
@@ -357,7 +357,7 @@ export class Repository {
           displayName &#x3D; Repository.getFormattedName(
             lastName,
             firstName,
-            Utils.OVERVIEW_NAME_LENGTH_LIMIT,
+            Utils.OVERVIEW_NAME_LENGTH_LIMIT
           );
         }
       }
@@ -381,10 +381,7 @@ export class Repository {
 }
 
 export class Error {
-  constructor(
-    public type: ErrorType,
-    public message &#x3D; &quot;&quot;,
-  ) {}
+  constructor(public type: ErrorType, public message &#x3D; &quot;&quot;) {}
 }
 
 export const enum ErrorType {
