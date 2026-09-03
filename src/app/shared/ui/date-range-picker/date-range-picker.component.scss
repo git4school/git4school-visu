@@ -189,6 +189,8 @@
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     width: max-content;
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
     animation: fadeIn 0.15s ease-out;
 
     &.align-right {

@@ -59,6 +59,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild("endDay", { static: false }) endDayEl: ElementRef;
   @ViewChild("endMonth", { static: false }) endMonthEl: ElementRef;
   @ViewChild("endYear", { static: false }) endYearEl: ElementRef;
+  @ViewChild("calendarPopup", { static: false }) calendarPopupEl?: ElementRef<HTMLElement>;
 
   isOpen = false;
   dropUp = false;
@@ -171,6 +172,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
     // Use capture phase to bypass stopPropagation() called by modals
     document.addEventListener("click", this.onDocumentClick, { capture: true });
+    document.addEventListener("scroll", this.onScroll, { capture: true, passive: true });
+    window.addEventListener("resize", this.onWindowResize, { passive: true });
   }
 
   ngOnDestroy(): void {
@@ -178,6 +181,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       this.langSubscription.unsubscribe();
     }
     document.removeEventListener("click", this.onDocumentClick, { capture: true });
+    document.removeEventListener("scroll", this.onScroll, { capture: true });
+    window.removeEventListener("resize", this.onWindowResize);
   }
 
   get currentMonthName(): string {
@@ -189,7 +194,14 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     if (this.isOpen) {
       this.initViewDate();
       this.generateCalendar();
-      this.updatePopupDirection();
+      this.cdr.detectChanges();
+      this.adjustPopupPosition();
+      // Double requestAnimationFrame for layout stability / dynamic instantiation as per GEMINI rules
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.adjustPopupPosition();
+        });
+      });
     } else {
       this.dropUp = false;
       this.alignRight = false;
@@ -216,18 +228,82 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private updatePopupDirection(): void {
-    const rect = this.elementRef.nativeElement.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const spaceAbove = rect.top;
+  private adjustPopupPosition(): void {
+    if (!this.isOpen) return;
 
-    // Popup is approx 380px tall. Drop up if space below is insufficient AND space above is larger.
-    this.dropUp = spaceBelow < 380 && spaceAbove > spaceBelow;
+    const popupEl = this.calendarPopupEl?.nativeElement || (this.elementRef.nativeElement.querySelector('.calendar-popup') as HTMLElement);
+    if (!popupEl) return;
 
-    const spaceRight = window.innerWidth - rect.left;
-    const estimatedWidth = (this.isSingleDate && this.hasTime) || this.mode === 'datetime-period' ? 650 : 350;
-    this.alignRight = spaceRight < estimatedWidth;
+    const triggerRect = this.elementRef.nativeElement.getBoundingClientRect();
+    const popupWidth = popupEl.offsetWidth || ((this.isSingleDate && this.hasTime) || this.mode === 'datetime-period' ? 650 : 350);
+    const popupHeight = popupEl.offsetHeight || 390;
+
+    const margin = 12;
+    const spaceBelow = window.innerHeight - triggerRect.bottom - margin;
+    const spaceAbove = triggerRect.top - margin;
+
+    let targetViewportY: number;
+
+    // Determine optimal vertical position
+    if (spaceBelow >= popupHeight + 8) {
+      // Comfortably fits below trigger
+      targetViewportY = triggerRect.bottom + 8;
+      this.dropUp = false;
+    } else if (spaceAbove >= popupHeight + 8) {
+      // Comfortably fits above trigger
+      targetViewportY = triggerRect.top - 8 - popupHeight;
+      this.dropUp = true;
+    } else {
+      // Doesn't completely fit on either side: choose side with more space and clamp strictly within viewport
+      if (spaceBelow >= spaceAbove) {
+        targetViewportY = triggerRect.bottom + 8;
+        this.dropUp = false;
+      } else {
+        targetViewportY = triggerRect.top - 8 - popupHeight;
+        this.dropUp = true;
+      }
+      targetViewportY = Math.max(margin, Math.min(targetViewportY, window.innerHeight - popupHeight - margin));
+    }
+
+    // In very small viewports, ensure the top stays accessible
+    if (window.innerHeight < popupHeight + margin * 2) {
+      targetViewportY = margin;
+    }
+
+    // Determine horizontal position
+    let targetViewportX = triggerRect.left;
+    if (targetViewportX + popupWidth > window.innerWidth - margin) {
+      targetViewportX = window.innerWidth - popupWidth - margin;
+      this.alignRight = true;
+    } else {
+      this.alignRight = false;
+    }
+
+    if (targetViewportX < margin) {
+      targetViewportX = margin;
+    }
+
+    // Convert viewport coordinates to relative offsets inside elementRef (which is position: relative)
+    const relativeLeft = targetViewportX - triggerRect.left;
+    const relativeTop = targetViewportY - triggerRect.top;
+
+    popupEl.style.left = `${relativeLeft}px`;
+    popupEl.style.top = `${relativeTop}px`;
+    popupEl.style.right = 'auto';
+    popupEl.style.bottom = 'auto';
   }
+
+  private onScroll = () => {
+    if (this.isOpen) {
+      this.adjustPopupPosition();
+    }
+  };
+
+  private onWindowResize = () => {
+    if (this.isOpen) {
+      this.adjustPopupPosition();
+    }
+  };
 
   closePopup() {
     if (this.isOpen) {
@@ -255,11 +331,13 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   nextMonth() {
     this.viewDate = this.viewDate.clone().add(1, "months");
     this.generateCalendar();
+    requestAnimationFrame(() => this.adjustPopupPosition());
   }
 
   previousMonth() {
     this.viewDate = this.viewDate.clone().subtract(1, "months");
     this.generateCalendar();
+    requestAnimationFrame(() => this.adjustPopupPosition());
   }
 
   onDateClick(day: CalendarDay) {

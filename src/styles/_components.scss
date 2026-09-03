@@ -1821,22 +1821,47 @@ kbd,
 }
 
 /* =========================================
-   TYPEAHEAD SUGGESTION PILLS
+   TYPEAHEAD SUGGESTION PILLS & DROPDOWN
    ========================================= */
 .suggestion-pill {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   background-color: var(--color-primary-bg);
   color: var(--color-primary);
   border-radius: 9999px;
-  padding: 0.1rem 0.5rem;
+  padding: 0.15rem 0.55rem;
   font-size: 0.8rem;
-  margin: 0.2rem 0;
+  margin: 0.1rem 0;
   font-weight: 500;
+  line-height: 1.2;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  .pill-icon {
+    opacity: 0.85;
+    margin-right: 0.35rem;
+  }
 }
 
 body.dark-theme .suggestion-pill {
   background-color: var(--color-primary-bg);
   color: var(--color-primary);
+}
+
+.enter-badge {
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  margin-left: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 120ms ease;
+  font-weight: 500;
+}
+
+.ngb-highlight {
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 ngb-typeahead-window {
@@ -1848,6 +1873,7 @@ ngb-typeahead-window {
   border-radius: 12px !important;
   box-shadow: var(--shadow-lg) !important;
   padding: 6px 0 !important;
+  min-width: 180px !important;
   overflow: hidden;
 
   .dropdown-item {
@@ -1862,7 +1888,19 @@ ngb-typeahead-window {
     .text-input-suggestion {
       padding: 0.35rem 0.85rem;
       width: 100%;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--color-text-primary);
       transition: background-color $transition-fast;
+
+      .group-icon {
+        color: var(--color-text-muted);
+        transition: color $transition-fast;
+      }
+
+      .suggestion-text {
+        color: var(--color-text-primary);
+      }
     }
 
     &:hover,
@@ -1871,11 +1909,16 @@ ngb-typeahead-window {
 
       .text-input-suggestion {
         background-color: var(--color-hover) !important;
+
+        .group-icon {
+          color: var(--color-primary);
+        }
       }
     }
 
     &.active {
-      .typeahead-row-content {
+      .typeahead-row-content,
+      .text-input-suggestion {
         background-color: var(--color-hover) !important;
       }
 
