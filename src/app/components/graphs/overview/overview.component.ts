@@ -135,6 +135,9 @@ export class OverviewComponent
   hovered_commit: Commit;
   hovered_session: Session;
   hovered_group_commit: Commit[];
+  hovered_milestone: Milestone;
+  private milestoneHoverTimer: any = null;
+  private readonly MILESTONE_HOVER_DELAY = 600; // ms
   hovered_g: d3.Selection<any, any, any, any>;
 
   brush: d3.BrushBehavior<any>;
@@ -326,6 +329,7 @@ export class OverviewComponent
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
+    this.clearMilestoneHoverTimer();
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
     document.body.style.overscrollBehaviorX = "auto";
   }
@@ -561,7 +565,12 @@ export class OverviewComponent
       }
     }
 
-    if (this.hovered_commit || this.hovered_group_commit || this.hovered_session) {
+    if (
+      this.hovered_commit ||
+      this.hovered_group_commit ||
+      this.hovered_session ||
+      this.hovered_milestone
+    ) {
       if (!this.tooltipService.isShowing()) {
         this.tooltipService.showAtPosition(
           this.d3TooltipTemplate,
@@ -816,6 +825,11 @@ export class OverviewComponent
   }
 
   loadAnnotations() {
+    this.clearMilestoneHoverTimer();
+    if (this.hovered_milestone) {
+      this.hovered_milestone = undefined;
+      this.tooltipService.hide();
+    }
     let milestone_filter = (review: Milestone) =>
       (!this.dataService.groupFilter ||
         !review.tpGroup ||
@@ -893,6 +907,11 @@ export class OverviewComponent
     newMilestone: Milestone;
   }) {
     try {
+      this.clearMilestoneHoverTimer();
+      if (this.hovered_milestone) {
+        this.hovered_milestone = undefined;
+        this.tooltipService.hide();
+      }
       this.saveMilestone(result.oldMilestone, result.newMilestone);
       this.saveData();
 
@@ -979,6 +998,11 @@ export class OverviewComponent
 
   onDeleteMilestone(milestone: Milestone) {
     try {
+      this.clearMilestoneHoverTimer();
+      if (this.hovered_milestone) {
+        this.hovered_milestone = undefined;
+        this.tooltipService.hide();
+      }
       this.deleteMilestone(milestone);
       this.saveData();
 
@@ -1159,6 +1183,11 @@ export class OverviewComponent
   private onMilestoneDragStart(event: any, element: d3.Selection<any, any, any, any>) {
     this.isDraggingMilestone = true;
     this.hasMovedDuringDrag = false;
+    this.clearMilestoneHoverTimer();
+    if (this.hovered_milestone) {
+      this.hovered_milestone = undefined;
+      this.tooltipService.hide();
+    }
     element.raise();
     element.select(".hitbox").attr("style", "cursor: grabbing; pointer-events: all;");
     this.createDragTimeIndicator(event.x);
@@ -1292,6 +1321,13 @@ export class OverviewComponent
     }
   }
 
+  private clearMilestoneHoverTimer() {
+    if (this.milestoneHoverTimer) {
+      clearTimeout(this.milestoneHoverTimer);
+      this.milestoneHoverTimer = null;
+    }
+  }
+
   getLineForMilestone(
     parent: d3.Selection<any, any, any, any>,
     m: Milestone,
@@ -1306,11 +1342,50 @@ export class OverviewComponent
     let x = this.xScaledTimeZoned(m.date);
     const dragBehavior = this.setupMilestoneDragBehavior(m);
 
+    let lastX = 0;
+    let lastY = 0;
+
     return g
       .attr("transform", `translate(${x}, ${this.inner_margin.top})`)
       .call((g) => g.classed("hidden", x < 0 || x > overview.width))
       .call(dragBehavior)
+      .on("mouseenter", (e) => {
+        if (overview.isDraggingMilestone) return;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        overview.clearMilestoneHoverTimer();
+        if (m.notes && m.notes.trim().length > 0) {
+          overview.milestoneHoverTimer = setTimeout(() => {
+            if (overview.isDraggingMilestone) return;
+            overview.hovered_milestone = m;
+            overview.hovered_commit = undefined;
+            overview.hovered_group_commit = undefined;
+            overview.hovered_session = undefined;
+            overview.refreshTooltip(lastX, lastY);
+          }, overview.MILESTONE_HOVER_DELAY);
+        }
+      })
+      .on("mousemove", (e) => {
+        if (overview.isDraggingMilestone) return;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        if (overview.hovered_milestone === m) {
+          overview.refreshTooltip(e.clientX, e.clientY);
+        }
+      })
+      .on("mouseleave", () => {
+        overview.clearMilestoneHoverTimer();
+        if (overview.hovered_milestone === m) {
+          overview.hovered_milestone = undefined;
+          overview.refreshTooltip();
+        }
+      })
       .on("contextmenu", (e) => {
+        overview.clearMilestoneHoverTimer();
+        if (overview.hovered_milestone) {
+          overview.hovered_milestone = undefined;
+          overview.tooltipService.hide();
+        }
         if (overview.isDraggingMilestone) return;
         e.preventDefault();
         e.stopPropagation();
@@ -1318,6 +1393,11 @@ export class OverviewComponent
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
+        overview.clearMilestoneHoverTimer();
+        if (overview.hovered_milestone) {
+          overview.hovered_milestone = undefined;
+          overview.tooltipService.hide();
+        }
         if (overview.isDraggingMilestone) return;
         if (e.defaultPrevented) return; // Ignore click triggered by drag
         e.stopPropagation();

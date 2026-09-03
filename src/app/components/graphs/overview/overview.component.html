@@ -334,7 +334,7 @@
 </ng-template>
 <ng-template #d3TooltipTemplate>
   <div
-    *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null"
+    *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null"
     id="commit_hover"
   >
     <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>
@@ -358,7 +358,7 @@
   </div>
   
   <div
-    *ngIf="hovered_session != null && hovered_commit == null && hovered_group_commit == null"
+    *ngIf="hovered_session != null && hovered_commit == null && hovered_group_commit == null && hovered_milestone == null"
     id="session_hover"
     style="max-width: 250px; word-wrap: break-word;"
   >
@@ -369,7 +369,29 @@
   </div>
 
   <div
-    *ngIf="hovered_group_commit != null && hovered_commit == null && hovered_session == null"
+    *ngIf="hovered_milestone != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null"
+    id="milestone_hover"
+    style="max-width: 250px; word-wrap: break-word;"
+  >
+    <div
+      class="d-flex align-items-center mb-2"
+      style="gap: 0.5rem; font-weight: 500;"
+      [style.color]="hovered_milestone.type === 'correction' ? 'var(--color-danger)' : (hovered_milestone.type === 'other' ? 'var(--color-secondary)' : 'var(--color-primary)')"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      <span>{{ 'MILESTONE-NOTES' | translate }}</span>
+    </div>
+    <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary); white-space: pre-wrap;">{{ hovered_milestone.notes }}</p>
+  </div>
+
+  <div
+    *ngIf="hovered_group_commit != null && hovered_commit == null && hovered_session == null && hovered_milestone == null"
     id="commit_group_hover"
   >
     <div
