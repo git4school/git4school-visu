@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   ChangeDetectorRef,
   Component,
   OnInit,
@@ -16,12 +15,14 @@ import {
   Validators,
 } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
+import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
+import { ToastService } from "@services/toast.service";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
 import { Observable, of, timer } from "rxjs";
-import { catchError, map, switchMap } from "rxjs/operators";
+import { catchError, map, switchMap, take } from "rxjs/operators";
 import { BaseTabEditConfigurationComponent } from "../base-tab-edit-configuration.component";
 import { ModalAddRepositoriesComponent } from "./modal-add-repositories/modal-add-repositories.component";
 
@@ -44,13 +45,8 @@ export type SortDirection = "asc" | "desc" | "";
 })
 export class EditRepositoriesComponent
   extends BaseTabEditConfigurationComponent<Repository>
-  implements OnInit, AfterContentChecked {
-  /**
-   * The template reference corresponding to the confirmation modal when deleting a repository
-   */
-  @ViewChild("deleteConfirmation")
-  private deleteConfirmation: TemplateRef<any>;
-
+  implements OnInit
+{
   /**
    * The matrix that defines the transition relationships between the sorting modes.
    *
@@ -64,11 +60,6 @@ export class EditRepositoriesComponent
   };
 
   /**
-   * The reference to the repository deletion modal when it is displayed
-   */
-  modalRef: NgbModalRef;
-
-  /**
    * The current sorting mode, applied at the moment
    */
   nameDirection: SortDirection;
@@ -78,21 +69,98 @@ export class EditRepositoriesComponent
    */
   lastPropertySorted: string;
 
+  searchQuery = "";
+
+  get filteredFormControls() {
+    if (!this.searchQuery) return this.getFormControls;
+    const lowerQuery = this.searchQuery.toLowerCase();
+    return this.getFormControls.filter((group) => {
+      const name = group.get("name")?.value?.toLowerCase() || "";
+      const url = group.get("url")?.value?.toLowerCase() || "";
+      const tpGroup = group.get("tpGroup")?.value?.toLowerCase() || "";
+      return (
+        name.includes(lowerQuery) ||
+        url.includes(lowerQuery) ||
+        tpGroup.includes(lowerQuery)
+      );
+    });
+  }
+
+  get existingTpGroups(): string[] {
+    const groups = this.getFormControls
+      .map((group) => group.get("tpGroup")?.value)
+      .filter((val) => val && val.trim() !== "");
+    return Array.from(new Set(groups)).sort();
+  }
+
+  selectionMode = false;
+  selectedRepositories: Set<number> = new Set();
+  hoveredRepository: number | null = null;
+
+  toggleSelection(index: number) {
+    if (this.selectedRepositories.has(index)) {
+      this.selectedRepositories.delete(index);
+    } else {
+      this.selectedRepositories.add(index);
+    }
+    this.selectionMode = this.selectedRepositories.size > 0;
+  }
+
+  isSelected(index: number): boolean {
+    return this.selectedRepositories.has(index);
+  }
+
+  isAllSelected(): boolean {
+    const visibleIds = this.filteredFormControls.map((group) =>
+      this.getFormControls.indexOf(group)
+    );
+    if (visibleIds.length === 0) return false;
+    return visibleIds.every((id) => this.selectedRepositories.has(id));
+  }
+
+  toggleSelectAll() {
+    const visibleIds = this.filteredFormControls.map((group) =>
+      this.getFormControls.indexOf(group)
+    );
+    if (this.isAllSelected()) {
+      visibleIds.forEach((id) => this.selectedRepositories.delete(id));
+    } else {
+      visibleIds.forEach((id) => this.selectedRepositories.add(id));
+    }
+    this.selectionMode = this.selectedRepositories.size > 0;
+  }
+
+  cancelSelection() {
+    this.selectedRepositories.clear();
+    this.selectionMode = false;
+  }
+
+  deleteSelected() {
+    if (this.selectedRepositories.size === 0) return;
+    const indicesToDelete = Array.from(this.selectedRepositories).sort(
+      (a, b) => b - a
+    );
+
+    indicesToDelete.forEach((index) => this.deleteRow(index));
+    this.cancelSelection();
+  }
+
   /**
    * EditRepositoriesComponent constructor
-   * @param {FormBuilder} fb The service to build formGroups
+   * @param fb The service to build formGroups
    * @param cdref
-   * @param {AuthService} authService The service managing authentication
-   * @param {NgbModal} modalService The service to open a modal
-   * @param {TranslateService} translateService The service for the localization
-   * @param {DataService} dataService The service to manage the application data at runtime
+   * @param authService The service managing authentication
+   * @param modalService The service to open a modal
+   * @param translateService The service for the localization
+   * @param dataService The service to manage the application data at runtime
    */
   constructor(
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
-    private authService: AuthService,
-    private modalService: NgbModal,
+    public authService: AuthService,
+    private modalService: CustomModalService,
     private translateService: TranslateService,
+    private toastService: ToastService,
     private dataService: DataService
   ) {
     super(fb, cdref);
@@ -109,10 +177,10 @@ export class EditRepositoriesComponent
   }
 
   /**
-   * @ignore
+   * TrackBy function for *ngFor performance
    */
-  ngAfterContentChecked() {
-    super.ngAfterContentChecked();
+  trackByRepo(index: number, group: FormGroup): any {
+    return group.get("url")?.value || index;
   }
 
   /**
@@ -120,9 +188,10 @@ export class EditRepositoriesComponent
    * If the modal is closed with the "Add" button, all the new selected repositories are saved in the assignment
    */
   openAddRepositoriesModal() {
-    let modalReference = this.modalService.open(ModalAddRepositoriesComponent, {
-      size: "xl",
-    });
+    let modalReference: CustomModalRef = this.modalService.open(
+      ModalAddRepositoriesComponent,
+      { size: "lg" }
+    );
     modalReference.componentInstance.repoList = this.getFormControls.map(
       (row) => Repository.withJSON(row.value)
     );
@@ -140,7 +209,6 @@ export class EditRepositoriesComponent
             this.addRow(repo);
           });
           this.modify();
-          this.submitForm();
         }
       },
       (error) => {}
@@ -157,7 +225,7 @@ export class EditRepositoriesComponent
 
   /**
    * Get the string to display in the error tooltip, translated in the right language
-   * @param {Error[]} errors The array of errors
+   * @param errors The array of errors
    * @returns A string with the errors translated in the right language
    */
   getErrorTooltip(errors: Error[]): string {
@@ -171,8 +239,8 @@ export class EditRepositoriesComponent
 
   /**
    * Cancel the edition of a row (repository) and set back its value
-   * @param {FormGroup} group The formGroup for the repository to cancel the edition
-   * @param {number} index The index of the formGroup in the array
+   * @param group The formGroup for the repository to cancel the edition
+   * @param index The index of the formGroup in the array
    */
   cancelRow(group: FormGroup, index: number) {
     super.cancelRow(group, index);
@@ -185,7 +253,7 @@ export class EditRepositoriesComponent
    * The method called when a header is clicked on to sort the table by the clicked property.
    *
    * See {@link sort}
-   * @param {string} property The property to sort the table with
+   * @param property The property to sort the table with
    */
   onSort(property: string) {
     this.lastPropertySorted === property
@@ -200,31 +268,40 @@ export class EditRepositoriesComponent
    * The method called when the "Delete" button is clicked on.
    * If the user has checked "Hide this confirmation box until the next reload",
    * the confirmation modal is not displayed
-   * @param {number} index The index of the formGroup to delete
+   * @param index The index of the formGroup to delete
    */
   onDeleteRow(index: number) {
-    this.dataService.hideDeleteRepoConfirmation
-      ? this.deleteRow(index)
-      : this.deleteRowWithDialog(index);
+    this.deleteRow(index);
   }
 
   /**
    * Create the formGroup for a repository
-   * @param {Repository} data The repository to create the formGroup for
+   * @param data The repository to create the formGroup for
    * @returns The formGroup
    */
   protected createFormGroup(data?: Repository) {
+    let avatarUrl = null;
+    if (data?.url) {
+      try {
+        const parts = data.url.split("/");
+        if (parts.length >= 4 && parts[2].includes("github.com")) {
+          avatarUrl = "https://github.com/" + parts[3] + ".png";
+        }
+      } catch (e) {}
+    }
+
     return this.fb.group({
       url: [
         data?.url,
         {
           validators: [Validators.required, this.repoAlreadyAddedValidator()],
-          asyncValidators: [this.accessToRepoValidator()],
+          asyncValidators: [this.accessToRepoValidator(data?.url)],
         },
       ],
       name: [data?.name],
       tpGroup: [data?.tpGroup],
       errors: [data ? data.errors : []],
+      avatarUrl: [avatarUrl],
       isEditable: false,
       isInvalid: false,
       save: {},
@@ -250,17 +327,40 @@ export class EditRepositoriesComponent
   /**
    * A validator checking if the authenticated user has access to the specified repository (and if it exists)
    */
-  private accessToRepoValidator(): AsyncValidatorFn {
+  private accessToRepoValidator(initialUrl?: string): AsyncValidatorFn {
     return (
       urlControl: AbstractControl
     ): Observable<ValidationErrors | null> => {
-      if (!urlControl.valueChanges || urlControl.pristine) {
-        return of(null);
+      if (!urlControl.value || urlControl.value === initialUrl) {
+        return timer(10).pipe(
+          map(() => null),
+          take(1)
+        );
       } else {
         return timer(1000).pipe(
           switchMap(() => this.authService.verifyUserAccess(urlControl.value)),
-          map((res) => null),
-          catchError((err) => of({ noAccess: true }))
+          map((res) => {
+            if (urlControl.parent && urlControl.parent.get("avatarUrl")) {
+              urlControl.parent
+                .get("avatarUrl")
+                .setValue(res?.owner?.avatar_url || null, { emitEvent: false });
+            }
+            return null;
+          }),
+          catchError((err) => {
+            if (urlControl.parent && urlControl.parent.get("avatarUrl")) {
+              urlControl.parent
+                .get("avatarUrl")
+                .setValue(null, { emitEvent: false });
+            }
+            const title = this.translateService.instant("ERROR");
+            const msg = this.translateService.instant(
+              "ERROR-MESSAGE-NO-ACCESS"
+            );
+            this.toastService.error(title, msg);
+            return of({ noAccess: true });
+          }),
+          take(1)
         );
       }
     };
@@ -276,7 +376,7 @@ export class EditRepositoriesComponent
   /**
    * Sort the table, the repositories array, by the chosen property.
    * The sorting used is an alphabetical sorting as all the properties of a repository are a string
-   * @param {string} property The property to sort the table with
+   * @param property The property to sort the table with
    */
   private sort(property: string) {
     if (!this.nameDirection) {
@@ -289,30 +389,5 @@ export class EditRepositoriesComponent
           a.get(property).value?.localeCompare(b.get(property).value)
       );
     }
-  }
-
-  /**
-   * Delete the formGroup at the specified index, after the confirmation of the user.
-   * If the user checks "Hide this confirmation box until the next reload",
-   * updates the corresponding boolean in the application data
-   * @param {number} index The index of the formGroup in the array
-   */
-  private deleteRowWithDialog(index: number) {
-    this.openDeleteConfirmation().then(
-      (hide) => {
-        this.dataService.hideDeleteRepoConfirmation = hide;
-        this.deleteRow(index);
-      },
-      () => {}
-    );
-  }
-
-  /**
-   * Open the delete confirmation for a repository
-   * @returns The result returned by the modal reference
-   */
-  private openDeleteConfirmation(): Promise<any> {
-    this.modalRef = this.modalService.open(this.deleteConfirmation);
-    return this.modalRef.result;
   }
 }

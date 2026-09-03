@@ -1,23 +1,366 @@
-<div>
-    <input type="text" class="form-control" [(ngModel)]="question" [ngbTypeahead]="searchQuestions"
-        [editable]="editable" [resultTemplate]="rt" (keydown.enter)="onEnter()"
-        placeholder="{{ 'QUESTIONS-CHOOSER-PLACEHOLDER' | translate }}" [disabled]="disabled"
-        (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)"
-        #instance="ngbTypeahead" (selectItem)="onSelect($event)" />
-</div>
-<div *ngFor="let question of questions; let i = index" class="d-inline-flex">
-    <span class="badge badge-pill badge-secondary mr-1">{{question}} <span class="clickable" *ngIf="!disabled"
-            (click)="deleteQuestion(i)">
-            <i class="fas fa-times ml-1"></i>
+<div class="pseudo-input-container form-control" [class.disabled]="disabled" (click)="inputField.focus()">
+  <!-- Leading Search Icon in Search Mode -->
+  <svg *ngIf="mode === 'search'" class="search-leading-icon mr-1 flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>
+
+  <div #scrollContainer class="pills-scroll-container" 
+       [style.max-width]="maxPillsWidth" 
+       *ngIf="items.length > 0"
+       (dragover)="onContainerDragOver($event)"
+       (dragleave)="onContainerDragLeave($event)"
+       (drop)="onContainerDrop($event)"
+       style="position: relative;">
+       
+    <!-- Absolute Drop Indicator removed in favor of inline ghost preview -->
+
+    <ng-container *ngFor="let item of items; let i = index; trackBy: trackByFn">
+      
+      <!-- Preview Left -->
+      <ng-container *ngIf="dropTargetIndex === i && dropPosition === 'left'">
+        <ng-container *ngTemplateOutlet="ghostPreview"></ng-container>
+      </ng-container>
+
+      <div class="pill" 
+           #pillElements tabindex="-1"
+           [draggable]="editingPillIndex === null"
+           (dragstart)="onDragStart($event, i)"
+           (dragend)="onDragEnd()"
+           [class.commit-pill]="isCommitStyle(item, i)"
+           [class.editing-pill]="editingPillIndex === i"
+           [class.selected-pill]="selectedPillIndex === i"
+           [class.merged-right]="isMergedRight(i)"
+           [class.merged-left]="isMergedLeft(i)"
+           [class.has-connector]="mode === 'search' && i < items.length - 1"
+           [class.dragging]="draggedGroupStart !== null && i >= draggedGroupStart && i <= draggedGroupEnd"
+           [class.exclusion-pill]="(editingPillIndex === i) ? editingIsExclusion : item.isExclusion"
+           (click)="selectPill(i, $event)">
+           
+        <!-- Pill Icon -->
+        <svg *ngIf="!isCommitStyle(item, i)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+          <line x1="7" y1="7" x2="7.01" y2="7"></line>
+        </svg>
+        <svg *ngIf="isCommitStyle(item, i)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="1.05" y1="12" x2="7" y2="12"></line>
+          <line x1="17" y1="12" x2="22.95" y2="12"></line>
+        </svg>
+
+        <span *ngIf="editingPillIndex !== i">{{ item.value }}</span>
+        <input *ngIf="editingPillIndex === i"
+               #editInputs
+               name="editInput_{{i}}"
+               type="text"
+               class="edit-input"
+               [ngModel]="editingCurrentText"
+               (ngModelChange)="onEditQuestionChange($event)"
+               [ngModelOptions]="{standalone: true}"
+               [ngbTypeahead]="searchQuestionsEdit"
+               container="body"
+               [resultTemplate]="rt"
+               (selectItem)="onEditSelectItem($event)"
+               (blur)="onEditBlur()"
+               (focus)="editFocus$.next(editingCurrentText)"
+               (click)="editFocus$.next(editingCurrentText)"
+               (keydown)="onEditInputKeyDown($event)"
+               size="{{ editingCurrentText.length || 1 }}" />
+               
+        <span class="close-icon" *ngIf="!disabled && !isMergedRight(i)" (click)="onCloseClick(i, $event)">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+              <line x1="16" y1="8" x2="8" y2="16"></line>
+              <line x1="8" y1="8" x2="16" y2="16"></line>
+          </svg>
         </span>
-    </span>
-</div>
-<div *ngIf="noQuestionMessage && !questions.length">
-    <small class="text-muted">{{ 'NO-QUESTION' | translate }}</small>
-</div>
+      </div>
+
+      <!-- Connector -->
+      <div *ngIf="mode === 'search' && i < items.length - 1"
+           #connectorElements
+           class="pill-connector"
+           [class.merged]="item.operatorAfter === 'AND'"
+           (click)="toggleOperator(i, $event)">
+           
+        <div class="connector-icon link-icon" *ngIf="item.operatorAfter !== 'AND'">
+          <span>{{ 'QUESTIONS-CHOOSER-AND' | translate }}</span>
+        </div>
+        <div class="connector-icon unlink-icon" *ngIf="item.operatorAfter === 'AND'">
+          <span>{{ 'QUESTIONS-CHOOSER-OR' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Preview Right (only on the last element to cover dropping at the end) -->
+      <ng-container *ngIf="i === items.length - 1 && dropTargetIndex === i && dropPosition === 'right'">
+        <ng-container *ngTemplateOutlet="ghostPreview"></ng-container>
+      </ng-container>
+
+    </ng-container>
+    
+    <!-- Template for the Ghost Preview -->
+    <ng-template #ghostPreview>
+      <div *ngFor="let dItem of getDraggedItems(); let di = index" 
+           class="pill ghost-preview"
+           [class.commit-pill]="isCommitStyle(dItem, -1)"
+           [class.merged-right]="di < getDraggedItems().length - 1"
+           [class.merged-left]="di > 0">
+        <svg *ngIf="!isCommitStyle(dItem, -1)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+          <line x1="7" y1="7" x2="7.01" y2="7"></line>
+        </svg>
+        <svg *ngIf="isCommitStyle(dItem, -1)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="1.05" y1="12" x2="7" y2="12"></line>
+          <line x1="17" y1="12" x2="22.95" y2="12"></line>
+        </svg>
+        <span>{{ dItem.value }}</span>
+        <span class="close-icon" *ngIf="!disabled && di === getDraggedItems().length - 1">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+              <line x1="16" y1="8" x2="8" y2="16"></line>
+              <line x1="8" y1="8" x2="16" y2="16"></line>
+          </svg>
+        </span>
+      </div>
+    </ng-template>
+  </div>
+  
+  <div class="main-input-wrapper position-relative d-flex align-items-center"
+       [class.flex-grow-1]="!isMainPillActive"
+       [class.pill]="isMainPillActive && mode !== 'choose'"
+       [class.editing-pill]="isMainPillActive && mode !== 'choose'"
+       [class.selected-pill]="isMainPillActive && mode !== 'choose'"
+       [class.exclusion-pill]="isTypingExclusion"
+       [class.commit-pill]="isMainPillActive && isCommitStyle({value: question}, -2)">
+    
+    <!-- Dynamic Icon for typing pill -->
+    <ng-container *ngIf="isMainPillActive && mode === 'search'">
+      <svg *ngIf="!isCommitStyle({value: question}, -2)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+      </svg>
+      <svg *ngIf="isCommitStyle({value: question}, -2)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <line x1="1.05" y1="12" x2="7" y2="12"></line>
+        <line x1="17" y1="12" x2="22.95" y2="12"></line>
+      </svg>
+    </ng-container>
+
+    <input #inputField type="text" [ngModel]="question" (ngModelChange)="onQuestionChange($event)" [ngbTypeahead]="searchQuestions"
+        [class.transparent-input]="!isMainPillActive || mode === 'choose'"
+        [class.edit-input]="isMainPillActive && mode !== 'choose'"
+        [attr.size]="isMainPillActive ? (question?.length || 1) : 1"
+        [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter()" (keydown)="onMainInputKeyDown($event)"
+        [inputFormatter]="typeaheadFormatter" [resultFormatter]="typeaheadFormatter"
+        placeholder="{{ placeholderKey | translate }}" [disabled]="disabled"
+        container="body"
+        (focus)="onInputFocus($event)" (click)="click$.next($any($event).target.value)"
+        #instance="ngbTypeahead" (selectItem)="onSelect($event)" />
+  </div>
+
+  <!-- Right Actions: Quick Help Button -->
+  <div class="input-actions-group d-flex align-items-center ml-auto" #inputActionsGroup *ngIf="mode === 'search'">
+    <button type="button" class="btn-help-ghost anim-scale-hover"
+            (click)="toggleQuickHelp($event)"
+            (mousedown)="$event.stopPropagation(); $event.preventDefault()"
+            [class.active]="showQuickHelp"
+            [attr.aria-expanded]="showQuickHelp"
+            [title]="'QUESTIONS-CHOOSER-HELP.TITLE' | translate">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Quick Help Popover Card -->
+  <div class="quick-help-popover" 
+       #quickHelpPopover
+       *ngIf="showQuickHelp && mode === 'search'" 
+       [style.transform]="getHelpTransform()"
+       [class.is-shifted]="isShifted"
+       (mousedown)="$event.stopPropagation(); $event.preventDefault()"
+       (click)="$event.stopPropagation()">
+      <div class="quick-help-header d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center" style="gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span class="quick-help-title font-weight-bold">{{ 'QUESTIONS-CHOOSER-HELP.TITLE' | translate }}</span>
+        </div>
+        <button type="button" class="btn-close-popover" (click)="closeQuickHelp($event)">
+          <svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="quick-help-body">
+        <div class="quick-help-features">
+          <!-- Feature 1: Questions -->
+          <div class="help-feature-card d-flex align-items-start">
+            <div class="pill question-pill mini-pill mr-2 flex-shrink-0">
+              <svg class="pill-icon question-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+              <span>#1</span>
+            </div>
+            <div class="feature-info flex-grow-1">
+              <div class="feature-name">{{ 'QUESTIONS-CHOOSER-HELP.QUESTIONS_TITLE' | translate }}</div>
+              <div class="feature-desc">{{ 'QUESTIONS-CHOOSER-HELP.QUESTIONS_DESC' | translate }}</div>
+            </div>
+          </div>
+
+          <!-- Feature 2: Commits -->
+          <div class="help-feature-card d-flex align-items-start">
+            <div class="pill commit-pill mini-pill mr-2 flex-shrink-0">
+              <svg class="pill-icon commit-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17" y1="12" x2="22.95" y2="12"></line></svg>
+              <span>fix</span>
+            </div>
+            <div class="feature-info flex-grow-1">
+              <div class="feature-name">{{ 'QUESTIONS-CHOOSER-HELP.COMMITS_TITLE' | translate }}</div>
+              <div class="feature-desc">{{ 'QUESTIONS-CHOOSER-HELP.COMMITS_DESC' | translate }}</div>
+            </div>
+          </div>
+
+          <!-- Feature 3: Exclusion -->
+          <div class="help-feature-card d-flex align-items-start">
+            <div class="pill commit-pill exclusion-pill mini-pill mr-2 flex-shrink-0">
+              <svg class="pill-icon commit-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17" y1="12" x2="22.95" y2="12"></line></svg>
+              <span>wip</span>
+            </div>
+            <div class="feature-info flex-grow-1">
+              <div class="feature-name">{{ 'QUESTIONS-CHOOSER-HELP.EXCLUSION_TITLE' | translate }}</div>
+              <div class="feature-desc">{{ 'QUESTIONS-CHOOSER-HELP.EXCLUSION_DESC' | translate }}</div>
+            </div>
+          </div>
+
+          <!-- Feature 4: ET / OU -->
+          <div class="help-feature-card d-flex align-items-start">
+            <div class="d-flex align-items-center mr-2 flex-shrink-0">
+              <div class="pill question-pill mini-pill merged-right">
+                <svg class="pill-icon question-icon" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                <span>#1</span>
+              </div>
+              <div class="pill commit-pill mini-pill merged-left">
+                <svg class="pill-icon commit-icon" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17" y1="12" x2="22.95" y2="12"></line></svg>
+                <span>fix</span>
+              </div>
+            </div>
+            <div class="feature-info flex-grow-1">
+              <div class="feature-name">{{ 'QUESTIONS-CHOOSER-HELP.OPERATORS_TITLE' | translate }}</div>
+              <div class="feature-desc">{{ 'QUESTIONS-CHOOSER-HELP.OPERATORS_DESC' | translate }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shortcuts Summary -->
+        <div class="quick-help-shortcuts mt-3 pt-2">
+          <div class="shortcuts-header mb-2 font-weight-bold">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUTS_TITLE' | translate }}</div>
+          <div class="shortcuts-list">
+            <div class="shortcut-row">
+              <kbd class="shortcut-key shortcut-key-sm">F</kbd>
+              <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_FOCUS' | translate }}</span>
+            </div>
+            <div class="shortcut-row">
+              <kbd class="shortcut-key shortcut-key-sm">⇥ Tab</kbd>
+              <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_SUGGESTIONS' | translate }}</span>
+            </div>
+            <div class="shortcut-row">
+              <div class="shortcut-combo">
+                <kbd class="shortcut-key shortcut-key-sm">←</kbd>
+                <kbd class="shortcut-key shortcut-key-sm">→</kbd>
+              </div>
+              <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_NAV' | translate }}</span>
+            </div>
+            <div class="shortcut-row">
+              <div class="shortcut-combo">
+                <kbd class="shortcut-key shortcut-key-sm">{{ modifierKey }}</kbd>
+                <span class="key-sep">+</span>
+                <kbd class="shortcut-key shortcut-key-sm">←</kbd>
+                <span class="key-sep">/</span>
+                <kbd class="shortcut-key shortcut-key-sm">→</kbd>
+              </div>
+              <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_REORDER' | translate }}</span>
+            </div>
+            <div class="shortcut-row">
+              <kbd class="shortcut-key shortcut-key-sm">{{ 'MODAL-SHORTCUTS.KEY_DELETE' | translate }}</kbd>
+              <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_DELETE' | translate }}</span>
+            </div>
+            <div class="shortcut-row">
+              <kbd class="shortcut-key shortcut-key-sm">{{ 'MODAL-SHORTCUTS.KEY_ESC' | translate }}</kbd>
+              <span class="shortcut-desc">{{ 'QUESTIONS-CHOOSER-HELP.SHORTCUT_CLEAR' | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <ng-template #rt let-r="result" let-t="term">
-    <span class="badge badge-pill badge-secondary">
-        <ngb-highlight [result]="r" [term]="t"></ngb-highlight>
-    </span>
+  <div class="typeahead-item-container" [class.is-commit]="r?.type === 'commit'">
+    <!-- Section header for questions if first question in list -->
+    <div class="typeahead-section-header d-flex align-items-center" *ngIf="r?.isFirstQuestion" (click)="$event.stopPropagation()">
+      <svg class="header-icon mr-1" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+      </svg>
+      <span>{{ 'QUESTIONS-CHOOSER-QUESTIONS-HEADER' | translate }}</span>
+    </div>
+
+    <!-- Suggestion Row Content (only part with hover styling) -->
+    <div class="typeahead-row-content d-flex align-items-center justify-content-between" [class.exclusion-row]="r?.isExclusion">
+      <!-- Commit Action Item -->
+      <div *ngIf="r?.type === 'commit'" class="typeahead-commit-row d-flex align-items-center text-truncate flex-grow-1 mr-2">
+        <svg class="pill-icon commit-icon mr-2 flex-shrink-0" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="1.05" y1="12" x2="7" y2="12"></line>
+          <line x1="17" y1="12" x2="22.95" y2="12"></line>
+        </svg>
+        <span class="commit-row-text text-truncate">
+          <ng-container *ngIf="r?.isExclusion">
+            {{ 'QUESTIONS-CHOOSER-EXCLUDE-COMMITS' | translate }}
+          </ng-container>
+          <ng-container *ngIf="!r?.isExclusion">
+            {{ 'QUESTIONS-CHOOSER-SEARCH-COMMITS' | translate }}
+          </ng-container>
+          <span class="commit-query-term">"{{ r.value }}"</span>
+        </span>
+      </div>
+
+      <!-- Question Item -->
+      <div *ngIf="r?.type === 'question' || !r?.type" class="d-flex align-items-center text-truncate flex-grow-1 mr-2">
+        <span class="suggestion-pill d-inline-flex align-items-center">
+          <svg class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+          </svg>
+          <span class="mr-1 text-muted small flex-shrink-0" *ngIf="r?.isExclusion">{{ 'QUESTIONS-CHOOSER-EXCLUDE-QUESTION' | translate }}</span>
+          <ngb-highlight [result]="r?.value || r" [term]="t"></ngb-highlight>
+        </span>
+      </div>
+
+      <!-- Enter Badge placed on the right of the row, OUTSIDE the pill -->
+      <span class="shortcut-badge enter-badge flex-shrink-0">{{ 'QUESTIONS-CHOOSER-PRESS-ENTER' | translate }} ↵</span>
+    </div>
+
+    <!-- Bottom Cheat Sheet in Search Mode -->
+    <div class="typeahead-cheat-sheet d-flex align-items-center justify-content-start" *ngIf="mode === 'search' && r?.isLastItem" (click)="$event.stopPropagation()" style="gap: 8px;">
+      <div class="d-flex align-items-center cheat-group" style="gap: 4px;">
+        <kbd class="shortcut-key shortcut-key-sm">!</kbd>
+        <span class="cheat-label">{{ 'QUESTIONS-CHOOSER-CHEAT-EXCLUDE' | translate }}</span>
+      </div>
+      <span class="cheat-sep">•</span>
+      <div class="d-flex align-items-center cheat-group" style="gap: 4px;">
+        <kbd class="shortcut-key shortcut-key-sm">⇥ Tab</kbd>
+        <span class="cheat-label">{{ 'QUESTIONS-CHOOSER-CHEAT-SUGGESTIONS' | translate }}</span>
+      </div>
+      <span class="cheat-sep">•</span>
+      <div class="d-flex align-items-center cheat-group" style="gap: 4px;">
+        <kbd class="shortcut-key shortcut-key-sm">?</kbd>
+        <span class="cheat-label">{{ 'QUESTIONS-CHOOSER-CHEAT-HELP' | translate }}</span>
+      </div>
+    </div>
+  </div>
 </ng-template>

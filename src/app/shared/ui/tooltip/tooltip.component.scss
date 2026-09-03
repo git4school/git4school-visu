@@ -1,0 +1,58 @@
+@import "variables";
+@import "components";
+
+:host {
+  display: block;
+  position: absolute;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.tooltip-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--tooltip-glass-bg, var(--color-surface));
+  color: var(--text-color);
+  padding: 6px 12px;
+  border-radius: 20px; /* Pill format */
+  font-size: 12px;
+  font-family: var(--font-family, inherit);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  opacity: 0;
+  will-change: opacity, transform;
+  transition: opacity 140ms ease-out, transform 140ms ease-out;
+
+  /* Glassmorphism / Minimalist */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  &.top {
+    transform: translateY(4px) scale(0.97);
+    transform-origin: bottom center;
+  }
+  &.bottom {
+    transform: translateY(-4px) scale(0.97);
+    transform-origin: top center;
+  }
+  &.left {
+    transform: translateX(4px) scale(0.97);
+    transform-origin: right center;
+  }
+  &.right {
+    transform: translateX(-4px) scale(0.97);
+    transform-origin: left center;
+  }
+
+  &.show {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.tooltip-text {
+  font-weight: 500;
+  white-space: nowrap;
+}
+

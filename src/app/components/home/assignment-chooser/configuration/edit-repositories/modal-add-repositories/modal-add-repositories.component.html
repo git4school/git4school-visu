@@ -1,34 +1,130 @@
-<div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{ 'MODAL-ADD-REPOSITORIES.TITLE' | translate }}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modalService.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
+<div class="modal-header border-bottom-0 pb-3 pt-4 px-4 align-items-center">
+    <button class="btn-outline-ghost d-flex align-items-center" style="padding-left: 0;" (click)="activeModal.dismiss('Cross click')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span class="font-weight-bold" style="font-size: 1.1rem; color: var(--color-text-primary);">{{ 'MODAL-ADD-REPOSITORIES.BACK' | translate }}</span>
     </button>
 </div>
-<div class="modal-body">
-    <input class="form-control mb-2" type="text"
-        placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER' | translate }}" (keyup)="onSearch($event)"
-        ngbAutofocus />
-    <ngx-datatable #reposTable class="material striped" style="height: 400px" [rows]="rows"
-        [headerHeight]="headerHeight" [footerHeight]="footerHeight" [rowHeight]="rowHeight" [loadingIndicator]="loading"
-        [scrollbarV]="true" [columnMode]="'force'" [selected]="selected" [selectionType]="'checkbox'"
-        [selectAllRowsOnPage]="true" [virtualization]="false" (select)="onSelect($event)"
-        (scroll)="onScroll($event.offsetY)" [rowIdentity]="getId">
-        <ngx-datatable-column [headerCheckboxable]="true" [checkboxable]="true" [minWidth]="55" [maxWidth]="100"
-            [width]="70" [sortable]="false">
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-NAME' | translate }}" prop="name" [width]="500">
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'MODAL-ADD-REPOSITORIES.COLUMN-URL' | translate }}" prop="url" [width]="1200">
-        </ngx-datatable-column>
-    </ngx-datatable>
-</div>
-<div class="modal-footer">
-    <div class="input-group">
-        <input type="text" class="form-control"
-            placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP' | translate }}" [(ngModel)]="tpGroup">
-        <div class="input-group-append">
-            <button type="button" class="btn btn-outline-dark" (click)="onClose()">{{
-                'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</button>
+<div class="modal-body pt-0 pb-4 px-0 d-flex flex-column position-relative" style="height: 500px;">
+    
+    <div class="px-4 mb-3 d-flex align-items-center">
+        <!-- Search Bar mimicking the target "Customize/Filter" area style -->
+        <div class="search-input-wrapper flex-grow-1" style="margin-right: 6px;">
+            <svg class="search-icon position-absolute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input id="tour-modal-search-input" class="form-control modern-search-input" type="text"
+                placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER' | translate }}" (keyup)="onSearch($event)"
+                ngbAutofocus />
+        </div>
+    </div>
+    
+    <div #reposTable class="modern-table-container flex-grow-1 px-4">
+        <table class="modern-table w-100" style="border-collapse: separate; border-spacing: 0;">
+            <thead>
+                <tr>
+                    <th class="checkbox-col pl-3 text-left" style="width: 64px;">
+                        <div class="custom-checkbox" [class.checked]="isAllSelected()" (click)="toggleSelectAll()">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </th>
+                    <th class="name-col text-left cursor-pointer" style="cursor: pointer;" (click)="sort('name')">
+                        {{ 'MODAL-ADD-REPOSITORIES.COLUMN-NAME' | translate }}
+                        <span *ngIf="sortBy === 'name' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
+                        <span *ngIf="sortBy === 'name' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
+                    </th>
+                    <th class="url-col text-left pr-4 cursor-pointer" style="cursor: pointer;" (click)="sort('url')">
+                        {{ 'MODAL-ADD-REPOSITORIES.COLUMN-URL' | translate }}
+                        <span *ngIf="sortBy === 'url' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
+                        <span *ngIf="sortBy === 'url' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of rows; trackBy: trackByUrl" 
+                    [class.selected]="isSelected(row)" 
+                    (click)="toggleSelection(row)"
+                    class="table-row">
+                    <td class="checkbox-col pl-3 pr-4" style="width: 64px; cursor: pointer;">
+                        <div class="custom-checkbox" [class.checked]="isSelected(row)">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </td>
+                    <td class="name-col font-weight-500" style="color: var(--color-text-primary);">
+                        <div class="d-flex align-items-center">
+                            <div class="repo-icon mr-3 d-flex align-items-center justify-content-center">
+                                <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
+                                <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
+                            </div>
+                            <span class="text-truncate repo-name-text" style="max-width: 250px;">{{ row.name }}</span>
+                        </div>
+                    </td>
+                    <td class="url-col pr-4">
+                        <a class="repo-url d-inline-flex align-items-center" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
+                            <span class="text-truncate" style="max-width: 350px;">{{ row.url }}</span>
+                            <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                <ng-container *ngIf="loading">
+                    <tr *ngFor="let i of [1, 2, 3]" class="table-row" style="pointer-events: none;">
+                        <td class="checkbox-col pl-3 pr-4" style="width: 64px;">
+                            <div class="skeleton-box" style="width: 20px; height: 20px; border-radius: 4px; margin-top: 2px;"></div>
+                        </td>
+                        <td class="name-col font-weight-500">
+                            <div class="d-flex align-items-center py-1">
+                                <div class="skeleton-box mr-3" style="width: 40px; height: 40px; border-radius: 8px;"></div>
+                                <div class="skeleton-box" style="height: 1rem; width: 60%; max-width: 200px; border-radius: 4px;"></div>
+                            </div>
+                        </td>
+                        <td class="url-col pr-4">
+                            <div class="skeleton-box" style="height: 1rem; width: 80%; max-width: 300px; border-radius: 4px;"></div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr *ngIf="!loading && rows.length === 0" class="empty-row">
+                    <td colspan="3" class="text-center py-5 text-muted">
+                        <app-repo-icon mode="empty" class="mb-3 d-block mx-auto opacity-50" style="font-size: 3em;"></app-repo-icon>
+                        <h5>{{ 'EDIT-REPOSITORIES.NO-REPOSITORIES' | translate }}</h5>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Floating Action Bar -->
+    <div class="floating-action-bar-container" [class.show]="selected.length > 0">
+        <div class="floating-action-bar">
+            
+            <div class="selected-count d-flex align-items-center pl-2 pr-3">
+                <span class="font-weight-bold mx-2" style="color: var(--color-text-primary);">{{ selected.length }} {{ 'MODAL-ADD-REPOSITORIES.SELECTED-REPOSITORIES' | translate }}</span>
+            </div>
+            
+            <div class="bar-divider"></div>
+            
+            <div class="action-inputs d-flex align-items-center px-3">
+                <i class="fas fa-users mr-2" style="color: var(--color-text-muted);"></i>
+                <input id="tour-modal-tp-group" type="text" class="bar-input" [(ngModel)]="tpGroup" [placeholder]="'MODAL-ADD-REPOSITORIES.TP-GROUP' | translate" [title]="'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP' | translate">
+            </div>
+            
+            <div class="bar-divider"></div>
+            
+            <button id="tour-modal-add-btn" class="bar-btn-primary d-flex align-items-center" (click)="onClose()">
+                <span class="font-weight-bold" style="color: var(--color-primary);">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</span>
+            </button>
+            
+            
+            <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="clearSelection()">
+                <i class="fas fa-times"></i>
+            </button>
+            
         </div>
     </div>
 </div>

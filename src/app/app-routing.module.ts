@@ -7,7 +7,6 @@ import { QuestionsCompletionComponent } from "@components/graphs/questions-compl
 import { StudentsCommitsComponent } from "@components/graphs/students-commits/students-commits.component";
 import { HomeComponent } from "@components/home/home.component";
 import { AppNavLayoutComponent } from "@components/nav-layouts/app-nav-layout/app-nav-layout.component";
-import { HomeNavLayoutComponent } from "@components/nav-layouts/home-nav-layout/home-nav-layout.component";
 import { AuthGuard } from "@guards/auth.guard";
 import { DataLoadingGuard } from "@guards/data-loading.guard";
 import { DataProvidedGuard } from "@guards/data-provided.guard";
@@ -38,8 +37,11 @@ const APP_ROUTES: Routes = [
 ];
 
 const ROUTES: Routes = [
-  { path: "", component: AppNavLayoutComponent, children: APP_ROUTES },
-  { path: "", component: HomeNavLayoutComponent, children: HOME_ROUTES },
+  { 
+    path: "", 
+    component: AppNavLayoutComponent, 
+    children: [...APP_ROUTES, ...HOME_ROUTES] 
+  },
   { path: "**", redirectTo: "/not-found" },
 ];
 

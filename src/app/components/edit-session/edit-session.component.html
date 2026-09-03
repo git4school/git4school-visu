@@ -1,93 +1,72 @@
-<div class="modal-header">
-    <h5 class="modal-title">
-        {{ (this.addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') |
-        translate }}
+<div class="modal-header border-bottom-0 pb-1 pt-3 d-flex justify-content-between align-items-center flex-nowrap w-100" style="padding-left: 40px; padding-right: 40px;">
+    <h5 class="modal-title m-0" style="font-weight: 600; font-size: 1.1rem; color: var(--color-text-primary);">
+        {{ (addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') | translate }}
     </h5>
-    <button type="button" class="close" (click)="activeModalService.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
+    <button type="button" class="btn btn-outline-ghost" style="border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-hover);" (click)="activeModalService.dismiss('Cross click')">
+        <i class="fas fa-times"></i>
     </button>
 </div>
-<div class="modal-body mx-2">
+<div class="modal-body pt-2 pb-4" style="padding-left: 40px; padding-right: 40px;">
     <form [formGroup]="sessionForm" (keydown.enter)="$event.preventDefault()" class="needs-validation">
-        <div class="form-group required">
-            <!-- date -->
-            <label for="date" class="required-label">
-                {{ 'EDIT-SESSION.DATE-LABEL' | translate }}
-            </label>
-            <div class="input-group">
-                <input id="date" class="form-control" placeholder="yyyy-mm-dd" formControlName="date" ngbDatepicker
-                    #d="ngbDatepicker" name="date" [showWeekNumbers]="true">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                        <i class="far fa-calendar-alt"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col required">
-                <!-- starttime -->
-                <label for="startTime" class="required-label">
-                    {{ 'EDIT-SESSION.START-TIME-LABEL' | translate }}
-                </label>
-                <ngb-timepicker id="startTime" formControlName="startTime" size="small" [ngClass]="{
-                    'is-invalid': sessionForm.invalid,
-                    'is-valid': sessionForm.valid}">
-                </ngb-timepicker>
-                <div *ngIf="sessionForm.errors" class="small form-text text-danger">
-                    <div *ngIf="sessionForm.errors['required']">
-                        {{ 'EDIT-SESSION.MESSAGE-REQUIRED-STARTTIME' | translate }}
-                    </div>
-                </div>
-            </div>
-            <div class="form-group col required">
-                <!-- endtime -->
-                <label for="endTime" class="required-label">
-                    {{ 'EDIT-SESSION.END-TIME-LABEL' | translate }}
-                </label>
-                <ngb-timepicker id="endTime" formControlName="endTime" size="small" [ngClass]="{
-                    'is-invalid': sessionForm.invalid,
-                    'is-valid': sessionForm.valid}">
-                </ngb-timepicker>
-                <div *ngIf="sessionForm.errors" class="small form-text text-danger">
-                    <div *ngIf="sessionForm.errors['required']">
-                        {{ 'EDIT-SESSION.MESSAGE-REQUIRED-ENDTIME' | translate }}
-                    </div>
-                </div>
-                <div *ngIf="sessionForm.errors" class="small form-text text-danger">
-                    <div *ngIf="sessionForm.errors['endTimeBeforeStartTime']">
-                        {{ 'EDIT-SESSION.MESSAGE-ENDTIME-BEFORE-STARTTIME' | translate }}
-                    </div>
+        
+        <div class="form-group mb-2 required">
+            <label class="mb-1 required-label" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'EDIT-SESSION.DATE-LABEL' | translate }} / {{ 'TIME' | translate }}</label>
+            <app-date-range-picker class="w-100 d-block"
+                [mode]="'datetime-period'"
+                [singleLabel]="' '"
+                [date]="sessionForm.get('date')?.value"
+                [startTime]="sessionForm.get('startTime')?.value"
+                [endTime]="sessionForm.get('endTime')?.value"
+                [defaultDuration]="defaultSessionDuration ? defaultSessionDuration.hour * 60 + defaultSessionDuration.minute : 120"
+                (dateChange)="sessionForm.get('date')?.setValue($event); sessionForm.get('date')?.markAsDirty()"
+                (periodChange)="onPeriodChange($event)">
+            </app-date-range-picker>
+            <div *ngIf="sessionForm.errors" class="small form-text text-danger mt-2">
+                <div *ngIf="sessionForm.errors['endTimeBeforeStartTime']">
+                    {{ 'EDIT-SESSION.MESSAGE-ENDTIME-BEFORE-STARTTIME' | translate }}
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <!-- tpGroup -->
-            <label for="tpGroup">
-                {{ 'EDIT-SESSION.TP-GROUP-LABEL' | translate }}
-            </label>
-            <select id="tpGroup" class="form-control" placeholder="d.ff" formControlName="tpGroup" id="tpGroup">
-                <option *ngFor="let tpGroup of tpGroups" [value]="tpGroup">{{tpGroup}}</option>
-                <option value="">{{ 'TP-GROUP-SELECT.ALL' | translate }}</option>
-            </select>
+        <div class="form-group mb-2">
+            <label class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'EDIT-SESSION.TP-GROUP-LABEL' | translate }}</label>
+            <app-text-input id="tpGroup" formControlName="tpGroup" [floatingLabel]="false" [suggestions]="tpGroups"></app-text-input>
         </div>
 
-        <div class="form-group">
-            <label for="notes">{{ 'EDIT-SESSION.NOTES' | translate }}</label>
-            <textarea class="form-control" id="notes" rows="5" formControlName="notes"></textarea>
+        <div class="form-group mb-0">
+            <button type="button" class="btn-outline-ghost w-100 d-flex justify-content-between align-items-center" (click)="notesOpen = !notesOpen" style="margin-left: -0.6rem; width: calc(100% + 1.2rem) !important;">
+                <span style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary);">
+                    {{ 'EDIT-SESSION.NOTES' | translate }}
+                </span>
+                <div class="d-flex align-items-center">
+                    <span *ngIf="sessionForm.get('notes').value && !notesOpen" style="font-size: 0.85rem; color: var(--color-text-muted); margin-right: 0.5rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 150px;">
+                        {{ sessionForm.get('notes').value }}
+                    </span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-text-secondary); transition: transform 0.2s ease-in-out;" [style.transform]="notesOpen ? 'rotate(180deg)' : 'rotate(0)'">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+            </button>
+            <div class="notes-anim-wrapper" [class.is-open]="notesOpen">
+                <div class="notes-anim-inner">
+                    <textarea class="form-control notes-textarea" id="notes" rows="4" formControlName="notes" style="resize: none; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.75rem; font-size: 0.95rem; margin-top: 4px;"></textarea>
+                </div>
+            </div>
         </div>
 
-        <div class="my-3">
-            <span class="text-danger">*</span> {{ "REQUIRED-FIELDS-TEXT" | translate }}
-        </div>
-
-        <hr>
-
-        <button *ngIf="!addMode" type="button" class="btn btn-danger col-5" (click)="deleteSession()">{{
-            'EDIT-SESSION.DELETE-BUTTON' | translate }}</button>
-        <button type="submit" class="btn btn-primary col-5 float-right mb-3" (click)="submitSession()"
-            [disabled]="!sessionForm.valid">{{
-            'OVERVIEW-GRAPH.MODAL.CONFIRM' | translate }}</button>
     </form>
+</div>
+<div class="modal-footer border-top-0 pt-0 pb-4 d-flex justify-content-between align-items-center w-100" style="padding-left: 40px; padding-right: 40px;">
+    <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1rem;" (click)="activeModalService.dismiss('Cross click')">
+        {{ 'CANCEL' | translate }}
+    </button>
+    <div class="d-flex align-items-center" style="gap: 0.5rem;">
+        <button *ngIf="!addMode" type="button" class="btn btn-danger shadow-sm btn-hover-expand" style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.9rem; text-transform: none;" (click)="deleteSession()">
+            <i class="fas fa-trash-alt mr-2"></i>
+            <span>{{ 'EDIT-SESSION.DELETE-BUTTON' | translate }}</span>
+        </button>
+        <button type="button" class="btn btn-primary shadow-sm" style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1.5rem; font-size: 0.9rem; text-transform: none;" (click)="submitSession()" [disabled]="!sessionForm.valid">
+            <i class="fas mr-2" [ngClass]="addMode ? 'fa-plus' : 'fa-save'"></i>{{ (addMode ? 'EDIT-SESSION.CREATE-TITLE' : 'EDIT-SESSION.EDIT-TITLE') | translate }}
+        </button>
+    </div>
 </div>

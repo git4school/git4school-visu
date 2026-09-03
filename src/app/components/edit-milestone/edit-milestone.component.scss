@@ -1,0 +1,50 @@
+:host ::ng-deep {
+    .text-input-wrapper {
+        margin-bottom: 0 !important;
+    }
+
+    textarea.notes-textarea {
+        &:focus {
+            box-shadow: none !important;
+            border-color: var(--color-border) !important;
+        }
+    }
+
+    app-date-range-picker {
+        .date-range-container .input-trigger {
+            height: 2.6rem !important;
+        }
+        .date-range-container .labels-row {
+            display: none !important;
+        }
+    }
+
+    questions-chooser {
+        .pseudo-input-container {
+            height: 2.6rem !important;
+        }
+    }
+
+    app-type-picker {
+        .type-picker-wrapper, .picker-container {
+            height: 2.6rem !important;
+        }
+    }
+
+    .notes-anim-wrapper {
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-10px);
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        &.is-open {
+            max-height: 300px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .notes-anim-inner {
+            padding-top: 2px;
+            padding-bottom: 5px; /* prevent box shadow clipping */
+        }
+    }
+}

@@ -1,0 +1,108 @@
+@import "variables";
+
+.toasts-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.toast-wrapper {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  will-change: transform, opacity;
+  transition: transform 0.4s cubic-bezier(0.2, 1, 0.2, 1), opacity 0.4s ease;
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+.toast-wrapper:not(.expanded) {
+  transform: translateX(-50%) translateY(calc(var(--index) * -16px)) scale(calc(1 - var(--index) * 0.05));
+}
+
+.toast-wrapper.expanded {
+  transform: translateX(-50%) translateY(calc(var(--offset) * -1));
+}
+
+.toast-wrapper:not(.expanded).hidden-stacked {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toast-pill {
+  pointer-events: auto; /* Re-enable clicks on the toast itself */
+  border-radius: 1.5rem; /* Fixed radius. Acts as a pill initially, and becomes a rounded rectangle naturally when height increases */
+  padding: 0.75rem 1.25rem;
+  box-shadow: $shadow-md;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 300px;
+  max-width: 500px;
+  transition: background-color $transition-normal, border-color $transition-normal, box-shadow $transition-normal, transform $transition-fast;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  /* Initial state: no message visible */
+  .toast-message-container {
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
+    transition-delay: 0s;
+  }
+
+  /* Hover state after 0.5 second delay */
+  &:hover .toast-message-container {
+    max-height: 200px; /* Arbitrary large max-height for text */
+    opacity: 1;
+    margin-top: 0.5rem;
+    transition-delay: 0.5s; /* Reduced from 1s to 0.5s */
+  }
+
+  .toast-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+
+  .toast-message {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+}
+
+/* Pastel theme variations */
+.toast-success {
+  background-color: #d1fae5; /* Tailwind emerald-100 */
+  color: #064e3b; /* Tailwind emerald-900 */
+  border: 1px solid rgba(6, 78, 59, 0.1);
+}
+
+.toast-warning {
+  background-color: #ffedd5; /* Tailwind orange-100 */
+  color: #7c2d12; /* Tailwind orange-900 */
+  border: 1px solid rgba(124, 45, 18, 0.1);
+}
+
+.toast-error {
+  background-color: #ffe4e6; /* Tailwind rose-100 */
+  color: #881337; /* Tailwind rose-900 */
+  border: 1px solid rgba(136, 19, 55, 0.1);
+}
+
+.toast-copy {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}

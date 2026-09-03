@@ -1,6 +1,702 @@
-.clickable {
-  cursor: pointer;
-  pointer-events: auto;
-  padding: 0.5em;
-  margin: -0.5em;
+@import "variables";
+
+:host {
+  display: block;
+  width: 100%;
 }
+
+.pseudo-input-container {
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  margin-top: 4px;
+  height: calc(1.5em + 0.75rem + 2px);
+  cursor: text;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: visible; // Allow popover to overflow properly
+  position: relative;
+
+  &.disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+  }
+}
+
+.search-leading-icon {
+  color: var(--color-text-muted);
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.pills-scroll-container {
+  display: flex;
+  align-items: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  height: 100%;
+  min-width: 0; /* Prevents intrinsic content size from overriding flex constraints */
+  box-sizing: border-box;
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.ghost-preview {
+  opacity: 0.5;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px #3b82f6 inset;
+}
+
+// ======================
+// Pill base styles
+// ======================
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-radius: 9999px;
+  padding: 0.1rem 0.5rem;
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  outline: none;
+  position: relative;
+  flex-shrink: 0;
+  transition: background-color 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              color 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              border-color 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              transform 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              border-radius 150ms cubic-bezier(0.23, 1, 0.32, 1),
+              margin-right 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: default; /* normal cursor */
+  min-height: 24px;
+  min-width: 14px;
+  white-space: pre-wrap;
+
+  &[draggable="true"] {
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+      transform: scale(0.97);
+    }
+  }
+
+  &.has-connector {
+    margin-right: 0;
+  }
+
+  .close-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.4rem;
+    cursor: pointer;
+    opacity: 0.5;
+    color: #1d4ed8;
+    transition: opacity 150ms ease-out, transform 150ms ease-out;
+    position: relative;
+
+    /* Expanded invisible hit area */
+    &::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      bottom: -6px;
+      left: -6px;
+      right: -6px;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:active {
+      transform: scale(0.88);
+    }
+
+    svg {
+      width: 0.9rem;
+      height: 0.9rem;
+      stroke-width: 2.5;
+    }
+  }
+
+  &.commit-pill {
+    background-color: var(--color-surface, #ffffff);
+    color: var(--color-text-secondary, #475569);
+    border: 1px solid var(--color-border, #cbd5e1);
+
+    .close-icon {
+      color: var(--color-text-secondary, #475569);
+    }
+  }
+
+  &.selected-pill {
+    border-color: #1d4ed8;
+    box-shadow: 0 0 0 1px #1d4ed8;
+
+    &.commit-pill {
+        border-color: var(--color-text-secondary, #475569);
+        box-shadow: 0 0 0 1px var(--color-text-secondary, #475569);
+    }
+  }
+
+  &.editing-pill {
+      border-style: dashed !important;
+      box-shadow: none !important;
+      outline: none;
+  }
+
+  &.exclusion-pill {
+    border-color: var(--color-danger, #dc2626) !important;
+    &::before {
+      content: '!';
+      color: var(--color-danger, #dc2626);
+      font-weight: bold;
+      margin-right: 3px;
+    }
+    
+    &.commit-pill::before {
+      color: var(--color-danger, #dc2626);
+    }
+  }
+
+  // ======================
+  // Drag and Drop
+  // ======================
+
+  &.dragging {
+    opacity: 0.4;
+  }
+
+  // ======================
+  // Merged pill styles
+  // ======================
+
+  &.merged-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: 0;
+
+    &.commit-pill {
+      /* Keep natural border for commits */
+    }
+    
+    &:not(.commit-pill) {
+      /* Add a separator border for questions */
+      border-right: 1px solid var(--color-border, #cbd5e1);
+    }
+  }
+
+  &.merged-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    &.commit-pill {
+      border-left-color: transparent;
+    }
+  }
+}
+
+.pill-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  opacity: 0.85;
+
+  &.question-icon {
+    color: #1d4ed8;
+  }
+
+  &.commit-icon {
+    color: var(--color-text-secondary, #475569);
+  }
+}
+
+.edit-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0;
+    margin: 0;
+    min-width: 1ch;
+}
+
+// ======================
+// Pill Connector
+// ======================
+
+.pill-connector {
+  position: relative;
+  width: 0.5rem; /* The standard 8px gap */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: width 150ms cubic-bezier(0.23, 1, 0.32, 1), background-color 150ms ease-out;
+  z-index: 1;
+  flex-shrink: 0; /* Prevents connectors from collapsing when many pills exist */
+
+  /* Expanded invisible hit area to make the gap easier to hover/click */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -5px; bottom: -5px; left: -8px; right: -8px;
+    z-index: -1;
+  }
+
+  &.merged {
+    width: 0px;
+    background-color: transparent;
+
+    .connector-icon {
+      /* Hide the + icon */
+      display: none; 
+    }
+    
+    .unlink-icon {
+      /* Show the unlink icon */
+      display: flex;
+      background: var(--color-danger, #dc2626); /* red split indicator */
+    }
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.connector-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: var(--color-primary, #2563eb);
+  color: white;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 140ms cubic-bezier(0.23, 1, 0.32, 1), transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none; /* Let parent handle hover */
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  position: absolute;
+  z-index: 2;
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.unlink-icon {
+  display: none; /* Hidden by default, only shown in .merged */
+}
+
+.pill-connector:hover .connector-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+// ======================
+// Input Actions & Quick Help
+// ======================
+
+.input-actions-group {
+  gap: 4px;
+}
+
+.btn-help-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: color 150ms ease-out, background-color 150ms ease-out, transform 150ms ease-out;
+
+  &:hover {
+    color: var(--color-primary);
+    background-color: var(--color-hover);
+  }
+
+  &.active {
+    color: var(--color-primary);
+    background-color: var(--color-primary-bg);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.quick-help-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  background-color: var(--tooltip-glass-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: $zindex-quick-help-popover;
+  padding: 12px 14px;
+  font-size: 0.78rem;
+  color: var(--color-text-primary);
+  transform-origin: top right;
+  transition: transform $transition-popover-shift, opacity 160ms ease-out;
+  will-change: transform;
+  animation: popoverFadeIn 160ms cubic-bezier(0.23, 1, 0.32, 1);
+
+  &.is-shifted {
+    transform-origin: top left;
+  }
+
+  .quick-help-header {
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 10px;
+
+    .quick-help-title {
+      font-size: 0.82rem;
+      color: var(--color-text-primary);
+    }
+
+    .btn-close-popover {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      padding: 2px;
+      display: inline-flex;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: color 140ms ease-out, background-color 140ms ease-out;
+
+      &:hover {
+        color: var(--color-text-primary);
+        background-color: var(--color-hover);
+      }
+    }
+  }
+
+  .quick-help-features {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    .help-feature-card {
+      background: var(--color-hover);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 7px 10px;
+
+      .mini-pill {
+        padding: 0.05rem 0.4rem;
+        font-size: 0.72rem;
+        min-height: 20px;
+        margin-right: 8px;
+        margin-top: 1px;
+        flex-shrink: 0;
+
+        .pill-icon {
+          margin-right: 3px;
+        }
+      }
+
+      .feature-info {
+        min-width: 0;
+      }
+
+      .feature-name {
+        font-size: 0.76rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        line-height: 1.2;
+        margin-bottom: 2px;
+      }
+
+      .feature-desc {
+        font-size: 0.71rem;
+        color: var(--color-text-secondary);
+        line-height: 1.35;
+      }
+    }
+  }
+
+  .quick-help-shortcuts {
+    border-top: 1px solid var(--color-border);
+
+    .shortcuts-header {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+    }
+
+    .shortcuts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .shortcut-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .shortcut-desc {
+          font-size: 0.73rem;
+          color: var(--color-text-secondary);
+        }
+      }
+    }
+  }
+}
+
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ======================
+// Typeahead Item Styles
+// ======================
+
+.typeahead-item-container {
+  width: 100%;
+  min-width: 290px;
+}
+
+.typeahead-section-header {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  padding: 4px 10px 4px 10px;
+  margin: 0 4px 2px 4px;
+  border-bottom: 1px solid var(--color-border);
+  pointer-events: none;
+  background: transparent;
+
+  .header-icon {
+    color: var(--color-primary);
+  }
+}
+
+.typeahead-row-content {
+  padding: 0.35rem 0.85rem;
+  width: 100%;
+  transition: background-color 100ms ease-out;
+
+  &.exclusion-row {
+    .commit-query-term {
+      color: var(--color-danger, #dc2626);
+    }
+  }
+}
+
+.exclusion-badge {
+  color: var(--color-danger, #dc2626);
+  font-weight: 700;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.typeahead-commit-row {
+  font-size: 0.8rem;
+  color: var(--color-text-primary);
+  font-weight: 400;
+
+  .commit-row-text {
+    color: var(--color-text-secondary);
+    font-size: 0.78rem;
+    font-weight: 400;
+
+    .commit-query-term {
+      color: var(--color-text-primary);
+      font-weight: 500;
+    }
+  }
+}
+
+.enter-badge {
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  margin-left: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 120ms ease;
+  font-weight: 500;
+}
+
+.typeahead-cheat-sheet {
+  padding: 6px 10px 2px 10px;
+  margin: 4px 4px 0 4px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.68rem;
+  font-weight: 400 !important;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  background: transparent;
+
+  .cheat-label {
+    font-size: 0.68rem;
+    font-weight: 400 !important;
+    color: var(--color-text-muted);
+  }
+
+  .cheat-sep {
+    opacity: 0.3;
+    font-size: 0.6rem;
+  }
+}
+
+// ======================
+// Dark theme
+// ======================
+
+:host-context(body.dark-theme) {
+  .pill {
+    background-color: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+    
+    .close-icon { color: #60a5fa; }
+
+    &.selected-pill {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 1px #60a5fa;
+    }
+
+    &.commit-pill {
+      background-color: transparent;
+      color: var(--color-text-secondary, #94a3b8);
+      border-color: var(--color-border, #475569);
+
+      &.selected-pill {
+          border-color: var(--color-text-secondary, #94a3b8);
+          box-shadow: 0 0 0 1px var(--color-text-secondary, #94a3b8);
+      }
+
+      .close-icon { color: var(--color-text-secondary, #94a3b8); }
+    }
+  }
+
+  .pill-icon.question-icon {
+    color: #60a5fa;
+  }
+  
+  .pill-icon.commit-icon {
+    color: var(--color-text-secondary, #94a3b8);
+  }
+
+  .connector-icon {
+    background: #3b82f6;
+  }
+
+  .connector-icon.unlink-icon {
+    background: var(--color-danger, #dc2626);
+  }
+
+  .pill.merged-right:not(.commit-pill) {
+    border-right-color: var(--color-border, #475569);
+  }
+
+  .pill-connector.merged {
+    background-color: transparent;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .btn-help-ghost {
+    color: var(--color-text-muted);
+    &:hover {
+      color: var(--color-primary);
+      background: var(--color-hover);
+    }
+    &.active {
+      color: var(--color-primary);
+      background: var(--color-primary-bg);
+    }
+  }
+
+  .quick-help-popover {
+    .help-feature-card {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+  }
+
+  .transparent-input {
+    color: var(--color-text-primary);
+  }
+}
+
+// ======================
+// Generic
+// ======================
+
+.transparent-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  min-width: 50px;
+  padding: 0;
+  margin: 0;
+  color: #495057;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.main-input-wrapper {
+  transition: none !important;
+  min-width: 0;
+  &.flex-grow-1 {
+    flex-grow: 1;
+  }
+}
+
+
+
+

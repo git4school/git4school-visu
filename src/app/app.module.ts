@@ -1,8 +1,10 @@
 import { LOCATION_INITIALIZED, registerLocaleData } from "@angular/common";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import localeFr from "@angular/common/locales/fr";
+import localeRu from "@angular/common/locales/ru";
 import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { SharedUiModule } from "./shared/ui/shared-ui.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
@@ -14,6 +16,7 @@ import { StudentsCommitsComponent } from "@components/graphs/students-commits/st
 import { AssignmentChooserComponent } from "@components/home/assignment-chooser/assignment-chooser.component";
 import { ConfigurationComponent } from "@components/home/assignment-chooser/configuration/configuration.component";
 import { EditRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component";
+// eslint-disable-next-line max-len
 import { ModalAddRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component";
 import { MetadataComponent } from "@components/home/assignment-chooser/configuration/metadata/metadata.component";
 import { HomeComponent } from "@components/home/home.component";
@@ -40,15 +43,15 @@ import { ChartsModule } from "ng2-charts";
 import { ClipboardModule } from "ngx-clipboard";
 import { MarkdownModule } from "ngx-markdown";
 import { NgxSpinnerModule } from "ngx-spinner";
-import { ToastrModule } from "ngx-toastr";
+
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { EditSessionComponent } from "./components/edit-session/edit-session.component";
 import { AuthLangNavItemComponent } from "./components/nav-items/auth-lang-nav-item/auth-lang-nav-item.component";
 import { HelpNavItemComponent } from "./components/nav-items/help-nav-item/help-nav-item.component";
 import { AppNavLayoutComponent } from "./components/nav-layouts/app-nav-layout/app-nav-layout.component";
-import { HomeNavLayoutComponent } from "./components/nav-layouts/home-nav-layout/home-nav-layout.component";
 import { OverviewGraphContextualMenuComponent } from "./components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
+import { SidebarSettingsComponent } from "./components/nav-layouts/sidebar-settings/sidebar-settings.component";
 
 /**
  * Firebase configuration file
@@ -86,11 +89,14 @@ export function appInitializerFactory(
       );
       locationInitialized.then(() => {
         registerLocaleData(localeFr);
-        translate.addLangs(["en", "fr"]);
+        registerLocaleData(localeRu);
+        translate.addLangs(["en", "fr", "ru"]);
         translate.setDefaultLang("en");
-        const langToSet = window.navigator.language
+        const savedLang = localStorage.getItem("language");
+        const browserLang = window.navigator.language
           ? window.navigator.language.slice(0, 2)
           : "en";
+        const langToSet = savedLang || browserLang;
         translate.use(langToSet).subscribe(
           () => {},
           (err) => {
@@ -120,12 +126,12 @@ export function appInitializerFactory(
     FileChooserComponent,
     EditMilestoneComponent,
     QuestionsChooserComponent,
-    HomeNavLayoutComponent,
     AppNavLayoutComponent,
     AuthLangNavItemComponent,
     HelpNavItemComponent,
     EditSessionComponent,
     OverviewGraphContextualMenuComponent,
+    SidebarSettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,10 +142,7 @@ export function appInitializerFactory(
     ChartsModule,
     NgxSpinnerModule,
     FontAwesomeModule,
-    ToastrModule.forRoot({
-      maxOpened: 3,
-      newestOnTop: false,
-    }),
+    SharedUiModule,
     BrowserAnimationsModule,
     ClipboardModule,
     MarkdownModule.forRoot(),

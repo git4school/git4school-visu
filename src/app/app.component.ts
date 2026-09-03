@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbTooltipConfig } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "@services/auth.service";
 import { DataService } from "@services/data.service";
+import { ThemeService } from "@services/theme.service";
 import * as Chart from "chart.js";
 // import * as ChartDataLabels from "chartjs-plugin-datalabels";
 import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
@@ -24,19 +24,15 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param dataService Service used to store and get data
    * @param router
    * @param translateService Service used to translate the application
+   * @param themeService Service used to handle theme
    */
   constructor(
     public authService: AuthService,
     public dataService: DataService,
     private router: Router,
     public translateService: TranslateService,
-    private ngbTooltipConfig: NgbTooltipConfig
-  ) {
-    ngbTooltipConfig.openDelay = 500;
-    ngbTooltipConfig.triggers = "hover";
-    ngbTooltipConfig.container = "body";
-    ngbTooltipConfig.animation = true;
-  }
+    private themeService: ThemeService
+  ) {}
 
   /**
    * This method is called once the component is loaded.

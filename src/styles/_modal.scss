@@ -1,0 +1,116 @@
+@import 'variables';
+@import 'mixins';
+
+/* =========================================
+   MODALS
+   ========================================= */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0;
+
+  &.show, &.d-block {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1040;
+}
+
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: $space-4;
+  pointer-events: none;
+  z-index: 1050;
+
+  @include media-up(sm) {
+    max-width: 90%;
+    margin: 1.75rem auto;
+  }
+
+  @include media-up(md) {
+    max-width: 75%;
+  }
+
+  &.modal-sm {
+    @include media-up(sm) { max-width: 400px; }
+  }
+
+  &.modal-lg {
+    @include media-up(lg) { max-width: 900px; }
+  }
+
+  &.modal-xl {
+    @include media-up(xl) { max-width: 1140px; }
+  }
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: $color-surface-light;
+  background-clip: padding-box;
+  border: 1px solid $color-border;
+  border-radius: 32px;
+  outline: 0;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0,0,0,0.02);
+
+  .modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid $color-border;
+    border-top-left-radius: calc(#{$radius-lg} - 1px);
+    border-top-right-radius: calc(#{$radius-lg} - 1px);
+
+    .modal-title {
+      margin-bottom: 0;
+      line-height: 1.5;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .close-btn {
+      padding: 0.25rem 0.5rem;
+      margin: -1rem -1rem -1rem auto;
+      background: transparent;
+      border: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: $color-text-primary;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 0.75;
+      }
+    }
+  }
+
+  .modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+  }
+}

@@ -62,7 +62,7 @@ module.exports = {
                 }
             }
         ],
-        "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/member-ordering": "warn",
         "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-inferrable-types": [
@@ -90,7 +90,7 @@ module.exports = {
             "off",
             "off"
         ],
-        "comma-dangle": ["error", "never"],
+        "comma-dangle": "off",
         "eol-last": "off",
         "import/no-deprecated": "warn",
         "import/order": "off",

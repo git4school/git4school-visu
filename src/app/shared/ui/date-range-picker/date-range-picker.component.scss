@@ -1,0 +1,440 @@
+@import "variables";
+
+.date-range-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+  font-family: $font-family-sans;
+
+  .labels-row {
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
+    margin-bottom: 0.25rem;
+
+    .label-text {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+      text-align: center;
+
+      &.start-label,
+      &.end-label {
+        width: 104px;
+        flex: 0 0 104px;
+      }
+
+      &.single-label {
+        text-align: left;
+        flex: 1;
+      }
+    }
+
+    .label-arrow-spacer {
+      width: 25px;
+      flex: 0 0 25px;
+    }
+
+    .label-button-spacer {
+      margin-left: auto;
+      width: 24px;
+      flex: 0 0 24px;
+    }
+  }
+
+  .input-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0 0.75rem;
+    height: 38px;
+    cursor: text;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:hover,
+    &:focus-within {
+      border-color: var(--color-primary);
+    }
+
+    .segments-group {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .date-segments {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+
+      .segment-input {
+        border: none !important;
+        background: transparent !important;
+        color: var(--color-text-primary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-align: center;
+        outline: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        border-radius: 0 !important;
+        flex-shrink: 0;
+
+        &::placeholder {
+          color: var(--color-text-muted);
+          font-weight: 400;
+        }
+
+        &.day,
+        &.month,
+        &.hour,
+        &.minute {
+          width: 22px;
+        }
+
+        &.year {
+          width: 40px;
+        }
+
+        &:focus {
+          color: var(--color-primary);
+        }
+      }
+
+      .separator {
+        color: var(--color-text-muted);
+        font-weight: 400;
+        font-size: 0.85rem;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0;
+        user-select: none;
+        pointer-events: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .date-time-spacer {
+        display: inline-block;
+        width: 0.85rem;
+        flex-shrink: 0;
+      }
+
+      .time-arrow-separator {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-secondary);
+        font-size: 0.75rem;
+        margin: 0 0.35rem;
+        flex-shrink: 0;
+        user-select: none;
+        pointer-events: none;
+      }
+    }
+
+    .arrow-separator {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+      font-size: 0.8rem;
+      margin: 0 0.35rem;
+      width: 14px;
+      flex-shrink: 0;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .calendar-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-primary);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+      flex-shrink: 0;
+      margin-left: auto;
+
+      &:hover {
+        color: var(--color-primary-hover);
+      }
+    }
+  }
+
+  /* Popup Calendar */
+  .calendar-popup {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 1200;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    width: max-content;
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+    animation: fadeIn 0.15s ease-out;
+
+    &.align-right {
+      left: auto;
+      right: 0;
+    }
+
+    &.drop-up {
+      top: auto;
+      bottom: calc(100% + 8px);
+    }
+
+    .popup-content-layout {
+      display: flex;
+      align-items: center;
+    }
+
+    .calendar-side {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+
+      .current-month {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--color-text-primary);
+      }
+
+      .nav-btn {
+        background: transparent;
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-secondary);
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          background-color: var(--filter-bg);
+          color: var(--color-text-primary);
+        }
+      }
+    }
+
+    .calendar-body {
+      .weekdays-row {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        margin-bottom: 0.5rem;
+
+        .weekday {
+          text-align: center;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: var(--color-text-muted);
+        }
+      }
+
+      .days-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        row-gap: 4px;
+
+        .day-cell {
+          position: relative;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: var(--color-text-primary);
+          z-index: 1;
+          transition: background-color 0.15s ease, color 0.15s ease;
+
+          &.outside-month {
+            color: var(--color-text-muted);
+            opacity: 0.5;
+          }
+
+          .day-number {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            z-index: 2;
+            transition: all 0.15s ease;
+          }
+
+          /* Hover state */
+          &:hover:not(.selected-start):not(.selected-end) {
+            .day-number {
+              background-color: var(--filter-bg);
+            }
+          }
+
+          /* Today Outline */
+          &.today {
+            .day-number {
+              border: 1px solid var(--color-primary);
+              color: var(--color-primary);
+            }
+          }
+
+          /* Range Background */
+          &.in-range {
+            background-color: var(--badge-prepared-bg);
+
+            &.today .day-number {
+              border-color: transparent;
+            }
+          }
+
+          /* Endpoints */
+          &.selected-start,
+          &.selected-end {
+            color: white;
+
+            .day-number {
+              background-color: var(--color-primary);
+              color: white;
+              box-shadow: var(--shadow-sm);
+            }
+          }
+
+          /* Visual range connections setup */
+          &::before, &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            background-color: var(--badge-prepared-bg);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            pointer-events: none;
+          }
+          &::before { left: 0; }
+          &::after { right: 0; }
+
+          /* Activate visual range connections */
+          &.range-right::after, &.hover-start::after,
+          &.range-left::before, &.selected-end::before, &.hover-end::before {
+            opacity: 1;
+          }
+
+          /* Soft highlighting for preview endpoints */
+          &.hover-end, &.hover-start {
+            .day-number {
+              background-color: var(--badge-prepared-bg);
+            }
+          }
+
+          /* If start and end are on the same day, no range background */
+          &.selected-start.selected-end {
+            &::before,
+            &::after {
+              opacity: 0 !important;
+            }
+          }
+        }
+      }
+    }
+
+    .time-picker-divider {
+      width: 1px;
+      background-color: var(--color-border);
+      align-self: stretch;
+      margin: 0 1.25rem 0 1.75rem;
+    }
+
+    .time-picker-side {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 255px;
+      height: 255px;
+      margin-top: 0;
+
+      app-time-picker {
+        display: block;
+        transform: scale(0.85);
+        transform-origin: center;
+      }
+    }
+
+    .calendar-quick-selectors {
+      display: flex;
+      gap: 0.3rem;
+      margin-bottom: 1rem;
+      justify-content: center;
+
+      .quick-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        background-color: var(--color-bg-body);
+        border: 1px solid var(--color-border);
+        border-radius: 20px;
+        padding: 0.25rem 0.6rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        .sparkle-icon {
+          &.purple { color: #a855f7; }
+          &.yellow { color: #eab308; }
+          &.blue { color: #3b82f6; }
+        }
+
+        &:hover {
+          background-color: var(--filter-bg);
+          border-color: var(--color-secondary);
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

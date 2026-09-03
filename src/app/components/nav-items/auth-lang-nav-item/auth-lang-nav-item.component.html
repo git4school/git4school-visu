@@ -1,13 +1,36 @@
-<div class="input-group">
-    <div class="input-group-prepend" *ngIf="authService.isSignedIn()">
-        <button class="btn btn-danger" (click)="onSignOut()">
-            <i class="fas fa-sign-out-alt mr-2"></i>{{'NAVBAR.SIGN-OUT' | translate }}
-        </button>
+<div class="d-flex flex-column w-100">
+    <!-- Language -->
+    <div class="sidebar-item d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+            <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9.5"></circle>
+                <path d="M2.5 12h19 M12 2.5a14 14 0 0 1 0 19 M12 2.5a14 14 0 0 0 0 19"></path>
+            </svg>
+            <span>{{ 'SETTINGS.LANGUAGE' | translate }}</span>
+        </div>
+        <select #langSelect (change)="changeLanguage(langSelect.value)" class="modern-select">
+            <option *ngFor="let lang of translateService.getLangs()" [value]="lang" [selected]="lang === translateService.currentLang">
+                {{ langNames[lang] || lang }}
+            </option>
+        </select>
     </div>
-    <select #langSelect (change)="changeLanguage(langSelect.value)" class="form-control"
-        style="text-align-last:center; ">
-        <option *ngFor="let lang of translateService.getLangs()" [value]="lang"
-            [selected]="lang === translateService.currentLang" class="text-center">
-            {{ lang }}</option>
-    </select>
+    
+    <!-- Replay Tour -->
+    <div class="sidebar-item d-flex align-items-center" *ngIf="authService.isSignedIn()" (click)="replayTour()">
+        <svg class="sidebar-item-icon text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>
+        </svg>
+        <span>{{ 'TOUR.REPLAY' | translate }}</span>
+    </div>
+
+    <!-- Logout -->
+    <div class="sidebar-item d-flex align-items-center text-danger" *ngIf="authService.isSignedIn()" (click)="onSignOut()">
+        <svg class="sidebar-item-icon text-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        <span>{{ 'NAVBAR.SIGN-OUT' | translate }}</span>
+    </div>
 </div>

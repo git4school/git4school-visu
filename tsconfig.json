@@ -12,14 +12,39 @@
     "importHelpers": true,
     "target": "es2015",
     "downlevelIteration": true,
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2018", "dom", "es6"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom",
+      "es6"
+    ],
     "paths": {
-      "@models/*": ["app/models/*"],
-      "@components/*": ["app/components/*"],
-      "@guards/*": ["app/guards/*"],
-      "@services/*": ["app/services/*"],
-      "@app/*": ["app/*"]
+      "@models/*": [
+        "app/models/*"
+      ],
+      "@components/*": [
+        "app/components/*"
+      ],
+      "@guards/*": [
+        "app/guards/*"
+      ],
+      "@services/*": [
+        "app/services/*"
+      ],
+      "@app/*": [
+        "app/*"
+      ],
+      "@shared/*": [
+        "app/shared/*"
+      ],
+      "@utils/*": [
+        "app/utils/*"
+      ],
+      "@environments/*": [
+        "environments/*"
+      ]
     }
   }
 }

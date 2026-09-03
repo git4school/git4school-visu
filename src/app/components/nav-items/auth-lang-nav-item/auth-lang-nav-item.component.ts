@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "@services/auth.service";
+import { TourService } from "@services/tour.service";
 
 @Component({
   selector: "auth-lang-nav-item",
@@ -9,15 +10,26 @@ import { AuthService } from "@services/auth.service";
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthLangNavItemComponent implements OnInit {
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
+  @Output() onClose = new EventEmitter<void>();
+
+  langNames: { [key: string]: string } = {
+    en: "English",
+    fr: "Français",
+    ru: "Русский",
+  };
+
   constructor(
     public translateService: TranslateService,
-    public authService: AuthService
+    public authService: AuthService,
+    private tourService: TourService
   ) {}
 
   ngOnInit(): void {}
 
   changeLanguage(language: string) {
     this.translateService.use(language);
+    localStorage.setItem("language", language);
   }
 
   /**
@@ -32,5 +44,16 @@ export class AuthLangNavItemComponent implements OnInit {
    */
   onSignOut() {
     this.authService.signOut();
+  }
+
+  /**
+   * Replays the onboarding tour
+   */
+  replayTour() {
+    this.onClose.emit();
+    // Use timeout to let the sidebar close animation finish
+    setTimeout(() => {
+      this.tourService.startTour();
+    }, 300);
   }
 }

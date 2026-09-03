@@ -59,12 +59,12 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import '@angular/localize/init';
-import 'chartjs-plugin-annotation';
-import 'chartjs-plugin-colorschemes';
-import 'chartjs-plugin-datalabels';
-import 'chartjs-plugin-zoom';
-import 'zone.js/dist/zone'; // Included with Angular CLI.
+import "@angular/localize/init";
+import "chartjs-plugin-annotation";
+import "chartjs-plugin-colorschemes";
+import "chartjs-plugin-datalabels";
+import "chartjs-plugin-zoom";
+import "zone.js/dist/zone"; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

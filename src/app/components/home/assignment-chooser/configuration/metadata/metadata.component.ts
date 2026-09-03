@@ -1,10 +1,18 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Metadata } from "@models/Metadata.model";
 import { NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
 import { NgbDateNativeUTCFranceAdapter } from "@services/ngb-date-native-utcfrance-adapter.service";
 import * as moment from "moment";
 import { BaseEditConfigurationComponent } from "../base-edit-configuration.component";
+import { TextInputComponent } from "@shared/ui/text-input/text-input.component";
 
 /**
  * This component lets you modify metadata such as document title, course, year, start date and end date, questions
@@ -19,8 +27,10 @@ import { BaseEditConfigurationComponent } from "../base-edit-configuration.compo
 })
 export class MetadataComponent
   extends BaseEditConfigurationComponent<Metadata>
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input() metadata: Metadata;
+  @ViewChild("titleInput") titleInput: TextInputComponent;
   metadataForm: FormGroup;
 
   /**
@@ -59,6 +69,16 @@ export class MetadataComponent
     });
   }
 
+  ngAfterViewInit() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (this.titleInput && this.titleInput.inputElement) {
+          this.titleInput.inputElement.nativeElement.focus({ preventScroll: true });
+        }
+      });
+    });
+  }
+
   ngOnDestroy() {}
 
   /**
@@ -91,8 +111,11 @@ export class MetadataComponent
       endDate: [this.metadata.endDate ? new Date(this.metadata.endDate) : null],
       questions: [this.metadata.questions],
       defaultSessionDuration: [
-        this.metadata.defaultSessionDuration,
-        Validators.required,
+        this.metadata.defaultSessionDuration || {
+          hour: 1,
+          minute: 30,
+          second: 0,
+        },
       ],
     });
   }

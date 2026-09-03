@@ -1,82 +1,76 @@
-<div class="card">
-  <div class="card-header">
-    <h4>{{ 'METADATA.PAGE-TITLE' | translate }} <span *ngIf="isModified" [ngbTooltip]="toSaveTooltip" class="ml-1">
-        <i class="fas fa-save text-primary fa-sm up-down"></i>
-      </span>
-    </h4>
-  </div>
-  <div class="card-body">
-    <form onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
-      <div class="form-group required">
-        <label class="required-label" for="title">{{ 'METADATA.TITLE' | translate }}</label>
-        <input type="text" class="form-control" id="title" formControlName="title"
-          [ngClass]="{'is-invalid': metadataForm.controls.title.invalid, 'is-valid': !metadataForm.controls.title.invalid}"
-          ngbAutofocus required>
+<div class="metadata-form-container">
+  <form onkeydown="return event.key != 'Enter';" [formGroup]="metadataForm" novalidate>
+
+    <!-- Row 1: Title -->
+    <div class="form-row mt-2">
+      <!-- Title -->
+      <div class="col-12">
+        <app-text-input #titleInput id="title" formControlName="title" [label]="'METADATA.TITLE' | translate" [required]="true"
+          [invalid]="metadataForm.controls.title.invalid && metadataForm.controls.title.touched"
+          [valid]="!metadataForm.controls.title.invalid && metadataForm.controls.title.touched">
+        </app-text-input>
       </div>
-      <div class="form-row">
-        <div class="form-group col">
-          <label for="course">{{ 'METADATA.COURSE' | translate }}</label>
-          <input type="text" class="form-control" id="course" formControlName="course">
+    </div>
+
+    <!-- Row 2: Course, Program, Year (3-3-1 ratio) -->
+    <div class="form-row mt-2">
+      <div class="col-12 d-flex flex-nowrap" style="gap: 0.5rem;">
+        <!-- Course -->
+        <div style="flex: 3;">
+          <app-text-input id="course" formControlName="course" [label]="'METADATA.COURSE' | translate">
+          </app-text-input>
         </div>
-        <div class="form-group col">
-          <label for="program">{{ 'METADATA.PROGRAM' | translate }}</label>
-          <input type="text" class="form-control" id="program" formControlName="program">
+
+        <!-- Program -->
+        <div style="flex: 3;">
+          <app-text-input id="program" formControlName="program" [label]="'METADATA.PROGRAM' | translate">
+          </app-text-input>
         </div>
-        <div class="form-group col">
-          <label for="year">{{ 'METADATA.YEAR' | translate }}</label>
-          <input type="text" class="form-control" id="year" formControlName="year">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col">
-          <label for="startDate">{{ 'METADATA.START-DATE' | translate }}</label>
-          <div class="input-group">
-            <input class="form-control" type="search" placeholder="{{ 'YEAR-FORMAT' | translate }}" ngbDatepicker
-              #startDate="ngbDatepicker" formControlName="startDate" [showWeekNumbers]="true" id="startDate">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">
-                <i class="far fa-calendar-alt"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="form-group col">
-          <label for="endDate">{{ 'METADATA.END-DATE' | translate }}</label>
-          <div class="input-group">
-            <input class="form-control" type="search" placeholder="{{ 'YEAR-FORMAT' | translate }}" ngbDatepicker
-              #endDate="ngbDatepicker" formControlName="endDate" [showWeekNumbers]="true" id="endDate">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">
-                <i class="far fa-calendar-alt"></i>
-              </button>
-            </div>
-          </div>
+
+        <!-- Year -->
+        <div style="flex: 1;">
+          <app-text-input id="year" formControlName="year" [label]="'METADATA.YEAR' | translate">
+          </app-text-input>
         </div>
       </div>
-      <div class="form-row d-flex">
-        <div class="form-group flex-grow-1 mr-2">
-          <label for="questionsChooser">{{ 'QUESTIONS' | translate }}</label>
-          <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="metadata.questions"
-            [editable]="true" [openOnFocus]="true">
+    </div>
+
+    <!-- Row 3: Questions -->
+    <div id="tour-questions" class="form-row mt-0 mb-3">
+      <div class="col-md-12">
+        <div class="form-group mb-0">
+          <label for="questionsChooser"
+            style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem;">{{
+            'QUESTIONS' | translate }}</label>
+          <questions-chooser #questionsChooser formControlName="questions" [mode]="'add'" [openOnFocus]="true"
+            [noQuestionMessage]="true" [maxPillsWidth]="'70%'">
           </questions-chooser>
         </div>
-        <div class="form-group  required">
-          <label class="required-label" for="defaultSessionDuration">{{ 'DEFAULT-SESSION-DURATION' | translate}}</label>
-          <ngb-timepicker id="defaultSessionDuration" formControlName="defaultSessionDuration" size="medium"
-            [spinners]="false">
-          </ngb-timepicker>
+      </div>
+    </div>
+
+    <!-- Row 4: Dates, Duration -->
+    <div id="tour-dates" class="form-row mt-1">
+      <div class="col-12 d-flex flex-nowrap align-items-end" style="gap: 2rem;">
+        <!-- Date Range Picker -->
+        <div style="flex: 0 1 300px;">
+          <app-date-range-picker [startDate]="metadataForm.get('startDate').value"
+            (startDateChange)="metadataForm.get('startDate').setValue($event)"
+            [endDate]="metadataForm.get('endDate').value"
+            (endDateChange)="metadataForm.get('endDate').setValue($event)">
+          </app-date-range-picker>
+        </div>
+
+        <div class="duration-section d-flex flex-column justify-content-end" style="flex: 0 1 auto; margin-bottom: 2px;">
+          <label for="defaultSessionDuration"
+            style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem;">{{ 'DEFAULT-SESSION-DURATION' | translate }}</label>
+          <div class="form-group mb-0">
+            <app-session-duration-picker id="defaultSessionDuration" formControlName="defaultSessionDuration">
+            </app-session-duration-picker>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="my-3">
-        <span class="text-danger">*</span> {{ "REQUIRED-FIELDS-TEXT" | translate }}
-      </div>
-
-      <button [disabled]="metadataForm.invalid" type="submit" class="btn btn-primary"
-        ngbTooltip="{{ 'EDIT-REPOSITORIES.TOOLTIP-SAVE' | translate }}" (click)="submitMetadata()">
-        <i class="fas fa-save"></i></button>
-    </form>
-  </div>
+  </form>
 </div>
-
-<ng-template #toSaveTooltip>{{ 'TO-SAVE.TOOLTIP' | translate }}</ng-template>

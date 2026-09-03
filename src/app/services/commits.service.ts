@@ -12,6 +12,7 @@ import {
   map,
   reduce,
   switchMap,
+  tap,
 } from "rxjs/operators";
 import { AuthService } from "./auth.service";
 import { Utils } from "./utils";
@@ -33,15 +34,15 @@ export class CommitsService {
 
   /**
    * CommitsService constructor
-   * @param {HttpClient} http
-   * @param {AuthService} authService
-   * @param {TranslateService} translateService
+   * @param http
+   * @param authService
+   * @param translateService
    */
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private translateService: TranslateService
-  ) { }
+  ) {}
 
   /**
    * Gets readMe and commits of every repository
@@ -54,234 +55,267 @@ export class CommitsService {
     startDate?: string,
     endDate?: string
   ): Observable<any[]> {
-    const tab = [];
-    repoTab.forEach((repository) => {
-      tab.push(
-        this.getRepository(repository.url, startDate, endDate).pipe(
-          map(([identityData, commitsData]) => {
-            if (commitsData.errors) {
-              repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
-            } else {
-              repository.commits = commitsData.commits;
-            }
+    const t0 = performance.now();
 
-            if (!repository.name) {
-              repository.name =
-                identityData?.name || repository.getNameFromUrl();
-            }
-            if (!repository.tpGroup) {
-              repository.tpGroup =
-                identityData?.tpGroup || Utils.DEFAULT_TP_GROUP;
-            }
+    const CHUNK_SIZE = 4;
+    const chunks: Repository[][] = [];
+    for (let i = 0; i < repoTab.length; i += CHUNK_SIZE) {
+      chunks.push(repoTab.slice(i, i + CHUNK_SIZE));
+    }
 
-            return repository;
-          })
-        )
-      );
-    });
-    return forkJoin(tab).pipe(defaultIfEmpty([]));
-  }
+    if (chunks.length === 0) {
+      return of([]);
+    }
 
-  /**
-   * Gets the readMe and commits for a given repository
-   * @param repo The repository from which data is retrieved
-   * @param startDate The date before which commits are not retrieved
-   * @param endDate The date after which commits are not retrieved
-   */
-  getRepository(
-    repoUrl: string,
-    startDate?: string,
-    endDate?: string
-  ): Observable<any[]> {
-    return forkJoin([
-      this.getIdentity(repoUrl),
-      this.getCommits(repoUrl, startDate, endDate),
-    ]);
-  }
+    const chunkObservables = chunks.map((chunk) =>
+      this.getBatchedRepositories(chunk, startDate, endDate)
+    );
 
-  getCommits(
-    repoUrl: string,
-    startDate?: string,
-    endDate?: string
-  ): Observable<any[] | any> {
-    return this.getRawCommits(repoUrl, startDate, endDate).pipe(
-      map((commitsData) => {
-        const commits = commitsData.map((commitData) =>
-          Commit.withJSON(commitData)
+    return forkJoin(chunkObservables).pipe(
+      map((results) => results.reduce((acc, val) => acc.concat(val), [])),
+      tap(() => {
+        const t1 = performance.now();
+        console.log(
+          `[Performance] getRepositories (GraphQL Batched) took ${Math.round(
+            t1 - t0
+          )} ms for ${repoTab.length} repos`
         );
-        return {
-          errors: false,
-          commits: commits,
-          message: null,
-        };
-      }),
-      catchError((error) =>
-        of({
-          errors: true,
-          commits: null,
-          message: this.translateService.instant(
-            "ERROR-MESSAGE-COMMITS-NOT-FOUND",
-            { repo: repoUrl }
-          ),
-        })
-      )
+      })
     );
   }
 
-  /**
-   * Gets the commits for a given repository and updates it
-   * @param repo The repository from which the commits are retrieved
-   * @param startDate The date before which commits are not retrieved
-   * @param endDate The date after which commits are not retrieved
-   */
-  getRawCommits(
-    repoUrl: string,
+  private getBatchedRepositories(
+    repoTab: Repository[],
     startDate?: string,
     endDate?: string
   ): Observable<any[]> {
-    const GITHUB_MAX_PER_PAGE = 100;
-    const repoHashURL = repoUrl.split("/");
-    let url =
-      "https://api.github.com/repos/" +
-      repoHashURL[3] +
-      "/" +
-      repoHashURL[4] +
-      "/commits?per_page=" +
-      GITHUB_MAX_PER_PAGE;
-    if (startDate) {
-      let startDateMoment = moment(startDate).toDate();
-      url = url.concat("&since=" + startDateMoment.toISOString());
+    const repoInfos = repoTab.map((repo, index) => {
+      const parts = repo.url.split("/");
+      return {
+        alias: `repo${index}`,
+        owner: parts[3],
+        name: parts[4],
+        repository: repo,
+      };
+    });
+
+    const hasSince = !!startDate;
+    const hasUntil = !!endDate;
+
+    let query = "query";
+    const queryParams = [];
+    if (hasSince) queryParams.push("$since: GitTimestamp!");
+    if (hasUntil) queryParams.push("$until: GitTimestamp!");
+    if (queryParams.length > 0) {
+      query += "(" + queryParams.join(", ") + ")";
     }
-    if (endDate) {
-      let endDateMoment = moment(endDate).toDate();
-      url = url.concat("&until=" + endDateMoment.toISOString());
-    }
+    query += " {\n";
+
+    repoInfos.forEach((info) => {
+      let historyArgs = "first: 100";
+      if (hasSince) historyArgs += ", since: $since";
+      if (hasUntil) historyArgs += ", until: $until";
+
+      query += `
+        ${info.alias}: repository(owner: "${info.owner}", name: "${
+        info.name
+      }") {
+${this.getCommitHistoryQueryFragment(historyArgs)}
+          identity: object(expression: "HEAD:IDENTITY.json") {
+            ... on Blob { text }
+          }
+          readme: object(expression: "HEAD:README.md") {
+            ... on Blob { text }
+          }
+        }
+      `;
+    });
+    query += "}";
+
+    let sinceMoment = startDate
+      ? moment(startDate).toDate().toISOString()
+      : null;
+    let untilMoment = endDate ? moment(endDate).toDate().toISOString() : null;
+
+    const variables: any = {};
+    if (sinceMoment) variables.since = sinceMoment;
+    if (untilMoment) variables.until = untilMoment;
 
     return this.http
-      .get(url, {
-        headers: this.headers,
-        observe: "response",
-      })
+      .post<{ data?: any; errors?: any[] }>(
+        "https://api.github.com/graphql",
+        { query, variables },
+        { headers: this.headers }
+      )
       .pipe(
-        expand((res) => {
-          // link is formatted as <request&page=n+1>; rel="next", <request?page=last_n>; rel="last"
-          let link = res.headers.get("link");
+        switchMap((response) => {
+          if (response.errors) {
+            console.error("GraphQL reported errors:", response.errors);
+          }
 
-          if (link != null && link.includes("next")) {
-            return this.http.get(
-              res.headers.get("link").split(">;")[0].substring(1),
-              { headers: this.headers, observe: "response" },
-            );
+          const results = [];
+          const reposWithNextPage = [];
+
+          repoInfos.forEach((info) => {
+            const repoData = response?.data?.[info.alias];
+            if (!repoData) {
+              info.repository.errors.push(
+                new Error(ErrorType.COMMITS_NOT_FOUND)
+              );
+              results.push(info.repository);
+              return;
+            }
+
+            const identityData = repoData.identity?.text;
+            const readmeData = repoData.readme?.text;
+            let name = "";
+            let tpGroup = "";
+
+            if (identityData) {
+              try {
+                const identityParsed = JSON.parse(identityData);
+                name = this.getNameFromIdentity(identityParsed);
+                tpGroup = identityParsed.group;
+              } catch (e) {}
+            } else if (readmeData) {
+              name = this.getNameFromReadMe(readmeData);
+              tpGroup = this.getTPGroupFromReadMe(readmeData);
+            }
+
+            const history = repoData.defaultBranchRef?.target?.history;
+            let commits = [];
+            let hasNextPage = false;
+            let endCursor = null;
+
+            if (history) {
+              commits = history.nodes.map((node) =>
+                Commit.withGraphQLJSON(node)
+              );
+              hasNextPage = history.pageInfo.hasNextPage;
+              endCursor = history.pageInfo.endCursor;
+            }
+
+            info.repository.commits = commits;
+
+            if (!info.repository.name) {
+              info.repository.name = name || info.repository.getNameFromUrl();
+            }
+            if (!info.repository.tpGroup) {
+              info.repository.tpGroup = tpGroup || Utils.DEFAULT_TP_GROUP;
+            }
+
+            results.push(info.repository);
+
+            if (hasNextPage) {
+              reposWithNextPage.push({
+                repository: info.repository,
+                owner: info.owner,
+                name: info.name,
+                cursor: endCursor,
+              });
+            }
+          });
+
+          if (reposWithNextPage.length > 0) {
+            return this.fetchRemainingCommits(
+              reposWithNextPage,
+              startDate,
+              endDate
+            ).pipe(map(() => results));
           } else {
-            return EMPTY;
+            return of(results);
           }
         }),
-        reduce((acc, res) => acc.concat(res.body), []),
+        catchError((error) => {
+          console.error("GraphQL batch error", error);
+          return of(repoTab);
+        })
       );
   }
 
-  getIdentity(repoUrl: string): Observable<any> {
-    return this.getIdentityFile(repoUrl).pipe(
-      switchMap((identityData) => {
-        let identity;
-        if (identityData.errors) {
-          return this.getReadMeFile(repoUrl).pipe(
-            map((readmeData) => {
-              return {
-                name: this.getNameFromReadMe(readmeData.readme),
-                tpGroup: this.getTPGroupFromReadMe(readmeData.readme),
-                errors: readmeData.errors,
-              };
-            })
-          );
-        } else {
-          let identityParsed = JSON.parse(identityData.identity);
-          return of({
-            name: this.getNameFromIdentity(identityParsed),
-            tpGroup: identityParsed.group,
-            errors: identityParsed.errors,
-          });
+  private fetchRemainingCommits(
+    reposWithNextPage: {
+      repository: Repository;
+      owner: string;
+      name: string;
+      cursor: string;
+    }[],
+    startDate?: string,
+    endDate?: string
+  ): Observable<any> {
+    let query = "query($since: GitTimestamp, $until: GitTimestamp) {\n";
+
+    reposWithNextPage.forEach((info, index) => {
+      query += `
+        repo${index}: repository(owner: "${info.owner}", name: "${info.name}") {
+${this.getCommitHistoryQueryFragment(
+  `first: 100, after: "${info.cursor}", since: $since, until: $until`
+)}
         }
-      })
-    );
-  }
+      `;
+    });
+    query += "}";
 
-  getReadMeFile(repoUrl: string): Observable<any> {
-    return this.getRawReadMe(repoUrl).pipe(
-      map((rawReadme) => {
-        let readme = decodeURIComponent(
-          escape(window.atob(rawReadme["content"]))
-        );
+    let sinceMoment = startDate
+      ? moment(startDate).toDate().toISOString()
+      : null;
+    let untilMoment = endDate ? moment(endDate).toDate().toISOString() : null;
 
-        return {
-          errors: false,
-          readme: readme,
-          message: null,
-        };
-      }),
-      catchError((error) =>
-        of({
-          errors: true,
-          readme: null,
-          message: this.translateService.instant(
-            "ERROR-MESSAGE-README-NOT-FOUND",
-            { repo: repoUrl }
-          ),
-        })
+    const variables: any = {};
+    if (sinceMoment) variables.since = sinceMoment;
+    if (untilMoment) variables.until = untilMoment;
+
+    return this.http
+      .post<{ data?: any; errors?: any[] }>(
+        "https://api.github.com/graphql",
+        { query, variables },
+        { headers: this.headers }
       )
-    );
-  }
+      .pipe(
+        switchMap((response) => {
+          if (response.errors) {
+            console.error(
+              "GraphQL fetchRemainingCommits errors:",
+              response.errors
+            );
+          }
 
-  /**
-   * Retrieves the readMe for a given repository
-   * @param repo The repository from which the readMe is retrieved
-   */
-  getRawReadMe(repoUrl: string): Observable<any> {
-    const tabHashURL = repoUrl.split("/");
-    const url =
-      "https://api.github.com/repos/" +
-      tabHashURL[3] +
-      "/" +
-      tabHashURL[4] +
-      "/readme";
-    return this.http.get(url, { headers: this.headers });
-  }
+          const nextReposWithNextPage = [];
 
-  getIdentityFile(repoUrl: string): Observable<any> {
-    return this.getRawIdentity(repoUrl).pipe(
-      map((rawIdentity) => {
-        let identity = decodeURIComponent(
-          escape(window.atob(rawIdentity["content"]))
-        );
+          reposWithNextPage.forEach((info, index) => {
+            const history =
+              response?.data?.[`repo${index}`]?.defaultBranchRef?.target
+                ?.history;
+            if (history) {
+              const moreCommits = history.nodes.map((node) =>
+                Commit.withGraphQLJSON(node)
+              );
+              info.repository.commits.push(...moreCommits);
 
-        return {
-          errors: false,
-          identity,
-          message: null,
-        };
-      }),
-      catchError((error) =>
-        of({
-          errors: true,
-          identity: null,
-          message: this.translateService.instant(
-            "ERROR-MESSAGE-IDENTITY-NOT-FOUND",
-            { repo: repoUrl }
-          ),
+              if (history.pageInfo.hasNextPage) {
+                nextReposWithNextPage.push({
+                  ...info,
+                  cursor: history.pageInfo.endCursor,
+                });
+              }
+            }
+          });
+
+          if (nextReposWithNextPage.length > 0) {
+            return this.fetchRemainingCommits(
+              nextReposWithNextPage,
+              startDate,
+              endDate
+            );
+          } else {
+            return of(null);
+          }
+        }),
+        catchError((error) => {
+          console.error("fetchRemainingCommits batch error", error);
+          return of(null);
         })
-      )
-    );
-  }
-
-  getRawIdentity(repoUrl: string): Observable<any> {
-    const tabHashURL = repoUrl.split("/");
-    const url =
-      "https://api.github.com/repos/" +
-      tabHashURL[3] +
-      "/" +
-      tabHashURL[4] +
-      "/contents/IDENTITY.json";
-    return this.http.get(url, { headers: this.headers });
+      );
   }
 
   /**
@@ -383,28 +417,21 @@ export class CommitsService {
    * Returns the data to use in the "questions-completion" graph
    * @param dict The data about questions
    * @param colors The commit colors to handle
-   * @param questions The quesitons to handle
-   * @returns A map with all the data needed by the "questions-completion" graph
+   * @param questions The questions to handle
+   * @returns An array of objects optimized for D3 stacking
    */
   loadQuestions(dict, colors, questions: string[], translations): any[] {
-    let data = [];
-    colors.forEach((color) => {
-      data.push({
-        label: color.label,
-        backgroundColor: color.color,
-        hoverBackgroundColor: color.color,
-        borderColor: "grey",
-        data: questions.map((question) => {
-          return {
-            y: dict[question][color.label].percentage,
-            data: dict[question][color.label],
-            translations,
-          };
-        }),
+    return questions.map((question) => {
+      let result: any = {
+        question: question,
+        translations: translations
+      };
+      colors.forEach((color) => {
+        result[color.label] = dict[question][color.label].percentage;
+        result[color.label + '_data'] = dict[question][color.label];
       });
+      return result;
     });
-
-    return data;
   }
 
   /**
@@ -475,8 +502,8 @@ export class CommitsService {
           repository.name
         ].commitsCount
           ? (dict[repository.name]["commitTypes"][color.label].commitsCount /
-            dict[repository.name].commitsCount) *
-          100
+              dict[repository.name].commitsCount) *
+            100
           : 0;
       });
     });
@@ -488,75 +515,30 @@ export class CommitsService {
    * Returns the data to use in the "students-commits" graph
    * @param dict The data about students
    * @param colors The commit colors to handle
-   * @returns A map with all the data needed by the "students-commits" graph
+   * @returns An array of objects optimized for D3 graphing
    */
   loadStudents(dict: Object, colors, translations): any[] {
-    let data = [];
-
-    data.push({
-      label: "# of commits",
-      yAxisID: "C",
-      type: "line",
-      pointHitRadius: 0,
-      fill: false,
-      borderWidth: 2,
-      datalabels: {
-        display: true,
-      },
-      borderColor: "lightblue",
-      hoverBackgroundColor: "lightblue",
-      backgroundColor: "lightblue",
-      data: Object.entries(dict).map((studentData) => {
-        return {
-          y: studentData[1]["commitsCount"],
-          data: studentData[1],
-          translations,
-        };
-      }),
-    });
-
-    data.push({
-      label: "Question progression",
-      borderColor: "blue",
-      type: "line",
-      fill: false,
-      hitRadius: 0,
-      hoverRadius: 0,
-      datalabels: {
-        display: true,
-      },
-      yAxisID: "B",
-      data: Object.entries(dict).map((studentData) => {
-        return {
-          y: studentData[1]["lastQuestionDone"],
-          data: studentData[1],
-        };
-      }),
-    });
-
-    colors.forEach((color) => {
-      data.push({
-        label: color.label,
-        backgroundColor: color.color,
-        hoverBackgroundColor: color.color,
-        borderColor: "grey",
-        yAxisID: "A",
-        data: Object.entries(dict).map((student) => {
-          return {
-            y: student[1]["commitTypes"][color.label].percentage,
-            data: student[1]["commitTypes"][color.label],
-            translations,
-          };
-        }),
+    return Object.values(dict).map((studentData: any) => {
+      let result: any = {
+        student: studentData.name,
+        commitsCount: studentData.commitsCount,
+        lastQuestionDone: studentData.lastQuestionDone,
+        url: studentData.url,
+        tpGroup: studentData.tpGroup,
+        translations: translations
+      };
+      colors.forEach((color) => {
+        result[color.label] = studentData.commitTypes[color.label].percentage;
+        result[color.label + '_data'] = studentData.commitTypes[color.label];
       });
+      return result;
     });
-
-    return data;
   }
 
   /**
    * Compares the level of progress between two questions
-   * @returns A number representing the difference in progress between two questions. If the number is positive, q1 is more advanced, otherwise, q2 is more advanced
+   * @returns A number representing the difference in progress between two questions.
+   * If the number is positive, q1 is more advanced, otherwise, q2 is more advanced
    */
   compareQuestions(q1, q2, questions): number {
     return questions.indexOf(q1) - questions.indexOf(q2);
@@ -575,23 +557,58 @@ export class CommitsService {
   /**
    * Fetch authenticated user's repositories from Github
    *
-   * @param {number} page The page of repositories to fetch
-   * @param {number} pageLimit The number of repositories to fetch per page
-   * @return {Observable<{ completed: boolean, repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   * @param cursor The cursor of repositories to fetch
+   * @param pageLimit The number of repositories to fetch per page
+   * @return An object containing the repositories, a boolean indicating if the results are complete and the next cursor
    */
   getRepositoriesByAuthenticatedUser(
-    page = 1,
+    cursor?: string,
     pageLimit = 100
-  ): Observable<{ completed: boolean; repositories: Repository[] }> {
-    let url = `https://api.github.com/user/repos?per_page=${pageLimit}&page=${page}&sort=created`;
+  ): Observable<{
+    completed: boolean;
+    repositories: Repository[];
+    cursor?: string;
+  }> {
+    const query = `
+      query($cursor: String, $pageLimit: Int!) {
+        viewer {
+          repositories(
+            first: $pageLimit
+            after: $cursor
+            affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
+            ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
+            orderBy: { field: CREATED_AT, direction: DESC }
+          ) {
+            pageInfo {
+              endCursor
+              hasNextPage
+            }
+            nodes {
+              name
+              url
+            }
+          }
+        }
+      }
+    `;
+    const variables = { cursor, pageLimit };
     return this.http
-      .get<any[]>(url, {
-        headers: this.headers,
-        observe: "response",
-      })
+      .post<{ data: any }>(
+        "https://api.github.com/graphql",
+        { query, variables },
+        { headers: this.headers }
+      )
       .pipe(
         map((response) => {
-          return this.processRawResponse(response.body, response.headers);
+          const repositoriesData = response.data.viewer.repositories;
+          const repositories = repositoriesData.nodes.map(
+            (node) => new Repository(node.url, node.name)
+          );
+          return {
+            completed: !repositoriesData.pageInfo.hasNextPage,
+            repositories: repositories,
+            cursor: repositoriesData.pageInfo.endCursor,
+          };
         })
       );
   }
@@ -599,25 +616,60 @@ export class CommitsService {
   /**
    * Fetch repositories from Github according to the given search filter
    *
-   * @param {string} searchFilter The search filter used to fetch the repositories
-   * @param {number} page The page of repositories to fetch
-   * @param {number} pageLimit The number of repositories to fetch per page
-   * @return {Observable<{ completed: boolean, repositories: Repository[] }} An object containing the repositories and a boolean indicating if the results are complete
+   * @param searchFilter The search filter used to fetch the repositories
+   * @param cursor The cursor of repositories to fetch
+   * @param pageLimit The number of repositories to fetch per page
+   * @return An object containing the repositories, a boolean indicating if the results are complete and the next cursor
    */
   getRepositoriesBySearch(
     searchFilter: string,
-    page = 1,
+    cursor?: string,
     pageLimit = 100
-  ): Observable<{ completed: boolean; repositories: Repository[] }> {
-    let url = `https://api.github.com/search/repositories?q=${searchFilter}&per_page=${pageLimit}&page=${page}`;
+  ): Observable<{
+    completed: boolean;
+    repositories: Repository[];
+    cursor?: string;
+  }> {
+    const query = `
+      query($queryString: String!, $cursor: String, $pageLimit: Int!) {
+        search(query: $queryString, type: REPOSITORY, first: $pageLimit, after: $cursor) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+          nodes {
+            ... on Repository {
+              name
+              url
+            }
+          }
+        }
+      }
+    `;
+    // We append fork:true because GitHub search excludes forks by default,
+    // which hides many student assignment repositories.
+    const variables = {
+      queryString: searchFilter + " fork:true",
+      cursor,
+      pageLimit,
+    };
     return this.http
-      .get<{ items: any[]; incomplete_results: boolean }>(url, {
-        headers: this.headers,
-        observe: "response",
-      })
+      .post<{ data: any }>(
+        "https://api.github.com/graphql",
+        { query, variables },
+        { headers: this.headers }
+      )
       .pipe(
         map((response) => {
-          return this.processRawResponse(response.body.items, response.headers);
+          const searchData = response.data.search;
+          const repositories = searchData.nodes.map(
+            (node) => new Repository(node.url, node.name)
+          );
+          return {
+            completed: !searchData.pageInfo.hasNextPage,
+            repositories: repositories,
+            cursor: searchData.pageInfo.endCursor,
+          };
         })
       );
   }
@@ -651,22 +703,27 @@ export class CommitsService {
     return value ? value[0].trim() : null;
   }
 
-  /**
-   * Process the raw Github response to return the repositories and the boolean indicating whether the page was the last or not
-   *
-   * @param rawRepositories Raw repositories with a JSON format
-   * @param headers Headers including "link" that we use to determine we just fetched the last page
-   */
-  private processRawResponse(
-    rawRepositories,
-    headers
-  ): { completed: boolean; repositories: Repository[] } {
-    const array = rawRepositories.map(
-      (data) => new Repository(data["html_url"], data["name"])
-    );
-    return {
-      completed: !headers?.get("link")?.match(/rel=\"last\"/),
-      repositories: array,
-    };
+  private getCommitHistoryQueryFragment(historyArgs: string): string {
+    return `
+          defaultBranchRef {
+            target {
+              ... on Commit {
+                history(${historyArgs}) {
+                  pageInfo {
+                    hasNextPage
+                    endCursor
+                  }
+                  nodes {
+                    message
+                    author {
+                      name
+                    }
+                    committedDate
+                    url
+                  }
+                }
+              }
+            }
+          }`;
   }
 }

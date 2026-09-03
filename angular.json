@@ -44,19 +44,21 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "./node_modules/bootstrap/dist/css/bootstrap.css",
               "./src/styles.scss",
               "node_modules/prismjs/themes/prism-okaidia.css"
             ],
             "scripts": [
-              "./node_modules/popper.js/dist/umd/popper.min.js",
-              "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/marked/lib/marked.js",
               "node_modules/prismjs/prism.js",
               "node_modules/prismjs/components/prism-csharp.min.js",
               "node_modules/prismjs/components/prism-css.min.js"
-            ]
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src",
+                "src/styles"
+              ]
+            }
           },
           "configurations": {
             "production": {
@@ -113,6 +115,12 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": ["src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src",
+                "src/styles"
+              ]
+            },
             "scripts": [],
             "assets": ["src/favicon.ico", "src/assets"]
           }

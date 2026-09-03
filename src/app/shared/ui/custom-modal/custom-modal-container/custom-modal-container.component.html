@@ -1,0 +1,13 @@
+<div class="custom-modal-backdrop" 
+     [class.show]="animationState === 'enter'" 
+     [class.hide]="animationState === 'leave'"
+     (click)="onBackdropClick()">
+  
+  <div class="custom-modal-dialog" 
+       [class.show]="animationState === 'enter'" 
+       [class.hide]="animationState === 'leave'"
+       [ngClass]="options?.size ? 'size-' + options.size : 'size-md'"
+       (click)="onModalClick($event)">
+    <ng-container #modalContent></ng-container>
+  </div>
+</div>

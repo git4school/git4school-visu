@@ -1,15 +1,18 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   HostListener,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  NgZone,
 } from "@angular/core";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { OverviewGraphContextualMenuComponent } from "@components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
-import { Commit } from "@models/Commit.model";
+import { Commit, CommitColor } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
 import { NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
@@ -19,14 +22,18 @@ import { DataService } from "@services/data.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
+import { ThemeService } from "@services/theme.service";
+import { TooltipService } from "@services/tooltip.service";
 import { Subscription, concat } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
+import { OsUtils } from "@utils/os.utils";
 
 import * as d3 from "d3";
 import { Repository } from "../../../models/Repository.model";
 import { tick } from "@angular/core/testing";
 import { rejects } from "assert";
 import { Utils } from "../../../services/utils";
+import { FilterGroup } from "@components/questions-chooser/questions-chooser.component";
 
 @Component({
   selector: "overview",
@@ -36,13 +43,16 @@ import { Utils } from "../../../services/utils";
 })
 export class OverviewComponent
   extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy {
-  static formatDay = d3.utcFormat("%d/%m/%Y");
-  static formatHour = d3.utcFormat("%H:%M");
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  static formatDay = d3.timeFormat("%d/%m/%Y");
+  static formatHour = d3.timeFormat("%H:%M");
   static GROUP_HEIGHT = 12;
   static CIRCLE_RADIUS = 12;
 
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
+  @ViewChild("questionsChooser") questionsChooser;
+  @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
 
   minZoom: number;
 
@@ -50,8 +60,26 @@ export class OverviewComponent
 
   assignmentsModified$: Subscription;
 
+  displayModes = {
+    opacity: false,
+    height: false,
+    text: false
+  };
+
   typeaheadSettings;
   searchFilter: string[] = [];
+
+  commitMessagesFilter: string[] = [];
+  filterGroups: FilterGroup[] = [];
+  filteredCommitsCount = 0;
+  filteredStudentsCount = 0;
+  hiddenCategories = new Set<string>();
+  commitColors = [
+    CommitColor.INTERMEDIATE,
+    CommitColor.BEFORE,
+    CommitColor.BETWEEN,
+    CommitColor.AFTER,
+  ];
   unit = "day";
   drag = false;
   chartData = [{ data: [] }];
@@ -105,12 +133,16 @@ export class OverviewComponent
   zoom: d3.ZoomBehavior<any, any>;
 
   hovered_commit: Commit;
+  hovered_session: Session;
   hovered_group_commit: Commit[];
+  hovered_milestone: Milestone;
+  private milestoneHoverTimer: any = null;
+  private readonly MILESTONE_HOVER_DELAY = 600; // ms
   hovered_g: d3.Selection<any, any, any, any>;
 
   brush: d3.BrushBehavior<any>;
   current_zoom: any;
-  chart_abs_g: d3.Selection<SVGGElement, any, any, any>;
+  chart_abs_g: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   svg_abs: d3.Selection<any, unknown, HTMLElement, any>;
   real_height: number;
   chart_width: number;
@@ -118,7 +150,67 @@ export class OverviewComponent
   inner_width: number;
   inner_height: number;
   scrollable_height: number;
+  private resizeObserver: any;
+  private resizeTimeout: any;
+  private last_zoom_k: number = 0;
+  private zoomTimeoutId: any = null;
+  isRefreshing: boolean = false;
+  private isThrottledGroupUpdate = false;
+  private needsGroupUpdate = false;
+
+  isDraggingMilestone = false;
+  hasMovedDuringDrag = false;
+  dragScrollTimer: d3.Timer;
+  dragTimeIndicator: d3.Selection<any, any, any, any>;
   ////////////////////////
+
+  public modeHoverState: any = {
+    opacity: { isHovered: false, wasClicked: false },
+    height: { isHovered: false, wasClicked: false },
+    text: { isHovered: false, wasClicked: false },
+  };
+
+  onModeMouseEnter(mode: string) {
+    this.modeHoverState[mode].isHovered = true;
+    this.modeHoverState[mode].wasClicked = false;
+  }
+
+  onModeMouseLeave(mode: string) {
+    this.modeHoverState[mode].isHovered = false;
+    this.modeHoverState[mode].wasClicked = false;
+  }
+
+  public markerHoverState: any = {
+    sessions: { isHovered: false, wasClicked: false },
+    corrections: { isHovered: false, wasClicked: false },
+    reviews: { isHovered: false, wasClicked: false },
+    others: { isHovered: false, wasClicked: false },
+  };
+
+  onMarkerMouseEnter(marker: string) {
+    this.markerHoverState[marker].isHovered = true;
+    this.markerHoverState[marker].wasClicked = false;
+  }
+
+  onMarkerMouseLeave(marker: string) {
+    this.markerHoverState[marker].isHovered = false;
+    this.markerHoverState[marker].wasClicked = false;
+  }
+
+  onMarkerChange(marker: string) {
+    this.markerHoverState[marker].wasClicked = true;
+    this.loadGraphDataAndRefresh();
+  }
+
+  saveMarkerPreferences() {
+    const preferences = {
+      showSessions: this.showSessions,
+      showCorrections: this.showCorrections,
+      showReviews: this.showReviews,
+      showOthers: this.showOthers
+    };
+    localStorage.setItem('markerPreferences', JSON.stringify(preferences));
+  }
 
   constructor(
     private translateService: TranslateService,
@@ -127,12 +219,33 @@ export class OverviewComponent
     public dataService: DataService,
     protected loaderService: LoaderService,
     private modalService: NgbModal,
-    protected assignmentsService: AssignmentsService
+    protected assignmentsService: AssignmentsService,
+    public themeService: ThemeService,
+    private tooltipService: TooltipService,
+    private ngZone: NgZone
   ) {
     super(loaderService, assignmentsService, dataService);
   }
 
   ngOnInit(): void {
+    const savedModes = localStorage.getItem('commitDisplayModes');
+    if (savedModes) {
+      try {
+        this.displayModes = JSON.parse(savedModes);
+      } catch (e) {}
+    }
+
+    const savedMarkers = localStorage.getItem('markerPreferences');
+    if (savedMarkers) {
+      try {
+        const parsed = JSON.parse(savedMarkers);
+        this.showSessions = parsed.showSessions ?? true;
+        this.showCorrections = parsed.showCorrections ?? true;
+        this.showReviews = parsed.showReviews ?? true;
+        this.showOthers = parsed.showOthers ?? true;
+      } catch (e) {}
+    }
+    
     this.defaultSessionDuration =
       this.dataService.assignment.defaultSessionDuration;
     this.contextualMenuShown = false;
@@ -145,22 +258,199 @@ export class OverviewComponent
     );
   }
 
+  pressedShortcut: string = null;
+
+  @HostListener("document:keydown", ["$event"])
+  handleGlobalShortcuts(event: KeyboardEvent) {
+    if (document.body.classList.contains("modal-open")) return;
+    if (OsUtils.isTypingInInput(event)) {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+
+    if (key === "escape") {
+      event.preventDefault();
+      this.clearQuestionsFilter();
+      this.triggerShortcut("escape");
+    } else if (key === "r") {
+      event.preventDefault();
+      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      this.triggerShortcut("r");
+    } else if (
+      key === "h" &&
+      this.hovered_commit != null &&
+      this.hovered_group_commit == null
+    ) {
+      event.preventDefault();
+      this.copyCommitHash(this.hovered_commit.url);
+      this.triggerShortcut("h");
+    } else if (key === "+" || key === "=" || event.code === "NumpadAdd") {
+      event.preventDefault();
+      this.zoomGraph(1.2);
+    } else if (key === "-" || event.code === "NumpadSubtract") {
+      event.preventDefault();
+      this.zoomGraph(0.8);
+    } else if (event.code === "Space" || key === " ") {
+      event.preventDefault();
+      this.resetZoom(false);
+      this.triggerShortcut("space");
+    }
+  }
+
+  private triggerShortcut(key: string) {
+    this.pressedShortcut = key;
+    setTimeout(() => {
+      if (this.pressedShortcut === key) this.pressedShortcut = null;
+    }, 150);
+  }
+
+  private zoomGraph(factor: number) {
+    if (!this.data_g || !this.zoom) return;
+    this.data_g.transition().duration(200).call(this.zoom.scaleBy, factor);
+  }
+
+  private copyCommitHash(url: string) {
+    if (!url) return;
+    const hash = url.split("/").pop();
+    if (hash) {
+      navigator.clipboard
+        .writeText(hash)
+        .then(() => {
+          this.toastService.copy(
+            this.translateService.instant("TOAST.HASH_COPIED")
+          );
+        })
+        .catch((err) => console.error("Could not copy text: ", err));
+    }
+  }
+
   ngOnDestroy(): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+    this.clearMilestoneHoverTimer();
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
+    document.body.style.overscrollBehaviorX = "auto";
   }
 
   getDisplayedRepositories(): Repository[] {
-    return this.dataService.repositories.filter(
-      (repository) =>
-        !this.dataService.groupFilter ||
-        repository.tpGroup === this.dataService.groupFilter
-    );
+    const isFilterActive =
+      (this.filterGroups && this.filterGroups.length > 0) ||
+      (this.searchFilter && this.searchFilter.length > 0) ||
+      (this.commitMessagesFilter && this.commitMessagesFilter.length > 0);
+
+    return this.dataService.repositories.filter((repository) => {
+      if (
+        this.dataService.groupFilter &&
+        repository.tpGroup !== this.dataService.groupFilter
+      ) {
+        return false;
+      }
+
+      if (isFilterActive) {
+        return repository.commits.some((commit) =>
+          this.isCommitMatchingFilter(commit)
+        );
+      }
+
+      return true;
+    });
+  }
+
+  isCommitMatchingFilter(commit: Commit): boolean {
+    if (this.filterGroups && this.filterGroups.length > 0) {
+      return this.filterGroups.some((group) =>
+        group.criteria.every((criterion) => {
+          let match = false;
+          if (criterion.type === "question") {
+            match = commit.question === criterion.value;
+          } else {
+            match = commit.message
+              .toLowerCase()
+              .includes(criterion.value.toLowerCase());
+          }
+          return criterion.isExclusion ? !match : match;
+        })
+      );
+    }
+
+    const hasSearchFilter = this.searchFilter.length > 0;
+    const hasCommitFilter = this.commitMessagesFilter.length > 0;
+
+    if (this.hiddenCategories.has(commit.color.label)) {
+      return false;
+    }
+    if (this.hiddenCategories.has('CLOSING') && commit.isCloture) {
+      return false;
+    }
+    if (this.hiddenCategories.has('COMMIT') && !commit.isCloture) {
+      return false; // Wait, should this hide all non-cloture commits? Let's just use it to hide normal commits.
+    }
+
+    if (!hasSearchFilter && !hasCommitFilter) return true;
+
+    const matchesSearch =
+      hasSearchFilter && this.searchFilter.includes(commit.question);
+    const matchesCommit =
+      hasCommitFilter &&
+      this.commitMessagesFilter.some((msg) =>
+        commit.message.toLowerCase().includes(msg.toLowerCase())
+      );
+
+    return matchesSearch || matchesCommit;
+  }
+
+  toggleCategory(label: string) {
+    if (label === 'SESSION') {
+      this.showSessions = !this.showSessions;
+      this.saveMarkerPreferences();
+      this.loadGraphDataAndRefresh();
+      return;
+    }
+    if (label === 'REVIEW') {
+      this.showReviews = !this.showReviews;
+      this.saveMarkerPreferences();
+      this.loadGraphDataAndRefresh();
+      return;
+    }
+    if (label === 'CORRECTION') {
+      this.showCorrections = !this.showCorrections;
+      this.saveMarkerPreferences();
+      this.loadGraphDataAndRefresh();
+      return;
+    }
+    if (label === 'OTHER') {
+      this.showOthers = !this.showOthers;
+      this.saveMarkerPreferences();
+      this.loadGraphDataAndRefresh();
+      return;
+    }
+
+    if (this.hiddenCategories.has(label)) {
+      this.hiddenCategories.delete(label);
+    } else {
+      // Prevent hiding all colors
+      if (this.commitColors.find(c => c.label === label)) {
+        let hiddenColors = 0;
+        this.commitColors.forEach(c => { if (this.hiddenCategories.has(c.label)) hiddenColors++; });
+        if (hiddenColors === this.commitColors.length - 1) return;
+      }
+      this.hiddenCategories.add(label);
+    }
+    
+    this.loadGraphDataAndRefresh();
   }
 
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
 
+  download() {
+    this.assignmentsService.exportAssignment(this.dataService.assignment);
+  }
+
   updateVariableFromCss(): void {
     let chart_div = document.getElementById("chart");
+    if (!chart_div) return;
 
     var style = getComputedStyle(chart_div);
 
@@ -171,19 +461,43 @@ export class OverviewComponent
     this.width = rect.width;
     this.height = rect.height;
 
-    this.chart_width = Math.min(
-      (css_var_number("chart-width-left-spacing-ratio") * this.width) / 100,
-      this.width - css_var_number("chart-width-max-left-spacing")
+    let maxAllowedMargin = Math.max(
+      ((100 - css_var_number("chart-width-left-spacing-ratio")) * this.width) / 100,
+      css_var_number("chart-width-max-left-spacing")
     );
+
+    let maxNameWidth = 0;
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    const repos = this.dataService.repositories ? this.getDisplayedRepositories() : [];
+    
+    if (context && repos.length > 0) {
+      context.font = "13px " + (style.getPropertyValue("--font-family-sans") || "sans-serif");
+      for (const repo of repos) {
+        const w = context.measureText(repo.name || "").width;
+        if (w > maxNameWidth) maxNameWidth = w;
+      }
+    }
+
+    let actualMargin = Math.min(maxNameWidth + 25, maxAllowedMargin);
+    
+    // Fallback to maxAllowedMargin if we couldn't measure
+    if (maxNameWidth === 0 && repos.length > 0) {
+        actualMargin = maxAllowedMargin;
+    }
+
+    this.chart_width = Math.max(1, this.width - actualMargin);
 
     this.inner_margin = {
       top: css_var_number("top-inner"),
       bottom: css_var_number("bottom-inner"),
     };
 
-    this.inner_width = this.width;
-    this.inner_height =
-      this.height - this.inner_margin.top - this.inner_margin.bottom;
+    this.inner_width = Math.max(1, this.chart_width);
+    this.inner_height = Math.max(
+      1,
+      this.height - this.inner_margin.top - this.inner_margin.bottom
+    );
 
     this.repo_spacing = css_var_number("repo-space");
   }
@@ -240,37 +554,55 @@ export class OverviewComponent
     if (x == null || y == null) {
       return;
     }
-    var tooltip = document.getElementById("tooltip");
-    if (tooltip == null) {
-      return;
-    }
 
-    tooltip.style.top = y + 20 + "px";
-    tooltip.style.left = x + 20 + "px";
-
-    if (this.hovered_g) {
+    if (this.hovered_g && (this.hovered_commit || this.hovered_group_commit)) {
       if (this.hovered_g.select(":hover").empty()) {
         this.hovered_commit = undefined;
         this.hovered_group_commit = undefined;
         this.hovered_g = null;
+        this.tooltipService.hide();
+        return;
       }
+    }
+
+    if (
+      this.hovered_commit ||
+      this.hovered_group_commit ||
+      this.hovered_session ||
+      this.hovered_milestone
+    ) {
+      if (!this.tooltipService.isShowing()) {
+        this.tooltipService.showAtPosition(
+          this.d3TooltipTemplate,
+          x,
+          y,
+          "right",
+          undefined,
+          true
+        );
+      } else {
+        this.tooltipService.moveTooltip(x, y, "right");
+      }
+    } else {
+      this.tooltipService.hide();
     }
   }
 
   loadGraphData() {
-    this.loadAnnotations();
+    if (!this.data_g) return;
     this.loadPoints();
+    this.loadAnnotations();
     this.setupZoom();
   }
 
   setupZoom() {
     const overview = this;
-    d3.select(document.body)
-      .on("wheel.body", (e) => {}); // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
+    // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
+    d3.select(document.body).on("wheel.body", (e) => {});
     this.zoom = d3
       .zoom()
       .on("zoom", (event) => {
-        if (overview.drag) {
+        if (overview.drag || !overview.x_scale) {
           return;
         }
 
@@ -285,8 +617,15 @@ export class OverviewComponent
         overview.x_scale_copy = overview.current_zoom.rescaleX(
           overview.x_scale
         );
-        overview.x_g.call(this.x_axis.scale(overview.x_scale_copy));
-        overview.refreshElementState();
+
+        if (!overview.isRefreshing) {
+          overview.isRefreshing = true;
+          requestAnimationFrame(() => {
+            overview.x_g.call(this.x_axis.scale(overview.x_scale_copy));
+            overview.refreshElementState();
+            overview.isRefreshing = false;
+          });
+        }
       })
       .filter((event) => {
         return event.shiftKey || !(event instanceof WheelEvent);
@@ -295,28 +634,111 @@ export class OverviewComponent
 
     this.data_g = this.data_g.call(this.zoom).on("dblclick.zoom", null);
 
+    d3.select(".chart-container").on("wheel", (event: WheelEvent) => {
+      // Zooming is handled by d3.zoom if shiftKey is pressed
+      if (event.shiftKey) return;
+
+      let dx = event.deltaX;
+      let dy = event.deltaY;
+
+      // Handle ctrl+wheel to scroll horizontally if the device only emits deltaY
+      if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
+        dx = dy;
+        dy = 0;
+      }
+
+      // If there is significant horizontal scrolling, or ctrl key is pressed
+      if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+        event.preventDefault(); // Prevent browser back/forward or default scroll
+        event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
+
+        if (this.zoom && this.data_g) {
+          // Pan horizontally
+          this.data_g.call(this.zoom.translateBy, -dx / (this.current_zoom?.k || 1), 0);
+        }
+      }
+    }, { passive: false });
+
     this.resetZoom(true);
   }
 
   refresh() {
+    if (!document.getElementById("chart")) return;
     this.updateVariableFromCss();
     this.scrollable_height = Math.max(
+      1,
       this.height - this.inner_margin.top - this.inner_margin.bottom,
       this.getDisplayedRepositories().length * this.repo_spacing
     );
 
-    d3.select(window).on("resize", () => this.loadGraphDataAndRefresh());
+    if (!this.resizeObserver && (window as any).ResizeObserver) {
+      this.resizeObserver = new (window as any).ResizeObserver((entries: any[]) => {
+        for (let entry of entries) {
+          const chart_div = document.getElementById("chart");
+          if (!chart_div) continue;
+          
+          const newWidth = chart_div.getBoundingClientRect().width;
+          const newHeight = chart_div.getBoundingClientRect().height;
+          if (newWidth > 0 && (Math.abs(newWidth - (this.width || 0)) > 1 || Math.abs(newHeight - (this.height || 0)) > 1)) {
+            if (this.resizeTimeout) {
+              clearTimeout(this.resizeTimeout);
+            }
+            this.resizeTimeout = setTimeout(() => {
+              this.width = chart_div.getBoundingClientRect().width;
+              this.height = Math.max(
+                chart_div.getBoundingClientRect().height,
+                this.inner_margin.top +
+                  this.inner_margin.bottom +
+                  this.getDisplayedRepositories().length * this.repo_spacing
+              );
+              this.loadGraphDataAndRefresh();
+            }, 100);
+          }
+        }
+      });
+    }
 
-    this.svg = d3
-      .select(".chart-container")
+    const chart_div = document.getElementById("chart");
+    if (chart_div) {
+      this.resizeObserver.observe(chart_div);
+    }
+
+    const container = d3.select(".chart-container");
+    container.selectAll("svg").remove();
+    container.selectAll(".scroll-dummy").remove();
+    
+    this.svg = container
       .append("svg")
       .attr("preserveAspectRatio", "none")
+      .attr("width", this.width)
+      .attr("height", this.scrollable_height)
       .attr("viewBox", `0 0 ${this.width} ${this.scrollable_height}`);
 
+    container
+      .append("div")
+      .attr("class", "scroll-dummy")
+      .style("width", "calc(100% + 2px)")
+      .style("height", "1px")
+      .style("position", "absolute")
+      .style("top", "0")
+      .style("left", "0")
+      .style("pointer-events", "none");
+
+    const node = container.node() as HTMLElement;
+    if (node) {
+      // Ensure the layout is updated before setting scrollLeft
+      setTimeout(() => {
+        node.scrollLeft = 1;
+      }, 0);
+    }
+
+    d3.select(".chart-container-absolute").selectAll("svg").remove();
     this.svg_abs = d3
       .select(".chart-container-absolute")
       .append("svg")
       .attr("preserveAspectRatio", "none")
+      .attr("width", this.width)
+      .attr("height", this.height)
       .attr("viewBox", `0 0 ${this.width} ${this.height}`);
 
     const overview = this;
@@ -339,6 +761,16 @@ export class OverviewComponent
       .attr("width", this.inner_width)
       .attr("height", this.scrollable_height)
       .attr("opacity", "0")
+      .on("contextmenu", (event: MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        var rect = (event.target as any).getBoundingClientRect();
+        var x =
+          ((event.clientX - rect.left) / (rect.right - rect.left)) *
+          overview.inner_width;
+        let rawDate = overview.x_scale_copy.invert(x);
+        this.openContextMenu(event.pageX, event.pageY, rawDate);
+      })
       .on("click", (event: MouseEvent) => {
         event.stopPropagation();
         var rect = (event.target as any).getBoundingClientRect();
@@ -353,37 +785,51 @@ export class OverviewComponent
       .on("mousemove", function (e) {
         overview.refreshTooltip(e.clientX, e.clientY);
       })
-      .on("scroll", () => this.refreshElementState())
-      .attr("tabindex", "0")
-      .attr("focusable", "true")
-      .on("keypress", (event) => {
-        if (event.keyCode === 32) {
-          this.resetZoom(false);
+      .on("mouseenter", () => {
+        document.body.style.overscrollBehaviorX = "none";
+      })
+      .on("mouseleave", () => {
+        document.body.style.overscrollBehaviorX = "auto";
+      })
+      .on("scroll", (event) => {
+        const node = event.target as HTMLElement;
+        if (node && (node.scrollLeft <= 0 || node.scrollLeft >= 2)) {
+          node.scrollLeft = 1;
         }
-      });
+        this.refreshElementState();
+      })
+      .attr("tabindex", "0")
+      .attr("focusable", "true");
 
     this.clip = this.chart_svg
       .append("defs")
       .append("svg:clipPath")
       .attr("id", "clip")
       .append("svg:rect")
-      .attr("width", this.width)
+      .attr("width", this.inner_width)
       .attr("height", 2 * this.scrollable_height)
       .attr("fill", "black")
       .attr("x", 0)
       .attr("y", -this.scrollable_height);
   }
 
+  processingData = false;
+
   loadGraphDataAndRefresh() {
-    this.svg.remove();
-    this.svg_abs.remove();
-
-    this.refresh();
-
-    this.loadGraphData();
+    this.processingData = true;
+    setTimeout(() => {
+      this.refresh();
+      this.loadGraphData();
+      this.processingData = false;
+    }, 0);
   }
 
   loadAnnotations() {
+    this.clearMilestoneHoverTimer();
+    if (this.hovered_milestone) {
+      this.hovered_milestone = undefined;
+      this.tooltipService.hide();
+    }
     let milestone_filter = (review: Milestone) =>
       (!this.dataService.groupFilter ||
         !review.tpGroup ||
@@ -393,10 +839,14 @@ export class OverviewComponent
           review.questions?.includes(question)
         ).length);
 
-    if (this.session_g != null) this.session_g.remove();
-    if (this.review_g != null) this.session_g.remove();
-    if (this.correction_g != null) this.session_g.remove();
-    if (this.other_g != null) this.session_g.remove();
+    if (this.session_g != null) { this.session_g.remove(); this.session_g = null; }
+    if (this.review_g != null) { this.review_g.remove(); this.review_g = null; }
+    if (this.correction_g != null) { this.correction_g.remove(); this.correction_g = null; }
+    if (this.other_g != null) { this.other_g.remove(); this.other_g = null; }
+    
+    if (this.filteredCommitsCount === 0) {
+      return;
+    }
     if (this.dataService.sessions && this.showSessions) {
       this.loadSessions();
     }
@@ -425,7 +875,9 @@ export class OverviewComponent
     date: Date
   ) {
     this.contextualMenu.close();
-    this.contextualMenu.openEditMilestone(review, x, y, date);
+    this.ngZone.run(() => {
+      this.contextualMenu.openEditMilestone(review, x, y, date);
+    });
   }
 
   openEditSessionContextMenu(
@@ -435,14 +887,16 @@ export class OverviewComponent
     date: Date
   ) {
     this.contextualMenu.close();
-    this.contextualMenu.openEditSession(session, x, y, date);
+    this.ngZone.run(() => {
+      this.contextualMenu.openEditSession(session, x, y, date);
+    });
   }
 
   openContextMenu(x: number, y: number, date: Date) {
     if (!this.isContextualMenuShown()) {
-      try {
+      this.ngZone.run(() => {
         this.contextualMenu.openNew(x, y, date);
-      } catch (error) { }
+      });
     } else {
       this.contextualMenu.close();
     }
@@ -453,6 +907,11 @@ export class OverviewComponent
     newMilestone: Milestone;
   }) {
     try {
+      this.clearMilestoneHoverTimer();
+      if (this.hovered_milestone) {
+        this.hovered_milestone = undefined;
+        this.tooltipService.hide();
+      }
       this.saveMilestone(result.oldMilestone, result.newMilestone);
       this.saveData();
 
@@ -539,6 +998,11 @@ export class OverviewComponent
 
   onDeleteMilestone(milestone: Milestone) {
     try {
+      this.clearMilestoneHoverTimer();
+      if (this.hovered_milestone) {
+        this.hovered_milestone = undefined;
+        this.tooltipService.hide();
+      }
       this.deleteMilestone(milestone);
       this.saveData();
 
@@ -571,26 +1035,70 @@ export class OverviewComponent
 
   getRectForSession(g: d3.Selection<any, any, any, any>, session: Session) {
     const overview = this;
-    g.append("rect")
+    
+    let group = g.append("g")
       .datum(session)
-      .attr("class", "session")
+      .attr("class", "session-container")
       .attr("clip-path", "url(#clip)")
-      .attr("x", 0)
-      .attr("height", this.scrollable_height)
-      .attr("y", 0)
-      .attr(
-        "width",
-        this.xScaledTimeZoned(session.endDate) -
-        this.xScaledTimeZoned(session.startDate)
-      )
-      .on("click", (e) =>
-          overview.openEditSessionContextMenu(
+      .on("contextmenu", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
           overview.x_scale.invert(e.pageX)
-        )
+        );
+      })
+      .on("click", (e) => {
+        e.stopPropagation();
+        overview.openEditSessionContextMenu(
+          session,
+          e.pageX,
+          e.pageY,
+          overview.x_scale.invert(e.pageX)
+        );
+      });
+
+    group.append("rect")
+      .attr("class", "session")
+      .attr("x", this.xScaledTimeZoned(session.startDate))
+      .attr("height", this.scrollable_height)
+      .attr("y", 0)
+      .attr(
+        "width",
+        Math.max(0, this.xScaledTimeZoned(session.endDate) -
+          this.xScaledTimeZoned(session.startDate))
       );
+
+    if (session.notes) {
+      group.append("foreignObject")
+        .attr("class", "session-icon")
+        .attr("x", this.xScaledTimeZoned(session.startDate) + 4)
+        .attr("y", 4)
+        .attr("width", 24)
+        .attr("height", 24)
+        .on("mouseenter", (e, d) => {
+          e.stopPropagation();
+          overview.hovered_session = d;
+          overview.hovered_commit = undefined;
+          overview.hovered_group_commit = undefined;
+          overview.hovered_g = d3.select(e.currentTarget);
+          overview.refreshTooltip(e.clientX, e.clientY);
+        })
+        .on("mousemove", (e) => {
+          e.stopPropagation();
+          if (overview.hovered_session) {
+            overview.refreshTooltip(e.clientX, e.clientY);
+          }
+        })
+        .on("mouseleave", (e) => {
+          e.stopPropagation();
+          overview.hovered_session = undefined;
+          overview.refreshTooltip();
+        })
+        .html(`<button class="btn btn-outline-ghost anim-scale-hover d-flex align-items-center justify-content-center p-0 m-0" style="width: 100%; height: 100%; border: none; background: transparent; color: var(--color-primary); box-shadow: none;"><i class="fas fa-comment-alt" style="font-size: 13px;"></i></button>`);
+    }
   }
 
   loadSessions() {
@@ -601,7 +1109,7 @@ export class OverviewComponent
         session.tpGroup === this.dataService.groupFilter
     );
 
-    this.session_g = this.data_g.append("g");
+    this.session_g = this.data_g.insert("g", () => this.repository_g ? this.repository_g.node() : null);
 
     const overview = this;
 
@@ -616,23 +1124,14 @@ export class OverviewComponent
     });
   }
 
-  getLineForMilestone(
-    parent: d3.Selection<any, any, any, any>,
-    m: Milestone,
-    class_: string,
-    index: number,
-  ) {
-    const overview = this;
-    let g = parent.append("g").attr("class", class_);
-
+  private buildMilestoneGraphics(g: d3.Selection<any, any, any, any>, m: Milestone, index: number) {
     // Line
     g.append("rect")
-      // .attr("clip-path", "url(#clip)")
       .attr("x", 0)
       .attr("y", 0)
       .attr("width", 1)
-      .attr("height", this.inner_height - this.inner_margin.bottom)
-      .attr("transform", "translate(" + [-1, 0] + ")");
+      .attr("height", this.inner_height)
+      .attr("transform", "translate(" + [-0.5, 0] + ")");
 
     // Box
     let box = g.append("rect").attr("y", 0);
@@ -640,31 +1139,270 @@ export class OverviewComponent
     // Text
     let text = g
       .append("text")
-      .attr("y", -8)
+      .attr("y", -6)
       .text(m.label || m.type.substring(0, m.type.length - 1) + " " + index)
       .attr("text-anchor", "middle");
 
     let bbox = text.node().getBBox();
 
-    bbox.width += 4;
-    bbox.height += 5;
-    bbox.x -= 2;
-    bbox.y -= 1;
+    // Adjust for pill padding
+    bbox.width += 16;
+    bbox.height += 10;
+    bbox.x -= 8;
+    bbox.y -= 5;
 
     box.attr("width", bbox.width);
     box.attr("height", bbox.height);
     box.attr("x", -bbox.width / 2);
     box.attr("y", bbox.y);
 
+    // Hitbox (transparent, plus large pour faciliter le clic)
+    g.append("rect")
+      .attr("class", "hitbox")
+      .attr("width", bbox.width + 30)
+      .attr("height", bbox.height + 30)
+      .attr("x", -(bbox.width + 30) / 2)
+      .attr("y", bbox.y - 15)
+      .attr("style", "cursor: grab; pointer-events: all;");
+  }
+
+  private setupMilestoneDragBehavior(m: Milestone) {
+    const overview = this;
+    return d3.drag<any, any>()
+      .on("start", function(event) {
+        overview.onMilestoneDragStart(event, d3.select(this));
+      })
+      .on("drag", function(event) {
+        overview.onMilestoneDrag(event, d3.select(this), m);
+      })
+      .on("end", function() {
+        overview.onMilestoneDragEnd(d3.select(this));
+      });
+  }
+
+  private onMilestoneDragStart(event: any, element: d3.Selection<any, any, any, any>) {
+    this.isDraggingMilestone = true;
+    this.hasMovedDuringDrag = false;
+    this.clearMilestoneHoverTimer();
+    if (this.hovered_milestone) {
+      this.hovered_milestone = undefined;
+      this.tooltipService.hide();
+    }
+    element.raise();
+    element.select(".hitbox").attr("style", "cursor: grabbing; pointer-events: all;");
+    this.createDragTimeIndicator(event.x);
+  }
+
+  private onMilestoneDrag(event: any, element: d3.Selection<any, any, any, any>, m: Milestone) {
+    this.hasMovedDuringDrag = true;
+    let currentX = Math.max(0, Math.min(this.inner_width, event.x));
+    
+    m.date = this.x_scale_copy.invert(currentX);
+    element.attr("transform", `translate(${currentX}, ${this.inner_margin.top})`);
+    
+    this.updateDragTimeIndicator(currentX, m.date);
+    this.handleDragEdgeScrolling(currentX, element, m);
+  }
+
+  private onMilestoneDragEnd(element: d3.Selection<any, any, any, any>) {
+    this.isDraggingMilestone = false;
+    element.select(".hitbox").attr("style", "cursor: grab; pointer-events: all;");
+    
+    this.stopDragScrollTimer();
+    this.removeDragTimeIndicator();
+
+    if (this.hasMovedDuringDrag) {
+      this.saveData();
+      // Optional: Update tooltip position or refresh
+      this.loadGraphDataAndRefresh(); // Force redraw properly to sync zoom/pan states if needed, but only if moved.
+    }
+  }
+
+  private createDragTimeIndicator(x: number) {
+    if (!this.axis_abs_g) return;
+    
+    this.dragTimeIndicator = this.axis_abs_g.append("g")
+      .attr("class", "drag-time-indicator")
+      .attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
+      
+    // Triangle pointer
+    this.dragTimeIndicator.append("path")
+      .attr("d", "M -6 5 L 6 5 L 0 -1 Z")
+      .attr("fill", "var(--color-surface)")
+      .attr("stroke", "var(--color-border)")
+      .attr("stroke-width", "1px");
+      
+    // Pill background
+    this.dragTimeIndicator.append("rect")
+      .attr("class", "pill-bg")
+      .attr("x", -50)
+      .attr("y", 4)
+      .attr("width", 100)
+      .attr("height", 24)
+      .attr("rx", 12)
+      .style("fill", "var(--color-surface)")
+      .style("stroke", "var(--color-border)")
+      .style("stroke-width", "1px")
+      .style("filter", "drop-shadow(0px 2px 4px rgba(0,0,0,0.15))");
+      
+    this.dragTimeIndicator.append("text")
+      .attr("y", 20)
+      .attr("text-anchor", "middle")
+      .style("fill", "var(--color-on-surface)")
+      .style("font-size", "11px")
+      .style("font-weight", "600")
+      .style("pointer-events", "none");
+  }
+
+  private updateDragTimeIndicator(x: number, date: Date) {
+    if (!this.dragTimeIndicator) return;
+    
+    this.dragTimeIndicator.attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
+    
+    const timeString = `${OverviewComponent.formatDay(date)} ${OverviewComponent.formatHour(date)}`;
+    const textEl = this.dragTimeIndicator.select("text");
+    textEl.text(timeString);
+
+    // Dynamically adjust the pill width
+    const textNode = textEl.node() as SVGTextElement;
+    if (textNode) {
+      const bbox = textNode.getBBox();
+      const padding = 20; // 10px padding on each side
+      const width = Math.max(80, bbox.width + padding); // minimum width
+      this.dragTimeIndicator.select(".pill-bg")
+        .attr("width", width)
+        .attr("x", -width / 2);
+    }
+  }
+
+  private removeDragTimeIndicator() {
+    if (this.dragTimeIndicator) {
+      this.dragTimeIndicator.remove();
+      this.dragTimeIndicator = null;
+    }
+  }
+
+  private handleDragEdgeScrolling(currentX: number, element: d3.Selection<any, any, any, any>, m: Milestone) {
+    const scrollMargin = 50;
+    const scrollSpeed = 5;
+    let dx = 0;
+
+    if (currentX < scrollMargin) {
+      dx = scrollSpeed;
+    } else if (currentX > this.inner_width - scrollMargin) {
+      dx = -scrollSpeed;
+    }
+
+    if (dx !== 0) {
+      if (!this.dragScrollTimer) {
+        this.dragScrollTimer = d3.timer(() => this.performDragScroll(dx, element, m));
+      }
+    } else {
+      this.stopDragScrollTimer();
+    }
+  }
+
+  private performDragScroll(dx: number, element: d3.Selection<any, any, any, any>, m: Milestone) {
+    if (!this.zoom || !this.data_g) return;
+    
+    this.data_g.call(this.zoom.translateBy, dx / (this.current_zoom?.k || 1), 0);
+    
+    let updatedX = this.xScaledTimeZoned(m.date);
+    updatedX = Math.max(0, Math.min(this.inner_width, updatedX));
+    element.attr("transform", `translate(${updatedX}, ${this.inner_margin.top})`);
+    
+    this.updateDragTimeIndicator(updatedX, m.date);
+  }
+
+  private stopDragScrollTimer() {
+    if (this.dragScrollTimer) {
+      this.dragScrollTimer.stop();
+      this.dragScrollTimer = null;
+    }
+  }
+
+  private clearMilestoneHoverTimer() {
+    if (this.milestoneHoverTimer) {
+      clearTimeout(this.milestoneHoverTimer);
+      this.milestoneHoverTimer = null;
+    }
+  }
+
+  getLineForMilestone(
+    parent: d3.Selection<any, any, any, any>,
+    m: Milestone,
+    class_: string,
+    index: number
+  ) {
+    const overview = this;
+    let g = parent.append("g").attr("class", class_);
+
+    this.buildMilestoneGraphics(g, m, index);
+
     let x = this.xScaledTimeZoned(m.date);
+    const dragBehavior = this.setupMilestoneDragBehavior(m);
+
+    let lastX = 0;
+    let lastY = 0;
 
     return g
       .attr("transform", `translate(${x}, ${this.inner_margin.top})`)
       .call((g) => g.classed("hidden", x < 0 || x > overview.width))
-      .on("click", (e, d: Milestone) => {
+      .call(dragBehavior)
+      .on("mouseenter", (e) => {
+        if (overview.isDraggingMilestone) return;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        overview.clearMilestoneHoverTimer();
+        if (m.notes && m.notes.trim().length > 0) {
+          overview.milestoneHoverTimer = setTimeout(() => {
+            if (overview.isDraggingMilestone) return;
+            overview.hovered_milestone = m;
+            overview.hovered_commit = undefined;
+            overview.hovered_group_commit = undefined;
+            overview.hovered_session = undefined;
+            overview.refreshTooltip(lastX, lastY);
+          }, overview.MILESTONE_HOVER_DELAY);
+        }
+      })
+      .on("mousemove", (e) => {
+        if (overview.isDraggingMilestone) return;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        if (overview.hovered_milestone === m) {
+          overview.refreshTooltip(e.clientX, e.clientY);
+        }
+      })
+      .on("mouseleave", () => {
+        overview.clearMilestoneHoverTimer();
+        if (overview.hovered_milestone === m) {
+          overview.hovered_milestone = undefined;
+          overview.refreshTooltip();
+        }
+      })
+      .on("contextmenu", (e) => {
+        overview.clearMilestoneHoverTimer();
+        if (overview.hovered_milestone) {
+          overview.hovered_milestone = undefined;
+          overview.tooltipService.hide();
+        }
+        if (overview.isDraggingMilestone) return;
+        e.preventDefault();
         e.stopPropagation();
-        const rawDate = this.x_scale.invert(e.pageX);
-        overview.openEditMilestoneContextMenu(d, e.pageX, e.pageY, rawDate); //, rawDate)
+        const rawDate = overview.x_scale.invert(e.pageX);
+        overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
+      })
+      .on("click", (e) => {
+        overview.clearMilestoneHoverTimer();
+        if (overview.hovered_milestone) {
+          overview.hovered_milestone = undefined;
+          overview.tooltipService.hide();
+        }
+        if (overview.isDraggingMilestone) return;
+        if (e.defaultPrevented) return; // Ignore click triggered by drag
+        e.stopPropagation();
+        const rawDate = overview.x_scale.invert(e.pageX);
+        overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       });
   }
 
@@ -745,8 +1483,7 @@ export class OverviewComponent
     this.x_scale = d3
       .scaleTime()
       .domain([minDate, maxDate])
-      .range([0, this.inner_width])
-      .nice();
+      .range([0, this.inner_width]);
 
     this.x_scale_copy = this.x_scale.copy();
 
@@ -772,7 +1509,7 @@ export class OverviewComponent
       .append("g")
       .attr(
         "transform",
-        "translate(" + [0, this.inner_height + this.inner_margin.bottom] + ")"
+        "translate(" + [0, this.inner_height + this.inner_margin.top] + ")"
       )
       .call(this.x_axis);
 
@@ -784,8 +1521,10 @@ export class OverviewComponent
     this.y_axis = d3
       .axisLeft(this.y_scale)
       .tickValues([...Array(repositories.length + 1).keys()])
-      .tickFormat((d) => repositories[d.valueOf() - 1]?.name || "")
-      .tickSize(-this.width);
+      .tickFormat((d) => {
+        return repositories[d.valueOf() - 1]?.name || "";
+      })
+      .tickSize(-this.inner_width);
 
     if (this.y_g != null) this.y_g.remove();
     this.y_g = this.axis_g.append("g").call(this.y_axis);
@@ -793,11 +1532,44 @@ export class OverviewComponent
     // Hide the first tick use to prevent data from being placed on top of the chart
     this.y_g.select(".tick:first-of-type").attr("opacity", "0");
 
-    // Set repo_name class
+    // Set repo_name class, align to left, and use custom tooltip
+    const leftSpace = this.width - this.chart_width;
+    const leftX = -leftSpace + 5;
+    
     this.y_g
       .selectAll(".tick")
       .selectAll("text")
-      .call((g) => g.classed("repo_name", true));
+      .call((g) => g.classed("repo_name", true))
+      .attr("text-anchor", "start")
+      .attr("x", leftX)
+      .each(function (this: SVGTextElement) {
+        const maxW = leftSpace - 15;
+        let textStr = this.textContent || "";
+        
+        this.textContent = Utils.truncateMiddle(textStr, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
+      })
+      .on("mouseenter", function (event: MouseEvent, d: any) {
+        event.stopPropagation();
+        const repo = repositories[d.valueOf() - 1];
+        if (repo?.name) {
+          overview.tooltipService.showAtPosition(
+            repo.name,
+            event.clientX,
+            event.clientY,
+            "right"
+          );
+        }
+      })
+      .on("mousemove", function (event: MouseEvent) {
+        event.stopPropagation();
+        if (overview.tooltipService.isShowing()) {
+          overview.tooltipService.moveTooltip(event.clientX, event.clientY, "right");
+        }
+      })
+      .on("mouseleave", function (event: MouseEvent) {
+        event.stopPropagation();
+        overview.tooltipService.hide();
+      });
 
     // Use custom domain
     this.axis_abs_g.selectAll(".domain").style("opacity", "0");
@@ -817,26 +1589,30 @@ export class OverviewComponent
       .attr("class", "axis")
       .append("line")
       .attr("x1", 0)
-      .attr("x2", this.width)
+      .attr("x2", this.inner_width)
       .attr("y1", this.scrollable_height)
       .attr("y2", this.scrollable_height);
   }
 
-  getCommitGroupPathD(first: Commit, last: Commit) {
+  getCommitGroupPathD(first: Commit, last: Commit, height: number = OverviewComponent.GROUP_HEIGHT) {
     let begin_x = this.xScaledTimeZoned(first.commitDate);
     let end_x = this.xScaledTimeZoned(last.commitDate);
+    
+    let actualWidth = end_x - begin_x;
+    let minWidth = 10; // Reduced from 14
+    let width = Math.max(actualWidth, minWidth);
+    
+    let arcRadius = height / 2;
+    let extraWidth = last.isCloture ? arcRadius : 0;
+    
+    // Centers the visual shape (including the arc) over the actual commit span.
+    let visualWidth = width + extraWidth;
+    let offset = (actualWidth - visualWidth) / 2;
 
     if (last.isCloture) {
-      return `M 0 0 h ${Math.max(
-        end_x - begin_x,
-        1.5 * OverviewComponent.CIRCLE_RADIUS
-      )} a ${OverviewComponent.CIRCLE_RADIUS} ${OverviewComponent.CIRCLE_RADIUS
-        } 0 0 1 0 ${OverviewComponent.GROUP_HEIGHT} H 0 z`;
+      return `M ${offset} 0 h ${width} a ${arcRadius} ${arcRadius} 0 0 1 0 ${height} H ${offset} z`;
     } else {
-      return `M 0 0 h ${Math.max(
-        end_x - begin_x,
-        1.5 * OverviewComponent.CIRCLE_RADIUS
-      )} v ${OverviewComponent.CIRCLE_RADIUS} H 0 z`;
+      return `M ${offset} 0 h ${width} v ${height} H ${offset} z`;
     }
   }
 
@@ -848,15 +1624,15 @@ export class OverviewComponent
       (a, b) => a.commitDate.getTime() - b.commitDate.getTime()
     );
 
-    let g = parent.append("g").datum(sorted);
+    let g = parent.insert("g", ".commit:not(.commit-group)").datum(sorted);
 
     let begin_x = this.xScaledTimeZoned(sorted[0].commitDate);
     let end_x = this.xScaledTimeZoned(sorted[sorted.length - 1].commitDate);
 
     g.attr("class", "commit-group commit")
       .append("path")
-      .attr("d", this.getCommitGroupPathD(sorted[0], sorted[sorted.length - 1]))
-      .attr("transform", `translate(0, ${-OverviewComponent.GROUP_HEIGHT / 2})`)
+      .attr("d", this.getCommitGroupPathD(sorted[0], sorted[sorted.length - 1], OverviewComponent.GROUP_HEIGHT))
+      .style("--y-offset", `${-OverviewComponent.GROUP_HEIGHT / 2}px`)
       .attr("fill", sorted[sorted.length - 1].color.color)
       .attr("class", "data");
 
@@ -880,6 +1656,11 @@ export class OverviewComponent
           this.hovered_g = undefined;
           this.hovered_group_commit = undefined;
         }
+      })
+      .on("click", (e, d) => {
+        e.stopPropagation();
+        let currentRange = parseFloat(g.attr("group_range")) || 0;
+        this.zoomToGroup(d, currentRange);
       });
 
     return g;
@@ -895,21 +1676,24 @@ export class OverviewComponent
     if (group == null) {
       let x = this.xScaledTimeZoned(commit.commitDate);
 
-      g = parent.append("g").datum([commit]);
+      g = parent.insert("g", ".commit:not(.commit-group)").datum([commit]);
 
       g.attr("class", "commit-group")
         .append("path")
-        .attr("d", this.getCommitGroupPathD(commit, commit))
-        .attr(
-          "transform",
-          `translate(0, ${-OverviewComponent.GROUP_HEIGHT / 2})`
-        )
+        .attr("d", this.getCommitGroupPathD(commit, commit, OverviewComponent.GROUP_HEIGHT))
+        .style("--y-offset", `${-OverviewComponent.GROUP_HEIGHT / 2}px`)
         .attr("fill", commit.color.color)
         .attr("class", "data")
         .on("mouseenter", (e, d) => (this.hovered_group_commit = d))
         .on("mouseleave", () => {
           this.hovered_group_commit = undefined;
         });
+
+      g.on("click", (e, d) => {
+        e.stopPropagation();
+        let currentRange = parseFloat(g.attr("group_range")) || 0;
+        this.zoomToGroup(d, currentRange);
+      });
 
       g.attr("transform", `translate(${x}, 0)`);
     } else {
@@ -934,14 +1718,15 @@ export class OverviewComponent
         spacing = Math.min(
           Math.abs(
             all_commits[j + 1].commitDate.getTime() -
-            commit.commitDate.getTime()
+              commit.commitDate.getTime()
           ),
           spacing
         );
       if (j > 0)
         spacing = Math.min(
           Math.abs(
-            all_commits[j - 1].commitDate.getTime() - commit.commitDate.getTime()
+            all_commits[j - 1].commitDate.getTime() -
+              commit.commitDate.getTime()
           ),
           spacing
         );
@@ -958,9 +1743,11 @@ export class OverviewComponent
           "d",
           this.getCommitGroupPathD(
             all_commits[0],
-            all_commits[all_commits.length - 1]
+            all_commits[all_commits.length - 1],
+            OverviewComponent.GROUP_HEIGHT
           )
         )
+        .style("--y-offset", `${-OverviewComponent.GROUP_HEIGHT / 2}px`)
         .attr("fill", all_commits[all_commits.length - 1].color.color);
 
       g.attr("group_range", Math.max(spacing, g.attr("group_range") || 0));
@@ -1016,8 +1803,8 @@ export class OverviewComponent
     return (
       !commit_before.isCloture &&
       this.xScaledTimeZoned(commit_after.commitDate) -
-      this.xScaledTimeZoned(commit_before.commitDate) <
-      Utils.COMMIT_FUSE_RANGE
+        this.xScaledTimeZoned(commit_before.commitDate) <
+        Utils.COMMIT_FUSE_RANGE
     );
   }
 
@@ -1073,12 +1860,49 @@ export class OverviewComponent
 
     if (this.repository_g != null) this.repository_g.remove();
 
+    overview.filteredCommitsCount = 0;
+    overview.filteredStudentsCount = 0;
+
+    let allCommits = repositories
+      .map((v) => v.commits)
+      .reduce((a, b) => a.concat(b), []);
+      
+    if (repositories.length === 0) {
+      if (this.axis_g != null) {
+        this.axis_g.remove();
+        this.axis_g = null;
+      }
+      return;
+    }
+
     this.repository_g = this.data_g.append("g");
     this.repositories_g = new Array<any>(repositories.length);
-    let [minDate, maxDate] = d3.extent(
-      repositories.map((v) => v.commits).reduce((a, b) => a.concat(b), []),
-      (d) => d.commitDate
-    );
+    
+    let minDate: Date, maxDate: Date;
+    
+    if (allCommits.length === 0) {
+      minDate = this.dataService.startDate ? new Date(this.dataService.startDate) : new Date(Date.now() - 7 * 24 * 3600 * 1000);
+      maxDate = this.dataService.endDate ? new Date(this.dataService.endDate) : new Date();
+      if (minDate > maxDate) {
+        const temp = minDate;
+        minDate = maxDate;
+        maxDate = temp;
+      }
+    } else {
+      let ext = d3.extent(allCommits, (d) => d.commitDate);
+      minDate = ext[0];
+      maxDate = ext[1];
+    }
+    
+    // Add 2% padding to the graph's time domain so elements don't touch the edges
+    if (minDate && maxDate) {
+      let timeDiff = maxDate.getTime() - minDate.getTime();
+      if (timeDiff === 0) timeDiff = 24 * 3600 * 1000; // 1 day minimum span
+      let padding = timeDiff * 0.02;
+      minDate = new Date(minDate.getTime() - padding);
+      maxDate = new Date(maxDate.getTime() + padding);
+    }
+
     this.setupAxis(repositories, minDate, maxDate);
 
     this.maxZoom = (maxDate.getTime() - minDate.getTime()) / (1000 * 60);
@@ -1097,118 +1921,142 @@ export class OverviewComponent
 
         let before = undefined;
         let commits = repository.commits
-          .filter(
-            (commit) =>
-              !overview.searchFilter.length ||
-              overview.searchFilter.includes(commit.question)
-          )
+          .filter((commit) => overview.isCommitMatchingFilter(commit))
           .sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
 
-        let minDateTime: number, maxDateTime: number;
+        overview.filteredCommitsCount += commits.length;
+        if (commits.length > 0) {
+          overview.filteredStudentsCount++;
 
-        let lines = [];
-        let current_line: Commit | undefined = undefined;
+          let minDateTime: number, maxDateTime: number;
 
-        commits.forEach((commit) => {
-          minDateTime =
-            minDateTime == null
-              ? commit.commitDate.getTime()
-              : Math.min(commit.commitDate.getTime(), minDateTime);
-          maxDateTime =
-            minDateTime == null
-              ? commit.commitDate.getTime()
-              : Math.max(commit.commitDate.getTime(), minDateTime);
-          if (commit.message === "Resume") current_line = commit;
-          else if (commit.message === "Pause" && current_line) {
-            lines.push([current_line.commitDate, commit.commitDate]);
-            current_line = undefined;
+          let lines = [];
+          let current_line: Commit | undefined = undefined;
+
+          commits.forEach((commit) => {
+            minDateTime =
+              minDateTime == null
+                ? commit.commitDate.getTime()
+                : Math.min(commit.commitDate.getTime(), minDateTime);
+            maxDateTime =
+              maxDateTime == null
+                ? commit.commitDate.getTime()
+                : Math.max(commit.commitDate.getTime(), maxDateTime);
+            if (commit.message === "Resume") current_line = commit;
+            else if (commit.message === "Pause" && current_line) {
+              lines.push([current_line.commitDate, commit.commitDate]);
+              current_line = undefined;
+            }
+            before = overview.getCommitComponent(d3.select(this), commit, before);
+          });
+
+          if (lines.length === 0) {
+            lines.push([new Date(minDateTime), new Date(maxDateTime)]);
           }
-          before = overview.getCommitComponent(d3.select(this), commit, before);
-        });
 
-        if (lines.length === 0) {
-          lines.push([new Date(minDateTime), new Date(maxDateTime)]);
+          lines.forEach(([d1, d2]) => {
+            overview.repositories_g[i]
+              .insert("line", ":first-child")
+              .attr("class", "commit_line")
+              .attr("min_date", d1.getTime())
+              .attr("max_date", d2.getTime());
+          });
         }
-
-        lines.forEach(([d1, d2]) => {
-          overview.repositories_g[i]
-            .insert("line", ":first-child")
-            .attr("class", "commit_line")
-            .attr("min_date", d1.getTime())
-            .attr("max_date", d2.getTime());
-            // .attr("x1", overview.xScaledTimeZoned(d1))
-            // .attr("x2", overview.xScaledTimeZoned(d2));
-        });
       });
   }
 
-  refreshRepoBySplittingGroup(repo_g) {
-    const overview = this;
-    repo_g.selectAll(".commit-group:not(.hidden)").each(function () {
-      let g = d3.select(this);
-      let range = Number.parseInt(g.attr("group_range"));
-      let date = Number.parseInt(g.attr("after_date"));
-
-      let range_in_pixel =
-        overview.xScaledTimeZoned(new Date(range + date)) -
-        overview.xScaledTimeZoned(new Date(date));
-
-      if (range_in_pixel >= Utils.COMMIT_FUSE_RANGE) {
-        if (overview.hovered_g === g) {
-          overview.hovered_g = undefined;
-          overview.hovered_group_commit = undefined;
-        }
-        let before = undefined;
-        let commits = g.datum() as Commit[];
-        g.remove();
-        commits.forEach((commit) => {
-          before = overview.getCommitComponent(repo_g, commit, before);
-        });
+  private checkGroupNeedsSplit(commits: Commit[]): boolean {
+    for (let i = 0; i < commits.length - 1; i++) {
+      if (!this.shouldGroupCommit(commits[i], commits[i + 1])) {
+        return true;
       }
+    }
+    return false;
+  }
+
+  private splitCommitGroup(g: any, commits: Commit[], repo_g: any) {
+    if (this.hovered_g === g) {
+      this.hovered_g = undefined;
+      this.hovered_group_commit = undefined;
+    }
+    let before = undefined;
+    g.remove();
+    commits.forEach((commit) => {
+      before = this.getCommitComponent(repo_g, commit, before);
     });
   }
 
-  refreshRepoByGrouping(repo_g) {
-    const overview = this;
-    let before = undefined;
-    let toCommit = [];
-    let toRemove = [];
+  refreshRepoBySplittingGroup(repo_g: any): boolean {
+    let didSplit = false;
+    repo_g.selectAll(".commit-group").each((commits: Commit[], i: number, nodes: any) => {
+      let g = d3.select(nodes[i]);
+      if (this.checkGroupNeedsSplit(commits)) {
+        didSplit = true;
+        this.splitCommitGroup(g, commits, repo_g);
+      }
+    });
+    return didSplit;
+  }
 
-    repo_g
-      .selectAll(".commit:not(.hidden)")
-      .sort(
-        (a: Commit[], b: Commit[]) =>
-          a[0].commitDate.getTime() - b[0].commitDate.getTime()
-      )
-      .each(function (commit: Commit[]) {
-        let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
+  private getSortedCommitNodes(repo_g: any): any[] {
+    let nodes = repo_g.selectAll(".commit").nodes();
+    nodes.sort((a: any, b: any) => {
+      let aDatum = a.__data__ as Commit[];
+      let bDatum = b.__data__ as Commit[];
+      if (!aDatum || !aDatum[0] || !bDatum || !bDatum[0]) return 0;
+      return aDatum[0].commitDate.getTime() - bDatum[0].commitDate.getTime();
+    });
+    return nodes;
+  }
 
-        if (before == null) {
-          before = g;
-          return;
-        }
+  private mergeCommitNodes(before: any, g: any, commits: Commit[], repo_g: any, toRemove: any[], toCommit: any[]): any {
+    toRemove.push(before, g);
+    let before_date = before.attr("before_date");
+    let after_date = g.attr("after_date");
+    let newGroup = this.getCommitGroupComponentFromScratch(repo_g, commits);
+    newGroup.classed("commit", false);
+    toCommit.push(newGroup);
+    newGroup.attr("before_date", before_date);
+    newGroup.attr("after_date", after_date);
+    return newGroup;
+  }
 
-        let last_commit: Commit = before.datum()[before.datum().length - 1];
-        if (overview.shouldGroupCommit(last_commit, commit[0])) {
-          let commits = commit.concat(before.datum());
-          toRemove.push(before, g);
-
-          let before_date = before.attr("before_date");
-          let after_date = g.attr("after_date");
-          before = overview.getCommitGroupComponentFromScratch(repo_g, commits);
-          before.classed("commit", false);
-          toCommit.push(before);
-          before.attr("before_date", before_date);
-          before.attr("after_date", after_date);
-        } else before = g;
-      })
-      .sort(
-        (a: Commit[], b: Commit[]) =>
-          a[0].commitDate.getTime() - b[0].commitDate.getTime()
-      );
-
+  private applyGroupDOMUpdates(repo_g: any, toRemove: any[], toCommit: any[], needsSort: boolean) {
     toRemove.forEach((g) => g.remove());
     toCommit.forEach((g) => g.classed("commit", true));
+
+    if (toRemove.length > 0 || toCommit.length > 0 || needsSort) {
+      repo_g.selectAll(".commit-group").sort((a: Commit[], b: Commit[]) => {
+        let aDate = a[0] ? a[0].commitDate.getTime() : 0;
+        let bDate = b[0] ? b[0].commitDate.getTime() : 0;
+        return bDate - aDate;
+      });
+      repo_g.selectAll(".commit:not(.commit-group)").raise();
+    }
+  }
+
+  refreshRepoByGrouping(repo_g: any, didSplit: boolean = false) {
+    let before: any = undefined;
+    let toCommit: any[] = [];
+    let toRemove: any[] = [];
+    let nodes = this.getSortedCommitNodes(repo_g);
+
+    d3.selectAll(nodes).each((commit: Commit[], i: number, domNodes: any) => {
+      let g = d3.select(domNodes[i]);
+      if (before == null) {
+        before = g;
+        return;
+      }
+      let last_commit: Commit = before.datum()[before.datum().length - 1];
+      if (this.shouldGroupCommit(last_commit, commit[0])) {
+        let mergedCommits = commit.concat(before.datum());
+        before = this.mergeCommitNodes(before, g, mergedCommits, repo_g, toRemove, toCommit);
+      } else {
+        before = g;
+      }
+    });
+
+    this.applyGroupDOMUpdates(repo_g, toRemove, toCommit, didSplit);
   }
 
   onBrush(event) {
@@ -1239,104 +2087,232 @@ export class OverviewComponent
   }
 
   xScaledTimeZoned(d: Date) {
-    if (!d) {
-      return Number.MIN_VALUE;
+    if (!d || !this.x_scale_copy) {
+      return -1000;
     }
 
     return this.x_scale_copy(d) + this.getOffset(d);
   }
 
   refreshElementState() {
-    const containerRect = (d3.select(".chart-container") as any)
-      .node()
-      .getBoundingClientRect();
+    this.updateNodesVisibilityAndTransforms();
+    this.updateMilestoneVisibility();
+
+    if (!this.repositories_g) return;
+
+    let zoomChanged = this.last_zoom_k !== (this.current_zoom ? this.current_zoom.k : 1);
+    
+    if (zoomChanged) {
+      this.throttledUpdateCommitGroups();
+      this.last_zoom_k = this.current_zoom ? this.current_zoom.k : 1;
+    }
+    
+    this.updateConnectingLines();
+    this.updateSessionsTransforms();
+    this.updateMilestoneTransforms();
+    this.updateDisplayModes();
+  }
+
+  private throttledUpdateCommitGroups() {
+    if (this.isThrottledGroupUpdate) {
+      this.needsGroupUpdate = true;
+      return;
+    }
+    this.isThrottledGroupUpdate = true;
+    this.needsGroupUpdate = false;
+    this.updateCommitGroups();
+
+    setTimeout(() => {
+      this.isThrottledGroupUpdate = false;
+      if (this.needsGroupUpdate) {
+        this.throttledUpdateCommitGroups();
+      }
+    }, 100); // 100ms throttle
+  }
+
+  private updateNodesVisibilityAndTransforms() {
+    if (!this.repository_g || !this.repositories_g) return;
+    
     const overview = this;
-
-    if (overview.repository_g)
-      overview.repositories_g.forEach((repo_g, i: number) => {
-        repo_g.selectAll(".commit").each(function () {
-          let g: d3.Selection<any, Commit[], any, any> = d3.select(this);
-
-          let node = repo_g.node();
-          let nodeRect = (node as any).getBoundingClientRect();
-
-          const nodeVisible =
-            nodeRect.right >= containerRect.left &&
-            nodeRect.left <= containerRect.right &&
-            nodeRect.bottom >= containerRect.top &&
-            nodeRect.top <= containerRect.bottom;
-
-          g.classed("hidden", !nodeVisible);
-        });
-
-        repo_g
-          .selectAll(".commit:not(.hidden)")
-          .attr(
-            "transform",
-            (commits: Commit[]) =>
-              `translate(${overview.xScaledTimeZoned(
-                commits[0].commitDate
-              )}, 0)`
-          );
-
-        repo_g
-          .selectAll("path:not(.hidden)")
-          .attr("d", (commits: Commit[]) =>
-            this.getCommitGroupPathD(commits[0], commits[commits.length - 1])
-          );
+    const padding = 100; // pixels of margin before hiding
+    
+    this.repositories_g.forEach((repo_g) => {
+      repo_g.selectAll(".commit").classed("hidden", (commits: Commit[]) => {
+        if (!commits || !commits[0]) return false;
+        let x = overview.xScaledTimeZoned(commits[0].commitDate);
+        return x < -padding || x > overview.width + padding;
       });
 
-    this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
-      let g = d3.select(this);
-      let x = overview.xScaledTimeZoned(m.date);
-      g.classed("hidden", x < 0 || x > overview.width);
+      repo_g.selectAll(".commit:not(.hidden)").attr("transform", (commits: Commit[]) => {
+        if (!commits || !commits[0]) return "";
+        return `translate(${overview.xScaledTimeZoned(commits[0].commitDate)}, 0)`;
+      });
+
+      repo_g.selectAll(".commit-group:not(.hidden)").each(function(commits: Commit[]) {
+        let g = d3.select(this);
+        if (overview.hiddenCategories.has('COMMIT-GROUP')) {
+          g.style("display", "none");
+          return;
+        } else {
+          g.style("display", null);
+        }
+        
+        if (!commits || !commits[0]) return;
+        let path = g.select("path");
+        if (!path.empty()) {
+          path.attr("d", overview.getCommitGroupPathD(commits[0], commits[commits.length - 1], OverviewComponent.GROUP_HEIGHT));
+        }
+      });
     });
+  }
 
-    overview.repositories_g.forEach((repo_g) =>
-      this.refreshRepoBySplittingGroup(repo_g)
-    );
-    overview.repositories_g.forEach((repo_g) =>
-      this.refreshRepoByGrouping(repo_g)
-    );
+  private updateMilestoneVisibility() {
+    if (!this.chart_abs_g) return;
+    const overview = this;
+    this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
+      let x = overview.xScaledTimeZoned(m.date);
+      d3.select(this).classed("hidden", x < 0 || x > overview.width);
+    });
+  }
 
-    overview.repositories_g.forEach((g, i) => {
+  private updateCommitGroups() {
+    this.repositories_g.forEach((repo_g) => {
+      let split = this.refreshRepoBySplittingGroup(repo_g);
+      this.refreshRepoByGrouping(repo_g, split);
+    });
+  }
+
+  private updateConnectingLines() {
+    const overview = this;
+    this.repositories_g.forEach((g) => {
       g.selectAll(".commit_line")
         .attr("x1", function () {
-          let real_x = overview.xScaledTimeZoned(
-            new Date(Number.parseInt(d3.select(this).attr("min_date")))
-          ) || 0;
-          
-          return Math.max(Math.min(real_x, overview.width), 0);
+          let min_d = new Date(Number.parseInt(d3.select(this).attr("min_date")));
+          return Math.max(Math.min(overview.xScaledTimeZoned(min_d) || 0, overview.width), 0);
         })
         .attr("x2", function () {
-          let real_x = overview.xScaledTimeZoned(
-            new Date(Number.parseInt(d3.select(this).attr("max_date")))
-          ) || 0;
-          return Math.max(Math.min(real_x, overview.width), 0);
+          let max_d = new Date(Number.parseInt(d3.select(this).attr("max_date")));
+          return Math.max(Math.min(overview.xScaledTimeZoned(max_d) || 0, overview.width), 0);
         });
     });
+  }
 
-    this.session_g
-      .selectAll(".session")
-      .attr("x", (s: Session) => {
-        return overview.xScaledTimeZoned(s.startDate);
-      })
-      .attr(
-        "width",
-        (s: Session) =>
-          overview.xScaledTimeZoned(s.endDate) -
-          overview.xScaledTimeZoned(s.startDate)
-      );
+  private updateSessionsTransforms() {
+    if (!this.session_g) return;
+    const overview = this;
 
-    this.chart_abs_g
-      .selectAll(".milestone")
-      .attr(
-        "transform",
-        (m: Milestone) =>
-          `translate(${overview.xScaledTimeZoned(m.date)}, ${this.inner_margin.top
-          })`
+    this.session_g.selectAll(".session-container").each(function(s: Session) {
+      const g = d3.select(this);
+      const rawX1 = overview.xScaledTimeZoned(s.startDate);
+      const rawX2 = overview.xScaledTimeZoned(s.endDate);
+      
+      const cx1 = Math.max(-50, Math.min(overview.width + 50, rawX1));
+      const cx2 = Math.max(-50, Math.min(overview.width + 50, rawX2));
+      const width = Math.max(0, cx2 - cx1);
+
+      g.select(".session")
+        .attr("x", cx1)
+        .attr("width", width);
+
+      const icon = g.select(".session-icon");
+      if (!icon.empty()) {
+        icon.attr("x", rawX1 + 4)
+            .style("visibility", width < 32 ? "hidden" : "visible");
+      }
+    });
+  }
+
+  private updateMilestoneTransforms() {
+    this.chart_abs_g.selectAll(".milestone")
+      .attr("transform", (m: Milestone) =>
+        `translate(${this.xScaledTimeZoned(m.date)}, ${this.inner_margin.top})`
       );
   }
+
+  private updateDisplayModes() {
+    const minMax = this.calculateGlobalMinMaxCommits();
+    this.repositories_g.forEach((repo_g) => this.applyGroupDisplayModes(repo_g, minMax.min, minMax.max));
+  }
+
+  private calculateGlobalMinMaxCommits(): { min: number, max: number } {
+    let maxGroupCommits = 1;
+    let minGroupCommits = Number.MAX_VALUE;
+    
+    if (this.displayModes.opacity || this.displayModes.height) {
+      this.repositories_g.forEach((repo_g) => {
+        repo_g.selectAll(".commit-group").each(function() {
+          let commits = d3.select(this).datum() as Commit[];
+          if (commits && commits.length > 1) {
+             if (commits.length > maxGroupCommits) maxGroupCommits = commits.length;
+             if (commits.length < minGroupCommits) minGroupCommits = commits.length;
+          }
+        });
+      });
+      if (minGroupCommits === Number.MAX_VALUE) minGroupCommits = 1;
+    }
+    
+    return { min: minGroupCommits, max: maxGroupCommits };
+  }
+
+  private applyGroupDisplayModes(repo_g: any, minGroupCommits: number, maxGroupCommits: number) {
+    const overview = this;
+    repo_g.selectAll(".commit-group:not(.hidden)").each(function() {
+      let g = d3.select(this);
+      let commits = g.datum() as Commit[];
+      if (commits.length <= 1) return;
+
+      let height = overview.getGroupHeight(commits.length, minGroupCommits, maxGroupCommits);
+      let opacity = overview.getGroupOpacity(commits.length, minGroupCommits, maxGroupCommits);
+      
+      overview.updateGroupPath(g, commits, height);
+      overview.updateGroupText(g, commits);
+      
+      g.attr("opacity", overview.displayModes.opacity ? opacity : 1.0);
+    });
+  }
+
+  private getGroupHeight(count: number, min: number, max: number): number {
+    if (!this.displayModes.height) return OverviewComponent.GROUP_HEIGHT;
+    if (max <= min) return 18;
+    
+    let ratio = (Math.log(count) - Math.log(min)) / (Math.log(max) - Math.log(min));
+    return 12 + ratio * 20; // 12px to 32px
+  }
+
+  private getGroupOpacity(count: number, min: number, max: number): number {
+    if (!this.displayModes.opacity) return 1.0;
+    if (max <= min) return 0.7;
+    
+    let ratio = (Math.log(count) - Math.log(min)) / (Math.log(max) - Math.log(min));
+    return 0.4 + ratio * 0.6; // 0.4 to 1.0
+  }
+
+  private updateGroupPath(g: any, commits: Commit[], height: number) {
+    let path = g.select("path");
+    path.attr("d", this.getCommitGroupPathD(commits[0], commits[commits.length - 1], height));
+    path.style("--y-offset", `${-height / 2}px`);
+  }
+
+  private updateGroupText(g: any, commits: Commit[]) {
+    let text = g.select("text.commit-count");
+    if (this.displayModes.text) {
+      if (text.empty()) {
+        text = g.append("text").attr("class", "commit-count")
+          .attr("y", 2.5).attr("text-anchor", "middle").attr("fill", "white")
+          .style("font-size", "8.5px").style("font-weight", "normal").style("stroke", "none")
+          .style("pointer-events", "none");
+      }
+      
+      let actualWidth = this.xScaledTimeZoned(commits[commits.length - 1].commitDate) - this.xScaledTimeZoned(commits[0].commitDate);
+      let center_x = actualWidth / 2;
+      
+      text.attr("x", center_x).text(commits.length);
+    } else {
+      text.remove();
+    }
+  }
+
+
 
   toggleDrag() {
     this.drag = !this.drag;
@@ -1349,14 +2325,54 @@ export class OverviewComponent
       .call(
         this.zoom.transform,
         (conserve ? this.current_zoom : undefined) ||
-        d3.zoomIdentity.translate(0, 0).scale(1)
+          d3.zoomIdentity.translate(0, 0).scale(1)
       );
 
     // this.svg.append("g").attr("class", "brush").call(this.brush);
   }
 
+  toggleDisplayMode(mode: 'opacity' | 'height' | 'text') {
+    this.displayModes[mode] = !this.displayModes[mode];
+    this.modeHoverState[mode].wasClicked = true;
+    localStorage.setItem('commitDisplayModes', JSON.stringify(this.displayModes));
+    this.refreshElementState();
+  }
+
+  zoomToGroup(commits: Commit[], range: number) {
+    if (!commits || commits.length < 2 || range <= 0) return;
+
+    let time_domain = this.x_scale.domain();
+    let minDate = time_domain[0].valueOf() as number;
+    let maxDate = time_domain[1].valueOf() as number;
+    let dt = maxDate - minDate;
+
+    let target_k = ((Utils.COMMIT_FUSE_RANGE + 5) * dt) / (range * this.inner_width);
+    target_k = Math.min(target_k, this.maxZoom);
+
+    let centerTime = (commits[0].commitDate.getTime() + commits[commits.length - 1].commitDate.getTime()) / 2;
+    let translate_x = this.inner_width / 2 - ((centerTime - minDate) / dt) * this.inner_width * target_k;
+
+    let transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
+
+    this.data_g
+      .transition()
+      .duration(750)
+      .call(this.zoom.transform, transform);
+  }
+
   searchSubmit() {
     this.loadGraphDataAndRefresh();
+  }
+
+  onFilterGroupsChange(groups: FilterGroup[]) {
+    this.filterGroups = groups;
+    this.loadGraphDataAndRefresh();
+  }
+
+  clearQuestionsFilter() {
+    if (this.questionsChooser) {
+      this.questionsChooser.clearAll();
+    }
   }
 
   openUploadFileModal() {

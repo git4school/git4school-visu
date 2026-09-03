@@ -1,0 +1,91 @@
+<div class="text-input-wrapper" 
+     [class.is-focused]="isFocused" 
+     [class.has-value]="hasValue"
+     [class.is-invalid]="invalid"
+     [class.is-valid]="valid"
+     [class.is-disabled]="isDisabled"
+     [class.no-floating-label]="!floatingLabel">
+
+  <fieldset class="text-input-fieldset" aria-hidden="true" *ngIf="floatingLabel">
+    <legend class="text-input-legend">
+      <span class="notch-text">{{ label }} <span *ngIf="required" class="text-danger">*</span></span>
+    </legend>
+  </fieldset>
+
+  <div class="text-input-inner">
+    <ng-container *ngIf="suggestions !== undefined">
+      <input 
+        #inputElement
+        class="text-input-element" 
+        [type]="type" 
+        [id]="id"
+        [placeholder]="placeholder"
+        [disabled]="isDisabled"
+        [value]="value"
+        autocomplete="off"
+        (input)="onInput($event)"
+        (focus)="onFocus(); focus$.next($any($event).target.value)"
+        (click)="click$.next($any($event).target.value)"
+        (blur)="onBlur()"
+        (keydown.enter)="onEnter($event)"
+        
+        [ngbTypeahead]="search"
+        [resultTemplate]="rt"
+        #instance="ngbTypeahead"
+        (selectItem)="onSelectItem($event)"
+        container="body" />
+        
+      <ng-template #rt let-r="result" let-t="term">
+        <div class="text-input-suggestion d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center text-truncate flex-grow-1 mr-2">
+            <svg class="group-icon mr-2 flex-shrink-0" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span class="suggestion-text text-truncate">
+              <ngb-highlight [result]="r" [term]="t"></ngb-highlight>
+            </span>
+          </div>
+          <span class="shortcut-badge enter-badge flex-shrink-0">↵</span>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <ng-container *ngIf="suggestions === undefined">
+      <input 
+        #inputElement
+        class="text-input-element" 
+        [type]="type" 
+        [id]="id"
+        [placeholder]="placeholder"
+        [disabled]="isDisabled"
+        [value]="value"
+        autocomplete="off"
+        (input)="onInput($event)"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        (keydown.enter)="onEnter($event)" />
+    </ng-container>
+
+    <label class="text-input-label" [for]="id" *ngIf="floatingLabel">
+      {{ label }} <span *ngIf="required" class="text-danger">*</span>
+    </label>
+
+    <div class="text-input-actions">
+      <button type="button" class="action-btn btn-clear" 
+              *ngIf="hasValue && !isDisabled" 
+              (click)="clearValue()" 
+              tabindex="-1">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <i class="far fa-question-circle action-btn btn-help" 
+         *ngIf="helperText"
+         [appTooltip]="helperText" 
+         container="body"></i>
+    </div>
+  </div>
+
+</div>

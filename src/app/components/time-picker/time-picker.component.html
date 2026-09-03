@@ -1,0 +1,161 @@
+<div class="time-picker-container" [class.is-period]="mode === 'period'">
+  <!-- Top mode switch if needed, but not in requirements except for the clock itself -->
+  
+  <!-- Enlarged touch area for easier dragging around the clock -->
+  <div class="clock-touch-area" 
+       #touchArea
+       (mousedown)="onMouseDown($event, 'face')"
+       (touchstart)="onMouseDown($event, 'face')"
+       (mousemove)="!isDragging && onMouseMove($event)"
+       (touchmove)="!isDragging && onMouseMove($event)"
+       (mouseleave)="onMouseLeave()">
+       
+    <div class="clock-face">
+    
+    <!-- 1. Period Gradient (mode === 'period') -->
+    <!-- Put gradient behind everything, only visible on the outer ring -->
+    <div class="period-arc" *ngIf="mode === 'period'"
+         [style.background]="getPeriodGradient()">
+    </div>
+
+    <!-- 2. Inner White Circle (masks the center of the gradient) -->
+    <div class="clock-face-inner"></div>
+
+    <!-- 3. Clock ticks -->
+    <div class="clock-ticks">
+      <div class="clock-tick" *ngFor="let tick of ticks" [style.transform]="'rotate(' + (tick * 15) + 'deg)'">
+        <div class="tick-line" *ngIf="tick % 2 === 0"></div>
+        <div class="tick-dot" *ngIf="tick % 2 !== 0"></div>
+        <div class="clock-tick-label" *ngIf="tick % 2 === 0" [style.transform]="'rotate(-' + (tick * 15) + 'deg)'">
+          {{ getTickLabel(tick) }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Icons -->
+    <div class="clock-icon moon-icon">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="var(--color-primary)"></path>
+        <!-- Stars -->
+        <path d="M19 4L19.5 5.5L21 6L19.5 6.5L19 8L18.5 6.5L17 6L18.5 5.5L19 4Z" fill="var(--color-primary)"></path>
+        <path d="M15 8L15.3 9L16.3 9.3L15.3 9.6L15 10.6L14.7 9.6L13.7 9.3L14.7 9L15 8Z" fill="var(--color-primary)"></path>
+      </svg>
+    </div>
+    
+    <div class="clock-icon sun-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="5" stroke="var(--color-warning)" stroke-width="2"></circle>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="var(--color-warning)" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+    </div>
+
+    <!-- Handles -->
+    <div *ngIf="mode === 'single' && time" 
+         class="time-handle"
+         [style.transform]="'rotate(' + getAngleFromTime(time) + 'deg)'">
+       <div class="handle-hitbox"
+            (mouseenter)="isHoveringHandle = true"
+            (mouseleave)="isHoveringHandle = false"
+            (mousedown)="$event.stopPropagation(); onMouseDown($event, 'single')"
+            (touchstart)="$event.stopPropagation(); onMouseDown($event, 'single')">
+         <div class="handle-visual"></div>
+       </div>
+    </div>
+
+    <ng-container *ngIf="mode === 'period'">
+      <div *ngIf="startTime" class="time-handle start-handle" 
+           [style.transform]="'rotate(' + getAngleFromTime(startTime) + 'deg)'">
+        <div class="arc-cap"></div>
+        <div class="handle-hitbox"
+             (mouseenter)="isHoveringHandle = true"
+             (mouseleave)="isHoveringHandle = false"
+             (mousedown)="$event.stopPropagation(); onMouseDown($event, 'start')"
+             (touchstart)="$event.stopPropagation(); onMouseDown($event, 'start')">
+          <div class="handle-visual"></div>
+        </div>
+      </div>
+      
+      <!-- END Handle -->
+      <div *ngIf="endTime" class="time-handle end-handle" 
+           [style.transform]="'rotate(' + getAngleFromTime(endTime) + 'deg)'">
+        <div class="arc-cap"></div>
+        <div class="handle-hitbox"
+             (mouseenter)="isHoveringHandle = true"
+             (mouseleave)="isHoveringHandle = false"
+             (mousedown)="$event.stopPropagation(); onMouseDown($event, 'end')"
+             (touchstart)="$event.stopPropagation(); onMouseDown($event, 'end')">
+          <div class="handle-visual"></div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div *ngIf="hoverTime && !isHoveringHandle && (!isDragging || dragMode === 'new')" class="time-handle hover-handle"
+         [style.transform]="'rotate(' + getAngleFromTime(hoverTime) + 'deg)'">
+      <div class="hover-indicator"></div>
+    </div>
+
+    <!-- Center Display -->
+    <div class="center-display" (mousedown)="$event.stopPropagation()">
+      <div class="time-inputs-container">
+        <!-- Single Mode -->
+        <ng-container *ngIf="mode === 'single'">
+          <div class="time-row" [class.is-hovering]="isRowHovering(1)">
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayHour1" 
+                   (focus)="focusedInput = 'hour1'"
+                   (input)="onTimeInput($event, 'hour1')" 
+                   (keydown)="onTimeKeydown($event, 'hour1')"
+                   (blur)="onTimeBlur('hour1')">
+            <span class="colon">:</span>
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayMinute1" 
+                   (focus)="focusedInput = 'minute1'"
+                   (input)="onTimeInput($event, 'minute1')" 
+                   (keydown)="onTimeKeydown($event, 'minute1')"
+                   (blur)="onTimeBlur('minute1')">
+          </div>
+        </ng-container>
+
+        <!-- Period Mode -->
+        <ng-container *ngIf="mode === 'period'">
+          <div class="time-row" [class.is-hovering]="isRowHovering(1)">
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayHour1" 
+                   (focus)="focusedInput = 'hour1'"
+                   (input)="onTimeInput($event, 'hour1')" 
+                   (keydown)="onTimeKeydown($event, 'hour1')"
+                   (blur)="onTimeBlur('hour1')">
+            <span class="colon">:</span>
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayMinute1" 
+                   (focus)="focusedInput = 'minute1'"
+                   (input)="onTimeInput($event, 'minute1')" 
+                   (keydown)="onTimeKeydown($event, 'minute1')"
+                   (blur)="onTimeBlur('minute1')">
+          </div>
+          <div class="time-row" [class.is-hovering]="isRowHovering(2)">
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayHour2" 
+                   (focus)="focusedInput = 'hour2'"
+                   (input)="onTimeInput($event, 'hour2')" 
+                   (keydown)="onTimeKeydown($event, 'hour2')"
+                   (blur)="onTimeBlur('hour2')">
+            <span class="colon">:</span>
+            <input type="text" inputmode="numeric" maxlength="2" class="time-input"
+                   [value]="displayMinute2" 
+                   (focus)="focusedInput = 'minute2'"
+                   (input)="onTimeInput($event, 'minute2')" 
+                   (keydown)="onTimeKeydown($event, 'minute2')"
+                   (blur)="onTimeBlur('minute2')">
+          </div>
+        </ng-container>
+      </div>
+      <div class="duration-text" *ngIf="mode === 'period'">
+        {{ durationDisplay }}
+      </div>
+    </div>
+
+    </div>
+
+  </div>
+</div>

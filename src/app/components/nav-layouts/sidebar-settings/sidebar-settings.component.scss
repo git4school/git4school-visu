@@ -1,0 +1,193 @@
+.theme-toggle-svg {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--color-on-surface);
+
+  .moon-mask-circle {
+    transition: cx 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                cy 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sun-core {
+    transition: r 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sun-rays {
+    transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+  }
+
+  /* Normal Dark Mode (Moon) */
+  &.is-dark {
+    transform: rotate(40deg);
+    
+    .moon-mask-circle {
+      cx: 12;
+      cy: 4;
+    }
+    
+    .sun-core {
+      r: 9;
+    }
+
+    .sun-rays {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.5);
+    }
+  }
+
+  /* Light mode + Hover -> Show Moon */
+  &:not(.is-dark).show-hover {
+    transform: rotate(40deg);
+    
+    .moon-mask-circle {
+      cx: 12;
+      cy: 4;
+    }
+    
+    .sun-core {
+      r: 9;
+    }
+
+    .sun-rays {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.5);
+    }
+  }
+
+  /* Dark mode + Hover -> Show Sun */
+  &.is-dark.show-hover {
+    transform: rotate(0deg);
+    
+    .moon-mask-circle {
+      cx: 30;
+      cy: 10;
+    }
+    
+    .sun-core {
+      r: 6;
+    }
+
+    .sun-rays {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+}
+
+
+.settings-row {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin: -0.5rem;
+}
+
+.settings-row:hover {
+  transform: translateX(4px);
+  background-color: var(--color-background);
+}
+
+.assignment-item {
+  border-radius: 6px;
+  margin: 0 0.5rem 0.25rem 0.5rem;
+  background-color: transparent !important;
+  transition: background-color 0.2s ease;
+
+  .btn-action-icon {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  &:hover {
+    background-color: var(--color-bg-body) !important;
+    
+    .btn-action-icon {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+
+
+.assignments-section {
+  .list-group {
+    max-height: 380px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--color-text-muted);
+    }
+  }
+}
+
+.provider-icon {
+  &.github { color: var(--color-github); }
+  &.gitlab { color: var(--color-gitlab); }
+}
+
+.limit-toggle-pill {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+
+  &:hover {
+    background-color: var(--color-bg-body);
+    color: var(--color-on-surface);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  i {
+    font-size: 0.7rem;
+  }
+}
+
+::ng-deep .sidebar-item .dropdown-toggle::after {
+  display: none !important;
+}

@@ -1,0 +1,9 @@
+<div class="form-group" [class.required]="required">
+  <label *ngIf="label" class="col-form-label" [class.required-label]="required">{{ label }}</label>
+  <input 
+    type="date" 
+    class="form-control" 
+    [placeholder]="placeholder" 
+    [value]="value" 
+    (change)="onDateChange($event)">
+</div>

@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ConfigurationComponent } from "@components/home/assignment-chooser/configuration/configuration.component";
 import { Assignment } from "@models/Assignment.model";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 
 @Injectable({
   providedIn: "root",
@@ -10,20 +10,21 @@ import { TranslateService } from "@ngx-translate/core";
 export class ConfigurationService {
   constructor(
     private translateService: TranslateService,
-    private modalService: NgbModal
+    private modalService: CustomModalService
   ) {}
 
   openConfigurationModal(assignment: Assignment): Promise<any> {
     let translation = this.translateService.instant("MESSAGE-UNSAVED-GUARD");
-    let modalReference = this.modalService.open(ConfigurationComponent, {
-      size: "xl",
+    let customModalRef = this.modalService.open(ConfigurationComponent, {
+      size: "lg",
       beforeDismiss: () => {
         return (
-          !modalReference.componentInstance.isModified || confirm(translation)
+          !customModalRef.componentInstance.isModified || confirm(translation)
         );
       },
     });
-    modalReference.componentInstance.assignment = assignment;
-    return modalReference.result;
+    customModalRef.componentInstance.assignment = assignment;
+    customModalRef.componentInstance.modalRef = customModalRef;
+    return customModalRef.result;
   }
 }

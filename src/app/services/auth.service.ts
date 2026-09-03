@@ -18,15 +18,15 @@ export class AuthService {
   /**
    * The Github access token
    */
-  token = localStorage.getItem('dev_github_token') || null;
+  token = localStorage.getItem("dev_github_token") || null;
   username = null;
   loading = false;
 
   /**
    * AuthService constructor
-   * @param {Router} router
-   * @param {HttpClient} http
-   * @param {ToastService} toastService
+   * @param router
+   * @param http
+   * @param toastService
    */
   constructor(
     private router: Router,
@@ -55,10 +55,7 @@ export class AuthService {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then((result) => {
-          this.token = result.credential["accessToken"];
-          this.username = result.additionalUserInfo.username;
-        })
+        .then((result) => this.handleAuthResult(result))
         .finally(() => {
           this.loading = false;
         });
@@ -106,14 +103,16 @@ export class AuthService {
         provider.addScope("repo");
         user
           .reauthenticateWithPopup(provider)
-          .then((result) => {
-            this.token = result.credential["accessToken"];
-            this.username = result.additionalUserInfo.username;
-          })
+          .then((result) => this.handleAuthResult(result))
           .finally(() => {
             this.loading = false;
           });
       }
     });
+  }
+
+  private handleAuthResult(result: any) {
+    this.token = result.credential["accessToken"];
+    this.username = result.additionalUserInfo.username;
   }
 }

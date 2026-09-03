@@ -1,0 +1,187 @@
+@import "variables";
+
+.text-input-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 0.75rem;
+  font-family: $font-family-sans;
+  height: 2.6rem;
+  background-color: var(--color-surface);
+  border-radius: 8px;
+
+  .text-input-inner {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
+  }
+
+  /* The actual input element */
+  .text-input-element {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    z-index: 2;
+
+    /* Webkit autofill fix */
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px var(--color-surface) inset !important;
+      -webkit-text-fill-color: var(--color-text-primary) !important;
+      border-radius: 8px; /* Match inner radius to avoid bleeding */
+    }
+
+    /* Padding for actions so text doesn't hide behind them */
+    padding-right: 2.5rem;
+  }
+
+  /* Fieldset acting as the border */
+  .text-input-fieldset {
+    position: absolute;
+    top: -5px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0 8px;
+    pointer-events: none;
+    border: 1px solid var(--color-border);
+    border-radius: 8px; /* Modern search input style */
+    transition: border-color 0.2s ease, filter 0.2s ease;
+    z-index: 1;
+  }
+
+  /* Legend creating the notch */
+  .text-input-legend {
+    display: block;
+    width: auto;
+    max-width: 0.01px;
+    height: 11px; /* Height of the notch */
+    visibility: hidden;
+    padding: 0;
+    margin: 0;
+    font-size: 0.75rem; /* Match floated label font-size */
+    line-height: 11px;
+    transition: max-width 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+
+    .notch-text {
+      padding: 0 4px;
+      display: inline-block;
+      opacity: 0;
+      white-space: nowrap;
+    }
+  }
+
+  /* The visual floating label */
+  .text-input-label {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    pointer-events: none;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0;
+    z-index: 3;
+    transform-origin: left top;
+    white-space: nowrap;
+  }
+
+  /* Actions container (Clear button, helper text) */
+  .text-input-actions {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 4;
+
+    .action-btn {
+      color: var(--color-text-muted);
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--color-text-secondary);
+      }
+
+      &.btn-clear:hover {
+        color: var(--color-danger);
+      }
+    }
+  }
+
+  /* --- STATES --- */
+
+  /* Focused State */
+  &.is-focused {
+    .text-input-label {
+      color: var(--color-primary);
+    }
+  }
+
+  /* Disabled State */
+  &.is-disabled {
+    opacity: 0.6;
+    .text-input-element {
+      cursor: not-allowed;
+    }
+    .text-input-fieldset {
+      background-color: rgba(0,0,0,0.02);
+    }
+  }
+
+  /* Float Label & Open Notch Trigger (Focused OR Has Value) */
+  &.is-focused,
+  &.has-value {
+    .text-input-legend {
+      max-width: 100%; /* Expands to fit the notch-text */
+      transition: max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .text-input-label {
+      top: 0;
+      /* Scale down and translate vertically to perfectly align with the border */
+      transform: translateY(-50%) scale(0.85);
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+  }
+
+  /* Ensures that if focused, primary color persists over has-value text-secondary color */
+  &.is-focused .text-input-label {
+    color: var(--color-primary);
+  }
+  &.is-focused.is-invalid .text-input-label {
+    color: var(--color-danger);
+  }
+
+  &.no-floating-label {
+    border: 1px solid var(--color-border);
+    transition: border-color 0.2s ease, filter 0.2s ease;
+    
+    &.is-invalid {
+      border-color: var(--color-danger);
+    }
+  }
+
+}

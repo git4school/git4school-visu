@@ -7,28 +7,33 @@ import { Type } from "class-transformer";
 export const CommitColor = {
   BEFORE: {
     label: "Before review",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.BEFORE",
     name: "green",
-    color: "rgb(53, 198, 146)",
+    color: "var(--color-success)",
   },
   BETWEEN: {
     label: "Between review and correction",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.BETWEEN",
     name: "orange",
-    color: "rgb(255, 127, 74)",
+    color: "var(--color-warning)",
   },
   AFTER: {
     label: "After correction",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.AFTER",
     name: "red",
-    color: "rgb(203, 91, 68)",
+    color: "var(--color-danger)",
   },
   INTERMEDIATE: {
     label: "Intermediate commit",
-    name: "black",
-    color: "rgb(77, 77, 77)",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.INTERMEDIATE",
+    name: "slate",
+    color: "var(--color-commit-intermediate)",
   },
   NOCOMMIT: {
     label: "Not finished",
-    name: "lightgrey",
-    color: "lightgrey",
+    labelKey: "OVERVIEW-GRAPH.LEGEND.NOCOMMIT",
+    name: "muted",
+    color: "var(--color-border)",
   },
 };
 
@@ -105,6 +110,20 @@ export class Commit {
       json.commit.committer.name,
       json.commit.committer.date,
       json.html_url
+    );
+  }
+
+  /**
+   * Initialize a Commit from the GraphQL JSON object
+   * @param json The GraphQL JSON node
+   * @returns A commit
+   */
+  static withGraphQLJSON(json): Commit {
+    return new Commit(
+      json.message,
+      json.author?.name || "Unknown",
+      json.committedDate ? new Date(json.committedDate) : new Date(),
+      json.url
     );
   }
 

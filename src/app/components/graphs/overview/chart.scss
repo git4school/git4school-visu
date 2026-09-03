@@ -2,36 +2,41 @@
   display: none;
 }
 
+text.repo_name, .tick > text {
+  fill: var(--color-text-secondary);
+  font-family: var(--font-family-sans);
+}
+
 text.repo_name {
-  font-size: 18px;
+  font-size: 13px;
+  cursor: default;
 }
 
 .repository {
   clip-path: url(#clip);
 }
 
-.tick_line {
+// Lignes de grille et d'axes factorisées
+.tick_line, .tick > line, .axis > line, .domain {
   stroke-width: 1px;
-  stroke: #e5e5e5;
-}
-
-.tick > line {
-  stroke-width: 1px;
-  stroke: #e5e5e5;
-}
-
-.axis > line {
-  stroke-width: 1px;
-  stroke: #e5e5e5;
+  stroke: var(--color-border);
 }
 
 .commit {
-  stroke: #fff;
+  stroke: var(--color-surface); /* Bordure blanche en mode clair pour séparer du fond */
   stroke-width: 2px;
+}
+
+body.dark-theme .commit {
+  stroke: var(--color-border); /* Bordure subtile, ni trop claire ni trop sombre */
+  stroke-width: 1.5px;
 }
 
 .commit-cloture {
   r: 7px;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
 }
 
 .commit-normal {
@@ -40,59 +45,106 @@ text.repo_name {
   transform-box: fill-box;
   transform-origin: center;
   transform: translate(-6px, -6px) rotate(45deg);
+  transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
+}
+
+.commit-group > path {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translate(0, var(--y-offset, -6px)); /* Utilise une variable CSS pour la hauteur dynamique */
+  transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
+}
+
+.commit-cloture:hover {
+  fill: var(--color-surface);
+  stroke: var(--color-text-primary);
+  transform: scale(1.1);
+}
+
+.commit-group:hover > path {
+  fill: var(--color-surface);
+  stroke: var(--color-text-primary);
+  transform: translate(0, var(--y-offset, -6px)) scale(1.1);
 }
 
 .commit-normal:hover {
-  fill: white;
-  stroke: black;
+  fill: var(--color-surface);
+  stroke: var(--color-text-primary);
+  transform: translate(-6px, -6px) rotate(45deg) scale(1.1);
 }
 
 .commit_line {
-  stroke: #999;
+  stroke: var(--color-text-muted);
   stroke-width: 2px;
+  opacity: 0.5;
 }
 
 .session {
-  stroke-width: 2px;
-  stroke: rgba(79, 195, 247, 1);
-  fill: rgba(33, 150, 243, 0.15);
-}
-
-.review {
-  stroke: blue;
-  fill: blue;
-  background-color: blue;
-}
-
-.correction {
-  stroke: red;
-  fill: red;
-  background-color: red;
-}
-
-.other {
-  stroke: black;
-  fill: black;
-  background-color: black;
+  stroke-width: 1px;
+  stroke: var(--color-info);
+  fill: var(--color-info);
+  fill-opacity: 0.1;
+  rx: 8px;
+  ry: 8px;
+  transition: fill-opacity var(--transition-normal);
+  
+  &:hover {
+    fill-opacity: 0.25;
+  }
 }
 
 .milestone {
   pointer-events: auto;
+  cursor: pointer;
+
+  > rect:first-child {
+    transition: width var(--transition-fast), transform var(--transition-fast);
+  }
+  
+  &:hover > rect:first-child {
+    width: 2px;
+    transform: translate(-1px, 0);
+  }
+
+  > rect:nth-child(2) {
+    rx: 12px;
+    ry: 12px;
+    transition: filter var(--transition-normal), transform var(--transition-normal);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+  
+  &:hover > rect:nth-child(2) {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  }
+
+  > text {
+    fill: var(--color-surface);
+    user-select: none;
+    font-family: var(--font-family-sans);
+    font-size: 12px;
+    font-weight: 500;
+    transition: transform var(--transition-normal);
+  }
+
+  &:hover > text {
+    transform: translateY(-2px);
+  }
 }
 
-.milestone > .milestone_label {
-  border-radius: 10;
+.review {
+  > rect:first-child, > rect:nth-child(2) { fill: var(--color-primary); stroke: var(--color-primary); }
 }
 
-.milestone > rect {
-  rx: 5px;
-  ry: 5px;
+.correction {
+  > rect:first-child, > rect:nth-child(2) { fill: var(--color-danger); stroke: var(--color-danger); }
 }
 
-.milestone > text {
-  padding: 5px;
-  color: white;
-  fill: white;
-  stroke: white;
-  user-select: none;
+.other {
+  > rect:first-child, > rect:nth-child(2) { fill: var(--color-secondary); stroke: var(--color-secondary); }
+}
+
+.hitbox {
+  fill: transparent !important;
+  stroke: none !important;
 }

@@ -22,7 +22,7 @@ export class Milestone {
     public questions?: string[],
     public tpGroup?: string,
     public type?: string,
-    public notes?: string,
+    public notes?: string
   ) {
     this.date = moment(date).toDate();
   }
@@ -40,7 +40,7 @@ export class Milestone {
       json.questions,
       json.tpGroup,
       type,
-      json.notes,
+      json.notes
     );
   }
 
