@@ -144,6 +144,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#extractAssignmentCore" >extractAssignmentCore</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#getCssVariable" >getCssVariable</a>
                             </li>
                             <li>
@@ -181,7 +185,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/services/utils.ts:198</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="224" class="link-to-prism">src/app/services/utils.ts:224</a></div>
                             </td>
                         </tr>
 
@@ -693,6 +697,95 @@
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>{ hour: any; minute: any; }</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extractAssignmentCore"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>extractAssignmentCore</b></span>
+                        <a href="#extractAssignmentCore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>extractAssignmentCore(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, owner?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">src/app/services/utils.ts:208</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Extracts the normalized core assignment identifier from a repository or assignment name.
+Strips owner prefix, template/squelette suffixes, and normalizes delimiters to hyphens.</p>
+<p>Example:
+&quot;ue-toaw-tp_m2sdl_2024_friendsofmine-M2_2024_FriendsOfMine_squelette&quot;, owner &quot;UE-TOAW&quot;
+=&gt; &quot;tp-m2sdl-2024-friendsofmine&quot;</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>owner</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                     <div class="io-description">
@@ -1228,6 +1321,32 @@ export class Utils {
     const frontChars &#x3D; Math.ceil(charsToShow / 2);
     const backChars &#x3D; Math.floor(charsToShow / 2);
     return str.substring(0, frontChars) + &#x27;...&#x27; + str.substring(str.length - backChars);
+  }
+
+  /**
+   * Extracts the normalized core assignment identifier from a repository or assignment name.
+   * Strips owner prefix, template/squelette suffixes, and normalizes delimiters to hyphens.
+   *
+   * Example:
+   * &quot;ue-toaw-tp_m2sdl_2024_friendsofmine-M2_2024_FriendsOfMine_squelette&quot;, owner &quot;UE-TOAW&quot;
+   * &#x3D;&gt; &quot;tp-m2sdl-2024-friendsofmine&quot;
+   */
+  static extractAssignmentCore(name: string, owner?: string): string {
+    if (!name) return &quot;&quot;;
+    let clean &#x3D; name.trim();
+    if (owner) {
+      clean &#x3D; clean.replace(new RegExp(&#x60;^${owner}[-_]&#x60;, &quot;i&quot;), &quot;&quot;);
+    }
+    clean &#x3D; clean.replace(
+      /[-_][a-zA-Z0-9_]*(?:squelette|template|skeleton)[a-zA-Z0-9_]*$/i,
+      &quot;&quot;
+    );
+    clean &#x3D; clean.replace(
+      /[-_](?:squelette|template|skeleton)[a-zA-Z0-9_]*$/i,
+      &quot;&quot;
+    );
+    clean &#x3D; clean.replace(/[-_]+$/, &quot;&quot;);
+    return clean.replace(/_/g, &quot;-&quot;).toLowerCase();
   }
 
   constructor() {}

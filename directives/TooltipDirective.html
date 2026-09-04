@@ -127,6 +127,9 @@
                                 <a href="#appTooltip" >appTooltip</a>
                             </li>
                             <li>
+                                <a href="#onlyIfTruncated" >onlyIfTruncated</a>
+                            </li>
+                            <li>
                                 <a href="#placement" >placement</a>
                             </li>
                         </ul>
@@ -171,7 +174,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -253,6 +256,32 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="onlyIfTruncated"></a>
+                        <b>onlyIfTruncated</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:20</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="placement"></a>
                         <b>placement</b>
                     </td>
@@ -296,8 +325,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:28</a></div>
                 </td>
             </tr>
 
@@ -321,8 +350,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:67</a></div>
                 </td>
             </tr>
 
@@ -346,8 +375,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:72</a></div>
                 </td>
             </tr>
 
@@ -380,8 +409,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:76</a></div>
                 </td>
             </tr>
 
@@ -424,8 +453,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:28</a></div>
                 </td>
             </tr>
 
@@ -468,8 +497,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:67</a></div>
                 </td>
             </tr>
 
@@ -512,8 +541,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:72</a></div>
                 </td>
             </tr>
 
@@ -555,6 +584,7 @@ export class TooltipDirective implements OnDestroy {
     | TemplateRef&lt;any&gt;
     | { text: string | TemplateRef&lt;any&gt;; shortcut?: string[] } &#x3D; &quot;&quot;;
   @Input() placement: &quot;top&quot; | &quot;bottom&quot; | &quot;left&quot; | &quot;right&quot; &#x3D; &quot;top&quot;;
+  @Input() onlyIfTruncated &#x3D; false;
 
   constructor(
     private elementRef: ElementRef,
@@ -576,14 +606,28 @@ export class TooltipDirective implements OnDestroy {
       shortcut &#x3D; this.content.shortcut;
     }
 
-    if (text) {
-      this.tooltipService.show(
-        text,
-        this.elementRef.nativeElement,
-        this.placement,
-        shortcut
-      );
+    if (!text) {
+      return;
     }
+
+    if (this.onlyIfTruncated) {
+      const el &#x3D; this.elementRef?.nativeElement as HTMLElement;
+      if (el) {
+        const isTruncated &#x3D;
+          el.scrollHeight - el.clientHeight &gt; 1 ||
+          el.scrollWidth - el.clientWidth &gt; 1;
+        if (!isTruncated) {
+          return;
+        }
+      }
+    }
+
+    this.tooltipService.show(
+      text,
+      this.elementRef.nativeElement,
+      this.placement,
+      shortcut
+    );
   }
 
   @HostListener(&quot;mouseleave&quot;)
