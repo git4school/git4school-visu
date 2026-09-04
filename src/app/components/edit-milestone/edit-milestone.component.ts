@@ -28,8 +28,8 @@ export class EditMilestoneComponent implements OnInit {
   milestoneForm: FormGroup;
 
   milestoneTypes: TypePickerOption[] = [
-    { value: 'corrections', label: 'CORRECTION', color: 'var(--color-danger)' },
     { value: 'reviews', label: 'REVIEW', color: 'var(--color-primary)' },
+    { value: 'corrections', label: 'CORRECTION', color: 'var(--color-danger)' },
     { value: 'others', label: 'OTHER', color: 'var(--color-secondary)' }
   ];
 
