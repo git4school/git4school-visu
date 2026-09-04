@@ -191,3 +191,28 @@ body.dark-theme .commit {
     }
   }
 }
+
+.drag-time-indicator {
+  pointer-events: none;
+
+  .indicator-pointer {
+    fill: var(--color-surface);
+    stroke: var(--color-border);
+    stroke-width: 1px;
+  }
+
+  .pill-bg {
+    fill: var(--color-surface);
+    stroke: var(--color-border);
+    stroke-width: 1px;
+    filter: var(--badge-drag-shadow);
+  }
+
+  text {
+    fill: var(--color-text-primary);
+    font-family: var(--font-family-sans);
+    font-size: 11px;
+    font-weight: 600;
+    user-select: none;
+  }
+}

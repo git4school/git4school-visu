@@ -236,7 +236,7 @@
   <div class="chart-container" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
 
   <!-- SKELETON LOADER OVERLAY -->
-  <div *ngIf="loading" class="chart-skeleton-overlay d-flex" style="position: absolute; top: var(--top-inner, 28px); left: 0; right: 0; bottom: 0; width: 100%; z-index: 50; background: var(--color-surface); padding-bottom: 20px; pointer-events: none;">
+  <div *ngIf="loading" class="chart-skeleton-overlay d-flex" style="position: absolute; top: var(--top-inner, 28px); left: 0; right: 0; bottom: 0; width: 100%; z-index: 50; background: var(--color-surface); padding-bottom: var(--bottom-inner, 38px); pointer-events: none;">
       <!-- Y-Axis (Repository names) -->
       <div class="d-flex flex-column" style="width: 15%; min-width: 120px; max-width: 200px; padding-top: 20px;">
           <div *ngFor="let w of [50, 80, 60, 40, 90, 70, 55, 85, 45, 75, 65, 35, 85, 50, 70, 40, 90, 60, 80, 55, 75, 45, 85, 50, 65]" class="d-flex align-items-center justify-content-end pr-3" style="height: 30px;">

@@ -1401,7 +1401,7 @@ export class OverviewComponent
         document.body.style.cursor = "grabbing";
 
         const currentMilestoneX = overview.xScaledTimeZoned(m.date);
-        overview.onMilestoneDragStart(currentMilestoneX, g);
+        overview.onMilestoneDragStart(currentMilestoneX, g, m);
       }, overview.MILESTONE_HOLD_DURATION);
 
       const onWindowMouseMove = (moveEvent: MouseEvent) => {
@@ -1489,7 +1489,8 @@ export class OverviewComponent
 
   private onMilestoneDragStart(
     startX: number,
-    element: d3.Selection<any, any, any, any>
+    element: d3.Selection<any, any, any, any>,
+    m?: Milestone
   ) {
     this.isDraggingMilestone = true;
     this.hasMovedDuringDrag = false;
@@ -1501,6 +1502,9 @@ export class OverviewComponent
     element.raise();
     element.select(".hitbox").attr("style", "cursor: grabbing; pointer-events: all;");
     this.createDragTimeIndicator(startX);
+    if (m) {
+      this.updateDragTimeIndicator(startX, m.date);
+    }
   }
 
   private onMilestoneDragCustom(
@@ -1551,6 +1555,7 @@ export class OverviewComponent
       
     // Triangle pointer
     this.dragTimeIndicator.append("path")
+      .attr("class", "indicator-pointer")
       .attr("d", "M -6 5 L 6 5 L 0 -1 Z")
       .attr("fill", "var(--color-surface)")
       .attr("stroke", "var(--color-border)")
@@ -1567,12 +1572,14 @@ export class OverviewComponent
       .style("fill", "var(--color-surface)")
       .style("stroke", "var(--color-border)")
       .style("stroke-width", "1px")
-      .style("filter", "drop-shadow(0px 2px 4px rgba(0,0,0,0.15))");
+      .style("filter", "var(--badge-drag-shadow)");
       
     this.dragTimeIndicator.append("text")
-      .attr("y", 20)
+      .attr("x", 0)
+      .attr("y", 16)
+      .attr("dominant-baseline", "central")
       .attr("text-anchor", "middle")
-      .style("fill", "var(--color-on-surface)")
+      .style("fill", "var(--color-text-primary)")
       .style("font-size", "11px")
       .style("font-weight", "600")
       .style("pointer-events", "none");
@@ -1587,15 +1594,28 @@ export class OverviewComponent
     const textEl = this.dragTimeIndicator.select("text");
     textEl.text(timeString);
 
-    // Dynamically adjust the pill width
+    // Dynamically adjust the pill width and clamp position to prevent clipping
     const textNode = textEl.node() as SVGTextElement;
     if (textNode) {
       const bbox = textNode.getBBox();
       const padding = 20; // 10px padding on each side
       const width = Math.max(80, bbox.width + padding); // minimum width
+      
+      let pillX = -width / 2;
+      const leftMargin = this.width - this.chart_width;
+
+      if (x + pillX + width > this.inner_width) {
+        pillX = this.inner_width - x - width;
+      }
+      if (x + pillX < -leftMargin) {
+        pillX = -leftMargin - x;
+      }
+
       this.dragTimeIndicator.select(".pill-bg")
         .attr("width", width)
-        .attr("x", -width / 2);
+        .attr("x", pillX);
+
+      textEl.attr("x", pillX + width / 2);
     }
   }
 
