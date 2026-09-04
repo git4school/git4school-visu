@@ -60,6 +60,16 @@ $font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Robot
   --glass-border: rgba(226, 232, 240, 0.6);
   
   --tooltip-glass-bg: rgba(255, 255, 255, 0.85);
+
+  // Transitions
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 150ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  // Milestone Drag Badge
+  --badge-drag-shadow: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  --badge-drag-shadow-ready: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
 }
 
 body.dark-theme {
@@ -116,6 +126,10 @@ body.dark-theme {
   --glass-border: rgba(51, 65, 85, 0.5);
   
   --tooltip-glass-bg: rgba(30, 41, 59, 0.85);
+
+  // Milestone Drag Badge (Dark mode)
+  --badge-drag-shadow: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+  --badge-drag-shadow-ready: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.6));
 }
 
 // Map SCSS variables to CSS custom properties so existing code works

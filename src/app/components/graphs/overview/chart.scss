@@ -147,4 +147,47 @@ body.dark-theme .commit {
 .hitbox {
   fill: transparent !important;
   stroke: none !important;
+  cursor: pointer;
+}
+
+.milestone-drag-badge {
+  pointer-events: none;
+  filter: var(--badge-drag-shadow);
+
+  .badge-content {
+    transition: transform var(--transition-bounce);
+    transform-origin: 0 0;
+  }
+
+  .badge-bg {
+    fill: var(--color-surface);
+    stroke: var(--color-border);
+    stroke-width: 0.75px;
+  }
+
+  .badge-track {
+    fill: none;
+    stroke: var(--color-border);
+    stroke-width: 1.8px;
+    opacity: 0.25;
+  }
+
+  .badge-progress {
+    fill: none;
+    stroke-width: 2px;
+    stroke-linecap: round;
+  }
+
+  .badge-icon {
+    fill: var(--color-text-primary);
+    stroke: none;
+  }
+
+  &.drag-ready .badge-content {
+    transform: scale(1.15);
+
+    .badge-bg {
+      filter: var(--badge-drag-shadow-ready);
+    }
+  }
 }
