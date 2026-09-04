@@ -668,6 +668,23 @@
     outline: none;
     font-weight: 500;
   }
+
+  &.dropdown-item-danger {
+    color: var(--color-danger) !important;
+
+    i {
+      color: var(--color-danger) !important;
+    }
+
+    &:hover, &:focus {
+      color: var(--color-danger) !important;
+      background-color: var(--color-danger-bg) !important;
+
+      i {
+        color: var(--color-danger) !important;
+      }
+    }
+  }
 }
 
 /* =========================================
@@ -855,6 +872,23 @@
       background-color: var(--color-primary-bg);
       color: var(--color-primary);
       font-weight: 600;
+    }
+
+    &.dropdown-item-danger {
+      color: var(--color-danger) !important;
+
+      i {
+        color: var(--color-danger) !important;
+      }
+
+      &:hover, &:focus {
+        color: var(--color-danger) !important;
+        background-color: var(--color-danger-bg) !important;
+
+        i {
+          color: var(--color-danger) !important;
+        }
+      }
     }
   }
 

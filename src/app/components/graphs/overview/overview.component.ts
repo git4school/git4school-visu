@@ -444,13 +444,35 @@ export class OverviewComponent
 
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
 
-  download() {
-    this.assignmentsService.exportAssignment(this.dataService.assignment);
+  hasDisplayedMilestones(): boolean {
+    if (!this.dataService) return false;
+    if (!this.showReviews && !this.showCorrections && !this.showOthers) {
+      return false;
+    }
+    const milestone_filter = (m: Milestone) =>
+      (!this.dataService.groupFilter ||
+        !m.tpGroup ||
+        m.tpGroup === this.dataService.groupFilter) &&
+      (!this.searchFilter?.length ||
+        this.searchFilter.some((question) => m.questions?.includes(question)));
+
+    return (
+      (this.showReviews && !!this.dataService.reviews?.some(milestone_filter)) ||
+      (this.showCorrections && !!this.dataService.corrections?.some(milestone_filter)) ||
+      (this.showOthers && !!this.dataService.others?.some(milestone_filter))
+    );
   }
 
   updateVariableFromCss(): void {
     let chart_div = document.getElementById("chart");
     if (!chart_div) return;
+
+    const noMilestones = this.loading || !this.hasDisplayedMilestones();
+    if (noMilestones) {
+      chart_div.classList.add("no-milestones");
+    } else {
+      chart_div.classList.remove("no-milestones");
+    }
 
     var style = getComputedStyle(chart_div);
 
@@ -755,6 +777,58 @@ export class OverviewComponent
       .append("g")
       .attr("transform", "translate(" + translation + ")");
 
+    if (this.hasDisplayedMilestones() && this.inner_margin.top > 0) {
+      this.chart_abs_g
+        .append("rect")
+        .attr("class", "milestone-strip-hitbox")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", this.inner_width)
+        .attr("height", this.inner_margin.top)
+        .attr("opacity", "0")
+        .style("cursor", "default")
+        .style("pointer-events", "all")
+        .on("contextmenu", (event: MouseEvent) => {
+          event.preventDefault();
+          event.stopPropagation();
+          var rect = (event.target as any).getBoundingClientRect();
+          var x =
+            ((event.clientX - rect.left) / (rect.right - rect.left)) *
+            overview.inner_width;
+          let rawDate = overview.x_scale_copy
+            ? overview.x_scale_copy.invert(x)
+            : (overview.x_scale ? overview.x_scale.invert(x) : new Date());
+          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+        })
+        .on("click", (event: MouseEvent) => {
+          event.stopPropagation();
+          var rect = (event.target as any).getBoundingClientRect();
+          var x =
+            ((event.clientX - rect.left) / (rect.right - rect.left)) *
+            overview.inner_width;
+          let rawDate = overview.x_scale_copy
+            ? overview.x_scale_copy.invert(x)
+            : (overview.x_scale ? overview.x_scale.invert(x) : new Date());
+          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+        })
+        .on("wheel", (event: WheelEvent) => {
+          if (event.shiftKey) return;
+          let dx = event.deltaX;
+          let dy = event.deltaY;
+          if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
+            dx = dy;
+            dy = 0;
+          }
+          if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (overview.zoom && overview.data_g) {
+              overview.data_g.call(overview.zoom.translateBy, -dx / (overview.current_zoom?.k || 1), 0);
+            }
+          }
+        });
+    }
+
     this.data_g
       .append("rect")
       .attr("id", "data")
@@ -768,7 +842,9 @@ export class OverviewComponent
         var x =
           ((event.clientX - rect.left) / (rect.right - rect.left)) *
           overview.inner_width;
-        let rawDate = overview.x_scale_copy.invert(x);
+        let rawDate = overview.x_scale_copy
+          ? overview.x_scale_copy.invert(x)
+          : (overview.x_scale ? overview.x_scale.invert(x) : new Date());
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       })
       .on("click", (event: MouseEvent) => {
@@ -777,7 +853,9 @@ export class OverviewComponent
         var x =
           ((event.clientX - rect.left) / (rect.right - rect.left)) *
           overview.inner_width; //x position within the element.
-        let rawDate = overview.x_scale_copy.invert(x);
+        let rawDate = overview.x_scale_copy
+          ? overview.x_scale_copy.invert(x)
+          : (overview.x_scale ? overview.x_scale.invert(x) : new Date());
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       });
 

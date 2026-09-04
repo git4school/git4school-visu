@@ -1,3 +1,6 @@
+@import 'variables';
+
 .contextMenu {
   position: fixed;
+  z-index: $zindex-context-menu;
 }
