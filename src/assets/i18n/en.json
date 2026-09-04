@@ -345,7 +345,8 @@
     "SELECTED-REPOSITORIES": "repository(ies) selected",
     "TP-GROUP": "TP Group",
     "SECTION-NAME-MATCHES": "Matches by name",
-    "SECTION-CONTENT-MATCHES": "Matches in description or README"
+    "SECTION-CONTENT-MATCHES": "Matches in description or README",
+    "TOOLTIP-SOURCE-CYCLE": "<strong>Selection cycle:</strong><br>• 1st click: Select all (source and forks)<br>• 2nd click: Forks only<br>• 3rd click: Source repository only<br>• 4th click: Deselect all"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Add multiple repositories",
   "TOKEN-FIRST-NAME": "First name",

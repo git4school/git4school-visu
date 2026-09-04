@@ -417,17 +417,67 @@ export class ModalAddRepositoriesComponent
   }
 
   isSelected(repo: Repository): boolean {
-    return this.selectedUrls.has(repo.url);
+    return !!repo && this.selectedUrls.has(repo.url);
   }
 
-  toggleSelection(repo: Repository) {
+  private selectRepo(repo: Repository) {
+    if (repo && !this.selectedUrls.has(repo.url)) {
+      this.selected.push(repo);
+      this.selectedUrls.add(repo.url);
+    }
+  }
+
+  private deselectRepo(repo: Repository) {
+    if (!repo) return;
     const index = this.selected.findIndex((r) => Repository.isEqual(r, repo));
     if (index > -1) {
       this.selected.splice(index, 1);
-      this.selectedUrls.delete(repo.url);
+    }
+    this.selectedUrls.delete(repo.url);
+  }
+
+  getChildForks(parentRepo: Repository): Repository[] {
+    if (!parentRepo || !parentRepo.url) return [];
+    const parentUrlLower = parentRepo.url.toLowerCase();
+    return this.rows.filter(
+      (r) => r.isChildFork && r.parentUrl && r.parentUrl.toLowerCase() === parentUrlLower
+    );
+  }
+
+  hasChildForks(parentRepo: Repository): boolean {
+    if (!parentRepo || parentRepo.isChildFork) return false;
+    return this.getChildForks(parentRepo).length > 0;
+  }
+
+  toggleSelection(repo: Repository) {
+    const childForks = this.getChildForks(repo);
+
+    if (childForks.length > 0) {
+      const areAllChildrenSelected = childForks.every((child) => this.isSelected(child));
+      const isAnyChildSelected = childForks.some((child) => this.isSelected(child));
+      const isParentSelected = this.isSelected(repo);
+
+      if (isParentSelected && areAllChildrenSelected) {
+        // Step 2: Deselect ONLY the parent repo (children remain selected)
+        this.deselectRepo(repo);
+      } else if (!isParentSelected && areAllChildrenSelected) {
+        // Step 3: Select the parent repo, but deselect ALL child forks (parent alone selected)
+        this.selectRepo(repo);
+        childForks.forEach((child) => this.deselectRepo(child));
+      } else if (isParentSelected && !isAnyChildSelected) {
+        // Step 4: Deselect the parent repo (everything is unselected)
+        this.deselectRepo(repo);
+      } else {
+        // Step 1: Select parent repo AND all child forks
+        this.selectRepo(repo);
+        childForks.forEach((child) => this.selectRepo(child));
+      }
     } else {
-      this.selected.push(repo);
-      this.selectedUrls.add(repo.url);
+      if (this.isSelected(repo)) {
+        this.deselectRepo(repo);
+      } else {
+        this.selectRepo(repo);
+      }
     }
   }
 

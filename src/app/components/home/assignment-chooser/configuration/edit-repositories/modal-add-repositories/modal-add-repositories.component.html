@@ -67,7 +67,10 @@
                             (click)="toggleSelection(row)"
                             class="table-row">
                             <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
-                                <div class="custom-checkbox" [class.checked]="isSelected(row)">
+                                <div class="custom-checkbox" 
+                                     [class.checked]="isSelected(row)"
+                                     [appTooltip]="hasChildForks(row) ? ('MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE' | translate) : ''"
+                                     placement="top">
                                     <i class="fas fa-check"></i>
                                 </div>
                             </td>
@@ -123,7 +126,10 @@
                             (click)="toggleSelection(row)"
                             class="table-row">
                             <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
-                                <div class="custom-checkbox" [class.checked]="isSelected(row)">
+                                <div class="custom-checkbox" 
+                                     [class.checked]="isSelected(row)"
+                                     [appTooltip]="hasChildForks(row) ? ('MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE' | translate) : ''"
+                                     placement="top">
                                     <i class="fas fa-check"></i>
                                 </div>
                             </td>
@@ -170,7 +176,10 @@
                         (click)="toggleSelection(row)"
                         class="table-row">
                         <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
-                            <div class="custom-checkbox" [class.checked]="isSelected(row)">
+                            <div class="custom-checkbox" 
+                                 [class.checked]="isSelected(row)"
+                                 [appTooltip]="hasChildForks(row) ? ('MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE' | translate) : ''"
+                                 placement="top">
                                 <i class="fas fa-check"></i>
                             </div>
                         </td>

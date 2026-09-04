@@ -345,7 +345,8 @@
     "SELECTED-REPOSITORIES": "dépôt(s) sélectionné(s)",
     "TP-GROUP": "Groupe de TP",
     "SECTION-NAME-MATCHES": "Correspondances par nom",
-    "SECTION-CONTENT-MATCHES": "Correspondances dans la description ou le README"
+    "SECTION-CONTENT-MATCHES": "Correspondances dans la description ou le README",
+    "TOOLTIP-SOURCE-CYCLE": "<strong>Cycle de sélection :</strong><br>• 1ᵉʳ clic : Tout sélectionner (source et forks)<br>• 2ᵉ clic : Forks uniquement<br>• 3ᵉ clic : Dépôt source uniquement<br>• 4ᵉ clic : Tout désélectionner"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Ajouter plusieurs dépôts",
   "TOKEN-LAST-NAME": "NOM",
