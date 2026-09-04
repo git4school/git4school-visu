@@ -343,7 +343,9 @@
     "PLACEHOLDER-FILTER": "Search repositories",
     "PLACEHOLDER-TPGROUP": "Write the TP group for all selected repositories",
     "SELECTED-REPOSITORIES": "repository(ies) selected",
-    "TP-GROUP": "TP Group"
+    "TP-GROUP": "TP Group",
+    "SECTION-NAME-MATCHES": "Matches by name",
+    "SECTION-CONTENT-MATCHES": "Matches in description or README"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Add multiple repositories",
   "TOKEN-FIRST-NAME": "First name",

@@ -40,10 +40,12 @@
 }
 
 .modern-table-container {
+    overflow-x: hidden;
     overflow-y: auto;
     scrollbar-gutter: stable;
     background-color: var(--color-surface);
     overscroll-behavior: contain;
+    width: 100%;
     
     &::-webkit-scrollbar {
         width: 6px;
@@ -86,9 +88,13 @@
     }
     
     td {
-        padding: 16px 0;
+        padding: 14px 0;
         border-bottom: 1px solid var(--filter-bg);
         vertical-align: middle;
+        max-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     
     .table-row {
@@ -105,15 +111,15 @@
     }
     
     .checkbox-col {
-        width: 72px;
+        width: 52px;
     }
     
     .name-col {
-        width: 45%;
+        width: 48%;
     }
     
     .url-col {
-        width: 55%;
+        width: auto;
     }
 }
 
@@ -168,13 +174,29 @@
     font-size: 0.9rem;
 }
 
+.repo-desc-text {
+    font-size: 0.75rem;
+    line-height: 1.2;
+}
+
 .repo-url {
     font-size: 0.8rem;
     color: var(--color-text-muted);
     text-decoration: none;
-    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
     max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
     transition: color $transition-fast;
+
+    span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+        flex-shrink: 1;
+    }
 
     .ext-icon {
         width: 0.85rem;
@@ -182,6 +204,7 @@
         opacity: 0;
         color: var(--color-text-muted);
         transition: opacity $transition-fast;
+        flex-shrink: 0;
     }
 
     &:hover {
@@ -193,6 +216,59 @@
             color: var(--color-primary);
         }
     }
+}
+
+.group-header-row {
+    td {
+        padding: 10px 0 4px 0 !important;
+        border-bottom: none !important;
+        background-color: transparent !important;
+    }
+    .group-header-badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--color-text-muted);
+        padding: 3px 8px;
+        border-radius: $radius-sm;
+        background-color: var(--filter-bg);
+    }
+}
+
+.child-fork-row {
+    background-color: var(--color-surface);
+    
+    td {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    &:hover {
+        background-color: var(--filter-bg);
+    }
+}
+
+.child-fork-item {
+    padding-left: 18px;
+}
+
+.fork-branch-guide {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    
+    .fork-branch-svg {
+        flex-shrink: 0;
+    }
+}
+
+.repo-icon-sm {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
 }
 
 

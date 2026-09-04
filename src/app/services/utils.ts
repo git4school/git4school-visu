@@ -197,5 +197,31 @@ export class Utils {
     return str.substring(0, frontChars) + '...' + str.substring(str.length - backChars);
   }
 
+  /**
+   * Extracts the normalized core assignment identifier from a repository or assignment name.
+   * Strips owner prefix, template/squelette suffixes, and normalizes delimiters to hyphens.
+   *
+   * Example:
+   * "ue-toaw-tp_m2sdl_2024_friendsofmine-M2_2024_FriendsOfMine_squelette", owner "UE-TOAW"
+   * => "tp-m2sdl-2024-friendsofmine"
+   */
+  static extractAssignmentCore(name: string, owner?: string): string {
+    if (!name) return "";
+    let clean = name.trim();
+    if (owner) {
+      clean = clean.replace(new RegExp(`^${owner}[-_]`, "i"), "");
+    }
+    clean = clean.replace(
+      /[-_][a-zA-Z0-9_]*(?:squelette|template|skeleton)[a-zA-Z0-9_]*$/i,
+      ""
+    );
+    clean = clean.replace(
+      /[-_](?:squelette|template|skeleton)[a-zA-Z0-9_]*$/i,
+      ""
+    );
+    clean = clean.replace(/[-_]+$/, "");
+    return clean.replace(/_/g, "-").toLowerCase();
+  }
+
   constructor() {}
 }

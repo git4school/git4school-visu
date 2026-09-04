@@ -343,7 +343,9 @@
     "PLACEHOLDER-FILTER": "Rechercher des dépôts",
     "PLACEHOLDER-TPGROUP": "Indiquez le groupe de TP pour tous les dépôts sélectionnés",
     "SELECTED-REPOSITORIES": "dépôt(s) sélectionné(s)",
-    "TP-GROUP": "Groupe de TP"
+    "TP-GROUP": "Groupe de TP",
+    "SECTION-NAME-MATCHES": "Correspondances par nom",
+    "SECTION-CONTENT-MATCHES": "Correspondances dans la description ou le README"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Ajouter plusieurs dépôts",
   "TOKEN-LAST-NAME": "NOM",

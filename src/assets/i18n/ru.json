@@ -340,7 +340,9 @@
     "PLACEHOLDER-FILTER": "Поиск репозиториев",
     "PLACEHOLDER-TPGROUP": "Укажите группу TP для всех выбранных репозиториев",
     "SELECTED-REPOSITORIES": "репозиториев выбрано",
-    "TP-GROUP": "Группа TP"
+    "TP-GROUP": "Группа TP",
+    "SECTION-NAME-MATCHES": "Совпадения по имени",
+    "SECTION-CONTENT-MATCHES": "Совпадения в описании или README"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Добавить несколько репозиториев",
   "TOKEN-FIRST-NAME": "Имя",

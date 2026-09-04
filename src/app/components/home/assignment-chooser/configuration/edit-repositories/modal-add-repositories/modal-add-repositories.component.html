@@ -17,26 +17,31 @@
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
             <input id="tour-modal-search-input" class="form-control modern-search-input" type="text"
-                placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER' | translate }}" (keyup)="onSearch($event)"
+                placeholder="{{ 'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER' | translate }}" (input)="onSearch($event)"
                 ngbAutofocus />
         </div>
     </div>
     
     <div #reposTable class="modern-table-container flex-grow-1 px-4">
-        <table class="modern-table w-100" style="border-collapse: separate; border-spacing: 0;">
+        <table class="modern-table w-100">
+            <colgroup>
+                <col style="width: 52px;">
+                <col style="width: 48%;">
+                <col style="width: auto;">
+            </colgroup>
             <thead>
                 <tr>
-                    <th class="checkbox-col pl-3 text-left" style="width: 64px;">
+                    <th class="checkbox-col pl-3 text-left">
                         <div class="custom-checkbox" [class.checked]="isAllSelected()" (click)="toggleSelectAll()">
                             <i class="fas fa-check"></i>
                         </div>
                     </th>
-                    <th class="name-col text-left cursor-pointer" style="cursor: pointer;" (click)="sort('name')">
+                    <th class="name-col text-left cursor-pointer" (click)="sort('name')">
                         {{ 'MODAL-ADD-REPOSITORIES.COLUMN-NAME' | translate }}
                         <span *ngIf="sortBy === 'name' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
                         <span *ngIf="sortBy === 'name' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
                     </th>
-                    <th class="url-col text-left pr-4 cursor-pointer" style="cursor: pointer;" (click)="sort('url')">
+                    <th class="url-col text-left pr-4 cursor-pointer" (click)="sort('url')">
                         {{ 'MODAL-ADD-REPOSITORIES.COLUMN-URL' | translate }}
                         <span *ngIf="sortBy === 'url' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
                         <span *ngIf="sortBy === 'url' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
@@ -44,44 +49,157 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let row of rows; trackBy: trackByUrl" 
-                    [class.selected]="isSelected(row)" 
-                    (click)="toggleSelection(row)"
-                    class="table-row">
-                    <td class="checkbox-col pl-3 pr-4" style="width: 64px; cursor: pointer;">
-                        <div class="custom-checkbox" [class.checked]="isSelected(row)">
-                            <i class="fas fa-check"></i>
-                        </div>
-                    </td>
-                    <td class="name-col font-weight-500" style="color: var(--color-text-primary);">
-                        <div class="d-flex align-items-center">
-                            <div class="repo-icon mr-3 d-flex align-items-center justify-content-center">
-                                <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
-                                <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
+                <ng-container *ngIf="hasGroupedMatches; else plainList">
+                    <!-- Section 1: Matches by name -->
+                    <tr *ngIf="nameMatches.length > 0" class="group-header-row">
+                        <td colspan="3" class="pl-3">
+                            <span class="group-header-badge">
+                                <i class="fas fa-tag mr-1"></i>
+                                {{ 'MODAL-ADD-REPOSITORIES.SECTION-NAME-MATCHES' | translate }} ({{ nameMatches.length }})
+                            </span>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let row of nameMatches; trackBy: trackByUrl" 
+                        [class.selected]="isSelected(row)" 
+                        [class.child-fork-row]="row.isChildFork"
+                        (click)="toggleSelection(row)"
+                        class="table-row">
+                        <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
+                            <div class="custom-checkbox" [class.checked]="isSelected(row)">
+                                <i class="fas fa-check"></i>
                             </div>
-                            <span class="text-truncate repo-name-text" style="max-width: 250px;">{{ row.name }}</span>
-                        </div>
-                    </td>
-                    <td class="url-col pr-4">
-                        <a class="repo-url d-inline-flex align-items-center" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
-                            <span class="text-truncate" style="max-width: 350px;">{{ row.url }}</span>
-                            <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                <polyline points="15 3 21 3 21 9"></polyline>
-                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                            </svg>
-                        </a>
-                    </td>
-                </tr>
+                        </td>
+                        <td class="name-col font-weight-500 pr-3" style="color: var(--color-text-primary);">
+                            <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">
+                                <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">
+                                    <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">
+                                        <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>
+                                </div>
+                                <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">
+                                    <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
+                                    <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
+                                </div>
+                                <div class="d-flex flex-column text-truncate flex-grow-1 min-w-0">
+                                    <span class="text-truncate repo-name-text">{{ row.name }}</span>
+                                    <small *ngIf="row.description" class="text-muted text-truncate repo-desc-text">{{ row.description }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="url-col pr-4">
+                            <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
+                                <span class="text-truncate">{{ row.url }}</span>
+                                <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <!-- Section 2: Matches in description or README -->
+                    <tr *ngIf="contentMatches.length > 0" class="group-header-row">
+                        <td colspan="3" class="pl-3">
+                            <span class="group-header-badge">
+                                <i class="fas fa-file-alt mr-1"></i>
+                                {{ 'MODAL-ADD-REPOSITORIES.SECTION-CONTENT-MATCHES' | translate }} ({{ contentMatches.length }})
+                            </span>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let row of contentMatches; trackBy: trackByUrl" 
+                        [class.selected]="isSelected(row)" 
+                        [class.child-fork-row]="row.isChildFork"
+                        (click)="toggleSelection(row)"
+                        class="table-row">
+                        <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
+                            <div class="custom-checkbox" [class.checked]="isSelected(row)">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </td>
+                        <td class="name-col font-weight-500 pr-3" style="color: var(--color-text-primary);">
+                            <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">
+                                <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">
+                                    <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">
+                                        <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>
+                                </div>
+                                <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">
+                                    <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
+                                    <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
+                                </div>
+                                <div class="d-flex flex-column text-truncate flex-grow-1 min-w-0">
+                                    <span class="text-truncate repo-name-text">{{ row.name }}</span>
+                                    <small *ngIf="row.description" class="text-muted text-truncate repo-desc-text">{{ row.description }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="url-col pr-4">
+                            <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
+                                <span class="text-truncate">{{ row.url }}</span>
+                                <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                </ng-container>
+
+                <ng-template #plainList>
+                    <tr *ngFor="let row of rows; trackBy: trackByUrl" 
+                        [class.selected]="isSelected(row)" 
+                        [class.child-fork-row]="row.isChildFork"
+                        (click)="toggleSelection(row)"
+                        class="table-row">
+                        <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
+                            <div class="custom-checkbox" [class.checked]="isSelected(row)">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </td>
+                        <td class="name-col font-weight-500 pr-3" style="color: var(--color-text-primary);">
+                            <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">
+                                <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">
+                                    <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">
+                                        <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>
+                                </div>
+                                <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">
+                                    <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
+                                    <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
+                                </div>
+                                <div class="d-flex flex-column text-truncate flex-grow-1 min-w-0">
+                                    <span class="text-truncate repo-name-text">{{ row.name }}</span>
+                                    <small *ngIf="row.description" class="text-muted text-truncate repo-desc-text">{{ row.description }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="url-col pr-4">
+                            <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
+                                <span class="text-truncate">{{ row.url }}</span>
+                                <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                </ng-template>
+
                 <ng-container *ngIf="loading">
                     <tr *ngFor="let i of [1, 2, 3]" class="table-row" style="pointer-events: none;">
-                        <td class="checkbox-col pl-3 pr-4" style="width: 64px;">
-                            <div class="skeleton-box" style="width: 20px; height: 20px; border-radius: 4px; margin-top: 2px;"></div>
+                        <td class="checkbox-col pl-3 pr-2">
+                            <div class="skeleton-box" style="width: 18px; height: 18px; border-radius: 4px; margin-top: 2px;"></div>
                         </td>
-                        <td class="name-col font-weight-500">
+                        <td class="name-col font-weight-500 pr-3">
                             <div class="d-flex align-items-center py-1">
-                                <div class="skeleton-box mr-3" style="width: 40px; height: 40px; border-radius: 8px;"></div>
-                                <div class="skeleton-box" style="height: 1rem; width: 60%; max-width: 200px; border-radius: 4px;"></div>
+                                <div class="skeleton-box mr-3" style="width: 36px; height: 36px; border-radius: 8px;"></div>
+                                <div class="skeleton-box flex-grow-1" style="height: 1rem; max-width: 200px; border-radius: 4px;"></div>
                             </div>
                         </td>
                         <td class="url-col pr-4">
