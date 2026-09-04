@@ -397,7 +397,7 @@
   "HOME-OBJECTIVE-2": "Quickly see which questions are the least well answered in the group of students to identify problematic concepts and clarify them, or questions that are poorly worded.",
   "HOME-OBJECTIVE-3": "Follow the completion of the questions by the student group to plan the code review sessions and question corrections at the best possible time.",
   "GO-TO-GITHUB-TOOLTIP": "Go to our Github repository",
-  "NO-MILESTONE-TYPE-FEEDBACK": "A type of milestone must be choosen !",
+  "NO-MILESTONE-TYPE-FEEDBACK": "A type of milestone must be chosen",
   "MILESTONE-TYPE": "Milestone type",
   "MILESTONE-NOTES": "Personal notes",
   "REQUIRED-FIELDS-TEXT": "These fields must be filled in to validate the form.",

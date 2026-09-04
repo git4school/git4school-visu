@@ -15,9 +15,11 @@
             <app-type-picker 
                 formControlName="type"
                 [options]="milestoneTypes"
-                [isInvalid]="milestoneForm.controls.type?.invalid"
-                errorMessage="{{ 'NO-MILESTONE-TYPE-FEEDBACK' | translate }}">
+                [isInvalid]="milestoneForm.controls.type?.invalid">
             </app-type-picker>
+            <div class="milestone-type-feedback" *ngIf="milestoneForm.controls.type?.invalid">
+                {{ 'NO-MILESTONE-TYPE-FEEDBACK' | translate }}
+            </div>
         </div>
 
         <!-- Row 2: Label (left), Date/Time (right) -->
