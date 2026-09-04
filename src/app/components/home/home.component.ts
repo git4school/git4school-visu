@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "@services/auth.service";
-import { TourService } from "@services/tour.service";
 import { environment } from "../../../environments/environment";
 
 /**
@@ -17,27 +16,14 @@ export class HomeComponent implements OnInit {
    * HomeComponent constructor
    * @param authService The service managing authentication
    */
-  constructor(
-    public authService: AuthService,
-    private tourService: TourService
-  ) {}
+  constructor(public authService: AuthService) {}
 
   version = environment.version;
 
-  ngOnInit() {
-    // Small timeout to ensure DOM is ready
-    setTimeout(() => {
-      if (this.authService.isSignedIn() && this.tourService.shouldShowTour()) {
-        this.tourService.startTour();
-      }
-    }, 500);
-  }
+  ngOnInit() {}
 
   async onSignInGithub() {
     await this.authService.signIn();
-    if (this.authService.isSignedIn() && this.tourService.shouldShowTour()) {
-      setTimeout(() => this.tourService.startTour(), 500);
-    }
   }
 
   scroll(el: HTMLElement) {

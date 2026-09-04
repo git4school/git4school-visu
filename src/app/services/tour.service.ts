@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { driver } from "driver.js";
 
@@ -9,13 +10,17 @@ export class TourService {
   private hasSeenTourKey = "hasSeenTour";
   private driverObj: any;
 
-  constructor(private translate: TranslateService) {}
+  constructor(
+    private translate: TranslateService,
+    private router: Router
+  ) {}
 
   /**
    * Check if the tour should be shown (first visit).
+   * Temporarily disabled.
    */
   public shouldShowTour(): boolean {
-    return localStorage.getItem(this.hasSeenTourKey) === null;
+    return false;
   }
 
   /**
@@ -28,7 +33,17 @@ export class TourService {
   /**
    * Start the interactive tour.
    */
-  public startTour(): void {
+  public async startTour(): Promise<void> {
+    if (this.driverObj && this.driverObj.isActive()) {
+      this.driverObj.destroy();
+    }
+
+    if (this.router.url !== "/home") {
+      await this.router.navigate(["/home"]);
+      // Allow component DOM to initialize after navigation
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+
     this.driverObj = driver({
       showProgress: true,
       nextBtnText: this.translate.instant("TOUR.NEXT"),
