@@ -1920,7 +1920,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div ngbDropdown class&#x3D;&quot;contextMenu&quot; [style.left]&#x3D;&quot;left&quot; [style.top]&#x3D;&quot;top&quot;&gt;
-    &lt;div ngbDropdownMenu&gt;
+    &lt;div ngbDropdownMenu class&#x3D;&quot;modern-dropdown-menu&quot;&gt;
         &lt;div&gt;
             &lt;button ngbDropdownItem *ngIf&#x3D;&quot;editMilestoneMode&quot; (click)&#x3D;&quot;editMilestone()&quot;&gt;&lt;i
                     class&#x3D;&quot;fas fa-pencil-alt fa-sm mr-2&quot;&gt;&lt;/i&gt;{{
@@ -1938,10 +1938,11 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
                 &#x27;ADD-SESSION-CONTEXT-MENU&#x27; |
                 translate }}&lt;/button&gt;
         &lt;/div&gt;
-        &lt;button ngbDropdownItem *ngIf&#x3D;&quot;editMilestoneMode&quot; (click)&#x3D;&quot;removeMilestone(milestone)&quot;&gt;&lt;i
+        &lt;div class&#x3D;&quot;dropdown-divider&quot; *ngIf&#x3D;&quot;editMilestoneMode || editSessionMode&quot;&gt;&lt;/div&gt;
+        &lt;button ngbDropdownItem class&#x3D;&quot;dropdown-item-danger&quot; *ngIf&#x3D;&quot;editMilestoneMode&quot; (click)&#x3D;&quot;removeMilestone(milestone)&quot;&gt;&lt;i
                 class&#x3D;&quot;far fa-trash-alt fa-sm mr-2&quot;&gt;&lt;/i&gt;{{
             &#x27;DELETE-MILESTONE-CONTEXT-MENU&#x27; | translate }}&lt;/button&gt;
-        &lt;button ngbDropdownItem *ngIf&#x3D;&quot;editSessionMode&quot; (click)&#x3D;&quot;removeSession(session)&quot;&gt;&lt;i
+        &lt;button ngbDropdownItem class&#x3D;&quot;dropdown-item-danger&quot; *ngIf&#x3D;&quot;editSessionMode&quot; (click)&#x3D;&quot;removeSession(session)&quot;&gt;&lt;i
                 class&#x3D;&quot;far fa-trash-alt fa-sm mr-2&quot;&gt;&lt;/i&gt;{{
             &#x27;DELETE-SESSION-CONTEXT-MENU&#x27; | translate }}&lt;/button&gt;
     &lt;/div&gt;
@@ -1952,8 +1953,11 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
                 <p class="comment">
                     <code>./overview-graph-contextual-menu.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">.contextMenu {
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;variables&#x27;;
+
+.contextMenu {
   position: fixed;
+  z-index: $zindex-context-menu;
 }
 </code></pre>
     </div>
@@ -1983,7 +1987,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div ngbDropdown class="contextMenu" [style.left]="left" [style.top]="top">    <div ngbDropdownMenu>        <div>            <button ngbDropdownItem *ngIf="editMilestoneMode" (click)="editMilestone()"><i                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{                \'EDIT-MILESTONE-CONTEXT-MENU\' | translate }}</button>            <button ngbDropdownItem *ngIf="!editMilestoneMode" (click)="addMilestone()"><i                    class="fas fa-plus fa-sm mr-2"></i>{{                \'ADD-MILESTONE-CONTEXT-MENU\' | translate }}</button>        </div>        <div>            <button ngbDropdownItem *ngIf="editSessionMode" (click)="editSession()"><i                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{                \'EDIT-SESSION-CONTEXT-MENU\' | translate }}</button>            <button ngbDropdownItem *ngIf="!editSessionMode" (click)="addSession()"><i                    class="fas fa-plus fa-sm mr-2"></i>{{                \'ADD-SESSION-CONTEXT-MENU\' |                translate }}</button>        </div>        <button ngbDropdownItem *ngIf="editMilestoneMode" (click)="removeMilestone(milestone)"><i                class="far fa-trash-alt fa-sm mr-2"></i>{{            \'DELETE-MILESTONE-CONTEXT-MENU\' | translate }}</button>        <button ngbDropdownItem *ngIf="editSessionMode" (click)="removeSession(session)"><i                class="far fa-trash-alt fa-sm mr-2"></i>{{            \'DELETE-SESSION-CONTEXT-MENU\' | translate }}</button>    </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div ngbDropdown class="contextMenu" [style.left]="left" [style.top]="top">    <div ngbDropdownMenu class="modern-dropdown-menu">        <div>            <button ngbDropdownItem *ngIf="editMilestoneMode" (click)="editMilestone()"><i                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{                \'EDIT-MILESTONE-CONTEXT-MENU\' | translate }}</button>            <button ngbDropdownItem *ngIf="!editMilestoneMode" (click)="addMilestone()"><i                    class="fas fa-plus fa-sm mr-2"></i>{{                \'ADD-MILESTONE-CONTEXT-MENU\' | translate }}</button>        </div>        <div>            <button ngbDropdownItem *ngIf="editSessionMode" (click)="editSession()"><i                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{                \'EDIT-SESSION-CONTEXT-MENU\' | translate }}</button>            <button ngbDropdownItem *ngIf="!editSessionMode" (click)="addSession()"><i                    class="fas fa-plus fa-sm mr-2"></i>{{                \'ADD-SESSION-CONTEXT-MENU\' |                translate }}</button>        </div>        <div class="dropdown-divider" *ngIf="editMilestoneMode || editSessionMode"></div>        <button ngbDropdownItem class="dropdown-item-danger" *ngIf="editMilestoneMode" (click)="removeMilestone(milestone)"><i                class="far fa-trash-alt fa-sm mr-2"></i>{{            \'DELETE-MILESTONE-CONTEXT-MENU\' | translate }}</button>        <button ngbDropdownItem class="dropdown-item-danger" *ngIf="editSessionMode" (click)="removeSession(session)"><i                class="far fa-trash-alt fa-sm mr-2"></i>{{            \'DELETE-SESSION-CONTEXT-MENU\' | translate }}</button>    </div></div></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
     var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'OverviewGraphContextualMenuComponent'};

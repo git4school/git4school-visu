@@ -147,6 +147,12 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#activeMilestoneBadge" >activeMilestoneBadge</a>
+                            </li>
+                            <li>
+                                <a href="#activeMilestoneCleanupFn" >activeMilestoneCleanupFn</a>
+                            </li>
+                            <li>
                                 <a href="#addModal" >addModal</a>
                             </li>
                             <li>
@@ -236,6 +242,11 @@
                                 <a href="#dragTimeIndicator" >dragTimeIndicator</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#FA_ARROWS_ALT_PATH" >FA_ARROWS_ALT_PATH</a>
+                            </li>
+                            <li>
                                 <a href="#filteredCommitsCount" >filteredCommitsCount</a>
                             </li>
                             <li>
@@ -281,6 +292,9 @@
                                 <a href="#hovered_session" >hovered_session</a>
                             </li>
                             <li>
+                                <a href="#ignoreNextMilestoneClick" >ignoreNextMilestoneClick</a>
+                            </li>
+                            <li>
                                 <a href="#inner_height" >inner_height</a>
                             </li>
                             <li>
@@ -321,6 +335,23 @@
                                 <a href="#maxZoom" >maxZoom</a>
                             </li>
                             <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#MILESTONE_CLICK_SUPPRESSION_DELAY" >MILESTONE_CLICK_SUPPRESSION_DELAY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#MILESTONE_COLOR_MAP" >MILESTONE_COLOR_MAP</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#MILESTONE_DRAG_JITTER_TOLERANCE" >MILESTONE_DRAG_JITTER_TOLERANCE</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#MILESTONE_HOLD_DURATION" >MILESTONE_HOLD_DURATION</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                     <span class="modifier">Readonly</span>
                                 <a href="#MILESTONE_HOVER_DELAY" >MILESTONE_HOVER_DELAY</a>
@@ -328,6 +359,9 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#milestoneHoverTimer" >milestoneHoverTimer</a>
+                            </li>
+                            <li>
+                                <a href="#milestoneLongPressTimer" >milestoneLongPressTimer</a>
                             </li>
                             <li>
                                 <a href="#minZoom" >minZoom</a>
@@ -492,6 +526,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#cancelMilestoneLongPress" >cancelMilestoneLongPress</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#checkGroupNeedsSplit" >checkGroupNeedsSplit</a>
                             </li>
                             <li>
@@ -510,13 +548,14 @@
                                 <a href="#createDragTimeIndicator" >createDragTimeIndicator</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#createMilestoneLongPressBadge" >createMilestoneLongPressBadge</a>
+                            </li>
+                            <li>
                                 <a href="#deleteMilestone" >deleteMilestone</a>
                             </li>
                             <li>
                                 <a href="#deleteSession" >deleteSession</a>
-                            </li>
-                            <li>
-                                <a href="#download" >download</a>
                             </li>
                             <li>
                                 <a href="#getCommitComponent" >getCommitComponent</a>
@@ -534,7 +573,14 @@
                                 <a href="#getCommitSimpleComponent" >getCommitSimpleComponent</a>
                             </li>
                             <li>
+                                <a href="#getDateFromMouseEvent" >getDateFromMouseEvent</a>
+                            </li>
+                            <li>
                                 <a href="#getDisplayedRepositories" >getDisplayedRepositories</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getEuclideanDistance" >getEuclideanDistance</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -546,6 +592,10 @@
                             </li>
                             <li>
                                 <a href="#getLineForMilestone" >getLineForMilestone</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getMilestoneColor" >getMilestoneColor</a>
                             </li>
                             <li>
                                 <a href="#getOffset" >getOffset</a>
@@ -563,6 +613,9 @@
                             </li>
                             <li>
                                 <a href="#handleGlobalShortcuts" >handleGlobalShortcuts</a>
+                            </li>
+                            <li>
+                                <a href="#hasDisplayedMilestones" >hasDisplayedMilestones</a>
                             </li>
                             <li>
                                 <a href="#isCommitMatchingFilter" >isCommitMatchingFilter</a>
@@ -637,11 +690,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#onMilestoneDrag" >onMilestoneDrag</a>
+                                <a href="#onMilestoneDragCustom" >onMilestoneDragCustom</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#onMilestoneDragEnd" >onMilestoneDragEnd</a>
+                                <a href="#onMilestoneDragEndCustom" >onMilestoneDragEndCustom</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -718,7 +771,7 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#setupMilestoneDragBehavior" >setupMilestoneDragBehavior</a>
+                                <a href="#setupMilestoneInteractions" >setupMilestoneInteractions</a>
                             </li>
                             <li>
                                 <a href="#setupZoom" >setupZoom</a>
@@ -853,7 +906,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="213" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:213</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="220" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:220</a></div>
                             </td>
                         </tr>
 
@@ -1028,8 +1081,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="264"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:264</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="271"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:271</a></div>
                 </td>
             </tr>
 
@@ -1064,8 +1117,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2257"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2257</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2586"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2586</a></div>
                 </td>
             </tr>
 
@@ -1159,8 +1212,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2024"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2024</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2353"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2353</a></div>
                 </td>
             </tr>
 
@@ -1266,8 +1319,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1127"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1215"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1215</a></div>
                 </td>
             </tr>
 
@@ -1361,8 +1414,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2237"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2237</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2566"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2566</a></div>
                 </td>
             </tr>
 
@@ -1372,6 +1425,45 @@
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>literal type</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelMilestoneLongPress"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>cancelMilestoneLongPress</b></span>
+                        <a href="#cancelMilestoneLongPress"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cancelMilestoneLongPress()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="1349"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1349</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -1400,8 +1492,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1968"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1968</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2297"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2297</a></div>
                 </td>
             </tr>
 
@@ -1471,8 +1563,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1324"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1324</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1648"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1648</a></div>
                 </td>
             </tr>
 
@@ -1508,8 +1600,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2372"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2372</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2701"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2701</a></div>
                 </td>
             </tr>
 
@@ -1547,8 +1639,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="313"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:313</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="320"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:320</a></div>
                 </td>
             </tr>
 
@@ -1618,8 +1710,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1221"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1221</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1545"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1545</a></div>
                 </td>
             </tr>
 
@@ -1671,6 +1763,89 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="createMilestoneLongPressBadge"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>createMilestoneLongPressBadge</b></span>
+                        <a href="#createMilestoneLongPressBadge"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createMilestoneLongPressBadge(g: d3.Selection<any | any | any | any>, m: <a href="../classes/Milestone.html" target="_self">Milestone</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="1284"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1284</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>g</td>
+                                    <td>
+                                            <code>d3.Selection&lt;any | any | any | any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>m</td>
+                                    <td>
+                                                <code><a href="../classes/Milestone.html" target="_self" >Milestone</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>d3.Selection&lt;any, any, any, any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="deleteMilestone"></a>
                     <span class="name">
                         <span ><b>deleteMilestone</b></span>
@@ -1687,8 +1862,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1022"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1022</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1108"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1108</a></div>
                 </td>
             </tr>
 
@@ -1756,8 +1931,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1029"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1029</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1115"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1115</a></div>
                 </td>
             </tr>
 
@@ -1809,43 +1984,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="download"></a>
-                    <span class="name">
-                        <span ><b>download</b></span>
-                        <a href="#download"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>download()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="447"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:447</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getCommitComponent"></a>
                     <span class="name">
                         <span ><b>getCommitComponent</b></span>
@@ -1862,8 +2000,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1811"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1811</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2140"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2140</a></div>
                 </td>
             </tr>
 
@@ -1955,8 +2093,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1669"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1669</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1998"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1998</a></div>
                 </td>
             </tr>
 
@@ -2048,8 +2186,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1619"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1619</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1948"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1948</a></div>
                 </td>
             </tr>
 
@@ -2129,8 +2267,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1597"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1597</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1926"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1926</a></div>
                 </td>
             </tr>
 
@@ -2230,8 +2368,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1760"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1760</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2089"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2089</a></div>
                 </td>
             </tr>
 
@@ -2295,6 +2433,75 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getDateFromMouseEvent"></a>
+                    <span class="name">
+                        <span ><b>getDateFromMouseEvent</b></span>
+                        <a href="#getDateFromMouseEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDateFromMouseEvent(event: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="970"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:970</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getDisplayedRepositories"></a>
                     <span class="name">
                         <span ><b>getDisplayedRepositories</b></span>
@@ -2311,8 +2518,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="337"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:337</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="348"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:348</a></div>
                 </td>
             </tr>
 
@@ -2323,6 +2530,113 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../classes/Repository.html" target="_self" >Repository[]</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEuclideanDistance"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>getEuclideanDistance</b></span>
+                        <a href="#getEuclideanDistance"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getEuclideanDistance(x1: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, y1: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, x2: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, y2: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="1270"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1270</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>x1</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>y1</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>x2</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>y2</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -2350,8 +2664,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2274"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2274</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2603"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2603</a></div>
                 </td>
             </tr>
 
@@ -2445,8 +2759,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2282"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2282</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2611"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2611</a></div>
                 </td>
             </tr>
 
@@ -2538,8 +2852,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1331"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1331</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1655"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1655</a></div>
                 </td>
             </tr>
 
@@ -2627,6 +2941,77 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getMilestoneColor"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>getMilestoneColor</b></span>
+                        <a href="#getMilestoneColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getMilestoneColor(type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="1266"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1266</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getOffset"></a>
                     <span class="name">
                         <span ><b>getOffset</b></span>
@@ -2643,8 +3028,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2081"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2081</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2410"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2410</a></div>
                 </td>
             </tr>
 
@@ -2712,8 +3097,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1036"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1036</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1122"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1122</a></div>
                 </td>
             </tr>
 
@@ -2795,8 +3180,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2001"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2001</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2330"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2330</a></div>
                 </td>
             </tr>
 
@@ -2866,8 +3251,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1285"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1285</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1609"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1609</a></div>
                 </td>
             </tr>
 
@@ -2966,8 +3351,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="264"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:264</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="271"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:271</a></div>
                 </td>
             </tr>
 
@@ -3019,6 +3404,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="hasDisplayedMilestones"></a>
+                    <span class="name">
+                        <span ><b>hasDisplayedMilestones</b></span>
+                        <a href="#hasDisplayedMilestones"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasDisplayedMilestones()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="458"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:458</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="isCommitMatchingFilter"></a>
                     <span class="name">
                         <span ><b>isCommitMatchingFilter</b></span>
@@ -3035,8 +3457,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="361"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:361</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="372"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:372</a></div>
                 </td>
             </tr>
 
@@ -3104,8 +3526,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="867"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:867</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="932"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:932</a></div>
                 </td>
             </tr>
 
@@ -3141,8 +3563,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="827"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:827</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="892"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:892</a></div>
                 </td>
             </tr>
 
@@ -3178,8 +3600,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1432"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1432</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1761"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1761</a></div>
                 </td>
             </tr>
 
@@ -3253,7 +3675,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:535</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:568</a></code>
 </div>
                 </td>
             </tr>
@@ -3334,8 +3756,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="591"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:591</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="624"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:624</a></div>
                 </td>
             </tr>
 
@@ -3377,7 +3799,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:818</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:883</a></code>
 </div>
                 </td>
             </tr>
@@ -3414,8 +3836,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1456"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1456</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1785"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1785</a></div>
                 </td>
             </tr>
 
@@ -3483,8 +3905,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1857"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1857</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2186"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2186</a></div>
                 </td>
             </tr>
 
@@ -3520,8 +3942,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1409"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1409</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1738"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1738</a></div>
                 </td>
             </tr>
 
@@ -3589,8 +4011,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1104"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1192"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1192</a></div>
                 </td>
             </tr>
 
@@ -3628,8 +4050,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2012"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2012</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2341"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2341</a></div>
                 </td>
             </tr>
 
@@ -3759,8 +4181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1839"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1839</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2168"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2168</a></div>
                 </td>
             </tr>
 
@@ -3840,8 +4262,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="505"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:505</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="538"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:538</a></div>
                 </td>
             </tr>
 
@@ -3877,8 +4299,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="328"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:328</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="335"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:335</a></div>
                 </td>
             </tr>
 
@@ -3920,7 +4342,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:230</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseGraphComponent.html#source" target="_self" >BaseGraphComponent:237</a></code>
 </div>
                 </td>
             </tr>
@@ -3957,8 +4379,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2062"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2062</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2391"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2391</a></div>
                 </td>
             </tr>
 
@@ -4022,8 +4444,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="999"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:999</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1085"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1085</a></div>
                 </td>
             </tr>
 
@@ -4091,8 +4513,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="981"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:981</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1067"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1067</a></div>
                 </td>
             </tr>
 
@@ -4160,8 +4582,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2367"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2367</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2696"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2696</a></div>
                 </td>
             </tr>
 
@@ -4229,8 +4651,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:207</a></div>
                 </td>
             </tr>
 
@@ -4298,8 +4720,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="190"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:190</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="197"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:197</a></div>
                 </td>
             </tr>
 
@@ -4367,8 +4789,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="195"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:195</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:202</a></div>
                 </td>
             </tr>
 
@@ -4420,26 +4842,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onMilestoneDrag"></a>
+                    <a name="onMilestoneDragCustom"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
-                        <span ><b>onMilestoneDrag</b></span>
-                        <a href="#onMilestoneDrag"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onMilestoneDragCustom</b></span>
+                        <a href="#onMilestoneDragCustom"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onMilestoneDrag(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, element: d3.Selection<any | any | any | any>, m: <a href="../classes/Milestone.html" target="_self">Milestone</a>)</code>
+                    <code>onMilestoneDragCustom(event: MouseEvent, element: d3.Selection<any | any | any | any>, m: <a href="../classes/Milestone.html" target="_self">Milestone</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1196"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1196</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1506"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1506</a></div>
                 </td>
             </tr>
 
@@ -4462,7 +4884,7 @@
                                 <tr>
                                     <td>event</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>MouseEvent</code>
                                     </td>
 
                                     <td>
@@ -4515,26 +4937,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onMilestoneDragEnd"></a>
+                    <a name="onMilestoneDragEndCustom"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
-                        <span ><b>onMilestoneDragEnd</b></span>
-                        <a href="#onMilestoneDragEnd"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onMilestoneDragEndCustom</b></span>
+                        <a href="#onMilestoneDragEndCustom"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onMilestoneDragEnd(element: d3.Selection<any | any | any | any>)</code>
+                    <code>onMilestoneDragEndCustom(element: d3.Selection<any | any | any | any>, hasMoved: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1207"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1207</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1528"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1528</a></div>
                 </td>
             </tr>
 
@@ -4558,6 +4980,18 @@
                                     <td>element</td>
                                     <td>
                                             <code>d3.Selection&lt;any | any | any | any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>hasMoved</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
                                     </td>
 
                                     <td>
@@ -4597,15 +5031,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onMilestoneDragStart(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, element: d3.Selection<any | any | any | any>)</code>
+                    <code>onMilestoneDragStart(startX: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, element: d3.Selection<any | any | any | any>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1183"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1490"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1490</a></div>
                 </td>
             </tr>
 
@@ -4626,9 +5060,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>event</td>
+                                    <td>startX</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                     </td>
 
                                     <td>
@@ -4685,8 +5119,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="173"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:173</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:180</a></div>
                 </td>
             </tr>
 
@@ -4754,8 +5188,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="178"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:178</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:185</a></div>
                 </td>
             </tr>
 
@@ -4823,8 +5257,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="905"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:905</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="991"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:991</a></div>
                 </td>
             </tr>
 
@@ -4892,8 +5326,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="947"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:947</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1033"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1033</a></div>
                 </td>
             </tr>
 
@@ -4961,8 +5395,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="895"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:895</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="960"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:960</a></div>
                 </td>
             </tr>
 
@@ -5054,8 +5488,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="871"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:871</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="936"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:936</a></div>
                 </td>
             </tr>
 
@@ -5159,8 +5593,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="883"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:883</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="948"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:948</a></div>
                 </td>
             </tr>
 
@@ -5264,8 +5698,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2378"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2378</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2707"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2707</a></div>
                 </td>
             </tr>
 
@@ -5303,8 +5737,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1305"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1305</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1629"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1629</a></div>
                 </td>
             </tr>
 
@@ -5396,8 +5830,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="665"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:665</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="698"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:698</a></div>
                 </td>
             </tr>
 
@@ -5433,8 +5867,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2097"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2097</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2426"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2426</a></div>
                 </td>
             </tr>
 
@@ -5470,8 +5904,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2038"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2038</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2367"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2367</a></div>
                 </td>
             </tr>
 
@@ -5557,8 +5991,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1989"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1989</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2318"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2318</a></div>
                 </td>
             </tr>
 
@@ -5626,8 +6060,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="553"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:553</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="586"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:586</a></div>
                 </td>
             </tr>
 
@@ -5709,8 +6143,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1278"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1278</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1602"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1602</a></div>
                 </td>
             </tr>
 
@@ -5746,8 +6180,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2321"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2321</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2650"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2650</a></div>
                 </td>
             </tr>
 
@@ -5817,8 +6251,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2388"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2388</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2717"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2717</a></div>
                 </td>
             </tr>
 
@@ -5854,8 +6288,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="205"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:205</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:212</a></div>
                 </td>
             </tr>
 
@@ -5891,8 +6325,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="934"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:934</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1020"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1020</a></div>
                 </td>
             </tr>
 
@@ -5972,8 +6406,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="968"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:968</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1054"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1054</a></div>
                 </td>
             </tr>
 
@@ -6053,8 +6487,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2363"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2363</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2692"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2692</a></div>
                 </td>
             </tr>
 
@@ -6090,8 +6524,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1479"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1479</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1808"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1808</a></div>
                 </td>
             </tr>
 
@@ -6167,26 +6601,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="setupMilestoneDragBehavior"></a>
+                    <a name="setupMilestoneInteractions"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
-                        <span ><b>setupMilestoneDragBehavior</b></span>
-                        <a href="#setupMilestoneDragBehavior"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>setupMilestoneInteractions</b></span>
+                        <a href="#setupMilestoneInteractions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setupMilestoneDragBehavior(m: <a href="../classes/Milestone.html" target="_self">Milestone</a>)</code>
+                    <code>setupMilestoneInteractions(g: d3.Selection<any | any | any | any>, m: <a href="../classes/Milestone.html" target="_self">Milestone</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1169"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1169</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1367"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1367</a></div>
                 </td>
             </tr>
 
@@ -6207,6 +6641,18 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>g</td>
+                                    <td>
+                                            <code>d3.Selection&lt;any | any | any | any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
                                     <td>m</td>
                                     <td>
                                                 <code><a href="../classes/Milestone.html" target="_self" >Milestone</a></code>
@@ -6224,7 +6670,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -6254,8 +6700,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="598"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:598</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="631"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:631</a></div>
                 </td>
             </tr>
 
@@ -6291,8 +6737,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1802"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1802</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2131"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2131</a></div>
                 </td>
             </tr>
 
@@ -6374,8 +6820,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1977"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1977</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2306"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2306</a></div>
                 </td>
             </tr>
 
@@ -6469,8 +6915,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1317"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1317</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1641"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1641</a></div>
                 </td>
             </tr>
 
@@ -6508,8 +6954,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2116"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2445"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2445</a></div>
                 </td>
             </tr>
 
@@ -6545,8 +6991,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="404"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:404</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="415"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:415</a></div>
                 </td>
             </tr>
 
@@ -6614,8 +7060,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2334"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2334</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2663"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2663</a></div>
                 </td>
             </tr>
 
@@ -6683,8 +7129,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2317"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2317</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2646"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2646</a></div>
                 </td>
             </tr>
 
@@ -6722,8 +7168,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="301"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:301</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="308"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:308</a></div>
                 </td>
             </tr>
 
@@ -6793,8 +7239,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2178"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2178</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2507"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2507</a></div>
                 </td>
             </tr>
 
@@ -6832,8 +7278,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2185"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2185</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2514"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2514</a></div>
                 </td>
             </tr>
 
@@ -6871,8 +7317,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2232"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2232</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2561"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2561</a></div>
                 </td>
             </tr>
 
@@ -6910,8 +7356,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1257"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1257</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1581"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1581</a></div>
                 </td>
             </tr>
 
@@ -6993,8 +7439,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2290"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2290</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2619"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2619</a></div>
                 </td>
             </tr>
 
@@ -7088,8 +7534,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2296"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2296</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2625"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2625</a></div>
                 </td>
             </tr>
 
@@ -7169,8 +7615,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="527"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:527</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="560"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:560</a></div>
                 </td>
             </tr>
 
@@ -7208,8 +7654,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2225"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2225</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2554"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2554</a></div>
                 </td>
             </tr>
 
@@ -7247,8 +7693,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2169"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2169</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2498"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2498</a></div>
                 </td>
             </tr>
 
@@ -7286,8 +7732,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2133"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2462"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2462</a></div>
                 </td>
             </tr>
 
@@ -7325,8 +7771,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2200"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2529"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2529</a></div>
                 </td>
             </tr>
 
@@ -7362,8 +7808,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="451"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:451</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="477"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:477</a></div>
                 </td>
             </tr>
 
@@ -7399,8 +7845,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2089"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2089</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2418"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2418</a></div>
                 </td>
             </tr>
 
@@ -7470,8 +7916,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="308"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:308</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="315"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:315</a></div>
                 </td>
             </tr>
 
@@ -7539,8 +7985,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2341"
-                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2341</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2670"
+                            class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:2670</a></div>
                 </td>
             </tr>
 
@@ -7834,6 +8280,68 @@
     <h3 id="inputs">
         Properties
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeMilestoneBadge"></a>
+                    <span class="name">
+                        <span ><b>activeMilestoneBadge</b></span>
+                        <a href="#activeMilestoneBadge"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>d3.Selection&lt;any | any | any | any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeMilestoneCleanupFn"></a>
+                    <span class="name">
+                        <span ><b>activeMilestoneCleanupFn</b></span>
+                        <a href="#activeMilestoneCleanupFn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code> | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:167</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -8149,7 +8657,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="445" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:445</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="456" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:456</a></div>
                         </td>
                     </tr>
 
@@ -8463,7 +8971,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="219" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:219</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="226" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:226</a></div>
                         </td>
                     </tr>
 
@@ -8622,6 +9130,39 @@
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="FA_ARROWS_ALT_PATH"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>FA_ARROWS_ALT_PATH</b></span>
+                        <a href="#FA_ARROWS_ALT_PATH"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;M352.201 425.775l-79.196 79.196c-9.373 9.373-24.568 9.373-33.941 0l-79.196-79.196c-15.119-15.119-4.411-40.971 16.971-40.97h51.162L228 284H127.196v51.162c0 21.382-25.851 32.09-40.971 16.971L7.029 272.937c-9.373-9.373-9.373-24.569 0-33.941L86.225 159.8c15.119-15.119 40.971-4.411 40.971 16.971V228H228V127.196h-51.23c-21.382 0-32.09-25.851-16.971-40.971l79.196-79.196c9.373-9.373 24.568-9.373 33.941 0l79.196 79.196c15.119 15.119 4.411 40.971-16.971 40.971h-51.162V228h100.804v-51.162c0-21.382 25.851-32.09 40.97-16.971l79.196 79.196c9.373 9.373 9.373 24.569 0 33.941L425.773 352.2c-15.119 15.119-40.971 4.411-40.97-16.971V284H284v100.804h51.23c21.382 0 32.09 25.851 16.971 40.971z&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="1281" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1281</a></div>
                         </td>
                     </tr>
 
@@ -9009,6 +9550,31 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="ignoreNextMilestoneClick"></a>
+                    <span class="name">
+                        <span ><b>ignoreNextMilestoneClick</b></span>
+                        <a href="#ignoreNextMilestoneClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:168</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="inner_height"></a>
                     <span class="name">
                         <span ><b>inner_height</b></span>
@@ -9179,7 +9745,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="218" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:218</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="225" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:225</a></div>
                         </td>
                     </tr>
 
@@ -9294,7 +9860,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:183</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="190" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:190</a></div>
                         </td>
                     </tr>
 
@@ -9321,6 +9887,138 @@
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:106</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MILESTONE_CLICK_SUPPRESSION_DELAY"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>MILESTONE_CLICK_SUPPRESSION_DELAY</b></span>
+                        <a href="#MILESTONE_CLICK_SUPPRESSION_DELAY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>300</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="171" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:171</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MILESTONE_COLOR_MAP"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>MILESTONE_COLOR_MAP</b></span>
+                        <a href="#MILESTONE_COLOR_MAP"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Record&lt;string | string&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    correction: &quot;var(--color-danger)&quot;,
+    other: &quot;var(--color-secondary)&quot;,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="1261" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:1261</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MILESTONE_DRAG_JITTER_TOLERANCE"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>MILESTONE_DRAG_JITTER_TOLERANCE</b></span>
+                        <a href="#MILESTONE_DRAG_JITTER_TOLERANCE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>5</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:170</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MILESTONE_HOLD_DURATION"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>MILESTONE_HOLD_DURATION</b></span>
+                        <a href="#MILESTONE_HOLD_DURATION"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>700</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:169</a></div>
                         </td>
                     </tr>
 
@@ -9396,6 +10094,37 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="milestoneLongPressTimer"></a>
+                    <span class="name">
+                        <span ><b>milestoneLongPressTimer</b></span>
+                        <a href="#milestoneLongPressTimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="165" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:165</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="minZoom"></a>
                     <span class="name">
                         <span ><b>minZoom</b></span>
@@ -9447,7 +10176,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:167</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:174</a></div>
                         </td>
                     </tr>
 
@@ -9530,7 +10259,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="261" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:261</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="268" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:268</a></div>
                         </td>
                     </tr>
 
@@ -9555,7 +10284,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="816" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:816</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="881" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:881</a></div>
                         </td>
                     </tr>
 
@@ -10108,7 +10837,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="223" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:223</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="230" class="link-to-prism">src/app/components/graphs/overview/overview.component.ts:230</a></div>
                         </td>
                     </tr>
 
@@ -10681,6 +11410,13 @@ export class OverviewComponent
   hasMovedDuringDrag &#x3D; false;
   dragScrollTimer: d3.Timer;
   dragTimeIndicator: d3.Selection&lt;any, any, any, any&gt;;
+  milestoneLongPressTimer: any &#x3D; null;
+  activeMilestoneBadge: d3.Selection&lt;any, any, any, any&gt; &#x3D; null;
+  activeMilestoneCleanupFn: (() &#x3D;&gt; void) | null &#x3D; null;
+  ignoreNextMilestoneClick &#x3D; false;
+  readonly MILESTONE_HOLD_DURATION &#x3D; 700;
+  readonly MILESTONE_DRAG_JITTER_TOLERANCE &#x3D; 5;
+  readonly MILESTONE_CLICK_SUPPRESSION_DELAY &#x3D; 300;
   ////////////////////////
 
   public modeHoverState: any &#x3D; {
@@ -10849,6 +11585,10 @@ export class OverviewComponent
       this.resizeObserver.disconnect();
     }
     this.clearMilestoneHoverTimer();
+    this.cancelMilestoneLongPress();
+    this.stopDragScrollTimer();
+    this.removeDragTimeIndicator();
+    document.body.style.cursor &#x3D; &quot;&quot;;
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
     document.body.style.overscrollBehaviorX &#x3D; &quot;auto&quot;;
   }
@@ -10963,13 +11703,35 @@ export class OverviewComponent
 
   commit_date_format &#x3D; Utils.COMMIT_DATE_FORMAT;
 
-  download() {
-    this.assignmentsService.exportAssignment(this.dataService.assignment);
+  hasDisplayedMilestones(): boolean {
+    if (!this.dataService) return false;
+    if (!this.showReviews &amp;&amp; !this.showCorrections &amp;&amp; !this.showOthers) {
+      return false;
+    }
+    const milestone_filter &#x3D; (m: Milestone) &#x3D;&gt;
+      (!this.dataService.groupFilter ||
+        !m.tpGroup ||
+        m.tpGroup &#x3D;&#x3D;&#x3D; this.dataService.groupFilter) &amp;&amp;
+      (!this.searchFilter?.length ||
+        this.searchFilter.some((question) &#x3D;&gt; m.questions?.includes(question)));
+
+    return (
+      (this.showReviews &amp;&amp; !!this.dataService.reviews?.some(milestone_filter)) ||
+      (this.showCorrections &amp;&amp; !!this.dataService.corrections?.some(milestone_filter)) ||
+      (this.showOthers &amp;&amp; !!this.dataService.others?.some(milestone_filter))
+    );
   }
 
   updateVariableFromCss(): void {
     let chart_div &#x3D; document.getElementById(&quot;chart&quot;);
     if (!chart_div) return;
+
+    const noMilestones &#x3D; this.loading || !this.hasDisplayedMilestones();
+    if (noMilestones) {
+      chart_div.classList.add(&quot;no-milestones&quot;);
+    } else {
+      chart_div.classList.remove(&quot;no-milestones&quot;);
+    }
 
     var style &#x3D; getComputedStyle(chart_div);
 
@@ -11274,6 +12036,46 @@ export class OverviewComponent
       .append(&quot;g&quot;)
       .attr(&quot;transform&quot;, &quot;translate(&quot; + translation + &quot;)&quot;);
 
+    if (this.hasDisplayedMilestones() &amp;&amp; this.inner_margin.top &gt; 0) {
+      this.chart_abs_g
+        .append(&quot;rect&quot;)
+        .attr(&quot;class&quot;, &quot;milestone-strip-hitbox&quot;)
+        .attr(&quot;x&quot;, 0)
+        .attr(&quot;y&quot;, 0)
+        .attr(&quot;width&quot;, this.inner_width)
+        .attr(&quot;height&quot;, this.inner_margin.top)
+        .attr(&quot;opacity&quot;, &quot;0&quot;)
+        .style(&quot;cursor&quot;, &quot;default&quot;)
+        .style(&quot;pointer-events&quot;, &quot;all&quot;)
+        .on(&quot;contextmenu&quot;, (event: MouseEvent) &#x3D;&gt; {
+          event.preventDefault();
+          event.stopPropagation();
+          const rawDate &#x3D; overview.getDateFromMouseEvent(event);
+          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+        })
+        .on(&quot;click&quot;, (event: MouseEvent) &#x3D;&gt; {
+          event.stopPropagation();
+          const rawDate &#x3D; overview.getDateFromMouseEvent(event);
+          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+        })
+        .on(&quot;wheel&quot;, (event: WheelEvent) &#x3D;&gt; {
+          if (event.shiftKey) return;
+          let dx &#x3D; event.deltaX;
+          let dy &#x3D; event.deltaY;
+          if (event.ctrlKey &amp;&amp; Math.abs(dy) &gt; 0 &amp;&amp; Math.abs(dx) &#x3D;&#x3D;&#x3D; 0) {
+            dx &#x3D; dy;
+            dy &#x3D; 0;
+          }
+          if (Math.abs(dx) &gt; Math.abs(dy) || event.ctrlKey) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (overview.zoom &amp;&amp; overview.data_g) {
+              overview.data_g.call(overview.zoom.translateBy, -dx / (overview.current_zoom?.k || 1), 0);
+            }
+          }
+        });
+    }
+
     this.data_g
       .append(&quot;rect&quot;)
       .attr(&quot;id&quot;, &quot;data&quot;)
@@ -11283,20 +12085,12 @@ export class OverviewComponent
       .on(&quot;contextmenu&quot;, (event: MouseEvent) &#x3D;&gt; {
         event.preventDefault();
         event.stopPropagation();
-        var rect &#x3D; (event.target as any).getBoundingClientRect();
-        var x &#x3D;
-          ((event.clientX - rect.left) / (rect.right - rect.left)) *
-          overview.inner_width;
-        let rawDate &#x3D; overview.x_scale_copy.invert(x);
+        const rawDate &#x3D; this.getDateFromMouseEvent(event);
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       })
       .on(&quot;click&quot;, (event: MouseEvent) &#x3D;&gt; {
         event.stopPropagation();
-        var rect &#x3D; (event.target as any).getBoundingClientRect();
-        var x &#x3D;
-          ((event.clientX - rect.left) / (rect.right - rect.left)) *
-          overview.inner_width; //x position within the element.
-        let rawDate &#x3D; overview.x_scale_copy.invert(x);
+        const rawDate &#x3D; this.getDateFromMouseEvent(event);
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       });
 
@@ -11419,6 +12213,27 @@ export class OverviewComponent
     } else {
       this.contextualMenu.close();
     }
+  }
+
+  getDateFromMouseEvent(event: MouseEvent): Date {
+    const dataElement &#x3D;
+      (this.data_g?.select(&quot;#data&quot;)?.node() as SVGRectElement) ||
+      (document.getElementById(&quot;data&quot;) as unknown as SVGRectElement);
+    let x &#x3D; 0;
+    if (dataElement) {
+      const rect &#x3D; dataElement.getBoundingClientRect();
+      const width &#x3D; rect.right - rect.left;
+      if (width &gt; 0) {
+        x &#x3D; ((event.clientX - rect.left) / width) * this.inner_width;
+      }
+    } else if (this.chart_svg &amp;&amp; (d3 as any).pointer) {
+      const [px] &#x3D; (d3 as any).pointer(event, this.chart_svg.node());
+      x &#x3D; px;
+    }
+    x &#x3D; Math.max(0, Math.min(this.inner_width, x));
+    return this.x_scale_copy
+      ? this.x_scale_copy.invert(x)
+      : (this.x_scale ? this.x_scale.invert(x) : new Date());
   }
 
   onSaveMilestone(result: {
@@ -11562,20 +12377,22 @@ export class OverviewComponent
       .on(&quot;contextmenu&quot;, (e) &#x3D;&gt; {
         e.preventDefault();
         e.stopPropagation();
+        const rawDate &#x3D; overview.getDateFromMouseEvent(e);
         overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
-          overview.x_scale.invert(e.pageX)
+          rawDate
         );
       })
       .on(&quot;click&quot;, (e) &#x3D;&gt; {
         e.stopPropagation();
+        const rawDate &#x3D; overview.getDateFromMouseEvent(e);
         overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
-          overview.x_scale.invert(e.pageX)
+          rawDate
         );
       });
 
@@ -11675,6 +12492,10 @@ export class OverviewComponent
     box.attr(&quot;x&quot;, -bbox.width / 2);
     box.attr(&quot;y&quot;, bbox.y);
 
+    const badgeX &#x3D; bbox.width / 2 - 2;
+    const badgeY &#x3D; bbox.y + bbox.height - 2;
+    g.attr(&quot;data-badge-x&quot;, badgeX).attr(&quot;data-badge-y&quot;, badgeY);
+
     // Hitbox (transparent, plus large pour faciliter le clic)
     g.append(&quot;rect&quot;)
       .attr(&quot;class&quot;, &quot;hitbox&quot;)
@@ -11682,24 +12503,242 @@ export class OverviewComponent
       .attr(&quot;height&quot;, bbox.height + 30)
       .attr(&quot;x&quot;, -(bbox.width + 30) / 2)
       .attr(&quot;y&quot;, bbox.y - 15)
-      .attr(&quot;style&quot;, &quot;cursor: grab; pointer-events: all;&quot;);
+      .attr(&quot;style&quot;, &quot;cursor: pointer; pointer-events: all;&quot;);
   }
 
-  private setupMilestoneDragBehavior(m: Milestone) {
+  private readonly MILESTONE_COLOR_MAP: Record&lt;string, string&gt; &#x3D; {
+    correction: &quot;var(--color-danger)&quot;,
+    other: &quot;var(--color-secondary)&quot;,
+  };
+
+  private getMilestoneColor(type: string): string {
+    return this.MILESTONE_COLOR_MAP[type] || &quot;var(--color-primary)&quot;;
+  }
+
+  private getEuclideanDistance(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
+  ): number {
+    const dx &#x3D; x2 - x1;
+    const dy &#x3D; y2 - y1;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  private readonly FA_ARROWS_ALT_PATH &#x3D;
+    &quot;M352.201 425.775l-79.196 79.196c-9.373 9.373-24.568 9.373-33.941 0l-79.196-79.196c-15.119-15.119-4.411-40.971 16.971-40.97h51.162L228 284H127.196v51.162c0 21.382-25.851 32.09-40.971 16.971L7.029 272.937c-9.373-9.373-9.373-24.569 0-33.941L86.225 159.8c15.119-15.119 40.971-4.411 40.971 16.971V228H228V127.196h-51.23c-21.382 0-32.09-25.851-16.971-40.971l79.196-79.196c9.373-9.373 24.568-9.373 33.941 0l79.196 79.196c15.119 15.119 4.411 40.971-16.971 40.971h-51.162V228h100.804v-51.162c0-21.382 25.851-32.09 40.97-16.971l79.196 79.196c9.373 9.373 9.373 24.569 0 33.941L425.773 352.2c-15.119 15.119-40.971 4.411-40.97-16.971V284H284v100.804h51.23c21.382 0 32.09 25.851 16.971 40.971z&quot;;
+
+  private createMilestoneLongPressBadge(
+    g: d3.Selection&lt;any, any, any, any&gt;,
+    m: Milestone
+  ): d3.Selection&lt;any, any, any, any&gt; {
+    const badgeX &#x3D; parseFloat(g.attr(&quot;data-badge-x&quot;) || &quot;20&quot;);
+    const badgeY &#x3D; parseFloat(g.attr(&quot;data-badge-y&quot;) || &quot;10&quot;);
+
+    const badge &#x3D; g
+      .append(&quot;g&quot;)
+      .attr(&quot;class&quot;, &quot;milestone-drag-badge&quot;)
+      .attr(&quot;transform&quot;, &#x60;translate(${badgeX}, ${badgeY})&#x60;);
+
+    const badgeContent &#x3D; badge.append(&quot;g&quot;).attr(&quot;class&quot;, &quot;badge-content&quot;);
+
+    // Base background circle
+    badgeContent
+      .append(&quot;circle&quot;)
+      .attr(&quot;class&quot;, &quot;badge-bg&quot;)
+      .attr(&quot;cx&quot;, 0)
+      .attr(&quot;cy&quot;, 0)
+      .attr(&quot;r&quot;, 10);
+
+    // Background track ring
+    badgeContent
+      .append(&quot;circle&quot;)
+      .attr(&quot;class&quot;, &quot;badge-track&quot;)
+      .attr(&quot;cx&quot;, 0)
+      .attr(&quot;cy&quot;, 0)
+      .attr(&quot;r&quot;, 8);
+
+    // Progress circle (r &#x3D; 8, circumference &#x3D; 2 * PI * 8 ~&#x3D; 50.265)
+    const circumference &#x3D; 2 * Math.PI * 8;
+    const progressColor &#x3D; this.getMilestoneColor(m.type);
+
+    const progressCircle &#x3D; badgeContent
+      .append(&quot;circle&quot;)
+      .attr(&quot;class&quot;, &quot;badge-progress&quot;)
+      .attr(&quot;cx&quot;, 0)
+      .attr(&quot;cy&quot;, 0)
+      .attr(&quot;r&quot;, 8)
+      .attr(&quot;stroke&quot;, progressColor)
+      .attr(&quot;stroke-dasharray&quot;, circumference)
+      .attr(&quot;stroke-dashoffset&quot;, circumference)
+      .attr(&quot;transform&quot;, &quot;rotate(-90)&quot;);
+
+    // 4-way move arrow icon in center (FontAwesome fa-arrows-alt)
+    badgeContent
+      .append(&quot;g&quot;)
+      .attr(&quot;class&quot;, &quot;badge-icon-group&quot;)
+      .attr(&quot;transform&quot;, &quot;translate(-4, -4) scale(0.015625)&quot;)
+      .append(&quot;path&quot;)
+      .attr(&quot;class&quot;, &quot;badge-icon&quot;)
+      .attr(&quot;d&quot;, this.FA_ARROWS_ALT_PATH)
+      .attr(&quot;fill&quot;, &quot;var(--color-text-primary)&quot;);
+
+    // Animate circular fill over 700ms using D3 transition
+    progressCircle
+      .transition()
+      .duration(this.MILESTONE_HOLD_DURATION)
+      .ease(d3.easeLinear)
+      .attr(&quot;stroke-dashoffset&quot;, 0);
+
+    return badge;
+  }
+
+  private cancelMilestoneLongPress() {
+    if (this.activeMilestoneCleanupFn) {
+      this.activeMilestoneCleanupFn();
+      this.activeMilestoneCleanupFn &#x3D; null;
+    }
+    if (this.milestoneLongPressTimer) {
+      clearTimeout(this.milestoneLongPressTimer);
+      this.milestoneLongPressTimer &#x3D; null;
+    }
+    if (this.activeMilestoneBadge) {
+      this.activeMilestoneBadge.remove();
+      this.activeMilestoneBadge &#x3D; null;
+    }
+    if (this.chart_abs_g) {
+      this.chart_abs_g.selectAll(&quot;.milestone-drag-badge&quot;).remove();
+    }
+  }
+
+  private setupMilestoneInteractions(
+    g: d3.Selection&lt;any, any, any, any&gt;,
+    m: Milestone
+  ) {
     const overview &#x3D; this;
-    return d3.drag&lt;any, any&gt;()
-      .on(&quot;start&quot;, function(event) {
-        overview.onMilestoneDragStart(event, d3.select(this));
-      })
-      .on(&quot;drag&quot;, function(event) {
-        overview.onMilestoneDrag(event, d3.select(this), m);
-      })
-      .on(&quot;end&quot;, function() {
-        overview.onMilestoneDragEnd(d3.select(this));
-      });
+
+    g.select(&quot;.hitbox&quot;).on(&quot;mousedown&quot;, (e: MouseEvent) &#x3D;&gt; {
+      // Left click only
+      if (e.button !&#x3D;&#x3D; 0) return;
+      if (overview.isDraggingMilestone) return;
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      overview.clearMilestoneHoverTimer();
+      if (overview.hovered_milestone) {
+        overview.hovered_milestone &#x3D; undefined;
+        overview.tooltipService.hide();
+      }
+
+      const startClientX &#x3D; e.clientX;
+      const startClientY &#x3D; e.clientY;
+      const originalDate &#x3D; new Date(m.date.getTime());
+      let isLongPressFulfilled &#x3D; false;
+      let hasMovedDuringDrag &#x3D; false;
+
+      overview.cancelMilestoneLongPress();
+
+      const badge &#x3D; overview.createMilestoneLongPressBadge(g, m);
+      overview.activeMilestoneBadge &#x3D; badge;
+
+      overview.milestoneLongPressTimer &#x3D; setTimeout(() &#x3D;&gt; {
+        isLongPressFulfilled &#x3D; true;
+        badge.classed(&quot;drag-ready&quot;, true);
+        document.body.style.cursor &#x3D; &quot;grabbing&quot;;
+
+        const currentMilestoneX &#x3D; overview.xScaledTimeZoned(m.date);
+        overview.onMilestoneDragStart(currentMilestoneX, g);
+      }, overview.MILESTONE_HOLD_DURATION);
+
+      const onWindowMouseMove &#x3D; (moveEvent: MouseEvent) &#x3D;&gt; {
+        const dist &#x3D; overview.getEuclideanDistance(
+          startClientX,
+          startClientY,
+          moveEvent.clientX,
+          moveEvent.clientY
+        );
+
+        if (!isLongPressFulfilled) {
+          if (dist &gt; overview.MILESTONE_DRAG_JITTER_TOLERANCE) {
+            overview.ignoreNextMilestoneClick &#x3D; true;
+            setTimeout(() &#x3D;&gt; {
+              overview.ignoreNextMilestoneClick &#x3D; false;
+            }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
+            overview.cancelMilestoneLongPress();
+          }
+        } else {
+          hasMovedDuringDrag &#x3D; true;
+          overview.onMilestoneDragCustom(moveEvent, g, m);
+        }
+      };
+
+      const onWindowMouseUp &#x3D; (upEvent: MouseEvent) &#x3D;&gt; {
+        const dist &#x3D; overview.getEuclideanDistance(
+          startClientX,
+          startClientY,
+          upEvent.clientX,
+          upEvent.clientY
+        );
+
+        overview.cancelMilestoneLongPress();
+
+        if (!isLongPressFulfilled) {
+          if (
+            dist &lt;&#x3D; overview.MILESTONE_DRAG_JITTER_TOLERANCE &amp;&amp;
+            upEvent.button &#x3D;&#x3D;&#x3D; 0
+          ) {
+            overview.ignoreNextMilestoneClick &#x3D; true;
+            setTimeout(() &#x3D;&gt; {
+              overview.ignoreNextMilestoneClick &#x3D; false;
+            }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
+            const rawDate &#x3D; overview.getDateFromMouseEvent(upEvent);
+            overview.openEditMilestoneContextMenu(
+              m,
+              upEvent.pageX,
+              upEvent.pageY,
+              rawDate
+            );
+          }
+        } else {
+          overview.ignoreNextMilestoneClick &#x3D; true;
+          setTimeout(() &#x3D;&gt; {
+            overview.ignoreNextMilestoneClick &#x3D; false;
+          }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
+          overview.onMilestoneDragEndCustom(g, hasMovedDuringDrag);
+        }
+      };
+
+      const onWindowBlur &#x3D; () &#x3D;&gt; {
+        if (isLongPressFulfilled &amp;&amp; !hasMovedDuringDrag) {
+          m.date &#x3D; originalDate;
+          const restoredX &#x3D; overview.xScaledTimeZoned(originalDate);
+          g.attr(&quot;transform&quot;, &#x60;translate(${restoredX}, ${overview.inner_margin.top})&#x60;);
+        }
+        overview.cancelMilestoneLongPress();
+        if (isLongPressFulfilled) {
+          overview.onMilestoneDragEndCustom(g, false);
+        }
+      };
+
+      const cleanup &#x3D; () &#x3D;&gt; {
+        window.removeEventListener(&quot;mousemove&quot;, onWindowMouseMove);
+        window.removeEventListener(&quot;mouseup&quot;, onWindowMouseUp);
+        window.removeEventListener(&quot;blur&quot;, onWindowBlur);
+      };
+
+      overview.activeMilestoneCleanupFn &#x3D; cleanup;
+      window.addEventListener(&quot;mousemove&quot;, onWindowMouseMove);
+      window.addEventListener(&quot;mouseup&quot;, onWindowMouseUp);
+      window.addEventListener(&quot;blur&quot;, onWindowBlur);
+    });
   }
 
-  private onMilestoneDragStart(event: any, element: d3.Selection&lt;any, any, any, any&gt;) {
+  private onMilestoneDragStart(
+    startX: number,
+    element: d3.Selection&lt;any, any, any, any&gt;
+  ) {
     this.isDraggingMilestone &#x3D; true;
     this.hasMovedDuringDrag &#x3D; false;
     this.clearMilestoneHoverTimer();
@@ -11709,31 +12748,45 @@ export class OverviewComponent
     }
     element.raise();
     element.select(&quot;.hitbox&quot;).attr(&quot;style&quot;, &quot;cursor: grabbing; pointer-events: all;&quot;);
-    this.createDragTimeIndicator(event.x);
+    this.createDragTimeIndicator(startX);
   }
 
-  private onMilestoneDrag(event: any, element: d3.Selection&lt;any, any, any, any&gt;, m: Milestone) {
+  private onMilestoneDragCustom(
+    event: MouseEvent,
+    element: d3.Selection&lt;any, any, any, any&gt;,
+    m: Milestone
+  ) {
     this.hasMovedDuringDrag &#x3D; true;
-    let currentX &#x3D; Math.max(0, Math.min(this.inner_width, event.x));
-    
+    let currentX &#x3D; 0;
+    if (this.chart_abs_g) {
+      const [px] &#x3D; (d3 as any).pointer(event, this.chart_abs_g.node());
+      currentX &#x3D; px;
+    } else {
+      currentX &#x3D; event.clientX;
+    }
+    currentX &#x3D; Math.max(0, Math.min(this.inner_width, currentX));
+
     m.date &#x3D; this.x_scale_copy.invert(currentX);
     element.attr(&quot;transform&quot;, &#x60;translate(${currentX}, ${this.inner_margin.top})&#x60;);
-    
+
     this.updateDragTimeIndicator(currentX, m.date);
     this.handleDragEdgeScrolling(currentX, element, m);
   }
 
-  private onMilestoneDragEnd(element: d3.Selection&lt;any, any, any, any&gt;) {
+  private onMilestoneDragEndCustom(
+    element: d3.Selection&lt;any, any, any, any&gt;,
+    hasMoved: boolean
+  ) {
     this.isDraggingMilestone &#x3D; false;
-    element.select(&quot;.hitbox&quot;).attr(&quot;style&quot;, &quot;cursor: grab; pointer-events: all;&quot;);
-    
+    document.body.style.cursor &#x3D; &quot;&quot;;
+    element.select(&quot;.hitbox&quot;).attr(&quot;style&quot;, &quot;cursor: pointer; pointer-events: all;&quot;);
+
     this.stopDragScrollTimer();
     this.removeDragTimeIndicator();
 
-    if (this.hasMovedDuringDrag) {
+    if (hasMoved) {
       this.saveData();
-      // Optional: Update tooltip position or refresh
-      this.loadGraphDataAndRefresh(); // Force redraw properly to sync zoom/pan states if needed, but only if moved.
+      this.loadGraphDataAndRefresh();
     }
   }
 
@@ -11859,7 +12912,7 @@ export class OverviewComponent
     this.buildMilestoneGraphics(g, m, index);
 
     let x &#x3D; this.xScaledTimeZoned(m.date);
-    const dragBehavior &#x3D; this.setupMilestoneDragBehavior(m);
+    this.setupMilestoneInteractions(g, m);
 
     let lastX &#x3D; 0;
     let lastY &#x3D; 0;
@@ -11867,7 +12920,6 @@ export class OverviewComponent
     return g
       .attr(&quot;transform&quot;, &#x60;translate(${x}, ${this.inner_margin.top})&#x60;)
       .call((g) &#x3D;&gt; g.classed(&quot;hidden&quot;, x &lt; 0 || x &gt; overview.width))
-      .call(dragBehavior)
       .on(&quot;mouseenter&quot;, (e) &#x3D;&gt; {
         if (overview.isDraggingMilestone) return;
         lastX &#x3D; e.clientX;
@@ -11901,6 +12953,7 @@ export class OverviewComponent
       })
       .on(&quot;contextmenu&quot;, (e) &#x3D;&gt; {
         overview.clearMilestoneHoverTimer();
+        overview.cancelMilestoneLongPress();
         if (overview.hovered_milestone) {
           overview.hovered_milestone &#x3D; undefined;
           overview.tooltipService.hide();
@@ -11908,19 +12961,24 @@ export class OverviewComponent
         if (overview.isDraggingMilestone) return;
         e.preventDefault();
         e.stopPropagation();
-        const rawDate &#x3D; overview.x_scale.invert(e.pageX);
+        const rawDate &#x3D; overview.getDateFromMouseEvent(e);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       })
       .on(&quot;click&quot;, (e) &#x3D;&gt; {
+        if (overview.ignoreNextMilestoneClick) {
+          overview.ignoreNextMilestoneClick &#x3D; false;
+          e.stopPropagation();
+          e.preventDefault();
+          return;
+        }
         overview.clearMilestoneHoverTimer();
         if (overview.hovered_milestone) {
           overview.hovered_milestone &#x3D; undefined;
           overview.tooltipService.hide();
         }
         if (overview.isDraggingMilestone) return;
-        if (e.defaultPrevented) return; // Ignore click triggered by drag
         e.stopPropagation();
-        const rawDate &#x3D; overview.x_scale.invert(e.pageX);
+        const rawDate &#x3D; overview.getDateFromMouseEvent(e);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       });
   }
@@ -13151,7 +14209,7 @@ export class OverviewComponent
 
 &lt;div id&#x3D;&quot;chart&quot; style&#x3D;&quot;position: relative;&quot; 
      *ngIf&#x3D;&quot;loading || processingData || filteredCommitsCount &gt; 0&quot;
-     [class.no-milestones]&#x3D;&quot;loading || (!showReviews &amp;&amp; !showCorrections &amp;&amp; !showOthers)&quot;&gt;
+     [class.no-milestones]&#x3D;&quot;loading || !hasDisplayedMilestones()&quot;&gt;
 
   &lt;div class&#x3D;&quot;chart-container-absolute&quot; [style.visibility]&#x3D;&quot;loading ? &#x27;hidden&#x27; : &#x27;visible&#x27;&quot;&gt;&lt;/div&gt;
   &lt;div class&#x3D;&quot;chart-container&quot; [style.visibility]&#x3D;&quot;loading ? &#x27;hidden&#x27; : &#x27;visible&#x27;&quot;&gt;&lt;/div&gt;
@@ -13674,6 +14732,49 @@ body.dark-theme .commit {
 .hitbox {
   fill: transparent !important;
   stroke: none !important;
+  cursor: pointer;
+}
+
+.milestone-drag-badge {
+  pointer-events: none;
+  filter: var(--badge-drag-shadow);
+
+  .badge-content {
+    transition: transform var(--transition-bounce);
+    transform-origin: 0 0;
+  }
+
+  .badge-bg {
+    fill: var(--color-surface);
+    stroke: var(--color-border);
+    stroke-width: 0.75px;
+  }
+
+  .badge-track {
+    fill: none;
+    stroke: var(--color-border);
+    stroke-width: 1.8px;
+    opacity: 0.25;
+  }
+
+  .badge-progress {
+    fill: none;
+    stroke-width: 2px;
+    stroke-linecap: round;
+  }
+
+  .badge-icon {
+    fill: var(--color-text-primary);
+    stroke: none;
+  }
+
+  &amp;.drag-ready .badge-content {
+    transform: scale(1.15);
+
+    .badge-bg {
+      filter: var(--badge-drag-shadow-ready);
+    }
+  }
 }</code></pre>
     </div>
 
@@ -13702,7 +14803,7 @@ body.dark-theme .commit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modern-toolbar">  <!-- Left Side: Filter -->  <div style="flex: 0 0 40%; min-width: 0;">    <questions-chooser      #questionsChooser      [questionSuggestions]="dataService.questions"      [mode]="\'search\'"      [openOnFocus]="true"      [ngModel]="searchFilter"      (ngModelChange)="searchFilter = $event; loadGraphDataAndRefresh()"      [maxPillsWidth]="\'70%\'"      [commitMessages]="commitMessagesFilter"      (commitMessagesChange)="commitMessagesFilter = $event; loadGraphDataAndRefresh()"      (filterGroupsChange)="filterGroups = $event; loadGraphDataAndRefresh()"      [noQuestionMessage]="false"    >    </questions-chooser>  </div>  <!-- Middle: Group Selector -->  <div>    <div ngbDropdown class="dropdown d-inline-block">      <button class="btn-outline-ghost" ngbDropdownToggle>        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>          <circle cx="9" cy="7" r="4"></circle>          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>        </svg>        <span>{{ dataService.groupFilter || (\'TP-GROUP-SELECT.ALL\' | translate) }}</span>        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <polyline points="6 9 12 15 18 9"></polyline>        </svg>      </button>      <div ngbDropdownMenu class="modern-dropdown-menu">        <button class="dropdown-item" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = \'\'; loadGraphDataAndRefresh()">          {{ "TP-GROUP-SELECT.ALL" | translate }}        </button>        <div class="dropdown-divider"></div>        <button class="dropdown-item" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh()">          {{ tpGroup }}        </button>      </div>    </div>  </div>  <!-- Right Side: Action Tools -->  <div class="d-flex align-items-center" style="gap: 0.25rem;">    <!-- Markers Group -->    <div class="d-flex flex-column align-items-center" style="position: relative; margin-right: 0.25rem;">      <div class="btn-group" role="group">        <!-- Séances -->        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                [class.active]="showSessions"                [class.show-hover]="markerHoverState[\'sessions\'].isHovered && !markerHoverState[\'sessions\'].wasClicked"                (click)="showSessions = !showSessions; saveMarkerPreferences(); onMarkerChange(\'sessions\')"                (mouseenter)="onMarkerMouseEnter(\'sessions\')"                (mouseleave)="onMarkerMouseLeave(\'sessions\')"                [appTooltip]="{ text: (\'OVERVIEW-GRAPH.MARKERS.SESSIONS\' | translate) }">          <svg class="icon-calendar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <rect class="cal-body" x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>            <line class="cal-pin" x1="16" y1="2" x2="16" y2="6"></line>            <line class="cal-pin" x1="8" y1="2" x2="8" y2="6"></line>            <line class="cal-line" x1="3" y1="10" x2="21" y2="10"></line>            <path class="cal-check" d="M9 16l2 2 4-4"></path>          </svg>        </button>        <!-- Corrections -->        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                [class.active]="showCorrections"                [class.show-hover]="markerHoverState[\'corrections\'].isHovered && !markerHoverState[\'corrections\'].wasClicked"                (click)="showCorrections = !showCorrections; saveMarkerPreferences(); onMarkerChange(\'corrections\')"                (mouseenter)="onMarkerMouseEnter(\'corrections\')"                (mouseleave)="onMarkerMouseLeave(\'corrections\')"                [appTooltip]="{ text: (\'OVERVIEW-GRAPH.MARKERS.CORRECTIONS\' | translate) }">          <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <circle class="check-circle" cx="12" cy="12" r="10"></circle>            <polyline class="check-tick" points="22 4 12 14.01 9 11.01"></polyline>          </svg>        </button>        <!-- Revues -->        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                [class.active]="showReviews"                [class.show-hover]="markerHoverState[\'reviews\'].isHovered && !markerHoverState[\'reviews\'].wasClicked"                (click)="showReviews = !showReviews; saveMarkerPreferences(); onMarkerChange(\'reviews\')"                (mouseenter)="onMarkerMouseEnter(\'reviews\')"                (mouseleave)="onMarkerMouseLeave(\'reviews\')"                [appTooltip]="{ text: (\'OVERVIEW-GRAPH.MARKERS.REVIEWS\' | translate) }">          <svg class="icon-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <path class="eye-lid" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>            <circle class="eye-pupil" cx="12" cy="12" r="3"></circle>          </svg>        </button>        <!-- Autres -->        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                [class.active]="showOthers"                [class.show-hover]="markerHoverState[\'others\'].isHovered && !markerHoverState[\'others\'].wasClicked"                (click)="showOthers = !showOthers; saveMarkerPreferences(); onMarkerChange(\'others\')"                (mouseenter)="onMarkerMouseEnter(\'others\')"                (mouseleave)="onMarkerMouseLeave(\'others\')"                [appTooltip]="{ text: (\'OVERVIEW-GRAPH.MARKERS.OTHERS\' | translate) }">          <svg class="icon-dots" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <circle class="dot d1" cx="5" cy="12" r="2"></circle>            <circle class="dot d2" cx="12" cy="12" r="2"></circle>            <circle class="dot d3" cx="19" cy="12" r="2"></circle>          </svg>        </button>      </div>      <span style="position: absolute; top: 100%; margin-top: 4px; font-size: 0.65rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; pointer-events: none; white-space: nowrap;">        {{ "OVERVIEW-GRAPH.MARKERS.BUTTON" | translate }}      </span>    </div>    <!-- Display Modes Group (sans séparateur avec les marqueurs) -->    <div class="d-flex flex-column align-items-center" style="position: relative; margin-right: 0.25rem;">      <div class="btn-group" role="group">        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                 [class.active]="displayModes.opacity"                 [class.show-hover]="modeHoverState[\'opacity\'].isHovered && !modeHoverState[\'opacity\'].wasClicked"                (click)="toggleDisplayMode(\'opacity\')"                (mouseenter)="onModeMouseEnter(\'opacity\')"                (mouseleave)="onModeMouseLeave(\'opacity\')"                [appTooltip]="{ text: (\'DISPLAY-MODE.OPACITY\' | translate) }">          <svg class="icon-opacity" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <rect class="op-outer" fill="currentColor"></rect>            <rect class="op-mid" fill="currentColor"></rect>            <rect class="op-inner" fill="currentColor"></rect>          </svg>        </button>        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                 [class.active]="displayModes.height"                 [class.show-hover]="modeHoverState[\'height\'].isHovered && !modeHoverState[\'height\'].wasClicked"                (click)="toggleDisplayMode(\'height\')"                (mouseenter)="onModeMouseEnter(\'height\')"                (mouseleave)="onModeMouseLeave(\'height\')"                [appTooltip]="{ text: (\'DISPLAY-MODE.HEIGHT\' | translate) }">          <svg class="icon-height" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <rect class="bar-1" x="3" y="10" width="4" height="4" fill="currentColor"></rect>            <rect class="bar-2" x="10" y="7" width="4" height="10" fill="currentColor"></rect>            <rect class="bar-3" x="17" y="4" width="4" height="16" fill="currentColor"></rect>          </svg>        </button>        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                 [class.active]="displayModes.text"                 (click)="toggleDisplayMode(\'text\')"                [appTooltip]="{ text: (\'DISPLAY-MODE.TEXT\' | translate) }">          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <polyline points="4 7 4 4 20 4 20 7"></polyline>            <line x1="9" y1="20" x2="15" y2="20"></line>            <line x1="12" y1="4" x2="12" y2="20"></line>          </svg>        </button>      </div>      <span style="position: absolute; top: 100%; margin-top: 4px; font-size: 0.65rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; pointer-events: none; white-space: nowrap;">        {{ "DISPLAY-MODE.TITLE" | translate }}      </span>    </div>    <div class="divider-vertical"></div>    <button class="btn-outline-ghost anim-scale-hover" (click)="resetZoom(false)" [appTooltip]="{ text: (\'OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP\' | translate), shortcut: [\'Space\'] }">      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <circle cx="11" cy="11" r="8"></circle>        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>        <line x1="8.5" y1="8.5" x2="13.5" y2="13.5"></line>        <line x1="13.5" y1="8.5" x2="8.5" y2="13.5"></line>      </svg>    </button>    <button class="btn-outline-ghost anim-spin-hover" (click)="loadGraph(dataService.startDate, dataService.endDate)" [disabled]="!dataService.repositories?.length || loading" [appTooltip]="{ text: (\'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate), shortcut: [\'R\'] }">      <div *ngIf="loading" class="d-flex">        <svg class="fa-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>          <path d="M21 3v5h-5"></path>        </svg>      </div>      <div *ngIf="!loading" class="d-flex">        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>          <path d="M21 3v5h-5"></path>        </svg>      </div>    </button>  </div></div><div class="d-flex align-items-center mb-0" style="gap: 0.75rem; padding: 0 1.25rem; min-height: 24px;">  <ng-container *ngIf="filterGroups && filterGroups.length > 0">    <div class="d-flex align-items-center" style="font-size: 0.8rem; color: #6b7280;">      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>        <polyline points="22 4 12 14.01 9 11.01"></polyline>      </svg>      <span class="font-weight-medium">{{ \'OVERVIEW-GRAPH.COMMITS-DISPLAYED\' | translate:{commits: filteredCommitsCount, students: filteredStudentsCount} }}</span>    </div>    <button class="btn-outline-ghost d-flex align-items-center" style="padding: 4px 8px; font-size: 0.75rem;" (click)="clearQuestionsFilter()" [appTooltip]="{ text: (\'OVERVIEW-GRAPH.CLEAR-FILTERS\' | translate), shortcut: [\'Esc\'] }">      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">        <circle cx="12" cy="12" r="10"></circle>        <line x1="15" y1="9" x2="9" y2="15"></line>        <line x1="9" y1="9" x2="15" y2="15"></line>      </svg>      {{ \'OVERVIEW-GRAPH.CLEAR-FILTERS\' | translate }}    </button>  </ng-container></div><ng-container *ngIf="!loading && dataService.repositories?.length === 0; else hasRepositories">  <div class="empty-state-full d-flex flex-column align-items-center justify-content-center w-100" style="flex: 1; min-height: 400px; background: transparent; border-radius: 8px;">    <div class="text-center p-5">      <app-repo-icon mode="empty" class="mb-4 text-muted d-block mx-auto" style="font-size: 4em; opacity: 0.5;"></app-repo-icon>      <h5 class="text-muted font-weight-medium mb-1">{{ \'OVERVIEW-GRAPH.NO-REPOSITORIES-TITLE\' | translate }}</h5>      <p class="text-muted small mb-0">{{ \'OVERVIEW-GRAPH.NO-REPOSITORIES-DESC\' | translate }}</p>    </div>  </div></ng-container><ng-template #hasRepositories><div *ngIf="!loading && !processingData && filteredCommitsCount === 0" class="empty-state-full d-flex flex-column align-items-center justify-content-center w-100" style="flex: 1; min-height: 400px; background: transparent; border-radius: 8px;">  <div class="text-center p-5">    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-4 text-muted" style="opacity: 0.5;">      <circle cx="12" cy="12" r="10"></circle>      <line x1="8" y1="12" x2="16" y2="12"></line>    </svg>    <h5 class="text-muted font-weight-medium mb-1">{{ \'OVERVIEW-GRAPH.NO-COMMITS-TITLE\' | translate }}</h5>    <p class="text-muted small mb-0">{{ \'OVERVIEW-GRAPH.NO-COMMITS-DESC\' | translate }}</p>  </div></div><div id="chart" style="position: relative;"      *ngIf="loading || processingData || filteredCommitsCount > 0"     [class.no-milestones]="loading || (!showReviews && !showCorrections && !showOthers)">  <div class="chart-container-absolute" [style.visibility]="loading ? \'hidden\' : \'visible\'"></div>  <div class="chart-container" [style.visibility]="loading ? \'hidden\' : \'visible\'"></div>  <!-- SKELETON LOADER OVERLAY -->  <div *ngIf="loading" class="chart-skeleton-overlay d-flex" style="position: absolute; top: var(--top-inner, 28px); left: 0; right: 0; bottom: 0; width: 100%; z-index: 50; background: var(--color-surface); padding-bottom: 20px; pointer-events: none;">      <!-- Y-Axis (Repository names) -->      <div class="d-flex flex-column" style="width: 15%; min-width: 120px; max-width: 200px; padding-top: 20px;">          <div *ngFor="let w of [50, 80, 60, 40, 90, 70, 55, 85, 45, 75, 65, 35, 85, 50, 70, 40, 90, 60, 80, 55, 75, 45, 85, 50, 65]" class="d-flex align-items-center justify-content-end pr-3" style="height: 30px;">              <div class="skeleton-box" [style.width.%]="w" style="height: 12px; border-radius: 4px;"></div>          </div>      </div>      <!-- Graph Area with horizontal lines -->      <div class="flex-grow-1 d-flex flex-column position-relative" style="padding-top: 20px; border-left: 1px solid var(--color-border); overflow: hidden;">          <!-- Vertical grid lines -->          <div class="position-absolute h-100 d-flex justify-content-between w-100" style="top: 0; left: 0; padding: 0 5%;">              <div *ngFor="let i of [1,2,3,4,5,6]" style="width: 1px; height: 100%; background-color: var(--color-border); opacity: 0.3;"></div>          </div>          <!-- Horizontal tracks and fake commits -->          <div *ngFor="let offsets of [[20, 22, 23, 45], [60, 62], [15, 30, 80, 81, 82], [10, 12], [50, 75, 76, 77, 78], [5, 10, 15, 20], [40, 60, 61, 90], [25, 27, 28], [5, 85], [35, 36, 37, 55], [20], [40, 70, 72, 74], [], [15, 16, 17, 60], [30, 50, 80, 82, 84], [10, 90, 91], [45, 46, 48], [25, 75], [5, 40, 41, 42, 85], [], [35, 65, 66, 68], [15, 16], [55, 90, 92, 94], [20, 60, 61, 62], [10, 11, 40, 80, 81]]" class="d-flex align-items-center w-100" style="position: relative; height: 30px;">              <div class="skeleton-box" style="height: 1px; width: 100%; opacity: 0.2;"></div>              <!-- Random dots to simulate commits -->              <div *ngFor="let offset of offsets" class="skeleton-box" style="position: absolute; width: 10px; height: 10px; border-radius: 50%;" [style.left.%]="offset"></div>          </div>          <!-- X-Axis (Dates) -->          <div class="position-absolute w-100 d-flex justify-content-between" style="bottom: -15px; left: 0; padding: 0 5%;">              <div *ngFor="let i of [1,2,3,4,5,6]" class="skeleton-box" style="height: 10px; width: 50px; border-radius: 4px;"></div>          </div>      </div>  </div>    <div *ngIf="themeService.showLegend" class="legend-floating-container">    <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" (mouseleave)="legendDropdown.close()">      <button class="btn legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>        <i class="fas fa-info" style="min-width: 14px;"></i>        <span class="legend-text">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</span>      </button>      <div ngbDropdownMenu aria-labelledby="legendDropup" class="modern-dropdown-menu p-3" style="min-width: 250px; font-size: 0.85rem; line-height: 1.8;">        <h6 class="dropdown-header px-0 mb-2" style="font-weight: 600;">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</h6>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'COMMIT\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'COMMIT\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'COMMIT-GROUP\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'COMMIT-GROUP\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><span class="fa-fw d-inline-block text-center"><span style="display: inline-block; width: 15px; height: 10px; border: 1.5px solid currentColor; vertical-align: middle; margin-top: -2px;"></span></span></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT-GROUP" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'CLOSING\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'CLOSING\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-circle fa-fw"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.CLOSING" | translate }}</span>        </div>                <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'OVERVIEW-GRAPH.LEGEND.INTERMEDIATE\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'OVERVIEW-GRAPH.LEGEND.INTERMEDIATE\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-commit-intermediate)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.INTERMEDIATE" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'OVERVIEW-GRAPH.LEGEND.BEFORE\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'OVERVIEW-GRAPH.LEGEND.BEFORE\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-success)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BEFORE" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'OVERVIEW-GRAPH.LEGEND.BETWEEN\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'OVERVIEW-GRAPH.LEGEND.BETWEEN\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-warning)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BETWEEN" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'OVERVIEW-GRAPH.LEGEND.AFTER\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'OVERVIEW-GRAPH.LEGEND.AFTER\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-danger)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.AFTER" | translate }}</span>        </div>                <div class="dropdown-divider my-2"></div>                <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showReviews ? \'1\' : \'0.4\'" (click)="toggleCategory(\'REVIEW\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-primary)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "REVIEW" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showCorrections ? \'1\' : \'0.4\'" (click)="toggleCategory(\'CORRECTION\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-danger)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "CORRECTION" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showOthers ? \'1\' : \'0.4\'" (click)="toggleCategory(\'OTHER\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-secondary)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OTHER" | translate }}</span>        </div>                <div class="dropdown-divider my-2"></div>                <div class="d-flex align-items-center" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showSessions ? \'1\' : \'0.4\'" (click)="toggleCategory(\'SESSION\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;">            <span class="fa-layers fa-fw">              <i class="fas fa-square" style="color: rgba(33, 150, 243, 0.15)"></i>              <i class="far fa-square" style="color: rgba(79, 195, 247, 1)"></i>            </span>          </div>          <span style="color: var(--color-text-secondary)">{{ "SESSION" | translate }}</span>        </div>      </div>    </div>  </div></div></ng-template><ng-template #d3TooltipTemplate>  <div    *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null"    id="commit_hover"  >    <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>    <p>{{ hovered_commit.message }}</p>    <p>{{ hovered_commit.author }}</p>    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">      <div class="tooltip-helper-item d-flex align-items-center">        <span>{{ \'COMMIT-TOOLTIP.OPEN_COMMIT\' | translate }}</span>        <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>          <polyline points="15 3 21 3 21 9"></polyline>          <line x1="10" y1="14" x2="21" y2="3"></line>        </svg>        <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>      </div>      <div class="tooltip-helper-item d-flex align-items-center">        <span>{{ \'COMMIT-TOOLTIP.COPY_HASH\' | translate }}</span>        <kbd class="shortcut-key" [class.shortcut-pressed-anim]="pressedShortcut === \'h\'">H</kbd>      </div>    </div>  </div>    <div    *ngIf="hovered_session != null && hovered_commit == null && hovered_group_commit == null && hovered_milestone == null"    id="session_hover"    style="max-width: 250px; word-wrap: break-word;"  >    <div class="d-flex align-items-center mb-2" style="gap: 0.5rem; color: var(--color-primary); font-weight: 500;">        <span>{{ \'EDIT-SESSION.NOTES\' | translate }}</span>    </div>    <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary);">{{ hovered_session.notes }}</p>  </div>  <div    *ngIf="hovered_milestone != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null"    id="milestone_hover"    style="max-width: 250px; word-wrap: break-word;"  >    <div      class="d-flex align-items-center mb-2"      style="gap: 0.5rem; font-weight: 500;"      [style.color]="hovered_milestone.type === \'correction\' ? \'var(--color-danger)\' : (hovered_milestone.type === \'other\' ? \'var(--color-secondary)\' : \'var(--color-primary)\')"    >      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>        <polyline points="14 2 14 8 20 8"></polyline>        <line x1="16" y1="13" x2="8" y2="13"></line>        <line x1="16" y1="17" x2="8" y2="17"></line>        <polyline points="10 9 9 9 8 9"></polyline>      </svg>      <span>{{ \'MILESTONE-NOTES\' | translate }}</span>    </div>    <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary); white-space: pre-wrap;">{{ hovered_milestone.notes }}</p>  </div>  <div    *ngIf="hovered_group_commit != null && hovered_commit == null && hovered_session == null && hovered_milestone == null"    id="commit_group_hover"  >    <div      *ngIf="hovered_group_commit[hovered_group_commit.length - 1].isCloture"    >      <p>{{ hovered_group_commit[hovered_group_commit.length - 1].message }}</p>      <p>        {{ "COMMIT-TOOLTIP.START" | translate }} :        {{ commit_date_format(hovered_group_commit[0].commitDate) }}      </p>      <p>        {{ "COMMIT-TOOLTIP.END" | translate }} :        {{          commit_date_format(            hovered_group_commit[hovered_group_commit.length - 1].commitDate          )        }}      </p>      <p>        {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :        {{ hovered_group_commit.length }}      </p>    </div>    <div      *ngIf="!hovered_group_commit[hovered_group_commit.length - 1].isCloture"    >      <p>        {{ "COMMIT-TOOLTIP.START" | translate }} :        {{ commit_date_format(hovered_group_commit[0].commitDate) }}      </p>      <p>        {{ "COMMIT-TOOLTIP.END" | translate }} :        {{          commit_date_format(            hovered_group_commit[hovered_group_commit.length - 1].commitDate          )        }}      </p>      <p>        {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :        {{ hovered_group_commit.length }}      </p>    </div>    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">      <span>{{ \'COMMIT-TOOLTIP.ZOOM\' | translate }}</span>      <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>    </div>  </div></ng-template><ng-template #mouseLeftClickIcon>  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">      <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>      <path d="M5 9h14"></path>      <path d="M12 2v7"></path>      <path d="M5 9V9C5 5.134 8.134 2 12 2V9H5Z" fill="currentColor"></path>    </svg>  </span></ng-template><overview-graph-contextual-menu  [tpGroups]="dataService.tpGroups"  [questions]="dataService.questions"  [typeaheadSettings]="typeaheadSettings"  [defaultSessionDuration]="defaultSessionDuration"  [groupFilter]="dataService.groupFilter"  (deleteMilestone)="onDeleteMilestone($event)"  (deleteSession)="onDeleteSession($event)"  (saveMilestone)="onSaveMilestone($event)"  (saveSession)="onSaveSession($event)"></overview-graph-contextual-menu></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="modern-toolbar">  <!-- Left Side: Filter -->  <div style="flex: 0 0 40%; min-width: 0;">    <questions-chooser      #questionsChooser      [questionSuggestions]="dataService.questions"      [mode]="\'search\'"      [openOnFocus]="true"      [ngModel]="searchFilter"      (ngModelChange)="searchFilter = $event; loadGraphDataAndRefresh()"      [maxPillsWidth]="\'70%\'"      [commitMessages]="commitMessagesFilter"      (commitMessagesChange)="commitMessagesFilter = $event; loadGraphDataAndRefresh()"      (filterGroupsChange)="filterGroups = $event; loadGraphDataAndRefresh()"      [noQuestionMessage]="false"    >    </questions-chooser>  </div>  <!-- Middle: Group Selector -->  <div>    <div ngbDropdown class="dropdown d-inline-block">      <button class="btn-outline-ghost" ngbDropdownToggle>        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>          <circle cx="9" cy="7" r="4"></circle>          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>        </svg>        <span>{{ dataService.groupFilter || (\'TP-GROUP-SELECT.ALL\' | translate) }}</span>        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <polyline points="6 9 12 15 18 9"></polyline>        </svg>      </button>      <div ngbDropdownMenu class="modern-dropdown-menu">        <button class="dropdown-item" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = \'\'; loadGraphDataAndRefresh()">          {{ "TP-GROUP-SELECT.ALL" | translate }}        </button>        <div class="dropdown-divider"></div>        <button class="dropdown-item" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh()">          {{ tpGroup }}        </button>      </div>    </div>  </div>  <!-- Right Side: Action Tools -->  <div class="d-flex align-items-center" style="gap: 0.25rem;">    <!-- Markers Group -->    <div class="d-flex flex-column align-items-center" style="position: relative; margin-right: 0.25rem;">      <div class="btn-group" role="group">        <!-- Séances -->        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                [class.active]="showSessions"                [class.show-hover]="markerHoverState[\'sessions\'].isHovered && !markerHoverState[\'sessions\'].wasClicked"                (click)="showSessions = !showSessions; saveMarkerPreferences(); onMarkerChange(\'sessions\')"                (mouseenter)="onMarkerMouseEnter(\'sessions\')"                (mouseleave)="onMarkerMouseLeave(\'sessions\')"                [appTooltip]="{ text: (\'OVERVIEW-GRAPH.MARKERS.SESSIONS\' | translate) }">          <svg class="icon-calendar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <rect class="cal-body" x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>            <line class="cal-pin" x1="16" y1="2" x2="16" y2="6"></line>            <line class="cal-pin" x1="8" y1="2" x2="8" y2="6"></line>            <line class="cal-line" x1="3" y1="10" x2="21" y2="10"></line>            <path class="cal-check" d="M9 16l2 2 4-4"></path>          </svg>        </button>        <!-- Corrections -->        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                [class.active]="showCorrections"                [class.show-hover]="markerHoverState[\'corrections\'].isHovered && !markerHoverState[\'corrections\'].wasClicked"                (click)="showCorrections = !showCorrections; saveMarkerPreferences(); onMarkerChange(\'corrections\')"                (mouseenter)="onMarkerMouseEnter(\'corrections\')"                (mouseleave)="onMarkerMouseLeave(\'corrections\')"                [appTooltip]="{ text: (\'OVERVIEW-GRAPH.MARKERS.CORRECTIONS\' | translate) }">          <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <circle class="check-circle" cx="12" cy="12" r="10"></circle>            <polyline class="check-tick" points="22 4 12 14.01 9 11.01"></polyline>          </svg>        </button>        <!-- Revues -->        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                [class.active]="showReviews"                [class.show-hover]="markerHoverState[\'reviews\'].isHovered && !markerHoverState[\'reviews\'].wasClicked"                (click)="showReviews = !showReviews; saveMarkerPreferences(); onMarkerChange(\'reviews\')"                (mouseenter)="onMarkerMouseEnter(\'reviews\')"                (mouseleave)="onMarkerMouseLeave(\'reviews\')"                [appTooltip]="{ text: (\'OVERVIEW-GRAPH.MARKERS.REVIEWS\' | translate) }">          <svg class="icon-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <path class="eye-lid" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>            <circle class="eye-pupil" cx="12" cy="12" r="3"></circle>          </svg>        </button>        <!-- Autres -->        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                [class.active]="showOthers"                [class.show-hover]="markerHoverState[\'others\'].isHovered && !markerHoverState[\'others\'].wasClicked"                (click)="showOthers = !showOthers; saveMarkerPreferences(); onMarkerChange(\'others\')"                (mouseenter)="onMarkerMouseEnter(\'others\')"                (mouseleave)="onMarkerMouseLeave(\'others\')"                [appTooltip]="{ text: (\'OVERVIEW-GRAPH.MARKERS.OTHERS\' | translate) }">          <svg class="icon-dots" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <circle class="dot d1" cx="5" cy="12" r="2"></circle>            <circle class="dot d2" cx="12" cy="12" r="2"></circle>            <circle class="dot d3" cx="19" cy="12" r="2"></circle>          </svg>        </button>      </div>      <span style="position: absolute; top: 100%; margin-top: 4px; font-size: 0.65rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; pointer-events: none; white-space: nowrap;">        {{ "OVERVIEW-GRAPH.MARKERS.BUTTON" | translate }}      </span>    </div>    <!-- Display Modes Group (sans séparateur avec les marqueurs) -->    <div class="d-flex flex-column align-items-center" style="position: relative; margin-right: 0.25rem;">      <div class="btn-group" role="group">        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                 [class.active]="displayModes.opacity"                 [class.show-hover]="modeHoverState[\'opacity\'].isHovered && !modeHoverState[\'opacity\'].wasClicked"                (click)="toggleDisplayMode(\'opacity\')"                (mouseenter)="onModeMouseEnter(\'opacity\')"                (mouseleave)="onModeMouseLeave(\'opacity\')"                [appTooltip]="{ text: (\'DISPLAY-MODE.OPACITY\' | translate) }">          <svg class="icon-opacity" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <rect class="op-outer" fill="currentColor"></rect>            <rect class="op-mid" fill="currentColor"></rect>            <rect class="op-inner" fill="currentColor"></rect>          </svg>        </button>        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                 [class.active]="displayModes.height"                 [class.show-hover]="modeHoverState[\'height\'].isHovered && !modeHoverState[\'height\'].wasClicked"                (click)="toggleDisplayMode(\'height\')"                (mouseenter)="onModeMouseEnter(\'height\')"                (mouseleave)="onModeMouseLeave(\'height\')"                [appTooltip]="{ text: (\'DISPLAY-MODE.HEIGHT\' | translate) }">          <svg class="icon-height" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <rect class="bar-1" x="3" y="10" width="4" height="4" fill="currentColor"></rect>            <rect class="bar-2" x="10" y="7" width="4" height="10" fill="currentColor"></rect>            <rect class="bar-3" x="17" y="4" width="4" height="16" fill="currentColor"></rect>          </svg>        </button>        <button type="button" class="btn btn-outline-ghost anim-scale-hover"                 [class.active]="displayModes.text"                 (click)="toggleDisplayMode(\'text\')"                [appTooltip]="{ text: (\'DISPLAY-MODE.TEXT\' | translate) }">          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <polyline points="4 7 4 4 20 4 20 7"></polyline>            <line x1="9" y1="20" x2="15" y2="20"></line>            <line x1="12" y1="4" x2="12" y2="20"></line>          </svg>        </button>      </div>      <span style="position: absolute; top: 100%; margin-top: 4px; font-size: 0.65rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; pointer-events: none; white-space: nowrap;">        {{ "DISPLAY-MODE.TITLE" | translate }}      </span>    </div>    <div class="divider-vertical"></div>    <button class="btn-outline-ghost anim-scale-hover" (click)="resetZoom(false)" [appTooltip]="{ text: (\'OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP\' | translate), shortcut: [\'Space\'] }">      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <circle cx="11" cy="11" r="8"></circle>        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>        <line x1="8.5" y1="8.5" x2="13.5" y2="13.5"></line>        <line x1="13.5" y1="8.5" x2="8.5" y2="13.5"></line>      </svg>    </button>    <button class="btn-outline-ghost anim-spin-hover" (click)="loadGraph(dataService.startDate, dataService.endDate)" [disabled]="!dataService.repositories?.length || loading" [appTooltip]="{ text: (\'OVERVIEW-GRAPH.RELOAD-TOOLTIP\' | translate), shortcut: [\'R\'] }">      <div *ngIf="loading" class="d-flex">        <svg class="fa-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>          <path d="M21 3v5h-5"></path>        </svg>      </div>      <div *ngIf="!loading" class="d-flex">        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>          <path d="M21 3v5h-5"></path>        </svg>      </div>    </button>  </div></div><div class="d-flex align-items-center mb-0" style="gap: 0.75rem; padding: 0 1.25rem; min-height: 24px;">  <ng-container *ngIf="filterGroups && filterGroups.length > 0">    <div class="d-flex align-items-center" style="font-size: 0.8rem; color: #6b7280;">      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>        <polyline points="22 4 12 14.01 9 11.01"></polyline>      </svg>      <span class="font-weight-medium">{{ \'OVERVIEW-GRAPH.COMMITS-DISPLAYED\' | translate:{commits: filteredCommitsCount, students: filteredStudentsCount} }}</span>    </div>    <button class="btn-outline-ghost d-flex align-items-center" style="padding: 4px 8px; font-size: 0.75rem;" (click)="clearQuestionsFilter()" [appTooltip]="{ text: (\'OVERVIEW-GRAPH.CLEAR-FILTERS\' | translate), shortcut: [\'Esc\'] }">      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">        <circle cx="12" cy="12" r="10"></circle>        <line x1="15" y1="9" x2="9" y2="15"></line>        <line x1="9" y1="9" x2="15" y2="15"></line>      </svg>      {{ \'OVERVIEW-GRAPH.CLEAR-FILTERS\' | translate }}    </button>  </ng-container></div><ng-container *ngIf="!loading && dataService.repositories?.length === 0; else hasRepositories">  <div class="empty-state-full d-flex flex-column align-items-center justify-content-center w-100" style="flex: 1; min-height: 400px; background: transparent; border-radius: 8px;">    <div class="text-center p-5">      <app-repo-icon mode="empty" class="mb-4 text-muted d-block mx-auto" style="font-size: 4em; opacity: 0.5;"></app-repo-icon>      <h5 class="text-muted font-weight-medium mb-1">{{ \'OVERVIEW-GRAPH.NO-REPOSITORIES-TITLE\' | translate }}</h5>      <p class="text-muted small mb-0">{{ \'OVERVIEW-GRAPH.NO-REPOSITORIES-DESC\' | translate }}</p>    </div>  </div></ng-container><ng-template #hasRepositories><div *ngIf="!loading && !processingData && filteredCommitsCount === 0" class="empty-state-full d-flex flex-column align-items-center justify-content-center w-100" style="flex: 1; min-height: 400px; background: transparent; border-radius: 8px;">  <div class="text-center p-5">    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-4 text-muted" style="opacity: 0.5;">      <circle cx="12" cy="12" r="10"></circle>      <line x1="8" y1="12" x2="16" y2="12"></line>    </svg>    <h5 class="text-muted font-weight-medium mb-1">{{ \'OVERVIEW-GRAPH.NO-COMMITS-TITLE\' | translate }}</h5>    <p class="text-muted small mb-0">{{ \'OVERVIEW-GRAPH.NO-COMMITS-DESC\' | translate }}</p>  </div></div><div id="chart" style="position: relative;"      *ngIf="loading || processingData || filteredCommitsCount > 0"     [class.no-milestones]="loading || !hasDisplayedMilestones()">  <div class="chart-container-absolute" [style.visibility]="loading ? \'hidden\' : \'visible\'"></div>  <div class="chart-container" [style.visibility]="loading ? \'hidden\' : \'visible\'"></div>  <!-- SKELETON LOADER OVERLAY -->  <div *ngIf="loading" class="chart-skeleton-overlay d-flex" style="position: absolute; top: var(--top-inner, 28px); left: 0; right: 0; bottom: 0; width: 100%; z-index: 50; background: var(--color-surface); padding-bottom: 20px; pointer-events: none;">      <!-- Y-Axis (Repository names) -->      <div class="d-flex flex-column" style="width: 15%; min-width: 120px; max-width: 200px; padding-top: 20px;">          <div *ngFor="let w of [50, 80, 60, 40, 90, 70, 55, 85, 45, 75, 65, 35, 85, 50, 70, 40, 90, 60, 80, 55, 75, 45, 85, 50, 65]" class="d-flex align-items-center justify-content-end pr-3" style="height: 30px;">              <div class="skeleton-box" [style.width.%]="w" style="height: 12px; border-radius: 4px;"></div>          </div>      </div>      <!-- Graph Area with horizontal lines -->      <div class="flex-grow-1 d-flex flex-column position-relative" style="padding-top: 20px; border-left: 1px solid var(--color-border); overflow: hidden;">          <!-- Vertical grid lines -->          <div class="position-absolute h-100 d-flex justify-content-between w-100" style="top: 0; left: 0; padding: 0 5%;">              <div *ngFor="let i of [1,2,3,4,5,6]" style="width: 1px; height: 100%; background-color: var(--color-border); opacity: 0.3;"></div>          </div>          <!-- Horizontal tracks and fake commits -->          <div *ngFor="let offsets of [[20, 22, 23, 45], [60, 62], [15, 30, 80, 81, 82], [10, 12], [50, 75, 76, 77, 78], [5, 10, 15, 20], [40, 60, 61, 90], [25, 27, 28], [5, 85], [35, 36, 37, 55], [20], [40, 70, 72, 74], [], [15, 16, 17, 60], [30, 50, 80, 82, 84], [10, 90, 91], [45, 46, 48], [25, 75], [5, 40, 41, 42, 85], [], [35, 65, 66, 68], [15, 16], [55, 90, 92, 94], [20, 60, 61, 62], [10, 11, 40, 80, 81]]" class="d-flex align-items-center w-100" style="position: relative; height: 30px;">              <div class="skeleton-box" style="height: 1px; width: 100%; opacity: 0.2;"></div>              <!-- Random dots to simulate commits -->              <div *ngFor="let offset of offsets" class="skeleton-box" style="position: absolute; width: 10px; height: 10px; border-radius: 50%;" [style.left.%]="offset"></div>          </div>          <!-- X-Axis (Dates) -->          <div class="position-absolute w-100 d-flex justify-content-between" style="bottom: -15px; left: 0; padding: 0 5%;">              <div *ngFor="let i of [1,2,3,4,5,6]" class="skeleton-box" style="height: 10px; width: 50px; border-radius: 4px;"></div>          </div>      </div>  </div>    <div *ngIf="themeService.showLegend" class="legend-floating-container">    <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" (mouseleave)="legendDropdown.close()">      <button class="btn legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>        <i class="fas fa-info" style="min-width: 14px;"></i>        <span class="legend-text">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</span>      </button>      <div ngbDropdownMenu aria-labelledby="legendDropup" class="modern-dropdown-menu p-3" style="min-width: 250px; font-size: 0.85rem; line-height: 1.8;">        <h6 class="dropdown-header px-0 mb-2" style="font-weight: 600;">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</h6>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'COMMIT\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'COMMIT\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-square fa-fw" data-fa-transform="rotate-45"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'COMMIT-GROUP\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'COMMIT-GROUP\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><span class="fa-fw d-inline-block text-center"><span style="display: inline-block; width: 15px; height: 10px; border: 1.5px solid currentColor; vertical-align: middle; margin-top: -2px;"></span></span></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.COMMIT-GROUP" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'CLOSING\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'CLOSING\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="far fa-circle fa-fw"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.CLOSING" | translate }}</span>        </div>                <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'OVERVIEW-GRAPH.LEGEND.INTERMEDIATE\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'OVERVIEW-GRAPH.LEGEND.INTERMEDIATE\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-commit-intermediate)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.INTERMEDIATE" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'OVERVIEW-GRAPH.LEGEND.BEFORE\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'OVERVIEW-GRAPH.LEGEND.BEFORE\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-success)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BEFORE" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'OVERVIEW-GRAPH.LEGEND.BETWEEN\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'OVERVIEW-GRAPH.LEGEND.BETWEEN\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-warning)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.BETWEEN" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="hiddenCategories.has(\'OVERVIEW-GRAPH.LEGEND.AFTER\') ? \'0.4\' : \'1\'" (click)="toggleCategory(\'OVERVIEW-GRAPH.LEGEND.AFTER\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-circle fa-fw" style="color: var(--color-danger)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OVERVIEW-GRAPH.LEGEND.AFTER" | translate }}</span>        </div>                <div class="dropdown-divider my-2"></div>                <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showReviews ? \'1\' : \'0.4\'" (click)="toggleCategory(\'REVIEW\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-primary)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "REVIEW" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showCorrections ? \'1\' : \'0.4\'" (click)="toggleCategory(\'CORRECTION\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-danger)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "CORRECTION" | translate }}</span>        </div>        <div class="d-flex align-items-center mb-2" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showOthers ? \'1\' : \'0.4\'" (click)="toggleCategory(\'OTHER\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;"><i class="fas fa-minus fa-fw" data-fa-transform="rotate-90" style="color: var(--color-secondary)"></i></div>          <span style="color: var(--color-text-secondary)">{{ "OTHER" | translate }}</span>        </div>                <div class="dropdown-divider my-2"></div>                <div class="d-flex align-items-center" style="cursor: pointer; user-select: none; transition: opacity 0.2s;" [style.opacity]="showSessions ? \'1\' : \'0.4\'" (click)="toggleCategory(\'SESSION\')">          <div style="width: 30px; min-width: 30px; text-align: center; margin-right: 10px;">            <span class="fa-layers fa-fw">              <i class="fas fa-square" style="color: rgba(33, 150, 243, 0.15)"></i>              <i class="far fa-square" style="color: rgba(79, 195, 247, 1)"></i>            </span>          </div>          <span style="color: var(--color-text-secondary)">{{ "SESSION" | translate }}</span>        </div>      </div>    </div>  </div></div></ng-template><ng-template #d3TooltipTemplate>  <div    *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null"    id="commit_hover"  >    <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>    <p>{{ hovered_commit.message }}</p>    <p>{{ hovered_commit.author }}</p>    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">      <div class="tooltip-helper-item d-flex align-items-center">        <span>{{ \'COMMIT-TOOLTIP.OPEN_COMMIT\' | translate }}</span>        <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>          <polyline points="15 3 21 3 21 9"></polyline>          <line x1="10" y1="14" x2="21" y2="3"></line>        </svg>        <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>      </div>      <div class="tooltip-helper-item d-flex align-items-center">        <span>{{ \'COMMIT-TOOLTIP.COPY_HASH\' | translate }}</span>        <kbd class="shortcut-key" [class.shortcut-pressed-anim]="pressedShortcut === \'h\'">H</kbd>      </div>    </div>  </div>    <div    *ngIf="hovered_session != null && hovered_commit == null && hovered_group_commit == null && hovered_milestone == null"    id="session_hover"    style="max-width: 250px; word-wrap: break-word;"  >    <div class="d-flex align-items-center mb-2" style="gap: 0.5rem; color: var(--color-primary); font-weight: 500;">        <span>{{ \'EDIT-SESSION.NOTES\' | translate }}</span>    </div>    <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary);">{{ hovered_session.notes }}</p>  </div>  <div    *ngIf="hovered_milestone != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null"    id="milestone_hover"    style="max-width: 250px; word-wrap: break-word;"  >    <div      class="d-flex align-items-center mb-2"      style="gap: 0.5rem; font-weight: 500;"      [style.color]="hovered_milestone.type === \'correction\' ? \'var(--color-danger)\' : (hovered_milestone.type === \'other\' ? \'var(--color-secondary)\' : \'var(--color-primary)\')"    >      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>        <polyline points="14 2 14 8 20 8"></polyline>        <line x1="16" y1="13" x2="8" y2="13"></line>        <line x1="16" y1="17" x2="8" y2="17"></line>        <polyline points="10 9 9 9 8 9"></polyline>      </svg>      <span>{{ \'MILESTONE-NOTES\' | translate }}</span>    </div>    <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary); white-space: pre-wrap;">{{ hovered_milestone.notes }}</p>  </div>  <div    *ngIf="hovered_group_commit != null && hovered_commit == null && hovered_session == null && hovered_milestone == null"    id="commit_group_hover"  >    <div      *ngIf="hovered_group_commit[hovered_group_commit.length - 1].isCloture"    >      <p>{{ hovered_group_commit[hovered_group_commit.length - 1].message }}</p>      <p>        {{ "COMMIT-TOOLTIP.START" | translate }} :        {{ commit_date_format(hovered_group_commit[0].commitDate) }}      </p>      <p>        {{ "COMMIT-TOOLTIP.END" | translate }} :        {{          commit_date_format(            hovered_group_commit[hovered_group_commit.length - 1].commitDate          )        }}      </p>      <p>        {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :        {{ hovered_group_commit.length }}      </p>    </div>    <div      *ngIf="!hovered_group_commit[hovered_group_commit.length - 1].isCloture"    >      <p>        {{ "COMMIT-TOOLTIP.START" | translate }} :        {{ commit_date_format(hovered_group_commit[0].commitDate) }}      </p>      <p>        {{ "COMMIT-TOOLTIP.END" | translate }} :        {{          commit_date_format(            hovered_group_commit[hovered_group_commit.length - 1].commitDate          )        }}      </p>      <p>        {{ "COMMIT-TOOLTIP.COMMIT_NUMBER" | translate }} :        {{ hovered_group_commit.length }}      </p>    </div>    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">      <span>{{ \'COMMIT-TOOLTIP.ZOOM\' | translate }}</span>      <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>    </div>  </div></ng-template><ng-template #mouseLeftClickIcon>  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">      <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>      <path d="M5 9h14"></path>      <path d="M12 2v7"></path>      <path d="M5 9V9C5 5.134 8.134 2 12 2V9H5Z" fill="currentColor"></path>    </svg>  </span></ng-template><overview-graph-contextual-menu  [tpGroups]="dataService.tpGroups"  [questions]="dataService.questions"  [typeaheadSettings]="typeaheadSettings"  [defaultSessionDuration]="defaultSessionDuration"  [groupFilter]="dataService.groupFilter"  (deleteMilestone)="onDeleteMilestone($event)"  (deleteSession)="onDeleteSession($event)"  (saveMilestone)="onSaveMilestone($event)"  (saveSession)="onSaveSession($event)"></overview-graph-contextual-menu></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
     var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'OverviewComponent'};
