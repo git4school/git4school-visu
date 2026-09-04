@@ -791,24 +791,12 @@ export class OverviewComponent
         .on("contextmenu", (event: MouseEvent) => {
           event.preventDefault();
           event.stopPropagation();
-          var rect = (event.target as any).getBoundingClientRect();
-          var x =
-            ((event.clientX - rect.left) / (rect.right - rect.left)) *
-            overview.inner_width;
-          let rawDate = overview.x_scale_copy
-            ? overview.x_scale_copy.invert(x)
-            : (overview.x_scale ? overview.x_scale.invert(x) : new Date());
+          const rawDate = overview.getDateFromMouseEvent(event);
           overview.openContextMenu(event.pageX, event.pageY, rawDate);
         })
         .on("click", (event: MouseEvent) => {
           event.stopPropagation();
-          var rect = (event.target as any).getBoundingClientRect();
-          var x =
-            ((event.clientX - rect.left) / (rect.right - rect.left)) *
-            overview.inner_width;
-          let rawDate = overview.x_scale_copy
-            ? overview.x_scale_copy.invert(x)
-            : (overview.x_scale ? overview.x_scale.invert(x) : new Date());
+          const rawDate = overview.getDateFromMouseEvent(event);
           overview.openContextMenu(event.pageX, event.pageY, rawDate);
         })
         .on("wheel", (event: WheelEvent) => {
@@ -838,24 +826,12 @@ export class OverviewComponent
       .on("contextmenu", (event: MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
-        var rect = (event.target as any).getBoundingClientRect();
-        var x =
-          ((event.clientX - rect.left) / (rect.right - rect.left)) *
-          overview.inner_width;
-        let rawDate = overview.x_scale_copy
-          ? overview.x_scale_copy.invert(x)
-          : (overview.x_scale ? overview.x_scale.invert(x) : new Date());
+        const rawDate = this.getDateFromMouseEvent(event);
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       })
       .on("click", (event: MouseEvent) => {
         event.stopPropagation();
-        var rect = (event.target as any).getBoundingClientRect();
-        var x =
-          ((event.clientX - rect.left) / (rect.right - rect.left)) *
-          overview.inner_width; //x position within the element.
-        let rawDate = overview.x_scale_copy
-          ? overview.x_scale_copy.invert(x)
-          : (overview.x_scale ? overview.x_scale.invert(x) : new Date());
+        const rawDate = this.getDateFromMouseEvent(event);
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       });
 
@@ -978,6 +954,27 @@ export class OverviewComponent
     } else {
       this.contextualMenu.close();
     }
+  }
+
+  getDateFromMouseEvent(event: MouseEvent): Date {
+    const dataElement =
+      (this.data_g?.select("#data")?.node() as SVGRectElement) ||
+      (document.getElementById("data") as SVGRectElement);
+    let x = 0;
+    if (dataElement) {
+      const rect = dataElement.getBoundingClientRect();
+      const width = rect.right - rect.left;
+      if (width > 0) {
+        x = ((event.clientX - rect.left) / width) * this.inner_width;
+      }
+    } else if (this.chart_svg && (d3 as any).pointer) {
+      const [px] = (d3 as any).pointer(event, this.chart_svg.node());
+      x = px;
+    }
+    x = Math.max(0, Math.min(this.inner_width, x));
+    return this.x_scale_copy
+      ? this.x_scale_copy.invert(x)
+      : (this.x_scale ? this.x_scale.invert(x) : new Date());
   }
 
   onSaveMilestone(result: {
@@ -1121,20 +1118,22 @@ export class OverviewComponent
       .on("contextmenu", (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
-          overview.x_scale.invert(e.pageX)
+          rawDate
         );
       })
       .on("click", (e) => {
         e.stopPropagation();
+        const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
-          overview.x_scale.invert(e.pageX)
+          rawDate
         );
       });
 
@@ -1467,7 +1466,7 @@ export class OverviewComponent
         if (overview.isDraggingMilestone) return;
         e.preventDefault();
         e.stopPropagation();
-        const rawDate = overview.x_scale.invert(e.pageX);
+        const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
@@ -1479,7 +1478,7 @@ export class OverviewComponent
         if (overview.isDraggingMilestone) return;
         if (e.defaultPrevented) return; // Ignore click triggered by drag
         e.stopPropagation();
-        const rawDate = overview.x_scale.invert(e.pageX);
+        const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       });
   }
