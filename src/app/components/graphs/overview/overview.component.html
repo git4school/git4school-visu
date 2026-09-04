@@ -230,7 +230,7 @@
 
 <div id="chart" style="position: relative;" 
      *ngIf="loading || processingData || filteredCommitsCount > 0"
-     [class.no-milestones]="loading || (!showReviews && !showCorrections && !showOthers)">
+     [class.no-milestones]="loading || !hasDisplayedMilestones()">
 
   <div class="chart-container-absolute" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
   <div class="chart-container" [style.visibility]="loading ? 'hidden' : 'visible'"></div>

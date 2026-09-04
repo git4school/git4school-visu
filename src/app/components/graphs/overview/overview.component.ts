@@ -162,6 +162,13 @@ export class OverviewComponent
   hasMovedDuringDrag = false;
   dragScrollTimer: d3.Timer;
   dragTimeIndicator: d3.Selection<any, any, any, any>;
+  milestoneLongPressTimer: any = null;
+  activeMilestoneBadge: d3.Selection<any, any, any, any> = null;
+  activeMilestoneCleanupFn: (() => void) | null = null;
+  ignoreNextMilestoneClick = false;
+  readonly MILESTONE_HOLD_DURATION = 700;
+  readonly MILESTONE_DRAG_JITTER_TOLERANCE = 5;
+  readonly MILESTONE_CLICK_SUPPRESSION_DELAY = 300;
   ////////////////////////
 
   public modeHoverState: any = {
@@ -330,6 +337,10 @@ export class OverviewComponent
       this.resizeObserver.disconnect();
     }
     this.clearMilestoneHoverTimer();
+    this.cancelMilestoneLongPress();
+    this.stopDragScrollTimer();
+    this.removeDragTimeIndicator();
+    document.body.style.cursor = "";
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
     document.body.style.overscrollBehaviorX = "auto";
   }
@@ -444,13 +455,35 @@ export class OverviewComponent
 
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
 
-  download() {
-    this.assignmentsService.exportAssignment(this.dataService.assignment);
+  hasDisplayedMilestones(): boolean {
+    if (!this.dataService) return false;
+    if (!this.showReviews && !this.showCorrections && !this.showOthers) {
+      return false;
+    }
+    const milestone_filter = (m: Milestone) =>
+      (!this.dataService.groupFilter ||
+        !m.tpGroup ||
+        m.tpGroup === this.dataService.groupFilter) &&
+      (!this.searchFilter?.length ||
+        this.searchFilter.some((question) => m.questions?.includes(question)));
+
+    return (
+      (this.showReviews && !!this.dataService.reviews?.some(milestone_filter)) ||
+      (this.showCorrections && !!this.dataService.corrections?.some(milestone_filter)) ||
+      (this.showOthers && !!this.dataService.others?.some(milestone_filter))
+    );
   }
 
   updateVariableFromCss(): void {
     let chart_div = document.getElementById("chart");
     if (!chart_div) return;
+
+    const noMilestones = this.loading || !this.hasDisplayedMilestones();
+    if (noMilestones) {
+      chart_div.classList.add("no-milestones");
+    } else {
+      chart_div.classList.remove("no-milestones");
+    }
 
     var style = getComputedStyle(chart_div);
 
@@ -755,6 +788,46 @@ export class OverviewComponent
       .append("g")
       .attr("transform", "translate(" + translation + ")");
 
+    if (this.hasDisplayedMilestones() && this.inner_margin.top > 0) {
+      this.chart_abs_g
+        .append("rect")
+        .attr("class", "milestone-strip-hitbox")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", this.inner_width)
+        .attr("height", this.inner_margin.top)
+        .attr("opacity", "0")
+        .style("cursor", "default")
+        .style("pointer-events", "all")
+        .on("contextmenu", (event: MouseEvent) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const rawDate = overview.getDateFromMouseEvent(event);
+          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+        })
+        .on("click", (event: MouseEvent) => {
+          event.stopPropagation();
+          const rawDate = overview.getDateFromMouseEvent(event);
+          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+        })
+        .on("wheel", (event: WheelEvent) => {
+          if (event.shiftKey) return;
+          let dx = event.deltaX;
+          let dy = event.deltaY;
+          if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
+            dx = dy;
+            dy = 0;
+          }
+          if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (overview.zoom && overview.data_g) {
+              overview.data_g.call(overview.zoom.translateBy, -dx / (overview.current_zoom?.k || 1), 0);
+            }
+          }
+        });
+    }
+
     this.data_g
       .append("rect")
       .attr("id", "data")
@@ -764,20 +837,12 @@ export class OverviewComponent
       .on("contextmenu", (event: MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
-        var rect = (event.target as any).getBoundingClientRect();
-        var x =
-          ((event.clientX - rect.left) / (rect.right - rect.left)) *
-          overview.inner_width;
-        let rawDate = overview.x_scale_copy.invert(x);
+        const rawDate = this.getDateFromMouseEvent(event);
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       })
       .on("click", (event: MouseEvent) => {
         event.stopPropagation();
-        var rect = (event.target as any).getBoundingClientRect();
-        var x =
-          ((event.clientX - rect.left) / (rect.right - rect.left)) *
-          overview.inner_width; //x position within the element.
-        let rawDate = overview.x_scale_copy.invert(x);
+        const rawDate = this.getDateFromMouseEvent(event);
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       });
 
@@ -900,6 +965,27 @@ export class OverviewComponent
     } else {
       this.contextualMenu.close();
     }
+  }
+
+  getDateFromMouseEvent(event: MouseEvent): Date {
+    const dataElement =
+      (this.data_g?.select("#data")?.node() as SVGRectElement) ||
+      (document.getElementById("data") as unknown as SVGRectElement);
+    let x = 0;
+    if (dataElement) {
+      const rect = dataElement.getBoundingClientRect();
+      const width = rect.right - rect.left;
+      if (width > 0) {
+        x = ((event.clientX - rect.left) / width) * this.inner_width;
+      }
+    } else if (this.chart_svg && (d3 as any).pointer) {
+      const [px] = (d3 as any).pointer(event, this.chart_svg.node());
+      x = px;
+    }
+    x = Math.max(0, Math.min(this.inner_width, x));
+    return this.x_scale_copy
+      ? this.x_scale_copy.invert(x)
+      : (this.x_scale ? this.x_scale.invert(x) : new Date());
   }
 
   onSaveMilestone(result: {
@@ -1043,20 +1129,22 @@ export class OverviewComponent
       .on("contextmenu", (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
-          overview.x_scale.invert(e.pageX)
+          rawDate
         );
       })
       .on("click", (e) => {
         e.stopPropagation();
+        const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditSessionContextMenu(
           session,
           e.pageX,
           e.pageY,
-          overview.x_scale.invert(e.pageX)
+          rawDate
         );
       });
 
@@ -1156,6 +1244,10 @@ export class OverviewComponent
     box.attr("x", -bbox.width / 2);
     box.attr("y", bbox.y);
 
+    const badgeX = bbox.width / 2 - 2;
+    const badgeY = bbox.y + bbox.height - 2;
+    g.attr("data-badge-x", badgeX).attr("data-badge-y", badgeY);
+
     // Hitbox (transparent, plus large pour faciliter le clic)
     g.append("rect")
       .attr("class", "hitbox")
@@ -1163,24 +1255,242 @@ export class OverviewComponent
       .attr("height", bbox.height + 30)
       .attr("x", -(bbox.width + 30) / 2)
       .attr("y", bbox.y - 15)
-      .attr("style", "cursor: grab; pointer-events: all;");
+      .attr("style", "cursor: pointer; pointer-events: all;");
   }
 
-  private setupMilestoneDragBehavior(m: Milestone) {
+  private readonly MILESTONE_COLOR_MAP: Record<string, string> = {
+    correction: "var(--color-danger)",
+    other: "var(--color-secondary)",
+  };
+
+  private getMilestoneColor(type: string): string {
+    return this.MILESTONE_COLOR_MAP[type] || "var(--color-primary)";
+  }
+
+  private getEuclideanDistance(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
+  ): number {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  private readonly FA_ARROWS_ALT_PATH =
+    "M352.201 425.775l-79.196 79.196c-9.373 9.373-24.568 9.373-33.941 0l-79.196-79.196c-15.119-15.119-4.411-40.971 16.971-40.97h51.162L228 284H127.196v51.162c0 21.382-25.851 32.09-40.971 16.971L7.029 272.937c-9.373-9.373-9.373-24.569 0-33.941L86.225 159.8c15.119-15.119 40.971-4.411 40.971 16.971V228H228V127.196h-51.23c-21.382 0-32.09-25.851-16.971-40.971l79.196-79.196c9.373-9.373 24.568-9.373 33.941 0l79.196 79.196c15.119 15.119 4.411 40.971-16.971 40.971h-51.162V228h100.804v-51.162c0-21.382 25.851-32.09 40.97-16.971l79.196 79.196c9.373 9.373 9.373 24.569 0 33.941L425.773 352.2c-15.119 15.119-40.971 4.411-40.97-16.971V284H284v100.804h51.23c21.382 0 32.09 25.851 16.971 40.971z";
+
+  private createMilestoneLongPressBadge(
+    g: d3.Selection<any, any, any, any>,
+    m: Milestone
+  ): d3.Selection<any, any, any, any> {
+    const badgeX = parseFloat(g.attr("data-badge-x") || "20");
+    const badgeY = parseFloat(g.attr("data-badge-y") || "10");
+
+    const badge = g
+      .append("g")
+      .attr("class", "milestone-drag-badge")
+      .attr("transform", `translate(${badgeX}, ${badgeY})`);
+
+    const badgeContent = badge.append("g").attr("class", "badge-content");
+
+    // Base background circle
+    badgeContent
+      .append("circle")
+      .attr("class", "badge-bg")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", 10);
+
+    // Background track ring
+    badgeContent
+      .append("circle")
+      .attr("class", "badge-track")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", 8);
+
+    // Progress circle (r = 8, circumference = 2 * PI * 8 ~= 50.265)
+    const circumference = 2 * Math.PI * 8;
+    const progressColor = this.getMilestoneColor(m.type);
+
+    const progressCircle = badgeContent
+      .append("circle")
+      .attr("class", "badge-progress")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", 8)
+      .attr("stroke", progressColor)
+      .attr("stroke-dasharray", circumference)
+      .attr("stroke-dashoffset", circumference)
+      .attr("transform", "rotate(-90)");
+
+    // 4-way move arrow icon in center (FontAwesome fa-arrows-alt)
+    badgeContent
+      .append("g")
+      .attr("class", "badge-icon-group")
+      .attr("transform", "translate(-4, -4) scale(0.015625)")
+      .append("path")
+      .attr("class", "badge-icon")
+      .attr("d", this.FA_ARROWS_ALT_PATH)
+      .attr("fill", "var(--color-text-primary)");
+
+    // Animate circular fill over 700ms using D3 transition
+    progressCircle
+      .transition()
+      .duration(this.MILESTONE_HOLD_DURATION)
+      .ease(d3.easeLinear)
+      .attr("stroke-dashoffset", 0);
+
+    return badge;
+  }
+
+  private cancelMilestoneLongPress() {
+    if (this.activeMilestoneCleanupFn) {
+      this.activeMilestoneCleanupFn();
+      this.activeMilestoneCleanupFn = null;
+    }
+    if (this.milestoneLongPressTimer) {
+      clearTimeout(this.milestoneLongPressTimer);
+      this.milestoneLongPressTimer = null;
+    }
+    if (this.activeMilestoneBadge) {
+      this.activeMilestoneBadge.remove();
+      this.activeMilestoneBadge = null;
+    }
+    if (this.chart_abs_g) {
+      this.chart_abs_g.selectAll(".milestone-drag-badge").remove();
+    }
+  }
+
+  private setupMilestoneInteractions(
+    g: d3.Selection<any, any, any, any>,
+    m: Milestone
+  ) {
     const overview = this;
-    return d3.drag<any, any>()
-      .on("start", function(event) {
-        overview.onMilestoneDragStart(event, d3.select(this));
-      })
-      .on("drag", function(event) {
-        overview.onMilestoneDrag(event, d3.select(this), m);
-      })
-      .on("end", function() {
-        overview.onMilestoneDragEnd(d3.select(this));
-      });
+
+    g.select(".hitbox").on("mousedown", (e: MouseEvent) => {
+      // Left click only
+      if (e.button !== 0) return;
+      if (overview.isDraggingMilestone) return;
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      overview.clearMilestoneHoverTimer();
+      if (overview.hovered_milestone) {
+        overview.hovered_milestone = undefined;
+        overview.tooltipService.hide();
+      }
+
+      const startClientX = e.clientX;
+      const startClientY = e.clientY;
+      const originalDate = new Date(m.date.getTime());
+      let isLongPressFulfilled = false;
+      let hasMovedDuringDrag = false;
+
+      overview.cancelMilestoneLongPress();
+
+      const badge = overview.createMilestoneLongPressBadge(g, m);
+      overview.activeMilestoneBadge = badge;
+
+      overview.milestoneLongPressTimer = setTimeout(() => {
+        isLongPressFulfilled = true;
+        badge.classed("drag-ready", true);
+        document.body.style.cursor = "grabbing";
+
+        const currentMilestoneX = overview.xScaledTimeZoned(m.date);
+        overview.onMilestoneDragStart(currentMilestoneX, g);
+      }, overview.MILESTONE_HOLD_DURATION);
+
+      const onWindowMouseMove = (moveEvent: MouseEvent) => {
+        const dist = overview.getEuclideanDistance(
+          startClientX,
+          startClientY,
+          moveEvent.clientX,
+          moveEvent.clientY
+        );
+
+        if (!isLongPressFulfilled) {
+          if (dist > overview.MILESTONE_DRAG_JITTER_TOLERANCE) {
+            overview.ignoreNextMilestoneClick = true;
+            setTimeout(() => {
+              overview.ignoreNextMilestoneClick = false;
+            }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
+            overview.cancelMilestoneLongPress();
+          }
+        } else {
+          hasMovedDuringDrag = true;
+          overview.onMilestoneDragCustom(moveEvent, g, m);
+        }
+      };
+
+      const onWindowMouseUp = (upEvent: MouseEvent) => {
+        const dist = overview.getEuclideanDistance(
+          startClientX,
+          startClientY,
+          upEvent.clientX,
+          upEvent.clientY
+        );
+
+        overview.cancelMilestoneLongPress();
+
+        if (!isLongPressFulfilled) {
+          if (
+            dist <= overview.MILESTONE_DRAG_JITTER_TOLERANCE &&
+            upEvent.button === 0
+          ) {
+            overview.ignoreNextMilestoneClick = true;
+            setTimeout(() => {
+              overview.ignoreNextMilestoneClick = false;
+            }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
+            const rawDate = overview.getDateFromMouseEvent(upEvent);
+            overview.openEditMilestoneContextMenu(
+              m,
+              upEvent.pageX,
+              upEvent.pageY,
+              rawDate
+            );
+          }
+        } else {
+          overview.ignoreNextMilestoneClick = true;
+          setTimeout(() => {
+            overview.ignoreNextMilestoneClick = false;
+          }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
+          overview.onMilestoneDragEndCustom(g, hasMovedDuringDrag);
+        }
+      };
+
+      const onWindowBlur = () => {
+        if (isLongPressFulfilled && !hasMovedDuringDrag) {
+          m.date = originalDate;
+          const restoredX = overview.xScaledTimeZoned(originalDate);
+          g.attr("transform", `translate(${restoredX}, ${overview.inner_margin.top})`);
+        }
+        overview.cancelMilestoneLongPress();
+        if (isLongPressFulfilled) {
+          overview.onMilestoneDragEndCustom(g, false);
+        }
+      };
+
+      const cleanup = () => {
+        window.removeEventListener("mousemove", onWindowMouseMove);
+        window.removeEventListener("mouseup", onWindowMouseUp);
+        window.removeEventListener("blur", onWindowBlur);
+      };
+
+      overview.activeMilestoneCleanupFn = cleanup;
+      window.addEventListener("mousemove", onWindowMouseMove);
+      window.addEventListener("mouseup", onWindowMouseUp);
+      window.addEventListener("blur", onWindowBlur);
+    });
   }
 
-  private onMilestoneDragStart(event: any, element: d3.Selection<any, any, any, any>) {
+  private onMilestoneDragStart(
+    startX: number,
+    element: d3.Selection<any, any, any, any>
+  ) {
     this.isDraggingMilestone = true;
     this.hasMovedDuringDrag = false;
     this.clearMilestoneHoverTimer();
@@ -1190,31 +1500,45 @@ export class OverviewComponent
     }
     element.raise();
     element.select(".hitbox").attr("style", "cursor: grabbing; pointer-events: all;");
-    this.createDragTimeIndicator(event.x);
+    this.createDragTimeIndicator(startX);
   }
 
-  private onMilestoneDrag(event: any, element: d3.Selection<any, any, any, any>, m: Milestone) {
+  private onMilestoneDragCustom(
+    event: MouseEvent,
+    element: d3.Selection<any, any, any, any>,
+    m: Milestone
+  ) {
     this.hasMovedDuringDrag = true;
-    let currentX = Math.max(0, Math.min(this.inner_width, event.x));
-    
+    let currentX = 0;
+    if (this.chart_abs_g) {
+      const [px] = (d3 as any).pointer(event, this.chart_abs_g.node());
+      currentX = px;
+    } else {
+      currentX = event.clientX;
+    }
+    currentX = Math.max(0, Math.min(this.inner_width, currentX));
+
     m.date = this.x_scale_copy.invert(currentX);
     element.attr("transform", `translate(${currentX}, ${this.inner_margin.top})`);
-    
+
     this.updateDragTimeIndicator(currentX, m.date);
     this.handleDragEdgeScrolling(currentX, element, m);
   }
 
-  private onMilestoneDragEnd(element: d3.Selection<any, any, any, any>) {
+  private onMilestoneDragEndCustom(
+    element: d3.Selection<any, any, any, any>,
+    hasMoved: boolean
+  ) {
     this.isDraggingMilestone = false;
-    element.select(".hitbox").attr("style", "cursor: grab; pointer-events: all;");
-    
+    document.body.style.cursor = "";
+    element.select(".hitbox").attr("style", "cursor: pointer; pointer-events: all;");
+
     this.stopDragScrollTimer();
     this.removeDragTimeIndicator();
 
-    if (this.hasMovedDuringDrag) {
+    if (hasMoved) {
       this.saveData();
-      // Optional: Update tooltip position or refresh
-      this.loadGraphDataAndRefresh(); // Force redraw properly to sync zoom/pan states if needed, but only if moved.
+      this.loadGraphDataAndRefresh();
     }
   }
 
@@ -1340,7 +1664,7 @@ export class OverviewComponent
     this.buildMilestoneGraphics(g, m, index);
 
     let x = this.xScaledTimeZoned(m.date);
-    const dragBehavior = this.setupMilestoneDragBehavior(m);
+    this.setupMilestoneInteractions(g, m);
 
     let lastX = 0;
     let lastY = 0;
@@ -1348,7 +1672,6 @@ export class OverviewComponent
     return g
       .attr("transform", `translate(${x}, ${this.inner_margin.top})`)
       .call((g) => g.classed("hidden", x < 0 || x > overview.width))
-      .call(dragBehavior)
       .on("mouseenter", (e) => {
         if (overview.isDraggingMilestone) return;
         lastX = e.clientX;
@@ -1382,6 +1705,7 @@ export class OverviewComponent
       })
       .on("contextmenu", (e) => {
         overview.clearMilestoneHoverTimer();
+        overview.cancelMilestoneLongPress();
         if (overview.hovered_milestone) {
           overview.hovered_milestone = undefined;
           overview.tooltipService.hide();
@@ -1389,19 +1713,24 @@ export class OverviewComponent
         if (overview.isDraggingMilestone) return;
         e.preventDefault();
         e.stopPropagation();
-        const rawDate = overview.x_scale.invert(e.pageX);
+        const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
+        if (overview.ignoreNextMilestoneClick) {
+          overview.ignoreNextMilestoneClick = false;
+          e.stopPropagation();
+          e.preventDefault();
+          return;
+        }
         overview.clearMilestoneHoverTimer();
         if (overview.hovered_milestone) {
           overview.hovered_milestone = undefined;
           overview.tooltipService.hide();
         }
         if (overview.isDraggingMilestone) return;
-        if (e.defaultPrevented) return; // Ignore click triggered by drag
         e.stopPropagation();
-        const rawDate = overview.x_scale.invert(e.pageX);
+        const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       });
   }

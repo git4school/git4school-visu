@@ -23,7 +23,6 @@ export class TypePickerComponent implements ControlValueAccessor, AfterViewInit 
   @Input() options: TypePickerOption[] = [];
   @Input() wrapContent: boolean = false;
   @Input() isInvalid: boolean = false;
-  @Input() errorMessage: string = '';
 
   @ViewChildren('btn') buttons!: QueryList<ElementRef>;
 
