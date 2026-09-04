@@ -26,7 +26,8 @@ L'utilisation de l'API GraphQL GitHub (`search(query: "...", type: REPOSITORY)`)
    - Lorsque la recherche par texte libre retourne des dépôts dont le nom ne contient pas directement la chaîne recherchée (mais dont la description ou le README correspond), l'interface scinde automatiquement les résultats en deux sections distinctes :
      - *Section 1* : « Correspondances par nom » (`SECTION-NAME-MATCHES`).
      - *Section 2* : « Correspondances dans la description ou le README » (`SECTION-CONTENT-MATCHES`).
-   - La description du dépôt est extraite via GraphQL (`description`) et affichée sous le nom du dépôt pour expliciter la pertinence de la correspondance. Les dépôts ne correspondant ni au nom ni au contenu sont strictement éliminés.
+   - **Pliage / Dépliage interactif** : Chaque section dispose d'un en-tête cliquable avec chevron animé à rotation (90°) permettant de masquer ou d'afficher son contenu à la demande.
+   - **Affichage de la description** : La description est affichée sous le nom du dépôt avec un clamp CSS pur sur 2 lignes maximum (`-webkit-line-clamp: 2`). Si le texte dépasse, il est tronqué avec `...` et l'intégralité du texte est accessible au survol via une infobulle (`[appTooltip]`). Les dépôts ne correspondant ni au nom ni au contenu sont strictement éliminés.
 4. **Organisation hiérarchique des dépôts étudiants sous le dépôt modèle (`organizeHierarchy`)** :
    - Les dépôts sont rattachés comme forks enfants sous le dépôt source :
      - S'ils possèdent un lien de parenté Git formel (`repo.parentUrl === parent.url`), OU

@@ -36,12 +36,12 @@
                             <i class="fas fa-check"></i>
                         </div>
                     </th>
-                    <th class="name-col text-left cursor-pointer" (click)="sort('name')">
+                    <th class="name-col text-left pr-4 cursor-pointer" (click)="sort('name')">
                         {{ 'MODAL-ADD-REPOSITORIES.COLUMN-NAME' | translate }}
                         <span *ngIf="sortBy === 'name' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
                         <span *ngIf="sortBy === 'name' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
                     </th>
-                    <th class="url-col text-left pr-4 cursor-pointer" (click)="sort('url')">
+                    <th class="url-col text-left pl-3 pr-4 cursor-pointer" (click)="sort('url')">
                         {{ 'MODAL-ADD-REPOSITORIES.COLUMN-URL' | translate }}
                         <span *ngIf="sortBy === 'url' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
                         <span *ngIf="sortBy === 'url' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>
@@ -51,102 +51,116 @@
             <tbody>
                 <ng-container *ngIf="hasGroupedMatches; else plainList">
                     <!-- Section 1: Matches by name -->
-                    <tr *ngIf="nameMatches.length > 0" class="group-header-row">
+                    <tr *ngIf="nameMatches.length > 0" class="group-header-row" (click)="toggleNameMatches()">
                         <td colspan="3" class="pl-3">
                             <span class="group-header-badge">
                                 <i class="fas fa-tag mr-1"></i>
                                 {{ 'MODAL-ADD-REPOSITORIES.SECTION-NAME-MATCHES' | translate }} ({{ nameMatches.length }})
+                                <i class="fas fa-chevron-right group-collapse-icon ml-1" [class.rotated]="!isNameMatchesCollapsed"></i>
                             </span>
                         </td>
                     </tr>
-                    <tr *ngFor="let row of nameMatches; trackBy: trackByUrl" 
-                        [class.selected]="isSelected(row)" 
-                        [class.child-fork-row]="row.isChildFork"
-                        (click)="toggleSelection(row)"
-                        class="table-row">
-                        <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
-                            <div class="custom-checkbox" [class.checked]="isSelected(row)">
-                                <i class="fas fa-check"></i>
-                            </div>
-                        </td>
-                        <td class="name-col font-weight-500 pr-3" style="color: var(--color-text-primary);">
-                            <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">
-                                <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">
-                                    <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">
-                                        <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>
+                    <ng-container *ngIf="!isNameMatchesCollapsed">
+                        <tr *ngFor="let row of nameMatches; trackBy: trackByUrl" 
+                            [class.selected]="isSelected(row)" 
+                            [class.child-fork-row]="row.isChildFork"
+                            (click)="toggleSelection(row)"
+                            class="table-row">
+                            <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
+                                <div class="custom-checkbox" [class.checked]="isSelected(row)">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </td>
+                            <td class="name-col font-weight-500 pr-4" style="color: var(--color-text-primary);">
+                                <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">
+                                    <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">
+                                        <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">
+                                            <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>
+                                        </svg>
+                                        <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>
+                                    </div>
+                                    <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">
+                                        <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
+                                        <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
+                                    </div>
+                                    <div class="d-flex flex-column flex-grow-1 min-w-0">
+                                        <span class="text-truncate repo-name-text" [appTooltip]="row.name !== getDisplayName(row) ? row.name : ''" placement="top">{{ getDisplayName(row) }}</span>
+                                        <small *ngIf="row.description" 
+                                               class="repo-desc-text"
+                                               [appTooltip]="row.description"
+                                               [onlyIfTruncated]="true"
+                                               placement="top">{{ row.description }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="url-col pl-3 pr-4">
+                                <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
+                                    <span class="text-truncate">{{ row.url }}</span>
+                                    <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
                                     </svg>
-                                    <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>
-                                </div>
-                                <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">
-                                    <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
-                                    <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
-                                </div>
-                                <div class="d-flex flex-column text-truncate flex-grow-1 min-w-0">
-                                    <span class="text-truncate repo-name-text">{{ row.name }}</span>
-                                    <small *ngIf="row.description" class="text-muted text-truncate repo-desc-text">{{ row.description }}</small>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="url-col pr-4">
-                            <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
-                                <span class="text-truncate">{{ row.url }}</span>
-                                <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                    <polyline points="15 3 21 3 21 9"></polyline>
-                                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                                </svg>
-                            </a>
-                        </td>
-                    </tr>
+                                </a>
+                            </td>
+                        </tr>
+                    </ng-container>
 
                     <!-- Section 2: Matches in description or README -->
-                    <tr *ngIf="contentMatches.length > 0" class="group-header-row">
+                    <tr *ngIf="contentMatches.length > 0" class="group-header-row" (click)="toggleContentMatches()">
                         <td colspan="3" class="pl-3">
                             <span class="group-header-badge">
                                 <i class="fas fa-file-alt mr-1"></i>
                                 {{ 'MODAL-ADD-REPOSITORIES.SECTION-CONTENT-MATCHES' | translate }} ({{ contentMatches.length }})
+                                <i class="fas fa-chevron-right group-collapse-icon ml-1" [class.rotated]="!isContentMatchesCollapsed"></i>
                             </span>
                         </td>
                     </tr>
-                    <tr *ngFor="let row of contentMatches; trackBy: trackByUrl" 
-                        [class.selected]="isSelected(row)" 
-                        [class.child-fork-row]="row.isChildFork"
-                        (click)="toggleSelection(row)"
-                        class="table-row">
-                        <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
-                            <div class="custom-checkbox" [class.checked]="isSelected(row)">
-                                <i class="fas fa-check"></i>
-                            </div>
-                        </td>
-                        <td class="name-col font-weight-500 pr-3" style="color: var(--color-text-primary);">
-                            <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">
-                                <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">
-                                    <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">
-                                        <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>
+                    <ng-container *ngIf="!isContentMatchesCollapsed">
+                        <tr *ngFor="let row of contentMatches; trackBy: trackByUrl" 
+                            [class.selected]="isSelected(row)" 
+                            [class.child-fork-row]="row.isChildFork"
+                            (click)="toggleSelection(row)"
+                            class="table-row">
+                            <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">
+                                <div class="custom-checkbox" [class.checked]="isSelected(row)">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </td>
+                            <td class="name-col font-weight-500 pr-4" style="color: var(--color-text-primary);">
+                                <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">
+                                    <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">
+                                        <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">
+                                            <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>
+                                        </svg>
+                                        <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>
+                                    </div>
+                                    <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">
+                                        <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
+                                        <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
+                                    </div>
+                                    <div class="d-flex flex-column flex-grow-1 min-w-0">
+                                        <span class="text-truncate repo-name-text" [appTooltip]="row.name !== getDisplayName(row) ? row.name : ''" placement="top">{{ getDisplayName(row) }}</span>
+                                        <small *ngIf="row.description" 
+                                               class="repo-desc-text"
+                                               [appTooltip]="row.description"
+                                               [onlyIfTruncated]="true"
+                                               placement="top">{{ row.description }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="url-col pl-3 pr-4">
+                                <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
+                                    <span class="text-truncate">{{ row.url }}</span>
+                                    <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
                                     </svg>
-                                    <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>
-                                </div>
-                                <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">
-                                    <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
-                                    <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
-                                </div>
-                                <div class="d-flex flex-column text-truncate flex-grow-1 min-w-0">
-                                    <span class="text-truncate repo-name-text">{{ row.name }}</span>
-                                    <small *ngIf="row.description" class="text-muted text-truncate repo-desc-text">{{ row.description }}</small>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="url-col pr-4">
-                            <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
-                                <span class="text-truncate">{{ row.url }}</span>
-                                <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                    <polyline points="15 3 21 3 21 9"></polyline>
-                                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                                </svg>
-                            </a>
-                        </td>
-                    </tr>
+                                </a>
+                            </td>
+                        </tr>
+                    </ng-container>
                 </ng-container>
 
                 <ng-template #plainList>
@@ -160,7 +174,7 @@
                                 <i class="fas fa-check"></i>
                             </div>
                         </td>
-                        <td class="name-col font-weight-500 pr-3" style="color: var(--color-text-primary);">
+                        <td class="name-col font-weight-500 pr-4" style="color: var(--color-text-primary);">
                             <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">
                                 <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">
                                     <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">
@@ -172,13 +186,17 @@
                                     <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">
                                     <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>
                                 </div>
-                                <div class="d-flex flex-column text-truncate flex-grow-1 min-w-0">
-                                    <span class="text-truncate repo-name-text">{{ row.name }}</span>
-                                    <small *ngIf="row.description" class="text-muted text-truncate repo-desc-text">{{ row.description }}</small>
+                                <div class="d-flex flex-column flex-grow-1 min-w-0">
+                                    <span class="text-truncate repo-name-text" [appTooltip]="row.name !== getDisplayName(row) ? row.name : ''" placement="top">{{ getDisplayName(row) }}</span>
+                                    <small *ngIf="row.description" 
+                                           class="repo-desc-text"
+                                           [appTooltip]="row.description"
+                                           [onlyIfTruncated]="true"
+                                           placement="top">{{ row.description }}</small>
                                 </div>
                             </div>
                         </td>
-                        <td class="url-col pr-4">
+                        <td class="url-col pl-3 pr-4">
                             <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">
                                 <span class="text-truncate">{{ row.url }}</span>
                                 <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

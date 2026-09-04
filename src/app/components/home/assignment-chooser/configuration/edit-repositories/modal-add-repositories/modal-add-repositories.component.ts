@@ -28,6 +28,8 @@ export class ModalAddRepositoriesComponent
   rows: Repository[];
   nameMatches: Repository[] = [];
   contentMatches: Repository[] = [];
+  isNameMatchesCollapsed = false;
+  isContentMatchesCollapsed = false;
   loading: boolean;
   selected: Repository[];
   selectedUrls: Set<string> = new Set();
@@ -52,6 +54,20 @@ export class ModalAddRepositoriesComponent
       Boolean(this.searchFilter) &&
       (this.contentMatches.length > 0 || this.nameMatches.length > 0)
     );
+  }
+
+  toggleNameMatches() {
+    this.isNameMatchesCollapsed = !this.isNameMatchesCollapsed;
+  }
+
+  toggleContentMatches() {
+    this.isContentMatchesCollapsed = !this.isContentMatchesCollapsed;
+  }
+
+  getDisplayName(repo: Repository): string {
+    if (!repo || !repo.name) return "";
+    const limit = repo.isChildFork ? 34 : 38;
+    return Utils.truncateMiddle(repo.name, limit);
   }
 
   private getTargetSourceUrl(filter: string): string | undefined {
@@ -441,6 +457,8 @@ export class ModalAddRepositoriesComponent
       return;
     }
     this.searchFilter = cleanValue;
+    this.isNameMatchesCollapsed = false;
+    this.isContentMatchesCollapsed = false;
     if (!this.searchFilter) {
       this.cursor = undefined;
       this.done = false;

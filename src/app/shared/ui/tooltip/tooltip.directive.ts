@@ -17,6 +17,7 @@ export class TooltipDirective implements OnDestroy {
     | TemplateRef<any>
     | { text: string | TemplateRef<any>; shortcut?: string[] } = "";
   @Input() placement: "top" | "bottom" | "left" | "right" = "top";
+  @Input() onlyIfTruncated = false;
 
   constructor(
     private elementRef: ElementRef,
@@ -38,14 +39,28 @@ export class TooltipDirective implements OnDestroy {
       shortcut = this.content.shortcut;
     }
 
-    if (text) {
-      this.tooltipService.show(
-        text,
-        this.elementRef.nativeElement,
-        this.placement,
-        shortcut
-      );
+    if (!text) {
+      return;
     }
+
+    if (this.onlyIfTruncated) {
+      const el = this.elementRef?.nativeElement as HTMLElement;
+      if (el) {
+        const isTruncated =
+          el.scrollHeight - el.clientHeight > 1 ||
+          el.scrollWidth - el.clientWidth > 1;
+        if (!isTruncated) {
+          return;
+        }
+      }
+    }
+
+    this.tooltipService.show(
+      text,
+      this.elementRef.nativeElement,
+      this.placement,
+      shortcut
+    );
   }
 
   @HostListener("mouseleave")
