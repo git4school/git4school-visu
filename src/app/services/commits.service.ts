@@ -11,6 +11,7 @@ import {
   expand,
   map,
   reduce,
+  shareReplay,
   switchMap,
   tap,
 } from "rxjs/operators";
@@ -424,11 +425,11 @@ ${this.getCommitHistoryQueryFragment(
     return questions.map((question) => {
       let result: any = {
         question: question,
-        translations: translations
+        translations: translations,
       };
       colors.forEach((color) => {
         result[color.label] = dict[question][color.label].percentage;
-        result[color.label + '_data'] = dict[question][color.label];
+        result[color.label + "_data"] = dict[question][color.label];
       });
       return result;
     });
@@ -525,11 +526,11 @@ ${this.getCommitHistoryQueryFragment(
         lastQuestionDone: studentData.lastQuestionDone,
         url: studentData.url,
         tpGroup: studentData.tpGroup,
-        translations: translations
+        translations: translations,
       };
       colors.forEach((color) => {
         result[color.label] = studentData.commitTypes[color.label].percentage;
-        result[color.label + '_data'] = studentData.commitTypes[color.label];
+        result[color.label + "_data"] = studentData.commitTypes[color.label];
       });
       return result;
     });
@@ -576,7 +577,6 @@ ${this.getCommitHistoryQueryFragment(
             first: $pageLimit
             after: $cursor
             affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
-            ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
             orderBy: { field: CREATED_AT, direction: DESC }
           ) {
             pageInfo {
@@ -586,6 +586,20 @@ ${this.getCommitHistoryQueryFragment(
             nodes {
               name
               url
+              description
+              isFork
+              parent {
+                name
+                url
+              }
+              forks(first: 100) {
+                nodes {
+                  name
+                  url
+                  description
+                  isFork
+                }
+              }
             }
           }
         }
@@ -593,24 +607,148 @@ ${this.getCommitHistoryQueryFragment(
     `;
     const variables = { cursor, pageLimit };
     return this.http
-      .post<{ data: any }>(
+      .post<{ data: any; errors?: any[] }>(
         "https://api.github.com/graphql",
         { query, variables },
         { headers: this.headers }
       )
       .pipe(
         map((response) => {
-          const repositoriesData = response.data.viewer.repositories;
-          const repositories = repositoriesData.nodes.map(
-            (node) => new Repository(node.url, node.name)
+          const repositoriesData = response?.data?.viewer?.repositories;
+          if (!repositoriesData) {
+            return {
+              completed: true,
+              repositories: [],
+              cursor: undefined,
+            };
+          }
+
+          const reposMap = this.extractRepositoriesFromNodes(
+            repositoriesData.nodes || []
           );
+
           return {
-            completed: !repositoriesData.pageInfo.hasNextPage,
-            repositories: repositories,
-            cursor: repositoriesData.pageInfo.endCursor,
+            completed: !repositoriesData.pageInfo?.hasNextPage,
+            repositories: Array.from(reposMap.values()),
+            cursor: repositoriesData.pageInfo?.endCursor,
           };
+        }),
+        catchError((err) => {
+          console.error("Error fetching authenticated user repositories", err);
+          return of({
+            completed: true,
+            repositories: [],
+            cursor: undefined,
+          });
         })
       );
+  }
+
+  private userOrganizations$: Observable<string[]> = null;
+
+  /**
+   * Fetch organizations the authenticated user belongs to (cached)
+   */
+  getUserOrganizations(): Observable<string[]> {
+    if (this.userOrganizations$) {
+      return this.userOrganizations$;
+    }
+    const query = `
+      query {
+        viewer {
+          organizations(first: 100) {
+            nodes {
+              login
+            }
+          }
+        }
+      }
+    `;
+    this.userOrganizations$ = this.http
+      .post<{ data?: any; errors?: any[] }>(
+        "https://api.github.com/graphql",
+        { query },
+        { headers: this.headers }
+      )
+      .pipe(
+        map((response) => {
+          const nodes = response?.data?.viewer?.organizations?.nodes || [];
+          return nodes.map((org: any) => org.login).filter(Boolean);
+        }),
+        catchError((err) => {
+          console.error("Error fetching user organizations", err);
+          return of([]);
+        }),
+        shareReplay(1)
+      );
+    return this.userOrganizations$;
+  }
+
+  /**
+   * Helper to extract repositories and forks from GraphQL response nodes into a Map
+   */
+  private extractRepositoriesFromNodes(
+    nodes: any[],
+    reposMap: Map<string, Repository> = new Map<string, Repository>()
+  ): Map<string, Repository> {
+    if (!nodes) return reposMap;
+
+    nodes.forEach((node: any) => {
+      if (!node || !node.url) return;
+
+      const parentUrl = node.parent?.url || undefined;
+      const isFork = Boolean(node.isFork || parentUrl);
+
+      if (!reposMap.has(node.url)) {
+        reposMap.set(
+          node.url,
+          new Repository(
+            node.url,
+            node.name,
+            undefined,
+            undefined,
+            undefined,
+            node.description,
+            isFork,
+            parentUrl
+          )
+        );
+      } else {
+        const existing = reposMap.get(node.url);
+        if (!existing.parentUrl && parentUrl) {
+          existing.parentUrl = parentUrl;
+          existing.isFork = true;
+        }
+      }
+
+      if (node.forks?.nodes) {
+        node.forks.nodes.forEach((fork: any) => {
+          if (fork && fork.url) {
+            if (!reposMap.has(fork.url)) {
+              reposMap.set(
+                fork.url,
+                new Repository(
+                  fork.url,
+                  fork.name,
+                  undefined,
+                  undefined,
+                  undefined,
+                  fork.description,
+                  true,
+                  node.url
+                )
+              );
+            } else {
+              const existingFork = reposMap.get(fork.url);
+              existingFork.parentUrl = node.url;
+              existingFork.isFork = true;
+            }
+          }
+        });
+      }
+    });
+
+    return reposMap;
   }
 
   /**
@@ -630,48 +768,356 @@ ${this.getCommitHistoryQueryFragment(
     repositories: Repository[];
     cursor?: string;
   }> {
-    const query = `
-      query($queryString: String!, $cursor: String, $pageLimit: Int!) {
-        search(query: $queryString, type: REPOSITORY, first: $pageLimit, after: $cursor) {
-          pageInfo {
-            hasNextPage
-            endCursor
-          }
-          nodes {
-            ... on Repository {
+    const cleanFilter = searchFilter ? searchFilter.trim() : "";
+    if (!cleanFilter) {
+      return this.getRepositoriesByAuthenticatedUser(cursor, pageLimit);
+    }
+
+    // 1. Check if the searchFilter is an organization URL (e.g. https://github.com/UE-TOAW or https://github.com/UE-TOAW/)
+    const orgUrlMatch = cleanFilter.match(
+      /^(?:https?:\/\/github\.com\/|git@github\.com:)([a-zA-Z0-9_.-]+)\/?$/i
+    );
+    let effectiveFilter = cleanFilter;
+    if (orgUrlMatch) {
+      effectiveFilter = orgUrlMatch[1];
+    }
+
+    // 2. Check if searchFilter is a repository URL or an "owner/name" pattern
+    // (e.g. "https://github.com/UE-TOAW/repo" or "UE-TOAW/tp-m2sdl-2024-friendsofmine-")
+    const repoMatch = effectiveFilter.match(
+      /^(?:https?:\/\/github\.com\/|git@github\.com:|^)([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+?)(?:\.git|\/)?$/i
+    );
+
+    if (repoMatch) {
+      const owner = repoMatch[1];
+      const name = repoMatch[2];
+      const corePattern = Utils.extractAssignmentCore(name, owner);
+      const qOrg = corePattern
+        ? `${corePattern} org:${owner} fork:true`
+        : `org:${owner} fork:true`;
+
+      const scopedQuery = `
+        query($owner: String!, $name: String!, $qOrg: String!, $pageLimit: Int!, $cursor: String) {
+          repository(owner: $owner, name: $name) {
+            name
+            url
+            description
+            isFork
+            parent {
               name
               url
             }
+            forks(first: 100) {
+              nodes {
+                name
+                url
+                description
+                isFork
+                parent {
+                  name
+                  url
+                }
+              }
+            }
+          }
+          orgSearch: search(query: $qOrg, type: REPOSITORY, first: $pageLimit, after: $cursor) {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              ... on Repository {
+                name
+                url
+                description
+                isFork
+                parent {
+                  name
+                  url
+                }
+              }
+            }
           }
         }
-      }
-    `;
-    // We append fork:true because GitHub search excludes forks by default,
-    // which hides many student assignment repositories.
-    const variables = {
-      queryString: searchFilter + " fork:true",
-      cursor,
-      pageLimit,
-    };
-    return this.http
-      .post<{ data: any }>(
-        "https://api.github.com/graphql",
-        { query, variables },
-        { headers: this.headers }
-      )
-      .pipe(
-        map((response) => {
-          const searchData = response.data.search;
-          const repositories = searchData.nodes.map(
-            (node) => new Repository(node.url, node.name)
+      `;
+      const variables = {
+        owner,
+        name,
+        qOrg,
+        pageLimit,
+        cursor: cursor || null,
+      };
+      return this.http
+        .post<{ data?: any; errors?: any[] }>(
+          "https://api.github.com/graphql",
+          { query: scopedQuery, variables },
+          { headers: this.headers }
+        )
+        .pipe(
+          map((response) => {
+            const reposMap = new Map<string, Repository>();
+
+            if (response?.data) {
+              // 1. Direct match repository is added FIRST
+              if (response.data.repository) {
+                this.extractRepositoriesFromNodes(
+                  [response.data.repository],
+                  reposMap
+                );
+              }
+              // 2. Organization search matches (e.g. all student repos in that org)
+              if (response.data.orgSearch?.nodes) {
+                this.extractRepositoriesFromNodes(
+                  response.data.orgSearch.nodes,
+                  reposMap
+                );
+              }
+            }
+
+            return {
+              completed: !response?.data?.orgSearch?.pageInfo?.hasNextPage,
+              repositories: Array.from(reposMap.values()),
+              cursor: response?.data?.orgSearch?.pageInfo?.endCursor,
+            };
+          }),
+          catchError((err) => {
+            console.error("Error searching owner/name repositories", err);
+            return of({
+              completed: true,
+              repositories: [],
+              cursor: undefined,
+            });
+          })
+        );
+    }
+
+    // If cursor is provided for subsequent pages, query globalSearch with after cursor
+    if (cursor) {
+      const cleanTerm = cleanFilter.replace(/[-_]+$/, "");
+      const coreTerm = Utils.extractAssignmentCore(cleanTerm);
+      const searchKeyword = coreTerm || cleanTerm;
+      const query = `
+        query($queryString: String!, $cursor: String, $pageLimit: Int!) {
+          globalSearch: search(query: $queryString, type: REPOSITORY, first: $pageLimit, after: $cursor) {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              ... on Repository {
+                name
+                url
+                description
+                isFork
+                parent {
+                  name
+                  url
+                }
+              }
+            }
+          }
+        }
+      `;
+      const variables = {
+        queryString: (searchKeyword ? `${searchKeyword} ` : "") + "fork:true",
+        cursor,
+        pageLimit,
+      };
+      return this.http
+        .post<{ data: any; errors?: any[] }>(
+          "https://api.github.com/graphql",
+          { query, variables },
+          { headers: this.headers }
+        )
+        .pipe(
+          map((response) => {
+            const searchData = response?.data?.globalSearch;
+            const reposMap = this.extractRepositoriesFromNodes(
+              searchData?.nodes || []
+            );
+            return {
+              completed: !searchData?.pageInfo?.hasNextPage,
+              repositories: Array.from(reposMap.values()),
+              cursor: searchData?.pageInfo?.endCursor,
+            };
+          }),
+          catchError((err) => {
+            console.error("Error searching repositories (page)", err);
+            return of({
+              completed: true,
+              repositories: [],
+              cursor: undefined,
+            });
+          })
+        );
+    }
+
+    // 3. Free text search / Organization name: scope to authenticated user, accessible organizations and global repositories
+    return this.getUserOrganizations().pipe(
+      switchMap((orgs) => {
+        const isUserOrg =
+          orgs &&
+          orgs.some((o) => o.toLowerCase() === effectiveFilter.toLowerCase());
+
+        const cleanTerm = effectiveFilter.replace(/[-_]+$/, "");
+        const coreTerm = Utils.extractAssignmentCore(cleanTerm);
+        const searchKeyword = coreTerm || cleanTerm;
+
+        const queryArgs = [
+          "$qGlobal: String!",
+          "$qUser: String!",
+          "$pageLimit: Int!",
+        ];
+        let queryBody = `
+          globalSearch: search(query: $qGlobal, type: REPOSITORY, first: $pageLimit) {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              ... on Repository {
+                name
+                url
+                description
+                isFork
+                parent {
+                  name
+                  url
+                }
+              }
+            }
+          }
+          userSearch: search(query: $qUser, type: REPOSITORY, first: $pageLimit) {
+            nodes {
+              ... on Repository {
+                name
+                url
+                description
+                isFork
+                parent {
+                  name
+                  url
+                }
+              }
+            }
+          }
+        `;
+
+        const variables: any = {
+          qGlobal: searchKeyword ? `${searchKeyword} fork:true` : "fork:true",
+          qUser: searchKeyword
+            ? `${searchKeyword} user:@me fork:true`
+            : "user:@me fork:true",
+          pageLimit,
+        };
+
+        if (isUserOrg) {
+          queryArgs.push("$login: String!", "$qOwnerOrg: String!");
+          queryBody += `
+            ownerOrgSearch: search(query: $qOwnerOrg, type: REPOSITORY, first: $pageLimit) {
+              nodes {
+                ... on Repository {
+                  name
+                  url
+                  description
+                  isFork
+                  parent {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            repositoryOwner(login: $login) {
+              repositories(first: 100, affiliations: [OWNER, COLLABORATOR]) {
+                nodes {
+                  name
+                  url
+                  description
+                  isFork
+                  parent {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+          `;
+          variables.login = effectiveFilter;
+          variables.qOwnerOrg = `org:${effectiveFilter} fork:true`;
+        } else if (orgs && orgs.length > 0) {
+          // Search each of the user's accessible organizations for this partial keyword
+          orgs.forEach((org, index) => {
+            const orgVar = `qOrg_${index}`;
+            queryArgs.push(`$${orgVar}: String!`);
+            queryBody += `
+              orgSearch_${index}: search(query: $${orgVar}, type: REPOSITORY, first: $pageLimit) {
+                nodes {
+                  ... on Repository {
+                    name
+                    url
+                    description
+                    isFork
+                    parent {
+                      name
+                      url
+                    }
+                  }
+                }
+              }
+            `;
+            variables[orgVar] = searchKeyword
+              ? `${searchKeyword} org:${org} fork:true`
+              : `org:${org} fork:true`;
+          });
+        }
+
+        const fullQuery = `query(${queryArgs.join(", ")}) {\n${queryBody}\n}`;
+
+        return this.http
+          .post<{ data: any; errors?: any[] }>(
+            "https://api.github.com/graphql",
+            { query: fullQuery, variables },
+            { headers: this.headers }
+          )
+          .pipe(
+            map((response) => {
+              const reposMap = new Map<string, Repository>();
+
+              if (response?.data) {
+                Object.keys(response.data).forEach((key) => {
+                  const field = response.data[key];
+                  if (key === "repositoryOwner") {
+                    this.extractRepositoriesFromNodes(
+                      field?.repositories?.nodes || [],
+                      reposMap
+                    );
+                  } else if (field?.nodes) {
+                    this.extractRepositoriesFromNodes(field.nodes, reposMap);
+                  }
+                });
+              }
+
+              return {
+                completed: !response?.data?.globalSearch?.pageInfo?.hasNextPage,
+                repositories: Array.from(reposMap.values()),
+                cursor: response?.data?.globalSearch?.pageInfo?.endCursor,
+              };
+            }),
+            catchError((err) => {
+              console.error(
+                "Error searching repositories across user, orgs & global",
+                err
+              );
+              return of({
+                completed: true,
+                repositories: [],
+                cursor: undefined,
+              });
+            })
           );
-          return {
-            completed: !searchData.pageInfo.hasNextPage,
-            repositories: repositories,
-            cursor: searchData.pageInfo.endCursor,
-          };
-        })
-      );
+      })
+    );
   }
 
   getNameFromReadMe(readme: string): string {

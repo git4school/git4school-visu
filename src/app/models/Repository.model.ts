@@ -16,16 +16,27 @@ export class Repository {
    * @param name The student name associated with the repository
    * @param commits The repository commits
    * @param tpGroup The student tp group
+   * @param errors The repository errors
+   * @param description The repository description
+   * @param isFork Whether this repository is a fork
+   * @param parentUrl The parent repository URL if this is a fork
+   * @param isChildFork Whether this repository is displayed as a child fork row
    */
   constructor(
     public url: string,
     public name?: string,
     commits?: Commit[],
     public tpGroup?: string,
-    public errors?: Error[]
+    public errors?: Error[],
+    public description?: string,
+    public isFork?: boolean,
+    public parentUrl?: string,
+    public isChildFork?: boolean
   ) {
     this.commits = commits || [];
     this.errors = errors || [];
+    this.isFork = Boolean(isFork);
+    this.isChildFork = Boolean(isChildFork);
   }
 
   /**
@@ -133,7 +144,16 @@ export class Repository {
    * @returns A Repository
    */
   static withJSON(json) {
-    return new Repository(json.url, json.name, json.commits, json.tpGroup);
+    return new Repository(
+      json.url,
+      json.name,
+      json.commits,
+      json.tpGroup,
+      json.errors,
+      json.description,
+      json.isFork,
+      json.parentUrl
+    );
   }
 }
 

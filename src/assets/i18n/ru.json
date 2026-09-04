@@ -340,7 +340,10 @@
     "PLACEHOLDER-FILTER": "Поиск репозиториев",
     "PLACEHOLDER-TPGROUP": "Укажите группу TP для всех выбранных репозиториев",
     "SELECTED-REPOSITORIES": "репозиториев выбрано",
-    "TP-GROUP": "Группа TP"
+    "TP-GROUP": "Группа TP",
+    "SECTION-NAME-MATCHES": "Совпадения по имени",
+    "SECTION-CONTENT-MATCHES": "Совпадения в описании или README",
+    "TOOLTIP-SOURCE-CYCLE": "<strong>Цикл выбора:</strong><br>• 1-й клик: Выбрать все (исходный и форки)<br>• 2-й клик: Только форки<br>• 3-й клик: Только исходный репозиторий<br>• 4-й клик: Снять все отметки"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Добавить несколько репозиториев",
   "TOKEN-FIRST-NAME": "Имя",
