@@ -38,8 +38,9 @@
            
         <!-- Pill Icon -->
         <svg *ngIf="!isCommitStyle(item, i)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-          <line x1="7" y1="7" x2="7.01" y2="7"></line>
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
         </svg>
         <svg *ngIf="isCommitStyle(item, i)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="4"></circle>
@@ -104,8 +105,9 @@
            [class.merged-right]="di < getDraggedItems().length - 1"
            [class.merged-left]="di > 0">
         <svg *ngIf="!isCommitStyle(dItem, -1)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-          <line x1="7" y1="7" x2="7.01" y2="7"></line>
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
         </svg>
         <svg *ngIf="isCommitStyle(dItem, -1)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="4"></circle>
@@ -134,8 +136,9 @@
     <!-- Dynamic Icon for typing pill -->
     <ng-container *ngIf="isMainPillActive && mode === 'search'">
       <svg *ngIf="!isCommitStyle({value: question}, -2)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
       <svg *ngIf="isCommitStyle({value: question}, -2)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="4"></circle>
@@ -202,7 +205,7 @@
           <!-- Feature 1: Questions -->
           <div class="help-feature-card d-flex align-items-start">
             <div class="pill question-pill mini-pill mr-2 flex-shrink-0">
-              <svg class="pill-icon question-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+              <svg class="pill-icon question-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
               <span>#1</span>
             </div>
             <div class="feature-info flex-grow-1">
@@ -239,7 +242,7 @@
           <div class="help-feature-card d-flex align-items-start">
             <div class="d-flex align-items-center mr-2 flex-shrink-0">
               <div class="pill question-pill mini-pill merged-right">
-                <svg class="pill-icon question-icon" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                <svg class="pill-icon question-icon" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                 <span>#1</span>
               </div>
               <div class="pill commit-pill mini-pill merged-left">
@@ -302,8 +305,9 @@
     <!-- Section header for questions if first question in list -->
     <div class="typeahead-section-header d-flex align-items-center" *ngIf="r?.isFirstQuestion" (click)="$event.stopPropagation()">
       <svg class="header-icon mr-1" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
       <span>{{ 'QUESTIONS-CHOOSER-QUESTIONS-HEADER' | translate }}</span>
     </div>
@@ -332,8 +336,9 @@
       <div *ngIf="r?.type === 'question' || !r?.type" class="d-flex align-items-center text-truncate flex-grow-1 mr-2">
         <span class="suggestion-pill d-inline-flex align-items-center">
           <svg class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
           </svg>
           <span class="mr-1 text-muted small flex-shrink-0" *ngIf="r?.isExclusion">{{ 'QUESTIONS-CHOOSER-EXCLUDE-QUESTION' | translate }}</span>
           <ngb-highlight [result]="r?.value || r" [term]="t"></ngb-highlight>
