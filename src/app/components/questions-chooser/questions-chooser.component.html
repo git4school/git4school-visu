@@ -10,8 +10,7 @@
        *ngIf="items.length > 0"
        (dragover)="onContainerDragOver($event)"
        (dragleave)="onContainerDragLeave($event)"
-       (drop)="onContainerDrop($event)"
-       style="position: relative;">
+       (drop)="onContainerDrop($event)">
        
     <!-- Absolute Drop Indicator removed in favor of inline ghost preview -->
 
@@ -182,8 +181,8 @@
        (mousedown)="$event.stopPropagation(); $event.preventDefault()"
        (click)="$event.stopPropagation()">
       <div class="quick-help-header d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center" style="gap: 6px;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);">
+        <div class="quick-help-title-wrap d-flex align-items-center">
+          <svg class="quick-help-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
             <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -346,18 +345,18 @@
     </div>
 
     <!-- Bottom Cheat Sheet in Search Mode -->
-    <div class="typeahead-cheat-sheet d-flex align-items-center justify-content-start" *ngIf="mode === 'search' && r?.isLastItem" (click)="$event.stopPropagation()" style="gap: 8px;">
-      <div class="d-flex align-items-center cheat-group" style="gap: 4px;">
+    <div class="typeahead-cheat-sheet d-flex align-items-center justify-content-start" *ngIf="mode === 'search' && r?.isLastItem" (click)="$event.stopPropagation()">
+      <div class="d-flex align-items-center cheat-group">
         <kbd class="shortcut-key shortcut-key-sm">!</kbd>
         <span class="cheat-label">{{ 'QUESTIONS-CHOOSER-CHEAT-EXCLUDE' | translate }}</span>
       </div>
       <span class="cheat-sep">•</span>
-      <div class="d-flex align-items-center cheat-group" style="gap: 4px;">
+      <div class="d-flex align-items-center cheat-group">
         <kbd class="shortcut-key shortcut-key-sm">⇥ Tab</kbd>
         <span class="cheat-label">{{ 'QUESTIONS-CHOOSER-CHEAT-SUGGESTIONS' | translate }}</span>
       </div>
       <span class="cheat-sep">•</span>
-      <div class="d-flex align-items-center cheat-group" style="gap: 4px;">
+      <div class="d-flex align-items-center cheat-group">
         <kbd class="shortcut-key shortcut-key-sm">?</kbd>
         <span class="cheat-label">{{ 'QUESTIONS-CHOOSER-CHEAT-HELP' | translate }}</span>
       </div>

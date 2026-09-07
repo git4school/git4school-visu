@@ -269,8 +269,10 @@ export class OverviewComponent
 
   @HostListener("document:keydown", ["$event"])
   handleGlobalShortcuts(event: KeyboardEvent) {
-    if (document.body.classList.contains("modal-open")) return;
-    if (OsUtils.isTypingInInput(event)) {
+    if (
+      document.body.classList.contains("modal-open") ||
+      document.querySelector(".modal.show, .custom-modal-backdrop") !== null
+    ) {
       return;
     }
 
@@ -280,7 +282,27 @@ export class OverviewComponent
       event.preventDefault();
       this.clearQuestionsFilter();
       this.triggerShortcut("escape");
-    } else if (key === "r") {
+      return;
+    }
+
+    if (OsUtils.isTypingInInput(event)) {
+      return;
+    }
+
+    if (
+      key === "f" &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey
+    ) {
+      event.preventDefault();
+      if (this.questionsChooser && typeof this.questionsChooser.focus === "function") {
+        this.questionsChooser.focus();
+      }
+      return;
+    }
+
+    if (key === "r") {
       event.preventDefault();
       this.loadGraph(this.dataService.startDate, this.dataService.endDate);
       this.triggerShortcut("r");
@@ -2720,7 +2742,11 @@ export class OverviewComponent
 
   clearQuestionsFilter() {
     if (this.questionsChooser) {
-      this.questionsChooser.clearAll();
+      if (typeof this.questionsChooser.handleEscape === "function") {
+        this.questionsChooser.handleEscape();
+      } else {
+        this.questionsChooser.clearAll();
+      }
     }
   }
 
