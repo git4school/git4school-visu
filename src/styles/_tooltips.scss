@@ -1,10 +1,12 @@
+@import 'variables';
+
 /* =========================================
    TOOLTIPS (ng-bootstrap polyfill / Modern DA)
    ========================================= */
 
 .tooltip {
   position: absolute;
-  z-index: 1070;
+  z-index: $zindex-tooltip;
   display: block;
   margin: 0;
   font-family: inherit;
