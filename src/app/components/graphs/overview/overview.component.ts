@@ -15,7 +15,7 @@ import { OverviewGraphContextualMenuComponent } from "@components/overview-graph
 import { Commit, CommitColor } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
-import { NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDropdown, NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { DataService } from "@services/data.service";
@@ -52,7 +52,31 @@ export class OverviewComponent
 
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
   @ViewChild("questionsChooser") questionsChooser;
+  @ViewChild("groupDropdown") groupDropdown?: NgbDropdown;
+  @ViewChild("legendDropdown") legendDropdown?: NgbDropdown;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
+
+  closeAllPopovers(blurInput = false) {
+    if (this.questionsChooser && typeof this.questionsChooser.closePopovers === "function") {
+      this.questionsChooser.closePopovers(blurInput);
+    }
+    if (this.contextualMenu && typeof this.contextualMenu.close === "function") {
+      this.contextualMenu.close();
+    }
+    if (this.groupDropdown && typeof this.groupDropdown.close === "function") {
+      this.groupDropdown.close();
+    }
+    if (this.legendDropdown && typeof this.legendDropdown.close === "function") {
+      this.legendDropdown.close();
+    }
+    if (this.tooltipService) {
+      this.tooltipService.hide();
+    }
+    const typeaheadEl = document.querySelector("ngb-typeahead-window");
+    if (typeaheadEl) {
+      typeaheadEl.remove();
+    }
+  }
 
   minZoom: number;
 
@@ -335,6 +359,7 @@ export class OverviewComponent
   }
 
   private zoomGraph(factor: number) {
+    this.closeAllPopovers();
     if (!this.data_g || !this.zoom) return;
     this.data_g.transition().duration(200).call(this.zoom.scaleBy, factor);
   }
@@ -656,10 +681,14 @@ export class OverviewComponent
     d3.select(document.body).on("wheel.body", (e) => {});
     this.zoom = d3
       .zoom()
+      .on("start", () => {
+        overview.closeAllPopovers();
+      })
       .on("zoom", (event) => {
         if (overview.drag || !overview.x_scale) {
           return;
         }
+        overview.closeAllPopovers();
 
         if (event.sourceEvent != null) {
           overview.refreshTooltip(
@@ -704,6 +733,7 @@ export class OverviewComponent
 
       // If there is significant horizontal scrolling, or ctrl key is pressed
       if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+        overview.closeAllPopovers();
         event.preventDefault(); // Prevent browser back/forward or default scroll
         event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
 
@@ -828,7 +858,6 @@ export class OverviewComponent
           overview.openContextMenu(event.pageX, event.pageY, rawDate);
         })
         .on("click", (event: MouseEvent) => {
-          event.stopPropagation();
           const rawDate = overview.getDateFromMouseEvent(event);
           overview.openContextMenu(event.pageX, event.pageY, rawDate);
         })
@@ -841,6 +870,7 @@ export class OverviewComponent
             dy = 0;
           }
           if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+            overview.closeAllPopovers();
             event.preventDefault();
             event.stopPropagation();
             if (overview.zoom && overview.data_g) {
@@ -863,12 +893,14 @@ export class OverviewComponent
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       })
       .on("click", (event: MouseEvent) => {
-        event.stopPropagation();
         const rawDate = this.getDateFromMouseEvent(event);
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       });
 
     d3.select(".chart-container")
+      .on("mousedown", () => {
+        overview.closeAllPopovers();
+      })
       .on("mousemove", function (e) {
         overview.refreshTooltip(e.clientX, e.clientY);
       })
@@ -879,6 +911,7 @@ export class OverviewComponent
         document.body.style.overscrollBehaviorX = "auto";
       })
       .on("scroll", (event) => {
+        overview.closeAllPopovers();
         const node = event.target as HTMLElement;
         if (node && (node.scrollLeft <= 0 || node.scrollLeft >= 2)) {
           node.scrollLeft = 1;
@@ -1160,7 +1193,6 @@ export class OverviewComponent
         );
       })
       .on("click", (e) => {
-        e.stopPropagation();
         const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditSessionContextMenu(
           session,
@@ -1467,6 +1499,14 @@ export class OverviewComponent
             setTimeout(() => {
               overview.ignoreNextMilestoneClick = false;
             }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
+            document.dispatchEvent(
+              new MouseEvent("click", {
+                bubbles: true,
+                cancelable: true,
+                clientX: upEvent.clientX,
+                clientY: upEvent.clientY,
+              })
+            );
             const rawDate = overview.getDateFromMouseEvent(upEvent);
             overview.openEditMilestoneContextMenu(
               m,
@@ -1514,6 +1554,7 @@ export class OverviewComponent
     element: d3.Selection<any, any, any, any>,
     m?: Milestone
   ) {
+    this.closeAllPopovers();
     this.isDraggingMilestone = true;
     this.hasMovedDuringDrag = false;
     this.clearMilestoneHoverTimer();
@@ -1761,8 +1802,6 @@ export class OverviewComponent
       .on("click", (e) => {
         if (overview.ignoreNextMilestoneClick) {
           overview.ignoreNextMilestoneClick = false;
-          e.stopPropagation();
-          e.preventDefault();
           return;
         }
         overview.clearMilestoneHoverTimer();
@@ -1771,7 +1810,6 @@ export class OverviewComponent
           overview.tooltipService.hide();
         }
         if (overview.isDraggingMilestone) return;
-        e.stopPropagation();
         const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       });
@@ -2029,7 +2067,6 @@ export class OverviewComponent
         }
       })
       .on("click", (e, d) => {
-        e.stopPropagation();
         let currentRange = parseFloat(g.attr("group_range")) || 0;
         this.zoomToGroup(d, currentRange);
       });
@@ -2061,7 +2098,6 @@ export class OverviewComponent
         });
 
       g.on("click", (e, d) => {
-        e.stopPropagation();
         let currentRange = parseFloat(g.attr("group_range")) || 0;
         this.zoomToGroup(d, currentRange);
       });
@@ -2690,6 +2726,9 @@ export class OverviewComponent
   }
 
   resetZoom(conserve?: boolean) {
+    if (!conserve) {
+      this.closeAllPopovers(true);
+    }
     this.data_g
       .transition()
       .duration(750)
@@ -2711,6 +2750,7 @@ export class OverviewComponent
 
   zoomToGroup(commits: Commit[], range: number) {
     if (!commits || commits.length < 2 || range <= 0) return;
+    this.closeAllPopovers();
 
     let time_domain = this.x_scale.domain();
     let minDate = time_domain[0].valueOf() as number;

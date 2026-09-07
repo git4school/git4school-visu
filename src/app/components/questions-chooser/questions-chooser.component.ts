@@ -409,6 +409,32 @@ export class QuestionsChooserComponent
     @Optional() private customModalService?: CustomModalService
   ) {}
 
+  public closePopovers(blurInput = false) {
+    if (this.instance && this.instance.isPopupOpen()) {
+      this.instance.dismissPopup();
+    }
+    if (this.selectedPillIndex !== null) {
+      if (this.editingPillIndex !== null) {
+        this.finishEditing();
+      }
+      this.selectedPillIndex = null;
+    }
+    if (this.showQuickHelp) {
+      this.showQuickHelp = false;
+      this.stopObservingTypeahead();
+      this.resetHelpPosition();
+    }
+    if (
+      blurInput &&
+      this.inputField &&
+      this.inputField.nativeElement &&
+      document.activeElement === this.inputField.nativeElement
+    ) {
+      this.inputField.nativeElement.blur();
+    }
+    this.cdr.markForCheck();
+  }
+
   @HostListener("document:click", ["$event"])
   clickout(event) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
@@ -416,20 +442,7 @@ export class QuestionsChooserComponent
       if (typeaheadWindow && typeaheadWindow.contains(event.target)) {
         return;
       }
-      if (this.instance && this.instance.isPopupOpen()) {
-        this.instance.dismissPopup();
-      }
-      if (this.selectedPillIndex !== null) {
-        if (this.editingPillIndex !== null) {
-          this.finishEditing();
-        }
-        this.selectedPillIndex = null;
-      }
-      if (this.showQuickHelp) {
-        this.showQuickHelp = false;
-        this.stopObservingTypeahead();
-        this.resetHelpPosition();
-      }
+      this.closePopovers();
     }
   }
 
@@ -739,6 +752,9 @@ export class QuestionsChooserComponent
     this.isTypingExclusion = false;
     this.scrollToEnd();
     this.emitFilterGroups();
+    setTimeout(() => {
+      this.focus();
+    }, 0);
   }
 
   deleteItem(index: number) {

@@ -57,7 +57,11 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
     this.setEditModes(true, false);
     this.setPosition(x, y);
     this.date = date;
-    this.dropdown.open();
+    requestAnimationFrame(() => {
+      if (this.dropdown) {
+        this.dropdown.open();
+      }
+    });
   }
 
   openEditSession(session: Session, x: number, y: number, date: Date) {
@@ -65,22 +69,32 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
     this.setEditModes(false, true);
     this.setPosition(x, y);
     this.date = date;
-    this.dropdown.open();
+    requestAnimationFrame(() => {
+      if (this.dropdown) {
+        this.dropdown.open();
+      }
+    });
   }
 
   openNew(x: number, y: number, date: Date) {
     this.setEditModes(false, false);
     this.setPosition(x, y);
     this.date = date;
-    this.dropdown.open();
+    requestAnimationFrame(() => {
+      if (this.dropdown) {
+        this.dropdown.open();
+      }
+    });
   }
 
   close() {
-    this.dropdown.close();
+    if (this.dropdown) {
+      this.dropdown.close();
+    }
   }
 
   isContextMenuOpen(): boolean {
-    return this.dropdown.isOpen();
+    return this.dropdown ? this.dropdown.isOpen() : false;
   }
   //////////////////////////////////////////////////////////////////////////////////////
 
