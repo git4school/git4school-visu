@@ -264,7 +264,7 @@
   </div>
   
   <div *ngIf="themeService.showLegend" class="legend-floating-container">
-    <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" (mouseleave)="legendDropdown.close()">
+    <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" [autoClose]="'outside'" (mouseleave)="legendDropdown.close()">
       <button class="btn legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>
         <i class="fas fa-info" style="min-width: 14px;"></i>
         <span class="legend-text">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</span>

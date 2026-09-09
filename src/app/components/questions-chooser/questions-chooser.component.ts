@@ -16,9 +16,10 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { merge, Observable, Subject } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { filter, map, takeUntil } from "rxjs/operators";
 import { OsUtils } from "@utils/os.utils";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
+import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 
 export interface FilterGroup {
   criteria: {
@@ -403,10 +404,13 @@ export class QuestionsChooserComponent
     this.emitFilterGroups();
   }
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
-    @Optional() private customModalService?: CustomModalService
+    @Optional() private customModalService?: CustomModalService,
+    @Optional() private overlayManagerService?: OverlayManagerService
   ) {}
 
   public closePopovers(blurInput = false) {
@@ -640,6 +644,50 @@ export class QuestionsChooserComponent
     this.commitMessages = [...this.commitMessages];
     this.syncItemsFromInputs();
 
+    if (this.overlayManagerService) {
+      this.overlayManagerService.dismiss$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((event) => {
+          const shouldDismissTypeahead = OverlayManagerService.shouldDismiss(
+            OverlayType.TYPEAHEAD,
+            event
+          );
+          const shouldDismissHelp = OverlayManagerService.shouldDismiss(
+            OverlayType.QUICK_HELP,
+            event
+          );
+
+          if (shouldDismissTypeahead) {
+            if (this.instance && this.instance.isPopupOpen()) {
+              this.instance.dismissPopup();
+            }
+            if (this.selectedPillIndex !== null) {
+              if (this.editingPillIndex !== null) {
+                this.finishEditing();
+              }
+              this.selectedPillIndex = null;
+            }
+            if (
+              event.options?.blurInput &&
+              this.inputField &&
+              this.inputField.nativeElement &&
+              document.activeElement === this.inputField.nativeElement
+            ) {
+              this.inputField.nativeElement.blur();
+            }
+          }
+
+          if (shouldDismissHelp) {
+            if (this.showQuickHelp) {
+              this.showQuickHelp = false;
+              this.stopObservingTypeahead();
+              this.resetHelpPosition();
+            }
+          }
+          this.cdr.markForCheck();
+        });
+    }
+
     if (this.inputField && this.inputField.nativeElement) {
       this.inputField.nativeElement.addEventListener(
         "keydown",
@@ -650,6 +698,8 @@ export class QuestionsChooserComponent
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.stopObservingTypeahead();
     if (this.inputField && this.inputField.nativeElement) {
       this.inputField.nativeElement.removeEventListener(
@@ -674,13 +724,13 @@ export class QuestionsChooserComponent
         rawValue: q,
       });
     });
-    this.commitMessages.forEach((c) => {
-      const isExclusion = this.mode === "search" && c.startsWith("!");
+    this.commitMessages.forEach((m) => {
+      const isExclusion = this.mode === "search" && m.startsWith("!");
       this.items.push({
         type: "commit",
-        value: isExclusion ? c.substring(1) : c,
+        value: isExclusion ? m.substring(1) : m,
         isExclusion,
-        rawValue: c,
+        rawValue: m,
       });
     });
   }
@@ -752,9 +802,7 @@ export class QuestionsChooserComponent
     this.isTypingExclusion = false;
     this.scrollToEnd();
     this.emitFilterGroups();
-    setTimeout(() => {
-      this.focus();
-    }, 0);
+    this.focus();
   }
 
   deleteItem(index: number) {

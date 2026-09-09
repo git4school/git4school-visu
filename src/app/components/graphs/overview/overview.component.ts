@@ -24,7 +24,9 @@ import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
 import { ThemeService } from "@services/theme.service";
 import { TooltipService } from "@services/tooltip.service";
-import { Subscription, concat } from "rxjs";
+import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
+import { Subject, Subscription, concat } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
 import { OsUtils } from "@utils/os.utils";
 
@@ -56,27 +58,7 @@ export class OverviewComponent
   @ViewChild("legendDropdown") legendDropdown?: NgbDropdown;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
 
-  closeAllPopovers(blurInput = false) {
-    if (this.questionsChooser && typeof this.questionsChooser.closePopovers === "function") {
-      this.questionsChooser.closePopovers(blurInput);
-    }
-    if (this.contextualMenu && typeof this.contextualMenu.close === "function") {
-      this.contextualMenu.close();
-    }
-    if (this.groupDropdown && typeof this.groupDropdown.close === "function") {
-      this.groupDropdown.close();
-    }
-    if (this.legendDropdown && typeof this.legendDropdown.close === "function") {
-      this.legendDropdown.close();
-    }
-    if (this.tooltipService) {
-      this.tooltipService.hide();
-    }
-    const typeaheadEl = document.querySelector("ngb-typeahead-window");
-    if (typeaheadEl) {
-      typeaheadEl.remove();
-    }
-  }
+  private destroy$ = new Subject<void>();
 
   minZoom: number;
 
@@ -253,7 +235,8 @@ export class OverviewComponent
     protected assignmentsService: AssignmentsService,
     public themeService: ThemeService,
     private tooltipService: TooltipService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    public overlayManagerService: OverlayManagerService
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -287,6 +270,19 @@ export class OverviewComponent
         this.updateLang();
       }
     );
+
+    this.overlayManagerService.dismiss$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event) => {
+        if (OverlayManagerService.shouldDismiss(OverlayType.DROPDOWN, event)) {
+          if (this.groupDropdown && this.groupDropdown.isOpen()) {
+            this.groupDropdown.close();
+          }
+          if (this.legendDropdown && this.legendDropdown.isOpen()) {
+            this.legendDropdown.close();
+          }
+        }
+      });
   }
 
   pressedShortcut: string = null;
@@ -359,7 +355,7 @@ export class OverviewComponent
   }
 
   private zoomGraph(factor: number) {
-    this.closeAllPopovers();
+    this.overlayManagerService.dismissAll();
     if (!this.data_g || !this.zoom) return;
     this.data_g.transition().duration(200).call(this.zoom.scaleBy, factor);
   }
@@ -380,6 +376,8 @@ export class OverviewComponent
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
@@ -681,16 +679,18 @@ export class OverviewComponent
     d3.select(document.body).on("wheel.body", (e) => {});
     this.zoom = d3
       .zoom()
-      .on("start", () => {
-        overview.closeAllPopovers();
+      .on("start", (event) => {
+        if (event.sourceEvent != null) {
+          overview.overlayManagerService.dismissAll({ blurInput: true });
+        }
       })
       .on("zoom", (event) => {
         if (overview.drag || !overview.x_scale) {
           return;
         }
-        overview.closeAllPopovers();
 
         if (event.sourceEvent != null) {
+          overview.overlayManagerService.dismissAll({ blurInput: true });
           overview.refreshTooltip(
             event.sourceEvent.clientX,
             event.sourceEvent.clientY
@@ -733,7 +733,7 @@ export class OverviewComponent
 
       // If there is significant horizontal scrolling, or ctrl key is pressed
       if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
-        overview.closeAllPopovers();
+        overview.overlayManagerService.dismissAll();
         event.preventDefault(); // Prevent browser back/forward or default scroll
         event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
 
@@ -870,7 +870,7 @@ export class OverviewComponent
             dy = 0;
           }
           if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
-            overview.closeAllPopovers();
+            overview.overlayManagerService.dismissAll();
             event.preventDefault();
             event.stopPropagation();
             if (overview.zoom && overview.data_g) {
@@ -898,9 +898,6 @@ export class OverviewComponent
       });
 
     d3.select(".chart-container")
-      .on("mousedown", () => {
-        overview.closeAllPopovers();
-      })
       .on("mousemove", function (e) {
         overview.refreshTooltip(e.clientX, e.clientY);
       })
@@ -911,7 +908,7 @@ export class OverviewComponent
         document.body.style.overscrollBehaviorX = "auto";
       })
       .on("scroll", (event) => {
-        overview.closeAllPopovers();
+        overview.overlayManagerService.dismissAll();
         const node = event.target as HTMLElement;
         if (node && (node.scrollLeft <= 0 || node.scrollLeft >= 2)) {
           node.scrollLeft = 1;
@@ -1554,7 +1551,7 @@ export class OverviewComponent
     element: d3.Selection<any, any, any, any>,
     m?: Milestone
   ) {
-    this.closeAllPopovers();
+    this.overlayManagerService.dismissTransient();
     this.isDraggingMilestone = true;
     this.hasMovedDuringDrag = false;
     this.clearMilestoneHoverTimer();
@@ -2727,7 +2724,7 @@ export class OverviewComponent
 
   resetZoom(conserve?: boolean) {
     if (!conserve) {
-      this.closeAllPopovers(true);
+      this.overlayManagerService.dismissAll({ blurInput: true });
     }
     this.data_g
       .transition()
@@ -2750,7 +2747,7 @@ export class OverviewComponent
 
   zoomToGroup(commits: Commit[], range: number) {
     if (!commits || commits.length < 2 || range <= 0) return;
-    this.closeAllPopovers();
+    this.overlayManagerService.dismissAll();
 
     let time_domain = this.x_scale.domain();
     let minDate = time_domain[0].valueOf() as number;

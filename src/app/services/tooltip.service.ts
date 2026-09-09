@@ -8,6 +8,7 @@ import {
   TemplateRef,
 } from "@angular/core";
 import { TooltipComponent } from "../shared/ui/tooltip/tooltip.component";
+import { OverlayManagerService, OverlayType } from "./overlay-manager.service";
 
 @Injectable({
   providedIn: "root",
@@ -20,8 +21,15 @@ export class TooltipService {
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
-    private injector: Injector
-  ) {}
+    private injector: Injector,
+    private overlayManagerService: OverlayManagerService
+  ) {
+    this.overlayManagerService.dismiss$.subscribe((event) => {
+      if (OverlayManagerService.shouldDismiss(OverlayType.TOOLTIP, event)) {
+        this.hide();
+      }
+    });
+  }
 
   /**
    * Shows a tooltip relative to an HTMLElement

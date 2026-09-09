@@ -2,6 +2,8 @@ import {
   Component,
   EventEmitter,
   Input,
+  NgZone,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -13,13 +15,16 @@ import { Session } from "@models/Session.model";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
 import { Utils } from "@services/utils";
+import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: "overview-graph-contextual-menu",
   templateUrl: "./overview-graph-contextual-menu.component.html",
   styleUrls: ["./overview-graph-contextual-menu.component.scss"],
 })
-export class OverviewGraphContextualMenuComponent implements OnInit {
+export class OverviewGraphContextualMenuComponent implements OnInit, OnDestroy {
   @ViewChild(NgbDropdown) dropdown;
   @Input() questions: string[];
   @Input() tpGroups: string[];
@@ -45,45 +50,83 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
   session: Session;
   date: Date;
 
-  constructor(private customModalService: CustomModalService) {}
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private customModalService: CustomModalService,
+    private overlayManagerService: OverlayManagerService,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
     this.setEditModes(false, false);
+    this.overlayManagerService.dismiss$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event) => {
+        if (
+          OverlayManagerService.shouldDismiss(
+            OverlayType.CONTEXT_MENU,
+            event
+          )
+        ) {
+          this.close();
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /////////////// External methods to manipulate context menu /////////////////////////////
   openEditMilestone(milestone: Milestone, x: number, y: number, date: Date) {
+    this.overlayManagerService.dismissAll({
+      exclude: [OverlayType.CONTEXT_MENU],
+    });
     this.milestone = milestone;
     this.setEditModes(true, false);
     this.setPosition(x, y);
     this.date = date;
     requestAnimationFrame(() => {
-      if (this.dropdown) {
-        this.dropdown.open();
-      }
+      this.ngZone.run(() => {
+        if (this.dropdown) {
+          this.dropdown.open();
+        }
+      });
     });
   }
 
   openEditSession(session: Session, x: number, y: number, date: Date) {
+    this.overlayManagerService.dismissAll({
+      exclude: [OverlayType.CONTEXT_MENU],
+    });
     this.session = session;
     this.setEditModes(false, true);
     this.setPosition(x, y);
     this.date = date;
     requestAnimationFrame(() => {
-      if (this.dropdown) {
-        this.dropdown.open();
-      }
+      this.ngZone.run(() => {
+        if (this.dropdown) {
+          this.dropdown.open();
+        }
+      });
     });
   }
 
   openNew(x: number, y: number, date: Date) {
+    this.overlayManagerService.dismissAll({
+      exclude: [OverlayType.CONTEXT_MENU],
+    });
     this.setEditModes(false, false);
     this.setPosition(x, y);
     this.date = date;
     requestAnimationFrame(() => {
-      if (this.dropdown) {
-        this.dropdown.open();
-      }
+      this.ngZone.run(() => {
+        if (this.dropdown) {
+          this.dropdown.open();
+        }
+      });
     });
   }
 
