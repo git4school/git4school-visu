@@ -212,7 +212,19 @@ export class OverviewComponent
 
   onMarkerChange(marker: string) {
     this.markerHoverState[marker].wasClicked = true;
-    this.loadGraphDataAndRefresh();
+    if (marker === 'sessions') {
+      this.loadSessionAnnotations();
+      return;
+    }
+    const chartDiv = document.getElementById("chart");
+    const currentlyHasNoMilestonesClass = chartDiv?.classList.contains("no-milestones") ?? false;
+    const willHaveNoMilestones = this.loading || !this.hasDisplayedMilestones();
+
+    if (currentlyHasNoMilestonesClass !== willHaveNoMilestones) {
+      this.loadGraphDataAndRefresh();
+    } else {
+      this.loadMilestoneAnnotations();
+    }
   }
 
   saveMarkerPreferences() {
@@ -461,25 +473,24 @@ export class OverviewComponent
     if (label === 'SESSION') {
       this.showSessions = !this.showSessions;
       this.saveMarkerPreferences();
-      this.loadGraphDataAndRefresh();
+      this.loadSessionAnnotations();
       return;
     }
-    if (label === 'REVIEW') {
-      this.showReviews = !this.showReviews;
+    if (label === 'REVIEW' || label === 'CORRECTION' || label === 'OTHER') {
+      if (label === 'REVIEW') this.showReviews = !this.showReviews;
+      if (label === 'CORRECTION') this.showCorrections = !this.showCorrections;
+      if (label === 'OTHER') this.showOthers = !this.showOthers;
       this.saveMarkerPreferences();
-      this.loadGraphDataAndRefresh();
-      return;
-    }
-    if (label === 'CORRECTION') {
-      this.showCorrections = !this.showCorrections;
-      this.saveMarkerPreferences();
-      this.loadGraphDataAndRefresh();
-      return;
-    }
-    if (label === 'OTHER') {
-      this.showOthers = !this.showOthers;
-      this.saveMarkerPreferences();
-      this.loadGraphDataAndRefresh();
+
+      const chartDiv = document.getElementById("chart");
+      const currentlyHasNoMilestonesClass = chartDiv?.classList.contains("no-milestones") ?? false;
+      const willHaveNoMilestones = this.loading || !this.hasDisplayedMilestones();
+
+      if (currentlyHasNoMilestonesClass !== willHaveNoMilestones) {
+        this.loadGraphDataAndRefresh();
+      } else {
+        this.loadMilestoneAnnotations();
+      }
       return;
     }
 
@@ -942,6 +953,26 @@ export class OverviewComponent
   }
 
   loadAnnotations() {
+    this.loadSessionAnnotations();
+    this.loadMilestoneAnnotations();
+  }
+
+  loadSessionAnnotations() {
+    if (!this.data_g) return;
+    if (this.session_g != null) {
+      this.session_g.remove();
+      this.session_g = null;
+    }
+    if (this.filteredCommitsCount === 0) {
+      return;
+    }
+    if (this.dataService.sessions && this.showSessions) {
+      this.loadSessions();
+    }
+  }
+
+  loadMilestoneAnnotations() {
+    if (!this.chart_abs_g) return;
     this.clearMilestoneHoverTimer();
     if (this.hovered_milestone) {
       this.hovered_milestone = undefined;
@@ -956,16 +987,12 @@ export class OverviewComponent
           review.questions?.includes(question)
         ).length);
 
-    if (this.session_g != null) { this.session_g.remove(); this.session_g = null; }
     if (this.review_g != null) { this.review_g.remove(); this.review_g = null; }
     if (this.correction_g != null) { this.correction_g.remove(); this.correction_g = null; }
     if (this.other_g != null) { this.other_g.remove(); this.other_g = null; }
     
     if (this.filteredCommitsCount === 0) {
       return;
-    }
-    if (this.dataService.sessions && this.showSessions) {
-      this.loadSessions();
     }
 
     if (this.dataService.reviews && this.showReviews) {
@@ -1050,8 +1077,9 @@ export class OverviewComponent
         this.hovered_milestone = undefined;
         this.tooltipService.hide();
       }
+      const hadMilestonesBefore = this.hasDisplayedMilestones();
       this.saveMilestone(result.oldMilestone, result.newMilestone);
-      this.saveData();
+      this.updateAfterMilestoneChange(hadMilestonesBefore);
 
       let translations = this.translateService.instant([
         "SUCCESS",
@@ -1085,7 +1113,7 @@ export class OverviewComponent
   onSaveSession(result: { oldSession: Session; newSession: Session }) {
     try {
       this.saveSession(result.oldSession, result.newSession);
-      this.saveData();
+      this.updateAfterSessionChange();
 
       let translations = this.translateService.instant([
         "SUCCESS",
@@ -1119,7 +1147,7 @@ export class OverviewComponent
   onDeleteSession(session: Session) {
     try {
       this.deleteSession(session);
-      this.saveData();
+      this.updateAfterSessionChange();
 
       let translations = this.translateService.instant([
         "SUCCESS",
@@ -1141,8 +1169,9 @@ export class OverviewComponent
         this.hovered_milestone = undefined;
         this.tooltipService.hide();
       }
+      const hadMilestonesBefore = this.hasDisplayedMilestones();
       this.deleteMilestone(milestone);
-      this.saveData();
+      this.updateAfterMilestoneChange(hadMilestonesBefore);
 
       let translations = this.translateService.instant([
         "SUCCESS",
@@ -1199,24 +1228,27 @@ export class OverviewComponent
         );
       });
 
+    const rawX1 = this.xScaledTimeZoned(session.startDate);
+    const rawX2 = this.xScaledTimeZoned(session.endDate);
+    const cx1 = Math.max(-50, Math.min(this.width + 50, rawX1));
+    const cx2 = Math.max(-50, Math.min(this.width + 50, rawX2));
+    const width = Math.max(0, cx2 - cx1);
+
     group.append("rect")
       .attr("class", "session")
-      .attr("x", this.xScaledTimeZoned(session.startDate))
+      .attr("x", cx1)
       .attr("height", this.scrollable_height)
       .attr("y", 0)
-      .attr(
-        "width",
-        Math.max(0, this.xScaledTimeZoned(session.endDate) -
-          this.xScaledTimeZoned(session.startDate))
-      );
+      .attr("width", width);
 
     if (session.notes) {
       group.append("foreignObject")
         .attr("class", "session-icon")
-        .attr("x", this.xScaledTimeZoned(session.startDate) + 4)
+        .attr("x", rawX1 + 4)
         .attr("y", 4)
         .attr("width", 24)
         .attr("height", 24)
+        .style("visibility", width < 32 ? "hidden" : "visible")
         .on("mouseenter", (e, d) => {
           e.stopPropagation();
           overview.hovered_session = d;
@@ -1252,15 +1284,15 @@ export class OverviewComponent
 
     const overview = this;
 
-    setTimeout(() => {
-      this.session_g
-        .selectAll(".session")
-        .data(loaded_sessions)
-        .enter()
-        .each(function (d: Session) {
-          overview.getRectForSession(d3.select(this), d);
-        });
-    });
+    this.session_g
+      .selectAll(".session")
+      .data(loaded_sessions)
+      .enter()
+      .each(function (d: Session) {
+        overview.getRectForSession(d3.select(this), d);
+      });
+
+    this.updateSessionsTransforms();
   }
 
   private buildMilestoneGraphics(g: d3.Selection<any, any, any, any>, m: Milestone, index: number) {
@@ -1601,8 +1633,7 @@ export class OverviewComponent
     this.removeDragTimeIndicator();
 
     if (hasMoved) {
-      this.saveData();
-      this.loadGraphDataAndRefresh();
+      this.updateAfterMilestoneChange();
     }
   }
 
@@ -1739,7 +1770,7 @@ export class OverviewComponent
     index: number
   ) {
     const overview = this;
-    let g = parent.append("g").attr("class", class_);
+    let g = parent.append("g").datum(m).attr("class", class_);
 
     this.buildMilestoneGraphics(g, m, index);
 
@@ -1813,73 +1844,75 @@ export class OverviewComponent
   }
 
   loadReviews(milestone_filter: (review: Milestone) => number | boolean) {
-    let loaded_reviews = this.dataService.reviews.filter(milestone_filter);
+    let loaded_reviews = this.dataService.reviews
+      .filter(milestone_filter)
+      .slice()
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     this.review_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
-    setTimeout(() => {
-      this.review_g
-        .selectAll(".review")
-        .data(loaded_reviews)
-        .enter()
-        .each(function (d: Milestone, i) {
-          overview.getLineForMilestone(
-            d3.select(this),
-            d,
-            "milestone review",
-            i
-          );
-        });
-    });
+    this.review_g
+      .selectAll(".review")
+      .data(loaded_reviews)
+      .enter()
+      .each(function (d: Milestone, i) {
+        overview.getLineForMilestone(
+          d3.select(this),
+          d,
+          "milestone review",
+          i
+        );
+      });
   }
 
   loadCorrections(milestone_filter: (review: Milestone) => number | boolean) {
-    let loaded_corrections =
-      this.dataService.corrections.filter(milestone_filter);
+    let loaded_corrections = this.dataService.corrections
+      .filter(milestone_filter)
+      .slice()
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     this.correction_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
-    setTimeout(() => {
-      this.correction_g
-        .selectAll(".correction")
-        .data(loaded_corrections)
-        .enter()
-        .each(function (d: Milestone, i) {
-          overview.getLineForMilestone(
-            d3.select(this),
-            d,
-            "milestone correction",
-            i
-          );
-        });
-    });
+    this.correction_g
+      .selectAll(".correction")
+      .data(loaded_corrections)
+      .enter()
+      .each(function (d: Milestone, i) {
+        overview.getLineForMilestone(
+          d3.select(this),
+          d,
+          "milestone correction",
+          i
+        );
+      });
   }
 
   loadOthers(milestone_filter: (review: Milestone) => number | boolean) {
-    let loaded_other = this.dataService.others.filter(milestone_filter);
+    let loaded_other = this.dataService.others
+      .filter(milestone_filter)
+      .slice()
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     this.other_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
-    setTimeout(() => {
-      this.other_g
-        .selectAll(".other")
-        .data(loaded_other)
-        .enter()
-        .each(function (d: Milestone, i) {
-          overview.getLineForMilestone(
-            d3.select(this),
-            d,
-            "milestone other",
-            i
-          );
-        });
-    });
+    this.other_g
+      .selectAll(".other")
+      .data(loaded_other)
+      .enter()
+      .each(function (d: Milestone, i) {
+        overview.getLineForMilestone(
+          d3.select(this),
+          d,
+          "milestone other",
+          i
+        );
+      });
   }
 
   setupAxis(repositories: Repository[], minDate: Date, maxDate: Date) {
@@ -2723,19 +2756,23 @@ export class OverviewComponent
   }
 
   resetZoom(conserve?: boolean) {
-    if (!conserve) {
-      this.overlayManagerService.dismissAll({ blurInput: true });
+    if (conserve) {
+      if (this.current_zoom) {
+        this.data_g.call(this.zoom.transform, this.current_zoom);
+      } else {
+        this.data_g.call(
+          this.zoom.transform,
+          d3.zoomIdentity.translate(0, 0).scale(1)
+        );
+      }
+      return;
     }
+
+    this.overlayManagerService.dismissAll({ blurInput: true });
     this.data_g
       .transition()
       .duration(750)
-      .call(
-        this.zoom.transform,
-        (conserve ? this.current_zoom : undefined) ||
-          d3.zoomIdentity.translate(0, 0).scale(1)
-      );
-
-    // this.svg.append("g").attr("class", "brush").call(this.brush);
+      .call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
   }
 
   toggleDisplayMode(mode: 'opacity' | 'height' | 'text') {
@@ -2797,14 +2834,68 @@ export class OverviewComponent
     });
   }
 
-  private saveData() {
+  updateCommitColors() {
+    if (!this.repositories_g) return;
+
+    this.repositories_g.forEach((repo_g) => {
+      repo_g.selectAll(".commit:not(.commit-group)").each(function () {
+        const commits = d3.select(this).datum() as Commit[];
+        if (commits && commits[0]?.color) {
+          d3.select(this)
+            .selectAll(".commit-normal, .commit-cloture")
+            .attr("fill", commits[0].color.color);
+        }
+      });
+
+      repo_g.selectAll(".commit-group").each(function () {
+        const commits = d3.select(this).datum() as Commit[];
+        if (commits && commits.length > 0) {
+          const lastCommit = commits[commits.length - 1];
+          if (lastCommit?.color) {
+            d3.select(this)
+              .select("path")
+              .attr("fill", lastCommit.color.color);
+          }
+        }
+      });
+    });
+  }
+
+  updateAfterMilestoneChange(hadMilestonesBefore?: boolean) {
     this.dataService.saveData();
 
-    this.loadGraphMetadata(
+    const hasMilestonesAfter = this.hasDisplayedMilestones();
+    if (
+      hadMilestonesBefore !== undefined &&
+      hadMilestonesBefore !== hasMilestonesAfter
+    ) {
+      // The top milestone strip appeared or disappeared, requiring layout recalculation
+      this.loadGraphMetadata(
+        this.dataService.repositories,
+        this.dataService.reviews,
+        this.dataService.corrections,
+        this.dataService.questions
+      );
+      return;
+    }
+
+    this.loaderService.loadCommitsMetadata(
       this.dataService.repositories,
       this.dataService.reviews,
       this.dataService.corrections,
       this.dataService.questions
     );
+
+    this.loadMilestoneAnnotations();
+    this.updateCommitColors();
+  }
+
+  updateAfterSessionChange() {
+    this.dataService.saveData();
+    this.loadSessionAnnotations();
+  }
+
+  private saveData() {
+    this.updateAfterMilestoneChange();
   }
 }
