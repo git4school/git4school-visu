@@ -219,7 +219,7 @@ export class OverviewComponent
     const willHaveNoStrip = this.loading || !this.hasTopStrip();
 
     if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
-      this.loadGraphDataAndRefresh();
+      this.loadGraphDataAndRefresh(true);
     } else {
       if (marker === 'sessions') {
         this.loadSessionAnnotations();
@@ -395,6 +395,10 @@ export class OverviewComponent
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
+    if (this.refreshTimeout) {
+      clearTimeout(this.refreshTimeout);
+      this.refreshTimeout = null;
+    }
     this.clearMilestoneHoverTimer();
     this.cancelMilestoneLongPress();
     this.stopDragScrollTimer();
@@ -484,7 +488,7 @@ export class OverviewComponent
       const willHaveNoStrip = this.loading || !this.hasTopStrip();
 
       if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
-        this.loadGraphDataAndRefresh();
+        this.loadGraphDataAndRefresh(true);
       } else {
         if (label === 'SESSION') {
           this.loadSessionAnnotations();
@@ -507,7 +511,7 @@ export class OverviewComponent
       this.hiddenCategories.add(label);
     }
     
-    this.loadGraphDataAndRefresh();
+    this.loadGraphDataAndRefresh(true);
   }
 
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
@@ -613,6 +617,7 @@ export class OverviewComponent
     this.refresh();
 
     setTimeout(() => {
+      this.current_zoom = null;
       if (this.dataService.repoToLoad) {
         this.loadGraph(this.dataService.startDate, this.dataService.endDate);
       } else {
@@ -621,7 +626,8 @@ export class OverviewComponent
           this.dataService.repositories,
           this.dataService.reviews,
           this.dataService.corrections,
-          this.dataService.questions
+          this.dataService.questions,
+          false
         );
 
         this.loading = false;
@@ -643,13 +649,15 @@ export class OverviewComponent
   loadGraph(startDate?: string, endDate?: string) {
     try {
       this.loading = true;
+      this.current_zoom = null;
 
       this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
         this.loadGraphMetadata(
           this.dataService.repositories,
           this.dataService.reviews,
           this.dataService.corrections,
-          this.dataService.questions
+          this.dataService.questions,
+          false
         );
         this.loading = false;
       });
@@ -700,14 +708,14 @@ export class OverviewComponent
     }
   }
 
-  loadGraphData() {
+  loadGraphData(conserveZoom: boolean = false) {
     if (!this.data_g) return;
     this.loadPoints();
     this.loadAnnotations();
-    this.setupZoom();
+    this.setupZoom(conserveZoom);
   }
 
-  setupZoom() {
+  setupZoom(conserveZoom: boolean = false) {
     const overview = this;
     // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
     d3.select(document.body).on("wheel.body", (e) => {});
@@ -778,7 +786,11 @@ export class OverviewComponent
       }
     }, { passive: false });
 
-    this.resetZoom(true);
+    if (conserveZoom) {
+      this.resetZoom(true);
+    } else {
+      this.resetZoom(false);
+    }
   }
 
   refresh() {
@@ -810,7 +822,7 @@ export class OverviewComponent
                   this.inner_margin.bottom +
                   this.getDisplayedRepositories().length * this.repo_spacing
               );
-              this.loadGraphDataAndRefresh();
+              this.loadGraphDataAndRefresh(true);
             }, 100);
           }
         }
@@ -975,12 +987,26 @@ export class OverviewComponent
   }
 
   processingData = false;
+  private refreshTimeout?: any;
+  private pendingConserveZoom = false;
 
-  loadGraphDataAndRefresh() {
+  loadGraphDataAndRefresh(conserveZoom: boolean = false) {
+    if (!conserveZoom) {
+      this.current_zoom = null;
+      this.pendingConserveZoom = false;
+    } else if (this.refreshTimeout === undefined || this.refreshTimeout === null) {
+      this.pendingConserveZoom = true;
+    }
     this.processingData = true;
-    setTimeout(() => {
+    if (this.refreshTimeout) {
+      clearTimeout(this.refreshTimeout);
+    }
+    this.refreshTimeout = setTimeout(() => {
+      const shouldConserve = this.pendingConserveZoom;
+      this.refreshTimeout = null;
+      this.pendingConserveZoom = false;
       this.refresh();
-      this.loadGraphData();
+      this.loadGraphData(shouldConserve);
       this.processingData = false;
     }, 0);
   }
@@ -3310,11 +3336,14 @@ export class OverviewComponent
       return;
     }
 
-    this.overlayManagerService.dismissAll({ blurInput: true });
-    this.data_g
-      .transition()
-      .duration(750)
-      .call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
+    this.current_zoom = null;
+    this.overlayManagerService.dismissTransient();
+    if (this.data_g && this.zoom) {
+      this.data_g
+        .transition()
+        .duration(750)
+        .call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
+    }
   }
 
   toggleDisplayMode(mode: 'opacity' | 'height' | 'text') {
@@ -3348,12 +3377,12 @@ export class OverviewComponent
   }
 
   searchSubmit() {
-    this.loadGraphDataAndRefresh();
+    this.loadGraphDataAndRefresh(false);
   }
 
   onFilterGroupsChange(groups: FilterGroup[]) {
     this.filterGroups = groups;
-    this.loadGraphDataAndRefresh();
+    this.loadGraphDataAndRefresh(false);
   }
 
   clearQuestionsFilter() {
@@ -3416,7 +3445,8 @@ export class OverviewComponent
         this.dataService.repositories,
         this.dataService.reviews,
         this.dataService.corrections,
-        this.dataService.questions
+        this.dataService.questions,
+        true
       );
       return;
     }
@@ -3444,7 +3474,8 @@ export class OverviewComponent
         this.dataService.repositories,
         this.dataService.reviews,
         this.dataService.corrections,
-        this.dataService.questions
+        this.dataService.questions,
+        true
       );
       return;
     }

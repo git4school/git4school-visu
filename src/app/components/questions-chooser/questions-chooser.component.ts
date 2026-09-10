@@ -803,6 +803,9 @@ export class QuestionsChooserComponent
     this.scrollToEnd();
     this.emitFilterGroups();
     this.focus();
+    setTimeout(() => {
+      this.focus();
+    }, 0);
   }
 
   deleteItem(index: number) {
@@ -1548,7 +1551,10 @@ export class QuestionsChooserComponent
     return item.type === "commit";
   }
 
-  onEnter() {
+  onEnter(event?: Event) {
+    if (event) {
+      event.preventDefault();
+    }
     if (this.instance && this.instance.isPopupOpen()) {
       return;
     }

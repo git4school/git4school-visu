@@ -151,7 +151,7 @@
         [class.transparent-input]="!isMainPillActive || mode === 'choose'"
         [class.edit-input]="isMainPillActive && mode !== 'choose'"
         [attr.size]="isMainPillActive ? (question?.length || 1) : 1"
-        [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter()" (keydown)="onMainInputKeyDown($event)"
+        [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter($event)" (keydown)="onMainInputKeyDown($event)"
         [inputFormatter]="typeaheadFormatter" [resultFormatter]="typeaheadFormatter"
         placeholder="{{ placeholderKey | translate }}" [disabled]="disabled"
         container="body"
