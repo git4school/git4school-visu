@@ -11,6 +11,8 @@ import { Type } from "class-transformer";
  */
 export class Assignment {
   id: number;
+  uiStatus?: "prepared" | "ongoing" | "finished" | "default";
+  uiType?: "github" | "gitlab";
 
   @Type(() => Metadata)
   metadata: Metadata;

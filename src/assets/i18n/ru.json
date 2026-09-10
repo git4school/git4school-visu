@@ -146,6 +146,8 @@
       "FINISHED": "Завершено",
       "DEFAULT": "Не запланировано"
     },
+    "STATUS-TOOLTIP-ISOLATE": "Нажмите, чтобы отфильтровать по этому статусу",
+    "STATUS-TOOLTIP-RESET": "Нажмите, чтобы показать все задания",
     "NO-ASSIGNMENTS": "Задания не найдены",
     "SELECTED-ASSIGNMENTS": "заданий выбрано",
     "SORT-BY": "Сортировать по",

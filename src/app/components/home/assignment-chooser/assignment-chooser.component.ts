@@ -55,6 +55,10 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   selectedAssignments: Set<number> = new Set();
   hoveredAssignment: number | null = null;
 
+  // Status hover preview state
+  hoveredStatusPreview: string | null = null;
+  private statusPreviewTimeout: any = null;
+
   // Inline edit state
   editingAssignmentId: number | null = null;
   isCreatingNew = false;
@@ -155,6 +159,77 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     this.filterType = type;
   }
 
+  onStatusMouseEnter(status: string) {
+    if (this.statusPreviewTimeout) {
+      clearTimeout(this.statusPreviewTimeout);
+    }
+    this.statusPreviewTimeout = setTimeout(() => {
+      this.hoveredStatusPreview = status;
+      this.cdr.markForCheck();
+    }, 180);
+  }
+
+  onStatusMouseLeave() {
+    if (this.statusPreviewTimeout) {
+      clearTimeout(this.statusPreviewTimeout);
+      this.statusPreviewTimeout = null;
+    }
+    if (this.hoveredStatusPreview !== null) {
+      this.hoveredStatusPreview = null;
+      this.cdr.markForCheck();
+    }
+  }
+
+  isStatusIsolated(status: string): boolean {
+    const s = this.advancedFilters.status;
+    const allStatuses: Array<keyof typeof s> = [
+      "prepared",
+      "ongoing",
+      "finished",
+      "default",
+    ];
+    return (
+      s[status as keyof typeof s] === true &&
+      allStatuses.filter((k) => k !== status).every((k) => !s[k])
+    );
+  }
+
+  getStatusTooltip(status: string): string {
+    return this.isStatusIsolated(status)
+      ? "HOME.STATUS-TOOLTIP-RESET"
+      : "HOME.STATUS-TOOLTIP-ISOLATE";
+  }
+
+  toggleStatusFilterFromBadge(
+    status: "prepared" | "ongoing" | "finished" | "default",
+    event: MouseEvent
+  ) {
+    event.stopPropagation();
+    if (this.statusPreviewTimeout) {
+      clearTimeout(this.statusPreviewTimeout);
+      this.statusPreviewTimeout = null;
+    }
+    this.hoveredStatusPreview = null;
+
+    if (this.isStatusIsolated(status)) {
+      this.advancedFilters.status = {
+        prepared: true,
+        ongoing: true,
+        finished: true,
+        default: true,
+      };
+    } else {
+      this.advancedFilters.status = {
+        prepared: status === "prepared",
+        ongoing: status === "ongoing",
+        finished: status === "finished",
+        default: status === "default",
+      };
+    }
+    this.savePreferences();
+    this.cdr.markForCheck();
+  }
+
   constructor(
     private databaseService: DatabaseService,
     private dataService: DataService,
@@ -205,6 +280,9 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.dbSubscription) {
       this.dbSubscription.unsubscribe();
+    }
+    if (this.statusPreviewTimeout) {
+      clearTimeout(this.statusPreviewTimeout);
     }
   }
 
