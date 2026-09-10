@@ -95,7 +95,6 @@ export class OverviewComponent
   showReviews = true;
   showOthers = true;
   defaultSessionDuration: NgbTimeStruct;
-
   // Modal variables
   dateModal;
   labelModal: string;
@@ -127,6 +126,7 @@ export class OverviewComponent
   session_header_g: d3.Selection<any, any, any, any>;
   review_g: d3.Selection<any, any, any, any>;
   correction_g: d3.Selection<any, any, any, any>;
+  milestones_g: d3.Selection<any, any, any, any>;
   commits_line_g: d3.Selection<any, any, any, any>;
   data_g: d3.Selection<any, any, any, any>;
   commits_g: d3.Selection<any, any, any, any>;
@@ -162,6 +162,7 @@ export class OverviewComponent
   private resizeTimeout: any;
   private last_zoom_k: number = 0;
   private zoomTimeoutId: any = null;
+  private zoomRafId: number | null = null;
   isRefreshing: boolean = false;
   private isThrottledGroupUpdate = false;
   private needsGroupUpdate = false;
@@ -398,6 +399,10 @@ export class OverviewComponent
     if (this.refreshTimeout) {
       clearTimeout(this.refreshTimeout);
       this.refreshTimeout = null;
+    }
+    if (this.zoomRafId !== null) {
+      cancelAnimationFrame(this.zoomRafId);
+      this.zoomRafId = null;
     }
     this.clearMilestoneHoverTimer();
     this.cancelMilestoneLongPress();
@@ -744,14 +749,23 @@ export class OverviewComponent
           overview.x_scale
         );
 
-        if (!overview.isRefreshing) {
-          overview.isRefreshing = true;
-          requestAnimationFrame(() => {
-            overview.x_g.call(this.x_axis.scale(overview.x_scale_copy));
-            overview.refreshElementState();
-            overview.isRefreshing = false;
-          });
+        if (overview.zoomRafId !== null) {
+          return;
         }
+
+        overview.zoomRafId = requestAnimationFrame(() => {
+          overview.zoomRafId = null;
+          overview.x_g.call(overview.x_axis.scale(overview.x_scale_copy));
+          overview.refreshElementState();
+        });
+      })
+      .on("end", () => {
+        if (overview.zoomRafId !== null) {
+          cancelAnimationFrame(overview.zoomRafId);
+          overview.zoomRafId = null;
+        }
+        overview.x_g.call(overview.x_axis.scale(overview.x_scale_copy));
+        overview.refreshElementState();
       })
       .filter((event) => {
         return event.shiftKey || !(event instanceof WheelEvent);
@@ -1032,6 +1046,7 @@ export class OverviewComponent
     if (this.dataService.sessions && this.showSessions) {
       this.loadSessions();
     }
+    this.updateMilestoneCutoutMask();
   }
 
   loadMilestoneAnnotations() {
@@ -1050,25 +1065,61 @@ export class OverviewComponent
           review.questions?.includes(question)
         ).length);
 
+    if (this.milestones_g != null) {
+      this.milestones_g.remove();
+      this.milestones_g = null;
+    }
     if (this.review_g != null) { this.review_g.remove(); this.review_g = null; }
     if (this.correction_g != null) { this.correction_g.remove(); this.correction_g = null; }
     if (this.other_g != null) { this.other_g.remove(); this.other_g = null; }
     
     if (this.filteredCommitsCount === 0) {
+      this.updateMilestoneCutoutMask();
       return;
     }
 
+    const allMilestones: { milestone: Milestone; type: string; index: number }[] = [];
+
     if (this.dataService.reviews && this.showReviews) {
-      this.loadReviews(milestone_filter);
+      this.dataService.reviews.filter(milestone_filter).forEach((m, i) => {
+        allMilestones.push({ milestone: m, type: "review", index: i });
+      });
     }
 
     if (this.dataService.corrections && this.showCorrections) {
-      this.loadCorrections(milestone_filter);
+      this.dataService.corrections.filter(milestone_filter).forEach((m, i) => {
+        allMilestones.push({ milestone: m, type: "correction", index: i });
+      });
     }
 
     if (this.dataService.others && this.showOthers) {
-      this.loadOthers(milestone_filter);
+      this.dataService.others.filter(milestone_filter).forEach((m, i) => {
+        allMilestones.push({ milestone: m, type: "other", index: i });
+      });
     }
+
+    // Sort chronologically ascending: oldest first, newest last.
+    // In SVG, elements rendered later in DOM are displayed on top!
+    allMilestones.sort((a, b) => {
+      const tA = new Date(a.milestone.date).getTime();
+      const tB = new Date(b.milestone.date).getTime();
+      if (tA !== tB) return tA - tB;
+      return (a.milestone.label || "").localeCompare(b.milestone.label || "");
+    });
+
+    this.milestones_g = this.chart_abs_g.append("g").attr("class", "milestones-layer");
+
+    const overview = this;
+    allMilestones.forEach(({ milestone, type, index }) => {
+      overview.getLineForMilestone(
+        overview.milestones_g,
+        milestone,
+        `milestone ${type}`,
+        index
+      );
+    });
+
+    this.updateMilestoneCutoutMask();
   }
 
   isContextualMenuShown() {
@@ -1493,6 +1544,7 @@ export class OverviewComponent
       .attr("y", 3)
       .attr("width", foWidth)
       .attr("height", 23)
+      .attr("mask", "url(#milestone-badges-cutout-mask)")
       .style("visibility", foWidth < 28 ? "hidden" : "visible")
       .style("pointer-events", "auto")
       .style("overflow", "hidden");
@@ -1673,52 +1725,274 @@ export class OverviewComponent
       m.type = this.resolveMilestoneType(m, g);
     }
 
-    // Line
+    // 1. Line
     g.append("rect")
+      .attr("class", "milestone-vertical-line")
       .attr("x", 0)
       .attr("y", 0)
       .attr("width", 1)
       .attr("height", this.inner_height)
       .attr("transform", "translate(" + [-0.5, 0] + ")");
 
-    // Box
-    let box = g.append("rect").attr("y", 0);
+    // 2. Label group (anchored, masked when overlapping newer milestones)
+    const labelGroup = g.append("g").attr("class", "milestone-label-group");
 
     // Text
-    let text = g
+    const labelText =
+      m.label ||
+      (m.type.endsWith("s") ? m.type.slice(0, -1) : m.type) + " " + index;
+
+    let text = labelGroup
       .append("text")
-      .attr("y", -6)
-      .text(
-        m.label ||
-          (m.type.endsWith("s") ? m.type.slice(0, -1) : m.type) + " " + index
-      )
+      .attr("class", "milestone-text")
+      .attr("y", -8)
+      .text(labelText)
       .attr("text-anchor", "middle");
 
-    let bbox = text.node().getBBox();
+    let textWidth = 40;
+    try {
+      const node = text.node();
+      if (node && typeof node.getBBox === 'function') {
+        const bbox = node.getBBox();
+        if (bbox && bbox.width > 0) {
+          textWidth = bbox.width;
+        }
+      }
+    } catch {
+      textWidth = labelText.length * 7.5;
+    }
 
-    // Adjust for pill padding
-    bbox.width += 16;
-    bbox.height += 10;
-    bbox.x -= 8;
-    bbox.y -= 5;
+    const paddingX = 8;
+    const barWidth = Math.max(30, textWidth + paddingX * 2);
 
-    box.attr("width", bbox.width);
-    box.attr("height", bbox.height);
-    box.attr("x", -bbox.width / 2);
-    box.attr("y", bbox.y);
+    // Horizontal bottom accent bar (same as session top bar: height 3px, rx 1.5, ry 1.5)
+    labelGroup
+      .append("rect")
+      .attr("class", "milestone-bottom-bar")
+      .attr("x", -barWidth / 2)
+      .attr("y", -3)
+      .attr("width", barWidth)
+      .attr("height", 3)
+      .attr("rx", 1.5)
+      .attr("ry", 1.5);
 
-    const badgeX = bbox.width / 2 - 2;
-    const badgeY = bbox.y + bbox.height - 2;
+    const badgeX = barWidth / 2 - 2;
+    const badgeY = -5;
     g.attr("data-badge-x", badgeX).attr("data-badge-y", badgeY);
 
-    // Hitbox (transparent, plus large pour faciliter le clic)
+    // Hitbox (transparent, covering the label and top of line)
     g.append("rect")
       .attr("class", "hitbox")
-      .attr("width", bbox.width + 30)
-      .attr("height", bbox.height + 30)
-      .attr("x", -(bbox.width + 30) / 2)
-      .attr("y", bbox.y - 15)
+      .attr("width", barWidth + 30)
+      .attr("height", 32)
+      .attr("x", -(barWidth + 30) / 2)
+      .attr("y", -24)
       .attr("style", "cursor: pointer; pointer-events: all;");
+  }
+
+  updateMilestoneCutoutMask() {
+    if (!this.svg_abs) return;
+
+    let defs = this.svg_abs.select("defs");
+    if (defs.empty()) {
+      defs = this.svg_abs.append("defs");
+    }
+
+    // 1. Maintain chronological DOM order (oldest first, newest last = on top in SVG painter model)
+    if (this.milestones_g) {
+      this.milestones_g
+        .selectAll(".milestone")
+        .sort((a: Milestone, b: Milestone) => {
+          const tA = new Date(a.date).getTime();
+          const tB = new Date(b.date).getTime();
+          if (tA !== tB) return tA - tB;
+          return (a.label || "").localeCompare(b.label || "");
+        });
+    }
+
+    // 2. Collect visible milestones and their geometric bounds
+    interface VisibleMilestoneItem {
+      element: d3.Selection<SVGGElement, Milestone, any, any>;
+      labelGroup: d3.Selection<SVGGElement, any, any, any>;
+      milestone: Milestone;
+      x: number;
+      width: number;
+      date: Date;
+      time: number;
+    }
+
+    const visibleItems: VisibleMilestoneItem[] = [];
+    const overview = this;
+
+    if (this.chart_abs_g) {
+      this.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {
+        const el = d3.select(this) as d3.Selection<SVGGElement, Milestone, any, any>;
+        if (el.classed("hidden")) return;
+        const x = overview.xScaledTimeZoned(m.date);
+        if (x < -100 || x > overview.width + 100) return;
+
+        const bar = el.select(".milestone-bottom-bar");
+        let width = 50;
+        if (!bar.empty()) {
+          const barW = parseFloat(bar.attr("width") || "50");
+          if (!isNaN(barW) && barW > 0) {
+            width = barW;
+          }
+        }
+        visibleItems.push({
+          element: el,
+          labelGroup: el.select(".milestone-label-group"),
+          milestone: m,
+          x,
+          width,
+          date: new Date(m.date),
+          time: new Date(m.date).getTime(),
+        });
+      });
+    }
+
+    // Sort chronologically ascending
+    visibleItems.sort((a, b) => {
+      if (a.time !== b.time) return a.time - b.time;
+      return (a.milestone.label || "").localeCompare(b.milestone.label || "");
+    });
+
+    // 3. Update Session Badges Cutout Mask (#milestone-badges-cutout-mask)
+    let sessionMask = defs.select("#milestone-badges-cutout-mask");
+    if (sessionMask.empty()) {
+      sessionMask = defs
+        .append("mask")
+        .attr("id", "milestone-badges-cutout-mask")
+        .attr("maskUnits", "userSpaceOnUse")
+        .attr("x", "0")
+        .attr("y", "0")
+        .attr("width", "100%")
+        .attr("height", "100%");
+
+      sessionMask
+        .append("rect")
+        .attr("x", -5000)
+        .attr("y", 0)
+        .attr("width", 100000)
+        .attr("height", 100)
+        .attr("fill", "white");
+
+      sessionMask.append("g").attr("id", "milestone-mask-cutouts");
+    }
+
+    const sessionMaskCutoutsGroup = sessionMask.select("#milestone-mask-cutouts");
+    if (!sessionMaskCutoutsGroup.empty()) {
+      const sessionCutouts = visibleItems.map((item) => ({
+        x: item.x - item.width / 2,
+        width: item.width,
+      }));
+
+      const sRects = sessionMaskCutoutsGroup.selectAll("rect").data(sessionCutouts);
+      sRects.exit().remove();
+      sRects
+        .enter()
+        .append("rect")
+        .merge(sRects as any)
+        .attr("x", (d) => d.x)
+        .attr("y", 0)
+        .attr("width", (d) => d.width)
+        .attr("height", 28)
+        .attr("rx", 1.5)
+        .attr("ry", 1.5)
+        .attr("fill", "black");
+    }
+
+    // 4. Milestone-to-Milestone Overlap Cutouts (#milestone-overlap-defs)
+    let overlapDefs = defs.select("#milestone-overlap-defs");
+    if (overlapDefs.empty()) {
+      overlapDefs = defs.append("g").attr("id", "milestone-overlap-defs");
+    }
+
+    const overlapPadding = 4; // 4px padding on each side to prevent texts/traits from clashing
+    const usedMaskIds = new Set<string>();
+
+    visibleItems.forEach((current, i) => {
+      const currentHalfWidth = current.width / 2;
+      const currentLeft = current.x - currentHalfWidth;
+      const currentRight = current.x + currentHalfWidth;
+
+      const cutoutsForCurrent: { relX: number; cutWidth: number }[] = [];
+
+      // Check all NEWER milestones (j > i) that overlap with this milestone's horizontal span
+      for (let j = i + 1; j < visibleItems.length; j++) {
+        const newer = visibleItems[j];
+        const newerHalfCutWidth = newer.width / 2 + overlapPadding;
+        const newerLeft = newer.x - newerHalfCutWidth;
+        const newerRight = newer.x + newerHalfCutWidth;
+
+        // Check if horizontal intervals overlap
+        if (currentRight >= newerLeft && currentLeft <= newerRight) {
+          // Overlap detected! In current milestone's local coordinate system:
+          const relX = (newer.x - current.x) - newerHalfCutWidth;
+          cutoutsForCurrent.push({
+            relX,
+            cutWidth: newer.width + overlapPadding * 2,
+          });
+        }
+      }
+
+      if (cutoutsForCurrent.length === 0) {
+        // No overlap with any newer milestone: remove mask
+        current.labelGroup.attr("mask", null);
+      } else {
+        // Apply cutout mask to erase the area under newer milestones
+        const maskId = `milestone-overlap-mask-${i}`;
+        usedMaskIds.add(maskId);
+
+        let oMask = overlapDefs.select(`#${maskId}`);
+        if (oMask.empty()) {
+          oMask = overlapDefs
+            .append("mask")
+            .attr("id", maskId)
+            .attr("maskUnits", "userSpaceOnUse")
+            .attr("x", "-5000")
+            .attr("y", "-100")
+            .attr("width", "10000")
+            .attr("height", "200");
+
+          oMask
+            .append("rect")
+            .attr("class", "mask-base")
+            .attr("x", -5000)
+            .attr("y", -100)
+            .attr("width", 10000)
+            .attr("height", 200)
+            .attr("fill", "white");
+
+          oMask.append("g").attr("class", "mask-cuts");
+        }
+
+        const cutsGroup = oMask.select(".mask-cuts");
+        const cutRects = cutsGroup.selectAll("rect").data(cutoutsForCurrent);
+        cutRects.exit().remove();
+        cutRects
+          .enter()
+          .append("rect")
+          .merge(cutRects as any)
+          .attr("x", (d) => d.relX)
+          .attr("y", -30)
+          .attr("width", (d) => d.cutWidth)
+          .attr("height", 30)
+          .attr("rx", 1.5)
+          .attr("ry", 1.5)
+          .attr("fill", "black");
+
+        current.labelGroup.attr("mask", `url(#${maskId})`);
+      }
+    });
+
+    // Clean up unused overlap masks
+    overlapDefs.selectAll("mask").each(function () {
+      const id = d3.select(this).attr("id");
+      if (id && !usedMaskIds.has(id)) {
+        d3.select(this).remove();
+      }
+    });
   }
 
   readonly MILESTONE_COLOR_MAP: Record<string, string> = {
@@ -2006,6 +2280,7 @@ export class OverviewComponent
     element.attr("transform", `translate(${currentX}, ${this.inner_margin.top})`);
 
     this.updateDragTimeIndicator(currentX, m.date);
+    this.updateMilestoneCutoutMask();
     this.handleDragEdgeScrolling(currentX, element, m);
   }
 
@@ -3035,26 +3310,34 @@ export class OverviewComponent
       const visX2 = Math.min(overview.inner_width, rawX2);
       const visWidth = Math.max(0, visX2 - visX1);
 
-      const isVisible = rawX2 > 0 && rawX1 < overview.inner_width;
-      g.style("visibility", isVisible ? "visible" : "hidden");
+      const isVisible =
+        !isNaN(rawX1) &&
+        !isNaN(rawX2) &&
+        rawX2 > 0 &&
+        rawX1 < overview.inner_width &&
+        visWidth > 0;
+      g.style("display", isVisible ? null : "none")
+       .style("visibility", isVisible ? "visible" : "hidden");
 
-      if (isVisible) {
-        g.select(".session-body")
-          .attr("x", visX1)
-          .attr("width", visWidth);
-
-        const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
-        g.select(".session-edge-left")
-          .attr("x1", rawX1)
-          .attr("x2", rawX1)
-          .style("display", showLeft ? "inline" : "none");
-
-        const showRight = rawX2 >= 0 && rawX2 <= overview.inner_width;
-        g.select(".session-edge-right")
-          .attr("x1", rawX2)
-          .attr("x2", rawX2)
-          .style("display", showRight ? "inline" : "none");
+      if (!isVisible) {
+        return;
       }
+
+      g.select(".session-body")
+        .attr("x", visX1)
+        .attr("width", visWidth);
+
+      const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
+      g.select(".session-edge-left")
+        .attr("x1", rawX1)
+        .attr("x2", rawX1)
+        .style("display", showLeft ? "inline" : "none");
+
+      const showRight = rawX2 >= 0 && rawX2 <= overview.inner_width;
+      g.select(".session-edge-right")
+        .attr("x1", rawX2)
+        .attr("x2", rawX2)
+        .style("display", showRight ? "inline" : "none");
     });
 
     if (this.session_header_g) {
@@ -3067,12 +3350,24 @@ export class OverviewComponent
         const visX2 = Math.min(overview.inner_width, rawX2);
         const visWidth = Math.max(0, visX2 - visX1);
 
-        const isVisible = rawX2 > 0 && rawX1 < overview.inner_width;
-        g.style("visibility", isVisible ? "visible" : "hidden");
+        const isVisible =
+          !isNaN(rawX1) &&
+          !isNaN(rawX2) &&
+          rawX2 > 0 &&
+          rawX1 < overview.inner_width &&
+          visWidth > 0;
+
+        const fo = g.select(".session-header-fo");
 
         if (!isVisible) {
+          g.style("display", "none").style("visibility", "hidden");
+          if (!fo.empty()) {
+            fo.style("display", "none").style("visibility", "hidden");
+          }
           return;
         }
+
+        g.style("display", null).style("visibility", "visible");
 
         // 1. Continuous header background (clamped to 0..inner_width)
         g.select(".session-header-bg")
@@ -3105,7 +3400,6 @@ export class OverviewComponent
         const foX = visX1;
         const foWidth = Math.max(0, visX2 - foX);
 
-        const fo = g.select(".session-header-fo");
         fo.attr("x", foX)
           .attr("width", foWidth);
 
@@ -3125,11 +3419,11 @@ export class OverviewComponent
 
         if (foWidth < 28) {
           // Extremely narrow: hide badges completely
-          fo.style("visibility", "hidden");
+          fo.style("display", "none").style("visibility", "hidden");
           return;
         }
 
-        fo.style("visibility", "visible");
+        fo.style("display", null).style("visibility", "visible");
 
         // Width estimations
         const charWidth = 6.2;
@@ -3255,6 +3549,7 @@ export class OverviewComponent
         }
       });
     }
+    this.updateMilestoneCutoutMask();
   }
 
   private updateMilestoneTransforms() {
@@ -3262,6 +3557,7 @@ export class OverviewComponent
       .attr("transform", (m: Milestone) =>
         `translate(${this.xScaledTimeZoned(m.date)}, ${this.inner_margin.top})`
       );
+    this.updateMilestoneCutoutMask();
   }
 
   private updateDisplayModes() {
