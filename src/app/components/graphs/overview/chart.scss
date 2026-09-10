@@ -248,14 +248,17 @@ body.dark-theme .commit {
 
 .review {
   > rect:first-child, > rect:nth-child(2) { fill: var(--color-primary); stroke: var(--color-primary); }
+  .milestone-drag-badge .badge-progress { stroke: var(--color-primary); }
 }
 
 .correction {
   > rect:first-child, > rect:nth-child(2) { fill: var(--color-danger); stroke: var(--color-danger); }
+  .milestone-drag-badge .badge-progress { stroke: var(--color-danger); }
 }
 
 .other {
   > rect:first-child, > rect:nth-child(2) { fill: var(--color-secondary); stroke: var(--color-secondary); }
+  .milestone-drag-badge .badge-progress { stroke: var(--color-secondary); }
 }
 
 .hitbox {

@@ -1653,7 +1653,26 @@ export class OverviewComponent
     this.updateSessionsTransforms();
   }
 
+  private resolveMilestoneType(
+    m?: Milestone,
+    g?: d3.Selection<any, any, any, any>
+  ): string {
+    if (m?.type) {
+      return m.type;
+    }
+    if (g) {
+      if (g.classed("correction") || g.classed("corrections")) return "corrections";
+      if (g.classed("other") || g.classed("others")) return "others";
+      if (g.classed("review") || g.classed("reviews")) return "reviews";
+    }
+    return "reviews";
+  }
+
   private buildMilestoneGraphics(g: d3.Selection<any, any, any, any>, m: Milestone, index: number) {
+    if (!m.type) {
+      m.type = this.resolveMilestoneType(m, g);
+    }
+
     // Line
     g.append("rect")
       .attr("x", 0)
@@ -1669,7 +1688,10 @@ export class OverviewComponent
     let text = g
       .append("text")
       .attr("y", -6)
-      .text(m.label || m.type.substring(0, m.type.length - 1) + " " + index)
+      .text(
+        m.label ||
+          (m.type.endsWith("s") ? m.type.slice(0, -1) : m.type) + " " + index
+      )
       .attr("text-anchor", "middle");
 
     let bbox = text.node().getBBox();
@@ -1699,13 +1721,19 @@ export class OverviewComponent
       .attr("style", "cursor: pointer; pointer-events: all;");
   }
 
-  private readonly MILESTONE_COLOR_MAP: Record<string, string> = {
+  readonly MILESTONE_COLOR_MAP: Record<string, string> = {
+    review: "var(--color-primary)",
+    reviews: "var(--color-primary)",
     correction: "var(--color-danger)",
+    corrections: "var(--color-danger)",
     other: "var(--color-secondary)",
+    others: "var(--color-secondary)",
   };
 
-  private getMilestoneColor(type: string): string {
-    return this.MILESTONE_COLOR_MAP[type] || "var(--color-primary)";
+  getMilestoneColor(type?: string): string {
+    if (!type) return "var(--color-primary)";
+    const normalizedType = type.toLowerCase().trim();
+    return this.MILESTONE_COLOR_MAP[normalizedType] || "var(--color-primary)";
   }
 
   private getEuclideanDistance(
@@ -1754,7 +1782,8 @@ export class OverviewComponent
 
     // Progress circle (r = 8, circumference = 2 * PI * 8 ~= 50.265)
     const circumference = 2 * Math.PI * 8;
-    const progressColor = this.getMilestoneColor(m.type);
+    const milestoneType = this.resolveMilestoneType(m, g);
+    const progressColor = this.getMilestoneColor(milestoneType);
 
     const progressCircle = badgeContent
       .append("circle")
@@ -1763,6 +1792,7 @@ export class OverviewComponent
       .attr("cy", 0)
       .attr("r", 8)
       .attr("stroke", progressColor)
+      .style("stroke", progressColor)
       .attr("stroke-dasharray", circumference)
       .attr("stroke-dashoffset", circumference)
       .attr("transform", "rotate(-90)");
