@@ -232,10 +232,10 @@ body.dark-theme .commit {
     transition: height var(--transition-fast), y var(--transition-fast), filter var(--transition-fast);
   }
 
-  // Hover feedback: bar thickens upward (bottom stays at y=0, perfectly attached to line)
+  // Hover feedback: bar thickens upward (matches vertical line hover at 3px, bottom stays at y=0)
   &:hover .milestone-bottom-bar {
-    y: -4.5px;
-    height: 4.5px;
+    y: -3px;
+    height: 3px;
     filter: brightness(1.15);
   }
 

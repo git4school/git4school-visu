@@ -1745,7 +1745,7 @@ export class OverviewComponent
     let text = labelGroup
       .append("text")
       .attr("class", "milestone-text")
-      .attr("y", -8)
+      .attr("y", -7)
       .text(labelText)
       .attr("text-anchor", "middle");
 
@@ -1762,17 +1762,17 @@ export class OverviewComponent
       textWidth = labelText.length * 7.5;
     }
 
-    const paddingX = 8;
-    const barWidth = Math.max(30, textWidth + paddingX * 2);
+    const paddingX = 2;
+    const barWidth = Math.max(16, textWidth + paddingX * 2);
 
-    // Horizontal bottom accent bar (same as session top bar: height 3px, rx 1.5, ry 1.5)
+    // Horizontal bottom accent bar (same 2px visual thickness as vertical line, rounded ends like session bar)
     labelGroup
       .append("rect")
       .attr("class", "milestone-bottom-bar")
       .attr("x", -barWidth / 2)
-      .attr("y", -3)
+      .attr("y", -2)
       .attr("width", barWidth)
-      .attr("height", 3)
+      .attr("height", 2)
       .attr("rx", 1.5)
       .attr("ry", 1.5);
 
@@ -1908,7 +1908,7 @@ export class OverviewComponent
       overlapDefs = defs.append("g").attr("id", "milestone-overlap-defs");
     }
 
-    const overlapPadding = 4; // 4px padding on each side to prevent texts/traits from clashing
+    const overlapPadding = 0; // Cutout matches exact trait width, no further
     const usedMaskIds = new Set<string>();
 
     visibleItems.forEach((current, i) => {
