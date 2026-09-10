@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   OnInit,
 } from "@angular/core";
 import {
@@ -13,9 +15,12 @@ import {
 } from "@angular/forms";
 import { Session } from "@models/Session.model";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
+import { DataService } from "@services/data.service";
 import { Utils } from "@services/utils";
+import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
 import { Observable, Subject, merge } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: "app-edit-session",
@@ -23,19 +28,28 @@ import { Observable, Subject, merge } from "rxjs";
   styleUrls: ["./edit-session.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditSessionComponent implements OnInit {
+export class EditSessionComponent implements OnInit, OnDestroy {
   @Input() session: Session;
   @Input() addMode: boolean;
   @Input() tpGroups: string[];
   @Input() defaultSessionDuration;
   @Input() notes: string;
   sessionForm: FormGroup;
+  defaultLabel: string = "";
+  private destroy$ = new Subject<void>();
+
+  get resolvedTpGroups(): string[] {
+    return this.tpGroups?.length ? this.tpGroups : (this.dataService?.tpGroups || []);
+  }
 
   notesOpen: boolean = false;
 
   constructor(
     public activeModalService: CustomModalRef,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private dataService: DataService,
+    private translateService: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   endTimeValidator(): ValidatorFn {
@@ -60,7 +74,43 @@ export class EditSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.computeDefaultLabel();
     this.initForm();
+
+    this.translateService.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.computeDefaultLabel();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  computeDefaultLabel() {
+    const group = this.session?.tpGroup || "";
+    const sessions = this.dataService?.sessions || [];
+    const sameGroup = sessions
+      .filter((s) => (s.tpGroup || "") === group && s !== this.session)
+      .slice()
+      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+    
+    const curTime = this.session?.startDate ? new Date(this.session.startDate).getTime() : 0;
+    let idx = sameGroup.findIndex((s) => new Date(s.startDate).getTime() > curTime);
+    let sessionNumber = idx === -1 ? sameGroup.length + 1 : idx + 1;
+
+    const defaultName = this.translateService.instant("DEFAULT-SESSION-NAME", {
+      number: sessionNumber,
+    });
+    if (defaultName && defaultName !== "DEFAULT-SESSION-NAME") {
+      this.defaultLabel = defaultName;
+    } else {
+      const sessionPrefix = this.translateService.instant("SESSION") || "Séance";
+      this.defaultLabel = `${sessionPrefix} ${sessionNumber}`;
+    }
+    this.cdr.markForCheck();
   }
 
   private initForm() {
@@ -71,6 +121,7 @@ export class EditSessionComponent implements OnInit {
     const endStr = tEnd ? `${tEnd.hour.toString().padStart(2, '0')}:${tEnd.minute.toString().padStart(2, '0')}` : '14:00';
 
     this.sessionForm = this.fb.group({
+      label: [this.session.label || ""],
       date: [this.session.startDate, Validators.required],
       startTime: [startStr, Validators.required],
       endTime: [endStr, Validators.required],
@@ -79,6 +130,13 @@ export class EditSessionComponent implements OnInit {
     });
     this.sessionForm.setValidators(this.endTimeValidator());
     
+    // Recompute default placeholder if TP group changes
+    this.sessionForm.get('tpGroup')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.computeDefaultLabel();
+      });
+
     // Open the notes section if there's already text in it
     if (this.session.notes && this.session.notes.trim().length > 0) {
       this.notesOpen = true;
@@ -92,7 +150,6 @@ export class EditSessionComponent implements OnInit {
     });
     this.sessionForm.markAsDirty();
   }
-
 
   deleteSession() {
     this.activeModalService.close(null);
@@ -112,8 +169,9 @@ export class EditSessionComponent implements OnInit {
     const session = new Session(
       startDate,
       endDate,
-      form.value.tpGroup.trim() || "",
-      form.value.notes.trim() || ""
+      form.value.tpGroup ? form.value.tpGroup.trim() : "",
+      form.value.notes ? form.value.notes.trim() : "",
+      form.value.label ? form.value.label.trim() : ""
     );
 
     this.activeModalService.close(session);

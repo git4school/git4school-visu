@@ -6,6 +6,7 @@
   "CORRECTION": "Исправление",
   "OTHER": "Другое",
   "SESSION": "Сеанс",
+  "DEFAULT-SESSION-NAME": "Сеанс {{number}}",
   "SEARCH-NOT-FOUND": "Вопросы не найдены",
   "QUESTIONS": "Вопросы",
   "DATE": "Дата",
@@ -321,6 +322,7 @@
   "EDIT-SESSION": {
     "CREATE-TITLE": "Создать сеанс",
     "EDIT-TITLE": "Редактировать сеанс",
+    "LABEL-LABEL": "Название занятия (необязательно)",
     "DATE-LABEL": "Дата",
     "START-TIME-LABEL": "Время начала",
     "END-TIME-LABEL": "Время окончания",

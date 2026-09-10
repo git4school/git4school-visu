@@ -1964,6 +1964,12 @@ ngb-typeahead-window {
   }
 }
 
+// When a modal is open, elevate typeahead dropdown above the modal ($zindex-modal: 1210)
+body.custom-modal-open ngb-typeahead-window,
+body:has(app-custom-modal-container) ngb-typeahead-window {
+  z-index: $zindex-modal-typeahead !important;
+}
+
 /* =========================================
    FLOATING ACTION BAR
    ========================================= */

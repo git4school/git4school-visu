@@ -15,7 +15,7 @@ export class DataService {
   /**
    * The TP groups of the class
    */
-  tpGroups: string[];
+  private _tpGroups: string[] = [];
 
   /**
    * The date on which the data was last recovered from Github
@@ -50,7 +50,7 @@ export class DataService {
   constructor(private databaseService: DatabaseService) {
     this.repoToLoad = false;
     this.barIndex = 5;
-    this.tpGroups = [];
+    this._tpGroups = [];
     this.hideDeleteRepoConfirmation = false;
     this.groupFilter = "";
   }
@@ -87,12 +87,60 @@ export class DataService {
     this.assignment.title = title;
   }
 
+  get tpGroups(): string[] {
+    const groups = new Set<string>(this._tpGroups || []);
+    if (this._assignment?.repositories) {
+      for (const repo of this._assignment.repositories) {
+        if (repo.tpGroup && repo.tpGroup.trim()) {
+          groups.add(repo.tpGroup.trim());
+        }
+      }
+    }
+    if (this._assignment?.sessions) {
+      for (const session of this._assignment.sessions) {
+        if (session.tpGroup && session.tpGroup.trim()) {
+          groups.add(session.tpGroup.trim());
+        }
+      }
+    }
+    const allMilestones = [
+      ...(this._assignment?.corrections || []),
+      ...(this._assignment?.reviews || []),
+      ...(this._assignment?.others || []),
+    ];
+    for (const m of allMilestones) {
+      if (m.tpGroup && m.tpGroup.trim()) {
+        groups.add(m.tpGroup.trim());
+      }
+    }
+    return Array.from(groups).sort();
+  }
+
+  set tpGroups(groups: string[]) {
+    this._tpGroups = groups || [];
+  }
+
   get questions(): string[] {
-    return this.assignment?.questions;
+    const qSet = new Set<string>(this.assignment?.questions || []);
+    const allMilestones = [
+      ...(this.assignment?.corrections || []),
+      ...(this.assignment?.reviews || []),
+      ...(this.assignment?.others || []),
+    ];
+    for (const m of allMilestones) {
+      if (m.questions && Array.isArray(m.questions)) {
+        for (const q of m.questions) {
+          if (q && q.trim()) qSet.add(q.trim());
+        }
+      }
+    }
+    return Array.from(qSet);
   }
 
   set questions(questions: string[]) {
-    this.assignment.questions = questions;
+    if (this.assignment) {
+      this.assignment.questions = questions;
+    }
   }
 
   get repositories(): Repository[] {

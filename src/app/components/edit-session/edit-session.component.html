@@ -29,8 +29,13 @@
         </div>
 
         <div class="form-group mb-2">
+            <label class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'EDIT-SESSION.LABEL-LABEL' | translate }}</label>
+            <app-text-input id="label" formControlName="label" [floatingLabel]="false" [placeholder]="defaultLabel"></app-text-input>
+        </div>
+
+        <div class="form-group mb-2">
             <label class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'EDIT-SESSION.TP-GROUP-LABEL' | translate }}</label>
-            <app-text-input id="tpGroup" formControlName="tpGroup" [floatingLabel]="false" [suggestions]="tpGroups"></app-text-input>
+            <app-text-input id="tpGroup" formControlName="tpGroup" [floatingLabel]="false" [suggestions]="resolvedTpGroups"></app-text-input>
         </div>
 
         <div class="form-group mb-0">

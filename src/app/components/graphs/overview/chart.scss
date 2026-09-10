@@ -79,17 +79,131 @@ body.dark-theme .commit {
   opacity: 0.5;
 }
 
+.session-edge {
+  stroke: var(--color-info);
+  stroke-width: 1px;
+  stroke-dasharray: 4 3;
+  stroke-opacity: 0.3;
+  pointer-events: none;
+  transition: stroke-opacity var(--transition-normal);
+}
+
+.session-container {
+  cursor: default;
+
+  .session-body {
+    cursor: default;
+    fill: var(--color-info);
+    fill-opacity: 0.08;
+    stroke: none;
+    transition: fill-opacity var(--transition-normal);
+  }
+
+  &:hover {
+    .session-body {
+      fill-opacity: 0.14;
+    }
+    .session-edge {
+      stroke-opacity: 0.55;
+    }
+  }
+}
+
+.session-header-container {
+  cursor: default;
+  pointer-events: auto;
+
+  .session-header-top-bar {
+    fill: var(--color-primary);
+    opacity: 0.95;
+    pointer-events: none;
+    transition: opacity var(--transition-normal);
+  }
+
+  .session-header-bg {
+    fill: var(--color-info);
+    fill-opacity: 0.08;
+    stroke: none;
+    pointer-events: auto;
+    cursor: default;
+    transition: fill-opacity var(--transition-normal);
+  }
+
+  .session-header-fo {
+    pointer-events: auto;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .session-pill {
+    cursor: default;
+    transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+
+    .session-pill-text {
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
+    }
+  }
+
+  .session-note-btn {
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+    cursor: pointer;
+    pointer-events: auto;
+
+    &:hover {
+      background-color: rgba(56, 189, 248, 0.12) !important;
+      border-color: var(--color-primary) !important;
+      color: var(--color-primary) !important;
+    }
+  }
+
+  .session-more-btn {
+    color: var(--color-text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+
+    &:hover {
+      color: var(--color-primary) !important;
+      transform: scale(1.1);
+    }
+  }
+
+  &:hover {
+    .session-header-top-bar {
+      opacity: 1;
+      filter: brightness(1.15);
+    }
+    .session-header-bg {
+      fill-opacity: 0.14;
+    }
+    .session-edge {
+      stroke-opacity: 0.55;
+    }
+  }
+}
+
+// Fallback legacy .session class
 .session {
   stroke-width: 1px;
   stroke: var(--color-info);
   fill: var(--color-info);
-  fill-opacity: 0.1;
+  fill-opacity: 0.08;
   rx: 8px;
   ry: 8px;
   transition: fill-opacity var(--transition-normal);
   
   &:hover {
-    fill-opacity: 0.25;
+    fill-opacity: 0.2;
   }
 }
 

@@ -53,14 +53,19 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  left: -1px;
+  width: calc(100% + 1px);
   height: auto;
   min-height: 0px;
   max-height: none;
   vertical-align: top;
   pointer-events: none;
   overflow: hidden;
+
+  .sessions-headers-group,
+  .session-header-container {
+    pointer-events: auto;
+  }
 }
 
 #chart .chart-container-absolute>svg {

@@ -6,6 +6,7 @@
   "CORRECTION": "Correction",
   "OTHER": "Autre",
   "SESSION": "Séance",
+  "DEFAULT-SESSION-NAME": "Séance {{number}}",
   "SEARCH-NOT-FOUND": "Aucune question trouvée",
   "DATE": "Date",
   "TP-GROUP-SELECT": {
@@ -324,6 +325,7 @@
   "EDIT-SESSION": {
     "CREATE-TITLE": "Créer une séance",
     "EDIT-TITLE": "Editer la séance",
+    "LABEL-LABEL": "Nom de la séance (optionnel)",
     "DATE-LABEL": "Date",
     "START-TIME-LABEL": "Heure de début",
     "END-TIME-LABEL": "Heure de fin",

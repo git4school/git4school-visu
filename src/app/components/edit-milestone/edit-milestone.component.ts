@@ -12,6 +12,8 @@ import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import * as moment from "moment";
 import { TypePickerOption } from "@shared/ui/type-picker/type-picker.component";
 
+import { DataService } from "@services/data.service";
+
 @Component({
   selector: "edit-milestone",
   templateUrl: "./edit-milestone.component.html",
@@ -27,6 +29,14 @@ export class EditMilestoneComponent implements OnInit {
   @Input() notes: string;
   milestoneForm: FormGroup;
 
+  get resolvedTpGroups(): string[] {
+    return this.tpGroups?.length ? this.tpGroups : (this.dataService?.tpGroups || []);
+  }
+
+  get resolvedQuestions(): string[] {
+    return this.questions?.length ? this.questions : (this.dataService?.questions || []);
+  }
+
   milestoneTypes: TypePickerOption[] = [
     { value: 'reviews', label: 'REVIEW', color: 'var(--color-primary)' },
     { value: 'corrections', label: 'CORRECTION', color: 'var(--color-danger)' },
@@ -35,7 +45,8 @@ export class EditMilestoneComponent implements OnInit {
 
   constructor(
     public activeModalService: CustomModalRef,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private dataService: DataService
   ) {}
 
   ngOnInit(): void {
