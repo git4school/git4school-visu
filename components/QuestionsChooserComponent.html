@@ -155,6 +155,10 @@
                                 <a href="#connectorElements" >connectorElements</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
                                 <a href="#disabled" >disabled</a>
                             </li>
                             <li>
@@ -222,10 +226,11 @@
                                 <a href="#onChange" >onChange</a>
                             </li>
                             <li>
-                                <a href="#pillElements" >pillElements</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#onInputCaptureKeyDown" >onInputCaptureKeyDown</a>
                             </li>
                             <li>
-                                <a href="#pressedShortcut" >pressedShortcut</a>
+                                <a href="#pillElements" >pillElements</a>
                             </li>
                             <li>
                                 <a href="#question" >question</a>
@@ -296,6 +301,10 @@
                                 <a href="#clickout" >clickout</a>
                             </li>
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#closePopovers" >closePopovers</a>
+                            </li>
+                            <li>
                                 <a href="#closeQuickHelp" >closeQuickHelp</a>
                             </li>
                             <li>
@@ -310,6 +319,10 @@
                             </li>
                             <li>
                                 <a href="#finishEditing" >finishEditing</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#focus" >focus</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -331,6 +344,17 @@
                                 <a href="#getHelpTransform" >getHelpTransform</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getMatchingQuestionSuggestions" >getMatchingQuestionSuggestions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getTypeaheadElement" >getTypeaheadElement</a>
+                            </li>
+                            <li>
+                                <a href="#handleEscape" >handleEscape</a>
+                            </li>
+                            <li>
                                 <a href="#handleGlobalKeyDown" >handleGlobalKeyDown</a>
                             </li>
                             <li>
@@ -344,6 +368,10 @@
                             </li>
                             <li>
                                 <a href="#isMergedRight" >isMergedRight</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isModalOpen" >isModalOpen</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -577,12 +605,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, customModalService?: <a href="../injectables/CustomModalService.html" target="_self">CustomModalService</a>, overlayManagerService?: <a href="../injectables/OverlayManagerService.html" target="_self">OverlayManagerService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="352" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:352</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="407" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:407</a></div>
                             </td>
                         </tr>
 
@@ -623,6 +651,30 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>customModalService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CustomModalService.html" target="_self" >CustomModalService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>overlayManagerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OverlayManagerService.html" target="_self" >OverlayManagerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -655,7 +707,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:68</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:71</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -681,7 +733,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:67</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:70</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -707,7 +759,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:64</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:67</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -733,7 +785,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:66</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:69</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -759,7 +811,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:65</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:68</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -785,7 +837,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:62</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:65</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -811,7 +863,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:63</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:66</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -835,7 +887,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:69</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:72</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -856,7 +908,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:70</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:73</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -889,8 +941,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="357"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:357</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="443"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:443</a></div>
                 </td>
             </tr>
 
@@ -922,8 +974,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="285"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:285</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="339"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:339</a></div>
                 </td>
             </tr>
 
@@ -955,8 +1007,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="381"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:381</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="454"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:454</a></div>
                 </td>
             </tr>
 
@@ -983,8 +1035,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="270"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:270</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="318"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:318</a></div>
                 </td>
             </tr>
 
@@ -1011,8 +1063,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="270"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:270</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="318"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:318</a></div>
                 </td>
             </tr>
 
@@ -1045,8 +1097,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="600"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:600</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="747"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:747</a></div>
                 </td>
             </tr>
 
@@ -1126,8 +1178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1255"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1255</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1403"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1403</a></div>
                 </td>
             </tr>
 
@@ -1221,8 +1273,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="198"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:198</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:242</a></div>
                 </td>
             </tr>
 
@@ -1290,8 +1342,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="447"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:447</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="531"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:531</a></div>
                 </td>
             </tr>
 
@@ -1385,8 +1437,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="343"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:343</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="394"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:394</a></div>
                 </td>
             </tr>
 
@@ -1429,8 +1481,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="357"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:357</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="443"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:443</a></div>
                 </td>
             </tr>
 
@@ -1478,6 +1530,77 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="closePopovers"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>closePopovers</b></span>
+                        <a href="#closePopovers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>closePopovers(blurInput)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="416"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:416</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>blurInput</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="closeQuickHelp"></a>
                     <span class="name">
                         <span ><b>closeQuickHelp</b></span>
@@ -1494,8 +1617,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:124</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:126</a></div>
                 </td>
             </tr>
 
@@ -1563,8 +1686,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="660"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:660</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="811"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:811</a></div>
                 </td>
             </tr>
 
@@ -1634,8 +1757,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="224"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:224</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="268"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:268</a></div>
                 </td>
             </tr>
 
@@ -1671,8 +1794,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1455"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1455</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1606"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1606</a></div>
                 </td>
             </tr>
 
@@ -1708,8 +1831,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="813"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:813</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="961"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:961</a></div>
                 </td>
             </tr>
 
@@ -1761,6 +1884,45 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="focus"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>focus</b></span>
+                        <a href="#focus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>focus()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="332"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:332</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="focusAfterDelete"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -1779,8 +1941,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="989"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:989</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1137"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1137</a></div>
                 </td>
             </tr>
 
@@ -1816,8 +1978,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="958"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:958</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1106"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1106</a></div>
                 </td>
             </tr>
 
@@ -1853,8 +2015,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1076"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1076</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1224"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1224</a></div>
                 </td>
             </tr>
 
@@ -1922,8 +2084,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1190"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1190</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1338"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1338</a></div>
                 </td>
             </tr>
 
@@ -1959,8 +2121,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1007"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1007</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1155"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1155</a></div>
                 </td>
             </tr>
 
@@ -2028,8 +2190,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:94</a></div>
                 </td>
             </tr>
 
@@ -2040,6 +2202,202 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMatchingQuestionSuggestions"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>getMatchingQuestionSuggestions</b></span>
+                        <a href="#getMatchingQuestionSuggestions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getMatchingQuestionSuggestions(cleanSearch: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, isEditing)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="567"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:567</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cleanSearch</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>isEditing</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTypeaheadElement"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>getTypeaheadElement</b></span>
+                        <a href="#getTypeaheadElement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTypeaheadElement()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:170</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>HTMLElement | null</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleEscape"></a>
+                    <span class="name">
+                        <span ><b>handleEscape</b></span>
+                        <a href="#handleEscape"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleEscape(event?: KeyboardEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:148</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>KeyboardEvent</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -2072,8 +2430,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="285"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:285</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="339"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:339</a></div>
                 </td>
             </tr>
 
@@ -2148,8 +2506,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="381"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:381</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="454"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:454</a></div>
                 </td>
             </tr>
 
@@ -2217,8 +2575,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1386"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1386</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1534"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1534</a></div>
                 </td>
             </tr>
 
@@ -2298,8 +2656,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1484"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1484</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1635"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1635</a></div>
                 </td>
             </tr>
 
@@ -2367,8 +2725,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1480"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1480</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1631"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1631</a></div>
                 </td>
             </tr>
 
@@ -2420,6 +2778,45 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isModalOpen"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>isModalOpen</b></span>
+                        <a href="#isModalOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isModalOpen()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="138"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:138</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="navigateLeft"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -2438,8 +2835,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="972"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:972</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1120"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1120</a></div>
                 </td>
             </tr>
 
@@ -2477,8 +2874,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="978"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:978</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1126"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1126</a></div>
                 </td>
             </tr>
 
@@ -2514,8 +2911,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="563"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:563</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="700"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:700</a></div>
                 </td>
             </tr>
 
@@ -2551,8 +2948,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="539"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:539</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="640"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:640</a></div>
                 </td>
             </tr>
 
@@ -2588,8 +2985,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="692"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:692</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="843"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:843</a></div>
                 </td>
             </tr>
 
@@ -2625,8 +3022,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="757"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:757</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="905"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:905</a></div>
                 </td>
             </tr>
 
@@ -2706,8 +3103,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1176"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1176</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1324"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1324</a></div>
                 </td>
             </tr>
 
@@ -2775,8 +3172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1137"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1137</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1285"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1285</a></div>
                 </td>
             </tr>
 
@@ -2844,8 +3241,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1196"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1196</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1344"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1344</a></div>
                 </td>
             </tr>
 
@@ -2913,8 +3310,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1248"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1248</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1396"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1396</a></div>
                 </td>
             </tr>
 
@@ -2950,8 +3347,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1022"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1022</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1170"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1170</a></div>
                 </td>
             </tr>
 
@@ -3031,8 +3428,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1201"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1201</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1349"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1349</a></div>
                 </td>
             </tr>
 
@@ -3100,8 +3497,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="777"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:777</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="925"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:925</a></div>
                 </td>
             </tr>
 
@@ -3137,8 +3534,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="796"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:796</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="944"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:944</a></div>
                 </td>
             </tr>
 
@@ -3206,8 +3603,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="927"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:927</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1075"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1075</a></div>
                 </td>
             </tr>
 
@@ -3275,8 +3672,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="783"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:783</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="931"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:931</a></div>
                 </td>
             </tr>
 
@@ -3337,15 +3734,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onEnter()</code>
+<code>onEnter(event?: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1406"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1406</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1554"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1554</a></div>
                 </td>
             </tr>
 
@@ -3354,8 +3751,40 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -3381,8 +3810,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="740"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:740</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="888"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:888</a></div>
                 </td>
             </tr>
 
@@ -3450,8 +3879,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="698"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:698</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="849"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:849</a></div>
                 </td>
             </tr>
 
@@ -3519,8 +3948,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="919"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:919</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1067"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1067</a></div>
                 </td>
             </tr>
 
@@ -3588,8 +4017,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1413"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1413</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1564"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1564</a></div>
                 </td>
             </tr>
 
@@ -3660,8 +4089,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="270"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:270</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="318"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:318</a></div>
                 </td>
             </tr>
 
@@ -3697,8 +4126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1373"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1373</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1521"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1521</a></div>
                 </td>
             </tr>
 
@@ -3734,8 +4163,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1436"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1436</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1587"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1587</a></div>
                 </td>
             </tr>
 
@@ -3803,8 +4232,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1440"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1440</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1591"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1591</a></div>
                 </td>
             </tr>
 
@@ -3872,8 +4301,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="188"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:188</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="232"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:232</a></div>
                 </td>
             </tr>
 
@@ -3909,8 +4338,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="591"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:591</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="738"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:738</a></div>
                 </td>
             </tr>
 
@@ -3946,8 +4375,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="938"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:938</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1086"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1086</a></div>
                 </td>
             </tr>
 
@@ -3983,8 +4412,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="748"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:748</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="896"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:896</a></div>
                 </td>
             </tr>
 
@@ -4065,8 +4494,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1442"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1442</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1593"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1593</a></div>
                 </td>
             </tr>
 
@@ -4136,8 +4565,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="236"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:236</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="280"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:280</a></div>
                 </td>
             </tr>
 
@@ -4175,8 +4604,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="260"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:260</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="308"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:308</a></div>
                 </td>
             </tr>
 
@@ -4212,8 +4641,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="569"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:569</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="716"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:716</a></div>
                 </td>
             </tr>
 
@@ -4249,8 +4678,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1448"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1448</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1599"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1599</a></div>
                 </td>
             </tr>
 
@@ -4330,8 +4759,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:101</a></div>
                 </td>
             </tr>
 
@@ -4399,8 +4828,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="339"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:339</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="390"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:390</a></div>
                 </td>
             </tr>
 
@@ -4480,8 +4909,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:179</a></div>
                 </td>
             </tr>
 
@@ -4517,8 +4946,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1427"
-                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1427</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1578"
+                            class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1578</a></div>
                 </td>
             </tr>
 
@@ -4597,7 +5026,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:80</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -4622,7 +5051,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="330" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:330</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="381" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:381</a></div>
                         </td>
                     </tr>
 
@@ -4657,7 +5086,33 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="407" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:407</a></div>
                         </td>
                     </tr>
 
@@ -4683,7 +5138,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -4714,7 +5169,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="335" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:335</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="386" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:386</a></div>
                         </td>
                     </tr>
 
@@ -4745,7 +5200,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="334" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:334</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="385" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:385</a></div>
                         </td>
                     </tr>
 
@@ -4776,7 +5231,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="337" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:337</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="388" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:388</a></div>
                         </td>
                     </tr>
 
@@ -4807,7 +5262,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="336" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:336</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="387" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:387</a></div>
                         </td>
                     </tr>
 
@@ -4832,7 +5287,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="331" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:331</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="382" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:382</a></div>
                         </td>
                     </tr>
 
@@ -4863,7 +5318,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="324" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:324</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="375" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:375</a></div>
                         </td>
                     </tr>
 
@@ -4888,7 +5343,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="327" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:327</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="378" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:378</a></div>
                         </td>
                     </tr>
 
@@ -4919,7 +5374,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="323" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:323</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="374" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:374</a></div>
                         </td>
                     </tr>
 
@@ -4950,7 +5405,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="322" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:322</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="373" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:373</a></div>
                         </td>
                     </tr>
 
@@ -4981,7 +5436,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="321" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:321</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="372" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:372</a></div>
                         </td>
                     </tr>
 
@@ -5016,7 +5471,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="775" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:775</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="923" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:923</a></div>
                         </td>
                     </tr>
 
@@ -5041,7 +5496,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="329" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:329</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="380" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:380</a></div>
                         </td>
                     </tr>
 
@@ -5072,7 +5527,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:78</a></div>
                         </td>
                     </tr>
 
@@ -5103,7 +5558,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:79</a></div>
                         </td>
                     </tr>
 
@@ -5138,7 +5593,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -5173,7 +5628,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -5208,7 +5663,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -5233,7 +5688,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:80</a></div>
                         </td>
                     </tr>
 
@@ -5258,7 +5713,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="326" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:326</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="377" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:377</a></div>
                         </td>
                     </tr>
 
@@ -5289,7 +5744,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="312" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:312</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="363" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:363</a></div>
                         </td>
                     </tr>
 
@@ -5315,7 +5770,33 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="1492" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1492</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="1643" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1643</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onInputCaptureKeyDown"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>onInputCaptureKeyDown</b></span>
+                        <a href="#onInputCaptureKeyDown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="628" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:628</a></div>
                         </td>
                     </tr>
 
@@ -5350,38 +5831,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:59</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="pressedShortcut"></a>
-                    <span class="name">
-                        <span ><b>pressedShortcut</b></span>
-                        <a href="#pressedShortcut"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>null</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:62</a></div>
                         </td>
                     </tr>
 
@@ -5407,7 +5857,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="311" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:311</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="362" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:362</a></div>
                         </td>
                     </tr>
 
@@ -5442,7 +5892,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -5477,7 +5927,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -5502,7 +5952,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="483" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:483</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="582" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:582</a></div>
                         </td>
                     </tr>
 
@@ -5527,7 +5977,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="514" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:514</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="607" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:607</a></div>
                         </td>
                     </tr>
 
@@ -5558,7 +6008,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="320" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:320</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="371" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:371</a></div>
                         </td>
                     </tr>
 
@@ -5583,7 +6033,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -5615,7 +6065,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:81</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -5640,7 +6090,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="276" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:276</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="324" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:324</a></div>
                         </td>
                     </tr>
 
@@ -5672,7 +6122,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:82</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:84</a></div>
                         </td>
                     </tr>
 
@@ -5704,7 +6154,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:85</a></div>
                         </td>
                     </tr>
 
@@ -5733,7 +6183,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:85</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:87</a></div>
                                 </td>
                             </tr>
 
@@ -5755,7 +6205,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="280" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:280</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="328" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:328</a></div>
                                 </td>
                             </tr>
 
@@ -5777,7 +6227,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="913" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:913</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="1061" class="link-to-prism">src/app/components/questions-chooser/questions-chooser.component.ts:1061</a></div>
                                 </td>
                             </tr>
 
@@ -5800,13 +6250,16 @@
   QueryList,
   ElementRef,
   HostListener,
+  ChangeDetectorRef,
+  Optional,
 } from &quot;@angular/core&quot;;
-import { ChangeDetectorRef } from &quot;@angular/core&quot;;
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from &quot;@angular/forms&quot;;
 import { NgbTypeahead } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { merge, Observable, Subject } from &quot;rxjs&quot;;
-import { filter, map } from &quot;rxjs/operators&quot;;
+import { filter, map, takeUntil } from &quot;rxjs/operators&quot;;
 import { OsUtils } from &quot;@utils/os.utils&quot;;
+import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
+import { OverlayManagerService, OverlayType } from &quot;@services/overlay-manager.service&quot;;
 
 export interface FilterGroup {
   criteria: {
@@ -5861,7 +6314,6 @@ export class QuestionsChooserComponent
 
   disabled: boolean;
 
-  pressedShortcut: string &#x3D; null;
   showQuickHelp &#x3D; false;
   helpShiftX &#x3D; 0;
   helpShiftY &#x3D; 0;
@@ -5923,13 +6375,54 @@ export class QuestionsChooserComponent
     }
   }
 
+  private isModalOpen(): boolean {
+    if (this.customModalService &amp;&amp; this.customModalService.hasOpenModals()) {
+      return true;
+    }
+    if (document.body.classList.contains(&quot;modal-open&quot;)) {
+      return true;
+    }
+    return !!document.querySelector(&quot;.modal.show, .custom-modal-backdrop&quot;);
+  }
+
+  handleEscape(event?: KeyboardEvent) {
+    if (this.isModalOpen()) return;
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (this.showQuickHelp) {
+      this.closeQuickHelp();
+    }
+    if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
+      this.instance.dismissPopup();
+    }
+    this.clearAll();
+    if (this.inputField &amp;&amp; this.inputField.nativeElement) {
+      this.inputField.nativeElement.blur();
+    }
+    this.selectedPillIndex &#x3D; null;
+    this.editingPillIndex &#x3D; null;
+    this.cdr.markForCheck();
+  }
+
+  private getTypeaheadElement(): HTMLElement | null {
+    const ownsId &#x3D; this.inputField?.nativeElement?.getAttribute(&quot;aria-owns&quot;);
+    if (ownsId) {
+      const el &#x3D; document.getElementById(ownsId);
+      if (el) return el;
+    }
+    return document.querySelector(&quot;ngb-typeahead-window&quot;) as HTMLElement;
+  }
+
   updateHelpPosition() {
     if (!this.showQuickHelp) {
       this.resetHelpPosition();
       return;
     }
 
-    const typeaheadEl &#x3D; document.querySelector(&quot;ngb-typeahead-window&quot;) as HTMLElement;
+    const typeaheadEl &#x3D; this.getTypeaheadElement();
     const isTypeaheadVisible &#x3D;
       typeaheadEl &amp;&amp;
       ((this.instance &amp;&amp; this.instance.isPopupOpen()) ||
@@ -5946,7 +6439,8 @@ export class QuestionsChooserComponent
 
     const typeaheadRect &#x3D; typeaheadEl.getBoundingClientRect();
     const containerRect &#x3D; containerEl.getBoundingClientRect();
-    const helpWidth &#x3D; 360;
+    const helpEl &#x3D; this.quickHelpPopover ? this.quickHelpPopover.nativeElement : null;
+    const helpWidth &#x3D; helpEl &amp;&amp; helpEl.offsetWidth &gt; 0 ? helpEl.offsetWidth : Math.min(360, window.innerWidth - 32);
 
     // Resting position of quick-help-popover relative to viewport (top: calc(100% + 8px), right: 0 relative to pseudo-input-container):
     const restingTop &#x3D; containerRect.bottom + 8;
@@ -6037,14 +6531,18 @@ export class QuestionsChooserComponent
       });
     }
 
-    const typeaheadEl &#x3D; document.querySelector(&quot;ngb-typeahead-window&quot;) as HTMLElement;
+    const typeaheadEl &#x3D; this.getTypeaheadElement();
     if (typeaheadEl) {
       this.attachTypeaheadObservers(typeaheadEl);
     }
 
     this.updateHelpPosition();
-    requestAnimationFrame(() &#x3D;&gt; this.updateHelpPosition());
-    setTimeout(() &#x3D;&gt; this.updateHelpPosition(), 50);
+    requestAnimationFrame(() &#x3D;&gt; {
+      this.updateHelpPosition();
+      requestAnimationFrame(() &#x3D;&gt; {
+        this.updateHelpPosition();
+      });
+    });
   }
 
   private stopObservingTypeahead() {
@@ -6071,30 +6569,33 @@ export class QuestionsChooserComponent
     return OsUtils.modifierKey;
   }
 
+  public focus() {
+    if (this.inputField &amp;&amp; this.inputField.nativeElement) {
+      this.inputField.nativeElement.focus();
+    }
+  }
+
   @HostListener(&quot;document:keydown&quot;, [&quot;$event&quot;])
   handleGlobalKeyDown(event: KeyboardEvent) {
     if (this.mode !&#x3D;&#x3D; &quot;search&quot;) return;
-    if (this.showQuickHelp &amp;&amp; event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
-      this.showQuickHelp &#x3D; false;
-      this.stopObservingTypeahead();
-      this.resetHelpPosition();
-      event.preventDefault();
+    if (this.isModalOpen()) return;
+
+    if (event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
+      this.handleEscape(event);
       return;
     }
-    if (event.key.toLowerCase() &#x3D;&#x3D;&#x3D; &quot;f&quot;) {
+
+    if (
+      event.key.toLowerCase() &#x3D;&#x3D;&#x3D; &quot;f&quot; &amp;&amp;
+      !event.ctrlKey &amp;&amp;
+      !event.metaKey &amp;&amp;
+      !event.altKey
+    ) {
       if (OsUtils.isTypingInInput(event)) {
         return;
       }
       event.preventDefault();
-
-      this.pressedShortcut &#x3D; &quot;f&quot;;
-      if (this.inputField &amp;&amp; this.inputField.nativeElement) {
-        this.inputField.nativeElement.focus();
-      }
-
-      setTimeout(() &#x3D;&gt; {
-        if (this.pressedShortcut &#x3D;&#x3D;&#x3D; &quot;f&quot;) this.pressedShortcut &#x3D; null;
-      }, 150);
+      this.focus();
     }
   }
 
@@ -6131,39 +6632,61 @@ export class QuestionsChooserComponent
   }
 
   public clearAll() {
+    this.question &#x3D; &quot;&quot;;
     this.items &#x3D; [];
     this.questions &#x3D; [];
     this.commitMessages &#x3D; [];
     this.selectedPillIndex &#x3D; null;
     this.editingPillIndex &#x3D; null;
+    this.isTypingExclusion &#x3D; false;
     this.onChange(this.questions);
     this.commitMessagesChange.emit(this.commitMessages);
     this.emitFilterGroups();
   }
 
-  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef) {}
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+
+  constructor(
+    private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef,
+    @Optional() private customModalService?: CustomModalService,
+    @Optional() private overlayManagerService?: OverlayManagerService
+  ) {}
+
+  public closePopovers(blurInput &#x3D; false) {
+    if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
+      this.instance.dismissPopup();
+    }
+    if (this.selectedPillIndex !&#x3D;&#x3D; null) {
+      if (this.editingPillIndex !&#x3D;&#x3D; null) {
+        this.finishEditing();
+      }
+      this.selectedPillIndex &#x3D; null;
+    }
+    if (this.showQuickHelp) {
+      this.showQuickHelp &#x3D; false;
+      this.stopObservingTypeahead();
+      this.resetHelpPosition();
+    }
+    if (
+      blurInput &amp;&amp;
+      this.inputField &amp;&amp;
+      this.inputField.nativeElement &amp;&amp;
+      document.activeElement &#x3D;&#x3D;&#x3D; this.inputField.nativeElement
+    ) {
+      this.inputField.nativeElement.blur();
+    }
+    this.cdr.markForCheck();
+  }
 
   @HostListener(&quot;document:click&quot;, [&quot;$event&quot;])
   clickout(event) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
-      const typeaheadWindow &#x3D; document.querySelector(&quot;ngb-typeahead-window&quot;);
+      const typeaheadWindow &#x3D; this.getTypeaheadElement();
       if (typeaheadWindow &amp;&amp; typeaheadWindow.contains(event.target)) {
         return;
       }
-      if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
-        this.instance.dismissPopup();
-      }
-      if (this.selectedPillIndex !&#x3D;&#x3D; null) {
-        if (this.editingPillIndex !&#x3D;&#x3D; null) {
-          this.finishEditing();
-        }
-        this.selectedPillIndex &#x3D; null;
-      }
-      if (this.showQuickHelp) {
-        this.showQuickHelp &#x3D; false;
-        this.stopObservingTypeahead();
-        this.resetHelpPosition();
-      }
+      this.closePopovers();
     }
   }
 
@@ -6172,6 +6695,17 @@ export class QuestionsChooserComponent
     if (this.selectedPillIndex !&#x3D;&#x3D; null) {
       if (this.editingPillIndex !&#x3D;&#x3D; null) {
         return; // Let the editInput handle it
+      }
+
+      if (event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
+        this.handleEscape(event);
+        return;
+      }
+
+      if (event.key &#x3D;&#x3D;&#x3D; &quot;?&quot; &amp;&amp; this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
+        event.preventDefault();
+        this.toggleQuickHelp();
+        return;
       }
 
       if (event.key &#x3D;&#x3D;&#x3D; &quot;ArrowLeft&quot; &amp;&amp; OsUtils.isModifierPressed(event)) {
@@ -6270,6 +6804,21 @@ export class QuestionsChooserComponent
     return results;
   }
 
+  private getMatchingQuestionSuggestions(
+    cleanSearch: string,
+    isEditing &#x3D; false
+  ): string[] {
+    return this.questionSuggestions
+      .filter(
+        (question) &#x3D;&gt;
+          (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; ||
+            !this.questions.includes(question) ||
+            (isEditing &amp;&amp; question &#x3D;&#x3D;&#x3D; this.editingOldValue)) &amp;&amp;
+          question.toLowerCase().indexOf(cleanSearch.toLowerCase()) &gt; -1
+      )
+      .slice(0, 8);
+  }
+
   searchQuestions &#x3D; (text: Observable&lt;string&gt;) &#x3D;&gt; {
     const clicksWithClosedPopup$ &#x3D; this.click$.pipe(
       filter(() &#x3D;&gt; !this.instance.isPopupOpen())
@@ -6280,13 +6829,7 @@ export class QuestionsChooserComponent
         const raw &#x3D; (searchRaw || &quot;&quot;).trim();
         const isExclusion &#x3D; this.isTypingExclusion || raw.startsWith(&quot;!&quot;);
         const cleanSearch &#x3D; raw.startsWith(&quot;!&quot;) ? raw.substring(1).trim() : raw;
-        const matchingQuestions &#x3D; this.questionSuggestions
-          .filter(
-            (question) &#x3D;&gt;
-              (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; || !this.questions.includes(question)) &amp;&amp;
-              question.toLowerCase().indexOf(cleanSearch.toLowerCase()) &gt; -1
-          )
-          .slice(0, 8);
+        const matchingQuestions &#x3D; this.getMatchingQuestionSuggestions(cleanSearch, false);
 
         if (this.mode !&#x3D;&#x3D; &quot;search&quot;) {
           return matchingQuestions;
@@ -6307,15 +6850,11 @@ export class QuestionsChooserComponent
         const raw &#x3D; (searchRaw || &quot;&quot;).trim();
         const isExclusion &#x3D; this.editingIsExclusion || raw.startsWith(&quot;!&quot;);
         const cleanSearch &#x3D; raw.startsWith(&quot;!&quot;) ? raw.substring(1).trim() : raw;
-        const matchingQuestions &#x3D; this.questionSuggestions
-          .filter(
-            (question) &#x3D;&gt;
-              (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; ||
-                !this.questions.includes(question) ||
-                question &#x3D;&#x3D;&#x3D; this.editingOldValue) &amp;&amp;
-              question.toLowerCase().indexOf(cleanSearch.toLowerCase()) &gt; -1
-          )
-          .slice(0, 8);
+        const matchingQuestions &#x3D; this.getMatchingQuestionSuggestions(cleanSearch, true);
+
+        if (this.mode !&#x3D;&#x3D; &quot;search&quot;) {
+          return matchingQuestions;
+        }
 
         const results &#x3D; this.buildTypeaheadResults(cleanSearch, matchingQuestions, isExclusion);
         if (this.showQuickHelp) {
@@ -6326,6 +6865,18 @@ export class QuestionsChooserComponent
     );
   };
 
+  private onInputCaptureKeyDown &#x3D; (event: KeyboardEvent) &#x3D;&gt; {
+    if (event.key &#x3D;&#x3D;&#x3D; &quot;Tab&quot;) {
+      event.preventDefault();
+      event.stopPropagation(); // Stop ngbTypeahead from processing the Tab key
+      if (this.instance.isPopupOpen()) {
+        this.instance.dismissPopup();
+      } else {
+        this.click$.next(this.question || &quot;&quot;);
+      }
+    }
+  };
+
   ngOnInit(): void {
     this.disabled &#x3D; false;
     this.questions &#x3D; [...this.questions];
@@ -6333,27 +6884,73 @@ export class QuestionsChooserComponent
     this.commitMessages &#x3D; [...this.commitMessages];
     this.syncItemsFromInputs();
 
-    this.inputField.nativeElement.addEventListener(
-      &quot;keydown&quot;,
-      (event: KeyboardEvent) &#x3D;&gt; {
-        if (event.key &#x3D;&#x3D;&#x3D; &quot;Tab&quot;) {
-          event.preventDefault();
-          event.stopPropagation(); // Stop ngbTypeahead from processing the Tab key
-          if (this.instance.isPopupOpen()) {
-            this.instance.dismissPopup();
-          } else {
-            this.click$.next(this.question || &quot;&quot;);
+    if (this.overlayManagerService) {
+      this.overlayManagerService.dismiss$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((event) &#x3D;&gt; {
+          const shouldDismissTypeahead &#x3D; OverlayManagerService.shouldDismiss(
+            OverlayType.TYPEAHEAD,
+            event
+          );
+          const shouldDismissHelp &#x3D; OverlayManagerService.shouldDismiss(
+            OverlayType.QUICK_HELP,
+            event
+          );
+
+          if (shouldDismissTypeahead) {
+            if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
+              this.instance.dismissPopup();
+            }
+            if (this.selectedPillIndex !&#x3D;&#x3D; null) {
+              if (this.editingPillIndex !&#x3D;&#x3D; null) {
+                this.finishEditing();
+              }
+              this.selectedPillIndex &#x3D; null;
+            }
+            if (
+              event.options?.blurInput &amp;&amp;
+              this.inputField &amp;&amp;
+              this.inputField.nativeElement &amp;&amp;
+              document.activeElement &#x3D;&#x3D;&#x3D; this.inputField.nativeElement
+            ) {
+              this.inputField.nativeElement.blur();
+            }
           }
-        }
-      },
-      true
-    ); // Use capture phase
+
+          if (shouldDismissHelp) {
+            if (this.showQuickHelp) {
+              this.showQuickHelp &#x3D; false;
+              this.stopObservingTypeahead();
+              this.resetHelpPosition();
+            }
+          }
+          this.cdr.markForCheck();
+        });
+    }
+
+    if (this.inputField &amp;&amp; this.inputField.nativeElement) {
+      this.inputField.nativeElement.addEventListener(
+        &quot;keydown&quot;,
+        this.onInputCaptureKeyDown,
+        true
+      ); // Use capture phase
+    }
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.stopObservingTypeahead();
+    if (this.inputField &amp;&amp; this.inputField.nativeElement) {
+      this.inputField.nativeElement.removeEventListener(
+        &quot;keydown&quot;,
+        this.onInputCaptureKeyDown,
+        true
+      );
+    }
     this.focus$.unsubscribe();
     this.click$.unsubscribe();
+    this.editFocus$.unsubscribe();
   }
 
   syncItemsFromInputs() {
@@ -6367,13 +6964,13 @@ export class QuestionsChooserComponent
         rawValue: q,
       });
     });
-    this.commitMessages.forEach((c) &#x3D;&gt; {
-      const isExclusion &#x3D; this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; &amp;&amp; c.startsWith(&quot;!&quot;);
+    this.commitMessages.forEach((m) &#x3D;&gt; {
+      const isExclusion &#x3D; this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; &amp;&amp; m.startsWith(&quot;!&quot;);
       this.items.push({
         type: &quot;commit&quot;,
-        value: isExclusion ? c.substring(1) : c,
+        value: isExclusion ? m.substring(1) : m,
         isExclusion,
-        rawValue: c,
+        rawValue: m,
       });
     });
   }
@@ -6445,6 +7042,10 @@ export class QuestionsChooserComponent
     this.isTypingExclusion &#x3D; false;
     this.scrollToEnd();
     this.emitFilterGroups();
+    this.focus();
+    setTimeout(() &#x3D;&gt; {
+      this.focus();
+    }, 0);
   }
 
   deleteItem(index: number) {
@@ -6486,11 +7087,8 @@ export class QuestionsChooserComponent
   }
 
   onMainInputKeyDown(event: KeyboardEvent) {
-    if (this.showQuickHelp &amp;&amp; event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
-      this.showQuickHelp &#x3D; false;
-      this.stopObservingTypeahead();
-      this.resetHelpPosition();
-      event.preventDefault();
+    if (event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
+      this.handleEscape(event);
       return;
     }
     if (
@@ -7193,7 +7791,10 @@ export class QuestionsChooserComponent
     return item.type &#x3D;&#x3D;&#x3D; &quot;commit&quot;;
   }
 
-  onEnter() {
+  onEnter(event?: Event) {
+    if (event) {
+      event.preventDefault();
+    }
     if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
       return;
     }
@@ -7297,8 +7898,7 @@ export class QuestionsChooserComponent
        *ngIf&#x3D;&quot;items.length &gt; 0&quot;
        (dragover)&#x3D;&quot;onContainerDragOver($event)&quot;
        (dragleave)&#x3D;&quot;onContainerDragLeave($event)&quot;
-       (drop)&#x3D;&quot;onContainerDrop($event)&quot;
-       style&#x3D;&quot;position: relative;&quot;&gt;
+       (drop)&#x3D;&quot;onContainerDrop($event)&quot;&gt;
        
     &lt;!-- Absolute Drop Indicator removed in favor of inline ghost preview --&gt;
 
@@ -7326,8 +7926,9 @@ export class QuestionsChooserComponent
            
         &lt;!-- Pill Icon --&gt;
         &lt;svg *ngIf&#x3D;&quot;!isCommitStyle(item, i)&quot; class&#x3D;&quot;pill-icon question-icon mr-1 flex-shrink-0&quot; width&#x3D;&quot;11&quot; height&#x3D;&quot;11&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-          &lt;path d&#x3D;&quot;M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z&quot;&gt;&lt;/path&gt;
-          &lt;line x1&#x3D;&quot;7&quot; y1&#x3D;&quot;7&quot; x2&#x3D;&quot;7.01&quot; y2&#x3D;&quot;7&quot;&gt;&lt;/line&gt;
+          &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;
+          &lt;path d&#x3D;&quot;M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3&quot;&gt;&lt;/path&gt;
+          &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;17&quot; x2&#x3D;&quot;12.01&quot; y2&#x3D;&quot;17&quot;&gt;&lt;/line&gt;
         &lt;/svg&gt;
         &lt;svg *ngIf&#x3D;&quot;isCommitStyle(item, i)&quot; class&#x3D;&quot;pill-icon commit-icon mr-1 flex-shrink-0&quot; width&#x3D;&quot;11&quot; height&#x3D;&quot;11&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
           &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;4&quot;&gt;&lt;/circle&gt;
@@ -7392,8 +7993,9 @@ export class QuestionsChooserComponent
            [class.merged-right]&#x3D;&quot;di &lt; getDraggedItems().length - 1&quot;
            [class.merged-left]&#x3D;&quot;di &gt; 0&quot;&gt;
         &lt;svg *ngIf&#x3D;&quot;!isCommitStyle(dItem, -1)&quot; class&#x3D;&quot;pill-icon question-icon mr-1 flex-shrink-0&quot; width&#x3D;&quot;11&quot; height&#x3D;&quot;11&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-          &lt;path d&#x3D;&quot;M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z&quot;&gt;&lt;/path&gt;
-          &lt;line x1&#x3D;&quot;7&quot; y1&#x3D;&quot;7&quot; x2&#x3D;&quot;7.01&quot; y2&#x3D;&quot;7&quot;&gt;&lt;/line&gt;
+          &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;
+          &lt;path d&#x3D;&quot;M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3&quot;&gt;&lt;/path&gt;
+          &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;17&quot; x2&#x3D;&quot;12.01&quot; y2&#x3D;&quot;17&quot;&gt;&lt;/line&gt;
         &lt;/svg&gt;
         &lt;svg *ngIf&#x3D;&quot;isCommitStyle(dItem, -1)&quot; class&#x3D;&quot;pill-icon commit-icon mr-1 flex-shrink-0&quot; width&#x3D;&quot;11&quot; height&#x3D;&quot;11&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
           &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;4&quot;&gt;&lt;/circle&gt;
@@ -7422,8 +8024,9 @@ export class QuestionsChooserComponent
     &lt;!-- Dynamic Icon for typing pill --&gt;
     &lt;ng-container *ngIf&#x3D;&quot;isMainPillActive &amp;&amp; mode &#x3D;&#x3D;&#x3D; &#x27;search&#x27;&quot;&gt;
       &lt;svg *ngIf&#x3D;&quot;!isCommitStyle({value: question}, -2)&quot; class&#x3D;&quot;pill-icon question-icon mr-1 flex-shrink-0&quot; width&#x3D;&quot;11&quot; height&#x3D;&quot;11&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-        &lt;path d&#x3D;&quot;M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z&quot;&gt;&lt;/path&gt;
-        &lt;line x1&#x3D;&quot;7&quot; y1&#x3D;&quot;7&quot; x2&#x3D;&quot;7.01&quot; y2&#x3D;&quot;7&quot;&gt;&lt;/line&gt;
+        &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;
+        &lt;path d&#x3D;&quot;M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3&quot;&gt;&lt;/path&gt;
+        &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;17&quot; x2&#x3D;&quot;12.01&quot; y2&#x3D;&quot;17&quot;&gt;&lt;/line&gt;
       &lt;/svg&gt;
       &lt;svg *ngIf&#x3D;&quot;isCommitStyle({value: question}, -2)&quot; class&#x3D;&quot;pill-icon commit-icon mr-1 flex-shrink-0&quot; width&#x3D;&quot;11&quot; height&#x3D;&quot;11&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
         &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;4&quot;&gt;&lt;/circle&gt;
@@ -7436,7 +8039,7 @@ export class QuestionsChooserComponent
         [class.transparent-input]&#x3D;&quot;!isMainPillActive || mode &#x3D;&#x3D;&#x3D; &#x27;choose&#x27;&quot;
         [class.edit-input]&#x3D;&quot;isMainPillActive &amp;&amp; mode !&#x3D;&#x3D; &#x27;choose&#x27;&quot;
         [attr.size]&#x3D;&quot;isMainPillActive ? (question?.length || 1) : 1&quot;
-        [editable]&#x3D;&quot;true&quot; [resultTemplate]&#x3D;&quot;rt&quot; (keydown.enter)&#x3D;&quot;onEnter()&quot; (keydown)&#x3D;&quot;onMainInputKeyDown($event)&quot;
+        [editable]&#x3D;&quot;true&quot; [resultTemplate]&#x3D;&quot;rt&quot; (keydown.enter)&#x3D;&quot;onEnter($event)&quot; (keydown)&#x3D;&quot;onMainInputKeyDown($event)&quot;
         [inputFormatter]&#x3D;&quot;typeaheadFormatter&quot; [resultFormatter]&#x3D;&quot;typeaheadFormatter&quot;
         placeholder&#x3D;&quot;{{ placeholderKey | translate }}&quot; [disabled]&#x3D;&quot;disabled&quot;
         container&#x3D;&quot;body&quot;
@@ -7469,8 +8072,8 @@ export class QuestionsChooserComponent
        (mousedown)&#x3D;&quot;$event.stopPropagation(); $event.preventDefault()&quot;
        (click)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
       &lt;div class&#x3D;&quot;quick-help-header d-flex align-items-center justify-content-between&quot;&gt;
-        &lt;div class&#x3D;&quot;d-flex align-items-center&quot; style&#x3D;&quot;gap: 6px;&quot;&gt;
-          &lt;svg width&#x3D;&quot;15&quot; height&#x3D;&quot;15&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; style&#x3D;&quot;color: var(--color-primary);&quot;&gt;
+        &lt;div class&#x3D;&quot;quick-help-title-wrap d-flex align-items-center&quot;&gt;
+          &lt;svg class&#x3D;&quot;quick-help-icon&quot; width&#x3D;&quot;15&quot; height&#x3D;&quot;15&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
             &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;
             &lt;path d&#x3D;&quot;M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3&quot;&gt;&lt;/path&gt;
             &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;17&quot; x2&#x3D;&quot;12.01&quot; y2&#x3D;&quot;17&quot;&gt;&lt;/line&gt;
@@ -7490,7 +8093,7 @@ export class QuestionsChooserComponent
           &lt;!-- Feature 1: Questions --&gt;
           &lt;div class&#x3D;&quot;help-feature-card d-flex align-items-start&quot;&gt;
             &lt;div class&#x3D;&quot;pill question-pill mini-pill mr-2 flex-shrink-0&quot;&gt;
-              &lt;svg class&#x3D;&quot;pill-icon question-icon&quot; width&#x3D;&quot;10&quot; height&#x3D;&quot;10&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;&lt;path d&#x3D;&quot;M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z&quot;&gt;&lt;/path&gt;&lt;line x1&#x3D;&quot;7&quot; y1&#x3D;&quot;7&quot; x2&#x3D;&quot;7.01&quot; y2&#x3D;&quot;7&quot;&gt;&lt;/line&gt;&lt;/svg&gt;
+              &lt;svg class&#x3D;&quot;pill-icon question-icon&quot; width&#x3D;&quot;10&quot; height&#x3D;&quot;10&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;&lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;&lt;path d&#x3D;&quot;M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3&quot;&gt;&lt;/path&gt;&lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;17&quot; x2&#x3D;&quot;12.01&quot; y2&#x3D;&quot;17&quot;&gt;&lt;/line&gt;&lt;/svg&gt;
               &lt;span&gt;#1&lt;/span&gt;
             &lt;/div&gt;
             &lt;div class&#x3D;&quot;feature-info flex-grow-1&quot;&gt;
@@ -7527,7 +8130,7 @@ export class QuestionsChooserComponent
           &lt;div class&#x3D;&quot;help-feature-card d-flex align-items-start&quot;&gt;
             &lt;div class&#x3D;&quot;d-flex align-items-center mr-2 flex-shrink-0&quot;&gt;
               &lt;div class&#x3D;&quot;pill question-pill mini-pill merged-right&quot;&gt;
-                &lt;svg class&#x3D;&quot;pill-icon question-icon&quot; width&#x3D;&quot;9&quot; height&#x3D;&quot;9&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;&lt;path d&#x3D;&quot;M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z&quot;&gt;&lt;/path&gt;&lt;line x1&#x3D;&quot;7&quot; y1&#x3D;&quot;7&quot; x2&#x3D;&quot;7.01&quot; y2&#x3D;&quot;7&quot;&gt;&lt;/line&gt;&lt;/svg&gt;
+                &lt;svg class&#x3D;&quot;pill-icon question-icon&quot; width&#x3D;&quot;9&quot; height&#x3D;&quot;9&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;&lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;&lt;path d&#x3D;&quot;M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3&quot;&gt;&lt;/path&gt;&lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;17&quot; x2&#x3D;&quot;12.01&quot; y2&#x3D;&quot;17&quot;&gt;&lt;/line&gt;&lt;/svg&gt;
                 &lt;span&gt;#1&lt;/span&gt;
               &lt;/div&gt;
               &lt;div class&#x3D;&quot;pill commit-pill mini-pill merged-left&quot;&gt;
@@ -7590,8 +8193,9 @@ export class QuestionsChooserComponent
     &lt;!-- Section header for questions if first question in list --&gt;
     &lt;div class&#x3D;&quot;typeahead-section-header d-flex align-items-center&quot; *ngIf&#x3D;&quot;r?.isFirstQuestion&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
       &lt;svg class&#x3D;&quot;header-icon mr-1&quot; width&#x3D;&quot;11&quot; height&#x3D;&quot;11&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-        &lt;path d&#x3D;&quot;M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z&quot;&gt;&lt;/path&gt;
-        &lt;line x1&#x3D;&quot;7&quot; y1&#x3D;&quot;7&quot; x2&#x3D;&quot;7.01&quot; y2&#x3D;&quot;7&quot;&gt;&lt;/line&gt;
+        &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;
+        &lt;path d&#x3D;&quot;M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3&quot;&gt;&lt;/path&gt;
+        &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;17&quot; x2&#x3D;&quot;12.01&quot; y2&#x3D;&quot;17&quot;&gt;&lt;/line&gt;
       &lt;/svg&gt;
       &lt;span&gt;{{ &#x27;QUESTIONS-CHOOSER-QUESTIONS-HEADER&#x27; | translate }}&lt;/span&gt;
     &lt;/div&gt;
@@ -7620,8 +8224,9 @@ export class QuestionsChooserComponent
       &lt;div *ngIf&#x3D;&quot;r?.type &#x3D;&#x3D;&#x3D; &#x27;question&#x27; || !r?.type&quot; class&#x3D;&quot;d-flex align-items-center text-truncate flex-grow-1 mr-2&quot;&gt;
         &lt;span class&#x3D;&quot;suggestion-pill d-inline-flex align-items-center&quot;&gt;
           &lt;svg class&#x3D;&quot;pill-icon question-icon mr-1 flex-shrink-0&quot; width&#x3D;&quot;11&quot; height&#x3D;&quot;11&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-            &lt;path d&#x3D;&quot;M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z&quot;&gt;&lt;/path&gt;
-            &lt;line x1&#x3D;&quot;7&quot; y1&#x3D;&quot;7&quot; x2&#x3D;&quot;7.01&quot; y2&#x3D;&quot;7&quot;&gt;&lt;/line&gt;
+            &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;
+            &lt;path d&#x3D;&quot;M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3&quot;&gt;&lt;/path&gt;
+            &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;17&quot; x2&#x3D;&quot;12.01&quot; y2&#x3D;&quot;17&quot;&gt;&lt;/line&gt;
           &lt;/svg&gt;
           &lt;span class&#x3D;&quot;mr-1 text-muted small flex-shrink-0&quot; *ngIf&#x3D;&quot;r?.isExclusion&quot;&gt;{{ &#x27;QUESTIONS-CHOOSER-EXCLUDE-QUESTION&#x27; | translate }}&lt;/span&gt;
           &lt;ngb-highlight [result]&#x3D;&quot;r?.value || r&quot; [term]&#x3D;&quot;t&quot;&gt;&lt;/ngb-highlight&gt;
@@ -7633,18 +8238,18 @@ export class QuestionsChooserComponent
     &lt;/div&gt;
 
     &lt;!-- Bottom Cheat Sheet in Search Mode --&gt;
-    &lt;div class&#x3D;&quot;typeahead-cheat-sheet d-flex align-items-center justify-content-start&quot; *ngIf&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;search&#x27; &amp;&amp; r?.isLastItem&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot; style&#x3D;&quot;gap: 8px;&quot;&gt;
-      &lt;div class&#x3D;&quot;d-flex align-items-center cheat-group&quot; style&#x3D;&quot;gap: 4px;&quot;&gt;
+    &lt;div class&#x3D;&quot;typeahead-cheat-sheet d-flex align-items-center justify-content-start&quot; *ngIf&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;search&#x27; &amp;&amp; r?.isLastItem&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
+      &lt;div class&#x3D;&quot;d-flex align-items-center cheat-group&quot;&gt;
         &lt;kbd class&#x3D;&quot;shortcut-key shortcut-key-sm&quot;&gt;!&lt;/kbd&gt;
         &lt;span class&#x3D;&quot;cheat-label&quot;&gt;{{ &#x27;QUESTIONS-CHOOSER-CHEAT-EXCLUDE&#x27; | translate }}&lt;/span&gt;
       &lt;/div&gt;
       &lt;span class&#x3D;&quot;cheat-sep&quot;&gt;•&lt;/span&gt;
-      &lt;div class&#x3D;&quot;d-flex align-items-center cheat-group&quot; style&#x3D;&quot;gap: 4px;&quot;&gt;
+      &lt;div class&#x3D;&quot;d-flex align-items-center cheat-group&quot;&gt;
         &lt;kbd class&#x3D;&quot;shortcut-key shortcut-key-sm&quot;&gt;⇥ Tab&lt;/kbd&gt;
         &lt;span class&#x3D;&quot;cheat-label&quot;&gt;{{ &#x27;QUESTIONS-CHOOSER-CHEAT-SUGGESTIONS&#x27; | translate }}&lt;/span&gt;
       &lt;/div&gt;
       &lt;span class&#x3D;&quot;cheat-sep&quot;&gt;•&lt;/span&gt;
-      &lt;div class&#x3D;&quot;d-flex align-items-center cheat-group&quot; style&#x3D;&quot;gap: 4px;&quot;&gt;
+      &lt;div class&#x3D;&quot;d-flex align-items-center cheat-group&quot;&gt;
         &lt;kbd class&#x3D;&quot;shortcut-key shortcut-key-sm&quot;&gt;?&lt;/kbd&gt;
         &lt;span class&#x3D;&quot;cheat-label&quot;&gt;{{ &#x27;QUESTIONS-CHOOSER-CHEAT-HELP&#x27; | translate }}&lt;/span&gt;
       &lt;/div&gt;
@@ -7679,7 +8284,7 @@ export class QuestionsChooserComponent
   position: relative;
 
   &amp;.disabled {
-    background-color: #e9ecef;
+    background-color: var(--color-hover);
     cursor: not-allowed;
   }
 }
@@ -7699,6 +8304,7 @@ export class QuestionsChooserComponent
   height: 100%;
   min-width: 0; /* Prevents intrinsic content size from overriding flex constraints */
   box-sizing: border-box;
+  position: relative;
   
   /* Hide scrollbar for Chrome, Safari and Opera */
   &amp;::-webkit-scrollbar {
@@ -7712,7 +8318,7 @@ export class QuestionsChooserComponent
 .ghost-preview {
   opacity: 0.5;
   pointer-events: none;
-  box-shadow: 0 0 0 1px #3b82f6 inset;
+  box-shadow: 0 0 0 1px var(--color-primary) inset;
 }
 
 // &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
@@ -7722,8 +8328,8 @@ export class QuestionsChooserComponent
 .pill {
   display: inline-flex;
   align-items: center;
-  background-color: #eff6ff;
-  color: #1d4ed8;
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
   border-radius: 9999px;
   padding: 0.1rem 0.5rem;
   margin-right: 0.5rem;
@@ -7764,7 +8370,7 @@ export class QuestionsChooserComponent
     margin-left: 0.4rem;
     cursor: pointer;
     opacity: 0.5;
-    color: #1d4ed8;
+    color: var(--color-primary);
     transition: opacity 150ms ease-out, transform 150ms ease-out;
     position: relative;
 
@@ -7804,8 +8410,8 @@ export class QuestionsChooserComponent
   }
 
   &amp;.selected-pill {
-    border-color: #1d4ed8;
-    box-shadow: 0 0 0 1px #1d4ed8;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
 
     &amp;.commit-pill {
         border-color: var(--color-text-secondary, #475569);
@@ -7877,7 +8483,7 @@ export class QuestionsChooserComponent
   opacity: 0.85;
 
   &amp;.question-icon {
-    color: #1d4ed8;
+    color: var(--color-primary);
   }
 
   &amp;.commit-icon {
@@ -8047,6 +8653,14 @@ export class QuestionsChooserComponent
     padding-bottom: 8px;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 10px;
+
+    .quick-help-title-wrap {
+      gap: 6px;
+
+      .quick-help-icon {
+        color: var(--color-primary);
+      }
+    }
 
     .quick-help-title {
       font-size: 0.82rem;
@@ -8233,6 +8847,11 @@ export class QuestionsChooserComponent
   color: var(--color-text-muted);
   pointer-events: none;
   background: transparent;
+  gap: 8px;
+
+  .cheat-group {
+    gap: 4px;
+  }
 
   .cheat-label {
     font-size: 0.68rem;
@@ -8252,40 +8871,40 @@ export class QuestionsChooserComponent
 
 :host-context(body.dark-theme) {
   .pill {
-    background-color: rgba(96, 165, 250, 0.15);
-    color: #60a5fa;
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary);
     
-    .close-icon { color: #60a5fa; }
+    .close-icon { color: var(--color-primary); }
 
     &amp;.selected-pill {
-        border-color: #60a5fa;
-        box-shadow: 0 0 0 1px #60a5fa;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 1px var(--color-primary);
     }
 
     &amp;.commit-pill {
       background-color: transparent;
-      color: var(--color-text-secondary, #94a3b8);
-      border-color: var(--color-border, #475569);
+      color: var(--color-text-secondary);
+      border-color: var(--color-border);
 
       &amp;.selected-pill {
-          border-color: var(--color-text-secondary, #94a3b8);
-          box-shadow: 0 0 0 1px var(--color-text-secondary, #94a3b8);
+          border-color: var(--color-text-secondary);
+          box-shadow: 0 0 0 1px var(--color-text-secondary);
       }
 
-      .close-icon { color: var(--color-text-secondary, #94a3b8); }
+      .close-icon { color: var(--color-text-secondary); }
     }
   }
 
   .pill-icon.question-icon {
-    color: #60a5fa;
+    color: var(--color-primary);
   }
   
   .pill-icon.commit-icon {
-    color: var(--color-text-secondary, #94a3b8);
+    color: var(--color-text-secondary);
   }
 
   .connector-icon {
-    background: #3b82f6;
+    background: var(--color-primary);
   }
 
   .connector-icon.unlink-icon {
@@ -8293,7 +8912,7 @@ export class QuestionsChooserComponent
   }
 
   .pill.merged-right:not(.commit-pill) {
-    border-right-color: var(--color-border, #475569);
+    border-right-color: var(--color-border);
   }
 
   .pill-connector.merged {
@@ -8318,10 +8937,9 @@ export class QuestionsChooserComponent
 
   .quick-help-popover {
     .help-feature-card {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(255, 255, 255, 0.08);
+      background: var(--color-hover);
+      border-color: var(--color-border);
     }
-
   }
 
   .transparent-input {
@@ -8340,7 +8958,7 @@ export class QuestionsChooserComponent
   min-width: 50px;
   padding: 0;
   margin: 0;
-  color: #495057;
+  color: var(--color-text-primary);
   width: 100%;
 
   &amp;:focus {
@@ -8388,7 +9006,7 @@ export class QuestionsChooserComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="pseudo-input-container form-control" [class.disabled]="disabled" (click)="inputField.focus()">  <!-- Leading Search Icon in Search Mode -->  <svg *ngIf="mode === \'search\'" class="search-leading-icon mr-1 flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">    <circle cx="11" cy="11" r="8"></circle>    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>  </svg>  <div #scrollContainer class="pills-scroll-container"        [style.max-width]="maxPillsWidth"        *ngIf="items.length > 0"       (dragover)="onContainerDragOver($event)"       (dragleave)="onContainerDragLeave($event)"       (drop)="onContainerDrop($event)"       style="position: relative;">           <!-- Absolute Drop Indicator removed in favor of inline ghost preview -->    <ng-container *ngFor="let item of items; let i = index; trackBy: trackByFn">            <!-- Preview Left -->      <ng-container *ngIf="dropTargetIndex === i && dropPosition === \'left\'">        <ng-container *ngTemplateOutlet="ghostPreview"></ng-container>      </ng-container>      <div class="pill"            #pillElements tabindex="-1"           [draggable]="editingPillIndex === null"           (dragstart)="onDragStart($event, i)"           (dragend)="onDragEnd()"           [class.commit-pill]="isCommitStyle(item, i)"           [class.editing-pill]="editingPillIndex === i"           [class.selected-pill]="selectedPillIndex === i"           [class.merged-right]="isMergedRight(i)"           [class.merged-left]="isMergedLeft(i)"           [class.has-connector]="mode === \'search\' && i < items.length - 1"           [class.dragging]="draggedGroupStart !== null && i >= draggedGroupStart && i <= draggedGroupEnd"           [class.exclusion-pill]="(editingPillIndex === i) ? editingIsExclusion : item.isExclusion"           (click)="selectPill(i, $event)">                   <!-- Pill Icon -->        <svg *ngIf="!isCommitStyle(item, i)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>          <line x1="7" y1="7" x2="7.01" y2="7"></line>        </svg>        <svg *ngIf="isCommitStyle(item, i)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <circle cx="12" cy="12" r="4"></circle>          <line x1="1.05" y1="12" x2="7" y2="12"></line>          <line x1="17" y1="12" x2="22.95" y2="12"></line>        </svg>        <span *ngIf="editingPillIndex !== i">{{ item.value }}</span>        <input *ngIf="editingPillIndex === i"               #editInputs               name="editInput_{{i}}"               type="text"               class="edit-input"               [ngModel]="editingCurrentText"               (ngModelChange)="onEditQuestionChange($event)"               [ngModelOptions]="{standalone: true}"               [ngbTypeahead]="searchQuestionsEdit"               container="body"               [resultTemplate]="rt"               (selectItem)="onEditSelectItem($event)"               (blur)="onEditBlur()"               (focus)="editFocus$.next(editingCurrentText)"               (click)="editFocus$.next(editingCurrentText)"               (keydown)="onEditInputKeyDown($event)"               size="{{ editingCurrentText.length || 1 }}" />                       <span class="close-icon" *ngIf="!disabled && !isMergedRight(i)" (click)="onCloseClick(i, $event)">          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">              <line x1="16" y1="8" x2="8" y2="16"></line>              <line x1="8" y1="8" x2="16" y2="16"></line>          </svg>        </span>      </div>      <!-- Connector -->      <div *ngIf="mode === \'search\' && i < items.length - 1"           #connectorElements           class="pill-connector"           [class.merged]="item.operatorAfter === \'AND\'"           (click)="toggleOperator(i, $event)">                   <div class="connector-icon link-icon" *ngIf="item.operatorAfter !== \'AND\'">          <span>{{ \'QUESTIONS-CHOOSER-AND\' | translate }}</span>        </div>        <div class="connector-icon unlink-icon" *ngIf="item.operatorAfter === \'AND\'">          <span>{{ \'QUESTIONS-CHOOSER-OR\' | translate }}</span>        </div>      </div>      <!-- Preview Right (only on the last element to cover dropping at the end) -->      <ng-container *ngIf="i === items.length - 1 && dropTargetIndex === i && dropPosition === \'right\'">        <ng-container *ngTemplateOutlet="ghostPreview"></ng-container>      </ng-container>    </ng-container>        <!-- Template for the Ghost Preview -->    <ng-template #ghostPreview>      <div *ngFor="let dItem of getDraggedItems(); let di = index"            class="pill ghost-preview"           [class.commit-pill]="isCommitStyle(dItem, -1)"           [class.merged-right]="di < getDraggedItems().length - 1"           [class.merged-left]="di > 0">        <svg *ngIf="!isCommitStyle(dItem, -1)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>          <line x1="7" y1="7" x2="7.01" y2="7"></line>        </svg>        <svg *ngIf="isCommitStyle(dItem, -1)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <circle cx="12" cy="12" r="4"></circle>          <line x1="1.05" y1="12" x2="7" y2="12"></line>          <line x1="17" y1="12" x2="22.95" y2="12"></line>        </svg>        <span>{{ dItem.value }}</span>        <span class="close-icon" *ngIf="!disabled && di === getDraggedItems().length - 1">          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">              <line x1="16" y1="8" x2="8" y2="16"></line>              <line x1="8" y1="8" x2="16" y2="16"></line>          </svg>        </span>      </div>    </ng-template>  </div>    <div class="main-input-wrapper position-relative d-flex align-items-center"       [class.flex-grow-1]="!isMainPillActive"       [class.pill]="isMainPillActive && mode !== \'choose\'"       [class.editing-pill]="isMainPillActive && mode !== \'choose\'"       [class.selected-pill]="isMainPillActive && mode !== \'choose\'"       [class.exclusion-pill]="isTypingExclusion"       [class.commit-pill]="isMainPillActive && isCommitStyle({value: question}, -2)">        <!-- Dynamic Icon for typing pill -->    <ng-container *ngIf="isMainPillActive && mode === \'search\'">      <svg *ngIf="!isCommitStyle({value: question}, -2)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>        <line x1="7" y1="7" x2="7.01" y2="7"></line>      </svg>      <svg *ngIf="isCommitStyle({value: question}, -2)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <circle cx="12" cy="12" r="4"></circle>        <line x1="1.05" y1="12" x2="7" y2="12"></line>        <line x1="17" y1="12" x2="22.95" y2="12"></line>      </svg>    </ng-container>    <input #inputField type="text" [ngModel]="question" (ngModelChange)="onQuestionChange($event)" [ngbTypeahead]="searchQuestions"        [class.transparent-input]="!isMainPillActive || mode === \'choose\'"        [class.edit-input]="isMainPillActive && mode !== \'choose\'"        [attr.size]="isMainPillActive ? (question?.length || 1) : 1"        [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter()" (keydown)="onMainInputKeyDown($event)"        [inputFormatter]="typeaheadFormatter" [resultFormatter]="typeaheadFormatter"        placeholder="{{ placeholderKey | translate }}" [disabled]="disabled"        container="body"        (focus)="onInputFocus($event)" (click)="click$.next($any($event).target.value)"        #instance="ngbTypeahead" (selectItem)="onSelect($event)" />  </div>  <!-- Right Actions: Quick Help Button -->  <div class="input-actions-group d-flex align-items-center ml-auto" #inputActionsGroup *ngIf="mode === \'search\'">    <button type="button" class="btn-help-ghost anim-scale-hover"            (click)="toggleQuickHelp($event)"            (mousedown)="$event.stopPropagation(); $event.preventDefault()"            [class.active]="showQuickHelp"            [attr.aria-expanded]="showQuickHelp"            [title]="\'QUESTIONS-CHOOSER-HELP.TITLE\' | translate">      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">        <circle cx="12" cy="12" r="10"></circle>        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>        <line x1="12" y1="17" x2="12.01" y2="17"></line>      </svg>    </button>  </div>  <!-- Quick Help Popover Card -->  <div class="quick-help-popover"        #quickHelpPopover       *ngIf="showQuickHelp && mode === \'search\'"        [style.transform]="getHelpTransform()"       [class.is-shifted]="isShifted"       (mousedown)="$event.stopPropagation(); $event.preventDefault()"       (click)="$event.stopPropagation()">      <div class="quick-help-header d-flex align-items-center justify-content-between">        <div class="d-flex align-items-center" style="gap: 6px;">          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);">            <circle cx="12" cy="12" r="10"></circle>            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>            <line x1="12" y1="17" x2="12.01" y2="17"></line>          </svg>          <span class="quick-help-title font-weight-bold">{{ \'QUESTIONS-CHOOSER-HELP.TITLE\' | translate }}</span>        </div>        <button type="button" class="btn-close-popover" (click)="closeQuickHelp($event)">          <svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">            <line x1="18" y1="6" x2="6" y2="18"></line>            <line x1="6" y1="6" x2="18" y2="18"></line>          </svg>        </button>      </div>      <div class="quick-help-body">        <div class="quick-help-features">          <!-- Feature 1: Questions -->          <div class="help-feature-card d-flex align-items-start">            <div class="pill question-pill mini-pill mr-2 flex-shrink-0">              <svg class="pill-icon question-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>              <span>#1</span>            </div>            <div class="feature-info flex-grow-1">              <div class="feature-name">{{ \'QUESTIONS-CHOOSER-HELP.QUESTIONS_TITLE\' | translate }}</div>              <div class="feature-desc">{{ \'QUESTIONS-CHOOSER-HELP.QUESTIONS_DESC\' | translate }}</div>            </div>          </div>          <!-- Feature 2: Commits -->          <div class="help-feature-card d-flex align-items-start">            <div class="pill commit-pill mini-pill mr-2 flex-shrink-0">              <svg class="pill-icon commit-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17" y1="12" x2="22.95" y2="12"></line></svg>              <span>fix</span>            </div>            <div class="feature-info flex-grow-1">              <div class="feature-name">{{ \'QUESTIONS-CHOOSER-HELP.COMMITS_TITLE\' | translate }}</div>              <div class="feature-desc">{{ \'QUESTIONS-CHOOSER-HELP.COMMITS_DESC\' | translate }}</div>            </div>          </div>          <!-- Feature 3: Exclusion -->          <div class="help-feature-card d-flex align-items-start">            <div class="pill commit-pill exclusion-pill mini-pill mr-2 flex-shrink-0">              <svg class="pill-icon commit-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17" y1="12" x2="22.95" y2="12"></line></svg>              <span>wip</span>            </div>            <div class="feature-info flex-grow-1">              <div class="feature-name">{{ \'QUESTIONS-CHOOSER-HELP.EXCLUSION_TITLE\' | translate }}</div>              <div class="feature-desc">{{ \'QUESTIONS-CHOOSER-HELP.EXCLUSION_DESC\' | translate }}</div>            </div>          </div>          <!-- Feature 4: ET / OU -->          <div class="help-feature-card d-flex align-items-start">            <div class="d-flex align-items-center mr-2 flex-shrink-0">              <div class="pill question-pill mini-pill merged-right">                <svg class="pill-icon question-icon" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>                <span>#1</span>              </div>              <div class="pill commit-pill mini-pill merged-left">                <svg class="pill-icon commit-icon" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17" y1="12" x2="22.95" y2="12"></line></svg>                <span>fix</span>              </div>            </div>            <div class="feature-info flex-grow-1">              <div class="feature-name">{{ \'QUESTIONS-CHOOSER-HELP.OPERATORS_TITLE\' | translate }}</div>              <div class="feature-desc">{{ \'QUESTIONS-CHOOSER-HELP.OPERATORS_DESC\' | translate }}</div>            </div>          </div>        </div>        <!-- Shortcuts Summary -->        <div class="quick-help-shortcuts mt-3 pt-2">          <div class="shortcuts-header mb-2 font-weight-bold">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUTS_TITLE\' | translate }}</div>          <div class="shortcuts-list">            <div class="shortcut-row">              <kbd class="shortcut-key shortcut-key-sm">F</kbd>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_FOCUS\' | translate }}</span>            </div>            <div class="shortcut-row">              <kbd class="shortcut-key shortcut-key-sm">⇥ Tab</kbd>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_SUGGESTIONS\' | translate }}</span>            </div>            <div class="shortcut-row">              <div class="shortcut-combo">                <kbd class="shortcut-key shortcut-key-sm">←</kbd>                <kbd class="shortcut-key shortcut-key-sm">→</kbd>              </div>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_NAV\' | translate }}</span>            </div>            <div class="shortcut-row">              <div class="shortcut-combo">                <kbd class="shortcut-key shortcut-key-sm">{{ modifierKey }}</kbd>                <span class="key-sep">+</span>                <kbd class="shortcut-key shortcut-key-sm">←</kbd>                <span class="key-sep">/</span>                <kbd class="shortcut-key shortcut-key-sm">→</kbd>              </div>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_REORDER\' | translate }}</span>            </div>            <div class="shortcut-row">              <kbd class="shortcut-key shortcut-key-sm">{{ \'MODAL-SHORTCUTS.KEY_DELETE\' | translate }}</kbd>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_DELETE\' | translate }}</span>            </div>            <div class="shortcut-row">              <kbd class="shortcut-key shortcut-key-sm">{{ \'MODAL-SHORTCUTS.KEY_ESC\' | translate }}</kbd>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_CLEAR\' | translate }}</span>            </div>          </div>        </div>      </div>    </div>  </div><ng-template #rt let-r="result" let-t="term">  <div class="typeahead-item-container" [class.is-commit]="r?.type === \'commit\'">    <!-- Section header for questions if first question in list -->    <div class="typeahead-section-header d-flex align-items-center" *ngIf="r?.isFirstQuestion" (click)="$event.stopPropagation()">      <svg class="header-icon mr-1" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>        <line x1="7" y1="7" x2="7.01" y2="7"></line>      </svg>      <span>{{ \'QUESTIONS-CHOOSER-QUESTIONS-HEADER\' | translate }}</span>    </div>    <!-- Suggestion Row Content (only part with hover styling) -->    <div class="typeahead-row-content d-flex align-items-center justify-content-between" [class.exclusion-row]="r?.isExclusion">      <!-- Commit Action Item -->      <div *ngIf="r?.type === \'commit\'" class="typeahead-commit-row d-flex align-items-center text-truncate flex-grow-1 mr-2">        <svg class="pill-icon commit-icon mr-2 flex-shrink-0" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <circle cx="12" cy="12" r="4"></circle>          <line x1="1.05" y1="12" x2="7" y2="12"></line>          <line x1="17" y1="12" x2="22.95" y2="12"></line>        </svg>        <span class="commit-row-text text-truncate">          <ng-container *ngIf="r?.isExclusion">            {{ \'QUESTIONS-CHOOSER-EXCLUDE-COMMITS\' | translate }}          </ng-container>          <ng-container *ngIf="!r?.isExclusion">            {{ \'QUESTIONS-CHOOSER-SEARCH-COMMITS\' | translate }}          </ng-container>          <span class="commit-query-term">"{{ r.value }}"</span>        </span>      </div>      <!-- Question Item -->      <div *ngIf="r?.type === \'question\' || !r?.type" class="d-flex align-items-center text-truncate flex-grow-1 mr-2">        <span class="suggestion-pill d-inline-flex align-items-center">          <svg class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>            <line x1="7" y1="7" x2="7.01" y2="7"></line>          </svg>          <span class="mr-1 text-muted small flex-shrink-0" *ngIf="r?.isExclusion">{{ \'QUESTIONS-CHOOSER-EXCLUDE-QUESTION\' | translate }}</span>          <ngb-highlight [result]="r?.value || r" [term]="t"></ngb-highlight>        </span>      </div>      <!-- Enter Badge placed on the right of the row, OUTSIDE the pill -->      <span class="shortcut-badge enter-badge flex-shrink-0">{{ \'QUESTIONS-CHOOSER-PRESS-ENTER\' | translate }} ↵</span>    </div>    <!-- Bottom Cheat Sheet in Search Mode -->    <div class="typeahead-cheat-sheet d-flex align-items-center justify-content-start" *ngIf="mode === \'search\' && r?.isLastItem" (click)="$event.stopPropagation()" style="gap: 8px;">      <div class="d-flex align-items-center cheat-group" style="gap: 4px;">        <kbd class="shortcut-key shortcut-key-sm">!</kbd>        <span class="cheat-label">{{ \'QUESTIONS-CHOOSER-CHEAT-EXCLUDE\' | translate }}</span>      </div>      <span class="cheat-sep">•</span>      <div class="d-flex align-items-center cheat-group" style="gap: 4px;">        <kbd class="shortcut-key shortcut-key-sm">⇥ Tab</kbd>        <span class="cheat-label">{{ \'QUESTIONS-CHOOSER-CHEAT-SUGGESTIONS\' | translate }}</span>      </div>      <span class="cheat-sep">•</span>      <div class="d-flex align-items-center cheat-group" style="gap: 4px;">        <kbd class="shortcut-key shortcut-key-sm">?</kbd>        <span class="cheat-label">{{ \'QUESTIONS-CHOOSER-CHEAT-HELP\' | translate }}</span>      </div>    </div>  </div></ng-template></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="pseudo-input-container form-control" [class.disabled]="disabled" (click)="inputField.focus()">  <!-- Leading Search Icon in Search Mode -->  <svg *ngIf="mode === \'search\'" class="search-leading-icon mr-1 flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">    <circle cx="11" cy="11" r="8"></circle>    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>  </svg>  <div #scrollContainer class="pills-scroll-container"        [style.max-width]="maxPillsWidth"        *ngIf="items.length > 0"       (dragover)="onContainerDragOver($event)"       (dragleave)="onContainerDragLeave($event)"       (drop)="onContainerDrop($event)">           <!-- Absolute Drop Indicator removed in favor of inline ghost preview -->    <ng-container *ngFor="let item of items; let i = index; trackBy: trackByFn">            <!-- Preview Left -->      <ng-container *ngIf="dropTargetIndex === i && dropPosition === \'left\'">        <ng-container *ngTemplateOutlet="ghostPreview"></ng-container>      </ng-container>      <div class="pill"            #pillElements tabindex="-1"           [draggable]="editingPillIndex === null"           (dragstart)="onDragStart($event, i)"           (dragend)="onDragEnd()"           [class.commit-pill]="isCommitStyle(item, i)"           [class.editing-pill]="editingPillIndex === i"           [class.selected-pill]="selectedPillIndex === i"           [class.merged-right]="isMergedRight(i)"           [class.merged-left]="isMergedLeft(i)"           [class.has-connector]="mode === \'search\' && i < items.length - 1"           [class.dragging]="draggedGroupStart !== null && i >= draggedGroupStart && i <= draggedGroupEnd"           [class.exclusion-pill]="(editingPillIndex === i) ? editingIsExclusion : item.isExclusion"           (click)="selectPill(i, $event)">                   <!-- Pill Icon -->        <svg *ngIf="!isCommitStyle(item, i)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <circle cx="12" cy="12" r="10"></circle>          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>          <line x1="12" y1="17" x2="12.01" y2="17"></line>        </svg>        <svg *ngIf="isCommitStyle(item, i)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <circle cx="12" cy="12" r="4"></circle>          <line x1="1.05" y1="12" x2="7" y2="12"></line>          <line x1="17" y1="12" x2="22.95" y2="12"></line>        </svg>        <span *ngIf="editingPillIndex !== i">{{ item.value }}</span>        <input *ngIf="editingPillIndex === i"               #editInputs               name="editInput_{{i}}"               type="text"               class="edit-input"               [ngModel]="editingCurrentText"               (ngModelChange)="onEditQuestionChange($event)"               [ngModelOptions]="{standalone: true}"               [ngbTypeahead]="searchQuestionsEdit"               container="body"               [resultTemplate]="rt"               (selectItem)="onEditSelectItem($event)"               (blur)="onEditBlur()"               (focus)="editFocus$.next(editingCurrentText)"               (click)="editFocus$.next(editingCurrentText)"               (keydown)="onEditInputKeyDown($event)"               size="{{ editingCurrentText.length || 1 }}" />                       <span class="close-icon" *ngIf="!disabled && !isMergedRight(i)" (click)="onCloseClick(i, $event)">          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">              <line x1="16" y1="8" x2="8" y2="16"></line>              <line x1="8" y1="8" x2="16" y2="16"></line>          </svg>        </span>      </div>      <!-- Connector -->      <div *ngIf="mode === \'search\' && i < items.length - 1"           #connectorElements           class="pill-connector"           [class.merged]="item.operatorAfter === \'AND\'"           (click)="toggleOperator(i, $event)">                   <div class="connector-icon link-icon" *ngIf="item.operatorAfter !== \'AND\'">          <span>{{ \'QUESTIONS-CHOOSER-AND\' | translate }}</span>        </div>        <div class="connector-icon unlink-icon" *ngIf="item.operatorAfter === \'AND\'">          <span>{{ \'QUESTIONS-CHOOSER-OR\' | translate }}</span>        </div>      </div>      <!-- Preview Right (only on the last element to cover dropping at the end) -->      <ng-container *ngIf="i === items.length - 1 && dropTargetIndex === i && dropPosition === \'right\'">        <ng-container *ngTemplateOutlet="ghostPreview"></ng-container>      </ng-container>    </ng-container>        <!-- Template for the Ghost Preview -->    <ng-template #ghostPreview>      <div *ngFor="let dItem of getDraggedItems(); let di = index"            class="pill ghost-preview"           [class.commit-pill]="isCommitStyle(dItem, -1)"           [class.merged-right]="di < getDraggedItems().length - 1"           [class.merged-left]="di > 0">        <svg *ngIf="!isCommitStyle(dItem, -1)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <circle cx="12" cy="12" r="10"></circle>          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>          <line x1="12" y1="17" x2="12.01" y2="17"></line>        </svg>        <svg *ngIf="isCommitStyle(dItem, -1)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <circle cx="12" cy="12" r="4"></circle>          <line x1="1.05" y1="12" x2="7" y2="12"></line>          <line x1="17" y1="12" x2="22.95" y2="12"></line>        </svg>        <span>{{ dItem.value }}</span>        <span class="close-icon" *ngIf="!disabled && di === getDraggedItems().length - 1">          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">              <line x1="16" y1="8" x2="8" y2="16"></line>              <line x1="8" y1="8" x2="16" y2="16"></line>          </svg>        </span>      </div>    </ng-template>  </div>    <div class="main-input-wrapper position-relative d-flex align-items-center"       [class.flex-grow-1]="!isMainPillActive"       [class.pill]="isMainPillActive && mode !== \'choose\'"       [class.editing-pill]="isMainPillActive && mode !== \'choose\'"       [class.selected-pill]="isMainPillActive && mode !== \'choose\'"       [class.exclusion-pill]="isTypingExclusion"       [class.commit-pill]="isMainPillActive && isCommitStyle({value: question}, -2)">        <!-- Dynamic Icon for typing pill -->    <ng-container *ngIf="isMainPillActive && mode === \'search\'">      <svg *ngIf="!isCommitStyle({value: question}, -2)" class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <circle cx="12" cy="12" r="10"></circle>        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>        <line x1="12" y1="17" x2="12.01" y2="17"></line>      </svg>      <svg *ngIf="isCommitStyle({value: question}, -2)" class="pill-icon commit-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <circle cx="12" cy="12" r="4"></circle>        <line x1="1.05" y1="12" x2="7" y2="12"></line>        <line x1="17" y1="12" x2="22.95" y2="12"></line>      </svg>    </ng-container>    <input #inputField type="text" [ngModel]="question" (ngModelChange)="onQuestionChange($event)" [ngbTypeahead]="searchQuestions"        [class.transparent-input]="!isMainPillActive || mode === \'choose\'"        [class.edit-input]="isMainPillActive && mode !== \'choose\'"        [attr.size]="isMainPillActive ? (question?.length || 1) : 1"        [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter($event)" (keydown)="onMainInputKeyDown($event)"        [inputFormatter]="typeaheadFormatter" [resultFormatter]="typeaheadFormatter"        placeholder="{{ placeholderKey | translate }}" [disabled]="disabled"        container="body"        (focus)="onInputFocus($event)" (click)="click$.next($any($event).target.value)"        #instance="ngbTypeahead" (selectItem)="onSelect($event)" />  </div>  <!-- Right Actions: Quick Help Button -->  <div class="input-actions-group d-flex align-items-center ml-auto" #inputActionsGroup *ngIf="mode === \'search\'">    <button type="button" class="btn-help-ghost anim-scale-hover"            (click)="toggleQuickHelp($event)"            (mousedown)="$event.stopPropagation(); $event.preventDefault()"            [class.active]="showQuickHelp"            [attr.aria-expanded]="showQuickHelp"            [title]="\'QUESTIONS-CHOOSER-HELP.TITLE\' | translate">      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">        <circle cx="12" cy="12" r="10"></circle>        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>        <line x1="12" y1="17" x2="12.01" y2="17"></line>      </svg>    </button>  </div>  <!-- Quick Help Popover Card -->  <div class="quick-help-popover"        #quickHelpPopover       *ngIf="showQuickHelp && mode === \'search\'"        [style.transform]="getHelpTransform()"       [class.is-shifted]="isShifted"       (mousedown)="$event.stopPropagation(); $event.preventDefault()"       (click)="$event.stopPropagation()">      <div class="quick-help-header d-flex align-items-center justify-content-between">        <div class="quick-help-title-wrap d-flex align-items-center">          <svg class="quick-help-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <circle cx="12" cy="12" r="10"></circle>            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>            <line x1="12" y1="17" x2="12.01" y2="17"></line>          </svg>          <span class="quick-help-title font-weight-bold">{{ \'QUESTIONS-CHOOSER-HELP.TITLE\' | translate }}</span>        </div>        <button type="button" class="btn-close-popover" (click)="closeQuickHelp($event)">          <svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">            <line x1="18" y1="6" x2="6" y2="18"></line>            <line x1="6" y1="6" x2="18" y2="18"></line>          </svg>        </button>      </div>      <div class="quick-help-body">        <div class="quick-help-features">          <!-- Feature 1: Questions -->          <div class="help-feature-card d-flex align-items-start">            <div class="pill question-pill mini-pill mr-2 flex-shrink-0">              <svg class="pill-icon question-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>              <span>#1</span>            </div>            <div class="feature-info flex-grow-1">              <div class="feature-name">{{ \'QUESTIONS-CHOOSER-HELP.QUESTIONS_TITLE\' | translate }}</div>              <div class="feature-desc">{{ \'QUESTIONS-CHOOSER-HELP.QUESTIONS_DESC\' | translate }}</div>            </div>          </div>          <!-- Feature 2: Commits -->          <div class="help-feature-card d-flex align-items-start">            <div class="pill commit-pill mini-pill mr-2 flex-shrink-0">              <svg class="pill-icon commit-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17" y1="12" x2="22.95" y2="12"></line></svg>              <span>fix</span>            </div>            <div class="feature-info flex-grow-1">              <div class="feature-name">{{ \'QUESTIONS-CHOOSER-HELP.COMMITS_TITLE\' | translate }}</div>              <div class="feature-desc">{{ \'QUESTIONS-CHOOSER-HELP.COMMITS_DESC\' | translate }}</div>            </div>          </div>          <!-- Feature 3: Exclusion -->          <div class="help-feature-card d-flex align-items-start">            <div class="pill commit-pill exclusion-pill mini-pill mr-2 flex-shrink-0">              <svg class="pill-icon commit-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17" y1="12" x2="22.95" y2="12"></line></svg>              <span>wip</span>            </div>            <div class="feature-info flex-grow-1">              <div class="feature-name">{{ \'QUESTIONS-CHOOSER-HELP.EXCLUSION_TITLE\' | translate }}</div>              <div class="feature-desc">{{ \'QUESTIONS-CHOOSER-HELP.EXCLUSION_DESC\' | translate }}</div>            </div>          </div>          <!-- Feature 4: ET / OU -->          <div class="help-feature-card d-flex align-items-start">            <div class="d-flex align-items-center mr-2 flex-shrink-0">              <div class="pill question-pill mini-pill merged-right">                <svg class="pill-icon question-icon" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>                <span>#1</span>              </div>              <div class="pill commit-pill mini-pill merged-left">                <svg class="pill-icon commit-icon" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17" y1="12" x2="22.95" y2="12"></line></svg>                <span>fix</span>              </div>            </div>            <div class="feature-info flex-grow-1">              <div class="feature-name">{{ \'QUESTIONS-CHOOSER-HELP.OPERATORS_TITLE\' | translate }}</div>              <div class="feature-desc">{{ \'QUESTIONS-CHOOSER-HELP.OPERATORS_DESC\' | translate }}</div>            </div>          </div>        </div>        <!-- Shortcuts Summary -->        <div class="quick-help-shortcuts mt-3 pt-2">          <div class="shortcuts-header mb-2 font-weight-bold">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUTS_TITLE\' | translate }}</div>          <div class="shortcuts-list">            <div class="shortcut-row">              <kbd class="shortcut-key shortcut-key-sm">F</kbd>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_FOCUS\' | translate }}</span>            </div>            <div class="shortcut-row">              <kbd class="shortcut-key shortcut-key-sm">⇥ Tab</kbd>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_SUGGESTIONS\' | translate }}</span>            </div>            <div class="shortcut-row">              <div class="shortcut-combo">                <kbd class="shortcut-key shortcut-key-sm">←</kbd>                <kbd class="shortcut-key shortcut-key-sm">→</kbd>              </div>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_NAV\' | translate }}</span>            </div>            <div class="shortcut-row">              <div class="shortcut-combo">                <kbd class="shortcut-key shortcut-key-sm">{{ modifierKey }}</kbd>                <span class="key-sep">+</span>                <kbd class="shortcut-key shortcut-key-sm">←</kbd>                <span class="key-sep">/</span>                <kbd class="shortcut-key shortcut-key-sm">→</kbd>              </div>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_REORDER\' | translate }}</span>            </div>            <div class="shortcut-row">              <kbd class="shortcut-key shortcut-key-sm">{{ \'MODAL-SHORTCUTS.KEY_DELETE\' | translate }}</kbd>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_DELETE\' | translate }}</span>            </div>            <div class="shortcut-row">              <kbd class="shortcut-key shortcut-key-sm">{{ \'MODAL-SHORTCUTS.KEY_ESC\' | translate }}</kbd>              <span class="shortcut-desc">{{ \'QUESTIONS-CHOOSER-HELP.SHORTCUT_CLEAR\' | translate }}</span>            </div>          </div>        </div>      </div>    </div>  </div><ng-template #rt let-r="result" let-t="term">  <div class="typeahead-item-container" [class.is-commit]="r?.type === \'commit\'">    <!-- Section header for questions if first question in list -->    <div class="typeahead-section-header d-flex align-items-center" *ngIf="r?.isFirstQuestion" (click)="$event.stopPropagation()">      <svg class="header-icon mr-1" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <circle cx="12" cy="12" r="10"></circle>        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>        <line x1="12" y1="17" x2="12.01" y2="17"></line>      </svg>      <span>{{ \'QUESTIONS-CHOOSER-QUESTIONS-HEADER\' | translate }}</span>    </div>    <!-- Suggestion Row Content (only part with hover styling) -->    <div class="typeahead-row-content d-flex align-items-center justify-content-between" [class.exclusion-row]="r?.isExclusion">      <!-- Commit Action Item -->      <div *ngIf="r?.type === \'commit\'" class="typeahead-commit-row d-flex align-items-center text-truncate flex-grow-1 mr-2">        <svg class="pill-icon commit-icon mr-2 flex-shrink-0" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">          <circle cx="12" cy="12" r="4"></circle>          <line x1="1.05" y1="12" x2="7" y2="12"></line>          <line x1="17" y1="12" x2="22.95" y2="12"></line>        </svg>        <span class="commit-row-text text-truncate">          <ng-container *ngIf="r?.isExclusion">            {{ \'QUESTIONS-CHOOSER-EXCLUDE-COMMITS\' | translate }}          </ng-container>          <ng-container *ngIf="!r?.isExclusion">            {{ \'QUESTIONS-CHOOSER-SEARCH-COMMITS\' | translate }}          </ng-container>          <span class="commit-query-term">"{{ r.value }}"</span>        </span>      </div>      <!-- Question Item -->      <div *ngIf="r?.type === \'question\' || !r?.type" class="d-flex align-items-center text-truncate flex-grow-1 mr-2">        <span class="suggestion-pill d-inline-flex align-items-center">          <svg class="pill-icon question-icon mr-1 flex-shrink-0" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">            <circle cx="12" cy="12" r="10"></circle>            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>            <line x1="12" y1="17" x2="12.01" y2="17"></line>          </svg>          <span class="mr-1 text-muted small flex-shrink-0" *ngIf="r?.isExclusion">{{ \'QUESTIONS-CHOOSER-EXCLUDE-QUESTION\' | translate }}</span>          <ngb-highlight [result]="r?.value || r" [term]="t"></ngb-highlight>        </span>      </div>      <!-- Enter Badge placed on the right of the row, OUTSIDE the pill -->      <span class="shortcut-badge enter-badge flex-shrink-0">{{ \'QUESTIONS-CHOOSER-PRESS-ENTER\' | translate }} ↵</span>    </div>    <!-- Bottom Cheat Sheet in Search Mode -->    <div class="typeahead-cheat-sheet d-flex align-items-center justify-content-start" *ngIf="mode === \'search\' && r?.isLastItem" (click)="$event.stopPropagation()">      <div class="d-flex align-items-center cheat-group">        <kbd class="shortcut-key shortcut-key-sm">!</kbd>        <span class="cheat-label">{{ \'QUESTIONS-CHOOSER-CHEAT-EXCLUDE\' | translate }}</span>      </div>      <span class="cheat-sep">•</span>      <div class="d-flex align-items-center cheat-group">        <kbd class="shortcut-key shortcut-key-sm">⇥ Tab</kbd>        <span class="cheat-label">{{ \'QUESTIONS-CHOOSER-CHEAT-SUGGESTIONS\' | translate }}</span>      </div>      <span class="cheat-sep">•</span>      <div class="d-flex align-items-center cheat-group">        <kbd class="shortcut-key shortcut-key-sm">?</kbd>        <span class="cheat-label">{{ \'QUESTIONS-CHOOSER-CHEAT-HELP\' | translate }}</span>      </div>    </div>  </div></ng-template></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
     var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'QuestionsChooserComponent'};

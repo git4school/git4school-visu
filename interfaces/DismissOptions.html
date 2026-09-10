@@ -48,7 +48,7 @@
   <li>Interfaces</li>
   <li
   >
-  CustomModalOptions</li>
+  DismissOptions</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -66,7 +66,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/shared/ui/custom-modal/custom-modal.service.ts</code>
+            <code>src/app/services/overlay-manager.service.ts</code>
         </p>
 
 
@@ -86,16 +86,16 @@
                             <ul class="index-list">
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#beforeDismiss" 
+                                        <a href="#blurInput" 
 >
-                                            beforeDismiss
+                                            blurInput
                                         </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#size" 
+                                        <a href="#exclude" 
 >
-                                            size
+                                            exclude
                                         </a>
                                 </li>
                             </ul>
@@ -113,9 +113,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="beforeDismiss"></a>
-                                        <span class="name "><b>beforeDismiss</b>
-                                            <a href="#beforeDismiss">
+                                        <a name="blurInput"></a>
+                                        <span class="name "><b>blurInput</b>
+                                            <a href="#blurInput">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -123,7 +123,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>beforeDismiss:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>blurInput:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -131,7 +131,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                                         </td>
                                     </tr>
@@ -151,9 +151,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="size"></a>
-                                        <span class="name "><b>size</b>
-                                            <a href="#size">
+                                        <a name="exclude"></a>
+                                        <span class="name "><b>exclude</b>
+                                            <a href="#exclude">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -161,7 +161,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>size:     <code>&quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; | &quot;xl&quot;</code>
+                                        <code>exclude:         <code><a href="../miscellaneous/enumerations.html#OverlayType" target="_self" >OverlayType[]</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -169,7 +169,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>&quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; | &quot;xl&quot;</code>
+                                            <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#OverlayType" target="_self" >OverlayType[]</a></code>
 
                                         </td>
                                     </tr>
@@ -190,120 +190,78 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  ComponentRef,
-  EmbeddedViewRef,
-  Injectable,
-  Injector,
-  Type,
-} from &quot;@angular/core&quot;;
-import { CustomModalContainerComponent } from &quot;./custom-modal-container/custom-modal-container.component&quot;;
-import { CustomModalRef } from &quot;./custom-modal-ref&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, NgZone } from &quot;@angular/core&quot;;
+import { Observable, Subject } from &quot;rxjs&quot;;
 
-export interface CustomModalOptions {
-  size?: &quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; | &quot;xl&quot;;
-  beforeDismiss?: () &#x3D;&gt; boolean | Promise&lt;boolean&gt;;
+export enum OverlayType {
+  ALL &#x3D; &quot;ALL&quot;,
+  TOOLTIP &#x3D; &quot;TOOLTIP&quot;,
+  CONTEXT_MENU &#x3D; &quot;CONTEXT_MENU&quot;,
+  TYPEAHEAD &#x3D; &quot;TYPEAHEAD&quot;,
+  QUICK_HELP &#x3D; &quot;QUICK_HELP&quot;,
+  DROPDOWN &#x3D; &quot;DROPDOWN&quot;,
+}
+
+export interface DismissOptions {
+  exclude?: OverlayType[];
+  blurInput?: boolean;
+}
+
+export interface OverlayDismissEvent {
+  target: OverlayType;
+  options?: DismissOptions;
 }
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class CustomModalService {
-  private openModalsCount &#x3D; 0;
+export class OverlayManagerService {
+  private dismissSubject &#x3D; new Subject&lt;OverlayDismissEvent&gt;();
 
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private appRef: ApplicationRef,
-    private injector: Injector
-  ) {}
+  public readonly dismiss$: Observable&lt;OverlayDismissEvent&gt; &#x3D;
+    this.dismissSubject.asObservable();
 
-  public hasOpenModals(): boolean {
-    return this.openModalsCount &gt; 0;
+  constructor(private ngZone: NgZone) {}
+
+  /**
+   * Request dismissal of a specific overlay type.
+   */
+  public dismiss(type: OverlayType, options?: DismissOptions): void {
+    this.ngZone.run(() &#x3D;&gt; {
+      this.dismissSubject.next({ target: type, options });
+    });
   }
 
-  public open&lt;T&gt;(
-    componentType: Type&lt;T&gt;,
-    options: CustomModalOptions &#x3D; {}
-  ): CustomModalRef {
-    this.openModalsCount++;
-    document.body.classList.add(&quot;custom-modal-open&quot;);
-    // 1. Create the container component (the overlay and modal dialog)
-    const containerFactory &#x3D;
-      this.componentFactoryResolver.resolveComponentFactory(
-        CustomModalContainerComponent
-      );
-    const containerRef &#x3D; containerFactory.create(this.injector);
-
-    // Set options
-    containerRef.instance.options &#x3D; options;
-
-    // Attach to ApplicationRef so change detection works
-    this.appRef.attachView(containerRef.hostView);
-
-    // Append to body
-    const domElem &#x3D; (containerRef.hostView as EmbeddedViewRef&lt;any&gt;)
-      .rootNodes[0] as HTMLElement;
-    document.body.appendChild(domElem);
-
-    // 2. Create the CustomModalRef to represent the modal instance
-    const customModalRef &#x3D; new CustomModalRef(containerRef.instance);
-
-    // 3. Set up the injector for the component to be loaded so it can inject CustomModalRef
-    const customInjector &#x3D; Injector.create({
-      providers: [{ provide: CustomModalRef, useValue: customModalRef }],
-      parent: this.injector,
+  /**
+   * Request dismissal of all overlays, with optional exclusions.
+   */
+  public dismissAll(options?: DismissOptions): void {
+    this.ngZone.run(() &#x3D;&gt; {
+      this.dismissSubject.next({ target: OverlayType.ALL, options });
     });
+  }
 
-    // Force change detection so static ViewChild is resolved
-    containerRef.changeDetectorRef.detectChanges();
-
-    // 4. Load the target component inside the container using the custom injector
-    const componentFactory &#x3D;
-      this.componentFactoryResolver.resolveComponentFactory(componentType);
-
-    containerRef.instance.modalContent.clear();
-    const contentRef &#x3D; containerRef.instance.modalContent.createComponent(
-      componentFactory,
-      0,
-      customInjector
-    );
-    customModalRef.componentInstance &#x3D; contentRef.instance;
-
-    // Handle backdrop clicks or programmatic dismiss via the container
-    containerRef.instance.setDismissCallback(async (reason) &#x3D;&gt; {
-      let shouldDismiss &#x3D; true;
-      if (options.beforeDismiss) {
-        shouldDismiss &#x3D; await Promise.resolve(options.beforeDismiss());
-      }
-
-      if (shouldDismiss) {
-        customModalRef.dismiss(reason);
-      }
+  /**
+   * Request dismissal of transient UI overlays (tooltips, contextual menus).
+   */
+  public dismissTransient(options?: DismissOptions): void {
+    this.ngZone.run(() &#x3D;&gt; {
+      this.dismiss(OverlayType.TOOLTIP, options);
+      this.dismiss(OverlayType.CONTEXT_MENU, options);
     });
+  }
 
-    // Lock body scroll while modal is open
-    const previousBodyOverflow &#x3D; document.body.style.overflow;
-    document.body.style.overflow &#x3D; &quot;hidden&quot;;
-
-    // Cleanup when modal closes
-    customModalRef.result.finally(() &#x3D;&gt; {
-      this.openModalsCount &#x3D; Math.max(0, this.openModalsCount - 1);
-      if (this.openModalsCount &#x3D;&#x3D;&#x3D; 0) {
-        document.body.classList.remove(&quot;custom-modal-open&quot;);
-      }
-      document.body.style.overflow &#x3D; previousBodyOverflow;
-      this.appRef.detachView(containerRef.hostView);
-      containerRef.destroy();
-    });
-
-    // Run change detection on the next tick so the caller has a chance to set inputs
-    setTimeout(() &#x3D;&gt; {
-      contentRef.changeDetectorRef.detectChanges();
-    });
-
-    return customModalRef;
+  /**
+   * Helper utility to check if an event matches and should dismiss a target type.
+   */
+  public static shouldDismiss(
+    type: OverlayType,
+    event: OverlayDismissEvent
+  ): boolean {
+    if (event.options?.exclude?.includes(type)) {
+      return false;
+    }
+    return event.target &#x3D;&#x3D;&#x3D; OverlayType.ALL || event.target &#x3D;&#x3D;&#x3D; type;
   }
 }
 </code></pre>
@@ -343,7 +301,7 @@ export class CustomModalService {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'CustomModalOptions.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'DismissOptions.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

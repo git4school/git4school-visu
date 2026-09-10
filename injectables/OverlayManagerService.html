@@ -41,7 +41,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >DatabaseService</li>
+  <li >OverlayManagerService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -59,17 +59,11 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/services/database.service.ts</code>
+            <code>src/app/services/overlay-manager.service.ts</code>
         </p>
 
 
 
-            <p class="comment">
-                <h3>Extends</h3>
-            </p>
-            <p class="comment">
-                    <code>Dexie</code>
-            </p>
 
 
             <section>
@@ -85,10 +79,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#assignments" >assignments</a>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#dismiss$" >dismiss$</a>
                             </li>
                             <li>
-                                <a href="#dbChanged" >dbChanged</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#dismissSubject" >dismissSubject</a>
                             </li>
                         </ul>
                     </td>
@@ -103,25 +100,20 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#deleteAssignment" >deleteAssignment</a>
+                                    <span class="modifier">Public</span>
+                                <a href="#dismiss" >dismiss</a>
                             </li>
                             <li>
-                                <a href="#exportDB" >exportDB</a>
+                                    <span class="modifier">Public</span>
+                                <a href="#dismissAll" >dismissAll</a>
                             </li>
                             <li>
-                                <a href="#getAllAssignments" >getAllAssignments</a>
+                                    <span class="modifier">Public</span>
+                                <a href="#dismissTransient" >dismissTransient</a>
                             </li>
                             <li>
-                                <a href="#getAssignmentById" >getAssignmentById</a>
-                            </li>
-                            <li>
-                                <a href="#importDB" >importDB</a>
-                            </li>
-                            <li>
-                                <a href="#initDB" >initDB</a>
-                            </li>
-                            <li>
-                                <a href="#saveAssignment" >saveAssignment</a>
+                                    <span class="modifier">Static</span>
+                                <a href="#shouldDismiss" >shouldDismiss</a>
                             </li>
                         </ul>
                     </td>
@@ -141,12 +133,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(fileService: <a href="../injectables/JsonManagerService.html" target="_self">JsonManagerService</a>)</code>
+<code>constructor(ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/services/database.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/services/overlay-manager.service.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -164,10 +156,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>fileService</td>
+                                                        <td>ngZone</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/JsonManagerService.html" target="_self" >JsonManagerService</a></code>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -193,30 +185,34 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="deleteAssignment"></a>
+                    <a name="dismiss"></a>
                     <span class="name">
-                        <span ><b>deleteAssignment</b></span>
-                        <a href="#deleteAssignment"><span class="icon ion-ios-link"></span></a>
+                        <span class="modifier">Public</span>
+                        <span ><b>dismiss</b></span>
+                        <a href="#dismiss"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>deleteAssignment(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>dismiss(type: <a href="../undefineds/OverlayType.html" target="_self">OverlayType</a>, options?: <a href="../interfaces/DismissOptions.html" target="_self">DismissOptions</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/services/database.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">src/app/services/overlay-manager.service.ts:37</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Request dismissal of a specific overlay type.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -231,13 +227,25 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>id</td>
+                                    <td>type</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#OverlayType" target="_self" >OverlayType</a></code>
                                     </td>
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../interfaces/DismissOptions.html" target="_self" >DismissOptions</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -247,262 +255,13 @@
                     </div>
                     <div>
                     </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="exportDB"></a>
-                    <span class="name">
-                        <span ><b>exportDB</b></span>
-                        <a href="#exportDB"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>exportDB()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">src/app/services/database.service.ts:66</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getAllAssignments"></a>
-                    <span class="name">
-                        <span ><b>getAllAssignments</b></span>
-                        <a href="#getAllAssignments"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getAllAssignments()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">src/app/services/database.service.ts:41</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Assignment.html" target="_self" >Promise&lt;Assignment[]&gt;</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getAssignmentById"></a>
-                    <span class="name">
-                        <span ><b>getAssignmentById</b></span>
-                        <a href="#getAssignmentById"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getAssignmentById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/app/services/database.service.ts:60</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Assignment.html" target="_self" >Promise&lt;Assignment&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="importDB"></a>
-                    <span class="name">
-                        <span ><b>importDB</b></span>
-                        <a href="#importDB"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>importDB(assignments: <a href="../classes/Assignment.html" target="_self">Assignment[]</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">src/app/services/database.service.ts:75</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>assignments</td>
-                                    <td>
-                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="initDB"></a>
-                    <span class="name">
-                        <span ><b>initDB</b></span>
-                        <a href="#initDB"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>initDB()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/app/services/database.service.ts:20</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -511,30 +270,34 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="saveAssignment"></a>
+                    <a name="dismissAll"></a>
                     <span class="name">
-                        <span ><b>saveAssignment</b></span>
-                        <a href="#saveAssignment"><span class="icon ion-ios-link"></span></a>
+                        <span class="modifier">Public</span>
+                        <span ><b>dismissAll</b></span>
+                        <a href="#dismissAll"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>saveAssignment(assignment: <a href="../classes/Assignment.html" target="_self">Assignment</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>dismissAll(options?: <a href="../interfaces/DismissOptions.html" target="_self">DismissOptions</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/app/services/database.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/app/services/overlay-manager.service.ts:46</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Request dismissal of all overlays, with optional exclusions.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -549,9 +312,167 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>assignment</td>
+                                    <td>options</td>
                                     <td>
-                                                <code><a href="../classes/Assignment.html" target="_self" >Assignment</a></code>
+                                                <code><a href="../interfaces/DismissOptions.html" target="_self" >DismissOptions</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dismissTransient"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>dismissTransient</b></span>
+                        <a href="#dismissTransient"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>dismissTransient(options?: <a href="../interfaces/DismissOptions.html" target="_self">DismissOptions</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/app/services/overlay-manager.service.ts:55</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Request dismissal of transient UI overlays (tooltips, contextual menus).</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../interfaces/DismissOptions.html" target="_self" >DismissOptions</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldDismiss"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>shouldDismiss</b></span>
+                        <a href="#shouldDismiss"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>shouldDismiss(type: <a href="../undefineds/OverlayType.html" target="_self">OverlayType</a>, event: <a href="../interfaces/OverlayDismissEvent.html" target="_self">OverlayDismissEvent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/app/services/overlay-manager.service.ts:65</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Helper utility to check if an event matches and should dismiss a target type.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#OverlayType" target="_self" >OverlayType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/OverlayDismissEvent.html" target="_self" >OverlayDismissEvent</a></code>
                                     </td>
 
                                     <td>
@@ -566,7 +487,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                     </div>
                     <div class="io-description">
@@ -586,22 +507,29 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="assignments"></a>
+                    <a name="dismiss$"></a>
                     <span class="name">
-                        <span ><b>assignments</b></span>
-                        <a href="#assignments"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>dismiss$</b></span>
+                        <a href="#dismiss$"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Assignment.html" target="_self" >Dexie.Table&lt;Assignment | number&gt;</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/OverlayDismissEvent.html" target="_self" >Observable&lt;OverlayDismissEvent&gt;</a></code>
 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.dismissSubject.asObservable()</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/database.service.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/services/overlay-manager.service.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -612,21 +540,22 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="dbChanged"></a>
+                    <a name="dismissSubject"></a>
                     <span class="name">
-                        <span ><b>dbChanged</b></span>
-                        <a href="#dbChanged"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Private</span>
+                        <span ><b>dismissSubject</b></span>
+                        <a href="#dismissSubject"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                        <i>Default value : </i><code>new Subject&lt;OverlayDismissEvent&gt;()</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/services/database.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/overlay-manager.service.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -639,86 +568,78 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Assignment } from &quot;@models/Assignment.model&quot;;
-import { plainToClass } from &quot;class-transformer&quot;;
-import Dexie from &quot;dexie&quot;;
-import { JsonManagerService } from &quot;./json-manager.service&quot;;
-import { Subject } from &quot;rxjs&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, NgZone } from &quot;@angular/core&quot;;
+import { Observable, Subject } from &quot;rxjs&quot;;
+
+export enum OverlayType {
+  ALL &#x3D; &quot;ALL&quot;,
+  TOOLTIP &#x3D; &quot;TOOLTIP&quot;,
+  CONTEXT_MENU &#x3D; &quot;CONTEXT_MENU&quot;,
+  TYPEAHEAD &#x3D; &quot;TYPEAHEAD&quot;,
+  QUICK_HELP &#x3D; &quot;QUICK_HELP&quot;,
+  DROPDOWN &#x3D; &quot;DROPDOWN&quot;,
+}
+
+export interface DismissOptions {
+  exclude?: OverlayType[];
+  blurInput?: boolean;
+}
+
+export interface OverlayDismissEvent {
+  target: OverlayType;
+  options?: DismissOptions;
+}
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class DatabaseService extends Dexie {
-  assignments: Dexie.Table&lt;Assignment, number&gt;;
-  dbChanged &#x3D; new Subject&lt;void&gt;();
+export class OverlayManagerService {
+  private dismissSubject &#x3D; new Subject&lt;OverlayDismissEvent&gt;();
 
-  constructor(private fileService: JsonManagerService) {
-    super(&quot;assignmentsdb&quot;);
-    this.initDB();
-  }
+  public readonly dismiss$: Observable&lt;OverlayDismissEvent&gt; &#x3D;
+    this.dismissSubject.asObservable();
 
-  initDB() {
-    this.version(1).stores({
-      assignments: &quot;++id, metadata.title&quot;,
-    });
-    this.version(2).stores({
-      assignments: &quot;++id, metadata.title&quot;,
-    }).upgrade(tx &#x3D;&gt; {
-      return tx.table(&quot;assignments&quot;).toCollection().modify(assignment &#x3D;&gt; {
-        if (assignment.sessions &amp;&amp; Array.isArray(assignment.sessions)) {
-          assignment.sessions.forEach((session: any) &#x3D;&gt; {
-            if (session.label &#x3D;&#x3D;&#x3D; undefined) {
-              session.label &#x3D; &quot;&quot;;
-            }
-          });
-        }
-      });
-    });
-    this.assignments &#x3D; this.table(&quot;assignments&quot;);
-    this.assignments.mapToClass(Assignment);
-  }
+  constructor(private ngZone: NgZone) {}
 
-  getAllAssignments(): Promise&lt;Assignment[]&gt; {
-    return this.assignments
-      .toArray()
-      .then((assignments) &#x3D;&gt; plainToClass(Assignment, assignments));
-  }
-
-  saveAssignment(assignment: Assignment): Promise&lt;number&gt; {
-    return this.assignments.put(assignment).then((id) &#x3D;&gt; {
-      this.dbChanged.next();
-      return id;
+  /**
+   * Request dismissal of a specific overlay type.
+   */
+  public dismiss(type: OverlayType, options?: DismissOptions): void {
+    this.ngZone.run(() &#x3D;&gt; {
+      this.dismissSubject.next({ target: type, options });
     });
   }
 
-  deleteAssignment(id: number): Promise&lt;void&gt; {
-    return this.assignments.delete(id).then(() &#x3D;&gt; {
-      this.dbChanged.next();
+  /**
+   * Request dismissal of all overlays, with optional exclusions.
+   */
+  public dismissAll(options?: DismissOptions): void {
+    this.ngZone.run(() &#x3D;&gt; {
+      this.dismissSubject.next({ target: OverlayType.ALL, options });
     });
   }
 
-  getAssignmentById(id: number): Promise&lt;Assignment&gt; {
-    return this.assignments
-      .get(id)
-      .then((assignment) &#x3D;&gt; plainToClass(Assignment, assignment));
-  }
-
-  exportDB(): Promise&lt;any&gt; {
-    return this.getAllAssignments().then((assignments) &#x3D;&gt; {
-      return assignments.map((assignment) &#x3D;&gt; {
-        let { id, ...assignmentNoId } &#x3D; assignment;
-        return assignmentNoId;
-      });
+  /**
+   * Request dismissal of transient UI overlays (tooltips, contextual menus).
+   */
+  public dismissTransient(options?: DismissOptions): void {
+    this.ngZone.run(() &#x3D;&gt; {
+      this.dismiss(OverlayType.TOOLTIP, options);
+      this.dismiss(OverlayType.CONTEXT_MENU, options);
     });
   }
 
-  importDB(assignments: Assignment[]): Promise&lt;void&gt; {
-    return this.transaction(&quot;rw&quot;, this.assignments, (tx) &#x3D;&gt; {
-      assignments.forEach((assignment) &#x3D;&gt; {
-        this.saveAssignment(assignment);
-      });
-    });
+  /**
+   * Helper utility to check if an event matches and should dismiss a target type.
+   */
+  public static shouldDismiss(
+    type: OverlayType,
+    event: OverlayDismissEvent
+  ): boolean {
+    if (event.options?.exclude?.includes(type)) {
+      return false;
+    }
+    return event.target &#x3D;&#x3D;&#x3D; OverlayType.ALL || event.target &#x3D;&#x3D;&#x3D; type;
   }
 }
 </code></pre>
@@ -764,7 +685,7 @@ export class DatabaseService extends Dexie {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
-            var COMPODOC_CURRENT_PAGE_URL = 'DatabaseService.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'OverlayManagerService.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

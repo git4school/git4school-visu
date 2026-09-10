@@ -387,6 +387,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/NgbDateNativeUTCFranceAdapter.html" data-type="entity-link" >NgbDateNativeUTCFranceAdapter</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/OverlayManagerService.html" data-type="entity-link" >OverlayManagerService</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/ThemeService.html" data-type="entity-link" >ThemeService</a>
                                 </li>
                                 <li class="link">
@@ -437,10 +440,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/CustomModalOptions.html" data-type="entity-link" >CustomModalOptions</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/DismissOptions.html" data-type="entity-link" >DismissOptions</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/FilterGroup.html" data-type="entity-link" >FilterGroup</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/NavTab.html" data-type="entity-link" >NavTab</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/OverlayDismissEvent.html" data-type="entity-link" >OverlayDismissEvent</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/Toast.html" data-type="entity-link" >Toast</a>

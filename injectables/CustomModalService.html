@@ -410,6 +410,7 @@ export class CustomModalService {
     options: CustomModalOptions &#x3D; {}
   ): CustomModalRef {
     this.openModalsCount++;
+    document.body.classList.add(&quot;custom-modal-open&quot;);
     // 1. Create the container component (the overlay and modal dialog)
     const containerFactory &#x3D;
       this.componentFactoryResolver.resolveComponentFactory(
@@ -471,6 +472,9 @@ export class CustomModalService {
     // Cleanup when modal closes
     customModalRef.result.finally(() &#x3D;&gt; {
       this.openModalsCount &#x3D; Math.max(0, this.openModalsCount - 1);
+      if (this.openModalsCount &#x3D;&#x3D;&#x3D; 0) {
+        document.body.classList.remove(&quot;custom-modal-open&quot;);
+      }
       document.body.style.overflow &#x3D; previousBodyOverflow;
       this.appRef.detachView(containerRef.hostView);
       containerRef.destroy();

@@ -756,7 +756,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadGraphDataAndRefresh()</code>
+<code>loadGraphDataAndRefresh(conserveZoom?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -779,8 +779,40 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>conserveZoom</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1255,7 +1287,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadGraphMetadata(repositories: <a href="../classes/Repository.html" target="_self">Repository[]</a>, reviews: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, corrections: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, questions)</code>
+<code>loadGraphMetadata(repositories: <a href="../classes/Repository.html" target="_self">Repository[]</a>, reviews: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, corrections: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, questions, conserveZoom: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -1286,6 +1318,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1299,6 +1332,8 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                 </tr>
                                 <tr>
@@ -1311,6 +1346,8 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                 </tr>
                                 <tr>
@@ -1323,6 +1360,8 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                 </tr>
                                 <tr>
@@ -1334,6 +1373,23 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>conserveZoom</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -2203,7 +2259,7 @@ export class StudentsCommitsComponent
     }
   }
 
-  loadGraphDataAndRefresh() {
+  loadGraphDataAndRefresh(conserveZoom?: boolean) {
     let translations &#x3D; this.translateService.instant([
       &quot;STUDENT&quot;,
       &quot;COMMITS-COUNT&quot;,

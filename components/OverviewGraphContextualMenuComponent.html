@@ -76,6 +76,7 @@
     </p>
     <p class="comment">
                     <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
     </p>
 
 
@@ -138,6 +139,10 @@
                                 <a href="#date" >date</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
                                 <a href="#dropdown" >dropdown</a>
                             </li>
                             <li>
@@ -187,6 +192,9 @@
                             </li>
                             <li>
                                 <a href="#isContextMenuOpen" >isContextMenuOpen</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
@@ -287,12 +295,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(customModalService: <a href="../injectables/CustomModalService.html" target="_self">CustomModalService</a>)</code>
+<code>constructor(customModalService: <a href="../injectables/CustomModalService.html" target="_self">CustomModalService</a>, overlayManagerService: <a href="../injectables/OverlayManagerService.html" target="_self">OverlayManagerService</a>, ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:53</a></div>
                             </td>
                         </tr>
 
@@ -314,6 +322,30 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/CustomModalService.html" target="_self" >CustomModalService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>overlayManagerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OverlayManagerService.html" target="_self" >OverlayManagerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>ngZone</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -348,7 +380,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:32</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -369,7 +401,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:33</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -390,7 +422,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:29</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -411,7 +443,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:30</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -432,7 +464,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:31</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -456,7 +488,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:42</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -477,7 +509,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:43</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -498,7 +530,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:34</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -519,7 +551,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:38</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -552,8 +584,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:152</a></div>
                 </td>
             </tr>
 
@@ -589,8 +621,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:159</a></div>
                 </td>
             </tr>
 
@@ -626,8 +658,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:133</a></div>
                 </td>
             </tr>
 
@@ -663,8 +695,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:144</a></div>
                 </td>
             </tr>
 
@@ -700,8 +732,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:148</a></div>
                 </td>
             </tr>
 
@@ -737,8 +769,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:139</a></div>
                 </td>
             </tr>
 
@@ -748,6 +780,43 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:77</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -774,8 +843,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:61</a></div>
                 </td>
             </tr>
 
@@ -811,8 +880,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:83</a></div>
                 </td>
             </tr>
 
@@ -916,8 +985,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:100</a></div>
                 </td>
             </tr>
 
@@ -1021,8 +1090,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:173</a></div>
                 </td>
             </tr>
 
@@ -1090,8 +1159,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:117</a></div>
                 </td>
             </tr>
 
@@ -1183,8 +1252,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:190</a></div>
                 </td>
             </tr>
 
@@ -1252,8 +1321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:165</a></div>
                 </td>
             </tr>
 
@@ -1321,8 +1390,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:169</a></div>
                 </td>
             </tr>
 
@@ -1392,8 +1461,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="152"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:152</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="209"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:209</a></div>
                 </td>
             </tr>
 
@@ -1475,8 +1544,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:147</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:204</a></div>
                 </td>
             </tr>
 
@@ -1561,7 +1630,33 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -1590,7 +1685,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -1616,7 +1711,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -1642,7 +1737,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -1668,7 +1763,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1694,7 +1789,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -1720,7 +1815,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -1746,7 +1841,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/overview-graph-contextual-menu/overview-graph-contextual-menu.component.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1763,6 +1858,8 @@
   Component,
   EventEmitter,
   Input,
+  NgZone,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -1774,13 +1871,16 @@ import { Session } from &quot;@models/Session.model&quot;;
 import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
 import { NgbDropdown } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { Utils } from &quot;@services/utils&quot;;
+import { OverlayManagerService, OverlayType } from &quot;@services/overlay-manager.service&quot;;
+import { Subject } from &quot;rxjs&quot;;
+import { takeUntil } from &quot;rxjs/operators&quot;;
 
 @Component({
   selector: &quot;overview-graph-contextual-menu&quot;,
   templateUrl: &quot;./overview-graph-contextual-menu.component.html&quot;,
   styleUrls: [&quot;./overview-graph-contextual-menu.component.scss&quot;],
 })
-export class OverviewGraphContextualMenuComponent implements OnInit {
+export class OverviewGraphContextualMenuComponent implements OnInit, OnDestroy {
   @ViewChild(NgbDropdown) dropdown;
   @Input() questions: string[];
   @Input() tpGroups: string[];
@@ -1806,42 +1906,94 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
   session: Session;
   date: Date;
 
-  constructor(private customModalService: CustomModalService) {}
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+
+  constructor(
+    private customModalService: CustomModalService,
+    private overlayManagerService: OverlayManagerService,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
     this.setEditModes(false, false);
+    this.overlayManagerService.dismiss$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event) &#x3D;&gt; {
+        if (
+          OverlayManagerService.shouldDismiss(
+            OverlayType.CONTEXT_MENU,
+            event
+          )
+        ) {
+          this.close();
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /////////////// External methods to manipulate context menu /////////////////////////////
   openEditMilestone(milestone: Milestone, x: number, y: number, date: Date) {
+    this.overlayManagerService.dismissAll({
+      exclude: [OverlayType.CONTEXT_MENU],
+    });
     this.milestone &#x3D; milestone;
     this.setEditModes(true, false);
     this.setPosition(x, y);
     this.date &#x3D; date;
-    this.dropdown.open();
+    requestAnimationFrame(() &#x3D;&gt; {
+      this.ngZone.run(() &#x3D;&gt; {
+        if (this.dropdown) {
+          this.dropdown.open();
+        }
+      });
+    });
   }
 
   openEditSession(session: Session, x: number, y: number, date: Date) {
+    this.overlayManagerService.dismissAll({
+      exclude: [OverlayType.CONTEXT_MENU],
+    });
     this.session &#x3D; session;
     this.setEditModes(false, true);
     this.setPosition(x, y);
     this.date &#x3D; date;
-    this.dropdown.open();
+    requestAnimationFrame(() &#x3D;&gt; {
+      this.ngZone.run(() &#x3D;&gt; {
+        if (this.dropdown) {
+          this.dropdown.open();
+        }
+      });
+    });
   }
 
   openNew(x: number, y: number, date: Date) {
+    this.overlayManagerService.dismissAll({
+      exclude: [OverlayType.CONTEXT_MENU],
+    });
     this.setEditModes(false, false);
     this.setPosition(x, y);
     this.date &#x3D; date;
-    this.dropdown.open();
+    requestAnimationFrame(() &#x3D;&gt; {
+      this.ngZone.run(() &#x3D;&gt; {
+        if (this.dropdown) {
+          this.dropdown.open();
+        }
+      });
+    });
   }
 
   close() {
-    this.dropdown.close();
+    if (this.dropdown) {
+      this.dropdown.close();
+    }
   }
 
   isContextMenuOpen(): boolean {
-    return this.dropdown.isOpen();
+    return this.dropdown ? this.dropdown.isOpen() : false;
   }
   //////////////////////////////////////////////////////////////////////////////////////
 
@@ -1919,7 +2071,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div ngbDropdown class&#x3D;&quot;contextMenu&quot; [style.left]&#x3D;&quot;left&quot; [style.top]&#x3D;&quot;top&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div ngbDropdown display&#x3D;&quot;static&quot; class&#x3D;&quot;contextMenu&quot; [style.left]&#x3D;&quot;left&quot; [style.top]&#x3D;&quot;top&quot;&gt;
     &lt;div ngbDropdownMenu class&#x3D;&quot;modern-dropdown-menu&quot;&gt;
         &lt;div&gt;
             &lt;button ngbDropdownItem *ngIf&#x3D;&quot;editMilestoneMode&quot; (click)&#x3D;&quot;editMilestone()&quot;&gt;&lt;i
@@ -1987,7 +2139,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div ngbDropdown class="contextMenu" [style.left]="left" [style.top]="top">    <div ngbDropdownMenu class="modern-dropdown-menu">        <div>            <button ngbDropdownItem *ngIf="editMilestoneMode" (click)="editMilestone()"><i                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{                \'EDIT-MILESTONE-CONTEXT-MENU\' | translate }}</button>            <button ngbDropdownItem *ngIf="!editMilestoneMode" (click)="addMilestone()"><i                    class="fas fa-plus fa-sm mr-2"></i>{{                \'ADD-MILESTONE-CONTEXT-MENU\' | translate }}</button>        </div>        <div>            <button ngbDropdownItem *ngIf="editSessionMode" (click)="editSession()"><i                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{                \'EDIT-SESSION-CONTEXT-MENU\' | translate }}</button>            <button ngbDropdownItem *ngIf="!editSessionMode" (click)="addSession()"><i                    class="fas fa-plus fa-sm mr-2"></i>{{                \'ADD-SESSION-CONTEXT-MENU\' |                translate }}</button>        </div>        <div class="dropdown-divider" *ngIf="editMilestoneMode || editSessionMode"></div>        <button ngbDropdownItem class="dropdown-item-danger" *ngIf="editMilestoneMode" (click)="removeMilestone(milestone)"><i                class="far fa-trash-alt fa-sm mr-2"></i>{{            \'DELETE-MILESTONE-CONTEXT-MENU\' | translate }}</button>        <button ngbDropdownItem class="dropdown-item-danger" *ngIf="editSessionMode" (click)="removeSession(session)"><i                class="far fa-trash-alt fa-sm mr-2"></i>{{            \'DELETE-SESSION-CONTEXT-MENU\' | translate }}</button>    </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div ngbDropdown display="static" class="contextMenu" [style.left]="left" [style.top]="top">    <div ngbDropdownMenu class="modern-dropdown-menu">        <div>            <button ngbDropdownItem *ngIf="editMilestoneMode" (click)="editMilestone()"><i                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{                \'EDIT-MILESTONE-CONTEXT-MENU\' | translate }}</button>            <button ngbDropdownItem *ngIf="!editMilestoneMode" (click)="addMilestone()"><i                    class="fas fa-plus fa-sm mr-2"></i>{{                \'ADD-MILESTONE-CONTEXT-MENU\' | translate }}</button>        </div>        <div>            <button ngbDropdownItem *ngIf="editSessionMode" (click)="editSession()"><i                    class="fas fa-pencil-alt fa-sm mr-2"></i>{{                \'EDIT-SESSION-CONTEXT-MENU\' | translate }}</button>            <button ngbDropdownItem *ngIf="!editSessionMode" (click)="addSession()"><i                    class="fas fa-plus fa-sm mr-2"></i>{{                \'ADD-SESSION-CONTEXT-MENU\' |                translate }}</button>        </div>        <div class="dropdown-divider" *ngIf="editMilestoneMode || editSessionMode"></div>        <button ngbDropdownItem class="dropdown-item-danger" *ngIf="editMilestoneMode" (click)="removeMilestone(milestone)"><i                class="far fa-trash-alt fa-sm mr-2"></i>{{            \'DELETE-MILESTONE-CONTEXT-MENU\' | translate }}</button>        <button ngbDropdownItem class="dropdown-item-danger" *ngIf="editSessionMode" (click)="removeSession(session)"><i                class="far fa-trash-alt fa-sm mr-2"></i>{{            \'DELETE-SESSION-CONTEXT-MENU\' | translate }}</button>    </div></div></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
     var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'OverviewGraphContextualMenuComponent'};

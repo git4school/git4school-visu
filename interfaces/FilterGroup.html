@@ -151,13 +151,16 @@
   QueryList,
   ElementRef,
   HostListener,
+  ChangeDetectorRef,
+  Optional,
 } from &quot;@angular/core&quot;;
-import { ChangeDetectorRef } from &quot;@angular/core&quot;;
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from &quot;@angular/forms&quot;;
 import { NgbTypeahead } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { merge, Observable, Subject } from &quot;rxjs&quot;;
-import { filter, map } from &quot;rxjs/operators&quot;;
+import { filter, map, takeUntil } from &quot;rxjs/operators&quot;;
 import { OsUtils } from &quot;@utils/os.utils&quot;;
+import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
+import { OverlayManagerService, OverlayType } from &quot;@services/overlay-manager.service&quot;;
 
 export interface FilterGroup {
   criteria: {
@@ -212,7 +215,6 @@ export class QuestionsChooserComponent
 
   disabled: boolean;
 
-  pressedShortcut: string &#x3D; null;
   showQuickHelp &#x3D; false;
   helpShiftX &#x3D; 0;
   helpShiftY &#x3D; 0;
@@ -274,13 +276,54 @@ export class QuestionsChooserComponent
     }
   }
 
+  private isModalOpen(): boolean {
+    if (this.customModalService &amp;&amp; this.customModalService.hasOpenModals()) {
+      return true;
+    }
+    if (document.body.classList.contains(&quot;modal-open&quot;)) {
+      return true;
+    }
+    return !!document.querySelector(&quot;.modal.show, .custom-modal-backdrop&quot;);
+  }
+
+  handleEscape(event?: KeyboardEvent) {
+    if (this.isModalOpen()) return;
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (this.showQuickHelp) {
+      this.closeQuickHelp();
+    }
+    if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
+      this.instance.dismissPopup();
+    }
+    this.clearAll();
+    if (this.inputField &amp;&amp; this.inputField.nativeElement) {
+      this.inputField.nativeElement.blur();
+    }
+    this.selectedPillIndex &#x3D; null;
+    this.editingPillIndex &#x3D; null;
+    this.cdr.markForCheck();
+  }
+
+  private getTypeaheadElement(): HTMLElement | null {
+    const ownsId &#x3D; this.inputField?.nativeElement?.getAttribute(&quot;aria-owns&quot;);
+    if (ownsId) {
+      const el &#x3D; document.getElementById(ownsId);
+      if (el) return el;
+    }
+    return document.querySelector(&quot;ngb-typeahead-window&quot;) as HTMLElement;
+  }
+
   updateHelpPosition() {
     if (!this.showQuickHelp) {
       this.resetHelpPosition();
       return;
     }
 
-    const typeaheadEl &#x3D; document.querySelector(&quot;ngb-typeahead-window&quot;) as HTMLElement;
+    const typeaheadEl &#x3D; this.getTypeaheadElement();
     const isTypeaheadVisible &#x3D;
       typeaheadEl &amp;&amp;
       ((this.instance &amp;&amp; this.instance.isPopupOpen()) ||
@@ -297,7 +340,8 @@ export class QuestionsChooserComponent
 
     const typeaheadRect &#x3D; typeaheadEl.getBoundingClientRect();
     const containerRect &#x3D; containerEl.getBoundingClientRect();
-    const helpWidth &#x3D; 360;
+    const helpEl &#x3D; this.quickHelpPopover ? this.quickHelpPopover.nativeElement : null;
+    const helpWidth &#x3D; helpEl &amp;&amp; helpEl.offsetWidth &gt; 0 ? helpEl.offsetWidth : Math.min(360, window.innerWidth - 32);
 
     // Resting position of quick-help-popover relative to viewport (top: calc(100% + 8px), right: 0 relative to pseudo-input-container):
     const restingTop &#x3D; containerRect.bottom + 8;
@@ -388,14 +432,18 @@ export class QuestionsChooserComponent
       });
     }
 
-    const typeaheadEl &#x3D; document.querySelector(&quot;ngb-typeahead-window&quot;) as HTMLElement;
+    const typeaheadEl &#x3D; this.getTypeaheadElement();
     if (typeaheadEl) {
       this.attachTypeaheadObservers(typeaheadEl);
     }
 
     this.updateHelpPosition();
-    requestAnimationFrame(() &#x3D;&gt; this.updateHelpPosition());
-    setTimeout(() &#x3D;&gt; this.updateHelpPosition(), 50);
+    requestAnimationFrame(() &#x3D;&gt; {
+      this.updateHelpPosition();
+      requestAnimationFrame(() &#x3D;&gt; {
+        this.updateHelpPosition();
+      });
+    });
   }
 
   private stopObservingTypeahead() {
@@ -422,30 +470,33 @@ export class QuestionsChooserComponent
     return OsUtils.modifierKey;
   }
 
+  public focus() {
+    if (this.inputField &amp;&amp; this.inputField.nativeElement) {
+      this.inputField.nativeElement.focus();
+    }
+  }
+
   @HostListener(&quot;document:keydown&quot;, [&quot;$event&quot;])
   handleGlobalKeyDown(event: KeyboardEvent) {
     if (this.mode !&#x3D;&#x3D; &quot;search&quot;) return;
-    if (this.showQuickHelp &amp;&amp; event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
-      this.showQuickHelp &#x3D; false;
-      this.stopObservingTypeahead();
-      this.resetHelpPosition();
-      event.preventDefault();
+    if (this.isModalOpen()) return;
+
+    if (event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
+      this.handleEscape(event);
       return;
     }
-    if (event.key.toLowerCase() &#x3D;&#x3D;&#x3D; &quot;f&quot;) {
+
+    if (
+      event.key.toLowerCase() &#x3D;&#x3D;&#x3D; &quot;f&quot; &amp;&amp;
+      !event.ctrlKey &amp;&amp;
+      !event.metaKey &amp;&amp;
+      !event.altKey
+    ) {
       if (OsUtils.isTypingInInput(event)) {
         return;
       }
       event.preventDefault();
-
-      this.pressedShortcut &#x3D; &quot;f&quot;;
-      if (this.inputField &amp;&amp; this.inputField.nativeElement) {
-        this.inputField.nativeElement.focus();
-      }
-
-      setTimeout(() &#x3D;&gt; {
-        if (this.pressedShortcut &#x3D;&#x3D;&#x3D; &quot;f&quot;) this.pressedShortcut &#x3D; null;
-      }, 150);
+      this.focus();
     }
   }
 
@@ -482,39 +533,61 @@ export class QuestionsChooserComponent
   }
 
   public clearAll() {
+    this.question &#x3D; &quot;&quot;;
     this.items &#x3D; [];
     this.questions &#x3D; [];
     this.commitMessages &#x3D; [];
     this.selectedPillIndex &#x3D; null;
     this.editingPillIndex &#x3D; null;
+    this.isTypingExclusion &#x3D; false;
     this.onChange(this.questions);
     this.commitMessagesChange.emit(this.commitMessages);
     this.emitFilterGroups();
   }
 
-  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef) {}
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+
+  constructor(
+    private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef,
+    @Optional() private customModalService?: CustomModalService,
+    @Optional() private overlayManagerService?: OverlayManagerService
+  ) {}
+
+  public closePopovers(blurInput &#x3D; false) {
+    if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
+      this.instance.dismissPopup();
+    }
+    if (this.selectedPillIndex !&#x3D;&#x3D; null) {
+      if (this.editingPillIndex !&#x3D;&#x3D; null) {
+        this.finishEditing();
+      }
+      this.selectedPillIndex &#x3D; null;
+    }
+    if (this.showQuickHelp) {
+      this.showQuickHelp &#x3D; false;
+      this.stopObservingTypeahead();
+      this.resetHelpPosition();
+    }
+    if (
+      blurInput &amp;&amp;
+      this.inputField &amp;&amp;
+      this.inputField.nativeElement &amp;&amp;
+      document.activeElement &#x3D;&#x3D;&#x3D; this.inputField.nativeElement
+    ) {
+      this.inputField.nativeElement.blur();
+    }
+    this.cdr.markForCheck();
+  }
 
   @HostListener(&quot;document:click&quot;, [&quot;$event&quot;])
   clickout(event) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
-      const typeaheadWindow &#x3D; document.querySelector(&quot;ngb-typeahead-window&quot;);
+      const typeaheadWindow &#x3D; this.getTypeaheadElement();
       if (typeaheadWindow &amp;&amp; typeaheadWindow.contains(event.target)) {
         return;
       }
-      if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
-        this.instance.dismissPopup();
-      }
-      if (this.selectedPillIndex !&#x3D;&#x3D; null) {
-        if (this.editingPillIndex !&#x3D;&#x3D; null) {
-          this.finishEditing();
-        }
-        this.selectedPillIndex &#x3D; null;
-      }
-      if (this.showQuickHelp) {
-        this.showQuickHelp &#x3D; false;
-        this.stopObservingTypeahead();
-        this.resetHelpPosition();
-      }
+      this.closePopovers();
     }
   }
 
@@ -523,6 +596,17 @@ export class QuestionsChooserComponent
     if (this.selectedPillIndex !&#x3D;&#x3D; null) {
       if (this.editingPillIndex !&#x3D;&#x3D; null) {
         return; // Let the editInput handle it
+      }
+
+      if (event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
+        this.handleEscape(event);
+        return;
+      }
+
+      if (event.key &#x3D;&#x3D;&#x3D; &quot;?&quot; &amp;&amp; this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
+        event.preventDefault();
+        this.toggleQuickHelp();
+        return;
       }
 
       if (event.key &#x3D;&#x3D;&#x3D; &quot;ArrowLeft&quot; &amp;&amp; OsUtils.isModifierPressed(event)) {
@@ -621,6 +705,21 @@ export class QuestionsChooserComponent
     return results;
   }
 
+  private getMatchingQuestionSuggestions(
+    cleanSearch: string,
+    isEditing &#x3D; false
+  ): string[] {
+    return this.questionSuggestions
+      .filter(
+        (question) &#x3D;&gt;
+          (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; ||
+            !this.questions.includes(question) ||
+            (isEditing &amp;&amp; question &#x3D;&#x3D;&#x3D; this.editingOldValue)) &amp;&amp;
+          question.toLowerCase().indexOf(cleanSearch.toLowerCase()) &gt; -1
+      )
+      .slice(0, 8);
+  }
+
   searchQuestions &#x3D; (text: Observable&lt;string&gt;) &#x3D;&gt; {
     const clicksWithClosedPopup$ &#x3D; this.click$.pipe(
       filter(() &#x3D;&gt; !this.instance.isPopupOpen())
@@ -631,13 +730,7 @@ export class QuestionsChooserComponent
         const raw &#x3D; (searchRaw || &quot;&quot;).trim();
         const isExclusion &#x3D; this.isTypingExclusion || raw.startsWith(&quot;!&quot;);
         const cleanSearch &#x3D; raw.startsWith(&quot;!&quot;) ? raw.substring(1).trim() : raw;
-        const matchingQuestions &#x3D; this.questionSuggestions
-          .filter(
-            (question) &#x3D;&gt;
-              (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; || !this.questions.includes(question)) &amp;&amp;
-              question.toLowerCase().indexOf(cleanSearch.toLowerCase()) &gt; -1
-          )
-          .slice(0, 8);
+        const matchingQuestions &#x3D; this.getMatchingQuestionSuggestions(cleanSearch, false);
 
         if (this.mode !&#x3D;&#x3D; &quot;search&quot;) {
           return matchingQuestions;
@@ -658,15 +751,11 @@ export class QuestionsChooserComponent
         const raw &#x3D; (searchRaw || &quot;&quot;).trim();
         const isExclusion &#x3D; this.editingIsExclusion || raw.startsWith(&quot;!&quot;);
         const cleanSearch &#x3D; raw.startsWith(&quot;!&quot;) ? raw.substring(1).trim() : raw;
-        const matchingQuestions &#x3D; this.questionSuggestions
-          .filter(
-            (question) &#x3D;&gt;
-              (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; ||
-                !this.questions.includes(question) ||
-                question &#x3D;&#x3D;&#x3D; this.editingOldValue) &amp;&amp;
-              question.toLowerCase().indexOf(cleanSearch.toLowerCase()) &gt; -1
-          )
-          .slice(0, 8);
+        const matchingQuestions &#x3D; this.getMatchingQuestionSuggestions(cleanSearch, true);
+
+        if (this.mode !&#x3D;&#x3D; &quot;search&quot;) {
+          return matchingQuestions;
+        }
 
         const results &#x3D; this.buildTypeaheadResults(cleanSearch, matchingQuestions, isExclusion);
         if (this.showQuickHelp) {
@@ -677,6 +766,18 @@ export class QuestionsChooserComponent
     );
   };
 
+  private onInputCaptureKeyDown &#x3D; (event: KeyboardEvent) &#x3D;&gt; {
+    if (event.key &#x3D;&#x3D;&#x3D; &quot;Tab&quot;) {
+      event.preventDefault();
+      event.stopPropagation(); // Stop ngbTypeahead from processing the Tab key
+      if (this.instance.isPopupOpen()) {
+        this.instance.dismissPopup();
+      } else {
+        this.click$.next(this.question || &quot;&quot;);
+      }
+    }
+  };
+
   ngOnInit(): void {
     this.disabled &#x3D; false;
     this.questions &#x3D; [...this.questions];
@@ -684,27 +785,73 @@ export class QuestionsChooserComponent
     this.commitMessages &#x3D; [...this.commitMessages];
     this.syncItemsFromInputs();
 
-    this.inputField.nativeElement.addEventListener(
-      &quot;keydown&quot;,
-      (event: KeyboardEvent) &#x3D;&gt; {
-        if (event.key &#x3D;&#x3D;&#x3D; &quot;Tab&quot;) {
-          event.preventDefault();
-          event.stopPropagation(); // Stop ngbTypeahead from processing the Tab key
-          if (this.instance.isPopupOpen()) {
-            this.instance.dismissPopup();
-          } else {
-            this.click$.next(this.question || &quot;&quot;);
+    if (this.overlayManagerService) {
+      this.overlayManagerService.dismiss$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((event) &#x3D;&gt; {
+          const shouldDismissTypeahead &#x3D; OverlayManagerService.shouldDismiss(
+            OverlayType.TYPEAHEAD,
+            event
+          );
+          const shouldDismissHelp &#x3D; OverlayManagerService.shouldDismiss(
+            OverlayType.QUICK_HELP,
+            event
+          );
+
+          if (shouldDismissTypeahead) {
+            if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
+              this.instance.dismissPopup();
+            }
+            if (this.selectedPillIndex !&#x3D;&#x3D; null) {
+              if (this.editingPillIndex !&#x3D;&#x3D; null) {
+                this.finishEditing();
+              }
+              this.selectedPillIndex &#x3D; null;
+            }
+            if (
+              event.options?.blurInput &amp;&amp;
+              this.inputField &amp;&amp;
+              this.inputField.nativeElement &amp;&amp;
+              document.activeElement &#x3D;&#x3D;&#x3D; this.inputField.nativeElement
+            ) {
+              this.inputField.nativeElement.blur();
+            }
           }
-        }
-      },
-      true
-    ); // Use capture phase
+
+          if (shouldDismissHelp) {
+            if (this.showQuickHelp) {
+              this.showQuickHelp &#x3D; false;
+              this.stopObservingTypeahead();
+              this.resetHelpPosition();
+            }
+          }
+          this.cdr.markForCheck();
+        });
+    }
+
+    if (this.inputField &amp;&amp; this.inputField.nativeElement) {
+      this.inputField.nativeElement.addEventListener(
+        &quot;keydown&quot;,
+        this.onInputCaptureKeyDown,
+        true
+      ); // Use capture phase
+    }
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.stopObservingTypeahead();
+    if (this.inputField &amp;&amp; this.inputField.nativeElement) {
+      this.inputField.nativeElement.removeEventListener(
+        &quot;keydown&quot;,
+        this.onInputCaptureKeyDown,
+        true
+      );
+    }
     this.focus$.unsubscribe();
     this.click$.unsubscribe();
+    this.editFocus$.unsubscribe();
   }
 
   syncItemsFromInputs() {
@@ -718,13 +865,13 @@ export class QuestionsChooserComponent
         rawValue: q,
       });
     });
-    this.commitMessages.forEach((c) &#x3D;&gt; {
-      const isExclusion &#x3D; this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; &amp;&amp; c.startsWith(&quot;!&quot;);
+    this.commitMessages.forEach((m) &#x3D;&gt; {
+      const isExclusion &#x3D; this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; &amp;&amp; m.startsWith(&quot;!&quot;);
       this.items.push({
         type: &quot;commit&quot;,
-        value: isExclusion ? c.substring(1) : c,
+        value: isExclusion ? m.substring(1) : m,
         isExclusion,
-        rawValue: c,
+        rawValue: m,
       });
     });
   }
@@ -796,6 +943,10 @@ export class QuestionsChooserComponent
     this.isTypingExclusion &#x3D; false;
     this.scrollToEnd();
     this.emitFilterGroups();
+    this.focus();
+    setTimeout(() &#x3D;&gt; {
+      this.focus();
+    }, 0);
   }
 
   deleteItem(index: number) {
@@ -837,11 +988,8 @@ export class QuestionsChooserComponent
   }
 
   onMainInputKeyDown(event: KeyboardEvent) {
-    if (this.showQuickHelp &amp;&amp; event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
-      this.showQuickHelp &#x3D; false;
-      this.stopObservingTypeahead();
-      this.resetHelpPosition();
-      event.preventDefault();
+    if (event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot;) {
+      this.handleEscape(event);
       return;
     }
     if (
@@ -1544,7 +1692,10 @@ export class QuestionsChooserComponent
     return item.type &#x3D;&#x3D;&#x3D; &quot;commit&quot;;
   }
 
-  onEnter() {
+  onEnter(event?: Event) {
+    if (event) {
+      event.preventDefault();
+    }
     if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
       return;
     }
