@@ -95,25 +95,47 @@
             <div class="filter-section mb-3">
               <h6 class="filter-section-title">{{ 'HOME.FILTER.STATUS' | translate }}</h6>
               <div class="d-flex flex-wrap gap-2 mt-2 filter-chips">
-                <label class="filter-chip">
+                <label class="filter-chip chip-prepared">
                   <input type="checkbox" [(ngModel)]="advancedFilters.status.prepared"
                     (ngModelChange)="savePreferences()">
-                  <span>{{ 'HOME.STATUS.PREPARED' | translate }}</span>
+                  <span>
+                    <svg class="chip-icon" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="3" width="12" height="11" rx="2"></rect>
+                      <line x1="11" y1="1.5" x2="11" y2="4"></line>
+                      <line x1="5" y1="1.5" x2="5" y2="4"></line>
+                      <line x1="2" y1="7" x2="14" y2="7"></line>
+                    </svg>
+                    {{ 'HOME.STATUS.PREPARED' | translate }}
+                  </span>
                 </label>
-                <label class="filter-chip">
+                <label class="filter-chip chip-ongoing">
                   <input type="checkbox" [(ngModel)]="advancedFilters.status.ongoing"
                     (ngModelChange)="savePreferences()">
-                  <span>{{ 'HOME.STATUS.ONGOING' | translate }}</span>
+                  <span>
+                    <span class="filter-dot"></span>
+                    {{ 'HOME.STATUS.ONGOING' | translate }}
+                  </span>
                 </label>
-                <label class="filter-chip">
+                <label class="filter-chip chip-finished">
                   <input type="checkbox" [(ngModel)]="advancedFilters.status.finished"
                     (ngModelChange)="savePreferences()">
-                  <span>{{ 'HOME.STATUS.FINISHED' | translate }}</span>
+                  <span>
+                    <svg class="chip-icon" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="3.5 8.5 6.5 11.5 12.5 4.5"></polyline>
+                    </svg>
+                    {{ 'HOME.STATUS.FINISHED' | translate }}
+                  </span>
                 </label>
-                <label class="filter-chip">
+                <label class="filter-chip chip-default">
                   <input type="checkbox" [(ngModel)]="advancedFilters.status.default"
                     (ngModelChange)="savePreferences()">
-                  <span>{{ 'HOME.STATUS.DEFAULT' | translate }}</span>
+                  <span>
+                    <svg class="chip-icon" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="8" cy="8" r="6"></circle>
+                      <polyline points="8 4.5 8 8 10.5 9.5"></polyline>
+                    </svg>
+                    {{ 'HOME.STATUS.DEFAULT' | translate }}
+                  </span>
                 </label>
               </div>
             </div>
@@ -256,7 +278,8 @@
            'disabled-card': !authService.isSignedIn(), 
            'is-selected': isSelected(assignment.id),
            'is-editing': editingAssignmentId === assignment.id,
-           'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignmentId !== assignment.id
+           'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignmentId !== assignment.id,
+           'status-preview-dimmed': hoveredStatusPreview && assignment.id !== -1 && assignment.uiStatus !== hoveredStatusPreview
          }">
       <div class="card-content d-flex align-items-center" *ngIf="editingAssignmentId !== assignment.id">
 
@@ -289,12 +312,27 @@
               translate) }}</h5>
 
             <!-- Status Badge -->
-            <span class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus" *ngIf="assignment.id !== -1">
-              {{ 'HOME.STATUS.' + assignment.uiStatus.toUpperCase() | translate }}
-            </span>
-            <span class="badge status-badge status-default" *ngIf="assignment.id === -1">
-              {{ 'HOME.NEW' | translate }}
-            </span>
+            <button type="button" class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus" *ngIf="assignment.id !== -1"
+              [appTooltip]="getStatusTooltip(assignment.uiStatus) | translate"
+              (mouseenter)="onStatusMouseEnter(assignment.uiStatus)"
+              (mouseleave)="onStatusMouseLeave()"
+              (click)="toggleStatusFilterFromBadge(assignment.uiStatus, $event)">
+              <span class="status-pulse-dot" *ngIf="assignment.uiStatus === 'ongoing'"></span>
+              <svg class="status-icon" *ngIf="assignment.uiStatus === 'finished'" width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3.5 8.5 6.5 11.5 12.5 4.5"></polyline>
+              </svg>
+              <svg class="status-icon" *ngIf="assignment.uiStatus === 'prepared'" width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="12" height="11" rx="2"></rect>
+                <line x1="11" y1="1.5" x2="11" y2="4"></line>
+                <line x1="5" y1="1.5" x2="5" y2="4"></line>
+                <line x1="2" y1="7" x2="14" y2="7"></line>
+              </svg>
+              <svg class="status-icon" *ngIf="assignment.uiStatus === 'default'" width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8" cy="8" r="6"></circle>
+                <polyline points="8 4.5 8 8 10.5 9.5"></polyline>
+              </svg>
+              <span class="status-text">{{ 'HOME.STATUS.' + assignment.uiStatus.toUpperCase() | translate }}</span>
+            </button>
           </div>
           <div class="meta-info text-muted d-flex align-items-center"
             style="font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"

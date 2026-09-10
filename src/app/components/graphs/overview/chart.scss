@@ -133,6 +133,8 @@ body.dark-theme .commit {
     pointer-events: auto;
     overflow: hidden;
     cursor: default;
+    mask: url(#milestone-badges-cutout-mask);
+    -webkit-mask: url(#milestone-badges-cutout-mask);
   }
 
   .session-pill {
@@ -211,55 +213,86 @@ body.dark-theme .commit {
   pointer-events: auto;
   cursor: pointer;
 
-  > rect:first-child {
+  .milestone-vertical-line {
     transition: width var(--transition-fast), transform var(--transition-fast);
   }
   
-  &:hover > rect:first-child {
+  &:hover .milestone-vertical-line {
     width: 2px;
     transform: translate(-1px, 0);
   }
 
-  > rect:nth-child(2) {
-    rx: 12px;
-    ry: 12px;
-    transition: filter var(--transition-normal), transform var(--transition-normal);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-  }
-  
-  &:hover > rect:nth-child(2) {
-    transform: translateY(-2px);
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  .milestone-label-group {
+    pointer-events: none;
   }
 
-  > text {
-    fill: var(--color-surface);
+  // --- Bottom Bar ---
+  .milestone-bottom-bar {
+    pointer-events: none;
+    transition: height var(--transition-fast), y var(--transition-fast), filter var(--transition-fast);
+  }
+
+  // Hover feedback: bar thickens upward (matches vertical line hover at 3px, bottom stays at y=0)
+  &:hover .milestone-bottom-bar {
+    y: -3px;
+    height: 3px;
+    filter: brightness(1.15);
+  }
+
+  .milestone-text {
+    fill: var(--color-text-primary);
     user-select: none;
+    pointer-events: none;
     font-family: var(--font-family-sans);
-    font-size: 12px;
-    font-weight: 500;
-    transition: transform var(--transition-normal);
-  }
-
-  &:hover > text {
-    transform: translateY(-2px);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    transition: fill var(--transition-fast);
   }
 }
 
 .review {
-  > rect:first-child, > rect:nth-child(2) { fill: var(--color-primary); stroke: var(--color-primary); }
+  .milestone-vertical-line {
+    fill: var(--color-primary);
+    stroke: var(--color-primary);
+  }
+  .milestone-bottom-bar {
+    fill: var(--color-primary);
+  }
+  &:hover .milestone-text {
+    fill: var(--color-primary);
+  }
   .milestone-drag-badge .badge-progress { stroke: var(--color-primary); }
 }
 
 .correction {
-  > rect:first-child, > rect:nth-child(2) { fill: var(--color-danger); stroke: var(--color-danger); }
+  .milestone-vertical-line {
+    fill: var(--color-danger);
+    stroke: var(--color-danger);
+  }
+  .milestone-bottom-bar {
+    fill: var(--color-danger);
+  }
+  &:hover .milestone-text {
+    fill: var(--color-danger);
+  }
   .milestone-drag-badge .badge-progress { stroke: var(--color-danger); }
 }
 
 .other {
-  > rect:first-child, > rect:nth-child(2) { fill: var(--color-secondary); stroke: var(--color-secondary); }
+  .milestone-vertical-line {
+    fill: var(--color-secondary);
+    stroke: var(--color-secondary);
+  }
+  .milestone-bottom-bar {
+    fill: var(--color-secondary);
+  }
+  &:hover .milestone-text {
+    fill: var(--color-secondary);
+  }
   .milestone-drag-badge .badge-progress { stroke: var(--color-secondary); }
 }
+
 
 .hitbox {
   fill: transparent !important;

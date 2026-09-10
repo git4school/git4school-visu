@@ -147,6 +147,8 @@
       "FINISHED": "Terminé",
       "DEFAULT": "Non programmé"
     },
+    "STATUS-TOOLTIP-ISOLATE": "Cliquer pour isoler ce statut",
+    "STATUS-TOOLTIP-RESET": "Cliquer pour réafficher tous les devoirs",
     "NO-ASSIGNMENTS": "Aucun devoir trouvé",
     "SELECTED-ASSIGNMENTS": "devoir(s) sélectionné(s)",
     "SORT-BY": "Trier par",

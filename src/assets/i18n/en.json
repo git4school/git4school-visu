@@ -148,6 +148,8 @@
       "FINISHED": "Finished",
       "DEFAULT": "Not scheduled"
     },
+    "STATUS-TOOLTIP-ISOLATE": "Click to isolate this status",
+    "STATUS-TOOLTIP-RESET": "Click to show all assignments",
     "NO-ASSIGNMENTS": "No assignments found",
     "SELECTED-ASSIGNMENTS": "assignment(s) selected",
     "SORT-BY": "Sort by",

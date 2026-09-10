@@ -217,23 +217,83 @@
         input[type="checkbox"] {
           display: none;
         }
-        span {
-          display: inline-block;
+
+        // Inactive / Disabled state by default (unchecked)
+        > span {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
           padding: 0.35rem 0.8rem;
           border-radius: 99px;
-          border: none;
-          background-color: var(--color-bg-body);
-          color: var(--color-text-secondary);
+          border: 1px dashed var(--color-border);
+          background-color: transparent;
+          color: var(--color-text-muted);
           font-size: 0.8rem;
-          font-weight: 500;
-          transition: all 0.15s ease;
+          font-weight: 400;
+          opacity: 0.4;
+          filter: grayscale(100%);
+          transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+          user-select: none;
+
+          .chip-icon {
+            flex-shrink: 0;
+            opacity: 0.7;
+          }
+
+          .filter-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: currentColor;
+            display: inline-block;
+            flex-shrink: 0;
+            opacity: 0.7;
+          }
         }
+
+        // Hover when inactive: invite activation
+        &:hover > span {
+          opacity: 0.7;
+          filter: grayscale(40%);
+          background-color: var(--color-hover);
+        }
+
+        // ACTIVE / CHECKED STATES (100% visible, fully colored)
         input[type="checkbox"]:checked + span {
-          background-color: var(--color-primary);
-          color: #ffffff;
+          opacity: 1;
+          filter: none;
+          border-style: solid;
+
+          .chip-icon,
+          .filter-dot {
+            opacity: 1;
+          }
         }
-        &:hover span {
-          filter: brightness(0.95);
+
+        &.chip-prepared input[type="checkbox"]:checked + span {
+          background-color: var(--badge-prepared-bg);
+          color: var(--badge-prepared-text);
+          border-color: var(--badge-prepared-border);
+        }
+        &.chip-ongoing input[type="checkbox"]:checked + span {
+          background-color: var(--badge-ongoing-bg);
+          color: var(--badge-ongoing-text);
+          border-color: var(--badge-ongoing-border);
+        }
+        &.chip-finished input[type="checkbox"]:checked + span {
+          background-color: var(--badge-finished-bg);
+          color: var(--badge-finished-text);
+          border-color: var(--badge-finished-border);
+        }
+        &.chip-default input[type="checkbox"]:checked + span {
+          background-color: var(--badge-default-bg);
+          color: var(--badge-default-text);
+          border-color: var(--badge-default-border);
+        }
+
+        &:hover input[type="checkbox"]:checked + span {
+          filter: brightness(0.96);
+          opacity: 1;
         }
       }
     }
@@ -277,6 +337,13 @@
   margin: 0;
   position: relative;
   z-index: 1;
+  transition: opacity 200ms cubic-bezier(0.23, 1, 0.32, 1), filter 200ms cubic-bezier(0.23, 1, 0.32, 1);
+
+  &.status-preview-dimmed {
+    opacity: 0.35;
+    filter: grayscale(80%);
+    pointer-events: none;
+  }
 
   &.is-editing {
     z-index: 10;
@@ -407,36 +474,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 450px;
-}
-
-.status-badge {
-  padding: 0.2rem 0.5rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  display: inline-flex;
-  align-items: center;
-  text-transform: capitalize;
-  border: none;
-
-  &.status-prepared {
-    background-color: var(--badge-prepared-bg);
-    color: var(--badge-prepared-text);
-  }
-  &.status-ongoing {
-    background-color: var(--badge-ongoing-bg);
-    color: var(--badge-ongoing-text);
-  }
-  &.status-finished {
-    background-color: var(--badge-finished-bg);
-    color: var(--badge-finished-text);
-  }
-  &.status-default {
-    background-color: var(--color-surface);
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-  }
 }
 
 .meta-info {
