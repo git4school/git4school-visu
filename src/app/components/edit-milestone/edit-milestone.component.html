@@ -45,12 +45,12 @@
         <div class="d-flex mb-2" style="gap: 0.75rem; align-items: flex-end;">
             <div class="form-group mb-0" style="flex: 0 0 30%;">
                 <label class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'OVERVIEW-GRAPH.MODAL.TP-GROUP' | translate }}</label>
-                <app-text-input id="tpGroup" formControlName="tpGroup" [floatingLabel]="false" [suggestions]="tpGroups"></app-text-input>
+                <app-text-input id="tpGroup" formControlName="tpGroup" [floatingLabel]="false" [suggestions]="resolvedTpGroups"></app-text-input>
             </div>
             
             <div class="form-group mb-0" style="flex: 1; min-width: 0;">
                 <label for="questionsChooser" class="mb-1" style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem !important;">{{ 'QUESTIONS' | translate }}</label>
-                <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="questions"
+                <questions-chooser #questionsChooser formControlName="questions" [questionSuggestions]="resolvedQuestions"
                     [mode]="'choose'" [openOnFocus]="true" [maxPillsWidth]="'65%'">
                 </questions-chooser>
             </div>

@@ -195,5 +195,17 @@ $transition-drawer: $transition-drawer-enter;
 $zindex-context-menu: 1050;
 $zindex-typeahead-dropdown: 1060;
 $zindex-quick-help-popover: 1070;
+$zindex-calendar-popup: 1070;
+
+$zindex-sidebar: 1100;
+$zindex-sidebar-resizer: 1105;
+$zindex-sidebar-close-btn: 1110;
+
+$zindex-modal-backdrop: 1200;
+$zindex-modal: 1210;
+$zindex-modal-typeahead: 1250;
+
+$zindex-toast: 9999;
+$zindex-tooltip: 10000;
 
 

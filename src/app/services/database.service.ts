@@ -21,6 +21,19 @@ export class DatabaseService extends Dexie {
     this.version(1).stores({
       assignments: "++id, metadata.title",
     });
+    this.version(2).stores({
+      assignments: "++id, metadata.title",
+    }).upgrade(tx => {
+      return tx.table("assignments").toCollection().modify(assignment => {
+        if (assignment.sessions && Array.isArray(assignment.sessions)) {
+          assignment.sessions.forEach((session: any) => {
+            if (session.label === undefined) {
+              session.label = "";
+            }
+          });
+        }
+      });
+    });
     this.assignments = this.table("assignments");
     this.assignments.mapToClass(Assignment);
   }

@@ -7,11 +7,11 @@
       [mode]="'search'"
       [openOnFocus]="true"
       [ngModel]="searchFilter"
-      (ngModelChange)="searchFilter = $event; loadGraphDataAndRefresh()"
+      (ngModelChange)="searchFilter = $event; loadGraphDataAndRefresh(false)"
       [maxPillsWidth]="'70%'"
       [commitMessages]="commitMessagesFilter"
-      (commitMessagesChange)="commitMessagesFilter = $event; loadGraphDataAndRefresh()"
-      (filterGroupsChange)="filterGroups = $event; loadGraphDataAndRefresh()"
+      (commitMessagesChange)="commitMessagesFilter = $event; loadGraphDataAndRefresh(false)"
+      (filterGroupsChange)="filterGroups = $event; loadGraphDataAndRefresh(false)"
       [noQuestionMessage]="false"
     >
     </questions-chooser>
@@ -19,7 +19,7 @@
 
   <!-- Middle: Group Selector -->
   <div>
-    <div ngbDropdown class="dropdown d-inline-block">
+    <div ngbDropdown #groupDropdown="ngbDropdown" class="dropdown d-inline-block">
       <button class="btn-outline-ghost" ngbDropdownToggle>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -33,11 +33,11 @@
         </svg>
       </button>
       <div ngbDropdownMenu class="modern-dropdown-menu">
-        <button class="dropdown-item" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = ''; loadGraphDataAndRefresh()">
+        <button class="dropdown-item" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = ''; loadGraphDataAndRefresh(false)">
           {{ "TP-GROUP-SELECT.ALL" | translate }}
         </button>
         <div class="dropdown-divider"></div>
-        <button class="dropdown-item" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh()">
+        <button class="dropdown-item" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh(false)">
           {{ tpGroup }}
         </button>
       </div>
@@ -230,7 +230,7 @@
 
 <div id="chart" style="position: relative;" 
      *ngIf="loading || processingData || filteredCommitsCount > 0"
-     [class.no-milestones]="loading || !hasDisplayedMilestones()">
+     [class.no-milestones]="loading || !hasTopStrip()">
 
   <div class="chart-container-absolute" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
   <div class="chart-container" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
@@ -264,7 +264,7 @@
   </div>
   
   <div *ngIf="themeService.showLegend" class="legend-floating-container">
-    <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" (mouseleave)="legendDropdown.close()">
+    <div ngbDropdown #legendDropdown="ngbDropdown" placement="top-right" class="d-inline-block" [autoClose]="'outside'" (mouseleave)="legendDropdown.close()">
       <button class="btn legend-expand-btn shadow-sm" id="legendDropup" ngbDropdownToggle>
         <i class="fas fa-info" style="min-width: 14px;"></i>
         <span class="legend-text">{{ "OVERVIEW-GRAPH.LEGEND.TITLE" | translate }}</span>
@@ -360,12 +360,35 @@
   <div
     *ngIf="hovered_session != null && hovered_commit == null && hovered_group_commit == null && hovered_milestone == null"
     id="session_hover"
-    style="max-width: 250px; word-wrap: break-word;"
+    style="max-width: 280px; word-wrap: break-word;"
   >
-    <div class="d-flex align-items-center mb-2" style="gap: 0.5rem; color: var(--color-primary); font-weight: 500;">
-        <span>{{ 'EDIT-SESSION.NOTES' | translate }}</span>
+    <div class="d-flex align-items-center justify-content-between mb-1" style="gap: 0.5rem;">
+      <span style="font-weight: 600; color: var(--color-primary); font-size: 0.9rem;">
+        {{ getSessionDisplayName(hovered_session) }}
+      </span>
+      <span *ngIf="hovered_session.tpGroup"
+            class="badge d-inline-flex align-items-center"
+            style="display: inline-flex !important; align-items: center !important; justify-content: center; background: rgba(56, 189, 248, 0.15); color: var(--color-text-secondary); font-size: 0.75rem; font-weight: 500; border-radius: 9999px; padding: 0 8px; height: 20px; line-height: 1; vertical-align: middle;">
+        <svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0; display: block; margin-right: 5px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span style="display: inline-block; line-height: 1;">{{ hovered_session.tpGroup }}</span>
+      </span>
     </div>
-    <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary);">{{ hovered_session.notes }}</p>
+    <div class="text-muted small mb-2" style="font-size: 0.78rem;">
+      <i class="far fa-clock mr-1"></i>
+      {{ formatSessionTime(hovered_session) }}
+    </div>
+    <div *ngIf="hovered_session.notes" style="border-top: 1px solid var(--color-border); padding-top: 6px; margin-top: 4px;">
+      <div class="d-flex align-items-center mb-1" style="gap: 0.4rem; font-size: 0.75rem; color: var(--color-text-secondary); font-weight: 500;">
+        <i class="fas fa-comment-alt" style="font-size: 11px;"></i>
+        <span>{{ 'EDIT-SESSION.NOTES' | translate }}</span>
+      </div>
+      <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--color-text-primary); white-space: pre-wrap;">{{ hovered_session.notes }}</p>
+    </div>
   </div>
 
   <div
@@ -376,7 +399,7 @@
     <div
       class="d-flex align-items-center mb-2"
       style="gap: 0.5rem; font-weight: 500;"
-      [style.color]="hovered_milestone.type === 'correction' ? 'var(--color-danger)' : (hovered_milestone.type === 'other' ? 'var(--color-secondary)' : 'var(--color-primary)')"
+      [style.color]="getMilestoneColor(hovered_milestone?.type)"
     >
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>

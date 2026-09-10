@@ -15,7 +15,7 @@ import { OverviewGraphContextualMenuComponent } from "@components/overview-graph
 import { Commit, CommitColor } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
-import { NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDropdown, NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { DataService } from "@services/data.service";
@@ -24,11 +24,14 @@ import { LoaderService } from "@services/loader.service";
 import { ToastService } from "@services/toast.service";
 import { ThemeService } from "@services/theme.service";
 import { TooltipService } from "@services/tooltip.service";
-import { Subscription, concat } from "rxjs";
+import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
+import { Subject, Subscription, concat } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
 import { OsUtils } from "@utils/os.utils";
 
 import * as d3 from "d3";
+import * as moment from "moment";
 import { Repository } from "../../../models/Repository.model";
 import { tick } from "@angular/core/testing";
 import { rejects } from "assert";
@@ -52,7 +55,11 @@ export class OverviewComponent
 
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
   @ViewChild("questionsChooser") questionsChooser;
+  @ViewChild("groupDropdown") groupDropdown?: NgbDropdown;
+  @ViewChild("legendDropdown") legendDropdown?: NgbDropdown;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
+
+  private destroy$ = new Subject<void>();
 
   minZoom: number;
 
@@ -117,6 +124,7 @@ export class OverviewComponent
   axis_abs_g: d3.Selection<SVGGElement, any, any, any>;
   other_g: d3.Selection<any, any, any, any>;
   session_g: d3.Selection<any, any, any, any>;
+  session_header_g: d3.Selection<any, any, any, any>;
   review_g: d3.Selection<any, any, any, any>;
   correction_g: d3.Selection<any, any, any, any>;
   commits_line_g: d3.Selection<any, any, any, any>;
@@ -206,7 +214,19 @@ export class OverviewComponent
 
   onMarkerChange(marker: string) {
     this.markerHoverState[marker].wasClicked = true;
-    this.loadGraphDataAndRefresh();
+    const chartDiv = document.getElementById("chart");
+    const currentlyHasNoMilestonesClass = chartDiv?.classList.contains("no-milestones") ?? false;
+    const willHaveNoStrip = this.loading || !this.hasTopStrip();
+
+    if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
+      this.loadGraphDataAndRefresh(true);
+    } else {
+      if (marker === 'sessions') {
+        this.loadSessionAnnotations();
+      } else {
+        this.loadMilestoneAnnotations();
+      }
+    }
   }
 
   saveMarkerPreferences() {
@@ -229,7 +249,8 @@ export class OverviewComponent
     protected assignmentsService: AssignmentsService,
     public themeService: ThemeService,
     private tooltipService: TooltipService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    public overlayManagerService: OverlayManagerService
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -263,14 +284,29 @@ export class OverviewComponent
         this.updateLang();
       }
     );
+
+    this.overlayManagerService.dismiss$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event) => {
+        if (OverlayManagerService.shouldDismiss(OverlayType.DROPDOWN, event)) {
+          if (this.groupDropdown && this.groupDropdown.isOpen()) {
+            this.groupDropdown.close();
+          }
+          if (this.legendDropdown && this.legendDropdown.isOpen()) {
+            this.legendDropdown.close();
+          }
+        }
+      });
   }
 
   pressedShortcut: string = null;
 
   @HostListener("document:keydown", ["$event"])
   handleGlobalShortcuts(event: KeyboardEvent) {
-    if (document.body.classList.contains("modal-open")) return;
-    if (OsUtils.isTypingInInput(event)) {
+    if (
+      document.body.classList.contains("modal-open") ||
+      document.querySelector(".modal.show, .custom-modal-backdrop") !== null
+    ) {
       return;
     }
 
@@ -280,7 +316,27 @@ export class OverviewComponent
       event.preventDefault();
       this.clearQuestionsFilter();
       this.triggerShortcut("escape");
-    } else if (key === "r") {
+      return;
+    }
+
+    if (OsUtils.isTypingInInput(event)) {
+      return;
+    }
+
+    if (
+      key === "f" &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey
+    ) {
+      event.preventDefault();
+      if (this.questionsChooser && typeof this.questionsChooser.focus === "function") {
+        this.questionsChooser.focus();
+      }
+      return;
+    }
+
+    if (key === "r") {
       event.preventDefault();
       this.loadGraph(this.dataService.startDate, this.dataService.endDate);
       this.triggerShortcut("r");
@@ -313,6 +369,7 @@ export class OverviewComponent
   }
 
   private zoomGraph(factor: number) {
+    this.overlayManagerService.dismissAll();
     if (!this.data_g || !this.zoom) return;
     this.data_g.transition().duration(200).call(this.zoom.scaleBy, factor);
   }
@@ -333,8 +390,14 @@ export class OverviewComponent
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
+    }
+    if (this.refreshTimeout) {
+      clearTimeout(this.refreshTimeout);
+      this.refreshTimeout = null;
     }
     this.clearMilestoneHoverTimer();
     this.cancelMilestoneLongPress();
@@ -413,28 +476,26 @@ export class OverviewComponent
   }
 
   toggleCategory(label: string) {
-    if (label === 'SESSION') {
-      this.showSessions = !this.showSessions;
+    if (label === 'SESSION' || label === 'REVIEW' || label === 'CORRECTION' || label === 'OTHER') {
+      if (label === 'SESSION') this.showSessions = !this.showSessions;
+      if (label === 'REVIEW') this.showReviews = !this.showReviews;
+      if (label === 'CORRECTION') this.showCorrections = !this.showCorrections;
+      if (label === 'OTHER') this.showOthers = !this.showOthers;
       this.saveMarkerPreferences();
-      this.loadGraphDataAndRefresh();
-      return;
-    }
-    if (label === 'REVIEW') {
-      this.showReviews = !this.showReviews;
-      this.saveMarkerPreferences();
-      this.loadGraphDataAndRefresh();
-      return;
-    }
-    if (label === 'CORRECTION') {
-      this.showCorrections = !this.showCorrections;
-      this.saveMarkerPreferences();
-      this.loadGraphDataAndRefresh();
-      return;
-    }
-    if (label === 'OTHER') {
-      this.showOthers = !this.showOthers;
-      this.saveMarkerPreferences();
-      this.loadGraphDataAndRefresh();
+
+      const chartDiv = document.getElementById("chart");
+      const currentlyHasNoMilestonesClass = chartDiv?.classList.contains("no-milestones") ?? false;
+      const willHaveNoStrip = this.loading || !this.hasTopStrip();
+
+      if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
+        this.loadGraphDataAndRefresh(true);
+      } else {
+        if (label === 'SESSION') {
+          this.loadSessionAnnotations();
+        } else {
+          this.loadMilestoneAnnotations();
+        }
+      }
       return;
     }
 
@@ -450,7 +511,7 @@ export class OverviewComponent
       this.hiddenCategories.add(label);
     }
     
-    this.loadGraphDataAndRefresh();
+    this.loadGraphDataAndRefresh(true);
   }
 
   commit_date_format = Utils.COMMIT_DATE_FORMAT;
@@ -474,12 +535,25 @@ export class OverviewComponent
     );
   }
 
+  hasDisplayedSessions(): boolean {
+    if (!this.dataService || !this.showSessions) return false;
+    const session_filter = (s: Session) =>
+      !this.dataService.groupFilter ||
+      !s.tpGroup ||
+      s.tpGroup === this.dataService.groupFilter;
+    return !!this.dataService.sessions?.some(session_filter);
+  }
+
+  hasTopStrip(): boolean {
+    return this.hasDisplayedMilestones() || this.hasDisplayedSessions();
+  }
+
   updateVariableFromCss(): void {
     let chart_div = document.getElementById("chart");
     if (!chart_div) return;
 
-    const noMilestones = this.loading || !this.hasDisplayedMilestones();
-    if (noMilestones) {
+    const noTopStrip = this.loading || !this.hasTopStrip();
+    if (noTopStrip) {
       chart_div.classList.add("no-milestones");
     } else {
       chart_div.classList.remove("no-milestones");
@@ -532,6 +606,10 @@ export class OverviewComponent
       this.height - this.inner_margin.top - this.inner_margin.bottom
     );
 
+    if (this.svg_abs) {
+      this.svg_abs.select("#top-strip-clip rect").attr("width", this.inner_width);
+    }
+
     this.repo_spacing = css_var_number("repo-space");
   }
 
@@ -539,6 +617,7 @@ export class OverviewComponent
     this.refresh();
 
     setTimeout(() => {
+      this.current_zoom = null;
       if (this.dataService.repoToLoad) {
         this.loadGraph(this.dataService.startDate, this.dataService.endDate);
       } else {
@@ -547,7 +626,8 @@ export class OverviewComponent
           this.dataService.repositories,
           this.dataService.reviews,
           this.dataService.corrections,
-          this.dataService.questions
+          this.dataService.questions,
+          false
         );
 
         this.loading = false;
@@ -563,18 +643,21 @@ export class OverviewComponent
       noMatchesText: this.translateService.instant("SEARCH-NOT-FOUND"),
       suggestionLimit: 5,
     };
+    this.updateSessionsTransforms();
   }
 
   loadGraph(startDate?: string, endDate?: string) {
     try {
       this.loading = true;
+      this.current_zoom = null;
 
       this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
         this.loadGraphMetadata(
           this.dataService.repositories,
           this.dataService.reviews,
           this.dataService.corrections,
-          this.dataService.questions
+          this.dataService.questions,
+          false
         );
         this.loading = false;
       });
@@ -604,42 +687,52 @@ export class OverviewComponent
       this.hovered_session ||
       this.hovered_milestone
     ) {
-      if (!this.tooltipService.isShowing()) {
-        this.tooltipService.showAtPosition(
-          this.d3TooltipTemplate,
-          x,
-          y,
-          "right",
-          undefined,
-          true
-        );
-      } else {
-        this.tooltipService.moveTooltip(x, y, "right");
-      }
+      this.ngZone.run(() => {
+        if (!this.tooltipService.isShowing()) {
+          this.tooltipService.showAtPosition(
+            this.d3TooltipTemplate,
+            x,
+            y,
+            "right",
+            undefined,
+            true
+          );
+        } else {
+          this.tooltipService.moveTooltip(x, y, "right");
+        }
+      });
     } else {
-      this.tooltipService.hide();
+      this.ngZone.run(() => {
+        this.tooltipService.hide();
+      });
     }
   }
 
-  loadGraphData() {
+  loadGraphData(conserveZoom: boolean = false) {
     if (!this.data_g) return;
     this.loadPoints();
     this.loadAnnotations();
-    this.setupZoom();
+    this.setupZoom(conserveZoom);
   }
 
-  setupZoom() {
+  setupZoom(conserveZoom: boolean = false) {
     const overview = this;
     // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
     d3.select(document.body).on("wheel.body", (e) => {});
     this.zoom = d3
       .zoom()
+      .on("start", (event) => {
+        if (event.sourceEvent != null) {
+          overview.overlayManagerService.dismissAll({ blurInput: true });
+        }
+      })
       .on("zoom", (event) => {
         if (overview.drag || !overview.x_scale) {
           return;
         }
 
         if (event.sourceEvent != null) {
+          overview.overlayManagerService.dismissAll({ blurInput: true });
           overview.refreshTooltip(
             event.sourceEvent.clientX,
             event.sourceEvent.clientY
@@ -682,6 +775,7 @@ export class OverviewComponent
 
       // If there is significant horizontal scrolling, or ctrl key is pressed
       if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+        overview.overlayManagerService.dismissAll();
         event.preventDefault(); // Prevent browser back/forward or default scroll
         event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
 
@@ -692,7 +786,11 @@ export class OverviewComponent
       }
     }, { passive: false });
 
-    this.resetZoom(true);
+    if (conserveZoom) {
+      this.resetZoom(true);
+    } else {
+      this.resetZoom(false);
+    }
   }
 
   refresh() {
@@ -724,7 +822,7 @@ export class OverviewComponent
                   this.inner_margin.bottom +
                   this.getDisplayedRepositories().length * this.repo_spacing
               );
-              this.loadGraphDataAndRefresh();
+              this.loadGraphDataAndRefresh(true);
             }, 100);
           }
         }
@@ -788,7 +886,17 @@ export class OverviewComponent
       .append("g")
       .attr("transform", "translate(" + translation + ")");
 
-    if (this.hasDisplayedMilestones() && this.inner_margin.top > 0) {
+    this.svg_abs
+      .append("defs")
+      .append("svg:clipPath")
+      .attr("id", "top-strip-clip")
+      .append("svg:rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", this.inner_width)
+      .attr("height", this.height);
+
+    if (this.hasTopStrip() && this.inner_margin.top > 0) {
       this.chart_abs_g
         .append("rect")
         .attr("class", "milestone-strip-hitbox")
@@ -806,7 +914,6 @@ export class OverviewComponent
           overview.openContextMenu(event.pageX, event.pageY, rawDate);
         })
         .on("click", (event: MouseEvent) => {
-          event.stopPropagation();
           const rawDate = overview.getDateFromMouseEvent(event);
           overview.openContextMenu(event.pageX, event.pageY, rawDate);
         })
@@ -819,6 +926,7 @@ export class OverviewComponent
             dy = 0;
           }
           if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+            overview.overlayManagerService.dismissAll();
             event.preventDefault();
             event.stopPropagation();
             if (overview.zoom && overview.data_g) {
@@ -841,7 +949,6 @@ export class OverviewComponent
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       })
       .on("click", (event: MouseEvent) => {
-        event.stopPropagation();
         const rawDate = this.getDateFromMouseEvent(event);
         this.openContextMenu(event.pageX, event.pageY, rawDate);
       });
@@ -857,6 +964,7 @@ export class OverviewComponent
         document.body.style.overscrollBehaviorX = "auto";
       })
       .on("scroll", (event) => {
+        overview.overlayManagerService.dismissAll();
         const node = event.target as HTMLElement;
         if (node && (node.scrollLeft <= 0 || node.scrollLeft >= 2)) {
           node.scrollLeft = 1;
@@ -879,17 +987,55 @@ export class OverviewComponent
   }
 
   processingData = false;
+  private refreshTimeout?: any;
+  private pendingConserveZoom = false;
 
-  loadGraphDataAndRefresh() {
+  loadGraphDataAndRefresh(conserveZoom: boolean = false) {
+    if (!conserveZoom) {
+      this.current_zoom = null;
+      this.pendingConserveZoom = false;
+    } else if (this.refreshTimeout === undefined || this.refreshTimeout === null) {
+      this.pendingConserveZoom = true;
+    }
     this.processingData = true;
-    setTimeout(() => {
+    if (this.refreshTimeout) {
+      clearTimeout(this.refreshTimeout);
+    }
+    this.refreshTimeout = setTimeout(() => {
+      const shouldConserve = this.pendingConserveZoom;
+      this.refreshTimeout = null;
+      this.pendingConserveZoom = false;
       this.refresh();
-      this.loadGraphData();
+      this.loadGraphData(shouldConserve);
       this.processingData = false;
     }, 0);
   }
 
   loadAnnotations() {
+    this.loadSessionAnnotations();
+    this.loadMilestoneAnnotations();
+  }
+
+  loadSessionAnnotations() {
+    if (!this.data_g) return;
+    if (this.session_g != null) {
+      this.session_g.remove();
+      this.session_g = null;
+    }
+    if (this.session_header_g != null) {
+      this.session_header_g.remove();
+      this.session_header_g = null;
+    }
+    if (this.filteredCommitsCount === 0) {
+      return;
+    }
+    if (this.dataService.sessions && this.showSessions) {
+      this.loadSessions();
+    }
+  }
+
+  loadMilestoneAnnotations() {
+    if (!this.chart_abs_g) return;
     this.clearMilestoneHoverTimer();
     if (this.hovered_milestone) {
       this.hovered_milestone = undefined;
@@ -904,16 +1050,12 @@ export class OverviewComponent
           review.questions?.includes(question)
         ).length);
 
-    if (this.session_g != null) { this.session_g.remove(); this.session_g = null; }
     if (this.review_g != null) { this.review_g.remove(); this.review_g = null; }
     if (this.correction_g != null) { this.correction_g.remove(); this.correction_g = null; }
     if (this.other_g != null) { this.other_g.remove(); this.other_g = null; }
     
     if (this.filteredCommitsCount === 0) {
       return;
-    }
-    if (this.dataService.sessions && this.showSessions) {
-      this.loadSessions();
     }
 
     if (this.dataService.reviews && this.showReviews) {
@@ -998,8 +1140,9 @@ export class OverviewComponent
         this.hovered_milestone = undefined;
         this.tooltipService.hide();
       }
+      const hadStripBefore = this.hasTopStrip();
       this.saveMilestone(result.oldMilestone, result.newMilestone);
-      this.saveData();
+      this.updateAfterMilestoneChange(hadStripBefore);
 
       let translations = this.translateService.instant([
         "SUCCESS",
@@ -1032,8 +1175,13 @@ export class OverviewComponent
 
   onSaveSession(result: { oldSession: Session; newSession: Session }) {
     try {
+      if (this.hovered_session) {
+        this.hovered_session = undefined;
+        this.tooltipService.hide();
+      }
+      const hadStripBefore = this.hasTopStrip();
       this.saveSession(result.oldSession, result.newSession);
-      this.saveData();
+      this.updateAfterSessionChange(hadStripBefore);
 
       let translations = this.translateService.instant([
         "SUCCESS",
@@ -1066,8 +1214,13 @@ export class OverviewComponent
 
   onDeleteSession(session: Session) {
     try {
+      if (this.hovered_session) {
+        this.hovered_session = undefined;
+        this.tooltipService.hide();
+      }
+      const hadStripBefore = this.hasTopStrip();
       this.deleteSession(session);
-      this.saveData();
+      this.updateAfterSessionChange(hadStripBefore);
 
       let translations = this.translateService.instant([
         "SUCCESS",
@@ -1089,8 +1242,9 @@ export class OverviewComponent
         this.hovered_milestone = undefined;
         this.tooltipService.hide();
       }
+      const hadStripBefore = this.hasTopStrip();
       this.deleteMilestone(milestone);
-      this.saveData();
+      this.updateAfterMilestoneChange(hadStripBefore);
 
       let translations = this.translateService.instant([
         "SUCCESS",
@@ -1119,12 +1273,54 @@ export class OverviewComponent
     );
   }
 
-  getRectForSession(g: d3.Selection<any, any, any, any>, session: Session) {
+  getSessionDisplayName(session: Session): string {
+    if (!session) return "";
+    if (session.label && session.label.trim().length > 0) {
+      return session.label.trim();
+    }
+    const allSessions = this.dataService?.sessions || [];
+    const sameGroup = allSessions
+      .filter((s) => (s.tpGroup || "") === (session.tpGroup || ""))
+      .slice()
+      .sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      );
+
+    const idx = sameGroup.indexOf(session);
+    const num = idx >= 0 ? idx + 1 : 1;
+    const defaultName = this.translateService.instant("DEFAULT-SESSION-NAME", {
+      number: num,
+    });
+    if (defaultName && defaultName !== "DEFAULT-SESSION-NAME") {
+      return defaultName;
+    }
+    const sessionPrefix = this.translateService.instant("SESSION") || "Séance";
+    return `${sessionPrefix} ${num}`;
+  }
+
+  formatSessionTime(session: Session): string {
+    if (!session) return "";
+    const start = moment(session.startDate);
+    const end = moment(session.endDate);
+    if (start.isSame(end, "day")) {
+      return `${start.format("DD/MM/YYYY")} · ${start.format(
+        "HH:mm"
+      )} - ${end.format("HH:mm")}`;
+    }
+    return `${start.format("DD/MM/YYYY HH:mm")} - ${end.format(
+      "DD/MM/YYYY HH:mm"
+    )}`;
+  }
+
+  buildSessionBody(g: d3.Selection<any, any, any, any>, session: Session) {
     const overview = this;
-    
-    let group = g.append("g")
+    const sessionKey = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+
+    let group = g
+      .append("g")
       .datum(session)
-      .attr("class", "session-container")
+      .attr("class", `session-container session-group-${sessionKey}`)
       .attr("clip-path", "url(#clip)")
       .on("contextmenu", (e) => {
         e.preventDefault();
@@ -1138,6 +1334,262 @@ export class OverviewComponent
         );
       })
       .on("click", (e) => {
+        const rawDate = overview.getDateFromMouseEvent(e);
+        overview.openEditSessionContextMenu(
+          session,
+          e.pageX,
+          e.pageY,
+          rawDate
+        );
+      })
+      .on("mouseenter", () => {
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
+      })
+      .on("mouseleave", () => {
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
+      });
+
+    const rawX1 = this.xScaledTimeZoned(session.startDate);
+    const rawX2 = this.xScaledTimeZoned(session.endDate);
+    const visX1 = Math.max(0, rawX1);
+    const visX2 = Math.min(this.inner_width, rawX2);
+    const visWidth = Math.max(0, visX2 - visX1);
+
+    // Tinted body background (fill only, no stroke, so no top border)
+    group
+      .append("rect")
+      .attr("class", `session-body session-bg-${sessionKey}`)
+      .attr("x", visX1)
+      .attr("y", 0)
+      .attr("height", this.scrollable_height)
+      .attr("width", visWidth);
+
+    // Left vertical dashed line
+    group
+      .append("line")
+      .attr("class", `session-edge session-edge-left session-edge-${sessionKey}`)
+      .attr("x1", rawX1)
+      .attr("y1", 0)
+      .attr("x2", rawX1)
+      .attr("y2", this.scrollable_height)
+      .style("display", rawX1 >= 0 && rawX1 <= this.inner_width ? "inline" : "none");
+
+    // Right vertical dashed line
+    group
+      .append("line")
+      .attr("class", `session-edge session-edge-right session-edge-${sessionKey}`)
+      .attr("x1", rawX2)
+      .attr("y1", 0)
+      .attr("x2", rawX2)
+      .attr("y2", this.scrollable_height)
+      .style("display", rawX2 >= 0 && rawX2 <= this.inner_width ? "inline" : "none");
+  }
+
+  buildSessionHeader(g: d3.Selection<any, any, any, any>, session: Session) {
+    const overview = this;
+    const sessionKey = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+
+    let group = g
+      .append("g")
+      .datum(session)
+      .attr("class", `session-header-container session-hdr-group-${sessionKey}`)
+      .style("pointer-events", "auto")
+      .on("contextmenu", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const rawDate = overview.getDateFromMouseEvent(e);
+        overview.openEditSessionContextMenu(
+          session,
+          e.pageX,
+          e.pageY,
+          rawDate
+        );
+      })
+      .on("click", (e) => {
+        const rawDate = overview.getDateFromMouseEvent(e);
+        overview.openEditSessionContextMenu(
+          session,
+          e.pageX,
+          e.pageY,
+          rawDate
+        );
+      })
+      .on("mouseenter", () => {
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
+      })
+      .on("mouseleave", () => {
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
+      });
+
+    const rawX1 = this.xScaledTimeZoned(session.startDate);
+    const rawX2 = this.xScaledTimeZoned(session.endDate);
+    const visX1 = Math.max(0, rawX1);
+    const visX2 = Math.min(this.inner_width, rawX2);
+    const visWidth = Math.max(0, visX2 - visX1);
+
+    const displayName = this.getSessionDisplayName(session);
+    const hasNotes = !!(session.notes && session.notes.trim().length > 0);
+    const groupName = session.tpGroup || "";
+
+    const usersSvg = `<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`;
+
+    const calendarSvg = `<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
+
+    const noteSvg = `<svg style="width: 10px; height: 10px; min-width: 10px; min-height: 10px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`;
+
+    // 1. Continuous header background filling top strip behind pills
+    group
+      .append("rect")
+      .attr("class", `session-header-bg session-bg-${sessionKey}`)
+      .attr("x", visX1)
+      .attr("y", 0)
+      .attr("height", this.inner_margin.top)
+      .attr("width", visWidth)
+      .style("pointer-events", "auto");
+
+    // 2. Left vertical dashed line (header)
+    group
+      .append("line")
+      .attr("class", `session-edge session-header-edge-left session-edge-${sessionKey}`)
+      .attr("x1", rawX1)
+      .attr("y1", 0)
+      .attr("x2", rawX1)
+      .attr("y2", this.inner_margin.top)
+      .style("display", rawX1 >= 0 && rawX1 <= this.inner_width ? "inline" : "none");
+
+    // 3. Right vertical dashed line (header)
+    group
+      .append("line")
+      .attr("class", `session-edge session-header-edge-right session-edge-${sessionKey}`)
+      .attr("x1", rawX2)
+      .attr("y1", 0)
+      .attr("x2", rawX2)
+      .attr("y2", this.inner_margin.top)
+      .style("display", rawX2 >= 0 && rawX2 <= this.inner_width ? "inline" : "none");
+
+    // 4. Top blue accent bar (above milestone labels and dashed line tops)
+    group
+      .append("rect")
+      .attr("class", `session-header-top-bar session-bar-${sessionKey}`)
+      .attr("x", visX1)
+      .attr("y", 0)
+      .attr("height", 3)
+      .attr("width", visWidth)
+      .attr("rx", 1.5)
+      .attr("ry", 1.5);
+
+    // 5. Sticky foreignObject for pills
+    const foX = visX1;
+    const foWidth = Math.max(0, visX2 - foX);
+
+    const fo = group
+      .append("foreignObject")
+      .attr("class", "session-header-fo")
+      .attr("x", foX)
+      .attr("y", 3)
+      .attr("width", foWidth)
+      .attr("height", 23)
+      .style("visibility", foWidth < 28 ? "hidden" : "visible")
+      .style("pointer-events", "auto")
+      .style("overflow", "hidden");
+
+    fo.html(`
+      <div class="session-header-inner d-flex align-items-center" style="gap: 4px; height: 23px; padding: 0 4px; pointer-events: auto; overflow: hidden; width: 100%;">
+        <!-- Pill 1: Nom de la séance -->
+        <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 20px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
+          ${calendarSvg}
+          <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
+        </span>
+        <!-- Pill 2: Groupe de TP -->
+        ${groupName ? `
+        <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 20px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
+          ${usersSvg}
+          <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
+        </span>` : ''}
+        <!-- Pill 3: Note button directly following TP Group / Name -->
+        ${hasNotes ? `
+        <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto;">
+          ${noteSvg}
+        </span>` : ''}
+        <!-- More indicator (...) when some info is hidden -->
+        <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 20px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0;">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
+            <circle cx="2.5" cy="8" r="1.8" />
+            <circle cx="8" cy="8" r="1.8" />
+            <circle cx="13.5" cy="8" r="1.8" />
+          </svg>
+        </span>
+      </div>
+    `);
+
+    if (hasNotes) {
+      group
+        .select(".session-note-btn")
+        .on("mouseenter", (e: MouseEvent) => {
+          e.stopPropagation();
+          overview.ngZone.run(() => {
+            overview.hovered_session = session;
+            overview.hovered_commit = undefined;
+            overview.hovered_group_commit = undefined;
+            overview.hovered_milestone = undefined;
+          });
+          overview.refreshTooltip(e.clientX, e.clientY);
+        })
+        .on("mousemove", (e: MouseEvent) => {
+          e.stopPropagation();
+          if (overview.hovered_session) {
+            overview.refreshTooltip(e.clientX, e.clientY);
+          }
+        })
+        .on("mouseleave", (e: MouseEvent) => {
+          e.stopPropagation();
+          overview.ngZone.run(() => {
+            overview.hovered_session = undefined;
+          });
+          overview.tooltipService.hide();
+        })
+        .on("click", (e: MouseEvent) => {
+          e.stopPropagation();
+          const rawDate = overview.getDateFromMouseEvent(e);
+          overview.openEditSessionContextMenu(
+            session,
+            e.pageX,
+            e.pageY,
+            rawDate
+          );
+        });
+    }
+
+    group
+      .select(".session-more-btn")
+      .on("mouseenter", (e: MouseEvent) => {
+        e.stopPropagation();
+        overview.ngZone.run(() => {
+          overview.hovered_session = session;
+          overview.hovered_commit = undefined;
+          overview.hovered_group_commit = undefined;
+          overview.hovered_milestone = undefined;
+        });
+        overview.refreshTooltip(e.clientX, e.clientY);
+      })
+      .on("mousemove", (e: MouseEvent) => {
+        e.stopPropagation();
+        if (overview.hovered_session) {
+          overview.refreshTooltip(e.clientX, e.clientY);
+        }
+      })
+      .on("mouseleave", (e: MouseEvent) => {
+        e.stopPropagation();
+        overview.ngZone.run(() => {
+          overview.hovered_session = undefined;
+        });
+        overview.tooltipService.hide();
+      })
+      .on("click", (e: MouseEvent) => {
         e.stopPropagation();
         const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditSessionContextMenu(
@@ -1147,46 +1599,6 @@ export class OverviewComponent
           rawDate
         );
       });
-
-    group.append("rect")
-      .attr("class", "session")
-      .attr("x", this.xScaledTimeZoned(session.startDate))
-      .attr("height", this.scrollable_height)
-      .attr("y", 0)
-      .attr(
-        "width",
-        Math.max(0, this.xScaledTimeZoned(session.endDate) -
-          this.xScaledTimeZoned(session.startDate))
-      );
-
-    if (session.notes) {
-      group.append("foreignObject")
-        .attr("class", "session-icon")
-        .attr("x", this.xScaledTimeZoned(session.startDate) + 4)
-        .attr("y", 4)
-        .attr("width", 24)
-        .attr("height", 24)
-        .on("mouseenter", (e, d) => {
-          e.stopPropagation();
-          overview.hovered_session = d;
-          overview.hovered_commit = undefined;
-          overview.hovered_group_commit = undefined;
-          overview.hovered_g = d3.select(e.currentTarget);
-          overview.refreshTooltip(e.clientX, e.clientY);
-        })
-        .on("mousemove", (e) => {
-          e.stopPropagation();
-          if (overview.hovered_session) {
-            overview.refreshTooltip(e.clientX, e.clientY);
-          }
-        })
-        .on("mouseleave", (e) => {
-          e.stopPropagation();
-          overview.hovered_session = undefined;
-          overview.refreshTooltip();
-        })
-        .html(`<button class="btn btn-outline-ghost anim-scale-hover d-flex align-items-center justify-content-center p-0 m-0" style="width: 100%; height: 100%; border: none; background: transparent; color: var(--color-primary); box-shadow: none;"><i class="fas fa-comment-alt" style="font-size: 13px;"></i></button>`);
-    }
   }
 
   loadSessions() {
@@ -1197,22 +1609,70 @@ export class OverviewComponent
         session.tpGroup === this.dataService.groupFilter
     );
 
-    this.session_g = this.data_g.insert("g", () => this.repository_g ? this.repository_g.node() : null);
+    this.session_g = this.data_g.insert("g", () =>
+      this.repository_g ? this.repository_g.node() : null
+    );
+
+    if (this.chart_abs_g) {
+      const hitbox = this.chart_abs_g.select(".milestone-strip-hitbox");
+      if (!hitbox.empty()) {
+        this.session_header_g = this.chart_abs_g
+          .insert("g", () => (hitbox.node() as Element).nextSibling as Element)
+          .attr("class", "sessions-headers-group")
+          .attr("clip-path", "url(#top-strip-clip)")
+          .style("pointer-events", "auto");
+      } else {
+        this.session_header_g = this.chart_abs_g
+          .append("g")
+          .attr("class", "sessions-headers-group")
+          .attr("clip-path", "url(#top-strip-clip)")
+          .style("pointer-events", "auto");
+      }
+    }
 
     const overview = this;
 
-    setTimeout(() => {
-      this.session_g
-        .selectAll(".session")
+    this.session_g
+      .selectAll(".session-container")
+      .data(loaded_sessions)
+      .enter()
+      .each(function (d: Session) {
+        overview.buildSessionBody(d3.select(this), d);
+      });
+
+    if (this.session_header_g) {
+      this.session_header_g
+        .selectAll(".session-header-container")
         .data(loaded_sessions)
         .enter()
         .each(function (d: Session) {
-          overview.getRectForSession(d3.select(this), d);
+          overview.buildSessionHeader(d3.select(this), d);
         });
-    });
+    }
+
+    this.updateSessionsTransforms();
+  }
+
+  private resolveMilestoneType(
+    m?: Milestone,
+    g?: d3.Selection<any, any, any, any>
+  ): string {
+    if (m?.type) {
+      return m.type;
+    }
+    if (g) {
+      if (g.classed("correction") || g.classed("corrections")) return "corrections";
+      if (g.classed("other") || g.classed("others")) return "others";
+      if (g.classed("review") || g.classed("reviews")) return "reviews";
+    }
+    return "reviews";
   }
 
   private buildMilestoneGraphics(g: d3.Selection<any, any, any, any>, m: Milestone, index: number) {
+    if (!m.type) {
+      m.type = this.resolveMilestoneType(m, g);
+    }
+
     // Line
     g.append("rect")
       .attr("x", 0)
@@ -1228,7 +1688,10 @@ export class OverviewComponent
     let text = g
       .append("text")
       .attr("y", -6)
-      .text(m.label || m.type.substring(0, m.type.length - 1) + " " + index)
+      .text(
+        m.label ||
+          (m.type.endsWith("s") ? m.type.slice(0, -1) : m.type) + " " + index
+      )
       .attr("text-anchor", "middle");
 
     let bbox = text.node().getBBox();
@@ -1258,13 +1721,19 @@ export class OverviewComponent
       .attr("style", "cursor: pointer; pointer-events: all;");
   }
 
-  private readonly MILESTONE_COLOR_MAP: Record<string, string> = {
+  readonly MILESTONE_COLOR_MAP: Record<string, string> = {
+    review: "var(--color-primary)",
+    reviews: "var(--color-primary)",
     correction: "var(--color-danger)",
+    corrections: "var(--color-danger)",
     other: "var(--color-secondary)",
+    others: "var(--color-secondary)",
   };
 
-  private getMilestoneColor(type: string): string {
-    return this.MILESTONE_COLOR_MAP[type] || "var(--color-primary)";
+  getMilestoneColor(type?: string): string {
+    if (!type) return "var(--color-primary)";
+    const normalizedType = type.toLowerCase().trim();
+    return this.MILESTONE_COLOR_MAP[normalizedType] || "var(--color-primary)";
   }
 
   private getEuclideanDistance(
@@ -1313,7 +1782,8 @@ export class OverviewComponent
 
     // Progress circle (r = 8, circumference = 2 * PI * 8 ~= 50.265)
     const circumference = 2 * Math.PI * 8;
-    const progressColor = this.getMilestoneColor(m.type);
+    const milestoneType = this.resolveMilestoneType(m, g);
+    const progressColor = this.getMilestoneColor(milestoneType);
 
     const progressCircle = badgeContent
       .append("circle")
@@ -1322,6 +1792,7 @@ export class OverviewComponent
       .attr("cy", 0)
       .attr("r", 8)
       .attr("stroke", progressColor)
+      .style("stroke", progressColor)
       .attr("stroke-dasharray", circumference)
       .attr("stroke-dashoffset", circumference)
       .attr("transform", "rotate(-90)");
@@ -1445,6 +1916,14 @@ export class OverviewComponent
             setTimeout(() => {
               overview.ignoreNextMilestoneClick = false;
             }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
+            document.dispatchEvent(
+              new MouseEvent("click", {
+                bubbles: true,
+                cancelable: true,
+                clientX: upEvent.clientX,
+                clientY: upEvent.clientY,
+              })
+            );
             const rawDate = overview.getDateFromMouseEvent(upEvent);
             overview.openEditMilestoneContextMenu(
               m,
@@ -1492,6 +1971,7 @@ export class OverviewComponent
     element: d3.Selection<any, any, any, any>,
     m?: Milestone
   ) {
+    this.overlayManagerService.dismissTransient();
     this.isDraggingMilestone = true;
     this.hasMovedDuringDrag = false;
     this.clearMilestoneHoverTimer();
@@ -1541,8 +2021,7 @@ export class OverviewComponent
     this.removeDragTimeIndicator();
 
     if (hasMoved) {
-      this.saveData();
-      this.loadGraphDataAndRefresh();
+      this.updateAfterMilestoneChange();
     }
   }
 
@@ -1679,7 +2158,7 @@ export class OverviewComponent
     index: number
   ) {
     const overview = this;
-    let g = parent.append("g").attr("class", class_);
+    let g = parent.append("g").datum(m).attr("class", class_);
 
     this.buildMilestoneGraphics(g, m, index);
 
@@ -1739,8 +2218,6 @@ export class OverviewComponent
       .on("click", (e) => {
         if (overview.ignoreNextMilestoneClick) {
           overview.ignoreNextMilestoneClick = false;
-          e.stopPropagation();
-          e.preventDefault();
           return;
         }
         overview.clearMilestoneHoverTimer();
@@ -1749,80 +2226,81 @@ export class OverviewComponent
           overview.tooltipService.hide();
         }
         if (overview.isDraggingMilestone) return;
-        e.stopPropagation();
         const rawDate = overview.getDateFromMouseEvent(e);
         overview.openEditMilestoneContextMenu(m, e.pageX, e.pageY, rawDate);
       });
   }
 
   loadReviews(milestone_filter: (review: Milestone) => number | boolean) {
-    let loaded_reviews = this.dataService.reviews.filter(milestone_filter);
+    let loaded_reviews = this.dataService.reviews
+      .filter(milestone_filter)
+      .slice()
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     this.review_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
-    setTimeout(() => {
-      this.review_g
-        .selectAll(".review")
-        .data(loaded_reviews)
-        .enter()
-        .each(function (d: Milestone, i) {
-          overview.getLineForMilestone(
-            d3.select(this),
-            d,
-            "milestone review",
-            i
-          );
-        });
-    });
+    this.review_g
+      .selectAll(".review")
+      .data(loaded_reviews)
+      .enter()
+      .each(function (d: Milestone, i) {
+        overview.getLineForMilestone(
+          d3.select(this),
+          d,
+          "milestone review",
+          i
+        );
+      });
   }
 
   loadCorrections(milestone_filter: (review: Milestone) => number | boolean) {
-    let loaded_corrections =
-      this.dataService.corrections.filter(milestone_filter);
+    let loaded_corrections = this.dataService.corrections
+      .filter(milestone_filter)
+      .slice()
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     this.correction_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
-    setTimeout(() => {
-      this.correction_g
-        .selectAll(".correction")
-        .data(loaded_corrections)
-        .enter()
-        .each(function (d: Milestone, i) {
-          overview.getLineForMilestone(
-            d3.select(this),
-            d,
-            "milestone correction",
-            i
-          );
-        });
-    });
+    this.correction_g
+      .selectAll(".correction")
+      .data(loaded_corrections)
+      .enter()
+      .each(function (d: Milestone, i) {
+        overview.getLineForMilestone(
+          d3.select(this),
+          d,
+          "milestone correction",
+          i
+        );
+      });
   }
 
   loadOthers(milestone_filter: (review: Milestone) => number | boolean) {
-    let loaded_other = this.dataService.others.filter(milestone_filter);
+    let loaded_other = this.dataService.others
+      .filter(milestone_filter)
+      .slice()
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     this.other_g = this.chart_abs_g.append("g");
 
     const overview = this;
 
-    setTimeout(() => {
-      this.other_g
-        .selectAll(".other")
-        .data(loaded_other)
-        .enter()
-        .each(function (d: Milestone, i) {
-          overview.getLineForMilestone(
-            d3.select(this),
-            d,
-            "milestone other",
-            i
-          );
-        });
-    });
+    this.other_g
+      .selectAll(".other")
+      .data(loaded_other)
+      .enter()
+      .each(function (d: Milestone, i) {
+        overview.getLineForMilestone(
+          d3.select(this),
+          d,
+          "milestone other",
+          i
+        );
+      });
   }
 
   setupAxis(repositories: Repository[], minDate: Date, maxDate: Date) {
@@ -2007,7 +2485,6 @@ export class OverviewComponent
         }
       })
       .on("click", (e, d) => {
-        e.stopPropagation();
         let currentRange = parseFloat(g.attr("group_range")) || 0;
         this.zoomToGroup(d, currentRange);
       });
@@ -2039,7 +2516,6 @@ export class OverviewComponent
         });
 
       g.on("click", (e, d) => {
-        e.stopPropagation();
         let currentRange = parseFloat(g.attr("group_range")) || 0;
         this.zoomToGroup(d, currentRange);
       });
@@ -2550,25 +3026,235 @@ export class OverviewComponent
     if (!this.session_g) return;
     const overview = this;
 
-    this.session_g.selectAll(".session-container").each(function(s: Session) {
+    this.session_g.selectAll(".session-container").each(function (s: Session) {
       const g = d3.select(this);
       const rawX1 = overview.xScaledTimeZoned(s.startDate);
       const rawX2 = overview.xScaledTimeZoned(s.endDate);
-      
-      const cx1 = Math.max(-50, Math.min(overview.width + 50, rawX1));
-      const cx2 = Math.max(-50, Math.min(overview.width + 50, rawX2));
-      const width = Math.max(0, cx2 - cx1);
 
-      g.select(".session")
-        .attr("x", cx1)
-        .attr("width", width);
+      const visX1 = Math.max(0, rawX1);
+      const visX2 = Math.min(overview.inner_width, rawX2);
+      const visWidth = Math.max(0, visX2 - visX1);
 
-      const icon = g.select(".session-icon");
-      if (!icon.empty()) {
-        icon.attr("x", rawX1 + 4)
-            .style("visibility", width < 32 ? "hidden" : "visible");
+      const isVisible = rawX2 > 0 && rawX1 < overview.inner_width;
+      g.style("visibility", isVisible ? "visible" : "hidden");
+
+      if (isVisible) {
+        g.select(".session-body")
+          .attr("x", visX1)
+          .attr("width", visWidth);
+
+        const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
+        g.select(".session-edge-left")
+          .attr("x1", rawX1)
+          .attr("x2", rawX1)
+          .style("display", showLeft ? "inline" : "none");
+
+        const showRight = rawX2 >= 0 && rawX2 <= overview.inner_width;
+        g.select(".session-edge-right")
+          .attr("x1", rawX2)
+          .attr("x2", rawX2)
+          .style("display", showRight ? "inline" : "none");
       }
     });
+
+    if (this.session_header_g) {
+      this.session_header_g.selectAll(".session-header-container").each(function (s: Session) {
+        const g = d3.select(this);
+        const rawX1 = overview.xScaledTimeZoned(s.startDate);
+        const rawX2 = overview.xScaledTimeZoned(s.endDate);
+
+        const visX1 = Math.max(0, rawX1);
+        const visX2 = Math.min(overview.inner_width, rawX2);
+        const visWidth = Math.max(0, visX2 - visX1);
+
+        const isVisible = rawX2 > 0 && rawX1 < overview.inner_width;
+        g.style("visibility", isVisible ? "visible" : "hidden");
+
+        if (!isVisible) {
+          return;
+        }
+
+        // 1. Continuous header background (clamped to 0..inner_width)
+        g.select(".session-header-bg")
+          .attr("x", visX1)
+          .attr("y", 0)
+          .attr("height", overview.inner_margin.top)
+          .attr("width", visWidth);
+
+        // 2. Top blue accent bar (above milestone labels)
+        g.select(".session-header-top-bar")
+          .attr("x", visX1)
+          .attr("y", 0)
+          .attr("height", 3)
+          .attr("width", visWidth);
+
+        // 3. Dashed vertical lines going all the way to y = 0
+        const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
+        g.select(".session-header-edge-left")
+          .attr("x1", rawX1)
+          .attr("x2", rawX1)
+          .style("display", showLeft ? "inline" : "none");
+
+        const showRight = rawX2 >= 0 && rawX2 <= overview.inner_width;
+        g.select(".session-header-edge-right")
+          .attr("x1", rawX2)
+          .attr("x2", rawX2)
+          .style("display", showRight ? "inline" : "none");
+
+        // 4. Sticky badges: stick to x = 0 if rawX1 < 0, otherwise sit at rawX1
+        const foX = visX1;
+        const foWidth = Math.max(0, visX2 - foX);
+
+        const fo = g.select(".session-header-fo");
+        fo.attr("x", foX)
+          .attr("width", foWidth);
+
+        const displayName = overview.getSessionDisplayName(s);
+        const groupName = s.tpGroup || "";
+        const hasNotes = !!(s.notes && s.notes.trim().length > 0);
+        const hasGroup = !!groupName;
+
+        const namePill = g.select(".session-name-pill");
+        const groupPill = g.select(".session-group-pill");
+        const noteBtn = g.select(".session-note-btn");
+        const moreBtn = g.select(".session-more-btn");
+
+        if (!namePill.empty()) {
+          namePill.select(".session-name-text").text(displayName);
+        }
+
+        if (foWidth < 28) {
+          // Extremely narrow: hide badges completely
+          fo.style("visibility", "hidden");
+          return;
+        }
+
+        fo.style("visibility", "visible");
+
+        // Width estimations
+        const charWidth = 6.2;
+        const iconAndPadding = 29; // 11px icon + 4px gap + 14px padding
+        const nameNeeded = iconAndPadding + displayName.length * charWidth;
+        const groupNeeded = hasGroup ? (iconAndPadding + groupName.length * charWidth) : 0;
+        const noteBtnWidth = hasNotes ? 20 : 0;
+        const moreBtnWidth = 16; // width of "..." dots
+        const gap = 4;
+        const padTotal = 8;
+
+        // Total needed to display all available session elements in full
+        const neededAll = nameNeeded + (hasGroup ? gap + groupNeeded : 0) + (hasNotes ? gap + noteBtnWidth : 0) + padTotal;
+
+        if (foWidth >= neededAll) {
+          // Case 1: Everything fits without truncation
+          if (!namePill.empty()) {
+            namePill.style("display", "inline-flex").style("max-width", "none");
+          }
+          if (!groupPill.empty()) {
+            groupPill.style("display", "inline-flex").style("max-width", "none");
+          }
+          if (!noteBtn.empty()) {
+            noteBtn.style("display", "inline-flex");
+          }
+          if (!moreBtn.empty()) {
+            moreBtn.style("display", "none");
+          }
+        } else {
+          // Case 2: Constrained width - priority: Name > Group > Note
+          // When an item cannot be displayed or is truncated, show "..." (moreBtn) to indicate hidden info
+          const neededNameAndGroup = nameNeeded + (hasGroup ? gap + groupNeeded : 0) + padTotal;
+          const neededNameGroupMore = neededNameAndGroup + (hasNotes ? gap + moreBtnWidth : 0);
+
+          if (hasGroup && foWidth >= neededNameGroupMore) {
+            // Name full, Group full, Note dropped -> show "..." if hasNotes
+            if (!namePill.empty()) {
+              namePill.style("display", "inline-flex").style("max-width", "none");
+            }
+            if (!groupPill.empty()) {
+              groupPill.style("display", "inline-flex").style("max-width", "none");
+            }
+            if (!noteBtn.empty()) {
+              noteBtn.style("display", "none");
+            }
+            if (!moreBtn.empty()) {
+              moreBtn.style("display", hasNotes ? "inline-flex" : "none");
+            }
+          } else if (hasGroup && foWidth >= nameNeeded + gap + 38 + (hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
+            // Name full, Group truncated with ellipsis, Note dropped -> show "..." if hasNotes
+            const availableForGroup = foWidth - nameNeeded - (hasNotes ? gap + moreBtnWidth : 0) - gap - padTotal;
+            if (!namePill.empty()) {
+              namePill.style("display", "inline-flex").style("max-width", "none");
+            }
+            if (!groupPill.empty()) {
+              groupPill.style("display", "inline-flex").style("max-width", `${Math.max(34, availableForGroup)}px`);
+            }
+            if (!noteBtn.empty()) {
+              noteBtn.style("display", "none");
+            }
+            if (!moreBtn.empty()) {
+              moreBtn.style("display", hasNotes ? "inline-flex" : "none");
+            }
+          } else if (foWidth >= nameNeeded + ((hasGroup || hasNotes) ? gap + moreBtnWidth : 0) + padTotal) {
+            // Name full, Group dropped, Note dropped -> show "..." if hasGroup or hasNotes
+            if (!namePill.empty()) {
+              namePill.style("display", "inline-flex").style("max-width", "none");
+            }
+            if (!groupPill.empty()) {
+              groupPill.style("display", "none");
+            }
+            if (!noteBtn.empty()) {
+              noteBtn.style("display", "none");
+            }
+            if (!moreBtn.empty()) {
+              moreBtn.style("display", (hasGroup || hasNotes) ? "inline-flex" : "none");
+            }
+          } else if (foWidth >= 38 + ((hasGroup || hasNotes) ? gap + moreBtnWidth : 0) + padTotal) {
+            // Name truncated with ellipsis, Group & Note dropped -> show "..." if hasGroup or hasNotes
+            const availableForName = foWidth - ((hasGroup || hasNotes) ? gap + moreBtnWidth : 0) - padTotal;
+            if (!namePill.empty()) {
+              namePill.style("display", "inline-flex").style("max-width", `${Math.max(34, availableForName)}px`);
+            }
+            if (!groupPill.empty()) {
+              groupPill.style("display", "none");
+            }
+            if (!noteBtn.empty()) {
+              noteBtn.style("display", "none");
+            }
+            if (!moreBtn.empty()) {
+              moreBtn.style("display", (hasGroup || hasNotes) ? "inline-flex" : "none");
+            }
+          } else if (foWidth >= 38) {
+            // Only enough room for Name truncated with ellipsis
+            if (!namePill.empty()) {
+              namePill.style("display", "inline-flex").style("max-width", `${foWidth - 6}px`);
+            }
+            if (!groupPill.empty()) {
+              groupPill.style("display", "none");
+            }
+            if (!noteBtn.empty()) {
+              noteBtn.style("display", "none");
+            }
+            if (!moreBtn.empty()) {
+              moreBtn.style("display", "none");
+            }
+          } else {
+            // Width between 28px and 38px:
+            // Too small for Name pill, show "..." badge representing the hidden session info
+            if (!namePill.empty()) {
+              namePill.style("display", "none");
+            }
+            if (!groupPill.empty()) {
+              groupPill.style("display", "none");
+            }
+            if (!noteBtn.empty()) {
+              noteBtn.style("display", "none");
+            }
+            if (!moreBtn.empty()) {
+              moreBtn.style("display", "inline-flex");
+            }
+          }
+        }
+      });
+    }
   }
 
   private updateMilestoneTransforms() {
@@ -2668,16 +3354,26 @@ export class OverviewComponent
   }
 
   resetZoom(conserve?: boolean) {
-    this.data_g
-      .transition()
-      .duration(750)
-      .call(
-        this.zoom.transform,
-        (conserve ? this.current_zoom : undefined) ||
+    if (conserve) {
+      if (this.current_zoom) {
+        this.data_g.call(this.zoom.transform, this.current_zoom);
+      } else {
+        this.data_g.call(
+          this.zoom.transform,
           d3.zoomIdentity.translate(0, 0).scale(1)
-      );
+        );
+      }
+      return;
+    }
 
-    // this.svg.append("g").attr("class", "brush").call(this.brush);
+    this.current_zoom = null;
+    this.overlayManagerService.dismissTransient();
+    if (this.data_g && this.zoom) {
+      this.data_g
+        .transition()
+        .duration(750)
+        .call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
+    }
   }
 
   toggleDisplayMode(mode: 'opacity' | 'height' | 'text') {
@@ -2689,6 +3385,7 @@ export class OverviewComponent
 
   zoomToGroup(commits: Commit[], range: number) {
     if (!commits || commits.length < 2 || range <= 0) return;
+    this.overlayManagerService.dismissAll();
 
     let time_domain = this.x_scale.domain();
     let minDate = time_domain[0].valueOf() as number;
@@ -2710,17 +3407,21 @@ export class OverviewComponent
   }
 
   searchSubmit() {
-    this.loadGraphDataAndRefresh();
+    this.loadGraphDataAndRefresh(false);
   }
 
   onFilterGroupsChange(groups: FilterGroup[]) {
     this.filterGroups = groups;
-    this.loadGraphDataAndRefresh();
+    this.loadGraphDataAndRefresh(false);
   }
 
   clearQuestionsFilter() {
     if (this.questionsChooser) {
-      this.questionsChooser.clearAll();
+      if (typeof this.questionsChooser.handleEscape === "function") {
+        this.questionsChooser.handleEscape();
+      } else {
+        this.questionsChooser.clearAll();
+      }
     }
   }
 
@@ -2734,14 +3435,84 @@ export class OverviewComponent
     });
   }
 
-  private saveData() {
+  updateCommitColors() {
+    if (!this.repositories_g) return;
+
+    this.repositories_g.forEach((repo_g) => {
+      repo_g.selectAll(".commit:not(.commit-group)").each(function () {
+        const commits = d3.select(this).datum() as Commit[];
+        if (commits && commits[0]?.color) {
+          d3.select(this)
+            .selectAll(".commit-normal, .commit-cloture")
+            .attr("fill", commits[0].color.color);
+        }
+      });
+
+      repo_g.selectAll(".commit-group").each(function () {
+        const commits = d3.select(this).datum() as Commit[];
+        if (commits && commits.length > 0) {
+          const lastCommit = commits[commits.length - 1];
+          if (lastCommit?.color) {
+            d3.select(this)
+              .select("path")
+              .attr("fill", lastCommit.color.color);
+          }
+        }
+      });
+    });
+  }
+
+  updateAfterMilestoneChange(hadStripBefore?: boolean) {
     this.dataService.saveData();
 
-    this.loadGraphMetadata(
+    const hasStripAfter = this.hasTopStrip();
+    if (
+      hadStripBefore !== undefined &&
+      hadStripBefore !== hasStripAfter
+    ) {
+      // The top strip appeared or disappeared, requiring layout recalculation
+      this.loadGraphMetadata(
+        this.dataService.repositories,
+        this.dataService.reviews,
+        this.dataService.corrections,
+        this.dataService.questions,
+        true
+      );
+      return;
+    }
+
+    this.loaderService.loadCommitsMetadata(
       this.dataService.repositories,
       this.dataService.reviews,
       this.dataService.corrections,
       this.dataService.questions
     );
+
+    this.loadMilestoneAnnotations();
+    this.updateCommitColors();
+  }
+
+  updateAfterSessionChange(hadStripBefore?: boolean) {
+    this.dataService.saveData();
+    const hasStripAfter = this.hasTopStrip();
+    if (
+      hadStripBefore !== undefined &&
+      hadStripBefore !== hasStripAfter
+    ) {
+      // The top strip appeared or disappeared, requiring layout recalculation
+      this.loadGraphMetadata(
+        this.dataService.repositories,
+        this.dataService.reviews,
+        this.dataService.corrections,
+        this.dataService.questions,
+        true
+      );
+      return;
+    }
+    this.loadSessionAnnotations();
+  }
+
+  private saveData() {
+    this.updateAfterMilestoneChange();
   }
 }

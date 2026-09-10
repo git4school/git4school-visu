@@ -107,7 +107,7 @@ export class StudentsCommitsComponent
     }
   }
 
-  loadGraphDataAndRefresh() {
+  loadGraphDataAndRefresh(conserveZoom?: boolean) {
     let translations = this.translateService.instant([
       "STUDENT",
       "COMMITS-COUNT",

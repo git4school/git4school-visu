@@ -106,7 +106,7 @@ export class QuestionsCompletionComponent
     }
   }
 
-  loadGraphDataAndRefresh() {
+  loadGraphDataAndRefresh(conserveZoom?: boolean) {
     let translations = this.translateService.instant([
       "QUESTION",
       "COMMITS-COUNT",

@@ -263,7 +263,7 @@
   background-color: var(--color-surface);
   transform: translateX(-100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s, height 0.3s, border-radius 0.3s;
-  z-index: 1045;
+  z-index: $zindex-sidebar;
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
@@ -309,7 +309,7 @@
   bottom: 0;
   width: 8px;
   cursor: ew-resize;
-  z-index: 1050;
+  z-index: $zindex-sidebar-resizer;
   
   &::after {
     content: '';
@@ -1170,7 +1170,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1050;
+  z-index: $zindex-sidebar-close-btn;
   
   svg {
     width: 3rem;
@@ -1962,6 +1962,12 @@ ngb-typeahead-window {
       }
     }
   }
+}
+
+// When a modal is open, elevate typeahead dropdown above the modal ($zindex-modal: 1210)
+body.custom-modal-open ngb-typeahead-window,
+body:has(app-custom-modal-container) ngb-typeahead-window {
+  z-index: $zindex-modal-typeahead !important;
 }
 
 /* =========================================

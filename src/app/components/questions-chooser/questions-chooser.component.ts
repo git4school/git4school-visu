@@ -10,13 +10,16 @@ import {
   QueryList,
   ElementRef,
   HostListener,
+  ChangeDetectorRef,
+  Optional,
 } from "@angular/core";
-import { ChangeDetectorRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { merge, Observable, Subject } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { filter, map, takeUntil } from "rxjs/operators";
 import { OsUtils } from "@utils/os.utils";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
+import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 
 export interface FilterGroup {
   criteria: {
@@ -71,7 +74,6 @@ export class QuestionsChooserComponent
 
   disabled: boolean;
 
-  pressedShortcut: string = null;
   showQuickHelp = false;
   helpShiftX = 0;
   helpShiftY = 0;
@@ -133,13 +135,54 @@ export class QuestionsChooserComponent
     }
   }
 
+  private isModalOpen(): boolean {
+    if (this.customModalService && this.customModalService.hasOpenModals()) {
+      return true;
+    }
+    if (document.body.classList.contains("modal-open")) {
+      return true;
+    }
+    return !!document.querySelector(".modal.show, .custom-modal-backdrop");
+  }
+
+  handleEscape(event?: KeyboardEvent) {
+    if (this.isModalOpen()) return;
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (this.showQuickHelp) {
+      this.closeQuickHelp();
+    }
+    if (this.instance && this.instance.isPopupOpen()) {
+      this.instance.dismissPopup();
+    }
+    this.clearAll();
+    if (this.inputField && this.inputField.nativeElement) {
+      this.inputField.nativeElement.blur();
+    }
+    this.selectedPillIndex = null;
+    this.editingPillIndex = null;
+    this.cdr.markForCheck();
+  }
+
+  private getTypeaheadElement(): HTMLElement | null {
+    const ownsId = this.inputField?.nativeElement?.getAttribute("aria-owns");
+    if (ownsId) {
+      const el = document.getElementById(ownsId);
+      if (el) return el;
+    }
+    return document.querySelector("ngb-typeahead-window") as HTMLElement;
+  }
+
   updateHelpPosition() {
     if (!this.showQuickHelp) {
       this.resetHelpPosition();
       return;
     }
 
-    const typeaheadEl = document.querySelector("ngb-typeahead-window") as HTMLElement;
+    const typeaheadEl = this.getTypeaheadElement();
     const isTypeaheadVisible =
       typeaheadEl &&
       ((this.instance && this.instance.isPopupOpen()) ||
@@ -156,7 +199,8 @@ export class QuestionsChooserComponent
 
     const typeaheadRect = typeaheadEl.getBoundingClientRect();
     const containerRect = containerEl.getBoundingClientRect();
-    const helpWidth = 360;
+    const helpEl = this.quickHelpPopover ? this.quickHelpPopover.nativeElement : null;
+    const helpWidth = helpEl && helpEl.offsetWidth > 0 ? helpEl.offsetWidth : Math.min(360, window.innerWidth - 32);
 
     // Resting position of quick-help-popover relative to viewport (top: calc(100% + 8px), right: 0 relative to pseudo-input-container):
     const restingTop = containerRect.bottom + 8;
@@ -247,14 +291,18 @@ export class QuestionsChooserComponent
       });
     }
 
-    const typeaheadEl = document.querySelector("ngb-typeahead-window") as HTMLElement;
+    const typeaheadEl = this.getTypeaheadElement();
     if (typeaheadEl) {
       this.attachTypeaheadObservers(typeaheadEl);
     }
 
     this.updateHelpPosition();
-    requestAnimationFrame(() => this.updateHelpPosition());
-    setTimeout(() => this.updateHelpPosition(), 50);
+    requestAnimationFrame(() => {
+      this.updateHelpPosition();
+      requestAnimationFrame(() => {
+        this.updateHelpPosition();
+      });
+    });
   }
 
   private stopObservingTypeahead() {
@@ -281,30 +329,33 @@ export class QuestionsChooserComponent
     return OsUtils.modifierKey;
   }
 
+  public focus() {
+    if (this.inputField && this.inputField.nativeElement) {
+      this.inputField.nativeElement.focus();
+    }
+  }
+
   @HostListener("document:keydown", ["$event"])
   handleGlobalKeyDown(event: KeyboardEvent) {
     if (this.mode !== "search") return;
-    if (this.showQuickHelp && event.key === "Escape") {
-      this.showQuickHelp = false;
-      this.stopObservingTypeahead();
-      this.resetHelpPosition();
-      event.preventDefault();
+    if (this.isModalOpen()) return;
+
+    if (event.key === "Escape") {
+      this.handleEscape(event);
       return;
     }
-    if (event.key.toLowerCase() === "f") {
+
+    if (
+      event.key.toLowerCase() === "f" &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey
+    ) {
       if (OsUtils.isTypingInInput(event)) {
         return;
       }
       event.preventDefault();
-
-      this.pressedShortcut = "f";
-      if (this.inputField && this.inputField.nativeElement) {
-        this.inputField.nativeElement.focus();
-      }
-
-      setTimeout(() => {
-        if (this.pressedShortcut === "f") this.pressedShortcut = null;
-      }, 150);
+      this.focus();
     }
   }
 
@@ -341,39 +392,61 @@ export class QuestionsChooserComponent
   }
 
   public clearAll() {
+    this.question = "";
     this.items = [];
     this.questions = [];
     this.commitMessages = [];
     this.selectedPillIndex = null;
     this.editingPillIndex = null;
+    this.isTypingExclusion = false;
     this.onChange(this.questions);
     this.commitMessagesChange.emit(this.commitMessages);
     this.emitFilterGroups();
   }
 
-  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef) {}
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef,
+    @Optional() private customModalService?: CustomModalService,
+    @Optional() private overlayManagerService?: OverlayManagerService
+  ) {}
+
+  public closePopovers(blurInput = false) {
+    if (this.instance && this.instance.isPopupOpen()) {
+      this.instance.dismissPopup();
+    }
+    if (this.selectedPillIndex !== null) {
+      if (this.editingPillIndex !== null) {
+        this.finishEditing();
+      }
+      this.selectedPillIndex = null;
+    }
+    if (this.showQuickHelp) {
+      this.showQuickHelp = false;
+      this.stopObservingTypeahead();
+      this.resetHelpPosition();
+    }
+    if (
+      blurInput &&
+      this.inputField &&
+      this.inputField.nativeElement &&
+      document.activeElement === this.inputField.nativeElement
+    ) {
+      this.inputField.nativeElement.blur();
+    }
+    this.cdr.markForCheck();
+  }
 
   @HostListener("document:click", ["$event"])
   clickout(event) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
-      const typeaheadWindow = document.querySelector("ngb-typeahead-window");
+      const typeaheadWindow = this.getTypeaheadElement();
       if (typeaheadWindow && typeaheadWindow.contains(event.target)) {
         return;
       }
-      if (this.instance && this.instance.isPopupOpen()) {
-        this.instance.dismissPopup();
-      }
-      if (this.selectedPillIndex !== null) {
-        if (this.editingPillIndex !== null) {
-          this.finishEditing();
-        }
-        this.selectedPillIndex = null;
-      }
-      if (this.showQuickHelp) {
-        this.showQuickHelp = false;
-        this.stopObservingTypeahead();
-        this.resetHelpPosition();
-      }
+      this.closePopovers();
     }
   }
 
@@ -382,6 +455,17 @@ export class QuestionsChooserComponent
     if (this.selectedPillIndex !== null) {
       if (this.editingPillIndex !== null) {
         return; // Let the editInput handle it
+      }
+
+      if (event.key === "Escape") {
+        this.handleEscape(event);
+        return;
+      }
+
+      if (event.key === "?" && this.mode === "search") {
+        event.preventDefault();
+        this.toggleQuickHelp();
+        return;
       }
 
       if (event.key === "ArrowLeft" && OsUtils.isModifierPressed(event)) {
@@ -480,6 +564,21 @@ export class QuestionsChooserComponent
     return results;
   }
 
+  private getMatchingQuestionSuggestions(
+    cleanSearch: string,
+    isEditing = false
+  ): string[] {
+    return this.questionSuggestions
+      .filter(
+        (question) =>
+          (this.mode === "search" ||
+            !this.questions.includes(question) ||
+            (isEditing && question === this.editingOldValue)) &&
+          question.toLowerCase().indexOf(cleanSearch.toLowerCase()) > -1
+      )
+      .slice(0, 8);
+  }
+
   searchQuestions = (text: Observable<string>) => {
     const clicksWithClosedPopup$ = this.click$.pipe(
       filter(() => !this.instance.isPopupOpen())
@@ -490,13 +589,7 @@ export class QuestionsChooserComponent
         const raw = (searchRaw || "").trim();
         const isExclusion = this.isTypingExclusion || raw.startsWith("!");
         const cleanSearch = raw.startsWith("!") ? raw.substring(1).trim() : raw;
-        const matchingQuestions = this.questionSuggestions
-          .filter(
-            (question) =>
-              (this.mode === "search" || !this.questions.includes(question)) &&
-              question.toLowerCase().indexOf(cleanSearch.toLowerCase()) > -1
-          )
-          .slice(0, 8);
+        const matchingQuestions = this.getMatchingQuestionSuggestions(cleanSearch, false);
 
         if (this.mode !== "search") {
           return matchingQuestions;
@@ -517,15 +610,11 @@ export class QuestionsChooserComponent
         const raw = (searchRaw || "").trim();
         const isExclusion = this.editingIsExclusion || raw.startsWith("!");
         const cleanSearch = raw.startsWith("!") ? raw.substring(1).trim() : raw;
-        const matchingQuestions = this.questionSuggestions
-          .filter(
-            (question) =>
-              (this.mode === "search" ||
-                !this.questions.includes(question) ||
-                question === this.editingOldValue) &&
-              question.toLowerCase().indexOf(cleanSearch.toLowerCase()) > -1
-          )
-          .slice(0, 8);
+        const matchingQuestions = this.getMatchingQuestionSuggestions(cleanSearch, true);
+
+        if (this.mode !== "search") {
+          return matchingQuestions;
+        }
 
         const results = this.buildTypeaheadResults(cleanSearch, matchingQuestions, isExclusion);
         if (this.showQuickHelp) {
@@ -536,6 +625,18 @@ export class QuestionsChooserComponent
     );
   };
 
+  private onInputCaptureKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      event.stopPropagation(); // Stop ngbTypeahead from processing the Tab key
+      if (this.instance.isPopupOpen()) {
+        this.instance.dismissPopup();
+      } else {
+        this.click$.next(this.question || "");
+      }
+    }
+  };
+
   ngOnInit(): void {
     this.disabled = false;
     this.questions = [...this.questions];
@@ -543,27 +644,73 @@ export class QuestionsChooserComponent
     this.commitMessages = [...this.commitMessages];
     this.syncItemsFromInputs();
 
-    this.inputField.nativeElement.addEventListener(
-      "keydown",
-      (event: KeyboardEvent) => {
-        if (event.key === "Tab") {
-          event.preventDefault();
-          event.stopPropagation(); // Stop ngbTypeahead from processing the Tab key
-          if (this.instance.isPopupOpen()) {
-            this.instance.dismissPopup();
-          } else {
-            this.click$.next(this.question || "");
+    if (this.overlayManagerService) {
+      this.overlayManagerService.dismiss$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((event) => {
+          const shouldDismissTypeahead = OverlayManagerService.shouldDismiss(
+            OverlayType.TYPEAHEAD,
+            event
+          );
+          const shouldDismissHelp = OverlayManagerService.shouldDismiss(
+            OverlayType.QUICK_HELP,
+            event
+          );
+
+          if (shouldDismissTypeahead) {
+            if (this.instance && this.instance.isPopupOpen()) {
+              this.instance.dismissPopup();
+            }
+            if (this.selectedPillIndex !== null) {
+              if (this.editingPillIndex !== null) {
+                this.finishEditing();
+              }
+              this.selectedPillIndex = null;
+            }
+            if (
+              event.options?.blurInput &&
+              this.inputField &&
+              this.inputField.nativeElement &&
+              document.activeElement === this.inputField.nativeElement
+            ) {
+              this.inputField.nativeElement.blur();
+            }
           }
-        }
-      },
-      true
-    ); // Use capture phase
+
+          if (shouldDismissHelp) {
+            if (this.showQuickHelp) {
+              this.showQuickHelp = false;
+              this.stopObservingTypeahead();
+              this.resetHelpPosition();
+            }
+          }
+          this.cdr.markForCheck();
+        });
+    }
+
+    if (this.inputField && this.inputField.nativeElement) {
+      this.inputField.nativeElement.addEventListener(
+        "keydown",
+        this.onInputCaptureKeyDown,
+        true
+      ); // Use capture phase
+    }
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.stopObservingTypeahead();
+    if (this.inputField && this.inputField.nativeElement) {
+      this.inputField.nativeElement.removeEventListener(
+        "keydown",
+        this.onInputCaptureKeyDown,
+        true
+      );
+    }
     this.focus$.unsubscribe();
     this.click$.unsubscribe();
+    this.editFocus$.unsubscribe();
   }
 
   syncItemsFromInputs() {
@@ -577,13 +724,13 @@ export class QuestionsChooserComponent
         rawValue: q,
       });
     });
-    this.commitMessages.forEach((c) => {
-      const isExclusion = this.mode === "search" && c.startsWith("!");
+    this.commitMessages.forEach((m) => {
+      const isExclusion = this.mode === "search" && m.startsWith("!");
       this.items.push({
         type: "commit",
-        value: isExclusion ? c.substring(1) : c,
+        value: isExclusion ? m.substring(1) : m,
         isExclusion,
-        rawValue: c,
+        rawValue: m,
       });
     });
   }
@@ -655,6 +802,10 @@ export class QuestionsChooserComponent
     this.isTypingExclusion = false;
     this.scrollToEnd();
     this.emitFilterGroups();
+    this.focus();
+    setTimeout(() => {
+      this.focus();
+    }, 0);
   }
 
   deleteItem(index: number) {
@@ -696,11 +847,8 @@ export class QuestionsChooserComponent
   }
 
   onMainInputKeyDown(event: KeyboardEvent) {
-    if (this.showQuickHelp && event.key === "Escape") {
-      this.showQuickHelp = false;
-      this.stopObservingTypeahead();
-      this.resetHelpPosition();
-      event.preventDefault();
+    if (event.key === "Escape") {
+      this.handleEscape(event);
       return;
     }
     if (
@@ -1403,7 +1551,10 @@ export class QuestionsChooserComponent
     return item.type === "commit";
   }
 
-  onEnter() {
+  onEnter(event?: Event) {
+    if (event) {
+      event.preventDefault();
+    }
     if (this.instance && this.instance.isPopupOpen()) {
       return;
     }

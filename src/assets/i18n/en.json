@@ -6,6 +6,7 @@
   "CORRECTION": "Correction",
   "OTHER": "Other",
   "SESSION": "Session",
+  "DEFAULT-SESSION-NAME": "Session {{number}}",
   "SEARCH-NOT-FOUND": "No questions found",
   "QUESTIONS": "Questions",
   "DATE": "Date",
@@ -324,6 +325,7 @@
   "EDIT-SESSION": {
     "CREATE-TITLE": "Create session",
     "EDIT-TITLE": "Edit session",
+    "LABEL-LABEL": "Session name (optional)",
     "DATE-LABEL": "Date",
     "START-TIME-LABEL": "Start time",
     "END-TIME-LABEL": "End time",

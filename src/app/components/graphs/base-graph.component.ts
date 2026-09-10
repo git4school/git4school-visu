@@ -36,7 +36,8 @@ export abstract class BaseGraphComponent implements OnInit {
     repositories: Repository[],
     reviews: Milestone[],
     corrections: Milestone[],
-    questions
+    questions,
+    conserveZoom: boolean = false
   ) {
     this.loaderService.loadCommitsMetadata(
       repositories,
@@ -44,8 +45,8 @@ export abstract class BaseGraphComponent implements OnInit {
       corrections,
       questions
     );
-    this.loadGraphDataAndRefresh();
+    this.loadGraphDataAndRefresh(conserveZoom);
   }
 
-  abstract loadGraphDataAndRefresh();
+  abstract loadGraphDataAndRefresh(conserveZoom?: boolean);
 }

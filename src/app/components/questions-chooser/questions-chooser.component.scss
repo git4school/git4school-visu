@@ -19,7 +19,7 @@
   position: relative;
 
   &.disabled {
-    background-color: #e9ecef;
+    background-color: var(--color-hover);
     cursor: not-allowed;
   }
 }
@@ -39,6 +39,7 @@
   height: 100%;
   min-width: 0; /* Prevents intrinsic content size from overriding flex constraints */
   box-sizing: border-box;
+  position: relative;
   
   /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
@@ -52,7 +53,7 @@
 .ghost-preview {
   opacity: 0.5;
   pointer-events: none;
-  box-shadow: 0 0 0 1px #3b82f6 inset;
+  box-shadow: 0 0 0 1px var(--color-primary) inset;
 }
 
 // ======================
@@ -62,8 +63,8 @@
 .pill {
   display: inline-flex;
   align-items: center;
-  background-color: #eff6ff;
-  color: #1d4ed8;
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
   border-radius: 9999px;
   padding: 0.1rem 0.5rem;
   margin-right: 0.5rem;
@@ -104,7 +105,7 @@
     margin-left: 0.4rem;
     cursor: pointer;
     opacity: 0.5;
-    color: #1d4ed8;
+    color: var(--color-primary);
     transition: opacity 150ms ease-out, transform 150ms ease-out;
     position: relative;
 
@@ -144,8 +145,8 @@
   }
 
   &.selected-pill {
-    border-color: #1d4ed8;
-    box-shadow: 0 0 0 1px #1d4ed8;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
 
     &.commit-pill {
         border-color: var(--color-text-secondary, #475569);
@@ -217,7 +218,7 @@
   opacity: 0.85;
 
   &.question-icon {
-    color: #1d4ed8;
+    color: var(--color-primary);
   }
 
   &.commit-icon {
@@ -387,6 +388,14 @@
     padding-bottom: 8px;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 10px;
+
+    .quick-help-title-wrap {
+      gap: 6px;
+
+      .quick-help-icon {
+        color: var(--color-primary);
+      }
+    }
 
     .quick-help-title {
       font-size: 0.82rem;
@@ -573,6 +582,11 @@
   color: var(--color-text-muted);
   pointer-events: none;
   background: transparent;
+  gap: 8px;
+
+  .cheat-group {
+    gap: 4px;
+  }
 
   .cheat-label {
     font-size: 0.68rem;
@@ -592,40 +606,40 @@
 
 :host-context(body.dark-theme) {
   .pill {
-    background-color: rgba(96, 165, 250, 0.15);
-    color: #60a5fa;
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary);
     
-    .close-icon { color: #60a5fa; }
+    .close-icon { color: var(--color-primary); }
 
     &.selected-pill {
-        border-color: #60a5fa;
-        box-shadow: 0 0 0 1px #60a5fa;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 1px var(--color-primary);
     }
 
     &.commit-pill {
       background-color: transparent;
-      color: var(--color-text-secondary, #94a3b8);
-      border-color: var(--color-border, #475569);
+      color: var(--color-text-secondary);
+      border-color: var(--color-border);
 
       &.selected-pill {
-          border-color: var(--color-text-secondary, #94a3b8);
-          box-shadow: 0 0 0 1px var(--color-text-secondary, #94a3b8);
+          border-color: var(--color-text-secondary);
+          box-shadow: 0 0 0 1px var(--color-text-secondary);
       }
 
-      .close-icon { color: var(--color-text-secondary, #94a3b8); }
+      .close-icon { color: var(--color-text-secondary); }
     }
   }
 
   .pill-icon.question-icon {
-    color: #60a5fa;
+    color: var(--color-primary);
   }
   
   .pill-icon.commit-icon {
-    color: var(--color-text-secondary, #94a3b8);
+    color: var(--color-text-secondary);
   }
 
   .connector-icon {
-    background: #3b82f6;
+    background: var(--color-primary);
   }
 
   .connector-icon.unlink-icon {
@@ -633,7 +647,7 @@
   }
 
   .pill.merged-right:not(.commit-pill) {
-    border-right-color: var(--color-border, #475569);
+    border-right-color: var(--color-border);
   }
 
   .pill-connector.merged {
@@ -658,10 +672,9 @@
 
   .quick-help-popover {
     .help-feature-card {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(255, 255, 255, 0.08);
+      background: var(--color-hover);
+      border-color: var(--color-border);
     }
-
   }
 
   .transparent-input {
@@ -680,7 +693,7 @@
   min-width: 50px;
   padding: 0;
   margin: 0;
-  color: #495057;
+  color: var(--color-text-primary);
   width: 100%;
 
   &:focus {
