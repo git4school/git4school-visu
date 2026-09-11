@@ -1,0 +1,84 @@
+<div class="modal-header border-bottom-0 pb-1 pt-3 d-flex justify-content-between align-items-center flex-nowrap w-100" style="padding-left: 32px; padding-right: 32px;">
+    <div class="d-flex align-items-center">
+        <div class="header-icon mr-3">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
+        </div>
+        <div>
+            <h5 class="modal-title m-0" style="font-weight: 600; font-size: 1.15rem; color: var(--color-text-primary);">
+                {{ 'SESSIONS-GRAPH.SUGGEST_MODAL.TITLE' | translate }}
+            </h5>
+            <p class="m-0 text-muted" style="font-size: 0.85rem;">
+                {{ 'SESSIONS-GRAPH.SUGGEST_MODAL.SUBTITLE' | translate }}
+            </p>
+        </div>
+    </div>
+    <button type="button" class="btn btn-outline-ghost" style="border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-hover);" (click)="dismiss()">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+
+<div class="modal-body pt-2 pb-3" style="padding-left: 32px; padding-right: 32px; max-height: 60vh; overflow-y: auto;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="custom-control custom-checkbox cursor-pointer" (click)="toggleSelectAll()">
+            <input type="checkbox" class="custom-control-input" [checked]="allSelected" id="selectAllSuggestions">
+            <label class="custom-control-label font-weight-medium" for="selectAllSuggestions" style="cursor: pointer; color: var(--color-text-primary); font-size: 0.9rem;">
+                {{ 'SESSIONS-GRAPH.SUGGEST_MODAL.SELECT_ALL' | translate }} ({{ selectedCount }}/{{ selectableItems.length }})
+            </label>
+        </div>
+    </div>
+
+    <div *ngIf="selectableItems.length === 0" class="text-center py-4 text-muted">
+        <p class="mb-0">{{ 'SESSIONS-GRAPH.SUGGEST_MODAL.NO_SUGGESTIONS' | translate }}</p>
+    </div>
+
+    <div class="suggestions-list d-flex flex-column" style="gap: 12px;">
+        <div *ngFor="let item of selectableItems; let i = index" class="suggestion-card p-3 rounded-lg border" [class.is-selected]="item.selected">
+            <div class="d-flex align-items-start justify-content-between">
+                <div class="d-flex align-items-center">
+                    <div class="custom-control custom-checkbox mr-3">
+                        <input type="checkbox" class="custom-control-input" [(ngModel)]="item.selected" [id]="'suggest_' + i">
+                        <label class="custom-control-label" [for]="'suggest_' + i"></label>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center flex-wrap mb-1" style="gap: 8px;">
+                            <input type="text" class="form-control form-control-sm label-input" [(ngModel)]="item.label" [placeholder]="item.placeholder" [disabled]="!item.selected" style="width: 180px; font-weight: 600; font-size: 0.9rem;">
+                            <span *ngIf="item.item.session.tpGroup" class="badge-group px-2 py-1 rounded-pill small font-weight-medium">
+                                {{ item.item.session.tpGroup }}
+                            </span>
+                        </div>
+                        <div class="text-muted small d-flex align-items-center" style="gap: 14px;">
+                            <span>
+                                <i class="far fa-calendar-alt mr-1"></i>
+                                {{ item.item.session.startDate | date:'EEE d MMM yyyy':undefined:translateService?.currentLang }}
+                            </span>
+                            <span>
+                                <i class="far fa-clock mr-1"></i>
+                                {{ item.item.session.startDate | date:'HH:mm' }} - {{ item.item.session.endDate | date:'HH:mm' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-badges d-flex align-items-center" style="gap: 8px;">
+                    <span class="badge-stat" [title]="'SESSIONS-GRAPH.TOOLTIPS.STUDENTS_COUNT' | translate">
+                        <i class="fas fa-users mr-1"></i>{{ item.item.activeStudentsCount }}/{{ item.item.totalGroupStudents }}
+                    </span>
+                    <span class="badge-stat" [title]="'SESSIONS-GRAPH.TOOLTIPS.COMMITS_COUNT' | translate">
+                        <i class="fas fa-code-branch mr-1"></i>{{ item.item.commitsCount }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer border-top-0 pt-2 pb-4 d-flex justify-content-between align-items-center" style="padding-left: 32px; padding-right: 32px;">
+    <button type="button" class="btn btn-outline-ghost" (click)="dismiss()">
+        {{ 'CANCEL' | translate }}
+    </button>
+    <button type="button" class="btn btn-primary px-4" (click)="confirm()" [disabled]="selectedCount === 0">
+        {{ 'SESSIONS-GRAPH.SUGGEST_MODAL.IMPORT_BUTTON' | translate: { count: selectedCount } }}
+    </button>
+</div>

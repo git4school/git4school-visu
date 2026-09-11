@@ -41,10 +41,18 @@
                 
                 <ul class="navbar-nav flex-row align-items-center" *ngIf="!isHome && dataService.dataLoaded()">
                     <li class="nav-item" *ngFor="let tab of navTabs">
-                        <a class="nav-link" [routerLink]="tab.route" routerLinkActive="active"
+                        <a class="nav-link d-flex align-items-center" [routerLink]="tab.route" routerLinkActive="active"
                            [appTooltip]="{ text: (tab.tooltipKey | translate), shortcut: tab.shortcut }"
                            placement="bottom">
-                            <i [class]="tab.icon + ' mr-2'"></i>{{ tab.labelKey | translate }}
+                            <i *ngIf="tab.icon" [class]="tab.icon + ' mr-2'"></i>
+                            <svg *ngIf="tab.svg === 'session-calendar'" class="icon-calendar mr-2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect class="cal-body" x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line class="cal-pin" x1="16" y1="2" x2="16" y2="6"></line>
+                                <line class="cal-pin" x1="8" y1="2" x2="8" y2="6"></line>
+                                <line class="cal-line" x1="3" y1="10" x2="21" y2="10"></line>
+                                <path class="cal-check" d="M9 16l2 2 4-4"></path>
+                            </svg>
+                            <span>{{ tab.labelKey | translate }}</span>
                         </a>
                     </li>
                 </ul>

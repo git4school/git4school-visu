@@ -4,6 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.component";
 import { OverviewComponent } from "@components/graphs/overview/overview.component";
 import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
+import { SessionsComponent } from "@components/graphs/sessions/sessions.component";
 import { StudentsCommitsComponent } from "@components/graphs/students-commits/students-commits.component";
 import { HomeComponent } from "@components/home/home.component";
 import { AppNavLayoutComponent } from "@components/nav-layouts/app-nav-layout/app-nav-layout.component";
@@ -32,6 +33,11 @@ const APP_ROUTES: Routes = [
     path: "questions-completion",
     canActivate: [AuthGuard, DataProvidedGuard],
     component: QuestionsCompletionComponent,
+  },
+  {
+    path: "sessions",
+    canActivate: [AuthGuard, DataProvidedGuard],
+    component: SessionsComponent,
   },
   { path: "", redirectTo: "/home", pathMatch: "full" },
 ];

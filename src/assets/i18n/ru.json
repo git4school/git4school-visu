@@ -32,6 +32,8 @@
     "STUDENTS-COMMITS-TOOLTIP": "Перейти к коммитам студентов",
     "QUESTIONS-COMPLETION": "Выполнение вопросов",
     "QUESTIONS-COMPLETION-TOOLTIP": "Перейти к вопросам",
+    "SESSIONS": "Сессии",
+    "SESSIONS-TOOLTIP": "Перейти к анализу сессий",
     "METADATA": "Метаданные",
     "SIGN-IN": "Войти",
     "SIGN-OUT": "Выйти",
@@ -241,6 +243,7 @@
     "NAV_OVERVIEW": "Вкладка Обзор",
     "NAV_STUDENTS": "Вкладка Студенты",
     "NAV_QUESTIONS": "Вкладка Вопросы",
+    "NAV_SESSIONS": "Вкладка Сессии",
     "NAV_CONFIG": "Настроить задание",
     "NAV_SHORTCUTS": "Показать / скрыть горячие клавиши",
     "SECTION_GRAPHS": "Графики и визуализации",
@@ -531,5 +534,76 @@
     "SHORTCUT_DELETE": "Удалить фильтр",
     "SHORTCUT_CLEAR": "Очистить все фильтры",
     "KEY_DELETE": "Удал."
+  },
+  "SESSIONS-GRAPH": {
+    "EMPTY_TITLE": "Сессии не настроены",
+    "EMPTY_DESC": "Настройте практические сессии для анализа активности, темпа работы и прогресса студентов.",
+    "SUGGEST_BUTTON": "Предложить сессии",
+    "SUGGEST_BUTTON_TOOLTIP": "Автоматически определяет сессии по пикам одновременной активности",
+    "ADD_BUTTON": "Добавить сессию",
+    "CALCULATING": "Расчет статистики сессий...",
+    "ALL_SESSIONS": "Все сессии",
+    "OFFICIAL_END": "Официальный конец",
+    "TOLERANCE_BADGE": "Активный допуск: +{{minutes}} мин ({{students}} студентов)",
+    "KPIS": {
+      "AVG_PARTICIPATION": "Средняя активная посещаемость",
+      "AVG_PARTICIPATION_SUB": "По всем сессиям",
+      "IN_SESSION_COMMITS": "Коммиты на сессиях",
+      "IN_SESSION_COMMITS_SUB": "{{ratio}}% от общей активности",
+      "AUTONOMOUS_COMMITS": "Коммиты вне сессий",
+      "AUTONOMOUS_COMMITS_SUB": "Самостоятельная работа",
+      "TOTAL_SESSIONS": "Запланировано сессий",
+      "TOTAL_SESSIONS_SUB": "Сессий с преподавателем",
+      "PARTICIPATION_RATE": "Доля активных студентов",
+      "STUDENTS_ACTIVE": "активных студентов",
+      "COMMITS_COUNT": "Создано коммитов",
+      "OF_DAY_COMMITS": "коммитов за сессию",
+      "QUESTIONS_RESOLVED": "Решено вопросов",
+      "QUESTIONS_RESOLVED_SUB": "Вопросов закрыто на сессии",
+      "INACTIVE_STUDENTS": "Неактивные студенты",
+      "INACTIVE_STUDENTS_SUB": "Нет коммитов за сессию"
+    },
+    "MACRO": {
+      "CHART_TITLE": "Динамика посещаемости по сессиям (%)",
+      "CHART_SUBTITLE": "Доля студентов, закоммитивших код во время сессии",
+      "SESSIONS_LIST": "Список сессий"
+    },
+    "RIBBON": {
+      "TITLE": "Траектория прогресса и разброс группы",
+      "SUBTITLE_BADGE": "Медиана + Межквартильный размах",
+      "EXPLANATION": "Синяя линия показывает медианный прогресс. Затененная полоса — интервал, где находится 50% студентов (Q1-Q3).",
+      "MODE_QUESTIONS": "Решенные вопросы",
+      "MODE_COMMITS": "Накопленные коммиты",
+      "Y_AXIS_QUESTIONS": "Завершенные вопросы",
+      "Y_AXIS_COMMITS": "Накопленные коммиты",
+      "CUMULATIVE": "Накоплено"
+    },
+    "HISTOGRAM": {
+      "TITLE": "Темп коммитов по 15-минутным интервалам",
+      "SUBTITLE": "Объем и тип вкладов на протяжении всей сессии"
+    },
+    "STUDENTS_TABLE": {
+      "TITLE": "Ведомость посещаемости и вовлеченности",
+      "SUBTITLE": "Быстрое выявление активных студентов и отстающих",
+      "STATUS_ACTIVE": "Активен",
+      "STATUS_LOW": "Низкая активность",
+      "STATUS_INACTIVE": "Неактивен",
+      "COMMITS_IN_SESSION": "Коммитов на сессии",
+      "FIRST_COMMIT": "1-й коммит",
+      "LAST_COMMIT": "Посл. коммит",
+      "LAST_QUESTION": "Посл. вопрос"
+    },
+    "SUGGEST_MODAL": {
+      "TITLE": "Автоматическое определение сессий",
+      "SUBTITLE": "Сессии, предложенные по пикам одновременных коммитов",
+      "SELECT_ALL": "Выбрать все",
+      "NO_SUGGESTIONS": "В истории коммитов этого задания сессии не обнаружены.",
+      "IMPORT_BUTTON": "Импортировать {{count}} сессий",
+      "SUCCESS_TOAST": "{{count}} сессий успешно импортировано"
+    },
+    "TOOLTIPS": {
+      "STUDENTS_COUNT": "Активных студентов",
+      "COMMITS_COUNT": "Всего коммитов"
+    }
   }
 }

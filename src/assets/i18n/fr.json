@@ -31,6 +31,8 @@
     "STUDENTS-COMMITS-TOOLTIP": "Basculer vers la vue des commits",
     "QUESTIONS-COMPLETION": "Questions",
     "QUESTIONS-COMPLETION-TOOLTIP": "Basculer vers la vue des questions",
+    "SESSIONS": "Séances",
+    "SESSIONS-TOOLTIP": "Basculer vers la vue des séances",
     "METADATA": "Métadonnées",
     "SIGN-IN": "S'identifier",
     "SIGN-OUT": "Se déconnecter",
@@ -242,6 +244,7 @@
     "NAV_OVERVIEW": "Vue d'ensemble",
     "NAV_STUDENTS": "Vue Étudiants",
     "NAV_QUESTIONS": "Vue Questions",
+    "NAV_SESSIONS": "Vue Séances",
     "NAV_CONFIG": "Configurer le devoir",
     "NAV_SHORTCUTS": "Afficher / masquer les raccourcis",
     "SECTION_GRAPHS": "Graphiques & Visualisations",
@@ -534,5 +537,76 @@
     "SHORTCUT_DELETE": "Supprimer le filtre",
     "SHORTCUT_CLEAR": "Effacer tous les filtres",
     "KEY_DELETE": "Suppr"
+  },
+  "SESSIONS-GRAPH": {
+    "EMPTY_TITLE": "Aucune séance configurée",
+    "EMPTY_DESC": "Définissez les séances de TP pour analyser le taux de présence active, le rythme de travail, et la progression de vos étudiants.",
+    "SUGGEST_BUTTON": "Suggérer les séances",
+    "SUGGEST_BUTTON_TOOLTIP": "Détecte automatiquement les séances d'après les pics d'activité simultanée",
+    "ADD_BUTTON": "Ajouter une séance",
+    "CALCULATING": "Calcul des statistiques de séances...",
+    "ALL_SESSIONS": "Toutes les séances",
+    "OFFICIAL_END": "Fin officielle",
+    "TOLERANCE_BADGE": "Tolérance active : +{{minutes}} min ({{students}} étudiants)",
+    "KPIS": {
+      "AVG_PARTICIPATION": "Présence active moyenne",
+      "AVG_PARTICIPATION_SUB": "Sur l'ensemble des séances",
+      "IN_SESSION_COMMITS": "Commits en séance",
+      "IN_SESSION_COMMITS_SUB": "{{ratio}}% de la production totale",
+      "AUTONOMOUS_COMMITS": "Commits hors séance",
+      "AUTONOMOUS_COMMITS_SUB": "Travail personnel autonome",
+      "TOTAL_SESSIONS": "Séances planifiées",
+      "TOTAL_SESSIONS_SUB": "Séances encadrées",
+      "PARTICIPATION_RATE": "Taux de présence active",
+      "STUDENTS_ACTIVE": "étudiants actifs",
+      "COMMITS_COUNT": "Commits réalisés",
+      "OF_DAY_COMMITS": "des commits de la séance",
+      "QUESTIONS_RESOLVED": "Questions résolues",
+      "QUESTIONS_RESOLVED_SUB": "Questions clôturées pendant la séance",
+      "INACTIVE_STUDENTS": "Étudiants inactifs",
+      "INACTIVE_STUDENTS_SUB": "Aucun commit pendant la séance"
+    },
+    "MACRO": {
+      "CHART_TITLE": "Dynamique de présence par séance (%)",
+      "CHART_SUBTITLE": "Proportion d'étudiants ayant produit du code pendant chaque créneau",
+      "SESSIONS_LIST": "Détail des séances"
+    },
+    "RIBBON": {
+      "TITLE": "Trajectoire de progression & Dispersion du groupe",
+      "SUBTITLE_BADGE": "Médiane + Intervalle interquartile",
+      "EXPLANATION": "La courbe bleue indique l'avancement médian du groupe. Le ruban ombré représente la zone où se situent 50% des étudiants (Q1-Q3).",
+      "MODE_QUESTIONS": "Questions résolues",
+      "MODE_COMMITS": "Commits cumulés",
+      "Y_AXIS_QUESTIONS": "Questions complétées",
+      "Y_AXIS_COMMITS": "Commits cumulés",
+      "CUMULATIVE": "Cumul"
+    },
+    "HISTOGRAM": {
+      "TITLE": "Rythme des commits par quart d'heure",
+      "SUBTITLE": "Volume et nature des contributions tout au long de la séance"
+    },
+    "STUDENTS_TABLE": {
+      "TITLE": "Tableau de présence & engagement des étudiants",
+      "SUBTITLE": "Identification rapide des étudiants actifs et des décrocheurs",
+      "STATUS_ACTIVE": "Actif",
+      "STATUS_LOW": "Faible activité",
+      "STATUS_INACTIVE": "Inactif",
+      "COMMITS_IN_SESSION": "Commits en séance",
+      "FIRST_COMMIT": "1er commit",
+      "LAST_COMMIT": "Dernier commit",
+      "LAST_QUESTION": "Dernière question"
+    },
+    "SUGGEST_MODAL": {
+      "TITLE": "Détection automatique des séances",
+      "SUBTITLE": "Séances suggérées d'après les pics synchrones de commits de la promotion",
+      "SELECT_ALL": "Tout sélectionner",
+      "NO_SUGGESTIONS": "Aucune séance détectée automatiquement dans l'historique de ce devoir.",
+      "IMPORT_BUTTON": "Importer {{count}} séance(s)",
+      "SUCCESS_TOAST": "{{count}} séance(s) importée(s) avec succès"
+    },
+    "TOOLTIPS": {
+      "STUDENTS_COUNT": "Étudiants actifs",
+      "COMMITS_COUNT": "Total des commits"
+    }
   }
 }

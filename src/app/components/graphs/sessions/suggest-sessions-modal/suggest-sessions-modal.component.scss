@@ -1,0 +1,46 @@
+.suggestion-card {
+    background-color: var(--color-surface);
+    border-color: var(--color-border) !important;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: var(--color-border-hover) !important;
+        background-color: var(--color-surface-hover);
+    }
+
+    &.is-selected {
+        border-color: var(--color-primary) !important;
+        background-color: var(--color-primary-light, rgba(59, 130, 246, 0.05));
+    }
+}
+
+.label-input {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    border-radius: 6px;
+
+    &:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px var(--color-primary-light, rgba(59, 130, 246, 0.2));
+    }
+}
+
+.badge-group {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    font-size: 0.75rem;
+}
+
+.badge-stat {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+}

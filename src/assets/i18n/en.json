@@ -32,6 +32,8 @@
     "STUDENTS-COMMITS-TOOLTIP": "Switch to Students Commits",
     "QUESTIONS-COMPLETION": "Questions completion",
     "QUESTIONS-COMPLETION-TOOLTIP": "Switch to Questions Completion",
+    "SESSIONS": "Sessions",
+    "SESSIONS-TOOLTIP": "Switch to Sessions View",
     "METADATA": "Metadata",
     "SIGN-IN": "Sign in",
     "SIGN-OUT": "Sign out",
@@ -243,6 +245,7 @@
     "NAV_OVERVIEW": "Overview Tab",
     "NAV_STUDENTS": "Students Tab",
     "NAV_QUESTIONS": "Questions Tab",
+    "NAV_SESSIONS": "Sessions Tab",
     "NAV_CONFIG": "Configure assignment",
     "NAV_SHORTCUTS": "Toggle shortcuts panel",
     "SECTION_GRAPHS": "Graphs & Visualizations",
@@ -534,5 +537,76 @@
     "SHORTCUT_DELETE": "Delete filter",
     "SHORTCUT_CLEAR": "Clear all filters",
     "KEY_DELETE": "Del"
+  },
+  "SESSIONS-GRAPH": {
+    "EMPTY_TITLE": "No sessions configured",
+    "EMPTY_DESC": "Set up lab sessions to analyze active participation rate, work pace, and cohort progression.",
+    "SUGGEST_BUTTON": "Suggest sessions",
+    "SUGGEST_BUTTON_TOOLTIP": "Automatically detects sessions based on simultaneous commit activity peaks",
+    "ADD_BUTTON": "Add a session",
+    "CALCULATING": "Computing session statistics...",
+    "ALL_SESSIONS": "All sessions",
+    "OFFICIAL_END": "Official end",
+    "TOLERANCE_BADGE": "Active grace period: +{{minutes}} min ({{students}} students)",
+    "KPIS": {
+      "AVG_PARTICIPATION": "Average Active Attendance",
+      "AVG_PARTICIPATION_SUB": "Across all sessions",
+      "IN_SESSION_COMMITS": "In-Session Commits",
+      "IN_SESSION_COMMITS_SUB": "{{ratio}}% of total contributions",
+      "AUTONOMOUS_COMMITS": "Out-of-Session Commits",
+      "AUTONOMOUS_COMMITS_SUB": "Autonomous individual work",
+      "TOTAL_SESSIONS": "Planned Sessions",
+      "TOTAL_SESSIONS_SUB": "Supervised lab sessions",
+      "PARTICIPATION_RATE": "Active Attendance Rate",
+      "STUDENTS_ACTIVE": "active students",
+      "COMMITS_COUNT": "Commits produced",
+      "OF_DAY_COMMITS": "of session commits",
+      "QUESTIONS_RESOLVED": "Questions Resolved",
+      "QUESTIONS_RESOLVED_SUB": "Questions closed during this session",
+      "INACTIVE_STUDENTS": "Inactive Students",
+      "INACTIVE_STUDENTS_SUB": "Zero commits during session"
+    },
+    "MACRO": {
+      "CHART_TITLE": "Attendance Dynamics per Session (%)",
+      "CHART_SUBTITLE": "Proportion of students who committed code during each time slot",
+      "SESSIONS_LIST": "Sessions Breakdown"
+    },
+    "RIBBON": {
+      "TITLE": "Cohort Progression Trajectory & Dispersion",
+      "SUBTITLE_BADGE": "Median + Interquartile Range",
+      "EXPLANATION": "The blue line indicates median cohort progression. The shaded ribbon represents where 50% of students fall (Q1-Q3).",
+      "MODE_QUESTIONS": "Resolved questions",
+      "MODE_COMMITS": "Cumulative commits",
+      "Y_AXIS_QUESTIONS": "Completed questions",
+      "Y_AXIS_COMMITS": "Cumulative commits",
+      "CUMULATIVE": "Cumulative"
+    },
+    "HISTOGRAM": {
+      "TITLE": "Commit Cadence per 15-Minute Slot",
+      "SUBTITLE": "Volume and distribution of contributions throughout the session"
+    },
+    "STUDENTS_TABLE": {
+      "TITLE": "Student Attendance & Engagement Board",
+      "SUBTITLE": "Quick identification of active contributors and disengaged students",
+      "STATUS_ACTIVE": "Active",
+      "STATUS_LOW": "Low activity",
+      "STATUS_INACTIVE": "Inactive",
+      "COMMITS_IN_SESSION": "In-session commits",
+      "FIRST_COMMIT": "1st commit",
+      "LAST_COMMIT": "Last commit",
+      "LAST_QUESTION": "Last question"
+    },
+    "SUGGEST_MODAL": {
+      "TITLE": "Automatic Session Detection",
+      "SUBTITLE": "Sessions suggested from simultaneous student commit bursts",
+      "SELECT_ALL": "Select all",
+      "NO_SUGGESTIONS": "No sessions automatically detected in this assignment history.",
+      "IMPORT_BUTTON": "Import {{count}} session(s)",
+      "SUCCESS_TOAST": "{{count}} session(s) successfully imported"
+    },
+    "TOOLTIPS": {
+      "STUDENTS_COUNT": "Active students",
+      "COMMITS_COUNT": "Total commits"
+    }
   }
 }

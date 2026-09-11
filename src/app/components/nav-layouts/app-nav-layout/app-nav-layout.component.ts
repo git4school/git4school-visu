@@ -18,7 +18,8 @@ import { OsUtils } from "@utils/os.utils";
 
 export interface NavTab {
   route: string;
-  icon: string;
+  icon?: string;
+  svg?: string;
   labelKey: string;
   tooltipKey: string;
   shortcut: string[];
@@ -69,6 +70,13 @@ export class AppNavLayoutComponent implements OnInit {
       labelKey: "NAVBAR.QUESTIONS-COMPLETION",
       tooltipKey: "NAVBAR.QUESTIONS-COMPLETION-TOOLTIP",
       shortcut: ["3"],
+    },
+    {
+      route: "sessions",
+      svg: "session-calendar",
+      labelKey: "NAVBAR.SESSIONS",
+      tooltipKey: "NAVBAR.SESSIONS-TOOLTIP",
+      shortcut: ["4"],
     },
   ];
 
@@ -121,6 +129,8 @@ export class AppNavLayoutComponent implements OnInit {
       this.navigateTab("students-commits");
     } else if (key === "3") {
       this.navigateTab("questions-completion");
+    } else if (key === "4") {
+      this.navigateTab("sessions");
     } else if (key === "?") {
       this.toggleShortcutsModal();
     } else if (key === "c") {
