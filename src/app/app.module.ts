@@ -13,7 +13,9 @@ import { FileChooserComponent } from "@components/file-chooser/file-chooser.comp
 import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.component";
 import { CommitsComponent } from "@components/graphs/commits/commits.component";
 import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
-import { StudentsComponent } from "@components/graphs/students/students.component";
+import { SessionsComponent } from "@components/graphs/sessions/sessions.component";
+import { SuggestSessionsModalComponent } from "@components/graphs/sessions/suggest-sessions-modal/suggest-sessions-modal.component";
+import { StudentsCommitsComponent } from "@components/graphs/students-commits/students-commits.component";
 import { AssignmentChooserComponent } from "@components/home/assignment-chooser/assignment-chooser.component";
 import { ConfigurationComponent } from "@components/home/assignment-chooser/configuration/configuration.component";
 import { EditRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component";
@@ -113,6 +115,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     CommitsComponent,
     StudentsComponent,
     QuestionsCompletionComponent,
+    SessionsComponent,
+    SuggestSessionsModalComponent,
     MetadataComponent,
     QuestionsAssistantPopoverComponent,
     EditRepositoriesComponent,
