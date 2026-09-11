@@ -46,17 +46,21 @@ export class Utils {
   static readonly OVERVIEW_NAME_LENGTH_LIMIT = 20;
   static readonly COMMIT_FUSE_RANGE = 15;
   static readonly COMMIT_DATE_FORMAT = (date: Date) => {
+    if (!date) {
+      return "";
+    }
+    const d = date instanceof Date ? date : new Date(date);
     const options: Intl.NumberFormatOptions = {
       useGrouping: false,
       minimumIntegerDigits: 2,
     };
 
-    let year = date.getFullYear().toLocaleString(undefined, options);
-    let month = date.getMonth().toLocaleString(undefined, options);
-    let day = date.getDate().toLocaleString(undefined, options);
-    let hour = date.getHours().toLocaleString(undefined, options);
-    let minute = date.getMinutes().toLocaleString(undefined, options);
-    let seconds = date.getSeconds().toLocaleString(undefined, options);
+    let year = d.getFullYear().toLocaleString(undefined, options);
+    let month = (d.getMonth() + 1).toLocaleString(undefined, options);
+    let day = d.getDate().toLocaleString(undefined, options);
+    let hour = d.getHours().toLocaleString(undefined, options);
+    let minute = d.getMinutes().toLocaleString(undefined, options);
+    let seconds = d.getSeconds().toLocaleString(undefined, options);
 
     return `${day}/${month}/${year} ${hour}:${minute}:${seconds}`;
   };
