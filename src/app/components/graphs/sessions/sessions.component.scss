@@ -1,0 +1,208 @@
+@import "styles/variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.sessions-scrollable-container {
+  min-height: 0;
+}
+
+/* Sessions Ribbon Pills */
+.sessions-ribbon-bar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+  }
+}
+
+.ribbon-divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--color-border);
+}
+
+.session-pill-btn {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  border-radius: 20px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: var(--color-hover);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-hover, var(--color-primary));
+  }
+
+  &.active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+
+    .badge-mini-stat {
+      background-color: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+
+    svg {
+      stroke: #ffffff;
+    }
+  }
+}
+
+.badge-mini-stat {
+  font-size: 0.75rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background-color: var(--color-surface-hover, rgba(0, 0, 0, 0.06));
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+/* KPI Cards */
+.kpi-card {
+  background-color: var(--color-surface);
+  border-color: var(--color-border) !important;
+  box-shadow: var(--shadow-sm);
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .kpi-title {
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Chart Cards */
+.chart-card {
+  background-color: var(--color-surface);
+  border-color: var(--color-border) !important;
+  box-shadow: var(--shadow-sm);
+  border-radius: 10px;
+}
+
+/* Interactive Session Card (Macro View) */
+.session-card {
+  background-color: var(--color-surface);
+  border-color: var(--color-border) !important;
+  box-shadow: var(--shadow-sm);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary) !important;
+  }
+}
+
+/* Dynamic Tolerance Badge */
+.badge-tolerance-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background-color: rgba(217, 119, 6, 0.12);
+  color: var(--color-warning);
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+.badge-tolerance-notice {
+  color: var(--color-warning);
+  font-weight: 500;
+}
+
+/* Student Table */
+.students-table-card {
+  background-color: var(--color-surface);
+  border-color: var(--color-border) !important;
+  box-shadow: var(--shadow-sm);
+  border-radius: 10px;
+}
+
+.table-modern {
+  color: var(--color-text-primary);
+
+  thead th {
+    border-top: none;
+    border-bottom: 2px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+  }
+
+  tbody td {
+    border-top: 1px solid var(--color-border);
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+    font-size: 0.9rem;
+  }
+
+  tbody tr:hover {
+    background-color: var(--color-hover);
+  }
+
+  .row-inactive {
+    background-color: rgba(220, 38, 38, 0.03);
+  }
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+
+  &.status-active {
+    background-color: var(--color-success);
+  }
+  &.status-inactive {
+    background-color: var(--color-danger);
+  }
+}
+
+.badge-question {
+  background-color: var(--color-primary-bg, rgba(37, 99, 235, 0.1));
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+/* Calculation Loader Banner */
+.calc-loader-banner {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
