@@ -9,7 +9,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { AssignmentsService } from "@services/assignments.service";
 import { ConfigurationService } from "@services/configuration.service";
@@ -23,6 +23,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { TourService } from "@services/tour.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
+import { AccountsService } from "@services/accounts.service";
 import { environment } from "@environments/environment";
 
 @Component({
@@ -41,18 +42,21 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   totalAssignmentsCount = 0;
   displayLimit: number | 'all' = 5;
   private dbSubscription: Subscription;
+  private authSub: Subscription;
 
   constructor(
     public themeService: ThemeService,
     private databaseService: DatabaseService,
     private dataService: DataService,
     private router: Router,
+    private route: ActivatedRoute,
     private configurationService: ConfigurationService,
     private assignmentsService: AssignmentsService,
     public authService: AuthService,
     public translateService: TranslateService,
     private tourService: TourService,
     private customModalService: CustomModalService,
+    public accountsService: AccountsService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -63,6 +67,11 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     } else if (savedLimit) {
       this.displayLimit = parseInt(savedLimit, 10);
     }
+
+    this.authSub = this.authService.authChange$.subscribe(() => {
+      this.loadRecentAssignments();
+      this.cdr.markForCheck();
+    });
 
     this.loadRecentAssignments();
     this.dbSubscription = this.databaseService.dbChanged.subscribe(() => {
@@ -79,6 +88,9 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void {
     if (this.dbSubscription) {
       this.dbSubscription.unsubscribe();
+    }
+    if (this.authSub) {
+      this.authSub.unsubscribe();
     }
   }
 

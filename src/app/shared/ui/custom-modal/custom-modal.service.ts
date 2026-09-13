@@ -67,17 +67,35 @@ export class CustomModalService {
     // Force change detection so static ViewChild is resolved
     containerRef.changeDetectorRef.detectChanges();
 
-    // 4. Load the target component inside the container using the custom injector
-    const componentFactory =
-      this.componentFactoryResolver.resolveComponentFactory(componentType);
+    // Lock body scroll while modal is open
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
-    containerRef.instance.modalContent.clear();
-    const contentRef = containerRef.instance.modalContent.createComponent(
-      componentFactory,
-      0,
-      customInjector
-    );
-    customModalRef.componentInstance = contentRef.instance;
+    try {
+      // 4. Load the target component inside the container using the custom injector
+      const componentFactory =
+        this.componentFactoryResolver.resolveComponentFactory(componentType);
+
+      containerRef.instance.modalContent.clear();
+      const contentRef = containerRef.instance.modalContent.createComponent(
+        componentFactory,
+        0,
+        customInjector
+      );
+      customModalRef.componentInstance = contentRef.instance;
+
+      // Run change detection on the next tick so the caller has a chance to set inputs
+      setTimeout(() => {
+        contentRef.changeDetectorRef.detectChanges();
+      });
+    } catch (err) {
+      document.body.classList.remove("custom-modal-open");
+      document.body.style.overflow = previousBodyOverflow;
+      this.appRef.detachView(containerRef.hostView);
+      containerRef.destroy();
+      this.openModalsCount = Math.max(0, this.openModalsCount - 1);
+      throw err;
+    }
 
     // Handle backdrop clicks or programmatic dismiss via the container
     containerRef.instance.setDismissCallback(async (reason) => {
@@ -91,10 +109,6 @@ export class CustomModalService {
       }
     });
 
-    // Lock body scroll while modal is open
-    const previousBodyOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
     // Cleanup when modal closes
     customModalRef.result.finally(() => {
       this.openModalsCount = Math.max(0, this.openModalsCount - 1);
@@ -104,11 +118,6 @@ export class CustomModalService {
       document.body.style.overflow = previousBodyOverflow;
       this.appRef.detachView(containerRef.hostView);
       containerRef.destroy();
-    });
-
-    // Run change detection on the next tick so the caller has a chance to set inputs
-    setTimeout(() => {
-      contentRef.changeDetectorRef.detectChanges();
     });
 
     return customModalRef;

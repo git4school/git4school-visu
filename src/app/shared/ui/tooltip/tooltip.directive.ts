@@ -68,6 +68,11 @@ export class TooltipDirective implements OnDestroy {
     this.tooltipService.hide();
   }
 
+  @HostListener("click")
+  onClick() {
+    this.tooltipService.hide();
+  }
+
   @HostListener("window:blur")
   onWindowBlur() {
     this.tooltipService.hide();

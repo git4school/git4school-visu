@@ -1,0 +1,728 @@
+@import "src/styles/variables";
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Header */
+.modal-header-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-size: 0.95rem;
+}
+
+.modal-title {
+  color: var(--color-on-surface);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.015em;
+}
+
+.modal-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  letter-spacing: -0.005em;
+}
+
+.btn-close-modal {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--color-hover);
+  border: none;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  font-size: 0.8rem;
+  transition: background-color $transition-fast, color $transition-fast, transform 100ms ease;
+
+  &:hover {
+    background-color: var(--color-border);
+    color: var(--color-on-surface);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+/* Platform Cards Grid (3 cards row) */
+.platform-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+
+  @media (max-width: 580px) {
+    grid-template-columns: 1fr;
+    margin-bottom: 1rem;
+  }
+}
+
+.platform-card {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 58px;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: all $transition-fast;
+
+  &:hover:not(.is-disabled) {
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &:active:not(.is-disabled) {
+    transform: scale(0.98);
+  }
+
+  &.selected {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 1px var(--color-primary), var(--shadow-sm);
+  }
+
+  &.is-disabled {
+    background-color: var(--color-bg-body);
+    border-color: var(--color-border);
+    opacity: 0.65;
+    cursor: not-allowed;
+
+    .platform-icon-squircle {
+      filter: grayscale(0.7);
+      opacity: 0.75;
+    }
+
+    .platform-name {
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.platform-icon-squircle {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background-color: var(--color-bg-body);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  .brand-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &.github {
+    color: var(--color-github);
+  }
+
+  &.gitlab,
+  &.gitlab-custom {
+    color: var(--color-gitlab);
+  }
+
+  .sub-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .server-svg {
+      width: 6px;
+      height: 6px;
+    }
+  }
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 9999px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+
+  &.connected {
+    background-color: var(--badge-ongoing-bg);
+    color: var(--badge-ongoing-text);
+    border: 1px solid var(--badge-ongoing-border);
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--color-success);
+    }
+  }
+
+
+  &.coming-soon {
+    background-color: var(--color-hover);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    font-weight: 500;
+    font-size: 0.58rem;
+  }
+}
+
+.platform-info {
+  display: flex;
+  flex-direction: column;
+
+  .platform-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-on-surface);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Bottom Configuration Card */
+.config-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.config-card-header {
+  padding: 0.75rem 1.15rem;
+  background-color: var(--color-bg-body);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.config-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .brand-svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  &.github {
+    color: var(--color-github);
+  }
+
+  &.gitlab,
+  &.gitlab-cloud,
+  &.gitlab-custom {
+    color: var(--color-gitlab);
+  }
+}
+
+.config-brand-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.config-brand-type {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.scope-pill {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+
+  strong {
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-left: 0.2rem;
+  }
+}
+
+.config-card-body {
+  padding: 1.25rem 1.25rem 1.35rem;
+}
+
+/* Connected State */
+.connected-user-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  @media (max-width: 540px) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .action-buttons-group {
+      margin-top: 0.75rem;
+      width: 100%;
+    }
+  }
+}
+
+.user-profile-row {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.avatar-container {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+
+  .user-avatar-img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+  }
+
+  .user-avatar-fallback {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+  }
+
+  .online-dot {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color-success);
+    border: 2px solid var(--color-surface);
+  }
+}
+
+.user-meta-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.username-link-row {
+  display: flex;
+  align-items: center;
+}
+
+.username-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color $transition-fast;
+
+  .external-icon {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    opacity: 0;
+    transform: translateX(-3px);
+    transition: opacity $transition-fast, transform $transition-fast, color $transition-fast;
+  }
+
+  &:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+
+    .external-icon {
+      color: var(--color-primary);
+      opacity: 1;
+      transform: translate(1px, -1px);
+    }
+  }
+}
+
+.gitlab-custom-icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  .sub-server-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -4px;
+    width: 9px;
+    height: 9px;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-body);
+    border-radius: 2px;
+  }
+}
+
+.action-buttons-group {
+  position: relative;
+  flex-shrink: 0;
+  width: 122px;
+  height: 32px;
+  transition: width 300ms $ease-spring-out;
+
+  &.is-confirming {
+    width: 218px;
+  }
+
+  @media (max-width: 540px) {
+    align-self: flex-end;
+    margin-top: 0.75rem;
+  }
+}
+
+// Common button base (slightly rectangular like other app buttons, no default border/bg, hover bg)
+.btn-action-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 0.75rem;
+  border-radius: $radius-md;
+  border: 1px solid transparent;
+  background-color: transparent;
+  font-size: 0.775rem;
+  font-weight: 500;
+  line-height: 1.35;
+  cursor: pointer;
+  outline: none;
+  white-space: nowrap;
+  user-select: none;
+  transition: background-color $transition-fast,
+              color $transition-fast,
+              border-color $transition-fast,
+              box-shadow $transition-fast;
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  // Prevent internal elements from intercepting mouse events and triggering hover flicker
+  * {
+    pointer-events: none;
+  }
+}
+
+// Primary Action Button (Disconnect -> moves left and morphs into Confirmer)
+.btn-disconnect-action {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 122px;
+  height: 32px;
+  color: var(--color-danger);
+  transform: translate3d(0, 0, 0);
+  transition: transform 320ms $ease-spring-out,
+              background-color $transition-fast,
+              border-color $transition-fast,
+              color $transition-fast,
+              box-shadow $transition-fast;
+
+  &:hover:not(:disabled):not(.is-confirming) {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+  }
+
+  &.is-confirming {
+    transform: translate3d(-96px, 0, 0);
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-danger);
+      opacity: 0.92;
+      box-shadow: 0 3px 10px rgba(220, 38, 38, 0.45);
+    }
+
+    &:active:not(:disabled) {
+      transform: translate3d(-96px, 0, 0) scale(0.96);
+      transition-duration: 100ms;
+    }
+  }
+
+  .btn-morph-content {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .morph-state {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    width: 100%;
+    backface-visibility: hidden;
+
+    svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+    }
+  }
+
+  .normal-state {
+    opacity: 1;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    transition: transform 200ms ease,
+                opacity 160ms ease,
+                visibility 200ms;
+
+    .action-buttons-group.is-confirming & {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(0, -4px, 0) scale(0.9);
+    }
+  }
+
+  .confirm-state {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 4px, 0) scale(0.9);
+    transition: transform 200ms ease,
+                opacity 160ms ease,
+                visibility 200ms;
+
+    .action-buttons-group.is-confirming & {
+      opacity: 1;
+      visibility: visible;
+      transform: translate3d(0, 0, 0);
+      transition: transform 260ms $ease-spring-out 50ms,
+                  opacity 200ms ease-out 50ms,
+                  visibility 200ms 50ms;
+    }
+  }
+}
+
+// Secondary Action Button (Reveals at right: 0 when confirming)
+.btn-cancel-action {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 88px;
+  height: 32px;
+  gap: 0.45rem;
+  color: var(--color-text-secondary);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: transform 160ms ease-in,
+              opacity 140ms ease-in,
+              visibility 160ms,
+              background-color $transition-fast,
+              color $transition-fast;
+
+  svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background-color: var(--color-hover);
+    color: var(--color-on-surface);
+  }
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+    transition: transform 260ms $ease-spring-out 60ms,
+                opacity 200ms ease-out 60ms,
+                visibility 200ms 60ms,
+                background-color $transition-fast,
+                color $transition-fast;
+  }
+}
+
+/* Disconnected State */
+.disconnected-panel {
+  padding: 0.5rem 0.25rem;
+
+  .auth-description {
+    font-size: 0.825rem;
+    color: var(--color-text-secondary);
+    line-height: 1.45;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.btn-connect-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: #ffffff;
+  padding: 0.55rem 1.6rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: background-color $transition-fast, box-shadow $transition-fast, transform 100ms ease;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+/* Modal Footer */
+.btn-pill-secondary {
+  border-radius: 9999px;
+  padding: 0.4rem 1.25rem;
+  font-size: 0.825rem;
+  font-weight: 500;
+  background-color: var(--color-hover);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  outline: none;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-border);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+}
+
+/* Error Banner */
+.error-banner {
+  background-color: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-subtle);
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.785rem;
+  color: var(--color-danger);
+  display: flex;
+  align-items: center;
+}
+
+.custom-instance-form {
+  max-width: 440px;
+  margin: 0 auto;
+
+  .form-label-custom {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+
+  .modern-input {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: var(--color-text-primary);
+    padding: 0.45rem 0.65rem;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px var(--color-primary-bg);
+      outline: none;
+    }
+  }
+
+  .form-text-muted {
+    font-size: 0.68rem;
+    color: var(--color-text-muted);
+  }
+}
+
+.config-brand-icon.gitlab-cloud,
+.config-brand-icon.gitlab-custom {
+  color: var(--color-gitlab);
+}
+

@@ -28,10 +28,12 @@ export class CommitsService {
   /**
    * Headers to use when sending HTTP requests
    */
-  headers = new HttpHeaders({
-    "Content-Type": "application/json",
-    Authorization: "token " + this.authService.token,
-  });
+  get headers(): HttpHeaders {
+    return new HttpHeaders({
+      "Content-Type": "application/json",
+      Authorization: "token " + this.authService.token,
+    });
+  }
 
   /**
    * CommitsService constructor
