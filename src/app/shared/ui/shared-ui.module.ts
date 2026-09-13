@@ -18,6 +18,7 @@ import { TimePickerComponent } from "../../components/time-picker/time-picker.co
 import { RepoIconComponent } from "./repo-icon/repo-icon.component";
 
 import { ShortcutsModalComponent } from "./shortcuts-modal/shortcuts-modal.component";
+import { DevBarComponent } from "./dev-bar/dev-bar.component";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ShortcutsModalComponent } from "./shortcuts-modal/shortcuts-modal.compo
     TimePickerComponent,
     RepoIconComponent,
     ShortcutsModalComponent,
+    DevBarComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -50,6 +52,7 @@ import { ShortcutsModalComponent } from "./shortcuts-modal/shortcuts-modal.compo
     TimePickerComponent,
     RepoIconComponent,
     ShortcutsModalComponent,
+    DevBarComponent,
   ],
   entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent],
 })

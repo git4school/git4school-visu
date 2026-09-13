@@ -1,0 +1,179 @@
+<!-- Minimized floating badge in bottom-right corner -->
+<div
+  *ngIf="isCollapsed"
+  class="dev-bar-minimized"
+  (click)="toggleCollapse()"
+  title="Développer la barre développeur"
+>
+  <span class="badge-dev-tag">DEV</span>
+  <span class="fps-pill" [ngClass]="fps >= 55 ? 'fps-good' : (fps >= 30 ? 'fps-medium' : 'fps-bad')">
+    <span class="dot"></span>
+    {{ fps }} FPS
+  </span>
+  <i class="fas fa-chevron-up toggle-icon"></i>
+</div>
+
+<!-- Full Dev Bar when expanded -->
+<div *ngIf="!isCollapsed" class="dev-bar-container">
+  <!-- Backdrop click catcher to close popovers -->
+  <div *ngIf="activePopover" class="popover-backdrop" (click)="closePopover()"></div>
+
+  <!-- Left: Performance & Context Metrics -->
+  <div class="dev-bar-section left-section">
+    <div class="dev-badge">DEV</div>
+
+    <!-- FPS -->
+    <div
+      class="metric-pill"
+      [ngClass]="fps >= 55 ? 'fps-good' : (fps >= 30 ? 'fps-medium' : 'fps-bad')"
+      title="Images par seconde (FPS en temps réel)"
+    >
+      <span class="metric-dot"></span>
+      <span class="metric-val">{{ fps }} FPS</span>
+    </div>
+
+    <!-- Memory -->
+    <div *ngIf="memoryMB !== null" class="metric-pill" title="Mémoire JavaScript Heap utilisée">
+      <i class="fas fa-memory mr-1"></i>
+      <span>{{ memoryMB }} MB</span>
+    </div>
+
+    <!-- Viewport / Breakpoint -->
+    <div class="metric-pill" title="Dimensions d'écran et breakpoint responsive">
+      <i class="fas fa-desktop mr-1"></i>
+      <span>{{ viewportWidth }}px · {{ breakpoint }}</span>
+    </div>
+
+    <!-- Route -->
+    <div class="metric-pill route-pill" [title]="'Route active : ' + currentRoute">
+      <i class="fas fa-compass mr-1"></i>
+      <span class="route-text">{{ currentRoute || '/' }}</span>
+    </div>
+  </div>
+
+  <!-- Center: Action & Test Triggers -->
+  <div class="dev-bar-section center-section">
+    <!-- Toasts Menu -->
+    <div class="dev-btn-group position-relative">
+      <button
+        type="button"
+        class="dev-bar-btn"
+        [class.active]="activePopover === 'toasts'"
+        (click)="togglePopover('toasts')"
+        title="Tester l'affichage des notifications toasts"
+      >
+        <i class="fas fa-bell mr-1.5"></i>
+        <span>Toasts</span>
+        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+      </button>
+
+      <!-- Toasts Popover -->
+      <div *ngIf="activePopover === 'toasts'" class="dev-popover">
+        <div class="popover-header">Notifications Toast</div>
+        <div class="popover-body">
+          <button type="button" class="btn-pop-action toast-success" (click)="triggerToast('success')">
+            <i class="fas fa-check-circle mr-1.5"></i> Succès
+          </button>
+          <button type="button" class="btn-pop-action toast-warning" (click)="triggerToast('warning')">
+            <i class="fas fa-exclamation-triangle mr-1.5"></i> Attention
+          </button>
+          <button type="button" class="btn-pop-action toast-error" (click)="triggerToast('error')">
+            <i class="fas fa-times-circle mr-1.5"></i> Erreur
+          </button>
+          <button type="button" class="btn-pop-action toast-copy" (click)="triggerToast('copy')">
+            <i class="fas fa-clipboard mr-1.5"></i> Copie
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals Menu -->
+    <div class="dev-btn-group position-relative">
+      <button
+        type="button"
+        class="dev-bar-btn"
+        [class.active]="activePopover === 'modals'"
+        (click)="togglePopover('modals')"
+        title="Ouvrir une modale de l'application"
+      >
+        <i class="fas fa-window-restore mr-1.5"></i>
+        <span>Modales</span>
+        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+      </button>
+
+      <!-- Modals Popover -->
+      <div *ngIf="activePopover === 'modals'" class="dev-popover">
+        <div class="popover-header">Ouvrir une modale</div>
+        <div class="popover-body">
+          <button type="button" class="btn-pop-action" (click)="openAccountsModal()">
+            <i class="fas fa-user-plus mr-1.5 text-primary"></i> Comptes Git
+          </button>
+          <button type="button" class="btn-pop-action" (click)="openShortcutsModal()">
+            <i class="fas fa-keyboard mr-1.5 text-primary"></i> Raccourcis clavier
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Theme Switcher -->
+    <button
+      type="button"
+      class="dev-bar-btn"
+      (click)="toggleTheme()"
+      [title]="themeService.isDarkMode ? 'Passer en mode clair' : 'Passer en mode sombre'"
+    >
+      <i class="fas mr-1.5" [ngClass]="themeService.isDarkMode ? 'fa-sun text-warning' : 'fa-moon'"></i>
+      <span>{{ themeService.isDarkMode ? 'Clair' : 'Sombre' }}</span>
+    </button>
+
+    <!-- Storage Reset -->
+    <button
+      type="button"
+      class="dev-bar-btn btn-danger-hover"
+      (click)="clearStorage()"
+      title="Vider intégralement le LocalStorage"
+    >
+      <i class="fas fa-trash-alt mr-1.5"></i>
+      <span>Vider Storage</span>
+    </button>
+  </div>
+
+  <!-- Right: Feature Flags & Controls -->
+  <div class="dev-bar-section right-section">
+    <!-- GitLab Cloud Flag -->
+    <button
+      type="button"
+      class="dev-flag-toggle"
+      [class.is-enabled]="devFlagsService.gitlabCloudEnabled"
+      (click)="toggleGitlabCloud()"
+      [title]="(devFlagsService.gitlabCloudEnabled ? 'Désactiver' : 'Activer') + ' GitLab Cloud'"
+    >
+      <i class="fab fa-gitlab mr-1.5"></i>
+      <span>GitLab Cloud</span>
+      <span class="flag-switch"></span>
+    </button>
+
+    <!-- GitLab Custom Instance Flag -->
+    <button
+      type="button"
+      class="dev-flag-toggle"
+      [class.is-enabled]="devFlagsService.gitlabCustomEnabled"
+      (click)="toggleGitlabCustom()"
+      [title]="(devFlagsService.gitlabCustomEnabled ? 'Désactiver' : 'Activer') + ' GitLab Auto-hébergé'"
+    >
+      <i class="fas fa-server mr-1.5"></i>
+      <span>GitLab Auto-hébergé</span>
+      <span class="flag-switch"></span>
+    </button>
+
+    <!-- Minimize Button -->
+    <button
+      type="button"
+      class="dev-bar-icon-btn ml-1"
+      (click)="toggleCollapse()"
+      title="Réduire la barre de dev"
+    >
+      <i class="fas fa-chevron-down"></i>
+    </button>
+  </div>
+</div>
