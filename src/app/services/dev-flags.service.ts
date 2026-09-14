@@ -49,66 +49,50 @@ export class DevFlagsService {
   }
 
   toggleGitlabCloud(force?: boolean): void {
-    if (environment.production) {
-      return;
-    }
-    const nextVal =
-      force !== undefined ? force : !this.gitlabCloudSubject.value;
-    this.gitlabCloudSubject.next(nextVal);
-    this.persist();
+    this.setFlag(this.gitlabCloudSubject, force);
   }
 
   toggleGitlabCustom(force?: boolean): void {
-    if (environment.production) {
-      return;
-    }
-    const nextVal =
-      force !== undefined ? force : !this.gitlabCustomSubject.value;
-    this.gitlabCustomSubject.next(nextVal);
-    this.persist();
+    this.setFlag(this.gitlabCustomSubject, force);
   }
 
   resetFlags(): void {
-    if (environment.production) {
-      return;
+    if (!this.isProduction) {
+      this.gitlabCloudSubject.next(DEFAULT_FLAGS.gitlabCloudEnabled);
+      this.gitlabCustomSubject.next(DEFAULT_FLAGS.gitlabCustomEnabled);
+      this.persist();
     }
-    this.gitlabCloudSubject.next(DEFAULT_FLAGS.gitlabCloudEnabled);
-    this.gitlabCustomSubject.next(DEFAULT_FLAGS.gitlabCustomEnabled);
-    this.persist();
+  }
+
+  private setFlag(subject: BehaviorSubject<boolean>, force?: boolean): void {
+    if (!this.isProduction) {
+      subject.next(force !== undefined ? force : !subject.value);
+      this.persist();
+    }
   }
 
   private initFlags(): void {
-    if (environment.production) {
-      this.gitlabCloudSubject.next(false);
-      this.gitlabCustomSubject.next(false);
+    if (this.isProduction) {
       return;
     }
-
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        this.gitlabCloudSubject.next(!!parsed.gitlabCloudEnabled);
-        this.gitlabCustomSubject.next(!!parsed.gitlabCustomEnabled);
-        return;
-      }
-    } catch (e) {
-      /* Ignore parse errors in dev */
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      this.gitlabCloudSubject.next(!!saved.gitlabCloudEnabled);
+      this.gitlabCustomSubject.next(!!saved.gitlabCustomEnabled);
+    } catch {
+      this.resetFlags();
     }
-
-    this.gitlabCloudSubject.next(DEFAULT_FLAGS.gitlabCloudEnabled);
-    this.gitlabCustomSubject.next(DEFAULT_FLAGS.gitlabCustomEnabled);
   }
 
   private persist(): void {
-    if (environment.production) {
+    if (this.isProduction) {
       return;
     }
-    const state: DevFlagsState = {
-      gitlabCloudEnabled: this.gitlabCloudSubject.value,
-      gitlabCustomEnabled: this.gitlabCustomSubject.value,
-    };
     try {
+      const state: DevFlagsState = {
+        gitlabCloudEnabled: this.gitlabCloudSubject.value,
+        gitlabCustomEnabled: this.gitlabCustomSubject.value,
+      };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (e) {
       /* Ignore quota errors */

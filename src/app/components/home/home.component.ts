@@ -23,16 +23,10 @@ export class HomeComponent implements OnInit {
    * @param accountsService The service managing connected accounts
    * @param customModalService The modal service
    */
-  constructor(
-    public authService: AuthService,
-    public accountsService: AccountsService,
-    private customModalService: CustomModalService
-  ) {}
+  constructor(public authService: AuthService, public accountsService: AccountsService, private customModalService: CustomModalService) {}
 
   ngOnInit() {
-    window.addEventListener("git4school:open-accounts-modal", () =>
-      this.onAddAccount()
-    );
+    window.addEventListener("git4school:open-accounts-modal", () => this.onAddAccount());
   }
 
   onAddAccount() {

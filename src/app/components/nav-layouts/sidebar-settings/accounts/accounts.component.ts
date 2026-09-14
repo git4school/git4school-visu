@@ -12,10 +12,7 @@ import { AddAccountModalComponent } from "./add-account-modal/add-account-modal.
 export class AccountsComponent implements OnInit {
   confirmDisconnectId: string | null = null;
 
-  constructor(
-    public accountsService: AccountsService,
-    private customModalService: CustomModalService
-  ) {}
+  constructor(public accountsService: AccountsService, private customModalService: CustomModalService) {}
 
   @HostListener("document:keydown.escape")
   onEscape(): void {

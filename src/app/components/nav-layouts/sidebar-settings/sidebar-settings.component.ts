@@ -1,14 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  OnDestroy,
-  Output,
-  ChangeDetectorRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, EventEmitter, OnInit, OnDestroy, Output, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { AssignmentsService } from "@services/assignments.service";
@@ -62,7 +52,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     private tourService: TourService,
     private customModalService: CustomModalService,
     public accountsService: AccountsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -123,12 +113,8 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
 
     // Sort by lastModificationDate descending (most recently modified or opened)
     filtered.sort((a, b) => {
-      const dateA = a.lastModificationDate
-        ? new Date(a.lastModificationDate).getTime()
-        : 0;
-      const dateB = b.lastModificationDate
-        ? new Date(b.lastModificationDate).getTime()
-        : 0;
+      const dateA = a.lastModificationDate ? new Date(a.lastModificationDate).getTime() : 0;
+      const dateB = b.lastModificationDate ? new Date(b.lastModificationDate).getTime() : 0;
       return dateB - dateA;
     });
 
@@ -146,38 +132,27 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   openAssignment(assignment: Assignment) {
-    this.databaseService
-      .getAssignmentById(assignment.id)
-      .then((fullAssignment) => {
-        this.dataService.assignment = fullAssignment;
-        this.dataService.groupFilter = "";
-        this.onClose.emit();
-        this.assignmentsService.assignmentModified.next();
-        this.router.navigate(["/overview"]);
-      });
+    this.databaseService.getAssignmentById(assignment.id).then((fullAssignment) => {
+      this.dataService.assignment = fullAssignment;
+      this.dataService.groupFilter = "";
+      this.onClose.emit();
+      this.assignmentsService.assignmentModified.next();
+      this.router.navigate(["/overview"]);
+    });
   }
 
   editAssignment(assignment: Assignment) {
-    this.databaseService
-      .getAssignmentById(assignment.id)
-      .then((fullAssignment) => {
-        this.configurationService
-          .openConfigurationModal(fullAssignment)
-          .finally(() => {
-            this.loadRecentAssignments();
-            if (
-              this.dataService.assignment &&
-              this.dataService.assignment.id === fullAssignment.id
-            ) {
-              this.databaseService
-                .getAssignmentById(fullAssignment.id)
-                .then((updated) => {
-                  this.dataService.assignment = updated;
-                  this.assignmentsService.assignmentModified.next();
-                });
-            }
+    this.databaseService.getAssignmentById(assignment.id).then((fullAssignment) => {
+      this.configurationService.openConfigurationModal(fullAssignment).finally(() => {
+        this.loadRecentAssignments();
+        if (this.dataService.assignment && this.dataService.assignment.id === fullAssignment.id) {
+          this.databaseService.getAssignmentById(fullAssignment.id).then((updated) => {
+            this.dataService.assignment = updated;
+            this.assignmentsService.assignmentModified.next();
           });
+        }
       });
+    });
   }
 
   onMouseEnter() {
@@ -208,12 +183,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   get currentLang() {
-    return (
-      this.translateService.currentLang ||
-      localStorage.getItem("language") ||
-      this.translateService.defaultLang ||
-      "en"
-    );
+    return this.translateService.currentLang || localStorage.getItem("language") || this.translateService.defaultLang || "en";
   }
 
   changeLanguage(language: string) {

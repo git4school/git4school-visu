@@ -25,25 +25,15 @@ export class AuthService {
   /**
    * The Github access token
    */
-  token: string | null =
-    localStorage.getItem("github_token") ||
-    localStorage.getItem("dev_github_token") ||
-    null;
+  token: string | null = localStorage.getItem("dev_github_token") || null;
   username: string | null = localStorage.getItem("github_username") || null;
   avatarUrl: string | null = localStorage.getItem("github_avatar") || null;
-  displayName: string | null =
-    localStorage.getItem("github_display_name") || null;
+  displayName: string | null = localStorage.getItem("github_display_name") || null;
   loading = false;
 
   public authChange$ = new BehaviorSubject<AuthState>({
-    isSignedIn: !!(
-      localStorage.getItem("github_token") ||
-      localStorage.getItem("dev_github_token")
-    ),
-    token:
-      localStorage.getItem("github_token") ||
-      localStorage.getItem("dev_github_token") ||
-      null,
+    isSignedIn: !!localStorage.getItem("dev_github_token"),
+    token: localStorage.getItem("dev_github_token") || null,
     username: localStorage.getItem("github_username") || null,
     avatarUrl: localStorage.getItem("github_avatar") || null,
     displayName: localStorage.getItem("github_display_name") || null,
@@ -55,11 +45,7 @@ export class AuthService {
    * @param http
    * @param toastService
    */
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-    private toastService: ToastService
-  ) {
+  constructor(private router: Router, private http: HttpClient, private toastService: ToastService) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.syncUserFromFirebase(user);
@@ -114,7 +100,6 @@ export class AuthService {
       this.username = null;
       this.avatarUrl = null;
       this.displayName = null;
-      localStorage.removeItem("github_token");
       localStorage.removeItem("github_username");
       localStorage.removeItem("github_avatar");
       localStorage.removeItem("github_display_name");
@@ -132,8 +117,7 @@ export class AuthService {
     };
 
     const repoHashURL = repoURL.split("/");
-    let url =
-      "https://api.github.com/repos/" + repoHashURL[3] + "/" + repoHashURL[4];
+    let url = "https://api.github.com/repos/" + repoHashURL[3] + "/" + repoHashURL[4];
     return this.http.get(url, httpOptions);
   }
 
@@ -157,7 +141,9 @@ export class AuthService {
   }
 
   async fetchUserProfile(): Promise<void> {
-    if (!this.token) return;
+    if (!this.token) {
+      return;
+    }
     try {
       const profile: any = await this.http
         .get("https://api.github.com/user", {
@@ -166,70 +152,56 @@ export class AuthService {
           }),
         })
         .toPromise();
-      if (profile) {
-        this.username = profile.login || this.username;
-        this.avatarUrl = profile.avatar_url || this.avatarUrl;
-        this.displayName = profile.name || profile.login || this.displayName;
-        if (this.username) {
-          localStorage.setItem("github_username", this.username);
-        }
-        if (this.avatarUrl) {
-          localStorage.setItem("github_avatar", this.avatarUrl);
-        }
-        if (this.displayName) {
-          localStorage.setItem("github_display_name", this.displayName);
-        }
-        this.notifyAuthChange();
-      }
+      this.updateProfile({
+        username: profile?.login,
+        avatarUrl: profile?.avatar_url,
+        displayName: profile?.name || profile?.login,
+      });
     } catch (e) {
       console.warn("Could not fetch GitHub profile via API:", e);
     }
   }
 
-  private syncUserFromFirebase(user: any) {
-    if (!this.username) {
-      this.username =
-        user.reloadUserInfo?.screenName ||
-        user.displayName ||
-        localStorage.getItem("github_username") ||
-        null;
-    }
-    if (!this.avatarUrl && user.photoURL) {
-      this.avatarUrl = user.photoURL;
-    }
-    if (!this.displayName && user.displayName) {
-      this.displayName = user.displayName;
+  private updateProfile(data: { username?: string | null; avatarUrl?: string | null; displayName?: string | null }): void {
+    this.username = data.username ?? this.username;
+    this.avatarUrl = data.avatarUrl ?? this.avatarUrl;
+    this.displayName = data.displayName ?? this.displayName;
+
+    const cacheItems: [string, string | null][] = [
+      ["github_username", this.username],
+      ["github_avatar", this.avatarUrl],
+      ["github_display_name", this.displayName],
+    ];
+    for (const [key, value] of cacheItems) {
+      if (value) {
+        localStorage.setItem(key, value);
+      }
     }
     this.notifyAuthChange();
   }
 
-  private handleAuthResult(result: any) {
-    if (result?.credential) {
-      this.token = result.credential["accessToken"];
-      if (this.token) {
-        localStorage.setItem("github_token", this.token);
-      }
-    }
-    if (result?.additionalUserInfo?.username) {
-      this.username = result.additionalUserInfo.username;
-      localStorage.setItem("github_username", this.username);
-    }
-    if (result?.user?.photoURL) {
-      this.avatarUrl = result.user.photoURL;
-      localStorage.setItem("github_avatar", this.avatarUrl);
-    }
-    if (result?.user?.displayName) {
-      this.displayName = result.user.displayName;
-      localStorage.setItem("github_display_name", this.displayName);
-    }
-    this.notifyAuthChange();
+  private syncUserFromFirebase(user: any): void {
+    const screenName = user?.reloadUserInfo?.screenName || user?.displayName;
+    this.updateProfile({
+      username: this.username || screenName,
+      avatarUrl: this.avatarUrl || user?.photoURL,
+      displayName: this.displayName || user?.displayName,
+    });
+  }
 
+  private handleAuthResult(result: any): void {
+    this.token = result?.credential?.accessToken ?? this.token;
+    this.updateProfile({
+      username: result?.additionalUserInfo?.username,
+      avatarUrl: result?.user?.photoURL,
+      displayName: result?.user?.displayName,
+    });
     if (this.token && (!this.username || !this.avatarUrl)) {
       this.fetchUserProfile();
     }
   }
 
-  private notifyAuthChange() {
+  private notifyAuthChange(): void {
     this.authChange$.next({
       isSignedIn: !!this.token,
       token: this.token,

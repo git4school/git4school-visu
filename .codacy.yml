@@ -1,0 +1,20 @@
+---
+exclude_paths:
+  - "node_modules/**"
+  - "dist/**"
+  - "tech-docs/**"
+  - "user-docs/**"
+
+engines:
+  metric:
+    enabled: true
+    exclude_paths:
+      - "src/app/shared/ui/dev-bar/**"
+      - "src/app/services/dev-flags.service.ts"
+      - "src/test.ts"
+      - "**/*.spec.ts"
+  duplication:
+    enabled: true
+    exclude_paths:
+      - "src/test.ts"
+      - "**/*.spec.ts"

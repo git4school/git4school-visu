@@ -30,14 +30,12 @@ export class AccountsService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
+    this.authSubscription?.unsubscribe();
   }
 
   disconnectAccount(id: string): void {
-    const target = this.currentAccounts.find((a) => a.id === id);
-    if (target && (target.provider === "github" || id === "acc-github-real")) {
+    const isGithub = id === "acc-github-real" || this.currentAccounts.some((a) => a.id === id && a.provider === "github");
+    if (isGithub) {
       this.authService.signOut();
     }
   }
@@ -46,17 +44,12 @@ export class AccountsService implements OnDestroy {
     return this.currentAccounts.length === 0;
   }
 
-  getProfileUrl(
-    account:
-      | Account
-      | { instanceHost?: string; username?: string; provider?: string }
-  ): string {
-    if (!account || !account.username) {
+  getProfileUrl(account: Account | { instanceHost?: string; username?: string; provider?: string }): string {
+    if (!account?.username) {
       return "#";
     }
-    const host =
-      account.instanceHost ||
-      (account.provider === "github" ? "github.com" : "gitlab.com");
+    const fallbackHost = account.provider === "gitlab" ? "gitlab.com" : "github.com";
+    const host = account.instanceHost || fallbackHost;
     const cleanHost = host.replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
     return `https://${cleanHost}/${encodeURIComponent(account.username)}`;
   }
@@ -65,32 +58,20 @@ export class AccountsService implements OnDestroy {
     if (!this.authService.isSignedIn()) {
       return null;
     }
-    const username =
-      this.authService.username ||
-      localStorage.getItem("github_username") ||
-      "github_user";
-    const avatarUrl =
-      this.authService.avatarUrl ||
-      localStorage.getItem("github_avatar") ||
-      `https://avatars.githubusercontent.com/${username}`;
-
+    const username = this.authService.username || "github_user";
     return {
       id: "acc-github-real",
       provider: "github",
       instanceHost: "github.com",
       username,
-      avatarUrl,
+      avatarUrl: this.authService.avatarUrl || `https://avatars.githubusercontent.com/${username}`,
       lastSync: "Connecté via Firebase",
       isCurrent: true,
     };
   }
 
   private updateAccounts(): void {
-    const list: Account[] = [];
     const realGithub = this.buildRealGithubAccount();
-    if (realGithub) {
-      list.push(realGithub);
-    }
-    this.accountsSubject.next(list);
+    this.accountsSubject.next(realGithub ? [realGithub] : []);
   }
 }

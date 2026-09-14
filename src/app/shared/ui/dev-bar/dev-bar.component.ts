@@ -39,7 +39,7 @@ export class DevBarComponent implements OnInit, OnDestroy {
     public themeService: ThemeService,
     public authService: AuthService,
     private customModalService: CustomModalService,
-    private router: Router
+    private router: Router,
   ) {}
 
   @HostListener("window:resize")
@@ -54,8 +54,7 @@ export class DevBarComponent implements OnInit, OnDestroy {
 
     /* Restore collapsed preference */
     try {
-      this.isCollapsed =
-        localStorage.getItem("git4school_dev_bar_collapsed") === "true";
+      this.isCollapsed = localStorage.getItem("git4school_dev_bar_collapsed") === "true";
     } catch (e) {
       /* Ignore localstorage error */
     }
@@ -66,33 +65,22 @@ export class DevBarComponent implements OnInit, OnDestroy {
 
     /* Listen to route changes */
     this.currentRoute = this.router.url;
-    this.routerSub = this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        this.currentRoute = event.urlAfterRedirects || event.url;
-      });
+    this.routerSub = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: any) => {
+      this.currentRoute = event.urlAfterRedirects || event.url;
+    });
   }
 
   ngOnDestroy(): void {
-    if (this.animFrameId !== null) {
-      cancelAnimationFrame(this.animFrameId);
-    }
-    if (this.memoryIntervalId) {
-      clearInterval(this.memoryIntervalId);
-    }
-    if (this.routerSub) {
-      this.routerSub.unsubscribe();
-    }
+    cancelAnimationFrame(this.animFrameId);
+    clearInterval(this.memoryIntervalId);
+    this.routerSub?.unsubscribe();
   }
 
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
     this.activePopover = null;
     try {
-      localStorage.setItem(
-        "git4school_dev_bar_collapsed",
-        String(this.isCollapsed)
-      );
+      localStorage.setItem("git4school_dev_bar_collapsed", String(this.isCollapsed));
     } catch (e) {}
   }
 
@@ -106,32 +94,37 @@ export class DevBarComponent implements OnInit, OnDestroy {
 
   /* Toasts Testing Triggers */
   triggerToast(type: "success" | "warning" | "error" | "copy"): void {
-    switch (type) {
-      case "success":
-        this.toastService.success(
-          "Succès (Test)",
-          "L'opération de test s'est déroulée avec succès."
-        );
-        break;
-      case "warning":
-        this.toastService.warning(
-          "Attention (Test)",
-          "Avertissement : validation ou quota intermédiaire."
-        );
-        break;
-      case "error":
-        this.toastService.error(
-          "Erreur (Test)",
-          "Échec simulé lors de la communication réseau."
-        );
-        break;
-      case "copy":
-        this.toastService.copy(
-          "Copié (Test)",
-          "Identifiant copié dans le presse-papier."
-        );
-        break;
-    }
+    const toastConfig: Record<
+      string,
+      {
+        method: "success" | "warning" | "error" | "copy";
+        title: string;
+        msg: string;
+      }
+    > = {
+      success: {
+        method: "success",
+        title: "Succès (Test)",
+        msg: "L'opération de test s'est déroulée avec succès.",
+      },
+      warning: {
+        method: "warning",
+        title: "Attention (Test)",
+        msg: "Avertissement : validation ou quota intermédiaire.",
+      },
+      error: {
+        method: "error",
+        title: "Erreur (Test)",
+        msg: "Échec simulé lors de la communication réseau.",
+      },
+      copy: {
+        method: "copy",
+        title: "Copié (Test)",
+        msg: "Identifiant copié dans le presse-papier.",
+      },
+    };
+    const c = toastConfig[type];
+    this.toastService[c.method](c.title, c.msg);
   }
 
   /* Modals Quick Open */
@@ -148,17 +141,13 @@ export class DevBarComponent implements OnInit, OnDestroy {
   /* Feature Flags */
   toggleGitlabCloud(): void {
     this.devFlagsService.toggleGitlabCloud();
-    const state = this.devFlagsService.gitlabCloudEnabled
-      ? "activé"
-      : "désactivé";
+    const state = this.devFlagsService.gitlabCloudEnabled ? "activé" : "désactivé";
     this.toastService.success("Feature Flag", `GitLab Cloud ${state}`);
   }
 
   toggleGitlabCustom(): void {
     this.devFlagsService.toggleGitlabCustom();
-    const state = this.devFlagsService.gitlabCustomEnabled
-      ? "activé"
-      : "désactivé";
+    const state = this.devFlagsService.gitlabCustomEnabled ? "activé" : "désactivé";
     this.toastService.success("Feature Flag", `GitLab Auto-hébergé ${state}`);
   }
 
@@ -172,26 +161,21 @@ export class DevBarComponent implements OnInit, OnDestroy {
       localStorage.clear();
       this.toastService.warning("Dev Bar", "LocalStorage intégralement vidé.");
     } catch (e) {
-      this.toastService.error(
-        "Dev Bar",
-        "Impossible de vider le LocalStorage."
-      );
+      this.toastService.error("Dev Bar", "Impossible de vider le LocalStorage.");
     }
   }
 
   private updateViewport(): void {
-    this.viewportWidth = window.innerWidth;
-    if (this.viewportWidth < 576) {
-      this.breakpoint = "xs";
-    } else if (this.viewportWidth < 768) {
-      this.breakpoint = "sm";
-    } else if (this.viewportWidth < 992) {
-      this.breakpoint = "md";
-    } else if (this.viewportWidth < 1200) {
-      this.breakpoint = "lg";
-    } else {
-      this.breakpoint = "xl";
-    }
+    const w = window.innerWidth;
+    this.viewportWidth = w;
+    const bps: [number, "xs" | "sm" | "md" | "lg"][] = [
+      [576, "xs"],
+      [768, "sm"],
+      [992, "md"],
+      [1200, "lg"],
+    ];
+    const match = bps.find(([max]) => w < max);
+    this.breakpoint = match ? match[1] : "xl";
   }
 
   private startFpsLoop = () => {
@@ -210,12 +194,8 @@ export class DevBarComponent implements OnInit, OnDestroy {
 
   private startMemoryMonitoring(): void {
     const updateMem = () => {
-      const perf = performance as any;
-      if (perf && perf.memory && perf.memory.usedJSHeapSize) {
-        this.memoryMB = Math.round(perf.memory.usedJSHeapSize / (1024 * 1024));
-      } else {
-        this.memoryMB = null;
-      }
+      const heap = (performance as any)?.memory?.usedJSHeapSize;
+      this.memoryMB = heap ? Math.round(heap / (1024 * 1024)) : null;
     };
     updateMem();
     this.memoryIntervalId = setInterval(updateMem, 2500);

@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public dataService: DataService,
     private router: Router,
     public translateService: TranslateService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
   ) {}
 
   /**

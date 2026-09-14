@@ -27,7 +27,7 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
     public accountsService: AccountsService,
     public authService: AuthService,
     public devFlagsService: DevFlagsService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {}
 
   get isGithubConnected(): boolean {
@@ -49,56 +49,43 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
 
   @HostListener("document:click", ["$event"])
   onDocumentClick(event: MouseEvent): void {
-    if (this.isConfirmingDisconnect) {
-      const target = event.target as HTMLElement;
-      if (!target.closest(".action-buttons-group")) {
-        this.isConfirmingDisconnect = false;
-      }
+    const target = event.target as HTMLElement;
+    if (this.isConfirmingDisconnect && !target?.closest(".action-buttons-group")) {
+      this.isConfirmingDisconnect = false;
     }
   }
 
   ngOnInit(): void {
     this.selectedPlatform = "github";
 
-    /* Watch flags: if active platform is disabled, reset to github */
-    this.flagsSub = this.devFlagsService.gitlabCloudEnabled$.subscribe(
-      (enabled) => {
-        if (!enabled && this.selectedPlatform === "gitlab-cloud") {
-          this.selectedPlatform = "github";
-        }
+    this.flagsSub = this.devFlagsService.gitlabCloudEnabled$.subscribe((enabled) => {
+      if (!enabled && this.selectedPlatform === "gitlab-cloud") {
+        this.selectedPlatform = "github";
       }
-    );
-
+    });
     this.flagsSub.add(
       this.devFlagsService.gitlabCustomEnabled$.subscribe((enabled) => {
         if (!enabled && this.selectedPlatform === "gitlab-custom") {
           this.selectedPlatform = "github";
         }
-      })
+      }),
     );
   }
 
   ngOnDestroy(): void {
-    if (this.flagsSub) {
-      this.flagsSub.unsubscribe();
-    }
+    this.flagsSub?.unsubscribe();
   }
 
   selectPlatform(platform: "github" | "gitlab-cloud" | "gitlab-custom"): void {
-    if (
-      platform === "gitlab-cloud" &&
-      !this.devFlagsService.gitlabCloudEnabled
-    ) {
-      return;
+    const allowed: Record<string, boolean> = {
+      github: true,
+      "gitlab-cloud": this.devFlagsService.gitlabCloudEnabled,
+      "gitlab-custom": this.devFlagsService.gitlabCustomEnabled,
+    };
+    if (allowed[platform]) {
+      this.selectedPlatform = platform;
+      this.errorMessage = "";
     }
-    if (
-      platform === "gitlab-custom" &&
-      !this.devFlagsService.gitlabCustomEnabled
-    ) {
-      return;
-    }
-    this.selectedPlatform = platform;
-    this.errorMessage = "";
   }
 
   async submitConnect(): Promise<void> {
@@ -107,21 +94,14 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
 
     try {
       await this.authService.signIn();
-      this.isConnecting = false;
       this.modalRef.close();
     } catch (err: any) {
+      this.errorMessage =
+        err?.code === "auth/popup-closed-by-user"
+          ? this.translateService.instant("ACCOUNTS.POPUP_CLOSED")
+          : err?.message || this.translateService.instant("ACCOUNTS.LOGIN_ERROR");
+    } finally {
       this.isConnecting = false;
-      if (err?.code === "auth/popup-closed-by-user") {
-        this.errorMessage = this.translateService.instant(
-          "ACCOUNTS.POPUP_CLOSED"
-        );
-      } else if (err?.message) {
-        this.errorMessage = err.message;
-      } else {
-        this.errorMessage = this.translateService.instant(
-          "ACCOUNTS.LOGIN_ERROR"
-        );
-      }
     }
   }
 
@@ -130,8 +110,7 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
     this.errorMessage = "";
     setTimeout(() => {
       this.isConnecting = false;
-      this.errorMessage =
-        "La connexion GitLab OAuth est en cours de développement.";
+      this.errorMessage = "La connexion GitLab OAuth est en cours de développement.";
     }, 600);
   }
 
@@ -145,13 +124,11 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
   }
 
   onDisconnectClick(event?: MouseEvent): void {
-    if (event) {
-      event.stopPropagation();
-    }
-    if (!this.isConfirmingDisconnect) {
-      this.isConfirmingDisconnect = true;
-    } else {
+    event?.stopPropagation();
+    if (this.isConfirmingDisconnect) {
       this.disconnectGithub();
+    } else {
+      this.isConfirmingDisconnect = true;
     }
   }
 
@@ -161,9 +138,7 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
   }
 
   cancelConfirmDisconnect(event?: MouseEvent): void {
-    if (event) {
-      event.stopPropagation();
-    }
+    event?.stopPropagation();
     this.isConfirmingDisconnect = false;
   }
 

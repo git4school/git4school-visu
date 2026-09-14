@@ -1,12 +1,4 @@
-import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  ComponentRef,
-  EmbeddedViewRef,
-  Injectable,
-  Injector,
-  Type,
-} from "@angular/core";
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector, Type } from "@angular/core";
 import { CustomModalContainerComponent } from "./custom-modal-container/custom-modal-container.component";
 import { CustomModalRef } from "./custom-modal-ref";
 
@@ -21,27 +13,17 @@ export interface CustomModalOptions {
 export class CustomModalService {
   private openModalsCount = 0;
 
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private appRef: ApplicationRef,
-    private injector: Injector
-  ) {}
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private appRef: ApplicationRef, private injector: Injector) {}
 
   public hasOpenModals(): boolean {
     return this.openModalsCount > 0;
   }
 
-  public open<T>(
-    componentType: Type<T>,
-    options: CustomModalOptions = {}
-  ): CustomModalRef {
+  public open<T>(componentType: Type<T>, options: CustomModalOptions = {}): CustomModalRef {
     this.openModalsCount++;
     document.body.classList.add("custom-modal-open");
     // 1. Create the container component (the overlay and modal dialog)
-    const containerFactory =
-      this.componentFactoryResolver.resolveComponentFactory(
-        CustomModalContainerComponent
-      );
+    const containerFactory = this.componentFactoryResolver.resolveComponentFactory(CustomModalContainerComponent);
     const containerRef = containerFactory.create(this.injector);
 
     // Set options
@@ -51,8 +33,7 @@ export class CustomModalService {
     this.appRef.attachView(containerRef.hostView);
 
     // Append to body
-    const domElem = (containerRef.hostView as EmbeddedViewRef<any>)
-      .rootNodes[0] as HTMLElement;
+    const domElem = (containerRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
     document.body.appendChild(domElem);
 
     // 2. Create the CustomModalRef to represent the modal instance
@@ -73,15 +54,10 @@ export class CustomModalService {
 
     try {
       // 4. Load the target component inside the container using the custom injector
-      const componentFactory =
-        this.componentFactoryResolver.resolveComponentFactory(componentType);
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
 
       containerRef.instance.modalContent.clear();
-      const contentRef = containerRef.instance.modalContent.createComponent(
-        componentFactory,
-        0,
-        customInjector
-      );
+      const contentRef = containerRef.instance.modalContent.createComponent(componentFactory, 0, customInjector);
       customModalRef.componentInstance = contentRef.instance;
 
       // Run change detection on the next tick so the caller has a chance to set inputs
