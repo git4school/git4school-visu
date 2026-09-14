@@ -1,0 +1,427 @@
+@import "src/styles/variables";
+
+.accounts-container {
+  padding: 0 0.75rem;
+}
+
+.accounts-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+$ease-spring-out: cubic-bezier(0.25, 1, 0.4, 1);
+
+.account-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  transition: background-color 280ms $ease-spring-out,
+              border-color 280ms $ease-spring-out;
+
+  &.confirming {
+    border-color: var(--color-danger);
+    background-color: var(--color-danger-bg);
+  }
+}
+
+.card-main-content {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+
+  .account-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+  }
+
+  .account-avatar-fallback {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+  }
+
+  .provider-badge-icon {
+    position: absolute;
+    bottom: -3px;
+    right: -3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+
+    svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    &.github {
+      color: var(--color-github);
+    }
+
+    &.gitlab {
+      color: var(--color-gitlab);
+    }
+  }
+}
+
+.account-meta {
+  flex: 1;
+  min-width: 0;
+
+  .meta-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    .username {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--color-on-surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+      transition: color 0.15s ease;
+
+      .external-icon {
+        opacity: 0;
+        font-size: 0.65rem;
+        color: var(--color-text-muted);
+        transition: opacity 0.15s ease, transform 0.15s ease;
+      }
+
+      &:hover {
+        color: var(--color-primary);
+        text-decoration: none;
+
+        .external-icon {
+          opacity: 0.85;
+          color: var(--color-primary);
+          transform: translate(1px, -1px);
+        }
+      }
+    }
+  }
+
+  .instance-badge-wrapper {
+    margin-top: 0.15rem;
+
+    .instance-host-pill {
+      font-size: 0.68rem;
+      color: var(--color-text-muted);
+      background-color: var(--color-bg-body);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: 0.05rem 0.35rem;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+  }
+}
+
+.account-actions {
+  flex-shrink: 0;
+  position: relative;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  transition: width 300ms $ease-spring-out,
+              min-width 300ms $ease-spring-out;
+
+  &.confirming {
+    width: 62px;
+    min-width: 62px;
+  }
+
+  /* Primary morphing action button (Disconnect -> Confirm) */
+  .btn-action-primary {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: var(--color-text-muted);
+    outline: none;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 2;
+    transform: translate3d(0, 0, 0);
+    will-change: transform, background-color, border-color, box-shadow;
+    transition: transform 320ms $ease-spring-out,
+                background-color 260ms ease,
+                border-color 260ms ease,
+                color 200ms ease,
+                box-shadow 260ms ease;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(.is-confirming) {
+        background-color: var(--color-danger-bg);
+        color: var(--color-danger);
+        border-color: var(--color-danger-subtle);
+      }
+    }
+
+    &:active:not(.is-confirming) {
+      transform: translate3d(0, 0, 0) scale(0.94);
+      transition-duration: 100ms;
+    }
+
+    .icon-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      pointer-events: none;
+      backface-visibility: hidden;
+      transition: transform 260ms $ease-spring-out,
+                  opacity 200ms ease,
+                  filter 200ms ease;
+    }
+
+    .icon-disconnect {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      filter: blur(0);
+    }
+
+    .icon-confirm {
+      opacity: 0;
+      transform: scale(0.6) rotate(45deg);
+      filter: blur(1px);
+    }
+
+    &.is-confirming {
+      transform: translate3d(-34px, 0, 0);
+      background-color: var(--color-danger);
+      border-color: var(--color-danger);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+
+      .icon-disconnect {
+        opacity: 0;
+        transform: scale(0.6) rotate(-45deg);
+        filter: blur(1px);
+      }
+
+      .icon-confirm {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0);
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: var(--color-danger);
+          filter: brightness(1.08);
+          box-shadow: 0 3px 10px rgba(220, 38, 38, 0.45);
+        }
+      }
+
+      &:active {
+        transform: translate3d(-34px, 0, 0) scale(0.94);
+        transition-duration: 100ms;
+      }
+    }
+  }
+
+  /* Revealing secondary action button (Cancel) */
+  .btn-action-cancel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    padding: 0;
+    z-index: 1;
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.7) rotate(-15deg);
+    pointer-events: none;
+    will-change: transform, opacity;
+    transition: transform 120ms ease-in,
+                opacity 120ms ease-in,
+                background-color 150ms ease,
+                border-color 150ms ease,
+                color 150ms ease;
+
+    &.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      pointer-events: auto;
+      transition: transform 240ms $ease-spring-out 75ms,
+                  opacity 200ms ease-out 75ms,
+                  background-color 150ms ease,
+                  border-color 150ms ease,
+                  color 150ms ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: var(--color-hover);
+        border-color: var(--color-border-hover);
+        color: var(--color-on-surface);
+      }
+    }
+
+    &:active {
+      transform: translate3d(0, 0, 0) scale(0.94);
+      transition-duration: 100ms;
+    }
+  }
+}
+
+.card-footer-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+  padding-top: 0.35rem;
+  border-top: 1px dashed var(--color-border);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+}
+
+.btn-add-account-dashed {
+  background-color: transparent;
+  border: 1px dashed var(--color-border);
+  border-radius: 8px;
+  padding: 0.45rem 0.75rem;
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background-color: var(--color-primary-bg);
+  }
+}
+
+.accounts-empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 0.75rem;
+  border: 1px dashed var(--color-border);
+  border-radius: 10px;
+  background-color: var(--color-bg-body);
+  text-align: center;
+
+  .empty-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-on-surface);
+    margin-bottom: 0.25rem;
+  }
+
+  .empty-desc {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    line-height: 1.35;
+    margin-bottom: 0.75rem;
+    max-width: 220px;
+  }
+
+  .btn-connect-now {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.775rem;
+    font-weight: 500;
+    padding: 0.45rem 1.15rem;
+    border-radius: 9999px;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+    transition: all $transition-fast;
+    outline: none;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      background-color: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+}

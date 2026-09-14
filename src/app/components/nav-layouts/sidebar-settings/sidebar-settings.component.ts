@@ -1,15 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  OnDestroy,
-  Output,
-  ChangeDetectorRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, EventEmitter, OnInit, OnDestroy, Output, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { AssignmentsService } from "@services/assignments.service";
 import { ConfigurationService } from "@services/configuration.service";
@@ -23,6 +13,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { TourService } from "@services/tour.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
+import { AccountsService } from "@services/accounts.service";
 import { environment } from "@environments/environment";
 
 @Component({
@@ -39,30 +30,43 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   wasClicked = false;
   recentAssignments: Assignment[] = [];
   totalAssignmentsCount = 0;
-  displayLimit: number | 'all' = 5;
+  displayLimit: number | "all" = 5;
+  langNames: { [key: string]: string } = {
+    en: "English",
+    fr: "Français",
+    ru: "Русский",
+  };
   private dbSubscription: Subscription;
+  private authSub: Subscription;
 
   constructor(
     public themeService: ThemeService,
     private databaseService: DatabaseService,
     private dataService: DataService,
     private router: Router,
+    private route: ActivatedRoute,
     private configurationService: ConfigurationService,
     private assignmentsService: AssignmentsService,
     public authService: AuthService,
     public translateService: TranslateService,
     private tourService: TourService,
     private customModalService: CustomModalService,
-    private cdr: ChangeDetectorRef
+    public accountsService: AccountsService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
-    const savedLimit = localStorage.getItem('recentAssignmentsLimit');
-    if (savedLimit === 'all') {
-      this.displayLimit = 'all';
+    const savedLimit = localStorage.getItem("recentAssignmentsLimit");
+    if (savedLimit === "all") {
+      this.displayLimit = "all";
     } else if (savedLimit) {
       this.displayLimit = parseInt(savedLimit, 10);
     }
+
+    this.authSub = this.authService.authChange$.subscribe(() => {
+      this.loadRecentAssignments();
+      this.cdr.markForCheck();
+    });
 
     this.loadRecentAssignments();
     this.dbSubscription = this.databaseService.dbChanged.subscribe(() => {
@@ -79,6 +83,9 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void {
     if (this.dbSubscription) {
       this.dbSubscription.unsubscribe();
+    }
+    if (this.authSub) {
+      this.authSub.unsubscribe();
     }
   }
 
@@ -106,16 +113,12 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
 
     // Sort by lastModificationDate descending (most recently modified or opened)
     filtered.sort((a, b) => {
-      const dateA = a.lastModificationDate
-        ? new Date(a.lastModificationDate).getTime()
-        : 0;
-      const dateB = b.lastModificationDate
-        ? new Date(b.lastModificationDate).getTime()
-        : 0;
+      const dateA = a.lastModificationDate ? new Date(a.lastModificationDate).getTime() : 0;
+      const dateB = b.lastModificationDate ? new Date(b.lastModificationDate).getTime() : 0;
       return dateB - dateA;
     });
 
-    if (this.displayLimit !== 'all') {
+    if (this.displayLimit !== "all") {
       filtered = filtered.slice(0, this.displayLimit);
     }
 
@@ -129,38 +132,27 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   openAssignment(assignment: Assignment) {
-    this.databaseService
-      .getAssignmentById(assignment.id)
-      .then((fullAssignment) => {
-        this.dataService.assignment = fullAssignment;
-        this.dataService.groupFilter = "";
-        this.onClose.emit();
-        this.assignmentsService.assignmentModified.next();
-        this.router.navigate(["/overview"]);
-      });
+    this.databaseService.getAssignmentById(assignment.id).then((fullAssignment) => {
+      this.dataService.assignment = fullAssignment;
+      this.dataService.groupFilter = "";
+      this.onClose.emit();
+      this.assignmentsService.assignmentModified.next();
+      this.router.navigate(["/overview"]);
+    });
   }
 
   editAssignment(assignment: Assignment) {
-    this.databaseService
-      .getAssignmentById(assignment.id)
-      .then((fullAssignment) => {
-        this.configurationService
-          .openConfigurationModal(fullAssignment)
-          .finally(() => {
-            this.loadRecentAssignments();
-            if (
-              this.dataService.assignment &&
-              this.dataService.assignment.id === fullAssignment.id
-            ) {
-              this.databaseService
-                .getAssignmentById(fullAssignment.id)
-                .then((updated) => {
-                  this.dataService.assignment = updated;
-                  this.assignmentsService.assignmentModified.next();
-                });
-            }
+    this.databaseService.getAssignmentById(assignment.id).then((fullAssignment) => {
+      this.configurationService.openConfigurationModal(fullAssignment).finally(() => {
+        this.loadRecentAssignments();
+        if (this.dataService.assignment && this.dataService.assignment.id === fullAssignment.id) {
+          this.databaseService.getAssignmentById(fullAssignment.id).then((updated) => {
+            this.dataService.assignment = updated;
+            this.assignmentsService.assignmentModified.next();
           });
+        }
       });
+    });
   }
 
   onMouseEnter() {
@@ -182,19 +174,13 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     if (this.displayLimit === 5) {
       this.displayLimit = 10;
     } else if (this.displayLimit === 10) {
-      this.displayLimit = 'all';
+      this.displayLimit = "all";
     } else {
       this.displayLimit = 5;
     }
-    localStorage.setItem('recentAssignmentsLimit', String(this.displayLimit));
+    localStorage.setItem("recentAssignmentsLimit", String(this.displayLimit));
     this.loadRecentAssignments();
   }
-
-  langNames: { [key: string]: string } = {
-    en: "English",
-    fr: "Français",
-    ru: "Русский",
-  };
 
   get currentLang() {
     return this.translateService.currentLang || localStorage.getItem("language") || this.translateService.defaultLang || "en";

@@ -5,16 +5,7 @@ import { Error, ErrorType, Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
 import { EMPTY, forkJoin, Observable, of } from "rxjs";
-import {
-  catchError,
-  defaultIfEmpty,
-  expand,
-  map,
-  reduce,
-  shareReplay,
-  switchMap,
-  tap,
-} from "rxjs/operators";
+import { catchError, defaultIfEmpty, expand, map, reduce, shareReplay, switchMap, tap } from "rxjs/operators";
 import { AuthService } from "./auth.service";
 import { Utils } from "./utils";
 
@@ -28,10 +19,12 @@ export class CommitsService {
   /**
    * Headers to use when sending HTTP requests
    */
-  headers = new HttpHeaders({
-    "Content-Type": "application/json",
-    Authorization: "token " + this.authService.token,
-  });
+  get headers(): HttpHeaders {
+    return new HttpHeaders({
+      "Content-Type": "application/json",
+      Authorization: "token " + this.authService.token,
+    });
+  }
 
   /**
    * CommitsService constructor
@@ -39,11 +32,7 @@ export class CommitsService {
    * @param authService
    * @param translateService
    */
-  constructor(
-    private http: HttpClient,
-    private authService: AuthService,
-    private translateService: TranslateService
-  ) {}
+  constructor(private http: HttpClient, private authService: AuthService, private translateService: TranslateService) {}
 
   /**
    * Gets readMe and commits of every repository
@@ -51,11 +40,7 @@ export class CommitsService {
    * @param startDate The date before which commits are not retrieved
    * @param endDate The date after which commits are not retrieved
    */
-  getRepositories(
-    repoTab: Repository[],
-    startDate?: string,
-    endDate?: string
-  ): Observable<any[]> {
+  getRepositories(repoTab: Repository[], startDate?: string, endDate?: string): Observable<any[]> {
     const t0 = performance.now();
 
     const CHUNK_SIZE = 4;
@@ -68,28 +53,18 @@ export class CommitsService {
       return of([]);
     }
 
-    const chunkObservables = chunks.map((chunk) =>
-      this.getBatchedRepositories(chunk, startDate, endDate)
-    );
+    const chunkObservables = chunks.map((chunk) => this.getBatchedRepositories(chunk, startDate, endDate));
 
     return forkJoin(chunkObservables).pipe(
       map((results) => results.reduce((acc, val) => acc.concat(val), [])),
       tap(() => {
         const t1 = performance.now();
-        console.log(
-          `[Performance] getRepositories (GraphQL Batched) took ${Math.round(
-            t1 - t0
-          )} ms for ${repoTab.length} repos`
-        );
-      })
+        console.log(`[Performance] getRepositories (GraphQL Batched) took ${Math.round(t1 - t0)} ms for ${repoTab.length} repos`);
+      }),
     );
   }
 
-  private getBatchedRepositories(
-    repoTab: Repository[],
-    startDate?: string,
-    endDate?: string
-  ): Observable<any[]> {
+  private getBatchedRepositories(repoTab: Repository[], startDate?: string, endDate?: string): Observable<any[]> {
     const repoInfos = repoTab.map((repo, index) => {
       const parts = repo.url.split("/");
       return {
@@ -118,9 +93,7 @@ export class CommitsService {
       if (hasUntil) historyArgs += ", until: $until";
 
       query += `
-        ${info.alias}: repository(owner: "${info.owner}", name: "${
-        info.name
-      }") {
+        ${info.alias}: repository(owner: "${info.owner}", name: "${info.name}") {
 ${this.getCommitHistoryQueryFragment(historyArgs)}
           identity: object(expression: "HEAD:IDENTITY.json") {
             ... on Blob { text }
@@ -133,9 +106,7 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
     });
     query += "}";
 
-    let sinceMoment = startDate
-      ? moment(startDate).toDate().toISOString()
-      : null;
+    let sinceMoment = startDate ? moment(startDate).toDate().toISOString() : null;
     let untilMoment = endDate ? moment(endDate).toDate().toISOString() : null;
 
     const variables: any = {};
@@ -143,11 +114,7 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
     if (untilMoment) variables.until = untilMoment;
 
     return this.http
-      .post<{ data?: any; errors?: any[] }>(
-        "https://api.github.com/graphql",
-        { query, variables },
-        { headers: this.headers }
-      )
+      .post<{ data?: any; errors?: any[] }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
       .pipe(
         switchMap((response) => {
           if (response.errors) {
@@ -160,9 +127,7 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
           repoInfos.forEach((info) => {
             const repoData = response?.data?.[info.alias];
             if (!repoData) {
-              info.repository.errors.push(
-                new Error(ErrorType.COMMITS_NOT_FOUND)
-              );
+              info.repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
               results.push(info.repository);
               return;
             }
@@ -189,9 +154,7 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
             let endCursor = null;
 
             if (history) {
-              commits = history.nodes.map((node) =>
-                Commit.withGraphQLJSON(node)
-              );
+              commits = history.nodes.map((node) => Commit.withGraphQLJSON(node));
               hasNextPage = history.pageInfo.hasNextPage;
               endCursor = history.pageInfo.endCursor;
             }
@@ -218,11 +181,7 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
           });
 
           if (reposWithNextPage.length > 0) {
-            return this.fetchRemainingCommits(
-              reposWithNextPage,
-              startDate,
-              endDate
-            ).pipe(map(() => results));
+            return this.fetchRemainingCommits(reposWithNextPage, startDate, endDate).pipe(map(() => results));
           } else {
             return of(results);
           }
@@ -230,7 +189,7 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
         catchError((error) => {
           console.error("GraphQL batch error", error);
           return of(repoTab);
-        })
+        }),
       );
   }
 
@@ -242,24 +201,20 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
       cursor: string;
     }[],
     startDate?: string,
-    endDate?: string
+    endDate?: string,
   ): Observable<any> {
     let query = "query($since: GitTimestamp, $until: GitTimestamp) {\n";
 
     reposWithNextPage.forEach((info, index) => {
       query += `
         repo${index}: repository(owner: "${info.owner}", name: "${info.name}") {
-${this.getCommitHistoryQueryFragment(
-  `first: 100, after: "${info.cursor}", since: $since, until: $until`
-)}
+${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since: $since, until: $until`)}
         }
       `;
     });
     query += "}";
 
-    let sinceMoment = startDate
-      ? moment(startDate).toDate().toISOString()
-      : null;
+    let sinceMoment = startDate ? moment(startDate).toDate().toISOString() : null;
     let untilMoment = endDate ? moment(endDate).toDate().toISOString() : null;
 
     const variables: any = {};
@@ -267,30 +222,19 @@ ${this.getCommitHistoryQueryFragment(
     if (untilMoment) variables.until = untilMoment;
 
     return this.http
-      .post<{ data?: any; errors?: any[] }>(
-        "https://api.github.com/graphql",
-        { query, variables },
-        { headers: this.headers }
-      )
+      .post<{ data?: any; errors?: any[] }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
       .pipe(
         switchMap((response) => {
           if (response.errors) {
-            console.error(
-              "GraphQL fetchRemainingCommits errors:",
-              response.errors
-            );
+            console.error("GraphQL fetchRemainingCommits errors:", response.errors);
           }
 
           const nextReposWithNextPage = [];
 
           reposWithNextPage.forEach((info, index) => {
-            const history =
-              response?.data?.[`repo${index}`]?.defaultBranchRef?.target
-                ?.history;
+            const history = response?.data?.[`repo${index}`]?.defaultBranchRef?.target?.history;
             if (history) {
-              const moreCommits = history.nodes.map((node) =>
-                Commit.withGraphQLJSON(node)
-              );
+              const moreCommits = history.nodes.map((node) => Commit.withGraphQLJSON(node));
               info.repository.commits.push(...moreCommits);
 
               if (history.pageInfo.hasNextPage) {
@@ -303,11 +247,7 @@ ${this.getCommitHistoryQueryFragment(
           });
 
           if (nextReposWithNextPage.length > 0) {
-            return this.fetchRemainingCommits(
-              nextReposWithNextPage,
-              startDate,
-              endDate
-            );
+            return this.fetchRemainingCommits(nextReposWithNextPage, startDate, endDate);
           } else {
             return of(null);
           }
@@ -315,7 +255,7 @@ ${this.getCommitHistoryQueryFragment(
         catchError((error) => {
           console.error("fetchRemainingCommits batch error", error);
           return of(null);
-        })
+        }),
       );
   }
 
@@ -351,18 +291,8 @@ ${this.getCommitHistoryQueryFragment(
    * @param date The date to filter the commits with if specified
    * @returns A map with data about questions
    */
-  loadQuestionsDict(
-    dict,
-    repositories: Repository[],
-    questions: string[],
-    colors,
-    tpGroup?,
-    date?,
-    translations?
-  ): Object {
-    let repos = repositories.filter(
-      (repository) => !tpGroup || repository.tpGroup === tpGroup
-    );
+  loadQuestionsDict(dict, repositories: Repository[], questions: string[], colors, tpGroup?, date?, translations?): Object {
+    let repos = repositories.filter((repository) => !tpGroup || repository.tpGroup === tpGroup);
     repos.forEach((repository) => {
       let studentQuestions = [];
       repository?.commits
@@ -371,16 +301,9 @@ ${this.getCommitHistoryQueryFragment(
           if (commit.question) {
             let students = [];
             for (let commitColor in dict[commit.question]) {
-              students = students.concat(
-                dict[commit.question][commitColor].students.map(
-                  (student) => student.name
-                )
-              );
+              students = students.concat(dict[commit.question][commitColor].students.map((student) => student.name));
             }
-            if (
-              !students.includes(repository.name) &&
-              colors.includes(commit.color)
-            ) {
+            if (!students.includes(repository.name) && colors.includes(commit.color)) {
               dict[commit.question][commit.color.label].count++;
               dict[commit.question][commit.color.label].students.push({
                 name: repository.name,
@@ -404,8 +327,7 @@ ${this.getCommitHistoryQueryFragment(
     });
     for (let question in dict) {
       for (let commitColor in dict[question]) {
-        dict[question][commitColor].percentage =
-          (dict[question][commitColor].count / repos.length) * 100;
+        dict[question][commitColor].percentage = (dict[question][commitColor].count / repos.length) * 100;
       }
     }
 
@@ -464,30 +386,18 @@ ${this.getCommitHistoryQueryFragment(
    * @param date The date to filter the commits with if specified
    * @returns A map with data about students commits
    */
-  loadStudentsDict(
-    repositories: Repository[],
-    questions: string[],
-    colors,
-    tpGroup?: string,
-    date?: number
-  ): Object {
+  loadStudentsDict(repositories: Repository[], questions: string[], colors, tpGroup?: string, date?: number): Object {
     let dict = {};
-    let repos = repositories.filter(
-      (repository) => !tpGroup || repository.tpGroup === tpGroup
-    );
+    let repos = repositories.filter((repository) => !tpGroup || repository.tpGroup === tpGroup);
     repos.forEach((repository) => {
       this.initStudentsDict(repository, dict, questions, colors);
       repository.commits
         .filter((commit) => !date || commit.commitDate.getTime() < date)
         .forEach((commit) => {
-          dict[repository.name]["commitTypes"][commit.color.label]
-            .commitsCount++;
+          dict[repository.name]["commitTypes"][commit.color.label].commitsCount++;
           dict[repository.name].commitsCount++;
-          this.isSupThan(
-            commit.question,
-            dict[repository.name].lastQuestionDone,
-            questions
-          ) && (dict[repository.name].lastQuestionDone = commit.question);
+          this.isSupThan(commit.question, dict[repository.name].lastQuestionDone, questions) &&
+            (dict[repository.name].lastQuestionDone = commit.question);
         });
       dict[repository.name].name = repository.name;
       dict[repository.name].url = repository.url;
@@ -499,12 +409,8 @@ ${this.getCommitHistoryQueryFragment(
         return modifiedCommit;
       });
       colors.forEach((color) => {
-        dict[repository.name]["commitTypes"][color.label].percentage = dict[
-          repository.name
-        ].commitsCount
-          ? (dict[repository.name]["commitTypes"][color.label].commitsCount /
-              dict[repository.name].commitsCount) *
-            100
+        dict[repository.name]["commitTypes"][color.label].percentage = dict[repository.name].commitsCount
+          ? (dict[repository.name]["commitTypes"][color.label].commitsCount / dict[repository.name].commitsCount) * 100
           : 0;
       });
     });
@@ -550,9 +456,7 @@ ${this.getCommitHistoryQueryFragment(
    * @returns A boolean, which is true if q1 is a more advanced question than q2, false otherwise
    */
   isSupThan(q1, q2, questions): boolean {
-    return (
-      questions.includes(q2) && this.compareQuestions(q1, q2, questions) > 0
-    );
+    return questions.includes(q2) && this.compareQuestions(q1, q2, questions) > 0;
   }
 
   /**
@@ -564,7 +468,7 @@ ${this.getCommitHistoryQueryFragment(
    */
   getRepositoriesByAuthenticatedUser(
     cursor?: string,
-    pageLimit = 100
+    pageLimit = 100,
   ): Observable<{
     completed: boolean;
     repositories: Repository[];
@@ -607,11 +511,7 @@ ${this.getCommitHistoryQueryFragment(
     `;
     const variables = { cursor, pageLimit };
     return this.http
-      .post<{ data: any; errors?: any[] }>(
-        "https://api.github.com/graphql",
-        { query, variables },
-        { headers: this.headers }
-      )
+      .post<{ data: any; errors?: any[] }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
       .pipe(
         map((response) => {
           const repositoriesData = response?.data?.viewer?.repositories;
@@ -623,9 +523,7 @@ ${this.getCommitHistoryQueryFragment(
             };
           }
 
-          const reposMap = this.extractRepositoriesFromNodes(
-            repositoriesData.nodes || []
-          );
+          const reposMap = this.extractRepositoriesFromNodes(repositoriesData.nodes || []);
 
           return {
             completed: !repositoriesData.pageInfo?.hasNextPage,
@@ -640,7 +538,7 @@ ${this.getCommitHistoryQueryFragment(
             repositories: [],
             cursor: undefined,
           });
-        })
+        }),
       );
   }
 
@@ -665,11 +563,7 @@ ${this.getCommitHistoryQueryFragment(
       }
     `;
     this.userOrganizations$ = this.http
-      .post<{ data?: any; errors?: any[] }>(
-        "https://api.github.com/graphql",
-        { query },
-        { headers: this.headers }
-      )
+      .post<{ data?: any; errors?: any[] }>("https://api.github.com/graphql", { query }, { headers: this.headers })
       .pipe(
         map((response) => {
           const nodes = response?.data?.viewer?.organizations?.nodes || [];
@@ -679,7 +573,7 @@ ${this.getCommitHistoryQueryFragment(
           console.error("Error fetching user organizations", err);
           return of([]);
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
     return this.userOrganizations$;
   }
@@ -689,7 +583,7 @@ ${this.getCommitHistoryQueryFragment(
    */
   private extractRepositoriesFromNodes(
     nodes: any[],
-    reposMap: Map<string, Repository> = new Map<string, Repository>()
+    reposMap: Map<string, Repository> = new Map<string, Repository>(),
   ): Map<string, Repository> {
     if (!nodes) return reposMap;
 
@@ -700,19 +594,7 @@ ${this.getCommitHistoryQueryFragment(
       const isFork = Boolean(node.isFork || parentUrl);
 
       if (!reposMap.has(node.url)) {
-        reposMap.set(
-          node.url,
-          new Repository(
-            node.url,
-            node.name,
-            undefined,
-            undefined,
-            undefined,
-            node.description,
-            isFork,
-            parentUrl
-          )
-        );
+        reposMap.set(node.url, new Repository(node.url, node.name, undefined, undefined, undefined, node.description, isFork, parentUrl));
       } else {
         const existing = reposMap.get(node.url);
         if (!existing.parentUrl && parentUrl) {
@@ -727,16 +609,7 @@ ${this.getCommitHistoryQueryFragment(
             if (!reposMap.has(fork.url)) {
               reposMap.set(
                 fork.url,
-                new Repository(
-                  fork.url,
-                  fork.name,
-                  undefined,
-                  undefined,
-                  undefined,
-                  fork.description,
-                  true,
-                  node.url
-                )
+                new Repository(fork.url, fork.name, undefined, undefined, undefined, fork.description, true, node.url),
               );
             } else {
               const existingFork = reposMap.get(fork.url);
@@ -762,7 +635,7 @@ ${this.getCommitHistoryQueryFragment(
   getRepositoriesBySearch(
     searchFilter: string,
     cursor?: string,
-    pageLimit = 100
+    pageLimit = 100,
   ): Observable<{
     completed: boolean;
     repositories: Repository[];
@@ -774,9 +647,7 @@ ${this.getCommitHistoryQueryFragment(
     }
 
     // 1. Check if the searchFilter is an organization URL (e.g. https://github.com/UE-TOAW or https://github.com/UE-TOAW/)
-    const orgUrlMatch = cleanFilter.match(
-      /^(?:https?:\/\/github\.com\/|git@github\.com:)([a-zA-Z0-9_.-]+)\/?$/i
-    );
+    const orgUrlMatch = cleanFilter.match(/^(?:https?:\/\/github\.com\/|git@github\.com:)([a-zA-Z0-9_.-]+)\/?$/i);
     let effectiveFilter = cleanFilter;
     if (orgUrlMatch) {
       effectiveFilter = orgUrlMatch[1];
@@ -785,16 +656,14 @@ ${this.getCommitHistoryQueryFragment(
     // 2. Check if searchFilter is a repository URL or an "owner/name" pattern
     // (e.g. "https://github.com/UE-TOAW/repo" or "UE-TOAW/tp-m2sdl-2024-friendsofmine-")
     const repoMatch = effectiveFilter.match(
-      /^(?:https?:\/\/github\.com\/|git@github\.com:|^)([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+?)(?:\.git|\/)?$/i
+      /^(?:https?:\/\/github\.com\/|git@github\.com:|^)([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+?)(?:\.git|\/)?$/i,
     );
 
     if (repoMatch) {
       const owner = repoMatch[1];
       const name = repoMatch[2];
       const corePattern = Utils.extractAssignmentCore(name, owner);
-      const qOrg = corePattern
-        ? `${corePattern} org:${owner} fork:true`
-        : `org:${owner} fork:true`;
+      const qOrg = corePattern ? `${corePattern} org:${owner} fork:true` : `org:${owner} fork:true`;
 
       const scopedQuery = `
         query($owner: String!, $name: String!, $qOrg: String!, $pageLimit: Int!, $cursor: String) {
@@ -851,7 +720,7 @@ ${this.getCommitHistoryQueryFragment(
         .post<{ data?: any; errors?: any[] }>(
           "https://api.github.com/graphql",
           { query: scopedQuery, variables },
-          { headers: this.headers }
+          { headers: this.headers },
         )
         .pipe(
           map((response) => {
@@ -860,17 +729,11 @@ ${this.getCommitHistoryQueryFragment(
             if (response?.data) {
               // 1. Direct match repository is added FIRST
               if (response.data.repository) {
-                this.extractRepositoriesFromNodes(
-                  [response.data.repository],
-                  reposMap
-                );
+                this.extractRepositoriesFromNodes([response.data.repository], reposMap);
               }
               // 2. Organization search matches (e.g. all student repos in that org)
               if (response.data.orgSearch?.nodes) {
-                this.extractRepositoriesFromNodes(
-                  response.data.orgSearch.nodes,
-                  reposMap
-                );
+                this.extractRepositoriesFromNodes(response.data.orgSearch.nodes, reposMap);
               }
             }
 
@@ -887,7 +750,7 @@ ${this.getCommitHistoryQueryFragment(
               repositories: [],
               cursor: undefined,
             });
-          })
+          }),
         );
     }
 
@@ -924,17 +787,11 @@ ${this.getCommitHistoryQueryFragment(
         pageLimit,
       };
       return this.http
-        .post<{ data: any; errors?: any[] }>(
-          "https://api.github.com/graphql",
-          { query, variables },
-          { headers: this.headers }
-        )
+        .post<{ data: any; errors?: any[] }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
         .pipe(
           map((response) => {
             const searchData = response?.data?.globalSearch;
-            const reposMap = this.extractRepositoriesFromNodes(
-              searchData?.nodes || []
-            );
+            const reposMap = this.extractRepositoriesFromNodes(searchData?.nodes || []);
             return {
               completed: !searchData?.pageInfo?.hasNextPage,
               repositories: Array.from(reposMap.values()),
@@ -948,26 +805,20 @@ ${this.getCommitHistoryQueryFragment(
               repositories: [],
               cursor: undefined,
             });
-          })
+          }),
         );
     }
 
     // 3. Free text search / Organization name: scope to authenticated user, accessible organizations and global repositories
     return this.getUserOrganizations().pipe(
       switchMap((orgs) => {
-        const isUserOrg =
-          orgs &&
-          orgs.some((o) => o.toLowerCase() === effectiveFilter.toLowerCase());
+        const isUserOrg = orgs && orgs.some((o) => o.toLowerCase() === effectiveFilter.toLowerCase());
 
         const cleanTerm = effectiveFilter.replace(/[-_]+$/, "");
         const coreTerm = Utils.extractAssignmentCore(cleanTerm);
         const searchKeyword = coreTerm || cleanTerm;
 
-        const queryArgs = [
-          "$qGlobal: String!",
-          "$qUser: String!",
-          "$pageLimit: Int!",
-        ];
+        const queryArgs = ["$qGlobal: String!", "$qUser: String!", "$pageLimit: Int!"];
         let queryBody = `
           globalSearch: search(query: $qGlobal, type: REPOSITORY, first: $pageLimit) {
             pageInfo {
@@ -1005,9 +856,7 @@ ${this.getCommitHistoryQueryFragment(
 
         const variables: any = {
           qGlobal: searchKeyword ? `${searchKeyword} fork:true` : "fork:true",
-          qUser: searchKeyword
-            ? `${searchKeyword} user:@me fork:true`
-            : "user:@me fork:true",
+          qUser: searchKeyword ? `${searchKeyword} user:@me fork:true` : "user:@me fork:true",
           pageLimit,
         };
 
@@ -1066,20 +915,14 @@ ${this.getCommitHistoryQueryFragment(
                 }
               }
             `;
-            variables[orgVar] = searchKeyword
-              ? `${searchKeyword} org:${org} fork:true`
-              : `org:${org} fork:true`;
+            variables[orgVar] = searchKeyword ? `${searchKeyword} org:${org} fork:true` : `org:${org} fork:true`;
           });
         }
 
         const fullQuery = `query(${queryArgs.join(", ")}) {\n${queryBody}\n}`;
 
         return this.http
-          .post<{ data: any; errors?: any[] }>(
-            "https://api.github.com/graphql",
-            { query: fullQuery, variables },
-            { headers: this.headers }
-          )
+          .post<{ data: any; errors?: any[] }>("https://api.github.com/graphql", { query: fullQuery, variables }, { headers: this.headers })
           .pipe(
             map((response) => {
               const reposMap = new Map<string, Repository>();
@@ -1088,10 +931,7 @@ ${this.getCommitHistoryQueryFragment(
                 Object.keys(response.data).forEach((key) => {
                   const field = response.data[key];
                   if (key === "repositoryOwner") {
-                    this.extractRepositoriesFromNodes(
-                      field?.repositories?.nodes || [],
-                      reposMap
-                    );
+                    this.extractRepositoriesFromNodes(field?.repositories?.nodes || [], reposMap);
                   } else if (field?.nodes) {
                     this.extractRepositoriesFromNodes(field.nodes, reposMap);
                   }
@@ -1105,18 +945,15 @@ ${this.getCommitHistoryQueryFragment(
               };
             }),
             catchError((err) => {
-              console.error(
-                "Error searching repositories across user, orgs & global",
-                err
-              );
+              console.error("Error searching repositories across user, orgs & global", err);
               return of({
                 completed: true,
                 repositories: [],
                 cursor: undefined,
               });
-            })
+            }),
           );
-      })
+      }),
     );
   }
 

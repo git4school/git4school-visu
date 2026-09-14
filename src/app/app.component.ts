@@ -8,6 +8,7 @@ import * as Chart from "chart.js";
 // import * as ChartDataLabels from "chartjs-plugin-datalabels";
 import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
 import "rxjs/add/observable/interval";
+import { environment } from "@environments/environment";
 
 /**
  * This component is the app component
@@ -18,6 +19,7 @@ import "rxjs/add/observable/interval";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  readonly isProduction = environment.production;
   /**
    * AppComponent constructor
    * @param authService Authentication service
@@ -31,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public dataService: DataService,
     private router: Router,
     public translateService: TranslateService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
   ) {}
 
   /**

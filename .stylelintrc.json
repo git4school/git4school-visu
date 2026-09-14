@@ -1,0 +1,15 @@
+{
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "no-invalid-double-slash-comments": true,
+    "no-descending-specificity": true,
+    "color-hex-length": "short",
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ]
+  }
+}

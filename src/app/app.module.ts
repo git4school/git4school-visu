@@ -24,11 +24,7 @@ import { QuestionsChooserComponent } from "@components/questions-chooser/questio
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { AuthGuard } from "@guards/auth.guard";
 import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import {
-  TranslateLoader,
-  TranslateModule,
-  TranslateService,
-} from "@ngx-translate/core";
+import { TranslateLoader, TranslateModule, TranslateService } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { AuthService } from "@services/auth.service";
 import { CommitsService } from "@services/commits.service";
@@ -52,6 +48,8 @@ import { HelpNavItemComponent } from "./components/nav-items/help-nav-item/help-
 import { AppNavLayoutComponent } from "./components/nav-layouts/app-nav-layout/app-nav-layout.component";
 import { OverviewGraphContextualMenuComponent } from "./components/overview-graph-contextual-menu/overview-graph-contextual-menu.component";
 import { SidebarSettingsComponent } from "./components/nav-layouts/sidebar-settings/sidebar-settings.component";
+import { AccountsComponent } from "./components/nav-layouts/sidebar-settings/accounts/accounts.component";
+import { AddAccountModalComponent } from "./components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component";
 
 /**
  * Firebase configuration file
@@ -77,25 +75,17 @@ firebase.initializeApp(firebaseConfig);
  * @param translate The translation service
  * @param injector The injector service
  */
-export function appInitializerFactory(
-  translate: TranslateService,
-  injector: Injector
-) {
+export function appInitializerFactory(translate: TranslateService, injector: Injector) {
   return () =>
     new Promise<any>((resolve: any) => {
-      const locationInitialized = injector.get(
-        LOCATION_INITIALIZED,
-        Promise.resolve(null)
-      );
+      const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
       locationInitialized.then(() => {
         registerLocaleData(localeFr);
         registerLocaleData(localeRu);
         translate.addLangs(["en", "fr", "ru"]);
         translate.setDefaultLang("en");
         const savedLang = localStorage.getItem("language");
-        const browserLang = window.navigator.language
-          ? window.navigator.language.slice(0, 2)
-          : "en";
+        const browserLang = window.navigator.language ? window.navigator.language.slice(0, 2) : "en";
         const langToSet = savedLang || browserLang;
         translate.use(langToSet).subscribe(
           () => {},
@@ -104,7 +94,7 @@ export function appInitializerFactory(
           },
           () => {
             resolve(null);
-          }
+          },
         );
       });
     });
@@ -132,7 +122,10 @@ export function appInitializerFactory(
     EditSessionComponent,
     OverviewGraphContextualMenuComponent,
     SidebarSettingsComponent,
+    AccountsComponent,
+    AddAccountModalComponent,
   ],
+  entryComponents: [AddAccountModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -171,8 +164,7 @@ export function appInitializerFactory(
     },
     {
       provide: LOCALE_ID,
-      useFactory: (translateService: TranslateService) =>
-        translateService.currentLang,
+      useFactory: (translateService: TranslateService) => translateService.currentLang,
       deps: [TranslateService],
     },
     DatabaseService,

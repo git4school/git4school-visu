@@ -1,5 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "@services/auth.service";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
+import { AccountsService } from "@services/accounts.service";
+import { AddAccountModalComponent } from "../nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component";
 import { environment } from "../../../environments/environment";
 
 /**
@@ -12,15 +15,23 @@ import { environment } from "../../../environments/environment";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
+  version = environment.version;
+
   /**
    * HomeComponent constructor
    * @param authService The service managing authentication
+   * @param accountsService The service managing connected accounts
+   * @param customModalService The modal service
    */
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService, public accountsService: AccountsService, private customModalService: CustomModalService) {}
 
-  version = environment.version;
+  ngOnInit() {
+    window.addEventListener("git4school:open-accounts-modal", () => this.onAddAccount());
+  }
 
-  ngOnInit() {}
+  onAddAccount() {
+    this.customModalService.open(AddAccountModalComponent, { size: "md" });
+  }
 
   async onSignInGithub() {
     await this.authService.signIn();

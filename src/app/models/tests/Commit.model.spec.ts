@@ -8,30 +8,10 @@ describe("Commit coloration", () => {
   let commit3: Commit;
 
   beforeEach(() => {
-    commitWIP = new Commit(
-      "WIP",
-      "Author",
-      new Date("1/1/2020"),
-      "http://github.com/user/repository"
-    );
-    commit1 = new Commit(
-      "Resolve #1:",
-      "Author",
-      new Date("1/1/2020"),
-      "http://github.com/user/repository"
-    );
-    commit2 = new Commit(
-      "Resolve #2:",
-      "Author",
-      new Date("3/1/2020"),
-      "http://github.com/user/repository"
-    );
-    commit3 = new Commit(
-      "Resolve #3:",
-      "Author",
-      new Date("5/1/2020"),
-      "http://github.com/user/repository"
-    );
+    commitWIP = new Commit("WIP", "Author", new Date("1/1/2020"), "http://github.com/user/repository");
+    commit1 = new Commit("Resolve #1:", "Author", new Date("1/1/2020"), "http://github.com/user/repository");
+    commit2 = new Commit("Resolve #2:", "Author", new Date("3/1/2020"), "http://github.com/user/repository");
+    commit3 = new Commit("Resolve #3:", "Author", new Date("5/1/2020"), "http://github.com/user/repository");
   });
 
   it("should be black when intermediate", () => {
@@ -59,11 +39,7 @@ describe("Commit coloration", () => {
 
   it("should be green before a correction, red after", () => {
     const questions = ["#2", "#3"];
-    const correction = new Milestone(
-      new Date("4/1/2020"),
-      "Correction 1",
-      questions
-    );
+    const correction = new Milestone(new Date("4/1/2020"), "Correction 1", questions);
     commit2.updateMetadata([], [correction], questions);
     commit3.updateMetadata([], [correction], questions);
 
@@ -74,11 +50,7 @@ describe("Commit coloration", () => {
   it("should be green before a review, orange between, red after a correction", () => {
     const questions = ["#1", "#2", "#3"];
     const review = new Milestone(new Date("2/1/2020"), "Review 1", questions);
-    const correction = new Milestone(
-      new Date("4/1/2020"),
-      "Correction 1",
-      questions
-    );
+    const correction = new Milestone(new Date("4/1/2020"), "Correction 1", questions);
     commit1.updateMetadata([review], [correction], questions);
     commit2.updateMetadata([review], [correction], questions);
     commit3.updateMetadata([review], [correction], questions);
@@ -94,12 +66,7 @@ describe("Question recognition", () => {
   let questions: string[];
 
   beforeEach(() => {
-    commit = new Commit(
-      "",
-      "Author",
-      new Date("1/1/2020"),
-      "http://github.com/user/repository"
-    );
+    commit = new Commit("", "Author", new Date("1/1/2020"), "http://github.com/user/repository");
 
     questions = ["#1", "#2", "#3"];
   });
