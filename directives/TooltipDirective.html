@@ -106,6 +106,9 @@
                                 <a href="#onClick" >onClick</a>
                             </li>
                             <li>
+                                <a href="#onMouseDown" >onMouseDown</a>
+                            </li>
+                            <li>
                                 <a href="#onMouseEnter" >onMouseEnter</a>
                             </li>
                             <li>
@@ -151,6 +154,9 @@
                         <ul class="index-list">
                             <li>
                                 <a href="#click" >click</a>
+                            </li>
+                            <li>
+                                <a href="#mousedown" >mousedown</a>
                             </li>
                             <li>
                                 <a href="#mouseenter" >mouseenter</a>
@@ -331,6 +337,31 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:54</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mousedown"></a>
+                    <span class="name">
+                        <b>
+                            mousedown
+                        </b>
+                        <a href="#mousedown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="49"
                             class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:49</a></div>
                 </td>
@@ -406,8 +437,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:59</a></div>
                 </td>
             </tr>
 
@@ -440,8 +471,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:63</a></div>
                 </td>
             </tr>
 
@@ -479,6 +510,50 @@
                     <b>Decorators : </b>
                     <br />
                     <code>@HostListener(&#x27;click&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMouseDown"></a>
+                    <span class="name">
+                        <span ><b>onMouseDown</b></span>
+                        <a href="#onMouseDown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMouseDown()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;mousedown&#x27;)<br /></code>
                 </td>
             </tr>
 
@@ -616,8 +691,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/app/shared/ui/tooltip/tooltip.directive.ts:59</a></div>
                 </td>
             </tr>
 
@@ -684,6 +759,11 @@ export class TooltipDirective implements OnDestroy {
 
   @HostListener(&quot;mouseleave&quot;)
   onMouseLeave() {
+    this.tooltipService.hide();
+  }
+
+  @HostListener(&quot;mousedown&quot;)
+  onMouseDown() {
     this.tooltipService.hide();
   }
 
