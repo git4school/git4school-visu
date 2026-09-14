@@ -45,6 +45,11 @@ export class TooltipDirective implements OnDestroy {
     this.tooltipService.hide();
   }
 
+  @HostListener("mousedown")
+  onMouseDown() {
+    this.tooltipService.hide();
+  }
+
   @HostListener("click")
   onClick() {
     this.tooltipService.hide();

@@ -1,12 +1,4 @@
-import {
-  Injectable,
-  ComponentFactoryResolver,
-  ApplicationRef,
-  Injector,
-  EmbeddedViewRef,
-  ComponentRef,
-  TemplateRef,
-} from "@angular/core";
+import { Injectable, ComponentFactoryResolver, ApplicationRef, Injector, EmbeddedViewRef, ComponentRef, TemplateRef } from "@angular/core";
 import { TooltipComponent } from "../shared/ui/tooltip/tooltip.component";
 import { OverlayManagerService, OverlayType } from "./overlay-manager.service";
 
@@ -22,7 +14,7 @@ export class TooltipService {
     private componentFactoryResolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
     private injector: Injector,
-    private overlayManagerService: OverlayManagerService
+    private overlayManagerService: OverlayManagerService,
   ) {
     this.overlayManagerService.dismiss$.subscribe((event) => {
       if (OverlayManagerService.shouldDismiss(OverlayType.TOOLTIP, event)) {
@@ -38,16 +30,12 @@ export class TooltipService {
     content: string | TemplateRef<any>,
     element: HTMLElement,
     placement: "top" | "bottom" | "left" | "right" = "top",
-    shortcutKeys?: string[]
+    shortcutKeys?: string[],
   ) {
     this.hide(); // Hide any existing tooltip immediately
 
     this.showTimeout = setTimeout(() => {
-      this.tooltipComponentRef = this.createTooltipComponent(
-        content,
-        placement,
-        shortcutKeys
-      );
+      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys);
 
       // Calculate position
       const rect = element.getBoundingClientRect();
@@ -67,17 +55,12 @@ export class TooltipService {
     placement: "top" | "bottom" | "left" | "right" = "top",
     shortcutKeys?: string[],
     instant: boolean = false,
-    context?: any
+    context?: any,
   ) {
     this.hide();
 
     const render = () => {
-      this.tooltipComponentRef = this.createTooltipComponent(
-        content,
-        placement,
-        shortcutKeys,
-        context
-      );
+      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys, context);
 
       // Simulate a rect for position calculation
       const rect = {
@@ -105,11 +88,7 @@ export class TooltipService {
     return this.tooltipComponentRef !== null;
   }
 
-  moveTooltip(
-    x: number,
-    y: number,
-    placement: "top" | "bottom" | "left" | "right" = "top"
-  ) {
+  moveTooltip(x: number, y: number, placement: "top" | "bottom" | "left" | "right" = "top") {
     if (this.tooltipComponentRef) {
       const rect = {
         top: y,
@@ -129,6 +108,10 @@ export class TooltipService {
     }
 
     if (this.tooltipComponentRef) {
+      const domElem = (this.tooltipComponentRef.hostView as EmbeddedViewRef<any>)?.rootNodes?.[0] as HTMLElement;
+      if (domElem?.parentNode) {
+        domElem.parentNode.removeChild(domElem);
+      }
       this.appRef.detachView(this.tooltipComponentRef.hostView);
       this.tooltipComponentRef.destroy();
       this.tooltipComponentRef = null;
@@ -139,10 +122,9 @@ export class TooltipService {
     content: string | TemplateRef<any>,
     placement: "top" | "bottom" | "left" | "right",
     shortcutKeys?: string[],
-    context?: any
+    context?: any,
   ): ComponentRef<TooltipComponent> {
-    const componentFactory =
-      this.componentFactoryResolver.resolveComponentFactory(TooltipComponent);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(TooltipComponent);
     const componentRef = componentFactory.create(this.injector);
 
     componentRef.instance.content = content;
@@ -155,8 +137,7 @@ export class TooltipService {
     }
 
     this.appRef.attachView(componentRef.hostView);
-    const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
-      .rootNodes[0] as HTMLElement;
+    const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
     document.body.appendChild(domElem);
 
     return componentRef;
@@ -166,7 +147,7 @@ export class TooltipService {
     rect: DOMRect,
     tooltipRect: DOMRect,
     placement: "top" | "bottom" | "left" | "right",
-    offset: number
+    offset: number,
   ): { t: number; l: number } {
     let t = 0;
     let l = 0;
@@ -195,7 +176,7 @@ export class TooltipService {
     rect: DOMRect,
     tooltipRect: DOMRect,
     placement: "top" | "bottom" | "left" | "right",
-    offset: number
+    offset: number,
   ): { top: number; left: number } {
     let { t: top, l: left } = this.calculatePosition(rect, tooltipRect, placement, offset);
 
@@ -241,19 +222,14 @@ export class TooltipService {
     return { top, left };
   }
 
-  private setPosition(
-    rect: DOMRect,
-    placement: "top" | "bottom" | "left" | "right"
-  ): Promise<void> {
+  private setPosition(rect: DOMRect, placement: "top" | "bottom" | "left" | "right"): Promise<void> {
     return new Promise((resolve) => {
       if (!this.tooltipComponentRef) {
         resolve();
         return;
       }
 
-      const domElem = (
-        this.tooltipComponentRef.hostView as EmbeddedViewRef<any>
-      ).rootNodes[0] as HTMLElement;
+      const domElem = (this.tooltipComponentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
 
       // We need to render it slightly offscreen to get its dimensions if not already known,
       // but the position is absolute, so we can just set it.
@@ -269,7 +245,7 @@ export class TooltipService {
         const offset = 12; // distance from element
 
         let { top, left } = this.adjustPlacementToFit(rect, tooltipRect, placement, offset);
-        
+
         const bounded = this.ensureWithinBounds(top, left, tooltipRect);
         top = bounded.top + window.scrollY;
         left = bounded.left + window.scrollX;
