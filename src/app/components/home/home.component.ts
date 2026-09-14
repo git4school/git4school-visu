@@ -15,6 +15,8 @@ import { environment } from "../../../environments/environment";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
+  version = environment.version;
+
   /**
    * HomeComponent constructor
    * @param authService The service managing authentication
@@ -27,10 +29,10 @@ export class HomeComponent implements OnInit {
     private customModalService: CustomModalService
   ) {}
 
-  version = environment.version;
-
   ngOnInit() {
-    window.addEventListener("git4school:open-accounts-modal", () => this.onAddAccount());
+    window.addEventListener("git4school:open-accounts-modal", () =>
+      this.onAddAccount()
+    );
   }
 
   onAddAccount() {

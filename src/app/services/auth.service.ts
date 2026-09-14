@@ -31,7 +31,8 @@ export class AuthService {
     null;
   username: string | null = localStorage.getItem("github_username") || null;
   avatarUrl: string | null = localStorage.getItem("github_avatar") || null;
-  displayName: string | null = localStorage.getItem("github_display_name") || null;
+  displayName: string | null =
+    localStorage.getItem("github_display_name") || null;
   loading = false;
 
   public authChange$ = new BehaviorSubject<AuthState>({
@@ -61,20 +62,7 @@ export class AuthService {
   ) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        if (!this.username) {
-          this.username =
-            (user as any).reloadUserInfo?.screenName ||
-            user.displayName ||
-            localStorage.getItem("github_username") ||
-            null;
-        }
-        if (!this.avatarUrl && user.photoURL) {
-          this.avatarUrl = user.photoURL;
-        }
-        if (!this.displayName && user.displayName) {
-          this.displayName = user.displayName;
-        }
-        this.notifyAuthChange();
+        this.syncUserFromFirebase(user);
       }
     });
 
@@ -163,22 +151,56 @@ export class AuthService {
             this.loading = false;
           });
       } else if (user && this.isSignedIn()) {
-        if (!this.username) {
-          this.username =
-            (user as any).reloadUserInfo?.screenName ||
-            user.displayName ||
-            localStorage.getItem("github_username") ||
-            null;
+        this.syncUserFromFirebase(user);
+      }
+    });
+  }
+
+  async fetchUserProfile(): Promise<void> {
+    if (!this.token) return;
+    try {
+      const profile: any = await this.http
+        .get("https://api.github.com/user", {
+          headers: new HttpHeaders({
+            Authorization: "token " + this.token,
+          }),
+        })
+        .toPromise();
+      if (profile) {
+        this.username = profile.login || this.username;
+        this.avatarUrl = profile.avatar_url || this.avatarUrl;
+        this.displayName = profile.name || profile.login || this.displayName;
+        if (this.username) {
+          localStorage.setItem("github_username", this.username);
         }
-        if (!this.avatarUrl && user.photoURL) {
-          this.avatarUrl = user.photoURL;
+        if (this.avatarUrl) {
+          localStorage.setItem("github_avatar", this.avatarUrl);
         }
-        if (!this.displayName && user.displayName) {
-          this.displayName = user.displayName;
+        if (this.displayName) {
+          localStorage.setItem("github_display_name", this.displayName);
         }
         this.notifyAuthChange();
       }
-    });
+    } catch (e) {
+      console.warn("Could not fetch GitHub profile via API:", e);
+    }
+  }
+
+  private syncUserFromFirebase(user: any) {
+    if (!this.username) {
+      this.username =
+        user.reloadUserInfo?.screenName ||
+        user.displayName ||
+        localStorage.getItem("github_username") ||
+        null;
+    }
+    if (!this.avatarUrl && user.photoURL) {
+      this.avatarUrl = user.photoURL;
+    }
+    if (!this.displayName && user.displayName) {
+      this.displayName = user.displayName;
+    }
+    this.notifyAuthChange();
   }
 
   private handleAuthResult(result: any) {
@@ -207,30 +229,6 @@ export class AuthService {
     }
   }
 
-  async fetchUserProfile(): Promise<void> {
-    if (!this.token) return;
-    try {
-      const profile: any = await this.http
-        .get("https://api.github.com/user", {
-          headers: new HttpHeaders({
-            Authorization: "token " + this.token,
-          }),
-        })
-        .toPromise();
-      if (profile) {
-        this.username = profile.login || this.username;
-        this.avatarUrl = profile.avatar_url || this.avatarUrl;
-        this.displayName = profile.name || profile.login || this.displayName;
-        if (this.username) localStorage.setItem("github_username", this.username);
-        if (this.avatarUrl) localStorage.setItem("github_avatar", this.avatarUrl);
-        if (this.displayName) localStorage.setItem("github_display_name", this.displayName);
-        this.notifyAuthChange();
-      }
-    } catch (e) {
-      console.warn("Could not fetch GitHub profile via API:", e);
-    }
-  }
-
   private notifyAuthChange() {
     this.authChange$.next({
       isSignedIn: !!this.token,
@@ -241,4 +239,3 @@ export class AuthService {
     });
   }
 }
-

@@ -137,9 +137,7 @@ export function appInitializerFactory(
     AccountsComponent,
     AddAccountModalComponent,
   ],
-  entryComponents: [
-    AddAccountModalComponent,
-  ],
+  entryComponents: [AddAccountModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

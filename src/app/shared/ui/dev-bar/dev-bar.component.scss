@@ -27,6 +27,12 @@
   user-select: none;
   transition: transform $transition-fast, box-shadow $transition-fast, border-color $transition-fast;
 
+  .toggle-icon {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    transition: color $transition-fast;
+  }
+
   &:hover {
     transform: translateY(-1px);
     border-color: var(--color-primary);
@@ -48,7 +54,7 @@
     padding: 0.1rem 0.35rem;
     border-radius: 4px;
     background-color: #f59e0b;
-    color: #ffffff;
+    color: #fff;
   }
 
   .fps-pill {
@@ -67,22 +73,21 @@
 
     &.fps-good {
       color: var(--color-success);
+
       .dot { background-color: var(--color-success); }
     }
+
     &.fps-medium {
       color: var(--color-warning);
+
       .dot { background-color: var(--color-warning); }
     }
+
     &.fps-bad {
       color: var(--color-danger);
+
       .dot { background-color: var(--color-danger); }
     }
-  }
-
-  .toggle-icon {
-    font-size: 0.65rem;
-    color: var(--color-text-muted);
-    transition: color $transition-fast;
   }
 }
 
@@ -112,6 +117,7 @@
   @media (max-width: 900px) {
     overflow-x: auto;
     scrollbar-width: none;
+
     &::-webkit-scrollbar {
       display: none;
     }
@@ -133,7 +139,7 @@
   padding: 0.1rem 0.4rem;
   border-radius: 4px;
   background-color: #f59e0b;
-  color: #ffffff;
+  color: #fff;
 }
 
 .metric-pill {
@@ -158,14 +164,19 @@
 
   &.fps-good {
     color: var(--color-success);
+
     .metric-dot { background-color: var(--color-success); }
   }
+
   &.fps-medium {
     color: var(--color-warning);
+
     .metric-dot { background-color: var(--color-warning); }
   }
+
   &.fps-bad {
     color: var(--color-danger);
+
     .metric-dot { background-color: var(--color-danger); }
   }
 
@@ -266,7 +277,7 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: #ffffff;
+      background-color: #fff;
       transition: transform $transition-fast;
     }
   }
@@ -364,6 +375,7 @@
     opacity: 0;
     transform: translate(-50%, 6px);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, 0);
@@ -398,10 +410,12 @@
     background-color: rgba(5, 150, 105, 0.1);
     color: var(--color-success);
   }
+
   &.toast-warning:hover {
     background-color: rgba(217, 119, 6, 0.1);
     color: var(--color-warning);
   }
+
   &.toast-error:hover {
     background-color: var(--color-danger-bg);
     color: var(--color-danger);

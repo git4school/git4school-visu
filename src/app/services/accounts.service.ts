@@ -7,23 +7,18 @@ import { Account } from "@models/Account.model";
   providedIn: "root",
 })
 export class AccountsService implements OnDestroy {
-  private accountsSubject = new BehaviorSubject<Account[]>([]);
-  public accounts$: Observable<Account[]> = this.accountsSubject.asObservable();
+  public accounts$: Observable<Account[]>;
 
+  private accountsSubject = new BehaviorSubject<Account[]>([]);
   private authSubscription: Subscription;
 
   constructor(public authService: AuthService) {
+    this.accounts$ = this.accountsSubject.asObservable();
     this.updateAccounts();
 
     this.authSubscription = this.authService.authChange$.subscribe(() => {
       this.updateAccounts();
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
   }
 
   get currentAccounts(): Account[] {
@@ -32,6 +27,38 @@ export class AccountsService implements OnDestroy {
 
   get isGithubConnected(): boolean {
     return !!this.authService.isSignedIn();
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
+
+  disconnectAccount(id: string): void {
+    const target = this.currentAccounts.find((a) => a.id === id);
+    if (target && (target.provider === "github" || id === "acc-github-real")) {
+      this.authService.signOut();
+    }
+  }
+
+  isEmpty(): boolean {
+    return this.currentAccounts.length === 0;
+  }
+
+  getProfileUrl(
+    account:
+      | Account
+      | { instanceHost?: string; username?: string; provider?: string }
+  ): string {
+    if (!account || !account.username) {
+      return "#";
+    }
+    const host =
+      account.instanceHost ||
+      (account.provider === "github" ? "github.com" : "gitlab.com");
+    const cleanHost = host.replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
+    return `https://${cleanHost}/${encodeURIComponent(account.username)}`;
   }
 
   private buildRealGithubAccount(): Account | null {
@@ -65,29 +92,5 @@ export class AccountsService implements OnDestroy {
       list.push(realGithub);
     }
     this.accountsSubject.next(list);
-  }
-
-  disconnectAccount(id: string): void {
-    const target = this.currentAccounts.find((a) => a.id === id);
-    if (target && (target.provider === "github" || id === "acc-github-real")) {
-      this.authService.signOut();
-    }
-  }
-
-  isEmpty(): boolean {
-    return this.currentAccounts.length === 0;
-  }
-
-  getProfileUrl(
-    account: Account | { instanceHost?: string; username?: string; provider?: string }
-  ): string {
-    if (!account || !account.username) {
-      return "#";
-    }
-    const host =
-      account.instanceHost ||
-      (account.provider === "github" ? "github.com" : "gitlab.com");
-    const cleanHost = host.replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
-    return `https://${cleanHost}/${encodeURIComponent(account.username)}`;
   }
 }

@@ -12,7 +12,7 @@ import { DevFlagsService } from "@services/dev-flags.service";
   styleUrls: ["./add-account-modal.component.scss"],
 })
 export class AddAccountModalComponent implements OnInit, OnDestroy {
-  selectedPlatform: 'github' | 'gitlab-cloud' | 'gitlab-custom' = 'github';
+  selectedPlatform: "github" | "gitlab-cloud" | "gitlab-custom" = "github";
   isConnecting = false;
   isConfirmingDisconnect = false;
   errorMessage = "";
@@ -39,42 +39,6 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
     return user ? `https://github.com/${user}` : "https://github.com";
   }
 
-  ngOnInit(): void {
-    this.selectedPlatform = "github";
-
-    // Watch flags: if active platform is disabled, reset to github
-    this.flagsSub = this.devFlagsService.gitlabCloudEnabled$.subscribe((enabled) => {
-      if (!enabled && this.selectedPlatform === "gitlab-cloud") {
-        this.selectedPlatform = "github";
-      }
-    });
-
-    this.flagsSub.add(
-      this.devFlagsService.gitlabCustomEnabled$.subscribe((enabled) => {
-        if (!enabled && this.selectedPlatform === "gitlab-custom") {
-          this.selectedPlatform = "github";
-        }
-      })
-    );
-  }
-
-  ngOnDestroy(): void {
-    if (this.flagsSub) {
-      this.flagsSub.unsubscribe();
-    }
-  }
-
-  selectPlatform(platform: 'github' | 'gitlab-cloud' | 'gitlab-custom'): void {
-    if (platform === "gitlab-cloud" && !this.devFlagsService.gitlabCloudEnabled) {
-      return;
-    }
-    if (platform === "gitlab-custom" && !this.devFlagsService.gitlabCustomEnabled) {
-      return;
-    }
-    this.selectedPlatform = platform;
-    this.errorMessage = "";
-  }
-
   @HostListener("document:keydown.escape", ["$event"])
   onEscape(event: KeyboardEvent): void {
     if (this.isConfirmingDisconnect) {
@@ -93,6 +57,50 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnInit(): void {
+    this.selectedPlatform = "github";
+
+    /* Watch flags: if active platform is disabled, reset to github */
+    this.flagsSub = this.devFlagsService.gitlabCloudEnabled$.subscribe(
+      (enabled) => {
+        if (!enabled && this.selectedPlatform === "gitlab-cloud") {
+          this.selectedPlatform = "github";
+        }
+      }
+    );
+
+    this.flagsSub.add(
+      this.devFlagsService.gitlabCustomEnabled$.subscribe((enabled) => {
+        if (!enabled && this.selectedPlatform === "gitlab-custom") {
+          this.selectedPlatform = "github";
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.flagsSub) {
+      this.flagsSub.unsubscribe();
+    }
+  }
+
+  selectPlatform(platform: "github" | "gitlab-cloud" | "gitlab-custom"): void {
+    if (
+      platform === "gitlab-cloud" &&
+      !this.devFlagsService.gitlabCloudEnabled
+    ) {
+      return;
+    }
+    if (
+      platform === "gitlab-custom" &&
+      !this.devFlagsService.gitlabCustomEnabled
+    ) {
+      return;
+    }
+    this.selectedPlatform = platform;
+    this.errorMessage = "";
+  }
+
   async submitConnect(): Promise<void> {
     this.isConnecting = true;
     this.errorMessage = "";
@@ -104,11 +112,15 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
     } catch (err: any) {
       this.isConnecting = false;
       if (err?.code === "auth/popup-closed-by-user") {
-        this.errorMessage = this.translateService.instant("ACCOUNTS.POPUP_CLOSED");
+        this.errorMessage = this.translateService.instant(
+          "ACCOUNTS.POPUP_CLOSED"
+        );
       } else if (err?.message) {
         this.errorMessage = err.message;
       } else {
-        this.errorMessage = this.translateService.instant("ACCOUNTS.LOGIN_ERROR");
+        this.errorMessage = this.translateService.instant(
+          "ACCOUNTS.LOGIN_ERROR"
+        );
       }
     }
   }
@@ -118,7 +130,8 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
     this.errorMessage = "";
     setTimeout(() => {
       this.isConnecting = false;
-      this.errorMessage = "La connexion GitLab OAuth est en cours de développement.";
+      this.errorMessage =
+        "La connexion GitLab OAuth est en cours de développement.";
     }, 600);
   }
 

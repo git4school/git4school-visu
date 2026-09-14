@@ -40,7 +40,12 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   wasClicked = false;
   recentAssignments: Assignment[] = [];
   totalAssignmentsCount = 0;
-  displayLimit: number | 'all' = 5;
+  displayLimit: number | "all" = 5;
+  langNames: { [key: string]: string } = {
+    en: "English",
+    fr: "Français",
+    ru: "Русский",
+  };
   private dbSubscription: Subscription;
   private authSub: Subscription;
 
@@ -61,9 +66,9 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    const savedLimit = localStorage.getItem('recentAssignmentsLimit');
-    if (savedLimit === 'all') {
-      this.displayLimit = 'all';
+    const savedLimit = localStorage.getItem("recentAssignmentsLimit");
+    if (savedLimit === "all") {
+      this.displayLimit = "all";
     } else if (savedLimit) {
       this.displayLimit = parseInt(savedLimit, 10);
     }
@@ -127,7 +132,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
       return dateB - dateA;
     });
 
-    if (this.displayLimit !== 'all') {
+    if (this.displayLimit !== "all") {
       filtered = filtered.slice(0, this.displayLimit);
     }
 
@@ -194,22 +199,21 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     if (this.displayLimit === 5) {
       this.displayLimit = 10;
     } else if (this.displayLimit === 10) {
-      this.displayLimit = 'all';
+      this.displayLimit = "all";
     } else {
       this.displayLimit = 5;
     }
-    localStorage.setItem('recentAssignmentsLimit', String(this.displayLimit));
+    localStorage.setItem("recentAssignmentsLimit", String(this.displayLimit));
     this.loadRecentAssignments();
   }
 
-  langNames: { [key: string]: string } = {
-    en: "English",
-    fr: "Français",
-    ru: "Русский",
-  };
-
   get currentLang() {
-    return this.translateService.currentLang || localStorage.getItem("language") || this.translateService.defaultLang || "en";
+    return (
+      this.translateService.currentLang ||
+      localStorage.getItem("language") ||
+      this.translateService.defaultLang ||
+      "en"
+    );
   }
 
   changeLanguage(language: string) {

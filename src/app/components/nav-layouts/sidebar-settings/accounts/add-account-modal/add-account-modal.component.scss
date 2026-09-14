@@ -97,6 +97,106 @@
     box-shadow: 0 0 0 1px var(--color-primary), var(--shadow-sm);
   }
 
+  .card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+  }
+
+  .platform-icon-squircle {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background-color: var(--color-bg-body);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    &.github {
+      color: var(--color-github);
+    }
+
+    &.gitlab,
+    &.gitlab-custom {
+      color: var(--color-gitlab);
+    }
+
+    .sub-icon {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .server-svg {
+        width: 6px;
+        height: 6px;
+      }
+    }
+  }
+
+  .brand-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    line-height: 1.2;
+
+    &.connected {
+      background-color: var(--badge-ongoing-bg);
+      color: var(--badge-ongoing-text);
+      border: 1px solid var(--badge-ongoing-border);
+
+      .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: var(--color-success);
+      }
+    }
+
+    &.coming-soon {
+      background-color: var(--color-hover);
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+      font-weight: 500;
+      font-size: 0.58rem;
+    }
+  }
+
+  .platform-info {
+    display: flex;
+    flex-direction: column;
+
+    .platform-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-on-surface);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
   &.is-disabled {
     background-color: var(--color-bg-body);
     border-color: var(--color-border);
@@ -111,107 +211,6 @@
     .platform-name {
       color: var(--color-text-secondary);
     }
-  }
-}
-
-.card-top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.25rem;
-}
-
-.platform-icon-squircle {
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
-  background-color: var(--color-bg-body);
-  border: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-
-  .brand-svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  &.github {
-    color: var(--color-github);
-  }
-
-  &.gitlab,
-  &.gitlab-custom {
-    color: var(--color-gitlab);
-  }
-
-  .sub-icon {
-    position: absolute;
-    bottom: -2px;
-    right: -2px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .server-svg {
-      width: 6px;
-      height: 6px;
-    }
-  }
-}
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.1rem 0.45rem;
-  border-radius: 9999px;
-  font-size: 0.6rem;
-  font-weight: 600;
-  line-height: 1.2;
-
-  &.connected {
-    background-color: var(--badge-ongoing-bg);
-    color: var(--badge-ongoing-text);
-    border: 1px solid var(--badge-ongoing-border);
-
-    .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: var(--color-success);
-    }
-  }
-
-
-  &.coming-soon {
-    background-color: var(--color-hover);
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border);
-    font-weight: 500;
-    font-size: 0.58rem;
-  }
-}
-
-.platform-info {
-  display: flex;
-  flex-direction: column;
-
-  .platform-name {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-on-surface);
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 
@@ -431,7 +430,7 @@
   }
 }
 
-// Common button base (slightly rectangular like other app buttons, no default border/bg, hover bg)
+/* Common button base (slightly rectangular like other app buttons, no default border/bg, hover bg) */
 .btn-action-pill {
   display: inline-flex;
   align-items: center;
@@ -457,13 +456,56 @@
     transform: scale(0.96);
   }
 
-  // Prevent internal elements from intercepting mouse events and triggering hover flicker
+  /* Prevent internal elements from intercepting mouse events and triggering hover flicker */
   * {
     pointer-events: none;
   }
 }
 
-// Primary Action Button (Disconnect -> moves left and morphs into Confirmer)
+/* Secondary Action Button (Reveals at right: 0 when confirming) */
+.btn-cancel-action {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 88px;
+  height: 32px;
+  gap: 0.45rem;
+  color: var(--color-text-secondary);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: transform 160ms ease-in,
+              opacity 140ms ease-in,
+              visibility 160ms,
+              background-color $transition-fast,
+              color $transition-fast;
+
+  svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background-color: var(--color-hover);
+    color: var(--color-on-surface);
+  }
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+    transition: transform 260ms $ease-spring-out 60ms,
+                opacity 200ms ease-out 60ms,
+                visibility 200ms 60ms,
+                background-color $transition-fast,
+                color $transition-fast;
+  }
+}
+
+/* Primary Action Button (Disconnect -> moves left and morphs into Confirmer) */
 .btn-disconnect-action {
   position: absolute;
   right: 0;
@@ -487,7 +529,7 @@
     transform: translate3d(-96px, 0, 0);
     background-color: var(--color-danger);
     border-color: var(--color-danger);
-    color: #ffffff;
+    color: #fff;
     box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
 
     &:hover:not(:disabled) {
@@ -562,49 +604,6 @@
   }
 }
 
-// Secondary Action Button (Reveals at right: 0 when confirming)
-.btn-cancel-action {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 88px;
-  height: 32px;
-  gap: 0.45rem;
-  color: var(--color-text-secondary);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: scale(0.85);
-  transition: transform 160ms ease-in,
-              opacity 140ms ease-in,
-              visibility 160ms,
-              background-color $transition-fast,
-              color $transition-fast;
-
-  svg {
-    width: 12px;
-    height: 12px;
-    flex-shrink: 0;
-  }
-
-  &:hover {
-    background-color: var(--color-hover);
-    color: var(--color-on-surface);
-  }
-
-  &.is-visible {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: scale(1);
-    transition: transform 260ms $ease-spring-out 60ms,
-                opacity 200ms ease-out 60ms,
-                visibility 200ms 60ms,
-                background-color $transition-fast,
-                color $transition-fast;
-  }
-}
-
 /* Disconnected State */
 .disconnected-panel {
   padding: 0.5rem 0.25rem;
@@ -625,7 +624,7 @@
   justify-content: center;
   background-color: var(--color-primary);
   border: 1px solid var(--color-primary);
-  color: #ffffff;
+  color: #fff;
   padding: 0.55rem 1.6rem;
   border-radius: 9999px;
   font-size: 0.875rem;
@@ -636,6 +635,11 @@
   box-shadow: var(--shadow-sm);
   white-space: nowrap;
 
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
   &:hover:not(:disabled) {
     background-color: var(--color-primary-hover);
     border-color: var(--color-primary-hover);
@@ -645,11 +649,6 @@
 
   &:active:not(:disabled) {
     transform: scale(0.97);
-  }
-
-  &:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
   }
 }
 

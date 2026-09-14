@@ -42,23 +42,29 @@ export class DevBarComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  @HostListener("window:resize")
+  onResize(): void {
+    this.updateViewport();
+  }
+
   ngOnInit(): void {
     if (this.isProduction) {
       return;
     }
 
-    // Restore collapsed preference
+    /* Restore collapsed preference */
     try {
-      this.isCollapsed = localStorage.getItem("git4school_dev_bar_collapsed") === "true";
+      this.isCollapsed =
+        localStorage.getItem("git4school_dev_bar_collapsed") === "true";
     } catch (e) {
-      // Ignore localstorage error
+      /* Ignore localstorage error */
     }
 
     this.updateViewport();
     this.startFpsLoop();
     this.startMemoryMonitoring();
 
-    // Listen to route changes
+    /* Listen to route changes */
     this.currentRoute = this.router.url;
     this.routerSub = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -79,9 +85,98 @@ export class DevBarComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener("window:resize")
-  onResize(): void {
-    this.updateViewport();
+  toggleCollapse(): void {
+    this.isCollapsed = !this.isCollapsed;
+    this.activePopover = null;
+    try {
+      localStorage.setItem(
+        "git4school_dev_bar_collapsed",
+        String(this.isCollapsed)
+      );
+    } catch (e) {}
+  }
+
+  togglePopover(name: "toasts" | "modals" | "perf"): void {
+    this.activePopover = this.activePopover === name ? null : name;
+  }
+
+  closePopover(): void {
+    this.activePopover = null;
+  }
+
+  /* Toasts Testing Triggers */
+  triggerToast(type: "success" | "warning" | "error" | "copy"): void {
+    switch (type) {
+      case "success":
+        this.toastService.success(
+          "Succès (Test)",
+          "L'opération de test s'est déroulée avec succès."
+        );
+        break;
+      case "warning":
+        this.toastService.warning(
+          "Attention (Test)",
+          "Avertissement : validation ou quota intermédiaire."
+        );
+        break;
+      case "error":
+        this.toastService.error(
+          "Erreur (Test)",
+          "Échec simulé lors de la communication réseau."
+        );
+        break;
+      case "copy":
+        this.toastService.copy(
+          "Copié (Test)",
+          "Identifiant copié dans le presse-papier."
+        );
+        break;
+    }
+  }
+
+  /* Modals Quick Open */
+  openAccountsModal(): void {
+    window.dispatchEvent(new CustomEvent("git4school:open-accounts-modal"));
+    this.closePopover();
+  }
+
+  openShortcutsModal(): void {
+    this.customModalService.open(ShortcutsModalComponent, { size: "lg" });
+    this.closePopover();
+  }
+
+  /* Feature Flags */
+  toggleGitlabCloud(): void {
+    this.devFlagsService.toggleGitlabCloud();
+    const state = this.devFlagsService.gitlabCloudEnabled
+      ? "activé"
+      : "désactivé";
+    this.toastService.success("Feature Flag", `GitLab Cloud ${state}`);
+  }
+
+  toggleGitlabCustom(): void {
+    this.devFlagsService.toggleGitlabCustom();
+    const state = this.devFlagsService.gitlabCustomEnabled
+      ? "activé"
+      : "désactivé";
+    this.toastService.success("Feature Flag", `GitLab Auto-hébergé ${state}`);
+  }
+
+  /* Quick Utilities */
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
+
+  clearStorage(): void {
+    try {
+      localStorage.clear();
+      this.toastService.warning("Dev Bar", "LocalStorage intégralement vidé.");
+    } catch (e) {
+      this.toastService.error(
+        "Dev Bar",
+        "Impossible de vider le LocalStorage."
+      );
+    }
   }
 
   private updateViewport(): void {
@@ -124,77 +219,5 @@ export class DevBarComponent implements OnInit, OnDestroy {
     };
     updateMem();
     this.memoryIntervalId = setInterval(updateMem, 2500);
-  }
-
-  toggleCollapse(): void {
-    this.isCollapsed = !this.isCollapsed;
-    this.activePopover = null;
-    try {
-      localStorage.setItem("git4school_dev_bar_collapsed", String(this.isCollapsed));
-    } catch (e) {}
-  }
-
-  togglePopover(name: "toasts" | "modals" | "perf"): void {
-    this.activePopover = this.activePopover === name ? null : name;
-  }
-
-  closePopover(): void {
-    this.activePopover = null;
-  }
-
-  // Toasts Testing Triggers
-  triggerToast(type: "success" | "warning" | "error" | "copy"): void {
-    switch (type) {
-      case "success":
-        this.toastService.success("Succès (Test)", "L'opération de test s'est déroulée avec succès.");
-        break;
-      case "warning":
-        this.toastService.warning("Attention (Test)", "Avertissement : validation ou quota intermédiaire.");
-        break;
-      case "error":
-        this.toastService.error("Erreur (Test)", "Échec simulé lors de la communication réseau.");
-        break;
-      case "copy":
-        this.toastService.copy("Copié (Test)", "Identifiant copié dans le presse-papier.");
-        break;
-    }
-  }
-
-  // Modals Quick Open
-  openAccountsModal(): void {
-    window.dispatchEvent(new CustomEvent("git4school:open-accounts-modal"));
-    this.closePopover();
-  }
-
-  openShortcutsModal(): void {
-    this.customModalService.open(ShortcutsModalComponent, { size: "lg" });
-    this.closePopover();
-  }
-
-  // Feature Flags
-  toggleGitlabCloud(): void {
-    this.devFlagsService.toggleGitlabCloud();
-    const state = this.devFlagsService.gitlabCloudEnabled ? "activé" : "désactivé";
-    this.toastService.success("Feature Flag", `GitLab Cloud ${state}`);
-  }
-
-  toggleGitlabCustom(): void {
-    this.devFlagsService.toggleGitlabCustom();
-    const state = this.devFlagsService.gitlabCustomEnabled ? "activé" : "désactivé";
-    this.toastService.success("Feature Flag", `GitLab Auto-hébergé ${state}`);
-  }
-
-  // Quick Utilities
-  toggleTheme(): void {
-    this.themeService.toggleTheme();
-  }
-
-  clearStorage(): void {
-    try {
-      localStorage.clear();
-      this.toastService.warning("Dev Bar", "LocalStorage intégralement vidé.");
-    } catch (e) {
-      this.toastService.error("Dev Bar", "Impossible de vider le LocalStorage.");
-    }
   }
 }

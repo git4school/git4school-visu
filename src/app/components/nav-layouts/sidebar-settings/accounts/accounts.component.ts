@@ -17,8 +17,6 @@ export class AccountsComponent implements OnInit {
     private customModalService: CustomModalService
   ) {}
 
-  ngOnInit(): void {}
-
   @HostListener("document:keydown.escape")
   onEscape(): void {
     if (this.confirmDisconnectId) {
@@ -35,6 +33,8 @@ export class AccountsComponent implements OnInit {
       }
     }
   }
+
+  ngOnInit(): void {}
 
   onDisconnectClick(account: Account, event: MouseEvent): void {
     event.stopPropagation();

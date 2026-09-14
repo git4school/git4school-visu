@@ -165,7 +165,7 @@ $ease-spring-out: cubic-bezier(0.25, 1, 0.4, 1);
     min-width: 62px;
   }
 
-  // Primary morphing action button (Disconnect -> Confirm)
+  /* Primary morphing action button (Disconnect -> Confirm) */
   .btn-action-primary {
     position: absolute;
     right: 0;
@@ -205,27 +205,6 @@ $ease-spring-out: cubic-bezier(0.25, 1, 0.4, 1);
       transition-duration: 100ms;
     }
 
-    &.is-confirming {
-      transform: translate3d(-34px, 0, 0);
-      background-color: var(--color-danger);
-      border-color: var(--color-danger);
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
-
-      @media (hover: hover) and (pointer: fine) {
-        &:hover {
-          background-color: var(--color-danger);
-          filter: brightness(1.08);
-          box-shadow: 0 3px 10px rgba(220, 38, 38, 0.45);
-        }
-      }
-
-      &:active {
-        transform: translate3d(-34px, 0, 0) scale(0.94);
-        transition-duration: 100ms;
-      }
-    }
-
     .icon-layer {
       position: absolute;
       inset: 0;
@@ -253,6 +232,12 @@ $ease-spring-out: cubic-bezier(0.25, 1, 0.4, 1);
     }
 
     &.is-confirming {
+      transform: translate3d(-34px, 0, 0);
+      background-color: var(--color-danger);
+      border-color: var(--color-danger);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+
       .icon-disconnect {
         opacity: 0;
         transform: scale(0.6) rotate(-45deg);
@@ -264,10 +249,23 @@ $ease-spring-out: cubic-bezier(0.25, 1, 0.4, 1);
         transform: scale(1) rotate(0deg);
         filter: blur(0);
       }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: var(--color-danger);
+          filter: brightness(1.08);
+          box-shadow: 0 3px 10px rgba(220, 38, 38, 0.45);
+        }
+      }
+
+      &:active {
+        transform: translate3d(-34px, 0, 0) scale(0.94);
+        transition-duration: 100ms;
+      }
     }
   }
 
-  // Revealing secondary action button (Cancel)
+  /* Revealing secondary action button (Cancel) */
   .btn-action-cancel {
     position: absolute;
     right: 0;
@@ -406,7 +404,7 @@ $ease-spring-out: cubic-bezier(0.25, 1, 0.4, 1);
     border-radius: 9999px;
     background-color: var(--color-primary);
     border: 1px solid var(--color-primary);
-    color: #ffffff;
+    color: #fff;
     box-shadow: var(--shadow-sm);
     transition: all $transition-fast;
     outline: none;

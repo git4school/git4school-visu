@@ -18,52 +18,16 @@ const DEFAULT_FLAGS: DevFlagsState = {
   providedIn: "root",
 })
 export class DevFlagsService {
-  private gitlabCloudSubject = new BehaviorSubject<boolean>(false);
-  public gitlabCloudEnabled$: Observable<boolean> = this.gitlabCloudSubject.asObservable();
+  public gitlabCloudEnabled$: Observable<boolean>;
+  public gitlabCustomEnabled$: Observable<boolean>;
 
+  private gitlabCloudSubject = new BehaviorSubject<boolean>(false);
   private gitlabCustomSubject = new BehaviorSubject<boolean>(false);
-  public gitlabCustomEnabled$: Observable<boolean> = this.gitlabCustomSubject.asObservable();
 
   constructor() {
+    this.gitlabCloudEnabled$ = this.gitlabCloudSubject.asObservable();
+    this.gitlabCustomEnabled$ = this.gitlabCustomSubject.asObservable();
     this.initFlags();
-  }
-
-  private initFlags(): void {
-    if (environment.production) {
-      this.gitlabCloudSubject.next(false);
-      this.gitlabCustomSubject.next(false);
-      return;
-    }
-
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        this.gitlabCloudSubject.next(!!parsed.gitlabCloudEnabled);
-        this.gitlabCustomSubject.next(!!parsed.gitlabCustomEnabled);
-        return;
-      }
-    } catch (e) {
-      // Ignore parse errors in dev
-    }
-
-    this.gitlabCloudSubject.next(DEFAULT_FLAGS.gitlabCloudEnabled);
-    this.gitlabCustomSubject.next(DEFAULT_FLAGS.gitlabCustomEnabled);
-  }
-
-  private persist(): void {
-    if (environment.production) {
-      return;
-    }
-    const state: DevFlagsState = {
-      gitlabCloudEnabled: this.gitlabCloudSubject.value,
-      gitlabCustomEnabled: this.gitlabCustomSubject.value,
-    };
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {
-      // Ignore quota errors
-    }
   }
 
   get isProduction(): boolean {
@@ -88,7 +52,8 @@ export class DevFlagsService {
     if (environment.production) {
       return;
     }
-    const nextVal = force !== undefined ? force : !this.gitlabCloudSubject.value;
+    const nextVal =
+      force !== undefined ? force : !this.gitlabCloudSubject.value;
     this.gitlabCloudSubject.next(nextVal);
     this.persist();
   }
@@ -97,7 +62,8 @@ export class DevFlagsService {
     if (environment.production) {
       return;
     }
-    const nextVal = force !== undefined ? force : !this.gitlabCustomSubject.value;
+    const nextVal =
+      force !== undefined ? force : !this.gitlabCustomSubject.value;
     this.gitlabCustomSubject.next(nextVal);
     this.persist();
   }
@@ -109,5 +75,43 @@ export class DevFlagsService {
     this.gitlabCloudSubject.next(DEFAULT_FLAGS.gitlabCloudEnabled);
     this.gitlabCustomSubject.next(DEFAULT_FLAGS.gitlabCustomEnabled);
     this.persist();
+  }
+
+  private initFlags(): void {
+    if (environment.production) {
+      this.gitlabCloudSubject.next(false);
+      this.gitlabCustomSubject.next(false);
+      return;
+    }
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        this.gitlabCloudSubject.next(!!parsed.gitlabCloudEnabled);
+        this.gitlabCustomSubject.next(!!parsed.gitlabCustomEnabled);
+        return;
+      }
+    } catch (e) {
+      /* Ignore parse errors in dev */
+    }
+
+    this.gitlabCloudSubject.next(DEFAULT_FLAGS.gitlabCloudEnabled);
+    this.gitlabCustomSubject.next(DEFAULT_FLAGS.gitlabCustomEnabled);
+  }
+
+  private persist(): void {
+    if (environment.production) {
+      return;
+    }
+    const state: DevFlagsState = {
+      gitlabCloudEnabled: this.gitlabCloudSubject.value,
+      gitlabCustomEnabled: this.gitlabCustomSubject.value,
+    };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      /* Ignore quota errors */
+    }
   }
 }
