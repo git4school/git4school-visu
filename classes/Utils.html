@@ -185,7 +185,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="224" class="link-to-prism">src/app/services/utils.ts:224</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="228" class="link-to-prism">src/app/services/utils.ts:228</a></div>
                             </td>
                         </tr>
 
@@ -357,7 +357,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/services/utils.ts:106</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/services/utils.ts:110</a></div>
                         </td>
                     </tr>
 
@@ -562,8 +562,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">src/app/services/utils.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">src/app/services/utils.ts:77</a></div>
                 </td>
             </tr>
 
@@ -645,8 +645,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">src/app/services/utils.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">src/app/services/utils.ts:85</a></div>
                 </td>
             </tr>
 
@@ -728,8 +728,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="208"
-                            class="link-to-prism">src/app/services/utils.ts:208</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">src/app/services/utils.ts:212</a></div>
                 </td>
             </tr>
 
@@ -817,8 +817,8 @@ Strips owner prefix, template/squelette suffixes, and normalizes delimiters to h
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="181"
-                            class="link-to-prism">src/app/services/utils.ts:181</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">src/app/services/utils.ts:185</a></div>
                 </td>
             </tr>
 
@@ -888,8 +888,8 @@ Strips owner prefix, template/squelette suffixes, and normalizes delimiters to h
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/app/services/utils.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">src/app/services/utils.ts:68</a></div>
                 </td>
             </tr>
 
@@ -959,8 +959,8 @@ Strips owner prefix, template/squelette suffixes, and normalizes delimiters to h
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">src/app/services/utils.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">src/app/services/utils.ts:97</a></div>
                 </td>
             </tr>
 
@@ -1054,8 +1054,8 @@ Strips owner prefix, template/squelette suffixes, and normalizes delimiters to h
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">src/app/services/utils.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">src/app/services/utils.ts:196</a></div>
                 </td>
             </tr>
 
@@ -1172,17 +1172,21 @@ export class Utils {
   static readonly OVERVIEW_NAME_LENGTH_LIMIT &#x3D; 20;
   static readonly COMMIT_FUSE_RANGE &#x3D; 15;
   static readonly COMMIT_DATE_FORMAT &#x3D; (date: Date) &#x3D;&gt; {
+    if (!date) {
+      return &quot;&quot;;
+    }
+    const d &#x3D; date instanceof Date ? date : new Date(date);
     const options: Intl.NumberFormatOptions &#x3D; {
       useGrouping: false,
       minimumIntegerDigits: 2,
     };
 
-    let year &#x3D; date.getFullYear().toLocaleString(undefined, options);
-    let month &#x3D; date.getMonth().toLocaleString(undefined, options);
-    let day &#x3D; date.getDate().toLocaleString(undefined, options);
-    let hour &#x3D; date.getHours().toLocaleString(undefined, options);
-    let minute &#x3D; date.getMinutes().toLocaleString(undefined, options);
-    let seconds &#x3D; date.getSeconds().toLocaleString(undefined, options);
+    let year &#x3D; d.getFullYear().toLocaleString(undefined, options);
+    let month &#x3D; (d.getMonth() + 1).toLocaleString(undefined, options);
+    let day &#x3D; d.getDate().toLocaleString(undefined, options);
+    let hour &#x3D; d.getHours().toLocaleString(undefined, options);
+    let minute &#x3D; d.getMinutes().toLocaleString(undefined, options);
+    let seconds &#x3D; d.getSeconds().toLocaleString(undefined, options);
 
     return &#x60;${day}/${month}/${year} ${hour}:${minute}:${seconds}&#x60;;
   };

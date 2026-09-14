@@ -48,7 +48,7 @@
   <li>Interfaces</li>
   <li
   >
-  CustomModalOptions</li>
+  DevFlagsState</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -66,7 +66,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/shared/ui/custom-modal/custom-modal.service.ts</code>
+            <code>src/app/services/dev-flags.service.ts</code>
         </p>
 
 
@@ -85,17 +85,15 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#beforeDismiss" 
+                                        <a href="#gitlabCloudEnabled" 
 >
-                                            beforeDismiss
+                                            gitlabCloudEnabled
                                         </a>
                                 </li>
                                 <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#size" 
+                                        <a href="#gitlabCustomEnabled" 
 >
-                                            size
+                                            gitlabCustomEnabled
                                         </a>
                                 </li>
                             </ul>
@@ -113,9 +111,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="beforeDismiss"></a>
-                                        <span class="name "><b>beforeDismiss</b>
-                                            <a href="#beforeDismiss">
+                                        <a name="gitlabCloudEnabled"></a>
+                                        <span class="name "><b>gitlabCloudEnabled</b>
+                                            <a href="#gitlabCloudEnabled">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -123,7 +121,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>beforeDismiss:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>gitlabCloudEnabled:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -131,16 +129,11 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
 
 
 
@@ -151,9 +144,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="size"></a>
-                                        <span class="name "><b>size</b>
-                                            <a href="#size">
+                                        <a name="gitlabCustomEnabled"></a>
+                                        <span class="name "><b>gitlabCustomEnabled</b>
+                                            <a href="#gitlabCustomEnabled">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -161,7 +154,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>size:     <code>&quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; | &quot;xl&quot;</code>
+                                        <code>gitlabCustomEnabled:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -169,16 +162,11 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>&quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; | &quot;xl&quot;</code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
 
 
 
@@ -190,105 +178,105 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector, Type } from &quot;@angular/core&quot;;
-import { CustomModalContainerComponent } from &quot;./custom-modal-container/custom-modal-container.component&quot;;
-import { CustomModalRef } from &quot;./custom-modal-ref&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
+import { BehaviorSubject, Observable } from &quot;rxjs&quot;;
+import { environment } from &quot;../../environments/environment&quot;;
 
-export interface CustomModalOptions {
-  size?: &quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; | &quot;xl&quot;;
-  beforeDismiss?: () &#x3D;&gt; boolean | Promise&lt;boolean&gt;;
+export interface DevFlagsState {
+  gitlabCloudEnabled: boolean;
+  gitlabCustomEnabled: boolean;
 }
+
+const STORAGE_KEY &#x3D; &quot;git4school_dev_flags&quot;;
+
+const DEFAULT_FLAGS: DevFlagsState &#x3D; {
+  gitlabCloudEnabled: false,
+  gitlabCustomEnabled: false,
+};
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class CustomModalService {
-  private openModalsCount &#x3D; 0;
+export class DevFlagsService {
+  public gitlabCloudEnabled$: Observable&lt;boolean&gt;;
+  public gitlabCustomEnabled$: Observable&lt;boolean&gt;;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private appRef: ApplicationRef, private injector: Injector) {}
+  private gitlabCloudSubject &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
+  private gitlabCustomSubject &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
 
-  public hasOpenModals(): boolean {
-    return this.openModalsCount &gt; 0;
+  constructor() {
+    this.gitlabCloudEnabled$ &#x3D; this.gitlabCloudSubject.asObservable();
+    this.gitlabCustomEnabled$ &#x3D; this.gitlabCustomSubject.asObservable();
+    this.initFlags();
   }
 
-  public open&lt;T&gt;(componentType: Type&lt;T&gt;, options: CustomModalOptions &#x3D; {}): CustomModalRef {
-    this.openModalsCount++;
-    document.body.classList.add(&quot;custom-modal-open&quot;);
-    // 1. Create the container component (the overlay and modal dialog)
-    const containerFactory &#x3D; this.componentFactoryResolver.resolveComponentFactory(CustomModalContainerComponent);
-    const containerRef &#x3D; containerFactory.create(this.injector);
+  get isProduction(): boolean {
+    return !!environment.production;
+  }
 
-    // Set options
-    containerRef.instance.options &#x3D; options;
-
-    // Attach to ApplicationRef so change detection works
-    this.appRef.attachView(containerRef.hostView);
-
-    // Append to body
-    const domElem &#x3D; (containerRef.hostView as EmbeddedViewRef&lt;any&gt;).rootNodes[0] as HTMLElement;
-    document.body.appendChild(domElem);
-
-    // 2. Create the CustomModalRef to represent the modal instance
-    const customModalRef &#x3D; new CustomModalRef(containerRef.instance);
-
-    // 3. Set up the injector for the component to be loaded so it can inject CustomModalRef
-    const customInjector &#x3D; Injector.create({
-      providers: [{ provide: CustomModalRef, useValue: customModalRef }],
-      parent: this.injector,
-    });
-
-    // Force change detection so static ViewChild is resolved
-    containerRef.changeDetectorRef.detectChanges();
-
-    // Lock body scroll while modal is open
-    const previousBodyOverflow &#x3D; document.body.style.overflow;
-    document.body.style.overflow &#x3D; &quot;hidden&quot;;
-
-    try {
-      // 4. Load the target component inside the container using the custom injector
-      const componentFactory &#x3D; this.componentFactoryResolver.resolveComponentFactory(componentType);
-
-      containerRef.instance.modalContent.clear();
-      const contentRef &#x3D; containerRef.instance.modalContent.createComponent(componentFactory, 0, customInjector);
-      customModalRef.componentInstance &#x3D; contentRef.instance;
-
-      // Run change detection on the next tick so the caller has a chance to set inputs
-      setTimeout(() &#x3D;&gt; {
-        contentRef.changeDetectorRef.detectChanges();
-      });
-    } catch (err) {
-      document.body.classList.remove(&quot;custom-modal-open&quot;);
-      document.body.style.overflow &#x3D; previousBodyOverflow;
-      this.appRef.detachView(containerRef.hostView);
-      containerRef.destroy();
-      this.openModalsCount &#x3D; Math.max(0, this.openModalsCount - 1);
-      throw err;
+  get gitlabCloudEnabled(): boolean {
+    if (environment.production) {
+      return false;
     }
+    return this.gitlabCloudSubject.value;
+  }
 
-    // Handle backdrop clicks or programmatic dismiss via the container
-    containerRef.instance.setDismissCallback(async (reason) &#x3D;&gt; {
-      let shouldDismiss &#x3D; true;
-      if (options.beforeDismiss) {
-        shouldDismiss &#x3D; await Promise.resolve(options.beforeDismiss());
-      }
+  get gitlabCustomEnabled(): boolean {
+    if (environment.production) {
+      return false;
+    }
+    return this.gitlabCustomSubject.value;
+  }
 
-      if (shouldDismiss) {
-        customModalRef.dismiss(reason);
-      }
-    });
+  toggleGitlabCloud(force?: boolean): void {
+    this.setFlag(this.gitlabCloudSubject, force);
+  }
 
-    // Cleanup when modal closes
-    customModalRef.result.finally(() &#x3D;&gt; {
-      this.openModalsCount &#x3D; Math.max(0, this.openModalsCount - 1);
-      if (this.openModalsCount &#x3D;&#x3D;&#x3D; 0) {
-        document.body.classList.remove(&quot;custom-modal-open&quot;);
-      }
-      document.body.style.overflow &#x3D; previousBodyOverflow;
-      this.appRef.detachView(containerRef.hostView);
-      containerRef.destroy();
-    });
+  toggleGitlabCustom(force?: boolean): void {
+    this.setFlag(this.gitlabCustomSubject, force);
+  }
 
-    return customModalRef;
+  resetFlags(): void {
+    if (!this.isProduction) {
+      this.gitlabCloudSubject.next(DEFAULT_FLAGS.gitlabCloudEnabled);
+      this.gitlabCustomSubject.next(DEFAULT_FLAGS.gitlabCustomEnabled);
+      this.persist();
+    }
+  }
+
+  private setFlag(subject: BehaviorSubject&lt;boolean&gt;, force?: boolean): void {
+    if (!this.isProduction) {
+      subject.next(force !&#x3D;&#x3D; undefined ? force : !subject.value);
+      this.persist();
+    }
+  }
+
+  private initFlags(): void {
+    if (this.isProduction) {
+      return;
+    }
+    try {
+      const saved &#x3D; JSON.parse(localStorage.getItem(STORAGE_KEY) || &quot;{}&quot;);
+      this.gitlabCloudSubject.next(!!saved.gitlabCloudEnabled);
+      this.gitlabCustomSubject.next(!!saved.gitlabCustomEnabled);
+    } catch {
+      this.resetFlags();
+    }
+  }
+
+  private persist(): void {
+    if (this.isProduction) {
+      return;
+    }
+    try {
+      const state: DevFlagsState &#x3D; {
+        gitlabCloudEnabled: this.gitlabCloudSubject.value,
+        gitlabCustomEnabled: this.gitlabCustomSubject.value,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      /* Ignore quota errors */
+    }
   }
 }
 </code></pre>
@@ -328,7 +316,7 @@ export class CustomModalService {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'CustomModalOptions.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'DevFlagsState.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

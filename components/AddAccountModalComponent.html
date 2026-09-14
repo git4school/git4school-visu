@@ -1,0 +1,2785 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  AddAccountModalComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-add-account-modal</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./add-account-modal.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./add-account-modal.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#accountsService" >accountsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#devFlagsService" >devFlagsService</a>
+                            </li>
+                            <li>
+                                <a href="#errorMessage" >errorMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#flagsSub" >flagsSub</a>
+                            </li>
+                            <li>
+                                <a href="#gitlabInstanceUrl" >gitlabInstanceUrl</a>
+                            </li>
+                            <li>
+                                <a href="#gitlabToken" >gitlabToken</a>
+                            </li>
+                            <li>
+                                <a href="#isConfirmingDisconnect" >isConfirmingDisconnect</a>
+                            </li>
+                            <li>
+                                <a href="#isConnecting" >isConnecting</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#modalRef" >modalRef</a>
+                            </li>
+                            <li>
+                                <a href="#selectedPlatform" >selectedPlatform</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancelConfirmDisconnect" >cancelConfirmDisconnect</a>
+                            </li>
+                            <li>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                <a href="#disconnectGithub" >disconnectGithub</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onDisconnectClick" >onDisconnectClick</a>
+                            </li>
+                            <li>
+                                <a href="#onDocumentClick" >onDocumentClick</a>
+                            </li>
+                            <li>
+                                <a href="#onEscape" >onEscape</a>
+                            </li>
+                            <li>
+                                <a href="#selectPlatform" >selectPlatform</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#submitConnect" >submitConnect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#submitGitlabCloud" >submitGitlabCloud</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#submitGitlabCustom" >submitGitlabCustom</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#document:click" >document:click</a>
+                            </li>
+                            <li>
+                                <a href="#document:keydown.escape" >document:keydown.escape</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#isGithubConnected" >isGithubConnected</a>
+                                </li>
+                                <li>
+                                    <a href="#profileUrl" >profileUrl</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(modalRef: <a href="../classes/CustomModalRef.html" target="_self">CustomModalRef</a>, accountsService: <a href="../injectables/AccountsService.html" target="_self">AccountsService</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, devFlagsService: <a href="../injectables/DevFlagsService.html" target="_self">DevFlagsService</a>, translateService: TranslateService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:23</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>modalRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/CustomModalRef.html" target="_self" >CustomModalRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>accountsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AccountsService.html" target="_self" >AccountsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>devFlagsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DevFlagsService.html" target="_self" >DevFlagsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>translateService</td>
+                                                  
+                                                        <td>
+                                                                    <code>TranslateService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+    <section>
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:click"></a>
+                    <span class="name">
+                        <span ><b>document:click</b></span>
+                        <a href="#document:click"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:click(event: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:51</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:keydown.escape"></a>
+                    <span class="name">
+                        <span ><b>document:keydown.escape</b></span>
+                        <a href="#document:keydown.escape"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:keydown.escape(event: KeyboardEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:43</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelConfirmDisconnect"></a>
+                    <span class="name">
+                        <span ><b>cancelConfirmDisconnect</b></span>
+                        <a href="#cancelConfirmDisconnect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelConfirmDisconnect(event?: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:140</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="close"></a>
+                    <span class="name">
+                        <span ><b>close</b></span>
+                        <a href="#close"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>close()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:145</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="disconnectGithub"></a>
+                    <span class="name">
+                        <span ><b>disconnectGithub</b></span>
+                        <a href="#disconnectGithub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>disconnectGithub()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:135</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:75</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:58</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDisconnectClick"></a>
+                    <span class="name">
+                        <span ><b>onDisconnectClick</b></span>
+                        <a href="#onDisconnectClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDisconnectClick(event?: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:126</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDocumentClick"></a>
+                    <span class="name">
+                        <span ><b>onDocumentClick</b></span>
+                        <a href="#onDocumentClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDocumentClick(event: MouseEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:click&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:51</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEscape"></a>
+                    <span class="name">
+                        <span ><b>onEscape</b></span>
+                        <a href="#onEscape"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onEscape(event: KeyboardEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:keydown.escape&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:43</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>KeyboardEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectPlatform"></a>
+                    <span class="name">
+                        <span ><b>selectPlatform</b></span>
+                        <a href="#selectPlatform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectPlatform(platform: "github" | "gitlab-cloud" | "gitlab-custom")</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:79</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>platform</td>
+                                    <td>
+                                            <code>&quot;github&quot; | &quot;gitlab-cloud&quot; | &quot;gitlab-custom&quot;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitConnect"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>submitConnect</b></span>
+                        <a href="#submitConnect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>submitConnect()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:91</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitGitlabCloud"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>submitGitlabCloud</b></span>
+                        <a href="#submitGitlabCloud"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>submitGitlabCloud()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:108</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitGitlabCustom"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>submitGitlabCustom</b></span>
+                        <a href="#submitGitlabCustom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>submitGitlabCustom()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:117</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="accountsService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>accountsService</b></span>
+                        <a href="#accountsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AccountsService.html" target="_self" >AccountsService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="devFlagsService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>devFlagsService</b></span>
+                        <a href="#devFlagsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/DevFlagsService.html" target="_self" >DevFlagsService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorMessage"></a>
+                    <span class="name">
+                        <span ><b>errorMessage</b></span>
+                        <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="flagsSub"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>flagsSub</b></span>
+                        <a href="#flagsSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gitlabInstanceUrl"></a>
+                    <span class="name">
+                        <span ><b>gitlabInstanceUrl</b></span>
+                        <a href="#gitlabInstanceUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gitlabToken"></a>
+                    <span class="name">
+                        <span ><b>gitlabToken</b></span>
+                        <a href="#gitlabToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:21</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isConfirmingDisconnect"></a>
+                    <span class="name">
+                        <span ><b>isConfirmingDisconnect</b></span>
+                        <a href="#isConfirmingDisconnect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isConnecting"></a>
+                    <span class="name">
+                        <span ><b>isConnecting</b></span>
+                        <a href="#isConnecting"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="modalRef"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>modalRef</b></span>
+                        <a href="#modalRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/CustomModalRef.html" target="_self" >CustomModalRef</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedPlatform"></a>
+                    <span class="name">
+                        <span ><b>selectedPlatform</b></span>
+                        <a href="#selectedPlatform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;github&quot; | &quot;gitlab-cloud&quot; | &quot;gitlab-custom&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;github&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isGithubConnected"></a>
+                        <span class="name"><b>isGithubConnected</b><a href="#isGithubConnected"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isGithubConnected()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:33</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="profileUrl"></a>
+                        <span class="name"><b>profileUrl</b><a href="#profileUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>profileUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component.ts:37</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, HostListener, OnDestroy, OnInit } from &quot;@angular/core&quot;;
+import { Subscription } from &quot;rxjs&quot;;
+import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import { CustomModalRef } from &quot;@shared/ui/custom-modal/custom-modal-ref&quot;;
+import { AuthService } from &quot;@services/auth.service&quot;;
+import { AccountsService } from &quot;@services/accounts.service&quot;;
+import { DevFlagsService } from &quot;@services/dev-flags.service&quot;;
+
+@Component({
+  selector: &quot;app-add-account-modal&quot;,
+  templateUrl: &quot;./add-account-modal.component.html&quot;,
+  styleUrls: [&quot;./add-account-modal.component.scss&quot;],
+})
+export class AddAccountModalComponent implements OnInit, OnDestroy {
+  selectedPlatform: &quot;github&quot; | &quot;gitlab-cloud&quot; | &quot;gitlab-custom&quot; &#x3D; &quot;github&quot;;
+  isConnecting &#x3D; false;
+  isConfirmingDisconnect &#x3D; false;
+  errorMessage &#x3D; &quot;&quot;;
+
+  gitlabInstanceUrl &#x3D; &quot;&quot;;
+  gitlabToken &#x3D; &quot;&quot;;
+
+  private flagsSub: Subscription | null &#x3D; null;
+
+  constructor(
+    public modalRef: CustomModalRef,
+    public accountsService: AccountsService,
+    public authService: AuthService,
+    public devFlagsService: DevFlagsService,
+    private translateService: TranslateService,
+  ) {}
+
+  get isGithubConnected(): boolean {
+    return !!this.authService.isSignedIn();
+  }
+
+  get profileUrl(): string {
+    const user &#x3D; this.authService.username || &quot;&quot;;
+    return user ? &#x60;https://github.com/${user}&#x60; : &quot;https://github.com&quot;;
+  }
+
+  @HostListener(&quot;document:keydown.escape&quot;, [&quot;$event&quot;])
+  onEscape(event: KeyboardEvent): void {
+    if (this.isConfirmingDisconnect) {
+      event.stopImmediatePropagation();
+      this.isConfirmingDisconnect &#x3D; false;
+    }
+  }
+
+  @HostListener(&quot;document:click&quot;, [&quot;$event&quot;])
+  onDocumentClick(event: MouseEvent): void {
+    const target &#x3D; event.target as HTMLElement;
+    if (this.isConfirmingDisconnect &amp;&amp; !target?.closest(&quot;.action-buttons-group&quot;)) {
+      this.isConfirmingDisconnect &#x3D; false;
+    }
+  }
+
+  ngOnInit(): void {
+    this.selectedPlatform &#x3D; &quot;github&quot;;
+
+    this.flagsSub &#x3D; this.devFlagsService.gitlabCloudEnabled$.subscribe((enabled) &#x3D;&gt; {
+      if (!enabled &amp;&amp; this.selectedPlatform &#x3D;&#x3D;&#x3D; &quot;gitlab-cloud&quot;) {
+        this.selectedPlatform &#x3D; &quot;github&quot;;
+      }
+    });
+    this.flagsSub.add(
+      this.devFlagsService.gitlabCustomEnabled$.subscribe((enabled) &#x3D;&gt; {
+        if (!enabled &amp;&amp; this.selectedPlatform &#x3D;&#x3D;&#x3D; &quot;gitlab-custom&quot;) {
+          this.selectedPlatform &#x3D; &quot;github&quot;;
+        }
+      }),
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.flagsSub?.unsubscribe();
+  }
+
+  selectPlatform(platform: &quot;github&quot; | &quot;gitlab-cloud&quot; | &quot;gitlab-custom&quot;): void {
+    const allowed: Record&lt;string, boolean&gt; &#x3D; {
+      github: true,
+      &quot;gitlab-cloud&quot;: this.devFlagsService.gitlabCloudEnabled,
+      &quot;gitlab-custom&quot;: this.devFlagsService.gitlabCustomEnabled,
+    };
+    if (allowed[platform]) {
+      this.selectedPlatform &#x3D; platform;
+      this.errorMessage &#x3D; &quot;&quot;;
+    }
+  }
+
+  async submitConnect(): Promise&lt;void&gt; {
+    this.isConnecting &#x3D; true;
+    this.errorMessage &#x3D; &quot;&quot;;
+
+    try {
+      await this.authService.signIn();
+      this.modalRef.close();
+    } catch (err: any) {
+      this.errorMessage &#x3D;
+        err?.code &#x3D;&#x3D;&#x3D; &quot;auth/popup-closed-by-user&quot;
+          ? this.translateService.instant(&quot;ACCOUNTS.POPUP_CLOSED&quot;)
+          : err?.message || this.translateService.instant(&quot;ACCOUNTS.LOGIN_ERROR&quot;);
+    } finally {
+      this.isConnecting &#x3D; false;
+    }
+  }
+
+  async submitGitlabCloud(): Promise&lt;void&gt; {
+    this.isConnecting &#x3D; true;
+    this.errorMessage &#x3D; &quot;&quot;;
+    setTimeout(() &#x3D;&gt; {
+      this.isConnecting &#x3D; false;
+      this.errorMessage &#x3D; &quot;La connexion GitLab OAuth est en cours de développement.&quot;;
+    }, 600);
+  }
+
+  async submitGitlabCustom(): Promise&lt;void&gt; {
+    this.isConnecting &#x3D; true;
+    this.errorMessage &#x3D; &quot;&quot;;
+    setTimeout(() &#x3D;&gt; {
+      this.isConnecting &#x3D; false;
+      this.errorMessage &#x3D; &#x60;Vérification du token PAT pour l&#x27;instance &quot;${this.gitlabInstanceUrl}&quot;... (Mode Dev)&#x60;;
+    }, 600);
+  }
+
+  onDisconnectClick(event?: MouseEvent): void {
+    event?.stopPropagation();
+    if (this.isConfirmingDisconnect) {
+      this.disconnectGithub();
+    } else {
+      this.isConfirmingDisconnect &#x3D; true;
+    }
+  }
+
+  disconnectGithub(): void {
+    this.authService.signOut();
+    this.isConfirmingDisconnect &#x3D; false;
+  }
+
+  cancelConfirmDisconnect(event?: MouseEvent): void {
+    event?.stopPropagation();
+    this.isConfirmingDisconnect &#x3D; false;
+  }
+
+  close(): void {
+    this.modalRef.close();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;!-- Modal Header --&gt;
+&lt;div class&#x3D;&quot;modal-header border-bottom-0 pb-1 pt-4 d-flex justify-content-between align-items-center flex-nowrap w-100 px-4&quot;&gt;
+  &lt;div class&#x3D;&quot;d-flex align-items-center&quot;&gt;
+    &lt;div class&#x3D;&quot;modal-header-icon mr-3 d-flex align-items-center justify-content-center&quot;&gt;
+      &lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; width&#x3D;&quot;18&quot; height&#x3D;&quot;18&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+        &lt;path d&#x3D;&quot;M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2&quot;&gt;&lt;/path&gt;
+        &lt;circle cx&#x3D;&quot;8.5&quot; cy&#x3D;&quot;7&quot; r&#x3D;&quot;4&quot;&gt;&lt;/circle&gt;
+        &lt;line x1&#x3D;&quot;20&quot; y1&#x3D;&quot;8&quot; x2&#x3D;&quot;20&quot; y2&#x3D;&quot;14&quot;&gt;&lt;/line&gt;
+        &lt;line x1&#x3D;&quot;23&quot; y1&#x3D;&quot;11&quot; x2&#x3D;&quot;17&quot; y2&#x3D;&quot;11&quot;&gt;&lt;/line&gt;
+      &lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;h5 class&#x3D;&quot;modal-title m-0&quot;&gt;
+        {{ &#x27;ACCOUNTS.ADD_MODAL_TITLE&#x27; | translate }}
+      &lt;/h5&gt;
+      &lt;p class&#x3D;&quot;modal-subtitle mb-0&quot;&gt;
+        {{ &#x27;ACCOUNTS.ADD_MODAL_SUBTITLE&#x27; | translate }}
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button
+    type&#x3D;&quot;button&quot;
+    class&#x3D;&quot;btn btn-close-modal&quot;
+    (click)&#x3D;&quot;close()&quot;
+    [attr.aria-label]&#x3D;&quot;&#x27;ACCOUNTS.MODAL_CLOSE&#x27; | translate&quot;
+  &gt;
+    &lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;14&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+      &lt;line x1&#x3D;&quot;18&quot; y1&#x3D;&quot;6&quot; x2&#x3D;&quot;6&quot; y2&#x3D;&quot;18&quot;&gt;&lt;/line&gt;
+      &lt;line x1&#x3D;&quot;6&quot; y1&#x3D;&quot;6&quot; x2&#x3D;&quot;18&quot; y2&#x3D;&quot;18&quot;&gt;&lt;/line&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Modal Body --&gt;
+&lt;div class&#x3D;&quot;modal-body pt-3 pb-4 px-4&quot;&gt;
+  &lt;!-- Top: 3 Platform Selection Cards --&gt;
+  &lt;div class&#x3D;&quot;platform-cards-grid&quot;&gt;
+    &lt;!-- Card 1: GitHub (Active / Selected) --&gt;
+    &lt;div
+      class&#x3D;&quot;platform-card&quot;
+      [class.selected]&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;github&#x27;&quot;
+      (click)&#x3D;&quot;selectPlatform(&#x27;github&#x27;)&quot;
+      role&#x3D;&quot;button&quot;
+      tabindex&#x3D;&quot;0&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;card-top-row mb-1&quot;&gt;
+        &lt;div class&#x3D;&quot;platform-icon-squircle github&quot;&gt;
+          &lt;svg viewBox&#x3D;&quot;0 0 496 512&quot; class&#x3D;&quot;brand-svg&quot; fill&#x3D;&quot;currentColor&quot;&gt;
+            &lt;path d&#x3D;&quot;M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z&quot;/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+        &lt;span *ngIf&#x3D;&quot;isGithubConnected&quot; class&#x3D;&quot;status-pill connected&quot;&gt;
+          &lt;span class&#x3D;&quot;dot&quot;&gt;&lt;/span&gt;
+          {{ &#x27;ACCOUNTS.ACTIVE&#x27; | translate }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;platform-info&quot;&gt;
+        &lt;span class&#x3D;&quot;platform-name&quot;&gt;{{ &#x27;ACCOUNTS.PLATFORM_GITHUB_TITLE&#x27; | translate }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Card 2: GitLab.com --&gt;
+    &lt;div
+      class&#x3D;&quot;platform-card&quot;
+      [class.selected]&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;gitlab-cloud&#x27;&quot;
+      [class.is-disabled]&#x3D;&quot;!devFlagsService.gitlabCloudEnabled&quot;
+      [appTooltip]&#x3D;&quot;!devFlagsService.gitlabCloudEnabled ? (&#x27;ACCOUNTS.COMING_SOON_DESC&#x27; | translate) : &#x27;&#x27;&quot;
+      (click)&#x3D;&quot;selectPlatform(&#x27;gitlab-cloud&#x27;)&quot;
+      role&#x3D;&quot;button&quot;
+      tabindex&#x3D;&quot;0&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;card-top-row mb-1&quot;&gt;
+        &lt;div class&#x3D;&quot;platform-icon-squircle gitlab&quot;&gt;
+          &lt;svg viewBox&#x3D;&quot;0 0 512 512&quot; class&#x3D;&quot;brand-svg&quot; fill&#x3D;&quot;currentColor&quot;&gt;
+            &lt;path d&#x3D;&quot;M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z&quot;/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+        &lt;span *ngIf&#x3D;&quot;!devFlagsService.gitlabCloudEnabled&quot; class&#x3D;&quot;status-pill coming-soon&quot;&gt;
+          {{ &#x27;ACCOUNTS.COMING_SOON&#x27; | translate }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;platform-info&quot;&gt;
+        &lt;span class&#x3D;&quot;platform-name&quot;&gt;{{ &#x27;ACCOUNTS.PLATFORM_GITLAB_TITLE&#x27; | translate }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Card 3: GitLab auto-hébergé --&gt;
+    &lt;div
+      class&#x3D;&quot;platform-card&quot;
+      [class.selected]&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;gitlab-custom&#x27;&quot;
+      [class.is-disabled]&#x3D;&quot;!devFlagsService.gitlabCustomEnabled&quot;
+      [appTooltip]&#x3D;&quot;!devFlagsService.gitlabCustomEnabled ? (&#x27;ACCOUNTS.COMING_SOON_DESC&#x27; | translate) : &#x27;&#x27;&quot;
+      (click)&#x3D;&quot;selectPlatform(&#x27;gitlab-custom&#x27;)&quot;
+      role&#x3D;&quot;button&quot;
+      tabindex&#x3D;&quot;0&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;card-top-row mb-1&quot;&gt;
+        &lt;div class&#x3D;&quot;platform-icon-squircle gitlab-custom&quot;&gt;
+          &lt;svg viewBox&#x3D;&quot;0 0 512 512&quot; class&#x3D;&quot;brand-svg&quot; fill&#x3D;&quot;currentColor&quot;&gt;
+            &lt;path d&#x3D;&quot;M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z&quot;/&gt;
+          &lt;/svg&gt;
+          &lt;span class&#x3D;&quot;sub-icon&quot;&gt;
+            &lt;svg viewBox&#x3D;&quot;0 0 512 512&quot; class&#x3D;&quot;server-svg&quot; fill&#x3D;&quot;currentColor&quot;&gt;
+              &lt;path d&#x3D;&quot;M480 160H32c-17.673 0-32-14.327-32-32V64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24z&quot;/&gt;
+            &lt;/svg&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+        &lt;span *ngIf&#x3D;&quot;!devFlagsService.gitlabCustomEnabled&quot; class&#x3D;&quot;status-pill coming-soon&quot;&gt;
+          {{ &#x27;ACCOUNTS.COMING_SOON&#x27; | translate }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;platform-info&quot;&gt;
+        &lt;span class&#x3D;&quot;platform-name&quot;&gt;{{ &#x27;ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE&#x27; | translate }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Bottom: Refined Configuration Block for Selected Platform --&gt;
+  &lt;div class&#x3D;&quot;config-card&quot;&gt;
+    &lt;!-- Config Card Header --&gt;
+    &lt;div class&#x3D;&quot;config-card-header&quot;&gt;
+      &lt;div class&#x3D;&quot;d-flex align-items-center&quot;&gt;
+        &lt;div class&#x3D;&quot;config-brand-icon mr-2&quot; [ngClass]&#x3D;&quot;selectedPlatform&quot;&gt;
+          &lt;svg *ngIf&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;github&#x27;&quot; viewBox&#x3D;&quot;0 0 496 512&quot; class&#x3D;&quot;brand-svg&quot; fill&#x3D;&quot;currentColor&quot;&gt;
+            &lt;path d&#x3D;&quot;M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z&quot;/&gt;
+          &lt;/svg&gt;
+          &lt;svg *ngIf&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;gitlab-cloud&#x27;&quot; viewBox&#x3D;&quot;0 0 512 512&quot; class&#x3D;&quot;brand-svg&quot; fill&#x3D;&quot;currentColor&quot;&gt;
+            &lt;path d&#x3D;&quot;M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z&quot;/&gt;
+          &lt;/svg&gt;
+          &lt;span *ngIf&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;gitlab-custom&#x27;&quot; class&#x3D;&quot;gitlab-custom-icon-wrap&quot;&gt;
+            &lt;svg viewBox&#x3D;&quot;0 0 512 512&quot; class&#x3D;&quot;brand-svg&quot; fill&#x3D;&quot;currentColor&quot;&gt;
+              &lt;path d&#x3D;&quot;M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z&quot;/&gt;
+            &lt;/svg&gt;
+            &lt;svg viewBox&#x3D;&quot;0 0 512 512&quot; class&#x3D;&quot;sub-server-icon&quot; fill&#x3D;&quot;currentColor&quot;&gt;
+              &lt;path d&#x3D;&quot;M480 160H32c-17.673 0-32-14.327-32-32V64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24z&quot;/&gt;
+            &lt;/svg&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;span class&#x3D;&quot;config-brand-name&quot;&gt;
+            {{ (selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;github&#x27; ? &#x27;ACCOUNTS.PLATFORM_GITHUB_TITLE&#x27; : (selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;gitlab-cloud&#x27; ? &#x27;ACCOUNTS.PLATFORM_GITLAB_TITLE&#x27; : &#x27;ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE&#x27;)) | translate }}
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;config-brand-type ml-2&quot;&gt;
+            {{ selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;gitlab-custom&#x27; ? &#x27;Token PAT&#x27; : &#x27;OAuth 2.0&#x27; }}
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;span class&#x3D;&quot;scope-pill&quot;&gt;
+        &lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; width&#x3D;&quot;12&quot; height&#x3D;&quot;12&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; class&#x3D;&quot;mr-1&quot;&gt;
+          &lt;path d&#x3D;&quot;M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z&quot;&gt;&lt;/path&gt;
+        &lt;/svg&gt;
+        {{ &#x27;ACCOUNTS.SCOPE_LABEL&#x27; | translate }} : &lt;strong&gt;{{ selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;gitlab-custom&#x27; ? &#x27;read_api, read_user&#x27; : &#x27;repo&#x27; }}&lt;/strong&gt;
+      &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Config Card Content --&gt;
+    &lt;div class&#x3D;&quot;config-card-body&quot;&gt;
+      &lt;!-- 1. GITHUB SELECTED --&gt;
+      &lt;ng-container *ngIf&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;github&#x27;&quot;&gt;
+        &lt;!-- State A: When Connected --&gt;
+        &lt;div *ngIf&#x3D;&quot;isGithubConnected&quot; class&#x3D;&quot;connected-user-panel&quot;&gt;
+          &lt;div class&#x3D;&quot;user-profile-row&quot;&gt;
+            &lt;div class&#x3D;&quot;avatar-container mr-3&quot;&gt;
+              &lt;img
+                *ngIf&#x3D;&quot;authService.avatarUrl&quot;
+                [src]&#x3D;&quot;authService.avatarUrl&quot;
+                [alt]&#x3D;&quot;authService.username&quot;
+                class&#x3D;&quot;user-avatar-img&quot;
+                (error)&#x3D;&quot;authService.avatarUrl &#x3D; null&quot;
+              /&gt;
+              &lt;div *ngIf&#x3D;&quot;!authService.avatarUrl&quot; class&#x3D;&quot;user-avatar-fallback&quot;&gt;
+                {{ (authService.username || &#x27;G&#x27;).charAt(0).toUpperCase() }}
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;user-meta-group&quot;&gt;
+              &lt;div class&#x3D;&quot;username-link-row&quot;&gt;
+                &lt;a
+                  [href]&#x3D;&quot;profileUrl&quot;
+                  target&#x3D;&quot;_blank&quot;
+                  rel&#x3D;&quot;noopener noreferrer&quot;
+                  class&#x3D;&quot;username-link&quot;
+                  [appTooltip]&#x3D;&quot;authService.username || &#x27;GitHub&#x27;&quot;
+                  [onlyIfTruncated]&#x3D;&quot;true&quot;
+                &gt;
+                  &lt;span&gt;{{ authService.username || &#x27;GitHub&#x27; }}&lt;/span&gt;
+                  &lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; width&#x3D;&quot;11&quot; height&#x3D;&quot;11&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; class&#x3D;&quot;external-icon ml-1&quot;&gt;
+                    &lt;path d&#x3D;&quot;M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6&quot;&gt;&lt;/path&gt;
+                    &lt;polyline points&#x3D;&quot;15 3 21 3 21 9&quot;&gt;&lt;/polyline&gt;
+                    &lt;line x1&#x3D;&quot;10&quot; y1&#x3D;&quot;14&quot; x2&#x3D;&quot;21&quot; y2&#x3D;&quot;3&quot;&gt;&lt;/line&gt;
+                  &lt;/svg&gt;
+                &lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;action-buttons-group&quot; [class.is-confirming]&#x3D;&quot;isConfirmingDisconnect&quot;&gt;
+            &lt;!-- Primary Morphing Button: Disconnect -&gt; Confirm Disconnect --&gt;
+            &lt;button
+              type&#x3D;&quot;button&quot;
+              class&#x3D;&quot;btn-action-pill btn-disconnect-action&quot;
+              [class.is-confirming]&#x3D;&quot;isConfirmingDisconnect&quot;
+              (click)&#x3D;&quot;onDisconnectClick($event)&quot;
+              [disabled]&#x3D;&quot;isConnecting&quot;
+              [attr.aria-label]&#x3D;&quot;(isConfirmingDisconnect ? &#x27;CONFIRM&#x27; : &#x27;ACCOUNTS.DISCONNECT&#x27;) | translate&quot;
+            &gt;
+              &lt;span class&#x3D;&quot;btn-morph-content&quot;&gt;
+                &lt;!-- Normal Disconnect State --&gt;
+                &lt;span class&#x3D;&quot;morph-state normal-state&quot;&gt;
+                  &lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; width&#x3D;&quot;13&quot; height&#x3D;&quot;13&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                    &lt;path d&#x3D;&quot;M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4&quot;&gt;&lt;/path&gt;
+                    &lt;polyline points&#x3D;&quot;16 17 21 12 16 7&quot;&gt;&lt;/polyline&gt;
+                    &lt;line x1&#x3D;&quot;21&quot; y1&#x3D;&quot;12&quot; x2&#x3D;&quot;9&quot; y2&#x3D;&quot;12&quot;&gt;&lt;/line&gt;
+                  &lt;/svg&gt;
+                  &lt;span&gt;{{ &#x27;ACCOUNTS.DISCONNECT&#x27; | translate }}&lt;/span&gt;
+                &lt;/span&gt;
+
+                &lt;!-- Confirm Disconnect State --&gt;
+                &lt;span class&#x3D;&quot;morph-state confirm-state&quot;&gt;
+                  &lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; width&#x3D;&quot;13&quot; height&#x3D;&quot;13&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                    &lt;polyline points&#x3D;&quot;20 6 9 17 4 12&quot;&gt;&lt;/polyline&gt;
+                  &lt;/svg&gt;
+                  &lt;span&gt;{{ &#x27;CONFIRM&#x27; | translate }}&lt;/span&gt;
+                &lt;/span&gt;
+              &lt;/span&gt;
+            &lt;/button&gt;
+
+            &lt;!-- Secondary Revealing Button: Cancel --&gt;
+            &lt;button
+              type&#x3D;&quot;button&quot;
+              class&#x3D;&quot;btn-action-pill btn-cancel-action&quot;
+              [class.is-visible]&#x3D;&quot;isConfirmingDisconnect&quot;
+              (click)&#x3D;&quot;cancelConfirmDisconnect($event)&quot;
+              [attr.aria-label]&#x3D;&quot;&#x27;CANCEL&#x27; | translate&quot;
+              [attr.tabindex]&#x3D;&quot;isConfirmingDisconnect ? 0 : -1&quot;
+              [attr.aria-hidden]&#x3D;&quot;!isConfirmingDisconnect&quot;
+            &gt;
+              &lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; width&#x3D;&quot;12&quot; height&#x3D;&quot;12&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                &lt;line x1&#x3D;&quot;18&quot; y1&#x3D;&quot;6&quot; x2&#x3D;&quot;6&quot; y2&#x3D;&quot;18&quot;&gt;&lt;/line&gt;
+                &lt;line x1&#x3D;&quot;6&quot; y1&#x3D;&quot;6&quot; x2&#x3D;&quot;18&quot; y2&#x3D;&quot;18&quot;&gt;&lt;/line&gt;
+              &lt;/svg&gt;
+              &lt;span&gt;{{ &#x27;CANCEL&#x27; | translate }}&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- State B: When Disconnected --&gt;
+        &lt;div *ngIf&#x3D;&quot;!isGithubConnected&quot; class&#x3D;&quot;disconnected-panel text-center&quot;&gt;
+          &lt;p class&#x3D;&quot;auth-description mb-3&quot;&gt;
+            {{ &#x27;ACCOUNTS.OAUTH_FIREBASE_DESC&#x27; | translate:{ provider: &#x27;GitHub&#x27; } }}
+          &lt;/p&gt;
+
+          &lt;button
+            type&#x3D;&quot;button&quot;
+            class&#x3D;&quot;btn-connect-cta&quot;
+            (click)&#x3D;&quot;submitConnect()&quot;
+            [disabled]&#x3D;&quot;isConnecting&quot;
+          &gt;
+            &lt;span *ngIf&#x3D;&quot;isConnecting&quot; class&#x3D;&quot;spinner-border spinner-border-sm mr-2&quot; role&#x3D;&quot;status&quot;&gt;&lt;/span&gt;
+            &lt;svg *ngIf&#x3D;&quot;!isConnecting&quot; viewBox&#x3D;&quot;0 0 496 512&quot; width&#x3D;&quot;16&quot; height&#x3D;&quot;16&quot; fill&#x3D;&quot;currentColor&quot; class&#x3D;&quot;brand-svg mr-2&quot;&gt;
+              &lt;path d&#x3D;&quot;M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z&quot;/&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;{{ (isConnecting ? &#x27;ACCOUNTS.CONNECTING&#x27; : &#x27;ACCOUNTS.OAUTH_CONNECT_BTN&#x27;) | translate:{ provider: &#x27;GitHub&#x27; } }}&lt;/span&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/ng-container&gt;
+
+      &lt;!-- 2. GITLAB CLOUD SELECTED --&gt;
+      &lt;ng-container *ngIf&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;gitlab-cloud&#x27;&quot;&gt;
+        &lt;div class&#x3D;&quot;disconnected-panel text-center&quot;&gt;
+          &lt;p class&#x3D;&quot;auth-description mb-3&quot;&gt;
+            {{ &#x27;ACCOUNTS.OAUTH_FIREBASE_DESC&#x27; | translate:{ provider: &#x27;GitLab&#x27; } }}
+          &lt;/p&gt;
+
+          &lt;button
+            type&#x3D;&quot;button&quot;
+            class&#x3D;&quot;btn-connect-cta&quot;
+            (click)&#x3D;&quot;submitGitlabCloud()&quot;
+            [disabled]&#x3D;&quot;isConnecting&quot;
+          &gt;
+            &lt;span *ngIf&#x3D;&quot;isConnecting&quot; class&#x3D;&quot;spinner-border spinner-border-sm mr-2&quot; role&#x3D;&quot;status&quot;&gt;&lt;/span&gt;
+            &lt;svg *ngIf&#x3D;&quot;!isConnecting&quot; viewBox&#x3D;&quot;0 0 512 512&quot; width&#x3D;&quot;16&quot; height&#x3D;&quot;16&quot; fill&#x3D;&quot;currentColor&quot; class&#x3D;&quot;brand-svg mr-2&quot;&gt;
+              &lt;path d&#x3D;&quot;M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z&quot;/&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;{{ (isConnecting ? &#x27;ACCOUNTS.CONNECTING&#x27; : &#x27;ACCOUNTS.OAUTH_CONNECT_BTN&#x27;) | translate:{ provider: &#x27;GitLab&#x27; } }}&lt;/span&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/ng-container&gt;
+
+      &lt;!-- 3. GITLAB CUSTOM SELECTED --&gt;
+      &lt;ng-container *ngIf&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; &#x27;gitlab-custom&#x27;&quot;&gt;
+        &lt;div class&#x3D;&quot;custom-instance-form&quot;&gt;
+          &lt;p class&#x3D;&quot;auth-description mb-3 text-center&quot;&gt;
+            {{ &#x27;ACCOUNTS.CUSTOM_GITLAB_INFO&#x27; | translate }}
+          &lt;/p&gt;
+
+          &lt;div class&#x3D;&quot;form-group mb-2 text-left&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label-custom&quot;&gt;{{ &#x27;ACCOUNTS.INSTANCE_URL_LABEL&#x27; | translate }}&lt;/label&gt;
+            &lt;input
+              type&#x3D;&quot;text&quot;
+              class&#x3D;&quot;form-control form-control-sm modern-input&quot;
+              [(ngModel)]&#x3D;&quot;gitlabInstanceUrl&quot;
+              [placeholder]&#x3D;&quot;&#x27;ACCOUNTS.INSTANCE_URL_PLACEHOLDER&#x27; | translate&quot;
+            /&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;form-group mb-3 text-left&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label-custom&quot;&gt;{{ &#x27;ACCOUNTS.PAT_LABEL&#x27; | translate }}&lt;/label&gt;
+            &lt;input
+              type&#x3D;&quot;password&quot;
+              class&#x3D;&quot;form-control form-control-sm modern-input&quot;
+              [(ngModel)]&#x3D;&quot;gitlabToken&quot;
+              [placeholder]&#x3D;&quot;&#x27;ACCOUNTS.PAT_PLACEHOLDER&#x27; | translate&quot;
+            /&gt;
+            &lt;small class&#x3D;&quot;form-text-muted mt-1 d-block&quot;&gt;{{ &#x27;ACCOUNTS.PAT_HELP&#x27; | translate }}&lt;/small&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;text-center&quot;&gt;
+            &lt;button
+              type&#x3D;&quot;button&quot;
+              class&#x3D;&quot;btn-connect-cta&quot;
+              (click)&#x3D;&quot;submitGitlabCustom()&quot;
+              [disabled]&#x3D;&quot;isConnecting || !gitlabInstanceUrl || !gitlabToken&quot;
+            &gt;
+              &lt;span *ngIf&#x3D;&quot;isConnecting&quot; class&#x3D;&quot;spinner-border spinner-border-sm mr-2&quot; role&#x3D;&quot;status&quot;&gt;&lt;/span&gt;
+              &lt;svg *ngIf&#x3D;&quot;!isConnecting&quot; viewBox&#x3D;&quot;0 0 24 24&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;14&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; class&#x3D;&quot;mr-2&quot;&gt;
+                &lt;path d&#x3D;&quot;M12 2v6m0 0l-3 3m3-3l3 3M7 11h10v5a5 5 0 0 1-10 0v-5z&quot;&gt;&lt;/path&gt;
+              &lt;/svg&gt;
+              &lt;span&gt;{{ &#x27;ACCOUNTS.CONNECT_BTN&#x27; | translate }}&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/ng-container&gt;
+
+      &lt;!-- Error banner inside card if any --&gt;
+      &lt;div *ngIf&#x3D;&quot;errorMessage&quot; class&#x3D;&quot;error-banner mt-3&quot;&gt;
+        &lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;14&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; class&#x3D;&quot;mr-2 text-danger&quot;&gt;
+          &lt;circle cx&#x3D;&quot;12&quot; cy&#x3D;&quot;12&quot; r&#x3D;&quot;10&quot;&gt;&lt;/circle&gt;
+          &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;8&quot; x2&#x3D;&quot;12&quot; y2&#x3D;&quot;12&quot;&gt;&lt;/line&gt;
+          &lt;line x1&#x3D;&quot;12&quot; y1&#x3D;&quot;16&quot; x2&#x3D;&quot;12.01&quot; y2&#x3D;&quot;16&quot;&gt;&lt;/line&gt;
+        &lt;/svg&gt;
+        &lt;span&gt;{{ errorMessage }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./add-account-modal.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &quot;src/styles/variables&quot;;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Header */
+.modal-header-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-size: 0.95rem;
+}
+
+.modal-title {
+  color: var(--color-on-surface);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.015em;
+}
+
+.modal-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  letter-spacing: -0.005em;
+}
+
+.btn-close-modal {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--color-hover);
+  border: none;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  font-size: 0.8rem;
+  transition: background-color $transition-fast, color $transition-fast, transform 100ms ease;
+
+  &amp;:hover {
+    background-color: var(--color-border);
+    color: var(--color-on-surface);
+  }
+
+  &amp;:active {
+    transform: scale(0.92);
+  }
+}
+
+/* Platform Cards Grid (3 cards row) */
+.platform-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+
+  @media (max-width: 580px) {
+    grid-template-columns: 1fr;
+    margin-bottom: 1rem;
+  }
+}
+
+.platform-card {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 58px;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: all $transition-fast;
+
+  &amp;:hover:not(.is-disabled) {
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &amp;:active:not(.is-disabled) {
+    transform: scale(0.98);
+  }
+
+  &amp;.selected {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 1px var(--color-primary), var(--shadow-sm);
+  }
+
+  .card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+  }
+
+  .platform-icon-squircle {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background-color: var(--color-bg-body);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    &amp;.github {
+      color: var(--color-github);
+    }
+
+    &amp;.gitlab,
+    &amp;.gitlab-custom {
+      color: var(--color-gitlab);
+    }
+
+    .sub-icon {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .server-svg {
+        width: 6px;
+        height: 6px;
+      }
+    }
+  }
+
+  .brand-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    line-height: 1.2;
+
+    &amp;.connected {
+      background-color: var(--badge-ongoing-bg);
+      color: var(--badge-ongoing-text);
+      border: 1px solid var(--badge-ongoing-border);
+
+      .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: var(--color-success);
+      }
+    }
+
+    &amp;.coming-soon {
+      background-color: var(--color-hover);
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+      font-weight: 500;
+      font-size: 0.58rem;
+    }
+  }
+
+  .platform-info {
+    display: flex;
+    flex-direction: column;
+
+    .platform-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-on-surface);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &amp;.is-disabled {
+    background-color: var(--color-bg-body);
+    border-color: var(--color-border);
+    opacity: 0.65;
+    cursor: not-allowed;
+
+    .platform-icon-squircle {
+      filter: grayscale(0.7);
+      opacity: 0.75;
+    }
+
+    .platform-name {
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+/* Bottom Configuration Card */
+.config-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.config-card-header {
+  padding: 0.75rem 1.15rem;
+  background-color: var(--color-bg-body);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.config-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .brand-svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  &amp;.github {
+    color: var(--color-github);
+  }
+
+  &amp;.gitlab,
+  &amp;.gitlab-cloud,
+  &amp;.gitlab-custom {
+    color: var(--color-gitlab);
+  }
+}
+
+.config-brand-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.config-brand-type {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.scope-pill {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+
+  strong {
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-left: 0.2rem;
+  }
+}
+
+.config-card-body {
+  padding: 1.25rem 1.25rem 1.35rem;
+}
+
+/* Connected State */
+.connected-user-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  @media (max-width: 540px) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .action-buttons-group {
+      margin-top: 0.75rem;
+      width: 100%;
+    }
+  }
+}
+
+.user-profile-row {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.avatar-container {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+
+  .user-avatar-img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+  }
+
+  .user-avatar-fallback {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+  }
+
+  .online-dot {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color-success);
+    border: 2px solid var(--color-surface);
+  }
+}
+
+.user-meta-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.username-link-row {
+  display: flex;
+  align-items: center;
+}
+
+.username-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color $transition-fast;
+
+  .external-icon {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    opacity: 0;
+    transform: translateX(-3px);
+    transition: opacity $transition-fast, transform $transition-fast, color $transition-fast;
+  }
+
+  &amp;:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+
+    .external-icon {
+      color: var(--color-primary);
+      opacity: 1;
+      transform: translate(1px, -1px);
+    }
+  }
+}
+
+.gitlab-custom-icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  .sub-server-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -4px;
+    width: 9px;
+    height: 9px;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-body);
+    border-radius: 2px;
+  }
+}
+
+.action-buttons-group {
+  position: relative;
+  flex-shrink: 0;
+  width: 122px;
+  height: 32px;
+  transition: width 300ms $ease-spring-out;
+
+  &amp;.is-confirming {
+    width: 218px;
+  }
+
+  @media (max-width: 540px) {
+    align-self: flex-end;
+    margin-top: 0.75rem;
+  }
+}
+
+/* Common button base (slightly rectangular like other app buttons, no default border/bg, hover bg) */
+.btn-action-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 0.75rem;
+  border-radius: $radius-md;
+  border: 1px solid transparent;
+  background-color: transparent;
+  font-size: 0.775rem;
+  font-weight: 500;
+  line-height: 1.35;
+  cursor: pointer;
+  outline: none;
+  white-space: nowrap;
+  user-select: none;
+  transition: background-color $transition-fast,
+              color $transition-fast,
+              border-color $transition-fast,
+              box-shadow $transition-fast;
+
+  &amp;:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  /* Prevent internal elements from intercepting mouse events and triggering hover flicker */
+  * {
+    pointer-events: none;
+  }
+}
+
+/* Secondary Action Button (Reveals at right: 0 when confirming) */
+.btn-cancel-action {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 88px;
+  height: 32px;
+  gap: 0.45rem;
+  color: var(--color-text-secondary);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: transform 160ms ease-in,
+              opacity 140ms ease-in,
+              visibility 160ms,
+              background-color $transition-fast,
+              color $transition-fast;
+
+  svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  &amp;:hover {
+    background-color: var(--color-hover);
+    color: var(--color-on-surface);
+  }
+
+  &amp;.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+    transition: transform 260ms $ease-spring-out 60ms,
+                opacity 200ms ease-out 60ms,
+                visibility 200ms 60ms,
+                background-color $transition-fast,
+                color $transition-fast;
+  }
+}
+
+/* Primary Action Button (Disconnect -&gt; moves left and morphs into Confirmer) */
+.btn-disconnect-action {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 122px;
+  height: 32px;
+  color: var(--color-danger);
+  transform: translate3d(0, 0, 0);
+  transition: transform 320ms $ease-spring-out,
+              background-color $transition-fast,
+              border-color $transition-fast,
+              color $transition-fast,
+              box-shadow $transition-fast;
+
+  &amp;:hover:not(:disabled):not(.is-confirming) {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+  }
+
+  &amp;.is-confirming {
+    transform: translate3d(-96px, 0, 0);
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+
+    &amp;:hover:not(:disabled) {
+      background-color: var(--color-danger);
+      opacity: 0.92;
+      box-shadow: 0 3px 10px rgba(220, 38, 38, 0.45);
+    }
+
+    &amp;:active:not(:disabled) {
+      transform: translate3d(-96px, 0, 0) scale(0.96);
+      transition-duration: 100ms;
+    }
+  }
+
+  .btn-morph-content {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .morph-state {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    width: 100%;
+    backface-visibility: hidden;
+
+    svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+    }
+  }
+
+  .normal-state {
+    opacity: 1;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    transition: transform 200ms ease,
+                opacity 160ms ease,
+                visibility 200ms;
+
+    .action-buttons-group.is-confirming &amp; {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(0, -4px, 0) scale(0.9);
+    }
+  }
+
+  .confirm-state {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 4px, 0) scale(0.9);
+    transition: transform 200ms ease,
+                opacity 160ms ease,
+                visibility 200ms;
+
+    .action-buttons-group.is-confirming &amp; {
+      opacity: 1;
+      visibility: visible;
+      transform: translate3d(0, 0, 0);
+      transition: transform 260ms $ease-spring-out 50ms,
+                  opacity 200ms ease-out 50ms,
+                  visibility 200ms 50ms;
+    }
+  }
+}
+
+/* Disconnected State */
+.disconnected-panel {
+  padding: 0.5rem 0.25rem;
+
+  .auth-description {
+    font-size: 0.825rem;
+    color: var(--color-text-secondary);
+    line-height: 1.45;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.btn-connect-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: #fff;
+  padding: 0.55rem 1.6rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: background-color $transition-fast, box-shadow $transition-fast, transform 100ms ease;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+
+  &amp;:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  &amp;:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  &amp;:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+}
+
+/* Modal Footer */
+.btn-pill-secondary {
+  border-radius: 9999px;
+  padding: 0.4rem 1.25rem;
+  font-size: 0.825rem;
+  font-weight: 500;
+  background-color: var(--color-hover);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  outline: none;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &amp;:hover:not(:disabled) {
+    background-color: var(--color-border);
+  }
+
+  &amp;:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+}
+
+/* Error Banner */
+.error-banner {
+  background-color: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-subtle);
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.785rem;
+  color: var(--color-danger);
+  display: flex;
+  align-items: center;
+}
+
+.custom-instance-form {
+  max-width: 440px;
+  margin: 0 auto;
+
+  .form-label-custom {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+
+  .modern-input {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: var(--color-text-primary);
+    padding: 0.45rem 0.65rem;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &amp;:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px var(--color-primary-bg);
+      outline: none;
+    }
+  }
+
+  .form-text-muted {
+    font-size: 0.68rem;
+    color: var(--color-text-muted);
+  }
+}
+
+.config-brand-icon.gitlab-cloud,
+.config-brand-icon.gitlab-custom {
+  color: var(--color-gitlab);
+}
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><!-- Modal Header --><div class="modal-header border-bottom-0 pb-1 pt-4 d-flex justify-content-between align-items-center flex-nowrap w-100 px-4">  <div class="d-flex align-items-center">    <div class="modal-header-icon mr-3 d-flex align-items-center justify-content-center">      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>        <circle cx="8.5" cy="7" r="4"></circle>        <line x1="20" y1="8" x2="20" y2="14"></line>        <line x1="23" y1="11" x2="17" y2="11"></line>      </svg>    </div>    <div>      <h5 class="modal-title m-0">        {{ \'ACCOUNTS.ADD_MODAL_TITLE\' | translate }}      </h5>      <p class="modal-subtitle mb-0">        {{ \'ACCOUNTS.ADD_MODAL_SUBTITLE\' | translate }}      </p>    </div>  </div>  <button    type="button"    class="btn btn-close-modal"    (click)="close()"    [attr.aria-label]="\'ACCOUNTS.MODAL_CLOSE\' | translate"  >    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">      <line x1="18" y1="6" x2="6" y2="18"></line>      <line x1="6" y1="6" x2="18" y2="18"></line>    </svg>  </button></div><!-- Modal Body --><div class="modal-body pt-3 pb-4 px-4">  <!-- Top: 3 Platform Selection Cards -->  <div class="platform-cards-grid">    <!-- Card 1: GitHub (Active / Selected) -->    <div      class="platform-card"      [class.selected]="selectedPlatform === \'github\'"      (click)="selectPlatform(\'github\')"      role="button"      tabindex="0"    >      <div class="card-top-row mb-1">        <div class="platform-icon-squircle github">          <svg viewBox="0 0 496 512" class="brand-svg" fill="currentColor">            <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>          </svg>        </div>        <span *ngIf="isGithubConnected" class="status-pill connected">          <span class="dot"></span>          {{ \'ACCOUNTS.ACTIVE\' | translate }}        </span>      </div>      <div class="platform-info">        <span class="platform-name">{{ \'ACCOUNTS.PLATFORM_GITHUB_TITLE\' | translate }}</span>      </div>    </div>    <!-- Card 2: GitLab.com -->    <div      class="platform-card"      [class.selected]="selectedPlatform === \'gitlab-cloud\'"      [class.is-disabled]="!devFlagsService.gitlabCloudEnabled"      [appTooltip]="!devFlagsService.gitlabCloudEnabled ? (\'ACCOUNTS.COMING_SOON_DESC\' | translate) : \'\'"      (click)="selectPlatform(\'gitlab-cloud\')"      role="button"      tabindex="0"    >      <div class="card-top-row mb-1">        <div class="platform-icon-squircle gitlab">          <svg viewBox="0 0 512 512" class="brand-svg" fill="currentColor">            <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>          </svg>        </div>        <span *ngIf="!devFlagsService.gitlabCloudEnabled" class="status-pill coming-soon">          {{ \'ACCOUNTS.COMING_SOON\' | translate }}        </span>      </div>      <div class="platform-info">        <span class="platform-name">{{ \'ACCOUNTS.PLATFORM_GITLAB_TITLE\' | translate }}</span>      </div>    </div>    <!-- Card 3: GitLab auto-hébergé -->    <div      class="platform-card"      [class.selected]="selectedPlatform === \'gitlab-custom\'"      [class.is-disabled]="!devFlagsService.gitlabCustomEnabled"      [appTooltip]="!devFlagsService.gitlabCustomEnabled ? (\'ACCOUNTS.COMING_SOON_DESC\' | translate) : \'\'"      (click)="selectPlatform(\'gitlab-custom\')"      role="button"      tabindex="0"    >      <div class="card-top-row mb-1">        <div class="platform-icon-squircle gitlab-custom">          <svg viewBox="0 0 512 512" class="brand-svg" fill="currentColor">            <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>          </svg>          <span class="sub-icon">            <svg viewBox="0 0 512 512" class="server-svg" fill="currentColor">              <path d="M480 160H32c-17.673 0-32-14.327-32-32V64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24z"/>            </svg>          </span>        </div>        <span *ngIf="!devFlagsService.gitlabCustomEnabled" class="status-pill coming-soon">          {{ \'ACCOUNTS.COMING_SOON\' | translate }}        </span>      </div>      <div class="platform-info">        <span class="platform-name">{{ \'ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE\' | translate }}</span>      </div>    </div>  </div>  <!-- Bottom: Refined Configuration Block for Selected Platform -->  <div class="config-card">    <!-- Config Card Header -->    <div class="config-card-header">      <div class="d-flex align-items-center">        <div class="config-brand-icon mr-2" [ngClass]="selectedPlatform">          <svg *ngIf="selectedPlatform === \'github\'" viewBox="0 0 496 512" class="brand-svg" fill="currentColor">            <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>          </svg>          <svg *ngIf="selectedPlatform === \'gitlab-cloud\'" viewBox="0 0 512 512" class="brand-svg" fill="currentColor">            <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>          </svg>          <span *ngIf="selectedPlatform === \'gitlab-custom\'" class="gitlab-custom-icon-wrap">            <svg viewBox="0 0 512 512" class="brand-svg" fill="currentColor">              <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>            </svg>            <svg viewBox="0 0 512 512" class="sub-server-icon" fill="currentColor">              <path d="M480 160H32c-17.673 0-32-14.327-32-32V64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24z"/>            </svg>          </span>        </div>        <div>          <span class="config-brand-name">            {{ (selectedPlatform === \'github\' ? \'ACCOUNTS.PLATFORM_GITHUB_TITLE\' : (selectedPlatform === \'gitlab-cloud\' ? \'ACCOUNTS.PLATFORM_GITLAB_TITLE\' : \'ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE\')) | translate }}          </span>          <span class="config-brand-type ml-2">            {{ selectedPlatform === \'gitlab-custom\' ? \'Token PAT\' : \'OAuth 2.0\' }}          </span>        </div>      </div>      <span class="scope-pill">        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>        </svg>        {{ \'ACCOUNTS.SCOPE_LABEL\' | translate }} : <strong>{{ selectedPlatform === \'gitlab-custom\' ? \'read_api, read_user\' : \'repo\' }}</strong>      </span>    </div>    <!-- Config Card Content -->    <div class="config-card-body">      <!-- 1. GITHUB SELECTED -->      <ng-container *ngIf="selectedPlatform === \'github\'">        <!-- State A: When Connected -->        <div *ngIf="isGithubConnected" class="connected-user-panel">          <div class="user-profile-row">            <div class="avatar-container mr-3">              <img                *ngIf="authService.avatarUrl"                [src]="authService.avatarUrl"                [alt]="authService.username"                class="user-avatar-img"                (error)="authService.avatarUrl = null"              />              <div *ngIf="!authService.avatarUrl" class="user-avatar-fallback">                {{ (authService.username || \'G\').charAt(0).toUpperCase() }}              </div>            </div>            <div class="user-meta-group">              <div class="username-link-row">                <a                  [href]="profileUrl"                  target="_blank"                  rel="noopener noreferrer"                  class="username-link"                  [appTooltip]="authService.username || \'GitHub\'"                  [onlyIfTruncated]="true"                >                  <span>{{ authService.username || \'GitHub\' }}</span>                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon ml-1">                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>                    <polyline points="15 3 21 3 21 9"></polyline>                    <line x1="10" y1="14" x2="21" y2="3"></line>                  </svg>                </a>              </div>            </div>          </div>          <div class="action-buttons-group" [class.is-confirming]="isConfirmingDisconnect">            <!-- Primary Morphing Button: Disconnect -> Confirm Disconnect -->            <button              type="button"              class="btn-action-pill btn-disconnect-action"              [class.is-confirming]="isConfirmingDisconnect"              (click)="onDisconnectClick($event)"              [disabled]="isConnecting"              [attr.aria-label]="(isConfirmingDisconnect ? \'CONFIRM\' : \'ACCOUNTS.DISCONNECT\') | translate"            >              <span class="btn-morph-content">                <!-- Normal Disconnect State -->                <span class="morph-state normal-state">                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>                    <polyline points="16 17 21 12 16 7"></polyline>                    <line x1="21" y1="12" x2="9" y2="12"></line>                  </svg>                  <span>{{ \'ACCOUNTS.DISCONNECT\' | translate }}</span>                </span>                <!-- Confirm Disconnect State -->                <span class="morph-state confirm-state">                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">                    <polyline points="20 6 9 17 4 12"></polyline>                  </svg>                  <span>{{ \'CONFIRM\' | translate }}</span>                </span>              </span>            </button>            <!-- Secondary Revealing Button: Cancel -->            <button              type="button"              class="btn-action-pill btn-cancel-action"              [class.is-visible]="isConfirmingDisconnect"              (click)="cancelConfirmDisconnect($event)"              [attr.aria-label]="\'CANCEL\' | translate"              [attr.tabindex]="isConfirmingDisconnect ? 0 : -1"              [attr.aria-hidden]="!isConfirmingDisconnect"            >              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">                <line x1="18" y1="6" x2="6" y2="18"></line>                <line x1="6" y1="6" x2="18" y2="18"></line>              </svg>              <span>{{ \'CANCEL\' | translate }}</span>            </button>          </div>        </div>        <!-- State B: When Disconnected -->        <div *ngIf="!isGithubConnected" class="disconnected-panel text-center">          <p class="auth-description mb-3">            {{ \'ACCOUNTS.OAUTH_FIREBASE_DESC\' | translate:{ provider: \'GitHub\' } }}          </p>          <button            type="button"            class="btn-connect-cta"            (click)="submitConnect()"            [disabled]="isConnecting"          >            <span *ngIf="isConnecting" class="spinner-border spinner-border-sm mr-2" role="status"></span>            <svg *ngIf="!isConnecting" viewBox="0 0 496 512" width="16" height="16" fill="currentColor" class="brand-svg mr-2">              <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>            </svg>            <span>{{ (isConnecting ? \'ACCOUNTS.CONNECTING\' : \'ACCOUNTS.OAUTH_CONNECT_BTN\') | translate:{ provider: \'GitHub\' } }}</span>          </button>        </div>      </ng-container>      <!-- 2. GITLAB CLOUD SELECTED -->      <ng-container *ngIf="selectedPlatform === \'gitlab-cloud\'">        <div class="disconnected-panel text-center">          <p class="auth-description mb-3">            {{ \'ACCOUNTS.OAUTH_FIREBASE_DESC\' | translate:{ provider: \'GitLab\' } }}          </p>          <button            type="button"            class="btn-connect-cta"            (click)="submitGitlabCloud()"            [disabled]="isConnecting"          >            <span *ngIf="isConnecting" class="spinner-border spinner-border-sm mr-2" role="status"></span>            <svg *ngIf="!isConnecting" viewBox="0 0 512 512" width="16" height="16" fill="currentColor" class="brand-svg mr-2">              <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>            </svg>            <span>{{ (isConnecting ? \'ACCOUNTS.CONNECTING\' : \'ACCOUNTS.OAUTH_CONNECT_BTN\') | translate:{ provider: \'GitLab\' } }}</span>          </button>        </div>      </ng-container>      <!-- 3. GITLAB CUSTOM SELECTED -->      <ng-container *ngIf="selectedPlatform === \'gitlab-custom\'">        <div class="custom-instance-form">          <p class="auth-description mb-3 text-center">            {{ \'ACCOUNTS.CUSTOM_GITLAB_INFO\' | translate }}          </p>          <div class="form-group mb-2 text-left">            <label class="form-label-custom">{{ \'ACCOUNTS.INSTANCE_URL_LABEL\' | translate }}</label>            <input              type="text"              class="form-control form-control-sm modern-input"              [(ngModel)]="gitlabInstanceUrl"              [placeholder]="\'ACCOUNTS.INSTANCE_URL_PLACEHOLDER\' | translate"            />          </div>          <div class="form-group mb-3 text-left">            <label class="form-label-custom">{{ \'ACCOUNTS.PAT_LABEL\' | translate }}</label>            <input              type="password"              class="form-control form-control-sm modern-input"              [(ngModel)]="gitlabToken"              [placeholder]="\'ACCOUNTS.PAT_PLACEHOLDER\' | translate"            />            <small class="form-text-muted mt-1 d-block">{{ \'ACCOUNTS.PAT_HELP\' | translate }}</small>          </div>          <div class="text-center">            <button              type="button"              class="btn-connect-cta"              (click)="submitGitlabCustom()"              [disabled]="isConnecting || !gitlabInstanceUrl || !gitlabToken"            >              <span *ngIf="isConnecting" class="spinner-border spinner-border-sm mr-2" role="status"></span>              <svg *ngIf="!isConnecting" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">                <path d="M12 2v6m0 0l-3 3m3-3l3 3M7 11h10v5a5 5 0 0 1-10 0v-5z"></path>              </svg>              <span>{{ \'ACCOUNTS.CONNECT_BTN\' | translate }}</span>            </button>          </div>        </div>      </ng-container>      <!-- Error banner inside card if any -->      <div *ngIf="errorMessage" class="error-banner mt-3">        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-danger">          <circle cx="12" cy="12" r="10"></circle>          <line x1="12" y1="8" x2="12" y2="12"></line>          <line x1="12" y1="16" x2="12.01" y2="16"></line>        </svg>        <span>{{ errorMessage }}</span>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
+    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
+    var ACTUAL_COMPONENT = {'name': 'AddAccountModalComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AddAccountModalComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

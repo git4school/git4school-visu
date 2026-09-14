@@ -125,7 +125,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/shared/ui/custom-modal/custom-modal.service.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/shared/ui/custom-modal/custom-modal.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -214,8 +214,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/shared/ui/custom-modal/custom-modal.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">src/app/shared/ui/custom-modal/custom-modal.service.ts:18</a></div>
                 </td>
             </tr>
 
@@ -253,8 +253,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/app/shared/ui/custom-modal/custom-modal.service.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">src/app/shared/ui/custom-modal/custom-modal.service.ts:22</a></div>
                 </td>
             </tr>
 
@@ -359,7 +359,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/shared/ui/custom-modal/custom-modal.service.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/shared/ui/custom-modal/custom-modal.service.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -372,15 +372,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  ComponentRef,
-  EmbeddedViewRef,
-  Injectable,
-  Injector,
-  Type,
-} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector, Type } from &quot;@angular/core&quot;;
 import { CustomModalContainerComponent } from &quot;./custom-modal-container/custom-modal-container.component&quot;;
 import { CustomModalRef } from &quot;./custom-modal-ref&quot;;
 
@@ -395,27 +387,17 @@ export interface CustomModalOptions {
 export class CustomModalService {
   private openModalsCount &#x3D; 0;
 
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private appRef: ApplicationRef,
-    private injector: Injector
-  ) {}
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private appRef: ApplicationRef, private injector: Injector) {}
 
   public hasOpenModals(): boolean {
     return this.openModalsCount &gt; 0;
   }
 
-  public open&lt;T&gt;(
-    componentType: Type&lt;T&gt;,
-    options: CustomModalOptions &#x3D; {}
-  ): CustomModalRef {
+  public open&lt;T&gt;(componentType: Type&lt;T&gt;, options: CustomModalOptions &#x3D; {}): CustomModalRef {
     this.openModalsCount++;
     document.body.classList.add(&quot;custom-modal-open&quot;);
     // 1. Create the container component (the overlay and modal dialog)
-    const containerFactory &#x3D;
-      this.componentFactoryResolver.resolveComponentFactory(
-        CustomModalContainerComponent
-      );
+    const containerFactory &#x3D; this.componentFactoryResolver.resolveComponentFactory(CustomModalContainerComponent);
     const containerRef &#x3D; containerFactory.create(this.injector);
 
     // Set options
@@ -425,8 +407,7 @@ export class CustomModalService {
     this.appRef.attachView(containerRef.hostView);
 
     // Append to body
-    const domElem &#x3D; (containerRef.hostView as EmbeddedViewRef&lt;any&gt;)
-      .rootNodes[0] as HTMLElement;
+    const domElem &#x3D; (containerRef.hostView as EmbeddedViewRef&lt;any&gt;).rootNodes[0] as HTMLElement;
     document.body.appendChild(domElem);
 
     // 2. Create the CustomModalRef to represent the modal instance
@@ -441,17 +422,30 @@ export class CustomModalService {
     // Force change detection so static ViewChild is resolved
     containerRef.changeDetectorRef.detectChanges();
 
-    // 4. Load the target component inside the container using the custom injector
-    const componentFactory &#x3D;
-      this.componentFactoryResolver.resolveComponentFactory(componentType);
+    // Lock body scroll while modal is open
+    const previousBodyOverflow &#x3D; document.body.style.overflow;
+    document.body.style.overflow &#x3D; &quot;hidden&quot;;
 
-    containerRef.instance.modalContent.clear();
-    const contentRef &#x3D; containerRef.instance.modalContent.createComponent(
-      componentFactory,
-      0,
-      customInjector
-    );
-    customModalRef.componentInstance &#x3D; contentRef.instance;
+    try {
+      // 4. Load the target component inside the container using the custom injector
+      const componentFactory &#x3D; this.componentFactoryResolver.resolveComponentFactory(componentType);
+
+      containerRef.instance.modalContent.clear();
+      const contentRef &#x3D; containerRef.instance.modalContent.createComponent(componentFactory, 0, customInjector);
+      customModalRef.componentInstance &#x3D; contentRef.instance;
+
+      // Run change detection on the next tick so the caller has a chance to set inputs
+      setTimeout(() &#x3D;&gt; {
+        contentRef.changeDetectorRef.detectChanges();
+      });
+    } catch (err) {
+      document.body.classList.remove(&quot;custom-modal-open&quot;);
+      document.body.style.overflow &#x3D; previousBodyOverflow;
+      this.appRef.detachView(containerRef.hostView);
+      containerRef.destroy();
+      this.openModalsCount &#x3D; Math.max(0, this.openModalsCount - 1);
+      throw err;
+    }
 
     // Handle backdrop clicks or programmatic dismiss via the container
     containerRef.instance.setDismissCallback(async (reason) &#x3D;&gt; {
@@ -465,10 +459,6 @@ export class CustomModalService {
       }
     });
 
-    // Lock body scroll while modal is open
-    const previousBodyOverflow &#x3D; document.body.style.overflow;
-    document.body.style.overflow &#x3D; &quot;hidden&quot;;
-
     // Cleanup when modal closes
     customModalRef.result.finally(() &#x3D;&gt; {
       this.openModalsCount &#x3D; Math.max(0, this.openModalsCount - 1);
@@ -478,11 +468,6 @@ export class CustomModalService {
       document.body.style.overflow &#x3D; previousBodyOverflow;
       this.appRef.detachView(containerRef.hostView);
       containerRef.destroy();
-    });
-
-    // Run change detection on the next tick so the caller has a chance to set inputs
-    setTimeout(() &#x3D;&gt; {
-      contentRef.changeDetectorRef.detectChanges();
     });
 
     return customModalRef;
