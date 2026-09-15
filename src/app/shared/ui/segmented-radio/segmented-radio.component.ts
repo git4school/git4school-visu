@@ -6,6 +6,7 @@ import {
   ElementRef,
   AfterViewInit,
   HostListener,
+  HostBinding,
   ChangeDetectorRef,
   forwardRef,
   OnChanges,
@@ -31,10 +32,15 @@ export interface SegmentedRadioOption {
   ],
 })
 export class SegmentedRadioComponent implements ControlValueAccessor, AfterViewInit, OnChanges {
-  @Input() options: SegmentedRadioOption[] = [];
-  @Input() size: "sm" | "md" = "md";
+  @Input() public options: SegmentedRadioOption[] = [];
+  @Input() public size: "sm" | "md" = "md";
 
-  @ViewChildren("btn") buttons!: QueryList<ElementRef>;
+  @HostBinding("class.size-sm")
+  public get isSizeSm(): boolean {
+    return this.size === "sm";
+  }
+
+  @ViewChildren("btn") public buttons!: QueryList<ElementRef>;
 
   public value: string | null = null;
   public isDisabled = false;
