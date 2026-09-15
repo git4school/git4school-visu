@@ -593,5 +593,33 @@
     "SCOPE_LABEL": "Scope",
     "POPUP_CLOSED": "The sign-in window was closed.",
     "LOGIN_ERROR": "Error connecting via GitHub."
+  },
+  "QUESTIONS-ASSISTANT": {
+    "TRIGGER_BUTTON": "Assistant",
+    "CUSTOM_RULE_ACTIVE": "Custom or keyword-free closing rule active",
+    "POPOVER_TITLE": "Questions Configuration",
+    "CLOSING_TITLE": "Commit Closing Rule",
+    "MODE_STANDARD_SHORT": "Standard GitHub",
+    "MODE_CUSTOM_SHORT": "Custom",
+    "MODE_NONE_SHORT": "No keyword",
+    "MODE_STANDARD_DESC": "Close with standard verbs: fix, fixes, resolve, close...",
+    "MODE_CUSTOM_DESC": "Keywords required to close a question:",
+    "CUSTOM_KEYWORDS_LABEL": "Closing keywords",
+    "CUSTOM_KEYWORDS_PLACEHOLDER": "e.g. done, validated, exo, check",
+    "CUSTOM_KEYWORDS_HINT": "Keywords separated by commas",
+    "MODE_NONE_DESC": "Any commit mentioning the exact question name will validate it.",
+    "SEQUENCE_TITLE": "Sequence Generator",
+    "PREFIX_LABEL": "Prefix",
+    "PREFIX_PLACEHOLDER": "question ",
+    "START_LABEL": "From",
+    "END_LABEL": "To",
+    "RANGE_LABEL": "Range",
+    "PREVIEW_TITLE": "Global Preview",
+    "QUESTIONS_COUNT": "{{count}} question(s)",
+    "NO_QUESTIONS": "No questions to generate",
+    "BTN_GENERATE_ADD": "Generate and add ({{count}})",
+    "TOOLTIP_CLOSING_STANDARD": "Closing rule: Standard GitHub",
+    "TOOLTIP_CLOSING_CUSTOM": "Closing rule: Custom ({{keywords}})",
+    "TOOLTIP_CLOSING_NONE": "Closing rule: No keyword"
   }
 }

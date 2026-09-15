@@ -132,4 +132,38 @@ describe("Question recognition", () => {
     commit.updateQuestion(questions);
     expect(commit.question).toBeUndefined();
   });
+
+  it("should match questions with custom closing keywords", () => {
+    const customKeywords = ["rendu", "validé", "done"];
+    commit.message = "Rendu #1: TP fini";
+    commit.updateQuestion(questions, "custom", customKeywords);
+    expect(commit.question).toEqual("#1");
+
+    commit.message = "done #2: complete";
+    commit.updateQuestion(questions, "custom", customKeywords);
+    expect(commit.question).toEqual("#2");
+
+    commit.message = "Resolve #1: not in custom list";
+    commit.updateQuestion(questions, "custom", customKeywords);
+    expect(commit.question).toBeUndefined();
+  });
+
+  it("should match questions in none mode without keyword and mark isCloture", () => {
+    const questionsList = ["ITER 1", "ITER 10", "Q2"];
+    commit.message = "feat: implementation of [ITER 1] finished";
+    commit.updateMetadata([], [], questionsList, "none");
+    expect(commit.question).toEqual("ITER 1");
+    expect(commit.isCloture).toBeTrue();
+
+    commit.message = "fix: ITER 10 is done";
+    commit.updateMetadata([], [], questionsList, "none");
+    expect(commit.question).toEqual("ITER 10");
+    expect(commit.isCloture).toBeTrue();
+
+    // Verify Q20 does not match Q2
+    commit.message = "work on Q20 test";
+    commit.updateMetadata([], [], questionsList, "none");
+    expect(commit.question).toBeUndefined();
+    expect(commit.isCloture).toBeFalse();
+  });
 });

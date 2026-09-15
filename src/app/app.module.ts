@@ -19,6 +19,8 @@ import { EditRepositoriesComponent } from "@components/home/assignment-chooser/c
 // eslint-disable-next-line max-len
 import { ModalAddRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component";
 import { MetadataComponent } from "@components/home/assignment-chooser/configuration/metadata/metadata.component";
+// eslint-disable-next-line max-len
+import { QuestionsAssistantPopoverComponent } from "@components/home/assignment-chooser/configuration/metadata/questions-assistant-popover/questions-assistant-popover.component";
 import { HomeComponent } from "@components/home/home.component";
 import { QuestionsChooserComponent } from "@components/questions-chooser/questions-chooser.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -109,6 +111,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     StudentsCommitsComponent,
     QuestionsCompletionComponent,
     MetadataComponent,
+    QuestionsAssistantPopoverComponent,
     EditRepositoriesComponent,
     ConfigurationComponent,
     ModalAddRepositoriesComponent,

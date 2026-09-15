@@ -4,6 +4,7 @@
      [class.is-invalid]="invalid"
      [class.is-valid]="valid"
      [class.is-disabled]="isDisabled"
+     [class.not-clearable]="!clearable && !helperText"
      [class.no-floating-label]="!floatingLabel">
 
   <fieldset class="text-input-fieldset" aria-hidden="true" *ngIf="floatingLabel">
@@ -62,6 +63,8 @@
         [placeholder]="placeholder"
         [disabled]="isDisabled"
         [value]="value"
+        [attr.inputmode]="inputmode || null"
+        [attr.maxlength]="maxlength || null"
         autocomplete="off"
         (input)="onInput($event)"
         (focus)="onFocus()"
@@ -73,9 +76,9 @@
       {{ label }} <span *ngIf="required" class="text-danger">*</span>
     </label>
 
-    <div class="text-input-actions">
+    <div class="text-input-actions" *ngIf="(clearable && hasValue && !isDisabled) || helperText">
       <button type="button" class="action-btn btn-clear" 
-              *ngIf="hasValue && !isDisabled" 
+              *ngIf="clearable && hasValue && !isDisabled" 
               (click)="clearValue()" 
               tabindex="-1">
         <i class="fas fa-times"></i>

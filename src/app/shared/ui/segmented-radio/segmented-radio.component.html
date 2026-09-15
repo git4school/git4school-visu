@@ -1,0 +1,14 @@
+<div class="segmented-radio-container"
+     [class.size-sm]="size === 'sm'"
+     [class.is-disabled]="isDisabled">
+  <div class="filter-indicator" [ngStyle]="indicatorStyle"></div>
+  <button *ngFor="let option of options; let i = index"
+          #btn
+          type="button"
+          class="filter-btn"
+          [class.active]="value === option.value"
+          [disabled]="isDisabled"
+          (click)="selectOption(option.value)">
+    {{ option.label | translate }}
+  </button>
+</div>
