@@ -152,6 +152,7 @@
         [class.edit-input]="isMainPillActive && mode !== 'choose'"
         [attr.size]="isMainPillActive ? (question?.length || 1) : 1"
         [editable]="true" [resultTemplate]="rt" (keydown.enter)="onEnter($event)" (keydown)="onMainInputKeyDown($event)"
+        (paste)="onPaste($event)"
         [inputFormatter]="typeaheadFormatter" [resultFormatter]="typeaheadFormatter"
         placeholder="{{ placeholderKey | translate }}" [disabled]="disabled"
         container="body"
