@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Milestone } from "@models/Milestone.model";
+import { QuestionClosingMode } from "@models/Metadata.model";
 import { Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable } from "rxjs";
@@ -25,7 +26,7 @@ export class LoaderService {
     private commitsService: CommitsService,
     private dataService: DataService,
     private translateService: TranslateService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {}
 
   /**
@@ -42,20 +43,18 @@ export class LoaderService {
     repositories: Repository[],
     reviews: Milestone[],
     corrections: Milestone[],
-    questions: string[]
+    questions: string[],
+    closingMode?: QuestionClosingMode,
+    customClosingKeywords?: string[],
   ) {
-    repositories.forEach((repository) => {
-      let filteredReviews = reviews?.filter(
-        (review) => review.tpGroup === repository.tpGroup || !review.tpGroup
-      );
-      let filteredCorrections = corrections?.filter(
-        (correction) =>
-          correction.tpGroup === repository.tpGroup || !correction.tpGroup
-      );
+    const mode = closingMode || this.dataService.closingMode;
+    const customKeywords = customClosingKeywords !== undefined ? customClosingKeywords : this.dataService.customClosingKeywords;
 
-      repository.commits?.forEach((commit) =>
-        commit.updateMetadata(filteredReviews, filteredCorrections, questions)
-      );
+    repositories.forEach((repository) => {
+      let filteredReviews = reviews?.filter((review) => review.tpGroup === repository.tpGroup || !review.tpGroup);
+      let filteredCorrections = corrections?.filter((correction) => correction.tpGroup === repository.tpGroup || !correction.tpGroup);
+
+      repository.commits?.forEach((commit) => commit.updateMetadata(filteredReviews, filteredCorrections, questions, mode, customKeywords));
     });
   }
 
@@ -71,44 +70,36 @@ export class LoaderService {
       "ERRORS.DETAILS",
       "GIT-ERROR",
     ]);
-    return this.commitsService
-      .getRepositories(this.dataService.repositories, startDate, endDate)
-      .pipe(
-        map((repositories) => {
-          try {
-            let tpGroups = new Set<string>();
-            let hasError = false;
-            repositories.forEach((repository) => {
-              tpGroups.add(repository.tpGroup);
-              if (repository.errors.length) {
-                hasError = true;
-              }
-            });
-            if (hasError) {
-              let error = this.translateService.instant([
-                "ERROR-TITLE-ERROR-OCCURED",
-                "ERROR-MESSAGE-ERROR-OCCURED",
-              ]);
-              this.toastService.warning(
-                error["ERROR-TITLE-ERROR-OCCURED"],
-                error["ERROR-MESSAGE-ERROR-OCCURED"]
-              );
+    return this.commitsService.getRepositories(this.dataService.repositories, startDate, endDate).pipe(
+      map((repositories) => {
+        try {
+          let tpGroups = new Set<string>();
+          let hasError = false;
+          repositories.forEach((repository) => {
+            tpGroups.add(repository.tpGroup);
+            if (repository.errors.length) {
+              hasError = true;
             }
-            this.dataService.repositories = repositories.slice();
-            this.dataService.tpGroups = Array.from(tpGroups).filter(Boolean);
-            this.loadCommitsMetadata(
-              this.dataService.repositories,
-              this.dataService.reviews,
-              this.dataService.corrections,
-              this.dataService.questions
-            );
-            this.dataService.lastUpdateDate = new Date();
-            this.dataService.repoToLoad = false;
-            this.dataService.saveData();
-          } catch (err) {
-            this.toastService.error(translations["GIT-ERROR"], err);
+          });
+          if (hasError) {
+            let error = this.translateService.instant(["ERROR-TITLE-ERROR-OCCURED", "ERROR-MESSAGE-ERROR-OCCURED"]);
+            this.toastService.warning(error["ERROR-TITLE-ERROR-OCCURED"], error["ERROR-MESSAGE-ERROR-OCCURED"]);
           }
-        })
-      );
+          this.dataService.repositories = repositories.slice();
+          this.dataService.tpGroups = Array.from(tpGroups).filter(Boolean);
+          this.loadCommitsMetadata(
+            this.dataService.repositories,
+            this.dataService.reviews,
+            this.dataService.corrections,
+            this.dataService.questions,
+          );
+          this.dataService.lastUpdateDate = new Date();
+          this.dataService.repoToLoad = false;
+          this.dataService.saveData();
+        } catch (err) {
+          this.toastService.error(translations["GIT-ERROR"], err);
+        }
+      }),
+    );
   }
 }

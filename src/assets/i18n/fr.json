@@ -593,5 +593,33 @@
     "SCOPE_LABEL": "Portée",
     "POPUP_CLOSED": "La fenêtre de connexion a été fermée.",
     "LOGIN_ERROR": "Erreur lors de la connexion via GitHub."
+  },
+  "QUESTIONS-ASSISTANT": {
+    "TRIGGER_BUTTON": "Assistant",
+    "CUSTOM_RULE_ACTIVE": "Règle de clôture personnalisée ou sans mot-clé active",
+    "POPOVER_TITLE": "Configuration des questions",
+    "CLOSING_TITLE": "Règle de clôture des commits",
+    "MODE_STANDARD_SHORT": "Standard GitHub",
+    "MODE_CUSTOM_SHORT": "Personnalisé",
+    "MODE_NONE_SHORT": "Sans mot-clé",
+    "MODE_STANDARD_DESC": "Clôture avec les verbes usuels : fix, fixes, resolve, close...",
+    "MODE_CUSTOM_DESC": "Mots-clés requis pour clôturer une question :",
+    "CUSTOM_KEYWORDS_LABEL": "Mots-clés de clôture",
+    "CUSTOM_KEYWORDS_PLACEHOLDER": "ex: rendu, validé, exo, check",
+    "CUSTOM_KEYWORDS_HINT": "Mots-clés séparés par des virgules",
+    "MODE_NONE_DESC": "Tout commit mentionnant le nom entier de la question valide celle-ci.",
+    "SEQUENCE_TITLE": "Générateur de séquence",
+    "PREFIX_LABEL": "Préfixe",
+    "PREFIX_PLACEHOLDER": "question ",
+    "START_LABEL": "De",
+    "END_LABEL": "À",
+    "RANGE_LABEL": "Plage",
+    "PREVIEW_TITLE": "Aperçu global",
+    "QUESTIONS_COUNT": "{{count}} question(s)",
+    "NO_QUESTIONS": "Aucune question à générer",
+    "BTN_GENERATE_ADD": "Générer et ajouter ({{count}})",
+    "TOOLTIP_CLOSING_STANDARD": "Règle de clôture : Standard GitHub",
+    "TOOLTIP_CLOSING_CUSTOM": "Règle de clôture : Personnalisée ({{keywords}})",
+    "TOOLTIP_CLOSING_NONE": "Règle de clôture : Sans mot-clé"
   }
 }

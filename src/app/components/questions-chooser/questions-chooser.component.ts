@@ -51,9 +51,7 @@ declare var ResizeObserver: any;
     },
   ],
 })
-export class QuestionsChooserComponent
-  implements OnInit, ControlValueAccessor, OnDestroy
-{
+export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, OnDestroy {
   @ViewChild("instance", { static: true }) instance: NgbTypeahead;
   @ViewChild("scrollContainer") scrollContainer: ElementRef;
   @ViewChild("inputField", { static: true }) inputField: ElementRef;
@@ -86,9 +84,7 @@ export class QuestionsChooserComponent
 
   get placeholderKey(): string {
     if (this.items.length > 0) return "";
-    return this.mode === "search"
-      ? "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER"
-      : "QUESTIONS-CHOOSER-PLACEHOLDER";
+    return this.mode === "search" ? "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER" : "QUESTIONS-CHOOSER-PLACEHOLDER";
   }
 
   getHelpTransform(): string {
@@ -345,12 +341,7 @@ export class QuestionsChooserComponent
       return;
     }
 
-    if (
-      event.key.toLowerCase() === "f" &&
-      !event.ctrlKey &&
-      !event.metaKey &&
-      !event.altKey
-    ) {
+    if (event.key.toLowerCase() === "f" && !event.ctrlKey && !event.metaKey && !event.altKey) {
       if (OsUtils.isTypingInInput(event)) {
         return;
       }
@@ -410,7 +401,7 @@ export class QuestionsChooserComponent
     private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
     @Optional() private customModalService?: CustomModalService,
-    @Optional() private overlayManagerService?: OverlayManagerService
+    @Optional() private overlayManagerService?: OverlayManagerService,
   ) {}
 
   public closePopovers(blurInput = false) {
@@ -428,12 +419,7 @@ export class QuestionsChooserComponent
       this.stopObservingTypeahead();
       this.resetHelpPosition();
     }
-    if (
-      blurInput &&
-      this.inputField &&
-      this.inputField.nativeElement &&
-      document.activeElement === this.inputField.nativeElement
-    ) {
+    if (blurInput && this.inputField && this.inputField.nativeElement && document.activeElement === this.inputField.nativeElement) {
       this.inputField.nativeElement.blur();
     }
     this.cdr.markForCheck();
@@ -476,10 +462,7 @@ export class QuestionsChooserComponent
         }
         event.preventDefault();
         return;
-      } else if (
-        event.key === "ArrowRight" &&
-        OsUtils.isModifierPressed(event)
-      ) {
+      } else if (event.key === "ArrowRight" && OsUtils.isModifierPressed(event)) {
         const currentGroup = this.getGroupRange(this.selectedPillIndex);
         if (currentGroup.end < this.items.length - 1) {
           const nextGroup = this.getGroupRange(currentGroup.end + 1);
@@ -497,12 +480,7 @@ export class QuestionsChooserComponent
         this.deleteItem(this.selectedPillIndex);
         this.focusAfterDelete();
         event.preventDefault();
-      } else if (
-        event.key.length === 1 &&
-        !event.ctrlKey &&
-        !event.metaKey &&
-        !event.altKey
-      ) {
+      } else if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
         this.editingPillIndex = this.selectedPillIndex;
         this.editingOldValue = this.items[this.selectedPillIndex].value;
         this.editingOldType = this.items[this.selectedPillIndex].type;
@@ -528,11 +506,7 @@ export class QuestionsChooserComponent
     }
   }
 
-  buildTypeaheadResults(
-    cleanSearch: string,
-    matchingQuestions: string[],
-    isExclusion: boolean
-  ): TypeaheadFilterItem[] {
+  buildTypeaheadResults(cleanSearch: string, matchingQuestions: string[], isExclusion: boolean): TypeaheadFilterItem[] {
     const results: TypeaheadFilterItem[] = [];
 
     // 1. Put matching questions in first (so they are selected by default)
@@ -564,25 +538,18 @@ export class QuestionsChooserComponent
     return results;
   }
 
-  private getMatchingQuestionSuggestions(
-    cleanSearch: string,
-    isEditing = false
-  ): string[] {
+  private getMatchingQuestionSuggestions(cleanSearch: string, isEditing = false): string[] {
     return this.questionSuggestions
       .filter(
         (question) =>
-          (this.mode === "search" ||
-            !this.questions.includes(question) ||
-            (isEditing && question === this.editingOldValue)) &&
-          question.toLowerCase().indexOf(cleanSearch.toLowerCase()) > -1
+          (this.mode === "search" || !this.questions.includes(question) || (isEditing && question === this.editingOldValue)) &&
+          question.toLowerCase().indexOf(cleanSearch.toLowerCase()) > -1,
       )
       .slice(0, 8);
   }
 
   searchQuestions = (text: Observable<string>) => {
-    const clicksWithClosedPopup$ = this.click$.pipe(
-      filter(() => !this.instance.isPopupOpen())
-    );
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
     const inputFocus$ = this.focus$;
     return merge(text, clicksWithClosedPopup$, inputFocus$).pipe(
       map((searchRaw) => {
@@ -600,7 +567,7 @@ export class QuestionsChooserComponent
           setTimeout(() => this.updateHelpPosition(), 0);
         }
         return results;
-      })
+      }),
     );
   };
 
@@ -621,7 +588,7 @@ export class QuestionsChooserComponent
           setTimeout(() => this.updateHelpPosition(), 0);
         }
         return results;
-      })
+      }),
     );
   };
 
@@ -645,55 +612,43 @@ export class QuestionsChooserComponent
     this.syncItemsFromInputs();
 
     if (this.overlayManagerService) {
-      this.overlayManagerService.dismiss$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((event) => {
-          const shouldDismissTypeahead = OverlayManagerService.shouldDismiss(
-            OverlayType.TYPEAHEAD,
-            event
-          );
-          const shouldDismissHelp = OverlayManagerService.shouldDismiss(
-            OverlayType.QUICK_HELP,
-            event
-          );
+      this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+        const shouldDismissTypeahead = OverlayManagerService.shouldDismiss(OverlayType.TYPEAHEAD, event);
+        const shouldDismissHelp = OverlayManagerService.shouldDismiss(OverlayType.QUICK_HELP, event);
 
-          if (shouldDismissTypeahead) {
-            if (this.instance && this.instance.isPopupOpen()) {
-              this.instance.dismissPopup();
-            }
-            if (this.selectedPillIndex !== null) {
-              if (this.editingPillIndex !== null) {
-                this.finishEditing();
-              }
-              this.selectedPillIndex = null;
-            }
-            if (
-              event.options?.blurInput &&
-              this.inputField &&
-              this.inputField.nativeElement &&
-              document.activeElement === this.inputField.nativeElement
-            ) {
-              this.inputField.nativeElement.blur();
-            }
+        if (shouldDismissTypeahead) {
+          if (this.instance && this.instance.isPopupOpen()) {
+            this.instance.dismissPopup();
           }
+          if (this.selectedPillIndex !== null) {
+            if (this.editingPillIndex !== null) {
+              this.finishEditing();
+            }
+            this.selectedPillIndex = null;
+          }
+          if (
+            event.options?.blurInput &&
+            this.inputField &&
+            this.inputField.nativeElement &&
+            document.activeElement === this.inputField.nativeElement
+          ) {
+            this.inputField.nativeElement.blur();
+          }
+        }
 
-          if (shouldDismissHelp) {
-            if (this.showQuickHelp) {
-              this.showQuickHelp = false;
-              this.stopObservingTypeahead();
-              this.resetHelpPosition();
-            }
+        if (shouldDismissHelp) {
+          if (this.showQuickHelp) {
+            this.showQuickHelp = false;
+            this.stopObservingTypeahead();
+            this.resetHelpPosition();
           }
-          this.cdr.markForCheck();
-        });
+        }
+        this.cdr.markForCheck();
+      });
     }
 
     if (this.inputField && this.inputField.nativeElement) {
-      this.inputField.nativeElement.addEventListener(
-        "keydown",
-        this.onInputCaptureKeyDown,
-        true
-      ); // Use capture phase
+      this.inputField.nativeElement.addEventListener("keydown", this.onInputCaptureKeyDown, true); // Use capture phase
     }
   }
 
@@ -702,11 +657,7 @@ export class QuestionsChooserComponent
     this.destroy$.complete();
     this.stopObservingTypeahead();
     if (this.inputField && this.inputField.nativeElement) {
-      this.inputField.nativeElement.removeEventListener(
-        "keydown",
-        this.onInputCaptureKeyDown,
-        true
-      );
+      this.inputField.nativeElement.removeEventListener("keydown", this.onInputCaptureKeyDown, true);
     }
     this.focus$.unsubscribe();
     this.click$.unsubscribe();
@@ -738,8 +689,7 @@ export class QuestionsChooserComponent
   scrollToEnd() {
     setTimeout(() => {
       if (this.scrollContainer) {
-        this.scrollContainer.nativeElement.scrollLeft =
-          this.scrollContainer.nativeElement.scrollWidth;
+        this.scrollContainer.nativeElement.scrollLeft = this.scrollContainer.nativeElement.scrollWidth;
       }
     }, 0);
   }
@@ -759,20 +709,12 @@ export class QuestionsChooserComponent
 
     if (!explicitType) {
       if (this.mode === "search") {
-        const isSuggestion =
-          this.questionSuggestions &&
-          this.questionSuggestions.some(
-            (s) => s.toLowerCase() === cleanText.toLowerCase()
-          );
+        const isSuggestion = this.questionSuggestions && this.questionSuggestions.some((s) => s.toLowerCase() === cleanText.toLowerCase());
         if (!isSuggestion) {
           type = "commit";
         }
       } else if (this.mode === "choose") {
-        const isSuggestion =
-          this.questionSuggestions &&
-          this.questionSuggestions.some(
-            (s) => s.toLowerCase() === cleanText.toLowerCase()
-          );
+        const isSuggestion = this.questionSuggestions && this.questionSuggestions.some((s) => s.toLowerCase() === cleanText.toLowerCase());
         if (!isSuggestion) {
           this.question = null;
           return;
@@ -781,10 +723,7 @@ export class QuestionsChooserComponent
     }
 
     // Check if it's already added in editable mode
-    if (
-      this.mode !== "search" &&
-      (this.questions.includes(text) || this.commitMessages.includes(text))
-    ) {
+    if (this.mode !== "search" && (this.questions.includes(text) || this.commitMessages.includes(text))) {
       this.question = null;
       return;
     }
@@ -808,6 +747,53 @@ export class QuestionsChooserComponent
     }, 0);
   }
 
+  addQuestions(tokens: string[]) {
+    if (!tokens || tokens.length === 0) return;
+
+    const newQuestions: string[] = [];
+    tokens.forEach((token) => {
+      const clean = token.trim();
+      if (!clean) return;
+      if (this.questions.includes(clean) || newQuestions.includes(clean)) return;
+      newQuestions.push(clean);
+      this.items.push({
+        type: "question",
+        value: clean,
+        isExclusion: false,
+        rawValue: clean,
+      });
+    });
+
+    if (newQuestions.length > 0) {
+      this.questions = [...this.questions, ...newQuestions];
+      this.onChange(this.questions);
+      this.scrollToEnd();
+      this.emitFilterGroups();
+    }
+
+    this.question = null;
+    this.cdr.markForCheck();
+    this.focus();
+  }
+
+  onPaste(event: ClipboardEvent) {
+    const text = event.clipboardData?.getData("text");
+    if (text && /[\n\r;,]/.test(text)) {
+      event.preventDefault();
+      const tokens = text
+        .split(/[\n\r;,\t]+/)
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
+      if (tokens.length > 0) {
+        if (this.mode === "search") {
+          tokens.forEach((token) => this.addQuestion(token));
+        } else if (this.mode === "add") {
+          this.addQuestions(tokens);
+        }
+      }
+    }
+  }
+
   deleteItem(index: number) {
     const item = this.items[index];
     if (item.type === "question") {
@@ -827,11 +813,7 @@ export class QuestionsChooserComponent
     }
 
     // Handle AND operator links when deleting from a merged group
-    if (
-      index > 0 &&
-      this.items[index - 1].operatorAfter === "AND" &&
-      (!item.operatorAfter || item.operatorAfter === "OR")
-    ) {
+    if (index > 0 && this.items[index - 1].operatorAfter === "AND" && (!item.operatorAfter || item.operatorAfter === "OR")) {
       // Deleting the last item of a group: remove the AND from the previous item
       this.items[index - 1].operatorAfter = "OR";
     }
@@ -851,12 +833,7 @@ export class QuestionsChooserComponent
       this.handleEscape(event);
       return;
     }
-    if (
-      event.key === "?" &&
-      !this.question &&
-      !this.isTypingExclusion &&
-      this.mode === "search"
-    ) {
+    if (event.key === "?" && !this.question && !this.isTypingExclusion && this.mode === "search") {
       event.preventDefault();
       this.toggleQuickHelp();
       return;
@@ -967,9 +944,7 @@ export class QuestionsChooserComponent
 
     if (
       newValue === "" ||
-      (this.mode !== "search" &&
-        (this.questions.includes(newValue) ||
-          this.commitMessages.includes(newValue))) ||
+      (this.mode !== "search" && (this.questions.includes(newValue) || this.commitMessages.includes(newValue))) ||
       (this.mode === "choose" && !this.questionSuggestions.some((s) => s.toLowerCase() === newValue.toLowerCase()))
     ) {
       if (this.editingOldType === "question") {
@@ -987,8 +962,7 @@ export class QuestionsChooserComponent
       }
       this.items.splice(index, 1);
       if (this.selectedPillIndex >= this.items.length) {
-        this.selectedPillIndex =
-          this.items.length > 0 ? this.items.length - 1 : null;
+        this.selectedPillIndex = this.items.length > 0 ? this.items.length - 1 : null;
         if (this.selectedPillIndex === null) {
           this.inputField.nativeElement.focus();
         }
@@ -997,16 +971,12 @@ export class QuestionsChooserComponent
       let newType: "question" | "commit" = explicitType || "question";
       if (!explicitType) {
         if (this.mode === "search") {
-          const isSuggestion = this.questionSuggestions.some(
-            (s) => s.toLowerCase() === newValue.toLowerCase()
-          );
+          const isSuggestion = this.questionSuggestions.some((s) => s.toLowerCase() === newValue.toLowerCase());
           if (!isSuggestion) {
             newType = "commit";
           }
         } else if (this.mode === "choose") {
-          const isSuggestion = this.questionSuggestions.some(
-            (s) => s.toLowerCase() === newValue.toLowerCase()
-          );
+          const isSuggestion = this.questionSuggestions.some((s) => s.toLowerCase() === newValue.toLowerCase());
           newType = isSuggestion ? "question" : "commit";
         }
       }
@@ -1059,9 +1029,7 @@ export class QuestionsChooserComponent
   }
 
   get isMainPillActive(): boolean {
-    return (
-      (this.question && this.question.length > 0) || this.isTypingExclusion
-    );
+    return (this.question && this.question.length > 0) || this.isTypingExclusion;
   }
 
   onQuestionChange(value: string) {
@@ -1105,14 +1073,8 @@ export class QuestionsChooserComponent
 
   focusSelectedPill() {
     setTimeout(() => {
-      if (
-        this.selectedPillIndex !== null &&
-        this.pillElements &&
-        this.pillElements.length > this.selectedPillIndex
-      ) {
-        this.pillElements
-          .toArray()
-          [this.selectedPillIndex].nativeElement.focus();
+      if (this.selectedPillIndex !== null && this.pillElements && this.pillElements.length > this.selectedPillIndex) {
+        this.pillElements.toArray()[this.selectedPillIndex].nativeElement.focus();
       }
     });
   }
@@ -1139,10 +1101,7 @@ export class QuestionsChooserComponent
       this.selectedPillIndex = null;
       this.inputField.nativeElement.focus();
     } else {
-      this.selectedPillIndex = Math.min(
-        this.selectedPillIndex,
-        this.items.length - 1
-      );
+      this.selectedPillIndex = Math.min(this.selectedPillIndex, this.items.length - 1);
       this.scrollToSelectedPill();
       this.focusSelectedPill();
     }
@@ -1158,10 +1117,7 @@ export class QuestionsChooserComponent
       start--;
     }
     let end = index;
-    while (
-      end < this.items.length - 1 &&
-      this.items[end].operatorAfter === "AND"
-    ) {
+    while (end < this.items.length - 1 && this.items[end].operatorAfter === "AND") {
       end++;
     }
     return { start, end };
@@ -1190,9 +1146,7 @@ export class QuestionsChooserComponent
 
         for (let i = range.start; i <= range.end; i++) {
           if (pillElements[i]) {
-            const clone = pillElements[i].nativeElement.cloneNode(
-              true
-            ) as HTMLElement;
+            const clone = pillElements[i].nativeElement.cloneNode(true) as HTMLElement;
             clone.style.margin = "0";
             if (i < range.end) {
               clone.style.borderRight = "1px solid #cbd5e1";
@@ -1208,11 +1162,7 @@ export class QuestionsChooserComponent
         }
 
         document.body.appendChild(ghostContainer);
-        event.dataTransfer.setDragImage(
-          ghostContainer,
-          event.offsetX || 20,
-          event.offsetY || 20
-        );
+        event.dataTransfer.setDragImage(ghostContainer, event.offsetX || 20, event.offsetY || 20);
 
         setTimeout(() => {
           document.body.removeChild(ghostContainer);
@@ -1221,14 +1171,11 @@ export class QuestionsChooserComponent
     }
   }
 
-  getClosestPillIndex(
-    clientX: number
-  ): { index: number; position: "left" | "right"; leftPx: number } | null {
+  getClosestPillIndex(clientX: number): { index: number; position: "left" | "right"; leftPx: number } | null {
     if (!this.pillElements || this.pillElements.length === 0) return null;
 
     const pills = this.pillElements.toArray();
-    const containerRect =
-      this.scrollContainer.nativeElement.getBoundingClientRect();
+    const containerRect = this.scrollContainer.nativeElement.getBoundingClientRect();
     const scrollLeft = this.scrollContainer.nativeElement.scrollLeft;
 
     let closestDistance = Infinity;
@@ -1267,11 +1214,7 @@ export class QuestionsChooserComponent
     }
 
     // Normalize to always use 'left' of the next element, to prevent ghost preview flickering
-    if (
-      closestResult &&
-      closestResult.position === "right" &&
-      closestResult.index < pills.length - 1
-    ) {
+    if (closestResult && closestResult.position === "right" && closestResult.index < pills.length - 1) {
       closestResult = {
         index: closestResult.index + 1,
         position: "left",
@@ -1284,8 +1227,7 @@ export class QuestionsChooserComponent
 
   onContainerDragOver(event: DragEvent) {
     event.preventDefault(); // Necessary to allow dropping
-    if (this.draggedGroupStart === null || this.draggedGroupEnd === null)
-      return;
+    if (this.draggedGroupStart === null || this.draggedGroupEnd === null) return;
     if (event.dataTransfer) {
       event.dataTransfer.dropEffect = "move";
     }
@@ -1298,10 +1240,7 @@ export class QuestionsChooserComponent
     }
 
     // Check if dragging over itself
-    if (
-      closest.index >= this.draggedGroupStart &&
-      closest.index <= this.draggedGroupEnd
-    ) {
+    if (closest.index >= this.draggedGroupStart && closest.index <= this.draggedGroupEnd) {
       this.dropTargetIndex = null;
       this.dropPosition = null;
       return;
@@ -1309,8 +1248,7 @@ export class QuestionsChooserComponent
 
     const targetRange = this.getGroupRange(closest.index);
 
-    this.dropTargetIndex =
-      closest.position === "left" ? targetRange.start : targetRange.end;
+    this.dropTargetIndex = closest.position === "left" ? targetRange.start : targetRange.end;
     this.dropPosition = closest.position;
 
     // If dropping inside a group but closest is an internal boundary, we must snap to the group boundary
@@ -1324,20 +1262,14 @@ export class QuestionsChooserComponent
   onContainerDragLeave(event: DragEvent) {
     if (!this.scrollContainer) return;
     const rect = this.scrollContainer.nativeElement.getBoundingClientRect();
-    if (
-      event.clientX < rect.left ||
-      event.clientX > rect.right ||
-      event.clientY < rect.top ||
-      event.clientY > rect.bottom
-    ) {
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
       this.dropTargetIndex = null;
       this.dropPosition = null;
     }
   }
 
   getDraggedItems() {
-    if (this.draggedGroupStart === null || this.draggedGroupEnd === null)
-      return [];
+    if (this.draggedGroupStart === null || this.draggedGroupEnd === null) return [];
     return this.items.slice(this.draggedGroupStart, this.draggedGroupEnd + 1);
   }
 
@@ -1347,38 +1279,24 @@ export class QuestionsChooserComponent
   }
 
   onDrop(event: DragEvent) {
-    if (
-      this.draggedGroupStart === null ||
-      this.draggedGroupEnd === null ||
-      this.dropTargetIndex === null ||
-      this.dropPosition === null
-    ) {
+    if (this.draggedGroupStart === null || this.draggedGroupEnd === null || this.dropTargetIndex === null || this.dropPosition === null) {
       this.onDragEnd();
       return;
     }
 
     // Calculate insert index
-    let insertIndex =
-      this.dropPosition === "left"
-        ? this.dropTargetIndex
-        : this.dropTargetIndex + 1;
+    let insertIndex = this.dropPosition === "left" ? this.dropTargetIndex : this.dropTargetIndex + 1;
 
     // If dropping after itself, adjust index
     if (insertIndex > this.draggedGroupEnd) {
       insertIndex -= this.draggedGroupEnd - this.draggedGroupStart + 1;
-    } else if (
-      insertIndex > this.draggedGroupStart &&
-      insertIndex <= this.draggedGroupEnd
-    ) {
+    } else if (insertIndex > this.draggedGroupStart && insertIndex <= this.draggedGroupEnd) {
       this.onDragEnd();
       return;
     }
 
     // Extract the dragged group
-    const draggedItems = this.items.splice(
-      this.draggedGroupStart,
-      this.draggedGroupEnd - this.draggedGroupStart + 1
-    );
+    const draggedItems = this.items.splice(this.draggedGroupStart, this.draggedGroupEnd - this.draggedGroupStart + 1);
 
     if (draggedItems.length > 0) {
       draggedItems[draggedItems.length - 1].operatorAfter = "OR";
@@ -1400,19 +1318,9 @@ export class QuestionsChooserComponent
     this.dropPosition = null;
   }
 
-  animateAndSwap(
-    group1: { start: number; end: number },
-    group2: { start: number; end: number },
-    direction: "left" | "right"
-  ) {
-    const pillEls = this.pillElements
-      .toArray()
-      .map((el) => el.nativeElement as HTMLElement);
-    const connEls = this.connectorElements
-      ? this.connectorElements
-          .toArray()
-          .map((el) => el.nativeElement as HTMLElement)
-      : [];
+  animateAndSwap(group1: { start: number; end: number }, group2: { start: number; end: number }, direction: "left" | "right") {
+    const pillEls = this.pillElements.toArray().map((el) => el.nativeElement as HTMLElement);
+    const connEls = this.connectorElements ? this.connectorElements.toArray().map((el) => el.nativeElement as HTMLElement) : [];
 
     const group1StartRect = pillEls[group1.start].getBoundingClientRect();
     const group1EndRect = pillEls[group1.end].getBoundingClientRect();
@@ -1464,15 +1372,10 @@ export class QuestionsChooserComponent
     }
 
     setTimeout(() => {
-      const allEls = [
-        ...pillEls.slice(group1.start, group1.end + 1),
-        ...pillEls.slice(group2.start, group2.end + 1),
-      ];
+      const allEls = [...pillEls.slice(group1.start, group1.end + 1), ...pillEls.slice(group2.start, group2.end + 1)];
       const allConns: HTMLElement[] = [];
-      for (let i = group1.start; i < group1.end; i++)
-        if (connEls[i]) allConns.push(connEls[i]);
-      for (let i = group2.start; i < group2.end; i++)
-        if (connEls[i]) allConns.push(connEls[i]);
+      for (let i = group1.start; i < group1.end; i++) if (connEls[i]) allConns.push(connEls[i]);
+      for (let i = group2.start; i < group2.end; i++) if (connEls[i]) allConns.push(connEls[i]);
 
       allEls.forEach((el) => {
         el.style.transition = "none";
@@ -1498,8 +1401,7 @@ export class QuestionsChooserComponent
       if (direction === "left") {
         this.selectedPillIndex = group2.start + selectOffset;
       } else {
-        this.selectedPillIndex =
-          group1.start + (group2.end - group2.start + 1) + selectOffset;
+        this.selectedPillIndex = group1.start + (group2.end - group2.start + 1) + selectOffset;
       }
       this.cdr.detectChanges();
 
@@ -1519,12 +1421,8 @@ export class QuestionsChooserComponent
   }
 
   rebuildDataArrays() {
-    this.questions = this.items
-      .filter((i) => i.type === "question")
-      .map((i) => i.value);
-    this.commitMessages = this.items
-      .filter((i) => i.type === "commit")
-      .map((i) => i.value);
+    this.questions = this.items.filter((i) => i.type === "question").map((i) => i.value);
+    this.commitMessages = this.items.filter((i) => i.type === "commit").map((i) => i.value);
     this.onChange(this.questions);
     this.commitMessagesChange.emit(this.commitMessages);
   }
@@ -1532,20 +1430,16 @@ export class QuestionsChooserComponent
   // --- End Drag and Drop ---
 
   isCommitStyle(item: any, index: number) {
-    if (this.mode !== 'search') return false;
+    if (this.mode !== "search") return false;
     if (this.editingPillIndex === index) {
       const textToEvaluate = this.editingCurrentText;
-      const isSuggestion = this.questionSuggestions.some(
-        (s) => s.toLowerCase() === textToEvaluate.toLowerCase()
-      );
+      const isSuggestion = this.questionSuggestions.some((s) => s.toLowerCase() === textToEvaluate.toLowerCase());
       return !isSuggestion;
     }
     if (index === -2) {
       const textToEvaluate = item?.value || "";
       if (textToEvaluate.length === 0) return true;
-      const isSuggestion = this.questionSuggestions.some(
-        (s) => s.toLowerCase() === textToEvaluate.toLowerCase()
-      );
+      const isSuggestion = this.questionSuggestions.some((s) => s.toLowerCase() === textToEvaluate.toLowerCase());
       return !isSuggestion;
     }
     return item.type === "commit";
@@ -1633,11 +1527,7 @@ export class QuestionsChooserComponent
   }
 
   isMergedLeft(index: number): boolean {
-    return (
-      this.mode === "search" &&
-      index > 0 &&
-      this.items[index - 1]?.operatorAfter === "AND"
-    );
+    return this.mode === "search" && index > 0 && this.items[index - 1]?.operatorAfter === "AND";
   }
 
   private onChange = (_: any) => {};

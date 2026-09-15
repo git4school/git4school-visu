@@ -590,5 +590,33 @@
     "SCOPE_LABEL": "Область",
     "POPUP_CLOSED": "Окно входа было закрыто.",
     "LOGIN_ERROR": "Ошибка при подключении через GitHub."
+  },
+  "QUESTIONS-ASSISTANT": {
+    "TRIGGER_BUTTON": "Помощник",
+    "CUSTOM_RULE_ACTIVE": "Активно настраиваемое правило закрытия или без ключевых слов",
+    "POPOVER_TITLE": "Конфигурация вопросов",
+    "CLOSING_TITLE": "Правило закрытия коммитов",
+    "MODE_STANDARD_SHORT": "Стандарт GitHub",
+    "MODE_CUSTOM_SHORT": "Пользовательское",
+    "MODE_NONE_SHORT": "Без ключевого слова",
+    "MODE_STANDARD_DESC": "Закрытие со стандартными глаголами: fix, fixes, resolve, close...",
+    "MODE_CUSTOM_DESC": "Ключевые слова, необходимые для закрытия вопроса:",
+    "CUSTOM_KEYWORDS_LABEL": "Ключевые слова закрытия",
+    "CUSTOM_KEYWORDS_PLACEHOLDER": "напр.: сдал, зачет, exo, check",
+    "CUSTOM_KEYWORDS_HINT": "Ключевые слова через запятую",
+    "MODE_NONE_DESC": "Любой коммит с точным указанием имени вопроса закрывает его.",
+    "SEQUENCE_TITLE": "Генератор последовательности",
+    "PREFIX_LABEL": "Префикс",
+    "PREFIX_PLACEHOLDER": "question ",
+    "START_LABEL": "От",
+    "END_LABEL": "До",
+    "RANGE_LABEL": "Диапазон",
+    "PREVIEW_TITLE": "Общий предпросмотр",
+    "QUESTIONS_COUNT": "{{count}} вопрос(ов)",
+    "NO_QUESTIONS": "Нет вопросов для генерации",
+    "BTN_GENERATE_ADD": "Сгенерировать и добавить ({{count}})",
+    "TOOLTIP_CLOSING_STANDARD": "Правило закрытия: Стандарт GitHub",
+    "TOOLTIP_CLOSING_CUSTOM": "Правило закрытия: Пользовательское ({{keywords}})",
+    "TOOLTIP_CLOSING_NONE": "Правило закрытия: Без ключевого слова"
   }
 }

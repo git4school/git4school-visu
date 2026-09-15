@@ -1,4 +1,4 @@
-import { Metadata } from "@models/Metadata.model";
+import { Metadata, QuestionClosingMode } from "@models/Metadata.model";
 import { Milestone } from "@models/Milestone.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
@@ -127,5 +127,25 @@ export class Assignment {
 
   set defaultSessionDuration(defaultSessionDuration: NgbTimeStruct) {
     this.metadata.defaultSessionDuration = defaultSessionDuration;
+  }
+
+  get closingMode(): QuestionClosingMode {
+    return this.metadata?.resolvedClosingMode || "standard";
+  }
+
+  set closingMode(closingMode: QuestionClosingMode) {
+    if (this.metadata) {
+      this.metadata.closingMode = closingMode;
+    }
+  }
+
+  get customClosingKeywords(): string[] {
+    return this.metadata?.resolvedCustomClosingKeywords || [];
+  }
+
+  set customClosingKeywords(customClosingKeywords: string[]) {
+    if (this.metadata) {
+      this.metadata.customClosingKeywords = customClosingKeywords;
+    }
   }
 }

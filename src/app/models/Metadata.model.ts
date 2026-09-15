@@ -2,6 +2,8 @@ import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import { Utils } from "@services/utils";
 import { Type } from "class-transformer";
 
+export type QuestionClosingMode = "standard" | "custom" | "none";
+
 export class Metadata {
   /**
    * The document title
@@ -39,6 +41,16 @@ export class Metadata {
   questions: string[];
 
   /**
+   * Strategy for question closing commits detection
+   */
+  closingMode: QuestionClosingMode;
+
+  /**
+   * Custom keywords used when closingMode is 'custom'
+   */
+  customClosingKeywords: string[];
+
+  /**
    * The date the assignment was last modified
    */
   @Type(() => Date)
@@ -49,5 +61,15 @@ export class Metadata {
   constructor() {
     this.questions = [];
     this.defaultSessionDuration = Utils.DEFAULT_SESSION_DURATION;
+    this.closingMode = "standard";
+    this.customClosingKeywords = [];
+  }
+
+  get resolvedClosingMode(): QuestionClosingMode {
+    return this.closingMode || "standard";
+  }
+
+  get resolvedCustomClosingKeywords(): string[] {
+    return this.customClosingKeywords || [];
   }
 }

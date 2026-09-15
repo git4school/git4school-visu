@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Assignment } from "@models/Assignment.model";
+import { QuestionClosingMode } from "@models/Metadata.model";
 import { Milestone } from "@models/Milestone.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
@@ -57,9 +58,7 @@ export class DataService {
 
   saveData(assignment: Assignment = this.assignment): Promise<number> {
     assignment.lastModificationDate = new Date();
-    return this.databaseService
-      .saveAssignment(assignment)
-      .then((id) => (assignment.id = id));
+    return this.databaseService.saveAssignment(assignment).then((id) => (assignment.id = id));
   }
 
   /**
@@ -140,6 +139,26 @@ export class DataService {
   set questions(questions: string[]) {
     if (this.assignment) {
       this.assignment.questions = questions;
+    }
+  }
+
+  get closingMode(): QuestionClosingMode {
+    return this.assignment?.closingMode || "standard";
+  }
+
+  set closingMode(mode: QuestionClosingMode) {
+    if (this.assignment) {
+      this.assignment.closingMode = mode;
+    }
+  }
+
+  get customClosingKeywords(): string[] {
+    return this.assignment?.customClosingKeywords || [];
+  }
+
+  set customClosingKeywords(keywords: string[]) {
+    if (this.assignment) {
+      this.assignment.customClosingKeywords = keywords;
     }
   }
 

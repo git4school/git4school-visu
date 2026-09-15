@@ -1,5 +1,10 @@
 import { Milestone } from "@models/Milestone.model";
+import { QuestionClosingMode } from "@models/Metadata.model";
 import { Type } from "class-transformer";
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 /**
  * A constant containing the possible types of commits and their corresponding color and label
@@ -63,7 +68,7 @@ export class Commit {
     public isEnSeance = false,
     public isCloture = false,
     public question?: string,
-    public color = CommitColor.INTERMEDIATE
+    public color = CommitColor.INTERMEDIATE,
   ) {
     this.commitDate = new Date(commitDate);
   }
@@ -86,17 +91,9 @@ export class Commit {
     url: string,
     isEnSeance?: boolean,
     isCloture?: boolean,
-    question?: string
+    question?: string,
   ): Commit {
-    return new Commit(
-      message,
-      author,
-      commitDate,
-      url,
-      isEnSeance,
-      isCloture,
-      question
-    );
+    return new Commit(message, author, commitDate, url, isEnSeance, isCloture, question);
   }
 
   /**
@@ -105,12 +102,7 @@ export class Commit {
    * @returns A commit
    */
   static withJSON(json): Commit {
-    return new Commit(
-      json.commit.message,
-      json.commit.committer.name,
-      json.commit.committer.date,
-      json.html_url
-    );
+    return new Commit(json.commit.message, json.commit.committer.name, json.commit.committer.date, json.html_url);
   }
 
   /**
@@ -123,7 +115,7 @@ export class Commit {
       json.message,
       json.author?.name || "Unknown",
       json.committedDate ? new Date(json.committedDate) : new Date(),
-      json.url
+      json.url,
     );
   }
 
@@ -133,10 +125,7 @@ export class Commit {
    * @param endDate The date after which commits are not processed
    */
   updateIsEnSeance(startDate: Date, endDate: Date) {
-    if (
-      this.commitDate.getTime() >= startDate.getTime() &&
-      this.commitDate.getTime() <= endDate.getTime()
-    ) {
+    if (this.commitDate.getTime() >= startDate.getTime() && this.commitDate.getTime() <= endDate.getTime()) {
       this.isEnSeance = true;
     } else {
       this.isEnSeance = false;
@@ -148,30 +137,50 @@ export class Commit {
    * @param reviews The reviews to handle
    * @param corrections The corrections to handle
    * @param questions The questions to handle
+   * @param closingMode The strategy for question closing commits detection
+   * @param customClosingKeywords Custom keywords when closingMode is 'custom'
    */
   updateMetadata(
     reviews: Milestone[],
     corrections: Milestone[],
-    questions: string[]
+    questions: string[],
+    closingMode: QuestionClosingMode = "standard",
+    customClosingKeywords: string[] = [],
   ) {
-    this.updateIsCloture();
-    this.updateQuestion(questions);
+    this.updateQuestion(questions, closingMode, customClosingKeywords);
+    this.updateIsCloture(closingMode, customClosingKeywords);
     this.updateColor(reviews, corrections);
   }
 
   /**
    * Updates the isCloture variable
+   * @param closingMode The strategy for question closing commits detection
+   * @param customClosingKeywords Custom keywords when closingMode is 'custom'
    */
-  updateIsCloture() {
-    if (
-      this.message.match(
-        /\b((close[sd]?)|(fix(es|ed)?)|(resolve[sd]?))\b:? *\b.+\b/gi
-      ) !== null
-    ) {
-      this.isCloture = true;
-    } else {
+  updateIsCloture(closingMode: QuestionClosingMode = "standard", customClosingKeywords: string[] = []) {
+    if (!this.message) {
       this.isCloture = false;
+      return;
     }
+
+    if (closingMode === "none") {
+      this.isCloture = Boolean(this.question);
+      return;
+    }
+
+    if (closingMode === "custom") {
+      const keywords = (customClosingKeywords || []).map((k) => k.trim()).filter((k) => k.length > 0);
+      if (keywords.length === 0) {
+        this.isCloture = false;
+        return;
+      }
+      const keywordsToken = keywords.map((k) => escapeRegExp(k)).join("|");
+      this.isCloture = this.message.match(new RegExp(`\\b(?:${keywordsToken})\\b:? *\\b.+\\b`, "gi")) !== null;
+      return;
+    }
+
+    // Standard GitHub mode
+    this.isCloture = this.message.match(/\b((close[sd]?)|(fix(es|ed)?)|(resolve[sd]?))\b:? *\b.+\b/gi) !== null;
   }
 
   /**
@@ -179,24 +188,38 @@ export class Commit {
    *
    * A null value is returned if no question has been found
    * @param questions The questions to handle
+   * @param closingMode The strategy for question closing commits detection
+   * @param customClosingKeywords Custom keywords when closingMode is 'custom'
    */
-  updateQuestion(questions: string[]) {
-    const questionsToken = questions.join("|");
-    const keywordsToken = [
-      "Resolve",
-      "Resolves",
-      "Resolved",
-      "Fix",
-      "Fixes",
-      "Fixed",
-      "Close",
-      "Closes",
-      "Closed",
-    ].join("|");
+  updateQuestion(questions: string[], closingMode: QuestionClosingMode = "standard", customClosingKeywords: string[] = []) {
+    if (!this.message || !questions || questions.length === 0) {
+      this.question = undefined;
+      return;
+    }
 
-    this.question = this.message.match(
-      new RegExp(`(?:${keywordsToken}) (${questionsToken})(?:\\s|:|$)`, "i")
-    )?.[1];
+    const sortedQuestions = [...questions].sort((a, b) => b.length - a.length);
+    const questionsToken = sortedQuestions.map((q) => escapeRegExp(q)).join("|");
+
+    if (closingMode === "none") {
+      const match = this.message.match(new RegExp(`(?:^|\\b|[\\[(#])(${questionsToken})(?:[\\])]|\\b|:|$|\\s)`, "i"));
+      this.question = match ? match[1] : undefined;
+      return;
+    }
+
+    let keywords: string[] = [];
+    if (closingMode === "custom") {
+      keywords = (customClosingKeywords || []).map((k) => k.trim()).filter((k) => k.length > 0);
+    } else {
+      keywords = ["Resolve", "Resolves", "Resolved", "Fix", "Fixes", "Fixed", "Close", "Closes", "Closed"];
+    }
+
+    if (keywords.length === 0) {
+      this.question = undefined;
+      return;
+    }
+
+    const keywordsToken = keywords.map((k) => escapeRegExp(k)).join("|");
+    this.question = this.message.match(new RegExp(`(?:${keywordsToken}) (${questionsToken})(?:\\s|:|$)`, "i"))?.[1];
   }
 
   /**
