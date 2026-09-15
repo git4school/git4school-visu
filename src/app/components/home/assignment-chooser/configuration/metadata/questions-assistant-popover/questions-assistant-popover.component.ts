@@ -13,12 +13,13 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
   @Input() closingMode: QuestionClosingMode = "standard";
   @Output() closingModeChange = new EventEmitter<QuestionClosingMode>();
 
-  @Input() customClosingKeywords: string[] = [];
-  @Output() customClosingKeywordsChange = new EventEmitter<string[]>();
+  @Input() public customClosingKeywords: string[] = [];
+  @Output() public customClosingKeywordsChange = new EventEmitter<string[]>();
 
-  @Output() addQuestions = new EventEmitter<string[]>();
+  @Output() public addQuestions = new EventEmitter<string[]>();
 
   public isOpen = false;
+  public isDropUp = false;
 
   public sequencePrefix = "question ";
   public sequenceType: "numeric" | "alpha" = "numeric";
@@ -39,10 +40,6 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
     { value: "numeric", label: "123" },
     { value: "alpha", label: "ABC" },
   ];
-
-  private destroy$ = new Subject<void>();
-
-  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private overlayManagerService: OverlayManagerService) {}
 
   public get isCustomRuleActive(): boolean {
     return this.closingMode !== "standard";
@@ -65,6 +62,13 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
   public get allGeneratedQuestions(): string[] {
     return this.computeSequence();
   }
+
+  private destroy$ = new Subject<void>();
+  private resizeObserver: any = null;
+  private boundScroll: (() => void) | null = null;
+  private boundResize: (() => void) | null = null;
+
+  constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private overlayManagerService: OverlayManagerService) {}
 
   @HostListener("document:click", ["$event"])
   public onDocumentClick(event: MouseEvent): void {
@@ -90,11 +94,35 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
         this.close();
       }
     });
+
+    this.boundScroll = () => {
+      if (this.isOpen) {
+        this.adjustPosition();
+      }
+    };
+    this.boundResize = () => {
+      if (this.isOpen) {
+        this.adjustPosition();
+      }
+    };
+    document.addEventListener("scroll", this.boundScroll, { capture: true, passive: true });
+    window.addEventListener("resize", this.boundResize, { passive: true });
   }
 
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+
+    if (this.boundScroll) {
+      document.removeEventListener("scroll", this.boundScroll, { capture: true });
+    }
+    if (this.boundResize) {
+      window.removeEventListener("resize", this.boundResize);
+    }
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
   }
 
   public togglePopover(event: MouseEvent): void {
@@ -108,15 +136,92 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
       if (this.customClosingKeywords && this.customClosingKeywords.length > 0) {
         this.customKeywordsText = this.customClosingKeywords.join(", ");
       }
-      this.cdr.markForCheck();
+      this.cdr.detectChanges();
+      this.adjustPosition();
+
+      const popupEl = this.elementRef.nativeElement.querySelector(".assistant-popover-card") as HTMLElement;
+      if (popupEl && typeof (window as any).ResizeObserver !== "undefined") {
+        if (this.resizeObserver) {
+          this.resizeObserver.disconnect();
+        }
+        this.resizeObserver = new (window as any).ResizeObserver(() => {
+          this.adjustPosition();
+        });
+        this.resizeObserver.observe(popupEl);
+      }
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.adjustPosition();
+        });
+      });
     }
   }
 
   public close(): void {
     if (this.isOpen) {
       this.isOpen = false;
+      this.isDropUp = false;
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+        this.resizeObserver = null;
+      }
       this.cdr.markForCheck();
     }
+  }
+
+  public adjustPosition(): void {
+    if (!this.isOpen) return;
+
+    const popupEl = this.elementRef.nativeElement.querySelector(".assistant-popover-card") as HTMLElement;
+    const triggerEl = this.elementRef.nativeElement.querySelector(".btn-assistant-trigger") as HTMLElement;
+    if (!popupEl || !triggerEl) return;
+
+    const triggerRect = triggerEl.getBoundingClientRect();
+    const popupWidth = popupEl.offsetWidth || 380;
+    const popupHeight = popupEl.offsetHeight || 370;
+
+    const margin = 12;
+    const gap = 6;
+    const spaceBelow = window.innerHeight - triggerRect.bottom - margin;
+    const spaceAbove = triggerRect.top - margin;
+
+    let targetViewportY: number;
+
+    if (spaceBelow >= popupHeight + gap) {
+      targetViewportY = triggerRect.bottom + gap;
+      this.isDropUp = false;
+    } else if (spaceAbove >= popupHeight + gap) {
+      targetViewportY = triggerRect.top - gap - popupHeight;
+      this.isDropUp = true;
+    } else {
+      if (spaceBelow >= spaceAbove) {
+        targetViewportY = triggerRect.bottom + gap;
+        this.isDropUp = false;
+      } else {
+        targetViewportY = triggerRect.top - gap - popupHeight;
+        this.isDropUp = true;
+      }
+      targetViewportY = Math.max(margin, Math.min(targetViewportY, window.innerHeight - popupHeight - margin));
+    }
+
+    let targetViewportX = triggerRect.left;
+    if (targetViewportX + popupWidth > window.innerWidth - margin) {
+      targetViewportX = window.innerWidth - popupWidth - margin;
+    }
+    if (targetViewportX < margin) {
+      targetViewportX = margin;
+    }
+
+    const wrapperRect = this.elementRef.nativeElement.getBoundingClientRect();
+    const relativeLeft = Math.round(targetViewportX - wrapperRect.left);
+    const relativeTop = Math.round(targetViewportY - wrapperRect.top);
+
+    popupEl.style.left = `${relativeLeft}px`;
+    popupEl.style.top = `${relativeTop}px`;
+    popupEl.style.right = "auto";
+    popupEl.style.bottom = "auto";
+    this.cdr.markForCheck();
   }
 
   public onApplySequence(): void {
@@ -135,6 +240,8 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
   public onClosingModeChange(mode: QuestionClosingMode): void {
     this.closingMode = mode;
     this.closingModeChange.emit(this.closingMode);
+    this.cdr.detectChanges();
+    this.adjustPosition();
   }
 
   public onStartChange(val: string): void {

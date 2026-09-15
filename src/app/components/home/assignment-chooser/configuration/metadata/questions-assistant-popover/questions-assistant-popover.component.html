@@ -24,6 +24,7 @@
   <!-- Unified Apple-style Popover Container -->
   <div *ngIf="isOpen"
        class="assistant-popover-card"
+       [class.is-dropup]="isDropUp"
        (click)="$event.stopPropagation()">
 
     <!-- Header: Title + Close button matching quick-help-popover -->
@@ -151,13 +152,13 @@
       <div class="section-block mb-0">
         <div class="d-flex justify-content-between align-items-center mb-1">
           <label class="section-label mb-0">{{ 'QUESTIONS-ASSISTANT.PREVIEW_TITLE' | translate }}</label>
-          <span class="preview-count-badge" *ngIf="allGeneratedQuestions.length > 0">
+          <span class="preview-count-text" *ngIf="allGeneratedQuestions.length > 0">
             {{ 'QUESTIONS-ASSISTANT.QUESTIONS_COUNT' | translate: { count: allGeneratedQuestions.length } }}
           </span>
         </div>
 
         <!-- Total Preview Pills Box -->
-        <div class="preview-total-container mb-3">
+        <div class="preview-total-container">
           <ng-container *ngIf="allGeneratedQuestions.length > 0; else noPreview">
             <span *ngFor="let q of allGeneratedQuestions" class="preview-pill">{{ q }}</span>
           </ng-container>
@@ -166,14 +167,16 @@
           </ng-template>
         </div>
 
-        <!-- Action Button -->
-        <button type="button"
-                class="btn btn-primary action-btn-add w-100"
-                [disabled]="allGeneratedQuestions.length === 0"
-                (click)="onApplySequence()">
-          <i class="fas fa-plus mr-1"></i>
-          {{ 'QUESTIONS-ASSISTANT.BTN_GENERATE_ADD' | translate: { count: allGeneratedQuestions.length } }}
-        </button>
+        <!-- Action Button aligned right -->
+        <div class="popover-footer d-flex justify-content-end">
+          <button type="button"
+                  class="btn btn-primary action-btn-add"
+                  [disabled]="allGeneratedQuestions.length === 0"
+                  (click)="onApplySequence()">
+            <i class="fas fa-plus mr-1"></i>
+            {{ 'QUESTIONS-ASSISTANT.BTN_GENERATE_ADD' | translate: { count: allGeneratedQuestions.length } }}
+          </button>
+        </div>
       </div>
     </div>
 
