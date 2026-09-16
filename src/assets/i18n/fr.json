@@ -595,7 +595,7 @@
     "LOGIN_ERROR": "Erreur lors de la connexion via GitHub."
   },
   "QUESTIONS-ASSISTANT": {
-    "TRIGGER_BUTTON": "Assistant",
+    "TRIGGER_BUTTON": "Options & générateur",
     "CUSTOM_RULE_ACTIVE": "Règle de clôture personnalisée ou sans mot-clé active",
     "POPOVER_TITLE": "Configuration des questions",
     "CLOSING_TITLE": "Règle de clôture des commits",

@@ -72,6 +72,43 @@
     margin-left: -2px;
     margin-right: 1px;
   }
+
+  &.ghost-style {
+    margin-top: 0;
+    height: 28px;
+    padding: 0 0.55rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: $radius-md;
+    color: var(--color-text-secondary);
+    gap: 0.35rem;
+
+    .trigger-chevron {
+      font-size: 0.6rem;
+    }
+
+    &:hover {
+      background-color: var(--color-hover);
+      color: var(--color-text-primary);
+      border-color: transparent;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    &.active {
+      background-color: var(--color-primary-bg);
+      color: var(--color-primary);
+      border-color: transparent;
+
+      .trigger-chevron {
+        color: var(--color-primary);
+      }
+    }
+  }
 }
 
 /* Popover Card: opaque surface matching theme without transparency */
@@ -97,6 +134,14 @@
   &.is-dropup {
     transform-origin: bottom left;
     animation: popoverFadeInDropUp $transition-fast;
+  }
+
+  &.align-right {
+    transform-origin: top right;
+
+    &.is-dropup {
+      transform-origin: bottom right;
+    }
   }
 }
 

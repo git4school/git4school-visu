@@ -21,7 +21,7 @@ export class MetadataComponent extends BaseEditConfigurationComponent<Metadata> 
   @Input() metadata: Metadata;
   @ViewChild("titleInput") titleInput: TextInputComponent;
   @ViewChild("questionsChooser") questionsChooser: QuestionsChooserComponent;
-  metadataForm: FormGroup;
+  public metadataForm: FormGroup;
 
   /**
    * Settings for the typeahead text input

@@ -18,6 +18,11 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
 
   @Output() public addQuestions = new EventEmitter<string[]>();
 
+  @Input() public variant: "default" | "ghost" = "ghost";
+  @Input() public iconType: "sliders" | "magic-wand" = "magic-wand";
+  @Input() public buttonLabel = "";
+  @Input() public alignRight = true;
+
   public isOpen = false;
   public isDropUp = false;
 
@@ -213,7 +218,7 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
       targetViewportY = Math.max(margin, Math.min(targetViewportY, window.innerHeight - popupHeight - margin));
     }
 
-    let targetViewportX = triggerRect.left;
+    let targetViewportX = this.alignRight ? triggerRect.right - popupWidth : triggerRect.left;
     if (targetViewportX + popupWidth > window.innerWidth - margin) {
       targetViewportX = window.innerWidth - popupWidth - margin;
     }

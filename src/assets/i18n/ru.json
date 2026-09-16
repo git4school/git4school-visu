@@ -592,7 +592,7 @@
     "LOGIN_ERROR": "Ошибка при подключении через GitHub."
   },
   "QUESTIONS-ASSISTANT": {
-    "TRIGGER_BUTTON": "Помощник",
+    "TRIGGER_BUTTON": "Опции и генератор",
     "CUSTOM_RULE_ACTIVE": "Активно настраиваемое правило закрытия или без ключевых слов",
     "POPOVER_TITLE": "Конфигурация вопросов",
     "CLOSING_TITLE": "Правило закрытия коммитов",

@@ -1,11 +1,24 @@
 <div class="questions-assistant-wrapper">
-  <!-- Trigger Button: Neutral, exactly 38px, margin-top 4px, border-radius $radius-md -->
+  <!-- Trigger Button -->
   <button type="button"
           class="btn-assistant-trigger"
+          [class.ghost-style]="variant === 'ghost'"
           [class.active]="isOpen"
           (click)="togglePopover($event)"
           [title]="tooltipKey | translate: { keywords: customKeywordsDisplay }">
-    <svg class="trigger-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Icon 1: Magic Wand (Pill wand with separated rounded tip + 3 sparkle stars matching reference) -->
+    <svg *ngIf="iconType === 'magic-wand'" class="trigger-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <g transform="rotate(45 12 12)">
+        <rect x="9.8" y="3.2" width="4.4" height="5.6" rx="2.2" />
+        <rect x="9.8" y="10.4" width="4.4" height="10.4" rx="2.2" />
+      </g>
+      <path d="M 6 4.5 Q 6 7.5 9 7.5 Q 6 7.5 6 10.5 Q 6 7.5 3 7.5 Q 6 7.5 6 4.5 Z"/>
+      <path d="M 12.8 1.2 Q 12.8 3.2 14.8 3.2 Q 12.8 3.2 12.8 5.2 Q 12.8 3.2 10.8 3.2 Q 12.8 3.2 12.8 1.2 Z"/>
+      <path d="M 17.8 13.8 Q 17.8 16.8 20.8 16.8 Q 17.8 16.8 17.8 19.8 Q 17.8 16.8 14.8 16.8 Q 17.8 16.8 17.8 13.8 Z"/>
+    </svg>
+
+    <!-- Icon 2: Classic Sliders -->
+    <svg *ngIf="iconType === 'sliders' || !iconType" class="trigger-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="4" y1="21" x2="4" y2="14"></line>
       <line x1="4" y1="10" x2="4" y2="3"></line>
       <line x1="12" y1="21" x2="12" y2="12"></line>
@@ -16,7 +29,8 @@
       <line x1="9" y1="8" x2="15" y2="8"></line>
       <line x1="17" y1="16" x2="23" y2="16"></line>
     </svg>
-    <span class="trigger-text">{{ 'QUESTIONS-ASSISTANT.TRIGGER_BUTTON' | translate }}</span>
+
+    <span class="trigger-text">{{ buttonLabel || ('QUESTIONS-ASSISTANT.TRIGGER_BUTTON' | translate) }}</span>
     <span *ngIf="isCustomRuleActive" class="accent-dot" [title]="'QUESTIONS-ASSISTANT.CUSTOM_RULE_ACTIVE' | translate"></span>
     <i class="fas fa-chevron-down trigger-chevron" [class.rotated]="isOpen"></i>
   </button>
@@ -25,12 +39,25 @@
   <div *ngIf="isOpen"
        class="assistant-popover-card"
        [class.is-dropup]="isDropUp"
+       [class.align-right]="alignRight"
        (click)="$event.stopPropagation()">
 
     <!-- Header: Title + Close button matching quick-help-popover -->
     <div class="popover-header d-flex align-items-center justify-content-between">
       <div class="popover-title-wrap d-flex align-items-center">
-        <svg class="header-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Magic wand header icon -->
+        <svg *ngIf="iconType === 'magic-wand'" class="header-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <g transform="rotate(45 12 12)">
+            <rect x="9.8" y="3.2" width="4.4" height="5.6" rx="2.2" />
+            <rect x="9.8" y="10.4" width="4.4" height="10.4" rx="2.2" />
+          </g>
+          <path d="M 6 4.5 Q 6 7.5 9 7.5 Q 6 7.5 6 10.5 Q 6 7.5 3 7.5 Q 6 7.5 6 4.5 Z"/>
+          <path d="M 12.8 1.2 Q 12.8 3.2 14.8 3.2 Q 12.8 3.2 12.8 5.2 Q 12.8 3.2 10.8 3.2 Q 12.8 3.2 12.8 1.2 Z"/>
+          <path d="M 17.8 13.8 Q 17.8 16.8 20.8 16.8 Q 17.8 16.8 17.8 19.8 Q 17.8 16.8 14.8 16.8 Q 17.8 16.8 17.8 13.8 Z"/>
+        </svg>
+
+        <!-- Sliders header icon -->
+        <svg *ngIf="iconType === 'sliders' || !iconType" class="header-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="4" y1="21" x2="4" y2="14"></line>
           <line x1="4" y1="10" x2="4" y2="3"></line>
           <line x1="12" y1="21" x2="12" y2="12"></line>
