@@ -123,15 +123,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>canDeactivate(component: <a href="../components/OverviewComponent.html" target="_self">OverviewComponent</a>, currentRoute: <a href="https://angular.io/api/router/ActivatedRouteSnapshot" target="_blank">ActivatedRouteSnapshot</a>, currentState: <a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank">RouterStateSnapshot</a>, nextState?: <a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank">RouterStateSnapshot</a>)</code>
+<code>canDeactivate(component: <a href="../classes/Commit.html" target="_self">CommitsComponent</a>, currentRoute: <a href="https://angular.io/api/router/ActivatedRouteSnapshot" target="_blank">ActivatedRouteSnapshot</a>, currentState: <a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank">RouterStateSnapshot</a>, nextState?: <a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank">RouterStateSnapshot</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">src/app/guards/data-loading.guard.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/app/guards/data-loading.guard.ts:19</a></div>
                 </td>
             </tr>
 
@@ -157,7 +157,7 @@
                                 <tr>
                                     <td>component</td>
                                     <td>
-                                                <code><a href="../components/OverviewComponent.html" target="_self" >OverviewComponent</a></code>
+                                                <code><a href="../classes/Commit.html" target="_self" >CommitsComponent</a></code>
                                     </td>
 
                                     <td>
@@ -235,15 +235,10 @@
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-  CanDeactivate,
-} from &quot;@angular/router&quot;;
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanDeactivate } from &quot;@angular/router&quot;;
 import { Observable } from &quot;rxjs&quot;;
 
-import { OverviewComponent } from &quot;@components/graphs/overview/overview.component&quot;;
+import { CommitsComponent } from &quot;@components/graphs/commits/commits.component&quot;;
 
 /**
  * This guard ensures that loading is finished
@@ -251,22 +246,18 @@ import { OverviewComponent } from &quot;@components/graphs/overview/overview.com
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class DataLoadingGuard implements CanDeactivate&lt;OverviewComponent&gt; {
+export class DataLoadingGuard implements CanDeactivate&lt;CommitsComponent&gt; {
   /**
    * Allows to leave the component if the loading is completed
    * @param component The component currently calling this method
    * @returns true if the loading variable of the component is set to false, false otherwise
    */
   canDeactivate(
-    component: OverviewComponent,
+    component: CommitsComponent,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot
-  ):
-    | boolean
-    | UrlTree
-    | Observable&lt;boolean | UrlTree&gt;
-    | Promise&lt;boolean | UrlTree&gt; {
+    nextState?: RouterStateSnapshot,
+  ): boolean | UrlTree | Observable&lt;boolean | UrlTree&gt; | Promise&lt;boolean | UrlTree&gt; {
     return !component.loading;
   }
 }

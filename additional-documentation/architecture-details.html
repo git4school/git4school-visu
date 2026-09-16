@@ -74,8 +74,8 @@
 In this way, we use 3 guards :</p>
 <ul>
 <li><code>auth.guard.ts</code>: which ensures that the user is authenticated before allowing access to a protected route</li>
-<li><code>data-provided.guard.ts</code>: which ensures that valid and minimal data are loaded to ensure the proper functioning of the application. For example, if no valid configuration file is provided in the <code>/overview</code> page, it is not possible to access <code>/questions-completion</code> or <code>/edit-metadata</code></li>
-<li><code>data-loading.guard.ts</code>: which authorizes the leaving of a page if the associated component is not loading. This guard is used in the /overview page to prevent the user from leaving the page if the processing of repository data is in progress</li>
+<li><code>data-provided.guard.ts</code>: which ensures that valid and minimal data are loaded to ensure the proper functioning of the application. For example, if no valid configuration file is provided in the <code>/commits</code> page, it is not possible to access <code>/questions-completion</code> or <code>/edit-metadata</code></li>
+<li><code>data-loading.guard.ts</code>: which authorizes the leaving of a page if the associated component is not loading. This guard is used in the <code>/commits</code> page to prevent the user from leaving the page if the processing of repository data is in progress</li>
 </ul>
 <p>If you want to create a new guard, do the following :</p>
 <ul>
@@ -106,7 +106,7 @@ Let&#39;s detail the 4 services we use:</p>
 <li><code>auth.service.ts</code> : which allows to manage the user authentication to Github.</li>
 <li><code>data.service.ts</code> : which allows to store the data to be shared between the components. It is thanks to it that the user can navigate in the application without having to enter the configuration file each time he changes pages.</li>
 <li><code>json-manager.service.ts</code> : which allows to manage the configuration file (upload/download/verification)</li>
-<li><code>commits.service.ts</code> : which allows to manage the retrieval of data from Github repositories, as well as the generation of statistical data (used for downloading and for displaying graphs <code>/students-commits</code> and <code>/questions-completion</code>)</li>
+<li><code>commits.service.ts</code> : which allows to manage the retrieval of data from Github repositories, as well as the generation of statistical data (used for downloading and for displaying graphs <code>/students</code> and <code>/questions-completion</code>)</li>
 </ul>
 <p>To create a new service, execute <code>ng g service services/&lt;myService&gt;</code>.
 Then use it in component or a service by declaring it in the constructor :</p>

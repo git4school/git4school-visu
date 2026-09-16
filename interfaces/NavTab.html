@@ -295,11 +295,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  Component,
-  HostListener,
-  OnInit,
-} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, HostListener, OnInit } from &quot;@angular/core&quot;;
 import { Router } from &quot;@angular/router&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { AssignmentsService } from &quot;@services/assignments.service&quot;;
@@ -336,28 +332,28 @@ export class AppNavLayoutComponent implements OnInit {
     private configurationService: ConfigurationService,
     public themeService: ThemeService,
     private router: Router,
-    private customModalService: CustomModalService
+    private customModalService: CustomModalService,
   ) {}
 
   isSidebarPinned &#x3D; false;
   isSidebarHovered &#x3D; false;
-  sidebarWidth: number &#x3D; 310;
-  isResizing: boolean &#x3D; false;
+  sidebarWidth &#x3D; 310;
+  isResizing &#x3D; false;
   private shortcutsModalRef: CustomModalRef | null &#x3D; null;
 
   readonly navTabs: NavTab[] &#x3D; [
     {
-      route: &quot;overview&quot;,
-      icon: &quot;fas fa-layer-group&quot;,
-      labelKey: &quot;NAVBAR.OVERVIEW&quot;,
-      tooltipKey: &quot;NAVBAR.OVERVIEW-TOOLTIP&quot;,
+      route: &quot;commits&quot;,
+      icon: &quot;fas fa-code-branch&quot;,
+      labelKey: &quot;NAVBAR.COMMITS&quot;,
+      tooltipKey: &quot;NAVBAR.COMMITS-TOOLTIP&quot;,
       shortcut: [&quot;1&quot;],
     },
     {
-      route: &quot;students-commits&quot;,
-      icon: &quot;fas fa-code-branch&quot;,
-      labelKey: &quot;NAVBAR.STUDENTS-COMMITS&quot;,
-      tooltipKey: &quot;NAVBAR.STUDENTS-COMMITS-TOOLTIP&quot;,
+      route: &quot;students&quot;,
+      icon: &quot;fas fa-user-friends&quot;,
+      labelKey: &quot;NAVBAR.STUDENTS&quot;,
+      tooltipKey: &quot;NAVBAR.STUDENTS-TOOLTIP&quot;,
       shortcut: [&quot;2&quot;],
     },
     {
@@ -413,9 +409,9 @@ export class AppNavLayoutComponent implements OnInit {
 
     const key &#x3D; event.key.toLowerCase();
     if (key &#x3D;&#x3D;&#x3D; &quot;1&quot;) {
-      this.navigateTab(&quot;overview&quot;);
+      this.navigateTab(&quot;commits&quot;);
     } else if (key &#x3D;&#x3D;&#x3D; &quot;2&quot;) {
-      this.navigateTab(&quot;students-commits&quot;);
+      this.navigateTab(&quot;students&quot;);
     } else if (key &#x3D;&#x3D;&#x3D; &quot;3&quot;) {
       this.navigateTab(&quot;questions-completion&quot;);
     } else if (key &#x3D;&#x3D;&#x3D; &quot;?&quot;) {
@@ -431,10 +427,7 @@ export class AppNavLayoutComponent implements OnInit {
   }
 
   private get hasActiveModal(): boolean {
-    return (
-      this.customModalService.hasOpenModals() ||
-      document.body.classList.contains(&quot;modal-open&quot;)
-    );
+    return this.customModalService.hasOpenModals() || document.body.classList.contains(&quot;modal-open&quot;);
   }
 
   onResizeStart(event: MouseEvent) {
@@ -445,17 +438,17 @@ export class AppNavLayoutComponent implements OnInit {
   @HostListener(&quot;document:mousemove&quot;, [&quot;$event&quot;])
   onResize(event: MouseEvent) {
     if (!this.isResizing) return;
-    
+
     // Calculate new width based on mouse X position
     let newWidth &#x3D; event.clientX;
-    
+
     // Apply constraints
     const minWidth &#x3D; 250;
     const maxWidth &#x3D; Math.min(600, window.innerWidth * 0.85);
-    
+
     if (newWidth &lt; minWidth) newWidth &#x3D; minWidth;
     if (newWidth &gt; maxWidth) newWidth &#x3D; maxWidth;
-    
+
     this.sidebarWidth &#x3D; newWidth;
   }
 
@@ -483,10 +476,7 @@ export class AppNavLayoutComponent implements OnInit {
       return;
     }
 
-    this.shortcutsModalRef &#x3D; this.customModalService.open(
-      ShortcutsModalComponent,
-      { size: &quot;lg&quot; }
-    );
+    this.shortcutsModalRef &#x3D; this.customModalService.open(ShortcutsModalComponent, { size: &quot;lg&quot; });
 
     this.shortcutsModalRef.result.finally(() &#x3D;&gt; {
       this.shortcutsModalRef &#x3D; null;
@@ -498,7 +488,7 @@ export class AppNavLayoutComponent implements OnInit {
   }
 
   get isHome(): boolean {
-    return this.router.url.includes(&#x27;/home&#x27;);
+    return this.router.url.includes(&quot;/home&quot;);
   }
 
   get truncatedTitle(): string {
@@ -508,18 +498,14 @@ export class AppNavLayoutComponent implements OnInit {
   }
 
   openCurrentAssignmentConfig() {
-    this.configurationService
-      .openConfigurationModal(this.dataService.assignment)
-      .finally(() &#x3D;&gt; {
-        if (this.dataService.repoToLoad) {
-          this.databaseService
-            .getAssignmentById(this.dataService.assignment.id)
-            .then((assignment) &#x3D;&gt; {
-              this.dataService.assignment &#x3D; assignment;
-              this.assignmentsService.assignmentModified.next();
-            });
-        }
-      });
+    this.configurationService.openConfigurationModal(this.dataService.assignment).finally(() &#x3D;&gt; {
+      if (this.dataService.repoToLoad) {
+        this.databaseService.getAssignmentById(this.dataService.assignment.id).then((assignment) &#x3D;&gt; {
+          this.dataService.assignment &#x3D; assignment;
+          this.assignmentsService.assignmentModified.next();
+        });
+      }
+    });
   }
 }
 </code></pre>

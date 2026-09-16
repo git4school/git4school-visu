@@ -77,9 +77,9 @@
 import { RouterModule, Routes } from &quot;@angular/router&quot;;
 // import { ConfigurationComponent } from &quot;@components/configuration/configuration.component&quot;;
 import { FourOhFourComponent } from &quot;@components/four-oh-four/four-oh-four.component&quot;;
-import { OverviewComponent } from &quot;@components/graphs/overview/overview.component&quot;;
+import { CommitsComponent } from &quot;@components/graphs/commits/commits.component&quot;;
 import { QuestionsCompletionComponent } from &quot;@components/graphs/questions-completion/questions-completion.component&quot;;
-import { StudentsCommitsComponent } from &quot;@components/graphs/students-commits/students-commits.component&quot;;
+import { StudentsComponent } from &quot;@components/graphs/students/students.component&quot;;
 import { HomeComponent } from &quot;@components/home/home.component&quot;;
 import { AppNavLayoutComponent } from &quot;@components/nav-layouts/app-nav-layout/app-nav-layout.component&quot;;
 import { AuthGuard } from &quot;@guards/auth.guard&quot;;
@@ -93,15 +93,25 @@ const HOME_ROUTES: Routes &#x3D; [
 
 const APP_ROUTES: Routes &#x3D; [
   {
-    path: &quot;overview&quot;,
+    path: &quot;commits&quot;,
     canActivate: [AuthGuard, DataProvidedGuard],
     canDeactivate: [DataLoadingGuard],
-    component: OverviewComponent,
+    component: CommitsComponent,
+  },
+  {
+    path: &quot;overview&quot;,
+    redirectTo: &quot;commits&quot;,
+    pathMatch: &quot;full&quot;,
+  },
+  {
+    path: &quot;students&quot;,
+    canActivate: [AuthGuard, DataProvidedGuard],
+    component: StudentsComponent,
   },
   {
     path: &quot;students-commits&quot;,
-    canActivate: [AuthGuard, DataProvidedGuard],
-    component: StudentsCommitsComponent,
+    redirectTo: &quot;students&quot;,
+    pathMatch: &quot;full&quot;,
   },
   {
     path: &quot;questions-completion&quot;,
@@ -112,18 +122,26 @@ const APP_ROUTES: Routes &#x3D; [
 ];
 
 const ROUTES: Routes &#x3D; [
-  { 
-    path: &quot;&quot;, 
-    component: AppNavLayoutComponent, 
+  {
+    path: &quot;&quot;,
+    component: AppNavLayoutComponent,
     children: [{
-            path: &quot;overview&quot;,
+            path: &quot;commits&quot;,
             canActivate: [AuthGuard, DataProvidedGuard],
             canDeactivate: [DataLoadingGuard],
-            component: OverviewComponent,
+            component: CommitsComponent,
+          }, {
+            path: &quot;overview&quot;,
+            redirectTo: &quot;commits&quot;,
+            pathMatch: &quot;full&quot;,
+          }, {
+            path: &quot;students&quot;,
+            canActivate: [AuthGuard, DataProvidedGuard],
+            component: StudentsComponent,
           }, {
             path: &quot;students-commits&quot;,
-            canActivate: [AuthGuard, DataProvidedGuard],
-            component: StudentsCommitsComponent,
+            redirectTo: &quot;students&quot;,
+            pathMatch: &quot;full&quot;,
           }, {
             path: &quot;questions-completion&quot;,
             canActivate: [AuthGuard, DataProvidedGuard],
@@ -131,7 +149,7 @@ const ROUTES: Routes &#x3D; [
           }, { path: &quot;&quot;, redirectTo: &quot;/home&quot;, pathMatch: &quot;full&quot; },
         { path: &quot;home&quot;, component: HomeComponent },
         { path: &quot;not-found&quot;, component: FourOhFourComponent }
-    ] 
+    ],
   },
   { path: &quot;**&quot;, redirectTo: &quot;/not-found&quot; },
 ];
