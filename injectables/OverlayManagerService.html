@@ -138,7 +138,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/services/overlay-manager.service.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/services/overlay-manager.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -203,8 +203,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">src/app/services/overlay-manager.service.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">src/app/services/overlay-manager.service.ts:48</a></div>
                 </td>
             </tr>
 
@@ -288,8 +288,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">src/app/services/overlay-manager.service.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/app/services/overlay-manager.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -361,8 +361,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">src/app/services/overlay-manager.service.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/app/services/overlay-manager.service.ts:66</a></div>
                 </td>
             </tr>
 
@@ -434,8 +434,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/app/services/overlay-manager.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/app/services/overlay-manager.service.ts:38</a></div>
                 </td>
             </tr>
 
@@ -522,14 +522,9 @@
 
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>this.dismissSubject.asObservable()</code>
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/services/overlay-manager.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/overlay-manager.service.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -555,7 +550,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/overlay-manager.service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/services/overlay-manager.service.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -594,12 +589,23 @@ export interface OverlayDismissEvent {
   providedIn: &quot;root&quot;,
 })
 export class OverlayManagerService {
+  public readonly dismiss$: Observable&lt;OverlayDismissEvent&gt;;
+
   private dismissSubject &#x3D; new Subject&lt;OverlayDismissEvent&gt;();
 
-  public readonly dismiss$: Observable&lt;OverlayDismissEvent&gt; &#x3D;
-    this.dismissSubject.asObservable();
+  constructor(private ngZone: NgZone) {
+    this.dismiss$ &#x3D; this.dismissSubject.asObservable();
+  }
 
-  constructor(private ngZone: NgZone) {}
+  /**
+   * Helper utility to check if an event matches and should dismiss a target type.
+   */
+  public static shouldDismiss(type: OverlayType, event: OverlayDismissEvent): boolean {
+    if (event.options?.exclude?.includes(type)) {
+      return false;
+    }
+    return event.target &#x3D;&#x3D;&#x3D; OverlayType.ALL || event.target &#x3D;&#x3D;&#x3D; type;
+  }
 
   /**
    * Request dismissal of a specific overlay type.
@@ -627,19 +633,6 @@ export class OverlayManagerService {
       this.dismiss(OverlayType.TOOLTIP, options);
       this.dismiss(OverlayType.CONTEXT_MENU, options);
     });
-  }
-
-  /**
-   * Helper utility to check if an event matches and should dismiss a target type.
-   */
-  public static shouldDismiss(
-    type: OverlayType,
-    event: OverlayDismissEvent
-  ): boolean {
-    if (event.options?.exclude?.includes(type)) {
-      return false;
-    }
-    return event.target &#x3D;&#x3D;&#x3D; OverlayType.ALL || event.target &#x3D;&#x3D;&#x3D; type;
   }
 }
 </code></pre>

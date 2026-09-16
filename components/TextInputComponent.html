@@ -77,6 +77,7 @@
     <p class="comment">
                     <code><a href="https://angular.io/api/forms/ControlValueAccessor" target="_blank" >ControlValueAccessor</a></code>
                     <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
     </p>
 
 
@@ -147,6 +148,10 @@
                                 <a href="#click$" >click$</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
                                 <a href="#focus$" >focus$</a>
                             </li>
                             <li>
@@ -187,6 +192,9 @@
                         <ul class="index-list">
                             <li>
                                 <a href="#clearValue" >clearValue</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
@@ -300,12 +308,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(el: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>)</code>
+<code>constructor(el: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, overlayManagerService?: <a href="../injectables/OverlayManagerService.html" target="_self">OverlayManagerService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:51</a></div>
                             </td>
                         </tr>
 
@@ -331,6 +339,18 @@
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>overlayManagerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OverlayManagerService.html" target="_self" >OverlayManagerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -366,7 +386,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:31</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -392,7 +412,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:30</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -418,7 +438,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:22</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -444,7 +464,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:28</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -465,7 +485,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:32</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -491,7 +511,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:26</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -517,7 +537,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:21</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -538,7 +558,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:33</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -564,7 +584,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:24</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -590,7 +610,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:25</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -611,7 +631,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:34</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -637,7 +657,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:23</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -663,7 +683,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:27</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -697,8 +717,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:126</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:70</a></div>
                 </td>
             </tr>
 
@@ -734,8 +791,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:58</a></div>
                 </td>
             </tr>
 
@@ -771,8 +828,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:121</a></div>
                 </td>
             </tr>
 
@@ -808,8 +865,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:134</a></div>
                 </td>
             </tr>
 
@@ -877,8 +934,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:117</a></div>
                 </td>
             </tr>
 
@@ -914,8 +971,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:111</a></div>
                 </td>
             </tr>
 
@@ -983,8 +1040,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:88</a></div>
                 </td>
             </tr>
 
@@ -1052,8 +1109,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:99</a></div>
                 </td>
             </tr>
 
@@ -1121,8 +1178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:103</a></div>
                 </td>
             </tr>
 
@@ -1190,8 +1247,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:107</a></div>
                 </td>
             </tr>
 
@@ -1259,8 +1316,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:93</a></div>
                 </td>
             </tr>
 
@@ -1332,7 +1389,33 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -1357,7 +1440,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -1392,7 +1475,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -1427,7 +1510,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1452,7 +1535,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1477,7 +1560,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1503,7 +1586,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -1529,7 +1612,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -1554,7 +1637,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -1585,7 +1668,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -1614,7 +1697,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:145</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">src/app/shared/ui/text-input/text-input.component.ts:163</a></div>
                                 </td>
                             </tr>
 
@@ -1625,11 +1708,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ElementRef, forwardRef, Input, OnDestroy, OnInit, Optional, ViewChild } from &quot;@angular/core&quot;;
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from &quot;@angular/forms&quot;;
 import { Observable, Subject, merge } from &quot;rxjs&quot;;
-import { filter, map } from &quot;rxjs/operators&quot;;
+import { filter, map, takeUntil } from &quot;rxjs/operators&quot;;
 import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
+import { OverlayManagerService, OverlayType } from &quot;@services/overlay-manager.service&quot;;
 
 @Component({
   selector: &quot;app-text-input&quot;,
@@ -1643,7 +1727,7 @@ import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from &quot;@ng-bootstrap/ng
     },
   ],
 })
-export class TextInputComponent implements ControlValueAccessor, OnInit {
+export class TextInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() label &#x3D; &quot;&quot;;
   @Input() helperText &#x3D; &quot;&quot;;
   @Input() type &#x3D; &quot;text&quot;;
@@ -1674,12 +1758,29 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
   onChange: any;
   onTouched: any;
 
-  constructor(private el: ElementRef) {
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+
+  constructor(private el: ElementRef, @Optional() private overlayManagerService?: OverlayManagerService) {
     this.onChange &#x3D; () &#x3D;&gt; {};
     this.onTouched &#x3D; () &#x3D;&gt; {};
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.overlayManagerService) {
+      this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) &#x3D;&gt; {
+        if (OverlayManagerService.shouldDismiss(OverlayType.TYPEAHEAD, event)) {
+          if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
+            this.instance.dismissPopup();
+          }
+        }
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   search &#x3D; (text$: Observable&lt;string&gt;) &#x3D;&gt; {
     const clicksWithClosedPopup$ &#x3D; this.click$.pipe(filter(() &#x3D;&gt; !this.instance || !this.instance.isPopupOpen()));
@@ -2103,7 +2204,7 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="text-input-wrapper"      [class.is-focused]="isFocused"      [class.has-value]="hasValue"     [class.is-invalid]="invalid"     [class.is-valid]="valid"     [class.is-disabled]="isDisabled"     [class.not-clearable]="!clearable && !helperText"     [class.no-floating-label]="!floatingLabel">  <fieldset class="text-input-fieldset" aria-hidden="true" *ngIf="floatingLabel">    <legend class="text-input-legend">      <span class="notch-text">{{ label }} <span *ngIf="required" class="text-danger">*</span></span>    </legend>  </fieldset>  <div class="text-input-inner">    <ng-container *ngIf="suggestions !== undefined">      <input         #inputElement        class="text-input-element"         [type]="type"         [id]="id"        [placeholder]="placeholder"        [disabled]="isDisabled"        [value]="value"        autocomplete="off"        (input)="onInput($event)"        (focus)="onFocus(); focus$.next($any($event).target.value)"        (click)="click$.next($any($event).target.value)"        (blur)="onBlur()"        (keydown.enter)="onEnter($event)"                [ngbTypeahead]="search"        [resultTemplate]="rt"        #instance="ngbTypeahead"        (selectItem)="onSelectItem($event)"        container="body" />              <ng-template #rt let-r="result" let-t="term">        <div class="text-input-suggestion d-flex align-items-center justify-content-between">          <div class="d-flex align-items-center text-truncate flex-grow-1 mr-2">            <svg class="group-icon mr-2 flex-shrink-0" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>              <circle cx="9" cy="7" r="4"></circle>              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>            </svg>            <span class="suggestion-text text-truncate">              <ngb-highlight [result]="r" [term]="t"></ngb-highlight>            </span>          </div>          <span class="shortcut-badge enter-badge flex-shrink-0">↵</span>        </div>      </ng-template>    </ng-container>    <ng-container *ngIf="suggestions === undefined">      <input         #inputElement        class="text-input-element"         [type]="type"         [id]="id"        [placeholder]="placeholder"        [disabled]="isDisabled"        [value]="value"        [attr.inputmode]="inputmode || null"        [attr.maxlength]="maxlength || null"        autocomplete="off"        (input)="onInput($event)"        (focus)="onFocus()"        (blur)="onBlur()"        (keydown.enter)="onEnter($event)" />    </ng-container>    <label class="text-input-label" [for]="id" *ngIf="floatingLabel">      {{ label }} <span *ngIf="required" class="text-danger">*</span>    </label>    <div class="text-input-actions" *ngIf="(clearable && hasValue && !isDisabled) || helperText">      <button type="button" class="action-btn btn-clear"               *ngIf="clearable && hasValue && !isDisabled"               (click)="clearValue()"               tabindex="-1">        <i class="fas fa-times"></i>      </button>            <i class="far fa-question-circle action-btn btn-help"          *ngIf="helperText"         [appTooltip]="helperText"          container="body"></i>    </div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewComponent', 'selector': 'overview'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsCommitsComponent', 'selector': 'students-commits'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
-    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'}];
+    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
     var ACTUAL_COMPONENT = {'name': 'TextInputComponent'};
 </script>
 <script src="../js/tree.js"></script>

@@ -1,0 +1,963 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content directive">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Directives</li>
+  <li >TypeaheadKeyboardNavDirective</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Directive automatically applied to inputs with ngbTypeahead.
+Prevents visual jump/conflict during keyboard arrow navigation:
+when arrow keys are pressed, temporarily suppresses pointer events on the typeahead window
+so synthetic mouseenter events from stationary cursors cannot steal or flicker the selection.</p>
+
+            </p>
+
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+            </p>
+
+
+        <section>
+            <h3>Metadata</h3>
+            <table class="table table-sm table-hover metadata">
+                <tbody>
+
+                    <tr>
+                        <td class="col-md-3">Selector</td>
+                        <td class="col-md-9"><code>input[ngbTypeahead]</code></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </section>
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isKeyboardNav" >isKeyboardNav</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastMouseX" >lastMouseX</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastMouseY" >lastMouseY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#removeMouseDownListener" >removeMouseDownListener</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#removeMouseMoveListener" >removeMouseMoveListener</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#removeWheelListener" >removeWheelListener</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#enterKeyboardNav" >enterKeyboardNav</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#exitKeyboardNav" >exitKeyboardNav</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#onBlur" >onBlur</a>
+                            </li>
+                            <li>
+                                <a href="#onKeyDown" >onKeyDown</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#blur" >blur</a>
+                            </li>
+                            <li>
+                                <a href="#keydown" >keydown</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(elementRef: ElementRef<HTMLInputElement>, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:18</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>elementRef</td>
+                                                  
+                                                        <td>
+                                                                    <code>ElementRef&lt;HTMLInputElement&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>renderer</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/Renderer2" target="_blank" >Renderer2</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>ngZone</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+            <section>
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="blur"></a>
+                    <span class="name">
+                        <b>
+                            blur
+                        </b>
+                        <a href="#blur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:39</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="keydown"></a>
+                    <span class="name">
+                        <b>
+                            keydown
+                        </b>
+                        <a href="#keydown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:23</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enterKeyboardNav"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>enterKeyboardNav</b></span>
+                        <a href="#enterKeyboardNav"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>enterKeyboardNav()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:51</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Enter keyboard navigation mode.
+Disables pointer events and transitions on typeahead dropdown.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="exitKeyboardNav"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>exitKeyboardNav</b></span>
+                        <a href="#exitKeyboardNav"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>exitKeyboardNav()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:106</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Exit keyboard navigation mode and detach transient listeners.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:43</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onBlur"></a>
+                    <span class="name">
+                        <span ><b>onBlur</b></span>
+                        <a href="#onBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onBlur()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;blur&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:39</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onKeyDown"></a>
+                    <span class="name">
+                        <span ><b>onKeyDown</b></span>
+                        <a href="#onKeyDown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onKeyDown(event: KeyboardEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;keydown&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:23</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>KeyboardEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isKeyboardNav"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isKeyboardNav</b></span>
+                        <a href="#isKeyboardNav"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:13</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastMouseX"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lastMouseX</b></span>
+                        <a href="#lastMouseX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>-1</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:14</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastMouseY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lastMouseY</b></span>
+                        <a href="#lastMouseY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>-1</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeMouseDownListener"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>removeMouseDownListener</b></span>
+                        <a href="#removeMouseDownListener"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code> | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeMouseMoveListener"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>removeMouseMoveListener</b></span>
+                        <a href="#removeMouseMoveListener"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code> | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeWheelListener"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>removeWheelListener</b></span>
+                        <a href="#removeWheelListener"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code> | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/shared/ui/typeahead-nav/typeahead-nav.directive.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, ElementRef, HostListener, NgZone, OnDestroy, Renderer2 } from &quot;@angular/core&quot;;
+
+/**
+ * Directive automatically applied to inputs with ngbTypeahead.
+ * Prevents visual jump/conflict during keyboard arrow navigation:
+ * when arrow keys are pressed, temporarily suppresses pointer events on the typeahead window
+ * so synthetic mouseenter events from stationary cursors cannot steal or flicker the selection.
+ */
+@Directive({
+  selector: &quot;input[ngbTypeahead]&quot;,
+})
+export class TypeaheadKeyboardNavDirective implements OnDestroy {
+  private isKeyboardNav &#x3D; false;
+  private lastMouseX &#x3D; -1;
+  private lastMouseY &#x3D; -1;
+  private removeMouseMoveListener: (() &#x3D;&gt; void) | null &#x3D; null;
+  private removeMouseDownListener: (() &#x3D;&gt; void) | null &#x3D; null;
+  private removeWheelListener: (() &#x3D;&gt; void) | null &#x3D; null;
+
+  constructor(private elementRef: ElementRef&lt;HTMLInputElement&gt;, private renderer: Renderer2, private ngZone: NgZone) {}
+
+  @HostListener(&quot;keydown&quot;, [&quot;$event&quot;])
+  onKeyDown(event: KeyboardEvent): void {
+    if (
+      event.key &#x3D;&#x3D;&#x3D; &quot;ArrowDown&quot; ||
+      event.key &#x3D;&#x3D;&#x3D; &quot;Down&quot; ||
+      event.key &#x3D;&#x3D;&#x3D; &quot;ArrowUp&quot; ||
+      event.key &#x3D;&#x3D;&#x3D; &quot;Up&quot; ||
+      event.key &#x3D;&#x3D;&#x3D; &quot;PageDown&quot; ||
+      event.key &#x3D;&#x3D;&#x3D; &quot;PageUp&quot;
+    ) {
+      this.enterKeyboardNav();
+    } else if (event.key &#x3D;&#x3D;&#x3D; &quot;Escape&quot; || event.key &#x3D;&#x3D;&#x3D; &quot;Enter&quot; || event.key &#x3D;&#x3D;&#x3D; &quot;Tab&quot;) {
+      this.exitKeyboardNav();
+    }
+  }
+
+  @HostListener(&quot;blur&quot;)
+  onBlur(): void {
+    this.exitKeyboardNav();
+  }
+
+  ngOnDestroy(): void {
+    this.exitKeyboardNav();
+  }
+
+  /**
+   * Enter keyboard navigation mode.
+   * Disables pointer events and transitions on typeahead dropdown.
+   */
+  private enterKeyboardNav(): void {
+    if (this.isKeyboardNav) {
+      return;
+    }
+
+    if (typeof document &#x3D;&#x3D;&#x3D; &quot;undefined&quot;) {
+      return;
+    }
+
+    const hasWindow &#x3D; !!document.querySelector(&quot;ngb-typeahead-window&quot;);
+    if (!hasWindow) {
+      return;
+    }
+
+    this.isKeyboardNav &#x3D; true;
+    this.renderer.addClass(document.body, &quot;typeahead-keyboard-nav&quot;);
+
+    this.ngZone.runOutsideAngular(() &#x3D;&gt; {
+      this.lastMouseX &#x3D; -1;
+      this.lastMouseY &#x3D; -1;
+
+      const onMouseMove &#x3D; (e: MouseEvent) &#x3D;&gt; {
+        if (this.lastMouseX &#x3D;&#x3D;&#x3D; -1 &amp;&amp; this.lastMouseY &#x3D;&#x3D;&#x3D; -1) {
+          this.lastMouseX &#x3D; e.clientX;
+          this.lastMouseY &#x3D; e.clientY;
+          return;
+        }
+        const deltaX &#x3D; Math.abs(e.clientX - this.lastMouseX);
+        const deltaY &#x3D; Math.abs(e.clientY - this.lastMouseY);
+        if (deltaX &gt; 2 || deltaY &gt; 2) {
+          this.exitKeyboardNav();
+        }
+      };
+
+      const onMouseDown &#x3D; () &#x3D;&gt; {
+        this.exitKeyboardNav();
+      };
+
+      const onWheel &#x3D; () &#x3D;&gt; {
+        this.exitKeyboardNav();
+      };
+
+      document.addEventListener(&quot;mousemove&quot;, onMouseMove, true);
+      document.addEventListener(&quot;mousedown&quot;, onMouseDown, true);
+      window.addEventListener(&quot;wheel&quot;, onWheel, true);
+
+      this.removeMouseMoveListener &#x3D; () &#x3D;&gt; document.removeEventListener(&quot;mousemove&quot;, onMouseMove, true);
+      this.removeMouseDownListener &#x3D; () &#x3D;&gt; document.removeEventListener(&quot;mousedown&quot;, onMouseDown, true);
+      this.removeWheelListener &#x3D; () &#x3D;&gt; window.removeEventListener(&quot;wheel&quot;, onWheel, true);
+    });
+  }
+
+  /**
+   * Exit keyboard navigation mode and detach transient listeners.
+   */
+  private exitKeyboardNav(): void {
+    if (!this.isKeyboardNav) {
+      return;
+    }
+    this.isKeyboardNav &#x3D; false;
+
+    if (typeof document !&#x3D;&#x3D; &quot;undefined&quot;) {
+      this.renderer.removeClass(document.body, &quot;typeahead-keyboard-nav&quot;);
+    }
+
+    if (this.removeMouseMoveListener) {
+      this.removeMouseMoveListener();
+      this.removeMouseMoveListener &#x3D; null;
+    }
+    if (this.removeMouseDownListener) {
+      this.removeMouseDownListener();
+      this.removeMouseDownListener &#x3D; null;
+    }
+    if (this.removeWheelListener) {
+      this.removeWheelListener();
+      this.removeWheelListener &#x3D; null;
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
+            var COMPODOC_CURRENT_PAGE_URL = 'TypeaheadKeyboardNavDirective.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

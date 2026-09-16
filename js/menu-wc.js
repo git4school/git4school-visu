@@ -197,13 +197,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/SharedUiModule.html" data-type="entity-link" >SharedUiModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-SharedUiModule-1678319905a063156695f447769d34896a65836cfaccc66194daa45a7034cd3cb31ef88aab3f67b4890206d013689232537cc73cc0a868daaed880b5f3153bfd"' : 'data-target="#xs-components-links-module-SharedUiModule-1678319905a063156695f447769d34896a65836cfaccc66194daa45a7034cd3cb31ef88aab3f67b4890206d013689232537cc73cc0a868daaed880b5f3153bfd"' }>
+                                            'data-target="#components-links-module-SharedUiModule-7777b93780d76ed8d0cc47a6071dacbf50be4edb6b040fb8dd3d4bbce7ab8c3fa0b826fed7750e23a0c7f8cb0367c0f3491a3d402be10e8b474ed0b3f91c6e74"' : 'data-target="#xs-components-links-module-SharedUiModule-7777b93780d76ed8d0cc47a6071dacbf50be4edb6b040fb8dd3d4bbce7ab8c3fa0b826fed7750e23a0c7f8cb0367c0f3491a3d402be10e8b474ed0b3f91c6e74"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-SharedUiModule-1678319905a063156695f447769d34896a65836cfaccc66194daa45a7034cd3cb31ef88aab3f67b4890206d013689232537cc73cc0a868daaed880b5f3153bfd"' :
-                                            'id="xs-components-links-module-SharedUiModule-1678319905a063156695f447769d34896a65836cfaccc66194daa45a7034cd3cb31ef88aab3f67b4890206d013689232537cc73cc0a868daaed880b5f3153bfd"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-SharedUiModule-7777b93780d76ed8d0cc47a6071dacbf50be4edb6b040fb8dd3d4bbce7ab8c3fa0b826fed7750e23a0c7f8cb0367c0f3491a3d402be10e8b474ed0b3f91c6e74"' :
+                                            'id="xs-components-links-module-SharedUiModule-7777b93780d76ed8d0cc47a6071dacbf50be4edb6b040fb8dd3d4bbce7ab8c3fa0b826fed7750e23a0c7f8cb0367c0f3491a3d402be10e8b474ed0b3f91c6e74"' }>
                                             <li class="link">
                                                 <a href="components/CustomModalContainerComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CustomModalContainerComponent</a>
                                             </li>
@@ -250,15 +250,18 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-SharedUiModule-1678319905a063156695f447769d34896a65836cfaccc66194daa45a7034cd3cb31ef88aab3f67b4890206d013689232537cc73cc0a868daaed880b5f3153bfd"' : 'data-target="#xs-directives-links-module-SharedUiModule-1678319905a063156695f447769d34896a65836cfaccc66194daa45a7034cd3cb31ef88aab3f67b4890206d013689232537cc73cc0a868daaed880b5f3153bfd"' }>
+                                        'data-target="#directives-links-module-SharedUiModule-7777b93780d76ed8d0cc47a6071dacbf50be4edb6b040fb8dd3d4bbce7ab8c3fa0b826fed7750e23a0c7f8cb0367c0f3491a3d402be10e8b474ed0b3f91c6e74"' : 'data-target="#xs-directives-links-module-SharedUiModule-7777b93780d76ed8d0cc47a6071dacbf50be4edb6b040fb8dd3d4bbce7ab8c3fa0b826fed7750e23a0c7f8cb0367c0f3491a3d402be10e8b474ed0b3f91c6e74"' }>
                                         <span class="icon ion-md-code-working"></span>
                                         <span>Directives</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-SharedUiModule-1678319905a063156695f447769d34896a65836cfaccc66194daa45a7034cd3cb31ef88aab3f67b4890206d013689232537cc73cc0a868daaed880b5f3153bfd"' :
-                                        'id="xs-directives-links-module-SharedUiModule-1678319905a063156695f447769d34896a65836cfaccc66194daa45a7034cd3cb31ef88aab3f67b4890206d013689232537cc73cc0a868daaed880b5f3153bfd"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-SharedUiModule-7777b93780d76ed8d0cc47a6071dacbf50be4edb6b040fb8dd3d4bbce7ab8c3fa0b826fed7750e23a0c7f8cb0367c0f3491a3d402be10e8b474ed0b3f91c6e74"' :
+                                        'id="xs-directives-links-module-SharedUiModule-7777b93780d76ed8d0cc47a6071dacbf50be4edb6b040fb8dd3d4bbce7ab8c3fa0b826fed7750e23a0c7f8cb0367c0f3491a3d402be10e8b474ed0b3f91c6e74"' }>
                                         <li class="link">
                                             <a href="directives/TooltipDirective.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TooltipDirective</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="directives/TypeaheadKeyboardNavDirective.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TypeaheadKeyboardNavDirective</a>
                                         </li>
                                     </ul>
                                 </li>

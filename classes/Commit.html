@@ -629,8 +629,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="230"
-                            class="link-to-prism">src/app/models/Commit.model.ts:230</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="241"
+                            class="link-to-prism">src/app/models/Commit.model.ts:241</a></div>
                 </td>
             </tr>
 
@@ -1702,7 +1702,12 @@ export class Commit {
 
     if (closingMode &#x3D;&#x3D;&#x3D; &quot;none&quot;) {
       const match &#x3D; this.message.match(new RegExp(&#x60;(?:^|\\b|[\\[(#])(${questionsToken})(?:[\\])]|\\b|:|$|\\s)&#x60;, &quot;i&quot;));
-      this.question &#x3D; match ? match[1] : undefined;
+      if (match &amp;&amp; match[1]) {
+        const canonical &#x3D; sortedQuestions.find((q) &#x3D;&gt; q.toLowerCase() &#x3D;&#x3D;&#x3D; match[1].toLowerCase());
+        this.question &#x3D; canonical || match[1];
+      } else {
+        this.question &#x3D; undefined;
+      }
       return;
     }
 
@@ -1719,7 +1724,13 @@ export class Commit {
     }
 
     const keywordsToken &#x3D; keywords.map((k) &#x3D;&gt; escapeRegExp(k)).join(&quot;|&quot;);
-    this.question &#x3D; this.message.match(new RegExp(&#x60;(?:${keywordsToken}) (${questionsToken})(?:\\s|:|$)&#x60;, &quot;i&quot;))?.[1];
+    const match &#x3D; this.message.match(new RegExp(&#x60;(?:${keywordsToken}) (${questionsToken})(?:\\s|:|$)&#x60;, &quot;i&quot;));
+    if (match &amp;&amp; match[1]) {
+      const canonical &#x3D; sortedQuestions.find((q) &#x3D;&gt; q.toLowerCase() &#x3D;&#x3D;&#x3D; match[1].toLowerCase());
+      this.question &#x3D; canonical || match[1];
+    } else {
+      this.question &#x3D; undefined;
+    }
   }
 
   /**

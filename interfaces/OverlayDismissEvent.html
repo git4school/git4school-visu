@@ -210,12 +210,23 @@ export interface OverlayDismissEvent {
   providedIn: &quot;root&quot;,
 })
 export class OverlayManagerService {
+  public readonly dismiss$: Observable&lt;OverlayDismissEvent&gt;;
+
   private dismissSubject &#x3D; new Subject&lt;OverlayDismissEvent&gt;();
 
-  public readonly dismiss$: Observable&lt;OverlayDismissEvent&gt; &#x3D;
-    this.dismissSubject.asObservable();
+  constructor(private ngZone: NgZone) {
+    this.dismiss$ &#x3D; this.dismissSubject.asObservable();
+  }
 
-  constructor(private ngZone: NgZone) {}
+  /**
+   * Helper utility to check if an event matches and should dismiss a target type.
+   */
+  public static shouldDismiss(type: OverlayType, event: OverlayDismissEvent): boolean {
+    if (event.options?.exclude?.includes(type)) {
+      return false;
+    }
+    return event.target &#x3D;&#x3D;&#x3D; OverlayType.ALL || event.target &#x3D;&#x3D;&#x3D; type;
+  }
 
   /**
    * Request dismissal of a specific overlay type.
@@ -243,19 +254,6 @@ export class OverlayManagerService {
       this.dismiss(OverlayType.TOOLTIP, options);
       this.dismiss(OverlayType.CONTEXT_MENU, options);
     });
-  }
-
-  /**
-   * Helper utility to check if an event matches and should dismiss a target type.
-   */
-  public static shouldDismiss(
-    type: OverlayType,
-    event: OverlayDismissEvent
-  ): boolean {
-    if (event.options?.exclude?.includes(type)) {
-      return false;
-    }
-    return event.target &#x3D;&#x3D;&#x3D; OverlayType.ALL || event.target &#x3D;&#x3D;&#x3D; type;
   }
 }
 </code></pre>
