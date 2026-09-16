@@ -5,7 +5,8 @@
           [class.ghost-style]="variant === 'ghost'"
           [class.active]="isOpen"
           (click)="togglePopover($event)"
-          [title]="tooltipKey | translate: { keywords: customKeywordsDisplay }">
+          [appTooltip]="tooltipKey | translate: { keywords: customKeywordsDisplay }"
+          placement="top">
     <!-- Icon 1: Magic Wand (Pill wand with separated rounded tip + 3 sparkle stars matching reference) -->
     <svg *ngIf="iconType === 'magic-wand'" class="trigger-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
       <g transform="rotate(45 12 12)">
@@ -31,7 +32,7 @@
     </svg>
 
     <span class="trigger-text">{{ buttonLabel || ('QUESTIONS-ASSISTANT.TRIGGER_BUTTON' | translate) }}</span>
-    <span *ngIf="isCustomRuleActive" class="accent-dot" [title]="'QUESTIONS-ASSISTANT.CUSTOM_RULE_ACTIVE' | translate"></span>
+    <span *ngIf="isCustomRuleActive" class="accent-dot"></span>
     <i class="fas fa-chevron-down trigger-chevron" [class.rotated]="isOpen"></i>
   </button>
 

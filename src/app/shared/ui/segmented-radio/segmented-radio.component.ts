@@ -11,6 +11,7 @@ import {
   forwardRef,
   OnChanges,
   SimpleChanges,
+  OnDestroy,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
@@ -31,7 +32,7 @@ export interface SegmentedRadioOption {
     },
   ],
 })
-export class SegmentedRadioComponent implements ControlValueAccessor, AfterViewInit, OnChanges {
+export class SegmentedRadioComponent implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy {
   @Input() public options: SegmentedRadioOption[] = [];
   @Input() public size: "sm" | "md" = "md";
 
@@ -51,10 +52,11 @@ export class SegmentedRadioComponent implements ControlValueAccessor, AfterViewI
     width: "0px",
   };
 
+  private resizeObserver: any = null;
   private onChangeCallback: (value: string | null) => void;
   private onTouchedCallback: () => void;
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, private elementRef: ElementRef) {
     this.onChangeCallback = () => {};
     this.onTouchedCallback = () => {};
   }
@@ -66,11 +68,24 @@ export class SegmentedRadioComponent implements ControlValueAccessor, AfterViewI
 
   public ngAfterViewInit(): void {
     setTimeout(() => this.updateIndicator(), 0);
+    if (typeof (window as any).ResizeObserver !== "undefined") {
+      this.resizeObserver = new (window as any).ResizeObserver(() => {
+        this.updateIndicator();
+      });
+      this.resizeObserver.observe(this.elementRef.nativeElement);
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.options) {
       setTimeout(() => this.updateIndicator(), 0);
+    }
+  }
+
+  public ngOnDestroy(): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
     }
   }
 

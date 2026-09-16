@@ -48,16 +48,19 @@
 
   .trigger-icon {
     flex-shrink: 0;
+    pointer-events: none;
   }
 
   .trigger-text {
     line-height: 1;
+    pointer-events: none;
   }
 
   .trigger-chevron {
     font-size: 0.65rem;
     color: var(--color-text-muted);
     transition: transform $transition-fast;
+    pointer-events: none;
 
     &.rotated {
       transform: rotate(180deg);
@@ -71,6 +74,7 @@
     border-radius: $radius-full;
     margin-left: -2px;
     margin-right: 1px;
+    pointer-events: none;
   }
 
   &.ghost-style {
@@ -118,8 +122,9 @@
   left: 0;
   z-index: $zindex-modal-typeahead;
   box-sizing: border-box;
-  width: 380px;
-  max-width: calc(100vw - 24px);
+  width: max-content;
+  min-width: 380px;
+  max-width: min(520px, calc(100vw - 24px));
   max-height: calc(100vh - 24px);
   padding: 12px 14px;
   overflow-y: auto;
