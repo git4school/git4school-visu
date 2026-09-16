@@ -202,7 +202,12 @@ export class Commit {
 
     if (closingMode === "none") {
       const match = this.message.match(new RegExp(`(?:^|\\b|[\\[(#])(${questionsToken})(?:[\\])]|\\b|:|$|\\s)`, "i"));
-      this.question = match ? match[1] : undefined;
+      if (match && match[1]) {
+        const canonical = sortedQuestions.find((q) => q.toLowerCase() === match[1].toLowerCase());
+        this.question = canonical || match[1];
+      } else {
+        this.question = undefined;
+      }
       return;
     }
 
@@ -219,7 +224,13 @@ export class Commit {
     }
 
     const keywordsToken = keywords.map((k) => escapeRegExp(k)).join("|");
-    this.question = this.message.match(new RegExp(`(?:${keywordsToken}) (${questionsToken})(?:\\s|:|$)`, "i"))?.[1];
+    const match = this.message.match(new RegExp(`(?:${keywordsToken}) (${questionsToken})(?:\\s|:|$)`, "i"));
+    if (match && match[1]) {
+      const canonical = sortedQuestions.find((q) => q.toLowerCase() === match[1].toLowerCase());
+      this.question = canonical || match[1];
+    } else {
+      this.question = undefined;
+    }
   }
 
   /**

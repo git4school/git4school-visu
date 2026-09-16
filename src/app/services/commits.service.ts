@@ -299,23 +299,31 @@ ${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since
         .filter((commit) => !date || commit.commitDate.getTime() < date)
         .forEach((commit) => {
           if (commit.question) {
-            let students = [];
-            for (let commitColor in dict[commit.question]) {
-              students = students.concat(dict[commit.question][commitColor].students.map((student) => student.name));
+            let questionKey = commit.question;
+            if (!dict[questionKey]) {
+              questionKey = questions.find((q) => q.toLowerCase() === commit.question.toLowerCase());
             }
-            if (!students.includes(repository.name) && colors.includes(commit.color)) {
-              dict[commit.question][commit.color.label].count++;
-              dict[commit.question][commit.color.label].students.push({
-                name: repository.name,
-                tpGroup: repository.tpGroup,
-                url: repository.url,
-              });
-              studentQuestions.push(commit.question);
+            if (questionKey && dict[questionKey]) {
+              let students = [];
+              for (let commitColor in dict[questionKey]) {
+                students = students.concat(dict[questionKey][commitColor].students.map((student) => student.name));
+              }
+              if (!students.includes(repository.name) && colors.includes(commit.color)) {
+                if (dict[questionKey][commit.color.label]) {
+                  dict[questionKey][commit.color.label].count++;
+                  dict[questionKey][commit.color.label].students.push({
+                    name: repository.name,
+                    tpGroup: repository.tpGroup,
+                    url: repository.url,
+                  });
+                }
+                studentQuestions.push(questionKey);
+              }
             }
           }
         });
       questions.forEach((question) => {
-        if (!studentQuestions.includes(question)) {
+        if (!studentQuestions.includes(question) && dict[question] && dict[question][CommitColor.NOCOMMIT.label]) {
           dict[question][CommitColor.NOCOMMIT.label].count++;
           dict[question][CommitColor.NOCOMMIT.label].students.push({
             name: repository.name,
@@ -326,8 +334,12 @@ ${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since
       });
     });
     for (let question in dict) {
-      for (let commitColor in dict[question]) {
-        dict[question][commitColor].percentage = (dict[question][commitColor].count / repos.length) * 100;
+      if (dict[question] && typeof dict[question] === "object") {
+        for (let commitColor in dict[question]) {
+          if (dict[question][commitColor] && typeof dict[question][commitColor] === "object") {
+            dict[question][commitColor].percentage = repos.length ? (dict[question][commitColor].count / repos.length) * 100 : 0;
+          }
+        }
       }
     }
 
@@ -350,8 +362,12 @@ ${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since
         translations: translations,
       };
       colors.forEach((color) => {
-        result[color.label] = dict[question][color.label].percentage;
-        result[color.label + "_data"] = dict[question][color.label];
+        result[color.label] = dict[question]?.[color.label]?.percentage || 0;
+        result[color.label + "_data"] = dict[question]?.[color.label] || {
+          count: 0,
+          percentage: 0,
+          students: [],
+        };
       });
       return result;
     });
@@ -394,17 +410,24 @@ ${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since
       repository.commits
         .filter((commit) => !date || commit.commitDate.getTime() < date)
         .forEach((commit) => {
-          dict[repository.name]["commitTypes"][commit.color.label].commitsCount++;
-          dict[repository.name].commitsCount++;
-          this.isSupThan(commit.question, dict[repository.name].lastQuestionDone, questions) &&
-            (dict[repository.name].lastQuestionDone = commit.question);
+          if (commit.color?.label && dict[repository.name]?.commitTypes?.[commit.color.label]) {
+            dict[repository.name].commitTypes[commit.color.label].commitsCount++;
+            dict[repository.name].commitsCount++;
+          }
+          let q = commit.question;
+          if (q && !questions.includes(q)) {
+            q = questions.find((canonical) => canonical.toLowerCase() === q.toLowerCase());
+          }
+          if (q && this.isSupThan(q, dict[repository.name].lastQuestionDone, questions)) {
+            dict[repository.name].lastQuestionDone = q;
+          }
         });
       dict[repository.name].name = repository.name;
       dict[repository.name].url = repository.url;
       dict[repository.name].tpGroup = repository.tpGroup;
       dict[repository.name].commits = repository.commits.map((commit) => {
         let modifiedCommit = { ...commit };
-        modifiedCommit["commitType"] = modifiedCommit.color.label;
+        modifiedCommit["commitType"] = modifiedCommit.color?.label || "";
         delete modifiedCommit["color"];
         return modifiedCommit;
       });

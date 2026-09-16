@@ -166,4 +166,15 @@ describe("Question recognition", () => {
     expect(commit.question).toBeUndefined();
     expect(commit.isCloture).toBeFalse();
   });
+
+  it("should preserve canonical question casing when matched case-insensitively", () => {
+    const questionsList = ["FizzBuzz", "Question1"];
+    commit.message = "Resolve fizzbuzz: completed assignment";
+    commit.updateQuestion(questionsList);
+    expect(commit.question).toEqual("FizzBuzz");
+
+    commit.message = "fix: question1 done";
+    commit.updateMetadata([], [], questionsList, "none");
+    expect(commit.question).toEqual("Question1");
+  });
 });
