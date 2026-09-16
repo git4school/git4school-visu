@@ -43,6 +43,10 @@
   overflow-y: auto;
   overscroll-behavior: none;
   touch-action: pan-y;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 #chart .chart-container::-webkit-scrollbar:horizontal {
@@ -68,25 +72,50 @@
   }
 }
 
-#chart .chart-container-absolute>svg {
+#chart .chart-container-absolute > svg {
   position: relative;
-}
-
-#chart .chart-container:focus {
-  outline: none;
 }
 
 #chart .chart-container > svg {
   display: block;
 }
 
-#commit_hover, #commit_group_hover {
+#commit_hover,
+#commit_group_hover,
+#repository_hover {
   display: flex;
   flex-direction: column;
   gap: 2px;
   user-select: none;
   min-width: 200px;
   max-width: 300px;
+
+  .repo-name {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  p {
+    margin: 0;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+
+    &:first-child {
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 4px;
+    }
+
+    &:last-child {
+      font-size: 0.9em;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+  }
 
   .tooltip-helpers {
     gap: 0.75rem;
@@ -108,24 +137,5 @@
 
 #commit_hover {
   max-width: 340px;
-}
-
-#commit_hover > p, #commit_group_hover div > p {
-  margin: 0;
-  white-space: normal;
-  word-break: break-word;
-  line-height: 1.4;
-
-  &:first-child {
-    font-weight: 600;
-    color: var(--color-primary);
-    margin-bottom: 4px;
-  }
-  
-  &:last-child {
-    font-size: 0.9em;
-    color: var(--text-muted);
-    margin-top: 4px;
-  }
 }
 

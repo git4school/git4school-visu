@@ -334,7 +334,7 @@
 </ng-template>
 <ng-template #d3TooltipTemplate>
   <div
-    *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null"
+    *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null && hovered_repository == null"
     id="commit_hover"
   >
     <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>
@@ -343,11 +343,6 @@
     <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">
       <div class="tooltip-helper-item d-flex align-items-center">
         <span>{{ 'COMMIT-TOOLTIP.OPEN_COMMIT' | translate }}</span>
-        <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-          <polyline points="15 3 21 3 21 9"></polyline>
-          <line x1="10" y1="14" x2="21" y2="3"></line>
-        </svg>
         <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
       </div>
       <div class="tooltip-helper-item d-flex align-items-center">
@@ -356,9 +351,22 @@
       </div>
     </div>
   </div>
+
+  <div
+    *ngIf="hovered_repository != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null"
+    id="repository_hover"
+  >
+    <div class="repo-name">{{ hovered_repository.name }}</div>
+    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end" *ngIf="hovered_repository.url">
+      <div class="tooltip-helper-item d-flex align-items-center">
+        <span>{{ 'OVERVIEW-GRAPH.OPEN-REPO' | translate }}</span>
+        <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
+      </div>
+    </div>
+  </div>
   
   <div
-    *ngIf="hovered_session != null && hovered_commit == null && hovered_group_commit == null && hovered_milestone == null"
+    *ngIf="hovered_session != null && hovered_commit == null && hovered_group_commit == null && hovered_milestone == null && hovered_repository == null"
     id="session_hover"
     style="max-width: 280px; word-wrap: break-word;"
   >
@@ -392,7 +400,7 @@
   </div>
 
   <div
-    *ngIf="hovered_milestone != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null"
+    *ngIf="hovered_milestone != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null && hovered_repository == null"
     id="milestone_hover"
     style="max-width: 250px; word-wrap: break-word;"
   >
@@ -414,7 +422,7 @@
   </div>
 
   <div
-    *ngIf="hovered_group_commit != null && hovered_commit == null && hovered_session == null && hovered_milestone == null"
+    *ngIf="hovered_group_commit != null && hovered_commit == null && hovered_session == null && hovered_milestone == null && hovered_repository == null"
     id="commit_group_hover"
   >
     <div

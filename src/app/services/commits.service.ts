@@ -374,7 +374,7 @@ ${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since
   }
 
   /**
-   * Inits a field for a repository in a map for "students-commits" graph
+   * Inits a field for a repository in a map for "students" graph
    * @param repository The repository to handle
    * @param dict The map to update
    * @param questions The questions to handle
@@ -442,7 +442,7 @@ ${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since
   }
 
   /**
-   * Returns the data to use in the "students-commits" graph
+   * Returns the data to use in the "students" graph
    * @param dict The data about students
    * @param colors The commit colors to handle
    * @returns An array of objects optimized for D3 graphing

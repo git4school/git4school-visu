@@ -2,9 +2,9 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 // import { ConfigurationComponent } from "@components/configuration/configuration.component";
 import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.component";
-import { OverviewComponent } from "@components/graphs/overview/overview.component";
+import { CommitsComponent } from "@components/graphs/commits/commits.component";
 import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
-import { StudentsCommitsComponent } from "@components/graphs/students-commits/students-commits.component";
+import { StudentsComponent } from "@components/graphs/students/students.component";
 import { HomeComponent } from "@components/home/home.component";
 import { AppNavLayoutComponent } from "@components/nav-layouts/app-nav-layout/app-nav-layout.component";
 import { AuthGuard } from "@guards/auth.guard";
@@ -18,15 +18,25 @@ const HOME_ROUTES: Routes = [
 
 const APP_ROUTES: Routes = [
   {
-    path: "overview",
+    path: "commits",
     canActivate: [AuthGuard, DataProvidedGuard],
     canDeactivate: [DataLoadingGuard],
-    component: OverviewComponent,
+    component: CommitsComponent,
+  },
+  {
+    path: "overview",
+    redirectTo: "commits",
+    pathMatch: "full",
+  },
+  {
+    path: "students",
+    canActivate: [AuthGuard, DataProvidedGuard],
+    component: StudentsComponent,
   },
   {
     path: "students-commits",
-    canActivate: [AuthGuard, DataProvidedGuard],
-    component: StudentsCommitsComponent,
+    redirectTo: "students",
+    pathMatch: "full",
   },
   {
     path: "questions-completion",
@@ -37,10 +47,10 @@ const APP_ROUTES: Routes = [
 ];
 
 const ROUTES: Routes = [
-  { 
-    path: "", 
-    component: AppNavLayoutComponent, 
-    children: [...APP_ROUTES, ...HOME_ROUTES] 
+  {
+    path: "",
+    component: AppNavLayoutComponent,
+    children: [...APP_ROUTES, ...HOME_ROUTES],
   },
   { path: "**", redirectTo: "/not-found" },
 ];

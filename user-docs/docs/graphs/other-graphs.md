@@ -19,11 +19,11 @@ These graphs make it possible to bring out certain information according to the 
 
 ---
 
-## Students commits graph
+## Students graph
 
 This graph shows the _distribution of commit types_ for each student. This allows, when related to the total number of commits and the progression in the questions, to have an indication of how the student works, and to identify possible difficulties.
 
-The colors correspond to the same meanings as in the _[overview graph]({% link docs/graphs/overview.md %})_.
+The colors correspond to the same meanings as in the _[commits graph]({% link docs/graphs/overview.md %})_.
 
 There are 2 new elements in the graph:
 - the **total commit count** of a student, represented by the <span style="color:green">green curve</span>

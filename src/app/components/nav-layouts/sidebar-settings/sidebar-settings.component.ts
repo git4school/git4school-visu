@@ -137,7 +137,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
       this.dataService.groupFilter = "";
       this.onClose.emit();
       this.assignmentsService.assignmentModified.next();
-      this.router.navigate(["/overview"]);
+      this.router.navigate(["/commits"]);
     });
   }
 

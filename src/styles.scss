@@ -22,6 +22,7 @@
 .card-header .fa-chevron-down {
   transition: transform $transition-normal;
 }
+
 .card-header.collapsed .fa-chevron-down {
   transform: rotate(90deg);
 }
@@ -50,18 +51,22 @@
     transform-origin: center center;
     animation-timing-function: ease-out;
   }
+
   10% {
     transform: scale(0.91);
     animation-timing-function: ease-in;
   }
+
   17% {
     transform: scale(0.98);
     animation-timing-function: ease-out;
   }
+
   33% {
     transform: scale(0.87);
     animation-timing-function: ease-in;
   }
+
   45% {
     transform: scale(1);
     animation-timing-function: ease-out;
@@ -83,7 +88,9 @@
 
 @keyframes anim-blinking {
   0% { fill-opacity: 1; }
+
   50% { fill-opacity: 0.4; }
+
   100% { fill-opacity: 1; }
 }
 
@@ -115,40 +122,49 @@
   border-radius: 12px !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
 }
+
 .driver-popover-title {
   font-family: inherit !important;
   font-weight: 600 !important;
   color: var(--color-primary) !important;
   font-size: 1.1rem !important;
 }
+
 .driver-popover-description {
   font-family: inherit !important;
   color: var(--color-text-secondary) !important;
   font-size: 0.95rem !important;
 }
+
 .driver-popover-footer button {
   font-family: inherit !important;
   border-radius: 8px !important;
   font-weight: 500 !important;
   text-shadow: none !important;
 }
+
 .driver-popover-next-btn, .driver-popover-done-btn {
   background-color: var(--color-primary) !important;
   color: white !important;
   border: none !important;
 }
+
 .driver-popover-prev-btn {
   background-color: transparent !important;
   color: var(--color-text-secondary) !important;
   border: 1px solid var(--color-border) !important;
 }
+
 .driver-popover-arrow-side-left { border-left-color: var(--color-surface) !important; }
+
 .driver-popover-arrow-side-right { border-right-color: var(--color-surface) !important; }
+
 .driver-popover-arrow-side-top { border-top-color: var(--color-surface) !important; }
+
 .driver-popover-arrow-side-bottom { border-bottom-color: var(--color-surface) !important; }
 
 /* Host elements flex layout fixes */
-overview, students-commits, questions-completion {
+commits, overview, students, students-commits, questions-completion {
   display: flex;
   flex-direction: column;
   flex: 1;

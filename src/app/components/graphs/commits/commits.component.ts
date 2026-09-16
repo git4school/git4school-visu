@@ -39,15 +39,12 @@ import { Utils } from "../../../services/utils";
 import { FilterGroup } from "@components/questions-chooser/questions-chooser.component";
 
 @Component({
-  selector: "overview",
-  templateUrl: "./overview.component.html",
-  styleUrls: ["./overview.component.scss", "./chart.scss"],
+  selector: "commits",
+  templateUrl: "./commits.component.html",
+  styleUrls: ["./commits.component.scss", "./chart.scss"],
   encapsulation: ViewEncapsulation.None,
 })
-export class OverviewComponent
-  extends BaseGraphComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export class CommitsComponent extends BaseGraphComponent implements OnInit, AfterViewInit, OnDestroy {
   static formatDay = d3.timeFormat("%d/%m/%Y");
   static formatHour = d3.timeFormat("%H:%M");
   static GROUP_HEIGHT = 12;
@@ -70,7 +67,7 @@ export class OverviewComponent
   displayModes = {
     opacity: false,
     height: false,
-    text: false
+    text: false,
   };
 
   typeaheadSettings;
@@ -81,12 +78,7 @@ export class OverviewComponent
   filteredCommitsCount = 0;
   filteredStudentsCount = 0;
   hiddenCategories = new Set<string>();
-  commitColors = [
-    CommitColor.INTERMEDIATE,
-    CommitColor.BEFORE,
-    CommitColor.BETWEEN,
-    CommitColor.AFTER,
-  ];
+  commitColors = [CommitColor.INTERMEDIATE, CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER];
   unit = "day";
   drag = false;
   chartData = [{ data: [] }];
@@ -144,6 +136,7 @@ export class OverviewComponent
   hovered_session: Session;
   hovered_group_commit: Commit[];
   hovered_milestone: Milestone;
+  hovered_repository: Repository;
   private milestoneHoverTimer: any = null;
   private readonly MILESTONE_HOVER_DELAY = 600; // ms
   hovered_g: d3.Selection<any, any, any, any>;
@@ -160,10 +153,10 @@ export class OverviewComponent
   scrollable_height: number;
   private resizeObserver: any;
   private resizeTimeout: any;
-  private last_zoom_k: number = 0;
+  private last_zoom_k = 0;
   private zoomTimeoutId: any = null;
   private zoomRafId: number | null = null;
-  isRefreshing: boolean = false;
+  isRefreshing = false;
   private isThrottledGroupUpdate = false;
   private needsGroupUpdate = false;
 
@@ -222,7 +215,7 @@ export class OverviewComponent
     if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
       this.loadGraphDataAndRefresh(true);
     } else {
-      if (marker === 'sessions') {
+      if (marker === "sessions") {
         this.loadSessionAnnotations();
       } else {
         this.loadMilestoneAnnotations();
@@ -235,9 +228,9 @@ export class OverviewComponent
       showSessions: this.showSessions,
       showCorrections: this.showCorrections,
       showReviews: this.showReviews,
-      showOthers: this.showOthers
+      showOthers: this.showOthers,
     };
-    localStorage.setItem('markerPreferences', JSON.stringify(preferences));
+    localStorage.setItem("markerPreferences", JSON.stringify(preferences));
   }
 
   constructor(
@@ -251,20 +244,20 @@ export class OverviewComponent
     public themeService: ThemeService,
     private tooltipService: TooltipService,
     private ngZone: NgZone,
-    public overlayManagerService: OverlayManagerService
+    public overlayManagerService: OverlayManagerService,
   ) {
     super(loaderService, assignmentsService, dataService);
   }
 
   ngOnInit(): void {
-    const savedModes = localStorage.getItem('commitDisplayModes');
+    const savedModes = localStorage.getItem("commitDisplayModes");
     if (savedModes) {
       try {
         this.displayModes = JSON.parse(savedModes);
       } catch (e) {}
     }
 
-    const savedMarkers = localStorage.getItem('markerPreferences');
+    const savedMarkers = localStorage.getItem("markerPreferences");
     if (savedMarkers) {
       try {
         const parsed = JSON.parse(savedMarkers);
@@ -274,40 +267,32 @@ export class OverviewComponent
         this.showOthers = parsed.showOthers ?? true;
       } catch (e) {}
     }
-    
-    this.defaultSessionDuration =
-      this.dataService.assignment.defaultSessionDuration;
+
+    this.defaultSessionDuration = this.dataService.assignment.defaultSessionDuration;
     this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();
-    this.translateService.onLangChange.subscribe(
-      (event: TranslationChangeEvent) => {
-        this.updateLang();
-      }
-    );
+    this.translateService.onLangChange.subscribe((event: TranslationChangeEvent) => {
+      this.updateLang();
+    });
 
-    this.overlayManagerService.dismiss$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((event) => {
-        if (OverlayManagerService.shouldDismiss(OverlayType.DROPDOWN, event)) {
-          if (this.groupDropdown && this.groupDropdown.isOpen()) {
-            this.groupDropdown.close();
-          }
-          if (this.legendDropdown && this.legendDropdown.isOpen()) {
-            this.legendDropdown.close();
-          }
+    this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+      if (OverlayManagerService.shouldDismiss(OverlayType.DROPDOWN, event)) {
+        if (this.groupDropdown && this.groupDropdown.isOpen()) {
+          this.groupDropdown.close();
         }
-      });
+        if (this.legendDropdown && this.legendDropdown.isOpen()) {
+          this.legendDropdown.close();
+        }
+      }
+    });
   }
 
   pressedShortcut: string = null;
 
   @HostListener("document:keydown", ["$event"])
   handleGlobalShortcuts(event: KeyboardEvent) {
-    if (
-      document.body.classList.contains("modal-open") ||
-      document.querySelector(".modal.show, .custom-modal-backdrop") !== null
-    ) {
+    if (document.body.classList.contains("modal-open") || document.querySelector(".modal.show, .custom-modal-backdrop") !== null) {
       return;
     }
 
@@ -324,12 +309,7 @@ export class OverviewComponent
       return;
     }
 
-    if (
-      key === "f" &&
-      !event.ctrlKey &&
-      !event.metaKey &&
-      !event.altKey
-    ) {
+    if (key === "f" && !event.ctrlKey && !event.metaKey && !event.altKey) {
       event.preventDefault();
       if (this.questionsChooser && typeof this.questionsChooser.focus === "function") {
         this.questionsChooser.focus();
@@ -341,11 +321,7 @@ export class OverviewComponent
       event.preventDefault();
       this.loadGraph(this.dataService.startDate, this.dataService.endDate);
       this.triggerShortcut("r");
-    } else if (
-      key === "h" &&
-      this.hovered_commit != null &&
-      this.hovered_group_commit == null
-    ) {
+    } else if (key === "h" && this.hovered_commit != null && this.hovered_group_commit == null) {
       event.preventDefault();
       this.copyCommitHash(this.hovered_commit.url);
       this.triggerShortcut("h");
@@ -382,9 +358,7 @@ export class OverviewComponent
       navigator.clipboard
         .writeText(hash)
         .then(() => {
-          this.toastService.copy(
-            this.translateService.instant("TOAST.HASH_COPIED")
-          );
+          this.toastService.copy(this.translateService.instant("TOAST.HASH_COPIED"));
         })
         .catch((err) => console.error("Could not copy text: ", err));
     }
@@ -420,17 +394,12 @@ export class OverviewComponent
       (this.commitMessagesFilter && this.commitMessagesFilter.length > 0);
 
     return this.dataService.repositories.filter((repository) => {
-      if (
-        this.dataService.groupFilter &&
-        repository.tpGroup !== this.dataService.groupFilter
-      ) {
+      if (this.dataService.groupFilter && repository.tpGroup !== this.dataService.groupFilter) {
         return false;
       }
 
       if (isFilterActive) {
-        return repository.commits.some((commit) =>
-          this.isCommitMatchingFilter(commit)
-        );
+        return repository.commits.some((commit) => this.isCommitMatchingFilter(commit));
       }
 
       return true;
@@ -445,12 +414,10 @@ export class OverviewComponent
           if (criterion.type === "question") {
             match = commit.question === criterion.value;
           } else {
-            match = commit.message
-              .toLowerCase()
-              .includes(criterion.value.toLowerCase());
+            match = commit.message.toLowerCase().includes(criterion.value.toLowerCase());
           }
           return criterion.isExclusion ? !match : match;
-        })
+        }),
       );
     }
 
@@ -460,32 +427,28 @@ export class OverviewComponent
     if (this.hiddenCategories.has(commit.color.label)) {
       return false;
     }
-    if (this.hiddenCategories.has('CLOSING') && commit.isCloture) {
+    if (this.hiddenCategories.has("CLOSING") && commit.isCloture) {
       return false;
     }
-    if (this.hiddenCategories.has('COMMIT') && !commit.isCloture) {
+    if (this.hiddenCategories.has("COMMIT") && !commit.isCloture) {
       return false; // Wait, should this hide all non-cloture commits? Let's just use it to hide normal commits.
     }
 
     if (!hasSearchFilter && !hasCommitFilter) return true;
 
-    const matchesSearch =
-      hasSearchFilter && this.searchFilter.includes(commit.question);
+    const matchesSearch = hasSearchFilter && this.searchFilter.includes(commit.question);
     const matchesCommit =
-      hasCommitFilter &&
-      this.commitMessagesFilter.some((msg) =>
-        commit.message.toLowerCase().includes(msg.toLowerCase())
-      );
+      hasCommitFilter && this.commitMessagesFilter.some((msg) => commit.message.toLowerCase().includes(msg.toLowerCase()));
 
     return matchesSearch || matchesCommit;
   }
 
   toggleCategory(label: string) {
-    if (label === 'SESSION' || label === 'REVIEW' || label === 'CORRECTION' || label === 'OTHER') {
-      if (label === 'SESSION') this.showSessions = !this.showSessions;
-      if (label === 'REVIEW') this.showReviews = !this.showReviews;
-      if (label === 'CORRECTION') this.showCorrections = !this.showCorrections;
-      if (label === 'OTHER') this.showOthers = !this.showOthers;
+    if (label === "SESSION" || label === "REVIEW" || label === "CORRECTION" || label === "OTHER") {
+      if (label === "SESSION") this.showSessions = !this.showSessions;
+      if (label === "REVIEW") this.showReviews = !this.showReviews;
+      if (label === "CORRECTION") this.showCorrections = !this.showCorrections;
+      if (label === "OTHER") this.showOthers = !this.showOthers;
       this.saveMarkerPreferences();
 
       const chartDiv = document.getElementById("chart");
@@ -495,7 +458,7 @@ export class OverviewComponent
       if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
         this.loadGraphDataAndRefresh(true);
       } else {
-        if (label === 'SESSION') {
+        if (label === "SESSION") {
           this.loadSessionAnnotations();
         } else {
           this.loadMilestoneAnnotations();
@@ -508,14 +471,16 @@ export class OverviewComponent
       this.hiddenCategories.delete(label);
     } else {
       // Prevent hiding all colors
-      if (this.commitColors.find(c => c.label === label)) {
+      if (this.commitColors.find((c) => c.label === label)) {
         let hiddenColors = 0;
-        this.commitColors.forEach(c => { if (this.hiddenCategories.has(c.label)) hiddenColors++; });
+        this.commitColors.forEach((c) => {
+          if (this.hiddenCategories.has(c.label)) hiddenColors++;
+        });
         if (hiddenColors === this.commitColors.length - 1) return;
       }
       this.hiddenCategories.add(label);
     }
-    
+
     this.loadGraphDataAndRefresh(true);
   }
 
@@ -527,11 +492,8 @@ export class OverviewComponent
       return false;
     }
     const milestone_filter = (m: Milestone) =>
-      (!this.dataService.groupFilter ||
-        !m.tpGroup ||
-        m.tpGroup === this.dataService.groupFilter) &&
-      (!this.searchFilter?.length ||
-        this.searchFilter.some((question) => m.questions?.includes(question)));
+      (!this.dataService.groupFilter || !m.tpGroup || m.tpGroup === this.dataService.groupFilter) &&
+      (!this.searchFilter?.length || this.searchFilter.some((question) => m.questions?.includes(question)));
 
     return (
       (this.showReviews && !!this.dataService.reviews?.some(milestone_filter)) ||
@@ -542,10 +504,7 @@ export class OverviewComponent
 
   hasDisplayedSessions(): boolean {
     if (!this.dataService || !this.showSessions) return false;
-    const session_filter = (s: Session) =>
-      !this.dataService.groupFilter ||
-      !s.tpGroup ||
-      s.tpGroup === this.dataService.groupFilter;
+    const session_filter = (s: Session) => !this.dataService.groupFilter || !s.tpGroup || s.tpGroup === this.dataService.groupFilter;
     return !!this.dataService.sessions?.some(session_filter);
   }
 
@@ -566,8 +525,7 @@ export class OverviewComponent
 
     var style = getComputedStyle(chart_div);
 
-    var css_var_number = (name: string, dash = true) =>
-      Number.parseInt(style.getPropertyValue((dash ? "--" : "") + name));
+    var css_var_number = (name: string, dash = true) => Number.parseInt(style.getPropertyValue((dash ? "--" : "") + name));
 
     let rect = chart_div.getBoundingClientRect();
     this.width = rect.width;
@@ -575,14 +533,14 @@ export class OverviewComponent
 
     let maxAllowedMargin = Math.max(
       ((100 - css_var_number("chart-width-left-spacing-ratio")) * this.width) / 100,
-      css_var_number("chart-width-max-left-spacing")
+      css_var_number("chart-width-max-left-spacing"),
     );
 
     let maxNameWidth = 0;
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
     const repos = this.dataService.repositories ? this.getDisplayedRepositories() : [];
-    
+
     if (context && repos.length > 0) {
       context.font = "13px " + (style.getPropertyValue("--font-family-sans") || "sans-serif");
       for (const repo of repos) {
@@ -592,10 +550,10 @@ export class OverviewComponent
     }
 
     let actualMargin = Math.min(maxNameWidth + 25, maxAllowedMargin);
-    
+
     // Fallback to maxAllowedMargin if we couldn't measure
     if (maxNameWidth === 0 && repos.length > 0) {
-        actualMargin = maxAllowedMargin;
+      actualMargin = maxAllowedMargin;
     }
 
     this.chart_width = Math.max(1, this.width - actualMargin);
@@ -606,10 +564,7 @@ export class OverviewComponent
     };
 
     this.inner_width = Math.max(1, this.chart_width);
-    this.inner_height = Math.max(
-      1,
-      this.height - this.inner_margin.top - this.inner_margin.bottom
-    );
+    this.inner_height = Math.max(1, this.height - this.inner_margin.top - this.inner_margin.bottom);
 
     if (this.svg_abs) {
       this.svg_abs.select("#top-strip-clip rect").attr("width", this.inner_width);
@@ -632,7 +587,7 @@ export class OverviewComponent
           this.dataService.reviews,
           this.dataService.corrections,
           this.dataService.questions,
-          false
+          false,
         );
 
         this.loading = false;
@@ -662,7 +617,7 @@ export class OverviewComponent
           this.dataService.reviews,
           this.dataService.corrections,
           this.dataService.questions,
-          false
+          false,
         );
         this.loading = false;
       });
@@ -686,22 +641,10 @@ export class OverviewComponent
       }
     }
 
-    if (
-      this.hovered_commit ||
-      this.hovered_group_commit ||
-      this.hovered_session ||
-      this.hovered_milestone
-    ) {
+    if (this.hovered_commit || this.hovered_group_commit || this.hovered_session || this.hovered_milestone || this.hovered_repository) {
       this.ngZone.run(() => {
         if (!this.tooltipService.isShowing()) {
-          this.tooltipService.showAtPosition(
-            this.d3TooltipTemplate,
-            x,
-            y,
-            "right",
-            undefined,
-            true
-          );
+          this.tooltipService.showAtPosition(this.d3TooltipTemplate, x, y, "right", undefined, true);
         } else {
           this.tooltipService.moveTooltip(x, y, "right");
         }
@@ -738,16 +681,11 @@ export class OverviewComponent
 
         if (event.sourceEvent != null) {
           overview.overlayManagerService.dismissAll({ blurInput: true });
-          overview.refreshTooltip(
-            event.sourceEvent.clientX,
-            event.sourceEvent.clientY
-          );
+          overview.refreshTooltip(event.sourceEvent.clientX, event.sourceEvent.clientY);
         }
 
         overview.current_zoom = event.transform;
-        overview.x_scale_copy = overview.current_zoom.rescaleX(
-          overview.x_scale
-        );
+        overview.x_scale_copy = overview.current_zoom.rescaleX(overview.x_scale);
 
         if (overview.zoomRafId !== null) {
           return;
@@ -774,31 +712,35 @@ export class OverviewComponent
 
     this.data_g = this.data_g.call(this.zoom).on("dblclick.zoom", null);
 
-    d3.select(".chart-container").on("wheel", (event: WheelEvent) => {
-      // Zooming is handled by d3.zoom if shiftKey is pressed
-      if (event.shiftKey) return;
+    d3.select(".chart-container").on(
+      "wheel",
+      (event: WheelEvent) => {
+        // Zooming is handled by d3.zoom if shiftKey is pressed
+        if (event.shiftKey) return;
 
-      let dx = event.deltaX;
-      let dy = event.deltaY;
+        let dx = event.deltaX;
+        let dy = event.deltaY;
 
-      // Handle ctrl+wheel to scroll horizontally if the device only emits deltaY
-      if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
-        dx = dy;
-        dy = 0;
-      }
-
-      // If there is significant horizontal scrolling, or ctrl key is pressed
-      if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
-        overview.overlayManagerService.dismissAll();
-        event.preventDefault(); // Prevent browser back/forward or default scroll
-        event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
-
-        if (this.zoom && this.data_g) {
-          // Pan horizontally
-          this.data_g.call(this.zoom.translateBy, -dx / (this.current_zoom?.k || 1), 0);
+        // Handle ctrl+wheel to scroll horizontally if the device only emits deltaY
+        if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
+          dx = dy;
+          dy = 0;
         }
-      }
-    }, { passive: false });
+
+        // If there is significant horizontal scrolling, or ctrl key is pressed
+        if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+          overview.overlayManagerService.dismissAll();
+          event.preventDefault(); // Prevent browser back/forward or default scroll
+          event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
+
+          if (this.zoom && this.data_g) {
+            // Pan horizontally
+            this.data_g.call(this.zoom.translateBy, -dx / (this.current_zoom?.k || 1), 0);
+          }
+        }
+      },
+      { passive: false },
+    );
 
     if (conserveZoom) {
       this.resetZoom(true);
@@ -813,7 +755,7 @@ export class OverviewComponent
     this.scrollable_height = Math.max(
       1,
       this.height - this.inner_margin.top - this.inner_margin.bottom,
-      this.getDisplayedRepositories().length * this.repo_spacing
+      this.getDisplayedRepositories().length * this.repo_spacing,
     );
 
     if (!this.resizeObserver && (window as any).ResizeObserver) {
@@ -821,7 +763,7 @@ export class OverviewComponent
         for (let entry of entries) {
           const chart_div = document.getElementById("chart");
           if (!chart_div) continue;
-          
+
           const newWidth = chart_div.getBoundingClientRect().width;
           const newHeight = chart_div.getBoundingClientRect().height;
           if (newWidth > 0 && (Math.abs(newWidth - (this.width || 0)) > 1 || Math.abs(newHeight - (this.height || 0)) > 1)) {
@@ -832,9 +774,7 @@ export class OverviewComponent
               this.width = chart_div.getBoundingClientRect().width;
               this.height = Math.max(
                 chart_div.getBoundingClientRect().height,
-                this.inner_margin.top +
-                  this.inner_margin.bottom +
-                  this.getDisplayedRepositories().length * this.repo_spacing
+                this.inner_margin.top + this.inner_margin.bottom + this.getDisplayedRepositories().length * this.repo_spacing,
               );
               this.loadGraphDataAndRefresh(true);
             }, 100);
@@ -851,7 +791,7 @@ export class OverviewComponent
     const container = d3.select(".chart-container");
     container.selectAll("svg").remove();
     container.selectAll(".scroll-dummy").remove();
-    
+
     this.svg = container
       .append("svg")
       .attr("preserveAspectRatio", "none")
@@ -890,15 +830,11 @@ export class OverviewComponent
 
     const translation = [this.width - this.chart_width, 0];
 
-    this.chart_svg = this.svg
-      .append("g")
-      .attr("transform", "translate(" + translation + ")");
+    this.chart_svg = this.svg.append("g").attr("transform", "translate(" + translation + ")");
 
     this.data_g = this.chart_svg.append("g");
 
-    this.chart_abs_g = this.svg_abs
-      .append("g")
-      .attr("transform", "translate(" + translation + ")");
+    this.chart_abs_g = this.svg_abs.append("g").attr("transform", "translate(" + translation + ")");
 
     this.svg_abs
       .append("defs")
@@ -1057,22 +993,26 @@ export class OverviewComponent
       this.tooltipService.hide();
     }
     let milestone_filter = (review: Milestone) =>
-      (!this.dataService.groupFilter ||
-        !review.tpGroup ||
-        review.tpGroup === this.dataService.groupFilter) &&
-      (!this.searchFilter.length ||
-        this.searchFilter.filter((question) =>
-          review.questions?.includes(question)
-        ).length);
+      (!this.dataService.groupFilter || !review.tpGroup || review.tpGroup === this.dataService.groupFilter) &&
+      (!this.searchFilter.length || this.searchFilter.filter((question) => review.questions?.includes(question)).length);
 
     if (this.milestones_g != null) {
       this.milestones_g.remove();
       this.milestones_g = null;
     }
-    if (this.review_g != null) { this.review_g.remove(); this.review_g = null; }
-    if (this.correction_g != null) { this.correction_g.remove(); this.correction_g = null; }
-    if (this.other_g != null) { this.other_g.remove(); this.other_g = null; }
-    
+    if (this.review_g != null) {
+      this.review_g.remove();
+      this.review_g = null;
+    }
+    if (this.correction_g != null) {
+      this.correction_g.remove();
+      this.correction_g = null;
+    }
+    if (this.other_g != null) {
+      this.other_g.remove();
+      this.other_g = null;
+    }
+
     if (this.filteredCommitsCount === 0) {
       this.updateMilestoneCutoutMask();
       return;
@@ -1111,12 +1051,7 @@ export class OverviewComponent
 
     const overview = this;
     allMilestones.forEach(({ milestone, type, index }) => {
-      overview.getLineForMilestone(
-        overview.milestones_g,
-        milestone,
-        `milestone ${type}`,
-        index
-      );
+      overview.getLineForMilestone(overview.milestones_g, milestone, `milestone ${type}`, index);
     });
 
     this.updateMilestoneCutoutMask();
@@ -1126,24 +1061,14 @@ export class OverviewComponent
     return this.contextualMenu.isContextMenuOpen();
   }
 
-  openEditMilestoneContextMenu(
-    review: Milestone,
-    x: number,
-    y: number,
-    date: Date
-  ) {
+  openEditMilestoneContextMenu(review: Milestone, x: number, y: number, date: Date) {
     this.contextualMenu.close();
     this.ngZone.run(() => {
       this.contextualMenu.openEditMilestone(review, x, y, date);
     });
   }
 
-  openEditSessionContextMenu(
-    session: Session,
-    x: number,
-    y: number,
-    date: Date
-  ) {
+  openEditSessionContextMenu(session: Session, x: number, y: number, date: Date) {
     this.contextualMenu.close();
     this.ngZone.run(() => {
       this.contextualMenu.openEditSession(session, x, y, date);
@@ -1162,8 +1087,7 @@ export class OverviewComponent
 
   getDateFromMouseEvent(event: MouseEvent): Date {
     const dataElement =
-      (this.data_g?.select("#data")?.node() as SVGRectElement) ||
-      (document.getElementById("data") as unknown as SVGRectElement);
+      (this.data_g?.select("#data")?.node() as SVGRectElement) || (document.getElementById("data") as unknown as SVGRectElement);
     let x = 0;
     if (dataElement) {
       const rect = dataElement.getBoundingClientRect();
@@ -1176,15 +1100,10 @@ export class OverviewComponent
       x = px;
     }
     x = Math.max(0, Math.min(this.inner_width, x));
-    return this.x_scale_copy
-      ? this.x_scale_copy.invert(x)
-      : (this.x_scale ? this.x_scale.invert(x) : new Date());
+    return this.x_scale_copy ? this.x_scale_copy.invert(x) : this.x_scale ? this.x_scale.invert(x) : new Date();
   }
 
-  onSaveMilestone(result: {
-    oldMilestone: Milestone;
-    newMilestone: Milestone;
-  }) {
+  onSaveMilestone(result: { oldMilestone: Milestone; newMilestone: Milestone }) {
     try {
       this.clearMilestoneHoverTimer();
       if (this.hovered_milestone) {
@@ -1195,16 +1114,10 @@ export class OverviewComponent
       this.saveMilestone(result.oldMilestone, result.newMilestone);
       this.updateAfterMilestoneChange(hadStripBefore);
 
-      let translations = this.translateService.instant([
-        "SUCCESS",
-        "MILESTONE-SAVED",
-        "MILESTONE-DELETED",
-      ]);
+      let translations = this.translateService.instant(["SUCCESS", "MILESTONE-SAVED", "MILESTONE-DELETED"]);
       this.toastService.success(
         translations["SUCCESS"],
-        result.newMilestone
-          ? translations["MILESTONE-SAVED"]
-          : translations["MILESTONE-DELETED"]
+        result.newMilestone ? translations["MILESTONE-SAVED"] : translations["MILESTONE-DELETED"],
       );
     } catch (e) {
       // toast fail
@@ -1217,10 +1130,7 @@ export class OverviewComponent
     }
 
     if (oldMilestone) {
-      this.dataService[oldMilestone.type].splice(
-        this.dataService[oldMilestone.type].indexOf(oldMilestone),
-        1
-      );
+      this.dataService[oldMilestone.type].splice(this.dataService[oldMilestone.type].indexOf(oldMilestone), 1);
     }
   }
 
@@ -1234,16 +1144,10 @@ export class OverviewComponent
       this.saveSession(result.oldSession, result.newSession);
       this.updateAfterSessionChange(hadStripBefore);
 
-      let translations = this.translateService.instant([
-        "SUCCESS",
-        "SESSION-SAVED",
-        "SESSION-DELETED",
-      ]);
+      let translations = this.translateService.instant(["SUCCESS", "SESSION-SAVED", "SESSION-DELETED"]);
       this.toastService.success(
         translations["SUCCESS"],
-        result.newSession
-          ? translations["SESSION-SAVED"]
-          : translations["SESSION-DELETED"]
+        result.newSession ? translations["SESSION-SAVED"] : translations["SESSION-DELETED"],
       );
     } catch (e) {
       // toast fail
@@ -1256,10 +1160,7 @@ export class OverviewComponent
     }
 
     if (oldSession) {
-      this.dataService.sessions.splice(
-        this.dataService.sessions.indexOf(oldSession),
-        1
-      );
+      this.dataService.sessions.splice(this.dataService.sessions.indexOf(oldSession), 1);
     }
   }
 
@@ -1273,14 +1174,8 @@ export class OverviewComponent
       this.deleteSession(session);
       this.updateAfterSessionChange(hadStripBefore);
 
-      let translations = this.translateService.instant([
-        "SUCCESS",
-        "SESSION-DELETED",
-      ]);
-      this.toastService.success(
-        translations["SUCCESS"],
-        translations["SESSION-DELETED"]
-      );
+      let translations = this.translateService.instant(["SUCCESS", "SESSION-DELETED"]);
+      this.toastService.success(translations["SUCCESS"], translations["SESSION-DELETED"]);
     } catch (e) {
       // toast fail
     }
@@ -1297,31 +1192,19 @@ export class OverviewComponent
       this.deleteMilestone(milestone);
       this.updateAfterMilestoneChange(hadStripBefore);
 
-      let translations = this.translateService.instant([
-        "SUCCESS",
-        "MILESTONE-DELETED",
-      ]);
-      this.toastService.success(
-        translations["SUCCESS"],
-        translations["MILESTONE-DELETED"]
-      );
+      let translations = this.translateService.instant(["SUCCESS", "MILESTONE-DELETED"]);
+      this.toastService.success(translations["SUCCESS"], translations["MILESTONE-DELETED"]);
     } catch (e) {
       // toast fail
     }
   }
 
   deleteMilestone(milestone: Milestone) {
-    this.dataService[milestone.type].splice(
-      this.dataService[milestone.type].indexOf(milestone),
-      1
-    );
+    this.dataService[milestone.type].splice(this.dataService[milestone.type].indexOf(milestone), 1);
   }
 
   deleteSession(session: Session) {
-    this.dataService.sessions.splice(
-      this.dataService.sessions.indexOf(session),
-      1
-    );
+    this.dataService.sessions.splice(this.dataService.sessions.indexOf(session), 1);
   }
 
   getSessionDisplayName(session: Session): string {
@@ -1333,10 +1216,7 @@ export class OverviewComponent
     const sameGroup = allSessions
       .filter((s) => (s.tpGroup || "") === (session.tpGroup || ""))
       .slice()
-      .sort(
-        (a, b) =>
-          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-      );
+      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 
     const idx = sameGroup.indexOf(session);
     const num = idx >= 0 ? idx + 1 : 1;
@@ -1355,13 +1235,9 @@ export class OverviewComponent
     const start = moment(session.startDate);
     const end = moment(session.endDate);
     if (start.isSame(end, "day")) {
-      return `${start.format("DD/MM/YYYY")} · ${start.format(
-        "HH:mm"
-      )} - ${end.format("HH:mm")}`;
+      return `${start.format("DD/MM/YYYY")} · ${start.format("HH:mm")} - ${end.format("HH:mm")}`;
     }
-    return `${start.format("DD/MM/YYYY HH:mm")} - ${end.format(
-      "DD/MM/YYYY HH:mm"
-    )}`;
+    return `${start.format("DD/MM/YYYY HH:mm")} - ${end.format("DD/MM/YYYY HH:mm")}`;
   }
 
   buildSessionBody(g: d3.Selection<any, any, any, any>, session: Session) {
@@ -1377,21 +1253,11 @@ export class OverviewComponent
         e.preventDefault();
         e.stopPropagation();
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(
-          session,
-          e.pageX,
-          e.pageY,
-          rawDate
-        );
+        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(
-          session,
-          e.pageX,
-          e.pageY,
-          rawDate
-        );
+        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
       })
       .on("mouseenter", () => {
         d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
@@ -1451,21 +1317,11 @@ export class OverviewComponent
         e.preventDefault();
         e.stopPropagation();
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(
-          session,
-          e.pageX,
-          e.pageY,
-          rawDate
-        );
+        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(
-          session,
-          e.pageX,
-          e.pageY,
-          rawDate
-        );
+        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
       })
       .on("mouseenter", () => {
         d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
@@ -1486,11 +1342,14 @@ export class OverviewComponent
     const hasNotes = !!(session.notes && session.notes.trim().length > 0);
     const groupName = session.tpGroup || "";
 
-    const usersSvg = `<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`;
+    const usersSvg =
+      '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>';
 
-    const calendarSvg = `<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
+    const calendarSvg =
+      '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
 
-    const noteSvg = `<svg style="width: 10px; height: 10px; min-width: 10px; min-height: 10px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`;
+    const noteSvg =
+      '<svg style="width: 10px; height: 10px; min-width: 10px; min-height: 10px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
 
     // 1. Continuous header background filling top strip behind pills
     group
@@ -1557,16 +1416,24 @@ export class OverviewComponent
           <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
         </span>
         <!-- Pill 2: Groupe de TP -->
-        ${groupName ? `
+        ${
+          groupName
+            ? `
         <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 20px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
           ${usersSvg}
           <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
-        </span>` : ''}
+        </span>`
+            : ""
+        }
         <!-- Pill 3: Note button directly following TP Group / Name -->
-        ${hasNotes ? `
+        ${
+          hasNotes
+            ? `
         <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto;">
           ${noteSvg}
-        </span>` : ''}
+        </span>`
+            : ""
+        }
         <!-- More indicator (...) when some info is hidden -->
         <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 20px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0;">
           <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
@@ -1607,12 +1474,7 @@ export class OverviewComponent
         .on("click", (e: MouseEvent) => {
           e.stopPropagation();
           const rawDate = overview.getDateFromMouseEvent(e);
-          overview.openEditSessionContextMenu(
-            session,
-            e.pageX,
-            e.pageY,
-            rawDate
-          );
+          overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
         });
     }
 
@@ -1644,26 +1506,16 @@ export class OverviewComponent
       .on("click", (e: MouseEvent) => {
         e.stopPropagation();
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(
-          session,
-          e.pageX,
-          e.pageY,
-          rawDate
-        );
+        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
       });
   }
 
   loadSessions() {
     let loaded_sessions: Session[] = this.dataService.sessions.filter(
-      (session) =>
-        !this.dataService.groupFilter ||
-        !session.tpGroup ||
-        session.tpGroup === this.dataService.groupFilter
+      (session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter,
     );
 
-    this.session_g = this.data_g.insert("g", () =>
-      this.repository_g ? this.repository_g.node() : null
-    );
+    this.session_g = this.data_g.insert("g", () => (this.repository_g ? this.repository_g.node() : null));
 
     if (this.chart_abs_g) {
       const hitbox = this.chart_abs_g.select(".milestone-strip-hitbox");
@@ -1705,10 +1557,7 @@ export class OverviewComponent
     this.updateSessionsTransforms();
   }
 
-  private resolveMilestoneType(
-    m?: Milestone,
-    g?: d3.Selection<any, any, any, any>
-  ): string {
+  private resolveMilestoneType(m?: Milestone, g?: d3.Selection<any, any, any, any>): string {
     if (m?.type) {
       return m.type;
     }
@@ -1738,21 +1587,14 @@ export class OverviewComponent
     const labelGroup = g.append("g").attr("class", "milestone-label-group");
 
     // Text
-    const labelText =
-      m.label ||
-      (m.type.endsWith("s") ? m.type.slice(0, -1) : m.type) + " " + index;
+    const labelText = m.label || (m.type.endsWith("s") ? m.type.slice(0, -1) : m.type) + " " + index;
 
-    let text = labelGroup
-      .append("text")
-      .attr("class", "milestone-text")
-      .attr("y", -7)
-      .text(labelText)
-      .attr("text-anchor", "middle");
+    let text = labelGroup.append("text").attr("class", "milestone-text").attr("y", -7).text(labelText).attr("text-anchor", "middle");
 
     let textWidth = 40;
     try {
       const node = text.node();
-      if (node && typeof node.getBBox === 'function') {
+      if (node && typeof node.getBBox === "function") {
         const bbox = node.getBBox();
         if (bbox && bbox.width > 0) {
           textWidth = bbox.width;
@@ -1800,14 +1642,12 @@ export class OverviewComponent
 
     // 1. Maintain chronological DOM order (oldest first, newest last = on top in SVG painter model)
     if (this.milestones_g) {
-      this.milestones_g
-        .selectAll(".milestone")
-        .sort((a: Milestone, b: Milestone) => {
-          const tA = new Date(a.date).getTime();
-          const tB = new Date(b.date).getTime();
-          if (tA !== tB) return tA - tB;
-          return (a.label || "").localeCompare(b.label || "");
-        });
+      this.milestones_g.selectAll(".milestone").sort((a: Milestone, b: Milestone) => {
+        const tA = new Date(a.date).getTime();
+        const tB = new Date(b.date).getTime();
+        if (tA !== tB) return tA - tB;
+        return (a.label || "").localeCompare(b.label || "");
+      });
     }
 
     // 2. Collect visible milestones and their geometric bounds
@@ -1869,13 +1709,7 @@ export class OverviewComponent
         .attr("width", "100%")
         .attr("height", "100%");
 
-      sessionMask
-        .append("rect")
-        .attr("x", -5000)
-        .attr("y", 0)
-        .attr("width", 100000)
-        .attr("height", 100)
-        .attr("fill", "white");
+      sessionMask.append("rect").attr("x", -5000).attr("y", 0).attr("width", 100000).attr("height", 100).attr("fill", "white");
 
       sessionMask.append("g").attr("id", "milestone-mask-cutouts");
     }
@@ -1928,7 +1762,7 @@ export class OverviewComponent
         // Check if horizontal intervals overlap
         if (currentRight >= newerLeft && currentLeft <= newerRight) {
           // Overlap detected! In current milestone's local coordinate system:
-          const relX = (newer.x - current.x) - newerHalfCutWidth;
+          const relX = newer.x - current.x - newerHalfCutWidth;
           cutoutsForCurrent.push({
             relX,
             cutWidth: newer.width + overlapPadding * 2,
@@ -2010,12 +1844,7 @@ export class OverviewComponent
     return this.MILESTONE_COLOR_MAP[normalizedType] || "var(--color-primary)";
   }
 
-  private getEuclideanDistance(
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number
-  ): number {
+  private getEuclideanDistance(x1: number, y1: number, x2: number, y2: number): number {
     const dx = x2 - x1;
     const dy = y2 - y1;
     return Math.sqrt(dx * dx + dy * dy);
@@ -2024,35 +1853,19 @@ export class OverviewComponent
   private readonly FA_ARROWS_ALT_PATH =
     "M352.201 425.775l-79.196 79.196c-9.373 9.373-24.568 9.373-33.941 0l-79.196-79.196c-15.119-15.119-4.411-40.971 16.971-40.97h51.162L228 284H127.196v51.162c0 21.382-25.851 32.09-40.971 16.971L7.029 272.937c-9.373-9.373-9.373-24.569 0-33.941L86.225 159.8c15.119-15.119 40.971-4.411 40.971 16.971V228H228V127.196h-51.23c-21.382 0-32.09-25.851-16.971-40.971l79.196-79.196c9.373-9.373 24.568-9.373 33.941 0l79.196 79.196c15.119 15.119 4.411 40.971-16.971 40.971h-51.162V228h100.804v-51.162c0-21.382 25.851-32.09 40.97-16.971l79.196 79.196c9.373 9.373 9.373 24.569 0 33.941L425.773 352.2c-15.119 15.119-40.971 4.411-40.97-16.971V284H284v100.804h51.23c21.382 0 32.09 25.851 16.971 40.971z";
 
-  private createMilestoneLongPressBadge(
-    g: d3.Selection<any, any, any, any>,
-    m: Milestone
-  ): d3.Selection<any, any, any, any> {
+  private createMilestoneLongPressBadge(g: d3.Selection<any, any, any, any>, m: Milestone): d3.Selection<any, any, any, any> {
     const badgeX = parseFloat(g.attr("data-badge-x") || "20");
     const badgeY = parseFloat(g.attr("data-badge-y") || "10");
 
-    const badge = g
-      .append("g")
-      .attr("class", "milestone-drag-badge")
-      .attr("transform", `translate(${badgeX}, ${badgeY})`);
+    const badge = g.append("g").attr("class", "milestone-drag-badge").attr("transform", `translate(${badgeX}, ${badgeY})`);
 
     const badgeContent = badge.append("g").attr("class", "badge-content");
 
     // Base background circle
-    badgeContent
-      .append("circle")
-      .attr("class", "badge-bg")
-      .attr("cx", 0)
-      .attr("cy", 0)
-      .attr("r", 10);
+    badgeContent.append("circle").attr("class", "badge-bg").attr("cx", 0).attr("cy", 0).attr("r", 10);
 
     // Background track ring
-    badgeContent
-      .append("circle")
-      .attr("class", "badge-track")
-      .attr("cx", 0)
-      .attr("cy", 0)
-      .attr("r", 8);
+    badgeContent.append("circle").attr("class", "badge-track").attr("cx", 0).attr("cy", 0).attr("r", 8);
 
     // Progress circle (r = 8, circumference = 2 * PI * 8 ~= 50.265)
     const circumference = 2 * Math.PI * 8;
@@ -2082,11 +1895,7 @@ export class OverviewComponent
       .attr("fill", "var(--color-text-primary)");
 
     // Animate circular fill over 700ms using D3 transition
-    progressCircle
-      .transition()
-      .duration(this.MILESTONE_HOLD_DURATION)
-      .ease(d3.easeLinear)
-      .attr("stroke-dashoffset", 0);
+    progressCircle.transition().duration(this.MILESTONE_HOLD_DURATION).ease(d3.easeLinear).attr("stroke-dashoffset", 0);
 
     return badge;
   }
@@ -2109,10 +1918,7 @@ export class OverviewComponent
     }
   }
 
-  private setupMilestoneInteractions(
-    g: d3.Selection<any, any, any, any>,
-    m: Milestone
-  ) {
+  private setupMilestoneInteractions(g: d3.Selection<any, any, any, any>, m: Milestone) {
     const overview = this;
 
     g.select(".hitbox").on("mousedown", (e: MouseEvent) => {
@@ -2150,12 +1956,7 @@ export class OverviewComponent
       }, overview.MILESTONE_HOLD_DURATION);
 
       const onWindowMouseMove = (moveEvent: MouseEvent) => {
-        const dist = overview.getEuclideanDistance(
-          startClientX,
-          startClientY,
-          moveEvent.clientX,
-          moveEvent.clientY
-        );
+        const dist = overview.getEuclideanDistance(startClientX, startClientY, moveEvent.clientX, moveEvent.clientY);
 
         if (!isLongPressFulfilled) {
           if (dist > overview.MILESTONE_DRAG_JITTER_TOLERANCE) {
@@ -2172,20 +1973,12 @@ export class OverviewComponent
       };
 
       const onWindowMouseUp = (upEvent: MouseEvent) => {
-        const dist = overview.getEuclideanDistance(
-          startClientX,
-          startClientY,
-          upEvent.clientX,
-          upEvent.clientY
-        );
+        const dist = overview.getEuclideanDistance(startClientX, startClientY, upEvent.clientX, upEvent.clientY);
 
         overview.cancelMilestoneLongPress();
 
         if (!isLongPressFulfilled) {
-          if (
-            dist <= overview.MILESTONE_DRAG_JITTER_TOLERANCE &&
-            upEvent.button === 0
-          ) {
+          if (dist <= overview.MILESTONE_DRAG_JITTER_TOLERANCE && upEvent.button === 0) {
             overview.ignoreNextMilestoneClick = true;
             setTimeout(() => {
               overview.ignoreNextMilestoneClick = false;
@@ -2196,15 +1989,10 @@ export class OverviewComponent
                 cancelable: true,
                 clientX: upEvent.clientX,
                 clientY: upEvent.clientY,
-              })
+              }),
             );
             const rawDate = overview.getDateFromMouseEvent(upEvent);
-            overview.openEditMilestoneContextMenu(
-              m,
-              upEvent.pageX,
-              upEvent.pageY,
-              rawDate
-            );
+            overview.openEditMilestoneContextMenu(m, upEvent.pageX, upEvent.pageY, rawDate);
           }
         } else {
           overview.ignoreNextMilestoneClick = true;
@@ -2240,11 +2028,7 @@ export class OverviewComponent
     });
   }
 
-  private onMilestoneDragStart(
-    startX: number,
-    element: d3.Selection<any, any, any, any>,
-    m?: Milestone
-  ) {
+  private onMilestoneDragStart(startX: number, element: d3.Selection<any, any, any, any>, m?: Milestone) {
     this.overlayManagerService.dismissTransient();
     this.isDraggingMilestone = true;
     this.hasMovedDuringDrag = false;
@@ -2261,11 +2045,7 @@ export class OverviewComponent
     }
   }
 
-  private onMilestoneDragCustom(
-    event: MouseEvent,
-    element: d3.Selection<any, any, any, any>,
-    m: Milestone
-  ) {
+  private onMilestoneDragCustom(event: MouseEvent, element: d3.Selection<any, any, any, any>, m: Milestone) {
     this.hasMovedDuringDrag = true;
     let currentX = 0;
     if (this.chart_abs_g) {
@@ -2284,10 +2064,7 @@ export class OverviewComponent
     this.handleDragEdgeScrolling(currentX, element, m);
   }
 
-  private onMilestoneDragEndCustom(
-    element: d3.Selection<any, any, any, any>,
-    hasMoved: boolean
-  ) {
+  private onMilestoneDragEndCustom(element: d3.Selection<any, any, any, any>, hasMoved: boolean) {
     this.isDraggingMilestone = false;
     document.body.style.cursor = "";
     element.select(".hitbox").attr("style", "cursor: pointer; pointer-events: all;");
@@ -2302,21 +2079,24 @@ export class OverviewComponent
 
   private createDragTimeIndicator(x: number) {
     if (!this.axis_abs_g) return;
-    
-    this.dragTimeIndicator = this.axis_abs_g.append("g")
+
+    this.dragTimeIndicator = this.axis_abs_g
+      .append("g")
       .attr("class", "drag-time-indicator")
       .attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
-      
+
     // Triangle pointer
-    this.dragTimeIndicator.append("path")
+    this.dragTimeIndicator
+      .append("path")
       .attr("class", "indicator-pointer")
       .attr("d", "M -6 5 L 6 5 L 0 -1 Z")
       .attr("fill", "var(--color-surface)")
       .attr("stroke", "var(--color-border)")
       .attr("stroke-width", "1px");
-      
+
     // Pill background
-    this.dragTimeIndicator.append("rect")
+    this.dragTimeIndicator
+      .append("rect")
       .attr("class", "pill-bg")
       .attr("x", -50)
       .attr("y", 4)
@@ -2327,8 +2107,9 @@ export class OverviewComponent
       .style("stroke", "var(--color-border)")
       .style("stroke-width", "1px")
       .style("filter", "var(--badge-drag-shadow)");
-      
-    this.dragTimeIndicator.append("text")
+
+    this.dragTimeIndicator
+      .append("text")
       .attr("x", 0)
       .attr("y", 16)
       .attr("dominant-baseline", "central")
@@ -2341,10 +2122,10 @@ export class OverviewComponent
 
   private updateDragTimeIndicator(x: number, date: Date) {
     if (!this.dragTimeIndicator) return;
-    
+
     this.dragTimeIndicator.attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
-    
-    const timeString = `${OverviewComponent.formatDay(date)} ${OverviewComponent.formatHour(date)}`;
+
+    const timeString = `${CommitsComponent.formatDay(date)} ${CommitsComponent.formatHour(date)}`;
     const textEl = this.dragTimeIndicator.select("text");
     textEl.text(timeString);
 
@@ -2354,7 +2135,7 @@ export class OverviewComponent
       const bbox = textNode.getBBox();
       const padding = 20; // 10px padding on each side
       const width = Math.max(80, bbox.width + padding); // minimum width
-      
+
       let pillX = -width / 2;
       const leftMargin = this.width - this.chart_width;
 
@@ -2365,9 +2146,7 @@ export class OverviewComponent
         pillX = -leftMargin - x;
       }
 
-      this.dragTimeIndicator.select(".pill-bg")
-        .attr("width", width)
-        .attr("x", pillX);
+      this.dragTimeIndicator.select(".pill-bg").attr("width", width).attr("x", pillX);
 
       textEl.attr("x", pillX + width / 2);
     }
@@ -2402,13 +2181,13 @@ export class OverviewComponent
 
   private performDragScroll(dx: number, element: d3.Selection<any, any, any, any>, m: Milestone) {
     if (!this.zoom || !this.data_g) return;
-    
+
     this.data_g.call(this.zoom.translateBy, dx / (this.current_zoom?.k || 1), 0);
-    
+
     let updatedX = this.xScaledTimeZoned(m.date);
     updatedX = Math.max(0, Math.min(this.inner_width, updatedX));
     element.attr("transform", `translate(${updatedX}, ${this.inner_margin.top})`);
-    
+
     this.updateDragTimeIndicator(updatedX, m.date);
   }
 
@@ -2426,12 +2205,7 @@ export class OverviewComponent
     }
   }
 
-  getLineForMilestone(
-    parent: d3.Selection<any, any, any, any>,
-    m: Milestone,
-    class_: string,
-    index: number
-  ) {
+  getLineForMilestone(parent: d3.Selection<any, any, any, any>, m: Milestone, class_: string, index: number) {
     const overview = this;
     let g = parent.append("g").datum(m).attr("class", class_);
 
@@ -2521,12 +2295,7 @@ export class OverviewComponent
       .data(loaded_reviews)
       .enter()
       .each(function (d: Milestone, i) {
-        overview.getLineForMilestone(
-          d3.select(this),
-          d,
-          "milestone review",
-          i
-        );
+        overview.getLineForMilestone(d3.select(this), d, "milestone review", i);
       });
   }
 
@@ -2545,12 +2314,7 @@ export class OverviewComponent
       .data(loaded_corrections)
       .enter()
       .each(function (d: Milestone, i) {
-        overview.getLineForMilestone(
-          d3.select(this),
-          d,
-          "milestone correction",
-          i
-        );
+        overview.getLineForMilestone(d3.select(this), d, "milestone correction", i);
       });
   }
 
@@ -2569,12 +2333,7 @@ export class OverviewComponent
       .data(loaded_other)
       .enter()
       .each(function (d: Milestone, i) {
-        overview.getLineForMilestone(
-          d3.select(this),
-          d,
-          "milestone other",
-          i
-        );
+        overview.getLineForMilestone(d3.select(this), d, "milestone other", i);
       });
   }
 
@@ -2582,26 +2341,19 @@ export class OverviewComponent
     if (this.axis_g != null) this.axis_g.remove();
     const overview = this;
 
-    this.x_scale = d3
-      .scaleTime()
-      .domain([minDate, maxDate])
-      .range([0, this.inner_width]);
+    this.x_scale = d3.scaleTime().domain([minDate, maxDate]).range([0, this.inner_width]);
 
     this.x_scale_copy = this.x_scale.copy();
 
-    this.x_axis = d3
-      .axisBottom(this.x_scale_copy)
-      .ticks(6)
-      .tickSize(-this.inner_height);
+    this.x_axis = d3.axisBottom(this.x_scale_copy).ticks(6).tickSize(-this.inner_height);
 
     this.x_axis.tickFormat(function (d) {
       if (!(d instanceof Date)) return "";
       let ticks = overview.x_scale_copy.ticks();
       if (ticks[ticks.length - 1] == null || ticks[0] == null) return "";
-      let spacing =
-        (ticks[ticks.length - 1].getTime() - ticks[0].getTime()) / 1000;
+      let spacing = (ticks[ticks.length - 1].getTime() - ticks[0].getTime()) / 1000;
 
-      return OverviewComponent.multiFormat(spacing, d);
+      return CommitsComponent.multiFormat(spacing, d);
     });
 
     this.axis_g = this.chart_svg.insert("g", ":first-child");
@@ -2609,10 +2361,7 @@ export class OverviewComponent
 
     this.x_g = this.axis_abs_g
       .append("g")
-      .attr(
-        "transform",
-        "translate(" + [0, this.inner_height + this.inner_margin.top] + ")"
-      )
+      .attr("transform", "translate(" + [0, this.inner_height + this.inner_margin.top] + ")")
       .call(this.x_axis);
 
     this.y_scale = d3
@@ -2637,7 +2386,7 @@ export class OverviewComponent
     // Set repo_name class, align to left, and use custom tooltip
     const leftSpace = this.width - this.chart_width;
     const leftX = -leftSpace + 5;
-    
+
     this.y_g
       .selectAll(".tick")
       .selectAll("text")
@@ -2647,19 +2396,28 @@ export class OverviewComponent
       .each(function (this: SVGTextElement) {
         const maxW = leftSpace - 15;
         let textStr = this.textContent || "";
-        
+
         this.textContent = Utils.truncateMiddle(textStr, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
+      })
+      .on("click", function (event: MouseEvent, d: any) {
+        event.stopPropagation();
+        const repo = repositories[d.valueOf() - 1];
+        if (repo?.url) {
+          window.open(repo.url, "_blank");
+        }
       })
       .on("mouseenter", function (event: MouseEvent, d: any) {
         event.stopPropagation();
         const repo = repositories[d.valueOf() - 1];
         if (repo?.name) {
-          overview.tooltipService.showAtPosition(
-            repo.name,
-            event.clientX,
-            event.clientY,
-            "right"
-          );
+          overview.ngZone.run(() => {
+            overview.hovered_repository = repo;
+            overview.hovered_commit = undefined;
+            overview.hovered_group_commit = undefined;
+            overview.hovered_session = undefined;
+            overview.hovered_milestone = undefined;
+            overview.tooltipService.showAtPosition(overview.d3TooltipTemplate, event.clientX, event.clientY, "right", undefined, true);
+          });
         }
       })
       .on("mousemove", function (event: MouseEvent) {
@@ -2670,7 +2428,10 @@ export class OverviewComponent
       })
       .on("mouseleave", function (event: MouseEvent) {
         event.stopPropagation();
-        overview.tooltipService.hide();
+        overview.ngZone.run(() => {
+          overview.hovered_repository = undefined;
+          overview.tooltipService.hide();
+        });
       });
 
     // Use custom domain
@@ -2696,17 +2457,17 @@ export class OverviewComponent
       .attr("y2", this.scrollable_height);
   }
 
-  getCommitGroupPathD(first: Commit, last: Commit, height: number = OverviewComponent.GROUP_HEIGHT) {
+  getCommitGroupPathD(first: Commit, last: Commit, height: number = CommitsComponent.GROUP_HEIGHT) {
     let begin_x = this.xScaledTimeZoned(first.commitDate);
     let end_x = this.xScaledTimeZoned(last.commitDate);
-    
+
     let actualWidth = end_x - begin_x;
     let minWidth = 10; // Reduced from 14
     let width = Math.max(actualWidth, minWidth);
-    
+
     let arcRadius = height / 2;
     let extraWidth = last.isCloture ? arcRadius : 0;
-    
+
     // Centers the visual shape (including the arc) over the actual commit span.
     let visualWidth = width + extraWidth;
     let offset = (actualWidth - visualWidth) / 2;
@@ -2720,11 +2481,9 @@ export class OverviewComponent
 
   getCommitGroupComponentFromScratch(
     parent: d3.Selection<any, Repository, any, any>,
-    commits: Commit[]
+    commits: Commit[],
   ): d3.Selection<any, Commit[], any, any> {
-    let sorted = commits.sort(
-      (a, b) => a.commitDate.getTime() - b.commitDate.getTime()
-    );
+    let sorted = commits.sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
 
     let g = parent.insert("g", ".commit:not(.commit-group)").datum(sorted);
 
@@ -2733,17 +2492,14 @@ export class OverviewComponent
 
     g.attr("class", "commit-group commit")
       .append("path")
-      .attr("d", this.getCommitGroupPathD(sorted[0], sorted[sorted.length - 1], OverviewComponent.GROUP_HEIGHT))
-      .style("--y-offset", `${-OverviewComponent.GROUP_HEIGHT / 2}px`)
+      .attr("d", this.getCommitGroupPathD(sorted[0], sorted[sorted.length - 1], CommitsComponent.GROUP_HEIGHT))
+      .style("--y-offset", `${-CommitsComponent.GROUP_HEIGHT / 2}px`)
       .attr("fill", sorted[sorted.length - 1].color.color)
       .attr("class", "data");
 
     let range = 0;
     for (let i = 0; i < commits.length - 1; i++) {
-      range = Math.max(
-        range,
-        commits[i + 1].commitDate.getTime() - commits[i].commitDate.getTime()
-      );
+      range = Math.max(range, commits[i + 1].commitDate.getTime() - commits[i].commitDate.getTime());
     }
 
     g.attr("group_range", range);
@@ -2752,6 +2508,7 @@ export class OverviewComponent
         this.hovered_commit = undefined;
         this.hovered_group_commit = d;
         this.hovered_g = g;
+        this.hovered_repository = undefined;
       })
       .on("mouseleave", () => {
         if (this.hovered_g === g) {
@@ -2770,7 +2527,7 @@ export class OverviewComponent
   getCommitGroupComponent(
     parent: d3.Selection<any, Repository, any, any>,
     group: d3.Selection<any, Commit[], any, any> | undefined,
-    commit: Commit
+    commit: Commit,
   ): d3.Selection<any, any, any, any> {
     let g;
 
@@ -2781,8 +2538,8 @@ export class OverviewComponent
 
       g.attr("class", "commit-group")
         .append("path")
-        .attr("d", this.getCommitGroupPathD(commit, commit, OverviewComponent.GROUP_HEIGHT))
-        .style("--y-offset", `${-OverviewComponent.GROUP_HEIGHT / 2}px`)
+        .attr("d", this.getCommitGroupPathD(commit, commit, CommitsComponent.GROUP_HEIGHT))
+        .style("--y-offset", `${-CommitsComponent.GROUP_HEIGHT / 2}px`)
         .attr("fill", commit.color.color)
         .attr("class", "data")
         .on("mouseenter", (e, d) => (this.hovered_group_commit = d))
@@ -2815,39 +2572,17 @@ export class OverviewComponent
       let spacing = Number.MAX_VALUE;
       let j = all_commits.indexOf(commit);
       if (j < all_commits.length - 1)
-        spacing = Math.min(
-          Math.abs(
-            all_commits[j + 1].commitDate.getTime() -
-              commit.commitDate.getTime()
-          ),
-          spacing
-        );
-      if (j > 0)
-        spacing = Math.min(
-          Math.abs(
-            all_commits[j - 1].commitDate.getTime() -
-              commit.commitDate.getTime()
-          ),
-          spacing
-        );
+        spacing = Math.min(Math.abs(all_commits[j + 1].commitDate.getTime() - commit.commitDate.getTime()), spacing);
+      if (j > 0) spacing = Math.min(Math.abs(all_commits[j - 1].commitDate.getTime() - commit.commitDate.getTime()), spacing);
 
       group.datum(all_commits);
 
       let begin_x = this.xScaledTimeZoned(all_commits[0].commitDate);
-      let end_x = this.xScaledTimeZoned(
-        all_commits[all_commits.length - 1].commitDate
-      );
+      let end_x = this.xScaledTimeZoned(all_commits[all_commits.length - 1].commitDate);
 
       g.select("path")
-        .attr(
-          "d",
-          this.getCommitGroupPathD(
-            all_commits[0],
-            all_commits[all_commits.length - 1],
-            OverviewComponent.GROUP_HEIGHT
-          )
-        )
-        .style("--y-offset", `${-OverviewComponent.GROUP_HEIGHT / 2}px`)
+        .attr("d", this.getCommitGroupPathD(all_commits[0], all_commits[all_commits.length - 1], CommitsComponent.GROUP_HEIGHT))
+        .style("--y-offset", `${-CommitsComponent.GROUP_HEIGHT / 2}px`)
         .attr("fill", all_commits[all_commits.length - 1].color.color);
 
       g.attr("group_range", Math.max(spacing, g.attr("group_range") || 0));
@@ -2857,10 +2592,7 @@ export class OverviewComponent
     return g;
   }
 
-  getCommitSimpleComponent(
-    parent: d3.Selection<any, Repository, any, any>,
-    commit: Commit
-  ): d3.Selection<any, Commit[], any, any> {
+  getCommitSimpleComponent(parent: d3.Selection<any, Repository, any, any>, commit: Commit): d3.Selection<any, Commit[], any, any> {
     let g = parent.append("g").datum([commit]);
 
     g.classed("simple-commit", true);
@@ -2886,12 +2618,10 @@ export class OverviewComponent
         this.hovered_commit = commit;
         this.hovered_group_commit = undefined;
         this.hovered_g = undefined;
+        this.hovered_repository = undefined;
       })
       .on("mouseleave", () => {
-        if (
-          this.hovered_commit &&
-          this.hovered_commit.commitDate === commit.commitDate
-        ) {
+        if (this.hovered_commit && this.hovered_commit.commitDate === commit.commitDate) {
           this.hovered_commit = undefined;
         }
       });
@@ -2902,20 +2632,16 @@ export class OverviewComponent
   shouldGroupCommit(commit_before: Commit, commit_after: Commit): boolean {
     return (
       !commit_before.isCloture &&
-      this.xScaledTimeZoned(commit_after.commitDate) -
-        this.xScaledTimeZoned(commit_before.commitDate) <
-        Utils.COMMIT_FUSE_RANGE
+      this.xScaledTimeZoned(commit_after.commitDate) - this.xScaledTimeZoned(commit_before.commitDate) < Utils.COMMIT_FUSE_RANGE
     );
   }
 
   getCommitComponent(
     parent: d3.Selection<any, Repository, any, any>,
     commit: Commit,
-    before: d3.Selection<any, Commit[], any, any>
+    before: d3.Selection<any, Commit[], any, any>,
   ): d3.Selection<any, Commit[], any, any> {
-    let should_be_grouped_with_last =
-      before != null &&
-      this.shouldGroupCommit(before.datum()[before.datum().length - 1], commit);
+    let should_be_grouped_with_last = before != null && this.shouldGroupCommit(before.datum()[before.datum().length - 1], commit);
 
     let g: d3.Selection<any, any, any, any>;
 
@@ -2943,15 +2669,10 @@ export class OverviewComponent
     };
 
     if (spacing > 24 * 3600)
-      return `${date.getDate().toLocaleString(undefined, options)}/${(
-        date.getMonth() + 1
-      ).toLocaleString(undefined, options)}/${date
+      return `${date.getDate().toLocaleString(undefined, options)}/${(date.getMonth() + 1).toLocaleString(undefined, options)}/${date
         .getFullYear()
         .toLocaleString(undefined, options)}`;
-    else
-      return `${date.getHours().toLocaleString(undefined, options)}:${date
-        .getMinutes()
-        .toLocaleString(undefined, options)}`;
+    else return `${date.getHours().toLocaleString(undefined, options)}:${date.getMinutes().toLocaleString(undefined, options)}`;
   }
 
   loadPoints() {
@@ -2963,10 +2684,8 @@ export class OverviewComponent
     overview.filteredCommitsCount = 0;
     overview.filteredStudentsCount = 0;
 
-    let allCommits = repositories
-      .map((v) => v.commits)
-      .reduce((a, b) => a.concat(b), []);
-      
+    let allCommits = repositories.map((v) => v.commits).reduce((a, b) => a.concat(b), []);
+
     if (repositories.length === 0) {
       if (this.axis_g != null) {
         this.axis_g.remove();
@@ -2977,9 +2696,9 @@ export class OverviewComponent
 
     this.repository_g = this.data_g.append("g");
     this.repositories_g = new Array<any>(repositories.length);
-    
+
     let minDate: Date, maxDate: Date;
-    
+
     if (allCommits.length === 0) {
       minDate = this.dataService.startDate ? new Date(this.dataService.startDate) : new Date(Date.now() - 7 * 24 * 3600 * 1000);
       maxDate = this.dataService.endDate ? new Date(this.dataService.endDate) : new Date();
@@ -2993,7 +2712,7 @@ export class OverviewComponent
       minDate = ext[0];
       maxDate = ext[1];
     }
-    
+
     // Add 2% padding to the graph's time domain so elements don't touch the edges
     if (minDate && maxDate) {
       let timeDiff = maxDate.getTime() - minDate.getTime();
@@ -3015,9 +2734,7 @@ export class OverviewComponent
       .each(function (repository: Repository, i: number) {
         overview.repositories_g[i] = d3.select(this);
         overview.repositories_g[i].classed("repository", true);
-        overview.repositories_g[i]
-          .attr("repository_index", i)
-          .attr("transform", `translate(0, ${overview.y_scale(i + 1)})`);
+        overview.repositories_g[i].attr("repository_index", i).attr("transform", `translate(0, ${overview.y_scale(i + 1)})`);
 
         let before = undefined;
         let commits = repository.commits
@@ -3034,14 +2751,8 @@ export class OverviewComponent
           let current_line: Commit | undefined = undefined;
 
           commits.forEach((commit) => {
-            minDateTime =
-              minDateTime == null
-                ? commit.commitDate.getTime()
-                : Math.min(commit.commitDate.getTime(), minDateTime);
-            maxDateTime =
-              maxDateTime == null
-                ? commit.commitDate.getTime()
-                : Math.max(commit.commitDate.getTime(), maxDateTime);
+            minDateTime = minDateTime == null ? commit.commitDate.getTime() : Math.min(commit.commitDate.getTime(), minDateTime);
+            maxDateTime = maxDateTime == null ? commit.commitDate.getTime() : Math.max(commit.commitDate.getTime(), maxDateTime);
             if (commit.message === "Resume") current_line = commit;
             else if (commit.message === "Pause" && current_line) {
               lines.push([current_line.commitDate, commit.commitDate]);
@@ -3167,10 +2878,7 @@ export class OverviewComponent
     if (!extent) {
       this.x_scale_copy.domain([4, 8]);
     } else {
-      this.x_scale_copy.domain([
-        this.x_scale_copy.invert(extent[0]),
-        this.x_scale_copy.invert(extent[1]),
-      ]);
+      this.x_scale_copy.domain([this.x_scale_copy.invert(extent[0]), this.x_scale_copy.invert(extent[1])]);
       this.brush.clear(this.svg);
     }
 
@@ -3201,12 +2909,12 @@ export class OverviewComponent
     if (!this.repositories_g) return;
 
     let zoomChanged = this.last_zoom_k !== (this.current_zoom ? this.current_zoom.k : 1);
-    
+
     if (zoomChanged) {
       this.throttledUpdateCommitGroups();
       this.last_zoom_k = this.current_zoom ? this.current_zoom.k : 1;
     }
-    
+
     this.updateConnectingLines();
     this.updateSessionsTransforms();
     this.updateMilestoneTransforms();
@@ -3232,10 +2940,10 @@ export class OverviewComponent
 
   private updateNodesVisibilityAndTransforms() {
     if (!this.repository_g || !this.repositories_g) return;
-    
+
     const overview = this;
     const padding = 100; // pixels of margin before hiding
-    
+
     this.repositories_g.forEach((repo_g) => {
       repo_g.selectAll(".commit").classed("hidden", (commits: Commit[]) => {
         if (!commits || !commits[0]) return false;
@@ -3248,19 +2956,19 @@ export class OverviewComponent
         return `translate(${overview.xScaledTimeZoned(commits[0].commitDate)}, 0)`;
       });
 
-      repo_g.selectAll(".commit-group:not(.hidden)").each(function(commits: Commit[]) {
+      repo_g.selectAll(".commit-group:not(.hidden)").each(function (commits: Commit[]) {
         let g = d3.select(this);
-        if (overview.hiddenCategories.has('COMMIT-GROUP')) {
+        if (overview.hiddenCategories.has("COMMIT-GROUP")) {
           g.style("display", "none");
           return;
         } else {
           g.style("display", null);
         }
-        
+
         if (!commits || !commits[0]) return;
         let path = g.select("path");
         if (!path.empty()) {
-          path.attr("d", overview.getCommitGroupPathD(commits[0], commits[commits.length - 1], OverviewComponent.GROUP_HEIGHT));
+          path.attr("d", overview.getCommitGroupPathD(commits[0], commits[commits.length - 1], CommitsComponent.GROUP_HEIGHT));
         }
       });
     });
@@ -3310,22 +3018,14 @@ export class OverviewComponent
       const visX2 = Math.min(overview.inner_width, rawX2);
       const visWidth = Math.max(0, visX2 - visX1);
 
-      const isVisible =
-        !isNaN(rawX1) &&
-        !isNaN(rawX2) &&
-        rawX2 > 0 &&
-        rawX1 < overview.inner_width &&
-        visWidth > 0;
-      g.style("display", isVisible ? null : "none")
-       .style("visibility", isVisible ? "visible" : "hidden");
+      const isVisible = !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < overview.inner_width && visWidth > 0;
+      g.style("display", isVisible ? null : "none").style("visibility", isVisible ? "visible" : "hidden");
 
       if (!isVisible) {
         return;
       }
 
-      g.select(".session-body")
-        .attr("x", visX1)
-        .attr("width", visWidth);
+      g.select(".session-body").attr("x", visX1).attr("width", visWidth);
 
       const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
       g.select(".session-edge-left")
@@ -3350,12 +3050,7 @@ export class OverviewComponent
         const visX2 = Math.min(overview.inner_width, rawX2);
         const visWidth = Math.max(0, visX2 - visX1);
 
-        const isVisible =
-          !isNaN(rawX1) &&
-          !isNaN(rawX2) &&
-          rawX2 > 0 &&
-          rawX1 < overview.inner_width &&
-          visWidth > 0;
+        const isVisible = !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < overview.inner_width && visWidth > 0;
 
         const fo = g.select(".session-header-fo");
 
@@ -3370,18 +3065,10 @@ export class OverviewComponent
         g.style("display", null).style("visibility", "visible");
 
         // 1. Continuous header background (clamped to 0..inner_width)
-        g.select(".session-header-bg")
-          .attr("x", visX1)
-          .attr("y", 0)
-          .attr("height", overview.inner_margin.top)
-          .attr("width", visWidth);
+        g.select(".session-header-bg").attr("x", visX1).attr("y", 0).attr("height", overview.inner_margin.top).attr("width", visWidth);
 
         // 2. Top blue accent bar (above milestone labels)
-        g.select(".session-header-top-bar")
-          .attr("x", visX1)
-          .attr("y", 0)
-          .attr("height", 3)
-          .attr("width", visWidth);
+        g.select(".session-header-top-bar").attr("x", visX1).attr("y", 0).attr("height", 3).attr("width", visWidth);
 
         // 3. Dashed vertical lines going all the way to y = 0
         const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
@@ -3400,8 +3087,7 @@ export class OverviewComponent
         const foX = visX1;
         const foWidth = Math.max(0, visX2 - foX);
 
-        fo.attr("x", foX)
-          .attr("width", foWidth);
+        fo.attr("x", foX).attr("width", foWidth);
 
         const displayName = overview.getSessionDisplayName(s);
         const groupName = s.tpGroup || "";
@@ -3429,7 +3115,7 @@ export class OverviewComponent
         const charWidth = 6.2;
         const iconAndPadding = 29; // 11px icon + 4px gap + 14px padding
         const nameNeeded = iconAndPadding + displayName.length * charWidth;
-        const groupNeeded = hasGroup ? (iconAndPadding + groupName.length * charWidth) : 0;
+        const groupNeeded = hasGroup ? iconAndPadding + groupName.length * charWidth : 0;
         const noteBtnWidth = hasNotes ? 20 : 0;
         const moreBtnWidth = 16; // width of "..." dots
         const gap = 4;
@@ -3487,7 +3173,7 @@ export class OverviewComponent
             if (!moreBtn.empty()) {
               moreBtn.style("display", hasNotes ? "inline-flex" : "none");
             }
-          } else if (foWidth >= nameNeeded + ((hasGroup || hasNotes) ? gap + moreBtnWidth : 0) + padTotal) {
+          } else if (foWidth >= nameNeeded + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
             // Name full, Group dropped, Note dropped -> show "..." if hasGroup or hasNotes
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", "none");
@@ -3499,11 +3185,11 @@ export class OverviewComponent
               noteBtn.style("display", "none");
             }
             if (!moreBtn.empty()) {
-              moreBtn.style("display", (hasGroup || hasNotes) ? "inline-flex" : "none");
+              moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
             }
-          } else if (foWidth >= 38 + ((hasGroup || hasNotes) ? gap + moreBtnWidth : 0) + padTotal) {
+          } else if (foWidth >= 38 + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
             // Name truncated with ellipsis, Group & Note dropped -> show "..." if hasGroup or hasNotes
-            const availableForName = foWidth - ((hasGroup || hasNotes) ? gap + moreBtnWidth : 0) - padTotal;
+            const availableForName = foWidth - (hasGroup || hasNotes ? gap + moreBtnWidth : 0) - padTotal;
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", `${Math.max(34, availableForName)}px`);
             }
@@ -3514,7 +3200,7 @@ export class OverviewComponent
               noteBtn.style("display", "none");
             }
             if (!moreBtn.empty()) {
-              moreBtn.style("display", (hasGroup || hasNotes) ? "inline-flex" : "none");
+              moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
             }
           } else if (foWidth >= 38) {
             // Only enough room for Name truncated with ellipsis
@@ -3553,10 +3239,9 @@ export class OverviewComponent
   }
 
   private updateMilestoneTransforms() {
-    this.chart_abs_g.selectAll(".milestone")
-      .attr("transform", (m: Milestone) =>
-        `translate(${this.xScaledTimeZoned(m.date)}, ${this.inner_margin.top})`
-      );
+    this.chart_abs_g
+      .selectAll(".milestone")
+      .attr("transform", (m: Milestone) => `translate(${this.xScaledTimeZoned(m.date)}, ${this.inner_margin.top})`);
     this.updateMilestoneCutoutMask();
   }
 
@@ -3565,47 +3250,47 @@ export class OverviewComponent
     this.repositories_g.forEach((repo_g) => this.applyGroupDisplayModes(repo_g, minMax.min, minMax.max));
   }
 
-  private calculateGlobalMinMaxCommits(): { min: number, max: number } {
+  private calculateGlobalMinMaxCommits(): { min: number; max: number } {
     let maxGroupCommits = 1;
     let minGroupCommits = Number.MAX_VALUE;
-    
+
     if (this.displayModes.opacity || this.displayModes.height) {
       this.repositories_g.forEach((repo_g) => {
-        repo_g.selectAll(".commit-group").each(function() {
+        repo_g.selectAll(".commit-group").each(function () {
           let commits = d3.select(this).datum() as Commit[];
           if (commits && commits.length > 1) {
-             if (commits.length > maxGroupCommits) maxGroupCommits = commits.length;
-             if (commits.length < minGroupCommits) minGroupCommits = commits.length;
+            if (commits.length > maxGroupCommits) maxGroupCommits = commits.length;
+            if (commits.length < minGroupCommits) minGroupCommits = commits.length;
           }
         });
       });
       if (minGroupCommits === Number.MAX_VALUE) minGroupCommits = 1;
     }
-    
+
     return { min: minGroupCommits, max: maxGroupCommits };
   }
 
   private applyGroupDisplayModes(repo_g: any, minGroupCommits: number, maxGroupCommits: number) {
     const overview = this;
-    repo_g.selectAll(".commit-group:not(.hidden)").each(function() {
+    repo_g.selectAll(".commit-group:not(.hidden)").each(function () {
       let g = d3.select(this);
       let commits = g.datum() as Commit[];
       if (commits.length <= 1) return;
 
       let height = overview.getGroupHeight(commits.length, minGroupCommits, maxGroupCommits);
       let opacity = overview.getGroupOpacity(commits.length, minGroupCommits, maxGroupCommits);
-      
+
       overview.updateGroupPath(g, commits, height);
       overview.updateGroupText(g, commits);
-      
+
       g.attr("opacity", overview.displayModes.opacity ? opacity : 1.0);
     });
   }
 
   private getGroupHeight(count: number, min: number, max: number): number {
-    if (!this.displayModes.height) return OverviewComponent.GROUP_HEIGHT;
+    if (!this.displayModes.height) return CommitsComponent.GROUP_HEIGHT;
     if (max <= min) return 18;
-    
+
     let ratio = (Math.log(count) - Math.log(min)) / (Math.log(max) - Math.log(min));
     return 12 + ratio * 20; // 12px to 32px
   }
@@ -3613,7 +3298,7 @@ export class OverviewComponent
   private getGroupOpacity(count: number, min: number, max: number): number {
     if (!this.displayModes.opacity) return 1.0;
     if (max <= min) return 0.7;
-    
+
     let ratio = (Math.log(count) - Math.log(min)) / (Math.log(max) - Math.log(min));
     return 0.4 + ratio * 0.6; // 0.4 to 1.0
   }
@@ -3628,22 +3313,26 @@ export class OverviewComponent
     let text = g.select("text.commit-count");
     if (this.displayModes.text) {
       if (text.empty()) {
-        text = g.append("text").attr("class", "commit-count")
-          .attr("y", 2.5).attr("text-anchor", "middle").attr("fill", "white")
-          .style("font-size", "8.5px").style("font-weight", "normal").style("stroke", "none")
+        text = g
+          .append("text")
+          .attr("class", "commit-count")
+          .attr("y", 2.5)
+          .attr("text-anchor", "middle")
+          .attr("fill", "white")
+          .style("font-size", "8.5px")
+          .style("font-weight", "normal")
+          .style("stroke", "none")
           .style("pointer-events", "none");
       }
-      
+
       let actualWidth = this.xScaledTimeZoned(commits[commits.length - 1].commitDate) - this.xScaledTimeZoned(commits[0].commitDate);
       let center_x = actualWidth / 2;
-      
+
       text.attr("x", center_x).text(commits.length);
     } else {
       text.remove();
     }
   }
-
-
 
   toggleDrag() {
     this.drag = !this.drag;
@@ -3654,10 +3343,7 @@ export class OverviewComponent
       if (this.current_zoom) {
         this.data_g.call(this.zoom.transform, this.current_zoom);
       } else {
-        this.data_g.call(
-          this.zoom.transform,
-          d3.zoomIdentity.translate(0, 0).scale(1)
-        );
+        this.data_g.call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
       }
       return;
     }
@@ -3665,17 +3351,14 @@ export class OverviewComponent
     this.current_zoom = null;
     this.overlayManagerService.dismissTransient();
     if (this.data_g && this.zoom) {
-      this.data_g
-        .transition()
-        .duration(750)
-        .call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
+      this.data_g.transition().duration(750).call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
     }
   }
 
-  toggleDisplayMode(mode: 'opacity' | 'height' | 'text') {
+  toggleDisplayMode(mode: "opacity" | "height" | "text") {
     this.displayModes[mode] = !this.displayModes[mode];
     this.modeHoverState[mode].wasClicked = true;
-    localStorage.setItem('commitDisplayModes', JSON.stringify(this.displayModes));
+    localStorage.setItem("commitDisplayModes", JSON.stringify(this.displayModes));
     this.refreshElementState();
   }
 
@@ -3696,10 +3379,7 @@ export class OverviewComponent
 
     let transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
 
-    this.data_g
-      .transition()
-      .duration(750)
-      .call(this.zoom.transform, transform);
+    this.data_g.transition().duration(750).call(this.zoom.transform, transform);
   }
 
   searchSubmit() {
@@ -3738,9 +3418,7 @@ export class OverviewComponent
       repo_g.selectAll(".commit:not(.commit-group)").each(function () {
         const commits = d3.select(this).datum() as Commit[];
         if (commits && commits[0]?.color) {
-          d3.select(this)
-            .selectAll(".commit-normal, .commit-cloture")
-            .attr("fill", commits[0].color.color);
+          d3.select(this).selectAll(".commit-normal, .commit-cloture").attr("fill", commits[0].color.color);
         }
       });
 
@@ -3749,9 +3427,7 @@ export class OverviewComponent
         if (commits && commits.length > 0) {
           const lastCommit = commits[commits.length - 1];
           if (lastCommit?.color) {
-            d3.select(this)
-              .select("path")
-              .attr("fill", lastCommit.color.color);
+            d3.select(this).select("path").attr("fill", lastCommit.color.color);
           }
         }
       });
@@ -3762,17 +3438,14 @@ export class OverviewComponent
     this.dataService.saveData();
 
     const hasStripAfter = this.hasTopStrip();
-    if (
-      hadStripBefore !== undefined &&
-      hadStripBefore !== hasStripAfter
-    ) {
+    if (hadStripBefore !== undefined && hadStripBefore !== hasStripAfter) {
       // The top strip appeared or disappeared, requiring layout recalculation
       this.loadGraphMetadata(
         this.dataService.repositories,
         this.dataService.reviews,
         this.dataService.corrections,
         this.dataService.questions,
-        true
+        true,
       );
       return;
     }
@@ -3781,7 +3454,7 @@ export class OverviewComponent
       this.dataService.repositories,
       this.dataService.reviews,
       this.dataService.corrections,
-      this.dataService.questions
+      this.dataService.questions,
     );
 
     this.loadMilestoneAnnotations();
@@ -3791,17 +3464,14 @@ export class OverviewComponent
   updateAfterSessionChange(hadStripBefore?: boolean) {
     this.dataService.saveData();
     const hasStripAfter = this.hasTopStrip();
-    if (
-      hadStripBefore !== undefined &&
-      hadStripBefore !== hasStripAfter
-    ) {
+    if (hadStripBefore !== undefined && hadStripBefore !== hasStripAfter) {
       // The top strip appeared or disappeared, requiring layout recalculation
       this.loadGraphMetadata(
         this.dataService.repositories,
         this.dataService.reviews,
         this.dataService.corrections,
         this.dataService.questions,
-        true
+        true,
       );
       return;
     }

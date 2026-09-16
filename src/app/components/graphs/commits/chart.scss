@@ -9,14 +9,19 @@ text.repo_name, .tick > text {
 
 text.repo_name {
   font-size: 13px;
-  cursor: default;
+  cursor: pointer;
+  transition: fill var(--transition-fast);
+
+  &:hover {
+    fill: var(--color-primary);
+  }
 }
 
 .repository {
   clip-path: url(#clip);
 }
 
-// Lignes de grille et d'axes factorisées
+/* Lignes de grille et d'axes factorisées */
 .tick_line, .tick > line, .axis > line, .domain {
   stroke-width: 1px;
   stroke: var(--color-border);
@@ -32,8 +37,14 @@ body.dark-theme .commit {
   stroke-width: 1.5px;
 }
 
+.simple-commit,
+.simple-commit a {
+  cursor: pointer;
+}
+
 .commit-cloture {
   r: 7px;
+  cursor: pointer;
   transform-box: fill-box;
   transform-origin: center;
   transition: transform var(--transition-fast), fill var(--transition-fast), stroke var(--transition-fast);
@@ -42,6 +53,7 @@ body.dark-theme .commit {
 .commit-normal {
   width: 12px;
   height: 12px;
+  cursor: pointer;
   transform-box: fill-box;
   transform-origin: center;
   transform: translate(-6px, -6px) rotate(45deg);
@@ -103,6 +115,7 @@ body.dark-theme .commit {
     .session-body {
       fill-opacity: 0.14;
     }
+
     .session-edge {
       stroke-opacity: 0.55;
     }
@@ -185,9 +198,11 @@ body.dark-theme .commit {
       opacity: 1;
       filter: brightness(1.15);
     }
+
     .session-header-bg {
       fill-opacity: 0.14;
     }
+
     .session-edge {
       stroke-opacity: 0.55;
     }
@@ -216,27 +231,15 @@ body.dark-theme .commit {
   .milestone-vertical-line {
     transition: width var(--transition-fast), transform var(--transition-fast);
   }
-  
-  &:hover .milestone-vertical-line {
-    width: 2px;
-    transform: translate(-1px, 0);
-  }
 
   .milestone-label-group {
     pointer-events: none;
   }
 
-  // --- Bottom Bar ---
+  /* --- Bottom Bar --- */
   .milestone-bottom-bar {
     pointer-events: none;
     transition: height var(--transition-fast), y var(--transition-fast), filter var(--transition-fast);
-  }
-
-  // Hover feedback: bar thickens upward (matches vertical line hover at 3px, bottom stays at y=0)
-  &:hover .milestone-bottom-bar {
-    y: -3px;
-    height: 3px;
-    filter: brightness(1.15);
   }
 
   .milestone-text {
@@ -249,48 +252,6 @@ body.dark-theme .commit {
     line-height: 1;
     transition: fill var(--transition-fast);
   }
-}
-
-.review {
-  .milestone-vertical-line {
-    fill: var(--color-primary);
-    stroke: var(--color-primary);
-  }
-  .milestone-bottom-bar {
-    fill: var(--color-primary);
-  }
-  &:hover .milestone-text {
-    fill: var(--color-primary);
-  }
-  .milestone-drag-badge .badge-progress { stroke: var(--color-primary); }
-}
-
-.correction {
-  .milestone-vertical-line {
-    fill: var(--color-danger);
-    stroke: var(--color-danger);
-  }
-  .milestone-bottom-bar {
-    fill: var(--color-danger);
-  }
-  &:hover .milestone-text {
-    fill: var(--color-danger);
-  }
-  .milestone-drag-badge .badge-progress { stroke: var(--color-danger); }
-}
-
-.other {
-  .milestone-vertical-line {
-    fill: var(--color-secondary);
-    stroke: var(--color-secondary);
-  }
-  .milestone-bottom-bar {
-    fill: var(--color-secondary);
-  }
-  &:hover .milestone-text {
-    fill: var(--color-secondary);
-  }
-  .milestone-drag-badge .badge-progress { stroke: var(--color-secondary); }
 }
 
 
@@ -339,6 +300,77 @@ body.dark-theme .commit {
     .badge-bg {
       filter: var(--badge-drag-shadow-ready);
     }
+  }
+}
+
+.review {
+  .milestone-vertical-line {
+    fill: var(--color-primary);
+    stroke: var(--color-primary);
+  }
+
+  .milestone-bottom-bar {
+    fill: var(--color-primary);
+  }
+
+  &:hover .milestone-text {
+    fill: var(--color-primary);
+  }
+
+  .milestone-drag-badge .badge-progress {
+    stroke: var(--color-primary);
+  }
+}
+
+.correction {
+  .milestone-vertical-line {
+    fill: var(--color-danger);
+    stroke: var(--color-danger);
+  }
+
+  .milestone-bottom-bar {
+    fill: var(--color-danger);
+  }
+
+  &:hover .milestone-text {
+    fill: var(--color-danger);
+  }
+
+  .milestone-drag-badge .badge-progress {
+    stroke: var(--color-danger);
+  }
+}
+
+.other {
+  .milestone-vertical-line {
+    fill: var(--color-secondary);
+    stroke: var(--color-secondary);
+  }
+
+  .milestone-bottom-bar {
+    fill: var(--color-secondary);
+  }
+
+  &:hover .milestone-text {
+    fill: var(--color-secondary);
+  }
+
+  .milestone-drag-badge .badge-progress {
+    stroke: var(--color-secondary);
+  }
+}
+
+/* Hover feedback: bar thickens upward (matches vertical line hover at 3px, bottom stays at y=0) */
+.milestone:hover {
+  .milestone-vertical-line {
+    width: 2px;
+    transform: translate(-1px, 0);
+  }
+
+  .milestone-bottom-bar {
+    y: -3px;
+    height: 3px;
+    filter: brightness(1.15);
   }
 }
 

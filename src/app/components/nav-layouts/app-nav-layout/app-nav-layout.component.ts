@@ -1,8 +1,4 @@
-import {
-  Component,
-  HostListener,
-  OnInit,
-} from "@angular/core";
+import { Component, HostListener, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
@@ -39,28 +35,28 @@ export class AppNavLayoutComponent implements OnInit {
     private configurationService: ConfigurationService,
     public themeService: ThemeService,
     private router: Router,
-    private customModalService: CustomModalService
+    private customModalService: CustomModalService,
   ) {}
 
   isSidebarPinned = false;
   isSidebarHovered = false;
-  sidebarWidth: number = 310;
-  isResizing: boolean = false;
+  sidebarWidth = 310;
+  isResizing = false;
   private shortcutsModalRef: CustomModalRef | null = null;
 
   readonly navTabs: NavTab[] = [
     {
-      route: "overview",
-      icon: "fas fa-layer-group",
-      labelKey: "NAVBAR.OVERVIEW",
-      tooltipKey: "NAVBAR.OVERVIEW-TOOLTIP",
+      route: "commits",
+      icon: "fas fa-code-branch",
+      labelKey: "NAVBAR.COMMITS",
+      tooltipKey: "NAVBAR.COMMITS-TOOLTIP",
       shortcut: ["1"],
     },
     {
-      route: "students-commits",
-      icon: "fas fa-code-branch",
-      labelKey: "NAVBAR.STUDENTS-COMMITS",
-      tooltipKey: "NAVBAR.STUDENTS-COMMITS-TOOLTIP",
+      route: "students",
+      icon: "fas fa-user-friends",
+      labelKey: "NAVBAR.STUDENTS",
+      tooltipKey: "NAVBAR.STUDENTS-TOOLTIP",
       shortcut: ["2"],
     },
     {
@@ -116,9 +112,9 @@ export class AppNavLayoutComponent implements OnInit {
 
     const key = event.key.toLowerCase();
     if (key === "1") {
-      this.navigateTab("overview");
+      this.navigateTab("commits");
     } else if (key === "2") {
-      this.navigateTab("students-commits");
+      this.navigateTab("students");
     } else if (key === "3") {
       this.navigateTab("questions-completion");
     } else if (key === "?") {
@@ -134,10 +130,7 @@ export class AppNavLayoutComponent implements OnInit {
   }
 
   private get hasActiveModal(): boolean {
-    return (
-      this.customModalService.hasOpenModals() ||
-      document.body.classList.contains("modal-open")
-    );
+    return this.customModalService.hasOpenModals() || document.body.classList.contains("modal-open");
   }
 
   onResizeStart(event: MouseEvent) {
@@ -148,17 +141,17 @@ export class AppNavLayoutComponent implements OnInit {
   @HostListener("document:mousemove", ["$event"])
   onResize(event: MouseEvent) {
     if (!this.isResizing) return;
-    
+
     // Calculate new width based on mouse X position
     let newWidth = event.clientX;
-    
+
     // Apply constraints
     const minWidth = 250;
     const maxWidth = Math.min(600, window.innerWidth * 0.85);
-    
+
     if (newWidth < minWidth) newWidth = minWidth;
     if (newWidth > maxWidth) newWidth = maxWidth;
-    
+
     this.sidebarWidth = newWidth;
   }
 
@@ -186,10 +179,7 @@ export class AppNavLayoutComponent implements OnInit {
       return;
     }
 
-    this.shortcutsModalRef = this.customModalService.open(
-      ShortcutsModalComponent,
-      { size: "lg" }
-    );
+    this.shortcutsModalRef = this.customModalService.open(ShortcutsModalComponent, { size: "lg" });
 
     this.shortcutsModalRef.result.finally(() => {
       this.shortcutsModalRef = null;
@@ -201,7 +191,7 @@ export class AppNavLayoutComponent implements OnInit {
   }
 
   get isHome(): boolean {
-    return this.router.url.includes('/home');
+    return this.router.url.includes("/home");
   }
 
   get truncatedTitle(): string {
@@ -211,17 +201,13 @@ export class AppNavLayoutComponent implements OnInit {
   }
 
   openCurrentAssignmentConfig() {
-    this.configurationService
-      .openConfigurationModal(this.dataService.assignment)
-      .finally(() => {
-        if (this.dataService.repoToLoad) {
-          this.databaseService
-            .getAssignmentById(this.dataService.assignment.id)
-            .then((assignment) => {
-              this.dataService.assignment = assignment;
-              this.assignmentsService.assignmentModified.next();
-            });
-        }
-      });
+    this.configurationService.openConfigurationModal(this.dataService.assignment).finally(() => {
+      if (this.dataService.repoToLoad) {
+        this.databaseService.getAssignmentById(this.dataService.assignment.id).then((assignment) => {
+          this.dataService.assignment = assignment;
+          this.assignmentsService.assignmentModified.next();
+        });
+      }
+    });
   }
 }

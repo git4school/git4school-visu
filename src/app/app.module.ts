@@ -10,9 +10,9 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.component";
-import { OverviewComponent } from "@components/graphs/overview/overview.component";
+import { CommitsComponent } from "@components/graphs/commits/commits.component";
 import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
-import { StudentsCommitsComponent } from "@components/graphs/students-commits/students-commits.component";
+import { StudentsComponent } from "@components/graphs/students/students.component";
 import { AssignmentChooserComponent } from "@components/home/assignment-chooser/assignment-chooser.component";
 import { ConfigurationComponent } from "@components/home/assignment-chooser/configuration/configuration.component";
 import { EditRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component";
@@ -107,8 +107,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     AppComponent,
     HomeComponent,
     FourOhFourComponent,
-    OverviewComponent,
-    StudentsCommitsComponent,
+    CommitsComponent,
+    StudentsComponent,
     QuestionsCompletionComponent,
     MetadataComponent,
     QuestionsAssistantPopoverComponent,

@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ChangeDetectorRef,
-  OnDestroy,
-} from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { TranslateService } from "@ngx-translate/core";
@@ -71,9 +64,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
     // Apply old filterType
     if (this.filterType !== "all") {
-      result = result.filter(
-        (a) => (a as any).uiType === this.filterType || a.id === -1
-      );
+      result = result.filter((a) => (a as any).uiType === this.filterType || a.id === -1);
     }
 
     // Apply search query
@@ -85,17 +76,13 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
           (a.title && a.title.toLowerCase().includes(q)) ||
           (a.course && a.course.toLowerCase().includes(q)) ||
           (a.program && a.program.toLowerCase().includes(q)) ||
-          (a.year && a.year.toLowerCase().includes(q))
+          (a.year && a.year.toLowerCase().includes(q)),
       );
     }
 
     // Apply advanced status filters
     const statusFilters = this.advancedFilters.status;
-    const isAnyStatusFilterActive =
-      statusFilters.prepared ||
-      statusFilters.ongoing ||
-      statusFilters.finished ||
-      statusFilters.default;
+    const isAnyStatusFilterActive = statusFilters.prepared || statusFilters.ongoing || statusFilters.finished || statusFilters.default;
 
     if (isAnyStatusFilterActive) {
       result = result.filter((a) => {
@@ -111,23 +98,17 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
     // Apply course filter
     if (this.advancedFilters.course) {
-      result = result.filter(
-        (a) => a.id === -1 || a.course === this.advancedFilters.course
-      );
+      result = result.filter((a) => a.id === -1 || a.course === this.advancedFilters.course);
     }
 
     // Apply program filter
     if (this.advancedFilters.program) {
-      result = result.filter(
-        (a) => a.id === -1 || a.program === this.advancedFilters.program
-      );
+      result = result.filter((a) => a.id === -1 || a.program === this.advancedFilters.program);
     }
 
     // Apply year filter
     if (this.advancedFilters.year) {
-      result = result.filter(
-        (a) => a.id === -1 || a.year === this.advancedFilters.year
-      );
+      result = result.filter((a) => a.id === -1 || a.year === this.advancedFilters.year);
     }
 
     return result;
@@ -182,28 +163,15 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
   isStatusIsolated(status: string): boolean {
     const s = this.advancedFilters.status;
-    const allStatuses: Array<keyof typeof s> = [
-      "prepared",
-      "ongoing",
-      "finished",
-      "default",
-    ];
-    return (
-      s[status as keyof typeof s] === true &&
-      allStatuses.filter((k) => k !== status).every((k) => !s[k])
-    );
+    const allStatuses: Array<keyof typeof s> = ["prepared", "ongoing", "finished", "default"];
+    return s[status as keyof typeof s] === true && allStatuses.filter((k) => k !== status).every((k) => !s[k]);
   }
 
   getStatusTooltip(status: string): string {
-    return this.isStatusIsolated(status)
-      ? "HOME.STATUS-TOOLTIP-RESET"
-      : "HOME.STATUS-TOOLTIP-ISOLATE";
+    return this.isStatusIsolated(status) ? "HOME.STATUS-TOOLTIP-RESET" : "HOME.STATUS-TOOLTIP-ISOLATE";
   }
 
-  toggleStatusFilterFromBadge(
-    status: "prepared" | "ongoing" | "finished" | "default",
-    event: MouseEvent
-  ) {
+  toggleStatusFilterFromBadge(status: "prepared" | "ongoing" | "finished" | "default", event: MouseEvent) {
     event.stopPropagation();
     if (this.statusPreviewTimeout) {
       clearTimeout(this.statusPreviewTimeout);
@@ -239,7 +207,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private assignmentsService: AssignmentsService,
     private configurationService: ConfigurationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -258,8 +226,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
         const parsed = JSON.parse(prefs);
         if (parsed.sortField) this.sortField = parsed.sortField;
         if (parsed.sortDirection) this.sortDirection = parsed.sortDirection;
-        if (parsed.advancedFilters)
-          this.advancedFilters = parsed.advancedFilters;
+        if (parsed.advancedFilters) this.advancedFilters = parsed.advancedFilters;
       } catch (e) {
         console.error("Could not load preferences", e);
       }
@@ -273,7 +240,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
         sortField: this.sortField,
         sortDirection: this.sortDirection,
         advancedFilters: this.advancedFilters,
-      })
+      }),
     );
   }
 
@@ -345,17 +312,13 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   isAllSelected(): boolean {
-    const visibleIds = this.filteredAssignments
-      .filter((a) => a.id !== -1)
-      .map((a) => a.id);
+    const visibleIds = this.filteredAssignments.filter((a) => a.id !== -1).map((a) => a.id);
     if (visibleIds.length === 0) return false;
     return visibleIds.every((id) => this.selectedAssignments.has(id));
   }
 
   toggleSelectAll() {
-    const visibleIds = this.filteredAssignments
-      .filter((a) => a.id !== -1)
-      .map((a) => a.id);
+    const visibleIds = this.filteredAssignments.filter((a) => a.id !== -1).map((a) => a.id);
     if (this.isAllSelected()) {
       // Deselect all visible
       visibleIds.forEach((id) => this.selectedAssignments.delete(id));
@@ -383,27 +346,17 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       for (const id of idsToDelete) {
         await this.databaseService.deleteAssignment(id);
       }
-      this.toastService.success(
-        this.translateService.instant("SUCCESS"),
-        `Supprimé ${idsToDelete.length} devoir(s)`
-      );
+      this.toastService.success(this.translateService.instant("SUCCESS"), `Supprimé ${idsToDelete.length} devoir(s)`);
       this.cancelSelection();
       this.loadAssignments();
     } catch (err) {
-      this.toastService.error(
-        this.translateService.instant("ERROR"),
-        "Erreur lors de la suppression"
-      );
+      this.toastService.error(this.translateService.instant("ERROR"), "Erreur lors de la suppression");
     }
   }
 
-  computeStatus(
-    assignment: Assignment
-  ): "prepared" | "ongoing" | "finished" | "default" {
+  computeStatus(assignment: Assignment): "prepared" | "ongoing" | "finished" | "default" {
     const now = moment();
-    const startDate = assignment.startDate
-      ? moment(assignment.startDate)
-      : null;
+    const startDate = assignment.startDate ? moment(assignment.startDate) : null;
     const endDate = assignment.endDate ? moment(assignment.endDate) : null;
 
     if (startDate && now.isBefore(startDate)) {
@@ -470,10 +423,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       if (this.sortField === "daysRemaining") {
         const getPriority = (assignment: any) => {
           if (!assignment.startDate || !assignment.endDate) return 3; // unprogrammed
-          if (
-            this.getProgress(assignment.startDate, assignment.endDate) === 100
-          )
-            return 2; // finished
+          if (this.getProgress(assignment.startDate, assignment.endDate) === 100) return 2; // finished
           return 1; // active
         };
 
@@ -522,13 +472,9 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       const diffHours = endM.diff(startM, "hours");
       if (diffHours === 0) {
         const diffMinutes = endM.diff(startM, "minutes");
-        return `${diffMinutes} ${this.translateService.instant(
-          "HOME.DURATION.MINUTES"
-        )}`;
+        return `${diffMinutes} ${this.translateService.instant("HOME.DURATION.MINUTES")}`;
       }
-      return `${diffHours} ${this.translateService.instant(
-        "HOME.DURATION.HOURS"
-      )}`;
+      return `${diffHours} ${this.translateService.instant("HOME.DURATION.HOURS")}`;
     }
     return `${diffDays} ${this.translateService.instant("HOME.DURATION.DAYS")}`;
   }
@@ -553,9 +499,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     if (progress === 100) return "#9ca3af";
     const hue = 120 - progress * 1.2;
     // Gradient from slightly lighter/warmer hue to target hue
-    return `linear-gradient(90deg, hsl(${
-      hue + 15
-    }, 85%, 65%) 0%, hsl(${hue}, 85%, 55%) 100%)`;
+    return `linear-gradient(90deg, hsl(${hue + 15}, 85%, 65%) 0%, hsl(${hue}, 85%, 55%) 100%)`;
   }
 
   getProgressBarTextColor(progress: number): string {
@@ -578,13 +522,9 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       const diffHours = endM.diff(now, "hours");
       if (diffHours === 0) {
         const diffMinutes = endM.diff(now, "minutes");
-        return `${diffMinutes} ${this.translateService.instant(
-          "HOME.DURATION.MINUTES"
-        )}`;
+        return `${diffMinutes} ${this.translateService.instant("HOME.DURATION.MINUTES")}`;
       }
-      return `${diffHours} ${this.translateService.instant(
-        "HOME.DURATION.HOURS"
-      )}`;
+      return `${diffHours} ${this.translateService.instant("HOME.DURATION.HOURS")}`;
     }
     return `${diffDays} ${this.translateService.instant("HOME.DURATION.DAYS")}`;
   }
@@ -624,7 +564,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     this.dataService.assignment = assignment;
     this.dataService.groupFilter = "";
     if (this.dataService.repoToLoad) {
-      this.router.navigate(["overview"]);
+      this.router.navigate(["commits"]);
     }
   }
 
@@ -688,9 +628,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   exportDB() {
     let assignmentsToExport;
     if (this.selectionMode && this.selectedAssignments.size > 0) {
-      assignmentsToExport = this.assignments.filter((a) =>
-        this.selectedAssignments.has(a.id)
-      );
+      assignmentsToExport = this.assignments.filter((a) => this.selectedAssignments.has(a.id));
     } else {
       assignmentsToExport = this.filteredAssignments;
     }
@@ -698,26 +636,15 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   importDB(blob: Blob) {
-    let translations = this.translateService.instant([
-      "SUCCESS",
-      "ERROR",
-      "IMPORT-SUCCESS",
-      "IMPORT-ERROR",
-    ]);
+    let translations = this.translateService.instant(["SUCCESS", "ERROR", "IMPORT-SUCCESS", "IMPORT-ERROR"]);
     this.assignmentsService
       .importAssignments(blob)
       .then(() => {
         this.loadAssignments();
-        this.toastService.success(
-          translations["SUCCESS"],
-          translations["IMPORT-SUCCESS"]
-        );
+        this.toastService.success(translations["SUCCESS"], translations["IMPORT-SUCCESS"]);
       })
       .catch((err) => {
-        this.toastService.error(
-          translations["ERROR"],
-          translations["IMPORT-ERROR"] + " : " + err
-        );
+        this.toastService.error(translations["ERROR"], translations["IMPORT-ERROR"] + " : " + err);
       });
   }
 

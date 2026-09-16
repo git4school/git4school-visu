@@ -1,11 +1,11 @@
 ---
-title: Overview graph
+title: Commits graph
 layout: page
 parent: Graph views
 nav_order: 1
 ---
 
-# Overview graph
+# Commits graph
 {: .no_toc }
 
 This page lets the teacher follow the work of his students using a graph displaying the commits of each student (on the y axis) according to time (on the abscissa) as well as the sessions of TP, reviews and corrections.

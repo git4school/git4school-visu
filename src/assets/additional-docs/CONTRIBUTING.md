@@ -27,8 +27,8 @@ This folder contains the guards as used in Angular. These guards are services th
 In this way, we use 3 guards :
 
 - `auth.guard.ts`: which ensures that the user is authenticated before allowing access to a protected route
-- `data-provided.guard.ts`: which ensures that valid and minimal data are loaded to ensure the proper functioning of the application. For example, if no valid configuration file is provided in the `/overview` page, it is not possible to access `/questions-completion` or `/edit-metadata`
-- `data-loading.guard.ts`: which authorizes the leaving of a page if the associated component is not loading. This guard is used in the /overview page to prevent the user from leaving the page if the processing of repository data is in progress
+- `data-provided.guard.ts`: which ensures that valid and minimal data are loaded to ensure the proper functioning of the application. For example, if no valid configuration file is provided in the `/commits` page, it is not possible to access `/questions-completion` or `/edit-metadata`
+- `data-loading.guard.ts`: which authorizes the leaving of a page if the associated component is not loading. This guard is used in the `/commits` page to prevent the user from leaving the page if the processing of repository data is in progress
 
 If you want to create a new guard, do the following :
 
@@ -65,7 +65,7 @@ Let's detail the 4 services we use:
 - `auth.service.ts` : which allows to manage the user authentication to Github.
 - `data.service.ts` : which allows to store the data to be shared between the components. It is thanks to it that the user can navigate in the application without having to enter the configuration file each time he changes pages.
 - `json-manager.service.ts` : which allows to manage the configuration file (upload/download/verification)
-- `commits.service.ts` : which allows to manage the retrieval of data from Github repositories, as well as the generation of statistical data (used for downloading and for displaying graphs `/students-commits` and `/questions-completion`)
+- `commits.service.ts` : which allows to manage the retrieval of data from Github repositories, as well as the generation of statistical data (used for downloading and for displaying graphs `/students` and `/questions-completion`)
 
 To create a new service, execute `ng g service services/<myService>`.
 Then use it in component or a service by declaring it in the constructor :
