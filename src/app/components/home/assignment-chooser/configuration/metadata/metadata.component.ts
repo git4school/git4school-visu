@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-} from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Metadata } from "@models/Metadata.model";
 import { NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
@@ -13,6 +6,7 @@ import { NgbDateNativeUTCFranceAdapter } from "@services/ngb-date-native-utcfran
 import * as moment from "moment";
 import { BaseEditConfigurationComponent } from "../base-edit-configuration.component";
 import { TextInputComponent } from "@shared/ui/text-input/text-input.component";
+import { QuestionsChooserComponent } from "@components/questions-chooser/questions-chooser.component";
 
 /**
  * This component lets you modify metadata such as document title, course, year, start date and end date, questions
@@ -21,17 +15,13 @@ import { TextInputComponent } from "@shared/ui/text-input/text-input.component";
   selector: "metadata",
   templateUrl: "./metadata.component.html",
   styleUrls: ["../configuration.component.scss", "./metadata.component.scss"],
-  providers: [
-    { provide: NgbDateAdapter, useClass: NgbDateNativeUTCFranceAdapter },
-  ],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeUTCFranceAdapter }],
 })
-export class MetadataComponent
-  extends BaseEditConfigurationComponent<Metadata>
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class MetadataComponent extends BaseEditConfigurationComponent<Metadata> implements OnInit, OnDestroy, AfterViewInit {
   @Input() metadata: Metadata;
   @ViewChild("titleInput") titleInput: TextInputComponent;
-  metadataForm: FormGroup;
+  @ViewChild("questionsChooser") questionsChooser: QuestionsChooserComponent;
+  public metadataForm: FormGroup;
 
   /**
    * Settings for the typeahead text input
@@ -53,16 +43,8 @@ export class MetadataComponent
    * When the component is initialized, we initialize startDate and endDate with data from dataService
    */
   ngOnInit() {
-    this.metadata.startDate =
-      this.metadata.startDate &&
-      moment(this.metadata.startDate, "YYYY-MM-DD HH:mm").format(
-        "YYYY-MM-DDTHH:mm"
-      );
-    this.metadata.endDate =
-      this.metadata.endDate &&
-      moment(this.metadata.endDate, "YYYY-MM-DD HH:mm").format(
-        "YYYY-MM-DDTHH:mm"
-      );
+    this.metadata.startDate = this.metadata.startDate && moment(this.metadata.startDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm");
+    this.metadata.endDate = this.metadata.endDate && moment(this.metadata.endDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm");
     this.createFormGroup();
     this.metadataForm.valueChanges.subscribe(() => {
       this.modify();
@@ -82,6 +64,15 @@ export class MetadataComponent
   ngOnDestroy() {}
 
   /**
+   * Adds multiple questions from the questions assistant popover
+   */
+  onAddQuestionsFromAssistant(questions: string[]) {
+    if (this.questionsChooser) {
+      this.questionsChooser.addQuestions(questions);
+    }
+  }
+
+  /**
    * This method is called when the form is submitted (when save button is pressed). Updates data with new values entered
    */
   submitMetadata() {
@@ -94,6 +85,8 @@ export class MetadataComponent
     metadata.startDate = modifiedMetadata.startDate;
     metadata.endDate = modifiedMetadata.endDate;
     metadata.questions = modifiedMetadata.questions;
+    metadata.closingMode = modifiedMetadata.closingMode;
+    metadata.customClosingKeywords = modifiedMetadata.customClosingKeywords;
     metadata.defaultSessionDuration = modifiedMetadata.defaultSessionDuration;
 
     this.save(metadata);
@@ -105,11 +98,11 @@ export class MetadataComponent
       course: [this.metadata.course],
       program: [this.metadata.program],
       year: [this.metadata.year],
-      startDate: [
-        this.metadata.startDate ? new Date(this.metadata.startDate) : null,
-      ],
+      startDate: [this.metadata.startDate ? new Date(this.metadata.startDate) : null],
       endDate: [this.metadata.endDate ? new Date(this.metadata.endDate) : null],
-      questions: [this.metadata.questions],
+      questions: [this.metadata.questions || []],
+      closingMode: [this.metadata.resolvedClosingMode || "standard"],
+      customClosingKeywords: [this.metadata.resolvedCustomClosingKeywords || []],
       defaultSessionDuration: [
         this.metadata.defaultSessionDuration || {
           hour: 1,

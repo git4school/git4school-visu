@@ -39,12 +39,27 @@
     <div id="tour-questions" class="form-row mt-0 mb-3">
       <div class="col-md-12">
         <div class="form-group mb-0">
-          <label for="questionsChooser"
-            style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem;">{{
-            'QUESTIONS' | translate }}</label>
-          <questions-chooser #questionsChooser formControlName="questions" [mode]="'add'" [openOnFocus]="true"
-            [noQuestionMessage]="true" [maxPillsWidth]="'70%'">
-          </questions-chooser>
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label for="questionsChooser" class="mb-0"
+              style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary);">
+              {{ 'QUESTIONS' | translate }}
+            </label>
+            <app-questions-assistant-popover
+              [variant]="'ghost'"
+              [iconType]="'magic-wand'"
+              [alignRight]="true"
+              [closingMode]="metadataForm.get('closingMode').value"
+              (closingModeChange)="metadataForm.get('closingMode').setValue($event)"
+              [customClosingKeywords]="metadataForm.get('customClosingKeywords').value"
+              (customClosingKeywordsChange)="metadataForm.get('customClosingKeywords').setValue($event)"
+              (addQuestions)="onAddQuestionsFromAssistant($event)">
+            </app-questions-assistant-popover>
+          </div>
+          <div style="width: 100%;">
+            <questions-chooser #questionsChooser formControlName="questions" [mode]="'add'" [openOnFocus]="true"
+              [noQuestionMessage]="true" [maxPillsWidth]="'70%'">
+            </questions-chooser>
+          </div>
         </div>
       </div>
     </div>

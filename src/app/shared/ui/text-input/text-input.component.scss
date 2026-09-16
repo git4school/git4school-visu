@@ -142,9 +142,11 @@
   /* Disabled State */
   &.is-disabled {
     opacity: 0.6;
+
     .text-input-element {
       cursor: not-allowed;
     }
+
     .text-input-fieldset {
       background-color: rgba(0,0,0,0.02);
     }
@@ -171,6 +173,7 @@
   &.is-focused .text-input-label {
     color: var(--color-primary);
   }
+
   &.is-focused.is-invalid .text-input-label {
     color: var(--color-danger);
   }
@@ -184,4 +187,9 @@
     }
   }
 
+  &.not-clearable {
+    .text-input-element {
+      padding-right: 0;
+    }
+  }
 }

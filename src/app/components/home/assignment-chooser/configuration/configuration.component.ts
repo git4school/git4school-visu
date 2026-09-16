@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { Assignment } from "@models/Assignment.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -43,7 +36,7 @@ export class ConfigurationComponent implements OnInit {
     private toastService: ToastService,
     private ngbModalService: NgbModal,
     private modalService: CustomModalService,
-    @Optional() public activeModal: CustomModalRef
+    @Optional() public activeModal: CustomModalRef,
   ) {}
 
   ngOnInit(): void {
@@ -59,20 +52,12 @@ export class ConfigurationComponent implements OnInit {
   }
 
   get isModified() {
-    return (
-      this.metadataModified ||
-      this.repositoriesModified ||
-      this.assignment.id === -1
-    );
+    return this.metadataModified || this.repositoriesModified || this.assignment.id === -1;
   }
 
   canSave(): boolean {
-    const metadataValid = this.metadataComp
-      ? this.metadataComp.metadataForm.valid
-      : true;
-    const reposValid = this.reposComp
-      ? this.reposComp.formGroups.every((fg) => fg.valid || fg.disabled)
-      : true;
+    const metadataValid = this.metadataComp ? this.metadataComp.metadataForm.valid : true;
+    const reposValid = this.reposComp ? this.reposComp.formGroups.every((fg) => fg.valid || fg.disabled) : true;
     return metadataValid && reposValid;
   }
 
@@ -87,14 +72,13 @@ export class ConfigurationComponent implements OnInit {
       this.assignment.metadata.startDate = modifiedMetadata.startDate;
       this.assignment.metadata.endDate = modifiedMetadata.endDate;
       this.assignment.metadata.questions = modifiedMetadata.questions;
-      this.assignment.metadata.defaultSessionDuration =
-        modifiedMetadata.defaultSessionDuration;
+      this.assignment.metadata.closingMode = modifiedMetadata.closingMode;
+      this.assignment.metadata.customClosingKeywords = modifiedMetadata.customClosingKeywords;
+      this.assignment.metadata.defaultSessionDuration = modifiedMetadata.defaultSessionDuration;
     }
 
     if (this.reposComp) {
-      this.assignment.repositories = this.reposComp.getFormControls.map(
-        (row) => row.value
-      );
+      this.assignment.repositories = this.reposComp.getFormControls.map((row) => row.value);
     }
 
     this.metadataModified = false;
@@ -124,14 +108,8 @@ export class ConfigurationComponent implements OnInit {
   }
 
   successToast() {
-    let translations = this.translateService.instant([
-      "SUCCESS",
-      "SUCCESS-MESSAGE",
-    ]);
-    this.toastService.success(
-      translations["SUCCESS"],
-      translations["SUCCESS-MESSAGE"]
-    );
+    let translations = this.translateService.instant(["SUCCESS", "SUCCESS-MESSAGE"]);
+    this.toastService.success(translations["SUCCESS"], translations["SUCCESS-MESSAGE"]);
   }
 
   errorToast(): any {}

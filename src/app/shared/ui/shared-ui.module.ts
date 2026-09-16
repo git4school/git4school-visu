@@ -19,6 +19,7 @@ import { RepoIconComponent } from "./repo-icon/repo-icon.component";
 
 import { ShortcutsModalComponent } from "./shortcuts-modal/shortcuts-modal.component";
 import { DevBarComponent } from "./dev-bar/dev-bar.component";
+import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.component";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { DevBarComponent } from "./dev-bar/dev-bar.component";
     RepoIconComponent,
     ShortcutsModalComponent,
     DevBarComponent,
+    SegmentedRadioComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -53,6 +55,7 @@ import { DevBarComponent } from "./dev-bar/dev-bar.component";
     RepoIconComponent,
     ShortcutsModalComponent,
     DevBarComponent,
+    SegmentedRadioComponent,
   ],
   entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent],
 })
