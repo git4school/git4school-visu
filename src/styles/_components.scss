@@ -2001,7 +2001,7 @@ ngb-typeahead-window {
     border: 0 !important;
     white-space: normal;
 
-    // Standard suggestion in text-input (TP group, etc.)
+    /* Standard suggestion in text-input (TP group, etc.) */
     .text-input-suggestion {
       padding: 0.35rem 0.85rem;
       width: 100%;
@@ -2020,8 +2020,25 @@ ngb-typeahead-window {
       }
     }
 
-    &:hover,
     &.active {
+      background: transparent !important;
+
+      .typeahead-row-content,
+      .text-input-suggestion {
+        background-color: var(--color-hover) !important;
+
+        .group-icon {
+          color: var(--color-primary);
+        }
+      }
+
+      .enter-badge {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+    }
+
+    &:hover:not(.active) {
       background: transparent !important;
 
       .text-input-suggestion {
@@ -2032,22 +2049,20 @@ ngb-typeahead-window {
         }
       }
     }
-
-    &.active {
-      .typeahead-row-content,
-      .text-input-suggestion {
-        background-color: var(--color-hover) !important;
-      }
-
-      .enter-badge {
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-    }
   }
 }
 
-// When a modal is open, elevate typeahead dropdown above the modal ($zindex-modal: 1210)
+/* Keyboard navigation mode: disable pointer events and transitions for instant, jump-free selection */
+body.typeahead-keyboard-nav ngb-typeahead-window {
+  pointer-events: none !important;
+
+  * {
+    pointer-events: none !important;
+    transition: none !important;
+  }
+}
+
+/* When a modal is open, elevate typeahead dropdown above the modal ($zindex-modal: 1210) */
 body.custom-modal-open ngb-typeahead-window,
 body:has(app-custom-modal-container) ngb-typeahead-window {
   z-index: $zindex-modal-typeahead !important;

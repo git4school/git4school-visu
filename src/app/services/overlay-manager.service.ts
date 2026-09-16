@@ -24,12 +24,23 @@ export interface OverlayDismissEvent {
   providedIn: "root",
 })
 export class OverlayManagerService {
+  public readonly dismiss$: Observable<OverlayDismissEvent>;
+
   private dismissSubject = new Subject<OverlayDismissEvent>();
 
-  public readonly dismiss$: Observable<OverlayDismissEvent> =
-    this.dismissSubject.asObservable();
+  constructor(private ngZone: NgZone) {
+    this.dismiss$ = this.dismissSubject.asObservable();
+  }
 
-  constructor(private ngZone: NgZone) {}
+  /**
+   * Helper utility to check if an event matches and should dismiss a target type.
+   */
+  public static shouldDismiss(type: OverlayType, event: OverlayDismissEvent): boolean {
+    if (event.options?.exclude?.includes(type)) {
+      return false;
+    }
+    return event.target === OverlayType.ALL || event.target === type;
+  }
 
   /**
    * Request dismissal of a specific overlay type.
@@ -57,18 +68,5 @@ export class OverlayManagerService {
       this.dismiss(OverlayType.TOOLTIP, options);
       this.dismiss(OverlayType.CONTEXT_MENU, options);
     });
-  }
-
-  /**
-   * Helper utility to check if an event matches and should dismiss a target type.
-   */
-  public static shouldDismiss(
-    type: OverlayType,
-    event: OverlayDismissEvent
-  ): boolean {
-    if (event.options?.exclude?.includes(type)) {
-      return false;
-    }
-    return event.target === OverlayType.ALL || event.target === type;
   }
 }

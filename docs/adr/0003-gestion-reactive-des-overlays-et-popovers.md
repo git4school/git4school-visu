@@ -17,7 +17,7 @@ L'architecture initiale présentait plusieurs fragilités et dettes techniques :
 2. **Synchronisation garantie avec Angular (`NgZone`)** :
    - Encapsulation systématique des émissions d'événements dans `this.ngZone.run(...)` au sein du service pour garantir que tout ordre de fermeture issu de D3 déclenche immédiatement un cycle de détection de changement synchrone sans étape intermédiaire visible.
 3. **Autonomie et auto-gestion des composants récepteurs** :
-   - `QuestionsChooserComponent`, `OverviewGraphContextualMenuComponent`, `TooltipService` et `OverviewComponent` (pour ses menus locaux de barre d'outils) s'abonnent à `overlayManagerService.dismiss$` et gèrent leur propre fermeture via les API officielles (`dismissPopup()`, `close()`, `hide()`).
+   - `QuestionsChooserComponent`, `TextInputComponent`, `OverviewGraphContextualMenuComponent`, `TooltipService` et `OverviewComponent` (pour ses menus locaux de barre d'outils) s'abonnent à `overlayManagerService.dismiss$` et gèrent leur propre fermeture via les API officielles (`dismissPopup()`, `close()`, `hide()`).
    - Désabonnement automatique via l'opérateur RxJS `takeUntil(this.destroy$)` pour prévenir toute fuite mémoire.
 4. **Découplage strict entre le rendu D3 et l'état de l'UI** :
    - Le pipeline de chargement des données (`loadGraphData`, `loadGraphDataAndRefresh`) est hermétique et ne déclenche aucune fermeture d'overlay ni de perte de focus.
@@ -30,3 +30,4 @@ L'architecture initiale présentait plusieurs fragilités et dettes techniques :
 - **Robustesse et extensibilité** : Tout nouvel overlay ou panneau ajouté dans l'application peut s'abonner à `OverlayManagerService` sans modifier `OverviewComponent`.
 - **Fidélité visuelle et fin des sauts d'affichage** : Élimination définitive des scintillements et des sauts de dropdowns sous la barre de navigation.
 - **Règle d'architecture formalisée** : Mise à jour de `GEMINI.md` imposant l'usage exclusif de `OverlayManagerService` pour coordonner la fermeture des overlays.
+- **Périmètre et frontière claire** : `OverlayManagerService` est strictement restreint à la publication/souscription d'événements de fermeture ; les interactions de navigation clavier/souris au sein des fenêtres de suggestions sont découplées dans une directive dédiée (voir ADR-0005).

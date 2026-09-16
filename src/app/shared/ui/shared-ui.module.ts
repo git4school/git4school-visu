@@ -12,6 +12,7 @@ import { SessionDurationPickerComponent } from "./session-duration-picker/sessio
 import { ToastsComponent } from "./toasts/toasts.component";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { TooltipDirective } from "./tooltip/tooltip.directive";
+import { TypeaheadKeyboardNavDirective } from "./typeahead-nav/typeahead-nav.directive";
 import { CustomModalContainerComponent } from "./custom-modal/custom-modal-container/custom-modal-container.component";
 import { TypePickerComponent } from "./type-picker/type-picker.component";
 import { TimePickerComponent } from "../../components/time-picker/time-picker.component";
@@ -31,6 +32,7 @@ import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.compo
     ToastsComponent,
     TooltipComponent,
     TooltipDirective,
+    TypeaheadKeyboardNavDirective,
     CustomModalContainerComponent,
     TypePickerComponent,
     TimePickerComponent,
@@ -49,6 +51,7 @@ import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.compo
     ToastsComponent,
     TooltipComponent,
     TooltipDirective,
+    TypeaheadKeyboardNavDirective,
     CustomModalContainerComponent,
     TypePickerComponent,
     TimePickerComponent,

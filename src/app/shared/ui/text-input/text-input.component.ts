@@ -1,8 +1,9 @@
-import { Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, forwardRef, Input, OnDestroy, OnInit, Optional, ViewChild } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable, Subject, merge } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { filter, map, takeUntil } from "rxjs/operators";
 import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 
 @Component({
   selector: "app-text-input",
@@ -16,7 +17,7 @@ import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-boot
     },
   ],
 })
-export class TextInputComponent implements ControlValueAccessor, OnInit {
+export class TextInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() label = "";
   @Input() helperText = "";
   @Input() type = "text";
@@ -47,12 +48,29 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
   onChange: any;
   onTouched: any;
 
-  constructor(private el: ElementRef) {
+  private destroy$ = new Subject<void>();
+
+  constructor(private el: ElementRef, @Optional() private overlayManagerService?: OverlayManagerService) {
     this.onChange = () => {};
     this.onTouched = () => {};
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.overlayManagerService) {
+      this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+        if (OverlayManagerService.shouldDismiss(OverlayType.TYPEAHEAD, event)) {
+          if (this.instance && this.instance.isPopupOpen()) {
+            this.instance.dismissPopup();
+          }
+        }
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   search = (text$: Observable<string>) => {
     const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance || !this.instance.isPopupOpen()));
