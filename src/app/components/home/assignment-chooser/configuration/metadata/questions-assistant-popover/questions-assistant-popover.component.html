@@ -33,7 +33,9 @@
 
     <span class="trigger-text">{{ buttonLabel || ('QUESTIONS-ASSISTANT.TRIGGER_BUTTON' | translate) }}</span>
     <span *ngIf="isCustomRuleActive" class="accent-dot"></span>
-    <i class="fas fa-chevron-down trigger-chevron" [class.rotated]="isOpen"></i>
+    <svg class="trigger-chevron" [class.rotated]="isOpen" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
   </button>
 
   <!-- Unified Apple-style Popover Container -->

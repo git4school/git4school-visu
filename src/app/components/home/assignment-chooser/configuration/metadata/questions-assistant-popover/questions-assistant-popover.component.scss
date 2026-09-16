@@ -27,7 +27,7 @@
   box-sizing: border-box;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color $transition-fast, color $transition-fast, border-color $transition-fast;
+  transition: background-color $transition-fast, color $transition-fast, border-color $transition-fast, filter $transition-fast;
 
   &:hover {
     color: var(--color-text-primary);
@@ -35,9 +35,11 @@
     border-color: var(--color-text-muted);
   }
 
-  &:focus {
+  &:focus,
+  &:active {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-primary-bg);
+    box-shadow: none;
+    transform: none;
   }
 
   &.active {
@@ -49,6 +51,7 @@
   .trigger-icon {
     flex-shrink: 0;
     pointer-events: none;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .trigger-text {
@@ -57,13 +60,23 @@
   }
 
   .trigger-chevron {
-    font-size: 0.65rem;
+    width: 12px;
+    height: 12px;
     color: var(--color-text-muted);
-    transition: transform $transition-fast;
+    transform-origin: 50% 50%;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease;
     pointer-events: none;
+    flex-shrink: 0;
 
     &.rotated {
       transform: rotate(180deg);
+    }
+  }
+
+  &.active {
+    .trigger-chevron {
+      transform: rotate(180deg);
+      color: var(--color-primary);
     }
   }
 
@@ -90,7 +103,8 @@
     gap: 0.35rem;
 
     .trigger-chevron {
-      font-size: 0.6rem;
+      width: 11px;
+      height: 11px;
     }
 
     &:hover {
@@ -99,8 +113,24 @@
       border-color: transparent;
     }
 
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      border-color: transparent;
+    }
+
     &:active {
-      transform: scale(0.96);
+      outline: none;
+      box-shadow: none;
+      transform: none;
+      border-color: transparent;
+      background-color: var(--color-primary-bg);
+      color: var(--color-primary);
+      filter: brightness(0.96);
+
+      .trigger-icon {
+        transform: rotate(-12deg);
+      }
     }
 
     &.active {
@@ -109,6 +139,7 @@
       border-color: transparent;
 
       .trigger-chevron {
+        transform: rotate(180deg);
         color: var(--color-primary);
       }
     }

@@ -31,6 +31,16 @@
     transform: scale(0.97);
   }
 
+  /* No scale effect on dropdown toggles */
+  &.dropdown-toggle,
+  &[ngbDropdownToggle],
+  &.legend-expand-btn {
+    &:active,
+    &:active:not(:disabled) {
+      transform: none;
+    }
+  }
+
   &:disabled {
     opacity: 0.65;
     cursor: not-allowed;
@@ -615,6 +625,35 @@
 /* =========================================
    DROPDOWNS
    ========================================= */
+/* Disable scale effect on dropdown toggles and buttons */
+.dropdown-toggle,
+[ngbDropdownToggle],
+.dropdown > button,
+.dropdown > .btn,
+.dropdown > .btn-outline-ghost,
+[ngbDropdown] > button,
+[ngbDropdown] > .btn,
+[ngbDropdown] > .btn-outline-ghost {
+  &:active,
+  &:active:not(:disabled) {
+    transform: none !important;
+  }
+}
+
+.dropdown-chevron {
+  display: inline-block;
+  transform-origin: 50% 50%;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dropdown.show .dropdown-chevron,
+.show > .dropdown-chevron,
+.show > [ngbDropdownToggle] .dropdown-chevron,
+.dropdown-toggle[aria-expanded="true"] .dropdown-chevron,
+[ngbDropdownToggle][aria-expanded="true"] .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -771,25 +810,52 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  transition: background-color 0.15s, color 0.15s;
+  transition: background-color 0.15s ease, color 0.15s ease, filter 0.15s ease;
   cursor: pointer;
 
   svg {
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  &:hover, &[aria-expanded="true"] {
+  .dropdown-chevron,
+  .fa-caret-down {
+    display: inline-block;
+    transform-origin: 50% 50%;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease;
+  }
+
+  &:hover {
     background-color: var(--filter-bg);
     color: var(--color-text-primary);
   }
   
+  &:active,
   &:active:not(:disabled) {
-    transform: scale(0.94);
+    transform: none;
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary);
+    filter: brightness(0.96);
+
+    .dropdown-chevron,
+    .fa-caret-down {
+      color: var(--color-primary) !important;
+    }
   }
   
+  &[aria-expanded="true"],
   &.active {
-    background-color: rgba(37, 99, 235, 0.1);
+    background-color: var(--color-primary-bg);
     color: var(--color-primary);
+
+    .dropdown-chevron,
+    .fa-caret-down {
+      transform: rotate(180deg);
+      color: var(--color-primary) !important;
+    }
+
+    svg:not(.sidebar-item-icon) {
+      color: var(--color-primary);
+    }
   }
   
   &.anim-spin-hover:hover:not(:disabled) svg {
@@ -803,6 +869,23 @@
   &:focus {
     outline: none;
     box-shadow: none !important;
+  }
+}
+
+.dropdown.show > .btn-outline-ghost,
+.show > .btn-outline-ghost,
+[ngbDropdown].show > .btn-outline-ghost {
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+
+  .dropdown-chevron,
+  .fa-caret-down {
+    transform: rotate(180deg);
+    color: var(--color-primary) !important;
+  }
+
+  svg:not(.sidebar-item-icon) {
+    color: var(--color-primary);
   }
 }
 
@@ -2180,6 +2263,8 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
 
   &:hover, &[aria-expanded="true"] {
     color: var(--color-primary);
+    background-color: var(--color-primary-bg);
+    border-color: rgba(37, 99, 235, 0.25);
   }
 
   &:hover {
@@ -2189,6 +2274,13 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
       margin-left: 0.5rem;
       transition-delay: 1s;
     }
+  }
+
+  &:active {
+    transform: none;
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary);
+    filter: brightness(0.96);
   }
 }
 
