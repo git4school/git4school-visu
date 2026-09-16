@@ -67,15 +67,9 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
   private resizeObserver: any = null;
   private boundScroll: (() => void) | null = null;
   private boundResize: (() => void) | null = null;
+  private boundClick: ((event: MouseEvent) => void) | null = null;
 
   constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private overlayManagerService: OverlayManagerService) {}
-
-  @HostListener("document:click", ["$event"])
-  public onDocumentClick(event: MouseEvent): void {
-    if (this.isOpen && !this.elementRef.nativeElement.contains(event.target)) {
-      this.close();
-    }
-  }
 
   @HostListener("keydown.escape")
   public onEscape(): void {
@@ -89,11 +83,18 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
       this.customKeywordsText = this.customClosingKeywords.join(", ");
     }
 
-    this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.isOpen) {
+    this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+      if (this.isOpen && OverlayManagerService.shouldDismiss(OverlayType.DROPDOWN, event)) {
         this.close();
       }
     });
+
+    this.boundClick = (event: MouseEvent) => {
+      if (this.isOpen && !this.elementRef.nativeElement.contains(event.target as Node)) {
+        this.close();
+      }
+    };
+    document.addEventListener("click", this.boundClick, { capture: true });
 
     this.boundScroll = () => {
       if (this.isOpen) {
@@ -113,6 +114,10 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
 
+    if (this.boundClick) {
+      document.removeEventListener("click", this.boundClick, { capture: true });
+      this.boundClick = null;
+    }
     if (this.boundScroll) {
       document.removeEventListener("scroll", this.boundScroll, { capture: true });
     }
@@ -131,7 +136,7 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
     if (this.isOpen) {
       this.close();
     } else {
-      this.overlayManagerService.dismiss(OverlayType.DROPDOWN);
+      this.overlayManagerService.dismissAll({ exclude: [OverlayType.DROPDOWN] });
       this.isOpen = true;
       if (this.customClosingKeywords && this.customClosingKeywords.length > 0) {
         this.customKeywordsText = this.customClosingKeywords.join(", ");
@@ -167,6 +172,9 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
         this.resizeObserver = null;
       }
       this.cdr.markForCheck();
+      if (!(this.cdr as any).destroyed) {
+        this.cdr.detectChanges();
+      }
     }
   }
 
