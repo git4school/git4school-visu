@@ -115,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/loader.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/loader.service.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -224,15 +224,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadCommitsMetadata(repositories: <a href="../classes/Repository.html" target="_self">Repository[]</a>, reviews: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, corrections: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, questions: string[])</code>
+<code>loadCommitsMetadata(repositories: <a href="../classes/Repository.html" target="_self">Repository[]</a>, reviews: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, corrections: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, questions: string[], closingMode?: <a href="../undefineds/QuestionClosingMode.html" target="_self">QuestionClosingMode</a>, customClosingKeywords?: string[])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">src/app/services/loader.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/app/services/loader.service.ts:42</a></div>
                 </td>
             </tr>
 
@@ -303,6 +303,30 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>closingMode</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#QuestionClosingMode" target="_self" >QuestionClosingMode</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>customClosingKeywords</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -339,8 +363,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">src/app/services/loader.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/app/services/loader.service.ts:66</a></div>
                 </td>
             </tr>
 
@@ -419,6 +443,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Milestone } from &quot;@models/Milestone.model&quot;;
+import { QuestionClosingMode } from &quot;@models/Metadata.model&quot;;
 import { Repository } from &quot;@models/Repository.model&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { Observable } from &quot;rxjs&quot;;
@@ -444,7 +469,7 @@ export class LoaderService {
     private commitsService: CommitsService,
     private dataService: DataService,
     private translateService: TranslateService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {}
 
   /**
@@ -461,20 +486,18 @@ export class LoaderService {
     repositories: Repository[],
     reviews: Milestone[],
     corrections: Milestone[],
-    questions: string[]
+    questions: string[],
+    closingMode?: QuestionClosingMode,
+    customClosingKeywords?: string[],
   ) {
-    repositories.forEach((repository) &#x3D;&gt; {
-      let filteredReviews &#x3D; reviews?.filter(
-        (review) &#x3D;&gt; review.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup || !review.tpGroup
-      );
-      let filteredCorrections &#x3D; corrections?.filter(
-        (correction) &#x3D;&gt;
-          correction.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup || !correction.tpGroup
-      );
+    const mode &#x3D; closingMode || this.dataService.closingMode;
+    const customKeywords &#x3D; customClosingKeywords !&#x3D;&#x3D; undefined ? customClosingKeywords : this.dataService.customClosingKeywords;
 
-      repository.commits?.forEach((commit) &#x3D;&gt;
-        commit.updateMetadata(filteredReviews, filteredCorrections, questions)
-      );
+    repositories.forEach((repository) &#x3D;&gt; {
+      let filteredReviews &#x3D; reviews?.filter((review) &#x3D;&gt; review.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup || !review.tpGroup);
+      let filteredCorrections &#x3D; corrections?.filter((correction) &#x3D;&gt; correction.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup || !correction.tpGroup);
+
+      repository.commits?.forEach((commit) &#x3D;&gt; commit.updateMetadata(filteredReviews, filteredCorrections, questions, mode, customKeywords));
     });
   }
 
@@ -490,45 +513,37 @@ export class LoaderService {
       &quot;ERRORS.DETAILS&quot;,
       &quot;GIT-ERROR&quot;,
     ]);
-    return this.commitsService
-      .getRepositories(this.dataService.repositories, startDate, endDate)
-      .pipe(
-        map((repositories) &#x3D;&gt; {
-          try {
-            let tpGroups &#x3D; new Set&lt;string&gt;();
-            let hasError &#x3D; false;
-            repositories.forEach((repository) &#x3D;&gt; {
-              tpGroups.add(repository.tpGroup);
-              if (repository.errors.length) {
-                hasError &#x3D; true;
-              }
-            });
-            if (hasError) {
-              let error &#x3D; this.translateService.instant([
-                &quot;ERROR-TITLE-ERROR-OCCURED&quot;,
-                &quot;ERROR-MESSAGE-ERROR-OCCURED&quot;,
-              ]);
-              this.toastService.warning(
-                error[&quot;ERROR-TITLE-ERROR-OCCURED&quot;],
-                error[&quot;ERROR-MESSAGE-ERROR-OCCURED&quot;]
-              );
+    return this.commitsService.getRepositories(this.dataService.repositories, startDate, endDate).pipe(
+      map((repositories) &#x3D;&gt; {
+        try {
+          let tpGroups &#x3D; new Set&lt;string&gt;();
+          let hasError &#x3D; false;
+          repositories.forEach((repository) &#x3D;&gt; {
+            tpGroups.add(repository.tpGroup);
+            if (repository.errors.length) {
+              hasError &#x3D; true;
             }
-            this.dataService.repositories &#x3D; repositories.slice();
-            this.dataService.tpGroups &#x3D; Array.from(tpGroups).filter(Boolean);
-            this.loadCommitsMetadata(
-              this.dataService.repositories,
-              this.dataService.reviews,
-              this.dataService.corrections,
-              this.dataService.questions
-            );
-            this.dataService.lastUpdateDate &#x3D; new Date();
-            this.dataService.repoToLoad &#x3D; false;
-            this.dataService.saveData();
-          } catch (err) {
-            this.toastService.error(translations[&quot;GIT-ERROR&quot;], err);
+          });
+          if (hasError) {
+            let error &#x3D; this.translateService.instant([&quot;ERROR-TITLE-ERROR-OCCURED&quot;, &quot;ERROR-MESSAGE-ERROR-OCCURED&quot;]);
+            this.toastService.warning(error[&quot;ERROR-TITLE-ERROR-OCCURED&quot;], error[&quot;ERROR-MESSAGE-ERROR-OCCURED&quot;]);
           }
-        })
-      );
+          this.dataService.repositories &#x3D; repositories.slice();
+          this.dataService.tpGroups &#x3D; Array.from(tpGroups).filter(Boolean);
+          this.loadCommitsMetadata(
+            this.dataService.repositories,
+            this.dataService.reviews,
+            this.dataService.corrections,
+            this.dataService.questions,
+          );
+          this.dataService.lastUpdateDate &#x3D; new Date();
+          this.dataService.repoToLoad &#x3D; false;
+          this.dataService.saveData();
+        } catch (err) {
+          this.toastService.error(translations[&quot;GIT-ERROR&quot;], err);
+        }
+      }),
+    );
   }
 }
 </code></pre>

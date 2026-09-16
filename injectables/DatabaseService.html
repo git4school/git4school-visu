@@ -209,8 +209,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/services/database.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">src/app/services/database.service.ts:76</a></div>
                 </td>
             </tr>
 
@@ -278,8 +278,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">src/app/services/database.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">src/app/services/database.service.ts:86</a></div>
                 </td>
             </tr>
 
@@ -315,8 +315,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">src/app/services/database.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/app/services/database.service.ts:65</a></div>
                 </td>
             </tr>
 
@@ -352,8 +352,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/app/services/database.service.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">src/app/services/database.service.ts:82</a></div>
                 </td>
             </tr>
 
@@ -421,8 +421,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">src/app/services/database.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">src/app/services/database.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -527,8 +527,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/app/services/database.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">src/app/services/database.service.ts:69</a></div>
                 </td>
             </tr>
 
@@ -662,27 +662,49 @@ export class DatabaseService extends Dexie {
     this.version(1).stores({
       assignments: &quot;++id, metadata.title&quot;,
     });
-    this.version(2).stores({
-      assignments: &quot;++id, metadata.title&quot;,
-    }).upgrade(tx &#x3D;&gt; {
-      return tx.table(&quot;assignments&quot;).toCollection().modify(assignment &#x3D;&gt; {
-        if (assignment.sessions &amp;&amp; Array.isArray(assignment.sessions)) {
-          assignment.sessions.forEach((session: any) &#x3D;&gt; {
-            if (session.label &#x3D;&#x3D;&#x3D; undefined) {
-              session.label &#x3D; &quot;&quot;;
+    this.version(2)
+      .stores({
+        assignments: &quot;++id, metadata.title&quot;,
+      })
+      .upgrade((tx) &#x3D;&gt; {
+        return tx
+          .table(&quot;assignments&quot;)
+          .toCollection()
+          .modify((assignment) &#x3D;&gt; {
+            if (assignment.sessions &amp;&amp; Array.isArray(assignment.sessions)) {
+              assignment.sessions.forEach((session: any) &#x3D;&gt; {
+                if (session.label &#x3D;&#x3D;&#x3D; undefined) {
+                  session.label &#x3D; &quot;&quot;;
+                }
+              });
             }
           });
-        }
       });
-    });
+    this.version(3)
+      .stores({
+        assignments: &quot;++id, metadata.title&quot;,
+      })
+      .upgrade((tx) &#x3D;&gt; {
+        return tx
+          .table(&quot;assignments&quot;)
+          .toCollection()
+          .modify((assignment) &#x3D;&gt; {
+            if (assignment.metadata) {
+              if (assignment.metadata.closingMode &#x3D;&#x3D;&#x3D; undefined) {
+                assignment.metadata.closingMode &#x3D; &quot;standard&quot;;
+              }
+              if (assignment.metadata.customClosingKeywords &#x3D;&#x3D;&#x3D; undefined) {
+                assignment.metadata.customClosingKeywords &#x3D; [];
+              }
+            }
+          });
+      });
     this.assignments &#x3D; this.table(&quot;assignments&quot;);
     this.assignments.mapToClass(Assignment);
   }
 
   getAllAssignments(): Promise&lt;Assignment[]&gt; {
-    return this.assignments
-      .toArray()
-      .then((assignments) &#x3D;&gt; plainToClass(Assignment, assignments));
+    return this.assignments.toArray().then((assignments) &#x3D;&gt; plainToClass(Assignment, assignments));
   }
 
   saveAssignment(assignment: Assignment): Promise&lt;number&gt; {
@@ -699,9 +721,7 @@ export class DatabaseService extends Dexie {
   }
 
   getAssignmentById(id: number): Promise&lt;Assignment&gt; {
-    return this.assignments
-      .get(id)
-      .then((assignment) &#x3D;&gt; plainToClass(Assignment, assignment));
+    return this.assignments.get(id).then((assignment) &#x3D;&gt; plainToClass(Assignment, assignment));
   }
 
   exportDB(): Promise&lt;any&gt; {

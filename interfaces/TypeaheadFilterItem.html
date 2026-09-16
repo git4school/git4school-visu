@@ -366,9 +366,7 @@ declare var ResizeObserver: any;
     },
   ],
 })
-export class QuestionsChooserComponent
-  implements OnInit, ControlValueAccessor, OnDestroy
-{
+export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, OnDestroy {
   @ViewChild(&quot;instance&quot;, { static: true }) instance: NgbTypeahead;
   @ViewChild(&quot;scrollContainer&quot;) scrollContainer: ElementRef;
   @ViewChild(&quot;inputField&quot;, { static: true }) inputField: ElementRef;
@@ -401,9 +399,7 @@ export class QuestionsChooserComponent
 
   get placeholderKey(): string {
     if (this.items.length &gt; 0) return &quot;&quot;;
-    return this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot;
-      ? &quot;QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER&quot;
-      : &quot;QUESTIONS-CHOOSER-PLACEHOLDER&quot;;
+    return this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; ? &quot;QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER&quot; : &quot;QUESTIONS-CHOOSER-PLACEHOLDER&quot;;
   }
 
   getHelpTransform(): string {
@@ -660,12 +656,7 @@ export class QuestionsChooserComponent
       return;
     }
 
-    if (
-      event.key.toLowerCase() &#x3D;&#x3D;&#x3D; &quot;f&quot; &amp;&amp;
-      !event.ctrlKey &amp;&amp;
-      !event.metaKey &amp;&amp;
-      !event.altKey
-    ) {
+    if (event.key.toLowerCase() &#x3D;&#x3D;&#x3D; &quot;f&quot; &amp;&amp; !event.ctrlKey &amp;&amp; !event.metaKey &amp;&amp; !event.altKey) {
       if (OsUtils.isTypingInInput(event)) {
         return;
       }
@@ -725,7 +716,7 @@ export class QuestionsChooserComponent
     private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
     @Optional() private customModalService?: CustomModalService,
-    @Optional() private overlayManagerService?: OverlayManagerService
+    @Optional() private overlayManagerService?: OverlayManagerService,
   ) {}
 
   public closePopovers(blurInput &#x3D; false) {
@@ -743,12 +734,7 @@ export class QuestionsChooserComponent
       this.stopObservingTypeahead();
       this.resetHelpPosition();
     }
-    if (
-      blurInput &amp;&amp;
-      this.inputField &amp;&amp;
-      this.inputField.nativeElement &amp;&amp;
-      document.activeElement &#x3D;&#x3D;&#x3D; this.inputField.nativeElement
-    ) {
+    if (blurInput &amp;&amp; this.inputField &amp;&amp; this.inputField.nativeElement &amp;&amp; document.activeElement &#x3D;&#x3D;&#x3D; this.inputField.nativeElement) {
       this.inputField.nativeElement.blur();
     }
     this.cdr.markForCheck();
@@ -791,10 +777,7 @@ export class QuestionsChooserComponent
         }
         event.preventDefault();
         return;
-      } else if (
-        event.key &#x3D;&#x3D;&#x3D; &quot;ArrowRight&quot; &amp;&amp;
-        OsUtils.isModifierPressed(event)
-      ) {
+      } else if (event.key &#x3D;&#x3D;&#x3D; &quot;ArrowRight&quot; &amp;&amp; OsUtils.isModifierPressed(event)) {
         const currentGroup &#x3D; this.getGroupRange(this.selectedPillIndex);
         if (currentGroup.end &lt; this.items.length - 1) {
           const nextGroup &#x3D; this.getGroupRange(currentGroup.end + 1);
@@ -812,12 +795,7 @@ export class QuestionsChooserComponent
         this.deleteItem(this.selectedPillIndex);
         this.focusAfterDelete();
         event.preventDefault();
-      } else if (
-        event.key.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp;
-        !event.ctrlKey &amp;&amp;
-        !event.metaKey &amp;&amp;
-        !event.altKey
-      ) {
+      } else if (event.key.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; !event.ctrlKey &amp;&amp; !event.metaKey &amp;&amp; !event.altKey) {
         this.editingPillIndex &#x3D; this.selectedPillIndex;
         this.editingOldValue &#x3D; this.items[this.selectedPillIndex].value;
         this.editingOldType &#x3D; this.items[this.selectedPillIndex].type;
@@ -843,11 +821,7 @@ export class QuestionsChooserComponent
     }
   }
 
-  buildTypeaheadResults(
-    cleanSearch: string,
-    matchingQuestions: string[],
-    isExclusion: boolean
-  ): TypeaheadFilterItem[] {
+  buildTypeaheadResults(cleanSearch: string, matchingQuestions: string[], isExclusion: boolean): TypeaheadFilterItem[] {
     const results: TypeaheadFilterItem[] &#x3D; [];
 
     // 1. Put matching questions in first (so they are selected by default)
@@ -879,25 +853,18 @@ export class QuestionsChooserComponent
     return results;
   }
 
-  private getMatchingQuestionSuggestions(
-    cleanSearch: string,
-    isEditing &#x3D; false
-  ): string[] {
+  private getMatchingQuestionSuggestions(cleanSearch: string, isEditing &#x3D; false): string[] {
     return this.questionSuggestions
       .filter(
         (question) &#x3D;&gt;
-          (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; ||
-            !this.questions.includes(question) ||
-            (isEditing &amp;&amp; question &#x3D;&#x3D;&#x3D; this.editingOldValue)) &amp;&amp;
-          question.toLowerCase().indexOf(cleanSearch.toLowerCase()) &gt; -1
+          (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; || !this.questions.includes(question) || (isEditing &amp;&amp; question &#x3D;&#x3D;&#x3D; this.editingOldValue)) &amp;&amp;
+          question.toLowerCase().indexOf(cleanSearch.toLowerCase()) &gt; -1,
       )
       .slice(0, 8);
   }
 
   searchQuestions &#x3D; (text: Observable&lt;string&gt;) &#x3D;&gt; {
-    const clicksWithClosedPopup$ &#x3D; this.click$.pipe(
-      filter(() &#x3D;&gt; !this.instance.isPopupOpen())
-    );
+    const clicksWithClosedPopup$ &#x3D; this.click$.pipe(filter(() &#x3D;&gt; !this.instance.isPopupOpen()));
     const inputFocus$ &#x3D; this.focus$;
     return merge(text, clicksWithClosedPopup$, inputFocus$).pipe(
       map((searchRaw) &#x3D;&gt; {
@@ -915,7 +882,7 @@ export class QuestionsChooserComponent
           setTimeout(() &#x3D;&gt; this.updateHelpPosition(), 0);
         }
         return results;
-      })
+      }),
     );
   };
 
@@ -936,7 +903,7 @@ export class QuestionsChooserComponent
           setTimeout(() &#x3D;&gt; this.updateHelpPosition(), 0);
         }
         return results;
-      })
+      }),
     );
   };
 
@@ -960,55 +927,43 @@ export class QuestionsChooserComponent
     this.syncItemsFromInputs();
 
     if (this.overlayManagerService) {
-      this.overlayManagerService.dismiss$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((event) &#x3D;&gt; {
-          const shouldDismissTypeahead &#x3D; OverlayManagerService.shouldDismiss(
-            OverlayType.TYPEAHEAD,
-            event
-          );
-          const shouldDismissHelp &#x3D; OverlayManagerService.shouldDismiss(
-            OverlayType.QUICK_HELP,
-            event
-          );
+      this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) &#x3D;&gt; {
+        const shouldDismissTypeahead &#x3D; OverlayManagerService.shouldDismiss(OverlayType.TYPEAHEAD, event);
+        const shouldDismissHelp &#x3D; OverlayManagerService.shouldDismiss(OverlayType.QUICK_HELP, event);
 
-          if (shouldDismissTypeahead) {
-            if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
-              this.instance.dismissPopup();
-            }
-            if (this.selectedPillIndex !&#x3D;&#x3D; null) {
-              if (this.editingPillIndex !&#x3D;&#x3D; null) {
-                this.finishEditing();
-              }
-              this.selectedPillIndex &#x3D; null;
-            }
-            if (
-              event.options?.blurInput &amp;&amp;
-              this.inputField &amp;&amp;
-              this.inputField.nativeElement &amp;&amp;
-              document.activeElement &#x3D;&#x3D;&#x3D; this.inputField.nativeElement
-            ) {
-              this.inputField.nativeElement.blur();
-            }
+        if (shouldDismissTypeahead) {
+          if (this.instance &amp;&amp; this.instance.isPopupOpen()) {
+            this.instance.dismissPopup();
           }
+          if (this.selectedPillIndex !&#x3D;&#x3D; null) {
+            if (this.editingPillIndex !&#x3D;&#x3D; null) {
+              this.finishEditing();
+            }
+            this.selectedPillIndex &#x3D; null;
+          }
+          if (
+            event.options?.blurInput &amp;&amp;
+            this.inputField &amp;&amp;
+            this.inputField.nativeElement &amp;&amp;
+            document.activeElement &#x3D;&#x3D;&#x3D; this.inputField.nativeElement
+          ) {
+            this.inputField.nativeElement.blur();
+          }
+        }
 
-          if (shouldDismissHelp) {
-            if (this.showQuickHelp) {
-              this.showQuickHelp &#x3D; false;
-              this.stopObservingTypeahead();
-              this.resetHelpPosition();
-            }
+        if (shouldDismissHelp) {
+          if (this.showQuickHelp) {
+            this.showQuickHelp &#x3D; false;
+            this.stopObservingTypeahead();
+            this.resetHelpPosition();
           }
-          this.cdr.markForCheck();
-        });
+        }
+        this.cdr.markForCheck();
+      });
     }
 
     if (this.inputField &amp;&amp; this.inputField.nativeElement) {
-      this.inputField.nativeElement.addEventListener(
-        &quot;keydown&quot;,
-        this.onInputCaptureKeyDown,
-        true
-      ); // Use capture phase
+      this.inputField.nativeElement.addEventListener(&quot;keydown&quot;, this.onInputCaptureKeyDown, true); // Use capture phase
     }
   }
 
@@ -1017,11 +972,7 @@ export class QuestionsChooserComponent
     this.destroy$.complete();
     this.stopObservingTypeahead();
     if (this.inputField &amp;&amp; this.inputField.nativeElement) {
-      this.inputField.nativeElement.removeEventListener(
-        &quot;keydown&quot;,
-        this.onInputCaptureKeyDown,
-        true
-      );
+      this.inputField.nativeElement.removeEventListener(&quot;keydown&quot;, this.onInputCaptureKeyDown, true);
     }
     this.focus$.unsubscribe();
     this.click$.unsubscribe();
@@ -1053,8 +1004,7 @@ export class QuestionsChooserComponent
   scrollToEnd() {
     setTimeout(() &#x3D;&gt; {
       if (this.scrollContainer) {
-        this.scrollContainer.nativeElement.scrollLeft &#x3D;
-          this.scrollContainer.nativeElement.scrollWidth;
+        this.scrollContainer.nativeElement.scrollLeft &#x3D; this.scrollContainer.nativeElement.scrollWidth;
       }
     }, 0);
   }
@@ -1074,20 +1024,12 @@ export class QuestionsChooserComponent
 
     if (!explicitType) {
       if (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
-        const isSuggestion &#x3D;
-          this.questionSuggestions &amp;&amp;
-          this.questionSuggestions.some(
-            (s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; cleanText.toLowerCase()
-          );
+        const isSuggestion &#x3D; this.questionSuggestions &amp;&amp; this.questionSuggestions.some((s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; cleanText.toLowerCase());
         if (!isSuggestion) {
           type &#x3D; &quot;commit&quot;;
         }
       } else if (this.mode &#x3D;&#x3D;&#x3D; &quot;choose&quot;) {
-        const isSuggestion &#x3D;
-          this.questionSuggestions &amp;&amp;
-          this.questionSuggestions.some(
-            (s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; cleanText.toLowerCase()
-          );
+        const isSuggestion &#x3D; this.questionSuggestions &amp;&amp; this.questionSuggestions.some((s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; cleanText.toLowerCase());
         if (!isSuggestion) {
           this.question &#x3D; null;
           return;
@@ -1096,10 +1038,7 @@ export class QuestionsChooserComponent
     }
 
     // Check if it&#x27;s already added in editable mode
-    if (
-      this.mode !&#x3D;&#x3D; &quot;search&quot; &amp;&amp;
-      (this.questions.includes(text) || this.commitMessages.includes(text))
-    ) {
+    if (this.mode !&#x3D;&#x3D; &quot;search&quot; &amp;&amp; (this.questions.includes(text) || this.commitMessages.includes(text))) {
       this.question &#x3D; null;
       return;
     }
@@ -1123,6 +1062,53 @@ export class QuestionsChooserComponent
     }, 0);
   }
 
+  addQuestions(tokens: string[]) {
+    if (!tokens || tokens.length &#x3D;&#x3D;&#x3D; 0) return;
+
+    const newQuestions: string[] &#x3D; [];
+    tokens.forEach((token) &#x3D;&gt; {
+      const clean &#x3D; token.trim();
+      if (!clean) return;
+      if (this.questions.includes(clean) || newQuestions.includes(clean)) return;
+      newQuestions.push(clean);
+      this.items.push({
+        type: &quot;question&quot;,
+        value: clean,
+        isExclusion: false,
+        rawValue: clean,
+      });
+    });
+
+    if (newQuestions.length &gt; 0) {
+      this.questions &#x3D; [...this.questions, ...newQuestions];
+      this.onChange(this.questions);
+      this.scrollToEnd();
+      this.emitFilterGroups();
+    }
+
+    this.question &#x3D; null;
+    this.cdr.markForCheck();
+    this.focus();
+  }
+
+  onPaste(event: ClipboardEvent) {
+    const text &#x3D; event.clipboardData?.getData(&quot;text&quot;);
+    if (text &amp;&amp; /[\n\r;,]/.test(text)) {
+      event.preventDefault();
+      const tokens &#x3D; text
+        .split(/[\n\r;,\t]+/)
+        .map((t) &#x3D;&gt; t.trim())
+        .filter((t) &#x3D;&gt; t.length &gt; 0);
+      if (tokens.length &gt; 0) {
+        if (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
+          tokens.forEach((token) &#x3D;&gt; this.addQuestion(token));
+        } else if (this.mode &#x3D;&#x3D;&#x3D; &quot;add&quot;) {
+          this.addQuestions(tokens);
+        }
+      }
+    }
+  }
+
   deleteItem(index: number) {
     const item &#x3D; this.items[index];
     if (item.type &#x3D;&#x3D;&#x3D; &quot;question&quot;) {
@@ -1142,11 +1128,7 @@ export class QuestionsChooserComponent
     }
 
     // Handle AND operator links when deleting from a merged group
-    if (
-      index &gt; 0 &amp;&amp;
-      this.items[index - 1].operatorAfter &#x3D;&#x3D;&#x3D; &quot;AND&quot; &amp;&amp;
-      (!item.operatorAfter || item.operatorAfter &#x3D;&#x3D;&#x3D; &quot;OR&quot;)
-    ) {
+    if (index &gt; 0 &amp;&amp; this.items[index - 1].operatorAfter &#x3D;&#x3D;&#x3D; &quot;AND&quot; &amp;&amp; (!item.operatorAfter || item.operatorAfter &#x3D;&#x3D;&#x3D; &quot;OR&quot;)) {
       // Deleting the last item of a group: remove the AND from the previous item
       this.items[index - 1].operatorAfter &#x3D; &quot;OR&quot;;
     }
@@ -1166,12 +1148,7 @@ export class QuestionsChooserComponent
       this.handleEscape(event);
       return;
     }
-    if (
-      event.key &#x3D;&#x3D;&#x3D; &quot;?&quot; &amp;&amp;
-      !this.question &amp;&amp;
-      !this.isTypingExclusion &amp;&amp;
-      this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot;
-    ) {
+    if (event.key &#x3D;&#x3D;&#x3D; &quot;?&quot; &amp;&amp; !this.question &amp;&amp; !this.isTypingExclusion &amp;&amp; this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
       event.preventDefault();
       this.toggleQuickHelp();
       return;
@@ -1282,9 +1259,7 @@ export class QuestionsChooserComponent
 
     if (
       newValue &#x3D;&#x3D;&#x3D; &quot;&quot; ||
-      (this.mode !&#x3D;&#x3D; &quot;search&quot; &amp;&amp;
-        (this.questions.includes(newValue) ||
-          this.commitMessages.includes(newValue))) ||
+      (this.mode !&#x3D;&#x3D; &quot;search&quot; &amp;&amp; (this.questions.includes(newValue) || this.commitMessages.includes(newValue))) ||
       (this.mode &#x3D;&#x3D;&#x3D; &quot;choose&quot; &amp;&amp; !this.questionSuggestions.some((s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; newValue.toLowerCase()))
     ) {
       if (this.editingOldType &#x3D;&#x3D;&#x3D; &quot;question&quot;) {
@@ -1302,8 +1277,7 @@ export class QuestionsChooserComponent
       }
       this.items.splice(index, 1);
       if (this.selectedPillIndex &gt;&#x3D; this.items.length) {
-        this.selectedPillIndex &#x3D;
-          this.items.length &gt; 0 ? this.items.length - 1 : null;
+        this.selectedPillIndex &#x3D; this.items.length &gt; 0 ? this.items.length - 1 : null;
         if (this.selectedPillIndex &#x3D;&#x3D;&#x3D; null) {
           this.inputField.nativeElement.focus();
         }
@@ -1312,16 +1286,12 @@ export class QuestionsChooserComponent
       let newType: &quot;question&quot; | &quot;commit&quot; &#x3D; explicitType || &quot;question&quot;;
       if (!explicitType) {
         if (this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
-          const isSuggestion &#x3D; this.questionSuggestions.some(
-            (s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; newValue.toLowerCase()
-          );
+          const isSuggestion &#x3D; this.questionSuggestions.some((s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; newValue.toLowerCase());
           if (!isSuggestion) {
             newType &#x3D; &quot;commit&quot;;
           }
         } else if (this.mode &#x3D;&#x3D;&#x3D; &quot;choose&quot;) {
-          const isSuggestion &#x3D; this.questionSuggestions.some(
-            (s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; newValue.toLowerCase()
-          );
+          const isSuggestion &#x3D; this.questionSuggestions.some((s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; newValue.toLowerCase());
           newType &#x3D; isSuggestion ? &quot;question&quot; : &quot;commit&quot;;
         }
       }
@@ -1374,9 +1344,7 @@ export class QuestionsChooserComponent
   }
 
   get isMainPillActive(): boolean {
-    return (
-      (this.question &amp;&amp; this.question.length &gt; 0) || this.isTypingExclusion
-    );
+    return (this.question &amp;&amp; this.question.length &gt; 0) || this.isTypingExclusion;
   }
 
   onQuestionChange(value: string) {
@@ -1420,14 +1388,8 @@ export class QuestionsChooserComponent
 
   focusSelectedPill() {
     setTimeout(() &#x3D;&gt; {
-      if (
-        this.selectedPillIndex !&#x3D;&#x3D; null &amp;&amp;
-        this.pillElements &amp;&amp;
-        this.pillElements.length &gt; this.selectedPillIndex
-      ) {
-        this.pillElements
-          .toArray()
-          [this.selectedPillIndex].nativeElement.focus();
+      if (this.selectedPillIndex !&#x3D;&#x3D; null &amp;&amp; this.pillElements &amp;&amp; this.pillElements.length &gt; this.selectedPillIndex) {
+        this.pillElements.toArray()[this.selectedPillIndex].nativeElement.focus();
       }
     });
   }
@@ -1454,10 +1416,7 @@ export class QuestionsChooserComponent
       this.selectedPillIndex &#x3D; null;
       this.inputField.nativeElement.focus();
     } else {
-      this.selectedPillIndex &#x3D; Math.min(
-        this.selectedPillIndex,
-        this.items.length - 1
-      );
+      this.selectedPillIndex &#x3D; Math.min(this.selectedPillIndex, this.items.length - 1);
       this.scrollToSelectedPill();
       this.focusSelectedPill();
     }
@@ -1473,10 +1432,7 @@ export class QuestionsChooserComponent
       start--;
     }
     let end &#x3D; index;
-    while (
-      end &lt; this.items.length - 1 &amp;&amp;
-      this.items[end].operatorAfter &#x3D;&#x3D;&#x3D; &quot;AND&quot;
-    ) {
+    while (end &lt; this.items.length - 1 &amp;&amp; this.items[end].operatorAfter &#x3D;&#x3D;&#x3D; &quot;AND&quot;) {
       end++;
     }
     return { start, end };
@@ -1505,9 +1461,7 @@ export class QuestionsChooserComponent
 
         for (let i &#x3D; range.start; i &lt;&#x3D; range.end; i++) {
           if (pillElements[i]) {
-            const clone &#x3D; pillElements[i].nativeElement.cloneNode(
-              true
-            ) as HTMLElement;
+            const clone &#x3D; pillElements[i].nativeElement.cloneNode(true) as HTMLElement;
             clone.style.margin &#x3D; &quot;0&quot;;
             if (i &lt; range.end) {
               clone.style.borderRight &#x3D; &quot;1px solid #cbd5e1&quot;;
@@ -1523,11 +1477,7 @@ export class QuestionsChooserComponent
         }
 
         document.body.appendChild(ghostContainer);
-        event.dataTransfer.setDragImage(
-          ghostContainer,
-          event.offsetX || 20,
-          event.offsetY || 20
-        );
+        event.dataTransfer.setDragImage(ghostContainer, event.offsetX || 20, event.offsetY || 20);
 
         setTimeout(() &#x3D;&gt; {
           document.body.removeChild(ghostContainer);
@@ -1536,14 +1486,11 @@ export class QuestionsChooserComponent
     }
   }
 
-  getClosestPillIndex(
-    clientX: number
-  ): { index: number; position: &quot;left&quot; | &quot;right&quot;; leftPx: number } | null {
+  getClosestPillIndex(clientX: number): { index: number; position: &quot;left&quot; | &quot;right&quot;; leftPx: number } | null {
     if (!this.pillElements || this.pillElements.length &#x3D;&#x3D;&#x3D; 0) return null;
 
     const pills &#x3D; this.pillElements.toArray();
-    const containerRect &#x3D;
-      this.scrollContainer.nativeElement.getBoundingClientRect();
+    const containerRect &#x3D; this.scrollContainer.nativeElement.getBoundingClientRect();
     const scrollLeft &#x3D; this.scrollContainer.nativeElement.scrollLeft;
 
     let closestDistance &#x3D; Infinity;
@@ -1582,11 +1529,7 @@ export class QuestionsChooserComponent
     }
 
     // Normalize to always use &#x27;left&#x27; of the next element, to prevent ghost preview flickering
-    if (
-      closestResult &amp;&amp;
-      closestResult.position &#x3D;&#x3D;&#x3D; &quot;right&quot; &amp;&amp;
-      closestResult.index &lt; pills.length - 1
-    ) {
+    if (closestResult &amp;&amp; closestResult.position &#x3D;&#x3D;&#x3D; &quot;right&quot; &amp;&amp; closestResult.index &lt; pills.length - 1) {
       closestResult &#x3D; {
         index: closestResult.index + 1,
         position: &quot;left&quot;,
@@ -1599,8 +1542,7 @@ export class QuestionsChooserComponent
 
   onContainerDragOver(event: DragEvent) {
     event.preventDefault(); // Necessary to allow dropping
-    if (this.draggedGroupStart &#x3D;&#x3D;&#x3D; null || this.draggedGroupEnd &#x3D;&#x3D;&#x3D; null)
-      return;
+    if (this.draggedGroupStart &#x3D;&#x3D;&#x3D; null || this.draggedGroupEnd &#x3D;&#x3D;&#x3D; null) return;
     if (event.dataTransfer) {
       event.dataTransfer.dropEffect &#x3D; &quot;move&quot;;
     }
@@ -1613,10 +1555,7 @@ export class QuestionsChooserComponent
     }
 
     // Check if dragging over itself
-    if (
-      closest.index &gt;&#x3D; this.draggedGroupStart &amp;&amp;
-      closest.index &lt;&#x3D; this.draggedGroupEnd
-    ) {
+    if (closest.index &gt;&#x3D; this.draggedGroupStart &amp;&amp; closest.index &lt;&#x3D; this.draggedGroupEnd) {
       this.dropTargetIndex &#x3D; null;
       this.dropPosition &#x3D; null;
       return;
@@ -1624,8 +1563,7 @@ export class QuestionsChooserComponent
 
     const targetRange &#x3D; this.getGroupRange(closest.index);
 
-    this.dropTargetIndex &#x3D;
-      closest.position &#x3D;&#x3D;&#x3D; &quot;left&quot; ? targetRange.start : targetRange.end;
+    this.dropTargetIndex &#x3D; closest.position &#x3D;&#x3D;&#x3D; &quot;left&quot; ? targetRange.start : targetRange.end;
     this.dropPosition &#x3D; closest.position;
 
     // If dropping inside a group but closest is an internal boundary, we must snap to the group boundary
@@ -1639,20 +1577,14 @@ export class QuestionsChooserComponent
   onContainerDragLeave(event: DragEvent) {
     if (!this.scrollContainer) return;
     const rect &#x3D; this.scrollContainer.nativeElement.getBoundingClientRect();
-    if (
-      event.clientX &lt; rect.left ||
-      event.clientX &gt; rect.right ||
-      event.clientY &lt; rect.top ||
-      event.clientY &gt; rect.bottom
-    ) {
+    if (event.clientX &lt; rect.left || event.clientX &gt; rect.right || event.clientY &lt; rect.top || event.clientY &gt; rect.bottom) {
       this.dropTargetIndex &#x3D; null;
       this.dropPosition &#x3D; null;
     }
   }
 
   getDraggedItems() {
-    if (this.draggedGroupStart &#x3D;&#x3D;&#x3D; null || this.draggedGroupEnd &#x3D;&#x3D;&#x3D; null)
-      return [];
+    if (this.draggedGroupStart &#x3D;&#x3D;&#x3D; null || this.draggedGroupEnd &#x3D;&#x3D;&#x3D; null) return [];
     return this.items.slice(this.draggedGroupStart, this.draggedGroupEnd + 1);
   }
 
@@ -1662,38 +1594,24 @@ export class QuestionsChooserComponent
   }
 
   onDrop(event: DragEvent) {
-    if (
-      this.draggedGroupStart &#x3D;&#x3D;&#x3D; null ||
-      this.draggedGroupEnd &#x3D;&#x3D;&#x3D; null ||
-      this.dropTargetIndex &#x3D;&#x3D;&#x3D; null ||
-      this.dropPosition &#x3D;&#x3D;&#x3D; null
-    ) {
+    if (this.draggedGroupStart &#x3D;&#x3D;&#x3D; null || this.draggedGroupEnd &#x3D;&#x3D;&#x3D; null || this.dropTargetIndex &#x3D;&#x3D;&#x3D; null || this.dropPosition &#x3D;&#x3D;&#x3D; null) {
       this.onDragEnd();
       return;
     }
 
     // Calculate insert index
-    let insertIndex &#x3D;
-      this.dropPosition &#x3D;&#x3D;&#x3D; &quot;left&quot;
-        ? this.dropTargetIndex
-        : this.dropTargetIndex + 1;
+    let insertIndex &#x3D; this.dropPosition &#x3D;&#x3D;&#x3D; &quot;left&quot; ? this.dropTargetIndex : this.dropTargetIndex + 1;
 
     // If dropping after itself, adjust index
     if (insertIndex &gt; this.draggedGroupEnd) {
       insertIndex -&#x3D; this.draggedGroupEnd - this.draggedGroupStart + 1;
-    } else if (
-      insertIndex &gt; this.draggedGroupStart &amp;&amp;
-      insertIndex &lt;&#x3D; this.draggedGroupEnd
-    ) {
+    } else if (insertIndex &gt; this.draggedGroupStart &amp;&amp; insertIndex &lt;&#x3D; this.draggedGroupEnd) {
       this.onDragEnd();
       return;
     }
 
     // Extract the dragged group
-    const draggedItems &#x3D; this.items.splice(
-      this.draggedGroupStart,
-      this.draggedGroupEnd - this.draggedGroupStart + 1
-    );
+    const draggedItems &#x3D; this.items.splice(this.draggedGroupStart, this.draggedGroupEnd - this.draggedGroupStart + 1);
 
     if (draggedItems.length &gt; 0) {
       draggedItems[draggedItems.length - 1].operatorAfter &#x3D; &quot;OR&quot;;
@@ -1715,19 +1633,9 @@ export class QuestionsChooserComponent
     this.dropPosition &#x3D; null;
   }
 
-  animateAndSwap(
-    group1: { start: number; end: number },
-    group2: { start: number; end: number },
-    direction: &quot;left&quot; | &quot;right&quot;
-  ) {
-    const pillEls &#x3D; this.pillElements
-      .toArray()
-      .map((el) &#x3D;&gt; el.nativeElement as HTMLElement);
-    const connEls &#x3D; this.connectorElements
-      ? this.connectorElements
-          .toArray()
-          .map((el) &#x3D;&gt; el.nativeElement as HTMLElement)
-      : [];
+  animateAndSwap(group1: { start: number; end: number }, group2: { start: number; end: number }, direction: &quot;left&quot; | &quot;right&quot;) {
+    const pillEls &#x3D; this.pillElements.toArray().map((el) &#x3D;&gt; el.nativeElement as HTMLElement);
+    const connEls &#x3D; this.connectorElements ? this.connectorElements.toArray().map((el) &#x3D;&gt; el.nativeElement as HTMLElement) : [];
 
     const group1StartRect &#x3D; pillEls[group1.start].getBoundingClientRect();
     const group1EndRect &#x3D; pillEls[group1.end].getBoundingClientRect();
@@ -1779,15 +1687,10 @@ export class QuestionsChooserComponent
     }
 
     setTimeout(() &#x3D;&gt; {
-      const allEls &#x3D; [
-        ...pillEls.slice(group1.start, group1.end + 1),
-        ...pillEls.slice(group2.start, group2.end + 1),
-      ];
+      const allEls &#x3D; [...pillEls.slice(group1.start, group1.end + 1), ...pillEls.slice(group2.start, group2.end + 1)];
       const allConns: HTMLElement[] &#x3D; [];
-      for (let i &#x3D; group1.start; i &lt; group1.end; i++)
-        if (connEls[i]) allConns.push(connEls[i]);
-      for (let i &#x3D; group2.start; i &lt; group2.end; i++)
-        if (connEls[i]) allConns.push(connEls[i]);
+      for (let i &#x3D; group1.start; i &lt; group1.end; i++) if (connEls[i]) allConns.push(connEls[i]);
+      for (let i &#x3D; group2.start; i &lt; group2.end; i++) if (connEls[i]) allConns.push(connEls[i]);
 
       allEls.forEach((el) &#x3D;&gt; {
         el.style.transition &#x3D; &quot;none&quot;;
@@ -1813,8 +1716,7 @@ export class QuestionsChooserComponent
       if (direction &#x3D;&#x3D;&#x3D; &quot;left&quot;) {
         this.selectedPillIndex &#x3D; group2.start + selectOffset;
       } else {
-        this.selectedPillIndex &#x3D;
-          group1.start + (group2.end - group2.start + 1) + selectOffset;
+        this.selectedPillIndex &#x3D; group1.start + (group2.end - group2.start + 1) + selectOffset;
       }
       this.cdr.detectChanges();
 
@@ -1834,12 +1736,8 @@ export class QuestionsChooserComponent
   }
 
   rebuildDataArrays() {
-    this.questions &#x3D; this.items
-      .filter((i) &#x3D;&gt; i.type &#x3D;&#x3D;&#x3D; &quot;question&quot;)
-      .map((i) &#x3D;&gt; i.value);
-    this.commitMessages &#x3D; this.items
-      .filter((i) &#x3D;&gt; i.type &#x3D;&#x3D;&#x3D; &quot;commit&quot;)
-      .map((i) &#x3D;&gt; i.value);
+    this.questions &#x3D; this.items.filter((i) &#x3D;&gt; i.type &#x3D;&#x3D;&#x3D; &quot;question&quot;).map((i) &#x3D;&gt; i.value);
+    this.commitMessages &#x3D; this.items.filter((i) &#x3D;&gt; i.type &#x3D;&#x3D;&#x3D; &quot;commit&quot;).map((i) &#x3D;&gt; i.value);
     this.onChange(this.questions);
     this.commitMessagesChange.emit(this.commitMessages);
   }
@@ -1847,20 +1745,16 @@ export class QuestionsChooserComponent
   // --- End Drag and Drop ---
 
   isCommitStyle(item: any, index: number) {
-    if (this.mode !&#x3D;&#x3D; &#x27;search&#x27;) return false;
+    if (this.mode !&#x3D;&#x3D; &quot;search&quot;) return false;
     if (this.editingPillIndex &#x3D;&#x3D;&#x3D; index) {
       const textToEvaluate &#x3D; this.editingCurrentText;
-      const isSuggestion &#x3D; this.questionSuggestions.some(
-        (s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; textToEvaluate.toLowerCase()
-      );
+      const isSuggestion &#x3D; this.questionSuggestions.some((s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; textToEvaluate.toLowerCase());
       return !isSuggestion;
     }
     if (index &#x3D;&#x3D;&#x3D; -2) {
       const textToEvaluate &#x3D; item?.value || &quot;&quot;;
       if (textToEvaluate.length &#x3D;&#x3D;&#x3D; 0) return true;
-      const isSuggestion &#x3D; this.questionSuggestions.some(
-        (s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; textToEvaluate.toLowerCase()
-      );
+      const isSuggestion &#x3D; this.questionSuggestions.some((s) &#x3D;&gt; s.toLowerCase() &#x3D;&#x3D;&#x3D; textToEvaluate.toLowerCase());
       return !isSuggestion;
     }
     return item.type &#x3D;&#x3D;&#x3D; &quot;commit&quot;;
@@ -1948,11 +1842,7 @@ export class QuestionsChooserComponent
   }
 
   isMergedLeft(index: number): boolean {
-    return (
-      this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; &amp;&amp;
-      index &gt; 0 &amp;&amp;
-      this.items[index - 1]?.operatorAfter &#x3D;&#x3D;&#x3D; &quot;AND&quot;
-    );
+    return this.mode &#x3D;&#x3D;&#x3D; &quot;search&quot; &amp;&amp; index &gt; 0 &amp;&amp; this.items[index - 1]?.operatorAfter &#x3D;&#x3D;&#x3D; &quot;AND&quot;;
   }
 
   private onChange &#x3D; (_: any) &#x3D;&gt; {};
