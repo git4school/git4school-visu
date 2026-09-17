@@ -31,11 +31,12 @@ export class TooltipService {
     element: HTMLElement,
     placement: "top" | "bottom" | "left" | "right" = "top",
     shortcutKeys?: string[],
+    maxWidth?: string | number,
   ) {
     this.hide(); // Hide any existing tooltip immediately
 
     this.showTimeout = setTimeout(() => {
-      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys);
+      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys, undefined, maxWidth);
 
       // Calculate position
       const rect = element.getBoundingClientRect();
@@ -56,11 +57,12 @@ export class TooltipService {
     shortcutKeys?: string[],
     instant: boolean = false,
     context?: any,
+    maxWidth?: string | number,
   ) {
     this.hide();
 
     const render = () => {
-      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys, context);
+      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys, context, maxWidth);
 
       // Simulate a rect for position calculation
       const rect = {
@@ -123,6 +125,7 @@ export class TooltipService {
     placement: "top" | "bottom" | "left" | "right",
     shortcutKeys?: string[],
     context?: any,
+    maxWidth?: string | number,
   ): ComponentRef<TooltipComponent> {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(TooltipComponent);
     const componentRef = componentFactory.create(this.injector);
@@ -134,6 +137,9 @@ export class TooltipService {
     }
     if (context) {
       componentRef.instance.context = context;
+    }
+    if (maxWidth !== undefined && maxWidth !== null) {
+      componentRef.instance.maxWidth = maxWidth;
     }
 
     this.appRef.attachView(componentRef.hostView);

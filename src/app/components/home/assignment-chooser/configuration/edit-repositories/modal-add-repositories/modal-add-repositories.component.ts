@@ -1,13 +1,5 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  NgZone,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Input, NgZone, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { GitProviderType } from "@models/Account.model";
 import { Repository } from "@models/Repository.model";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { CommitsService } from "@services/commits.service";
@@ -20,11 +12,10 @@ import { debounceTime, map } from "rxjs/operators";
   templateUrl: "./modal-add-repositories.component.html",
   styleUrls: ["./modal-add-repositories.component.scss"],
 })
-export class ModalAddRepositoriesComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("reposTable", { read: ElementRef }) datatable: ElementRef;
   @Input() repoList: Repository[];
+  @Input() provider: GitProviderType = "github";
   rows: Repository[];
   nameMatches: Repository[] = [];
   contentMatches: Repository[] = [];
@@ -43,17 +34,10 @@ export class ModalAddRepositoriesComponent
   private searchFilterChanged: Subject<string>;
   private searchFilter;
 
-  constructor(
-    public activeModal: CustomModalRef,
-    private commitsService: CommitsService,
-    private ngZone: NgZone
-  ) {}
+  constructor(public activeModal: CustomModalRef, private commitsService: CommitsService, private ngZone: NgZone) {}
 
   get hasGroupedMatches(): boolean {
-    return (
-      Boolean(this.searchFilter) &&
-      (this.contentMatches.length > 0 || this.nameMatches.length > 0)
-    );
+    return Boolean(this.searchFilter) && (this.contentMatches.length > 0 || this.nameMatches.length > 0);
   }
 
   toggleNameMatches() {
@@ -73,19 +57,17 @@ export class ModalAddRepositoriesComponent
   private getTargetSourceUrl(filter: string): string | undefined {
     if (!filter) return undefined;
     const clean = filter.trim();
-    const urlMatch = clean.match(
-      /^(?:https?:\/\/github\.com\/|git@github\.com:)?([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+?)(?:\.git|\/)?$/i
-    );
+    const urlMatch = clean.match(/^(?:https?:\/\/[^/]+\/|git@[^:]+:)?([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+?)(?:\.git|\/)?$/i);
     if (urlMatch) {
-      return `https://github.com/${urlMatch[1]}/${urlMatch[2]}`;
+      const defaultHost = this.provider === "gitlab" ? "gitlab.com" : "github.com";
+      const hostMatch = clean.match(/^(?:https?:\/\/([^/]+)\/|git@([^:]+):)/i);
+      const host = hostMatch ? hostMatch[1] || hostMatch[2] : defaultHost;
+      return `https://${host}/${urlMatch[1]}/${urlMatch[2]}`;
     }
     return undefined;
   }
 
-  organizeHierarchy(
-    repositories: Repository[],
-    targetSourceUrl?: string
-  ): Repository[] {
+  organizeHierarchy(repositories: Repository[], targetSourceUrl?: string): Repository[] {
     if (!repositories || repositories.length === 0) {
       return [];
     }
@@ -101,12 +83,8 @@ export class ModalAddRepositoriesComponent
     const rootRepos: Repository[] = [];
     const targetLower = targetSourceUrl ? targetSourceUrl.toLowerCase() : null;
     const targetRepo = targetLower ? urlMap.get(targetLower) : null;
-    const { owner } = targetSourceUrl
-      ? this.getSearchTerms(targetSourceUrl)
-      : { owner: undefined };
-    const targetCore = targetRepo
-      ? Utils.extractAssignmentCore(targetRepo.name, owner)
-      : "";
+    const { owner } = targetSourceUrl ? this.getSearchTerms(targetSourceUrl) : { owner: undefined };
+    const targetCore = targetRepo ? Utils.extractAssignmentCore(targetRepo.name, owner) : "";
 
     for (const repo of repositories) {
       const pUrl = repo.parentUrl ? repo.parentUrl.toLowerCase() : null;
@@ -121,8 +99,7 @@ export class ModalAddRepositoriesComponent
         targetRepo &&
         repo.url.toLowerCase() !== targetLower &&
         targetCore &&
-        (repo.name.toLowerCase().includes(targetCore) ||
-          Utils.extractAssignmentCore(repo.name, owner).includes(targetCore))
+        (repo.name.toLowerCase().includes(targetCore) || Utils.extractAssignmentCore(repo.name, owner).includes(targetCore))
       ) {
         // Child fork belonging to target assignment (e.g. GitHub Classroom student repo created from template)
         if (!parentToChildren.has(targetLower)) {
@@ -136,9 +113,7 @@ export class ModalAddRepositoriesComponent
 
     // If targetSourceUrl is provided, ensure target repository is at index 0
     if (targetLower) {
-      const targetIdx = rootRepos.findIndex(
-        (r) => r.url && r.url.toLowerCase() === targetLower
-      );
+      const targetIdx = rootRepos.findIndex((r) => r.url && r.url.toLowerCase() === targetLower);
       if (targetIdx > 0) {
         const [targetR] = rootRepos.splice(targetIdx, 1);
         rootRepos.unshift(targetR);
@@ -170,9 +145,7 @@ export class ModalAddRepositoriesComponent
     if (!filter) return { name: "" };
     const clean = filter.trim();
     // 1. URL pattern (e.g. https://github.com/UE-TOAW/repo or UE-TOAW/repo)
-    const urlMatch = clean.match(
-      /^(?:https?:\/\/github\.com\/|git@github\.com:)?([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+?)(?:\.git|\/)?$/i
-    );
+    const urlMatch = clean.match(/^(?:https?:\/\/[^/]+\/|git@[^:]+:)?([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+?)(?:\.git|\/)?$/i);
     if (urlMatch) {
       return {
         owner: urlMatch[1].toLowerCase(),
@@ -180,9 +153,7 @@ export class ModalAddRepositoriesComponent
       };
     }
     // 2. Org URL or single token (e.g. https://github.com/UE-TOAW or UE-TOAW)
-    const singleMatch = clean.match(
-      /^(?:https?:\/\/github\.com\/|git@github\.com:)?([a-zA-Z0-9_.-]+)\/?$/i
-    );
+    const singleMatch = clean.match(/^(?:https?:\/\/[^/]+\/|git@[^:]+:)?([a-zA-Z0-9_.-]+)\/?$/i);
     if (singleMatch) {
       return { name: singleMatch[1].toLowerCase() };
     }
@@ -211,12 +182,7 @@ export class ModalAddRepositoriesComponent
     if (cleanName && repoUrl.includes(cleanName)) {
       return true;
     }
-    if (
-      coreSearch &&
-      (repoName.includes(coreSearch) ||
-        coreRepo.includes(coreSearch) ||
-        coreSearch.includes(coreRepo))
-    ) {
+    if (coreSearch && (repoName.includes(coreSearch) || coreRepo.includes(coreSearch) || coreSearch.includes(coreRepo))) {
       return true;
     }
     return false;
@@ -235,10 +201,7 @@ export class ModalAddRepositoriesComponent
     const cleanName = name.replace(/[-_]+$/, "");
     const coreSearch = Utils.extractAssignmentCore(name, owner);
     const desc = (repo.description || "").toLowerCase();
-    return (
-      (Boolean(cleanName) && desc.includes(cleanName)) ||
-      (Boolean(coreSearch) && desc.includes(coreSearch))
-    );
+    return (Boolean(cleanName) && desc.includes(cleanName)) || (Boolean(coreSearch) && desc.includes(coreSearch));
   }
 
   private updateMatchesGrouping() {
@@ -270,20 +233,13 @@ export class ModalAddRepositoriesComponent
 
     for (const group of groups) {
       const rootNameMatch = this.isNameMatch(group.root, this.searchFilter);
-      const childNameMatch = group.children.some((c) =>
-        this.isNameMatch(c, this.searchFilter)
-      );
+      const childNameMatch = group.children.some((c) => this.isNameMatch(c, this.searchFilter));
 
       if (rootNameMatch || childNameMatch) {
         nameGroupRows.push(group.root, ...group.children);
       } else {
-        const rootContentMatch = this.isContentMatch(
-          group.root,
-          this.searchFilter
-        );
-        const childContentMatch = group.children.some((c) =>
-          this.isContentMatch(c, this.searchFilter)
-        );
+        const rootContentMatch = this.isContentMatch(group.root, this.searchFilter);
+        const childContentMatch = group.children.some((c) => this.isContentMatch(c, this.searchFilter));
 
         if (isGlobalSearch || rootContentMatch || childContentMatch) {
           contentGroupRows.push(group.root, ...group.children);
@@ -296,10 +252,7 @@ export class ModalAddRepositoriesComponent
   }
 
   private updateResults(repositories: Repository[], isFirstPage = false) {
-    const filterAlreadyInAssignment = (repo: Repository) =>
-      repo &&
-      repo.url &&
-      !this.repoList.some((r) => Repository.isEqual(r, repo));
+    const filterAlreadyInAssignment = (repo: Repository) => repo && repo.url && !this.repoList.some((r) => Repository.isEqual(r, repo));
 
     const targetUrl = this.getTargetSourceUrl(this.searchFilter);
 
@@ -315,20 +268,13 @@ export class ModalAddRepositoriesComponent
       this.rows = this.organizeHierarchy(filtered, targetUrl);
     } else {
       const seenUrls = new Set(this.rows.map((r) => r.url));
-      const newRepos = repositories.filter(
-        (repo) => filterAlreadyInAssignment(repo) && !seenUrls.has(repo.url)
-      );
-      this.rows = this.organizeHierarchy(
-        [...this.rows, ...newRepos],
-        targetUrl
-      );
+      const newRepos = repositories.filter((repo) => filterAlreadyInAssignment(repo) && !seenUrls.has(repo.url));
+      this.rows = this.organizeHierarchy([...this.rows, ...newRepos], targetUrl);
     }
 
     if (!this.searchFilter) {
       const cachedUrls = new Set(this.allUserRepositories.map((r) => r.url));
-      const newForCache = repositories.filter(
-        (repo) => repo && repo.url && !cachedUrls.has(repo.url)
-      );
+      const newForCache = repositories.filter((repo) => repo && repo.url && !cachedUrls.has(repo.url));
       this.allUserRepositories = [...this.allUserRepositories, ...newForCache];
     }
 
@@ -342,7 +288,7 @@ export class ModalAddRepositoriesComponent
       repositories: Repository[];
       cursor?: string;
     }>,
-    isFirstPage = false
+    isFirstPage = false,
   ): Subscription {
     return response
       .pipe(
@@ -350,43 +296,26 @@ export class ModalAddRepositoriesComponent
           this.done = res.completed;
           this.cursor = res.cursor;
           return res.repositories;
-        })
+        }),
       )
       .subscribe((repositories) => {
         this.updateResults(repositories, isFirstPage);
       });
   }
 
-  private updateResultsWithAuthenticatedUser(
-    cursor?: string,
-    isFirstPage = false
-  ) {
-    this.processIntermediateResponse(
-      this.commitsService.getRepositoriesByAuthenticatedUser(cursor),
-      isFirstPage
-    );
+  private updateResultsWithAuthenticatedUser(cursor?: string, isFirstPage = false) {
+    this.processIntermediateResponse(this.commitsService.getRepositoriesByAuthenticatedUser(cursor, 100, this.provider), isFirstPage);
   }
 
-  private updateResultsWithSearchFilter(
-    searchFilter: string,
-    cursor?: string,
-    isFirstPage = false
-  ) {
-    this.processIntermediateResponse(
-      this.commitsService.getRepositoriesBySearch(searchFilter, cursor),
-      isFirstPage
-    );
+  private updateResultsWithSearchFilter(searchFilter: string, cursor?: string, isFirstPage = false) {
+    this.processIntermediateResponse(this.commitsService.getRepositoriesBySearch(searchFilter, cursor, 100, this.provider), isFirstPage);
   }
 
   private loadResults() {
     this.loading = true;
     const isFirstPage = !this.cursor;
     if (this.searchFilter) {
-      this.updateResultsWithSearchFilter(
-        this.searchFilter,
-        this.cursor,
-        isFirstPage
-      );
+      this.updateResultsWithSearchFilter(this.searchFilter, this.cursor, isFirstPage);
     } else {
       this.updateResultsWithAuthenticatedUser(this.cursor, isFirstPage);
     }
@@ -398,8 +327,7 @@ export class ModalAddRepositoriesComponent
 
   onScroll(event: Event) {
     const target = event.target as HTMLElement;
-    const endOfScrolling =
-      target.scrollHeight - target.scrollTop <= target.clientHeight + 50;
+    const endOfScrolling = target.scrollHeight - target.scrollTop <= target.clientHeight + 50;
 
     if (!this.loading && !this.done && endOfScrolling) {
       this.ngZone.run(() => {
@@ -412,6 +340,7 @@ export class ModalAddRepositoriesComponent
     this.selected.forEach((repo) => {
       repo.tpGroup = this.tpGroup;
       repo.name = "";
+      repo.provider = this.provider;
     });
     this.activeModal.close(this.selected);
   }
@@ -439,9 +368,7 @@ export class ModalAddRepositoriesComponent
   getChildForks(parentRepo: Repository): Repository[] {
     if (!parentRepo || !parentRepo.url) return [];
     const parentUrlLower = parentRepo.url.toLowerCase();
-    return this.rows.filter(
-      (r) => r.isChildFork && r.parentUrl && r.parentUrl.toLowerCase() === parentUrlLower
-    );
+    return this.rows.filter((r) => r.isChildFork && r.parentUrl && r.parentUrl.toLowerCase() === parentUrlLower);
   }
 
   hasChildForks(parentRepo: Repository): boolean {
@@ -513,19 +440,13 @@ export class ModalAddRepositoriesComponent
       this.cursor = undefined;
       this.done = false;
       const seenUrls = new Set(this.repoList.map((r) => r.url));
-      const filtered = this.allUserRepositories.filter(
-        (r) => !seenUrls.has(r.url)
-      );
+      const filtered = this.allUserRepositories.filter((r) => !seenUrls.has(r.url));
       this.rows = this.organizeHierarchy(filtered);
       this.applySort();
       this.loading = false;
     } else {
       // If a full repository URL is typed/pasted, reset sorting so target repo stays in first position
-      if (
-        /^(?:https?:\/\/github\.com\/|git@github\.com:)/i.test(
-          this.searchFilter
-        )
-      ) {
+      if (/^(?:https?:\/\/[^/]+\/|git@[^:]+:)/i.test(this.searchFilter)) {
         this.sortBy = "";
       }
       // Immediate client-side filter of cached repositories for instant feedback
@@ -535,10 +456,7 @@ export class ModalAddRepositoriesComponent
       const seenUrls = new Set(this.repoList.map((r) => r.url));
       const targetUrl = this.getTargetSourceUrl(this.searchFilter);
       const filtered = this.allUserRepositories.filter(
-        (r) =>
-          !seenUrls.has(r.url) &&
-          (this.isNameMatch(r, this.searchFilter) ||
-            this.isContentMatch(r, this.searchFilter))
+        (r) => !seenUrls.has(r.url) && (this.isNameMatch(r, this.searchFilter) || this.isContentMatch(r, this.searchFilter)),
       );
       this.rows = this.organizeHierarchy(filtered, targetUrl);
       this.applySort();
@@ -628,14 +546,12 @@ export class ModalAddRepositoriesComponent
     this.done = false;
     this.searchFilterChanged = new Subject<string>();
     this.searchFilter = "";
-    this.searchSubscription = this.searchFilterChanged
-      .pipe(debounceTime(600))
-      .subscribe((searchFilter) => {
-        if (searchFilter) {
-          this.cursor = undefined;
-          this.loadResults();
-        }
-      });
+    this.searchSubscription = this.searchFilterChanged.pipe(debounceTime(600)).subscribe((searchFilter) => {
+      if (searchFilter) {
+        this.cursor = undefined;
+        this.loadResults();
+      }
+    });
   }
 
   ngOnInit() {
@@ -646,10 +562,7 @@ export class ModalAddRepositoriesComponent
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
       if (this.datatable && this.datatable.nativeElement) {
-        this.datatable.nativeElement.addEventListener(
-          "scroll",
-          this.onScroll.bind(this)
-        );
+        this.datatable.nativeElement.addEventListener("scroll", this.onScroll.bind(this));
       }
     });
   }
@@ -661,10 +574,7 @@ export class ModalAddRepositoriesComponent
   ngOnDestroy(): void {
     this.searchSubscription.unsubscribe();
     if (this.datatable && this.datatable.nativeElement) {
-      this.datatable.nativeElement.removeEventListener(
-        "scroll",
-        this.onScroll.bind(this)
-      );
+      this.datatable.nativeElement.removeEventListener("scroll", this.onScroll.bind(this));
     }
   }
 }

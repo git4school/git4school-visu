@@ -1,0 +1,83 @@
+import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
+import { GitlabCallbackComponent } from "./gitlab-callback.component";
+
+describe("GitlabCallbackComponent", () => {
+  let component: GitlabCallbackComponent;
+  let fixture: ComponentFixture<GitlabCallbackComponent>;
+  let routerSpy: jasmine.SpyObj<Router>;
+
+  beforeEach(async () => {
+    routerSpy = jasmine.createSpyObj("Router", ["navigate"]);
+
+    await TestBed.configureTestingModule({
+      declarations: [GitlabCallbackComponent],
+      imports: [TranslateModule.forRoot()],
+      providers: [
+        { provide: Router, useValue: routerSpy },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParamMap: {
+                get: (key: string) => {
+                  if (key === "code") return "test-code";
+                  if (key === "state") return "test-state";
+                  return null;
+                },
+              },
+            },
+          },
+        },
+      ],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(GitlabCallbackComponent);
+    component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    delete (window as any).opener;
+  });
+
+  it("should create", () => {
+    expect(component).toBeTruthy();
+  });
+
+  it("should postMessage to opener and close if opener exists", fakeAsync(() => {
+    const postMessageSpy = jasmine.createSpy("postMessage");
+    const closeSpy = jasmine.createSpy("close");
+
+    (window as any).opener = { postMessage: postMessageSpy };
+    spyOn(window, "close").and.callFake(closeSpy);
+
+    component.ngOnInit();
+
+    expect(postMessageSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        type: "GITLAB_OAUTH_CALLBACK",
+        code: "test-code",
+        state: "test-state",
+        error: null,
+        errorDescription: null,
+      }),
+      window.location.origin,
+    );
+
+    tick(200);
+    expect(closeSpy).toHaveBeenCalled();
+  }));
+
+  it("should navigate to home if no window.opener", fakeAsync(() => {
+    delete (window as any).opener;
+    spyOn(window, "close");
+
+    component.ngOnInit();
+    tick(200);
+
+    expect(routerSpy.navigate).toHaveBeenCalledWith(["/home"]);
+  }));
+});

@@ -8,6 +8,7 @@ export class TooltipDirective implements OnDestroy {
   @Input("appTooltip") content: string | TemplateRef<any> | { text: string | TemplateRef<any>; shortcut?: string[] } = "";
   @Input() placement: "top" | "bottom" | "left" | "right" = "top";
   @Input() onlyIfTruncated = false;
+  @Input() maxWidth?: string | number;
 
   constructor(private elementRef: ElementRef, private tooltipService: TooltipService) {}
 
@@ -37,7 +38,7 @@ export class TooltipDirective implements OnDestroy {
       }
     }
 
-    this.tooltipService.show(text, this.elementRef.nativeElement, this.placement, shortcut);
+    this.tooltipService.show(text, this.elementRef.nativeElement, this.placement, shortcut, this.maxWidth);
   }
 
   @HostListener("mouseleave")

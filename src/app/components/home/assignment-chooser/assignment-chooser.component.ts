@@ -1,12 +1,15 @@
-import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef, OnDestroy, HostListener } from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
+import { GitProviderType } from "@models/GitAuthProvider.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
-import { AuthService } from "@services/auth.service";
+import { AccountsService } from "@services/accounts.service";
+import { GithubAuthService } from "@services/github-auth.service";
 import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
+import { OverlayManagerService } from "@services/overlay-manager.service";
 import { ToastService } from "@services/toast.service";
 import { Subscription } from "rxjs";
 import * as moment from "moment";
@@ -18,7 +21,6 @@ import * as moment from "moment";
 })
 export class AssignmentChooserComponent implements OnInit, OnDestroy {
   assignments: any[]; // Using any to attach UI-specific properties temporarily
-  private dbSubscription: Subscription;
 
   sortField = "lastModificationDate";
   sortDirection: "asc" | "desc" = "desc";
@@ -43,18 +45,58 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   availablePrograms: string[] = [];
   availableYears: string[] = [];
 
-  // Selection state
   selectionMode = false;
   selectedAssignments: Set<number> = new Set();
   hoveredAssignment: number | null = null;
 
   // Status hover preview state
   hoveredStatusPreview: string | null = null;
-  private statusPreviewTimeout: any = null;
+
+  // Provider split button dropdown state
+  isProviderDropdownOpen = false;
+  lastUsedProvider: GitProviderType = "github";
 
   // Inline edit state
   editingAssignmentId: number | null = null;
   isCreatingNew = false;
+
+  isSortHovered = false;
+  sortWasClicked = false;
+
+  private dbSubscription?: Subscription;
+  private overlaySub: Subscription | null = null;
+  private accountsSub?: Subscription;
+  private statusPreviewTimeout: any = null;
+
+  constructor(
+    private databaseService: DatabaseService,
+    private dataService: DataService,
+    private router: Router,
+    public githubAuthService: GithubAuthService,
+    public accountsService: AccountsService,
+    private overlayManager: OverlayManagerService,
+    private translateService: TranslateService,
+    private toastService: ToastService,
+    private assignmentsService: AssignmentsService,
+    private configurationService: ConfigurationService,
+    private cdr: ChangeDetectorRef,
+  ) {}
+
+  @HostListener("document:click", ["$event"])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target || !target.isConnected) {
+      return;
+    }
+    if (!target.closest(".creation-interactive-wrapper")) {
+      this.closeAllCreationPopovers();
+    }
+  }
+
+  @HostListener("window:keydown.escape")
+  onEscape(): void {
+    this.closeAllCreationPopovers();
+  }
 
   get filteredAssignments() {
     let result = this.assignments;
@@ -198,17 +240,33 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  constructor(
-    private databaseService: DatabaseService,
-    private dataService: DataService,
-    private router: Router,
-    public authService: AuthService,
-    private translateService: TranslateService,
-    private toastService: ToastService,
-    private assignmentsService: AssignmentsService,
-    private configurationService: ConfigurationService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  isAssignmentConnected(assignment: any): boolean {
+    if (!assignment) {
+      return false;
+    }
+    const provider = (assignment.provider || assignment.uiType || "github") as GitProviderType;
+    return this.accountsService.hasAccount(provider);
+  }
+
+  get isGithubConnected(): boolean {
+    return this.accountsService.isGithubConnected;
+  }
+
+  get isGitlabConnected(): boolean {
+    return this.accountsService.isGitlabConnected;
+  }
+
+  get canCreateAny(): boolean {
+    return !this.accountsService.isEmpty();
+  }
+
+  get hasMultipleProviders(): boolean {
+    return this.isGithubConnected && this.isGitlabConnected;
+  }
+
+  get singleConnectedProvider(): GitProviderType {
+    return this.isGithubConnected ? "github" : "gitlab";
+  }
 
   ngOnInit(): void {
     this.assignments = [];
@@ -217,6 +275,29 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     this.dbSubscription = this.databaseService.dbChanged.subscribe(() => {
       this.loadAssignments();
     });
+
+    this.overlaySub = this.overlayManager.dismiss$.subscribe(() => {
+      this.closeAllCreationPopovers();
+    });
+
+    this.accountsSub = this.accountsService.accounts$.subscribe(() => {
+      this.cdr.markForCheck();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dbSubscription) {
+      this.dbSubscription.unsubscribe();
+    }
+    if (this.overlaySub) {
+      this.overlaySub.unsubscribe();
+    }
+    if (this.accountsSub) {
+      this.accountsSub.unsubscribe();
+    }
+    if (this.statusPreviewTimeout) {
+      clearTimeout(this.statusPreviewTimeout);
+    }
   }
 
   loadPreferences() {
@@ -231,6 +312,10 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
         console.error("Could not load preferences", e);
       }
     }
+    const savedProvider = localStorage.getItem("git4school_last_provider") as GitProviderType;
+    if (savedProvider && (savedProvider === "github" || savedProvider === "gitlab")) {
+      this.lastUsedProvider = savedProvider;
+    }
   }
 
   savePreferences() {
@@ -242,15 +327,6 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
         advancedFilters: this.advancedFilters,
       }),
     );
-  }
-
-  ngOnDestroy(): void {
-    if (this.dbSubscription) {
-      this.dbSubscription.unsubscribe();
-    }
-    if (this.statusPreviewTimeout) {
-      clearTimeout(this.statusPreviewTimeout);
-    }
   }
 
   async loadAssignments() {
@@ -286,6 +362,14 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       this.availableYears = Array.from(yearsSet).sort();
 
       this.sortAssignments();
+
+      // Fallback: if no provider is explicitly stored in localStorage, use provider of most recent assignment
+      if (!localStorage.getItem("git4school_last_provider")) {
+        const lastAssignment = this.assignments.find((a) => a.provider && a.id !== -1);
+        if (lastAssignment && lastAssignment.provider) {
+          this.lastUsedProvider = lastAssignment.provider;
+        }
+      }
 
       // Restore new assignment if we were creating one
       if (wasCreatingNew && newAssignmentObj) {
@@ -377,11 +461,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   computeType(assignment: Assignment): "github" | "gitlab" {
-    // Mock logic: Assign gitlab if title contains 'gitlab', else github
-    if (assignment.title && assignment.title.toLowerCase().includes("gitlab")) {
-      return "gitlab";
-    }
-    return "github";
+    return assignment.provider || "github";
   }
 
   getSortLabel(field: string): string {
@@ -535,9 +615,6 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     return moment(dateStr).format(format);
   }
 
-  isSortHovered = false;
-  sortWasClicked = false;
-
   onSortMouseEnter() {
     this.isSortHovered = true;
     this.sortWasClicked = false;
@@ -560,7 +637,13 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   selectAssignment(assignment: any) {
-    if (!this.authService.isSignedIn()) return;
+    const provider = assignment.provider || "github";
+    if (!this.accountsService.hasAccount(provider)) {
+      const errorKey = provider === "gitlab" ? "HOME.MUST-LOGIN-ASSIGNMENT-GITLAB" : "HOME.MUST-LOGIN-ASSIGNMENT-GITHUB";
+      const msg = this.translateService.instant(errorKey);
+      this.toastService.warning(this.translateService.instant("WARNING"), msg);
+      return;
+    }
     this.dataService.assignment = assignment;
     this.dataService.groupFilter = "";
     if (this.dataService.repoToLoad) {
@@ -569,19 +652,80 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   deleteAssignment(assignment: any) {
-    if (!this.authService.isSignedIn()) return;
+    if (!this.isAssignmentConnected(assignment)) return;
     this.databaseService.deleteAssignment(assignment.id);
   }
 
-  createAssignment() {
-    if (!this.authService.isSignedIn()) return;
+  createAssignment(provider?: GitProviderType, event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+    }
+    const targetProvider: GitProviderType = provider || (this.filterType !== "all" ? this.filterType : this.lastUsedProvider) || "github";
+
+    if (!this.accountsService.hasAccount(targetProvider)) {
+      if (this.accountsService.isEmpty()) {
+        const msg = this.translateService.instant("HOME.MUST-LOGIN");
+        this.toastService.warning(this.translateService.instant("WARNING"), msg);
+        return;
+      }
+      const errorKey = targetProvider === "gitlab" ? "HOME.MUST-LOGIN-GITLAB" : "HOME.MUST-LOGIN-GITHUB";
+      const msg = this.translateService.instant(errorKey);
+      this.toastService.warning(this.translateService.instant("WARNING"), msg);
+      return;
+    }
+
     if (this.isCreatingNew) return; // Prevent multiple creates
+
+    this.closeAllCreationPopovers();
+    this.lastUsedProvider = targetProvider;
+    try {
+      localStorage.setItem("git4school_last_provider", targetProvider);
+    } catch (e) {}
 
     let assignment = new Assignment();
     assignment.id = -1; // Temporary ID for creation
+    assignment.provider = targetProvider;
+    (assignment as any).uiType = targetProvider;
+    (assignment as any).uiStatus = "prepared";
     this.assignments.unshift(assignment); // Add to the top
     this.isCreatingNew = true;
     this.editAssignment(assignment);
+    this.cdr.markForCheck();
+  }
+
+  onNewAssignmentClick(event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (!this.canCreateAny) {
+      const msg = this.translateService.instant("HOME.MUST-LOGIN");
+      this.toastService.warning(this.translateService.instant("WARNING"), msg);
+      return;
+    }
+
+    /* If a specific provider filter is active, create directly with that provider */
+    if (this.filterType === "github") {
+      this.createAssignment("github");
+      return;
+    }
+    if (this.filterType === "gitlab") {
+      this.createAssignment("gitlab");
+      return;
+    }
+
+    this.createAssignment(this.lastUsedProvider);
+  }
+
+  toggleProviderDropdown(event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.isProviderDropdownOpen = !this.isProviderDropdownOpen;
+  }
+
+  closeAllCreationPopovers(): void {
+    this.isProviderDropdownOpen = false;
+    this.cdr.markForCheck();
   }
 
   trackByAssignmentId(index: number, item: any): any {
@@ -589,7 +733,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   editAssignment(assignment: any) {
-    if (!this.authService.isSignedIn()) return;
+    if (!this.isAssignmentConnected(assignment) && assignment.id !== -1) return;
 
     // If we were creating a new one and clicked edit on another, discard the new one
     if (this.isCreatingNew && assignment.id !== -1) {
@@ -620,6 +764,12 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   onAssignmentSaved(assignment: Assignment) {
+    if (assignment && assignment.provider) {
+      this.lastUsedProvider = assignment.provider;
+      try {
+        localStorage.setItem("git4school_last_provider", assignment.provider);
+      } catch (e) {}
+    }
     this.isCreatingNew = false;
     this.editingAssignmentId = null;
     this.loadAssignments();

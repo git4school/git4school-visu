@@ -233,19 +233,110 @@
     </div> <!-- Closes left-controls -->
 
     <div class="actions-group d-flex" style="gap: 0.5rem;">
-      <div class="expandable-wrapper">
-        <button id="tour-create-assignment-btn" type="button" class="btn btn-primary action-btn square-btn expandable-btn shadow-sm"
-          (click)="createAssignment()" [disabled]="!authService.isSignedIn()"
-          [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : '') | translate">
-          <span class="text">{{ 'HOME.CREATE-ASSIGNMENT' | translate }}</span>
-          <span class="icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-          </span>
-        </button>
+      <!-- Creation button container: filter-reactive or prototype variants A/B/C -->
+      <div class="creation-interactive-wrapper position-relative">
+
+        <!-- Case 1: Filter is specifically set to GitHub -->
+        <div *ngIf="filterType === 'github'" class="expandable-wrapper provider-filter-wrapper">
+          <button id="tour-create-assignment-btn" type="button"
+            class="btn btn-provider-github action-btn square-btn expandable-btn shadow-sm"
+            (click)="createAssignment('github', $event)"
+            [disabled]="!isGithubConnected"
+            [appTooltip]="(!isGithubConnected ? 'HOME.MUST-LOGIN-GITHUB' : 'HOME.CREATE-ASSIGNMENT-GITHUB') | translate">
+            <span class="text">{{ 'HOME.CREATE-ASSIGNMENT' | translate }}</span>
+            <span class="icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        <!-- Case 2: Filter is specifically set to GitLab -->
+        <div *ngIf="filterType === 'gitlab'" class="expandable-wrapper provider-filter-wrapper">
+          <button id="tour-create-assignment-btn" type="button"
+            class="btn btn-provider-gitlab action-btn square-btn expandable-btn shadow-sm"
+            (click)="createAssignment('gitlab', $event)"
+            [disabled]="!isGitlabConnected"
+            [appTooltip]="(!isGitlabConnected ? 'HOME.MUST-LOGIN-GITLAB' : 'HOME.CREATE-ASSIGNMENT-GITLAB') | translate">
+            <span class="text">{{ 'HOME.CREATE-ASSIGNMENT' | translate }}</span>
+            <span class="icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        <!-- Case 3: Filter is 'all' -> Split button with provider selector -->
+        <ng-container *ngIf="filterType === 'all'">
+          <div class="split-provider-wrapper position-relative">
+            <div class="split-pill-container shadow-sm" [ngClass]="'provider-' + lastUsedProvider" [class.is-open]="isProviderDropdownOpen" [class.disabled]="!canCreateAny">
+              <button id="tour-create-assignment-btn" type="button" class="split-main-btn"
+                (click)="createAssignment(lastUsedProvider, $event)"
+                [disabled]="!accountsService.hasAccount(lastUsedProvider)"
+                [appTooltip]="(!accountsService.hasAccount(lastUsedProvider) ? (lastUsedProvider === 'gitlab' ? 'HOME.MUST-LOGIN-GITLAB' : 'HOME.MUST-LOGIN-GITHUB') : '') | translate">
+                <span class="split-icon">
+                  <svg *ngIf="lastUsedProvider === 'gitlab'" class="brand-svg" viewBox="0 0 512 512" width="14" height="14" fill="currentColor">
+                    <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
+                  </svg>
+                  <svg *ngIf="lastUsedProvider !== 'gitlab'" class="brand-svg" viewBox="0 0 496 512" width="14" height="14" fill="currentColor">
+                    <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
+                  </svg>
+                </span>
+                <span class="split-text">
+                  {{ (lastUsedProvider === 'gitlab' ? 'HOME.CREATE-ASSIGNMENT-GITLAB' : 'HOME.CREATE-ASSIGNMENT-GITHUB') | translate }}
+                </span>
+              </button>
+              <div class="split-divider"></div>
+              <button type="button" class="split-toggle-btn"
+                (click)="toggleProviderDropdown($event)"
+                [disabled]="!canCreateAny"
+                aria-label="Options de forge">
+                <svg class="chevron-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Dropdown matching modern-dropdown-menu -->
+            <div *ngIf="isProviderDropdownOpen" class="modern-dropdown-menu split-drawer shadow-lg">
+              <button type="button" class="dropdown-item"
+                [class.active]="lastUsedProvider === 'github'"
+                [disabled]="!isGithubConnected"
+                [appTooltip]="(!isGithubConnected ? ('HOME.MUST-LOGIN-GITHUB' | translate) : '')"
+                placement="left"
+                (click)="createAssignment('github', $event)">
+                <svg class="brand-svg flex-shrink-0" viewBox="0 0 496 512" width="14" height="14" fill="currentColor">
+                  <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
+                </svg>
+                <span class="provider-name">GitHub</span>
+                <svg *ngIf="lastUsedProvider === 'github'" class="active-check text-primary flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="dropdown-item"
+                [class.active]="lastUsedProvider === 'gitlab'"
+                [disabled]="!isGitlabConnected"
+                [appTooltip]="(!isGitlabConnected ? ('HOME.MUST-LOGIN-GITLAB' | translate) : '')"
+                placement="left"
+                (click)="createAssignment('gitlab', $event)">
+                <svg class="brand-svg flex-shrink-0" viewBox="0 0 512 512" width="14" height="14" fill="currentColor">
+                  <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
+                </svg>
+                <span class="provider-name">GitLab</span>
+                <svg *ngIf="lastUsedProvider === 'gitlab'" class="active-check text-primary flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </ng-container>
       </div>
       <button id="tour-export-btn" class="btn btn-outline-secondary action-btn export-btn" [class.export-active]="selectionMode"
         (click)="exportDB()" [appTooltip]="'EXPORT-ASSIGNMENTS-TOOLTIP' | translate">
@@ -275,7 +366,7 @@
   <!-- Assignment List -->
   <div class="assignment-list" [class.selection-mode]="selectionMode">
     <div class="assignment-card" *ngFor="let assignment of filteredAssignments; trackBy: trackByAssignmentId" [id]="'assignment-card-' + assignment.id" [ngClass]="{
-           'disabled-card': !authService.isSignedIn(), 
+           'disabled-card': !isAssignmentConnected(assignment), 
            'is-selected': isSelected(assignment.id),
            'is-editing': editingAssignmentId === assignment.id,
            'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignmentId !== assignment.id,
@@ -285,8 +376,8 @@
 
         <!-- Selection Zone (Logo / Checkbox) -->
         <div class="selection-zone mr-3" (mouseenter)="hoveredAssignment = assignment.id"
-          (mouseleave)="hoveredAssignment = null" [class.disabled]="!authService.isSignedIn() || assignment.id === -1"
-          (click)="authService.isSignedIn() && assignment.id !== -1 && toggleSelection(assignment.id); $event.stopPropagation()">
+          (mouseleave)="hoveredAssignment = null" [class.disabled]="!isAssignmentConnected(assignment) || assignment.id === -1"
+          (click)="isAssignmentConnected(assignment) && assignment.id !== -1 && toggleSelection(assignment.id); $event.stopPropagation()">
 
           <!-- Logo -->
           <div class="type-indicator-overlay" [ngClass]="assignment.uiType">
@@ -394,19 +485,19 @@
         <div class="card-actions ml-4 d-flex" style="flex-shrink: 0;">
           <button [id]="'tour-access-btn-' + assignment.id" type="button" class="btn btn-icon-action btn-light text-primary"
             (click)="$event.stopPropagation(); selectAssignment(assignment)"
-            [disabled]="!authService.isSignedIn() || assignment.id === -1"
-            [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
+            [disabled]="!isAssignmentConnected(assignment) || assignment.id === -1"
+            [appTooltip]="(!isAssignmentConnected(assignment) ? ('HOME.MUST-LOGIN-ASSIGNMENT-' + (assignment.provider === 'gitlab' ? 'GITLAB' : 'GITHUB')) : 'HOME.SELECT-ASSIGNMENT-TOOLTIP') | translate">
             <i class="far fa-arrow-alt-circle-right"></i>
           </button>
           <button type="button" class="btn btn-icon-action btn-light text-secondary ml-2"
-            (click)="$event.stopPropagation(); editAssignment(assignment)" [disabled]="!authService.isSignedIn()"
-            [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.EDIT-ASSIGNMENT-TOOLTIP') | translate">
+            (click)="$event.stopPropagation(); editAssignment(assignment)" [disabled]="!isAssignmentConnected(assignment)"
+            [appTooltip]="(!isAssignmentConnected(assignment) ? ('HOME.MUST-LOGIN-ASSIGNMENT-' + (assignment.provider === 'gitlab' ? 'GITLAB' : 'GITHUB')) : 'HOME.EDIT-ASSIGNMENT-TOOLTIP') | translate">
             <i class="fas fa-cog"></i>
           </button>
           <button type="button" class="btn btn-icon-action btn-light text-danger ml-2"
             (click)="$event.stopPropagation(); deleteAssignment(assignment)"
-            [disabled]="!authService.isSignedIn() || assignment.id === -1"
-            [appTooltip]="(!authService.isSignedIn() ? 'HOME.MUST-LOGIN' : 'HOME.DELETE-ASSIGNMENT-TOOLTIP') | translate">
+            [disabled]="!isAssignmentConnected(assignment) || assignment.id === -1"
+            [appTooltip]="(!isAssignmentConnected(assignment) ? ('HOME.MUST-LOGIN-ASSIGNMENT-' + (assignment.provider === 'gitlab' ? 'GITLAB' : 'GITHUB')) : 'HOME.DELETE-ASSIGNMENT-TOOLTIP') | translate">
             <i class="far fa-trash-alt"></i>
           </button>
         </div>

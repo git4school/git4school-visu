@@ -1,17 +1,9 @@
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  RouterStateSnapshot,
-  Router,
-} from "@angular/router";
-import { Observable } from "rxjs/Observable";
 import { Injectable } from "@angular/core";
-import "firebase/auth";
-
-import { AuthService } from "@services/auth.service";
+import { CanActivate, Router } from "@angular/router";
+import { AccountsService } from "@services/accounts.service";
 
 /**
- * This guard ensures the user is connected with a Github account
+ * This guard ensures the user is connected with at least one Git provider account
  */
 @Injectable({
   providedIn: "root",
@@ -19,20 +11,20 @@ import { AuthService } from "@services/auth.service";
 export class AuthGuard implements CanActivate {
   /**
    * AuthGuard constructor
-   * @param authService
+   * @param accountsService
    * @param router
    */
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private accountsService: AccountsService, private router: Router) {}
 
   /**
-   * Allows access to the protected route if user is connected
+   * Allows access to the protected route if at least one account is connected
    * @returns true if connected, redirects to home otherwise
    */
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.authService.isSignedIn()) {
+  canActivate(): boolean {
+    if (!this.accountsService.isEmpty()) {
       return true;
-    } else {
-      this.router.navigate(["/home"]);
     }
+    this.router.navigate(["/home"]);
+    return false;
   }
 }

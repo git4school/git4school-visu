@@ -30,7 +30,7 @@
                 </metadata>
             </div>
             <div *ngIf="reposInitialized" [hidden]="activeTab !== 'repositories'">
-                <edit-repositories #reposComp [datas]="assignment.repositories"
+                <edit-repositories #reposComp [datas]="assignment.repositories" [assignment]="assignment"
                     (modified)="repositoriesModified = true">
                 </edit-repositories>
             </div>

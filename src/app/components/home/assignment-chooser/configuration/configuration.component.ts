@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { FileChooserComponent } from "@components/file-chooser/file-chooser.component";
 import { Assignment } from "@models/Assignment.model";
+import { Repository } from "@models/Repository.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Optional } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
@@ -78,7 +79,11 @@ export class ConfigurationComponent implements OnInit {
     }
 
     if (this.reposComp) {
-      this.assignment.repositories = this.reposComp.getFormControls.map((row) => row.value);
+      this.assignment.repositories = this.reposComp.getFormControls.map((row) => {
+        const repo = Repository.withJSON(row.value);
+        repo.provider = this.assignment.provider || "github";
+        return repo;
+      });
     }
 
     this.metadataModified = false;

@@ -1,12 +1,4 @@
-import {
-  Component,
-  HostListener,
-  Input,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  TemplateRef,
-} from "@angular/core";
+import { Component, HostListener, Input, OnInit, OnDestroy, ChangeDetectorRef, TemplateRef } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
 import { OsUtils } from "@utils/os.utils";
@@ -21,6 +13,7 @@ export class TooltipComponent implements OnInit, OnDestroy {
   @Input() placement: "top" | "bottom" | "left" | "right" = "top";
   @Input() shortcutKeys?: string[];
   @Input() context?: any;
+  @Input() maxWidth?: string | number;
 
   show = false;
   shortcutPressed = false;
@@ -29,52 +22,14 @@ export class TooltipComponent implements OnInit, OnDestroy {
   isMac = false;
   private langSub?: Subscription;
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private translateService: TranslateService
-  ) {}
-
-  ngOnInit() {
-    this.isMac = OsUtils.isMac();
-    this.updateFormattedShortcuts();
-    this.langSub = this.translateService.onLangChange.subscribe(() => {
-      this.updateFormattedShortcuts();
-      this.cdr.markForCheck();
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.langSub) {
-      this.langSub.unsubscribe();
+  get resolvedMaxWidth(): string | null {
+    if (this.maxWidth === undefined || this.maxWidth === null || this.maxWidth === "") {
+      return null;
     }
+    return typeof this.maxWidth === "number" ? `${this.maxWidth}px` : `${this.maxWidth}`;
   }
 
-  private updateFormattedShortcuts() {
-    if (this.shortcutKeys && this.shortcutKeys.length > 0) {
-      this.formattedShortcut = OsUtils.formatShortcut(
-        this.shortcutKeys,
-        this.translateService
-      );
-      this.parsedShortcutKeys = OsUtils.formatShortcutKeys(
-        this.shortcutKeys,
-        this.translateService
-      );
-    }
-  }
-
-  isString(val: any): boolean {
-    return typeof val === "string";
-  }
-
-  contentAsTemplate(): TemplateRef<any> {
-    return this.content as TemplateRef<any>;
-  }
-
-  // Triggered by the service after a tiny delay so the CSS transition works
-  reveal() {
-    this.show = true;
-    this.cdr.detectChanges();
-  }
+  constructor(private cdr: ChangeDetectorRef, private translateService: TranslateService) {}
 
   // We listen to keydown globally. If the tooltip is shown, and it has a shortcut,
   // we check if the pressed keys match.
@@ -113,14 +68,41 @@ export class TooltipComponent implements OnInit, OnDestroy {
     }
 
     // Also check if any modifier was pressed but not in the list
-    const hasModInList = this.shortcutKeys.some((k) =>
-      ["mod", "ctrl", "cmd"].includes(k.toLowerCase())
-    );
+    const hasModInList = this.shortcutKeys.some((k) => ["mod", "ctrl", "cmd"].includes(k.toLowerCase()));
     if (isCmdOrCtrl && !hasModInList) match = false;
 
     if (match) {
       this.triggerShortcutAnimation();
     }
+  }
+
+  ngOnInit() {
+    this.isMac = OsUtils.isMac();
+    this.updateFormattedShortcuts();
+    this.langSub = this.translateService.onLangChange.subscribe(() => {
+      this.updateFormattedShortcuts();
+      this.cdr.markForCheck();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.langSub) {
+      this.langSub.unsubscribe();
+    }
+  }
+
+  isString(val: any): boolean {
+    return typeof val === "string";
+  }
+
+  contentAsTemplate(): TemplateRef<any> {
+    return this.content as TemplateRef<any>;
+  }
+
+  // Triggered by the service after a tiny delay so the CSS transition works
+  reveal() {
+    this.show = true;
+    this.cdr.detectChanges();
   }
 
   triggerShortcutAnimation() {
@@ -133,5 +115,12 @@ export class TooltipComponent implements OnInit, OnDestroy {
       this.show = false;
       this.cdr.detectChanges();
     }, 150); // wait for scale animation
+  }
+
+  private updateFormattedShortcuts() {
+    if (this.shortcutKeys && this.shortcutKeys.length > 0) {
+      this.formattedShortcut = OsUtils.formatShortcut(this.shortcutKeys, this.translateService);
+      this.parsedShortcutKeys = OsUtils.formatShortcutKeys(this.shortcutKeys, this.translateService);
+    }
   }
 }

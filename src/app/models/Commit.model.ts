@@ -120,6 +120,20 @@ export class Commit {
   }
 
   /**
+   * Initialize a Commit from the GitLab REST API JSON object
+   * @param json The GitLab REST JSON node
+   * @returns A commit
+   */
+  static withGitlabJSON(json): Commit {
+    return new Commit(
+      json.message || json.title || "",
+      json.author_name || "Unknown",
+      json.committed_date ? new Date(json.committed_date) : new Date(json.authored_date || Date.now()),
+      json.web_url || "",
+    );
+  }
+
+  /**
    * Updates the isEnSeance variable
    * @param startDate The date before which commits are not processed
    * @param endDate The date after which commits are not processed

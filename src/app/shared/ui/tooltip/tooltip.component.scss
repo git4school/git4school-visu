@@ -12,10 +12,12 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  width: max-content;
+  max-width: var(--tooltip-max-width, 300px);
   background-color: var(--tooltip-glass-bg, var(--color-surface));
   color: var(--text-color);
   padding: 6px 12px;
-  border-radius: 20px; /* Pill format */
+  border-radius: 12px; /* Sleek rounded shape for 1-line and multi-line */
   font-size: 12px;
   font-family: var(--font-family, inherit);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -32,14 +34,17 @@
     transform: translateY(4px) scale(0.97);
     transform-origin: bottom center;
   }
+
   &.bottom {
     transform: translateY(-4px) scale(0.97);
     transform-origin: top center;
   }
+
   &.left {
     transform: translateX(4px) scale(0.97);
     transform-origin: right center;
   }
+
   &.right {
     transform: translateX(-4px) scale(0.97);
     transform-origin: left center;
@@ -53,6 +58,10 @@
 
 .tooltip-text {
   font-weight: 500;
-  white-space: nowrap;
+  white-space: normal;
+  line-height: 1.45;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-align: left;
 }
 

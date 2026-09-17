@@ -7,6 +7,7 @@ import { QuestionsCompletionComponent } from "@components/graphs/questions-compl
 import { StudentsComponent } from "@components/graphs/students/students.component";
 import { HomeComponent } from "@components/home/home.component";
 import { AppNavLayoutComponent } from "@components/nav-layouts/app-nav-layout/app-nav-layout.component";
+import { GitlabCallbackComponent } from "@components/auth-callback/gitlab-callback.component";
 import { AuthGuard } from "@guards/auth.guard";
 import { DataLoadingGuard } from "@guards/data-loading.guard";
 import { DataProvidedGuard } from "@guards/data-provided.guard";
@@ -47,6 +48,7 @@ const APP_ROUTES: Routes = [
 ];
 
 const ROUTES: Routes = [
+  { path: "auth/callback", component: GitlabCallbackComponent },
   {
     path: "",
     component: AppNavLayoutComponent,
