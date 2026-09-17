@@ -213,4 +213,21 @@ describe("AccountsService", () => {
     service.disconnectAccount("acc-gitlab-cloud");
     expect(gitlabAuthServiceSpy.signOut).toHaveBeenCalled();
   });
+
+  it("should return correct status for hasAccount", () => {
+    githubAuthServiceSpy.isSignedIn.and.returnValue(true);
+    gitlabAuthServiceSpy.isSignedIn.and.returnValue(false);
+
+    expect(service.hasAccount("github")).toBeTrue();
+    expect(service.hasAccount("gitlab")).toBeFalse();
+  });
+
+  it("should return data service if registered", () => {
+    const fakeGithubData = { provider: "github" } as any;
+    const fakeGitlabData = { provider: "gitlab" } as any;
+    const customService = new AccountsService(githubAuthServiceSpy, gitlabAuthServiceSpy, fakeGithubData, fakeGitlabData);
+
+    expect(customService.getDataService("github")).toBe(fakeGithubData);
+    expect(customService.getDataService("gitlab")).toBe(fakeGitlabData);
+  });
 });

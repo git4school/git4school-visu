@@ -142,7 +142,7 @@ export class DevBarComponent implements OnInit, OnDestroy {
   toggleGitlabCloud(): void {
     this.devFlagsService.toggleGitlabCloud();
     const state = this.devFlagsService.gitlabCloudEnabled ? "activé" : "désactivé";
-    this.toastService.success("Feature Flag", `GitLab Cloud ${state}`);
+    this.toastService.success("Feature Flag", `GitLab ${state}`);
   }
 
   toggleGitlabCustom(): void {

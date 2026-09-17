@@ -183,7 +183,7 @@
             <app-repo-icon mode="add" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>
             {{ 'EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY' | translate }}
         </button>
-        <button id="tour-add-search-repo-btn" *ngIf="githubAuthService.isSignedIn()" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate">
+        <button id="tour-add-search-repo-btn" *ngIf="isConnectedToProvider" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES' | translate">
             <app-repo-icon mode="add-multiple" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>
             {{ 'EDIT-REPOSITORIES.ADD-REPOSITORY' | translate }}
         </button>

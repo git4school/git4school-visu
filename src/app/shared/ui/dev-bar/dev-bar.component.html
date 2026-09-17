@@ -140,16 +140,16 @@
 
   <!-- Right: Feature Flags & Controls -->
   <div class="dev-bar-section right-section">
-    <!-- GitLab Cloud Flag -->
+    <!-- GitLab Flag -->
     <button
       type="button"
       class="dev-flag-toggle"
       [class.is-enabled]="devFlagsService.gitlabCloudEnabled"
       (click)="toggleGitlabCloud()"
-      [title]="(devFlagsService.gitlabCloudEnabled ? 'Désactiver' : 'Activer') + ' GitLab Cloud'"
+      [title]="(devFlagsService.gitlabCloudEnabled ? 'Désactiver' : 'Activer') + ' GitLab'"
     >
       <i class="fab fa-gitlab mr-1.5"></i>
-      <span>GitLab Cloud</span>
+      <span>GitLab</span>
       <span class="flag-switch"></span>
     </button>
 

@@ -58,6 +58,27 @@ export class DatabaseService extends Dexie {
             }
           });
       });
+    this.version(4)
+      .stores({
+        assignments: "++id, metadata.title, provider",
+      })
+      .upgrade((tx) => {
+        return tx
+          .table("assignments")
+          .toCollection()
+          .modify((assignment) => {
+            if (!assignment.provider) {
+              assignment.provider = "github";
+            }
+            if (assignment.repositories && Array.isArray(assignment.repositories)) {
+              assignment.repositories.forEach((repo: any) => {
+                if (!repo.provider) {
+                  repo.provider = "github";
+                }
+              });
+            }
+          });
+      });
     this.assignments = this.table("assignments");
     this.assignments.mapToClass(Assignment);
   }

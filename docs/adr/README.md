@@ -16,6 +16,7 @@ Ce répertoire contient l'historique formalisé de toutes les décisions d'archi
 | [0004](./0004-strategie-de-cloture-des-questions-et-retrocompatibilite-dexie.md) | Stratégie de clôture des questions, import en masse et rétrocompatibilité Dexie | Modèle Métier / IndexedDB | `Accepté` |
 | [0005](./0005-navigation-clavier-typeahead-directive-decouplee.md) | Neutralisation des conflits souris-clavier dans les suggestions Typeahead | Ergonomie UI / Événements | `Accepté` |
 | [0006](./0006-authentification-multi-fournisseurs-pattern-strategie.md) | Authentification multi-forges découplée (Pattern Stratégie & Fournisseurs) et OAuth 2.0 PKCE | Sécurité / Architecture SOLID | `Accepté` |
+| [0007](./0007-services-de-donnees-git-pattern-strategie-et-facade.md) | Services de données Git découplés (Pattern Stratégie, Registre & Façade CommitsService) | Intégration Git / Architecture | `Accepté` |
 
 ---
 

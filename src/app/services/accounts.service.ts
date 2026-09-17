@@ -1,9 +1,12 @@
-import { Injectable, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy, Optional } from "@angular/core";
 import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { GithubAuthService } from "@services/github-auth.service";
 import { GitlabAuthService } from "@services/gitlab-auth.service";
+import { GithubDataService } from "@services/github-data.service";
+import { GitlabDataService } from "@services/gitlab-data.service";
 import { Account, GitProviderType } from "@models/Account.model";
 import { GitAuthProvider } from "@models/GitAuthProvider.model";
+import { GitDataService } from "@models/GitDataService.model";
 
 @Injectable({
   providedIn: "root",
@@ -14,12 +17,25 @@ export class AccountsService implements OnDestroy {
   private accountsSubject = new BehaviorSubject<Account[]>([]);
   private authSubscription = new Subscription();
   private providers = new Map<GitProviderType, GitAuthProvider>();
+  private dataServices = new Map<GitProviderType, GitDataService>();
 
-  constructor(public githubAuthService: GithubAuthService, public gitlabAuthService: GitlabAuthService) {
+  constructor(
+    public githubAuthService: GithubAuthService,
+    public gitlabAuthService: GitlabAuthService,
+    @Optional() public githubDataService?: GithubDataService,
+    @Optional() public gitlabDataService?: GitlabDataService,
+  ) {
     this.accounts$ = this.accountsSubject.asObservable();
 
     this.registerProvider(this.githubAuthService);
     this.registerProvider(this.gitlabAuthService);
+
+    if (this.githubDataService) {
+      this.dataServices.set("github", this.githubDataService);
+    }
+    if (this.gitlabDataService) {
+      this.dataServices.set("gitlab", this.gitlabDataService);
+    }
 
     this.updateAccounts();
   }
@@ -34,6 +50,18 @@ export class AccountsService implements OnDestroy {
 
   get isGitlabConnected(): boolean {
     return this.gitlabAuthService.isSignedIn();
+  }
+
+  hasAccount(providerType: GitProviderType): boolean {
+    return Boolean(this.providers.get(providerType)?.isSignedIn());
+  }
+
+  getDataService(providerType: GitProviderType = "github"): GitDataService {
+    const service = this.dataServices.get(providerType);
+    if (!service) {
+      return this.githubDataService;
+    }
+    return service;
   }
 
   ngOnDestroy(): void {

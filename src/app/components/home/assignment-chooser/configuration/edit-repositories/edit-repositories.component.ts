@@ -1,10 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
+import { Assignment } from "@models/Assignment.model";
+import { GitProviderType } from "@models/Account.model";
 import { TranslateService } from "@ngx-translate/core";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { ToastService } from "@services/toast.service";
+import { AccountsService } from "@services/accounts.service";
 import { GithubAuthService } from "@services/github-auth.service";
 import { DataService } from "@services/data.service";
 import { Observable, of, timer } from "rxjs";
@@ -19,7 +22,7 @@ export type SortDirection = "asc" | "desc" | "";
 
 /**
  * This component lets the user edit the list of repositories of an assignment, manually by entering the URL of the repository,
- * or by selecting it in the list of repositories retrieved from Github
+ * or by selecting it in the list of repositories retrieved from Github or GitLab
  */
 @Component({
   selector: "edit-repositories",
@@ -27,6 +30,15 @@ export type SortDirection = "asc" | "desc" | "";
   styleUrls: ["../configuration.component.scss", "./edit-repositories.component.scss"],
 })
 export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent<Repository> implements OnInit {
+  @Input() assignment?: Assignment;
+
+  get provider(): GitProviderType {
+    return this.assignment?.provider || "github";
+  }
+
+  get isConnectedToProvider(): boolean {
+    return this.accountsService.hasAccount(this.provider);
+  }
   /**
    * The matrix that defines the transition relationships between the sorting modes.
    *
@@ -127,6 +139,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   constructor(
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
+    public accountsService: AccountsService,
     public githubAuthService: GithubAuthService,
     private modalService: CustomModalService,
     private translateService: TranslateService,
@@ -154,12 +167,13 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   }
 
   /**
-   * Opens the modal to add one or several repositories from a list retrieved from Github.
+   * Opens the modal to add one or several repositories from a list retrieved from Github or GitLab.
    * If the modal is closed with the "Add" button, all the new selected repositories are saved in the assignment
    */
   openAddRepositoriesModal() {
     let modalReference: CustomModalRef = this.modalService.open(ModalAddRepositoriesComponent, { size: "lg" });
     modalReference.componentInstance.repoList = this.getFormControls.map((row) => Repository.withJSON(row.value));
+    modalReference.componentInstance.provider = this.provider;
 
     modalReference.result.then(
       (result) => {
@@ -171,6 +185,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
                 .some((repo2, index, array) => Repository.isEqual(repo1, repo2)),
           );
           repoToadd.forEach((repo) => {
+            repo.provider = this.provider;
             this.addRow(repo);
           });
           this.modify();
@@ -263,6 +278,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
       tpGroup: [data?.tpGroup],
       errors: [data ? data.errors : []],
       avatarUrl: [avatarUrl],
+      provider: [data?.provider || this.provider],
       isEditable: false,
       isInvalid: false,
       save: {},
@@ -293,10 +309,11 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
         );
       } else {
         return timer(1000).pipe(
-          switchMap(() => this.githubAuthService.verifyUserAccess(urlControl.value)),
+          switchMap(() => this.accountsService.getDataService(this.provider).verifyUserAccess(urlControl.value)),
           map((res) => {
             if (urlControl.parent && urlControl.parent.get("avatarUrl")) {
-              urlControl.parent.get("avatarUrl").setValue(res?.owner?.avatar_url || null, { emitEvent: false });
+              const avatar = res?.avatar_url || res?.owner?.avatar_url || null;
+              urlControl.parent.get("avatarUrl").setValue(avatar, { emitEvent: false });
             }
             return null;
           }),

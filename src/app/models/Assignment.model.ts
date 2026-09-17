@@ -4,6 +4,7 @@ import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
 import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 import { Type } from "class-transformer";
+import { GitProviderType } from "@models/GitAuthProvider.model";
 
 /**
  * A practical course, with sessions, questions and
@@ -12,7 +13,15 @@ import { Type } from "class-transformer";
 export class Assignment {
   id: number;
   uiStatus?: "prepared" | "ongoing" | "finished" | "default";
-  uiType?: "github" | "gitlab";
+  provider: GitProviderType = "github";
+
+  get uiType(): GitProviderType {
+    return this.provider || "github";
+  }
+
+  set uiType(value: GitProviderType) {
+    this.provider = value || "github";
+  }
 
   @Type(() => Metadata)
   metadata: Metadata;

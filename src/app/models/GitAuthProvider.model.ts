@@ -1,6 +1,8 @@
 import { Observable } from "rxjs";
 import { Account, GitProviderType } from "./Account.model";
 
+export { GitProviderType } from "./Account.model";
+
 export interface GitAuthProvider {
   readonly provider: GitProviderType;
   readonly name: string;

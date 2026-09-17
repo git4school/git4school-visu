@@ -103,7 +103,7 @@ export class Utils {
         new Date(Math.min(interval[0].getTime(), date.getTime())),
         new Date(Math.max(interval[1].getTime(), date.getTime())),
       ],
-      [dates[0], dates[1]]
+      [dates[0], dates[1]],
     );
   }
 
@@ -198,7 +198,7 @@ export class Utils {
     const charsToShow = Math.max(1, maxLength - 3);
     const frontChars = Math.ceil(charsToShow / 2);
     const backChars = Math.floor(charsToShow / 2);
-    return str.substring(0, frontChars) + '...' + str.substring(str.length - backChars);
+    return str.substring(0, frontChars) + "..." + str.substring(str.length - backChars);
   }
 
   /**
@@ -215,16 +215,34 @@ export class Utils {
     if (owner) {
       clean = clean.replace(new RegExp(`^${owner}[-_]`, "i"), "");
     }
-    clean = clean.replace(
-      /[-_][a-zA-Z0-9_]*(?:squelette|template|skeleton)[a-zA-Z0-9_]*$/i,
-      ""
-    );
-    clean = clean.replace(
-      /[-_](?:squelette|template|skeleton)[a-zA-Z0-9_]*$/i,
-      ""
-    );
+    clean = clean.replace(/[-_][a-zA-Z0-9_]*(?:squelette|template|skeleton)[a-zA-Z0-9_]*$/i, "");
+    clean = clean.replace(/[-_](?:squelette|template|skeleton)[a-zA-Z0-9_]*$/i, "");
     clean = clean.replace(/[-_]+$/, "");
     return clean.replace(/_/g, "-").toLowerCase();
+  }
+
+  static getValueWithToken(token: string, text: string): string {
+    if (!token || !text) return null;
+    let regex = new RegExp(`(?<=${token}).*`);
+    let value = text.match(regex);
+    return value ? value[0].trim() : null;
+  }
+
+  static getNameFromIdentity(identity: any): string {
+    if (!identity) return "";
+    return [identity.last_name, identity.first_name].filter(Boolean).join(" ");
+  }
+
+  static getNameFromReadMe(readme: string, lastNameToken = "Nom", firstNameToken = "Prénom"): string {
+    if (!readme) return null;
+    let lastName = this.getValueWithToken(`${lastNameToken}.*:`, readme);
+    let firstName = this.getValueWithToken(`${firstNameToken}.*:`, readme);
+    return [lastName, firstName].filter(Boolean).join(" ");
+  }
+
+  static getTPGroupFromReadMe(readme: string): string {
+    if (!readme) return null;
+    return this.getValueWithToken("-\\s*\\[\\S\\]", readme);
   }
 
   constructor() {}

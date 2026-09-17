@@ -1,4 +1,5 @@
 import { Commit } from "@models/Commit.model";
+import { GitProviderType } from "@models/Account.model";
 import * as assert from "assert";
 import { Exclude, Type } from "class-transformer";
 import { Utils } from "../services/utils";
@@ -21,6 +22,7 @@ export class Repository {
    * @param isFork Whether this repository is a fork
    * @param parentUrl The parent repository URL if this is a fork
    * @param isChildFork Whether this repository is displayed as a child fork row
+   * @param provider The Git provider (github or gitlab)
    */
   constructor(
     public url: string,
@@ -31,12 +33,14 @@ export class Repository {
     public description?: string,
     public isFork?: boolean,
     public parentUrl?: string,
-    public isChildFork?: boolean
+    public isChildFork?: boolean,
+    public provider?: GitProviderType,
   ) {
     this.commits = commits || [];
     this.errors = errors || [];
     this.isFork = Boolean(isFork);
     this.isChildFork = Boolean(isChildFork);
+    this.provider = provider || (url?.includes("gitlab") ? "gitlab" : "github");
   }
 
   /**
@@ -54,11 +58,7 @@ export class Repository {
    * @param max_length
    * @returns A string with length below max_length
    */
-  static getFormattedName(
-    last_name: string,
-    first_name: string,
-    max_length: number
-  ): string {
+  static getFormattedName(last_name: string, first_name: string, max_length: number): string {
     assert(max_length > 0);
 
     if (!last_name && !first_name) {
@@ -98,35 +98,23 @@ export class Repository {
     if (displayName.length > Utils.OVERVIEW_NAME_LENGTH_LIMIT) {
       let numberOfSpace = (displayName.match(/ /g) || []).length;
       if (numberOfSpace === 0) {
-        displayName =
-          displayName.substring(0, Utils.OVERVIEW_NAME_LENGTH_LIMIT - 1) + ".";
+        displayName = displayName.substring(0, Utils.OVERVIEW_NAME_LENGTH_LIMIT - 1) + ".";
       } else if (numberOfSpace == 1) {
         let [lastName, firstName] = displayName.split(" ");
-        displayName = Repository.getFormattedName(
-          firstName,
-          lastName,
-          Utils.OVERVIEW_NAME_LENGTH_LIMIT
-        );
+        displayName = Repository.getFormattedName(firstName, lastName, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
       } else {
         let findLastName = displayName.match(/^([A-Z\-]+ )*/g);
         if (findLastName.length === 1 && findLastName[0].trim().length !== 0) {
           displayName = Repository.getFormattedName(
             findLastName[0].trim(),
             displayName.substring(findLastName[0].length),
-            Utils.OVERVIEW_NAME_LENGTH_LIMIT
+            Utils.OVERVIEW_NAME_LENGTH_LIMIT,
           );
         } else {
           let lastspace = displayName.lastIndexOf(" ");
-          let [lastName, firstName] = [
-            displayName.substring(0, lastspace),
-            displayName.substring(lastspace + 1),
-          ];
+          let [lastName, firstName] = [displayName.substring(0, lastspace), displayName.substring(lastspace + 1)];
 
-          displayName = Repository.getFormattedName(
-            lastName,
-            firstName,
-            Utils.OVERVIEW_NAME_LENGTH_LIMIT
-          );
+          displayName = Repository.getFormattedName(lastName, firstName, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
         }
       }
     }
@@ -152,7 +140,9 @@ export class Repository {
       json.errors,
       json.description,
       json.isFork,
-      json.parentUrl
+      json.parentUrl,
+      json.isChildFork,
+      json.provider,
     );
   }
 }
