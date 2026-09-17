@@ -101,14 +101,8 @@
           </div>
         </div>
 
-        <!-- Scopes & expiry footer info on card -->
+        <!-- Expiry footer info on card -->
         <div class="card-footer-info" *ngIf="acc.tokenExpiresInDays">
-          <span class="footer-sync">
-            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>{{ 'ACCOUNTS.LAST_SYNC' | translate }}: {{ acc.lastSync }}
-          </span>
           <span class="footer-expiry">
             {{ acc.tokenExpiresInDays }} {{ 'ACCOUNTS.DAYS' | translate }}
           </span>

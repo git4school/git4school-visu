@@ -1,4 +1,4 @@
-@import "src/styles/variables";
+@import "variables";
 
 :host {
   display: block;
@@ -529,7 +529,7 @@
     transform: translate3d(-96px, 0, 0);
     background-color: var(--color-danger);
     border-color: var(--color-danger);
-    color: #fff;
+    color: var(--color-on-primary);
     box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
 
     &:hover:not(:disabled) {
@@ -624,7 +624,7 @@
   justify-content: center;
   background-color: var(--color-primary);
   border: 1px solid var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   padding: 0.55rem 1.6rem;
   border-radius: 9999px;
   font-size: 0.875rem;

@@ -1,10 +1,13 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, Optional } from "@angular/core";
 import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import * as firebase from "firebase/app";
 import { auth } from "firebase/app";
 import "firebase/auth";
 import { BehaviorSubject, Observable } from "rxjs";
+import { Account, GitProviderType } from "@models/Account.model";
+import { GitAuthProvider } from "@models/GitAuthProvider.model";
 import { ToastService } from "./toast.service";
 
 export interface AuthState {
@@ -16,15 +19,17 @@ export interface AuthState {
 }
 
 /**
- * A service used to sign in and sign out from Github
+ * A service used to sign in and sign out from GitHub via Firebase.
+ * Implements the GitAuthProvider strategy interface.
  */
 @Injectable({
   providedIn: "root",
 })
-export class AuthService {
-  /**
-   * The Github access token
-   */
+export class GithubAuthService implements GitAuthProvider {
+  readonly provider: GitProviderType = "github";
+  readonly name: string = "GitHub";
+  readonly instanceHost: string = "github.com";
+
   token: string | null = localStorage.getItem("dev_github_token") || null;
   username: string | null = localStorage.getItem("github_username") || null;
   avatarUrl: string | null = localStorage.getItem("github_avatar") || null;
@@ -39,13 +44,12 @@ export class AuthService {
     displayName: localStorage.getItem("github_display_name") || null,
   });
 
-  /**
-   * AuthService constructor
-   * @param router
-   * @param http
-   * @param toastService
-   */
-  constructor(private router: Router, private http: HttpClient, private toastService: ToastService) {
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private toastService: ToastService,
+    @Optional() private translateService?: TranslateService,
+  ) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.syncUserFromFirebase(user);
@@ -57,19 +61,26 @@ export class AuthService {
     }
   }
 
-  /**
-   * Returns the Github access token, so if its value is null, it's similar to a falsy value
-   *
-   * @returns The Github access token
-   */
-  isSignedIn(): string {
-    return this.token;
+  isSignedIn(): boolean {
+    return !!this.token;
   }
 
-  /**
-   * Open a popup to Github signin with firebase and authenticate
-   */
-  async signIn(): Promise<void> {
+  getAccount(): Account | null {
+    if (!this.isSignedIn()) {
+      return null;
+    }
+    const username = this.username || "github_user";
+    return {
+      id: "acc-github-real",
+      provider: "github",
+      instanceHost: this.instanceHost,
+      username,
+      avatarUrl: this.avatarUrl || `https://avatars.githubusercontent.com/${username}`,
+      isCurrent: true,
+    };
+  }
+
+  async signIn(): Promise<Account> {
     this.loading = true;
     const provider = new firebase.auth.GithubAuthProvider();
     provider.addScope("repo");
@@ -77,9 +88,15 @@ export class AuthService {
       await firebase.auth().setPersistence(auth.Auth.Persistence.LOCAL);
       const result = await firebase.auth().signInWithPopup(provider);
       this.handleAuthResult(result);
+      const account = this.getAccount();
+      if (!account) {
+        throw new Error("GitHub authentication succeeded but account details could not be retrieved");
+      }
+      return account;
     } catch (error: any) {
       if (error?.code !== "auth/popup-closed-by-user") {
-        this.toastService.error("An error occured", error.message);
+        const title = this.translateService?.instant("ERROR") || "Error";
+        this.toastService.error(title, error.message);
       }
       throw error;
     } finally {
@@ -87,9 +104,6 @@ export class AuthService {
     }
   }
 
-  /**
-   * Signs out from Github, sets the access token to null and redirects to home
-   */
   async signOut(): Promise<void> {
     try {
       await firebase.auth().signOut();
@@ -108,8 +122,16 @@ export class AuthService {
     }
   }
 
+  getProfileUrl(username?: string): string {
+    const user = username || this.username;
+    if (!user) {
+      return `https://${this.instanceHost}`;
+    }
+    return `https://${this.instanceHost}/${encodeURIComponent(user)}`;
+  }
+
   verifyUserAccess(repoURL: string): Observable<any> {
-    var httpOptions = {
+    const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         Authorization: "token " + this.token,
@@ -117,11 +139,11 @@ export class AuthService {
     };
 
     const repoHashURL = repoURL.split("/");
-    let url = "https://api.github.com/repos/" + repoHashURL[3] + "/" + repoHashURL[4];
+    const url = "https://api.github.com/repos/" + repoHashURL[3] + "/" + repoHashURL[4];
     return this.http.get(url, httpOptions);
   }
 
-  reauthenticate() {
+  reauthenticate(): void {
     firebase.auth().onAuthStateChanged((user) => {
       if (user && !this.isSignedIn()) {
         this.loading = true;

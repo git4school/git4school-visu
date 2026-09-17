@@ -1,0 +1,40 @@
+@import "variables";
+
+:host {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Callback styling */
+.callback-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background-color: var(--color-bg-body);
+}
+
+.callback-card {
+  max-width: 380px;
+  width: 100%;
+  padding: 32px 24px;
+  text-align: center;
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+}
+
+.callback-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  margin-bottom: 8px;
+}
+
+.callback-desc {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}

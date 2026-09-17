@@ -28,7 +28,7 @@ import { AuthGuard } from "@guards/auth.guard";
 import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateLoader, TranslateModule, TranslateService } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { AuthService } from "@services/auth.service";
+import { GithubAuthService } from "@services/github-auth.service";
 import { CommitsService } from "@services/commits.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
@@ -52,6 +52,7 @@ import { OverviewGraphContextualMenuComponent } from "./components/overview-grap
 import { SidebarSettingsComponent } from "./components/nav-layouts/sidebar-settings/sidebar-settings.component";
 import { AccountsComponent } from "./components/nav-layouts/sidebar-settings/accounts/accounts.component";
 import { AddAccountModalComponent } from "./components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component";
+import { GitlabCallbackComponent } from "@components/auth-callback/gitlab-callback.component";
 
 /**
  * Firebase configuration file
@@ -127,6 +128,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     SidebarSettingsComponent,
     AccountsComponent,
     AddAccountModalComponent,
+    GitlabCallbackComponent,
   ],
   entryComponents: [AddAccountModalComponent],
   imports: [
@@ -153,7 +155,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     NgxDatatableModule,
   ],
   providers: [
-    AuthService,
+    GithubAuthService,
     AuthGuard,
     CommitsService,
     JsonManagerService,

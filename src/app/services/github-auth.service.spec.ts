@@ -2,11 +2,11 @@ import { TestBed } from "@angular/core/testing";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { Router } from "@angular/router";
 import * as firebase from "firebase/app";
-import { AuthService } from "./auth.service";
+import { GithubAuthService } from "./github-auth.service";
 import { ToastService } from "./toast.service";
 
-describe("AuthService", () => {
-  let service: AuthService;
+describe("GithubAuthService", () => {
+  let service: GithubAuthService;
   let httpMock: HttpTestingController;
   let routerSpy: jasmine.SpyObj<Router>;
   let toastSpy: jasmine.SpyObj<ToastService>;
@@ -32,10 +32,10 @@ describe("AuthService", () => {
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [AuthService, { provide: Router, useValue: routerSpy }, { provide: ToastService, useValue: toastSpy }],
+      providers: [GithubAuthService, { provide: Router, useValue: routerSpy }, { provide: ToastService, useValue: toastSpy }],
     });
 
-    service = TestBed.inject(AuthService);
+    service = TestBed.inject(GithubAuthService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -49,10 +49,32 @@ describe("AuthService", () => {
 
   it("should be created and report isSignedIn based on token", () => {
     expect(service).toBeTruthy();
-    expect(service.isSignedIn()).toBeNull();
+    expect(service.isSignedIn()).toBeFalse();
 
     service.token = "test-token";
-    expect(service.isSignedIn()).toBe("test-token");
+    expect(service.isSignedIn()).toBeTrue();
+  });
+
+  it("should return account when signed in and null when signed out", () => {
+    service.token = null;
+    expect(service.getAccount()).toBeNull();
+
+    service.token = "valid-token";
+    service.username = "test-user";
+    service.avatarUrl = "https://avatar.com/test.png";
+
+    const account = service.getAccount();
+    expect(account).not.toBeNull();
+    expect(account?.provider).toBe("github");
+    expect(account?.username).toBe("test-user");
+    expect(account?.avatarUrl).toBe("https://avatar.com/test.png");
+    expect(account?.instanceHost).toBe("github.com");
+  });
+
+  it("should generate profile URL correctly", () => {
+    service.username = "octocat";
+    expect(service.getProfileUrl()).toBe("https://github.com/octocat");
+    expect(service.getProfileUrl("custom-user")).toBe("https://github.com/custom-user");
   });
 
   it("should reset state on signOut without removing dev_github_token from localStorage", async () => {

@@ -3,7 +3,9 @@ import { FormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
 import { AddAccountModalComponent } from "./add-account-modal.component";
-import { AuthService, AuthState } from "@services/auth.service";
+import { GithubAuthService, AuthState } from "@services/github-auth.service";
+import { GitlabAuthService } from "@services/gitlab-auth.service";
+import { AccountsService } from "@services/accounts.service";
 import { DevFlagsService } from "@services/dev-flags.service";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { SharedUiModule } from "@shared/ui/shared-ui.module";
@@ -11,7 +13,9 @@ import { SharedUiModule } from "@shared/ui/shared-ui.module";
 describe("AddAccountModalComponent", () => {
   let component: AddAccountModalComponent;
   let fixture: ComponentFixture<AddAccountModalComponent>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let githubAuthSpy: jasmine.SpyObj<GithubAuthService>;
+  let gitlabAuthSpy: jasmine.SpyObj<GitlabAuthService>;
+  let accountsServiceSpy: jasmine.SpyObj<AccountsService>;
   let modalRefSpy: jasmine.SpyObj<CustomModalRef>;
   let cloudFlag$: BehaviorSubject<boolean>;
   let customFlag$: BehaviorSubject<boolean>;
@@ -20,7 +24,10 @@ describe("AddAccountModalComponent", () => {
     cloudFlag$ = new BehaviorSubject<boolean>(false);
     customFlag$ = new BehaviorSubject<boolean>(false);
 
-    authServiceSpy = jasmine.createSpyObj("AuthService", ["signIn", "signOut", "isSignedIn"], {
+    githubAuthSpy = jasmine.createSpyObj("GithubAuthService", ["signIn", "signOut", "isSignedIn", "getAccount", "getProfileUrl"], {
+      provider: "github",
+      name: "GitHub",
+      instanceHost: "github.com",
       token: "mock-token",
       username: "testuser",
       avatarUrl: "https://example.com/avatar.jpg",
@@ -32,12 +39,47 @@ describe("AddAccountModalComponent", () => {
         displayName: "Test User",
       }).asObservable(),
     });
-    authServiceSpy.isSignedIn.and.returnValue("mock-token");
+    githubAuthSpy.isSignedIn.and.returnValue(true);
+    githubAuthSpy.getAccount.and.returnValue({
+      id: "acc-github-real",
+      provider: "github",
+      instanceHost: "github.com",
+      username: "testuser",
+      avatarUrl: "https://example.com/avatar.jpg",
+      isCurrent: true,
+    });
+    githubAuthSpy.getProfileUrl.and.returnValue("https://github.com/testuser");
+
+    gitlabAuthSpy = jasmine.createSpyObj(
+      "GitlabAuthService",
+      ["signIn", "loginWithPopup", "signOut", "isSignedIn", "getAccount", "getProfileUrl"],
+      {
+        provider: "gitlab",
+        name: "GitLab",
+        instanceHost: "gitlab.com",
+        token: null,
+        currentUser: null,
+        authChange$: new BehaviorSubject({ isSignedIn: false, token: null, user: null }).asObservable(),
+      },
+    );
+    gitlabAuthSpy.isSignedIn.and.returnValue(false);
+    gitlabAuthSpy.getAccount.and.returnValue(null);
+    gitlabAuthSpy.getProfileUrl.and.returnValue("https://gitlab.com");
 
     modalRefSpy = jasmine.createSpyObj("CustomModalRef", ["close"]);
 
+    accountsServiceSpy = jasmine.createSpyObj("AccountsService", ["getProvider", "disconnectAccount", "getProfileUrl"], {
+      isGithubConnected: true,
+      isGitlabConnected: false,
+    });
+    accountsServiceSpy.getProvider.and.callFake((type: string) => {
+      if (type === "github") return githubAuthSpy;
+      if (type === "gitlab") return gitlabAuthSpy;
+      return undefined;
+    });
+
     const devFlagsSpy = {
-      gitlabCloudEnabled: false,
+      gitlabCloudEnabled: true,
       gitlabCustomEnabled: false,
       gitlabCloudEnabled$: cloudFlag$.asObservable(),
       gitlabCustomEnabled$: customFlag$.asObservable(),
@@ -47,7 +89,7 @@ describe("AddAccountModalComponent", () => {
       declarations: [AddAccountModalComponent],
       imports: [FormsModule, SharedUiModule, TranslateModule.forRoot()],
       providers: [
-        { provide: AuthService, useValue: authServiceSpy },
+        { provide: AccountsService, useValue: accountsServiceSpy },
         { provide: CustomModalRef, useValue: modalRefSpy },
         { provide: DevFlagsService, useValue: devFlagsSpy },
       ],
@@ -64,30 +106,29 @@ describe("AddAccountModalComponent", () => {
     expect(component.isGithubConnected).toBeTrue();
   });
 
-  it("should guard platform selection when dev flags are disabled", () => {
+  it("should allow gitlab-cloud and guard gitlab-custom when dev flags are disabled", () => {
     const devFlags = TestBed.inject(DevFlagsService);
 
-    // gitlab-cloud is disabled
-    component.selectPlatform("gitlab-cloud");
-    expect(component.selectedPlatform).toBe("github");
-
-    // Enable gitlab-cloud
-    (devFlags as any).gitlabCloudEnabled = true;
     component.selectPlatform("gitlab-cloud");
     expect(component.selectedPlatform).toBe("gitlab-cloud");
+
+    component.selectPlatform("gitlab-custom");
+    expect(component.selectedPlatform).toBe("gitlab-cloud");
+
+    (devFlags as any).gitlabCustomEnabled = true;
+    component.selectPlatform("gitlab-custom");
+    expect(component.selectedPlatform).toBe("gitlab-custom");
   });
 
   it("should handle the two-step disconnect confirmation flow", () => {
     expect(component.isConfirmingDisconnect).toBeFalse();
 
-    // First click enters confirmation mode
     component.onDisconnectClick();
     expect(component.isConfirmingDisconnect).toBeTrue();
-    expect(authServiceSpy.signOut).not.toHaveBeenCalled();
+    expect(githubAuthSpy.signOut).not.toHaveBeenCalled();
 
-    // Second click performs disconnect
     component.onDisconnectClick();
-    expect(authServiceSpy.signOut).toHaveBeenCalled();
+    expect(githubAuthSpy.signOut).toHaveBeenCalled();
     expect(component.isConfirmingDisconnect).toBeFalse();
   });
 
@@ -98,12 +139,22 @@ describe("AddAccountModalComponent", () => {
     component.cancelConfirmDisconnect();
     expect(component.isConfirmingDisconnect).toBeFalse();
 
-    // Test Escape key handling
     component.onDisconnectClick();
     expect(component.isConfirmingDisconnect).toBeTrue();
 
     const escapeEvent = new KeyboardEvent("keydown", { key: "Escape" });
     component.onEscape(escapeEvent);
     expect(component.isConfirmingDisconnect).toBeFalse();
+  });
+
+  it("should return correct platform auth type key for badges", () => {
+    component.selectedPlatform = "github";
+    expect(component.platformAuthTypeKey).toBe("ACCOUNTS.AUTH_TYPE_OAUTH");
+
+    component.selectedPlatform = "gitlab-cloud";
+    expect(component.platformAuthTypeKey).toBe("ACCOUNTS.AUTH_TYPE_OAUTH_PKCE");
+
+    component.selectedPlatform = "gitlab-custom";
+    expect(component.platformAuthTypeKey).toBe("ACCOUNTS.AUTH_TYPE_PAT");
   });
 });

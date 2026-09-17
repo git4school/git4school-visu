@@ -16,6 +16,8 @@ $font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Robot
   --color-text-primary: #0f172a;
   --color-text-secondary: #475569;
   --color-text-muted: #94a3b8;
+  --color-text-white: #fff;
+  --color-on-primary: #fff;
   --color-on-surface: var(--color-text-primary);
 
   // Cognitive Palette (Flat)
@@ -30,7 +32,7 @@ $font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Robot
   --color-warning: #d97706;       // Amber/Orange: Warnings, dates, highlights
   --color-info: #0ea5e9;          // Light blue for info
 
-  // Provider Colors
+  /* Provider Colors */
   --color-github: #181717;
   --color-gitlab: #fc6d26;
 
@@ -89,6 +91,8 @@ body.dark-theme {
   --color-text-primary: #f8fafc;
   --color-text-secondary: #cbd5e1;
   --color-text-muted: #64748b;
+  --color-text-white: #fff;
+  --color-on-primary: #fff;
   --color-on-surface: var(--color-text-primary);
 
   // Cognitive Palette adapted for Dark Mode
@@ -103,7 +107,7 @@ body.dark-theme {
   --color-warning: #f59e0b;       // Brighter amber
   --color-info: #38bdf8;          // Light blue
 
-  // Provider Colors
+  /* Provider Colors */
   --color-github: #fff;
   --color-gitlab: #fc6d26;
 

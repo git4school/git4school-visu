@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-import { AuthService } from "@services/auth.service";
+import { GithubAuthService } from "@services/github-auth.service";
 import { TourService } from "@services/tour.service";
 
 @Component({
@@ -19,11 +19,7 @@ export class AuthLangNavItemComponent implements OnInit {
     ru: "Русский",
   };
 
-  constructor(
-    public translateService: TranslateService,
-    public authService: AuthService,
-    private tourService: TourService
-  ) {}
+  constructor(public translateService: TranslateService, public githubAuthService: GithubAuthService, private tourService: TourService) {}
 
   ngOnInit(): void {}
 
@@ -36,14 +32,14 @@ export class AuthLangNavItemComponent implements OnInit {
    * Signs in
    */
   onSignInGithub() {
-    this.authService.signIn();
+    this.githubAuthService.signIn();
   }
 
   /**
    * Signs out
    */
   onSignOut() {
-    this.authService.signOut();
+    this.githubAuthService.signOut();
   }
 
   /**

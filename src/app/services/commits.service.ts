@@ -6,7 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
 import { EMPTY, forkJoin, Observable, of } from "rxjs";
 import { catchError, defaultIfEmpty, expand, map, reduce, shareReplay, switchMap, tap } from "rxjs/operators";
-import { AuthService } from "./auth.service";
+import { GithubAuthService } from "./github-auth.service";
 import { Utils } from "./utils";
 
 /**
@@ -22,17 +22,17 @@ export class CommitsService {
   get headers(): HttpHeaders {
     return new HttpHeaders({
       "Content-Type": "application/json",
-      Authorization: "token " + this.authService.token,
+      Authorization: "token " + this.githubAuthService.token,
     });
   }
 
   /**
    * CommitsService constructor
    * @param http
-   * @param authService
+   * @param githubAuthService
    * @param translateService
    */
-  constructor(private http: HttpClient, private authService: AuthService, private translateService: TranslateService) {}
+  constructor(private http: HttpClient, private githubAuthService: GithubAuthService, private translateService: TranslateService) {}
 
   /**
    * Gets readMe and commits of every repository

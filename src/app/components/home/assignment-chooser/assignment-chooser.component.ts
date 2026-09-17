@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
-import { AuthService } from "@services/auth.service";
+import { GithubAuthService } from "@services/github-auth.service";
 import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
@@ -202,7 +202,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     private databaseService: DatabaseService,
     private dataService: DataService,
     private router: Router,
-    public authService: AuthService,
+    public githubAuthService: GithubAuthService,
     private translateService: TranslateService,
     private toastService: ToastService,
     private assignmentsService: AssignmentsService,
@@ -560,7 +560,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   selectAssignment(assignment: any) {
-    if (!this.authService.isSignedIn()) return;
+    if (!this.githubAuthService.isSignedIn()) return;
     this.dataService.assignment = assignment;
     this.dataService.groupFilter = "";
     if (this.dataService.repoToLoad) {
@@ -569,12 +569,12 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   deleteAssignment(assignment: any) {
-    if (!this.authService.isSignedIn()) return;
+    if (!this.githubAuthService.isSignedIn()) return;
     this.databaseService.deleteAssignment(assignment.id);
   }
 
   createAssignment() {
-    if (!this.authService.isSignedIn()) return;
+    if (!this.githubAuthService.isSignedIn()) return;
     if (this.isCreatingNew) return; // Prevent multiple creates
 
     let assignment = new Assignment();
@@ -589,7 +589,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   editAssignment(assignment: any) {
-    if (!this.authService.isSignedIn()) return;
+    if (!this.githubAuthService.isSignedIn()) return;
 
     // If we were creating a new one and clicked edit on another, discard the new one
     if (this.isCreatingNew && assignment.id !== -1) {

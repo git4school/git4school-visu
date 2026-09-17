@@ -8,7 +8,7 @@ import { DatabaseService } from "@services/database.service";
 import { ThemeService } from "@services/theme.service";
 import { Subscription } from "rxjs";
 
-import { AuthService } from "@services/auth.service";
+import { GithubAuthService } from "@services/github-auth.service";
 import { TranslateService } from "@ngx-translate/core";
 import { TourService } from "@services/tour.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
@@ -47,7 +47,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     private route: ActivatedRoute,
     private configurationService: ConfigurationService,
     private assignmentsService: AssignmentsService,
-    public authService: AuthService,
+    public githubAuthService: GithubAuthService,
     public translateService: TranslateService,
     private tourService: TourService,
     private customModalService: CustomModalService,
@@ -63,7 +63,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
       this.displayLimit = parseInt(savedLimit, 10);
     }
 
-    this.authSub = this.authService.authChange$.subscribe(() => {
+    this.authSub = this.githubAuthService.authChange$.subscribe(() => {
       this.loadRecentAssignments();
       this.cdr.markForCheck();
     });
@@ -101,8 +101,8 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     this.totalAssignmentsCount = all.length;
 
     // Filter by connection
-    const isGithubConnected = !!this.authService.isSignedIn();
-    const isGitlabConnected = false; // Mock for now
+    const isGithubConnected = this.accountsService.isGithubConnected;
+    const isGitlabConnected = this.accountsService.isGitlabConnected;
 
     let filtered = all.filter((a) => {
       (a as any).uiType = this.computeType(a);
@@ -192,7 +192,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onSignOut() {
-    this.authService.signOut();
+    this.githubAuthService.signOut();
   }
 
   replayTour() {

@@ -1,25 +1,11 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
-import {
-  AbstractControl,
-  AsyncValidatorFn,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from "@angular/forms";
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { ToastService } from "@services/toast.service";
-import { AuthService } from "@services/auth.service";
+import { GithubAuthService } from "@services/github-auth.service";
 import { DataService } from "@services/data.service";
 import { Observable, of, timer } from "rxjs";
 import { catchError, map, switchMap, take } from "rxjs/operators";
@@ -38,15 +24,9 @@ export type SortDirection = "asc" | "desc" | "";
 @Component({
   selector: "edit-repositories",
   templateUrl: "./edit-repositories.component.html",
-  styleUrls: [
-    "../configuration.component.scss",
-    "./edit-repositories.component.scss",
-  ],
+  styleUrls: ["../configuration.component.scss", "./edit-repositories.component.scss"],
 })
-export class EditRepositoriesComponent
-  extends BaseTabEditConfigurationComponent<Repository>
-  implements OnInit
-{
+export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent<Repository> implements OnInit {
   /**
    * The matrix that defines the transition relationships between the sorting modes.
    *
@@ -78,18 +58,12 @@ export class EditRepositoriesComponent
       const name = group.get("name")?.value?.toLowerCase() || "";
       const url = group.get("url")?.value?.toLowerCase() || "";
       const tpGroup = group.get("tpGroup")?.value?.toLowerCase() || "";
-      return (
-        name.includes(lowerQuery) ||
-        url.includes(lowerQuery) ||
-        tpGroup.includes(lowerQuery)
-      );
+      return name.includes(lowerQuery) || url.includes(lowerQuery) || tpGroup.includes(lowerQuery);
     });
   }
 
   get existingTpGroups(): string[] {
-    const groups = this.getFormControls
-      .map((group) => group.get("tpGroup")?.value)
-      .filter((val) => val && val.trim() !== "");
+    const groups = this.getFormControls.map((group) => group.get("tpGroup")?.value).filter((val) => val && val.trim() !== "");
     return Array.from(new Set(groups)).sort();
   }
 
@@ -111,17 +85,13 @@ export class EditRepositoriesComponent
   }
 
   isAllSelected(): boolean {
-    const visibleIds = this.filteredFormControls.map((group) =>
-      this.getFormControls.indexOf(group)
-    );
+    const visibleIds = this.filteredFormControls.map((group) => this.getFormControls.indexOf(group));
     if (visibleIds.length === 0) return false;
     return visibleIds.every((id) => this.selectedRepositories.has(id));
   }
 
   toggleSelectAll() {
-    const visibleIds = this.filteredFormControls.map((group) =>
-      this.getFormControls.indexOf(group)
-    );
+    const visibleIds = this.filteredFormControls.map((group) => this.getFormControls.indexOf(group));
     if (this.isAllSelected()) {
       visibleIds.forEach((id) => this.selectedRepositories.delete(id));
     } else {
@@ -137,9 +107,7 @@ export class EditRepositoriesComponent
 
   deleteSelected() {
     if (this.selectedRepositories.size === 0) return;
-    const indicesToDelete = Array.from(this.selectedRepositories).sort(
-      (a, b) => b - a
-    );
+    const indicesToDelete = Array.from(this.selectedRepositories).sort((a, b) => b - a);
 
     indicesToDelete.forEach((index) => this.deleteRow(index));
     this.cancelSelection();
@@ -149,19 +117,21 @@ export class EditRepositoriesComponent
    * EditRepositoriesComponent constructor
    * @param fb The service to build formGroups
    * @param cdref
-   * @param authService The service managing authentication
-   * @param modalService The service to open a modal
-   * @param translateService The service for the localization
-   * @param dataService The service to manage the application data at runtime
+   * @param githubAuthService The service managing authentication
+   * @param formBuilder Helper service for building forms
+   * @param dataService The service managing application data
+   * @param modalService The modal service
+   * @param translateService The translation service
+   * @param toastService The toast notification service
    */
   constructor(
     protected fb: FormBuilder,
     protected cdref: ChangeDetectorRef,
-    public authService: AuthService,
+    public githubAuthService: GithubAuthService,
     private modalService: CustomModalService,
     private translateService: TranslateService,
     private toastService: ToastService,
-    private dataService: DataService
+    private dataService: DataService,
   ) {
     super(fb, cdref);
   }
@@ -188,13 +158,8 @@ export class EditRepositoriesComponent
    * If the modal is closed with the "Add" button, all the new selected repositories are saved in the assignment
    */
   openAddRepositoriesModal() {
-    let modalReference: CustomModalRef = this.modalService.open(
-      ModalAddRepositoriesComponent,
-      { size: "lg" }
-    );
-    modalReference.componentInstance.repoList = this.getFormControls.map(
-      (row) => Repository.withJSON(row.value)
-    );
+    let modalReference: CustomModalRef = this.modalService.open(ModalAddRepositoriesComponent, { size: "lg" });
+    modalReference.componentInstance.repoList = this.getFormControls.map((row) => Repository.withJSON(row.value));
 
     modalReference.result.then(
       (result) => {
@@ -203,7 +168,7 @@ export class EditRepositoriesComponent
             (repo1) =>
               !this.getFormControls
                 .map((row) => Repository.withJSON(row.value))
-                .some((repo2, index, array) => Repository.isEqual(repo1, repo2))
+                .some((repo2, index, array) => Repository.isEqual(repo1, repo2)),
           );
           repoToadd.forEach((repo) => {
             this.addRow(repo);
@@ -211,7 +176,7 @@ export class EditRepositoriesComponent
           this.modify();
         }
       },
-      (error) => {}
+      (error) => {},
     );
   }
 
@@ -232,9 +197,7 @@ export class EditRepositoriesComponent
     if (!errors) {
       return "";
     }
-    return errors
-      .map((err) => this.translateService.instant("ERROR-MESSAGE-" + err.type))
-      .join(". ");
+    return errors.map((err) => this.translateService.instant("ERROR-MESSAGE-" + err.type)).join(". ");
   }
 
   /**
@@ -256,9 +219,7 @@ export class EditRepositoriesComponent
    * @param property The property to sort the table with
    */
   onSort(property: string) {
-    this.lastPropertySorted === property
-      ? this.rotate()
-      : (this.nameDirection = "asc");
+    this.lastPropertySorted === property ? this.rotate() : (this.nameDirection = "asc");
 
     this.sort(property);
     this.lastPropertySorted = property;
@@ -314,13 +275,9 @@ export class EditRepositoriesComponent
   private repoAlreadyAddedValidator(): ValidatorFn {
     return (urlControl: AbstractControl): ValidationErrors | null => {
       let doesRepoAlreadyAdded = this.getFormControls.some(
-        (repo2, index, array) =>
-          urlControl.value === repo2.get("url").value &&
-          !Object.is(urlControl, repo2.get("url"))
+        (repo2, index, array) => urlControl.value === repo2.get("url").value && !Object.is(urlControl, repo2.get("url")),
       );
-      return urlControl.value && doesRepoAlreadyAdded
-        ? { repoAlreadyAdded: true }
-        : null;
+      return urlControl.value && doesRepoAlreadyAdded ? { repoAlreadyAdded: true } : null;
     };
   }
 
@@ -328,39 +285,31 @@ export class EditRepositoriesComponent
    * A validator checking if the authenticated user has access to the specified repository (and if it exists)
    */
   private accessToRepoValidator(initialUrl?: string): AsyncValidatorFn {
-    return (
-      urlControl: AbstractControl
-    ): Observable<ValidationErrors | null> => {
+    return (urlControl: AbstractControl): Observable<ValidationErrors | null> => {
       if (!urlControl.value || urlControl.value === initialUrl) {
         return timer(10).pipe(
           map(() => null),
-          take(1)
+          take(1),
         );
       } else {
         return timer(1000).pipe(
-          switchMap(() => this.authService.verifyUserAccess(urlControl.value)),
+          switchMap(() => this.githubAuthService.verifyUserAccess(urlControl.value)),
           map((res) => {
             if (urlControl.parent && urlControl.parent.get("avatarUrl")) {
-              urlControl.parent
-                .get("avatarUrl")
-                .setValue(res?.owner?.avatar_url || null, { emitEvent: false });
+              urlControl.parent.get("avatarUrl").setValue(res?.owner?.avatar_url || null, { emitEvent: false });
             }
             return null;
           }),
           catchError((err) => {
             if (urlControl.parent && urlControl.parent.get("avatarUrl")) {
-              urlControl.parent
-                .get("avatarUrl")
-                .setValue(null, { emitEvent: false });
+              urlControl.parent.get("avatarUrl").setValue(null, { emitEvent: false });
             }
             const title = this.translateService.instant("ERROR");
-            const msg = this.translateService.instant(
-              "ERROR-MESSAGE-NO-ACCESS"
-            );
+            const msg = this.translateService.instant("ERROR-MESSAGE-NO-ACCESS");
             this.toastService.error(title, msg);
             return of({ noAccess: true });
           }),
-          take(1)
+          take(1),
         );
       }
     };
@@ -383,11 +332,7 @@ export class EditRepositoriesComponent
       this.initForm(this.datas);
     } else {
       let sortFactor = this.nameDirection === "asc" ? 1 : -1;
-      this.formGroups = [...this.formGroups].sort(
-        (a, b) =>
-          sortFactor *
-          a.get(property).value?.localeCompare(b.get(property).value)
-      );
+      this.formGroups = [...this.formGroups].sort((a, b) => sortFactor * a.get(property).value?.localeCompare(b.get(property).value));
     }
   }
 }

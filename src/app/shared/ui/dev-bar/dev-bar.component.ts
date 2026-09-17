@@ -6,7 +6,7 @@ import { environment } from "@environments/environment";
 import { DevFlagsService } from "@services/dev-flags.service";
 import { ToastService } from "@services/toast.service";
 import { ThemeService } from "@services/theme.service";
-import { AuthService } from "@services/auth.service";
+import { GithubAuthService } from "@services/github-auth.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
 
@@ -37,7 +37,7 @@ export class DevBarComponent implements OnInit, OnDestroy {
     public devFlagsService: DevFlagsService,
     public toastService: ToastService,
     public themeService: ThemeService,
-    public authService: AuthService,
+    public githubAuthService: GithubAuthService,
     private customModalService: CustomModalService,
     private router: Router,
   ) {}
