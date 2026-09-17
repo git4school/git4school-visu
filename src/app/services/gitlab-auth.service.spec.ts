@@ -7,6 +7,9 @@ describe("GitlabAuthService", () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
+    sessionStorage.clear();
+    localStorage.clear();
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [GitlabAuthService],
@@ -18,6 +21,8 @@ describe("GitlabAuthService", () => {
 
   afterEach(() => {
     httpMock.verify();
+    sessionStorage.clear();
+    localStorage.clear();
   });
 
   it("should be created with default unauthenticated state", () => {
@@ -93,5 +98,16 @@ describe("GitlabAuthService", () => {
     expect(challenge.length).toBeGreaterThan(0);
     // Base64URL characters only
     expect(challenge).toMatch(/^[A-Za-z0-9_-]+$/);
+  });
+
+  it("should restore session on init if valid token and user exist in storage", () => {
+    const tokenStorage = TestBed.inject(GitlabAuthService)["tokenStorageService"];
+    tokenStorage.saveToken("gitlab", "stored-gl-token", true);
+    tokenStorage.saveUserData("gitlab", { id: 123, username: "stored_user", name: "Stored", avatar_url: "", web_url: "" }, true);
+
+    const freshService = new GitlabAuthService(httpMock as any, tokenStorage);
+    expect(freshService.isSignedIn()).toBeTrue();
+    expect(freshService.token).toBe("stored-gl-token");
+    expect(freshService.currentUser?.username).toBe("stored_user");
   });
 });

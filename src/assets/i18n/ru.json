@@ -609,7 +609,9 @@
     "DEV_MODE_PAT": "Проверка токена PAT для сервера \"{{url}}\"... (Режим разработки)",
     "AUTH_TYPE_OAUTH": "OAuth 2.0",
     "AUTH_TYPE_OAUTH_PKCE": "OAuth 2.0 PKCE",
-    "AUTH_TYPE_PAT": "Токен PAT"
+    "AUTH_TYPE_PAT": "Токен PAT",
+    "REMEMBER_ME": "Оставаться в системе на этом устройстве",
+    "REMEMBER_ME_TOOLTIP": "Токен сохраняется в localStorage браузера. Удобно, чтобы не входить повторно, но уязвимо к XSS и физическому доступу к компьютеру. Включайте только на личном доверенном устройстве."
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Опции и генератор",

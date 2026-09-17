@@ -1,7 +1,9 @@
 import { TestBed } from "@angular/core/testing";
+import { HttpClient } from "@angular/common/http";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { Router } from "@angular/router";
 import * as firebase from "firebase/app";
+import { TokenStorageService } from "@services/token-storage.service";
 import { GithubAuthService } from "./github-auth.service";
 import { ToastService } from "./toast.service";
 
@@ -13,7 +15,8 @@ describe("GithubAuthService", () => {
   let mockFirebaseAuth: any;
 
   const clearAuthKeys = () => {
-    ["github_username", "github_avatar", "github_name", "github_token"].forEach((key) => localStorage.removeItem(key));
+    sessionStorage.clear();
+    localStorage.clear();
   };
 
   beforeEach(() => {
@@ -44,7 +47,6 @@ describe("GithubAuthService", () => {
       httpMock.verify();
     }
     clearAuthKeys();
-    localStorage.removeItem("dev_github_token");
   });
 
   it("should be created and report isSignedIn based on token", () => {
@@ -77,9 +79,8 @@ describe("GithubAuthService", () => {
     expect(service.getProfileUrl("custom-user")).toBe("https://github.com/custom-user");
   });
 
-  it("should reset state on signOut without removing dev_github_token from localStorage", async () => {
-    localStorage.setItem("dev_github_token", "secret-dev-token");
-    localStorage.setItem("github_username", "cached-user");
+  it("should reset state and clear storage on signOut", async () => {
+    localStorage.setItem("dev_github_token", "old-dev-token");
     service.token = "active-token";
     service.username = "cached-user";
 
@@ -95,9 +96,7 @@ describe("GithubAuthService", () => {
     expect(service.avatarUrl).toBeNull();
     expect(service.displayName).toBeNull();
     expect(routerSpy.navigate).toHaveBeenCalledWith(["/"]);
-
-    // dev_github_token must NOT be removed from localStorage
-    expect(localStorage.getItem("dev_github_token")).toBe("secret-dev-token");
+    expect(localStorage.getItem("dev_github_token")).toBeNull();
     expect(lastEmittedState.isSignedIn).toBeFalse();
 
     sub.unsubscribe();
@@ -123,5 +122,40 @@ describe("GithubAuthService", () => {
     expect(service.username).toBe("mika-dev");
     expect(service.avatarUrl).toBe("https://avatars.githubusercontent.com/u/123");
     expect(service.displayName).toBe("Mikael");
+  });
+
+  it("should configure firebase persistence according to rememberMe parameter", async () => {
+    mockFirebaseAuth.signInWithPopup.and.returnValue(
+      Promise.resolve({
+        credential: { accessToken: "gho_test_123" },
+        additionalUserInfo: { username: "octocat" },
+        user: { photoURL: "https://avatar.png", displayName: "Octocat" },
+      }),
+    );
+
+    await service.signIn(false);
+    expect(mockFirebaseAuth.setPersistence).toHaveBeenCalledWith(firebase.auth.Auth.Persistence.SESSION);
+    expect(service.token).toBe("gho_test_123");
+
+    await service.signIn(true);
+    expect(mockFirebaseAuth.setPersistence).toHaveBeenCalledWith(firebase.auth.Auth.Persistence.LOCAL);
+  });
+
+  it("should restore session from TokenStorageService on creation", () => {
+    const tokenStorageService = TestBed.inject(TokenStorageService);
+    tokenStorageService.saveToken("github", "gho_saved_token", false);
+    tokenStorageService.saveUserData(
+      "github",
+      { username: "restored-user", avatarUrl: "https://avatar.url/img.png", displayName: "Restored" },
+      false,
+    );
+
+    const newService = new GithubAuthService(routerSpy, TestBed.inject(HttpClient), toastSpy, tokenStorageService);
+
+    expect(newService.isSignedIn()).toBeTrue();
+    expect(newService.token).toBe("gho_saved_token");
+    expect(newService.username).toBe("restored-user");
+    expect(newService.avatarUrl).toBe("https://avatar.url/img.png");
+    expect(newService.displayName).toBe("Restored");
   });
 });

@@ -618,6 +618,81 @@
   }
 }
 
+/* Remember Me Checkbox & Security Risk Tooltip */
+.remember-me-row {
+  user-select: none;
+
+  .remember-me-checkbox-custom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1.5px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-on-primary);
+    transition: all $transition-fast;
+    flex-shrink: 0;
+
+    .check-icon {
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 120ms ease-in-out;
+    }
+
+    &.checked {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+
+      .check-icon {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+
+  .remember-me-text {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    transition: color $transition-fast;
+  }
+
+  .remember-me-label {
+    cursor: pointer;
+    margin: 0;
+
+    &:hover .remember-me-checkbox-custom:not(.checked) {
+      border-color: var(--color-primary);
+    }
+
+    &:hover .remember-me-text {
+      color: var(--color-text-primary);
+    }
+  }
+
+  .remember-me-info-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    color: var(--color-text-muted);
+    cursor: help;
+    transition: all $transition-fast;
+    outline: none;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-primary);
+      background-color: var(--color-primary-bg);
+      transform: scale(1.1);
+    }
+  }
+}
+
 .btn-connect-cta {
   display: inline-flex;
   align-items: center;

@@ -11,7 +11,7 @@ export interface GitAuthProvider {
 
   isSignedIn(): boolean;
   getAccount(): Account | null;
-  signIn(): Promise<Account | void>;
+  signIn(rememberMe?: boolean): Promise<Account | void>;
   signOut(): Promise<void> | void;
   getProfileUrl(username?: string): string;
 }

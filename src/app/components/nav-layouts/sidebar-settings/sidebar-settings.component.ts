@@ -63,7 +63,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
       this.displayLimit = parseInt(savedLimit, 10);
     }
 
-    this.authSub = this.githubAuthService.authChange$.subscribe(() => {
+    this.authSub = this.accountsService.accounts$.subscribe(() => {
       this.loadRecentAssignments();
       this.cdr.markForCheck();
     });
@@ -90,25 +90,26 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   computeType(assignment: Assignment): "github" | "gitlab" {
-    if (assignment.title && assignment.title.toLowerCase().includes("gitlab")) {
-      return "gitlab";
+    if (assignment.provider) {
+      return assignment.provider;
+    }
+    if (assignment.repositories && assignment.repositories.length > 0) {
+      const gitlabRepo = assignment.repositories.find((r) => r.provider === "gitlab" || r.url?.includes("gitlab"));
+      if (gitlabRepo) {
+        return "gitlab";
+      }
     }
     return "github";
   }
 
   async loadRecentAssignments() {
-    let all = await this.databaseService.getAllAssignments();
+    const all = await this.databaseService.getAllAssignments();
     this.totalAssignmentsCount = all.length;
 
-    // Filter by connection
-    const isGithubConnected = this.accountsService.isGithubConnected;
-    const isGitlabConnected = this.accountsService.isGitlabConnected;
-
-    let filtered = all.filter((a) => {
-      (a as any).uiType = this.computeType(a);
-      if ((a as any).uiType === "github") return isGithubConnected;
-      if ((a as any).uiType === "gitlab") return isGitlabConnected;
-      return false;
+    const filtered = all.filter((a) => {
+      const type = this.computeType(a);
+      (a as any).uiType = type;
+      return this.accountsService.hasAccount(type);
     });
 
     // Sort by lastModificationDate descending (most recently modified or opened)
@@ -119,10 +120,11 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     if (this.displayLimit !== "all") {
-      filtered = filtered.slice(0, this.displayLimit);
+      this.recentAssignments = filtered.slice(0, this.displayLimit);
+    } else {
+      this.recentAssignments = filtered;
     }
 
-    this.recentAssignments = filtered;
     this.cdr.detectChanges();
   }
 

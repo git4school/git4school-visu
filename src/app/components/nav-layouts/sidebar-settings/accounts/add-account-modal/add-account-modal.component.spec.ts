@@ -157,4 +157,26 @@ describe("AddAccountModalComponent", () => {
     component.selectedPlatform = "gitlab-custom";
     expect(component.platformAuthTypeKey).toBe("ACCOUNTS.AUTH_TYPE_PAT");
   });
+
+  it("should default rememberMe to false and pass it to provider.signIn", async () => {
+    expect(component.rememberMe).toBeFalse();
+
+    component.selectedPlatform = "gitlab-cloud";
+    gitlabAuthSpy.signIn.and.returnValue(
+      Promise.resolve({
+        id: "acc-gitlab-cloud",
+        provider: "gitlab",
+        instanceHost: "gitlab.com",
+        username: "testuser",
+        avatarUrl: null,
+        isCurrent: false,
+      }),
+    );
+
+    component.rememberMe = true;
+    await component.submitConnect();
+
+    expect(gitlabAuthSpy.signIn).toHaveBeenCalledWith(true);
+    expect(modalRefSpy.close).toHaveBeenCalled();
+  });
 });

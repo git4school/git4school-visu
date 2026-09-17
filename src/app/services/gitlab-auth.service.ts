@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { Account, GitProviderType } from "@models/Account.model";
 import { GitAuthProvider } from "@models/GitAuthProvider.model";
+import { TokenStorageService } from "@services/token-storage.service";
 import { environment } from "../../environments/environment";
 
 export interface GitlabUser {
@@ -25,6 +26,7 @@ interface TokenResponse {
   refresh_token?: string;
   scope?: string;
   created_at?: number;
+  expires_in?: number;
 }
 
 @Injectable({
@@ -51,7 +53,9 @@ export class GitlabAuthService implements GitAuthProvider {
   private instanceUrl = (environment.gitlab?.instanceUrl || "https://gitlab.com").replace(/\/+$/, "");
   private scope = environment.gitlab?.scope || "read_api read_user";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) {
+    this.restoreSession();
+  }
 
   isSignedIn(): boolean {
     return !!(this.token && this.currentUser);
@@ -71,8 +75,8 @@ export class GitlabAuthService implements GitAuthProvider {
     };
   }
 
-  async signIn(): Promise<Account> {
-    await this.loginWithPopup();
+  async signIn(rememberMe = false): Promise<Account> {
+    await this.loginWithPopup(rememberMe);
     const account = this.getAccount();
     if (!account) {
       throw new Error("GitLab authentication succeeded but account details could not be retrieved");
@@ -80,7 +84,7 @@ export class GitlabAuthService implements GitAuthProvider {
     return account;
   }
 
-  async loginWithPopup(): Promise<GitlabUser> {
+  async loginWithPopup(rememberMe = false): Promise<GitlabUser> {
     if (!this.clientId) {
       throw new Error("GitLab Client ID is not configured in environment.ts");
     }
@@ -126,6 +130,9 @@ export class GitlabAuthService implements GitAuthProvider {
       this.token = accessToken;
       this.currentUser = user;
 
+      this.tokenStorageService.saveToken("gitlab", accessToken, rememberMe, tokenResponse.expires_in);
+      this.tokenStorageService.saveUserData("gitlab", user, rememberMe);
+
       this.notifyAuthChange();
       return user;
     } finally {
@@ -138,6 +145,7 @@ export class GitlabAuthService implements GitAuthProvider {
   signOut(): void {
     this.token = null;
     this.currentUser = null;
+    this.tokenStorageService.clearAll("gitlab");
     this.notifyAuthChange();
   }
 
@@ -305,6 +313,19 @@ export class GitlabAuthService implements GitAuthProvider {
     });
 
     return this.http.get<GitlabUser>(userUrl, { headers }).toPromise();
+  }
+
+  private restoreSession(): void {
+    const storedToken = this.tokenStorageService.getToken("gitlab");
+    const storedUser = this.tokenStorageService.getUserData<GitlabUser>("gitlab");
+
+    if (storedToken && storedUser) {
+      this.token = storedToken;
+      this.currentUser = storedUser;
+      this.notifyAuthChange();
+    } else if (storedToken || storedUser) {
+      this.tokenStorageService.clearAll("gitlab");
+    }
   }
 
   private notifyAuthChange(): void {

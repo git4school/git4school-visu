@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { GithubAuthService } from "@services/github-auth.service";
@@ -18,7 +18,7 @@ import { environment } from "@environments/environment";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   readonly isProduction = environment.production;
   /**
    * AppComponent constructor
@@ -38,21 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * This method is called once the component is loaded.
-   * If the user is not signed in, call the the sign in method.
    */
   ngOnInit(): void {
     Chart.pluginService.unregister(ChartDataLabels);
-    this.githubAuthService.loading = false;
-    if (!this.githubAuthService.isSignedIn()) {
-      this.githubAuthService.reauthenticate();
-    }
-  }
-
-  /**
-   * This method is called when the component is destroyed.
-   * Disconnects the user
-   */
-  ngOnDestroy(): void {
-    this.githubAuthService.signOut();
   }
 }

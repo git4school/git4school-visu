@@ -192,6 +192,39 @@
             <small class="form-text-muted mt-1 d-block">{{ 'ACCOUNTS.PAT_HELP' | translate }}</small>
           </div>
 
+          <!-- Remember Me Option with Risk Info Tooltip (Custom PAT) -->
+          <div class="remember-me-row mb-3 d-flex align-items-center justify-content-center">
+            <label class="remember-me-label d-inline-flex align-items-center mb-0" for="rememberMeCustomCheckbox">
+              <input
+                type="checkbox"
+                id="rememberMeCustomCheckbox"
+                class="remember-me-checkbox-input sr-only"
+                [(ngModel)]="rememberMe"
+              />
+              <span class="remember-me-checkbox-custom mr-2" [class.checked]="rememberMe">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="check-icon">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="remember-me-text">{{ 'ACCOUNTS.REMEMBER_ME' | translate }}</span>
+            </label>
+
+            <span
+              class="remember-me-info-trigger ml-2"
+              [appTooltip]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
+              placement="top"
+              tabindex="0"
+              role="button"
+              [attr.aria-label]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </span>
+          </div>
+
           <div class="text-center">
             <button
               type="button"
@@ -321,6 +354,39 @@
         {{ 'ACCOUNTS.OAUTH_GITLAB_DESC' | translate }}
       </ng-container>
     </p>
+
+    <!-- Remember Me Option with Risk Info Tooltip -->
+    <div class="remember-me-row mb-3 d-flex align-items-center justify-content-center">
+      <label class="remember-me-label d-inline-flex align-items-center mb-0" for="rememberMeCheckbox">
+        <input
+          type="checkbox"
+          id="rememberMeCheckbox"
+          class="remember-me-checkbox-input sr-only"
+          [(ngModel)]="rememberMe"
+        />
+        <span class="remember-me-checkbox-custom mr-2" [class.checked]="rememberMe">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="check-icon">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
+        <span class="remember-me-text">{{ 'ACCOUNTS.REMEMBER_ME' | translate }}</span>
+      </label>
+
+      <span
+        class="remember-me-info-trigger ml-2"
+        [appTooltip]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
+        placement="top"
+        tabindex="0"
+        role="button"
+        [attr.aria-label]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
+      >
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </span>
+    </div>
 
     <button
       type="button"

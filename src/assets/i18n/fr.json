@@ -612,7 +612,9 @@
     "DEV_MODE_PAT": "Vérification du token PAT pour l'instance \"{{url}}\"... (Mode Dev)",
     "AUTH_TYPE_OAUTH": "OAuth 2.0",
     "AUTH_TYPE_OAUTH_PKCE": "OAuth 2.0 PKCE",
-    "AUTH_TYPE_PAT": "Token PAT"
+    "AUTH_TYPE_PAT": "Token PAT",
+    "REMEMBER_ME": "Rester connecté sur cet appareil",
+    "REMEMBER_ME_TOOLTIP": "Le jeton sera stocké dans le localStorage du navigateur. Pratique pour éviter de vous reconnecter, mais sensible aux failles XSS et à l'accès physique à l'ordinateur. À n'activer que sur votre machine personnelle."
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Options & générateur",

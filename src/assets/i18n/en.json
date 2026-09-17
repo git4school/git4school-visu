@@ -612,7 +612,9 @@
     "DEV_MODE_PAT": "Verifying PAT token for instance \"{{url}}\"... (Dev Mode)",
     "AUTH_TYPE_OAUTH": "OAuth 2.0",
     "AUTH_TYPE_OAUTH_PKCE": "OAuth 2.0 PKCE",
-    "AUTH_TYPE_PAT": "Token PAT"
+    "AUTH_TYPE_PAT": "Token PAT",
+    "REMEMBER_ME": "Stay signed in on this device",
+    "REMEMBER_ME_TOOLTIP": "The token is stored in the browser's localStorage. Convenient to avoid signing in repeatedly, but vulnerable to XSS and physical device access. Only enable on a trusted personal computer."
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Options & generator",

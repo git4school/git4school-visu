@@ -167,7 +167,7 @@
         <ng-template #docsTooltip>{{ 'SETTINGS.DOCS-TOOLTIP' | translate }}</ng-template>
 
         <!-- Replay Tour -->
-        <div class="sidebar-item d-flex align-items-center" *ngIf="githubAuthService.isSignedIn()" (click)="replayTour()">
+        <div class="sidebar-item d-flex align-items-center" *ngIf="accountsService.currentAccounts.length > 0" (click)="replayTour()">
             <svg class="sidebar-item-icon text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>

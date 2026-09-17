@@ -17,6 +17,7 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
   isConnecting = false;
   isConfirmingDisconnect = false;
   errorMessage = "";
+  rememberMe = false;
 
   gitlabInstanceUrl = "";
   gitlabToken = "";
@@ -127,7 +128,7 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
     this.errorMessage = "";
 
     try {
-      await provider.signIn();
+      await provider.signIn(this.rememberMe);
       this.modalRef.close();
     } catch (err: any) {
       if (err?.code === "auth/popup-closed-by-user" || err?.message === "POPUP_CLOSED") {
