@@ -34,7 +34,7 @@ export class TokenStorageService {
     }
 
     const now = Date.now();
-    const expiresAt = expiresInSeconds && expiresInSeconds > 0 ? now + expiresInSeconds * 1000 : null;
+    const expiresAt = typeof expiresInSeconds === "number" && !isNaN(expiresInSeconds) ? now + expiresInSeconds * 1000 : null;
 
     const payload: StoredTokenPayload = {
       token,

@@ -2,6 +2,8 @@ import { TestBed } from "@angular/core/testing";
 import { AccountsService } from "./accounts.service";
 import { GithubAuthService, AuthState } from "./github-auth.service";
 import { GitlabAuthService, GitlabAuthState } from "./gitlab-auth.service";
+import { GithubDataService } from "./github-data.service";
+import { GitlabDataService } from "./gitlab-data.service";
 import { BehaviorSubject } from "rxjs";
 
 describe("AccountsService", () => {
@@ -59,6 +61,8 @@ describe("AccountsService", () => {
         AccountsService,
         { provide: GithubAuthService, useValue: githubAuthServiceSpy },
         { provide: GitlabAuthService, useValue: gitlabAuthServiceSpy },
+        { provide: GithubDataService, useValue: null },
+        { provide: GitlabDataService, useValue: null },
       ],
     });
 
