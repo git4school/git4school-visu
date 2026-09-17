@@ -29,5 +29,5 @@ L'architecture initiale présentait plusieurs fragilités et dettes techniques :
 - **Élimination complète des hacks DOM** : Plus aucun appel à `querySelector` pour manipuler ou supprimer des éléments de composants tiers.
 - **Robustesse et extensibilité** : Tout nouvel overlay ou panneau ajouté dans l'application peut s'abonner à `OverlayManagerService` sans modifier `OverviewComponent`.
 - **Fidélité visuelle et fin des sauts d'affichage** : Élimination définitive des scintillements et des sauts de dropdowns sous la barre de navigation.
-- **Règle d'architecture formalisée** : Mise à jour de `GEMINI.md` imposant l'usage exclusif de `OverlayManagerService` pour coordonner la fermeture des overlays.
+- **Règle d'architecture formalisée** : Règle imposant l'usage exclusif de `OverlayManagerService` pour coordonner la fermeture des overlays.
 - **Périmètre et frontière claire** : `OverlayManagerService` est strictement restreint à la publication/souscription d'événements de fermeture ; les interactions de navigation clavier/souris au sein des fenêtres de suggestions sont découplées dans une directive dédiée (voir ADR-0005).
