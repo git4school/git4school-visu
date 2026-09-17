@@ -87,12 +87,34 @@
                                 <a href="#accountsSubject" >accountsSubject</a>
                             </li>
                             <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#authService" >authService</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#authSubscription" >authSubscription</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#authSubscription" >authSubscription</a>
+                                <a href="#dataServices" >dataServices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#githubAuthService" >githubAuthService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#githubDataService" >githubDataService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#gitlabAuthService" >gitlabAuthService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#gitlabDataService" >gitlabDataService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#providers" >providers</a>
                             </li>
                         </ul>
                     </td>
@@ -107,20 +129,29 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#buildRealGithubAccount" >buildRealGithubAccount</a>
-                            </li>
-                            <li>
                                 <a href="#disconnectAccount" >disconnectAccount</a>
                             </li>
                             <li>
+                                <a href="#getDataService" >getDataService</a>
+                            </li>
+                            <li>
                                 <a href="#getProfileUrl" >getProfileUrl</a>
+                            </li>
+                            <li>
+                                <a href="#getProvider" >getProvider</a>
+                            </li>
+                            <li>
+                                <a href="#hasAccount" >hasAccount</a>
                             </li>
                             <li>
                                 <a href="#isEmpty" >isEmpty</a>
                             </li>
                             <li>
                                 <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#registerProvider" >registerProvider</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -148,6 +179,9 @@
                                 <li>
                                     <a href="#isGithubConnected" >isGithubConnected</a>
                                 </li>
+                                <li>
+                                    <a href="#isGitlabConnected" >isGitlabConnected</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -161,12 +195,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>)</code>
+<code>constructor(githubAuthService: <a href="../injectables/GithubAuthService.html" target="_self">GithubAuthService</a>, gitlabAuthService: <a href="../injectables/GitlabAuthService.html" target="_self">GitlabAuthService</a>, githubDataService?: <a href="../injectables/GithubDataService.html" target="_self">GithubDataService</a>, gitlabDataService?: <a href="../injectables/GitlabDataService.html" target="_self">GitlabDataService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/services/accounts.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/services/accounts.service.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -184,14 +218,50 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>githubAuthService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/GithubAuthService.html" target="_self" >GithubAuthService</a></code>
                                                         </td>
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>gitlabAuthService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GitlabAuthService.html" target="_self" >GitlabAuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>githubDataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GithubDataService.html" target="_self" >GithubDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>gitlabDataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GitlabDataService.html" target="_self" >GitlabDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -213,45 +283,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="buildRealGithubAccount"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>buildRealGithubAccount</b></span>
-                        <a href="#buildRealGithubAccount"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>buildRealGithubAccount()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/app/services/accounts.service.ts:57</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Account.html" target="_self" >Account | null</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="disconnectAccount"></a>
                     <span class="name">
                         <span ><b>disconnectAccount</b></span>
@@ -268,8 +299,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/app/services/accounts.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">src/app/services/accounts.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -321,6 +352,79 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getDataService"></a>
+                    <span class="name">
+                        <span ><b>getDataService</b></span>
+                        <a href="#getDataService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDataService(providerType: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/app/services/accounts.service.ts:59</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>providerType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&quot;github&quot;</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/DataService.html" target="_self" >GitDataService</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getProfileUrl"></a>
                     <span class="name">
                         <span ><b>getProfileUrl</b></span>
@@ -337,8 +441,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/app/services/accounts.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/app/services/accounts.service.ts:93</a></div>
                 </td>
             </tr>
 
@@ -390,6 +494,144 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getProvider"></a>
+                    <span class="name">
+                        <span ><b>getProvider</b></span>
+                        <a href="#getProvider"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getProvider(providerType: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">src/app/services/accounts.service.ts:71</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>providerType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/GitAuthProvider.html" target="_self" >GitAuthProvider | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasAccount"></a>
+                    <span class="name">
+                        <span ><b>hasAccount</b></span>
+                        <a href="#hasAccount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasAccount(providerType: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/app/services/accounts.service.ts:55</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>providerType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="isEmpty"></a>
                     <span class="name">
                         <span ><b>isEmpty</b></span>
@@ -406,8 +648,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/app/services/accounts.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">src/app/services/accounts.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -443,8 +685,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/app/services/accounts.service.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/app/services/accounts.service.ts:67</a></div>
                 </td>
             </tr>
 
@@ -455,6 +697,77 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="registerProvider"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>registerProvider</b></span>
+                        <a href="#registerProvider"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>registerProvider(provider: <a href="../interfaces/GitAuthProvider.html" target="_self">GitAuthProvider</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">src/app/services/accounts.service.ts:107</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>provider</td>
+                                    <td>
+                                                <code><a href="../interfaces/GitAuthProvider.html" target="_self" >GitAuthProvider</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -482,8 +795,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">src/app/services/accounts.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">src/app/services/accounts.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -525,7 +838,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/services/accounts.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/services/accounts.service.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -551,34 +864,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/accounts.service.ts:12</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="authService"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>authService</b></span>
-                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/services/accounts.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/accounts.service.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -599,13 +885,192 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Subscription</code>
+                        <i>Default value : </i><code>new Subscription()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/accounts.service.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataServices"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>dataServices</b></span>
+                        <a href="#dataServices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;GitProviderType, GitDataService&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/services/accounts.service.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="githubAuthService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>githubAuthService</b></span>
+                        <a href="#githubAuthService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/GithubAuthService.html" target="_self" >GithubAuthService</a></code>
 
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/services/accounts.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/services/accounts.service.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="githubDataService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>githubDataService</b></span>
+                        <a href="#githubDataService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/GithubDataService.html" target="_self" >GithubDataService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Optional()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/accounts.service.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gitlabAuthService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>gitlabAuthService</b></span>
+                        <a href="#gitlabAuthService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/GitlabAuthService.html" target="_self" >GitlabAuthService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/services/accounts.service.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gitlabDataService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>gitlabDataService</b></span>
+                        <a href="#gitlabDataService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/GitlabDataService.html" target="_self" >GitlabDataService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Optional()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/services/accounts.service.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="providers"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>providers</b></span>
+                        <a href="#providers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;GitProviderType, GitAuthProvider&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/accounts.service.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -634,7 +1099,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/services/accounts.service.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/services/accounts.service.ts:43</a></div>
                                 </td>
                             </tr>
 
@@ -656,7 +1121,29 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/accounts.service.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/services/accounts.service.ts:47</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isGitlabConnected"></a>
+                        <span class="name"><b>isGitlabConnected</b><a href="#isGitlabConnected"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isGitlabConnected()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/services/accounts.service.ts:51</a></div>
                                 </td>
                             </tr>
 
@@ -667,10 +1154,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy, Optional } from &quot;@angular/core&quot;;
 import { BehaviorSubject, Observable, Subscription } from &quot;rxjs&quot;;
-import { AuthService } from &quot;@services/auth.service&quot;;
-import { Account } from &quot;@models/Account.model&quot;;
+import { GithubAuthService } from &quot;@services/github-auth.service&quot;;
+import { GitlabAuthService } from &quot;@services/gitlab-auth.service&quot;;
+import { GithubDataService } from &quot;@services/github-data.service&quot;;
+import { GitlabDataService } from &quot;@services/gitlab-data.service&quot;;
+import { Account, GitProviderType } from &quot;@models/Account.model&quot;;
+import { GitAuthProvider } from &quot;@models/GitAuthProvider.model&quot;;
+import { GitDataService } from &quot;@models/GitDataService.model&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -679,15 +1171,29 @@ export class AccountsService implements OnDestroy {
   public accounts$: Observable&lt;Account[]&gt;;
 
   private accountsSubject &#x3D; new BehaviorSubject&lt;Account[]&gt;([]);
-  private authSubscription: Subscription;
+  private authSubscription &#x3D; new Subscription();
+  private providers &#x3D; new Map&lt;GitProviderType, GitAuthProvider&gt;();
+  private dataServices &#x3D; new Map&lt;GitProviderType, GitDataService&gt;();
 
-  constructor(public authService: AuthService) {
+  constructor(
+    public githubAuthService: GithubAuthService,
+    public gitlabAuthService: GitlabAuthService,
+    @Optional() public githubDataService?: GithubDataService,
+    @Optional() public gitlabDataService?: GitlabDataService,
+  ) {
     this.accounts$ &#x3D; this.accountsSubject.asObservable();
-    this.updateAccounts();
 
-    this.authSubscription &#x3D; this.authService.authChange$.subscribe(() &#x3D;&gt; {
-      this.updateAccounts();
-    });
+    this.registerProvider(this.githubAuthService);
+    this.registerProvider(this.gitlabAuthService);
+
+    if (this.githubDataService) {
+      this.dataServices.set(&quot;github&quot;, this.githubDataService);
+    }
+    if (this.gitlabDataService) {
+      this.dataServices.set(&quot;gitlab&quot;, this.gitlabDataService);
+    }
+
+    this.updateAccounts();
   }
 
   get currentAccounts(): Account[] {
@@ -695,17 +1201,44 @@ export class AccountsService implements OnDestroy {
   }
 
   get isGithubConnected(): boolean {
-    return !!this.authService.isSignedIn();
+    return this.githubAuthService.isSignedIn();
+  }
+
+  get isGitlabConnected(): boolean {
+    return this.gitlabAuthService.isSignedIn();
+  }
+
+  hasAccount(providerType: GitProviderType): boolean {
+    return Boolean(this.providers.get(providerType)?.isSignedIn());
+  }
+
+  getDataService(providerType: GitProviderType &#x3D; &quot;github&quot;): GitDataService {
+    const service &#x3D; this.dataServices.get(providerType);
+    if (!service) {
+      return this.githubDataService;
+    }
+    return service;
   }
 
   ngOnDestroy(): void {
-    this.authSubscription?.unsubscribe();
+    this.authSubscription.unsubscribe();
+  }
+
+  getProvider(providerType: GitProviderType): GitAuthProvider | undefined {
+    return this.providers.get(providerType);
   }
 
   disconnectAccount(id: string): void {
-    const isGithub &#x3D; id &#x3D;&#x3D;&#x3D; &quot;acc-github-real&quot; || this.currentAccounts.some((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; id &amp;&amp; a.provider &#x3D;&#x3D;&#x3D; &quot;github&quot;);
-    if (isGithub) {
-      this.authService.signOut();
+    const account &#x3D; this.currentAccounts.find((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; id);
+    if (account) {
+      this.providers.get(account.provider)?.signOut();
+      return;
+    }
+    for (const provider of this.providers.values()) {
+      if (id.includes(provider.provider)) {
+        provider.signOut();
+        return;
+      }
     }
   }
 
@@ -717,31 +1250,40 @@ export class AccountsService implements OnDestroy {
     if (!account?.username) {
       return &quot;#&quot;;
     }
-    const fallbackHost &#x3D; account.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; ? &quot;gitlab.com&quot; : &quot;github.com&quot;;
+    const provider &#x3D; account.provider ? this.providers.get(account.provider as GitProviderType) : undefined;
+    if (provider &amp;&amp; (!account.instanceHost || account.instanceHost &#x3D;&#x3D;&#x3D; provider.instanceHost)) {
+      return provider.getProfileUrl(account.username);
+    }
+    const fallbackHost &#x3D; provider?.instanceHost || (account.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; ? &quot;gitlab.com&quot; : &quot;github.com&quot;);
     const host &#x3D; account.instanceHost || fallbackHost;
     const cleanHost &#x3D; host.replace(/^https?:\/\//i, &quot;&quot;).replace(/\/.*$/, &quot;&quot;);
     return &#x60;https://${cleanHost}/${encodeURIComponent(account.username)}&#x60;;
   }
 
-  private buildRealGithubAccount(): Account | null {
-    if (!this.authService.isSignedIn()) {
-      return null;
-    }
-    const username &#x3D; this.authService.username || &quot;github_user&quot;;
-    return {
-      id: &quot;acc-github-real&quot;,
-      provider: &quot;github&quot;,
-      instanceHost: &quot;github.com&quot;,
-      username,
-      avatarUrl: this.authService.avatarUrl || &#x60;https://avatars.githubusercontent.com/${username}&#x60;,
-      lastSync: &quot;Connecté via Firebase&quot;,
-      isCurrent: true,
-    };
+  private registerProvider(provider: GitAuthProvider): void {
+    this.providers.set(provider.provider, provider);
+    this.authSubscription.add(
+      provider.authChange$.subscribe(() &#x3D;&gt; {
+        this.updateAccounts();
+      }),
+    );
   }
 
   private updateAccounts(): void {
-    const realGithub &#x3D; this.buildRealGithubAccount();
-    this.accountsSubject.next(realGithub ? [realGithub] : []);
+    const accounts: Account[] &#x3D; [];
+    for (const provider of this.providers.values()) {
+      const acc &#x3D; provider.getAccount();
+      if (acc) {
+        acc.isCurrent &#x3D; false;
+        accounts.push(acc);
+      }
+    }
+    if (accounts.length &gt; 0) {
+      const primaryIdx &#x3D; accounts.findIndex((a) &#x3D;&gt; a.provider &#x3D;&#x3D;&#x3D; &quot;github&quot;);
+      const activeIdx &#x3D; primaryIdx &gt;&#x3D; 0 ? primaryIdx : 0;
+      accounts[activeIdx].isCurrent &#x3D; true;
+    }
+    this.accountsSubject.next(accounts);
   }
 }
 </code></pre>

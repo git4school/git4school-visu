@@ -66,7 +66,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/services/auth.service.ts</code>
+            <code>src/app/services/github-auth.service.ts</code>
         </p>
 
 
@@ -296,12 +296,16 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders } from &quot;@angular/common/http&quot;;
-import { Injectable } from &quot;@angular/core&quot;;
+import { Injectable, Optional } from &quot;@angular/core&quot;;
 import { Router } from &quot;@angular/router&quot;;
+import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import * as firebase from &quot;firebase/app&quot;;
 import { auth } from &quot;firebase/app&quot;;
 import &quot;firebase/auth&quot;;
 import { BehaviorSubject, Observable } from &quot;rxjs&quot;;
+import { Account, GitProviderType } from &quot;@models/Account.model&quot;;
+import { GitAuthProvider } from &quot;@models/GitAuthProvider.model&quot;;
+import { TokenStorageService } from &quot;@services/token-storage.service&quot;;
 import { ToastService } from &quot;./toast.service&quot;;
 
 export interface AuthState {
@@ -313,38 +317,42 @@ export interface AuthState {
 }
 
 /**
- * A service used to sign in and sign out from Github
+ * A service used to sign in and sign out from GitHub via Firebase.
+ * Implements the GitAuthProvider strategy interface.
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class AuthService {
-  /**
-   * The Github access token
-   */
-  token: string | null &#x3D; localStorage.getItem(&quot;dev_github_token&quot;) || null;
-  username: string | null &#x3D; localStorage.getItem(&quot;github_username&quot;) || null;
-  avatarUrl: string | null &#x3D; localStorage.getItem(&quot;github_avatar&quot;) || null;
-  displayName: string | null &#x3D; localStorage.getItem(&quot;github_display_name&quot;) || null;
+export class GithubAuthService implements GitAuthProvider {
+  readonly provider: GitProviderType &#x3D; &quot;github&quot;;
+  readonly name: string &#x3D; &quot;GitHub&quot;;
+  readonly instanceHost: string &#x3D; &quot;github.com&quot;;
+
+  token: string | null &#x3D; null;
+  username: string | null &#x3D; null;
+  avatarUrl: string | null &#x3D; null;
+  displayName: string | null &#x3D; null;
   loading &#x3D; false;
 
   public authChange$ &#x3D; new BehaviorSubject&lt;AuthState&gt;({
-    isSignedIn: !!localStorage.getItem(&quot;dev_github_token&quot;),
-    token: localStorage.getItem(&quot;dev_github_token&quot;) || null,
-    username: localStorage.getItem(&quot;github_username&quot;) || null,
-    avatarUrl: localStorage.getItem(&quot;github_avatar&quot;) || null,
-    displayName: localStorage.getItem(&quot;github_display_name&quot;) || null,
+    isSignedIn: false,
+    token: null,
+    username: null,
+    avatarUrl: null,
+    displayName: null,
   });
 
-  /**
-   * AuthService constructor
-   * @param router
-   * @param http
-   * @param toastService
-   */
-  constructor(private router: Router, private http: HttpClient, private toastService: ToastService) {
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private toastService: ToastService,
+    private tokenStorageService: TokenStorageService,
+    @Optional() private translateService?: TranslateService,
+  ) {
+    this.restoreSession();
+
     firebase.auth().onAuthStateChanged((user) &#x3D;&gt; {
-      if (user) {
+      if (user &amp;&amp; this.isSignedIn()) {
         this.syncUserFromFirebase(user);
       }
     });
@@ -354,29 +362,43 @@ export class AuthService {
     }
   }
 
-  /**
-   * Returns the Github access token, so if its value is null, it&#x27;s similar to a falsy value
-   *
-   * @returns The Github access token
-   */
-  isSignedIn(): string {
-    return this.token;
+  isSignedIn(): boolean {
+    return !!this.token;
   }
 
-  /**
-   * Open a popup to Github signin with firebase and authenticate
-   */
-  async signIn(): Promise&lt;void&gt; {
+  getAccount(): Account | null {
+    if (!this.isSignedIn()) {
+      return null;
+    }
+    const username &#x3D; this.username || &quot;github_user&quot;;
+    return {
+      id: &quot;acc-github-real&quot;,
+      provider: &quot;github&quot;,
+      instanceHost: this.instanceHost,
+      username,
+      avatarUrl: this.avatarUrl || &#x60;https://avatars.githubusercontent.com/${username}&#x60;,
+      isCurrent: true,
+    };
+  }
+
+  async signIn(rememberMe &#x3D; false): Promise&lt;Account&gt; {
     this.loading &#x3D; true;
     const provider &#x3D; new firebase.auth.GithubAuthProvider();
     provider.addScope(&quot;repo&quot;);
     try {
-      await firebase.auth().setPersistence(auth.Auth.Persistence.LOCAL);
+      const persistence &#x3D; rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION;
+      await firebase.auth().setPersistence(persistence);
       const result &#x3D; await firebase.auth().signInWithPopup(provider);
-      this.handleAuthResult(result);
+      this.handleAuthResult(result, rememberMe);
+      const account &#x3D; this.getAccount();
+      if (!account) {
+        throw new Error(&quot;GitHub authentication succeeded but account details could not be retrieved&quot;);
+      }
+      return account;
     } catch (error: any) {
       if (error?.code !&#x3D;&#x3D; &quot;auth/popup-closed-by-user&quot;) {
-        this.toastService.error(&quot;An error occured&quot;, error.message);
+        const title &#x3D; this.translateService?.instant(&quot;ERROR&quot;) || &quot;Error&quot;;
+        this.toastService.error(title, error.message);
       }
       throw error;
     } finally {
@@ -384,9 +406,6 @@ export class AuthService {
     }
   }
 
-  /**
-   * Signs out from Github, sets the access token to null and redirects to home
-   */
   async signOut(): Promise&lt;void&gt; {
     try {
       await firebase.auth().signOut();
@@ -397,6 +416,8 @@ export class AuthService {
       this.username &#x3D; null;
       this.avatarUrl &#x3D; null;
       this.displayName &#x3D; null;
+      this.tokenStorageService.clearAll(&quot;github&quot;);
+      localStorage.removeItem(&quot;dev_github_token&quot;);
       localStorage.removeItem(&quot;github_username&quot;);
       localStorage.removeItem(&quot;github_avatar&quot;);
       localStorage.removeItem(&quot;github_display_name&quot;);
@@ -405,8 +426,16 @@ export class AuthService {
     }
   }
 
+  getProfileUrl(username?: string): string {
+    const user &#x3D; username || this.username;
+    if (!user) {
+      return &#x60;https://${this.instanceHost}&#x60;;
+    }
+    return &#x60;https://${this.instanceHost}/${encodeURIComponent(user)}&#x60;;
+  }
+
   verifyUserAccess(repoURL: string): Observable&lt;any&gt; {
-    var httpOptions &#x3D; {
+    const httpOptions &#x3D; {
       headers: new HttpHeaders({
         &quot;Content-Type&quot;: &quot;application/json&quot;,
         Authorization: &quot;token &quot; + this.token,
@@ -414,30 +443,11 @@ export class AuthService {
     };
 
     const repoHashURL &#x3D; repoURL.split(&quot;/&quot;);
-    let url &#x3D; &quot;https://api.github.com/repos/&quot; + repoHashURL[3] + &quot;/&quot; + repoHashURL[4];
+    const url &#x3D; &quot;https://api.github.com/repos/&quot; + repoHashURL[3] + &quot;/&quot; + repoHashURL[4];
     return this.http.get(url, httpOptions);
   }
 
-  reauthenticate() {
-    firebase.auth().onAuthStateChanged((user) &#x3D;&gt; {
-      if (user &amp;&amp; !this.isSignedIn()) {
-        this.loading &#x3D; true;
-        const provider &#x3D; new firebase.auth.GithubAuthProvider();
-        provider.addScope(&quot;repo&quot;);
-        user
-          .reauthenticateWithPopup(provider)
-          .then((result) &#x3D;&gt; this.handleAuthResult(result))
-          .catch((err) &#x3D;&gt; console.warn(&quot;Reauth error:&quot;, err))
-          .finally(() &#x3D;&gt; {
-            this.loading &#x3D; false;
-          });
-      } else if (user &amp;&amp; this.isSignedIn()) {
-        this.syncUserFromFirebase(user);
-      }
-    });
-  }
-
-  async fetchUserProfile(): Promise&lt;void&gt; {
+  async fetchUserProfile(rememberMe?: boolean): Promise&lt;void&gt; {
     if (!this.token) {
       return;
     }
@@ -449,52 +459,92 @@ export class AuthService {
           }),
         })
         .toPromise();
-      this.updateProfile({
-        username: profile?.login,
-        avatarUrl: profile?.avatar_url,
-        displayName: profile?.name || profile?.login,
-      });
+      const isRemembered &#x3D; rememberMe !&#x3D;&#x3D; undefined ? rememberMe : this.tokenStorageService.isRemembered(&quot;github&quot;);
+      this.updateProfile(
+        {
+          username: profile?.login,
+          avatarUrl: profile?.avatar_url,
+          displayName: profile?.name || profile?.login,
+        },
+        isRemembered,
+      );
     } catch (e) {
       console.warn(&quot;Could not fetch GitHub profile via API:&quot;, e);
     }
   }
 
-  private updateProfile(data: { username?: string | null; avatarUrl?: string | null; displayName?: string | null }): void {
+  private restoreSession(): void {
+    const storedToken &#x3D; this.tokenStorageService.getToken(&quot;github&quot;);
+    const storedUser &#x3D; this.tokenStorageService.getUserData&lt;{
+      username?: string;
+      avatarUrl?: string;
+      displayName?: string;
+    }&gt;(&quot;github&quot;);
+
+    if (storedToken) {
+      this.token &#x3D; storedToken;
+      this.username &#x3D; storedUser?.username || null;
+      this.avatarUrl &#x3D; storedUser?.avatarUrl || null;
+      this.displayName &#x3D; storedUser?.displayName || null;
+    } else {
+      this.token &#x3D; null;
+      this.username &#x3D; null;
+      this.avatarUrl &#x3D; null;
+      this.displayName &#x3D; null;
+    }
+
+    this.notifyAuthChange();
+  }
+
+  private updateProfile(
+    data: { username?: string | null; avatarUrl?: string | null; displayName?: string | null },
+    rememberMe &#x3D; false,
+  ): void {
     this.username &#x3D; data.username ?? this.username;
     this.avatarUrl &#x3D; data.avatarUrl ?? this.avatarUrl;
     this.displayName &#x3D; data.displayName ?? this.displayName;
 
-    const cacheItems: [string, string | null][] &#x3D; [
-      [&quot;github_username&quot;, this.username],
-      [&quot;github_avatar&quot;, this.avatarUrl],
-      [&quot;github_display_name&quot;, this.displayName],
-    ];
-    for (const [key, value] of cacheItems) {
-      if (value) {
-        localStorage.setItem(key, value);
-      }
-    }
+    this.tokenStorageService.saveUserData(
+      &quot;github&quot;,
+      {
+        username: this.username,
+        avatarUrl: this.avatarUrl,
+        displayName: this.displayName,
+      },
+      rememberMe,
+    );
+
     this.notifyAuthChange();
   }
 
   private syncUserFromFirebase(user: any): void {
     const screenName &#x3D; user?.reloadUserInfo?.screenName || user?.displayName;
-    this.updateProfile({
-      username: this.username || screenName,
-      avatarUrl: this.avatarUrl || user?.photoURL,
-      displayName: this.displayName || user?.displayName,
-    });
+    const isRemembered &#x3D; this.tokenStorageService.isRemembered(&quot;github&quot;);
+    this.updateProfile(
+      {
+        username: this.username || screenName,
+        avatarUrl: this.avatarUrl || user?.photoURL,
+        displayName: this.displayName || user?.displayName,
+      },
+      isRemembered,
+    );
   }
 
-  private handleAuthResult(result: any): void {
+  private handleAuthResult(result: any, rememberMe &#x3D; false): void {
     this.token &#x3D; result?.credential?.accessToken ?? this.token;
-    this.updateProfile({
-      username: result?.additionalUserInfo?.username,
-      avatarUrl: result?.user?.photoURL,
-      displayName: result?.user?.displayName,
-    });
+    if (this.token) {
+      this.tokenStorageService.saveToken(&quot;github&quot;, this.token, rememberMe);
+    }
+    this.updateProfile(
+      {
+        username: result?.additionalUserInfo?.username,
+        avatarUrl: result?.user?.photoURL,
+        displayName: result?.user?.displayName,
+      },
+      rememberMe,
+    );
     if (this.token &amp;&amp; (!this.username || !this.avatarUrl)) {
-      this.fetchUserProfile();
+      this.fetchUserProfile(rememberMe);
     }
   }
 

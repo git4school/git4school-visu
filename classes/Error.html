@@ -115,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="160" class="link-to-prism">src/app/models/Repository.model.ts:160</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="150" class="link-to-prism">src/app/models/Repository.model.ts:150</a></div>
                             </td>
                         </tr>
 
@@ -195,7 +195,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="161" class="link-to-prism">src/app/models/Repository.model.ts:161</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="151" class="link-to-prism">src/app/models/Repository.model.ts:151</a></div>
                         </td>
                     </tr>
 
@@ -222,7 +222,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="161" class="link-to-prism">src/app/models/Repository.model.ts:161</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="151" class="link-to-prism">src/app/models/Repository.model.ts:151</a></div>
                         </td>
                     </tr>
 
@@ -242,6 +242,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Commit } from &quot;@models/Commit.model&quot;;
+import { GitProviderType } from &quot;@models/Account.model&quot;;
 import * as assert from &quot;assert&quot;;
 import { Exclude, Type } from &quot;class-transformer&quot;;
 import { Utils } from &quot;../services/utils&quot;;
@@ -264,6 +265,7 @@ export class Repository {
    * @param isFork Whether this repository is a fork
    * @param parentUrl The parent repository URL if this is a fork
    * @param isChildFork Whether this repository is displayed as a child fork row
+   * @param provider The Git provider (github or gitlab)
    */
   constructor(
     public url: string,
@@ -274,12 +276,14 @@ export class Repository {
     public description?: string,
     public isFork?: boolean,
     public parentUrl?: string,
-    public isChildFork?: boolean
+    public isChildFork?: boolean,
+    public provider?: GitProviderType,
   ) {
     this.commits &#x3D; commits || [];
     this.errors &#x3D; errors || [];
     this.isFork &#x3D; Boolean(isFork);
     this.isChildFork &#x3D; Boolean(isChildFork);
+    this.provider &#x3D; provider || (url?.includes(&quot;gitlab&quot;) ? &quot;gitlab&quot; : &quot;github&quot;);
   }
 
   /**
@@ -297,11 +301,7 @@ export class Repository {
    * @param max_length
    * @returns A string with length below max_length
    */
-  static getFormattedName(
-    last_name: string,
-    first_name: string,
-    max_length: number
-  ): string {
+  static getFormattedName(last_name: string, first_name: string, max_length: number): string {
     assert(max_length &gt; 0);
 
     if (!last_name &amp;&amp; !first_name) {
@@ -341,35 +341,23 @@ export class Repository {
     if (displayName.length &gt; Utils.OVERVIEW_NAME_LENGTH_LIMIT) {
       let numberOfSpace &#x3D; (displayName.match(/ /g) || []).length;
       if (numberOfSpace &#x3D;&#x3D;&#x3D; 0) {
-        displayName &#x3D;
-          displayName.substring(0, Utils.OVERVIEW_NAME_LENGTH_LIMIT - 1) + &quot;.&quot;;
+        displayName &#x3D; displayName.substring(0, Utils.OVERVIEW_NAME_LENGTH_LIMIT - 1) + &quot;.&quot;;
       } else if (numberOfSpace &#x3D;&#x3D; 1) {
         let [lastName, firstName] &#x3D; displayName.split(&quot; &quot;);
-        displayName &#x3D; Repository.getFormattedName(
-          firstName,
-          lastName,
-          Utils.OVERVIEW_NAME_LENGTH_LIMIT
-        );
+        displayName &#x3D; Repository.getFormattedName(firstName, lastName, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
       } else {
         let findLastName &#x3D; displayName.match(/^([A-Z\-]+ )*/g);
         if (findLastName.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; findLastName[0].trim().length !&#x3D;&#x3D; 0) {
           displayName &#x3D; Repository.getFormattedName(
             findLastName[0].trim(),
             displayName.substring(findLastName[0].length),
-            Utils.OVERVIEW_NAME_LENGTH_LIMIT
+            Utils.OVERVIEW_NAME_LENGTH_LIMIT,
           );
         } else {
           let lastspace &#x3D; displayName.lastIndexOf(&quot; &quot;);
-          let [lastName, firstName] &#x3D; [
-            displayName.substring(0, lastspace),
-            displayName.substring(lastspace + 1),
-          ];
+          let [lastName, firstName] &#x3D; [displayName.substring(0, lastspace), displayName.substring(lastspace + 1)];
 
-          displayName &#x3D; Repository.getFormattedName(
-            lastName,
-            firstName,
-            Utils.OVERVIEW_NAME_LENGTH_LIMIT
-          );
+          displayName &#x3D; Repository.getFormattedName(lastName, firstName, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
         }
       }
     }
@@ -395,7 +383,9 @@ export class Repository {
       json.errors,
       json.description,
       json.isFork,
-      json.parentUrl
+      json.parentUrl,
+      json.isChildFork,
+      json.provider,
     );
   }
 }

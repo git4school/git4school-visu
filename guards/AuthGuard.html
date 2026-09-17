@@ -69,7 +69,7 @@
                 <h3>Description</h3>
                 </p>
                 <p class="comment">
-                    <p>This guard ensures the user is connected with a Github account</p>
+                    <p>This guard ensures the user is connected with at least one Git provider account</p>
 
                 </p>
 
@@ -110,12 +110,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+<code>constructor(accountsService: <a href="../injectables/AccountsService.html" target="_self">AccountsService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/guards/auth.guard.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/guards/auth.guard.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -135,10 +135,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>accountsService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/AccountsService.html" target="_self" >AccountsService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -192,21 +192,21 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/app/guards/auth.guard.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/guards/auth.guard.ts:23</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Allows access to the protected route if user is connected</p>
+                    <div class="io-description"><p>Allows access to the protected route if at least one account is connected</p>
 </div>
 
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable | Promise | boolean</code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                     </div>
                     <div class="io-description">
@@ -222,20 +222,12 @@
 
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
-            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  RouterStateSnapshot,
-  Router,
-} from &quot;@angular/router&quot;;
-import { Observable } from &quot;rxjs/Observable&quot;;
-import { Injectable } from &quot;@angular/core&quot;;
-import &quot;firebase/auth&quot;;
-
-import { AuthService } from &quot;@services/auth.service&quot;;
+            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
+import { CanActivate, Router } from &quot;@angular/router&quot;;
+import { AccountsService } from &quot;@services/accounts.service&quot;;
 
 /**
- * This guard ensures the user is connected with a Github account
+ * This guard ensures the user is connected with at least one Git provider account
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -243,21 +235,21 @@ import { AuthService } from &quot;@services/auth.service&quot;;
 export class AuthGuard implements CanActivate {
   /**
    * AuthGuard constructor
-   * @param authService
+   * @param accountsService
    * @param router
    */
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private accountsService: AccountsService, private router: Router) {}
 
   /**
-   * Allows access to the protected route if user is connected
+   * Allows access to the protected route if at least one account is connected
    * @returns true if connected, redirects to home otherwise
    */
-  canActivate(): Observable&lt;boolean&gt; | Promise&lt;boolean&gt; | boolean {
-    if (this.authService.isSignedIn()) {
+  canActivate(): boolean {
+    if (!this.accountsService.isEmpty()) {
       return true;
-    } else {
-      this.router.navigate([&quot;/home&quot;]);
     }
+    this.router.navigate([&quot;/home&quot;]);
+    return false;
   }
 }
 </code></pre>

@@ -41,7 +41,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >AuthService</li>
+  <li >GithubAuthService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -59,7 +59,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/services/auth.service.ts</code>
+            <code>src/app/services/github-auth.service.ts</code>
         </p>
 
 
@@ -67,7 +67,8 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>A service used to sign in and sign out from Github</p>
+                <p>A service used to sign in and sign out from GitHub via Firebase.
+Implements the GitAuthProvider strategy interface.</p>
 
             </p>
 
@@ -96,7 +97,19 @@
                                 <a href="#displayName" >displayName</a>
                             </li>
                             <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#instanceHost" >instanceHost</a>
+                            </li>
+                            <li>
                                 <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#name" >name</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#provider" >provider</a>
                             </li>
                             <li>
                                 <a href="#token" >token</a>
@@ -121,6 +134,12 @@
                                 <a href="#fetchUserProfile" >fetchUserProfile</a>
                             </li>
                             <li>
+                                <a href="#getAccount" >getAccount</a>
+                            </li>
+                            <li>
+                                <a href="#getProfileUrl" >getProfileUrl</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#handleAuthResult" >handleAuthResult</a>
                             </li>
@@ -132,7 +151,8 @@
                                 <a href="#notifyAuthChange" >notifyAuthChange</a>
                             </li>
                             <li>
-                                <a href="#reauthenticate" >reauthenticate</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#restoreSession" >restoreSession</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -171,19 +191,17 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>)</code>
+<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>, tokenStorageService: <a href="../injectables/TokenStorageService.html" target="_self">TokenStorageService</a>, translateService?: TranslateService)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/auth.service.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/services/github-auth.service.ts:46</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>AuthService constructor</p>
-</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -231,6 +249,30 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>tokenStorageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TokenStorageService.html" target="_self" >TokenStorageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>translateService</td>
+                                                  
+                                                        <td>
+                                                                    <code>TranslateService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -260,54 +302,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>fetchUserProfile()</code>
+                    <code>fetchUserProfile(rememberMe?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="143"
-                            class="link-to-prism">src/app/services/auth.service.ts:143</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="handleAuthResult"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>handleAuthResult</b></span>
-                        <a href="#handleAuthResult"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>handleAuthResult(result: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">src/app/services/auth.service.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="153"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:153</a></div>
                 </td>
             </tr>
 
@@ -328,6 +331,184 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>rememberMe</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAccount"></a>
+                    <span class="name">
+                        <span ><b>getAccount</b></span>
+                        <a href="#getAccount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAccount()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:72</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Account.html" target="_self" >Account | null</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProfileUrl"></a>
+                    <span class="name">
+                        <span ><b>getProfileUrl</b></span>
+                        <a href="#getProfileUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getProfileUrl(username?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="132"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:132</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>username</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleAuthResult"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>handleAuthResult</b></span>
+                        <a href="#handleAuthResult"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleAuthResult(result: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, rememberMe)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="236"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:236</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
                                     <td>result</td>
                                     <td>
                                                 <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
@@ -337,6 +518,22 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>rememberMe</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -375,25 +572,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/app/services/auth.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:68</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the Github access token, so if its value is null, it&#39;s similar to a falsy value</p>
-</div>
 
-                    <div>
-                    </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>The Github access token</p>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                     </div>
                 </td>
@@ -422,8 +611,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="204"
-                            class="link-to-prism">src/app/services/auth.service.ts:204</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:254</a></div>
                 </td>
             </tr>
 
@@ -443,24 +632,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="reauthenticate"></a>
+                    <a name="restoreSession"></a>
                     <span class="name">
-                        <span ><b>reauthenticate</b></span>
-                        <a href="#reauthenticate"><span class="icon ion-ios-link"></span></a>
+                        <span class="modifier">Private</span>
+                        <span ><b>restoreSession</b></span>
+                        <a href="#restoreSession"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>reauthenticate()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>restoreSession()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">src/app/services/auth.service.ts:124</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:179</a></div>
                 </td>
             </tr>
 
@@ -491,27 +682,57 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>signIn()</code>
+                    <code>signIn(rememberMe)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">src/app/services/auth.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:87</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Open a popup to Github signin with firebase and authenticate</p>
-</div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>rememberMe</td>
 
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Account.html" target="_self" >Promise&lt;Account&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -539,16 +760,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">src/app/services/auth.service.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:112</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Signs out from Github, sets the access token to null and redirects to home</p>
-</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
@@ -580,8 +799,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">src/app/services/auth.service.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="223"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:223</a></div>
                 </td>
             </tr>
 
@@ -644,15 +863,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateProfile(data: literal type)</code>
+                    <code>updateProfile(data: literal type, rememberMe)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">src/app/services/auth.service.ts:165</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:202</a></div>
                 </td>
             </tr>
 
@@ -669,6 +888,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -682,6 +902,22 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>rememberMe</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -720,8 +956,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">src/app/services/auth.service.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:140</a></div>
                 </td>
             </tr>
 
@@ -790,17 +1026,17 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new BehaviorSubject&lt;AuthState&gt;({
-    isSignedIn: !!localStorage.getItem(&quot;dev_github_token&quot;),
-    token: localStorage.getItem(&quot;dev_github_token&quot;) || null,
-    username: localStorage.getItem(&quot;github_username&quot;) || null,
-    avatarUrl: localStorage.getItem(&quot;github_avatar&quot;) || null,
-    displayName: localStorage.getItem(&quot;github_display_name&quot;) || null,
+    isSignedIn: false,
+    token: null,
+    username: null,
+    avatarUrl: null,
+    displayName: null,
   })</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/services/auth.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/github-auth.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -826,12 +1062,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>localStorage.getItem(&quot;github_avatar&quot;) || null</code>
+                        <i>Default value : </i><code>null</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/services/auth.service.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/github-auth.service.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -857,12 +1093,44 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>localStorage.getItem(&quot;github_display_name&quot;) || null</code>
+                        <i>Default value : </i><code>null</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/services/auth.service.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/services/github-auth.service.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="instanceHost"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>instanceHost</b></span>
+                        <a href="#instanceHost"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;github.com&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/services/github-auth.service.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -887,7 +1155,71 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/services/auth.service.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/services/github-auth.service.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="name"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>name</b></span>
+                        <a href="#name"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;GitHub&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/services/github-auth.service.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="provider"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>provider</b></span>
+                        <a href="#provider"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;github&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/services/github-auth.service.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -913,21 +1245,15 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>localStorage.getItem(&quot;dev_github_token&quot;) || null</code>
+                        <i>Default value : </i><code>null</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/auth.service.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/services/github-auth.service.ts:34</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The Github access token</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -950,12 +1276,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>localStorage.getItem(&quot;github_username&quot;) || null</code>
+                        <i>Default value : </i><code>null</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/services/auth.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/services/github-auth.service.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -969,12 +1295,16 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders } from &quot;@angular/common/http&quot;;
-import { Injectable } from &quot;@angular/core&quot;;
+import { Injectable, Optional } from &quot;@angular/core&quot;;
 import { Router } from &quot;@angular/router&quot;;
+import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import * as firebase from &quot;firebase/app&quot;;
 import { auth } from &quot;firebase/app&quot;;
 import &quot;firebase/auth&quot;;
 import { BehaviorSubject, Observable } from &quot;rxjs&quot;;
+import { Account, GitProviderType } from &quot;@models/Account.model&quot;;
+import { GitAuthProvider } from &quot;@models/GitAuthProvider.model&quot;;
+import { TokenStorageService } from &quot;@services/token-storage.service&quot;;
 import { ToastService } from &quot;./toast.service&quot;;
 
 export interface AuthState {
@@ -986,38 +1316,42 @@ export interface AuthState {
 }
 
 /**
- * A service used to sign in and sign out from Github
+ * A service used to sign in and sign out from GitHub via Firebase.
+ * Implements the GitAuthProvider strategy interface.
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class AuthService {
-  /**
-   * The Github access token
-   */
-  token: string | null &#x3D; localStorage.getItem(&quot;dev_github_token&quot;) || null;
-  username: string | null &#x3D; localStorage.getItem(&quot;github_username&quot;) || null;
-  avatarUrl: string | null &#x3D; localStorage.getItem(&quot;github_avatar&quot;) || null;
-  displayName: string | null &#x3D; localStorage.getItem(&quot;github_display_name&quot;) || null;
+export class GithubAuthService implements GitAuthProvider {
+  readonly provider: GitProviderType &#x3D; &quot;github&quot;;
+  readonly name: string &#x3D; &quot;GitHub&quot;;
+  readonly instanceHost: string &#x3D; &quot;github.com&quot;;
+
+  token: string | null &#x3D; null;
+  username: string | null &#x3D; null;
+  avatarUrl: string | null &#x3D; null;
+  displayName: string | null &#x3D; null;
   loading &#x3D; false;
 
   public authChange$ &#x3D; new BehaviorSubject&lt;AuthState&gt;({
-    isSignedIn: !!localStorage.getItem(&quot;dev_github_token&quot;),
-    token: localStorage.getItem(&quot;dev_github_token&quot;) || null,
-    username: localStorage.getItem(&quot;github_username&quot;) || null,
-    avatarUrl: localStorage.getItem(&quot;github_avatar&quot;) || null,
-    displayName: localStorage.getItem(&quot;github_display_name&quot;) || null,
+    isSignedIn: false,
+    token: null,
+    username: null,
+    avatarUrl: null,
+    displayName: null,
   });
 
-  /**
-   * AuthService constructor
-   * @param router
-   * @param http
-   * @param toastService
-   */
-  constructor(private router: Router, private http: HttpClient, private toastService: ToastService) {
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private toastService: ToastService,
+    private tokenStorageService: TokenStorageService,
+    @Optional() private translateService?: TranslateService,
+  ) {
+    this.restoreSession();
+
     firebase.auth().onAuthStateChanged((user) &#x3D;&gt; {
-      if (user) {
+      if (user &amp;&amp; this.isSignedIn()) {
         this.syncUserFromFirebase(user);
       }
     });
@@ -1027,29 +1361,43 @@ export class AuthService {
     }
   }
 
-  /**
-   * Returns the Github access token, so if its value is null, it&#x27;s similar to a falsy value
-   *
-   * @returns The Github access token
-   */
-  isSignedIn(): string {
-    return this.token;
+  isSignedIn(): boolean {
+    return !!this.token;
   }
 
-  /**
-   * Open a popup to Github signin with firebase and authenticate
-   */
-  async signIn(): Promise&lt;void&gt; {
+  getAccount(): Account | null {
+    if (!this.isSignedIn()) {
+      return null;
+    }
+    const username &#x3D; this.username || &quot;github_user&quot;;
+    return {
+      id: &quot;acc-github-real&quot;,
+      provider: &quot;github&quot;,
+      instanceHost: this.instanceHost,
+      username,
+      avatarUrl: this.avatarUrl || &#x60;https://avatars.githubusercontent.com/${username}&#x60;,
+      isCurrent: true,
+    };
+  }
+
+  async signIn(rememberMe &#x3D; false): Promise&lt;Account&gt; {
     this.loading &#x3D; true;
     const provider &#x3D; new firebase.auth.GithubAuthProvider();
     provider.addScope(&quot;repo&quot;);
     try {
-      await firebase.auth().setPersistence(auth.Auth.Persistence.LOCAL);
+      const persistence &#x3D; rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION;
+      await firebase.auth().setPersistence(persistence);
       const result &#x3D; await firebase.auth().signInWithPopup(provider);
-      this.handleAuthResult(result);
+      this.handleAuthResult(result, rememberMe);
+      const account &#x3D; this.getAccount();
+      if (!account) {
+        throw new Error(&quot;GitHub authentication succeeded but account details could not be retrieved&quot;);
+      }
+      return account;
     } catch (error: any) {
       if (error?.code !&#x3D;&#x3D; &quot;auth/popup-closed-by-user&quot;) {
-        this.toastService.error(&quot;An error occured&quot;, error.message);
+        const title &#x3D; this.translateService?.instant(&quot;ERROR&quot;) || &quot;Error&quot;;
+        this.toastService.error(title, error.message);
       }
       throw error;
     } finally {
@@ -1057,9 +1405,6 @@ export class AuthService {
     }
   }
 
-  /**
-   * Signs out from Github, sets the access token to null and redirects to home
-   */
   async signOut(): Promise&lt;void&gt; {
     try {
       await firebase.auth().signOut();
@@ -1070,6 +1415,8 @@ export class AuthService {
       this.username &#x3D; null;
       this.avatarUrl &#x3D; null;
       this.displayName &#x3D; null;
+      this.tokenStorageService.clearAll(&quot;github&quot;);
+      localStorage.removeItem(&quot;dev_github_token&quot;);
       localStorage.removeItem(&quot;github_username&quot;);
       localStorage.removeItem(&quot;github_avatar&quot;);
       localStorage.removeItem(&quot;github_display_name&quot;);
@@ -1078,8 +1425,16 @@ export class AuthService {
     }
   }
 
+  getProfileUrl(username?: string): string {
+    const user &#x3D; username || this.username;
+    if (!user) {
+      return &#x60;https://${this.instanceHost}&#x60;;
+    }
+    return &#x60;https://${this.instanceHost}/${encodeURIComponent(user)}&#x60;;
+  }
+
   verifyUserAccess(repoURL: string): Observable&lt;any&gt; {
-    var httpOptions &#x3D; {
+    const httpOptions &#x3D; {
       headers: new HttpHeaders({
         &quot;Content-Type&quot;: &quot;application/json&quot;,
         Authorization: &quot;token &quot; + this.token,
@@ -1087,30 +1442,11 @@ export class AuthService {
     };
 
     const repoHashURL &#x3D; repoURL.split(&quot;/&quot;);
-    let url &#x3D; &quot;https://api.github.com/repos/&quot; + repoHashURL[3] + &quot;/&quot; + repoHashURL[4];
+    const url &#x3D; &quot;https://api.github.com/repos/&quot; + repoHashURL[3] + &quot;/&quot; + repoHashURL[4];
     return this.http.get(url, httpOptions);
   }
 
-  reauthenticate() {
-    firebase.auth().onAuthStateChanged((user) &#x3D;&gt; {
-      if (user &amp;&amp; !this.isSignedIn()) {
-        this.loading &#x3D; true;
-        const provider &#x3D; new firebase.auth.GithubAuthProvider();
-        provider.addScope(&quot;repo&quot;);
-        user
-          .reauthenticateWithPopup(provider)
-          .then((result) &#x3D;&gt; this.handleAuthResult(result))
-          .catch((err) &#x3D;&gt; console.warn(&quot;Reauth error:&quot;, err))
-          .finally(() &#x3D;&gt; {
-            this.loading &#x3D; false;
-          });
-      } else if (user &amp;&amp; this.isSignedIn()) {
-        this.syncUserFromFirebase(user);
-      }
-    });
-  }
-
-  async fetchUserProfile(): Promise&lt;void&gt; {
+  async fetchUserProfile(rememberMe?: boolean): Promise&lt;void&gt; {
     if (!this.token) {
       return;
     }
@@ -1122,52 +1458,92 @@ export class AuthService {
           }),
         })
         .toPromise();
-      this.updateProfile({
-        username: profile?.login,
-        avatarUrl: profile?.avatar_url,
-        displayName: profile?.name || profile?.login,
-      });
+      const isRemembered &#x3D; rememberMe !&#x3D;&#x3D; undefined ? rememberMe : this.tokenStorageService.isRemembered(&quot;github&quot;);
+      this.updateProfile(
+        {
+          username: profile?.login,
+          avatarUrl: profile?.avatar_url,
+          displayName: profile?.name || profile?.login,
+        },
+        isRemembered,
+      );
     } catch (e) {
       console.warn(&quot;Could not fetch GitHub profile via API:&quot;, e);
     }
   }
 
-  private updateProfile(data: { username?: string | null; avatarUrl?: string | null; displayName?: string | null }): void {
+  private restoreSession(): void {
+    const storedToken &#x3D; this.tokenStorageService.getToken(&quot;github&quot;);
+    const storedUser &#x3D; this.tokenStorageService.getUserData&lt;{
+      username?: string;
+      avatarUrl?: string;
+      displayName?: string;
+    }&gt;(&quot;github&quot;);
+
+    if (storedToken) {
+      this.token &#x3D; storedToken;
+      this.username &#x3D; storedUser?.username || null;
+      this.avatarUrl &#x3D; storedUser?.avatarUrl || null;
+      this.displayName &#x3D; storedUser?.displayName || null;
+    } else {
+      this.token &#x3D; null;
+      this.username &#x3D; null;
+      this.avatarUrl &#x3D; null;
+      this.displayName &#x3D; null;
+    }
+
+    this.notifyAuthChange();
+  }
+
+  private updateProfile(
+    data: { username?: string | null; avatarUrl?: string | null; displayName?: string | null },
+    rememberMe &#x3D; false,
+  ): void {
     this.username &#x3D; data.username ?? this.username;
     this.avatarUrl &#x3D; data.avatarUrl ?? this.avatarUrl;
     this.displayName &#x3D; data.displayName ?? this.displayName;
 
-    const cacheItems: [string, string | null][] &#x3D; [
-      [&quot;github_username&quot;, this.username],
-      [&quot;github_avatar&quot;, this.avatarUrl],
-      [&quot;github_display_name&quot;, this.displayName],
-    ];
-    for (const [key, value] of cacheItems) {
-      if (value) {
-        localStorage.setItem(key, value);
-      }
-    }
+    this.tokenStorageService.saveUserData(
+      &quot;github&quot;,
+      {
+        username: this.username,
+        avatarUrl: this.avatarUrl,
+        displayName: this.displayName,
+      },
+      rememberMe,
+    );
+
     this.notifyAuthChange();
   }
 
   private syncUserFromFirebase(user: any): void {
     const screenName &#x3D; user?.reloadUserInfo?.screenName || user?.displayName;
-    this.updateProfile({
-      username: this.username || screenName,
-      avatarUrl: this.avatarUrl || user?.photoURL,
-      displayName: this.displayName || user?.displayName,
-    });
+    const isRemembered &#x3D; this.tokenStorageService.isRemembered(&quot;github&quot;);
+    this.updateProfile(
+      {
+        username: this.username || screenName,
+        avatarUrl: this.avatarUrl || user?.photoURL,
+        displayName: this.displayName || user?.displayName,
+      },
+      isRemembered,
+    );
   }
 
-  private handleAuthResult(result: any): void {
+  private handleAuthResult(result: any, rememberMe &#x3D; false): void {
     this.token &#x3D; result?.credential?.accessToken ?? this.token;
-    this.updateProfile({
-      username: result?.additionalUserInfo?.username,
-      avatarUrl: result?.user?.photoURL,
-      displayName: result?.user?.displayName,
-    });
+    if (this.token) {
+      this.tokenStorageService.saveToken(&quot;github&quot;, this.token, rememberMe);
+    }
+    this.updateProfile(
+      {
+        username: result?.additionalUserInfo?.username,
+        avatarUrl: result?.user?.photoURL,
+        displayName: result?.user?.displayName,
+      },
+      rememberMe,
+    );
     if (this.token &amp;&amp; (!this.username || !this.avatarUrl)) {
-      this.fetchUserProfile();
+      this.fetchUserProfile(rememberMe);
     }
   }
 
@@ -1224,7 +1600,7 @@ export class AuthService {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
-            var COMPODOC_CURRENT_PAGE_URL = 'AuthService.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'GithubAuthService.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

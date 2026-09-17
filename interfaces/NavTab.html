@@ -299,7 +299,7 @@
 import { Router } from &quot;@angular/router&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { AssignmentsService } from &quot;@services/assignments.service&quot;;
-import { AuthService } from &quot;@services/auth.service&quot;;
+import { GithubAuthService } from &quot;@services/github-auth.service&quot;;
 import { ConfigurationService } from &quot;@services/configuration.service&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
 import { DatabaseService } from &quot;@services/database.service&quot;;
@@ -324,7 +324,7 @@ export interface NavTab {
 })
 export class AppNavLayoutComponent implements OnInit {
   constructor(
-    public authService: AuthService,
+    public githubAuthService: GithubAuthService,
     public dataService: DataService,
     public translateService: TranslateService,
     private assignmentsService: AssignmentsService,

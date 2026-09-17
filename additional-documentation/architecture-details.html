@@ -103,7 +103,7 @@ In this way, we use 3 guards :</p>
 <p>This folder contains the application services. The services allow to perform operations that can be common to several components in the application.
 Let&#39;s detail the 4 services we use:</p>
 <ul>
-<li><code>auth.service.ts</code> : which allows to manage the user authentication to Github.</li>
+<li><code>github-auth.service.ts</code> : which allows to manage the user authentication to GitHub.</li>
 <li><code>data.service.ts</code> : which allows to store the data to be shared between the components. It is thanks to it that the user can navigate in the application without having to enter the configuration file each time he changes pages.</li>
 <li><code>json-manager.service.ts</code> : which allows to manage the configuration file (upload/download/verification)</li>
 <li><code>commits.service.ts</code> : which allows to manage the retrieval of data from Github repositories, as well as the generation of statistical data (used for downloading and for displaying graphs <code>/students</code> and <code>/questions-completion</code>)</li>
@@ -138,7 +138,7 @@ If you want to add a page to the documentation, create a file <code>&lt;myDoc&gt
 </ul>
 <p>If you want to add a localization, create a file <code>&lt;myLocalization&gt;.json</code> and update the file <code>src/app/app.component.ts</code> :</p>
 <div><pre class="line-numbers"><code class="language-typescript">constructor(
-    public authService: AuthService,
+    public githubAuthService: GithubAuthService,
     public dataService: DataService,
     private router: Router,
     public translate: TranslateService

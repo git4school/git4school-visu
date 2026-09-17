@@ -82,6 +82,7 @@ import { QuestionsCompletionComponent } from &quot;@components/graphs/questions-
 import { StudentsComponent } from &quot;@components/graphs/students/students.component&quot;;
 import { HomeComponent } from &quot;@components/home/home.component&quot;;
 import { AppNavLayoutComponent } from &quot;@components/nav-layouts/app-nav-layout/app-nav-layout.component&quot;;
+import { GitlabCallbackComponent } from &quot;@components/auth-callback/gitlab-callback.component&quot;;
 import { AuthGuard } from &quot;@guards/auth.guard&quot;;
 import { DataLoadingGuard } from &quot;@guards/data-loading.guard&quot;;
 import { DataProvidedGuard } from &quot;@guards/data-provided.guard&quot;;
@@ -122,6 +123,7 @@ const APP_ROUTES: Routes &#x3D; [
 ];
 
 const ROUTES: Routes &#x3D; [
+  { path: &quot;auth/callback&quot;, component: GitlabCallbackComponent },
   {
     path: &quot;&quot;,
     component: AppNavLayoutComponent,

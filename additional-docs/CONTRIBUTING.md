@@ -62,7 +62,7 @@ To create a new model, execute `ng g class models/<myModel> --type=model`.
 This folder contains the application services. The services allow to perform operations that can be common to several components in the application.
 Let's detail the 4 services we use:
 
-- `auth.service.ts` : which allows to manage the user authentication to Github.
+- `github-auth.service.ts` : which allows to manage the user authentication to GitHub.
 - `data.service.ts` : which allows to store the data to be shared between the components. It is thanks to it that the user can navigate in the application without having to enter the configuration file each time he changes pages.
 - `json-manager.service.ts` : which allows to manage the configuration file (upload/download/verification)
 - `commits.service.ts` : which allows to manage the retrieval of data from Github repositories, as well as the generation of statistical data (used for downloading and for displaying graphs `/students` and `/questions-completion`)
@@ -112,7 +112,7 @@ If you want to add a localization, create a file `<myLocalization>.json` and upd
 
 ```typescript
 constructor(
-    public authService: AuthService,
+    public githubAuthService: GithubAuthService,
     public dataService: DataService,
     private router: Router,
     public translate: TranslateService

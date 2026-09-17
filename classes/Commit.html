@@ -156,6 +156,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#withGitlabJSON" >withGitlabJSON</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#withGraphQLJSON" >withGraphQLJSON</a>
                             </li>
                             <li>
@@ -629,8 +633,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">src/app/models/Commit.model.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="255"
+                            class="link-to-prism">src/app/models/Commit.model.ts:255</a></div>
                 </td>
             </tr>
 
@@ -721,8 +725,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">src/app/models/Commit.model.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">src/app/models/Commit.model.ts:174</a></div>
                 </td>
             </tr>
 
@@ -820,8 +824,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">src/app/models/Commit.model.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">src/app/models/Commit.model.ts:141</a></div>
                 </td>
             </tr>
 
@@ -912,8 +916,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="143"
-                            class="link-to-prism">src/app/models/Commit.model.ts:143</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">src/app/models/Commit.model.ts:157</a></div>
                 </td>
             </tr>
 
@@ -1065,8 +1069,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="194"
-                            class="link-to-prism">src/app/models/Commit.model.ts:194</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">src/app/models/Commit.model.ts:208</a></div>
                 </td>
             </tr>
 
@@ -1318,6 +1322,81 @@
 
                                     <td>
                                         <p>The corresponding question, found by its message</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Commit.html" target="_self" >Commit</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A commit</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="withGitlabJSON"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>withGitlabJSON</b></span>
+                        <a href="#withGitlabJSON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>withGitlabJSON(json)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">src/app/models/Commit.model.ts:127</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Initialize a Commit from the GitLab REST API JSON object</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>json</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The GitLab REST JSON node</p>
 
                                     </td>
                                 </tr>
@@ -1616,6 +1695,20 @@ export class Commit {
       json.author?.name || &quot;Unknown&quot;,
       json.committedDate ? new Date(json.committedDate) : new Date(),
       json.url,
+    );
+  }
+
+  /**
+   * Initialize a Commit from the GitLab REST API JSON object
+   * @param json The GitLab REST JSON node
+   * @returns A commit
+   */
+  static withGitlabJSON(json): Commit {
+    return new Commit(
+      json.message || json.title || &quot;&quot;,
+      json.author_name || &quot;Unknown&quot;,
+      json.committed_date ? new Date(json.committed_date) : new Date(json.authored_date || Date.now()),
+      json.web_url || &quot;&quot;,
     );
   }
 
