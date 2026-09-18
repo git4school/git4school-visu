@@ -6,6 +6,7 @@
 
 .filter-group {
   display: inline-flex;
+  align-items: center;
   background: var(--filter-bg);
   border-radius: 10px;
   padding: 4px;
@@ -21,22 +22,19 @@
     background: var(--filter-indicator);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
     border-radius: 6px;
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    z-index: -1;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 0;
+    pointer-events: none;
   }
 
-  &[data-active="all"] .filter-indicator { transform: translateX(0); }
-
-  &[data-active="github"] .filter-indicator { transform: translateX(100px); }
-
-  &[data-active="gitlab"] .filter-indicator { transform: translateX(200px); }
-
   .filter-btn {
+    position: relative;
+    z-index: 1;
     background: transparent !important;
     box-shadow: none !important;
     border: none;
-    width: 100px;
-    padding: 0.5rem 0;
+    min-width: 100px;
+    padding: 0.5rem 0.75rem;
     text-align: center;
     font-size: 0.85rem;
     font-weight: 500;
@@ -44,6 +42,11 @@
     cursor: pointer;
     border-radius: 6px;
     transition: color 0.2s ease;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
 
     &:hover:not(.active) {
       color: var(--color-text-primary);
@@ -268,6 +271,23 @@
             align-items: center;
             justify-content: center;
             line-height: 1;
+
+            .custom-gitlab-icon-wrap {
+              position: relative;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+
+              .sub-server-icon {
+                position: absolute;
+                bottom: -2px;
+                right: -3px;
+                width: 8px;
+                height: 8px;
+                color: currentColor;
+                opacity: 0.9;
+              }
+            }
           }
 
           .split-text {
@@ -359,6 +379,25 @@
             height: 14px;
             display: inline-block;
             flex-shrink: 0;
+          }
+
+          .custom-gitlab-dropdown-icon {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+
+            .sub-server-svg {
+              position: absolute;
+              bottom: -2px;
+              right: -3px;
+              width: 8px;
+              height: 8px;
+              color: var(--color-text-secondary);
+            }
           }
 
           .provider-name {
@@ -550,6 +589,42 @@
   }
 
   .filter-dropdown-container {
+    .btn-outline-ghost {
+      box-sizing: border-box;
+      height: 34px;
+      min-width: 34px;
+      padding: 0;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 240ms ease,
+                  border-color 240ms ease,
+                  box-shadow 240ms ease,
+                  transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                  color 240ms ease;
+
+      &:not(.has-active-filters) {
+        width: 34px;
+      }
+
+      &.has-active-filters {
+        width: auto;
+        padding: 0 8px;
+        gap: 6px;
+      }
+
+      &:active {
+        transform: scale(0.94);
+      }
+
+      &:hover:not([aria-expanded="true"]) {
+        background-color: var(--filter-bg);
+        color: var(--color-text-primary);
+      }
+    }
+
     .filter-badge {
       background-color: var(--filter-bg);
       color: var(--color-text-primary);
@@ -557,7 +632,7 @@
       padding: 0.1rem 0.4rem;
       border-radius: 99px;
       font-weight: 600;
-      margin-left: 0.5rem;
+      margin-left: 0.25rem;
     }
   }
 
@@ -796,6 +871,27 @@
     &.github .fa-github { color: var(--color-github, #24292e); }
 
     &.gitlab .fa-gitlab { color: var(--color-gitlab, #fc6d26); }
+
+    .custom-gitlab-card-badge {
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+
+      .card-server-svg {
+        width: 7px;
+        height: 7px;
+      }
+    }
   }
 
   .selection-checkbox-overlay {

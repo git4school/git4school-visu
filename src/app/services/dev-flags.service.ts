@@ -10,8 +10,8 @@ export interface DevFlagsState {
 const STORAGE_KEY = "git4school_dev_flags";
 
 const DEFAULT_FLAGS: DevFlagsState = {
-  gitlabCloudEnabled: false,
-  gitlabCustomEnabled: false,
+  gitlabCloudEnabled: true,
+  gitlabCustomEnabled: true,
 };
 
 @Injectable({
@@ -21,8 +21,8 @@ export class DevFlagsService {
   public gitlabCloudEnabled$: Observable<boolean>;
   public gitlabCustomEnabled$: Observable<boolean>;
 
-  private gitlabCloudSubject = new BehaviorSubject<boolean>(false);
-  private gitlabCustomSubject = new BehaviorSubject<boolean>(false);
+  private gitlabCloudSubject = new BehaviorSubject<boolean>(true);
+  private gitlabCustomSubject = new BehaviorSubject<boolean>(true);
 
   constructor() {
     this.gitlabCloudEnabled$ = this.gitlabCloudSubject.asObservable();

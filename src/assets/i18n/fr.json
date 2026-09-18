@@ -166,6 +166,8 @@
     "MUST-LOGIN-GITLAB": "Connectez un compte GitLab pour créer un devoir",
     "MUST-LOGIN-ASSIGNMENT-GITHUB": "Connectez un compte GitHub pour accéder à ce devoir",
     "MUST-LOGIN-ASSIGNMENT-GITLAB": "Connectez un compte GitLab pour accéder à ce devoir",
+    "MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM": "Connectez le compte GitLab {{host}} pour accéder à ce devoir",
+    "CREATE-ASSIGNMENT-GITLAB-CUSTOM": "Nouveau devoir GitLab ({{host}})",
     "FILTER": {
       "STATUS": "Statut",
       "COURSE": "Cours",
@@ -177,7 +179,8 @@
       "RESET": "Réinitialiser",
       "ALL": "Tous",
       "GITHUB": "GitHub",
-      "GITLAB": "GitLab"
+      "GITLAB": "GitLab",
+      "GITLAB_CLOUD": "GitLab.com"
     },
     "DURATION": {
       "DAYS": "j",
@@ -615,7 +618,16 @@
     "AUTH_TYPE_OAUTH_PKCE": "OAuth 2.0 PKCE",
     "AUTH_TYPE_PAT": "Token PAT",
     "REMEMBER_ME": "Rester connecté sur cet appareil",
-    "REMEMBER_ME_TOOLTIP": "Le jeton sera stocké dans le localStorage du navigateur. Pratique pour éviter de vous reconnecter, mais sensible aux failles XSS et à l'accès physique à l'ordinateur. À n'activer que sur votre machine personnelle."
+    "REMEMBER_ME_TOOLTIP": "Le jeton sera stocké dans le localStorage du navigateur. Pratique pour éviter de vous reconnecter, mais sensible aux failles XSS et à l'accès physique à l'ordinateur. À n'activer que sur votre machine personnelle.",
+    "INSTANCE_ALIAS_LABEL": "Nom / Alias du serveur (facultatif)",
+    "INSTANCE_ALIAS_PLACEHOLDER": "Ex: Université, Labo...",
+    "ADD_ANOTHER_INSTANCE": "Connecter une autre instance",
+    "INSTANCES_COUNT_SINGULAR": "1 instance",
+    "INSTANCES_COUNT_PLURAL": "{{count}} instances",
+    "INVALID_PAT": "Jeton d'accès personnel (PAT) invalide ou expiré (droits requis : read_api, read_user).",
+    "SERVER_UNREACHABLE": "Impossible de joindre le serveur GitLab. Vérifiez l'URL de l'instance.",
+    "INVALID_HOST": "Pour gitlab.com, utilisez l'option GitLab Cloud ci-dessus.",
+    "SWITCH_INSTANCE": "Changer d'instance"
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Options & générateur",

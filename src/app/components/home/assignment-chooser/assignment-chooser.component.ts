@@ -1,4 +1,16 @@
-import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef, OnDestroy, HostListener, ElementRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  TemplateRef,
+  ViewChild,
+  ViewChildren,
+  QueryList,
+  ChangeDetectorRef,
+  OnDestroy,
+  HostListener,
+  ElementRef,
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { GitProviderType } from "@models/GitAuthProvider.model";
@@ -14,20 +26,33 @@ import { ToastService } from "@services/toast.service";
 import { Subscription } from "rxjs";
 import * as moment from "moment";
 
+export interface ProviderFilterPill {
+  key: string;
+  label: string;
+  provider?: GitProviderType;
+  instanceHost?: string;
+  instanceName?: string;
+  isCustom?: boolean;
+}
+
 @Component({
   selector: "assignment-chooser",
   templateUrl: "./assignment-chooser.component.html",
   styleUrls: ["./assignment-chooser.component.scss"],
 })
-export class AssignmentChooserComponent implements OnInit, OnDestroy {
+export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("searchInput") searchInputRef?: ElementRef<HTMLInputElement>;
+  @ViewChildren("pillBtn") pillButtons?: QueryList<ElementRef<HTMLButtonElement>>;
+
+  indicatorLeft = 0;
+  indicatorWidth = 100;
 
   assignments: any[]; // Using any to attach UI-specific properties temporarily
 
   sortField = "lastModificationDate";
   sortDirection: "asc" | "desc" = "desc";
 
-  filterType: "all" | "github" | "gitlab" = "all";
+  filterType = "all";
 
   searchQuery = "";
   searchFocused = false;
@@ -58,6 +83,8 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   // Provider split button dropdown state
   isProviderDropdownOpen = false;
   lastUsedProvider: GitProviderType = "github";
+  lastUsedHost = "github.com";
+  lastUsedInstanceName = "";
 
   // Inline edit state
   editingAssignmentId: number | null = null;
@@ -69,6 +96,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   private dbSubscription?: Subscription;
   private overlaySub: Subscription | null = null;
   private accountsSub?: Subscription;
+  private pillButtonsSub?: Subscription;
   private statusPreviewTimeout: any = null;
 
   constructor(
@@ -101,8 +129,126 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     this.closeAllCreationPopovers();
   }
 
+  @HostListener("window:resize")
+  onWindowResize(): void {
+    this.updateIndicator();
+  }
+
   get isSearchExpanded(): boolean {
     return this.searchFocused || Boolean(this.searchQuery && this.searchQuery.trim().length > 0);
+  }
+
+  get providerFilterPills(): ProviderFilterPill[] {
+    const pills: ProviderFilterPill[] = [{ key: "all", label: "HOME.FILTER.ALL" }];
+
+    const hasGithub =
+      this.accountsService.isGithubConnected || (this.assignments && this.assignments.some((a) => !a.provider || a.provider === "github"));
+    if (hasGithub) {
+      pills.push({
+        key: "github",
+        label: "HOME.FILTER.GITHUB",
+        provider: "github",
+        instanceHost: "github.com",
+      });
+    }
+
+    const hasGitlabCloud =
+      this.accountsService.isGitlabConnected ||
+      (this.assignments &&
+        this.assignments.some(
+          (a) => a.provider === "gitlab" && (!a.instanceHost || a.instanceHost === "gitlab.com" || a.resolvedInstanceHost === "gitlab.com"),
+        ));
+    if (hasGitlabCloud) {
+      pills.push({
+        key: "gitlab",
+        label: "HOME.FILTER.GITLAB",
+        provider: "gitlab",
+        instanceHost: "gitlab.com",
+      });
+    }
+
+    const customHostMap = new Map<string, { name: string; isConnected: boolean }>();
+
+    const connectedCustom = this.accountsService.gitlabCustomAuthService?.getAccounts() || [];
+    connectedCustom.forEach((acc) => {
+      if (acc.instanceHost) {
+        customHostMap.set(acc.instanceHost, {
+          name: acc.instanceName || this.cleanHostname(acc.instanceHost),
+          isConnected: true,
+        });
+      }
+    });
+
+    if (this.assignments) {
+      this.assignments.forEach((a) => {
+        const host = a.instanceHost || (a.provider === "gitlab" && a.resolvedInstanceHost !== "gitlab.com" ? a.resolvedInstanceHost : null);
+        if (a.provider === "gitlab" && host && host !== "gitlab.com" && !customHostMap.has(host)) {
+          customHostMap.set(host, {
+            name: a.instanceName || this.cleanHostname(host),
+            isConnected: this.accountsService.hasAccountForHost("gitlab", host),
+          });
+        }
+      });
+    }
+
+    customHostMap.forEach((info, host) => {
+      pills.push({
+        key: `gitlab:${host}`,
+        label: `GitLab (${info.name})`,
+        provider: "gitlab",
+        instanceHost: host,
+        instanceName: info.name,
+        isCustom: true,
+      });
+    });
+
+    return pills;
+  }
+
+  get selectedFilterPill(): ProviderFilterPill | undefined {
+    return this.providerFilterPills.find((p) => p.key === this.filterType);
+  }
+
+  get isCustomLastUsed(): boolean {
+    return this.lastUsedProvider === "gitlab" && Boolean(this.lastUsedHost && this.lastUsedHost !== "gitlab.com");
+  }
+
+  get canCreateLastUsed(): boolean {
+    return this.accountsService.hasAccountForHost(this.lastUsedProvider, this.lastUsedHost);
+  }
+
+  get createButtonLabel(): string {
+    if (this.lastUsedProvider === "github") {
+      return this.translateService.instant("HOME.CREATE-ASSIGNMENT-GITHUB");
+    }
+    if (this.lastUsedProvider === "gitlab") {
+      if (this.isCustomLastUsed) {
+        return this.translateService.instant("HOME.CREATE-ASSIGNMENT-GITLAB-CUSTOM", {
+          host: this.lastUsedInstanceName || this.lastUsedHost,
+        });
+      }
+      return this.translateService.instant("HOME.CREATE-ASSIGNMENT-GITLAB");
+    }
+    return this.translateService.instant("HOME.CREATE-ASSIGNMENT");
+  }
+
+  get createButtonTooltip(): string {
+    if (!this.canCreateLastUsed) {
+      if (this.lastUsedProvider === "gitlab") {
+        if (this.isCustomLastUsed) {
+          return this.translateService.instant("HOME.MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM", {
+            host: this.lastUsedInstanceName || this.lastUsedHost,
+          });
+        }
+        return this.translateService.instant("HOME.MUST-LOGIN-GITLAB");
+      }
+      return this.translateService.instant("HOME.MUST-LOGIN-GITHUB");
+    }
+    return "";
+  }
+
+  get connectedCustomGitlabAccounts(): any[] {
+    return this.accountsService.gitlabCustomAuthService?.getAccounts() || [];
   }
 
   get filteredAssignments() {
@@ -111,9 +257,24 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     // Always show the assignment currently being created at the top, even if it doesn't match filters
     const newAssignment = this.assignments.find((a) => a.id === -1);
 
-    // Apply old filterType
+    // Apply filterType
     if (this.filterType !== "all") {
-      result = result.filter((a) => (a as any).uiType === this.filterType || a.id === -1);
+      if (this.filterType === "github") {
+        result = result.filter((a) => a.id === -1 || !a.provider || a.provider === "github");
+      } else if (this.filterType === "gitlab" || this.filterType === "gitlab-cloud") {
+        result = result.filter(
+          (a) =>
+            a.id === -1 ||
+            (a.provider === "gitlab" && (!a.instanceHost || a.instanceHost === "gitlab.com" || a.resolvedInstanceHost === "gitlab.com")),
+        );
+      } else if (this.filterType.startsWith("gitlab:")) {
+        const targetHost = this.filterType.substring(7);
+        result = result.filter(
+          (a) => a.id === -1 || (a.provider === "gitlab" && (a.instanceHost === targetHost || a.resolvedInstanceHost === targetHost)),
+        );
+      } else {
+        result = result.filter((a) => (a as any).uiType === this.filterType || a.id === -1);
+      }
     }
 
     // Apply search query
@@ -236,8 +397,84 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     }
   }
 
-  setFilter(type: "all" | "github" | "gitlab") {
+  setFilter(type: string): void {
     this.filterType = type;
+    this.updateIndicator();
+    this.cdr.markForCheck();
+  }
+
+  updateIndicator(): void {
+    if (!this.pillButtons || this.pillButtons.length === 0) {
+      return;
+    }
+    const pills = this.providerFilterPills;
+    let activeIndex = pills.findIndex((p) => p.key === this.filterType);
+    if (activeIndex === -1) {
+      activeIndex = 0;
+    }
+    const buttonsArray = this.pillButtons.toArray();
+    const targetBtn = buttonsArray[activeIndex];
+    if (targetBtn && targetBtn.nativeElement) {
+      const el = targetBtn.nativeElement;
+      const groupEl = el.parentElement;
+      const groupPaddingLeft = groupEl ? parseFloat(getComputedStyle(groupEl).paddingLeft) || 4 : 4;
+      this.indicatorLeft = Math.max(0, el.offsetLeft - groupPaddingLeft);
+      this.indicatorWidth = el.offsetWidth || 100;
+      this.cdr.markForCheck();
+    }
+  }
+
+  isAssignmentConnected(assignment: any): boolean {
+    if (!assignment) {
+      return false;
+    }
+    const provider = (assignment.provider || assignment.uiType || "github") as GitProviderType;
+    const host = assignment.instanceHost || (assignment.resolvedInstanceHost ? assignment.resolvedInstanceHost : undefined);
+    return this.accountsService.hasAccountForHost(provider, host);
+  }
+
+  isCustomGitlab(assignment: any): boolean {
+    if (!assignment) {
+      return false;
+    }
+    const provider = assignment.provider || assignment.uiType;
+    const host = assignment.instanceHost || assignment.resolvedInstanceHost;
+    return provider === "gitlab" && Boolean(host && host !== "gitlab.com");
+  }
+
+  getAssignmentTooltip(assignment: any): string {
+    if (this.isAssignmentConnected(assignment)) {
+      return "HOME.SELECT-ASSIGNMENT-TOOLTIP";
+    }
+    return this.getDisconnectedTooltip(assignment);
+  }
+
+  getAssignmentEditTooltip(assignment: any): string {
+    if (this.isAssignmentConnected(assignment)) {
+      return "HOME.EDIT-ASSIGNMENT-TOOLTIP";
+    }
+    return this.getDisconnectedTooltip(assignment);
+  }
+
+  getAssignmentDeleteTooltip(assignment: any): string {
+    if (this.isAssignmentConnected(assignment)) {
+      return "HOME.DELETE-ASSIGNMENT-TOOLTIP";
+    }
+    return this.getDisconnectedTooltip(assignment);
+  }
+
+  getDisconnectedTooltip(assignment: any): string {
+    const provider = assignment?.provider || "github";
+    const host = assignment?.instanceHost || assignment?.resolvedInstanceHost;
+    if (provider === "gitlab") {
+      if (host && host !== "gitlab.com") {
+        return this.translateService.instant("HOME.MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM", {
+          host: assignment?.instanceName || host,
+        });
+      }
+      return this.translateService.instant("HOME.MUST-LOGIN-ASSIGNMENT-GITLAB");
+    }
+    return this.translateService.instant("HOME.MUST-LOGIN-ASSIGNMENT-GITHUB");
   }
 
   onStatusMouseEnter(status: string) {
@@ -298,14 +535,6 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  isAssignmentConnected(assignment: any): boolean {
-    if (!assignment) {
-      return false;
-    }
-    const provider = (assignment.provider || assignment.uiType || "github") as GitProviderType;
-    return this.accountsService.hasAccount(provider);
-  }
-
   get isGithubConnected(): boolean {
     return this.accountsService.isGithubConnected;
   }
@@ -340,7 +569,26 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
     this.accountsSub = this.accountsService.accounts$.subscribe(() => {
       this.cdr.markForCheck();
+      requestAnimationFrame(() => {
+        this.updateIndicator();
+      });
     });
+  }
+
+  ngAfterViewInit(): void {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.updateIndicator();
+      });
+    });
+
+    if (this.pillButtons) {
+      this.pillButtonsSub = this.pillButtons.changes.subscribe(() => {
+        requestAnimationFrame(() => {
+          this.updateIndicator();
+        });
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -352,6 +600,9 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     }
     if (this.accountsSub) {
       this.accountsSub.unsubscribe();
+    }
+    if (this.pillButtonsSub) {
+      this.pillButtonsSub.unsubscribe();
     }
     if (this.statusPreviewTimeout) {
       clearTimeout(this.statusPreviewTimeout);
@@ -373,6 +624,14 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     const savedProvider = localStorage.getItem("git4school_last_provider") as GitProviderType;
     if (savedProvider && (savedProvider === "github" || savedProvider === "gitlab")) {
       this.lastUsedProvider = savedProvider;
+    }
+    const savedHost = localStorage.getItem("git4school_last_host");
+    if (savedHost) {
+      this.lastUsedHost = savedHost;
+    }
+    const savedName = localStorage.getItem("git4school_last_instance_name");
+    if (savedName) {
+      this.lastUsedInstanceName = savedName;
     }
   }
 
@@ -426,6 +685,8 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
         const lastAssignment = this.assignments.find((a) => a.provider && a.id !== -1);
         if (lastAssignment && lastAssignment.provider) {
           this.lastUsedProvider = lastAssignment.provider;
+          this.lastUsedHost = lastAssignment.instanceHost || (lastAssignment.provider === "gitlab" ? "gitlab.com" : "github.com");
+          this.lastUsedInstanceName = lastAssignment.instanceName || "";
         }
       }
 
@@ -434,6 +695,9 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
         this.assignments.unshift(newAssignmentObj);
       }
       this.cdr.detectChanges();
+      requestAnimationFrame(() => {
+        this.updateIndicator();
+      });
     });
   }
 
@@ -696,9 +960,9 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
   selectAssignment(assignment: any) {
     const provider = assignment.provider || "github";
-    if (!this.accountsService.hasAccount(provider)) {
-      const errorKey = provider === "gitlab" ? "HOME.MUST-LOGIN-ASSIGNMENT-GITLAB" : "HOME.MUST-LOGIN-ASSIGNMENT-GITHUB";
-      const msg = this.translateService.instant(errorKey);
+    const host = assignment.instanceHost || (assignment.resolvedInstanceHost ? assignment.resolvedInstanceHost : undefined);
+    if (!this.accountsService.hasAccountForHost(provider, host)) {
+      const msg = this.getDisconnectedTooltip(assignment);
       this.toastService.warning(this.translateService.instant("WARNING"), msg);
       return;
     }
@@ -710,24 +974,39 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   }
 
   deleteAssignment(assignment: any) {
-    if (!this.isAssignmentConnected(assignment)) return;
+    if (!this.isAssignmentConnected(assignment)) {
+      const msg = this.getDisconnectedTooltip(assignment);
+      this.toastService.warning(this.translateService.instant("WARNING"), msg);
+      return;
+    }
     this.databaseService.deleteAssignment(assignment.id);
   }
 
-  createAssignment(provider?: GitProviderType, event?: MouseEvent) {
+  createAssignment(provider?: GitProviderType, instanceHost?: string, instanceName?: string, event?: MouseEvent) {
     if (event) {
       event.stopPropagation();
     }
-    const targetProvider: GitProviderType = provider || (this.filterType !== "all" ? this.filterType : this.lastUsedProvider) || "github";
+    const targetProvider: GitProviderType = provider || (this.filterType === "github" ? "github" : this.lastUsedProvider) || "github";
+    const targetHost = instanceHost || (targetProvider === "gitlab" ? this.lastUsedHost || "gitlab.com" : "github.com");
 
-    if (!this.accountsService.hasAccount(targetProvider)) {
+    if (!this.accountsService.hasAccountForHost(targetProvider, targetHost)) {
       if (this.accountsService.isEmpty()) {
         const msg = this.translateService.instant("HOME.MUST-LOGIN");
         this.toastService.warning(this.translateService.instant("WARNING"), msg);
         return;
       }
-      const errorKey = targetProvider === "gitlab" ? "HOME.MUST-LOGIN-GITLAB" : "HOME.MUST-LOGIN-GITHUB";
-      const msg = this.translateService.instant(errorKey);
+      let msg = "";
+      if (targetProvider === "gitlab") {
+        if (targetHost !== "gitlab.com") {
+          msg = this.translateService.instant("HOME.MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM", {
+            host: instanceName || targetHost,
+          });
+        } else {
+          msg = this.translateService.instant("HOME.MUST-LOGIN-GITLAB");
+        }
+      } else {
+        msg = this.translateService.instant("HOME.MUST-LOGIN-GITHUB");
+      }
       this.toastService.warning(this.translateService.instant("WARNING"), msg);
       return;
     }
@@ -736,13 +1015,25 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
     this.closeAllCreationPopovers();
     this.lastUsedProvider = targetProvider;
+    this.lastUsedHost = targetHost;
+    this.lastUsedInstanceName = instanceName || "";
     try {
       localStorage.setItem("git4school_last_provider", targetProvider);
+      localStorage.setItem("git4school_last_host", targetHost);
+      if (instanceName) {
+        localStorage.setItem("git4school_last_instance_name", instanceName);
+      } else {
+        localStorage.removeItem("git4school_last_instance_name");
+      }
     } catch (e) {}
 
     let assignment = new Assignment();
     assignment.id = -1; // Temporary ID for creation
     assignment.provider = targetProvider;
+    assignment.instanceHost = targetHost;
+    if (instanceName) {
+      assignment.instanceName = instanceName;
+    }
     (assignment as any).uiType = targetProvider;
     (assignment as any).uiStatus = "prepared";
     this.assignments.unshift(assignment); // Add to the top
@@ -761,17 +1052,12 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
       return;
     }
 
-    /* If a specific provider filter is active, create directly with that provider */
-    if (this.filterType === "github") {
-      this.createAssignment("github");
-      return;
-    }
-    if (this.filterType === "gitlab") {
-      this.createAssignment("gitlab");
+    if (this.selectedFilterPill && this.selectedFilterPill.key !== "all") {
+      this.createAssignment(this.selectedFilterPill.provider, this.selectedFilterPill.instanceHost, this.selectedFilterPill.instanceName);
       return;
     }
 
-    this.createAssignment(this.lastUsedProvider);
+    this.createAssignment(this.lastUsedProvider, this.lastUsedHost, this.lastUsedInstanceName);
   }
 
   toggleProviderDropdown(event?: MouseEvent): void {
@@ -788,6 +1074,10 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
 
   trackByAssignmentId(index: number, item: any): any {
     return item?.id !== undefined ? item.id : index;
+  }
+
+  trackByPillKey(index: number, pill: ProviderFilterPill): string {
+    return pill.key;
   }
 
   editAssignment(assignment: any) {
@@ -824,8 +1114,16 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   onAssignmentSaved(assignment: Assignment) {
     if (assignment && assignment.provider) {
       this.lastUsedProvider = assignment.provider;
+      this.lastUsedHost = assignment.instanceHost || (assignment.provider === "gitlab" ? "gitlab.com" : "github.com");
+      this.lastUsedInstanceName = assignment.instanceName || "";
       try {
         localStorage.setItem("git4school_last_provider", assignment.provider);
+        localStorage.setItem("git4school_last_host", this.lastUsedHost);
+        if (assignment.instanceName) {
+          localStorage.setItem("git4school_last_instance_name", assignment.instanceName);
+        } else {
+          localStorage.removeItem("git4school_last_instance_name");
+        }
       } catch (e) {}
     }
     this.isCreatingNew = false;
@@ -861,5 +1159,13 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     if (file) {
       this.importDB(file);
     }
+  }
+
+  private cleanHostname(host: string): string {
+    return host
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/^gitlab\./, "")
+      .replace(/\/$/, "");
   }
 }
