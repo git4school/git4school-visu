@@ -9,6 +9,7 @@ import * as moment from "moment";
 import { forkJoin, Observable, of } from "rxjs";
 import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { GitlabAuthService } from "./gitlab-auth.service";
+import { TokenStorageService } from "./token-storage.service";
 import { Utils } from "./utils";
 
 @Injectable({
@@ -17,13 +18,35 @@ import { Utils } from "./utils";
 export class GitlabDataService implements GitDataService {
   public readonly provider: GitProviderType = "gitlab";
 
-  constructor(private http: HttpClient, private gitlabAuthService: GitlabAuthService, private translateService: TranslateService) {}
+  constructor(
+    private http: HttpClient,
+    private gitlabAuthService: GitlabAuthService,
+    private tokenStorageService: TokenStorageService,
+    private translateService: TranslateService,
+  ) {}
 
   get headers(): HttpHeaders {
-    return new HttpHeaders({
+    return this.getHeadersForHost();
+  }
+
+  getHeadersForHost(host?: string): HttpHeaders {
+    let token: string | null = null;
+    if (host) {
+      const cleanHost = host.replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
+      token = this.tokenStorageService.getToken("gitlab", cleanHost);
+    }
+    if (!token) {
+      token = this.gitlabAuthService.token || this.tokenStorageService.getToken("gitlab");
+    }
+
+    const headersConfig: { [name: string]: string } = {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${this.gitlabAuthService.token}`,
-    });
+    };
+    if (token) {
+      headersConfig["Authorization"] = `Bearer ${token}`;
+      headersConfig["PRIVATE-TOKEN"] = token;
+    }
+    return new HttpHeaders(headersConfig);
   }
 
   getRepositories(repoTab: Repository[], startDate?: string, endDate?: string): Observable<Repository[]> {
@@ -42,12 +65,13 @@ export class GitlabDataService implements GitDataService {
     );
   }
 
-  getRepositoriesByAuthenticatedUser(cursor?: string, pageLimit = 100): Observable<GitDataSearchResult> {
-    const baseApi = this.getBaseApi();
+  getRepositoriesByAuthenticatedUser(cursor?: string, pageLimit = 100, instanceHost?: string): Observable<GitDataSearchResult> {
+    const baseApi = this.getBaseApi(instanceHost);
+    const headers = this.getHeadersForHost(instanceHost);
     const page = cursor ? parseInt(cursor, 10) : 1;
     const url = `${baseApi}/projects?membership=true&order_by=created_at&sort=desc&per_page=${pageLimit}&page=${page}`;
 
-    return this.http.get<any[]>(url, { headers: this.headers, observe: "response" }).pipe(
+    return this.http.get<any[]>(url, { headers, observe: "response" }).pipe(
       map((response: HttpResponse<any[]>) => {
         const nextPage = response.headers.get("x-next-page");
         const projects = response.body || [];
@@ -70,24 +94,27 @@ export class GitlabDataService implements GitDataService {
     );
   }
 
-  getRepositoriesBySearch(searchFilter: string, cursor?: string, pageLimit = 100): Observable<GitDataSearchResult> {
+  getRepositoriesBySearch(searchFilter: string, cursor?: string, pageLimit = 100, instanceHost?: string): Observable<GitDataSearchResult> {
     const cleanFilter = searchFilter ? searchFilter.trim() : "";
     if (!cleanFilter) {
-      return this.getRepositoriesByAuthenticatedUser(cursor, pageLimit);
+      return this.getRepositoriesByAuthenticatedUser(cursor, pageLimit, instanceHost);
     }
 
-    const baseApi = this.getBaseApi();
+    const baseApi = this.getBaseApi(instanceHost);
+    const headers = this.getHeadersForHost(instanceHost);
     const page = cursor ? parseInt(cursor, 10) : 1;
 
     // Check if filter is a full URL or owner/name
-    const repoInfo = this.extractRepoPathAndOrigin(cleanFilter);
+    const repoInfo = this.extractRepoPathAndOrigin(cleanFilter, instanceHost);
     if (repoInfo.path) {
+      const targetHost = new URL(repoInfo.origin).hostname;
+      const targetHeaders = this.getHeadersForHost(targetHost);
       const projectApiUrl = `${repoInfo.origin}/api/v4/projects/${encodeURIComponent(repoInfo.path)}`;
       const forksUrl = `${repoInfo.origin}/api/v4/projects/${encodeURIComponent(repoInfo.path)}/forks?per_page=${pageLimit}&page=${page}`;
 
       return forkJoin({
-        project: this.http.get<any>(projectApiUrl, { headers: this.headers }).pipe(catchError(() => of(null))),
-        forks: this.http.get<any[]>(forksUrl, { headers: this.headers, observe: "response" }).pipe(catchError(() => of(null))),
+        project: this.http.get<any>(projectApiUrl, { headers: targetHeaders }).pipe(catchError(() => of(null))),
+        forks: this.http.get<any[]>(forksUrl, { headers: targetHeaders, observe: "response" }).pipe(catchError(() => of(null))),
       }).pipe(
         map(({ project, forks }) => {
           const reposMap = new Map<string, Repository>();
@@ -117,12 +144,12 @@ export class GitlabDataService implements GitDataService {
           if (result) {
             return of(result);
           }
-          return this.searchProjectsByKeyword(cleanFilter, page, pageLimit, baseApi);
+          return this.searchProjectsByKeyword(cleanFilter, page, pageLimit, baseApi, headers);
         }),
       );
     }
 
-    return this.searchProjectsByKeyword(cleanFilter, page, pageLimit, baseApi);
+    return this.searchProjectsByKeyword(cleanFilter, page, pageLimit, baseApi, headers);
   }
 
   verifyUserAccess(repoUrl: string): Observable<any> {
@@ -130,8 +157,10 @@ export class GitlabDataService implements GitDataService {
     if (!path) {
       return of({ valid: false });
     }
+    const host = new URL(origin).hostname;
+    const headers = this.getHeadersForHost(host);
     const url = `${origin}/api/v4/projects/${encodeURIComponent(path)}`;
-    return this.http.get<any>(url, { headers: this.headers }).pipe(
+    return this.http.get<any>(url, { headers }).pipe(
       map((project) => ({
         ...project,
         owner: {
@@ -142,13 +171,19 @@ export class GitlabDataService implements GitDataService {
     );
   }
 
-  private searchProjectsByKeyword(keyword: string, page: number, pageLimit: number, baseApi: string): Observable<GitDataSearchResult> {
+  private searchProjectsByKeyword(
+    keyword: string,
+    page: number,
+    pageLimit: number,
+    baseApi: string,
+    headers: HttpHeaders,
+  ): Observable<GitDataSearchResult> {
     const memberUrl = `${baseApi}/projects?search=${encodeURIComponent(keyword)}&membership=true&per_page=${pageLimit}&page=${page}`;
     const allUrl = `${baseApi}/projects?search=${encodeURIComponent(keyword)}&per_page=${pageLimit}&page=${page}`;
 
     return forkJoin({
-      memberRes: this.http.get<any[]>(memberUrl, { headers: this.headers, observe: "response" }).pipe(catchError(() => of(null))),
-      allRes: this.http.get<any[]>(allUrl, { headers: this.headers, observe: "response" }).pipe(catchError(() => of(null))),
+      memberRes: this.http.get<any[]>(memberUrl, { headers, observe: "response" }).pipe(catchError(() => of(null))),
+      allRes: this.http.get<any[]>(allUrl, { headers, observe: "response" }).pipe(catchError(() => of(null))),
     }).pipe(
       map(({ memberRes, allRes }) => {
         const reposMap = new Map<string, Repository>();
@@ -188,9 +223,11 @@ export class GitlabDataService implements GitDataService {
       return of(repo);
     }
 
+    const host = new URL(origin).hostname;
+    const headers = this.getHeadersForHost(host);
     const projectUrl = `${origin}/api/v4/projects/${encodeURIComponent(path)}`;
 
-    return this.http.get<any>(projectUrl, { headers: this.headers }).pipe(
+    return this.http.get<any>(projectUrl, { headers }).pipe(
       switchMap((project) => {
         const defaultBranch = project?.default_branch || "main";
         const readmeUrl = `${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/files/README%2Emd/raw?ref=${encodeURIComponent(
@@ -201,9 +238,9 @@ export class GitlabDataService implements GitDataService {
         )}/repository/files/IDENTITY%2Ejson/raw?ref=${encodeURIComponent(defaultBranch)}`;
 
         return forkJoin({
-          readme: this.http.get(readmeUrl, { headers: this.headers, responseType: "text" }).pipe(catchError(() => of(null))),
-          identity: this.http.get(identityUrl, { headers: this.headers, responseType: "text" }).pipe(catchError(() => of(null))),
-          commits: this.fetchAllCommits(origin, path, defaultBranch, startDate, endDate),
+          readme: this.http.get(readmeUrl, { headers, responseType: "text" }).pipe(catchError(() => of(null))),
+          identity: this.http.get(identityUrl, { headers, responseType: "text" }).pipe(catchError(() => of(null))),
+          commits: this.fetchAllCommits(origin, path, defaultBranch, startDate, endDate, headers),
         }).pipe(
           map(({ readme, identity, commits }) => {
             let name = "";
@@ -246,7 +283,14 @@ export class GitlabDataService implements GitDataService {
     );
   }
 
-  private fetchAllCommits(origin: string, path: string, defaultBranch: string, startDate?: string, endDate?: string): Observable<Commit[]> {
+  private fetchAllCommits(
+    origin: string,
+    path: string,
+    defaultBranch: string,
+    startDate?: string,
+    endDate?: string,
+    headers?: HttpHeaders,
+  ): Observable<Commit[]> {
     let url = `${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/commits?ref_name=${encodeURIComponent(
       defaultBranch,
     )}&per_page=100`;
@@ -257,12 +301,14 @@ export class GitlabDataService implements GitDataService {
       url += `&until=${encodeURIComponent(moment(endDate).toDate().toISOString())}`;
     }
 
-    return this.fetchCommitsPage(url, 1, []);
+    const effectiveHeaders = headers || this.getHeadersForHost(new URL(origin).hostname);
+    return this.fetchCommitsPage(url, 1, [], effectiveHeaders);
   }
 
-  private fetchCommitsPage(baseUrl: string, page: number, accumulated: Commit[]): Observable<Commit[]> {
+  private fetchCommitsPage(baseUrl: string, page: number, accumulated: Commit[], headers?: HttpHeaders): Observable<Commit[]> {
     const pageUrl = `${baseUrl}&page=${page}`;
-    return this.http.get<any[]>(pageUrl, { headers: this.headers, observe: "response" }).pipe(
+    const effectiveHeaders = headers || this.headers;
+    return this.http.get<any[]>(pageUrl, { headers: effectiveHeaders, observe: "response" }).pipe(
       switchMap((response: HttpResponse<any[]>) => {
         const nodes = response.body || [];
         const commits = nodes.map((n) => Commit.withGitlabJSON(n));
@@ -270,7 +316,7 @@ export class GitlabDataService implements GitDataService {
 
         const nextPage = response.headers.get("x-next-page");
         if (nextPage && nextPage.trim() !== "" && nodes.length > 0) {
-          return this.fetchCommitsPage(baseUrl, parseInt(nextPage, 10), allCommits);
+          return this.fetchCommitsPage(baseUrl, parseInt(nextPage, 10), allCommits, effectiveHeaders);
         }
         return of(allCommits);
       }),
@@ -293,14 +339,15 @@ export class GitlabDataService implements GitDataService {
       project.description,
       isFork,
       resolvedParent,
+      undefined,
+      "gitlab",
     );
-    repo.provider = "gitlab";
     return repo;
   }
 
-  private extractRepoPathAndOrigin(repoUrl: string): { origin: string; path: string } {
+  private extractRepoPathAndOrigin(repoUrl: string, instanceHost?: string): { origin: string; path: string } {
     if (!repoUrl) {
-      return { origin: this.getBaseOrigin(), path: "" };
+      return { origin: this.getBaseOrigin(instanceHost), path: "" };
     }
     let clean = repoUrl.trim();
     // Handle SSH format e.g. git@gitlab.com:group/subgroup/project.git
@@ -313,7 +360,8 @@ export class GitlabDataService implements GitDataService {
     }
 
     try {
-      const url = new URL(clean.startsWith("http") ? clean : `https://${this.gitlabAuthService.instanceHost}/${clean}`);
+      const defaultHost = instanceHost || this.gitlabAuthService.instanceHost || "gitlab.com";
+      const url = new URL(clean.startsWith("http") ? clean : `https://${defaultHost}/${clean}`);
       const path = url.pathname
         .replace(/^\//, "")
         .replace(/\.git$/, "")
@@ -321,7 +369,7 @@ export class GitlabDataService implements GitDataService {
       return { origin: url.origin, path };
     } catch (e) {
       return {
-        origin: this.getBaseOrigin(),
+        origin: this.getBaseOrigin(instanceHost),
         path: clean
           .replace(/^\//, "")
           .replace(/\.git$/, "")
@@ -330,12 +378,13 @@ export class GitlabDataService implements GitDataService {
     }
   }
 
-  private getBaseOrigin(): string {
-    const host = this.gitlabAuthService.instanceHost || "gitlab.com";
-    return `https://${host.replace(/^https?:\/\//i, "").replace(/\/.*$/, "")}`;
+  private getBaseOrigin(instanceHost?: string): string {
+    const rawHost = instanceHost || this.gitlabAuthService.instanceHost || "gitlab.com";
+    const host = rawHost.replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
+    return `https://${host}`;
   }
 
-  private getBaseApi(): string {
-    return `${this.getBaseOrigin()}/api/v4`;
+  private getBaseApi(instanceHost?: string): string {
+    return `${this.getBaseOrigin(instanceHost)}/api/v4`;
   }
 }

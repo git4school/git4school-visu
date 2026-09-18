@@ -96,4 +96,58 @@ describe("TokenStorageService", () => {
     expect(localStorage.getItem("g4s_auth_v1_github")).toBeNull();
     expect(localStorage.getItem("g4s_user_v1_github")).toBeNull();
   });
+
+  it("should securely store and retrieve encrypted refreshToken", () => {
+    service.saveToken("gitlab", "gl_access_token_123", true, 7200, "gl_refresh_token_xyz");
+
+    const raw = localStorage.getItem("g4s_auth_v1_gitlab");
+    expect(raw).toBeTruthy();
+    expect(raw).not.toContain("gl_access_token_123");
+    expect(raw).not.toContain("gl_refresh_token_xyz");
+
+    expect(service.getToken("gitlab")).toBe("gl_access_token_123");
+    expect(service.getRefreshToken("gitlab")).toBe("gl_refresh_token_xyz");
+  });
+
+  it("should return null for expired token without wiping storage when refreshToken is present", () => {
+    service.saveToken("gitlab", "expired_access_token", true, -10, "valid_refresh_token");
+
+    expect(service.getToken("gitlab")).toBeNull();
+    expect(localStorage.getItem("g4s_auth_v1_gitlab")).toBeTruthy();
+    expect(service.getRefreshToken("gitlab")).toBe("valid_refresh_token");
+  });
+
+  it("should accurately report isTokenExpired with and without margin", () => {
+    // Token expiring in 60 seconds
+    service.saveToken("gitlab", "expiring_token", true, 60, "some_refresh");
+
+    expect(service.isTokenExpired("gitlab", 0)).toBeFalse();
+    // With 300s margin, 60s is considered expiring
+    expect(service.isTokenExpired("gitlab", 300)).toBeTrue();
+
+    // Already expired token
+    service.saveToken("gitlab", "already_expired", true, -5, "some_refresh");
+    expect(service.isTokenExpired("gitlab", 0)).toBeTrue();
+  });
+
+  it("should store and retrieve tokens for custom GitLab hosts independently", () => {
+    service.saveToken("gitlab", "cloud_token", true, undefined, undefined, "gitlab.com");
+    service.saveToken("gitlab", "ut3_token", false, undefined, undefined, "gitlab.univ-tlse3.fr");
+    service.saveToken("gitlab", "irit_token", true, undefined, undefined, "gitlab.irit.fr");
+
+    expect(service.getToken("gitlab")).toBe("cloud_token");
+    expect(service.getToken("gitlab", "gitlab.com")).toBe("cloud_token");
+    expect(service.getToken("gitlab", "gitlab.univ-tlse3.fr")).toBe("ut3_token");
+    expect(service.getToken("gitlab", "gitlab.irit.fr")).toBe("irit_token");
+
+    const customHosts = service.getCustomGitlabHosts();
+    expect(customHosts).toContain("gitlab.univ-tlse3.fr");
+    expect(customHosts).toContain("gitlab.irit.fr");
+    expect(customHosts).not.toContain("gitlab.com");
+
+    service.clearAll("gitlab", "gitlab.univ-tlse3.fr");
+    expect(service.getToken("gitlab", "gitlab.univ-tlse3.fr")).toBeNull();
+    expect(service.getToken("gitlab", "gitlab.irit.fr")).toBe("irit_token");
+    expect(service.getToken("gitlab")).toBe("cloud_token");
+  });
 });

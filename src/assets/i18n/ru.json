@@ -60,6 +60,7 @@
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Поиск заданий...",
+    "CLEAR-SEARCH": "Очистить поиск",
     "FILTERS": "Фильтры",
     "COPY": "Копировать",
     "COPY-TOOLTIP": "Копировать в буфер обмена",
@@ -164,6 +165,8 @@
     "MUST-LOGIN-GITLAB": "Подключите GitLab для создания задания",
     "MUST-LOGIN-ASSIGNMENT-GITHUB": "Подключите аккаунт GitHub для доступа к этому заданию",
     "MUST-LOGIN-ASSIGNMENT-GITLAB": "Подключите аккаунт GitLab для доступа к этому заданию",
+    "MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM": "Подключите аккаунт GitLab {{host}} для доступа к этому заданию",
+    "CREATE-ASSIGNMENT-GITLAB-CUSTOM": "Новое задание GitLab ({{host}})",
     "FILTER": {
       "STATUS": "Статус",
       "COURSE": "Курс",
@@ -175,7 +178,8 @@
       "RESET": "Сбросить",
       "ALL": "Все",
       "GITHUB": "GitHub",
-      "GITLAB": "GitLab"
+      "GITLAB": "GitLab",
+      "GITLAB_CLOUD": "GitLab.com"
     },
     "DURATION": {
       "DAYS": "дн",
@@ -611,7 +615,16 @@
     "AUTH_TYPE_OAUTH_PKCE": "OAuth 2.0 PKCE",
     "AUTH_TYPE_PAT": "Токен PAT",
     "REMEMBER_ME": "Оставаться в системе на этом устройстве",
-    "REMEMBER_ME_TOOLTIP": "Токен сохраняется в localStorage браузера. Удобно, чтобы не входить повторно, но уязвимо к XSS и физическому доступу к компьютеру. Включайте только на личном доверенном устройстве."
+    "REMEMBER_ME_TOOLTIP": "Токен сохраняется в localStorage браузера. Удобно, чтобы не входить повторно, но уязвимо к XSS и физическому доступу к компьютеру. Включайте только на личном доверенном устройстве.",
+    "INSTANCE_ALIAS_LABEL": "Имя / Псевдоним сервера (необязательно)",
+    "INSTANCE_ALIAS_PLACEHOLDER": "Напр., Университет, Лаборатория...",
+    "ADD_ANOTHER_INSTANCE": "Подключить другой инстанс",
+    "INSTANCES_COUNT_SINGULAR": "1 инстанс",
+    "INSTANCES_COUNT_PLURAL": "{{count}} инстансов",
+    "INVALID_PAT": "Недействительный или просроченный Personal Access Token (PAT) (требуются права: read_api, read_user).",
+    "SERVER_UNREACHABLE": "Не удается подключиться к серверу GitLab. Проверьте URL инстанса.",
+    "INVALID_HOST": "Для gitlab.com используйте опцию GitLab Cloud выше.",
+    "SWITCH_INSTANCE": "Сменить инстанс"
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Опции и генератор",

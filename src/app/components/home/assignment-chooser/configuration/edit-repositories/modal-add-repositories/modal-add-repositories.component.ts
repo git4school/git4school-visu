@@ -16,6 +16,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
   @ViewChild("reposTable", { read: ElementRef }) datatable: ElementRef;
   @Input() repoList: Repository[];
   @Input() provider: GitProviderType = "github";
+  @Input() instanceHost?: string;
   rows: Repository[];
   nameMatches: Repository[] = [];
   contentMatches: Repository[] = [];
@@ -304,11 +305,17 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
   }
 
   private updateResultsWithAuthenticatedUser(cursor?: string, isFirstPage = false) {
-    this.processIntermediateResponse(this.commitsService.getRepositoriesByAuthenticatedUser(cursor, 100, this.provider), isFirstPage);
+    this.processIntermediateResponse(
+      this.commitsService.getRepositoriesByAuthenticatedUser(cursor, 100, this.provider, this.instanceHost),
+      isFirstPage,
+    );
   }
 
   private updateResultsWithSearchFilter(searchFilter: string, cursor?: string, isFirstPage = false) {
-    this.processIntermediateResponse(this.commitsService.getRepositoriesBySearch(searchFilter, cursor, 100, this.provider), isFirstPage);
+    this.processIntermediateResponse(
+      this.commitsService.getRepositoriesBySearch(searchFilter, cursor, 100, this.provider, this.instanceHost),
+      isFirstPage,
+    );
   }
 
   private loadResults() {
