@@ -6,14 +6,17 @@
   position: absolute;
   z-index: $zindex-tooltip;
   pointer-events: none;
+  max-width: calc(100vw - 16px);
 }
 
 .tooltip-container {
   display: flex;
   align-items: center;
   gap: 8px;
+  box-sizing: border-box;
   width: max-content;
-  max-width: var(--tooltip-max-width, 300px);
+  /* Default text tooltips have a readable compact width */
+  max-width: var(--tooltip-max-width, min(360px, calc(100vw - 24px)));
   background-color: var(--tooltip-glass-bg, var(--color-surface));
   color: var(--text-color);
   padding: 6px 12px;
@@ -29,6 +32,12 @@
   /* Glassmorphism / Minimalist */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+
+  &.has-template {
+    /* Template tooltips can expand to fit their rich content & helpers while bounded safely */
+    max-width: var(--tooltip-max-width, min(480px, calc(100vw - 24px)));
+    align-items: stretch;
+  }
 
   &.top {
     transform: translateY(4px) scale(0.97);
@@ -63,5 +72,18 @@
   overflow-wrap: break-word;
   word-break: normal;
   text-align: left;
+
+  &.w-100 {
+    display: block;
+    width: 100%;
+  }
+}
+
+.shortcut-combo {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 

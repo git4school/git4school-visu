@@ -1,5 +1,11 @@
-<div class="tooltip-container" [class]="placement" [class.show]="show" [class.shortcut-pressed]="shortcutPressed" [style.max-width]="resolvedMaxWidth">
-  <span class="tooltip-text">
+<div class="tooltip-container"
+     [class]="placement"
+     [class.show]="show"
+     [class.shortcut-pressed]="shortcutPressed"
+     [class.has-template]="!isString(content)"
+     [class.is-text]="isString(content)"
+     [style.max-width]="resolvedMaxWidth">
+  <span class="tooltip-text" [class.w-100]="!isString(content)">
     <ng-container *ngIf="isString(content); else templateContent">
       <span [innerHTML]="content"></span>
     </ng-container>
