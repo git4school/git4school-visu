@@ -60,6 +60,7 @@
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Поиск заданий...",
+    "CLEAR-SEARCH": "Очистить поиск",
     "FILTERS": "Фильтры",
     "COPY": "Копировать",
     "COPY-TOOLTIP": "Копировать в буфер обмена",
