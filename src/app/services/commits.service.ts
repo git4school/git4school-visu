@@ -6,6 +6,7 @@ import { Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, of } from "rxjs";
 import { AccountsService } from "./accounts.service";
+import { GitlabDataService } from "./gitlab-data.service";
 import { Utils } from "./utils";
 
 /**
@@ -28,7 +29,9 @@ export class CommitsService {
     if (!repoTab || repoTab.length === 0) {
       return of([]);
     }
-    const provider: GitProviderType = repoTab[0]?.provider || "github";
+
+    const firstRepo = repoTab[0];
+    const provider = firstRepo?.provider || "github";
     return this.accountsService.getDataService(provider).getRepositories(repoTab, startDate, endDate);
   }
 
@@ -49,14 +52,20 @@ export class CommitsService {
    * @param cursor The cursor of repositories to fetch
    * @param pageLimit The number of repositories to fetch per page
    * @param provider The provider to query ("github" or "gitlab")
+   * @param instanceHost The optional instance host for custom gitlab instances
    * @return An object containing the repositories, a boolean indicating if the results are complete and the next cursor
    */
   getRepositoriesByAuthenticatedUser(
     cursor?: string,
     pageLimit = 100,
     provider: GitProviderType = "github",
+    instanceHost?: string,
   ): Observable<GitDataSearchResult> {
-    return this.accountsService.getDataService(provider).getRepositoriesByAuthenticatedUser(cursor, pageLimit);
+    const dataService = this.accountsService.getDataService(provider);
+    if (provider === "gitlab" && dataService instanceof GitlabDataService) {
+      return dataService.getRepositoriesByAuthenticatedUser(cursor, pageLimit, instanceHost);
+    }
+    return dataService.getRepositoriesByAuthenticatedUser(cursor, pageLimit);
   }
 
   /**
@@ -66,6 +75,7 @@ export class CommitsService {
    * @param cursor The cursor of repositories to fetch
    * @param pageLimit The number of repositories to fetch per page
    * @param provider The provider to query ("github" or "gitlab")
+   * @param instanceHost The optional instance host for custom gitlab instances
    * @return An object containing the repositories, a boolean indicating if the results are complete and the next cursor
    */
   getRepositoriesBySearch(
@@ -73,8 +83,13 @@ export class CommitsService {
     cursor?: string,
     pageLimit = 100,
     provider: GitProviderType = "github",
+    instanceHost?: string,
   ): Observable<GitDataSearchResult> {
-    return this.accountsService.getDataService(provider).getRepositoriesBySearch(searchFilter, cursor, pageLimit);
+    const dataService = this.accountsService.getDataService(provider);
+    if (provider === "gitlab" && dataService instanceof GitlabDataService) {
+      return dataService.getRepositoriesBySearch(searchFilter, cursor, pageLimit, instanceHost);
+    }
+    return dataService.getRepositoriesBySearch(searchFilter, cursor, pageLimit);
   }
 
   /**

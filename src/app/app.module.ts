@@ -54,6 +54,7 @@ import { SidebarSettingsComponent } from "./components/nav-layouts/sidebar-setti
 import { AccountsComponent } from "./components/nav-layouts/sidebar-settings/accounts/accounts.component";
 import { AddAccountModalComponent } from "./components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component";
 import { GitlabCallbackComponent } from "@components/auth-callback/gitlab-callback.component";
+import { MockGitlabInterceptor } from "./dev-mock/mock-gitlab.interceptor";
 
 /**
  * Firebase configuration file
@@ -178,6 +179,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     {
       provide: HTTP_INTERCEPTORS,
       useClass: GitlabAuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MockGitlabInterceptor,
       multi: true,
     },
   ],

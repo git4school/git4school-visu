@@ -5,6 +5,7 @@ import { BehaviorSubject } from "rxjs";
 import { AddAccountModalComponent } from "./add-account-modal.component";
 import { GithubAuthService, AuthState } from "@services/github-auth.service";
 import { GitlabAuthService } from "@services/gitlab-auth.service";
+import { GitlabCustomAuthService } from "@services/gitlab-custom-auth.service";
 import { AccountsService } from "@services/accounts.service";
 import { DevFlagsService } from "@services/dev-flags.service";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
@@ -15,6 +16,7 @@ describe("AddAccountModalComponent", () => {
   let fixture: ComponentFixture<AddAccountModalComponent>;
   let githubAuthSpy: jasmine.SpyObj<GithubAuthService>;
   let gitlabAuthSpy: jasmine.SpyObj<GitlabAuthService>;
+  let gitlabCustomAuthSpy: jasmine.SpyObj<GitlabCustomAuthService>;
   let accountsServiceSpy: jasmine.SpyObj<AccountsService>;
   let modalRefSpy: jasmine.SpyObj<CustomModalRef>;
   let cloudFlag$: BehaviorSubject<boolean>;
@@ -66,12 +68,24 @@ describe("AddAccountModalComponent", () => {
     gitlabAuthSpy.getAccount.and.returnValue(null);
     gitlabAuthSpy.getProfileUrl.and.returnValue("https://gitlab.com");
 
+    gitlabCustomAuthSpy = jasmine.createSpyObj("GitlabCustomAuthService", [
+      "getAccounts",
+      "getAccount",
+      "getProfileUrl",
+      "connectInstance",
+      "disconnectInstance",
+    ]);
+    gitlabCustomAuthSpy.getAccounts.and.returnValue([]);
+    gitlabCustomAuthSpy.getAccount.and.returnValue(null);
+    gitlabCustomAuthSpy.getProfileUrl.and.returnValue("https://gitlab.example.com");
+
     modalRefSpy = jasmine.createSpyObj("CustomModalRef", ["close"]);
 
     accountsServiceSpy = jasmine.createSpyObj("AccountsService", ["getProvider", "disconnectAccount", "getProfileUrl"], {
       isGithubConnected: true,
       isGitlabConnected: false,
     });
+    (accountsServiceSpy as any).gitlabCustomAuthService = gitlabCustomAuthSpy;
     accountsServiceSpy.getProvider.and.callFake((type: string) => {
       if (type === "github") return githubAuthSpy;
       if (type === "gitlab") return gitlabAuthSpy;
@@ -178,5 +192,59 @@ describe("AddAccountModalComponent", () => {
 
     expect(gitlabAuthSpy.signIn).toHaveBeenCalledWith(true);
     expect(modalRefSpy.close).toHaveBeenCalled();
+  });
+
+  it("should connect custom instance with PAT", async () => {
+    const devFlags = TestBed.inject(DevFlagsService);
+    (devFlags as any).gitlabCustomEnabled = true;
+
+    component.selectPlatform("gitlab-custom");
+    component.gitlabInstanceUrl = "https://gitlab.univ-tlse3.fr";
+    component.gitlabInstanceAlias = "UT3";
+    component.gitlabToken = "glpat-test-123";
+    component.rememberMe = true;
+
+    gitlabCustomAuthSpy.connectInstance.and.returnValue(
+      Promise.resolve({
+        id: "acc-gitlab-gitlab.univ-tlse3.fr",
+        provider: "gitlab",
+        instanceHost: "gitlab.univ-tlse3.fr",
+        instanceName: "UT3",
+        username: "prof.turing",
+        avatarUrl: null,
+        isCurrent: false,
+        authType: "pat",
+      }),
+    );
+
+    await component.submitGitlabCustom();
+
+    expect(gitlabCustomAuthSpy.connectInstance).toHaveBeenCalledWith("https://gitlab.univ-tlse3.fr", "glpat-test-123", "UT3", true);
+    expect(modalRefSpy.close).toHaveBeenCalled();
+  });
+
+  it("should toggle custom dropdown and select custom instance", () => {
+    gitlabCustomAuthSpy.getAccounts.and.returnValue([
+      {
+        id: "acc-1",
+        provider: "gitlab",
+        instanceHost: "gitlab.univ-tlse3.fr",
+        instanceName: "UT3",
+        username: "prof.turing",
+        avatarUrl: null,
+        isCurrent: true,
+      },
+    ]);
+
+    expect(component.isCustomDropdownOpen).toBeFalse();
+    const event = new MouseEvent("click");
+    component.onCustomCardClick(event);
+    expect(component.selectedPlatform).toBe("gitlab-custom");
+    expect(component.isCustomDropdownOpen).toBeTrue();
+
+    component.selectCustomInstance("gitlab.univ-tlse3.fr");
+    expect(component.selectedCustomInstanceHost).toBe("gitlab.univ-tlse3.fr");
+    expect(component.isCustomDropdownOpen).toBeFalse();
+    expect(component.showAddCustomInstanceForm).toBeFalse();
   });
 });

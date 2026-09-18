@@ -129,4 +129,25 @@ describe("TokenStorageService", () => {
     service.saveToken("gitlab", "already_expired", true, -5, "some_refresh");
     expect(service.isTokenExpired("gitlab", 0)).toBeTrue();
   });
+
+  it("should store and retrieve tokens for custom GitLab hosts independently", () => {
+    service.saveToken("gitlab", "cloud_token", true, undefined, undefined, "gitlab.com");
+    service.saveToken("gitlab", "ut3_token", false, undefined, undefined, "gitlab.univ-tlse3.fr");
+    service.saveToken("gitlab", "irit_token", true, undefined, undefined, "gitlab.irit.fr");
+
+    expect(service.getToken("gitlab")).toBe("cloud_token");
+    expect(service.getToken("gitlab", "gitlab.com")).toBe("cloud_token");
+    expect(service.getToken("gitlab", "gitlab.univ-tlse3.fr")).toBe("ut3_token");
+    expect(service.getToken("gitlab", "gitlab.irit.fr")).toBe("irit_token");
+
+    const customHosts = service.getCustomGitlabHosts();
+    expect(customHosts).toContain("gitlab.univ-tlse3.fr");
+    expect(customHosts).toContain("gitlab.irit.fr");
+    expect(customHosts).not.toContain("gitlab.com");
+
+    service.clearAll("gitlab", "gitlab.univ-tlse3.fr");
+    expect(service.getToken("gitlab", "gitlab.univ-tlse3.fr")).toBeNull();
+    expect(service.getToken("gitlab", "gitlab.irit.fr")).toBe("irit_token");
+    expect(service.getToken("gitlab")).toBe("cloud_token");
+  });
 });

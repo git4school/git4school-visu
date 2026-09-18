@@ -109,7 +109,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     const filtered = all.filter((a) => {
       const type = this.computeType(a);
       (a as any).uiType = type;
-      return this.accountsService.hasAccount(type);
+      return this.accountsService.hasAccountForHost(type, a.instanceHost || a.resolvedInstanceHost);
     });
 
     // Sort by lastModificationDate descending (most recently modified or opened)

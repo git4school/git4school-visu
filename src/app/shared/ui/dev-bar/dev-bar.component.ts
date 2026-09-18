@@ -4,6 +4,7 @@ import { Subscription } from "rxjs";
 import { filter } from "rxjs/operators";
 import { environment } from "@environments/environment";
 import { DevFlagsService } from "@services/dev-flags.service";
+import { MockGitlabInstanceService } from "@app/dev-mock/mock-gitlab-instance.service";
 import { ToastService } from "@services/toast.service";
 import { ThemeService } from "@services/theme.service";
 import { GithubAuthService } from "@services/github-auth.service";
@@ -35,6 +36,7 @@ export class DevBarComponent implements OnInit, OnDestroy {
 
   constructor(
     public devFlagsService: DevFlagsService,
+    public mockGitlabInstanceService: MockGitlabInstanceService,
     public toastService: ToastService,
     public themeService: ThemeService,
     public githubAuthService: GithubAuthService,
@@ -138,17 +140,11 @@ export class DevBarComponent implements OnInit, OnDestroy {
     this.closePopover();
   }
 
-  /* Feature Flags */
-  toggleGitlabCloud(): void {
-    this.devFlagsService.toggleGitlabCloud();
-    const state = this.devFlagsService.gitlabCloudEnabled ? "activé" : "désactivé";
-    this.toastService.success("Feature Flag", `GitLab ${state}`);
-  }
-
-  toggleGitlabCustom(): void {
-    this.devFlagsService.toggleGitlabCustom();
-    const state = this.devFlagsService.gitlabCustomEnabled ? "activé" : "désactivé";
-    this.toastService.success("Feature Flag", `GitLab Auto-hébergé ${state}`);
+  /* Mock GitLab Instance */
+  async toggleMockGitlab(): Promise<void> {
+    const active = await this.mockGitlabInstanceService.toggleMock();
+    const state = active ? "activé (prof.turing @ gitlab.univ-tlse3.fr)" : "désactivé";
+    this.toastService.success("Mock GitLab", `Mock d'instance GitLab ${state}`);
   }
 
   /* Quick Utilities */

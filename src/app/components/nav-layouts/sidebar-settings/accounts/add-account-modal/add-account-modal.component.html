@@ -35,7 +35,7 @@
 <div class="modal-body pt-3 pb-4 px-4">
   <!-- Top: 3 Platform Selection Cards -->
   <div class="platform-cards-grid">
-    <!-- Card 1: GitHub (Active / Selected) -->
+    <!-- Card 1: GitHub -->
     <div
       class="platform-card"
       [class.selected]="selectedPlatform === 'github'"
@@ -83,13 +83,13 @@
       </div>
     </div>
 
-    <!-- Card 3: GitLab auto-hébergé -->
+    <!-- Card 3: GitLab auto-hébergé (Multi-instances) -->
     <div
-      class="platform-card"
+      class="platform-card platform-card-custom"
       [class.selected]="selectedPlatform === 'gitlab-custom'"
-      [class.is-disabled]="!devFlagsService.gitlabCustomEnabled"
-      [appTooltip]="!devFlagsService.gitlabCustomEnabled ? ('ACCOUNTS.COMING_SOON_DESC' | translate) : ''"
-      (click)="selectPlatform('gitlab-custom')"
+      [class.has-instances]="hasConnectedCustomInstances"
+      [class.is-dropdown-open]="isCustomDropdownOpen && hasConnectedCustomInstances"
+      (click)="onCustomCardClick($event)"
       role="button"
       tabindex="0"
     >
@@ -104,12 +104,43 @@
             </svg>
           </span>
         </div>
-        <span *ngIf="!devFlagsService.gitlabCustomEnabled" class="status-pill coming-soon">
-          {{ 'ACCOUNTS.COMING_SOON' | translate }}
-        </span>
+        <div *ngIf="hasConnectedCustomInstances" class="d-flex align-items-center" style="gap: 0.35rem;">
+          <span class="status-pill connected">
+            <span class="dot"></span>
+            {{ customInstancesCountText }}
+          </span>
+          <i class="fas fa-chevron-down card-chevron" [class.is-open]="isCustomDropdownOpen"></i>
+        </div>
       </div>
       <div class="platform-info">
         <span class="platform-name">{{ 'ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE' | translate }}</span>
+      </div>
+
+      <!-- Dropdown of connected instances -->
+      <div *ngIf="isCustomDropdownOpen && hasConnectedCustomInstances" class="custom-instances-dropdown" (click)="$event.stopPropagation()">
+        <button
+          *ngFor="let acc of customGitlabAccounts"
+          type="button"
+          class="dropdown-instance-item"
+          [class.active]="!showAddCustomInstanceForm && selectedCustomInstanceHost === acc.instanceHost"
+          (click)="selectCustomInstance(acc.instanceHost)"
+        >
+          <div class="d-flex align-items-center">
+            <span class="instance-dot"></span>
+            <div class="instance-text">
+              <span class="instance-name font-weight-bold">{{ acc.instanceName || acc.instanceHost }}</span>
+              <span class="instance-meta text-muted">@{{ acc.username }}</span>
+            </div>
+          </div>
+          <i *ngIf="!showAddCustomInstanceForm && selectedCustomInstanceHost === acc.instanceHost" class="fas fa-check check-mark"></i>
+        </button>
+        <div class="dropdown-divider my-1"></div>
+        <button type="button" class="dropdown-instance-item add-new" (click)="openAddCustomInstanceForm()">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-plus-circle mr-2"></i>
+            <span>{{ 'ACCOUNTS.ADD_ANOTHER_INSTANCE' | translate }}</span>
+          </div>
+        </button>
       </div>
     </div>
   </div>
@@ -137,7 +168,12 @@
         </div>
         <div>
           <span class="config-brand-name">
-            {{ (selectedPlatform === 'github' ? 'ACCOUNTS.PLATFORM_GITHUB_TITLE' : (selectedPlatform === 'gitlab-cloud' ? 'ACCOUNTS.PLATFORM_GITLAB_TITLE' : 'ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE')) | translate }}
+            <ng-container *ngIf="selectedPlatform === 'github'">{{ 'ACCOUNTS.PLATFORM_GITHUB_TITLE' | translate }}</ng-container>
+            <ng-container *ngIf="selectedPlatform === 'gitlab-cloud'">{{ 'ACCOUNTS.PLATFORM_GITLAB_TITLE' | translate }}</ng-container>
+            <ng-container *ngIf="selectedPlatform === 'gitlab-custom'">
+              <span *ngIf="!showAddCustomInstanceForm && selectedCustomAccount as acc">GitLab ({{ acc.instanceName || acc.instanceHost }})</span>
+              <span *ngIf="showAddCustomInstanceForm || !selectedCustomAccount">{{ 'ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE' | translate }}</span>
+            </ng-container>
           </span>
           <span class="config-brand-type ml-2">
             {{ platformAuthTypeKey | translate }}
@@ -155,7 +191,7 @@
     <!-- Config Card Content -->
     <div class="config-card-body">
       <!-- 1 & 2. GITHUB OR GITLAB CLOUD (Unified via templates) -->
-      <ng-container *ngIf="currentProvider as provider">
+      <ng-container *ngIf="selectedPlatform !== 'gitlab-custom' && currentProvider as provider">
         <ng-container *ngIf="isConnected && connectedAccount as account">
           <ng-container *ngTemplateOutlet="connectedPanel; context: { provider: provider, account: account }"></ng-container>
         </ng-container>
@@ -166,80 +202,187 @@
 
       <!-- 3. GITLAB CUSTOM SELECTED -->
       <ng-container *ngIf="selectedPlatform === 'gitlab-custom'">
-        <div class="custom-instance-form">
-          <p class="auth-description mb-3 text-center">
-            {{ 'ACCOUNTS.CUSTOM_GITLAB_INFO' | translate }}
-          </p>
+        <!-- 3A. An instance is selected and active (view mode) -->
+        <ng-container *ngIf="!showAddCustomInstanceForm && selectedCustomAccount as account">
+          <div class="connected-user-panel">
+            <div class="user-profile-row">
+              <div class="avatar-container mr-3">
+                <img
+                  *ngIf="account.avatarUrl"
+                  [src]="account.avatarUrl"
+                  [alt]="account.username"
+                  class="user-avatar-img"
+                  (error)="account.avatarUrl = null"
+                />
+                <div *ngIf="!account.avatarUrl" class="user-avatar-fallback">
+                  {{ (account.username || 'U').charAt(0).toUpperCase() }}
+                </div>
+              </div>
+              <div class="user-meta-group">
+                <div class="username-link-row">
+                  <a
+                    [href]="customProfileUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="username-link"
+                    [appTooltip]="account.username"
+                    [onlyIfTruncated]="true"
+                  >
+                    <span>{{ account.username }}</span>
+                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon ml-1">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </a>
+                  <span class="instance-badge-chip ml-2">
+                    {{ account.instanceName || account.instanceHost }}
+                  </span>
+                </div>
+              </div>
+            </div>
 
-          <div class="form-group mb-2 text-left">
-            <label class="form-label-custom">{{ 'ACCOUNTS.INSTANCE_URL_LABEL' | translate }}</label>
-            <input
-              type="text"
-              class="form-control form-control-sm modern-input"
-              [(ngModel)]="gitlabInstanceUrl"
-              [placeholder]="'ACCOUNTS.INSTANCE_URL_PLACEHOLDER' | translate"
-            />
+            <div class="action-buttons-group" [class.is-confirming]="isConfirmingDisconnect">
+              <button
+                type="button"
+                class="btn-action-pill btn-disconnect-action"
+                [class.is-confirming]="isConfirmingDisconnect"
+                (click)="onDisconnectCustomClick($event)"
+                [disabled]="isConnecting"
+                [attr.aria-label]="(isConfirmingDisconnect ? 'CONFIRM' : 'ACCOUNTS.DISCONNECT') | translate"
+              >
+                <span class="btn-morph-content">
+                  <span class="morph-state normal-state">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                      <polyline points="16 17 21 12 16 7"></polyline>
+                      <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>{{ 'ACCOUNTS.DISCONNECT' | translate }}</span>
+                  </span>
+                  <span class="morph-state confirm-state">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>{{ 'CONFIRM' | translate }}</span>
+                  </span>
+                </span>
+              </button>
+
+              <button
+                type="button"
+                class="btn-action-pill btn-cancel-action"
+                [class.is-visible]="isConfirmingDisconnect"
+                (click)="cancelConfirmDisconnect($event)"
+                [attr.aria-label]="'CANCEL' | translate"
+                [attr.tabindex]="isConfirmingDisconnect ? 0 : -1"
+                [attr.aria-hidden]="!isConfirmingDisconnect"
+              >
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                <span>{{ 'CANCEL' | translate }}</span>
+              </button>
+            </div>
           </div>
+        </ng-container>
 
-          <div class="form-group mb-3 text-left">
-            <label class="form-label-custom">{{ 'ACCOUNTS.PAT_LABEL' | translate }}</label>
-            <input
-              type="password"
-              class="form-control form-control-sm modern-input"
-              [(ngModel)]="gitlabToken"
-              [placeholder]="'ACCOUNTS.PAT_PLACEHOLDER' | translate"
-            />
-            <small class="form-text-muted mt-1 d-block">{{ 'ACCOUNTS.PAT_HELP' | translate }}</small>
-          </div>
+        <!-- 3B. Add / Connect instance form -->
+        <ng-container *ngIf="showAddCustomInstanceForm || customGitlabAccounts.length === 0">
+          <div class="custom-instance-form">
+            <p class="auth-description mb-3 text-center">
+              {{ 'ACCOUNTS.CUSTOM_GITLAB_INFO' | translate }}
+            </p>
 
-          <!-- Remember Me Option with Risk Info Tooltip (Custom PAT) -->
-          <div class="remember-me-row mb-3 d-flex align-items-center justify-content-center">
-            <label class="remember-me-label d-inline-flex align-items-center mb-0" for="rememberMeCustomCheckbox">
+            <div class="form-group mb-2 text-left">
+              <label class="form-label-custom">{{ 'ACCOUNTS.INSTANCE_URL_LABEL' | translate }} *</label>
               <input
-                type="checkbox"
-                id="rememberMeCustomCheckbox"
-                class="remember-me-checkbox-input sr-only"
-                [(ngModel)]="rememberMe"
+                type="text"
+                class="form-control form-control-sm modern-input"
+                [(ngModel)]="gitlabInstanceUrl"
+                [placeholder]="'ACCOUNTS.INSTANCE_URL_PLACEHOLDER' | translate"
               />
-              <span class="remember-me-checkbox-custom mr-2" [class.checked]="rememberMe">
-                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="check-icon">
-                  <polyline points="20 6 9 17 4 12"></polyline>
+            </div>
+
+            <div class="form-group mb-2 text-left">
+              <label class="form-label-custom">{{ 'ACCOUNTS.INSTANCE_ALIAS_LABEL' | translate }}</label>
+              <input
+                type="text"
+                class="form-control form-control-sm modern-input"
+                [(ngModel)]="gitlabInstanceAlias"
+                [placeholder]="'ACCOUNTS.INSTANCE_ALIAS_PLACEHOLDER' | translate"
+              />
+            </div>
+
+            <div class="form-group mb-3 text-left">
+              <label class="form-label-custom">{{ 'ACCOUNTS.PAT_LABEL' | translate }} *</label>
+              <input
+                type="password"
+                class="form-control form-control-sm modern-input"
+                [(ngModel)]="gitlabToken"
+                [placeholder]="'ACCOUNTS.PAT_PLACEHOLDER' | translate"
+              />
+              <small class="form-text-muted mt-1 d-block">{{ 'ACCOUNTS.PAT_HELP' | translate }}</small>
+            </div>
+
+            <!-- Remember Me Option with Risk Info Tooltip (Custom PAT) -->
+            <div class="remember-me-row mb-3 d-flex align-items-center justify-content-center">
+              <label class="remember-me-label d-inline-flex align-items-center mb-0" for="rememberMeCustomCheckbox">
+                <input
+                  type="checkbox"
+                  id="rememberMeCustomCheckbox"
+                  class="remember-me-checkbox-input sr-only"
+                  [(ngModel)]="rememberMe"
+                />
+                <span class="remember-me-checkbox-custom mr-2" [class.checked]="rememberMe">
+                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="check-icon">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
+                <span class="remember-me-text">{{ 'ACCOUNTS.REMEMBER_ME' | translate }}</span>
+              </label>
+
+              <span
+                class="remember-me-info-trigger ml-2"
+                [appTooltip]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
+                placement="top"
+                tabindex="0"
+                role="button"
+                [attr.aria-label]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
+              >
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
                 </svg>
               </span>
-              <span class="remember-me-text">{{ 'ACCOUNTS.REMEMBER_ME' | translate }}</span>
-            </label>
+            </div>
 
-            <span
-              class="remember-me-info-trigger ml-2"
-              [appTooltip]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
-              placement="top"
-              tabindex="0"
-              role="button"
-              [attr.aria-label]="'ACCOUNTS.REMEMBER_ME_TOOLTIP' | translate"
-            >
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-            </span>
+            <div class="d-flex align-items-center justify-content-center" style="gap: 0.75rem;">
+              <button
+                *ngIf="customGitlabAccounts.length > 0"
+                type="button"
+                class="btn-pill-secondary"
+                (click)="cancelAddCustomInstanceForm()"
+              >
+                {{ 'CANCEL' | translate }}
+              </button>
+              <button
+                type="button"
+                class="btn-connect-cta"
+                (click)="submitGitlabCustom()"
+                [disabled]="isConnecting || !gitlabInstanceUrl || !gitlabToken"
+              >
+                <span *ngIf="isConnecting" class="spinner-border spinner-border-sm mr-2" role="status"></span>
+                <svg *ngIf="!isConnecting" viewBox="0 0 512 512" width="16" height="16" fill="currentColor" class="brand-svg mr-2">
+                  <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
+                </svg>
+                <span>{{ 'ACCOUNTS.CONNECT_BTN' | translate }}</span>
+              </button>
+            </div>
           </div>
-
-          <div class="text-center">
-            <button
-              type="button"
-              class="btn-connect-cta"
-              (click)="submitGitlabCustom()"
-              [disabled]="isConnecting || !gitlabInstanceUrl || !gitlabToken"
-            >
-              <span *ngIf="isConnecting" class="spinner-border spinner-border-sm mr-2" role="status"></span>
-              <svg *ngIf="!isConnecting" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-                <path d="M12 2v6m0 0l-3 3m3-3l3 3M7 11h10v5a5 5 0 0 1-10 0v-5z"></path>
-              </svg>
-              <span>{{ 'ACCOUNTS.CONNECT_BTN' | translate }}</span>
-            </button>
-          </div>
-        </div>
+        </ng-container>
       </ng-container>
 
       <!-- Error banner inside card if any -->
@@ -293,7 +436,6 @@
     </div>
 
     <div class="action-buttons-group" [class.is-confirming]="isConfirmingDisconnect">
-      <!-- Primary Morphing Button: Disconnect -> Confirm Disconnect -->
       <button
         type="button"
         class="btn-action-pill btn-disconnect-action"
@@ -303,7 +445,6 @@
         [attr.aria-label]="(isConfirmingDisconnect ? 'CONFIRM' : 'ACCOUNTS.DISCONNECT') | translate"
       >
         <span class="btn-morph-content">
-          <!-- Normal Disconnect State -->
           <span class="morph-state normal-state">
             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -312,8 +453,6 @@
             </svg>
             <span>{{ 'ACCOUNTS.DISCONNECT' | translate }}</span>
           </span>
-
-          <!-- Confirm Disconnect State -->
           <span class="morph-state confirm-state">
             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="20 6 9 17 4 12"></polyline>
@@ -323,7 +462,6 @@
         </span>
       </button>
 
-      <!-- Secondary Revealing Button: Cancel -->
       <button
         type="button"
         class="btn-action-pill btn-cancel-action"
