@@ -69,18 +69,48 @@
           </svg>
         </button>
       </div>
-      <div class="divider-vertical mx-4"></div>
+      <div class="divider-vertical mx-2"></div>
 
       <!-- Search and Filters Section -->
       <div class="search-filters-group d-flex align-items-center">
-        <div class="search-input-wrapper position-relative mr-3" style="width: 250px;">
-          <svg class="search-icon position-absolute" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" class="form-control modern-search-input w-100"
-            [placeholder]="'HOME.SEARCH-PLACEHOLDER' | translate" [(ngModel)]="searchQuery">
+        <div class="search-expandable-container"
+          [class.expanded]="isSearchExpanded"
+          [class.focused]="searchFocused"
+          [class.has-query]="searchQuery && searchQuery.trim().length > 0"
+          [appTooltip]="!isSearchExpanded ? ('HOME.SEARCH-PLACEHOLDER' | translate) : null"
+          [attr.tabindex]="isSearchExpanded ? -1 : 0"
+          role="search"
+          (click)="onSearchContainerClick($event)"
+          (keydown.enter)="onSearchContainerEnter($event)"
+          (keydown.space)="onSearchContainerEnter($event)">
+          <span class="search-icon-wrapper" aria-hidden="true">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <input #searchInput type="text" class="search-input"
+            [placeholder]="'HOME.SEARCH-PLACEHOLDER' | translate"
+            [(ngModel)]="searchQuery"
+            [attr.aria-label]="'HOME.SEARCH-PLACEHOLDER' | translate"
+            [tabindex]="isSearchExpanded ? 0 : -1"
+            (focus)="onSearchFocus()"
+            (blur)="onSearchBlur()"
+            (keydown.escape)="onSearchEscape($event)">
+          <button *ngIf="searchQuery && searchQuery.trim().length > 0"
+            type="button"
+            class="clear-search-btn"
+            (mousedown)="$event.preventDefault()"
+            (click)="clearSearch(true); $event.stopPropagation()"
+            [appTooltip]="'HOME.CLEAR-SEARCH' | translate"
+            [attr.aria-label]="'HOME.CLEAR-SEARCH' | translate">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
 
         <div ngbDropdown class="dropdown d-inline-block filter-dropdown-container" [autoClose]="'outside'">

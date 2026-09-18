@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef, OnDestroy, HostListener } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef, OnDestroy, HostListener, ElementRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { Assignment } from "@models/Assignment.model";
 import { GitProviderType } from "@models/GitAuthProvider.model";
@@ -20,6 +20,8 @@ import * as moment from "moment";
   styleUrls: ["./assignment-chooser.component.scss"],
 })
 export class AssignmentChooserComponent implements OnInit, OnDestroy {
+  @ViewChild("searchInput") searchInputRef?: ElementRef<HTMLInputElement>;
+
   assignments: any[]; // Using any to attach UI-specific properties temporarily
 
   sortField = "lastModificationDate";
@@ -28,6 +30,7 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   filterType: "all" | "github" | "gitlab" = "all";
 
   searchQuery = "";
+  searchFocused = false;
 
   advancedFilters = {
     status: {
@@ -96,6 +99,10 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
   @HostListener("window:keydown.escape")
   onEscape(): void {
     this.closeAllCreationPopovers();
+  }
+
+  get isSearchExpanded(): boolean {
+    return this.searchFocused || Boolean(this.searchQuery && this.searchQuery.trim().length > 0);
   }
 
   get filteredAssignments() {
@@ -176,6 +183,57 @@ export class AssignmentChooserComponent implements OnInit, OnDestroy {
     };
     this.searchQuery = "";
     this.savePreferences();
+  }
+
+  onSearchContainerClick(event: MouseEvent): void {
+    if (!this.isSearchExpanded) {
+      event.preventDefault();
+      this.searchFocused = true;
+      this.cdr.markForCheck();
+      requestAnimationFrame(() => {
+        this.searchInputRef?.nativeElement?.focus();
+      });
+    } else if (document.activeElement !== this.searchInputRef?.nativeElement) {
+      this.searchInputRef?.nativeElement?.focus();
+    }
+  }
+
+  onSearchContainerEnter(event: Event): void {
+    if (!this.isSearchExpanded) {
+      event.preventDefault();
+      this.searchFocused = true;
+      this.cdr.markForCheck();
+      requestAnimationFrame(() => {
+        this.searchInputRef?.nativeElement?.focus();
+      });
+    }
+  }
+
+  onSearchFocus(): void {
+    this.searchFocused = true;
+  }
+
+  onSearchBlur(): void {
+    this.searchFocused = false;
+  }
+
+  onSearchEscape(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.searchQuery = "";
+    this.searchFocused = false;
+    this.searchInputRef?.nativeElement?.blur();
+  }
+
+  clearSearch(focusAfter = true): void {
+    this.searchQuery = "";
+    if (focusAfter) {
+      this.searchInputRef?.nativeElement?.focus();
+    } else {
+      this.searchFocused = false;
+      this.searchInputRef?.nativeElement?.blur();
+    }
   }
 
   setFilter(type: "all" | "github" | "gitlab") {

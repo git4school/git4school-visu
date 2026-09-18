@@ -61,6 +61,7 @@
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Rechercher un devoir...",
+    "CLEAR-SEARCH": "Effacer la recherche",
     "FILTERS": "Filtres",
     "COPY": "Copier",
     "COPY-TOOLTIP": "Copier dans le presse-papier",

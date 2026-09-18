@@ -62,6 +62,7 @@
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Search assignments...",
+    "CLEAR-SEARCH": "Clear search",
     "FILTERS": "Filters",
     "COPY": "Copy",
     "COPY-TOOLTIP": "Copy to clipboard",
