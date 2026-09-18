@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from "@angular/core";
 import { CommitColor } from "@models/Commit.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
@@ -24,6 +24,7 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
   @ViewChild("leftAxisContainer", { static: true }) leftAxisContainer: ElementRef;
   @ViewChild("rightAxisContainer", { static: true }) rightAxisContainer: ElementRef;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
+  @ViewChild("repoTooltipTemplate") repoTooltipTemplate!: TemplateRef<any>;
 
   readonly slider_step = Utils.SLIDER_STEP;
   assignmentsModified$: Subscription;
@@ -37,6 +38,8 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
   commitColors = [CommitColor.INTERMEDIATE, CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER];
   hiddenCategories = new Set<string>();
   showProgressionLine = true;
+  pressedShortcut: string = null;
+  hovered_repository: { name: string; url: string } | null = null;
 
   private svg: any;
   private resizeObserver: any;
@@ -49,8 +52,24 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     protected assignmentsService: AssignmentsService,
     private tooltipService: TooltipService,
     public themeService: ThemeService,
+    private ngZone: NgZone,
   ) {
     super(loaderService, assignmentsService, dataService);
+  }
+
+  @HostListener("document:keydown", ["$event"])
+  handleGlobalShortcuts(event: KeyboardEvent) {
+    if (OsUtils.isTypingInInput(event)) {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+
+    if (key === "r") {
+      event.preventDefault();
+      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
+      this.triggerShortcut("r");
+    }
   }
 
   ngOnInit() {
@@ -189,17 +208,54 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
       .padding(0);
 
     // Axes
-    this.svg
-      .append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(x))
+    const xAxis = this.svg.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x));
+
+    xAxis
+      .selectAll(".tick")
       .selectAll("text")
+      .call((g) => g.classed("repo_name", true))
       .style("text-anchor", "end")
       .attr("dx", "-.8em")
       .attr("dy", ".15em")
       .attr("transform", "rotate(-45)")
-      .style("fill", "var(--color-text-primary)")
-      .style("font-size", "11px");
+      .style("font-size", "11px")
+      .each(function (this: SVGTextElement) {
+        let textStr = this.textContent || "";
+        this.textContent = Utils.truncateMiddle(textStr, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
+      })
+      .on("click", (event: MouseEvent, d: any) => {
+        event.stopPropagation();
+        const repo = this.dataService.repositories.find((r) => r.name === d) || this.chartData.find((cd) => cd.student === d);
+        if (repo?.url) {
+          window.open(repo.url, "_blank");
+        }
+      })
+      .on("mouseenter", (event: MouseEvent, d: any) => {
+        event.stopPropagation();
+        const repo = this.dataService.repositories.find((r) => r.name === d) || this.chartData.find((cd) => cd.student === d);
+        if (repo) {
+          this.ngZone.run(() => {
+            this.hovered_repository = {
+              name: repo.name || (repo as any).student || d,
+              url: repo.url,
+            };
+            this.tooltipService.showAtPosition(this.repoTooltipTemplate, event.clientX, event.clientY, "right", undefined, true);
+          });
+        }
+      })
+      .on("mousemove", (event: MouseEvent) => {
+        event.stopPropagation();
+        if (this.tooltipService.isShowing()) {
+          this.tooltipService.moveTooltip(event.clientX, event.clientY, "right");
+        }
+      })
+      .on("mouseleave", (event: MouseEvent) => {
+        event.stopPropagation();
+        this.ngZone.run(() => {
+          this.hovered_repository = undefined;
+          this.tooltipService.hide();
+        });
+      });
 
     const svgLeft = d3
       .select(leftElement)
@@ -485,30 +541,6 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     return Math.ceil((this.max - this.min) / this.slider_step) * this.slider_step + this.min;
   }
 
-  pressedShortcut: string = null;
-
-  @HostListener("document:keydown", ["$event"])
-  handleGlobalShortcuts(event: KeyboardEvent) {
-    if (OsUtils.isTypingInInput(event)) {
-      return;
-    }
-
-    const key = event.key.toLowerCase();
-
-    if (key === "r") {
-      event.preventDefault();
-      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
-      this.triggerShortcut("r");
-    }
-  }
-
-  private triggerShortcut(key: string) {
-    this.pressedShortcut = key;
-    setTimeout(() => {
-      if (this.pressedShortcut === key) this.pressedShortcut = null;
-    }, 150);
-  }
-
   toggleCategory(label: string) {
     if (this.hiddenCategories.has(label)) {
       this.hiddenCategories.delete(label);
@@ -523,5 +555,12 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
   toggleProgressionLine() {
     this.showProgressionLine = !this.showProgressionLine;
     this.drawGraph();
+  }
+
+  private triggerShortcut(key: string) {
+    this.pressedShortcut = key;
+    setTimeout(() => {
+      if (this.pressedShortcut === key) this.pressedShortcut = null;
+    }, 150);
   }
 }
