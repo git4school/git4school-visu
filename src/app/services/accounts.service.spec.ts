@@ -2,16 +2,20 @@ import { TestBed } from "@angular/core/testing";
 import { AccountsService } from "./accounts.service";
 import { GithubAuthService, AuthState } from "./github-auth.service";
 import { GitlabAuthService, GitlabAuthState } from "./gitlab-auth.service";
+import { GitlabCustomAuthService } from "./gitlab-custom-auth.service";
 import { GithubDataService } from "./github-data.service";
 import { GitlabDataService } from "./gitlab-data.service";
+import { Account } from "@models/Account.model";
 import { BehaviorSubject } from "rxjs";
 
 describe("AccountsService", () => {
   let service: AccountsService;
   let authChangeMock$: BehaviorSubject<AuthState>;
   let gitlabAuthChangeMock$: BehaviorSubject<GitlabAuthState>;
+  let customAuthChangeMock$: BehaviorSubject<Account[]>;
   let githubAuthServiceSpy: jasmine.SpyObj<GithubAuthService>;
   let gitlabAuthServiceSpy: jasmine.SpyObj<GitlabAuthService>;
+  let gitlabCustomAuthSpy: jasmine.SpyObj<GitlabCustomAuthService>;
 
   beforeEach(() => {
     authChangeMock$ = new BehaviorSubject<AuthState>({
@@ -27,6 +31,8 @@ describe("AccountsService", () => {
       token: null,
       user: null,
     });
+
+    customAuthChangeMock$ = new BehaviorSubject<Account[]>([]);
 
     githubAuthServiceSpy = {
       provider: "github",
@@ -56,11 +62,29 @@ describe("AccountsService", () => {
       currentUser: null,
     } as any;
 
+    gitlabCustomAuthSpy = jasmine.createSpyObj(
+      "GitlabCustomAuthService",
+      ["getAccounts", "getAccount", "hasAccount", "getProfileUrl", "connectInstance", "disconnectInstance"],
+      {
+        accountsChange$: customAuthChangeMock$.asObservable(),
+      },
+    );
+    gitlabCustomAuthSpy.getAccounts.and.returnValue([]);
+    gitlabCustomAuthSpy.getAccount.and.returnValue(null);
+    gitlabCustomAuthSpy.getProfileUrl.and.callFake((host: string, u: string) => {
+      const clean = (host || "")
+        .trim()
+        .replace(/^https?:\/\//i, "")
+        .replace(/\/.*$/, "");
+      return `https://${clean}/${encodeURIComponent(u)}`;
+    });
+
     TestBed.configureTestingModule({
       providers: [
         AccountsService,
         { provide: GithubAuthService, useValue: githubAuthServiceSpy },
         { provide: GitlabAuthService, useValue: gitlabAuthServiceSpy },
+        { provide: GitlabCustomAuthService, useValue: gitlabCustomAuthSpy },
         { provide: GithubDataService, useValue: null },
         { provide: GitlabDataService, useValue: null },
       ],
@@ -229,9 +253,62 @@ describe("AccountsService", () => {
   it("should return data service if registered", () => {
     const fakeGithubData = { provider: "github" } as any;
     const fakeGitlabData = { provider: "gitlab" } as any;
-    const customService = new AccountsService(githubAuthServiceSpy, gitlabAuthServiceSpy, fakeGithubData, fakeGitlabData);
+    const customService = new AccountsService(
+      githubAuthServiceSpy,
+      gitlabAuthServiceSpy,
+      gitlabCustomAuthSpy,
+      fakeGithubData,
+      fakeGitlabData,
+    );
 
     expect(customService.getDataService("github")).toBe(fakeGithubData);
     expect(customService.getDataService("gitlab")).toBe(fakeGitlabData);
+  });
+
+  it("should emit custom GitLab accounts and consider GitLab connected", (done) => {
+    const customAccount: Account = {
+      id: "acc-gitlab-custom",
+      provider: "gitlab",
+      instanceHost: "gitlab.univ-tlse3.fr",
+      instanceName: "UT3",
+      username: "prof.turing",
+      avatarUrl: null,
+      isCurrent: false,
+      authType: "pat",
+    };
+
+    gitlabCustomAuthSpy.getAccounts.and.returnValue([customAccount]);
+    gitlabCustomAuthSpy.hasAccount.and.callFake((host: string) => host === "gitlab.univ-tlse3.fr");
+
+    customAuthChangeMock$.next([customAccount]);
+
+    service.accounts$.subscribe((accounts) => {
+      const found = accounts.find((a) => a.instanceHost === "gitlab.univ-tlse3.fr");
+      if (found) {
+        expect(found.username).toBe("prof.turing");
+        expect(service.isGitlabConnected).toBeTrue();
+        expect(service.hasAccountForHost("gitlab", "gitlab.univ-tlse3.fr")).toBeTrue();
+        done();
+      }
+    });
+  });
+
+  it("should disconnect custom GitLab account via gitlabCustomAuthService", () => {
+    const customAccount: Account = {
+      id: "acc-gitlab-custom",
+      provider: "gitlab",
+      instanceHost: "gitlab.univ-tlse3.fr",
+      instanceName: "UT3",
+      username: "prof.turing",
+      avatarUrl: null,
+      isCurrent: false,
+      authType: "pat",
+    };
+
+    gitlabCustomAuthSpy.getAccounts.and.returnValue([customAccount]);
+    customAuthChangeMock$.next([customAccount]);
+
+    service.disconnectAccount("acc-gitlab-custom");
+    expect(gitlabCustomAuthSpy.disconnectInstance).toHaveBeenCalledWith("gitlab.univ-tlse3.fr");
   });
 });

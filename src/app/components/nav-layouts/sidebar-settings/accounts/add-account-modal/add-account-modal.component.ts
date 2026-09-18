@@ -18,7 +18,7 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
   isConnecting = false;
   isConfirmingDisconnect = false;
   errorMessage = "";
-  rememberMe = true;
+  rememberMe = false;
 
   gitlabInstanceUrl = "";
   gitlabInstanceAlias = "";
@@ -64,11 +64,11 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
   }
 
   get isGitlabConnected(): boolean {
-    return this.accountsService.gitlabAuthService.isSignedIn();
+    return Boolean(this.accountsService.gitlabAuthService?.isSignedIn() || this.accountsService.getProvider("gitlab")?.isSignedIn());
   }
 
   get customGitlabAccounts(): Account[] {
-    return this.accountsService.gitlabCustomAuthService.getAccounts();
+    return this.accountsService.gitlabCustomAuthService?.getAccounts() || [];
   }
 
   get hasConnectedCustomInstances(): boolean {
@@ -85,7 +85,7 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
 
   get selectedCustomAccount(): Account | null {
     if (this.selectedCustomInstanceHost) {
-      return this.accountsService.gitlabCustomAuthService.getAccount(this.selectedCustomInstanceHost);
+      return this.accountsService.gitlabCustomAuthService?.getAccount(this.selectedCustomInstanceHost) || null;
     }
     return this.customGitlabAccounts[0] || null;
   }
@@ -177,9 +177,16 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
   }
 
   selectPlatform(platform: "github" | "gitlab-cloud" | "gitlab-custom"): void {
-    this.selectedPlatform = platform;
-    this.errorMessage = "";
-    this.isCustomDropdownOpen = false;
+    const allowed: Record<string, boolean> = {
+      github: true,
+      "gitlab-cloud": true,
+      "gitlab-custom": this.devFlagsService.gitlabCustomEnabled,
+    };
+    if (allowed[platform]) {
+      this.selectedPlatform = platform;
+      this.errorMessage = "";
+      this.isCustomDropdownOpen = false;
+    }
   }
 
   onCustomCardClick(event: MouseEvent): void {
@@ -188,15 +195,13 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const clickedChevronOrBadge = Boolean(target?.closest(".card-chevron") || target?.closest(".status-pill"));
-
     if (this.selectedPlatform !== "gitlab-custom") {
       this.selectedPlatform = "gitlab-custom";
       this.errorMessage = "";
       if (this.hasConnectedCustomInstances) {
         this.selectedCustomInstanceHost = this.customGitlabAccounts[0].instanceHost;
         this.showAddCustomInstanceForm = false;
-        this.isCustomDropdownOpen = clickedChevronOrBadge;
+        this.isCustomDropdownOpen = true;
       } else {
         this.showAddCustomInstanceForm = true;
         this.isCustomDropdownOpen = false;

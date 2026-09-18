@@ -68,13 +68,13 @@ describe("AddAccountModalComponent", () => {
     gitlabAuthSpy.getAccount.and.returnValue(null);
     gitlabAuthSpy.getProfileUrl.and.returnValue("https://gitlab.com");
 
-    gitlabCustomAuthSpy = jasmine.createSpyObj("GitlabCustomAuthService", [
-      "getAccounts",
-      "getAccount",
-      "getProfileUrl",
-      "connectInstance",
-      "disconnectInstance",
-    ]);
+    gitlabCustomAuthSpy = jasmine.createSpyObj(
+      "GitlabCustomAuthService",
+      ["getAccounts", "getAccount", "getProfileUrl", "connectInstance", "disconnectInstance"],
+      {
+        accountsChange$: new BehaviorSubject([]).asObservable(),
+      },
+    );
     gitlabCustomAuthSpy.getAccounts.and.returnValue([]);
     gitlabCustomAuthSpy.getAccount.and.returnValue(null);
     gitlabCustomAuthSpy.getProfileUrl.and.returnValue("https://gitlab.example.com");
@@ -85,6 +85,7 @@ describe("AddAccountModalComponent", () => {
       isGithubConnected: true,
       isGitlabConnected: false,
     });
+    (accountsServiceSpy as any).gitlabAuthService = gitlabAuthSpy;
     (accountsServiceSpy as any).gitlabCustomAuthService = gitlabCustomAuthSpy;
     accountsServiceSpy.getProvider.and.callFake((type: string) => {
       if (type === "github") return githubAuthSpy;
