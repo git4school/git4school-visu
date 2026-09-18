@@ -61,3 +61,60 @@
     }
   }
 }
+
+#repository_hover {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  user-select: none;
+  width: max-content;
+  min-width: max-content;
+  max-width: min(420px, calc(100vw - 32px));
+
+  .repo-name {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .tooltip-helpers {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    width: 100%;
+    min-width: max-content;
+    flex-wrap: wrap;
+
+    > span {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  }
+
+  .tooltip-helper-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+text.repo_name {
+  cursor: pointer;
+  transition: fill var(--transition-fast);
+
+  &:hover {
+    fill: var(--color-primary);
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+}
