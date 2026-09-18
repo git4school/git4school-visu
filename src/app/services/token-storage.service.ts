@@ -15,6 +15,7 @@ export interface StoredTokenPayload {
   provider: GitProviderType;
   createdAt: number;
   expiresAt: number | null;
+  refreshToken?: string | null;
 }
 
 @Injectable({
@@ -27,7 +28,7 @@ export class TokenStorageService {
 
   constructor() {}
 
-  saveToken(provider: GitProviderType, token: string, rememberMe: boolean, expiresInSeconds?: number): void {
+  saveToken(provider: GitProviderType, token: string, rememberMe: boolean, expiresInSeconds?: number, refreshToken?: string): void {
     if (!token) {
       this.clearToken(provider);
       return;
@@ -36,14 +37,21 @@ export class TokenStorageService {
     const now = Date.now();
     const expiresAt = typeof expiresInSeconds === "number" && !isNaN(expiresInSeconds) ? now + expiresInSeconds * 1000 : null;
 
+    // If refreshToken is not explicitly provided, preserve existing refreshToken if one was stored
+    const existingRefreshToken = this.getRefreshToken(provider);
+    const effectiveRefreshToken = refreshToken !== undefined ? refreshToken : existingRefreshToken;
+
     const payload: StoredTokenPayload = {
       token,
       provider,
       createdAt: now,
       expiresAt,
+      refreshToken: effectiveRefreshToken || null,
     };
 
-    const envelope = this.encryptPayload(payload, rememberMe);
+    // If a refresh token is present, do not expire the envelope itself upon access token expiration
+    const envelopeExp = effectiveRefreshToken ? null : expiresAt;
+    const envelope = this.encryptPayload(payload, rememberMe, envelopeExp);
     const key = this.getTokenKey(provider);
 
     // Always clear both storages first to prevent stale contradictory states
@@ -55,53 +63,42 @@ export class TokenStorageService {
   }
 
   getToken(provider: GitProviderType): string | null {
-    const key = this.getTokenKey(provider);
-
-    // 1. Check sessionStorage first (active session)
-    let raw = this.getStorageItem(sessionStorage, key);
-    let isFromSession = true;
-
-    // 2. Fall back to localStorage (remembered device)
-    if (!raw) {
-      raw = this.getStorageItem(localStorage, key);
-      isFromSession = false;
-    }
-
-    if (!raw) {
+    const entry = this.getDecryptedEntry(provider);
+    if (!entry) {
       return null;
     }
 
-    try {
-      const envelope: StoredTokenEnvelope = JSON.parse(raw);
-
-      // Check envelope expiration
-      if (envelope.exp !== null && Date.now() > envelope.exp) {
+    const { payload } = entry;
+    if (payload.expiresAt !== null && Date.now() > payload.expiresAt) {
+      // Clear token completely only if there is no refresh token available
+      if (!payload.refreshToken) {
         this.clearToken(provider);
-        return null;
-      }
-
-      const payload = this.decryptPayload(envelope);
-      if (!payload || payload.provider !== provider) {
-        this.clearToken(provider);
-        return null;
-      }
-
-      // Check inner payload expiration if present
-      if (payload.expiresAt !== null && Date.now() > payload.expiresAt) {
-        this.clearToken(provider);
-        return null;
-      }
-
-      return payload.token;
-    } catch {
-      // If parsing or decrypting fails (e.g. data tampering), clear corrupt entry
-      if (isFromSession) {
-        this.removeStorageItem(sessionStorage, key);
-      } else {
-        this.removeStorageItem(localStorage, key);
       }
       return null;
     }
+
+    return payload.token;
+  }
+
+  getRefreshToken(provider: GitProviderType): string | null {
+    const entry = this.getDecryptedEntry(provider);
+    return entry?.payload.refreshToken || null;
+  }
+
+  getAccessTokenExpiresAt(provider: GitProviderType): number | null {
+    const entry = this.getDecryptedEntry(provider);
+    return entry?.payload.expiresAt ?? null;
+  }
+
+  isTokenExpired(provider: GitProviderType, marginSeconds = 0): boolean {
+    const entry = this.getDecryptedEntry(provider);
+    if (!entry) {
+      return true;
+    }
+    if (entry.payload.expiresAt === null) {
+      return false;
+    }
+    return Date.now() + marginSeconds * 1000 >= entry.payload.expiresAt;
   }
 
   clearToken(provider: GitProviderType): void {
@@ -165,6 +162,45 @@ export class TokenStorageService {
     }
   }
 
+  private getDecryptedEntry(provider: GitProviderType): { envelope: StoredTokenEnvelope; payload: StoredTokenPayload } | null {
+    const key = this.getTokenKey(provider);
+    let raw = this.getStorageItem(sessionStorage, key);
+    let isFromSession = true;
+
+    if (!raw) {
+      raw = this.getStorageItem(localStorage, key);
+      isFromSession = false;
+    }
+
+    if (!raw) {
+      return null;
+    }
+
+    try {
+      const envelope: StoredTokenEnvelope = JSON.parse(raw);
+
+      if (envelope.exp !== null && Date.now() > envelope.exp) {
+        this.clearToken(provider);
+        return null;
+      }
+
+      const payload = this.decryptPayload(envelope);
+      if (!payload || payload.provider !== provider) {
+        this.clearToken(provider);
+        return null;
+      }
+
+      return { envelope, payload };
+    } catch {
+      if (isFromSession) {
+        this.removeStorageItem(sessionStorage, key);
+      } else {
+        this.removeStorageItem(localStorage, key);
+      }
+      return null;
+    }
+  }
+
   private getTokenKey(provider: GitProviderType): string {
     return `${this.storagePrefix}${provider}`;
   }
@@ -173,7 +209,11 @@ export class TokenStorageService {
     return `${this.userPrefix}${provider}`;
   }
 
-  private encryptPayload(payload: StoredTokenPayload, rememberMe: boolean): StoredTokenEnvelope {
+  private encryptPayload(
+    payload: StoredTokenPayload,
+    rememberMe: boolean,
+    envelopeExp: number | null = payload.expiresAt,
+  ): StoredTokenEnvelope {
     const jsonStr = JSON.stringify(payload);
     const iv = this.generateRandomHex(16);
     const keyStream = this.deriveKeystream(iv, jsonStr.length);
@@ -185,14 +225,14 @@ export class TokenStorageService {
     }
 
     const data = this.encodeBase64(cipherChars.join(""));
-    const sig = this.computeSignature(iv, jsonStr, payload.expiresAt);
+    const sig = this.computeSignature(iv, jsonStr, envelopeExp);
 
     return {
       v: 1,
       iv,
       data,
       sig,
-      exp: payload.expiresAt,
+      exp: envelopeExp,
       rm: rememberMe,
     };
   }

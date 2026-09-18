@@ -1,7 +1,8 @@
 import { LOCATION_INITIALIZED, registerLocaleData } from "@angular/common";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from "@angular/common/http";
 import localeFr from "@angular/common/locales/fr";
 import localeRu from "@angular/common/locales/ru";
+import { GitlabAuthInterceptor } from "@interceptors/gitlab-auth.interceptor";
 import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedUiModule } from "./shared/ui/shared-ui.module";
@@ -174,6 +175,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     },
     DatabaseService,
     NgbActiveModal,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: GitlabAuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

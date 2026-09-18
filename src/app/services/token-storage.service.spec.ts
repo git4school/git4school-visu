@@ -96,4 +96,37 @@ describe("TokenStorageService", () => {
     expect(localStorage.getItem("g4s_auth_v1_github")).toBeNull();
     expect(localStorage.getItem("g4s_user_v1_github")).toBeNull();
   });
+
+  it("should securely store and retrieve encrypted refreshToken", () => {
+    service.saveToken("gitlab", "gl_access_token_123", true, 7200, "gl_refresh_token_xyz");
+
+    const raw = localStorage.getItem("g4s_auth_v1_gitlab");
+    expect(raw).toBeTruthy();
+    expect(raw).not.toContain("gl_access_token_123");
+    expect(raw).not.toContain("gl_refresh_token_xyz");
+
+    expect(service.getToken("gitlab")).toBe("gl_access_token_123");
+    expect(service.getRefreshToken("gitlab")).toBe("gl_refresh_token_xyz");
+  });
+
+  it("should return null for expired token without wiping storage when refreshToken is present", () => {
+    service.saveToken("gitlab", "expired_access_token", true, -10, "valid_refresh_token");
+
+    expect(service.getToken("gitlab")).toBeNull();
+    expect(localStorage.getItem("g4s_auth_v1_gitlab")).toBeTruthy();
+    expect(service.getRefreshToken("gitlab")).toBe("valid_refresh_token");
+  });
+
+  it("should accurately report isTokenExpired with and without margin", () => {
+    // Token expiring in 60 seconds
+    service.saveToken("gitlab", "expiring_token", true, 60, "some_refresh");
+
+    expect(service.isTokenExpired("gitlab", 0)).toBeFalse();
+    // With 300s margin, 60s is considered expiring
+    expect(service.isTokenExpired("gitlab", 300)).toBeTrue();
+
+    // Already expired token
+    service.saveToken("gitlab", "already_expired", true, -5, "some_refresh");
+    expect(service.isTokenExpired("gitlab", 0)).toBeTrue();
+  });
 });
