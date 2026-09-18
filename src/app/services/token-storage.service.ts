@@ -13,6 +13,7 @@ export interface StoredTokenEnvelope {
 export interface StoredTokenPayload {
   token: string;
   provider: GitProviderType;
+  instanceHost?: string;
   createdAt: number;
   expiresAt: number | null;
   refreshToken?: string | null;
@@ -28,9 +29,16 @@ export class TokenStorageService {
 
   constructor() {}
 
-  saveToken(provider: GitProviderType, token: string, rememberMe: boolean, expiresInSeconds?: number, refreshToken?: string): void {
+  saveToken(
+    provider: GitProviderType,
+    token: string,
+    rememberMe: boolean,
+    expiresInSeconds?: number,
+    refreshToken?: string,
+    instanceHost?: string,
+  ): void {
     if (!token) {
-      this.clearToken(provider);
+      this.clearToken(provider, instanceHost);
       return;
     }
 
@@ -38,12 +46,13 @@ export class TokenStorageService {
     const expiresAt = typeof expiresInSeconds === "number" && !isNaN(expiresInSeconds) ? now + expiresInSeconds * 1000 : null;
 
     // If refreshToken is not explicitly provided, preserve existing refreshToken if one was stored
-    const existingRefreshToken = this.getRefreshToken(provider);
+    const existingRefreshToken = this.getRefreshToken(provider, instanceHost);
     const effectiveRefreshToken = refreshToken !== undefined ? refreshToken : existingRefreshToken;
 
     const payload: StoredTokenPayload = {
       token,
       provider,
+      instanceHost: instanceHost || (provider === "gitlab" ? "gitlab.com" : "github.com"),
       createdAt: now,
       expiresAt,
       refreshToken: effectiveRefreshToken || null,
@@ -52,7 +61,7 @@ export class TokenStorageService {
     // If a refresh token is present, do not expire the envelope itself upon access token expiration
     const envelopeExp = effectiveRefreshToken ? null : expiresAt;
     const envelope = this.encryptPayload(payload, rememberMe, envelopeExp);
-    const key = this.getTokenKey(provider);
+    const key = this.getTokenKey(provider, instanceHost);
 
     // Always clear both storages first to prevent stale contradictory states
     this.removeStorageItem(sessionStorage, key);
@@ -62,8 +71,8 @@ export class TokenStorageService {
     this.setStorageItem(targetStorage, key, JSON.stringify(envelope));
   }
 
-  getToken(provider: GitProviderType): string | null {
-    const entry = this.getDecryptedEntry(provider);
+  getToken(provider: GitProviderType, instanceHost?: string): string | null {
+    const entry = this.getDecryptedEntry(provider, instanceHost);
     if (!entry) {
       return null;
     }
@@ -72,7 +81,7 @@ export class TokenStorageService {
     if (payload.expiresAt !== null && Date.now() > payload.expiresAt) {
       // Clear token completely only if there is no refresh token available
       if (!payload.refreshToken) {
-        this.clearToken(provider);
+        this.clearToken(provider, instanceHost);
       }
       return null;
     }
@@ -80,18 +89,18 @@ export class TokenStorageService {
     return payload.token;
   }
 
-  getRefreshToken(provider: GitProviderType): string | null {
-    const entry = this.getDecryptedEntry(provider);
+  getRefreshToken(provider: GitProviderType, instanceHost?: string): string | null {
+    const entry = this.getDecryptedEntry(provider, instanceHost);
     return entry?.payload.refreshToken || null;
   }
 
-  getAccessTokenExpiresAt(provider: GitProviderType): number | null {
-    const entry = this.getDecryptedEntry(provider);
+  getAccessTokenExpiresAt(provider: GitProviderType, instanceHost?: string): number | null {
+    const entry = this.getDecryptedEntry(provider, instanceHost);
     return entry?.payload.expiresAt ?? null;
   }
 
-  isTokenExpired(provider: GitProviderType, marginSeconds = 0): boolean {
-    const entry = this.getDecryptedEntry(provider);
+  isTokenExpired(provider: GitProviderType, marginSeconds = 0, instanceHost?: string): boolean {
+    const entry = this.getDecryptedEntry(provider, instanceHost);
     if (!entry) {
       return true;
     }
@@ -101,14 +110,14 @@ export class TokenStorageService {
     return Date.now() + marginSeconds * 1000 >= entry.payload.expiresAt;
   }
 
-  clearToken(provider: GitProviderType): void {
-    const key = this.getTokenKey(provider);
+  clearToken(provider: GitProviderType, instanceHost?: string): void {
+    const key = this.getTokenKey(provider, instanceHost);
     this.removeStorageItem(sessionStorage, key);
     this.removeStorageItem(localStorage, key);
   }
 
-  saveUserData(provider: GitProviderType, data: any, rememberMe: boolean): void {
-    const key = this.getUserKey(provider);
+  saveUserData(provider: GitProviderType, data: any, rememberMe: boolean, instanceHost?: string): void {
+    const key = this.getUserKey(provider, instanceHost);
     this.removeStorageItem(sessionStorage, key);
     this.removeStorageItem(localStorage, key);
 
@@ -121,8 +130,8 @@ export class TokenStorageService {
     this.setStorageItem(targetStorage, key, raw);
   }
 
-  getUserData<T>(provider: GitProviderType): T | null {
-    const key = this.getUserKey(provider);
+  getUserData<T>(provider: GitProviderType, instanceHost?: string): T | null {
+    const key = this.getUserKey(provider, instanceHost);
     let raw = this.getStorageItem(sessionStorage, key);
     if (!raw) {
       raw = this.getStorageItem(localStorage, key);
@@ -137,19 +146,19 @@ export class TokenStorageService {
     }
   }
 
-  clearUserData(provider: GitProviderType): void {
-    const key = this.getUserKey(provider);
+  clearUserData(provider: GitProviderType, instanceHost?: string): void {
+    const key = this.getUserKey(provider, instanceHost);
     this.removeStorageItem(sessionStorage, key);
     this.removeStorageItem(localStorage, key);
   }
 
-  clearAll(provider: GitProviderType): void {
-    this.clearToken(provider);
-    this.clearUserData(provider);
+  clearAll(provider: GitProviderType, instanceHost?: string): void {
+    this.clearToken(provider, instanceHost);
+    this.clearUserData(provider, instanceHost);
   }
 
-  isRemembered(provider: GitProviderType): boolean {
-    const key = this.getTokenKey(provider);
+  isRemembered(provider: GitProviderType, instanceHost?: string): boolean {
+    const key = this.getTokenKey(provider, instanceHost);
     const raw = this.getStorageItem(localStorage, key);
     if (!raw) {
       return false;
@@ -162,8 +171,37 @@ export class TokenStorageService {
     }
   }
 
-  private getDecryptedEntry(provider: GitProviderType): { envelope: StoredTokenEnvelope; payload: StoredTokenPayload } | null {
-    const key = this.getTokenKey(provider);
+  getCustomGitlabHosts(): string[] {
+    const prefix = `${this.storagePrefix}gitlab:`;
+    const hosts = new Set<string>();
+
+    const scanStorage = (storage: Storage) => {
+      try {
+        for (let i = 0; i < storage.length; i++) {
+          const key = storage.key(i);
+          if (key && key.startsWith(prefix)) {
+            const host = key.substring(prefix.length).trim();
+            if (host) {
+              hosts.add(host);
+            }
+          }
+        }
+      } catch {
+        /* Storage restricted or unavailable */
+      }
+    };
+
+    scanStorage(sessionStorage);
+    scanStorage(localStorage);
+
+    return Array.from(hosts);
+  }
+
+  private getDecryptedEntry(
+    provider: GitProviderType,
+    instanceHost?: string,
+  ): { envelope: StoredTokenEnvelope; payload: StoredTokenPayload } | null {
+    const key = this.getTokenKey(provider, instanceHost);
     let raw = this.getStorageItem(sessionStorage, key);
     let isFromSession = true;
 
@@ -180,13 +218,13 @@ export class TokenStorageService {
       const envelope: StoredTokenEnvelope = JSON.parse(raw);
 
       if (envelope.exp !== null && Date.now() > envelope.exp) {
-        this.clearToken(provider);
+        this.clearToken(provider, instanceHost);
         return null;
       }
 
       const payload = this.decryptPayload(envelope);
       if (!payload || payload.provider !== provider) {
-        this.clearToken(provider);
+        this.clearToken(provider, instanceHost);
         return null;
       }
 
@@ -201,11 +239,17 @@ export class TokenStorageService {
     }
   }
 
-  private getTokenKey(provider: GitProviderType): string {
+  private getTokenKey(provider: GitProviderType, instanceHost?: string): string {
+    if (provider === "gitlab" && instanceHost && instanceHost !== "gitlab.com") {
+      return `${this.storagePrefix}${provider}:${instanceHost}`;
+    }
     return `${this.storagePrefix}${provider}`;
   }
 
-  private getUserKey(provider: GitProviderType): string {
+  private getUserKey(provider: GitProviderType, instanceHost?: string): string {
+    if (provider === "gitlab" && instanceHost && instanceHost !== "gitlab.com") {
+      return `${this.userPrefix}${provider}:${instanceHost}`;
+    }
     return `${this.userPrefix}${provider}`;
   }
 

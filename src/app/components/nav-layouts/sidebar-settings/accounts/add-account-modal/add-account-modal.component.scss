@@ -60,6 +60,8 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 0.6rem;
   margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 50;
 
   @media (max-width: 580px) {
     grid-template-columns: 1fr;
@@ -197,6 +199,30 @@
     }
   }
 
+  &.platform-card-custom {
+    position: relative;
+
+    &.is-dropdown-open {
+      z-index: 60;
+    }
+
+    .card-chevron {
+      display: inline-block;
+      transform-origin: 50% 50%;
+      font-size: 0.6rem;
+      color: var(--color-text-secondary);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &.is-open {
+        transform: rotate(180deg);
+      }
+    }
+
+    &.is-dropdown-open .card-chevron {
+      transform: rotate(180deg);
+    }
+  }
+
   &.is-disabled {
     background-color: var(--color-bg-body);
     border-color: var(--color-border);
@@ -214,8 +240,120 @@
   }
 }
 
+/* Custom GitLab Instances Dropdown */
+.custom-instances-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  min-width: 220px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 0;
+    right: 0;
+    height: 6px;
+  }
+
+  .dropdown-instance-item {
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 0.45rem 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    color: var(--color-on-surface);
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: var(--color-hover);
+    }
+
+    &.active {
+      background-color: var(--color-primary-bg);
+      color: var(--color-primary);
+
+      .instance-meta {
+        color: var(--color-primary);
+        opacity: 0.8;
+      }
+    }
+
+    .instance-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-gitlab);
+      flex-shrink: 0;
+    }
+
+    .instance-text {
+      display: flex;
+      flex-direction: column;
+      margin-left: 0.5rem;
+      overflow: hidden;
+
+      .instance-name {
+        font-size: 0.78rem;
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .instance-meta {
+        font-size: 0.68rem;
+        line-height: 1.2;
+        color: var(--color-text-muted);
+      }
+    }
+
+    .check-mark {
+      font-size: 0.75rem;
+      color: var(--color-primary);
+      margin-left: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    &.add-new {
+      justify-content: flex-start;
+      color: var(--color-primary);
+      font-weight: 500;
+      font-size: 0.76rem;
+
+      &:hover {
+        background-color: var(--color-primary-bg);
+      }
+    }
+  }
+
+  .dropdown-divider {
+    border-top: 1px solid var(--color-border);
+    margin: 0.25rem 0;
+  }
+}
+
 /* Bottom Configuration Card */
 .config-card {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 16px;
@@ -394,6 +532,23 @@
       transform: translate(1px, -1px);
     }
   }
+}
+
+.instance-badge-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  background-color: var(--color-hover);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  vertical-align: middle;
+  user-select: none;
+  pointer-events: none;
 }
 
 .gitlab-custom-icon-wrap {

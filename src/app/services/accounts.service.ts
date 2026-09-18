@@ -2,6 +2,7 @@ import { Injectable, OnDestroy, Optional } from "@angular/core";
 import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { GithubAuthService } from "@services/github-auth.service";
 import { GitlabAuthService } from "@services/gitlab-auth.service";
+import { GitlabCustomAuthService } from "@services/gitlab-custom-auth.service";
 import { GithubDataService } from "@services/github-data.service";
 import { GitlabDataService } from "@services/gitlab-data.service";
 import { Account, GitProviderType } from "@models/Account.model";
@@ -22,6 +23,7 @@ export class AccountsService implements OnDestroy {
   constructor(
     public githubAuthService: GithubAuthService,
     public gitlabAuthService: GitlabAuthService,
+    public gitlabCustomAuthService: GitlabCustomAuthService,
     @Optional() public githubDataService?: GithubDataService,
     @Optional() public gitlabDataService?: GitlabDataService,
   ) {
@@ -29,6 +31,12 @@ export class AccountsService implements OnDestroy {
 
     this.registerProvider(this.githubAuthService);
     this.registerProvider(this.gitlabAuthService);
+
+    this.authSubscription.add(
+      this.gitlabCustomAuthService.accountsChange$.subscribe(() => {
+        this.updateAccounts();
+      }),
+    );
 
     if (this.githubDataService) {
       this.dataServices.set("github", this.githubDataService);
@@ -49,11 +57,27 @@ export class AccountsService implements OnDestroy {
   }
 
   get isGitlabConnected(): boolean {
-    return this.gitlabAuthService.isSignedIn();
+    return this.gitlabAuthService.isSignedIn() || this.gitlabCustomAuthService.getAccounts().length > 0;
   }
 
   hasAccount(providerType: GitProviderType): boolean {
+    if (providerType === "gitlab") {
+      return Boolean(this.gitlabAuthService.isSignedIn() || this.gitlabCustomAuthService.getAccounts().length > 0);
+    }
     return Boolean(this.providers.get(providerType)?.isSignedIn());
+  }
+
+  hasAccountForHost(provider: GitProviderType, instanceHost?: string): boolean {
+    if (provider === "github") {
+      return this.githubAuthService.isSignedIn();
+    }
+    if (provider === "gitlab") {
+      if (!instanceHost || instanceHost === "gitlab.com") {
+        return this.gitlabAuthService.isSignedIn();
+      }
+      return this.gitlabCustomAuthService.hasAccount(instanceHost);
+    }
+    return false;
   }
 
   getDataService(providerType: GitProviderType = "github"): GitDataService {
@@ -75,9 +99,20 @@ export class AccountsService implements OnDestroy {
   disconnectAccount(id: string): void {
     const account = this.currentAccounts.find((a) => a.id === id);
     if (account) {
+      if (account.authType === "pat" || (account.instanceHost && account.instanceHost !== "gitlab.com")) {
+        this.gitlabCustomAuthService.disconnectInstance(account.instanceHost);
+        return;
+      }
       this.providers.get(account.provider)?.signOut();
       return;
     }
+
+    const customMatch = this.gitlabCustomAuthService.getAccounts().find((a) => a.id === id || a.instanceHost === id);
+    if (customMatch) {
+      this.gitlabCustomAuthService.disconnectInstance(customMatch.instanceHost);
+      return;
+    }
+
     for (const provider of this.providers.values()) {
       if (id.includes(provider.provider)) {
         provider.signOut();
@@ -95,6 +130,9 @@ export class AccountsService implements OnDestroy {
       return "#";
     }
     const provider = account.provider ? this.providers.get(account.provider as GitProviderType) : undefined;
+    if (account.provider === "gitlab" && account.instanceHost && account.instanceHost !== "gitlab.com") {
+      return this.gitlabCustomAuthService.getProfileUrl(account.instanceHost, account.username);
+    }
     if (provider && (!account.instanceHost || account.instanceHost === provider.instanceHost)) {
       return provider.getProfileUrl(account.username);
     }
@@ -121,6 +159,11 @@ export class AccountsService implements OnDestroy {
         acc.isCurrent = false;
         accounts.push(acc);
       }
+    }
+    const customAccounts = this.gitlabCustomAuthService.getAccounts();
+    for (const cAcc of customAccounts) {
+      cAcc.isCurrent = false;
+      accounts.push(cAcc);
     }
     if (accounts.length > 0) {
       const primaryIdx = accounts.findIndex((a) => a.provider === "github");

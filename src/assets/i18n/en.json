@@ -167,6 +167,8 @@
     "MUST-LOGIN-GITLAB": "Connect a GitLab account to create an assignment",
     "MUST-LOGIN-ASSIGNMENT-GITHUB": "Connect a GitHub account to access this assignment",
     "MUST-LOGIN-ASSIGNMENT-GITLAB": "Connect a GitLab account to access this assignment",
+    "MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM": "Connect the GitLab {{host}} account to access this assignment",
+    "CREATE-ASSIGNMENT-GITLAB-CUSTOM": "New GitLab Assignment ({{host}})",
     "FILTER": {
       "STATUS": "Status",
       "COURSE": "Course",
@@ -178,7 +180,8 @@
       "RESET": "Reset",
       "ALL": "All",
       "GITHUB": "GitHub",
-      "GITLAB": "GitLab"
+      "GITLAB": "GitLab",
+      "GITLAB_CLOUD": "GitLab.com"
     },
     "DURATION": {
       "DAYS": "d",
@@ -620,7 +623,16 @@
     "AUTH_TYPE_OAUTH_PKCE": "OAuth 2.0 PKCE",
     "AUTH_TYPE_PAT": "Token PAT",
     "REMEMBER_ME": "Stay signed in on this device",
-    "REMEMBER_ME_TOOLTIP": "The token is stored in the browser's localStorage. Convenient to avoid signing in repeatedly, but vulnerable to XSS and physical device access. Only enable on a trusted personal computer."
+    "REMEMBER_ME_TOOLTIP": "The token is stored in the browser's localStorage. Convenient to avoid signing in repeatedly, but vulnerable to XSS and physical device access. Only enable on a trusted personal computer.",
+    "INSTANCE_ALIAS_LABEL": "Server Name / Alias (optional)",
+    "INSTANCE_ALIAS_PLACEHOLDER": "E.g., University, Lab...",
+    "ADD_ANOTHER_INSTANCE": "Connect another instance",
+    "INSTANCES_COUNT_SINGULAR": "1 instance",
+    "INSTANCES_COUNT_PLURAL": "{{count}} instances",
+    "INVALID_PAT": "Invalid or expired Personal Access Token (PAT) (required scopes: read_api, read_user).",
+    "SERVER_UNREACHABLE": "Unable to reach the GitLab server. Please verify the instance URL.",
+    "INVALID_HOST": "For gitlab.com, please use the GitLab Cloud option above.",
+    "SWITCH_INSTANCE": "Switch instance"
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Options & generator",
