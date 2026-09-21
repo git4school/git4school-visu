@@ -39,12 +39,15 @@
     "METADATA": "Метаданные",
     "SIGN-IN": "Войти",
     "SIGN-OUT": "Выйти",
-    "CONFIGURATION": "Конфигурация"
+    "CONFIGURATION": "Конфигурация",
+    "ANONYMOUS-MODE": "Анонимность",
+    "ANONYMOUS-MODE-TOOLTIP": "Переключить режим анонимности"
   },
   "SETTINGS": {
     "TITLE": "Настройки",
     "NO-ASSIGNMENTS-DISCONNECTED": "Войдите, чтобы увидеть свои задания",
     "THEME": "Тема",
+    "ANONYMOUS-MODE": "Режим анонимности",
     "SHOW-LEGEND": "Показать легенду графиков",
     "HELP": "Помощь",
     "SHORTCUTS": "Сочетания клавиш",
@@ -259,6 +262,7 @@
     "NAV_QUESTIONS": "Вкладка Вопросы",
     "NAV_CONFIG": "Настроить задание",
     "NAV_SHORTCUTS": "Показать / скрыть горячие клавиши",
+    "TOGGLE_ANONYMOUS": "Включить / выключить анонимный режим",
     "SECTION_GRAPHS": "Графики и визуализации",
     "GRAPH_ZOOM_IN": "Увеличить",
     "GRAPH_ZOOM_OUT": "Уменьшить",
@@ -658,5 +662,12 @@
     "TOOLTIP_CLOSING_STANDARD": "Правило закрытия: Стандарт GitHub",
     "TOOLTIP_CLOSING_CUSTOM": "Правило закрытия: Пользовательское ({{keywords}})",
     "TOOLTIP_CLOSING_NONE": "Правило закрытия: Без ключевого слова"
+  },
+  "ANONYMOUS": {
+    "STUDENT_LABEL": "Студент {{index}}",
+    "STUDENT_PREFIX": "Студент",
+    "STUDENT_FALLBACK": "Студент",
+    "ANONYMOUS_AUTHOR": "Скрытый автор",
+    "ACTIVE_BADGE": "Анонимный режим активен"
   }
 }

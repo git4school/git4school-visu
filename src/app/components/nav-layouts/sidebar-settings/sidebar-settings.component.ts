@@ -14,6 +14,7 @@ import { TourService } from "@services/tour.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
 import { AccountsService } from "@services/accounts.service";
+import { AnonymizationService } from "@services/anonymization.service";
 import { environment } from "@environments/environment";
 
 @Component({
@@ -41,6 +42,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     public themeService: ThemeService,
+    public anonymizationService: AnonymizationService,
     private databaseService: DatabaseService,
     private dataService: DataService,
     private router: Router,

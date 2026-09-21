@@ -1,13 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewEncapsulation,
-} from "@angular/core";
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from "@angular/core";
 import { CommitColor } from "@models/Commit.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
@@ -16,6 +7,7 @@ import { DataService } from "@services/data.service";
 import { LoaderService } from "@services/loader.service";
 import { TooltipService } from "@services/tooltip.service";
 import { ThemeService } from "@services/theme.service";
+import { AnonymizationService } from "@services/anonymization.service";
 import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
 import { Utils } from "../../../services/utils";
@@ -28,10 +20,7 @@ import * as d3 from "d3";
   styleUrls: ["./questions-completion.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
-export class QuestionsCompletionComponent
-  extends BaseGraphComponent
-  implements OnInit, OnDestroy
-{
+export class QuestionsCompletionComponent extends BaseGraphComponent implements OnInit, OnDestroy {
   @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;
   @ViewChild("leftAxisContainer", { static: true }) leftAxisContainer: ElementRef;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
@@ -44,14 +33,8 @@ export class QuestionsCompletionComponent
   max: number;
   dict = {};
   chartData: any[] = [];
-  
-  commitColors = [
-    CommitColor.INTERMEDIATE,
-    CommitColor.BEFORE,
-    CommitColor.BETWEEN,
-    CommitColor.AFTER,
-    CommitColor.NOCOMMIT,
-  ];
+
+  commitColors = [CommitColor.INTERMEDIATE, CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER, CommitColor.NOCOMMIT];
   hiddenCategories = new Set<string>();
 
   private svg: any;
@@ -64,7 +47,8 @@ export class QuestionsCompletionComponent
     protected loaderService: LoaderService,
     protected assignmentsService: AssignmentsService,
     private tooltipService: TooltipService,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    public anonymizationService: AnonymizationService,
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -73,6 +57,9 @@ export class QuestionsCompletionComponent
     setTimeout(() => {
       this.assignmentsModified$ = this.subscribeAssignmentModified();
       this.translateService.onLangChange.subscribe(() => {
+        this.loadGraphDataAndRefresh();
+      });
+      this.anonymizationService.isAnonymous$.subscribe(() => {
         this.loadGraphDataAndRefresh();
       });
 
@@ -85,7 +72,7 @@ export class QuestionsCompletionComponent
           this.dataService.repositories,
           this.dataService.reviews,
           this.dataService.corrections,
-          this.dataService.questions
+          this.dataService.questions,
         );
         this.loading = false;
       }
@@ -107,39 +94,21 @@ export class QuestionsCompletionComponent
   }
 
   loadGraphDataAndRefresh(conserveZoom?: boolean) {
-    let translations = this.translateService.instant([
-      "QUESTION",
-      "COMMITS-COUNT",
-      "COMMITS-PERCENTAGE",
-      "STUDENTS"
-    ]);
+    let translations = this.translateService.instant(["QUESTION", "COMMITS-COUNT", "COMMITS-PERCENTAGE", "STUDENTS"]);
 
-    let colors = [
-      CommitColor.BEFORE,
-      CommitColor.BETWEEN,
-      CommitColor.AFTER,
-      CommitColor.NOCOMMIT,
-    ];
+    let colors = [CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER, CommitColor.NOCOMMIT];
 
-    let dict = this.commitsService.initQuestionsDict(
-      this.dataService.questions,
-      colors
-    );
+    let dict = this.commitsService.initQuestionsDict(this.dataService.questions, colors);
     dict = this.commitsService.loadQuestionsDict(
       dict,
       this.dataService.repositories,
       this.dataService.questions,
       colors,
       this.dataService.groupFilter,
-      this.date
+      this.date,
     );
 
-    this.chartData = this.commitsService.loadQuestions(
-      dict,
-      colors,
-      this.dataService.questions,
-      translations
-    );
+    this.chartData = this.commitsService.loadQuestions(dict, colors, this.dataService.questions, translations);
 
     this.drawGraph();
   }
@@ -169,14 +138,9 @@ export class QuestionsCompletionComponent
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const colors = [
-      CommitColor.BEFORE,
-      CommitColor.BETWEEN,
-      CommitColor.AFTER,
-      CommitColor.NOCOMMIT,
-    ];
+    const colors = [CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER, CommitColor.NOCOMMIT];
 
-    const keys = colors.map((c) => c.label).filter(k => !this.hiddenCategories.has(k));
+    const keys = colors.map((c) => c.label).filter((k) => !this.hiddenCategories.has(k));
     const stackedData = d3.stack().keys(keys)(this.chartData);
 
     // Scales
@@ -201,36 +165,41 @@ export class QuestionsCompletionComponent
       .style("fill", "var(--color-text-primary)")
       .style("font-size", "12px");
 
-    const svgLeft = d3.select(leftElement).append("svg")
+    const svgLeft = d3
+      .select(leftElement)
+      .append("svg")
       .style("display", "block")
       .attr("width", margin.left)
       .attr("height", height + margin.top + margin.bottom)
       .style("pointer-events", "none");
 
-    const leftPath = `M 0 0 L ${margin.left} 0 L ${margin.left} ${margin.top + height} L ${margin.left - margin.bottom} ${margin.top + height + margin.bottom} L 0 ${margin.top + height + margin.bottom} Z`;
-    svgLeft.append("path")
-      .attr("d", leftPath)
-      .attr("fill", "var(--color-bg-body)")
-      .style("pointer-events", "auto");
+    const leftPath = `M 0 0 L ${margin.left} 0 L ${margin.left} ${margin.top + height} L ${margin.left - margin.bottom} ${
+      margin.top + height + margin.bottom
+    } L 0 ${margin.top + height + margin.bottom} Z`;
+    svgLeft.append("path").attr("d", leftPath).attr("fill", "var(--color-bg-body)").style("pointer-events", "auto");
 
-    const leftG = svgLeft
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`)
-      .style("pointer-events", "auto");
-      
-    leftG.call(d3.axisLeft(y).ticks(10).tickFormat((d) => d + "%"))
+    const leftG = svgLeft.append("g").attr("transform", `translate(${margin.left},${margin.top})`).style("pointer-events", "auto");
+
+    leftG
+      .call(
+        d3
+          .axisLeft(y)
+          .ticks(10)
+          .tickFormat((d) => d + "%"),
+      )
       .selectAll("text")
       .style("fill", "var(--color-text-primary)")
       .style("font-size", "12px");
-      
+
     leftG.selectAll(".domain").remove();
     leftG.selectAll(".tick line").remove();
 
     // Left Y-Axis Label
-    leftG.append("text")
+    leftG
+      .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - 60 + 5)
-      .attr("x", 0 - (height / 2))
+      .attr("x", 0 - height / 2)
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .style("fill", "var(--color-text-secondary)")
@@ -238,7 +207,11 @@ export class QuestionsCompletionComponent
       .text(this.translateService.instant("PERCENT-COMMITS"));
 
     // Gridlines
-    const yAxisGrid = d3.axisLeft(y).tickSize(-width).tickFormat(() => "").ticks(10);
+    const yAxisGrid = d3
+      .axisLeft(y)
+      .tickSize(-width)
+      .tickFormat(() => "")
+      .ticks(10);
     this.svg
       .append("g")
       .attr("class", "grid")
@@ -264,7 +237,7 @@ export class QuestionsCompletionComponent
       .style("stroke-dasharray", "5,5");
 
     // Draw Bars
-    const visibleColors = colors.filter(c => !this.hiddenCategories.has(c.label));
+    const visibleColors = colors.filter((c) => !this.hiddenCategories.has(c.label));
 
     const groups = this.svg
       .selectAll("g.layer")
@@ -294,30 +267,30 @@ export class QuestionsCompletionComponent
         // Find which key this data point belongs to
         const layerData = d3.select(event.currentTarget.parentNode).datum() as any;
         const key = layerData.key;
-        const colorObj = colors.find(c => c.label === key);
+        const colorObj = colors.find((c) => c.label === key);
         const dataObj = d.data[key + "_data"];
-        
+
         if (dataObj) {
-          const colorObj = this.commitColors.find(c => c.label === key);
+          const colorObj = this.commitColors.find((c) => c.label === key);
           const tooltipData = {
             question: d.data.question,
             category: key,
             categoryKey: colorObj ? colorObj.labelKey : key,
             count: dataObj.count,
             percentage: d.data[key],
-            students: dataObj.students.map((s) => Utils.truncateMiddle(s.name, 25)),
+            students: dataObj.students.map((s) => {
+              const repo = this.dataService.repositories?.find((r) => r.name === s.name || (s.url && r.url === s.url));
+              const displayName = repo
+                ? this.anonymizationService.getDisplayName(repo)
+                : this.anonymizationService.getAnonymizedName(s.name);
+              return Utils.truncateMiddle(displayName, 25);
+            }),
           };
 
           if (!this.tooltipService.isShowing()) {
-            this.tooltipService.showAtPosition(
-              this.d3TooltipTemplate,
-              event.clientX,
-              event.clientY,
-              "right",
-              undefined,
-              true,
-              { tooltipData }
-            );
+            this.tooltipService.showAtPosition(this.d3TooltipTemplate, event.clientX, event.clientY, "right", undefined, true, {
+              tooltipData,
+            });
           } else {
             this.tooltipService.moveTooltip(event.clientX, event.clientY, "right");
           }
@@ -327,7 +300,7 @@ export class QuestionsCompletionComponent
         d3.select(event.currentTarget).style("opacity", 1);
         this.tooltipService.hide();
       });
-      
+
     // Add text labels inside bars if large enough
     groups
       .selectAll("text.bar-label")
@@ -339,7 +312,7 @@ export class QuestionsCompletionComponent
       .attr("y", (d) => y(d[1]) + (y(d[0]) - y(d[1])) / 2)
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
-      .style("fill", function() {
+      .style("fill", function () {
         const layerData = d3.select(this.parentNode).datum() as any;
         if (layerData.key === "Not finished") {
           return "var(--color-text-primary)";
@@ -349,7 +322,7 @@ export class QuestionsCompletionComponent
       .style("font-size", "11px")
       .style("font-weight", "bold")
       .style("pointer-events", "none")
-      .text(function(d) {
+      .text(function (d) {
         const percentage = d[1] - d[0];
         if (percentage > 5) {
           // Find the actual count
@@ -384,7 +357,7 @@ export class QuestionsCompletionComponent
         this.dataService.repositories,
         this.dataService.reviews,
         this.dataService.corrections,
-        this.dataService.questions
+        this.dataService.questions,
       );
       this.loading = false;
     });
@@ -400,7 +373,7 @@ export class QuestionsCompletionComponent
             .map((v) => v.commits)
             .filter(Boolean)
             .reduce((a, b) => a.concat(b), []),
-          (v) => v.commitDate
+          (v) => v.commitDate,
         );
 
         this.min = interval[0].getTime();
@@ -410,10 +383,7 @@ export class QuestionsCompletionComponent
   }
 
   getAdjustedMaxTimestamp() {
-    return (
-      Math.ceil((this.max - this.min) / this.slider_step) * this.slider_step +
-      this.min
-    );
+    return Math.ceil((this.max - this.min) / this.slider_step) * this.slider_step + this.min;
   }
 
   pressedShortcut: string = null;

@@ -39,12 +39,15 @@
     "METADATA": "Metadata",
     "SIGN-IN": "Sign in",
     "SIGN-OUT": "Sign out",
-    "CONFIGURATION": "Configuration"
+    "CONFIGURATION": "Configuration",
+    "ANONYMOUS-MODE": "Anonymize",
+    "ANONYMOUS-MODE-TOOLTIP": "Toggle anonymous mode"
   },
   "SETTINGS": {
     "TITLE": "Settings",
     "NO-ASSIGNMENTS-DISCONNECTED": "Log in to see your assignments",
     "THEME": "Theme",
+    "ANONYMOUS-MODE": "Anonymous mode",
     "SHOW-LEGEND": "Show graphs legend",
     "HELP": "Help",
     "SHORTCUTS": "Keyboard shortcuts",
@@ -261,6 +264,7 @@
     "NAV_QUESTIONS": "Questions Tab",
     "NAV_CONFIG": "Configure assignment",
     "NAV_SHORTCUTS": "Toggle shortcuts panel",
+    "TOGGLE_ANONYMOUS": "Toggle anonymous mode",
     "SECTION_GRAPHS": "Graphs & Visualizations",
     "GRAPH_ZOOM_IN": "Zoom in",
     "GRAPH_ZOOM_OUT": "Zoom out",
@@ -661,5 +665,12 @@
     "TOOLTIP_CLOSING_STANDARD": "Closing rule: Standard GitHub",
     "TOOLTIP_CLOSING_CUSTOM": "Closing rule: Custom ({{keywords}})",
     "TOOLTIP_CLOSING_NONE": "Closing rule: No keyword"
+  },
+  "ANONYMOUS": {
+    "STUDENT_LABEL": "Student {{index}}",
+    "STUDENT_PREFIX": "Student",
+    "STUDENT_FALLBACK": "Student",
+    "ANONYMOUS_AUTHOR": "Hidden author",
+    "ACTIVE_BADGE": "Anonymous mode active"
   }
 }
