@@ -1,4 +1,26 @@
-# Change log for Git4School
+## [Unreleased]
+
+### Added
+
+#### Overview graph
+
+- ⭐ Student repository navigation with tooltip feedback in the students view
+
+#### Home
+
+- ⭐ Collapsible animated search bar in the assignment chooser
+
+#### General
+
+- ⭐ Support for self-hosted GitLab instances with multi-account management
+- Automatic GitLab OAuth token refresh with rotation and HTTP interceptor
+- ⭐ Visual **anonymization mode** for classroom presentations — student names, repositories and authors are hidden on demand via `AnonymizationService`
+
+### Fixed
+
+- Tooltip content adaptation, helper expansion and viewport boundaries
+
+---
 
 ## 2.5.1
 
@@ -8,6 +30,8 @@
 
 - **TP Group Extraction from README**: Correctly extract TP group located after a checked markdown checkbox (`- [x]` or `- [X]`) instead of capturing brackets.
 - **Multilingual Name Parsing**: Fix line-by-line parsing to properly extract student names when colons are placed inside bold/italic markdown formatting (e.g. `**Nom :** **Durand**`).
+
+---
 
 ## 2.5.0
 
@@ -26,6 +50,408 @@
 - **Architecture Documentation & Tests**:
   - Added ADR 0009 (`docs/adr/0009-detection-multilingue-et-reaffectation-noms-depots.md`).
   - Added unit test suite for multilingual name detection in `Utils`.
+
+---
+
+## 2.4.0
+
+### Added
+
+#### General
+
+- ⭐ **GitLab support**: users can now connect to GitLab via OAuth 2.0 PKCE, in addition to GitHub
+  - Strategy Pattern architecture for multi-provider authentication (ADR-0006)
+  - ⭐ Dedicated split button UI to choose the authentication provider
+  - Secure _remember-me_ token storage and clean legacy auth flow
+- Architecture Decision Records (ADR) showcase page published on the GitHub Wiki
+
+### Fixed
+
+- Unit test failures in `AccountsService`, token storage and GitLab callback specs
+
+---
+
+## 2.3.0
+
+### Modified
+
+#### General
+
+- Views have been renamed for consistency and clarity
+- ⭐ Student repository navigation added to the students view
+
+---
+
+## 2.2.1
+
+### Added
+
+#### Questions chooser
+
+- ⭐ Improved dropdown, assistant and accordion button click feedback with chevron rotation animation
+
+### Fixed
+
+- Fixed a crash in the question completion graph caused by a question casing mismatch
+- Prevented typeahead selection jumps during arrow navigation via a dedicated directive (ADR-0005)
+
+---
+
+## 2.2.0
+
+### Added
+
+#### Questions chooser
+
+- ⭐ A **questions assistant popover** with contextual help for commit closing rules configuration
+  - The panel moves alongside the suggestions popover so it is always visible
+- ⭐ Support for **pasting multiple questions** at once using a delimiter separator
+- Advanced mode for adding questions with finer-grained configuration
+
+### Fixed
+
+- Popover stacking above the navbar and hover flickering
+- Outside click dismissal of the questions assistant popover inside modals
+- Popover viewport overflow — auto-dropup and polished layout
+- i18n label overflow in various UI elements
+
+---
+
+## 2.1.1
+
+### Fixed
+
+- Fixed animation lag on the disconnect button in the sidebar
+
+---
+
+## 2.1.0
+
+### Added
+
+#### Sidebar & Navigation
+
+- ⭐ **Git accounts management**: connected accounts are now displayed and managed directly in the sidebar and the connection modal
+
+#### Developer tools
+
+- A **developer toolbar** for debugging and toggling feature flags (hidden in production)
+
+### Modified
+
+#### General
+
+- Cyclomatic complexity reduced across several components; regression test suite added
+- Codacy metrics configured; Stylelint integrated for SCSS quality
+- Codacy issues resolved across the codebase
+
+### Fixed
+
+- Fixed a 1-month offset in the commit tooltip date format
+
+---
+
+## 2.0.5
+
+### Added
+
+#### Overview graph
+
+- ⭐ Milestone labels redesigned with **chronological overlap masking** to avoid visual clutter
+
+### Modified
+
+#### Home
+
+- ⭐ Assignment status badges improved; status filters interaction polished
+
+### Fixed
+
+- Milestone bar thickness, text width and cutout bounds aligned precisely
+
+---
+
+## 2.0.4
+
+### Modified
+
+#### Overview graph
+
+- ⭐ Session visualization redesigned with **sticky header badges**, custom labels, and a responsive layout
+- Milestone and session updates are now applied smoothly without recreating the graph
+- Overlay management refactored into `OverlayManagerService` to coordinate dropdown and popover closing
+- Search input focus is maintained after pressing Enter
+
+### Fixed
+
+- Milestone drag pill clipping and dark mode text contrast
+- Popovers no longer stack above the navbar
+- Popovers auto-close when interacting with the overview graph
+- Sidebar z-index stacking order corrected (above popovers and dropdowns, below modals)
+- Zoom reset is restored after loading or filtering; search input focus is maintained
+- Milestone drag progress circle color now matches the milestone type
+
+---
+
+## 2.0.3
+
+### Fixed
+
+- Date preview corrected when moving a milestone in the overview graph
+- Milestone drag pill clipping and dark mode text contrast
+
+---
+
+## 2.0.2
+
+### Modified
+
+#### Overview graph
+
+- ⭐ Milestone types order inverted to better match the expected workflow
+- ⭐ Milestone label upper strip is now clickable; strip hidden when no milestone to display
+- Delete milestone/session shown in red in the context menu
+- More subtle required-field message for milestone type
+- Long-press is now required to drag milestones (prevents accidental drags)
+
+### Fixed
+
+- Click date calculation corrected on sessions and milestones
+
+---
+
+## 2.0.1
+
+### Fixed
+
+#### Assignment editor
+
+- Repositories search fixed (including forked repos)
+- Toggling cycling between a repo and its forks works correctly
+- Repository rows details finalized
+
+---
+
+## 2.0.0
+
+### Added
+
+#### General
+
+- ⭐ **Full UI redesign** — modern sidebar navigation, floating panel, custom modal system, dark theme overhaul
+- ⭐ **Keyboard shortcuts** accessible from a dedicated modal with uniformized keycap style
+- **Skeleton loading** for commits and repository search results
+- Custom **toast service** and **tooltip service** replacing third-party libraries
+- ⭐ **Onboarding tutorial** (initially automatic, then triggered manually from the sidebar)
+
+#### Home
+
+- ⭐ Assignment list now shows **search and filter** controls (saved in LocalStorage)
+- ⭐ Assignments can be **filtered by forge** (only assignments from the connected forge are shown)
+- Assignment tabs organized by forge
+- Number of assignments displayed in the sidebar is configurable
+- ⭐ Sidebar is **resizable**; width is saved in LocalStorage
+
+#### Overview graph
+
+- ⭐ **Drag milestones** directly on the graph (requires long-press)
+- ⭐ Click on **grouped commits** to zoom in on them
+- Graphs **fully adapt** to any screen size
+- ⭐ Horizontal scroll possible with trackpad or Ctrl+scroll on macOS
+- ⭐ Filter criteria support **exclusion** using `!`
+- Filter criteria can be **moved** with Cmd+Arrow
+- Same criteria can be **added multiple times**
+- ⭐ Filter criteria visually **grouped** into pills
+- ⭐ Rich **filter suggestions popover** with contextual help
+- Legend elements are **clickable** to toggle visibility
+- Personal notes icon shown on sessions that have notes
+- ⭐ Personal notes shown in milestone tooltip on hover
+- Message displayed in overview when there are no repos or commits
+
+#### Students / Questions graphs
+
+- Student names display fixed in commits and questions graphs
+- Students now displayed with their names adjusted and truncated if too long
+
+### Modified
+
+#### General
+
+- All charts migrated from Chart.js to **D3.js**
+- GraphQL API used for retrieving commits and user repositories (performance improvement)
+- ⭐ Modals redesigned: slide-in from bottom, blurred backdrop
+- Toast animations improved
+
+#### Assignment editor
+
+- ⭐ Repository search redesigned with a floating selection bar tool and modal
+- Repository avatar now shown in the assignment repositories list
+- Auto-scroll to the edited assignment when opening it from the list
+
+### Fixed
+
+- Fixed calendar popover placement and TP group selector
+- Fixed scroll issue in the Home page
+- Fixed question renaming and adding more than 14 questions
+- Fixed display order of elements in the overview graph
+- Fixed date picker calendar displaying below viewport boundaries
+- Fixed question chooser in milestone edit
+
+---
+
+## 1.6.2
+
+### Fixed
+
+- Fixed session activity line display
+
+---
+
+## 1.6.1
+
+### Fixed
+
+- Fixed session display, milestone line length, and zoom on WebKit-based browsers
+
+---
+
+## 1.6.0
+
+### Modified
+
+#### Overview graph
+
+- Commits and questions graphs migrated from **Chart.js to D3.js** for more control and performance
+- ⭐ Overview is now **responsive** and adapts to the screen size
+- ⭐ GitHub authentication now uses a **popup** instead of a redirect
+
+### Fixed
+
+- Fixed scroll issues and contextual menu positioning
+- Fixed tooltip rendered at wrong time and position
+- Fixed zoom and size issues
+- Fixed commit filter not working
+- Fixed commit links opening in the same tab
+- Fixed date alignment and display offset issues
+
+---
+
+## 1.5.3
+
+### Added
+
+#### Overview graph
+
+- ⭐ Teachers can now **add personal notes** to a milestone or session
+- ⭐ Repository URL in the assignment editor is now **clickable** (opens in a new tab)
+
+#### Commits / Questions graphs
+
+- The maximum date of the sliders now adjusts to the latest commit date
+
+### Modified
+
+#### Overview graph
+
+- Long student names are now **truncated** in the overview graph
+
+### Deleted
+
+- Confirmation modal when importing multiple assignments has been removed
+
+### Fixed
+
+- Date slider maximum date corrected to reach the last commit (fix #119)
+
+---
+
+## 1.5.2
+
+### Modified
+
+#### General
+
+- ⭐ Now **loads more than 100 commits per repository** using GitHub API pagination
+- Upload and download assignment icons updated
+
+### Fixed
+
+- Fixed commits not being retrieved when there are fewer than 100
+- Fixed live deploy to Firebase
+
+---
+
+## 1.5.1
+
+### Fixed
+
+- Firebase configuration updated
+
+---
+
+## 1.5.0
+
+### Added
+
+#### General
+
+- ⭐ Support for reading an **IDENTITY file** to retrieve student identity information from repositories
+
+#### Overview graph
+
+- ⭐ The currently filtered group is used when **adding a milestone or session** (fix #124)
+- ⭐ Group filter is **kept active** for a session (fix #120)
+- `"All"` milestones remain visible on a filtered overview graph
+
+### Modified
+
+#### CI/CD
+
+- A comment with the **staging link** is automatically added when deployed
+
+---
+
+## 1.4.3
+
+### Fixed
+
+- Zoom level is no longer reset on graph manipulation
+- Fixed `repoAlreadyAddedValidator` — the validator was detecting itself as already present, preventing editing a repository
+
+---
+
+## 1.4.2
+
+### Added
+
+#### Assignment editor
+
+- Repository list is now **scrollable**
+- ⭐ Repositories can be **sorted** by name and other properties
+- Pressing **Enter** while editing a repository validates the row
+- Confirmation dialog added when **deleting a repository**
+
+### Fixed
+
+- Fixed error when importing an assignment with a milestone (fix #106)
+- Fixed save occurring when cancelling an empty row
+- Fixed bug when sorting repositories with no name
+
+---
+
+## 1.4.1
+
+### Added
+
+#### Overview graph
+
+- ⭐ **Time picker** restored in the milestone edition modal (lost during the datepicker library change)
+
+### Fixed
+
+- Fixed error when importing an assignment with a milestone (fix #106)
+
+---
 
 ## 1.4.0
 
