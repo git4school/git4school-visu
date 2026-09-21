@@ -38,12 +38,15 @@
     "METADATA": "Métadonnées",
     "SIGN-IN": "S'identifier",
     "SIGN-OUT": "Se déconnecter",
-    "CONFIGURATION": "Configuration"
+    "CONFIGURATION": "Configuration",
+    "ANONYMOUS-MODE": "Anonymat",
+    "ANONYMOUS-MODE-TOOLTIP": "Basculer le mode anonymat"
   },
   "SETTINGS": {
     "TITLE": "Paramètres",
     "NO-ASSIGNMENTS-DISCONNECTED": "Connectez-vous pour voir vos devoirs",
     "THEME": "Thème",
+    "ANONYMOUS-MODE": "Mode anonymat",
     "SHOW-LEGEND": "Afficher la légende des graphes",
     "HELP": "Aide",
     "SHORTCUTS": "Raccourcis clavier",
@@ -260,6 +263,7 @@
     "NAV_QUESTIONS": "Vue Questions",
     "NAV_CONFIG": "Configurer le devoir",
     "NAV_SHORTCUTS": "Afficher / masquer les raccourcis",
+    "TOGGLE_ANONYMOUS": "Basculer le mode anonymat",
     "SECTION_GRAPHS": "Graphiques & Visualisations",
     "GRAPH_ZOOM_IN": "Zoomer",
     "GRAPH_ZOOM_OUT": "Dézoomer",
@@ -661,5 +665,12 @@
     "TOOLTIP_CLOSING_STANDARD": "Règle de clôture : Standard GitHub",
     "TOOLTIP_CLOSING_CUSTOM": "Règle de clôture : Personnalisée ({{keywords}})",
     "TOOLTIP_CLOSING_NONE": "Règle de clôture : Sans mot-clé"
+  },
+  "ANONYMOUS": {
+    "STUDENT_LABEL": "Étudiant·e {{index}}",
+    "STUDENT_PREFIX": "Étudiant·e",
+    "STUDENT_FALLBACK": "Étudiant·e",
+    "ANONYMOUS_AUTHOR": "Auteur masqué",
+    "ACTIVE_BADGE": "Anonymat actif"
   }
 }

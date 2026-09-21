@@ -339,9 +339,9 @@
   >
     <p>{{ commit_date_format(hovered_commit.commitDate) }}</p>
     <p>{{ hovered_commit.message }}</p>
-    <p>{{ hovered_commit.author }}</p>
+    <p>{{ getCommitAuthorDisplayName(hovered_commit) }}</p>
     <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">
-      <div class="tooltip-helper-item d-flex align-items-center">
+      <div class="tooltip-helper-item d-flex align-items-center" *ngIf="!anonymizationService.isAnonymous">
         <span>{{ 'COMMIT-TOOLTIP.OPEN_COMMIT' | translate }}</span>
         <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
       </div>
@@ -357,7 +357,7 @@
     id="repository_hover"
   >
     <div class="repo-name">{{ hovered_repository.name }}</div>
-    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end" *ngIf="hovered_repository.url">
+    <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end" *ngIf="hovered_repository.url && !anonymizationService.isAnonymous">
       <div class="tooltip-helper-item d-flex align-items-center">
         <span>{{ 'OVERVIEW-GRAPH.OPEN-REPO' | translate }}</span>
         <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>

@@ -7,6 +7,7 @@ import { DataService } from "@services/data.service";
 import { LoaderService } from "@services/loader.service";
 import { TooltipService } from "@services/tooltip.service";
 import { ThemeService } from "@services/theme.service";
+import { AnonymizationService } from "@services/anonymization.service";
 import { Subscription } from "rxjs";
 import { BaseGraphComponent } from "../base-graph.component";
 import { Utils } from "../../../services/utils";
@@ -52,6 +53,7 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     protected assignmentsService: AssignmentsService,
     private tooltipService: TooltipService,
     public themeService: ThemeService,
+    public anonymizationService: AnonymizationService,
     private ngZone: NgZone,
   ) {
     super(loaderService, assignmentsService, dataService);
@@ -76,6 +78,9 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     setTimeout(() => {
       this.assignmentsModified$ = this.subscribeAssignmentModified();
       this.translateService.onLangChange.subscribe(() => {
+        this.loadGraphDataAndRefresh();
+      });
+      this.anonymizationService.isAnonymous$.subscribe(() => {
         this.loadGraphDataAndRefresh();
       });
 
@@ -129,8 +134,11 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     // Convert dict back to an ordered array according to labels
     this.chartData = labels.map((label) => {
       let studentData = dict[label];
+      let repo = this.dataService.repositories?.find((r) => r.name === label);
+      let displayName = repo ? this.anonymizationService.getDisplayName(repo) : label;
       let result: any = {
-        student: studentData.name,
+        student: displayName,
+        rawName: label,
         commitsCount: studentData.commitsCount,
         lastQuestionDone: studentData.lastQuestionDone,
         url: studentData.url,
@@ -225,19 +233,28 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
       })
       .on("click", (event: MouseEvent, d: any) => {
         event.stopPropagation();
-        const repo = this.dataService.repositories.find((r) => r.name === d) || this.chartData.find((cd) => cd.student === d);
+        if (this.anonymizationService.isAnonymous) {
+          return;
+        }
+        const matchedItem = this.chartData.find((cd) => cd.student === d);
+        const repo = this.dataService.repositories.find(
+          (r) => r.name === d || (matchedItem && (r.name === matchedItem.rawName || r.url === matchedItem.url)),
+        );
         if (repo?.url) {
           window.open(repo.url, "_blank");
         }
       })
       .on("mouseenter", (event: MouseEvent, d: any) => {
         event.stopPropagation();
-        const repo = this.dataService.repositories.find((r) => r.name === d) || this.chartData.find((cd) => cd.student === d);
-        if (repo) {
+        const matchedItem = this.chartData.find((cd) => cd.student === d);
+        const repo = this.dataService.repositories.find(
+          (r) => r.name === d || (matchedItem && (r.name === matchedItem.rawName || r.url === matchedItem.url)),
+        );
+        if (repo || matchedItem) {
           this.ngZone.run(() => {
             this.hovered_repository = {
-              name: repo.name || (repo as any).student || d,
-              url: repo.url,
+              name: d,
+              url: this.anonymizationService.isAnonymous ? null : repo?.url || matchedItem?.url,
             };
             this.tooltipService.showAtPosition(this.repoTooltipTemplate, event.clientX, event.clientY, "right", undefined, true);
           });

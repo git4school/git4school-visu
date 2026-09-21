@@ -25,6 +25,7 @@ import { ToastService } from "@services/toast.service";
 import { ThemeService } from "@services/theme.service";
 import { TooltipService } from "@services/tooltip.service";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
+import { AnonymizationService } from "@services/anonymization.service";
 import { Subject, Subscription, concat } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
@@ -243,6 +244,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     protected assignmentsService: AssignmentsService,
     public themeService: ThemeService,
     private tooltipService: TooltipService,
+    public anonymizationService: AnonymizationService,
     private ngZone: NgZone,
     public overlayManagerService: OverlayManagerService,
   ) {
@@ -274,6 +276,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.updateLang();
     this.translateService.onLangChange.subscribe((event: TranslationChangeEvent) => {
       this.updateLang();
+    });
+
+    this.anonymizationService.isAnonymous$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.loadGraphDataAndRefresh(true);
     });
 
     this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
@@ -544,7 +550,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (context && repos.length > 0) {
       context.font = "13px " + (style.getPropertyValue("--font-family-sans") || "sans-serif");
       for (const repo of repos) {
-        const w = context.measureText(repo.name || "").width;
+        const displayName = this.anonymizationService.getDisplayName(repo);
+        const w = context.measureText(displayName || "").width;
         if (w > maxNameWidth) maxNameWidth = w;
       }
     }
@@ -2373,7 +2380,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .axisLeft(this.y_scale)
       .tickValues([...Array(repositories.length + 1).keys()])
       .tickFormat((d) => {
-        return repositories[d.valueOf() - 1]?.name || "";
+        const repo = repositories[d.valueOf() - 1];
+        return repo ? this.anonymizationService.getDisplayName(repo) : "";
       })
       .tickSize(-this.inner_width);
 
@@ -2401,6 +2409,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       })
       .on("click", function (event: MouseEvent, d: any) {
         event.stopPropagation();
+        if (overview.anonymizationService.isAnonymous) {
+          return;
+        }
         const repo = repositories[d.valueOf() - 1];
         if (repo?.url) {
           window.open(repo.url, "_blank");
@@ -2411,7 +2422,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         const repo = repositories[d.valueOf() - 1];
         if (repo?.name) {
           overview.ngZone.run(() => {
-            overview.hovered_repository = repo;
+            overview.hovered_repository = {
+              ...repo,
+              name: overview.anonymizationService.getDisplayName(repo),
+              url: overview.anonymizationService.isAnonymous ? null : repo.url,
+            } as Repository;
             overview.hovered_commit = undefined;
             overview.hovered_group_commit = undefined;
             overview.hovered_session = undefined;
@@ -2599,10 +2614,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     let x = this.xScaledTimeZoned(commit.commitDate);
 
-    let comp: d3.Selection<any, any, any, any> = g
-      .append("a")
-      .attr("href", (d) => d[0].url)
-      .attr("target", "_blank");
+    let comp: d3.Selection<any, any, any, any> = g.append("a");
+    if (!this.anonymizationService.isAnonymous) {
+      comp.attr("href", (d) => d[0].url).attr("target", "_blank");
+    }
 
     if (commit.isCloture) {
       comp = comp.append("circle").attr("class", "commit-cloture");
@@ -2627,6 +2642,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       });
 
     return g;
+  }
+
+  getCommitAuthorDisplayName(commit: Commit): string {
+    return this.anonymizationService.getCommitAuthorDisplayName(commit);
   }
 
   shouldGroupCommit(commit_before: Commit, commit_after: Commit): boolean {
