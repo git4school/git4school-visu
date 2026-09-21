@@ -5,7 +5,7 @@ import { AccountsService } from "@services/accounts.service";
 import { DevFlagsService } from "@services/dev-flags.service";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 import { GitAuthProvider } from "@models/GitAuthProvider.model";
-import { Account } from "@models/Account.model";
+import { Account, TokenStatus } from "@models/Account.model";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -67,12 +67,45 @@ export class AddAccountModalComponent implements OnInit, OnDestroy {
     return Boolean(this.accountsService.gitlabAuthService?.isSignedIn() || this.accountsService.getProvider("gitlab")?.isSignedIn());
   }
 
+  get githubTokenStatus(): TokenStatus {
+    return this.accountsService.githubAuthService?.tokenStatus || "unknown";
+  }
+
+  get gitlabTokenStatus(): TokenStatus {
+    return this.accountsService.gitlabAuthService?.tokenStatus || "unknown";
+  }
+
+  get isGithubTokenInvalid(): boolean {
+    return this.githubTokenStatus === "invalid";
+  }
+
+  get isGitlabTokenInvalid(): boolean {
+    return this.gitlabTokenStatus === "invalid";
+  }
+
+  get isCurrentTokenInvalid(): boolean {
+    if (this.selectedPlatform === "github") {
+      return this.isGithubTokenInvalid;
+    }
+    if (this.selectedPlatform === "gitlab-cloud") {
+      return this.isGitlabTokenInvalid;
+    }
+    if (this.selectedPlatform === "gitlab-custom" && this.selectedCustomAccount) {
+      return this.selectedCustomAccount.tokenStatus === "invalid";
+    }
+    return false;
+  }
+
   get customGitlabAccounts(): Account[] {
     return this.accountsService.gitlabCustomAuthService?.getAccounts() || [];
   }
 
   get hasConnectedCustomInstances(): boolean {
     return Boolean(this.customGitlabAccounts && this.customGitlabAccounts.length > 0);
+  }
+
+  get hasInvalidCustomInstance(): boolean {
+    return this.customGitlabAccounts.some((acc) => acc.tokenStatus === "invalid");
   }
 
   get customInstancesCountText(): string {

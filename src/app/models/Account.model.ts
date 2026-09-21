@@ -1,4 +1,5 @@
 export type GitProviderType = "github" | "gitlab";
+export type TokenStatus = "valid" | "invalid" | "unknown";
 
 export interface Account {
   id: string;
@@ -11,4 +12,5 @@ export interface Account {
   tokenExpiresInDays?: number | null;
   lastSync?: string;
   isCurrent?: boolean;
+  tokenStatus?: TokenStatus;
 }
