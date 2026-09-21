@@ -54,6 +54,53 @@
   }
 }
 
+/* Status Pill */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 9999px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+
+  .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+
+  &.connected {
+    background-color: var(--badge-ongoing-bg);
+    color: var(--badge-ongoing-text);
+    border: 1px solid var(--badge-ongoing-border);
+
+    .dot {
+      background-color: var(--color-success);
+    }
+  }
+
+  &.invalid,
+  &.expired {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+    border: 1px solid var(--color-danger-subtle);
+
+    .dot {
+      background-color: var(--color-danger);
+    }
+  }
+
+  &.coming-soon {
+    background-color: var(--color-hover);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    font-weight: 500;
+    font-size: 0.58rem;
+  }
+}
+
 /* Platform Cards Grid (3 cards row) */
 .platform-cards-grid {
   display: grid;
@@ -150,38 +197,6 @@
   .brand-svg {
     width: 14px;
     height: 14px;
-  }
-
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.1rem 0.45rem;
-    border-radius: 9999px;
-    font-size: 0.6rem;
-    font-weight: 600;
-    line-height: 1.2;
-
-    &.connected {
-      background-color: var(--badge-ongoing-bg);
-      color: var(--badge-ongoing-text);
-      border: 1px solid var(--badge-ongoing-border);
-
-      .dot {
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background-color: var(--color-success);
-      }
-    }
-
-    &.coming-soon {
-      background-color: var(--color-hover);
-      color: var(--color-text-muted);
-      border: 1px solid var(--color-border);
-      font-weight: 500;
-      font-size: 0.58rem;
-    }
   }
 
   .platform-info {
@@ -300,6 +315,11 @@
       border-radius: 50%;
       background-color: var(--color-gitlab);
       flex-shrink: 0;
+
+      &.is-invalid {
+        background-color: var(--color-danger);
+        box-shadow: 0 0 0 2px var(--color-danger-subtle);
+      }
     }
 
     .instance-text {
@@ -480,6 +500,32 @@
     align-items: center;
     justify-content: center;
     border: 1px solid var(--color-border);
+  }
+
+  .account-avatar-invalid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: var(--color-danger-bg);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+    color: var(--color-danger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--color-danger-subtle);
+    box-shadow: 0 1px 4px rgba(220, 38, 38, 0.15);
+    cursor: default;
+    z-index: 1;
+
+    .invalid-mark-svg {
+      width: 18px;
+      height: 18px;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+    }
   }
 
   .online-dot {

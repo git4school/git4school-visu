@@ -3,8 +3,9 @@ import { Milestone } from "@models/Milestone.model";
 import { QuestionClosingMode } from "@models/Metadata.model";
 import { Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
+import { AccountsService } from "./accounts.service";
 import { CommitsService } from "./commits.service";
 import { DataService } from "./data.service";
 import { ToastService } from "./toast.service";
@@ -21,12 +22,14 @@ export class LoaderService {
    * @param dataService The service that stores the data
    * @param translateService The translation service
    * @param toastService The service displaying error or warning toasts
+   * @param accountsService The service managing accounts and token status
    */
   constructor(
     private commitsService: CommitsService,
     private dataService: DataService,
     private translateService: TranslateService,
     private toastService: ToastService,
+    private accountsService: AccountsService,
   ) {}
 
   /**
@@ -45,25 +48,61 @@ export class LoaderService {
     corrections: Milestone[],
     questions: string[],
     closingMode?: QuestionClosingMode,
-    customClosingKeywords?: string[],
+    customKeywords?: string[],
   ) {
     const mode = closingMode || this.dataService.closingMode;
-    const customKeywords = customClosingKeywords !== undefined ? customClosingKeywords : this.dataService.customClosingKeywords;
+    const keywords = customKeywords !== undefined ? customKeywords : this.dataService.customClosingKeywords;
 
     repositories.forEach((repository) => {
       let filteredReviews = reviews?.filter((review) => review.tpGroup === repository.tpGroup || !review.tpGroup);
       let filteredCorrections = corrections?.filter((correction) => correction.tpGroup === repository.tpGroup || !correction.tpGroup);
 
-      repository.commits?.forEach((commit) => commit.updateMetadata(filteredReviews, filteredCorrections, questions, mode, customKeywords));
+      repository.commits?.forEach((commit) => commit.updateMetadata(filteredReviews, filteredCorrections, questions, mode, keywords));
     });
   }
 
   /**
-   * Fetch the repositories from Github and loads their commits with [loadCommitsMetadata]{@link LoaderService#loadCommitsMetadata}
+   * Fetch the repositories from Git provider and loads their commits with [loadCommitsMetadata]{@link LoaderService#loadCommitsMetadata}
    * @param startDate The date from which commits are retrieved
    * @param endDate The date up to which commits are retrieved
    */
   loadRepositories(startDate?: string, endDate?: string): Observable<void> {
+    const firstRepo = this.dataService.repositories?.[0];
+    if (!firstRepo) {
+      return of(undefined);
+    }
+
+    const provider = firstRepo.provider || "github";
+    let instanceHost: string | undefined;
+    if (firstRepo.url) {
+      try {
+        instanceHost = new URL(firstRepo.url).hostname;
+      } catch {}
+    }
+
+    const tokenStatus = this.accountsService.getTokenStatus(provider, instanceHost);
+
+    if (tokenStatus === "invalid") {
+      this.showInvalidTokenToast(provider);
+      return of(undefined);
+    }
+
+    if (tokenStatus === "unknown") {
+      return this.accountsService.checkTokenValidity(provider, instanceHost).pipe(
+        switchMap((isValid) => {
+          if (!isValid) {
+            this.showInvalidTokenToast(provider);
+            return of(undefined);
+          }
+          return this.executeLoadRepositories(startDate, endDate);
+        }),
+      );
+    }
+
+    return this.executeLoadRepositories(startDate, endDate);
+  }
+
+  private executeLoadRepositories(startDate?: string, endDate?: string): Observable<void> {
     let translations = this.translateService.instant([
       "ERRORS.REPOSITORY-NOT-FOUND",
       "ERRORS.README-NOT-FOUND",
@@ -101,5 +140,12 @@ export class LoaderService {
         }
       }),
     );
+  }
+
+  private showInvalidTokenToast(provider: string): void {
+    const title = this.translateService.instant("TOKEN_HEALTH.ERROR_TITLE");
+    const messageKey = provider === "gitlab" ? "TOKEN_HEALTH.ERROR_MSG_GITLAB" : "TOKEN_HEALTH.ERROR_MSG_GITHUB";
+    const message = this.translateService.instant(messageKey);
+    this.toastService.error(title, message);
   }
 }

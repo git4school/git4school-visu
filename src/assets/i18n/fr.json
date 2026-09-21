@@ -636,7 +636,8 @@
     "INVALID_PAT": "Jeton d'accès personnel (PAT) invalide ou expiré (droits requis : read_api, read_user).",
     "SERVER_UNREACHABLE": "Impossible de joindre le serveur GitLab. Vérifiez l'URL de l'instance.",
     "INVALID_HOST": "Pour gitlab.com, utilisez l'option GitLab Cloud ci-dessus.",
-    "SWITCH_INSTANCE": "Changer d'instance"
+    "SWITCH_INSTANCE": "Changer d'instance",
+    "STATUS_INVALID": "Expiré"
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Options & générateur",
@@ -672,5 +673,11 @@
     "STUDENT_FALLBACK": "Étudiant·e",
     "ANONYMOUS_AUTHOR": "Auteur masqué",
     "ACTIVE_BADGE": "Anonymat actif"
+  },
+  "TOKEN_HEALTH": {
+    "INVALID_TOOLTIP": "Token invalide ou révoqué – reconnectez-vous",
+    "ERROR_TITLE": "Authentification expirée",
+    "ERROR_MSG_GITHUB": "Votre token GitHub est invalide ou a expiré. Reconnectez-vous depuis la section Comptes.",
+    "ERROR_MSG_GITLAB": "Votre token GitLab est invalide ou a expiré. Reconnectez-vous depuis la section Comptes."
   }
 }

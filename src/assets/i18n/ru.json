@@ -633,7 +633,8 @@
     "INVALID_PAT": "Недействительный или просроченный Personal Access Token (PAT) (требуются права: read_api, read_user).",
     "SERVER_UNREACHABLE": "Не удается подключиться к серверу GitLab. Проверьте URL инстанса.",
     "INVALID_HOST": "Для gitlab.com используйте опцию GitLab Cloud выше.",
-    "SWITCH_INSTANCE": "Сменить инстанс"
+    "SWITCH_INSTANCE": "Сменить инстанс",
+    "STATUS_INVALID": "Истек"
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Опции и генератор",
@@ -669,5 +670,11 @@
     "STUDENT_FALLBACK": "Студент",
     "ANONYMOUS_AUTHOR": "Скрытый автор",
     "ACTIVE_BADGE": "Анонимный режим активен"
+  },
+  "TOKEN_HEALTH": {
+    "INVALID_TOOLTIP": "Токен недействителен или отозван – выполните повторный вход",
+    "ERROR_TITLE": "Аутентификация истекла",
+    "ERROR_MSG_GITHUB": "Ваш токен GitHub недействителен или истек. Выполните повторный вход в разделе «Учетные записи».",
+    "ERROR_MSG_GITLAB": "Ваш токен GitLab недействителен или истек. Выполните повторный вход в разделе «Учетные записи»."
   }
 }

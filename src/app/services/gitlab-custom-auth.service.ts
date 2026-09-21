@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
-import { Account } from "@models/Account.model";
+import { BehaviorSubject, Observable, forkJoin, of } from "rxjs";
+import { catchError, map } from "rxjs/operators";
+import { Account, TokenStatus } from "@models/Account.model";
 import { TokenStorageService } from "@services/token-storage.service";
 
 export interface GitlabCustomUser {
@@ -25,6 +26,7 @@ export class GitlabCustomAuthService {
 
   private accountsSubject = new BehaviorSubject<Account[]>([]);
   private accounts: Account[] = [];
+  private tokenStatusMap = new Map<string, TokenStatus>();
 
   constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) {
     this.accountsChange$ = this.accountsSubject.asObservable();
@@ -43,6 +45,11 @@ export class GitlabCustomAuthService {
   hasAccount(instanceHost: string): boolean {
     const cleanHost = this.cleanHostName(instanceHost);
     return this.accounts.some((a) => a.instanceHost === cleanHost);
+  }
+
+  getTokenStatus(instanceHost: string): TokenStatus {
+    const cleanHost = this.cleanHostName(instanceHost);
+    return this.tokenStatusMap.get(cleanHost) || "unknown";
   }
 
   normalizeUrl(rawUrl: string): { cleanUrl: string; host: string } {
@@ -106,6 +113,17 @@ export class GitlabCustomAuthService {
       throw new Error("INVALID_USER_DATA");
     }
 
+    let tokenExpiresInDays: number | null = null;
+    try {
+      const patData: any = await this.http.get(`${cleanUrl}/api/v4/personal_access_tokens/self`, { headers }).toPromise();
+      if (patData?.expires_at) {
+        const diffMs = new Date(patData.expires_at).getTime() - Date.now();
+        tokenExpiresInDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      }
+    } catch {
+      /* Token self endpoint is optional on older GitLab versions */
+    }
+
     const instanceName = alias && alias.trim() ? alias.trim() : host;
     const account: Account = {
       id: `acc-gitlab-host-${host}`,
@@ -116,8 +134,11 @@ export class GitlabCustomAuthService {
       instanceName,
       authType: "pat",
       isCurrent: false,
+      tokenStatus: "valid",
+      tokenExpiresInDays,
     };
 
+    this.tokenStatusMap.set(host, "valid");
     this.tokenStorageService.saveToken("gitlab", cleanPat, rememberMe, undefined, undefined, host);
     const userData: GitlabCustomUserData = {
       user,
@@ -136,8 +157,55 @@ export class GitlabCustomAuthService {
     return account;
   }
 
+  checkTokenValidity(instanceHost?: string): Observable<boolean> {
+    if (instanceHost) {
+      const cleanHost = this.cleanHostName(instanceHost);
+      const token = this.tokenStorageService.getToken("gitlab", cleanHost);
+      if (!token) {
+        this.tokenStatusMap.set(cleanHost, "unknown");
+        this.updateAccountStatus(cleanHost, "unknown");
+        return of(false);
+      }
+
+      const headers = new HttpHeaders({
+        "PRIVATE-TOKEN": token,
+      });
+
+      return this.http.get<GitlabCustomUser>(`https://${cleanHost}/api/v4/user`, { headers }).pipe(
+        map(() => {
+          this.tokenStatusMap.set(cleanHost, "valid");
+          this.updateAccountStatus(cleanHost, "valid");
+          return true;
+        }),
+        catchError((err) => {
+          if (err?.status === 401 || err?.status === 403) {
+            this.tokenStatusMap.set(cleanHost, "invalid");
+            this.updateAccountStatus(cleanHost, "invalid");
+          }
+          return of(false);
+        }),
+      );
+    }
+
+    if (this.accounts.length === 0) {
+      return of(true);
+    }
+
+    const checks = this.accounts.map((acc) => this.checkTokenValidity(acc.instanceHost));
+    return forkJoin(checks).pipe(map((results) => results.every(Boolean)));
+  }
+
+  markTokenInvalid(instanceHost: string): void {
+    const cleanHost = this.cleanHostName(instanceHost);
+    if (this.tokenStatusMap.get(cleanHost) !== "invalid") {
+      this.tokenStatusMap.set(cleanHost, "invalid");
+      this.updateAccountStatus(cleanHost, "invalid");
+    }
+  }
+
   disconnectInstance(instanceHost: string): void {
     const cleanHost = this.cleanHostName(instanceHost);
+    this.tokenStatusMap.delete(cleanHost);
     this.tokenStorageService.clearAll("gitlab", cleanHost);
     this.accounts = this.accounts.filter((a) => a.instanceHost !== cleanHost);
     this.accountsSubject.next(this.getAccounts());
@@ -149,6 +217,14 @@ export class GitlabCustomAuthService {
       return `https://${cleanHost}`;
     }
     return `https://${cleanHost}/${encodeURIComponent(username)}`;
+  }
+
+  private updateAccountStatus(cleanHost: string, status: TokenStatus): void {
+    const account = this.accounts.find((a) => a.instanceHost === cleanHost);
+    if (account) {
+      account.tokenStatus = status;
+      this.accountsSubject.next(this.getAccounts());
+    }
   }
 
   private cleanHostName(host: string): string {
@@ -168,6 +244,7 @@ export class GitlabCustomAuthService {
       const data = this.tokenStorageService.getUserData<GitlabCustomUserData>("gitlab", host);
 
       if (token && data?.user?.username) {
+        this.tokenStatusMap.set(host, "unknown");
         restoredAccounts.push({
           id: `acc-gitlab-host-${host}`,
           provider: "gitlab",
@@ -177,6 +254,7 @@ export class GitlabCustomAuthService {
           instanceName: data.alias || host,
           authType: "pat",
           isCurrent: false,
+          tokenStatus: "unknown",
         });
       } else if (token || data) {
         this.tokenStorageService.clearAll("gitlab", host);
@@ -185,5 +263,9 @@ export class GitlabCustomAuthService {
 
     this.accounts = restoredAccounts;
     this.accountsSubject.next(this.getAccounts());
+
+    for (const host of customHosts) {
+      this.checkTokenValidity(host).subscribe();
+    }
   }
 }

@@ -26,21 +26,27 @@ describe("AddAccountModalComponent", () => {
     cloudFlag$ = new BehaviorSubject<boolean>(false);
     customFlag$ = new BehaviorSubject<boolean>(false);
 
-    githubAuthSpy = jasmine.createSpyObj("GithubAuthService", ["signIn", "signOut", "isSignedIn", "getAccount", "getProfileUrl"], {
-      provider: "github",
-      name: "GitHub",
-      instanceHost: "github.com",
-      token: "mock-token",
-      username: "testuser",
-      avatarUrl: "https://example.com/avatar.jpg",
-      authChange$: new BehaviorSubject<AuthState>({
-        isSignedIn: true,
+    githubAuthSpy = jasmine.createSpyObj(
+      "GithubAuthService",
+      ["signIn", "signOut", "isSignedIn", "getAccount", "getProfileUrl", "checkTokenValidity"],
+      {
+        provider: "github",
+        name: "GitHub",
+        instanceHost: "github.com",
         token: "mock-token",
         username: "testuser",
         avatarUrl: "https://example.com/avatar.jpg",
-        displayName: "Test User",
-      }).asObservable(),
-    });
+        tokenStatus: "valid",
+        authChange$: new BehaviorSubject<AuthState>({
+          isSignedIn: true,
+          token: "mock-token",
+          username: "testuser",
+          avatarUrl: "https://example.com/avatar.jpg",
+          displayName: "Test User",
+          tokenStatus: "valid",
+        }).asObservable(),
+      },
+    );
     githubAuthSpy.isSignedIn.and.returnValue(true);
     githubAuthSpy.getAccount.and.returnValue({
       id: "acc-github-real",
@@ -49,19 +55,21 @@ describe("AddAccountModalComponent", () => {
       username: "testuser",
       avatarUrl: "https://example.com/avatar.jpg",
       isCurrent: true,
+      tokenStatus: "valid",
     });
     githubAuthSpy.getProfileUrl.and.returnValue("https://github.com/testuser");
 
     gitlabAuthSpy = jasmine.createSpyObj(
       "GitlabAuthService",
-      ["signIn", "loginWithPopup", "signOut", "isSignedIn", "getAccount", "getProfileUrl"],
+      ["signIn", "loginWithPopup", "signOut", "isSignedIn", "getAccount", "getProfileUrl", "checkTokenValidity"],
       {
         provider: "gitlab",
         name: "GitLab",
         instanceHost: "gitlab.com",
         token: null,
         currentUser: null,
-        authChange$: new BehaviorSubject({ isSignedIn: false, token: null, user: null }).asObservable(),
+        tokenStatus: "unknown",
+        authChange$: new BehaviorSubject({ isSignedIn: false, token: null, user: null, tokenStatus: "unknown" }).asObservable(),
       },
     );
     gitlabAuthSpy.isSignedIn.and.returnValue(false);

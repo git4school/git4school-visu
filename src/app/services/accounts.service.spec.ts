@@ -6,7 +6,7 @@ import { GitlabCustomAuthService } from "./gitlab-custom-auth.service";
 import { GithubDataService } from "./github-data.service";
 import { GitlabDataService } from "./gitlab-data.service";
 import { Account } from "@models/Account.model";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, of } from "rxjs";
 
 describe("AccountsService", () => {
   let service: AccountsService;
@@ -42,11 +42,13 @@ describe("AccountsService", () => {
       isSignedIn: jasmine.createSpy("isSignedIn").and.returnValue(false),
       getAccount: jasmine.createSpy("getAccount").and.returnValue(null),
       getProfileUrl: jasmine.createSpy("getProfileUrl").and.callFake((u?: string) => `https://github.com/${u || ""}`),
+      checkTokenValidity: jasmine.createSpy("checkTokenValidity").and.returnValue(of(true)),
       authChange$: authChangeMock$.asObservable(),
       token: null,
       username: null,
       avatarUrl: null,
       displayName: null,
+      tokenStatus: "unknown",
     } as any;
 
     gitlabAuthServiceSpy = {
@@ -57,20 +59,33 @@ describe("AccountsService", () => {
       isSignedIn: jasmine.createSpy("isSignedIn").and.returnValue(false),
       getAccount: jasmine.createSpy("getAccount").and.returnValue(null),
       getProfileUrl: jasmine.createSpy("getProfileUrl").and.callFake((u?: string) => `https://gitlab.com/${u || ""}`),
+      checkTokenValidity: jasmine.createSpy("checkTokenValidity").and.returnValue(of(true)),
       authChange$: gitlabAuthChangeMock$.asObservable(),
       token: null,
       currentUser: null,
+      tokenStatus: "unknown",
     } as any;
 
     gitlabCustomAuthSpy = jasmine.createSpyObj(
       "GitlabCustomAuthService",
-      ["getAccounts", "getAccount", "hasAccount", "getProfileUrl", "connectInstance", "disconnectInstance"],
+      [
+        "getAccounts",
+        "getAccount",
+        "hasAccount",
+        "getTokenStatus",
+        "getProfileUrl",
+        "connectInstance",
+        "disconnectInstance",
+        "checkTokenValidity",
+      ],
       {
         accountsChange$: customAuthChangeMock$.asObservable(),
       },
     );
     gitlabCustomAuthSpy.getAccounts.and.returnValue([]);
     gitlabCustomAuthSpy.getAccount.and.returnValue(null);
+    gitlabCustomAuthSpy.getTokenStatus.and.returnValue("unknown");
+    gitlabCustomAuthSpy.checkTokenValidity.and.returnValue(of(true));
     gitlabCustomAuthSpy.getProfileUrl.and.callFake((host: string, u: string) => {
       const clean = (host || "")
         .trim()

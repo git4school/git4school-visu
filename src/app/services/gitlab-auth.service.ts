@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
-import { Account, GitProviderType } from "@models/Account.model";
+import { BehaviorSubject, Observable, from, of } from "rxjs";
+import { catchError, map, switchMap } from "rxjs/operators";
+import { Account, GitProviderType, TokenStatus } from "@models/Account.model";
 import { GitAuthProvider } from "@models/GitAuthProvider.model";
 import { TokenStorageService } from "@services/token-storage.service";
 import { environment } from "../../environments/environment";
@@ -18,6 +19,7 @@ export interface GitlabAuthState {
   isSignedIn: boolean;
   token: string | null;
   user: GitlabUser | null;
+  tokenStatus?: TokenStatus;
 }
 
 interface TokenResponse {
@@ -41,11 +43,13 @@ export class GitlabAuthService implements GitAuthProvider {
   token: string | null = null;
   currentUser: GitlabUser | null = null;
   loading = false;
+  tokenStatus: TokenStatus = "unknown";
 
   public authChange$ = new BehaviorSubject<GitlabAuthState>({
     isSignedIn: false,
     token: null,
     user: null,
+    tokenStatus: "unknown",
   });
 
   private clientId = environment.gitlab?.clientId || "";
@@ -75,6 +79,7 @@ export class GitlabAuthService implements GitAuthProvider {
       username: this.currentUser.username,
       avatarUrl: this.currentUser.avatar_url || null,
       isCurrent: false,
+      tokenStatus: this.tokenStatus,
     };
   }
 
@@ -132,6 +137,7 @@ export class GitlabAuthService implements GitAuthProvider {
 
       this.token = accessToken;
       this.currentUser = user;
+      this.tokenStatus = "valid";
 
       this.tokenStorageService.saveToken("gitlab", accessToken, rememberMe, tokenResponse.expires_in, tokenResponse.refresh_token);
       this.tokenStorageService.saveUserData("gitlab", user, rememberMe);
@@ -171,10 +177,54 @@ export class GitlabAuthService implements GitAuthProvider {
     return this.token;
   }
 
+  checkTokenValidity(): Observable<boolean> {
+    if (!this.isSignedIn()) {
+      this.tokenStatus = "unknown";
+      this.notifyAuthChange();
+      return of(false);
+    }
+
+    return from(this.ensureValidToken()).pipe(
+      switchMap((validToken) => {
+        if (!validToken) {
+          this.tokenStatus = "invalid";
+          this.notifyAuthChange();
+          return of(false);
+        }
+        const userUrl = `${this.instanceUrl}/api/v4/user`;
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${validToken}`,
+        });
+        return this.http.get<GitlabUser>(userUrl, { headers }).pipe(
+          map(() => {
+            this.tokenStatus = "valid";
+            this.notifyAuthChange();
+            return true;
+          }),
+          catchError((err) => {
+            if (err?.status === 401 || err?.status === 403) {
+              this.tokenStatus = "invalid";
+              this.notifyAuthChange();
+            }
+            return of(false);
+          }),
+        );
+      }),
+    );
+  }
+
+  markTokenInvalid(): void {
+    if (this.tokenStatus !== "invalid") {
+      this.tokenStatus = "invalid";
+      this.notifyAuthChange();
+    }
+  }
+
   signOut(): void {
     this.clearRefreshTimer();
     this.token = null;
     this.currentUser = null;
+    this.tokenStatus = "unknown";
     this.tokenStorageService.clearAll("gitlab");
     this.notifyAuthChange();
   }
@@ -443,8 +493,12 @@ export class GitlabAuthService implements GitAuthProvider {
           this.scheduleProactiveRefresh(remainingSeconds);
         }
       }
+      this.checkTokenValidity().subscribe();
     } else if (storedToken || storedRefreshToken || storedUser) {
+      this.tokenStatus = "unknown";
       this.tokenStorageService.clearAll("gitlab");
+    } else {
+      this.tokenStatus = "unknown";
     }
   }
 
@@ -453,6 +507,7 @@ export class GitlabAuthService implements GitAuthProvider {
       isSignedIn: this.isSignedIn(),
       token: this.token,
       user: this.currentUser,
+      tokenStatus: this.tokenStatus,
     });
   }
 }

@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy, Optional } from "@angular/core";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { BehaviorSubject, Observable, Subscription, of } from "rxjs";
 import { GithubAuthService } from "@services/github-auth.service";
 import { GitlabAuthService } from "@services/gitlab-auth.service";
 import { GitlabCustomAuthService } from "@services/gitlab-custom-auth.service";
 import { GithubDataService } from "@services/github-data.service";
 import { GitlabDataService } from "@services/gitlab-data.service";
-import { Account, GitProviderType } from "@models/Account.model";
+import { Account, GitProviderType, TokenStatus } from "@models/Account.model";
 import { GitAuthProvider } from "@models/GitAuthProvider.model";
 import { GitDataService } from "@models/GitDataService.model";
 
@@ -98,6 +98,38 @@ export class AccountsService implements OnDestroy {
 
   getProvider(providerType: GitProviderType): GitAuthProvider | undefined {
     return this.providers.get(providerType);
+  }
+
+  getActiveProvider(providerType: GitProviderType = "github"): GitAuthProvider | undefined {
+    return this.providers.get(providerType);
+  }
+
+  getTokenStatus(providerType: GitProviderType = "github", instanceHost?: string): TokenStatus {
+    if (providerType === "gitlab" && instanceHost && instanceHost !== "gitlab.com" && this.gitlabCustomAuthService) {
+      return this.gitlabCustomAuthService.getTokenStatus(instanceHost);
+    }
+    const provider = this.providers.get(providerType);
+    return provider?.tokenStatus || "unknown";
+  }
+
+  checkTokenValidity(providerType: GitProviderType = "github", instanceHost?: string): Observable<boolean> {
+    if (providerType === "gitlab" && instanceHost && instanceHost !== "gitlab.com" && this.gitlabCustomAuthService) {
+      return this.gitlabCustomAuthService.checkTokenValidity(instanceHost);
+    }
+    const provider = this.providers.get(providerType);
+    if (provider) {
+      return provider.checkTokenValidity();
+    }
+    return of(false);
+  }
+
+  checkAllTokens(): void {
+    for (const provider of this.providers.values()) {
+      if (provider.isSignedIn()) {
+        provider.checkTokenValidity().subscribe();
+      }
+    }
+    this.gitlabCustomAuthService?.checkTokenValidity().subscribe();
   }
 
   disconnectAccount(id: string): void {
