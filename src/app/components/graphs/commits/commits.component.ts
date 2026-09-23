@@ -679,6 +679,20 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     d3.select(document.body).on("wheel.body", (e) => {});
     this.zoom = d3
       .zoom()
+      .interpolate((p0: [number, number, number], p1: [number, number, number]) => {
+        const x0 = p0[0],
+          y0 = p0[1],
+          w0 = Math.max(1e-6, p0[2]);
+        const x1 = p1[0],
+          y1 = p1[1],
+          w1 = Math.max(1e-6, p1[2]);
+        const dx = x1 - x0,
+          dy = y1 - y0;
+        return (t: number) => {
+          const wt = w0 === w1 ? w0 : w0 * Math.pow(w1 / w0, t);
+          return [x0 + t * dx, y0 + t * dy, wt];
+        };
+      })
       .on("start", (event) => {
         overview.hovered_commit = undefined;
         overview.hovered_group_commit = undefined;
@@ -3490,7 +3504,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
         const diffEnd = aEnd - bEnd;
         if (diffEnd !== 0) return diffEnd;
-        return (a.id || "").localeCompare(b.id || "");
+        return (a.label || "").localeCompare(b.label || "");
       });
   }
 
@@ -3506,7 +3520,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         (s) =>
           this.getSessionKeyNum(s) === this.getSessionKeyNum(this.lastFocusedSession) &&
           s.tpGroup === this.lastFocusedSession.tpGroup &&
-          (s.id && this.lastFocusedSession.id ? s.id === this.lastFocusedSession.id : true),
+          (s.label && this.lastFocusedSession.label ? s.label === this.lastFocusedSession.label : true),
       );
     }
 
@@ -3546,7 +3560,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             (s) =>
               this.getSessionKeyNum(s) === this.getSessionKeyNum(targetSession) &&
               s.tpGroup === targetSession.tpGroup &&
-              (s.id && targetSession.id ? s.id === targetSession.id : true),
+              (s.label && targetSession.label ? s.label === targetSession.label : true),
           );
           if (sessionIdx !== -1) {
             const groupId = this.getGroupId(group);
