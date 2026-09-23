@@ -398,3 +398,37 @@ body.dark-theme .commit {
     user-select: none;
   }
 }
+
+/* Session edge arrows — Navigation entre séances superposées
+ * Ghost par défaut, reveal au hover, feedback physique au clic.
+ * Padding étendu pour une zone de clic confortable sans encombrer. */
+.session-edge-arrow {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Larger padding = larger hit area, CSS clip-path keeps visual size small */
+  padding: 4px 6px;
+  flex-shrink: 0;
+  will-change: transform;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform 120ms ease-out;
+
+  svg {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: var(--color-background-secondary);
+    border-color: var(--color-border);
+    color: var(--color-primary);
+  }
+
+  &:active {
+    transform: scale(0.88);
+  }
+}

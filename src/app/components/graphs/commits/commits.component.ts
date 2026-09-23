@@ -34,10 +34,9 @@ import { OsUtils } from "@utils/os.utils";
 import * as d3 from "d3";
 import * as moment from "moment";
 import { Repository } from "../../../models/Repository.model";
-import { tick } from "@angular/core/testing";
-import { rejects } from "assert";
-import { Utils } from "../../../services/utils";
+import { Utils } from "@services/utils";
 import { FilterGroup } from "@components/questions-chooser/questions-chooser.component";
+import { SessionHeaderRenderer } from "./session-header-renderer";
 
 @Component({
   selector: "commits",
@@ -117,6 +116,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   other_g: d3.Selection<any, any, any, any>;
   session_g: d3.Selection<any, any, any, any>;
   session_header_g: d3.Selection<any, any, any, any>;
+  overlapGroups: Session[][] = [];
+  activeSessionIndices: Map<string, number> = new Map();
   review_g: d3.Selection<any, any, any, any>;
   correction_g: d3.Selection<any, any, any, any>;
   milestones_g: d3.Selection<any, any, any, any>;
@@ -223,6 +224,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       }
     }
   }
+
 
   saveMarkerPreferences() {
     const preferences = {
@@ -639,7 +641,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
 
     if (this.hovered_g && (this.hovered_commit || this.hovered_group_commit)) {
-      if (this.hovered_g.select(":hover").empty()) {
+      const node = this.hovered_g.node();
+      if (!node || !node.isConnected || this.hovered_g.select(":hover").empty()) {
         this.hovered_commit = undefined;
         this.hovered_group_commit = undefined;
         this.hovered_g = null;
@@ -677,9 +680,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.zoom = d3
       .zoom()
       .on("start", (event) => {
-        if (event.sourceEvent != null) {
-          overview.overlayManagerService.dismissAll({ blurInput: true });
-        }
+        overview.hovered_commit = undefined;
+        overview.hovered_group_commit = undefined;
+        overview.hovered_g = null;
+        overview.tooltipService.hide();
+        overview.overlayManagerService.dismissAll({ blurInput: true });
       })
       .on("zoom", (event) => {
         if (overview.drag || !overview.x_scale) {
@@ -1311,7 +1316,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .style("display", rawX2 >= 0 && rawX2 <= this.inner_width ? "inline" : "none");
   }
 
-  buildSessionHeader(g: d3.Selection<any, any, any, any>, session: Session) {
+  buildSessionHeader(g: d3.Selection<any, any, any, any>, session: Session, overlapGroup?: Session[]) {
     const overview = this;
     const sessionKey = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
 
@@ -1349,14 +1354,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const hasNotes = !!(session.notes && session.notes.trim().length > 0);
     const groupName = session.tpGroup || "";
 
-    const usersSvg =
-      '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>';
+    /* prettier-ignore */
+    // eslint-disable-next-line @typescript-eslint/quotes, max-len
+    const usersSvg = '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>';
 
-    const calendarSvg =
-      '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
+    /* prettier-ignore */
+    // eslint-disable-next-line @typescript-eslint/quotes, max-len
+    const calendarSvg = '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
 
-    const noteSvg =
-      '<svg style="width: 10px; height: 10px; min-width: 10px; min-height: 10px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
+    /* prettier-ignore */
+    // eslint-disable-next-line @typescript-eslint/quotes, max-len
+    const noteSvg = '<svg style="width: 10px; height: 10px; min-width: 10px; min-height: 10px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
 
     // 1. Continuous header background filling top strip behind pills
     group
@@ -1415,42 +1423,18 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .style("pointer-events", "auto")
       .style("overflow", "hidden");
 
-    fo.html(`
-      <div class="session-header-inner d-flex align-items-center" style="gap: 4px; height: 23px; padding: 0 4px; pointer-events: auto; overflow: hidden; width: 100%;">
-        <!-- Pill 1: Nom de la séance -->
-        <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 20px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
-          ${calendarSvg}
-          <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
-        </span>
-        <!-- Pill 2: Groupe de TP -->
-        ${
-          groupName
-            ? `
-        <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 20px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
-          ${usersSvg}
-          <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
-        </span>`
-            : ""
-        }
-        <!-- Pill 3: Note button directly following TP Group / Name -->
-        ${
-          hasNotes
-            ? `
-        <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto;">
-          ${noteSvg}
-        </span>`
-            : ""
-        }
-        <!-- More indicator (...) when some info is hidden -->
-        <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 20px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0;">
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
-            <circle cx="2.5" cy="8" r="1.8" />
-            <circle cx="8" cy="8" r="1.8" />
-            <circle cx="13.5" cy="8" r="1.8" />
-          </svg>
-        </span>
-      </div>
-    `);
+    SessionHeaderRenderer.renderHeader({
+      session,
+      overlapGroup,
+      overview,
+      displayName,
+      groupName,
+      hasNotes,
+      fo,
+      calendarSvg,
+      usersSvg,
+      noteSvg,
+    });
 
     if (hasNotes) {
       group
@@ -1522,6 +1506,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       (session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter,
     );
 
+    this.overlapGroups = this.computeOverlapGroups(loaded_sessions);
+    const newActiveIndices = new Map<string, number>();
+    for (const group of this.overlapGroups) {
+      if (group.length > 1) {
+        const groupId = this.getGroupId(group);
+        const existingIdx = this.activeSessionIndices.get(groupId);
+        newActiveIndices.set(groupId, existingIdx !== undefined && existingIdx < group.length ? existingIdx : 0);
+      }
+    }
+    this.activeSessionIndices = newActiveIndices;
+
     this.session_g = this.data_g.insert("g", () => (this.repository_g ? this.repository_g.node() : null));
 
     if (this.chart_abs_g) {
@@ -1557,11 +1552,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         .data(loaded_sessions)
         .enter()
         .each(function (d: Session) {
-          overview.buildSessionHeader(d3.select(this), d);
+          overview.buildSessionHeader(d3.select(this), d, overview.getSessionOverlapGroup(d));
         });
     }
 
     this.updateSessionsTransforms();
+    this.updateSessionVisibility();
   }
 
   private resolveMilestoneType(m?: Milestone, g?: d3.Selection<any, any, any, any>): string {
@@ -2526,8 +2522,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_repository = undefined;
       })
       .on("mouseleave", () => {
-        if (this.hovered_g === g) {
-          this.hovered_g = undefined;
+        if (this.hovered_g?.node() === g.node()) {
+          this.hovered_g = null;
           this.hovered_group_commit = undefined;
         }
       })
@@ -2557,9 +2553,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         .style("--y-offset", `${-CommitsComponent.GROUP_HEIGHT / 2}px`)
         .attr("fill", commit.color.color)
         .attr("class", "data")
-        .on("mouseenter", (e, d) => (this.hovered_group_commit = d))
+        .on("mouseenter", (e, d) => {
+          this.hovered_commit = undefined;
+          this.hovered_group_commit = d;
+          this.hovered_g = g;
+          this.hovered_repository = undefined;
+        })
         .on("mouseleave", () => {
-          this.hovered_group_commit = undefined;
+          if (this.hovered_g?.node() === g.node()) {
+            this.hovered_g = null;
+            this.hovered_group_commit = undefined;
+          }
         });
 
       g.on("click", (e, d) => {
@@ -2805,9 +2809,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   private splitCommitGroup(g: any, commits: Commit[], repo_g: any) {
-    if (this.hovered_g === g) {
-      this.hovered_g = undefined;
+    if (this.hovered_g?.node() === g.node() || this.hovered_group_commit === commits) {
+      this.hovered_g = null;
       this.hovered_group_commit = undefined;
+      this.tooltipService.hide();
     }
     let before = undefined;
     g.remove();
@@ -3122,13 +3127,20 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           namePill.select(".session-name-text").text(displayName);
         }
 
-        if (foWidth < 28) {
+        const overlapGroup = overview.getSessionOverlapGroup(s);
+        const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
+        const navReservedWidth = isOverlap ? 74 : 0; // Left arrow (~22px) + Right arrow (~22px) + Counter (~22px) + gaps (~8px)
+        const minFoWidth = isOverlap ? 48 : 28;
+
+        if (foWidth < minFoWidth) {
           // Extremely narrow: hide badges completely
           fo.style("display", "none").style("visibility", "hidden");
           return;
         }
 
         fo.style("display", null).style("visibility", "visible");
+
+        const availWidth = Math.max(0, foWidth - navReservedWidth);
 
         // Width estimations
         const charWidth = 6.2;
@@ -3143,7 +3155,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         // Total needed to display all available session elements in full
         const neededAll = nameNeeded + (hasGroup ? gap + groupNeeded : 0) + (hasNotes ? gap + noteBtnWidth : 0) + padTotal;
 
-        if (foWidth >= neededAll) {
+        if (availWidth >= neededAll) {
           // Case 1: Everything fits without truncation
           if (!namePill.empty()) {
             namePill.style("display", "inline-flex").style("max-width", "none");
@@ -3163,7 +3175,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           const neededNameAndGroup = nameNeeded + (hasGroup ? gap + groupNeeded : 0) + padTotal;
           const neededNameGroupMore = neededNameAndGroup + (hasNotes ? gap + moreBtnWidth : 0);
 
-          if (hasGroup && foWidth >= neededNameGroupMore) {
+          if (hasGroup && availWidth >= neededNameGroupMore) {
             // Name full, Group full, Note dropped -> show "..." if hasNotes
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", "none");
@@ -3177,9 +3189,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             if (!moreBtn.empty()) {
               moreBtn.style("display", hasNotes ? "inline-flex" : "none");
             }
-          } else if (hasGroup && foWidth >= nameNeeded + gap + 38 + (hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
+          } else if (hasGroup && availWidth >= nameNeeded + gap + 38 + (hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
             // Name full, Group truncated with ellipsis, Note dropped -> show "..." if hasNotes
-            const availableForGroup = foWidth - nameNeeded - (hasNotes ? gap + moreBtnWidth : 0) - gap - padTotal;
+            const availableForGroup = availWidth - nameNeeded - (hasNotes ? gap + moreBtnWidth : 0) - gap - padTotal;
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", "none");
             }
@@ -3190,9 +3202,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
               noteBtn.style("display", "none");
             }
             if (!moreBtn.empty()) {
-              moreBtn.style("display", hasNotes ? "inline-flex" : "none");
+              moreBtn.style("display", "inline-flex");
             }
-          } else if (foWidth >= nameNeeded + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
+          } else if (availWidth >= nameNeeded + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
             // Name full, Group dropped, Note dropped -> show "..." if hasGroup or hasNotes
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", "none");
@@ -3206,9 +3218,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             if (!moreBtn.empty()) {
               moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
             }
-          } else if (foWidth >= 38 + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
+          } else if (availWidth >= 38 + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
             // Name truncated with ellipsis, Group & Note dropped -> show "..." if hasGroup or hasNotes
-            const availableForName = foWidth - (hasGroup || hasNotes ? gap + moreBtnWidth : 0) - padTotal;
+            const availableForName = availWidth - (hasGroup || hasNotes ? gap + moreBtnWidth : 0) - padTotal;
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", `${Math.max(34, availableForName)}px`);
             }
@@ -3221,10 +3233,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             if (!moreBtn.empty()) {
               moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
             }
-          } else if (foWidth >= 38) {
+          } else if (availWidth >= 38) {
             // Only enough room for Name truncated with ellipsis
             if (!namePill.empty()) {
-              namePill.style("display", "inline-flex").style("max-width", `${foWidth - 6}px`);
+              namePill.style("display", "inline-flex").style("max-width", `${availWidth - 6}px`);
             }
             if (!groupPill.empty()) {
               groupPill.style("display", "none");
@@ -3236,7 +3248,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
               moreBtn.style("display", "none");
             }
           } else {
-            // Width between 28px and 38px:
+            // Width between minFoWidth and 38px:
             // Too small for Name pill, show "..." badge representing the hidden session info
             if (!namePill.empty()) {
               namePill.style("display", "none");
@@ -3255,6 +3267,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       });
     }
     this.updateMilestoneCutoutMask();
+    this.updateSessionVisibility();
   }
 
   private updateMilestoneTransforms() {
@@ -3383,6 +3396,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   zoomToGroup(commits: Commit[], range: number) {
     if (!commits || commits.length < 2 || range <= 0) return;
+    this.hovered_commit = undefined;
+    this.hovered_group_commit = undefined;
+    this.hovered_g = null;
+    this.tooltipService.hide();
     this.overlayManagerService.dismissAll();
 
     let time_domain = this.x_scale.domain();
@@ -3499,5 +3516,80 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   private saveData() {
     this.updateAfterMilestoneChange();
+  }
+
+  private computeOverlapGroups(sessions: Session[]): Session[][] {
+    const sorted = [...sessions].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+    const groups: Session[][] = [];
+    const visited = new Set<Session>();
+    for (const session of sorted) {
+      if (visited.has(session)) continue;
+      const group: Session[] = [session];
+      visited.add(session);
+      let changed = true;
+      while (changed) {
+        changed = false;
+        for (const other of sorted) {
+          if (visited.has(other)) continue;
+          if (group.some((s) => this.sessionsOverlap(s, other))) {
+            group.push(other);
+            visited.add(other);
+            changed = true;
+          }
+        }
+      }
+      groups.push(group.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()));
+    }
+    return groups;
+  }
+
+  private sessionsOverlap(a: Session, b: Session): boolean {
+    const aStart = new Date(a.startDate).getTime();
+    const aEnd = new Date(a.endDate).getTime();
+    const bStart = new Date(b.startDate).getTime();
+    const bEnd = new Date(b.endDate).getTime();
+    return aStart < bEnd && bStart < aEnd;
+  }
+
+  public getGroupId(group: Session[]): string {
+    return String(new Date(group[0].startDate).getTime());
+  }
+
+  public getSessionKeyNum(session: Session): number {
+    return session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+  }
+
+  public getSessionOverlapGroup(session: Session): Session[] | null {
+    return this.overlapGroups.find((g) => g.includes(session)) || null;
+  }
+
+  public updateSessionVisibility() {
+    if (!this.overlapGroups || !this.session_g) return;
+    for (const group of this.overlapGroups) {
+      if (group.length <= 1) continue;
+      const groupId = this.getGroupId(group);
+      const activeIdx = this.activeSessionIndices.get(groupId) ?? 0;
+      group.forEach((session, idx) => {
+        const key = this.getSessionKeyNum(session);
+        const isActive = idx === activeIdx;
+        this.session_g.select(`.session-group-${key}`).style("opacity", isActive ? null : "0.25");
+        if (!this.session_header_g) return;
+        const hdrGroup = this.session_header_g.select(`.session-hdr-group-${key}`);
+        if (hdrGroup.empty()) return;
+        if (!isActive) {
+          hdrGroup.style("display", "none").style("visibility", "hidden");
+        } else {
+          const rawX1 = this.xScaledTimeZoned(session.startDate);
+          const rawX2 = this.xScaledTimeZoned(session.endDate);
+          const isInViewport =
+            !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < this.inner_width && Math.max(0, rawX2 - Math.max(0, rawX1)) > 0;
+          if (isInViewport) {
+            hdrGroup.style("display", null).style("visibility", null);
+          } else {
+            hdrGroup.style("display", "none").style("visibility", "hidden");
+          }
+        }
+      });
+    }
   }
 }
