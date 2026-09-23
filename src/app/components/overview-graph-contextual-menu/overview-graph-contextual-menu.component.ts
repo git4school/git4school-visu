@@ -1,13 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  NgZone,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from "@angular/core";
+import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { EditMilestoneComponent } from "@components/edit-milestone/edit-milestone.component";
 import { EditSessionComponent } from "@components/edit-session/edit-session.component";
 import { Milestone } from "@models/Milestone.model";
@@ -55,23 +46,16 @@ export class OverviewGraphContextualMenuComponent implements OnInit, OnDestroy {
   constructor(
     private customModalService: CustomModalService,
     private overlayManagerService: OverlayManagerService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
   ) {}
 
   ngOnInit(): void {
     this.setEditModes(false, false);
-    this.overlayManagerService.dismiss$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((event) => {
-        if (
-          OverlayManagerService.shouldDismiss(
-            OverlayType.CONTEXT_MENU,
-            event
-          )
-        ) {
-          this.close();
-        }
-      });
+    this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+      if (OverlayManagerService.shouldDismiss(OverlayType.CONTEXT_MENU, event)) {
+        this.close();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -151,14 +135,13 @@ export class OverviewGraphContextualMenuComponent implements OnInit, OnDestroy {
 
   addMilestone() {
     this.milestone = null;
-    this.openMilestoneModal(
-      new Milestone(this.date, "", void 0, this.groupFilter)
-    );
+    this.openMilestoneModal(new Milestone(this.date, "", void 0, this.groupFilter));
   }
 
   addSession() {
     this.session = null;
-    let endDate = Utils.addTimeToDate(this.date, this.defaultSessionDuration);
+    this.editSessionMode = false;
+    const endDate = Utils.addTimeToDate(this.date, this.defaultSessionDuration);
     this.openSessionModal(new Session(this.date, endDate, this.groupFilter));
   }
 
@@ -171,10 +154,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit, OnDestroy {
   }
 
   openMilestoneModal(milestone: Milestone) {
-    let modalReference = this.customModalService.open(
-      EditMilestoneComponent,
-      {}
-    );
+    let modalReference = this.customModalService.open(EditMilestoneComponent, {});
     modalReference.componentInstance.milestone = milestone;
     modalReference.componentInstance.addMode = !this.editMilestoneMode;
     modalReference.componentInstance.tpGroups = this.tpGroups;
@@ -190,8 +170,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit, OnDestroy {
   openSessionModal(session: Session) {
     let modalReference = this.customModalService.open(EditSessionComponent, {});
     modalReference.componentInstance.session = session;
-    modalReference.componentInstance.defaultSessionDuration =
-      this.defaultSessionDuration;
+    modalReference.componentInstance.defaultSessionDuration = this.defaultSessionDuration;
     modalReference.componentInstance.addMode = !this.editSessionMode;
     modalReference.componentInstance.tpGroups = this.tpGroups;
     modalReference.result
