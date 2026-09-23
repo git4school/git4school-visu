@@ -889,11 +889,21 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           event.preventDefault();
           event.stopPropagation();
           const rawDate = overview.getDateFromMouseEvent(event);
-          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+          const session = overview.resolveSessionAtDate(rawDate);
+          if (session) {
+            overview.selectAndActivateSession(session, event.pageX, event.pageY, rawDate);
+          } else {
+            overview.openContextMenu(event.pageX, event.pageY, rawDate);
+          }
         })
         .on("click", (event: MouseEvent) => {
           const rawDate = overview.getDateFromMouseEvent(event);
-          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+          const session = overview.resolveSessionAtDate(rawDate);
+          if (session) {
+            overview.selectAndActivateSession(session, event.pageX, event.pageY, rawDate);
+          } else {
+            overview.openContextMenu(event.pageX, event.pageY, rawDate);
+          }
         })
         .on("wheel", (event: WheelEvent) => {
           if (event.shiftKey) return;
@@ -924,11 +934,21 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         event.preventDefault();
         event.stopPropagation();
         const rawDate = this.getDateFromMouseEvent(event);
-        this.openContextMenu(event.pageX, event.pageY, rawDate);
+        const session = this.resolveSessionAtDate(rawDate);
+        if (session) {
+          this.selectAndActivateSession(session, event.pageX, event.pageY, rawDate);
+        } else {
+          this.openContextMenu(event.pageX, event.pageY, rawDate);
+        }
       })
       .on("click", (event: MouseEvent) => {
         const rawDate = this.getDateFromMouseEvent(event);
-        this.openContextMenu(event.pageX, event.pageY, rawDate);
+        const session = this.resolveSessionAtDate(rawDate);
+        if (session) {
+          this.selectAndActivateSession(session, event.pageX, event.pageY, rawDate);
+        } else {
+          this.openContextMenu(event.pageX, event.pageY, rawDate);
+        }
       });
 
     d3.select(".chart-container")
@@ -1280,28 +1300,24 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .on("contextmenu", (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const targetSession = overview.getActiveSession(session);
-        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
-        const targetSession = overview.getActiveSession(session);
-        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("mouseenter", () => {
-        const targetSession = overview.getActiveSession(session);
-        const activeKey = overview.getSessionKeyNum(targetSession);
-        d3.selectAll(`.session-bg-${activeKey}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${activeKey}`).style("stroke-opacity", "0.55");
+        const key = overview.getSessionKeyNum(session);
+        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        const targetSession = overview.getActiveSession(session);
-        const activeKey = overview.getSessionKeyNum(targetSession);
-        d3.selectAll(`.session-bg-${activeKey}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${activeKey}`).style("stroke-opacity", null);
+        const key = overview.getSessionKeyNum(session);
+        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1352,28 +1368,24 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .on("contextmenu", (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const targetSession = overview.getActiveSession(session);
-        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
-        const targetSession = overview.getActiveSession(session);
-        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("mouseenter", () => {
-        const targetSession = overview.getActiveSession(session);
-        const activeKey = overview.getSessionKeyNum(targetSession);
-        d3.selectAll(`.session-bg-${activeKey}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${activeKey}`).style("stroke-opacity", "0.55");
+        const key = overview.getSessionKeyNum(session);
+        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        const targetSession = overview.getActiveSession(session);
-        const activeKey = overview.getSessionKeyNum(targetSession);
-        d3.selectAll(`.session-bg-${activeKey}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${activeKey}`).style("stroke-opacity", null);
+        const key = overview.getSessionKeyNum(session);
+        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1498,9 +1510,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         .on("click", (e: MouseEvent) => {
           e.stopPropagation();
           const targetSession = overview.getActiveSession(session);
-          overview.lastFocusedSession = targetSession;
           const rawDate = overview.getDateFromMouseEvent(e);
-          overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
+          overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
         });
     }
 
@@ -1533,9 +1544,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .on("click", (e: MouseEvent) => {
         e.stopPropagation();
         const targetSession = overview.getActiveSession(session);
-        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       });
   }
 
@@ -3730,6 +3740,80 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return group[activeIdx] ?? session;
   }
 
+  public sessionCoversTime(session: Session, time: number): boolean {
+    if (!session || !session.startDate || !session.endDate) return false;
+    const start = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+    const end = session.endDate instanceof Date ? session.endDate.getTime() : new Date(session.endDate).getTime();
+    return time >= Math.min(start, end) && time <= Math.max(start, end);
+  }
+
+  public resolveSessionAtDate(rawDate: Date, preferredSession?: Session): Session | null {
+    if (!rawDate || isNaN(rawDate.getTime())) return preferredSession || null;
+    const time = rawDate.getTime();
+
+    // 1. If preferredSession is provided:
+    if (preferredSession) {
+      const activeSession = this.getActiveSession(preferredSession);
+      if (activeSession && activeSession !== preferredSession && this.sessionCoversTime(activeSession, time)) {
+        return activeSession;
+      }
+      if (this.sessionCoversTime(preferredSession, time)) {
+        return preferredSession;
+      }
+      const group = this.getSessionOverlapGroup(preferredSession);
+      if (group) {
+        const covering = group.find((s) => this.sessionCoversTime(s, time));
+        if (covering) return covering;
+      }
+    }
+
+    // 2. No preferredSession or preferredSession does not cover time:
+    const visibleSessions = (this.dataService.sessions || []).filter(
+      (s) => !this.dataService.groupFilter || !s.tpGroup || s.tpGroup === this.dataService.groupFilter,
+    );
+    const candidates = visibleSessions.filter((s) => this.sessionCoversTime(s, time));
+    if (candidates.length === 0) return null;
+    if (candidates.length === 1) return candidates[0];
+
+    // If multiple candidates overlap at this time, prioritize currently active session
+    for (const cand of candidates) {
+      const active = this.getActiveSession(cand);
+      if (active === cand) {
+        return cand;
+      }
+    }
+
+    if (this.lastFocusedSession && candidates.includes(this.lastFocusedSession)) {
+      return this.lastFocusedSession;
+    }
+
+    return candidates[0];
+  }
+
+  public selectAndActivateSession(session: Session, x: number, y: number, date: Date) {
+    if (!session) return;
+    const group = this.getSessionOverlapGroup(session);
+    if (group && group.length > 1) {
+      const idx = group.findIndex(
+        (s) =>
+          this.getSessionKeyNum(s) === this.getSessionKeyNum(session) &&
+          s.tpGroup === session.tpGroup &&
+          (s.label && session.label ? s.label === session.label : true),
+      );
+      if (idx !== -1) {
+        const groupId = this.getGroupId(group);
+        const currentIdx = this.activeSessionIndices.get(groupId);
+        if (currentIdx !== idx) {
+          this.activeSessionIndices.set(groupId, idx);
+          this.updateSessionsTransforms();
+          this.updateSessionVisibility(true);
+        }
+      }
+    }
+    this.lastFocusedSession = session;
+    this.openEditSessionContextMenu(session, x, y, date);
+  }
+
   public updateSessionVisibility(shouldRaise = false) {
     if (!this.overlapGroups || !this.session_g) return;
     for (const group of this.overlapGroups) {
@@ -3746,7 +3830,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             bodyGroup.raise();
           }
         } else {
-          bodyGroup.style("opacity", "0.25").style("pointer-events", "none");
+          bodyGroup.style("opacity", "0.25").style("pointer-events", "auto");
         }
         if (!this.session_header_g) return;
         const hdrGroup = this.session_header_g.select(`.session-hdr-group-${key}`);
