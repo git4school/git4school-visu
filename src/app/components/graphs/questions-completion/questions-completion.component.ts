@@ -9,6 +9,7 @@ import { TooltipService } from "@services/tooltip.service";
 import { ThemeService } from "@services/theme.service";
 import { AnonymizationService } from "@services/anonymization.service";
 import { Subscription } from "rxjs";
+import { skip } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
 import { Utils } from "../../../services/utils";
 import { OsUtils } from "@utils/os.utils";
@@ -59,7 +60,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
       this.translateService.onLangChange.subscribe(() => {
         this.loadGraphDataAndRefresh();
       });
-      this.anonymizationService.isAnonymous$.subscribe(() => {
+      this.anonymizationService.isAnonymous$.pipe(skip(1)).subscribe(() => {
         this.loadGraphDataAndRefresh();
       });
 

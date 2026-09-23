@@ -4,7 +4,7 @@ import { QuestionClosingMode } from "@models/Metadata.model";
 import { Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, of } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { AccountsService } from "./accounts.service";
 import { CommitsService } from "./commits.service";
 import { DataService } from "./data.service";
@@ -88,15 +88,7 @@ export class LoaderService {
     }
 
     if (tokenStatus === "unknown") {
-      return this.accountsService.checkTokenValidity(provider, instanceHost).pipe(
-        switchMap((isValid) => {
-          if (!isValid) {
-            this.showInvalidTokenToast(provider);
-            return of(undefined);
-          }
-          return this.executeLoadRepositories(startDate, endDate);
-        }),
-      );
+      this.accountsService.checkTokenValidity(provider, instanceHost).subscribe();
     }
 
     return this.executeLoadRepositories(startDate, endDate);

@@ -155,27 +155,100 @@ export class SessionHeaderRenderer {
 
     const getIdx = () => overview.activeSessionIndices.get(groupId) ?? 0;
 
-    this.attachTooltip(fo.select(".session-edge-prev"), svc, () => {
-      const prev = (getIdx() - 1 + len) % len;
-      return `Séance précédente (${prev + 1}/${len})`;
-    });
+    this.attachTooltip(
+      fo.select(".session-edge-prev"),
+      svc,
+      () => {
+        const prevIdx = (getIdx() - 1 + len) % len;
+        const targetSession = overlapGroup[prevIdx];
+        const title = `Séance précédente (${prevIdx + 1}/${len})`;
+        return this.buildSessionTooltipHtml(title, targetSession, overview);
+      },
+      "bottom",
+      "270px",
+    );
     fo.select(".session-edge-prev").on("click", (e: MouseEvent) => {
       e.stopPropagation();
       svc.hide();
-      overview.activeSessionIndices.set(groupId, (getIdx() - 1 + len) % len);
+      const prevIdx = (getIdx() - 1 + len) % len;
+      overview.activeSessionIndices.set(groupId, prevIdx);
+      const targetSession = overlapGroup[prevIdx];
+      overview.lastFocusedSession = targetSession;
       overview.updateSessionsTransforms();
+      overview.updateSessionVisibility(true);
+      overview.zoomToSession(targetSession);
     });
 
-    this.attachTooltip(fo.select(".session-edge-next"), svc, () => {
-      const next = (getIdx() + 1) % len;
-      return `Séance suivante (${next + 1}/${len})`;
-    });
+    this.attachTooltip(
+      fo.select(".session-edge-next"),
+      svc,
+      () => {
+        const nextIdx = (getIdx() + 1) % len;
+        const targetSession = overlapGroup[nextIdx];
+        const title = `Séance suivante (${nextIdx + 1}/${len})`;
+        return this.buildSessionTooltipHtml(title, targetSession, overview);
+      },
+      "bottom",
+      "270px",
+    );
     fo.select(".session-edge-next").on("click", (e: MouseEvent) => {
       e.stopPropagation();
       svc.hide();
-      overview.activeSessionIndices.set(groupId, (getIdx() + 1) % len);
+      const nextIdx = (getIdx() + 1) % len;
+      overview.activeSessionIndices.set(groupId, nextIdx);
+      const targetSession = overlapGroup[nextIdx];
+      overview.lastFocusedSession = targetSession;
       overview.updateSessionsTransforms();
+      overview.updateSessionVisibility(true);
+      overview.zoomToSession(targetSession);
     });
+  }
+
+  /* -------------------------------------------------------------
+   * Helper : Construit la carte tooltip riche d'une séance cible
+   * ------------------------------------------------------------- */
+  private static buildSessionTooltipHtml(title: string, session: Session, overview: any): string {
+    const sName = this.escapeHtml(overview.getSessionDisplayName(session));
+    const sGroup = session.tpGroup ? this.escapeHtml(session.tpGroup) : "";
+    const timeFormatted = this.escapeHtml(overview.formatSessionTime(session));
+    const hasNotes = !!(session.notes && session.notes.trim().length > 0);
+    const notesEscaped = hasNotes ? this.escapeHtml(session.notes.trim()) : "";
+
+    return `
+      <div style="text-align: left; min-width: 180px; max-width: 260px; font-family: inherit;">
+        <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-text-muted); margin-bottom: 4px;">
+          ${title}
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 3px;">
+          <span style="font-weight: 600; color: var(--color-primary); font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            ${sName}
+          </span>
+          ${
+            sGroup
+              ? `<span class="badge" style="display: inline-flex; align-items: center; background: rgba(56, 189, 248, 0.15); color: var(--color-text-secondary); font-size: 0.72rem; font-weight: 500; border-radius: 9999px; padding: 1px 7px; height: 18px; line-height: 1; flex-shrink: 0;">${sGroup}</span>`
+              : ""
+          }
+        </div>
+        <div style="font-size: 0.78rem; color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px; margin-bottom: ${
+          hasNotes ? "6px" : "0"
+        };">
+          <i class="far fa-clock" style="font-size: 10px;"></i>
+          <span>${timeFormatted}</span>
+        </div>
+        ${
+          hasNotes
+            ? `<div style="border-top: 1px solid var(--color-border); padding-top: 5px; margin-top: 5px;">
+          <p style="margin-bottom: 0; font-size: 0.8rem; color: var(--color-text-primary); white-space: pre-wrap; line-height: 1.3; max-height: 80px; overflow-y: auto;">${notesEscaped}</p>
+        </div>`
+            : ""
+        }
+      </div>
+    `;
+  }
+
+  private static escapeHtml(str: string): string {
+    if (!str) return "";
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
 
   /* -------------------------------------------------------------
@@ -186,10 +259,11 @@ export class SessionHeaderRenderer {
     svc: any,
     getText: () => string,
     placement: "top" | "bottom" | "left" | "right" = "bottom",
+    maxWidth?: string | number,
   ): void {
     selection
       .on("mouseenter", function (this: HTMLElement) {
-        svc.show(getText(), this, placement);
+        svc.show(getText(), this, placement, undefined, maxWidth);
       })
       .on("mouseleave", () => svc.hide())
       .on("mousedown", () => svc.hide());
