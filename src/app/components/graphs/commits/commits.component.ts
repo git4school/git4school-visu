@@ -27,7 +27,7 @@ import { TooltipService } from "@services/tooltip.service";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 import { AnonymizationService } from "@services/anonymization.service";
 import { Subject, Subscription, concat } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { skip, takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
 import { OsUtils } from "@utils/os.utils";
 
@@ -118,6 +118,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   session_header_g: d3.Selection<any, any, any, any>;
   overlapGroups: Session[][] = [];
   activeSessionIndices: Map<string, number> = new Map();
+  lastFocusedSession: Session = null;
   review_g: d3.Selection<any, any, any, any>;
   correction_g: d3.Selection<any, any, any, any>;
   milestones_g: d3.Selection<any, any, any, any>;
@@ -225,7 +226,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
   }
 
-
   saveMarkerPreferences() {
     const preferences = {
       showSessions: this.showSessions,
@@ -280,7 +280,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.updateLang();
     });
 
-    this.anonymizationService.isAnonymous$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.anonymizationService.isAnonymous$.pipe(skip(1), takeUntil(this.destroy$)).subscribe(() => {
       this.loadGraphDataAndRefresh(true);
     });
 
@@ -304,16 +304,16 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       return;
     }
 
+    if (OsUtils.isTypingInInput(event)) {
+      return;
+    }
+
     const key = event.key.toLowerCase();
 
     if (key === "escape") {
       event.preventDefault();
       this.clearQuestionsFilter();
       this.triggerShortcut("escape");
-      return;
-    }
-
-    if (OsUtils.isTypingInInput(event)) {
       return;
     }
 
@@ -343,6 +343,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       event.preventDefault();
       this.resetZoom(false);
       this.triggerShortcut("space");
+    } else if (event.key === "ArrowLeft" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      event.preventDefault();
+      this.navigateToNextSession(-1);
+    } else if (event.key === "ArrowRight" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      event.preventDefault();
+      this.navigateToNextSession(1);
     }
   }
 
@@ -621,13 +627,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.current_zoom = null;
 
       this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
-        this.loadGraphMetadata(
-          this.dataService.repositories,
-          this.dataService.reviews,
-          this.dataService.corrections,
-          this.dataService.questions,
-          false,
-        );
+        this.loadGraphDataAndRefresh(false);
         this.loading = false;
       });
     } catch (error) {
@@ -684,7 +684,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         overview.hovered_group_commit = undefined;
         overview.hovered_g = null;
         overview.tooltipService.hide();
-        overview.overlayManagerService.dismissAll({ blurInput: true });
+        if (event.sourceEvent != null) {
+          overview.overlayManagerService.dismissAll({ blurInput: true });
+        }
       })
       .on("zoom", (event) => {
         if (overview.drag || !overview.x_scale) {
@@ -1264,20 +1266,28 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .on("contextmenu", (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const targetSession = overview.getActiveSession(session);
+        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
+        const targetSession = overview.getActiveSession(session);
+        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("mouseenter", () => {
-        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
+        const targetSession = overview.getActiveSession(session);
+        const activeKey = overview.getSessionKeyNum(targetSession);
+        d3.selectAll(`.session-bg-${activeKey}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${activeKey}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
+        const targetSession = overview.getActiveSession(session);
+        const activeKey = overview.getSessionKeyNum(targetSession);
+        d3.selectAll(`.session-bg-${activeKey}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${activeKey}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1328,20 +1338,28 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .on("contextmenu", (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const targetSession = overview.getActiveSession(session);
+        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
+        const targetSession = overview.getActiveSession(session);
+        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("mouseenter", () => {
-        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
+        const targetSession = overview.getActiveSession(session);
+        const activeKey = overview.getSessionKeyNum(targetSession);
+        d3.selectAll(`.session-bg-${activeKey}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${activeKey}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
+        const targetSession = overview.getActiveSession(session);
+        const activeKey = overview.getSessionKeyNum(targetSession);
+        d3.selectAll(`.session-bg-${activeKey}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${activeKey}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1441,8 +1459,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         .select(".session-note-btn")
         .on("mouseenter", (e: MouseEvent) => {
           e.stopPropagation();
+          const targetSession = overview.getActiveSession(session);
           overview.ngZone.run(() => {
-            overview.hovered_session = session;
+            overview.hovered_session = targetSession;
             overview.hovered_commit = undefined;
             overview.hovered_group_commit = undefined;
             overview.hovered_milestone = undefined;
@@ -1464,8 +1483,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         })
         .on("click", (e: MouseEvent) => {
           e.stopPropagation();
+          const targetSession = overview.getActiveSession(session);
+          overview.lastFocusedSession = targetSession;
           const rawDate = overview.getDateFromMouseEvent(e);
-          overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+          overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
         });
     }
 
@@ -1473,8 +1494,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .select(".session-more-btn")
       .on("mouseenter", (e: MouseEvent) => {
         e.stopPropagation();
+        const targetSession = overview.getActiveSession(session);
         overview.ngZone.run(() => {
-          overview.hovered_session = session;
+          overview.hovered_session = targetSession;
           overview.hovered_commit = undefined;
           overview.hovered_group_commit = undefined;
           overview.hovered_milestone = undefined;
@@ -1496,8 +1518,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       })
       .on("click", (e: MouseEvent) => {
         e.stopPropagation();
+        const targetSession = overview.getActiveSession(session);
+        overview.lastFocusedSession = targetSession;
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        overview.openEditSessionContextMenu(targetSession, e.pageX, e.pageY, rawDate);
       });
   }
 
@@ -1557,7 +1581,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
 
     this.updateSessionsTransforms();
-    this.updateSessionVisibility();
+    this.updateSessionVisibility(true);
   }
 
   private resolveMilestoneType(m?: Milestone, g?: d3.Selection<any, any, any, any>): string {
@@ -1854,6 +1878,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   private readonly FA_ARROWS_ALT_PATH =
+    // eslint-disable-next-line max-len
     "M352.201 425.775l-79.196 79.196c-9.373 9.373-24.568 9.373-33.941 0l-79.196-79.196c-15.119-15.119-4.411-40.971 16.971-40.97h51.162L228 284H127.196v51.162c0 21.382-25.851 32.09-40.971 16.971L7.029 272.937c-9.373-9.373-9.373-24.569 0-33.941L86.225 159.8c15.119-15.119 40.971-4.411 40.971 16.971V228H228V127.196h-51.23c-21.382 0-32.09-25.851-16.971-40.971l79.196-79.196c9.373-9.373 24.568-9.373 33.941 0l79.196 79.196c15.119 15.119 4.411 40.971-16.971 40.971h-51.162V228h100.804v-51.162c0-21.382 25.851-32.09 40.97-16.971l79.196 79.196c9.373 9.373 9.373 24.569 0 33.941L425.773 352.2c-15.119 15.119-40.971 4.411-40.97-16.971V284H284v100.804h51.23c21.382 0 32.09 25.851 16.971 40.971z";
 
   private createMilestoneLongPressBadge(g: d3.Selection<any, any, any, any>, m: Milestone): d3.Selection<any, any, any, any> {
@@ -3029,7 +3054,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     });
   }
 
-  private updateSessionsTransforms() {
+  public updateSessionsTransforms() {
     if (!this.session_g) return;
     const overview = this;
 
@@ -3266,8 +3291,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         }
       });
     }
-    this.updateMilestoneCutoutMask();
-    this.updateSessionVisibility();
+    this.updateSessionVisibility(false);
   }
 
   private updateMilestoneTransforms() {
@@ -3418,6 +3442,126 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.data_g.transition().duration(750).call(this.zoom.transform, transform);
   }
 
+  zoomToSession(session: Session, marginRatio = 0.1) {
+    if (!session || !this.data_g || !this.zoom || !this.x_scale) return;
+    this.hovered_commit = undefined;
+    this.hovered_group_commit = undefined;
+    this.hovered_g = null;
+    this.tooltipService.hide();
+    this.overlayManagerService.dismissAll();
+
+    const time_domain = this.x_scale.domain();
+    const minDate = time_domain[0].valueOf() as number;
+    const maxDate = time_domain[1].valueOf() as number;
+    const dt = maxDate - minDate;
+
+    const startTime = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+    const endTime = session.endDate instanceof Date ? session.endDate.getTime() : new Date(session.endDate).getTime();
+    const sessionDuration = Math.max(1, endTime - startTime);
+
+    if (isNaN(minDate) || isNaN(maxDate) || isNaN(startTime) || isNaN(endTime) || dt <= 0) return;
+
+    const visibleRatio = Math.max(0.1, 1 - 2 * marginRatio);
+    let target_k = (dt * visibleRatio) / sessionDuration;
+    target_k = Math.max(1, Math.min(target_k, this.maxZoom));
+
+    let translate_x = 0;
+    if (target_k > 1) {
+      const centerTime = (startTime + endTime) / 2;
+      translate_x = this.inner_width / 2 - ((centerTime - minDate) / dt) * this.inner_width * target_k;
+    }
+
+    const transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
+
+    this.data_g.transition().duration(750).call(this.zoom.transform, transform);
+  }
+
+  getVisibleSessions(): Session[] {
+    if (!this.dataService || !this.dataService.sessions) return [];
+    return this.dataService.sessions
+      .filter((session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter)
+      .slice()
+      .sort((a, b) => {
+        const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
+        const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
+        const diffStart = aStart - bStart;
+        if (diffStart !== 0) return diffStart;
+        const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
+        const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
+        const diffEnd = aEnd - bEnd;
+        if (diffEnd !== 0) return diffEnd;
+        return (a.id || "").localeCompare(b.id || "");
+      });
+  }
+
+  navigateToNextSession(direction: 1 | -1) {
+    const sessions = this.getVisibleSessions();
+    if (!sessions || sessions.length === 0) return;
+
+    let targetSession: Session | null = null;
+    let currentIndex = -1;
+
+    if (this.lastFocusedSession) {
+      currentIndex = sessions.findIndex(
+        (s) =>
+          this.getSessionKeyNum(s) === this.getSessionKeyNum(this.lastFocusedSession) &&
+          s.tpGroup === this.lastFocusedSession.tpGroup &&
+          (s.id && this.lastFocusedSession.id ? s.id === this.lastFocusedSession.id : true),
+      );
+    }
+
+    if (currentIndex !== -1) {
+      const nextIndex = currentIndex + direction;
+      if (nextIndex >= 0 && nextIndex < sessions.length) {
+        targetSession = sessions[nextIndex];
+      }
+    } else {
+      const scale = this.x_scale_copy || this.x_scale;
+      if (scale) {
+        const viewportCenterTime = scale.invert(this.inner_width / 2).getTime();
+        let bestDiff = Infinity;
+        let bestIndex = 0;
+        sessions.forEach((s, idx) => {
+          const sStart = s.startDate instanceof Date ? s.startDate.getTime() : new Date(s.startDate).getTime();
+          const sEnd = s.endDate instanceof Date ? s.endDate.getTime() : new Date(s.endDate).getTime();
+          const centerTime = (sStart + sEnd) / 2;
+          const diff = Math.abs(centerTime - viewportCenterTime);
+          if (diff < bestDiff) {
+            bestDiff = diff;
+            bestIndex = idx;
+          }
+        });
+        targetSession = sessions[bestIndex];
+      } else {
+        targetSession = direction === 1 ? sessions[0] : sessions[sessions.length - 1];
+      }
+    }
+
+    if (targetSession) {
+      this.lastFocusedSession = targetSession;
+
+      if (this.overlapGroups) {
+        for (const group of this.overlapGroups) {
+          const sessionIdx = group.findIndex(
+            (s) =>
+              this.getSessionKeyNum(s) === this.getSessionKeyNum(targetSession) &&
+              s.tpGroup === targetSession.tpGroup &&
+              (s.id && targetSession.id ? s.id === targetSession.id : true),
+          );
+          if (sessionIdx !== -1) {
+            const groupId = this.getGroupId(group);
+            this.activeSessionIndices.set(groupId, sessionIdx);
+            break;
+          }
+        }
+      }
+
+      this.updateSessionsTransforms();
+      this.updateSessionVisibility(true);
+      this.zoomToSession(targetSession);
+    }
+  }
+
   searchSubmit() {
     this.loadGraphDataAndRefresh(false);
   }
@@ -3563,7 +3707,16 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return this.overlapGroups.find((g) => g.includes(session)) || null;
   }
 
-  public updateSessionVisibility() {
+  public getActiveSession(session: Session): Session {
+    if (!session) return session;
+    const group = this.getSessionOverlapGroup(session);
+    if (!group || group.length <= 1) return session;
+    const groupId = this.getGroupId(group);
+    const activeIdx = this.activeSessionIndices.get(groupId) ?? 0;
+    return group[activeIdx] ?? session;
+  }
+
+  public updateSessionVisibility(shouldRaise = false) {
     if (!this.overlapGroups || !this.session_g) return;
     for (const group of this.overlapGroups) {
       if (group.length <= 1) continue;
@@ -3572,21 +3725,32 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       group.forEach((session, idx) => {
         const key = this.getSessionKeyNum(session);
         const isActive = idx === activeIdx;
-        this.session_g.select(`.session-group-${key}`).style("opacity", isActive ? null : "0.25");
+        const bodyGroup = this.session_g.select(`.session-group-${key}`);
+        if (isActive) {
+          bodyGroup.style("opacity", null).style("pointer-events", "auto");
+          if (shouldRaise) {
+            bodyGroup.raise();
+          }
+        } else {
+          bodyGroup.style("opacity", "0.25").style("pointer-events", "none");
+        }
         if (!this.session_header_g) return;
         const hdrGroup = this.session_header_g.select(`.session-hdr-group-${key}`);
         if (hdrGroup.empty()) return;
         if (!isActive) {
-          hdrGroup.style("display", "none").style("visibility", "hidden");
+          hdrGroup.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
         } else {
+          if (shouldRaise) {
+            hdrGroup.raise();
+          }
           const rawX1 = this.xScaledTimeZoned(session.startDate);
           const rawX2 = this.xScaledTimeZoned(session.endDate);
           const isInViewport =
             !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < this.inner_width && Math.max(0, rawX2 - Math.max(0, rawX1)) > 0;
           if (isInViewport) {
-            hdrGroup.style("display", null).style("visibility", null);
+            hdrGroup.style("display", null).style("visibility", null).style("pointer-events", "auto");
           } else {
-            hdrGroup.style("display", "none").style("visibility", "hidden");
+            hdrGroup.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
           }
         }
       });
