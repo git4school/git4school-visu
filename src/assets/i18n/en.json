@@ -39,12 +39,15 @@
     "METADATA": "Metadata",
     "SIGN-IN": "Sign in",
     "SIGN-OUT": "Sign out",
-    "CONFIGURATION": "Configuration"
+    "CONFIGURATION": "Configuration",
+    "ANONYMOUS-MODE": "Anonymize",
+    "ANONYMOUS-MODE-TOOLTIP": "Toggle anonymous mode"
   },
   "SETTINGS": {
     "TITLE": "Settings",
     "NO-ASSIGNMENTS-DISCONNECTED": "Log in to see your assignments",
     "THEME": "Theme",
+    "ANONYMOUS-MODE": "Anonymous mode",
     "SHOW-LEGEND": "Show graphs legend",
     "HELP": "Help",
     "SHORTCUTS": "Keyboard shortcuts",
@@ -62,6 +65,7 @@
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Search assignments...",
+    "CLEAR-SEARCH": "Clear search",
     "FILTERS": "Filters",
     "COPY": "Copy",
     "COPY-TOOLTIP": "Copy to clipboard",
@@ -166,6 +170,8 @@
     "MUST-LOGIN-GITLAB": "Connect a GitLab account to create an assignment",
     "MUST-LOGIN-ASSIGNMENT-GITHUB": "Connect a GitHub account to access this assignment",
     "MUST-LOGIN-ASSIGNMENT-GITLAB": "Connect a GitLab account to access this assignment",
+    "MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM": "Connect the GitLab {{host}} account to access this assignment",
+    "CREATE-ASSIGNMENT-GITLAB-CUSTOM": "New GitLab Assignment ({{host}})",
     "FILTER": {
       "STATUS": "Status",
       "COURSE": "Course",
@@ -177,7 +183,8 @@
       "RESET": "Reset",
       "ALL": "All",
       "GITHUB": "GitHub",
-      "GITLAB": "GitLab"
+      "GITLAB": "GitLab",
+      "GITLAB_CLOUD": "GitLab.com"
     },
     "DURATION": {
       "DAYS": "d",
@@ -257,6 +264,7 @@
     "NAV_QUESTIONS": "Questions Tab",
     "NAV_CONFIG": "Configure assignment",
     "NAV_SHORTCUTS": "Toggle shortcuts panel",
+    "TOGGLE_ANONYMOUS": "Toggle anonymous mode",
     "SECTION_GRAPHS": "Graphs & Visualizations",
     "GRAPH_ZOOM_IN": "Zoom in",
     "GRAPH_ZOOM_OUT": "Zoom out",
@@ -619,7 +627,17 @@
     "AUTH_TYPE_OAUTH_PKCE": "OAuth 2.0 PKCE",
     "AUTH_TYPE_PAT": "Token PAT",
     "REMEMBER_ME": "Stay signed in on this device",
-    "REMEMBER_ME_TOOLTIP": "The token is stored in the browser's localStorage. Convenient to avoid signing in repeatedly, but vulnerable to XSS and physical device access. Only enable on a trusted personal computer."
+    "REMEMBER_ME_TOOLTIP": "The token is stored in the browser's localStorage. Convenient to avoid signing in repeatedly, but vulnerable to XSS and physical device access. Only enable on a trusted personal computer.",
+    "INSTANCE_ALIAS_LABEL": "Server Name / Alias (optional)",
+    "INSTANCE_ALIAS_PLACEHOLDER": "E.g., University, Lab...",
+    "ADD_ANOTHER_INSTANCE": "Connect another instance",
+    "INSTANCES_COUNT_SINGULAR": "1 instance",
+    "INSTANCES_COUNT_PLURAL": "{{count}} instances",
+    "INVALID_PAT": "Invalid or expired Personal Access Token (PAT) (required scopes: read_api, read_user).",
+    "SERVER_UNREACHABLE": "Unable to reach the GitLab server. Please verify the instance URL.",
+    "INVALID_HOST": "For gitlab.com, please use the GitLab Cloud option above.",
+    "SWITCH_INSTANCE": "Switch instance",
+    "STATUS_INVALID": "Expired"
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Options & generator",
@@ -648,5 +666,19 @@
     "TOOLTIP_CLOSING_STANDARD": "Closing rule: Standard GitHub",
     "TOOLTIP_CLOSING_CUSTOM": "Closing rule: Custom ({{keywords}})",
     "TOOLTIP_CLOSING_NONE": "Closing rule: No keyword"
+  },
+  "ANONYMOUS": {
+    "STUDENT_LABEL": "Student {{index}}",
+    "STUDENT_PREFIX": "Student",
+    "STUDENT_FALLBACK": "Student",
+    "ANONYMOUS_AUTHOR": "Hidden author",
+    "ACTIVE_BADGE": "Anonymous mode active"
+  },
+  "TOKEN_HEALTH": {
+    "INVALID_TOOLTIP": "Invalid or revoked token – please reconnect",
+    "ERROR_TITLE": "Authentication Expired",
+    "ERROR_MSG_GITHUB": "Your GitHub token is invalid or has expired. Please reconnect in the Accounts section.",
+    "ERROR_MSG_GITLAB": "Your GitLab token is invalid or has expired. Please reconnect in the Accounts section."
   }
 }
+

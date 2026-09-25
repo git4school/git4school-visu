@@ -25,18 +25,19 @@ import { ToastService } from "@services/toast.service";
 import { ThemeService } from "@services/theme.service";
 import { TooltipService } from "@services/tooltip.service";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
+import { AnonymizationService } from "@services/anonymization.service";
 import { Subject, Subscription, concat } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { skip, takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
 import { OsUtils } from "@utils/os.utils";
 
 import * as d3 from "d3";
 import * as moment from "moment";
 import { Repository } from "../../../models/Repository.model";
-import { tick } from "@angular/core/testing";
-import { rejects } from "assert";
-import { Utils } from "../../../services/utils";
+import { Utils } from "@services/utils";
 import { FilterGroup } from "@components/questions-chooser/questions-chooser.component";
+import { SessionHeaderRenderer } from "./session-header-renderer";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "commits",
@@ -116,6 +117,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   other_g: d3.Selection<any, any, any, any>;
   session_g: d3.Selection<any, any, any, any>;
   session_header_g: d3.Selection<any, any, any, any>;
+  overlapGroups: Session[][] = [];
+  activeSessionIndices: Map<string, number> = new Map();
+  lastFocusedSession: Session = null;
   review_g: d3.Selection<any, any, any, any>;
   correction_g: d3.Selection<any, any, any, any>;
   milestones_g: d3.Selection<any, any, any, any>;
@@ -208,11 +212,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   onMarkerChange(marker: string) {
     this.markerHoverState[marker].wasClicked = true;
-    const chartDiv = document.getElementById("chart");
-    const currentlyHasNoMilestonesClass = chartDiv?.classList.contains("no-milestones") ?? false;
-    const willHaveNoStrip = this.loading || !this.hasTopStrip();
+    const currentInnerTop = this.inner_margin?.top ?? 0;
+    const nextStripHeight = this.loading ? 0 : this.getTopStripHeight();
 
-    if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
+    if (currentInnerTop !== nextStripHeight) {
       this.loadGraphDataAndRefresh(true);
     } else {
       if (marker === "sessions") {
@@ -243,6 +246,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     protected assignmentsService: AssignmentsService,
     public themeService: ThemeService,
     private tooltipService: TooltipService,
+    public anonymizationService: AnonymizationService,
     private ngZone: NgZone,
     public overlayManagerService: OverlayManagerService,
   ) {
@@ -276,6 +280,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.updateLang();
     });
 
+    this.anonymizationService.isAnonymous$.pipe(skip(1), takeUntil(this.destroy$)).subscribe(() => {
+      this.loadGraphDataAndRefresh(true);
+    });
+
     this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
       if (OverlayManagerService.shouldDismiss(OverlayType.DROPDOWN, event)) {
         if (this.groupDropdown && this.groupDropdown.isOpen()) {
@@ -296,16 +304,16 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       return;
     }
 
+    if (OsUtils.isTypingInInput(event)) {
+      return;
+    }
+
     const key = event.key.toLowerCase();
 
     if (key === "escape") {
       event.preventDefault();
       this.clearQuestionsFilter();
       this.triggerShortcut("escape");
-      return;
-    }
-
-    if (OsUtils.isTypingInInput(event)) {
       return;
     }
 
@@ -335,6 +343,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       event.preventDefault();
       this.resetZoom(false);
       this.triggerShortcut("space");
+    } else if (event.key === "ArrowLeft" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      event.preventDefault();
+      this.navigateToNextSession(-1);
+    } else if (event.key === "ArrowRight" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      event.preventDefault();
+      this.navigateToNextSession(1);
     }
   }
 
@@ -451,11 +465,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       if (label === "OTHER") this.showOthers = !this.showOthers;
       this.saveMarkerPreferences();
 
-      const chartDiv = document.getElementById("chart");
-      const currentlyHasNoMilestonesClass = chartDiv?.classList.contains("no-milestones") ?? false;
-      const willHaveNoStrip = this.loading || !this.hasTopStrip();
+      const currentInnerTop = this.inner_margin?.top ?? 0;
+      const nextStripHeight = this.loading ? 0 : this.getTopStripHeight();
 
-      if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
+      if (currentInnerTop !== nextStripHeight) {
         this.loadGraphDataAndRefresh(true);
       } else {
         if (label === "SESSION") {
@@ -508,19 +521,32 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return !!this.dataService.sessions?.some(session_filter);
   }
 
+  getTopStripHeight(): number {
+    const hasMilestones = this.hasDisplayedMilestones();
+    const hasSessions = this.hasDisplayedSessions();
+    if (hasMilestones && hasSessions) {
+      return 48;
+    } else if (hasMilestones || hasSessions) {
+      return 24;
+    }
+    return 0;
+  }
+
   hasTopStrip(): boolean {
-    return this.hasDisplayedMilestones() || this.hasDisplayedSessions();
+    return this.getTopStripHeight() > 0;
   }
 
   updateVariableFromCss(): void {
     let chart_div = document.getElementById("chart");
     if (!chart_div) return;
 
-    const noTopStrip = this.loading || !this.hasTopStrip();
-    if (noTopStrip) {
+    const stripHeight = this.loading ? 0 : this.getTopStripHeight();
+    if (stripHeight === 0) {
       chart_div.classList.add("no-milestones");
+      chart_div.style.setProperty("--top-inner", "0px");
     } else {
       chart_div.classList.remove("no-milestones");
+      chart_div.style.setProperty("--top-inner", `${stripHeight}px`);
     }
 
     var style = getComputedStyle(chart_div);
@@ -544,7 +570,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (context && repos.length > 0) {
       context.font = "13px " + (style.getPropertyValue("--font-family-sans") || "sans-serif");
       for (const repo of repos) {
-        const w = context.measureText(repo.name || "").width;
+        const displayName = this.anonymizationService.getDisplayName(repo);
+        const w = context.measureText(displayName || "").width;
         if (w > maxNameWidth) maxNameWidth = w;
       }
     }
@@ -612,13 +639,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.current_zoom = null;
 
       this.loaderService.loadRepositories(startDate, endDate).subscribe(() => {
-        this.loadGraphMetadata(
-          this.dataService.repositories,
-          this.dataService.reviews,
-          this.dataService.corrections,
-          this.dataService.questions,
-          false,
-        );
+        this.loadGraphDataAndRefresh(false);
         this.loading = false;
       });
     } catch (error) {
@@ -632,7 +653,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
 
     if (this.hovered_g && (this.hovered_commit || this.hovered_group_commit)) {
-      if (this.hovered_g.select(":hover").empty()) {
+      const node = this.hovered_g.node();
+      if (!node || !node.isConnected || this.hovered_g.select(":hover").empty()) {
         this.hovered_commit = undefined;
         this.hovered_group_commit = undefined;
         this.hovered_g = null;
@@ -669,7 +691,25 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     d3.select(document.body).on("wheel.body", (e) => {});
     this.zoom = d3
       .zoom()
+      .interpolate((p0: [number, number, number], p1: [number, number, number]) => {
+        const x0 = p0[0],
+          y0 = p0[1],
+          w0 = Math.max(1e-6, p0[2]);
+        const x1 = p1[0],
+          y1 = p1[1],
+          w1 = Math.max(1e-6, p1[2]);
+        const dx = x1 - x0,
+          dy = y1 - y0;
+        return (t: number) => {
+          const wt = w0 === w1 ? w0 : w0 * Math.pow(w1 / w0, t);
+          return [x0 + t * dx, y0 + t * dy, wt];
+        };
+      })
       .on("start", (event) => {
+        overview.hovered_commit = undefined;
+        overview.hovered_group_commit = undefined;
+        overview.hovered_g = null;
+        overview.tooltipService.hide();
         if (event.sourceEvent != null) {
           overview.overlayManagerService.dismissAll({ blurInput: true });
         }
@@ -861,11 +901,21 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           event.preventDefault();
           event.stopPropagation();
           const rawDate = overview.getDateFromMouseEvent(event);
-          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+          const session = overview.resolveSessionAtDate(rawDate);
+          if (session) {
+            overview.selectAndActivateSession(session, event.pageX, event.pageY, rawDate);
+          } else {
+            overview.openContextMenu(event.pageX, event.pageY, rawDate);
+          }
         })
         .on("click", (event: MouseEvent) => {
           const rawDate = overview.getDateFromMouseEvent(event);
-          overview.openContextMenu(event.pageX, event.pageY, rawDate);
+          const session = overview.resolveSessionAtDate(rawDate);
+          if (session) {
+            overview.selectAndActivateSession(session, event.pageX, event.pageY, rawDate);
+          } else {
+            overview.openContextMenu(event.pageX, event.pageY, rawDate);
+          }
         })
         .on("wheel", (event: WheelEvent) => {
           if (event.shiftKey) return;
@@ -896,11 +946,21 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         event.preventDefault();
         event.stopPropagation();
         const rawDate = this.getDateFromMouseEvent(event);
-        this.openContextMenu(event.pageX, event.pageY, rawDate);
+        const session = this.resolveSessionAtDate(rawDate);
+        if (session) {
+          this.selectAndActivateSession(session, event.pageX, event.pageY, rawDate);
+        } else {
+          this.openContextMenu(event.pageX, event.pageY, rawDate);
+        }
       })
       .on("click", (event: MouseEvent) => {
         const rawDate = this.getDateFromMouseEvent(event);
-        this.openContextMenu(event.pageX, event.pageY, rawDate);
+        const session = this.resolveSessionAtDate(rawDate);
+        if (session) {
+          this.selectAndActivateSession(session, event.pageX, event.pageY, rawDate);
+        } else {
+          this.openContextMenu(event.pageX, event.pageY, rawDate);
+        }
       });
 
     d3.select(".chart-container")
@@ -1055,6 +1115,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     });
 
     this.updateMilestoneCutoutMask();
+    if (this.session_header_g) {
+      this.session_header_g.raise();
+    }
   }
 
   isContextualMenuShown() {
@@ -1110,9 +1173,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_milestone = undefined;
         this.tooltipService.hide();
       }
-      const hadStripBefore = this.hasTopStrip();
+      const stripHeightBefore = this.getTopStripHeight();
       this.saveMilestone(result.oldMilestone, result.newMilestone);
-      this.updateAfterMilestoneChange(hadStripBefore);
+      this.updateAfterMilestoneChange(stripHeightBefore);
 
       let translations = this.translateService.instant(["SUCCESS", "MILESTONE-SAVED", "MILESTONE-DELETED"]);
       this.toastService.success(
@@ -1140,9 +1203,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_session = undefined;
         this.tooltipService.hide();
       }
-      const hadStripBefore = this.hasTopStrip();
+      const stripHeightBefore = this.getTopStripHeight();
       this.saveSession(result.oldSession, result.newSession);
-      this.updateAfterSessionChange(hadStripBefore);
+      this.updateAfterSessionChange(stripHeightBefore);
 
       let translations = this.translateService.instant(["SUCCESS", "SESSION-SAVED", "SESSION-DELETED"]);
       this.toastService.success(
@@ -1170,9 +1233,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_session = undefined;
         this.tooltipService.hide();
       }
-      const hadStripBefore = this.hasTopStrip();
+      const stripHeightBefore = this.getTopStripHeight();
       this.deleteSession(session);
-      this.updateAfterSessionChange(hadStripBefore);
+      this.updateAfterSessionChange(stripHeightBefore);
 
       let translations = this.translateService.instant(["SUCCESS", "SESSION-DELETED"]);
       this.toastService.success(translations["SUCCESS"], translations["SESSION-DELETED"]);
@@ -1188,9 +1251,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_milestone = undefined;
         this.tooltipService.hide();
       }
-      const hadStripBefore = this.hasTopStrip();
+      const stripHeightBefore = this.getTopStripHeight();
       this.deleteMilestone(milestone);
-      this.updateAfterMilestoneChange(hadStripBefore);
+      this.updateAfterMilestoneChange(stripHeightBefore);
 
       let translations = this.translateService.instant(["SUCCESS", "MILESTONE-DELETED"]);
       this.toastService.success(translations["SUCCESS"], translations["MILESTONE-DELETED"]);
@@ -1253,19 +1316,23 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         e.preventDefault();
         e.stopPropagation();
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("mouseenter", () => {
-        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
+        const key = overview.getSessionKeyNum(session);
+        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
+        const key = overview.getSessionKeyNum(session);
+        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1304,7 +1371,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .style("display", rawX2 >= 0 && rawX2 <= this.inner_width ? "inline" : "none");
   }
 
-  buildSessionHeader(g: d3.Selection<any, any, any, any>, session: Session) {
+  buildSessionHeader(g: d3.Selection<any, any, any, any>, session: Session, overlapGroup?: Session[]) {
     const overview = this;
     const sessionKey = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
 
@@ -1317,19 +1384,23 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         e.preventDefault();
         e.stopPropagation();
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("click", (e) => {
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       })
       .on("mouseenter", () => {
-        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
+        const key = overview.getSessionKeyNum(session);
+        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
+        const key = overview.getSessionKeyNum(session);
+        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1342,22 +1413,28 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const hasNotes = !!(session.notes && session.notes.trim().length > 0);
     const groupName = session.tpGroup || "";
 
-    const usersSvg =
-      '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>';
+    /* prettier-ignore */
+    // eslint-disable-next-line @typescript-eslint/quotes, max-len
+    const usersSvg = '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>';
 
-    const calendarSvg =
-      '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
+    /* prettier-ignore */
+    // eslint-disable-next-line @typescript-eslint/quotes, max-len
+    const calendarSvg = '<svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
 
-    const noteSvg =
-      '<svg style="width: 10px; height: 10px; min-width: 10px; min-height: 10px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
+    /* prettier-ignore */
+    // eslint-disable-next-line @typescript-eslint/quotes, max-len
+    const noteSvg = '<svg style="width: 10px; height: 10px; min-width: 10px; min-height: 10px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
 
     // 1. Continuous header background filling top strip behind pills
+    const bgY = 0;
+    const bgH = this.inner_margin.top;
+
     group
       .append("rect")
       .attr("class", `session-header-bg session-bg-${sessionKey}`)
       .attr("x", visX1)
-      .attr("y", 0)
-      .attr("height", this.inner_margin.top)
+      .attr("y", bgY)
+      .attr("height", bgH)
       .attr("width", visWidth)
       .style("pointer-events", "auto");
 
@@ -1386,72 +1463,50 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .append("rect")
       .attr("class", `session-header-top-bar session-bar-${sessionKey}`)
       .attr("x", visX1)
-      .attr("y", 0)
-      .attr("height", 3)
+      .attr("y", bgY)
+      .attr("height", 2.5)
       .attr("width", visWidth)
-      .attr("rx", 1.5)
-      .attr("ry", 1.5);
+      .attr("rx", 1.25)
+      .attr("ry", 1.25);
 
     // 5. Sticky foreignObject for pills
     const foX = visX1;
     const foWidth = Math.max(0, visX2 - foX);
+    const foY = 0;
+    const foH = 24;
 
     const fo = group
       .append("foreignObject")
       .attr("class", "session-header-fo")
       .attr("x", foX)
-      .attr("y", 3)
+      .attr("y", foY)
       .attr("width", foWidth)
-      .attr("height", 23)
-      .attr("mask", "url(#milestone-badges-cutout-mask)")
+      .attr("height", foH)
       .style("visibility", foWidth < 28 ? "hidden" : "visible")
       .style("pointer-events", "auto")
       .style("overflow", "hidden");
 
-    fo.html(`
-      <div class="session-header-inner d-flex align-items-center" style="gap: 4px; height: 23px; padding: 0 4px; pointer-events: auto; overflow: hidden; width: 100%;">
-        <!-- Pill 1: Nom de la séance -->
-        <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 20px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
-          ${calendarSvg}
-          <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
-        </span>
-        <!-- Pill 2: Groupe de TP -->
-        ${
-          groupName
-            ? `
-        <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 20px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
-          ${usersSvg}
-          <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
-        </span>`
-            : ""
-        }
-        <!-- Pill 3: Note button directly following TP Group / Name -->
-        ${
-          hasNotes
-            ? `
-        <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto;">
-          ${noteSvg}
-        </span>`
-            : ""
-        }
-        <!-- More indicator (...) when some info is hidden -->
-        <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 20px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0;">
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
-            <circle cx="2.5" cy="8" r="1.8" />
-            <circle cx="8" cy="8" r="1.8" />
-            <circle cx="13.5" cy="8" r="1.8" />
-          </svg>
-        </span>
-      </div>
-    `);
+    SessionHeaderRenderer.renderHeader({
+      session,
+      overlapGroup,
+      overview,
+      displayName,
+      groupName,
+      hasNotes,
+      fo,
+      calendarSvg,
+      usersSvg,
+      noteSvg,
+    });
 
     if (hasNotes) {
       group
         .select(".session-note-btn")
         .on("mouseenter", (e: MouseEvent) => {
           e.stopPropagation();
+          const targetSession = overview.getActiveSession(session);
           overview.ngZone.run(() => {
-            overview.hovered_session = session;
+            overview.hovered_session = targetSession;
             overview.hovered_commit = undefined;
             overview.hovered_group_commit = undefined;
             overview.hovered_milestone = undefined;
@@ -1473,8 +1528,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         })
         .on("click", (e: MouseEvent) => {
           e.stopPropagation();
+          const targetSession = overview.getActiveSession(session);
           const rawDate = overview.getDateFromMouseEvent(e);
-          overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+          overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
         });
     }
 
@@ -1482,8 +1538,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .select(".session-more-btn")
       .on("mouseenter", (e: MouseEvent) => {
         e.stopPropagation();
+        const targetSession = overview.getActiveSession(session);
         overview.ngZone.run(() => {
-          overview.hovered_session = session;
+          overview.hovered_session = targetSession;
           overview.hovered_commit = undefined;
           overview.hovered_group_commit = undefined;
           overview.hovered_milestone = undefined;
@@ -1505,8 +1562,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       })
       .on("click", (e: MouseEvent) => {
         e.stopPropagation();
+        const targetSession = overview.getActiveSession(session);
         const rawDate = overview.getDateFromMouseEvent(e);
-        overview.openEditSessionContextMenu(session, e.pageX, e.pageY, rawDate);
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
       });
   }
 
@@ -1514,6 +1572,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     let loaded_sessions: Session[] = this.dataService.sessions.filter(
       (session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter,
     );
+
+    this.overlapGroups = this.computeOverlapGroups(loaded_sessions);
+    const newActiveIndices = new Map<string, number>();
+    for (const group of this.overlapGroups) {
+      if (group.length > 1) {
+        const groupId = this.getGroupId(group);
+        const existingIdx = this.activeSessionIndices.get(groupId);
+        newActiveIndices.set(groupId, existingIdx !== undefined && existingIdx < group.length ? existingIdx : 0);
+      }
+    }
+    this.activeSessionIndices = newActiveIndices;
 
     this.session_g = this.data_g.insert("g", () => (this.repository_g ? this.repository_g.node() : null));
 
@@ -1550,11 +1619,15 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         .data(loaded_sessions)
         .enter()
         .each(function (d: Session) {
-          overview.buildSessionHeader(d3.select(this), d);
+          overview.buildSessionHeader(d3.select(this), d, overview.getSessionOverlapGroup(d));
         });
     }
 
     this.updateSessionsTransforms();
+    this.updateSessionVisibility(true);
+    if (this.session_header_g) {
+      this.session_header_g.raise();
+    }
   }
 
   private resolveMilestoneType(m?: Milestone, g?: d3.Selection<any, any, any, any>): string {
@@ -1574,13 +1647,19 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       m.type = this.resolveMilestoneType(m, g);
     }
 
+    const milestoneType = this.resolveMilestoneType(m, g);
+    const milestoneColor = this.getMilestoneColor(milestoneType);
+
     // 1. Line
+    const lineY = 0;
+    const lineH = this.inner_height;
+
     g.append("rect")
       .attr("class", "milestone-vertical-line")
       .attr("x", 0)
-      .attr("y", 0)
+      .attr("y", lineY)
       .attr("width", 1)
-      .attr("height", this.inner_height)
+      .attr("height", lineH)
       .attr("transform", "translate(" + [-0.5, 0] + ")");
 
     // 2. Label group (anchored, masked when overlapping newer milestones)
@@ -1589,7 +1668,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     // Text
     const labelText = m.label || (m.type.endsWith("s") ? m.type.slice(0, -1) : m.type) + " " + index;
 
-    let text = labelGroup.append("text").attr("class", "milestone-text").attr("y", -7).text(labelText).attr("text-anchor", "middle");
+    let text = labelGroup.append("text").attr("class", "milestone-text").text(labelText).attr("text-anchor", "middle");
 
     let textWidth = 40;
     try {
@@ -1604,10 +1683,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       textWidth = labelText.length * 7.5;
     }
 
-    const paddingX = 2;
-    const barWidth = Math.max(16, textWidth + paddingX * 2);
+    const paddingX = 4;
+    const barWidth = Math.max(20, textWidth + paddingX * 2);
 
-    // Horizontal bottom accent bar (same 2px visual thickness as vertical line, rounded ends like session bar)
+    text.attr("y", -10);
+
     labelGroup
       .append("rect")
       .attr("class", "milestone-bottom-bar")
@@ -1619,17 +1699,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .attr("ry", 1.5);
 
     const badgeX = barWidth / 2 - 2;
-    const badgeY = -5;
-    g.attr("data-badge-x", badgeX).attr("data-badge-y", badgeY);
+    const badgeY = -10;
 
-    // Hitbox (transparent, covering the label and top of line)
     g.append("rect")
       .attr("class", "hitbox")
       .attr("width", barWidth + 30)
-      .attr("height", 32)
+      .attr("height", 24)
       .attr("x", -(barWidth + 30) / 2)
       .attr("y", -24)
       .attr("style", "cursor: pointer; pointer-events: all;");
+
+    g.attr("data-badge-x", badgeX).attr("data-badge-y", badgeY);
   }
 
   updateMilestoneCutoutMask() {
@@ -1716,10 +1796,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     const sessionMaskCutoutsGroup = sessionMask.select("#milestone-mask-cutouts");
     if (!sessionMaskCutoutsGroup.empty()) {
-      const sessionCutouts = visibleItems.map((item) => ({
-        x: item.x - item.width / 2,
-        width: item.width,
-      }));
+      // With double-rail layout, session headers and milestone labels do not overlap
+      const sessionCutouts: { x: number; width: number }[] = [];
 
       const sRects = sessionMaskCutoutsGroup.selectAll("rect").data(sessionCutouts);
       sRects.exit().remove();
@@ -1851,6 +1929,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   private readonly FA_ARROWS_ALT_PATH =
+    // eslint-disable-next-line max-len
     "M352.201 425.775l-79.196 79.196c-9.373 9.373-24.568 9.373-33.941 0l-79.196-79.196c-15.119-15.119-4.411-40.971 16.971-40.97h51.162L228 284H127.196v51.162c0 21.382-25.851 32.09-40.971 16.971L7.029 272.937c-9.373-9.373-9.373-24.569 0-33.941L86.225 159.8c15.119-15.119 40.971-4.411 40.971 16.971V228H228V127.196h-51.23c-21.382 0-32.09-25.851-16.971-40.971l79.196-79.196c9.373-9.373 24.568-9.373 33.941 0l79.196 79.196c15.119 15.119 4.411 40.971-16.971 40.971h-51.162V228h100.804v-51.162c0-21.382 25.851-32.09 40.97-16.971l79.196 79.196c9.373 9.373 9.373 24.569 0 33.941L425.773 352.2c-15.119 15.119-40.971 4.411-40.97-16.971V284H284v100.804h51.23c21.382 0 32.09 25.851 16.971 40.971z";
 
   private createMilestoneLongPressBadge(g: d3.Selection<any, any, any, any>, m: Milestone): d3.Selection<any, any, any, any> {
@@ -2343,7 +2422,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     this.x_scale = d3.scaleTime().domain([minDate, maxDate]).range([0, this.inner_width]);
 
-    this.x_scale_copy = this.x_scale.copy();
+    if (this.current_zoom) {
+      this.x_scale_copy = this.current_zoom.rescaleX(this.x_scale);
+    } else {
+      this.x_scale_copy = this.x_scale.copy();
+    }
+    this.last_zoom_k = this.current_zoom ? this.current_zoom.k : 1;
 
     this.x_axis = d3.axisBottom(this.x_scale_copy).ticks(6).tickSize(-this.inner_height);
 
@@ -2373,7 +2457,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .axisLeft(this.y_scale)
       .tickValues([...Array(repositories.length + 1).keys()])
       .tickFormat((d) => {
-        return repositories[d.valueOf() - 1]?.name || "";
+        const repo = repositories[d.valueOf() - 1];
+        return repo ? this.anonymizationService.getDisplayName(repo) : "";
       })
       .tickSize(-this.inner_width);
 
@@ -2401,6 +2486,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       })
       .on("click", function (event: MouseEvent, d: any) {
         event.stopPropagation();
+        if (overview.anonymizationService.isAnonymous) {
+          return;
+        }
         const repo = repositories[d.valueOf() - 1];
         if (repo?.url) {
           window.open(repo.url, "_blank");
@@ -2411,7 +2499,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         const repo = repositories[d.valueOf() - 1];
         if (repo?.name) {
           overview.ngZone.run(() => {
-            overview.hovered_repository = repo;
+            overview.hovered_repository = {
+              ...repo,
+              name: overview.anonymizationService.getDisplayName(repo),
+              url: overview.anonymizationService.isAnonymous ? null : repo.url,
+            } as Repository;
             overview.hovered_commit = undefined;
             overview.hovered_group_commit = undefined;
             overview.hovered_session = undefined;
@@ -2511,8 +2603,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_repository = undefined;
       })
       .on("mouseleave", () => {
-        if (this.hovered_g === g) {
-          this.hovered_g = undefined;
+        if (this.hovered_g?.node() === g.node()) {
+          this.hovered_g = null;
           this.hovered_group_commit = undefined;
         }
       })
@@ -2542,9 +2634,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         .style("--y-offset", `${-CommitsComponent.GROUP_HEIGHT / 2}px`)
         .attr("fill", commit.color.color)
         .attr("class", "data")
-        .on("mouseenter", (e, d) => (this.hovered_group_commit = d))
+        .on("mouseenter", (e, d) => {
+          this.hovered_commit = undefined;
+          this.hovered_group_commit = d;
+          this.hovered_g = g;
+          this.hovered_repository = undefined;
+        })
         .on("mouseleave", () => {
-          this.hovered_group_commit = undefined;
+          if (this.hovered_g?.node() === g.node()) {
+            this.hovered_g = null;
+            this.hovered_group_commit = undefined;
+          }
         });
 
       g.on("click", (e, d) => {
@@ -2599,10 +2699,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     let x = this.xScaledTimeZoned(commit.commitDate);
 
-    let comp: d3.Selection<any, any, any, any> = g
-      .append("a")
-      .attr("href", (d) => d[0].url)
-      .attr("target", "_blank");
+    let comp: d3.Selection<any, any, any, any> = g.append("a");
+    if (!this.anonymizationService.isAnonymous) {
+      comp.attr("href", (d) => d[0].url).attr("target", "_blank");
+    }
 
     if (commit.isCloture) {
       comp = comp.append("circle").attr("class", "commit-cloture");
@@ -2627,6 +2727,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       });
 
     return g;
+  }
+
+  getCommitAuthorDisplayName(commit: Commit): string {
+    return this.anonymizationService.getCommitAuthorDisplayName(commit);
   }
 
   shouldGroupCommit(commit_before: Commit, commit_after: Commit): boolean {
@@ -2786,9 +2890,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   private splitCommitGroup(g: any, commits: Commit[], repo_g: any) {
-    if (this.hovered_g === g) {
-      this.hovered_g = undefined;
+    if (this.hovered_g?.node() === g.node() || this.hovered_group_commit === commits) {
+      this.hovered_g = null;
       this.hovered_group_commit = undefined;
+      this.tooltipService.hide();
     }
     let before = undefined;
     g.remove();
@@ -3005,7 +3110,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     });
   }
 
-  private updateSessionsTransforms() {
+  public updateSessionsTransforms() {
     if (!this.session_g) return;
     const overview = this;
 
@@ -3065,10 +3170,13 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         g.style("display", null).style("visibility", "visible");
 
         // 1. Continuous header background (clamped to 0..inner_width)
-        g.select(".session-header-bg").attr("x", visX1).attr("y", 0).attr("height", overview.inner_margin.top).attr("width", visWidth);
+        const headerY = 0;
+        const headerH = overview.inner_margin.top;
+
+        g.select(".session-header-bg").attr("x", visX1).attr("y", headerY).attr("height", headerH).attr("width", visWidth);
 
         // 2. Top blue accent bar (above milestone labels)
-        g.select(".session-header-top-bar").attr("x", visX1).attr("y", 0).attr("height", 3).attr("width", visWidth);
+        g.select(".session-header-top-bar").attr("x", visX1).attr("y", headerY).attr("height", 2.5).attr("width", visWidth);
 
         // 3. Dashed vertical lines going all the way to y = 0
         const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
@@ -3086,8 +3194,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         // 4. Sticky badges: stick to x = 0 if rawX1 < 0, otherwise sit at rawX1
         const foX = visX1;
         const foWidth = Math.max(0, visX2 - foX);
+        const foY = 0;
+        const foH = 24;
 
-        fo.attr("x", foX).attr("width", foWidth);
+        fo.attr("x", foX).attr("y", foY).attr("width", foWidth).attr("height", foH);
 
         const displayName = overview.getSessionDisplayName(s);
         const groupName = s.tpGroup || "";
@@ -3103,13 +3213,29 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           namePill.select(".session-name-text").text(displayName);
         }
 
-        if (foWidth < 28) {
+        const overlapGroup = overview.getSessionOverlapGroup(s);
+        const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
+        const navReservedWidth = isOverlap ? 74 : 0; // Left arrow (~22px) + Right arrow (~22px) + Counter (~22px) + gaps (~8px)
+        const minFoWidth = isOverlap ? 48 : 28;
+
+        if (isOverlap && overlapGroup) {
+          const groupId = overview.getGroupId(overlapGroup);
+          const currentIdx = overview.activeSessionIndices.get(groupId) ?? 0;
+          const counterText = g.select(".session-counter-text, .session-counter");
+          if (!counterText.empty()) {
+            counterText.text(`${currentIdx + 1}/${overlapGroup.length}`);
+          }
+        }
+
+        if (foWidth < minFoWidth) {
           // Extremely narrow: hide badges completely
           fo.style("display", "none").style("visibility", "hidden");
           return;
         }
 
         fo.style("display", null).style("visibility", "visible");
+
+        const availWidth = Math.max(0, foWidth - navReservedWidth);
 
         // Width estimations
         const charWidth = 6.2;
@@ -3124,7 +3250,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         // Total needed to display all available session elements in full
         const neededAll = nameNeeded + (hasGroup ? gap + groupNeeded : 0) + (hasNotes ? gap + noteBtnWidth : 0) + padTotal;
 
-        if (foWidth >= neededAll) {
+        if (availWidth >= neededAll) {
           // Case 1: Everything fits without truncation
           if (!namePill.empty()) {
             namePill.style("display", "inline-flex").style("max-width", "none");
@@ -3144,7 +3270,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           const neededNameAndGroup = nameNeeded + (hasGroup ? gap + groupNeeded : 0) + padTotal;
           const neededNameGroupMore = neededNameAndGroup + (hasNotes ? gap + moreBtnWidth : 0);
 
-          if (hasGroup && foWidth >= neededNameGroupMore) {
+          if (hasGroup && availWidth >= neededNameGroupMore) {
             // Name full, Group full, Note dropped -> show "..." if hasNotes
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", "none");
@@ -3158,9 +3284,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             if (!moreBtn.empty()) {
               moreBtn.style("display", hasNotes ? "inline-flex" : "none");
             }
-          } else if (hasGroup && foWidth >= nameNeeded + gap + 38 + (hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
+          } else if (hasGroup && availWidth >= nameNeeded + gap + 38 + (hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
             // Name full, Group truncated with ellipsis, Note dropped -> show "..." if hasNotes
-            const availableForGroup = foWidth - nameNeeded - (hasNotes ? gap + moreBtnWidth : 0) - gap - padTotal;
+            const availableForGroup = availWidth - nameNeeded - (hasNotes ? gap + moreBtnWidth : 0) - gap - padTotal;
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", "none");
             }
@@ -3171,9 +3297,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
               noteBtn.style("display", "none");
             }
             if (!moreBtn.empty()) {
-              moreBtn.style("display", hasNotes ? "inline-flex" : "none");
+              moreBtn.style("display", "inline-flex");
             }
-          } else if (foWidth >= nameNeeded + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
+          } else if (availWidth >= nameNeeded + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
             // Name full, Group dropped, Note dropped -> show "..." if hasGroup or hasNotes
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", "none");
@@ -3187,9 +3313,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             if (!moreBtn.empty()) {
               moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
             }
-          } else if (foWidth >= 38 + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
+          } else if (availWidth >= 38 + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
             // Name truncated with ellipsis, Group & Note dropped -> show "..." if hasGroup or hasNotes
-            const availableForName = foWidth - (hasGroup || hasNotes ? gap + moreBtnWidth : 0) - padTotal;
+            const availableForName = availWidth - (hasGroup || hasNotes ? gap + moreBtnWidth : 0) - padTotal;
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", `${Math.max(34, availableForName)}px`);
             }
@@ -3202,10 +3328,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             if (!moreBtn.empty()) {
               moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
             }
-          } else if (foWidth >= 38) {
+          } else if (availWidth >= 38) {
             // Only enough room for Name truncated with ellipsis
             if (!namePill.empty()) {
-              namePill.style("display", "inline-flex").style("max-width", `${foWidth - 6}px`);
+              namePill.style("display", "inline-flex").style("max-width", `${availWidth - 6}px`);
             }
             if (!groupPill.empty()) {
               groupPill.style("display", "none");
@@ -3217,7 +3343,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
               moreBtn.style("display", "none");
             }
           } else {
-            // Width between 28px and 38px:
+            // Width between minFoWidth and 38px:
             // Too small for Name pill, show "..." badge representing the hidden session info
             if (!namePill.empty()) {
               namePill.style("display", "none");
@@ -3235,13 +3361,14 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         }
       });
     }
-    this.updateMilestoneCutoutMask();
+    this.updateSessionVisibility(false);
   }
 
   private updateMilestoneTransforms() {
     this.chart_abs_g
       .selectAll(".milestone")
       .attr("transform", (m: Milestone) => `translate(${this.xScaledTimeZoned(m.date)}, ${this.inner_margin.top})`);
+
     this.updateMilestoneCutoutMask();
   }
 
@@ -3364,6 +3491,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   zoomToGroup(commits: Commit[], range: number) {
     if (!commits || commits.length < 2 || range <= 0) return;
+    this.hovered_commit = undefined;
+    this.hovered_group_commit = undefined;
+    this.hovered_g = null;
+    this.tooltipService.hide();
     this.overlayManagerService.dismissAll();
 
     let time_domain = this.x_scale.domain();
@@ -3380,6 +3511,126 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     let transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
 
     this.data_g.transition().duration(750).call(this.zoom.transform, transform);
+  }
+
+  zoomToSession(session: Session, marginRatio = 0.1) {
+    if (!session || !this.data_g || !this.zoom || !this.x_scale) return;
+    this.hovered_commit = undefined;
+    this.hovered_group_commit = undefined;
+    this.hovered_g = null;
+    this.tooltipService.hide();
+    this.overlayManagerService.dismissAll();
+
+    const time_domain = this.x_scale.domain();
+    const minDate = time_domain[0].valueOf() as number;
+    const maxDate = time_domain[1].valueOf() as number;
+    const dt = maxDate - minDate;
+
+    const startTime = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+    const endTime = session.endDate instanceof Date ? session.endDate.getTime() : new Date(session.endDate).getTime();
+    const sessionDuration = Math.max(1, endTime - startTime);
+
+    if (isNaN(minDate) || isNaN(maxDate) || isNaN(startTime) || isNaN(endTime) || dt <= 0) return;
+
+    const visibleRatio = Math.max(0.1, 1 - 2 * marginRatio);
+    let target_k = (dt * visibleRatio) / sessionDuration;
+    target_k = Math.max(1, Math.min(target_k, this.maxZoom));
+
+    let translate_x = 0;
+    if (target_k > 1) {
+      const centerTime = (startTime + endTime) / 2;
+      translate_x = this.inner_width / 2 - ((centerTime - minDate) / dt) * this.inner_width * target_k;
+    }
+
+    const transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
+
+    this.data_g.transition().duration(750).call(this.zoom.transform, transform);
+  }
+
+  getVisibleSessions(): Session[] {
+    if (!this.dataService || !this.dataService.sessions) return [];
+    return this.dataService.sessions
+      .filter((session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter)
+      .slice()
+      .sort((a, b) => {
+        const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
+        const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
+        const diffStart = aStart - bStart;
+        if (diffStart !== 0) return diffStart;
+        const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
+        const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
+        const diffEnd = aEnd - bEnd;
+        if (diffEnd !== 0) return diffEnd;
+        return (a.label || "").localeCompare(b.label || "");
+      });
+  }
+
+  navigateToNextSession(direction: 1 | -1) {
+    const sessions = this.getVisibleSessions();
+    if (!sessions || sessions.length === 0) return;
+
+    let targetSession: Session | null = null;
+    let currentIndex = -1;
+
+    if (this.lastFocusedSession) {
+      currentIndex = sessions.findIndex(
+        (s) =>
+          this.getSessionKeyNum(s) === this.getSessionKeyNum(this.lastFocusedSession) &&
+          s.tpGroup === this.lastFocusedSession.tpGroup &&
+          (s.label && this.lastFocusedSession.label ? s.label === this.lastFocusedSession.label : true),
+      );
+    }
+
+    if (currentIndex !== -1) {
+      const nextIndex = currentIndex + direction;
+      if (nextIndex >= 0 && nextIndex < sessions.length) {
+        targetSession = sessions[nextIndex];
+      }
+    } else {
+      const scale = this.x_scale_copy || this.x_scale;
+      if (scale) {
+        const viewportCenterTime = scale.invert(this.inner_width / 2).getTime();
+        let bestDiff = Infinity;
+        let bestIndex = 0;
+        sessions.forEach((s, idx) => {
+          const sStart = s.startDate instanceof Date ? s.startDate.getTime() : new Date(s.startDate).getTime();
+          const sEnd = s.endDate instanceof Date ? s.endDate.getTime() : new Date(s.endDate).getTime();
+          const centerTime = (sStart + sEnd) / 2;
+          const diff = Math.abs(centerTime - viewportCenterTime);
+          if (diff < bestDiff) {
+            bestDiff = diff;
+            bestIndex = idx;
+          }
+        });
+        targetSession = sessions[bestIndex];
+      } else {
+        targetSession = direction === 1 ? sessions[0] : sessions[sessions.length - 1];
+      }
+    }
+
+    if (targetSession) {
+      this.lastFocusedSession = targetSession;
+
+      if (this.overlapGroups) {
+        for (const group of this.overlapGroups) {
+          const sessionIdx = group.findIndex(
+            (s) =>
+              this.getSessionKeyNum(s) === this.getSessionKeyNum(targetSession) &&
+              s.tpGroup === targetSession.tpGroup &&
+              (s.label && targetSession.label ? s.label === targetSession.label : true),
+          );
+          if (sessionIdx !== -1) {
+            const groupId = this.getGroupId(group);
+            this.activeSessionIndices.set(groupId, sessionIdx);
+            break;
+          }
+        }
+      }
+
+      this.updateSessionsTransforms();
+      this.updateSessionVisibility(true);
+      this.zoomToSession(targetSession);
+    }
   }
 
   searchSubmit() {
@@ -3434,12 +3685,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     });
   }
 
-  updateAfterMilestoneChange(hadStripBefore?: boolean) {
+  updateAfterMilestoneChange(stripHeightBefore?: number) {
     this.dataService.saveData();
 
-    const hasStripAfter = this.hasTopStrip();
-    if (hadStripBefore !== undefined && hadStripBefore !== hasStripAfter) {
-      // The top strip appeared or disappeared, requiring layout recalculation
+    const stripHeightAfter = this.getTopStripHeight();
+    if (stripHeightBefore !== undefined && stripHeightBefore !== stripHeightAfter) {
+      // The top strip height changed (0 <-> 24 <-> 48), requiring layout recalculation
       this.loadGraphMetadata(
         this.dataService.repositories,
         this.dataService.reviews,
@@ -3461,11 +3712,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.updateCommitColors();
   }
 
-  updateAfterSessionChange(hadStripBefore?: boolean) {
+  updateAfterSessionChange(stripHeightBefore?: number) {
     this.dataService.saveData();
-    const hasStripAfter = this.hasTopStrip();
-    if (hadStripBefore !== undefined && hadStripBefore !== hasStripAfter) {
-      // The top strip appeared or disappeared, requiring layout recalculation
+    const stripHeightAfter = this.getTopStripHeight();
+    if (stripHeightBefore !== undefined && stripHeightBefore !== stripHeightAfter) {
+      // The top strip height changed (0 <-> 24 <-> 48), requiring layout recalculation
       this.loadGraphMetadata(
         this.dataService.repositories,
         this.dataService.reviews,
@@ -3480,5 +3731,174 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   private saveData() {
     this.updateAfterMilestoneChange();
+  }
+
+  private computeOverlapGroups(sessions: Session[]): Session[][] {
+    const sorted = [...sessions].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+    const groups: Session[][] = [];
+    const visited = new Set<Session>();
+    for (const session of sorted) {
+      if (visited.has(session)) continue;
+      const group: Session[] = [session];
+      visited.add(session);
+      let changed = true;
+      while (changed) {
+        changed = false;
+        for (const other of sorted) {
+          if (visited.has(other)) continue;
+          if (group.some((s) => this.sessionsOverlap(s, other))) {
+            group.push(other);
+            visited.add(other);
+            changed = true;
+          }
+        }
+      }
+      groups.push(group.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()));
+    }
+    return groups;
+  }
+
+  private sessionsOverlap(a: Session, b: Session): boolean {
+    const aStart = new Date(a.startDate).getTime();
+    const aEnd = new Date(a.endDate).getTime();
+    const bStart = new Date(b.startDate).getTime();
+    const bEnd = new Date(b.endDate).getTime();
+    return aStart < bEnd && bStart < aEnd;
+  }
+
+  public getGroupId(group: Session[]): string {
+    return String(new Date(group[0].startDate).getTime());
+  }
+
+  public getSessionKeyNum(session: Session): number {
+    return session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+  }
+
+  public getSessionOverlapGroup(session: Session): Session[] | null {
+    return this.overlapGroups.find((g) => g.includes(session)) || null;
+  }
+
+  public getActiveSession(session: Session): Session {
+    if (!session) return session;
+    const group = this.getSessionOverlapGroup(session);
+    if (!group || group.length <= 1) return session;
+    const groupId = this.getGroupId(group);
+    const activeIdx = this.activeSessionIndices.get(groupId) ?? 0;
+    return group[activeIdx] ?? session;
+  }
+
+  public sessionCoversTime(session: Session, time: number): boolean {
+    if (!session || !session.startDate || !session.endDate) return false;
+    const start = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+    const end = session.endDate instanceof Date ? session.endDate.getTime() : new Date(session.endDate).getTime();
+    return time >= Math.min(start, end) && time <= Math.max(start, end);
+  }
+
+  public resolveSessionAtDate(rawDate: Date, preferredSession?: Session): Session | null {
+    if (!rawDate || isNaN(rawDate.getTime())) return preferredSession || null;
+    const time = rawDate.getTime();
+
+    // 1. If preferredSession is provided:
+    if (preferredSession) {
+      const activeSession = this.getActiveSession(preferredSession);
+      if (activeSession && activeSession !== preferredSession && this.sessionCoversTime(activeSession, time)) {
+        return activeSession;
+      }
+      if (this.sessionCoversTime(preferredSession, time)) {
+        return preferredSession;
+      }
+      const group = this.getSessionOverlapGroup(preferredSession);
+      if (group) {
+        const covering = group.find((s) => this.sessionCoversTime(s, time));
+        if (covering) return covering;
+      }
+    }
+
+    // 2. No preferredSession or preferredSession does not cover time:
+    const visibleSessions = (this.dataService.sessions || []).filter(
+      (s) => !this.dataService.groupFilter || !s.tpGroup || s.tpGroup === this.dataService.groupFilter,
+    );
+    const candidates = visibleSessions.filter((s) => this.sessionCoversTime(s, time));
+    if (candidates.length === 0) return null;
+    if (candidates.length === 1) return candidates[0];
+
+    // If multiple candidates overlap at this time, prioritize currently active session
+    for (const cand of candidates) {
+      const active = this.getActiveSession(cand);
+      if (active === cand) {
+        return cand;
+      }
+    }
+
+    if (this.lastFocusedSession && candidates.includes(this.lastFocusedSession)) {
+      return this.lastFocusedSession;
+    }
+
+    return candidates[0];
+  }
+
+  public selectAndActivateSession(session: Session, x: number, y: number, date: Date) {
+    if (!session) return;
+    const group = this.getSessionOverlapGroup(session);
+    if (group && group.length > 1) {
+      const idx = group.findIndex(
+        (s) =>
+          this.getSessionKeyNum(s) === this.getSessionKeyNum(session) &&
+          s.tpGroup === session.tpGroup &&
+          (s.label && session.label ? s.label === session.label : true),
+      );
+      if (idx !== -1) {
+        const groupId = this.getGroupId(group);
+        const currentIdx = this.activeSessionIndices.get(groupId);
+        if (currentIdx !== idx) {
+          this.activeSessionIndices.set(groupId, idx);
+          this.updateSessionsTransforms();
+          this.updateSessionVisibility(true);
+        }
+      }
+    }
+    this.lastFocusedSession = session;
+    this.openEditSessionContextMenu(session, x, y, date);
+  }
+
+  public updateSessionVisibility(shouldRaise = false) {
+    if (!this.overlapGroups || !this.session_g) return;
+    for (const group of this.overlapGroups) {
+      if (group.length <= 1) continue;
+      const groupId = this.getGroupId(group);
+      const activeIdx = this.activeSessionIndices.get(groupId) ?? 0;
+      group.forEach((session, idx) => {
+        const key = this.getSessionKeyNum(session);
+        const isActive = idx === activeIdx;
+        const bodyGroup = this.session_g.select(`.session-group-${key}`);
+        if (isActive) {
+          bodyGroup.style("opacity", null).style("pointer-events", "auto");
+          if (shouldRaise) {
+            bodyGroup.raise();
+          }
+        } else {
+          bodyGroup.style("opacity", "0.25").style("pointer-events", "auto");
+        }
+        if (!this.session_header_g) return;
+        const hdrGroup = this.session_header_g.select(`.session-hdr-group-${key}`);
+        if (hdrGroup.empty()) return;
+        if (!isActive) {
+          hdrGroup.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+        } else {
+          if (shouldRaise) {
+            hdrGroup.raise();
+          }
+          const rawX1 = this.xScaledTimeZoned(session.startDate);
+          const rawX2 = this.xScaledTimeZoned(session.endDate);
+          const isInViewport =
+            !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < this.inner_width && Math.max(0, rawX2 - Math.max(0, rawX1)) > 0;
+          if (isInViewport) {
+            hdrGroup.style("display", null).style("visibility", null).style("pointer-events", "auto");
+          } else {
+            hdrGroup.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+          }
+        }
+      });
+    }
   }
 }

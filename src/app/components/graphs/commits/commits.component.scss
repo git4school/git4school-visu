@@ -24,7 +24,7 @@
   width: 100%;
   --chart-width-left-spacing-ratio: 85%;
   --chart-width-max-left-spacing: 150px;
-  // to change chart-with
+  /* to change chart-width */
 
   flex: 1;
 }
@@ -87,8 +87,9 @@
   flex-direction: column;
   gap: 2px;
   user-select: none;
-  min-width: 200px;
-  max-width: 300px;
+  width: max-content;
+  min-width: max-content;
+  max-width: min(420px, calc(100vw - 32px));
 
   .repo-name {
     font-weight: 600;
@@ -118,14 +119,29 @@
   }
 
   .tooltip-helpers {
-    gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem 0.75rem;
     font-size: 0.75rem;
     color: var(--color-text-muted);
     white-space: nowrap;
+    width: 100%;
+    min-width: max-content;
+    flex-wrap: wrap;
+
+    > span {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
   }
 
   .tooltip-helper-item {
+    display: inline-flex;
+    align-items: center;
     gap: 0.25rem;
+    white-space: nowrap;
+    flex-shrink: 0;
 
     .ext-icon {
       width: 12px;
@@ -133,9 +149,5 @@
       opacity: 0.8;
     }
   }
-}
-
-#commit_hover {
-  max-width: 340px;
 }
 

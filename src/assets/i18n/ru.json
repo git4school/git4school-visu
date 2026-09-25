@@ -39,12 +39,15 @@
     "METADATA": "Метаданные",
     "SIGN-IN": "Войти",
     "SIGN-OUT": "Выйти",
-    "CONFIGURATION": "Конфигурация"
+    "CONFIGURATION": "Конфигурация",
+    "ANONYMOUS-MODE": "Анонимность",
+    "ANONYMOUS-MODE-TOOLTIP": "Переключить режим анонимности"
   },
   "SETTINGS": {
     "TITLE": "Настройки",
     "NO-ASSIGNMENTS-DISCONNECTED": "Войдите, чтобы увидеть свои задания",
     "THEME": "Тема",
+    "ANONYMOUS-MODE": "Режим анонимности",
     "SHOW-LEGEND": "Показать легенду графиков",
     "HELP": "Помощь",
     "SHORTCUTS": "Сочетания клавиш",
@@ -60,6 +63,7 @@
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Поиск заданий...",
+    "CLEAR-SEARCH": "Очистить поиск",
     "FILTERS": "Фильтры",
     "COPY": "Копировать",
     "COPY-TOOLTIP": "Копировать в буфер обмена",
@@ -164,6 +168,8 @@
     "MUST-LOGIN-GITLAB": "Подключите GitLab для создания задания",
     "MUST-LOGIN-ASSIGNMENT-GITHUB": "Подключите аккаунт GitHub для доступа к этому заданию",
     "MUST-LOGIN-ASSIGNMENT-GITLAB": "Подключите аккаунт GitLab для доступа к этому заданию",
+    "MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM": "Подключите аккаунт GitLab {{host}} для доступа к этому заданию",
+    "CREATE-ASSIGNMENT-GITLAB-CUSTOM": "Новое задание GitLab ({{host}})",
     "FILTER": {
       "STATUS": "Статус",
       "COURSE": "Курс",
@@ -175,7 +181,8 @@
       "RESET": "Сбросить",
       "ALL": "Все",
       "GITHUB": "GitHub",
-      "GITLAB": "GitLab"
+      "GITLAB": "GitLab",
+      "GITLAB_CLOUD": "GitLab.com"
     },
     "DURATION": {
       "DAYS": "дн",
@@ -255,6 +262,7 @@
     "NAV_QUESTIONS": "Вкладка Вопросы",
     "NAV_CONFIG": "Настроить задание",
     "NAV_SHORTCUTS": "Показать / скрыть горячие клавиши",
+    "TOGGLE_ANONYMOUS": "Включить / выключить анонимный режим",
     "SECTION_GRAPHS": "Графики и визуализации",
     "GRAPH_ZOOM_IN": "Увеличить",
     "GRAPH_ZOOM_OUT": "Уменьшить",
@@ -616,7 +624,17 @@
     "AUTH_TYPE_OAUTH_PKCE": "OAuth 2.0 PKCE",
     "AUTH_TYPE_PAT": "Токен PAT",
     "REMEMBER_ME": "Оставаться в системе на этом устройстве",
-    "REMEMBER_ME_TOOLTIP": "Токен сохраняется в localStorage браузера. Удобно, чтобы не входить повторно, но уязвимо к XSS и физическому доступу к компьютеру. Включайте только на личном доверенном устройстве."
+    "REMEMBER_ME_TOOLTIP": "Токен сохраняется в localStorage браузера. Удобно, чтобы не входить повторно, но уязвимо к XSS и физическому доступу к компьютеру. Включайте только на личном доверенном устройстве.",
+    "INSTANCE_ALIAS_LABEL": "Имя / Псевдоним сервера (необязательно)",
+    "INSTANCE_ALIAS_PLACEHOLDER": "Напр., Университет, Лаборатория...",
+    "ADD_ANOTHER_INSTANCE": "Подключить другой инстанс",
+    "INSTANCES_COUNT_SINGULAR": "1 инстанс",
+    "INSTANCES_COUNT_PLURAL": "{{count}} инстансов",
+    "INVALID_PAT": "Недействительный или просроченный Personal Access Token (PAT) (требуются права: read_api, read_user).",
+    "SERVER_UNREACHABLE": "Не удается подключиться к серверу GitLab. Проверьте URL инстанса.",
+    "INVALID_HOST": "Для gitlab.com используйте опцию GitLab Cloud выше.",
+    "SWITCH_INSTANCE": "Сменить инстанс",
+    "STATUS_INVALID": "Истек"
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Опции и генератор",
@@ -645,5 +663,19 @@
     "TOOLTIP_CLOSING_STANDARD": "Правило закрытия: Стандарт GitHub",
     "TOOLTIP_CLOSING_CUSTOM": "Правило закрытия: Пользовательское ({{keywords}})",
     "TOOLTIP_CLOSING_NONE": "Правило закрытия: Без ключевого слова"
+  },
+  "ANONYMOUS": {
+    "STUDENT_LABEL": "Студент {{index}}",
+    "STUDENT_PREFIX": "Студент",
+    "STUDENT_FALLBACK": "Студент",
+    "ANONYMOUS_AUTHOR": "Скрытый автор",
+    "ACTIVE_BADGE": "Анонимный режим активен"
+  },
+  "TOKEN_HEALTH": {
+    "INVALID_TOOLTIP": "Токен недействителен или отозван – выполните повторный вход",
+    "ERROR_TITLE": "Аутентификация истекла",
+    "ERROR_MSG_GITHUB": "Ваш токен GitHub недействителен или истек. Выполните повторный вход в разделе «Учетные записи».",
+    "ERROR_MSG_GITLAB": "Ваш токен GitLab недействителен или истек. Выполните повторный вход в разделе «Учетные записи»."
   }
 }
+

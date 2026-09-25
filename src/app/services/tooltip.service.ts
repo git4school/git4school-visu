@@ -186,28 +186,36 @@ export class TooltipService {
   ): { top: number; left: number } {
     let { t: top, l: left } = this.calculatePosition(rect, tooltipRect, placement, offset);
 
-    // Dynamic placement adjustment to prevent hiding the hovered item
+    // Dynamic placement adjustment to prevent hiding the hovered item or overflowing the viewport
     if (placement === "right" && left + tooltipRect.width > window.innerWidth - 8) {
       const alternative = this.calculatePosition(rect, tooltipRect, "left", offset);
-      if (alternative.l >= 8) {
+      const roomRight = window.innerWidth - 8 - (rect.right + offset);
+      const roomLeft = rect.left - offset - 8;
+      if (alternative.l >= 8 || roomLeft > roomRight) {
         top = alternative.t;
         left = alternative.l;
       }
     } else if (placement === "left" && left < 8) {
       const alternative = this.calculatePosition(rect, tooltipRect, "right", offset);
-      if (alternative.l + tooltipRect.width <= window.innerWidth - 8) {
+      const roomLeft = rect.left - offset - 8;
+      const roomRight = window.innerWidth - 8 - (rect.right + offset);
+      if (alternative.l + tooltipRect.width <= window.innerWidth - 8 || roomRight > roomLeft) {
         top = alternative.t;
         left = alternative.l;
       }
     } else if (placement === "top" && top < 8) {
       const alternative = this.calculatePosition(rect, tooltipRect, "bottom", offset);
-      if (alternative.t + tooltipRect.height <= window.innerHeight - 8) {
+      const roomTop = rect.top - offset - 8;
+      const roomBottom = window.innerHeight - 8 - (rect.bottom + offset);
+      if (alternative.t + tooltipRect.height <= window.innerHeight - 8 || roomBottom > roomTop) {
         top = alternative.t;
         left = alternative.l;
       }
     } else if (placement === "bottom" && top + tooltipRect.height > window.innerHeight - 8) {
       const alternative = this.calculatePosition(rect, tooltipRect, "top", offset);
-      if (alternative.t >= 8) {
+      const roomBottom = window.innerHeight - 8 - (rect.bottom + offset);
+      const roomTop = rect.top - offset - 8;
+      if (alternative.t >= 8 || roomTop > roomBottom) {
         top = alternative.t;
         left = alternative.l;
       }
@@ -217,14 +225,12 @@ export class TooltipService {
   }
 
   private ensureWithinBounds(top: number, left: number, tooltipRect: DOMRect): { top: number; left: number } {
-    if (left < 8) left = 8;
-    if (top < 8) top = 8;
-    if (left + tooltipRect.width > window.innerWidth - 8) {
-      left = window.innerWidth - tooltipRect.width - 8;
-    }
-    if (top + tooltipRect.height > window.innerHeight - 8) {
-      top = window.innerHeight - tooltipRect.height - 8;
-    }
+    const maxLeft = Math.max(8, window.innerWidth - tooltipRect.width - 8);
+    const maxTop = Math.max(8, window.innerHeight - tooltipRect.height - 8);
+
+    left = Math.min(Math.max(8, left), maxLeft);
+    top = Math.min(Math.max(8, top), maxTop);
+
     return { top, left };
   }
 

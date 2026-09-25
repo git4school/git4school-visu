@@ -140,29 +140,16 @@
 
   <!-- Right: Feature Flags & Controls -->
   <div class="dev-bar-section right-section">
-    <!-- GitLab Flag -->
+    <!-- Mock GitLab Instance Toggle -->
     <button
       type="button"
       class="dev-flag-toggle"
-      [class.is-enabled]="devFlagsService.gitlabCloudEnabled"
-      (click)="toggleGitlabCloud()"
-      [title]="(devFlagsService.gitlabCloudEnabled ? 'Désactiver' : 'Activer') + ' GitLab'"
-    >
-      <i class="fab fa-gitlab mr-1.5"></i>
-      <span>GitLab</span>
-      <span class="flag-switch"></span>
-    </button>
-
-    <!-- GitLab Custom Instance Flag -->
-    <button
-      type="button"
-      class="dev-flag-toggle"
-      [class.is-enabled]="devFlagsService.gitlabCustomEnabled"
-      (click)="toggleGitlabCustom()"
-      [title]="(devFlagsService.gitlabCustomEnabled ? 'Désactiver' : 'Activer') + ' GitLab Auto-hébergé'"
+      [class.is-enabled]="mockGitlabInstanceService.isMockActive"
+      (click)="toggleMockGitlab()"
+      [title]="(mockGitlabInstanceService.isMockActive ? 'Désactiver' : 'Activer') + ' le mock GitLab (UT3)'"
     >
       <i class="fas fa-server mr-1.5"></i>
-      <span>GitLab Auto-hébergé</span>
+      <span>Tester Instance GitLab</span>
       <span class="flag-switch"></span>
     </button>
 

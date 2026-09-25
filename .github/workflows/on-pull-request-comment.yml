@@ -1,7 +1,14 @@
 name: Deploy staging (comment)
+
 on:
   issue_comment:
     types: [created, edited]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   build:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/deploy') }}
@@ -9,11 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: "refs/pull/${{ github.event.issue.number }}/merge"
       - name: Setup Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v4
         with:
           node-version: "14.X"
       - name: Install Dependencies
@@ -21,28 +28,96 @@ jobs:
       - name: Build app
         run: yarn run build-prod
       - name: Upload Archive Production Artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v4
         with:
           name: dist-git4school
           path: dist/git4school
+
   deploy:
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/deploy') }}
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      staging_url: ${{ steps.firebase.outputs.urls }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: "refs/pull/${{ github.event.issue.number }}/merge"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.18.0"
       - name: Download Production Artifact
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v4
         with:
           name: dist-git4school
           path: dist/git4school
       - name: Deploy staging
+        id: firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GIT4SCHOOL }}
           projectId: git4school
-          channelId: 'pr-${{ github.event.number }}-${{ github.event.pull_request.head.ref }}'
+          channelId: staging
+          expires: 30d
+
+  comment:
+    if: ${{ always() && github.event.issue.pull_request && contains(github.event.comment.body, '/deploy') }}
+    name: Report deployment result
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment deployment result on the pull request
+        uses: actions/github-script@v7
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+          STAGING_URL: ${{ needs.deploy.outputs.staging_url }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue_number = context.issue.number;
+            const buildResult = process.env.BUILD_RESULT;
+            const deployResult = process.env.DEPLOY_RESULT;
+            const stagingUrl = process.env.STAGING_URL;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            if (buildResult === 'success' && deployResult === 'success') {
+              const urls = stagingUrl
+                .split(/\r?\n/)
+                .map(url => url.trim())
+                .filter(Boolean)
+                .map(url => `- ${url}`)
+                .join('\n');
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number,
+                body: `## ✅ Staging deployment succeeded\n\n${urls || 'The deployment completed successfully, but Firebase did not return a preview URL.'}\n\n[View the workflow run](${runUrl})`,
+              });
+              return;
+            }
+
+            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId,
+              per_page: 100,
+            });
+            const failedSteps = jobs
+              .flatMap(job => (job.steps || []).map(step => ({ job: job.name, ...step })))
+              .filter(step => step.conclusion === 'failure')
+              .map(step => `- **${step.job} / ${step.name}**`)
+              .join('\n');
+
+            const details = failedSteps || `Build result: \`${buildResult}\`; deploy result: \`${deployResult}\`.`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              body: `## ❌ Staging deployment failed\n\n${details}\n\n[View the workflow run for full logs](${runUrl})`,
+            });

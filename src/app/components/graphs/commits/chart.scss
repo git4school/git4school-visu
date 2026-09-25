@@ -144,13 +144,12 @@ body.dark-theme .commit {
 
   .session-header-fo {
     pointer-events: auto;
-    overflow: hidden;
+    overflow: visible;
     cursor: default;
-    mask: url(#milestone-badges-cutout-mask);
-    -webkit-mask: url(#milestone-badges-cutout-mask);
   }
 
   .session-pill {
+    box-sizing: border-box;
     cursor: default;
     transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
     min-width: 0;
@@ -193,6 +192,24 @@ body.dark-theme .commit {
     }
   }
 
+  .session-counter {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 2px;
+    margin: 0;
+    vertical-align: middle;
+    align-self: center;
+    user-select: none;
+  }
+
   &:hover {
     .session-header-top-bar {
       opacity: 1;
@@ -209,7 +226,7 @@ body.dark-theme .commit {
   }
 }
 
-// Fallback legacy .session class
+/* Fallback legacy .session class */
 .session {
   stroke-width: 1px;
   stroke: var(--color-info);
@@ -396,5 +413,40 @@ body.dark-theme .commit {
     font-size: 11px;
     font-weight: 600;
     user-select: none;
+  }
+}
+
+/* Session edge arrows — Navigation entre séances superposées
+ * Ghost par défaut, reveal au hover, feedback physique au clic.
+ * Padding étendu pour une zone de clic confortable sans encombrer. */
+.session-edge-arrow {
+  box-sizing: border-box;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  padding: 2px 4px;
+  flex-shrink: 0;
+  will-change: transform;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform 120ms ease-out;
+
+  svg {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: var(--color-background-secondary);
+    border-color: var(--color-border);
+    color: var(--color-primary);
+  }
+
+  &:active {
+    transform: scale(0.88);
   }
 }

@@ -5,8 +5,9 @@ import { TranslateService } from "@ngx-translate/core";
 import * as firebase from "firebase/app";
 import { auth } from "firebase/app";
 import "firebase/auth";
-import { BehaviorSubject, Observable } from "rxjs";
-import { Account, GitProviderType } from "@models/Account.model";
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { catchError, map, shareReplay, tap } from "rxjs/operators";
+import { Account, GitProviderType, TokenStatus } from "@models/Account.model";
 import { GitAuthProvider } from "@models/GitAuthProvider.model";
 import { TokenStorageService } from "@services/token-storage.service";
 import { ToastService } from "./toast.service";
@@ -17,6 +18,7 @@ export interface AuthState {
   username: string | null;
   avatarUrl: string | null;
   displayName: string | null;
+  tokenStatus?: TokenStatus;
 }
 
 /**
@@ -36,6 +38,7 @@ export class GithubAuthService implements GitAuthProvider {
   avatarUrl: string | null = null;
   displayName: string | null = null;
   loading = false;
+  tokenStatus: TokenStatus = "unknown";
 
   public authChange$ = new BehaviorSubject<AuthState>({
     isSignedIn: false,
@@ -43,7 +46,10 @@ export class GithubAuthService implements GitAuthProvider {
     username: null,
     avatarUrl: null,
     displayName: null,
+    tokenStatus: "unknown",
   });
+
+  private validityCheck$: Observable<boolean> | null = null;
 
   constructor(
     private router: Router,
@@ -81,6 +87,7 @@ export class GithubAuthService implements GitAuthProvider {
       username,
       avatarUrl: this.avatarUrl || `https://avatars.githubusercontent.com/${username}`,
       isCurrent: true,
+      tokenStatus: this.tokenStatus,
     };
   }
 
@@ -119,6 +126,7 @@ export class GithubAuthService implements GitAuthProvider {
       this.username = null;
       this.avatarUrl = null;
       this.displayName = null;
+      this.tokenStatus = "unknown";
       this.tokenStorageService.clearAll("github");
       localStorage.removeItem("dev_github_token");
       localStorage.removeItem("github_username");
@@ -150,6 +158,52 @@ export class GithubAuthService implements GitAuthProvider {
     return this.http.get(url, httpOptions);
   }
 
+  checkTokenValidity(): Observable<boolean> {
+    if (!this.token) {
+      this.tokenStatus = "unknown";
+      this.notifyAuthChange();
+      return of(false);
+    }
+
+    if (this.validityCheck$) {
+      return this.validityCheck$;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: "token " + this.token,
+      }),
+    };
+
+    this.validityCheck$ = this.http.get("https://api.github.com/rate_limit", httpOptions).pipe(
+      map(() => {
+        this.tokenStatus = "valid";
+        this.notifyAuthChange();
+        return true;
+      }),
+      catchError((error) => {
+        if (error?.status === 401 || error?.status === 403) {
+          this.tokenStatus = "invalid";
+          this.notifyAuthChange();
+        }
+        return of(false);
+      }),
+      tap(() => {
+        this.validityCheck$ = null;
+      }),
+      shareReplay(1),
+    );
+
+    return this.validityCheck$;
+  }
+
+  markTokenInvalid(): void {
+    if (this.tokenStatus !== "invalid") {
+      this.tokenStatus = "invalid";
+      this.notifyAuthChange();
+    }
+  }
+
   async fetchUserProfile(rememberMe?: boolean): Promise<void> {
     if (!this.token) {
       return;
@@ -171,7 +225,10 @@ export class GithubAuthService implements GitAuthProvider {
         },
         isRemembered,
       );
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.status === 401 || e?.status === 403) {
+        this.markTokenInvalid();
+      }
       console.warn("Could not fetch GitHub profile via API:", e);
     }
   }
@@ -189,11 +246,13 @@ export class GithubAuthService implements GitAuthProvider {
       this.username = storedUser?.username || null;
       this.avatarUrl = storedUser?.avatarUrl || null;
       this.displayName = storedUser?.displayName || null;
+      this.checkTokenValidity().subscribe();
     } else {
       this.token = null;
       this.username = null;
       this.avatarUrl = null;
       this.displayName = null;
+      this.tokenStatus = "unknown";
     }
 
     this.notifyAuthChange();
@@ -236,6 +295,7 @@ export class GithubAuthService implements GitAuthProvider {
   private handleAuthResult(result: any, rememberMe = false): void {
     this.token = result?.credential?.accessToken ?? this.token;
     if (this.token) {
+      this.tokenStatus = "valid";
       this.tokenStorageService.saveToken("github", this.token, rememberMe);
     }
     this.updateProfile(
@@ -258,6 +318,7 @@ export class GithubAuthService implements GitAuthProvider {
       username: this.username,
       avatarUrl: this.avatarUrl,
       displayName: this.displayName,
+      tokenStatus: this.tokenStatus,
     });
   }
 }

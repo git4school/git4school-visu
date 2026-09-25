@@ -38,12 +38,15 @@
     "METADATA": "Métadonnées",
     "SIGN-IN": "S'identifier",
     "SIGN-OUT": "Se déconnecter",
-    "CONFIGURATION": "Configuration"
+    "CONFIGURATION": "Configuration",
+    "ANONYMOUS-MODE": "Anonymat",
+    "ANONYMOUS-MODE-TOOLTIP": "Basculer le mode anonymat"
   },
   "SETTINGS": {
     "TITLE": "Paramètres",
     "NO-ASSIGNMENTS-DISCONNECTED": "Connectez-vous pour voir vos devoirs",
     "THEME": "Thème",
+    "ANONYMOUS-MODE": "Mode anonymat",
     "SHOW-LEGEND": "Afficher la légende des graphes",
     "HELP": "Aide",
     "SHORTCUTS": "Raccourcis clavier",
@@ -61,6 +64,7 @@
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Rechercher un devoir...",
+    "CLEAR-SEARCH": "Effacer la recherche",
     "FILTERS": "Filtres",
     "COPY": "Copier",
     "COPY-TOOLTIP": "Copier dans le presse-papier",
@@ -165,6 +169,8 @@
     "MUST-LOGIN-GITLAB": "Connectez un compte GitLab pour créer un devoir",
     "MUST-LOGIN-ASSIGNMENT-GITHUB": "Connectez un compte GitHub pour accéder à ce devoir",
     "MUST-LOGIN-ASSIGNMENT-GITLAB": "Connectez un compte GitLab pour accéder à ce devoir",
+    "MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM": "Connectez le compte GitLab {{host}} pour accéder à ce devoir",
+    "CREATE-ASSIGNMENT-GITLAB-CUSTOM": "Nouveau devoir GitLab ({{host}})",
     "FILTER": {
       "STATUS": "Statut",
       "COURSE": "Cours",
@@ -176,7 +182,8 @@
       "RESET": "Réinitialiser",
       "ALL": "Tous",
       "GITHUB": "GitHub",
-      "GITLAB": "GitLab"
+      "GITLAB": "GitLab",
+      "GITLAB_CLOUD": "GitLab.com"
     },
     "DURATION": {
       "DAYS": "j",
@@ -256,6 +263,7 @@
     "NAV_QUESTIONS": "Vue Questions",
     "NAV_CONFIG": "Configurer le devoir",
     "NAV_SHORTCUTS": "Afficher / masquer les raccourcis",
+    "TOGGLE_ANONYMOUS": "Basculer le mode anonymat",
     "SECTION_GRAPHS": "Graphiques & Visualisations",
     "GRAPH_ZOOM_IN": "Zoomer",
     "GRAPH_ZOOM_OUT": "Dézoomer",
@@ -619,7 +627,17 @@
     "AUTH_TYPE_OAUTH_PKCE": "OAuth 2.0 PKCE",
     "AUTH_TYPE_PAT": "Token PAT",
     "REMEMBER_ME": "Rester connecté sur cet appareil",
-    "REMEMBER_ME_TOOLTIP": "Le jeton sera stocké dans le localStorage du navigateur. Pratique pour éviter de vous reconnecter, mais sensible aux failles XSS et à l'accès physique à l'ordinateur. À n'activer que sur votre machine personnelle."
+    "REMEMBER_ME_TOOLTIP": "Le jeton sera stocké dans le localStorage du navigateur. Pratique pour éviter de vous reconnecter, mais sensible aux failles XSS et à l'accès physique à l'ordinateur. À n'activer que sur votre machine personnelle.",
+    "INSTANCE_ALIAS_LABEL": "Nom / Alias du serveur (facultatif)",
+    "INSTANCE_ALIAS_PLACEHOLDER": "Ex: Université, Labo...",
+    "ADD_ANOTHER_INSTANCE": "Connecter une autre instance",
+    "INSTANCES_COUNT_SINGULAR": "1 instance",
+    "INSTANCES_COUNT_PLURAL": "{{count}} instances",
+    "INVALID_PAT": "Jeton d'accès personnel (PAT) invalide ou expiré (droits requis : read_api, read_user).",
+    "SERVER_UNREACHABLE": "Impossible de joindre le serveur GitLab. Vérifiez l'URL de l'instance.",
+    "INVALID_HOST": "Pour gitlab.com, utilisez l'option GitLab Cloud ci-dessus.",
+    "SWITCH_INSTANCE": "Changer d'instance",
+    "STATUS_INVALID": "Expiré"
   },
   "QUESTIONS-ASSISTANT": {
     "TRIGGER_BUTTON": "Options & générateur",
@@ -648,5 +666,19 @@
     "TOOLTIP_CLOSING_STANDARD": "Règle de clôture : Standard GitHub",
     "TOOLTIP_CLOSING_CUSTOM": "Règle de clôture : Personnalisée ({{keywords}})",
     "TOOLTIP_CLOSING_NONE": "Règle de clôture : Sans mot-clé"
+  },
+  "ANONYMOUS": {
+    "STUDENT_LABEL": "Étudiant·e {{index}}",
+    "STUDENT_PREFIX": "Étudiant·e",
+    "STUDENT_FALLBACK": "Étudiant·e",
+    "ANONYMOUS_AUTHOR": "Auteur masqué",
+    "ACTIVE_BADGE": "Anonymat actif"
+  },
+  "TOKEN_HEALTH": {
+    "INVALID_TOOLTIP": "Token invalide ou révoqué – reconnectez-vous",
+    "ERROR_TITLE": "Authentification expirée",
+    "ERROR_MSG_GITHUB": "Votre token GitHub est invalide ou a expiré. Reconnectez-vous depuis la section Comptes.",
+    "ERROR_MSG_GITLAB": "Votre token GitLab est invalide ou a expiré. Reconnectez-vous depuis la section Comptes."
   }
 }
+
