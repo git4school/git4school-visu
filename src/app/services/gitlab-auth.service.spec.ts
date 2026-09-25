@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { GitlabAuthService } from "./gitlab-auth.service";
@@ -105,7 +106,8 @@ describe("GitlabAuthService", () => {
     tokenStorage.saveToken("gitlab", "stored-gl-token", true);
     tokenStorage.saveUserData("gitlab", { id: 123, username: "stored_user", name: "Stored", avatar_url: "", web_url: "" }, true);
 
-    const freshService = new GitlabAuthService(httpMock as any, tokenStorage);
+    const httpClient = TestBed.inject(HttpClient);
+    const freshService = new GitlabAuthService(httpClient, tokenStorage);
     expect(freshService.isSignedIn()).toBeTrue();
     expect(freshService.token).toBe("stored-gl-token");
     expect(freshService.currentUser?.username).toBe("stored_user");
