@@ -64,6 +64,11 @@ describe("GitlabCustomAuthService", () => {
       web_url: "https://gitlab.univ-tlse3.fr/prof.turing",
     });
 
+    await Promise.resolve();
+
+    const tokenReq = httpMock.expectOne("https://gitlab.univ-tlse3.fr/api/v4/personal_access_tokens/self");
+    tokenReq.flush({ expires_at: "2026-12-31" });
+
     const account = await connectPromise;
     expect(account.username).toBe("prof.turing");
     expect(account.instanceHost).toBe("gitlab.univ-tlse3.fr");
@@ -108,6 +113,8 @@ describe("GitlabCustomAuthService", () => {
       avatar_url: "",
       web_url: "",
     });
+    await Promise.resolve();
+    httpMock.expectOne("https://gitlab.univ-tlse3.fr/api/v4/personal_access_tokens/self").flush({});
     await p1;
 
     const p2 = service.connectInstance("https://gitlab.irit.fr", "tok2", "IRIT");
@@ -118,6 +125,8 @@ describe("GitlabCustomAuthService", () => {
       avatar_url: "",
       web_url: "",
     });
+    await Promise.resolve();
+    httpMock.expectOne("https://gitlab.irit.fr/api/v4/personal_access_tokens/self").flush({});
     await p2;
 
     expect(service.getAccounts().length).toBe(2);
