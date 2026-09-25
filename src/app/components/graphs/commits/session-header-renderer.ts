@@ -32,46 +32,43 @@ export class SessionHeaderRenderer {
     const { displayName, groupName, hasNotes, fo, calendarSvg, usersSvg, noteSvg } = ctx;
 
     fo.html(`
-      <div class="session-header-inner d-flex align-items-center" style="gap: 4px; height: 100%; min-height: 18px; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; pointer-events: auto; overflow: visible; width: 100%; position: relative;">
-        <div class="session-header-pills-container d-flex align-items-center" style="gap: 4px; overflow: visible; min-width: 0; flex: 1 1 auto; transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;">
-          <!-- Slot Name -->
-          <div class="session-slot-name d-inline-flex align-items-center flex-shrink-0" style="transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;">
-            <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
-              ${calendarSvg}
-              <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
-            </span>
-          </div>
+      <div class="session-header-inner d-flex align-items-center" style="gap: 4px; height: 100%; min-height: 24px; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; pointer-events: auto; overflow: visible; width: 100%; position: relative;">
+        <div class="session-header-pills-container d-flex align-items-center" style="gap: 4px; overflow: visible; min-width: 0; flex: 1 1 auto; height: 100%; flex-wrap: nowrap;">
+          <!-- Pill 1: Nom de séance -->
+          <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;">
+            ${calendarSvg}
+            <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
+          </span>
 
-          <!-- Slot Meta -->
-          <div class="session-slot-meta d-inline-flex align-items-center flex-shrink-0" style="gap: 4px; transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;">
-            <!-- Pill 2: Groupe de TP -->
-            ${
-              groupName
-                ? `
-            <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
-              ${usersSvg}
-              <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
-            </span>`
-                : ""
-            }
-            <!-- Pill 3: Note button -->
-            ${
-              hasNotes
-                ? `
-            <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="box-sizing: border-box; width: 18px; height: 18px; min-width: 18px; min-height: 18px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto;">
-              ${noteSvg}
-            </span>`
-                : ""
-            }
-            <!-- More indicator (...) when some info is hidden -->
-            <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 18px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0;">
-              <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
-                <circle cx="2.5" cy="8" r="1.8" />
-                <circle cx="8" cy="8" r="1.8" />
-                <circle cx="13.5" cy="8" r="1.8" />
-              </svg>
-            </span>
-          </div>
+          <!-- Pill 2: Groupe de TP -->
+          ${
+            groupName
+              ? `
+          <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;">
+            ${usersSvg}
+            <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
+          </span>`
+              : ""
+          }
+
+          <!-- Pill 3: Note button -->
+          ${
+            hasNotes
+              ? `
+          <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="box-sizing: border-box; width: 18px; height: 18px; min-width: 18px; min-height: 18px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto; align-self: center;">
+            ${noteSvg}
+          </span>`
+              : ""
+          }
+
+          <!-- More indicator (...) when some info is hidden -->
+          <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 18px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0; align-self: center;">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
+              <circle cx="2.5" cy="8" r="1.8" />
+              <circle cx="8" cy="8" r="1.8" />
+              <circle cx="13.5" cy="8" r="1.8" />
+            </svg>
+          </span>
         </div>
       </div>
     `);
@@ -100,63 +97,58 @@ export class SessionHeaderRenderer {
     const chevronRight = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>';
 
     fo.html(`
-      <div class="session-header-inner d-flex align-items-center justify-content-between" style="height: 100%; min-height: 18px; padding-top: 0; padding-bottom: 0; padding-left: 2px; padding-right: 2px; pointer-events: auto; overflow: visible; width: 100%; position: relative;">
+      <div class="session-header-inner d-flex align-items-center justify-content-between" style="height: 100%; min-height: 24px; padding-top: 0; padding-bottom: 0; padding-left: 2px; padding-right: 2px; pointer-events: auto; overflow: visible; width: 100%; position: relative;">
         <!-- Left arrow (collée au bord gauche) -->
-        <button class="session-edge-arrow session-edge-prev flex-shrink-0" type="button">
+        <button class="session-edge-arrow session-edge-prev flex-shrink-0" type="button" style="height: 18px; align-self: center;">
           ${chevronLeft}
         </button>
 
-        <!-- Zone centrale centrée avec animation de décalage fluide -->
-        <div class="session-header-pills-container d-flex align-items-center justify-content-center" style="gap: 4px; overflow: visible; min-width: 0; flex: 1 1 auto; padding: 0 4px; transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;">
-          <!-- Slot Name -->
-          <div class="session-slot-name d-inline-flex align-items-center flex-shrink-0" style="transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;">
-            <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
-              ${calendarSvg}
-              <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
-            </span>
-          </div>
+        <!-- Zone centrale centrée -->
+        <div class="session-header-pills-container d-flex align-items-center justify-content-center" style="gap: 4px; overflow: visible; min-width: 0; flex: 1 1 auto; height: 100%; padding: 0 4px; flex-wrap: nowrap;">
+          <!-- Pill 1: Nom de séance -->
+          <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;">
+            ${calendarSvg}
+            <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
+          </span>
 
-          <!-- Slot Meta -->
-          <div class="session-slot-meta d-inline-flex align-items-center flex-shrink-0" style="gap: 4px; transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;">
-            <!-- Pill 2: Groupe de TP -->
-            ${
-              groupName
-                ? `
-            <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto;">
-              ${usersSvg}
-              <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
-            </span>`
-                : ""
-            }
+          <!-- Pill 2: Groupe de TP -->
+          ${
+            groupName
+              ? `
+          <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;">
+            ${usersSvg}
+            <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
+          </span>`
+              : ""
+          }
 
-            <!-- Pill 3: Note button -->
-            ${
-              hasNotes
-                ? `
-            <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="box-sizing: border-box; width: 18px; height: 18px; min-width: 18px; min-height: 18px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto;">
-              ${noteSvg}
-            </span>`
-                : ""
-            }
+          <!-- Pill 3: Note button -->
+          ${
+            hasNotes
+              ? `
+          <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="box-sizing: border-box; width: 18px; height: 18px; min-width: 18px; min-height: 18px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto; align-self: center;">
+            ${noteSvg}
+          </span>`
+              : ""
+          }
 
-            <!-- More indicator (...) when some info is hidden -->
-            <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 18px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0;">
-              <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
-                <circle cx="2.5" cy="8" r="1.8" />
-                <circle cx="8" cy="8" r="1.8" />
-                <circle cx="13.5" cy="8" r="1.8" />
-              </svg>
-            </span>
+          <!-- More indicator (...) when some info is hidden -->
+          <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 18px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0; align-self: center;">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
+              <circle cx="2.5" cy="8" r="1.8" />
+              <circle cx="8" cy="8" r="1.8" />
+              <circle cx="13.5" cy="8" r="1.8" />
+            </svg>
+          </span>
 
-            <!-- Compteur -->
-            <span class="session-counter flex-shrink-0" style="font-size: 9px; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap; padding: 0 2px; line-height: 18px;">${
-              sessionIdxInGroup + 1
-            }/${groupSize}</span>
-          </div>
+          <!-- Compteur (forme originale texte simple) -->
+          <span class="session-counter flex-shrink-0" style="font-size: 10px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; line-height: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; padding: 0 2px; user-select: none; align-self: center; vertical-align: middle;">${
+            sessionIdxInGroup + 1
+          }/${groupSize}</span>
         </div>
 
         <!-- Right arrow (collée au bord droit) -->
-        <button class="session-edge-arrow session-edge-next flex-shrink-0" type="button">
+        <button class="session-edge-arrow session-edge-next flex-shrink-0" type="button" style="height: 18px; align-self: center;">
           ${chevronRight}
         </button>
       </div>

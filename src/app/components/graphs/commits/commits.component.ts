@@ -1472,8 +1472,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     // 5. Sticky foreignObject for pills
     const foX = visX1;
     const foWidth = Math.max(0, visX2 - foX);
-    const foY = 3;
-    const foH = 22;
+    const foY = 0;
+    const foH = 24;
 
     const fo = group
       .append("foreignObject")
@@ -2422,7 +2422,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     this.x_scale = d3.scaleTime().domain([minDate, maxDate]).range([0, this.inner_width]);
 
-    this.x_scale_copy = this.x_scale.copy();
+    if (this.current_zoom) {
+      this.x_scale_copy = this.current_zoom.rescaleX(this.x_scale);
+    } else {
+      this.x_scale_copy = this.x_scale.copy();
+    }
+    this.last_zoom_k = this.current_zoom ? this.current_zoom.k : 1;
 
     this.x_axis = d3.axisBottom(this.x_scale_copy).ticks(6).tickSize(-this.inner_height);
 
@@ -3189,8 +3194,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         // 4. Sticky badges: stick to x = 0 if rawX1 < 0, otherwise sit at rawX1
         const foX = visX1;
         const foWidth = Math.max(0, visX2 - foX);
-        const foY = 3;
-        const foH = 22;
+        const foY = 0;
+        const foH = 24;
 
         fo.attr("x", foX).attr("y", foY).attr("width", foWidth).attr("height", foH);
 
@@ -3212,6 +3217,15 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
         const navReservedWidth = isOverlap ? 74 : 0; // Left arrow (~22px) + Right arrow (~22px) + Counter (~22px) + gaps (~8px)
         const minFoWidth = isOverlap ? 48 : 28;
+
+        if (isOverlap && overlapGroup) {
+          const groupId = overview.getGroupId(overlapGroup);
+          const currentIdx = overview.activeSessionIndices.get(groupId) ?? 0;
+          const counterText = g.select(".session-counter-text, .session-counter");
+          if (!counterText.empty()) {
+            counterText.text(`${currentIdx + 1}/${overlapGroup.length}`);
+          }
+        }
 
         if (foWidth < minFoWidth) {
           // Extremely narrow: hide badges completely
