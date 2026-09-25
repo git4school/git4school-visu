@@ -74,47 +74,6 @@ export class GitlabDataService implements GitDataService {
     return forkJoin(observables);
   }
 
-  private fetchSingleRepositoryMetadata(repo: Repository): Observable<RepositoryMetadata> {
-    const { origin, path } = this.extractRepoPathAndOrigin(repo.url);
-    if (!path) {
-      return of({ url: repo.url, name: "", tpGroup: "" });
-    }
-
-    const host = new URL(origin).hostname;
-    const headers = this.getHeadersForHost(host);
-    const projectUrl = `${origin}/api/v4/projects/${encodeURIComponent(path)}`;
-
-    return this.http.get<any>(projectUrl, { headers }).pipe(
-      switchMap((project) => {
-        const defaultBranch = project?.default_branch || "main";
-        const readmeUrl = `${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/files/README%2Emd/raw?ref=${encodeURIComponent(
-          defaultBranch,
-        )}`;
-        const identityUrl = `${origin}/api/v4/projects/${encodeURIComponent(
-          path,
-        )}/repository/files/IDENTITY%2Ejson/raw?ref=${encodeURIComponent(defaultBranch)}`;
-
-        return forkJoin({
-          readme: this.http.get(readmeUrl, { headers, responseType: "text" }).pipe(catchError(() => of(null))),
-          identity: this.http.get(identityUrl, { headers, responseType: "text" }).pipe(catchError(() => of(null))),
-        }).pipe(
-          map(({ readme, identity }) => {
-            const { name, tpGroup } = Utils.extractRepositoryMetadata(identity, readme);
-            return {
-              url: repo.url,
-              name,
-              tpGroup,
-            };
-          }),
-        );
-      }),
-      catchError((err) => {
-        console.error(`Error fetching GitLab repo metadata for ${repo.url}`, err);
-        return of({ url: repo.url, name: "", tpGroup: "" });
-      }),
-    );
-  }
-
   getRepositoriesByAuthenticatedUser(cursor?: string, pageLimit = 100, instanceHost?: string): Observable<GitDataSearchResult> {
     const baseApi = this.getBaseApi(instanceHost);
     const headers = this.getHeadersForHost(instanceHost);
@@ -262,6 +221,47 @@ export class GitlabDataService implements GitDataService {
           repositories: [],
           cursor: undefined,
         });
+      }),
+    );
+  }
+
+  private fetchSingleRepositoryMetadata(repo: Repository): Observable<RepositoryMetadata> {
+    const { origin, path } = this.extractRepoPathAndOrigin(repo.url);
+    if (!path) {
+      return of({ url: repo.url, name: "", tpGroup: "" });
+    }
+
+    const host = new URL(origin).hostname;
+    const headers = this.getHeadersForHost(host);
+    const projectUrl = `${origin}/api/v4/projects/${encodeURIComponent(path)}`;
+
+    return this.http.get<any>(projectUrl, { headers }).pipe(
+      switchMap((project) => {
+        const defaultBranch = project?.default_branch || "main";
+        const readmeUrl = `${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/files/README%2Emd/raw?ref=${encodeURIComponent(
+          defaultBranch,
+        )}`;
+        const identityUrl = `${origin}/api/v4/projects/${encodeURIComponent(
+          path,
+        )}/repository/files/IDENTITY%2Ejson/raw?ref=${encodeURIComponent(defaultBranch)}`;
+
+        return forkJoin({
+          readme: this.http.get(readmeUrl, { headers, responseType: "text" }).pipe(catchError(() => of(null))),
+          identity: this.http.get(identityUrl, { headers, responseType: "text" }).pipe(catchError(() => of(null))),
+        }).pipe(
+          map(({ readme, identity }) => {
+            const { name, tpGroup } = Utils.extractRepositoryMetadata(identity, readme);
+            return {
+              url: repo.url,
+              name,
+              tpGroup,
+            };
+          }),
+        );
+      }),
+      catchError((err) => {
+        console.error(`Error fetching GitLab repo metadata for ${repo.url}`, err);
+        return of({ url: repo.url, name: "", tpGroup: "" });
       }),
     );
   }
