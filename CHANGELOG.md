@@ -1,5 +1,14 @@
 # Change log for Git4School
 
+## 2.5.1
+
+### Fixed
+
+#### Repositories & Utils
+
+- **TP Group Extraction from README**: Correctly extract TP group located after a checked markdown checkbox (`- [x]` or `- [X]`) instead of capturing brackets.
+- **Multilingual Name Parsing**: Fix line-by-line parsing to properly extract student names when colons are placed inside bold/italic markdown formatting (e.g. `**Nom :** **Durand**`).
+
 ## 2.5.0
 
 ### Added

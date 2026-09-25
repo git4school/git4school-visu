@@ -237,20 +237,25 @@ export class Utils {
 
   static getValueWithTokenFlexible(token: string, text: string): string {
     if (!token || !text) return null;
+    const lines = text.split(/\r?\n/);
     const escapedToken = token.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
-    /* Require the token to be preceded by line start or markdown markers, and capture only non-newline chars on that line */
-    const regex = new RegExp(
-      `(?:^|[\\r\\n]+)[ \\t]*(?:\\*\\*|#{1,6}|_|\\*)*[ \\t]*(?:${escapedToken})[ \\t]*(?:\\*\\*|#{1,6}|_|\\*)*[ \\t]*[:\\-][ \\t]*([^\\r\\n]+)`,
+    const pattern = new RegExp(
+      `^[ \\t]*(?:[-*+]|[0-9]+\\.)?[ \\t]*(?:\\*\\*|#{1,6}|_|\\*)*[ \\t]*${escapedToken}[ \\t]*(?:[:\\-]?[ \\t]*)?(?:\\*\\*|#{1,6}|_|\\*)*[ \\t]*[:\\-]?[ \\t]*(.*)$`,
       "i",
     );
-    const match = text.match(regex);
-    if (!match || !match[1]) return null;
-    let val = match[1].trim();
-    /* Remove surrounding markdown bold/italic */
-    val = val.replace(/^[*_#]+|[*_#]+$/g, "").trim();
-    /* If the extracted value starts with another markdown section or key like "###" or is empty, ignore it */
-    if (!val || /^(?:#{1,6}|\*\*|__)/.test(val)) return null;
-    return val;
+
+    for (const rawLine of lines) {
+      const match = rawLine.match(pattern);
+      if (match && match[1] !== undefined) {
+        let val = match[1].trim();
+        val = val.replace(/^[:\\-]+/, "").trim();
+        val = val.replace(/^[*_#]+|[*_#]+$/g, "").trim();
+        if (val && !/^(?:#{1,6}|\*\*|__)/.test(val)) {
+          return val;
+        }
+      }
+    }
+    return null;
   }
 
   static getNameFromIdentity(identity: any): string {
@@ -297,7 +302,11 @@ export class Utils {
 
   static getTPGroupFromReadMe(readme: string): string {
     if (!readme) return null;
-    return this.getValueWithToken("-\\s*\\[\\S\\]", readme);
+    const match = /(?:^|[\r\n]+)[ \t]*-[ \t]*\[[xX]\][ \t]*([^\r\n]+)/.exec(readme);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+    return null;
   }
 
   /**

@@ -79,6 +79,28 @@ describe("Utils", () => {
       });
     });
 
+    describe("getTPGroupFromReadMe", () => {
+      it("should extract TP group after checked box [x]", () => {
+        const readme = "### Groupe de TP :\n- [ ] 11\n- [x] 12\n- [ ] 21\n- [ ] 22\n";
+        expect(Utils.getTPGroupFromReadMe(readme)).toBe("12");
+      });
+
+      it("should extract TP group after checked box [X] in uppercase", () => {
+        const readme = "- [ ] G1\n- [X] G2\n";
+        expect(Utils.getTPGroupFromReadMe(readme)).toBe("G2");
+      });
+
+      it("should return null if no box is checked", () => {
+        const readme = "### Groupe de TP :\n- [ ] 11\n- [ ] 12\n- [ ] 21\n";
+        expect(Utils.getTPGroupFromReadMe(readme)).toBeNull();
+      });
+
+      it("should return null if readme is empty or null", () => {
+        expect(Utils.getTPGroupFromReadMe("")).toBeNull();
+        expect(Utils.getTPGroupFromReadMe(null)).toBeNull();
+      });
+    });
+
     describe("extractRepositoryMetadata", () => {
       it("should prioritize IDENTITY.json over README.md", () => {
         const identityStr = JSON.stringify({ last_name: "FROM_IDENTITY", first_name: "ID_USER", group: "TP2" });
@@ -90,7 +112,7 @@ describe("Utils", () => {
 
       it("should fall back to multilingual README if IDENTITY.json is absent or invalid", () => {
         const invalidIdentityStr = "NOT_A_JSON";
-        const readmeStr = "Last name: Williams\nFirst name: Sarah\n- [B]";
+        const readmeStr = "Last name: Williams\nFirst name: Sarah\n- [ ] A\n- [x] B\n- [ ] C";
         const res = Utils.extractRepositoryMetadata(invalidIdentityStr, readmeStr);
         expect(res.name).toBe("Williams Sarah");
         expect(res.tpGroup).toBe("B");
