@@ -37,6 +37,7 @@ import { Repository } from "../../../models/Repository.model";
 import { Utils } from "@services/utils";
 import { FilterGroup } from "@components/questions-chooser/questions-chooser.component";
 import { SessionHeaderRenderer } from "./session-header-renderer";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "commits",
@@ -211,11 +212,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   onMarkerChange(marker: string) {
     this.markerHoverState[marker].wasClicked = true;
-    const chartDiv = document.getElementById("chart");
-    const currentlyHasNoMilestonesClass = chartDiv?.classList.contains("no-milestones") ?? false;
-    const willHaveNoStrip = this.loading || !this.hasTopStrip();
+    const currentInnerTop = this.inner_margin?.top ?? 0;
+    const nextStripHeight = this.loading ? 0 : this.getTopStripHeight();
 
-    if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
+    if (currentInnerTop !== nextStripHeight) {
       this.loadGraphDataAndRefresh(true);
     } else {
       if (marker === "sessions") {
@@ -465,11 +465,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       if (label === "OTHER") this.showOthers = !this.showOthers;
       this.saveMarkerPreferences();
 
-      const chartDiv = document.getElementById("chart");
-      const currentlyHasNoMilestonesClass = chartDiv?.classList.contains("no-milestones") ?? false;
-      const willHaveNoStrip = this.loading || !this.hasTopStrip();
+      const currentInnerTop = this.inner_margin?.top ?? 0;
+      const nextStripHeight = this.loading ? 0 : this.getTopStripHeight();
 
-      if (currentlyHasNoMilestonesClass !== willHaveNoStrip) {
+      if (currentInnerTop !== nextStripHeight) {
         this.loadGraphDataAndRefresh(true);
       } else {
         if (label === "SESSION") {
@@ -522,19 +521,32 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return !!this.dataService.sessions?.some(session_filter);
   }
 
+  getTopStripHeight(): number {
+    const hasMilestones = this.hasDisplayedMilestones();
+    const hasSessions = this.hasDisplayedSessions();
+    if (hasMilestones && hasSessions) {
+      return 48;
+    } else if (hasMilestones || hasSessions) {
+      return 24;
+    }
+    return 0;
+  }
+
   hasTopStrip(): boolean {
-    return this.hasDisplayedMilestones() || this.hasDisplayedSessions();
+    return this.getTopStripHeight() > 0;
   }
 
   updateVariableFromCss(): void {
     let chart_div = document.getElementById("chart");
     if (!chart_div) return;
 
-    const noTopStrip = this.loading || !this.hasTopStrip();
-    if (noTopStrip) {
+    const stripHeight = this.loading ? 0 : this.getTopStripHeight();
+    if (stripHeight === 0) {
       chart_div.classList.add("no-milestones");
+      chart_div.style.setProperty("--top-inner", "0px");
     } else {
       chart_div.classList.remove("no-milestones");
+      chart_div.style.setProperty("--top-inner", `${stripHeight}px`);
     }
 
     var style = getComputedStyle(chart_div);
@@ -1103,6 +1115,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     });
 
     this.updateMilestoneCutoutMask();
+    if (this.session_header_g) {
+      this.session_header_g.raise();
+    }
   }
 
   isContextualMenuShown() {
@@ -1158,9 +1173,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_milestone = undefined;
         this.tooltipService.hide();
       }
-      const hadStripBefore = this.hasTopStrip();
+      const stripHeightBefore = this.getTopStripHeight();
       this.saveMilestone(result.oldMilestone, result.newMilestone);
-      this.updateAfterMilestoneChange(hadStripBefore);
+      this.updateAfterMilestoneChange(stripHeightBefore);
 
       let translations = this.translateService.instant(["SUCCESS", "MILESTONE-SAVED", "MILESTONE-DELETED"]);
       this.toastService.success(
@@ -1188,9 +1203,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_session = undefined;
         this.tooltipService.hide();
       }
-      const hadStripBefore = this.hasTopStrip();
+      const stripHeightBefore = this.getTopStripHeight();
       this.saveSession(result.oldSession, result.newSession);
-      this.updateAfterSessionChange(hadStripBefore);
+      this.updateAfterSessionChange(stripHeightBefore);
 
       let translations = this.translateService.instant(["SUCCESS", "SESSION-SAVED", "SESSION-DELETED"]);
       this.toastService.success(
@@ -1218,9 +1233,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_session = undefined;
         this.tooltipService.hide();
       }
-      const hadStripBefore = this.hasTopStrip();
+      const stripHeightBefore = this.getTopStripHeight();
       this.deleteSession(session);
-      this.updateAfterSessionChange(hadStripBefore);
+      this.updateAfterSessionChange(stripHeightBefore);
 
       let translations = this.translateService.instant(["SUCCESS", "SESSION-DELETED"]);
       this.toastService.success(translations["SUCCESS"], translations["SESSION-DELETED"]);
@@ -1236,9 +1251,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_milestone = undefined;
         this.tooltipService.hide();
       }
-      const hadStripBefore = this.hasTopStrip();
+      const stripHeightBefore = this.getTopStripHeight();
       this.deleteMilestone(milestone);
-      this.updateAfterMilestoneChange(hadStripBefore);
+      this.updateAfterMilestoneChange(stripHeightBefore);
 
       let translations = this.translateService.instant(["SUCCESS", "MILESTONE-DELETED"]);
       this.toastService.success(translations["SUCCESS"], translations["MILESTONE-DELETED"]);
@@ -1411,12 +1426,15 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const noteSvg = '<svg style="width: 10px; height: 10px; min-width: 10px; min-height: 10px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
 
     // 1. Continuous header background filling top strip behind pills
+    const bgY = 0;
+    const bgH = this.inner_margin.top;
+
     group
       .append("rect")
       .attr("class", `session-header-bg session-bg-${sessionKey}`)
       .attr("x", visX1)
-      .attr("y", 0)
-      .attr("height", this.inner_margin.top)
+      .attr("y", bgY)
+      .attr("height", bgH)
       .attr("width", visWidth)
       .style("pointer-events", "auto");
 
@@ -1445,24 +1463,25 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .append("rect")
       .attr("class", `session-header-top-bar session-bar-${sessionKey}`)
       .attr("x", visX1)
-      .attr("y", 0)
-      .attr("height", 3)
+      .attr("y", bgY)
+      .attr("height", 2.5)
       .attr("width", visWidth)
-      .attr("rx", 1.5)
-      .attr("ry", 1.5);
+      .attr("rx", 1.25)
+      .attr("ry", 1.25);
 
     // 5. Sticky foreignObject for pills
     const foX = visX1;
     const foWidth = Math.max(0, visX2 - foX);
+    const foY = 3;
+    const foH = 22;
 
     const fo = group
       .append("foreignObject")
       .attr("class", "session-header-fo")
       .attr("x", foX)
-      .attr("y", 3)
+      .attr("y", foY)
       .attr("width", foWidth)
-      .attr("height", 23)
-      .attr("mask", "url(#milestone-badges-cutout-mask)")
+      .attr("height", foH)
       .style("visibility", foWidth < 28 ? "hidden" : "visible")
       .style("pointer-events", "auto")
       .style("overflow", "hidden");
@@ -1606,6 +1625,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     this.updateSessionsTransforms();
     this.updateSessionVisibility(true);
+    if (this.session_header_g) {
+      this.session_header_g.raise();
+    }
   }
 
   private resolveMilestoneType(m?: Milestone, g?: d3.Selection<any, any, any, any>): string {
@@ -1625,13 +1647,19 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       m.type = this.resolveMilestoneType(m, g);
     }
 
+    const milestoneType = this.resolveMilestoneType(m, g);
+    const milestoneColor = this.getMilestoneColor(milestoneType);
+
     // 1. Line
+    const lineY = 0;
+    const lineH = this.inner_height;
+
     g.append("rect")
       .attr("class", "milestone-vertical-line")
       .attr("x", 0)
-      .attr("y", 0)
+      .attr("y", lineY)
       .attr("width", 1)
-      .attr("height", this.inner_height)
+      .attr("height", lineH)
       .attr("transform", "translate(" + [-0.5, 0] + ")");
 
     // 2. Label group (anchored, masked when overlapping newer milestones)
@@ -1640,7 +1668,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     // Text
     const labelText = m.label || (m.type.endsWith("s") ? m.type.slice(0, -1) : m.type) + " " + index;
 
-    let text = labelGroup.append("text").attr("class", "milestone-text").attr("y", -7).text(labelText).attr("text-anchor", "middle");
+    let text = labelGroup.append("text").attr("class", "milestone-text").text(labelText).attr("text-anchor", "middle");
 
     let textWidth = 40;
     try {
@@ -1655,10 +1683,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       textWidth = labelText.length * 7.5;
     }
 
-    const paddingX = 2;
-    const barWidth = Math.max(16, textWidth + paddingX * 2);
+    const paddingX = 4;
+    const barWidth = Math.max(20, textWidth + paddingX * 2);
 
-    // Horizontal bottom accent bar (same 2px visual thickness as vertical line, rounded ends like session bar)
+    text.attr("y", -10);
+
     labelGroup
       .append("rect")
       .attr("class", "milestone-bottom-bar")
@@ -1670,17 +1699,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .attr("ry", 1.5);
 
     const badgeX = barWidth / 2 - 2;
-    const badgeY = -5;
-    g.attr("data-badge-x", badgeX).attr("data-badge-y", badgeY);
+    const badgeY = -10;
 
-    // Hitbox (transparent, covering the label and top of line)
     g.append("rect")
       .attr("class", "hitbox")
       .attr("width", barWidth + 30)
-      .attr("height", 32)
+      .attr("height", 24)
       .attr("x", -(barWidth + 30) / 2)
       .attr("y", -24)
       .attr("style", "cursor: pointer; pointer-events: all;");
+
+    g.attr("data-badge-x", badgeX).attr("data-badge-y", badgeY);
   }
 
   updateMilestoneCutoutMask() {
@@ -1767,10 +1796,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     const sessionMaskCutoutsGroup = sessionMask.select("#milestone-mask-cutouts");
     if (!sessionMaskCutoutsGroup.empty()) {
-      const sessionCutouts = visibleItems.map((item) => ({
-        x: item.x - item.width / 2,
-        width: item.width,
-      }));
+      // With double-rail layout, session headers and milestone labels do not overlap
+      const sessionCutouts: { x: number; width: number }[] = [];
 
       const sRects = sessionMaskCutoutsGroup.selectAll("rect").data(sessionCutouts);
       sRects.exit().remove();
@@ -3138,10 +3165,13 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         g.style("display", null).style("visibility", "visible");
 
         // 1. Continuous header background (clamped to 0..inner_width)
-        g.select(".session-header-bg").attr("x", visX1).attr("y", 0).attr("height", overview.inner_margin.top).attr("width", visWidth);
+        const headerY = 0;
+        const headerH = overview.inner_margin.top;
+
+        g.select(".session-header-bg").attr("x", visX1).attr("y", headerY).attr("height", headerH).attr("width", visWidth);
 
         // 2. Top blue accent bar (above milestone labels)
-        g.select(".session-header-top-bar").attr("x", visX1).attr("y", 0).attr("height", 3).attr("width", visWidth);
+        g.select(".session-header-top-bar").attr("x", visX1).attr("y", headerY).attr("height", 2.5).attr("width", visWidth);
 
         // 3. Dashed vertical lines going all the way to y = 0
         const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
@@ -3159,8 +3189,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         // 4. Sticky badges: stick to x = 0 if rawX1 < 0, otherwise sit at rawX1
         const foX = visX1;
         const foWidth = Math.max(0, visX2 - foX);
+        const foY = 3;
+        const foH = 22;
 
-        fo.attr("x", foX).attr("width", foWidth);
+        fo.attr("x", foX).attr("y", foY).attr("width", foWidth).attr("height", foH);
 
         const displayName = overview.getSessionDisplayName(s);
         const groupName = s.tpGroup || "";
@@ -3322,6 +3354,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.chart_abs_g
       .selectAll(".milestone")
       .attr("transform", (m: Milestone) => `translate(${this.xScaledTimeZoned(m.date)}, ${this.inner_margin.top})`);
+
     this.updateMilestoneCutoutMask();
   }
 
@@ -3638,12 +3671,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     });
   }
 
-  updateAfterMilestoneChange(hadStripBefore?: boolean) {
+  updateAfterMilestoneChange(stripHeightBefore?: number) {
     this.dataService.saveData();
 
-    const hasStripAfter = this.hasTopStrip();
-    if (hadStripBefore !== undefined && hadStripBefore !== hasStripAfter) {
-      // The top strip appeared or disappeared, requiring layout recalculation
+    const stripHeightAfter = this.getTopStripHeight();
+    if (stripHeightBefore !== undefined && stripHeightBefore !== stripHeightAfter) {
+      // The top strip height changed (0 <-> 24 <-> 48), requiring layout recalculation
       this.loadGraphMetadata(
         this.dataService.repositories,
         this.dataService.reviews,
@@ -3665,11 +3698,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.updateCommitColors();
   }
 
-  updateAfterSessionChange(hadStripBefore?: boolean) {
+  updateAfterSessionChange(stripHeightBefore?: number) {
     this.dataService.saveData();
-    const hasStripAfter = this.hasTopStrip();
-    if (hadStripBefore !== undefined && hadStripBefore !== hasStripAfter) {
-      // The top strip appeared or disappeared, requiring layout recalculation
+    const stripHeightAfter = this.getTopStripHeight();
+    if (stripHeightBefore !== undefined && stripHeightBefore !== stripHeightAfter) {
+      // The top strip height changed (0 <-> 24 <-> 48), requiring layout recalculation
       this.loadGraphMetadata(
         this.dataService.repositories,
         this.dataService.reviews,
