@@ -45,69 +45,7 @@ export class Utils {
   static readonly SLIDER_STEP = 86400000;
   static readonly OVERVIEW_NAME_LENGTH_LIMIT = 20;
   static readonly COMMIT_FUSE_RANGE = 15;
-  static readonly COMMIT_DATE_FORMAT = (date: Date) => {
-    if (!date) {
-      return "";
-    }
-    const d = date instanceof Date ? date : new Date(date);
-    const options: Intl.NumberFormatOptions = {
-      useGrouping: false,
-      minimumIntegerDigits: 2,
-    };
-
-    let year = d.getFullYear().toLocaleString(undefined, options);
-    let month = (d.getMonth() + 1).toLocaleString(undefined, options);
-    let day = d.getDate().toLocaleString(undefined, options);
-    let hour = d.getHours().toLocaleString(undefined, options);
-    let minute = d.getMinutes().toLocaleString(undefined, options);
-    let seconds = d.getSeconds().toLocaleString(undefined, options);
-
-    return `${day}/${month}/${year} ${hour}:${minute}:${seconds}`;
-  };
-
-  static getTimeFromDate(date: Date) {
-    return date
-      ? {
-          hour: moment(date).hour(),
-          minute: moment(date).minutes(),
-        }
-      : null;
-  }
-
-  static addTimeToDate(date: Date, time: NgbTimeStruct): Date {
-    let updatedDate = new Date(date);
-    updatedDate.setHours(updatedDate.getHours() + time.hour);
-    updatedDate.setMinutes(updatedDate.getMinutes() + time.minute);
-    updatedDate.setSeconds(updatedDate.getSeconds() + time.second);
-    return updatedDate;
-  }
-
-  static addTimeToTime(time1: NgbTimeStruct, time2: NgbTimeStruct) {
-    const date = moment(new Date()).set(time1).toDate();
-    return this.getTimeFromDate(this.addTimeToDate(date, time2));
-  }
-
-  /**
-   * Returns a date interval to be used by sliders or other components to adjust their data with list of commits
-   *
-   * @param values A list of values which can be mapped to date
-   * @param mapper The mapper from type T to date
-   * @returns An interval where [0] is older date and [1] is the newest (both undefined if list is empty)
-   */
-  static getTimeInterval<T>(values: T[], mapper: (v: T) => Date): [Date, Date] {
-    let dates = values.map(mapper);
-    if (dates.length == 0) return [undefined, undefined];
-
-    return dates.reduce(
-      (interval, date) => [
-        new Date(Math.min(interval[0].getTime(), date.getTime())),
-        new Date(Math.max(interval[1].getTime(), date.getTime())),
-      ],
-      [dates[0], dates[1]],
-    );
-  }
-
-  static CONF_FILE_JSON_SCHEMA = {
+  static readonly CONF_FILE_JSON_SCHEMA = {
     properties: {
       title: {
         type: "string",
@@ -182,6 +120,75 @@ export class Utils {
     },
     required: ["title", "questions", "repositories"],
   };
+
+  static readonly LAST_NAME_TOKENS = ["Nom", "Last name", "Last-name", "Lastname", "Surname", "Family name", "Фамилия"];
+
+  static readonly FIRST_NAME_TOKENS = ["Prénom", "Prenom", "First name", "First-name", "Firstname", "Given name", "Forename", "Имя"];
+
+  constructor() {}
+
+  static readonly COMMIT_DATE_FORMAT = (date: Date) => {
+    if (!date) {
+      return "";
+    }
+    const d = date instanceof Date ? date : new Date(date);
+    const options: Intl.NumberFormatOptions = {
+      useGrouping: false,
+      minimumIntegerDigits: 2,
+    };
+
+    let year = d.getFullYear().toLocaleString(undefined, options);
+    let month = (d.getMonth() + 1).toLocaleString(undefined, options);
+    let day = d.getDate().toLocaleString(undefined, options);
+    let hour = d.getHours().toLocaleString(undefined, options);
+    let minute = d.getMinutes().toLocaleString(undefined, options);
+    let seconds = d.getSeconds().toLocaleString(undefined, options);
+
+    return `${day}/${month}/${year} ${hour}:${minute}:${seconds}`;
+  };
+
+  static getTimeFromDate(date: Date) {
+    return date
+      ? {
+          hour: moment(date).hour(),
+          minute: moment(date).minutes(),
+        }
+      : null;
+  }
+
+  static addTimeToDate(date: Date, time: NgbTimeStruct): Date {
+    let updatedDate = new Date(date);
+    updatedDate.setHours(updatedDate.getHours() + time.hour);
+    updatedDate.setMinutes(updatedDate.getMinutes() + time.minute);
+    updatedDate.setSeconds(updatedDate.getSeconds() + time.second);
+    return updatedDate;
+  }
+
+  static addTimeToTime(time1: NgbTimeStruct, time2: NgbTimeStruct) {
+    const date = moment(new Date()).set(time1).toDate();
+    return this.getTimeFromDate(this.addTimeToDate(date, time2));
+  }
+
+  /**
+   * Returns a date interval to be used by sliders or other components to adjust their data with list of commits
+   *
+   * @param values A list of values which can be mapped to date
+   * @param mapper The mapper from type T to date
+   * @returns An interval where [0] is older date and [1] is the newest (both undefined if list is empty)
+   */
+  static getTimeInterval<T>(values: T[], mapper: (v: T) => Date): [Date, Date] {
+    let dates = values.map(mapper);
+    if (dates.length == 0) return [undefined, undefined];
+
+    return dates.reduce(
+      (interval, date) => [
+        new Date(Math.min(interval[0].getTime(), date.getTime())),
+        new Date(Math.max(interval[1].getTime(), date.getTime())),
+      ],
+      [dates[0], dates[1]],
+    );
+  }
+
   static getCssVariable(variableName: string): string {
     if (!variableName) return variableName;
     let varName = variableName.trim();
@@ -228,16 +235,64 @@ export class Utils {
     return value ? value[0].trim() : null;
   }
 
+  static getValueWithTokenFlexible(token: string, text: string): string {
+    if (!token || !text) return null;
+    const escapedToken = token.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+    /* Require the token to be preceded by line start or markdown markers, and capture only non-newline chars on that line */
+    const regex = new RegExp(
+      `(?:^|[\\r\\n]+)[ \\t]*(?:\\*\\*|#{1,6}|_|\\*)*[ \\t]*(?:${escapedToken})[ \\t]*(?:\\*\\*|#{1,6}|_|\\*)*[ \\t]*[:\\-][ \\t]*([^\\r\\n]+)`,
+      "i",
+    );
+    const match = text.match(regex);
+    if (!match || !match[1]) return null;
+    let val = match[1].trim();
+    /* Remove surrounding markdown bold/italic */
+    val = val.replace(/^[*_#]+|[*_#]+$/g, "").trim();
+    /* If the extracted value starts with another markdown section or key like "###" or is empty, ignore it */
+    if (!val || /^(?:#{1,6}|\*\*|__)/.test(val)) return null;
+    return val;
+  }
+
   static getNameFromIdentity(identity: any): string {
     if (!identity) return "";
     return [identity.last_name, identity.first_name].filter(Boolean).join(" ");
   }
 
-  static getNameFromReadMe(readme: string, lastNameToken = "Nom", firstNameToken = "Prénom"): string {
+  static getNameFromReadMe(readme: string, lastNameToken?: string, firstNameToken?: string): string {
     if (!readme) return null;
-    let lastName = this.getValueWithToken(`${lastNameToken}.*:`, readme);
-    let firstName = this.getValueWithToken(`${firstNameToken}.*:`, readme);
-    return [lastName, firstName].filter(Boolean).join(" ");
+
+    let lastName: string = null;
+    let firstName: string = null;
+
+    if (lastNameToken && firstNameToken) {
+      lastName = this.getValueWithToken(`${lastNameToken}.*:`, readme);
+      firstName = this.getValueWithToken(`${firstNameToken}.*:`, readme);
+      if (lastName || firstName) {
+        return [lastName, firstName].filter(Boolean).join(" ");
+      }
+    }
+
+    for (const token of this.LAST_NAME_TOKENS) {
+      const val = this.getValueWithTokenFlexible(token, readme);
+      if (val) {
+        lastName = val;
+        break;
+      }
+    }
+
+    for (const token of this.FIRST_NAME_TOKENS) {
+      const val = this.getValueWithTokenFlexible(token, readme);
+      if (val) {
+        firstName = val;
+        break;
+      }
+    }
+
+    if (lastName || firstName) {
+      return [lastName, firstName].filter(Boolean).join(" ");
+    }
+
+    return null;
   }
 
   static getTPGroupFromReadMe(readme: string): string {
@@ -245,5 +300,36 @@ export class Utils {
     return this.getValueWithToken("-\\s*\\[\\S\\]", readme);
   }
 
-  constructor() {}
+  /**
+   * Unified extraction of student name and TP group from raw IDENTITY.json and/or README.md.
+   * Priority: IDENTITY.json > multilingual README.md.
+   */
+  static extractRepositoryMetadata(identityData?: string, readmeData?: string): { name: string; tpGroup: string } {
+    let name = "";
+    let tpGroup = "";
+
+    if (identityData) {
+      try {
+        const parsed = JSON.parse(identityData);
+        name = this.getNameFromIdentity(parsed);
+        tpGroup = parsed.group || "";
+      } catch (e) {}
+    }
+
+    if (!name && readmeData) {
+      const readmeName = this.getNameFromReadMe(readmeData);
+      if (readmeName) {
+        name = readmeName;
+      }
+    }
+
+    if (!tpGroup && readmeData) {
+      const readmeGroup = this.getTPGroupFromReadMe(readmeData);
+      if (readmeGroup) {
+        tpGroup = readmeGroup;
+      }
+    }
+
+    return { name, tpGroup };
+  }
 }

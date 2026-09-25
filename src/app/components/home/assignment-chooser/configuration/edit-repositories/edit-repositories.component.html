@@ -38,6 +38,36 @@
                 </svg>
                 <input type="text" class="form-control modern-search-input" [placeholder]="'EDIT-REPOSITORIES.SEARCH-PLACEHOLDER' | translate" [(ngModel)]="searchQuery">
             </div>
+
+            <!-- Refresh Names Button (Apple Design Pill with Morphing Confirmation) -->
+            <!-- Refresh Names Button (Apple Design Pill with Morphing Confirmation) -->
+            <div class="refresh-names-wrapper" *ngIf="getFormControls.length > 0 && isConnectedToProvider">
+                <div class="pill-refresh-container" [class.confirming]="isConfirmingRefresh">
+                    <button type="button" class="btn-refresh-names"
+                            [class.confirming]="isConfirmingRefresh"
+                            [class.loading]="isRefreshingNames"
+                            [disabled]="isRefreshingNames"
+                            (click)="onRefreshNamesClick()"
+                            [appTooltip]="!isConfirmingRefresh ? ('EDIT-REPOSITORIES.TOOLTIP-REFRESH-NAMES' | translate) : null">
+                        <span class="btn-refresh-content" *ngIf="!isConfirmingRefresh">
+                            <svg class="refresh-icon" [class.spinning]="isRefreshingNames" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <polyline points="1 20 1 14 7 14"></polyline>
+                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                            </svg>
+                            <span class="btn-label">{{ 'EDIT-REPOSITORIES.BUTTON-REFRESH-NAMES' | translate }}</span>
+                        </span>
+                        <span class="btn-confirm-content" *ngIf="isConfirmingRefresh">
+                            <i class="fas fa-exclamation-circle confirm-icon"></i>
+                            <span class="btn-label font-weight-bold">{{ 'EDIT-REPOSITORIES.BUTTON-CONFIRM-REFRESH-NAMES' | translate }}</span>
+                        </span>
+                    </button>
+                    <button type="button" class="btn-cancel-refresh-split" *ngIf="isConfirmingRefresh"
+                            (click)="cancelConfirmRefresh($event)" [appTooltip]="'CANCEL' | translate">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
 
@@ -76,7 +106,8 @@
 
                     <div class="repo-details" style="margin-right: 1rem;">
                         <div class="repo-name marquee-container" style="max-width: 100%;">
-                            <span class="marquee-content d-flex align-items-center gap-2">
+                            <span class="marquee-content d-flex align-items-center gap-2"
+                                  [class.name-morphing]="animatingRepoUrls.has(group.get('url').value)">
                                 {{ group.get('name').value || ('EDIT-REPOSITORIES.NEW-REPOSITORY' | translate) }}
                                 <button *ngIf="group.get('errors').value.length > 0" class="btn btn-outline-danger error-btn ml-2"
                                         [appTooltip]="getErrorTooltip(group.get('errors').value)">
@@ -95,7 +126,8 @@
                     </div>
                 </div>
 
-                <div class="repo-badge mr-3" *ngIf="group.get('tpGroup').value">
+                <div class="repo-badge mr-3" *ngIf="group.get('tpGroup').value"
+                     [class.name-morphing]="animatingRepoUrls.has(group.get('url').value)">
                     {{ group.get('tpGroup').value }}
                 </div>
                 

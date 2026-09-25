@@ -323,7 +323,12 @@
     "ADD-EMPTY-REPOSITORY": "Ajouter un dépôt",
     "ADD-REPOSITORY": "Ajouter des dépôts",
     "NEW-REPOSITORY": "Étudiant·e inconnu·e",
-    "NO-REPOSITORIES": "Aucun dépôt trouvé"
+    "NO-REPOSITORIES": "Aucun dépôt trouvé",
+    "BUTTON-REFRESH-NAMES": "Réaffecter les noms",
+    "BUTTON-CONFIRM-REFRESH-NAMES": "Confirmer le remplacement ?",
+    "TOOLTIP-REFRESH-NAMES": "Recherche les noms dans IDENTITY.json ou le README et remplace les noms existants",
+    "NAMES-REFRESH-SUCCESS": "Noms réaffectés avec succès",
+    "NAMES-REFRESH-NONE": "Aucune modification de nom détectée"
   },
   "CONFIGURATION": {
     "EDIT-METADATA": "Métadonnées",

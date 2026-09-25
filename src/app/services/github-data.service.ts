@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { GitProviderType } from "@models/Account.model";
 import { Commit } from "@models/Commit.model";
-import { GitDataSearchResult, GitDataService } from "@models/GitDataService.model";
+import { GitDataSearchResult, GitDataService, RepositoryMetadata } from "@models/GitDataService.model";
 import { Error, ErrorType, Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
@@ -47,6 +47,74 @@ export class GithubDataService implements GitDataService {
       tap(() => {
         const t1 = performance.now();
         console.log(`[Performance] GithubDataService getRepositories took ${Math.round(t1 - t0)} ms for ${repoTab.length} repos`);
+      }),
+    );
+  }
+
+  fetchRepositoriesMetadata(repoTab: Repository[]): Observable<RepositoryMetadata[]> {
+    if (!repoTab || repoTab.length === 0) {
+      return of([]);
+    }
+
+    const CHUNK_SIZE = 10;
+    const chunks: Repository[][] = [];
+    for (let i = 0; i < repoTab.length; i += CHUNK_SIZE) {
+      chunks.push(repoTab.slice(i, i + CHUNK_SIZE));
+    }
+
+    const chunkObservables = chunks.map((chunk) => this.fetchBatchedRepositoriesMetadata(chunk));
+    return forkJoin(chunkObservables).pipe(map((results) => results.reduce((acc, val) => acc.concat(val), [])));
+  }
+
+  private fetchBatchedRepositoriesMetadata(repoTab: Repository[]): Observable<RepositoryMetadata[]> {
+    const repoInfos = repoTab.map((repo, index) => {
+      const parts = repo.url.split("/");
+      return {
+        alias: `repo${index}`,
+        owner: parts[3],
+        name: parts[4],
+        url: repo.url,
+      };
+    });
+
+    let query = "query {\n";
+    repoInfos.forEach((info) => {
+      query += `
+        ${info.alias}: repository(owner: "${info.owner}", name: "${info.name}") {
+          identity: object(expression: "HEAD:IDENTITY.json") {
+            ... on Blob { text }
+          }
+          readme: object(expression: "HEAD:README.md") {
+            ... on Blob { text }
+          }
+        }
+      `;
+    });
+    query += "}";
+
+    return this.http.post<{ data?: any; errors?: any[] }>("https://api.github.com/graphql", { query }, { headers: this.headers }).pipe(
+      map((response) => {
+        return repoInfos.map((info) => {
+          const repoData = response?.data?.[info.alias];
+          const identityData = repoData?.identity?.text;
+          const readmeData = repoData?.readme?.text;
+          const { name, tpGroup } = Utils.extractRepositoryMetadata(identityData, readmeData);
+          return {
+            url: info.url,
+            name,
+            tpGroup,
+          };
+        });
+      }),
+      catchError((err) => {
+        console.error("fetchBatchedRepositoriesMetadata error:", err);
+        return of(
+          repoInfos.map((info) => ({
+            url: info.url,
+            name: "",
+            tpGroup: "",
+          })),
+        );
       }),
     );
   }
@@ -535,23 +603,7 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
 
             const identityData = repoData.identity?.text;
             const readmeData = repoData.readme?.text;
-            let name = "";
-            let tpGroup = "";
-
-            if (identityData) {
-              try {
-                const identityParsed = JSON.parse(identityData);
-                name = Utils.getNameFromIdentity(identityParsed);
-                tpGroup = identityParsed.group;
-              } catch (e) {}
-            } else if (readmeData) {
-              name = Utils.getNameFromReadMe(
-                readmeData,
-                this.translateService.instant("TOKEN-LAST-NAME"),
-                this.translateService.instant("TOKEN-FIRST-NAME"),
-              );
-              tpGroup = Utils.getTPGroupFromReadMe(readmeData);
-            }
+            const { name, tpGroup } = Utils.extractRepositoryMetadata(identityData, readmeData);
 
             const history = repoData.defaultBranchRef?.target?.history;
             let commits = [];

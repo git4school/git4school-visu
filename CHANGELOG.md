@@ -1,5 +1,23 @@
 # Change log for Git4School
 
+## 2.5.0
+
+### Added
+
+#### Configuration & Repositories
+
+- **Multilingual Student Name Detection**:
+  - Detection of student names in `README.md` is now language-agnostic across all supported languages (French, English, Russian), irrespective of active UI language.
+  - Added support for Markdown formatted name headers (`**Nom** :`, `*Last name*:`, etc.) with strict line-boundary extraction.
+- **Forced Repository Names Reassignment**:
+  - Added lightweight metadata fetching (`IDENTITY.json` and `README.md`) on GitHub and GitLab without loading commits.
+  - Added Apple-style pill button with two-step morphing confirmation and split cancel button.
+  - Added Emil Kowalski-inspired stagger cascade animation with micro-blur during name reassignment.
+  - Added full Dark Mode support with cohesive CSS variables.
+- **Architecture Documentation & Tests**:
+  - Added ADR 0009 (`docs/adr/0009-detection-multilingue-et-reaffectation-noms-depots.md`).
+  - Added unit test suite for multilingual name detection in `Utils`.
+
 ## 1.4.0
 
 ### Modified

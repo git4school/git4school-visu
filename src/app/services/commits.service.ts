@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { GitProviderType } from "@models/Account.model";
 import { Commit, CommitColor } from "@models/Commit.model";
-import { GitDataSearchResult } from "@models/GitDataService.model";
+import { GitDataSearchResult, RepositoryMetadata } from "@models/GitDataService.model";
 import { Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, of } from "rxjs";
@@ -30,6 +30,17 @@ export class CommitsService {
     }
     const provider: GitProviderType = repoTab[0]?.provider || "github";
     return this.accountsService.getDataService(provider).getRepositories(repoTab, startDate, endDate);
+  }
+
+  /**
+   * Retrieves lightweight metadata (names and groups) without commits by delegating to GitDataService
+   */
+  fetchRepositoriesMetadata(repoTab: Repository[]): Observable<RepositoryMetadata[]> {
+    if (!repoTab || repoTab.length === 0) {
+      return of([]);
+    }
+    const provider: GitProviderType = repoTab[0]?.provider || "github";
+    return this.accountsService.getDataService(provider).fetchRepositoriesMetadata(repoTab);
   }
 
   /**
@@ -290,11 +301,7 @@ export class CommitsService {
   }
 
   getNameFromReadMe(readme: string): string {
-    return Utils.getNameFromReadMe(
-      readme,
-      this.translateService.instant("TOKEN-LAST-NAME"),
-      this.translateService.instant("TOKEN-FIRST-NAME"),
-    );
+    return Utils.getNameFromReadMe(readme);
   }
 
   getNameFromIdentity(identity: any): string {

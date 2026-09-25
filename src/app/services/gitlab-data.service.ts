@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { GitProviderType } from "@models/Account.model";
 import { Commit } from "@models/Commit.model";
-import { GitDataSearchResult, GitDataService } from "@models/GitDataService.model";
+import { GitDataSearchResult, GitDataService, RepositoryMetadata } from "@models/GitDataService.model";
 import { Error, ErrorType, Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
@@ -38,6 +38,54 @@ export class GitlabDataService implements GitDataService {
       tap(() => {
         const t1 = performance.now();
         console.log(`[Performance] GitlabDataService getRepositories took ${Math.round(t1 - t0)} ms for ${repoTab.length} repos`);
+      }),
+    );
+  }
+
+  fetchRepositoriesMetadata(repoTab: Repository[]): Observable<RepositoryMetadata[]> {
+    if (!repoTab || repoTab.length === 0) {
+      return of([]);
+    }
+
+    const observables = repoTab.map((repo) => this.fetchSingleRepositoryMetadata(repo));
+    return forkJoin(observables);
+  }
+
+  private fetchSingleRepositoryMetadata(repo: Repository): Observable<RepositoryMetadata> {
+    const { origin, path } = this.extractRepoPathAndOrigin(repo.url);
+    if (!path) {
+      return of({ url: repo.url, name: "", tpGroup: "" });
+    }
+
+    const projectUrl = `${origin}/api/v4/projects/${encodeURIComponent(path)}`;
+
+    return this.http.get<any>(projectUrl, { headers: this.headers }).pipe(
+      switchMap((project) => {
+        const defaultBranch = project?.default_branch || "main";
+        const readmeUrl = `${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/files/README%2Emd/raw?ref=${encodeURIComponent(
+          defaultBranch,
+        )}`;
+        const identityUrl = `${origin}/api/v4/projects/${encodeURIComponent(
+          path,
+        )}/repository/files/IDENTITY%2Ejson/raw?ref=${encodeURIComponent(defaultBranch)}`;
+
+        return forkJoin({
+          readme: this.http.get(readmeUrl, { headers: this.headers, responseType: "text" }).pipe(catchError(() => of(null))),
+          identity: this.http.get(identityUrl, { headers: this.headers, responseType: "text" }).pipe(catchError(() => of(null))),
+        }).pipe(
+          map(({ readme, identity }) => {
+            const { name, tpGroup } = Utils.extractRepositoryMetadata(identity, readme);
+            return {
+              url: repo.url,
+              name,
+              tpGroup,
+            };
+          }),
+        );
+      }),
+      catchError((err) => {
+        console.error(`Error fetching GitLab repo metadata for ${repo.url}`, err);
+        return of({ url: repo.url, name: "", tpGroup: "" });
       }),
     );
   }
@@ -206,23 +254,7 @@ export class GitlabDataService implements GitDataService {
           commits: this.fetchAllCommits(origin, path, defaultBranch, startDate, endDate),
         }).pipe(
           map(({ readme, identity, commits }) => {
-            let name = "";
-            let tpGroup = "";
-
-            if (identity) {
-              try {
-                const parsed = JSON.parse(identity);
-                name = Utils.getNameFromIdentity(parsed);
-                tpGroup = parsed.group;
-              } catch (e) {}
-            } else if (readme) {
-              name = Utils.getNameFromReadMe(
-                readme,
-                this.translateService.instant("TOKEN-LAST-NAME"),
-                this.translateService.instant("TOKEN-FIRST-NAME"),
-              );
-              tpGroup = Utils.getTPGroupFromReadMe(readme);
-            }
+            const { name, tpGroup } = Utils.extractRepositoryMetadata(identity, readme);
 
             repo.commits = commits;
             repo.provider = "gitlab";

@@ -8,6 +8,12 @@ export interface GitDataSearchResult {
   cursor?: string;
 }
 
+export interface RepositoryMetadata {
+  url: string;
+  name: string;
+  tpGroup: string;
+}
+
 /**
  * Interface representing a Git data provider service (GitHub, GitLab, etc.)
  */
@@ -18,6 +24,12 @@ export interface GitDataService {
    * Retrieves repository metadata (README.md, IDENTITY.json) and commits for a list of repositories
    */
   getRepositories(repoTab: Repository[], startDate?: string, endDate?: string): Observable<Repository[]>;
+
+  /**
+   * Retrieves lightweight metadata (student name and TP group from IDENTITY.json and README.md)
+   * without loading commits history
+   */
+  fetchRepositoriesMetadata(repoTab: Repository[]): Observable<RepositoryMetadata[]>;
 
   /**
    * Fetches repositories accessible by or belonging to the authenticated user

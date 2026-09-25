@@ -10,6 +10,8 @@ import { ToastService } from "@services/toast.service";
 import { AccountsService } from "@services/accounts.service";
 import { GithubAuthService } from "@services/github-auth.service";
 import { DataService } from "@services/data.service";
+import { CommitsService } from "@services/commits.service";
+import { Utils } from "@services/utils";
 import { Observable, of, timer } from "rxjs";
 import { catchError, map, switchMap, take } from "rxjs/operators";
 import { BaseTabEditConfigurationComponent } from "../base-tab-edit-configuration.component";
@@ -32,6 +34,18 @@ export type SortDirection = "asc" | "desc" | "";
 export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent<Repository> implements OnInit {
   @Input() assignment?: Assignment;
 
+  nameDirection: SortDirection;
+  lastPropertySorted: string;
+  searchQuery = "";
+  selectionMode = false;
+  selectedRepositories: Set<number> = new Set();
+  hoveredRepository: number | null = null;
+
+  isRefreshingNames = false;
+  isConfirmingRefresh = false;
+  animatingRepoUrls: Set<string> = new Set();
+  private confirmTimer: any = null;
+
   get provider(): GitProviderType {
     return this.assignment?.provider || "github";
   }
@@ -39,29 +53,25 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   get isConnectedToProvider(): boolean {
     return this.accountsService.hasAccount(this.provider);
   }
-  /**
-   * The matrix that defines the transition relationships between the sorting modes.
-   *
-   * See {@link SortDirection}
-   */
+
   private rotateMatrix: { [key: string]: SortDirection } = {
     asc: "desc",
     desc: "asc",
-    // desc: "",    // I keep them in case we need it
-    // "": "asc",
   };
 
-  /**
-   * The current sorting mode, applied at the moment
-   */
-  nameDirection: SortDirection;
-
-  /**
-   * The {@link Repository} property on which the sorting is applied
-   */
-  lastPropertySorted: string;
-
-  searchQuery = "";
+  constructor(
+    protected fb: FormBuilder,
+    protected cdref: ChangeDetectorRef,
+    public accountsService: AccountsService,
+    public githubAuthService: GithubAuthService,
+    private modalService: CustomModalService,
+    private translateService: TranslateService,
+    private toastService: ToastService,
+    private dataService: DataService,
+    private commitsService: CommitsService,
+  ) {
+    super(fb, cdref);
+  }
 
   get filteredFormControls() {
     if (!this.searchQuery) return this.getFormControls;
@@ -78,10 +88,6 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
     const groups = this.getFormControls.map((group) => group.get("tpGroup")?.value).filter((val) => val && val.trim() !== "");
     return Array.from(new Set(groups)).sort();
   }
-
-  selectionMode = false;
-  selectedRepositories: Set<number> = new Set();
-  hoveredRepository: number | null = null;
 
   toggleSelection(index: number) {
     if (this.selectedRepositories.has(index)) {
@@ -125,38 +131,146 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
     this.cancelSelection();
   }
 
-  /**
-   * EditRepositoriesComponent constructor
-   * @param fb The service to build formGroups
-   * @param cdref
-   * @param githubAuthService The service managing authentication
-   * @param formBuilder Helper service for building forms
-   * @param dataService The service managing application data
-   * @param modalService The modal service
-   * @param translateService The translation service
-   * @param toastService The toast notification service
-   */
-  constructor(
-    protected fb: FormBuilder,
-    protected cdref: ChangeDetectorRef,
-    public accountsService: AccountsService,
-    public githubAuthService: GithubAuthService,
-    private modalService: CustomModalService,
-    private translateService: TranslateService,
-    private toastService: ToastService,
-    private dataService: DataService,
-  ) {
-    super(fb, cdref);
-  }
-
-  /**
-   * When the component is initialized, we sort the repositories by their name in the alphabetical order
-   */
   ngOnInit() {
     super.ngOnInit();
     this.nameDirection = "asc";
     this.lastPropertySorted = "name";
     this.sort(this.lastPropertySorted);
+  }
+
+  onRefreshNamesClick() {
+    if (this.isRefreshingNames) return;
+    if (!this.isConfirmingRefresh) {
+      this.isConfirmingRefresh = true;
+      if (this.confirmTimer) {
+        clearTimeout(this.confirmTimer);
+      }
+      this.confirmTimer = setTimeout(() => {
+        this.isConfirmingRefresh = false;
+        this.cdref.markForCheck();
+      }, 4000);
+      return;
+    }
+
+    this.executeRefreshNames();
+  }
+
+  cancelConfirmRefresh(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.isConfirmingRefresh = false;
+    if (this.confirmTimer) {
+      clearTimeout(this.confirmTimer);
+      this.confirmTimer = null;
+    }
+  }
+
+  executeRefreshNames() {
+    this.isConfirmingRefresh = false;
+    if (this.confirmTimer) {
+      clearTimeout(this.confirmTimer);
+      this.confirmTimer = null;
+    }
+
+    const repos = this.getFormControls.map((row) => Repository.withJSON(row.value));
+    if (repos.length === 0) return;
+
+    this.isRefreshingNames = true;
+    this.commitsService
+      .fetchRepositoriesMetadata(repos)
+      .pipe(take(1))
+      .subscribe(
+        (metadataList) => {
+          this.isRefreshingNames = false;
+          if (!metadataList || metadataList.length === 0) {
+            this.toastService.warning(
+              this.translateService.instant("EDIT-REPOSITORIES.HEADER"),
+              this.translateService.instant("EDIT-REPOSITORIES.NAMES-REFRESH-NONE"),
+            );
+            this.cdref.markForCheck();
+            return;
+          }
+
+          const metaMap = new Map<string, { name: string; tpGroup: string }>();
+          metadataList.forEach((m) => {
+            if (m.url) {
+              metaMap.set(m.url.toLowerCase(), m);
+            }
+          });
+
+          let updatedCount = 0;
+          const changedControls: Array<{ control: FormGroup; newName: string; newGroup: string; url: string }> = [];
+
+          this.getFormControls.forEach((group) => {
+            const url = group.get("url")?.value;
+            if (!url) return;
+            const meta = metaMap.get(url.toLowerCase());
+            if (!meta) return;
+
+            const currentName = group.get("name")?.value || "";
+            const currentGroup = group.get("tpGroup")?.value || "";
+            const targetName = meta.name || "";
+            const targetGroup = meta.tpGroup || "";
+
+            const hasNameChange = targetName && targetName !== currentName;
+            const hasGroupChange = targetGroup && targetGroup !== currentGroup;
+
+            if (hasNameChange || hasGroupChange) {
+              updatedCount++;
+              changedControls.push({
+                control: group,
+                newName: targetName || currentName,
+                newGroup: targetGroup || currentGroup,
+                url,
+              });
+            }
+          });
+
+          if (updatedCount === 0) {
+            this.toastService.warning(
+              this.translateService.instant("EDIT-REPOSITORIES.HEADER"),
+              this.translateService.instant("EDIT-REPOSITORIES.NAMES-REFRESH-NONE"),
+            );
+            this.cdref.markForCheck();
+            return;
+          }
+
+          changedControls.forEach((item, index) => {
+            const staggerDelay = index * 45;
+            setTimeout(() => {
+              this.animatingRepoUrls.add(item.url);
+              this.cdref.markForCheck();
+
+              setTimeout(() => {
+                item.control.get("name")?.setValue(item.newName);
+                if (item.newGroup) {
+                  item.control.get("tpGroup")?.setValue(item.newGroup);
+                }
+                this.cdref.markForCheck();
+              }, 120);
+
+              setTimeout(() => {
+                this.animatingRepoUrls.delete(item.url);
+                this.cdref.markForCheck();
+              }, 450);
+            }, staggerDelay);
+          });
+
+          this.modify();
+          this.submitForm();
+          this.toastService.success(
+            this.translateService.instant("SUCCESS"),
+            this.translateService.instant("EDIT-REPOSITORIES.NAMES-REFRESH-SUCCESS"),
+          );
+        },
+        (err) => {
+          this.isRefreshingNames = false;
+          console.error("Error refreshing repository names", err);
+          this.toastService.error(this.translateService.instant("ERROR"), this.translateService.instant("ERROR-MESSAGE-NO-ACCESS"));
+          this.cdref.markForCheck();
+        },
+      );
   }
 
   /**
