@@ -144,13 +144,12 @@ body.dark-theme .commit {
 
   .session-header-fo {
     pointer-events: auto;
-    overflow: hidden;
+    overflow: visible;
     cursor: default;
-    mask: url(#milestone-badges-cutout-mask);
-    -webkit-mask: url(#milestone-badges-cutout-mask);
   }
 
   .session-pill {
+    box-sizing: border-box;
     cursor: default;
     transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
     min-width: 0;
@@ -403,6 +402,7 @@ body.dark-theme .commit {
  * Ghost par défaut, reveal au hover, feedback physique au clic.
  * Padding étendu pour une zone de clic confortable sans encombrer. */
 .session-edge-arrow {
+  box-sizing: border-box;
   background: transparent;
   border: 1px solid transparent;
   border-radius: 6px;
@@ -411,8 +411,8 @@ body.dark-theme .commit {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Larger padding = larger hit area, CSS clip-path keeps visual size small */
-  padding: 4px 6px;
+  height: 18px;
+  padding: 2px 4px;
   flex-shrink: 0;
   will-change: transform;
   transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform 120ms ease-out;
