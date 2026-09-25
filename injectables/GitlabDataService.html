@@ -108,8 +108,15 @@
                                 <a href="#fetchCommitsPage" >fetchCommitsPage</a>
                             </li>
                             <li>
+                                <a href="#fetchRepositoriesMetadata" >fetchRepositoriesMetadata</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#fetchSingleRepositoryData" >fetchSingleRepositoryData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fetchSingleRepositoryMetadata" >fetchSingleRepositoryMetadata</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -265,8 +272,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="301"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:301</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="333"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:333</a></div>
                 </td>
             </tr>
 
@@ -336,8 +343,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="249"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:249</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="281"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:281</a></div>
                 </td>
             </tr>
 
@@ -455,8 +462,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="263"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:263</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="295"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:295</a></div>
                 </td>
             </tr>
 
@@ -532,6 +539,75 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="fetchRepositoriesMetadata"></a>
+                    <span class="name">
+                        <span ><b>fetchRepositoriesMetadata</b></span>
+                        <a href="#fetchRepositoriesMetadata"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fetchRepositoriesMetadata(repoTab: <a href="../classes/Repository.html" target="_self">Repository[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:45</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>repoTab</td>
+                                    <td>
+                                                <code><a href="../classes/Repository.html" target="_self" >Repository[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/RepositoryMetadata.html" target="_self" >Observable&lt;RepositoryMetadata[]&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="fetchSingleRepositoryData"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -550,8 +626,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="184"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:184</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="232"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:232</a></div>
                 </td>
             </tr>
 
@@ -627,6 +703,77 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="fetchSingleRepositoryMetadata"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>fetchSingleRepositoryMetadata</b></span>
+                        <a href="#fetchSingleRepositoryMetadata"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>fetchSingleRepositoryMetadata(repo: <a href="../classes/Repository.html" target="_self">Repository</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>repo</td>
+                                    <td>
+                                                <code><a href="../classes/Repository.html" target="_self" >Repository</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/RepositoryMetadata.html" target="_self" >Observable&lt;RepositoryMetadata&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getBaseApi"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -645,8 +792,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="338"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:338</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="370"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:370</a></div>
                 </td>
             </tr>
 
@@ -684,8 +831,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="333"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:333</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="365"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:365</a></div>
                 </td>
             </tr>
 
@@ -814,8 +961,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:93</a></div>
                 </td>
             </tr>
 
@@ -901,8 +1048,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:121</a></div>
                 </td>
             </tr>
 
@@ -1004,8 +1151,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="284"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:284</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="316"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:316</a></div>
                 </td>
             </tr>
 
@@ -1087,8 +1234,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:193</a></div>
                 </td>
             </tr>
 
@@ -1192,8 +1339,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:128</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:176</a></div>
                 </td>
             </tr>
 
@@ -1317,7 +1464,7 @@
 import { Injectable } from &quot;@angular/core&quot;;
 import { GitProviderType } from &quot;@models/Account.model&quot;;
 import { Commit } from &quot;@models/Commit.model&quot;;
-import { GitDataSearchResult, GitDataService } from &quot;@models/GitDataService.model&quot;;
+import { GitDataSearchResult, GitDataService, RepositoryMetadata } from &quot;@models/GitDataService.model&quot;;
 import { Error, ErrorType, Repository } from &quot;@models/Repository.model&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import * as moment from &quot;moment&quot;;
@@ -1353,6 +1500,54 @@ export class GitlabDataService implements GitDataService {
       tap(() &#x3D;&gt; {
         const t1 &#x3D; performance.now();
         console.log(&#x60;[Performance] GitlabDataService getRepositories took ${Math.round(t1 - t0)} ms for ${repoTab.length} repos&#x60;);
+      }),
+    );
+  }
+
+  fetchRepositoriesMetadata(repoTab: Repository[]): Observable&lt;RepositoryMetadata[]&gt; {
+    if (!repoTab || repoTab.length &#x3D;&#x3D;&#x3D; 0) {
+      return of([]);
+    }
+
+    const observables &#x3D; repoTab.map((repo) &#x3D;&gt; this.fetchSingleRepositoryMetadata(repo));
+    return forkJoin(observables);
+  }
+
+  private fetchSingleRepositoryMetadata(repo: Repository): Observable&lt;RepositoryMetadata&gt; {
+    const { origin, path } &#x3D; this.extractRepoPathAndOrigin(repo.url);
+    if (!path) {
+      return of({ url: repo.url, name: &quot;&quot;, tpGroup: &quot;&quot; });
+    }
+
+    const projectUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}&#x60;;
+
+    return this.http.get&lt;any&gt;(projectUrl, { headers: this.headers }).pipe(
+      switchMap((project) &#x3D;&gt; {
+        const defaultBranch &#x3D; project?.default_branch || &quot;main&quot;;
+        const readmeUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/files/README%2Emd/raw?ref&#x3D;${encodeURIComponent(
+          defaultBranch,
+        )}&#x60;;
+        const identityUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(
+          path,
+        )}/repository/files/IDENTITY%2Ejson/raw?ref&#x3D;${encodeURIComponent(defaultBranch)}&#x60;;
+
+        return forkJoin({
+          readme: this.http.get(readmeUrl, { headers: this.headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
+          identity: this.http.get(identityUrl, { headers: this.headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
+        }).pipe(
+          map(({ readme, identity }) &#x3D;&gt; {
+            const { name, tpGroup } &#x3D; Utils.extractRepositoryMetadata(identity, readme);
+            return {
+              url: repo.url,
+              name,
+              tpGroup,
+            };
+          }),
+        );
+      }),
+      catchError((err) &#x3D;&gt; {
+        console.error(&#x60;Error fetching GitLab repo metadata for ${repo.url}&#x60;, err);
+        return of({ url: repo.url, name: &quot;&quot;, tpGroup: &quot;&quot; });
       }),
     );
   }
@@ -1521,23 +1716,7 @@ export class GitlabDataService implements GitDataService {
           commits: this.fetchAllCommits(origin, path, defaultBranch, startDate, endDate),
         }).pipe(
           map(({ readme, identity, commits }) &#x3D;&gt; {
-            let name &#x3D; &quot;&quot;;
-            let tpGroup &#x3D; &quot;&quot;;
-
-            if (identity) {
-              try {
-                const parsed &#x3D; JSON.parse(identity);
-                name &#x3D; Utils.getNameFromIdentity(parsed);
-                tpGroup &#x3D; parsed.group;
-              } catch (e) {}
-            } else if (readme) {
-              name &#x3D; Utils.getNameFromReadMe(
-                readme,
-                this.translateService.instant(&quot;TOKEN-LAST-NAME&quot;),
-                this.translateService.instant(&quot;TOKEN-FIRST-NAME&quot;),
-              );
-              tpGroup &#x3D; Utils.getTPGroupFromReadMe(readme);
-            }
+            const { name, tpGroup } &#x3D; Utils.extractRepositoryMetadata(identity, readme);
 
             repo.commits &#x3D; commits;
             repo.provider &#x3D; &quot;gitlab&quot;;

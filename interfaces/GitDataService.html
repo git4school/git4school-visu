@@ -109,6 +109,12 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                    <a href="#fetchRepositoriesMetadata" 
+>
+                                        fetchRepositoriesMetadata
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="#getRepositories" 
 >
                                         getRepositories
@@ -148,6 +154,78 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="fetchRepositoriesMetadata"></a>
+                    <span class="name">
+                        <span ><b>fetchRepositoriesMetadata</b></span>
+                        <a href="#fetchRepositoriesMetadata"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fetchRepositoriesMetadata(repoTab: <a href="../classes/Repository.html" target="_self">Repository[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/app/models/GitDataService.model.ts:32</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Retrieves lightweight metadata (student name and TP group from IDENTITY.json and README.md)
+without loading commits history</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>repoTab</td>
+                                    <td>
+                                                <code><a href="../classes/Repository.html" target="_self" >Repository[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/RepositoryMetadata.html" target="_self" >Observable&lt;RepositoryMetadata[]&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getRepositories"></a>
                     <span class="name">
                         <span ><b>getRepositories</b></span>
@@ -164,8 +242,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/app/models/GitDataService.model.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/app/models/GitDataService.model.ts:26</a></div>
                 </td>
             </tr>
 
@@ -259,8 +337,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">src/app/models/GitDataService.model.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">src/app/models/GitDataService.model.ts:37</a></div>
                 </td>
             </tr>
 
@@ -342,8 +420,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/models/GitDataService.model.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/app/models/GitDataService.model.ts:42</a></div>
                 </td>
             </tr>
 
@@ -437,8 +515,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/app/models/GitDataService.model.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/models/GitDataService.model.ts:47</a></div>
                 </td>
             </tr>
 
@@ -540,6 +618,12 @@ export interface GitDataSearchResult {
   cursor?: string;
 }
 
+export interface RepositoryMetadata {
+  url: string;
+  name: string;
+  tpGroup: string;
+}
+
 /**
  * Interface representing a Git data provider service (GitHub, GitLab, etc.)
  */
@@ -550,6 +634,12 @@ export interface GitDataService {
    * Retrieves repository metadata (README.md, IDENTITY.json) and commits for a list of repositories
    */
   getRepositories(repoTab: Repository[], startDate?: string, endDate?: string): Observable&lt;Repository[]&gt;;
+
+  /**
+   * Retrieves lightweight metadata (student name and TP group from IDENTITY.json and README.md)
+   * without loading commits history
+   */
+  fetchRepositoriesMetadata(repoTab: Repository[]): Observable&lt;RepositoryMetadata[]&gt;;
 
   /**
    * Fetches repositories accessible by or belonging to the authenticated user

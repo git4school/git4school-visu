@@ -521,6 +521,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/OverlayDismissEvent.html" data-type="entity-link" >OverlayDismissEvent</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/RepositoryMetadata.html" data-type="entity-link" >RepositoryMetadata</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/SegmentedRadioOption.html" data-type="entity-link" >SegmentedRadioOption</a>
                             </li>
                             <li class="link">

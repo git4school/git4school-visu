@@ -33,6 +33,35 @@
                    <div class="content-data">
 
 <h1 id="change-log-for-git4school">Change log for Git4School</h1>
+<h2 id="251">2.5.1</h2>
+<h3 id="fixed">Fixed</h3>
+<h4 id="repositories--utils">Repositories &amp; Utils</h4>
+<ul>
+<li><strong>TP Group Extraction from README</strong>: Correctly extract TP group located after a checked markdown checkbox (<code>- [x]</code> or <code>- [X]</code>) instead of capturing brackets.</li>
+<li><strong>Multilingual Name Parsing</strong>: Fix line-by-line parsing to properly extract student names when colons are placed inside bold/italic markdown formatting (e.g. <code>**Nom :** **Durand**</code>).</li>
+</ul>
+<h2 id="250">2.5.0</h2>
+<h3 id="added">Added</h3>
+<h4 id="configuration--repositories">Configuration &amp; Repositories</h4>
+<ul>
+<li><strong>Multilingual Student Name Detection</strong>:<ul>
+<li>Detection of student names in <code>README.md</code> is now language-agnostic across all supported languages (French, English, Russian), irrespective of active UI language.</li>
+<li>Added support for Markdown formatted name headers (<code>**Nom** :</code>, <code>*Last name*:</code>, etc.) with strict line-boundary extraction.</li>
+</ul>
+</li>
+<li><strong>Forced Repository Names Reassignment</strong>:<ul>
+<li>Added lightweight metadata fetching (<code>IDENTITY.json</code> and <code>README.md</code>) on GitHub and GitLab without loading commits.</li>
+<li>Added Apple-style pill button with two-step morphing confirmation and split cancel button.</li>
+<li>Added Emil Kowalski-inspired stagger cascade animation with micro-blur during name reassignment.</li>
+<li>Added full Dark Mode support with cohesive CSS variables.</li>
+</ul>
+</li>
+<li><strong>Architecture Documentation &amp; Tests</strong>:<ul>
+<li>Added ADR 0009 (<code>docs/adr/0009-detection-multilingue-et-reaffectation-noms-depots.md</code>).</li>
+<li>Added unit test suite for multilingual name detection in <code>Utils</code>.</li>
+</ul>
+</li>
+</ul>
 <h2 id="140">1.4.0</h2>
 <h3 id="modified">Modified</h3>
 <h4 id="home">Home</h4>
@@ -65,7 +94,7 @@
 <ul>
 <li>Sessions edition has been removed from the assignment configuration as it has been moved to the overview graph</li>
 </ul>
-<h3 id="fixed">Fixed</h3>
+<h3 id="fixed-1">Fixed</h3>
 <h2 id="135">1.3.5</h2>
 <h3 id="modified-1">Modified</h3>
 <h4 id="home-2">Home</h4>
@@ -76,12 +105,12 @@
 <ul>
 <li>All the internal handling of export/import of one or more assignments has been redesigned to depend only directly on the Assignment model</li>
 </ul>
-<h3 id="fixed-1">Fixed</h3>
+<h3 id="fixed-2">Fixed</h3>
 <ul>
 <li>Fixed a bug related to time shift</li>
 </ul>
 <h2 id="134">1.3.4</h2>
-<h3 id="added">Added</h3>
+<h3 id="added-1">Added</h3>
 <h4 id="home-3">Home</h4>
 <ul>
 <li><p>Assignments list</p>
@@ -112,7 +141,7 @@
 </li>
 </ul>
 <h2 id="133">1.3.3</h2>
-<h3 id="added-1">Added</h3>
+<h3 id="added-2">Added</h3>
 <h4 id="general">General</h4>
 <ul>
 <li>User documentation has been fully migrated and rewritten to a <a href="https://git4school.github.io/">dedicated space</a></li>
@@ -143,12 +172,12 @@
 <ul>
 <li>User documentation has been deleted from the home page</li>
 </ul>
-<h3 id="fixed-2">Fixed</h3>
+<h3 id="fixed-3">Fixed</h3>
 <ul>
 <li>Fixed a bug blocking from adding a milestone after importing the assignment with no milestone</li>
 </ul>
 <h2 id="132">1.3.2</h2>
-<h3 id="added-2">Added</h3>
+<h3 id="added-3">Added</h3>
 <h4 id="configuration-modal">Configuration Modal</h4>
 <ul>
 <li>An icon is displayed in the tabs (metadata, repositories, sessions) that need to be saved</li>
@@ -186,7 +215,7 @@
 <li>The button to <em>import</em> an assignment has been removed from the <em>overview</em> graph page because it is already in the assignment configuration modal</li>
 </ul>
 <h2 id="131">1.3.1</h2>
-<h3 id="added-3">Added</h3>
+<h3 id="added-4">Added</h3>
 <h4 id="configuration-modal-2">Configuration modal</h4>
 <ul>
 <li>A JS alert is asking the user to confirm if they want to leave the configuration modal without saving changes</li>
@@ -209,7 +238,7 @@
 <li>Date format placeholder are <em>localized</em></li>
 </ul>
 <h2 id="130">1.3.0</h2>
-<h3 id="added-4">Added</h3>
+<h3 id="added-5">Added</h3>
 <h4 id="home-page-1">Home page</h4>
 <ul>
 <li>A list on the home page lets the user view, <em>select</em>, <em>modify</em>, <em>delete</em> the assignments that he has saved, or <em>add</em> a new one<ul>
@@ -244,12 +273,12 @@
 <ul>
 <li>The page has been removed because it is possible to modify the assignments of the <strong>home page</strong></li>
 </ul>
-<h3 id="fixed-3">Fixed</h3>
+<h3 id="fixed-4">Fixed</h3>
 <ul>
 <li>Fixed a navigation bug when no data was loaded</li>
 </ul>
 <h2 id="120">1.2.0</h2>
-<h3 id="added-5">Added</h3>
+<h3 id="added-6">Added</h3>
 <h4 id="general-6">General</h4>
 <ul>
 <li>It is now possible to start the configuration directly from the application, without a configuration file</li>
@@ -275,12 +304,12 @@
 <ul>
 <li>When creating a milestone, it is now possible not to assign any TP group to it so that it affects all repositories</li>
 </ul>
-<h3 id="fixed-4">Fixed</h3>
+<h3 id="fixed-5">Fixed</h3>
 <ul>
 <li>A bug that caused the application to load infinitely and block navigation when all the repositories had been deleted</li>
 </ul>
 <h2 id="110">1.1.0</h2>
-<h3 id="added-6">Added</h3>
+<h3 id="added-7">Added</h3>
 <h4 id="project-1">Project</h4>
 <ul>
 <li>Continuous integration and deployment of technical and user documentation<ul>
@@ -370,7 +399,7 @@
 <li><em>Reread</em> button because it was not working and there is no workaround to make it work</li>
 </ul>
 <h2 id="100">1.0.0</h2>
-<h3 id="added-7">Added</h3>
+<h3 id="added-8">Added</h3>
 <h4 id="general-10">General</h4>
 <ul>
 <li>Localization (english &amp; french)</li>
