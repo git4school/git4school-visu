@@ -1,18 +1,48 @@
 name: Deploy staging (label)
+
 on:
   pull_request:
     branches: [master]
     types: [labeled]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
+  init-comment:
+    if: ${{ github.event.label.name == 'deploy-staging' }}
+    name: Acknowledge deployment
+    runs-on: ubuntu-latest
+    outputs:
+      comment_id: ${{ steps.create_comment.outputs.comment_id }}
+    steps:
+      - name: Create in-progress comment
+        id: create_comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue_number = context.issue.number;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const comment = await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              body: `## 🚀 Staging deployment in progress...\n\nA staging deployment has been triggered. This comment will be updated once the deployment is complete.\n\n[View the workflow run](${runUrl})`,
+            });
+            core.setOutput('comment_id', comment.data.id);
+
   build:
     if: ${{ github.event.label.name == 'deploy-staging' }}
     name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v4
         with:
           node-version: "14.X"
       - name: Install Dependencies
@@ -20,30 +50,136 @@ jobs:
       - name: Build app
         run: yarn run build-prod
       - name: Upload Archive Production Artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v4
         with:
           name: dist-git4school
           path: dist/git4school
+
   deploy:
+    if: ${{ github.event.label.name == 'deploy-staging' }}
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      staging_url: ${{ steps.firebase.outputs.urls }}
+      details_url: ${{ steps.firebase.outputs.details_url }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "24.18.0"
       - name: Download Production Artifact
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v4
         with:
           name: dist-git4school
           path: dist/git4school
       - name: Deploy staging
+        id: firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GIT4SCHOOL }}
           projectId: git4school
           channelId: "pr-${{ github.event.number }}-${{ github.event.pull_request.head.ref }}"
+          expires: 30d
+
+  comment:
+    if: ${{ always() && github.event.label.name == 'deploy-staging' }}
+    name: Report deployment result
+    needs: [init-comment, build, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update deployment result on the pull request
+        uses: actions/github-script@v7
+        env:
+          COMMENT_ID: ${{ needs.init-comment.outputs.comment_id }}
+          BUILD_RESULT: ${{ needs.build.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+          STAGING_URL: ${{ needs.deploy.outputs.staging_url }}
+          DETAILS_URL: ${{ needs.deploy.outputs.details_url }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue_number = context.issue.number;
+            const commentId = process.env.COMMENT_ID;
+            const buildResult = process.env.BUILD_RESULT;
+            const deployResult = process.env.DEPLOY_RESULT;
+            const stagingUrl = process.env.STAGING_URL;
+            const detailsUrl = process.env.DETAILS_URL;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            let body = '';
+
+            if (buildResult === 'success' && deployResult === 'success') {
+              let urls = [];
+              if (detailsUrl) {
+                urls.push(detailsUrl);
+              }
+              if (stagingUrl) {
+                try {
+                  const parsed = JSON.parse(stagingUrl);
+                  if (Array.isArray(parsed)) {
+                    urls.push(...parsed);
+                  } else if (typeof parsed === 'string') {
+                    urls.push(parsed);
+                  }
+                } catch (e) {
+                  urls.push(
+                    ...stagingUrl
+                      .split(/\r?\n/)
+                      .map(u => u.trim().replace(/^[\["']+|[\]"']+$/g, ''))
+                      .filter(Boolean)
+                  );
+                }
+              }
+
+              // Deduplicate and clean URLs
+              const cleanUrls = [...new Set(
+                urls
+                  .map(u => (typeof u === 'string' ? u.trim().replace(/^["']|["']$/g, '') : ''))
+                  .filter(Boolean)
+              )];
+
+              const formattedLinks = cleanUrls.length > 0
+                ? cleanUrls.map(url => `- [${url}](${url})`).join('\n')
+                : 'The deployment completed successfully, but Firebase did not return a preview URL.';
+
+              body = `## ✅ Staging deployment succeeded\n\n${formattedLinks}\n\n[View the workflow run](${runUrl})`;
+            } else {
+              const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: context.runId,
+                per_page: 100,
+              });
+              const failedSteps = jobs
+                .flatMap(job => (job.steps || []).map(step => ({ job: job.name, ...step })))
+                .filter(step => step.conclusion === 'failure')
+                .map(step => `- **${step.job} / ${step.name}**`)
+                .join('\n');
+
+              const details = failedSteps || `Build result: \`${buildResult}\`; deploy result: \`${deployResult}\`.`;
+              body = `## ❌ Staging deployment failed\n\n${details}\n\n[View the workflow run for full logs](${runUrl})`;
+            }
+
+            if (commentId) {
+              try {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: Number(commentId),
+                  body,
+                });
+                return;
+              } catch (error) {
+                core.warning(`Failed to update comment ${commentId}: ${error.message}. Falling back to creating a new comment.`);
+              }
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              body,
+            });
