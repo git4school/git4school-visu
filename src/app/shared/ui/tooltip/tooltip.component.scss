@@ -27,7 +27,10 @@
   border: 1px solid var(--border-color);
   opacity: 0;
   will-change: opacity, transform;
-  transition: opacity 140ms ease-out, transform 140ms ease-out;
+  transform-origin: var(--transform-origin, center);
+  transition:
+    transform 0.125s ease-out,
+    opacity 0.125s ease-out;
 
   /* Glassmorphism / Minimalist */
   backdrop-filter: blur(8px);
@@ -40,28 +43,40 @@
   }
 
   &.top {
+    --transform-origin: bottom center;
     transform: translateY(4px) scale(0.97);
-    transform-origin: bottom center;
   }
 
   &.bottom {
+    --transform-origin: top center;
     transform: translateY(-4px) scale(0.97);
-    transform-origin: top center;
   }
 
   &.left {
+    --transform-origin: right center;
     transform: translateX(4px) scale(0.97);
-    transform-origin: right center;
   }
 
   &.right {
+    --transform-origin: left center;
     transform: translateX(-4px) scale(0.97);
-    transform-origin: left center;
   }
 
   &.show {
     opacity: 1;
     transform: translate(0, 0) scale(1);
+  }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  /* Disables subsequent animations in warm state */
+  &[data-instant],
+  &.instant {
+    transition-duration: 0ms !important;
   }
 }
 

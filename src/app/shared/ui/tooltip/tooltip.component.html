@@ -1,6 +1,8 @@
 <div class="tooltip-container"
      [class]="placement"
      [class.show]="show"
+     [class.instant]="instant"
+     [attr.data-instant]="instant ? '' : null"
      [class.shortcut-pressed]="shortcutPressed"
      [class.has-template]="!isString(content)"
      [class.is-text]="isString(content)"

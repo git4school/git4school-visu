@@ -7,8 +7,11 @@ import { OverlayManagerService, OverlayType } from "./overlay-manager.service";
 })
 export class TooltipService {
   private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
-  private showTimeout: any;
-  private readonly SHOW_DELAY = 500; // ms
+  private showTimeout: any = null;
+  private warmResetTimeout: any = null;
+  private isWarm = false;
+  private readonly SHOW_DELAY = 400; // ms
+  private readonly WARMUP_RESET_DELAY = 400; // ms grace period before resetting warm state
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -33,17 +36,37 @@ export class TooltipService {
     shortcutKeys?: string[],
     maxWidth?: string | number,
   ) {
-    this.hide(); // Hide any existing tooltip immediately
+    if (this.warmResetTimeout) {
+      clearTimeout(this.warmResetTimeout);
+      this.warmResetTimeout = null;
+    }
 
-    this.showTimeout = setTimeout(() => {
-      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys, undefined, maxWidth);
+    const wasShowing = this.isShowing();
+    const shouldBeInstant = this.isWarm || wasShowing;
+
+    this.destroyTooltip();
+
+    if (this.showTimeout) {
+      clearTimeout(this.showTimeout);
+      this.showTimeout = null;
+    }
+
+    const render = () => {
+      this.isWarm = true;
+      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys, undefined, maxWidth, shouldBeInstant);
 
       // Calculate position
       const rect = element.getBoundingClientRect();
       this.setPosition(rect, placement).then(() => {
         this.tooltipComponentRef?.instance.reveal();
       });
-    }, this.SHOW_DELAY);
+    };
+
+    if (shouldBeInstant) {
+      render();
+    } else {
+      this.showTimeout = setTimeout(render, this.SHOW_DELAY);
+    }
   }
 
   /**
@@ -59,10 +82,24 @@ export class TooltipService {
     context?: any,
     maxWidth?: string | number,
   ) {
-    this.hide();
+    if (this.warmResetTimeout) {
+      clearTimeout(this.warmResetTimeout);
+      this.warmResetTimeout = null;
+    }
+
+    const wasShowing = this.isShowing();
+    const shouldBeInstant = instant || this.isWarm || wasShowing;
+
+    this.destroyTooltip();
+
+    if (this.showTimeout) {
+      clearTimeout(this.showTimeout);
+      this.showTimeout = null;
+    }
 
     const render = () => {
-      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys, context, maxWidth);
+      this.isWarm = true;
+      this.tooltipComponentRef = this.createTooltipComponent(content, placement, shortcutKeys, context, maxWidth, shouldBeInstant);
 
       // Simulate a rect for position calculation
       const rect = {
@@ -79,7 +116,7 @@ export class TooltipService {
       });
     };
 
-    if (instant) {
+    if (shouldBeInstant) {
       render();
     } else {
       this.showTimeout = setTimeout(render, this.SHOW_DELAY);
@@ -107,16 +144,19 @@ export class TooltipService {
   hide() {
     if (this.showTimeout) {
       clearTimeout(this.showTimeout);
+      this.showTimeout = null;
     }
 
     if (this.tooltipComponentRef) {
-      const domElem = (this.tooltipComponentRef.hostView as EmbeddedViewRef<any>)?.rootNodes?.[0] as HTMLElement;
-      if (domElem?.parentNode) {
-        domElem.parentNode.removeChild(domElem);
+      this.destroyTooltip();
+      this.isWarm = true;
+      if (this.warmResetTimeout) {
+        clearTimeout(this.warmResetTimeout);
       }
-      this.appRef.detachView(this.tooltipComponentRef.hostView);
-      this.tooltipComponentRef.destroy();
-      this.tooltipComponentRef = null;
+      this.warmResetTimeout = setTimeout(() => {
+        this.isWarm = false;
+        this.warmResetTimeout = null;
+      }, this.WARMUP_RESET_DELAY);
     }
   }
 
@@ -126,12 +166,14 @@ export class TooltipService {
     shortcutKeys?: string[],
     context?: any,
     maxWidth?: string | number,
+    instant = false,
   ): ComponentRef<TooltipComponent> {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(TooltipComponent);
     const componentRef = componentFactory.create(this.injector);
 
     componentRef.instance.content = content;
     componentRef.instance.placement = placement;
+    componentRef.instance.instant = instant;
     if (shortcutKeys) {
       componentRef.instance.shortcutKeys = shortcutKeys;
     }
@@ -147,6 +189,18 @@ export class TooltipService {
     document.body.appendChild(domElem);
 
     return componentRef;
+  }
+
+  private destroyTooltip() {
+    if (this.tooltipComponentRef) {
+      const domElem = (this.tooltipComponentRef.hostView as EmbeddedViewRef<any>)?.rootNodes?.[0] as HTMLElement;
+      if (domElem?.parentNode) {
+        domElem.parentNode.removeChild(domElem);
+      }
+      this.appRef.detachView(this.tooltipComponentRef.hostView);
+      this.tooltipComponentRef.destroy();
+      this.tooltipComponentRef = null;
+    }
   }
 
   private calculatePosition(

@@ -3,7 +3,8 @@
   *ngIf="isCollapsed"
   class="dev-bar-minimized"
   (click)="toggleCollapse()"
-  title="Développer la barre développeur"
+  [appTooltip]="'Développer la barre développeur'"
+  placement="top"
 >
   <span class="badge-dev-tag">DEV</span>
   <span class="fps-pill" [ngClass]="fps >= 55 ? 'fps-good' : (fps >= 30 ? 'fps-medium' : 'fps-bad')">
@@ -26,26 +27,27 @@
     <div
       class="metric-pill"
       [ngClass]="fps >= 55 ? 'fps-good' : (fps >= 30 ? 'fps-medium' : 'fps-bad')"
-      title="Images par seconde (FPS en temps réel)"
+      [appTooltip]="'Images par seconde (FPS en temps réel)'"
+      placement="top"
     >
       <span class="metric-dot"></span>
       <span class="metric-val">{{ fps }} FPS</span>
     </div>
 
     <!-- Memory -->
-    <div *ngIf="memoryMB !== null" class="metric-pill" title="Mémoire JavaScript Heap utilisée">
+    <div *ngIf="memoryMB !== null" class="metric-pill" [appTooltip]="'Mémoire JavaScript Heap utilisée'" placement="top">
       <i class="fas fa-memory mr-1"></i>
       <span>{{ memoryMB }} MB</span>
     </div>
 
     <!-- Viewport / Breakpoint -->
-    <div class="metric-pill" title="Dimensions d'écran et breakpoint responsive">
+    <div class="metric-pill" [appTooltip]="'Dimensions d\'écran et breakpoint responsive'" placement="top">
       <i class="fas fa-desktop mr-1"></i>
       <span>{{ viewportWidth }}px · {{ breakpoint }}</span>
     </div>
 
     <!-- Route -->
-    <div class="metric-pill route-pill" [title]="'Route active : ' + currentRoute">
+    <div class="metric-pill route-pill" [appTooltip]="'Route active : ' + currentRoute" placement="top">
       <i class="fas fa-compass mr-1"></i>
       <span class="route-text">{{ currentRoute || '/' }}</span>
     </div>
@@ -60,7 +62,8 @@
         class="dev-bar-btn"
         [class.active]="activePopover === 'toasts'"
         (click)="togglePopover('toasts')"
-        title="Tester l'affichage des notifications toasts"
+        [appTooltip]="'Tester l\'affichage des notifications toasts'"
+        placement="top"
       >
         <i class="fas fa-bell mr-1.5"></i>
         <span>Toasts</span>
@@ -94,7 +97,8 @@
         class="dev-bar-btn"
         [class.active]="activePopover === 'modals'"
         (click)="togglePopover('modals')"
-        title="Ouvrir une modale de l'application"
+        [appTooltip]="'Ouvrir une modale de l\'application'"
+        placement="top"
       >
         <i class="fas fa-window-restore mr-1.5"></i>
         <span>Modales</span>
@@ -120,7 +124,8 @@
       type="button"
       class="dev-bar-btn"
       (click)="toggleTheme()"
-      [title]="themeService.isDarkMode ? 'Passer en mode clair' : 'Passer en mode sombre'"
+      [appTooltip]="themeService.isDarkMode ? 'Passer en mode clair' : 'Passer en mode sombre'"
+      placement="top"
     >
       <i class="fas mr-1.5" [ngClass]="themeService.isDarkMode ? 'fa-sun text-warning' : 'fa-moon'"></i>
       <span>{{ themeService.isDarkMode ? 'Clair' : 'Sombre' }}</span>
@@ -131,7 +136,8 @@
       type="button"
       class="dev-bar-btn btn-danger-hover"
       (click)="clearStorage()"
-      title="Vider intégralement le LocalStorage"
+      [appTooltip]="'Vider intégralement le LocalStorage'"
+      placement="top"
     >
       <i class="fas fa-trash-alt mr-1.5"></i>
       <span>Vider Storage</span>
@@ -146,7 +152,8 @@
       class="dev-flag-toggle"
       [class.is-enabled]="mockGitlabInstanceService.isMockActive"
       (click)="toggleMockGitlab()"
-      [title]="(mockGitlabInstanceService.isMockActive ? 'Désactiver' : 'Activer') + ' le mock GitLab (UT3)'"
+      [appTooltip]="(mockGitlabInstanceService.isMockActive ? 'Désactiver' : 'Activer') + ' le mock GitLab (UT3)'"
+      placement="top"
     >
       <i class="fas fa-server mr-1.5"></i>
       <span>Tester Instance GitLab</span>
@@ -158,7 +165,8 @@
       type="button"
       class="dev-bar-icon-btn ml-1"
       (click)="toggleCollapse()"
-      title="Réduire la barre de dev"
+      [appTooltip]="'Réduire la barre de dev'"
+      placement="top"
     >
       <i class="fas fa-chevron-down"></i>
     </button>

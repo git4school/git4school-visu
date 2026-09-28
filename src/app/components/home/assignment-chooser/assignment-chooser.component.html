@@ -197,7 +197,7 @@
                   </button>
                   <div class="dropdown-divider" *ngIf="availableCourses.length > 0"></div>
                   <button class="dropdown-item text-truncate" *ngFor="let course of availableCourses"
-                    [class.active]="advancedFilters.course === course" (click)="advancedFilters.course = course; savePreferences()" [title]="course">
+                    [class.active]="advancedFilters.course === course" (click)="advancedFilters.course = course; savePreferences()" [appTooltip]="course" [onlyIfTruncated]="true">
                     {{ course }}
                   </button>
                 </div>
@@ -224,7 +224,7 @@
                   </button>
                   <div class="dropdown-divider" *ngIf="availablePrograms.length > 0"></div>
                   <button class="dropdown-item text-truncate" *ngFor="let program of availablePrograms"
-                    [class.active]="advancedFilters.program === program" (click)="advancedFilters.program = program; savePreferences()" [title]="program">
+                    [class.active]="advancedFilters.program === program" (click)="advancedFilters.program = program; savePreferences()" [appTooltip]="program" [onlyIfTruncated]="true">
                     {{ program }}
                   </button>
                 </div>
@@ -251,7 +251,7 @@
                   </button>
                   <div class="dropdown-divider" *ngIf="availableYears.length > 0"></div>
                   <button class="dropdown-item text-truncate" *ngFor="let year of availableYears"
-                    [class.active]="advancedFilters.year === year" (click)="advancedFilters.year = year; savePreferences()" [title]="year">
+                    [class.active]="advancedFilters.year === year" (click)="advancedFilters.year = year; savePreferences()" [appTooltip]="year" [onlyIfTruncated]="true">
                     {{ year }}
                   </button>
                 </div>
