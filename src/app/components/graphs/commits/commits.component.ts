@@ -149,6 +149,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   current_zoom: any;
   chart_abs_g: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   svg_abs: d3.Selection<any, unknown, HTMLElement, any>;
+  chart_selection_g: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
+  svg_selection: d3.Selection<any, unknown, HTMLElement, any>;
   real_height: number;
   chart_width: number;
   repo_spacing: number;
@@ -899,6 +901,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.data_g = this.chart_svg.append("g");
 
     this.chart_abs_g = this.svg_abs.append("g").attr("transform", "translate(" + translation + ")");
+
+    d3.select(".chart-selection-container").selectAll("svg").remove();
+    this.svg_selection = d3
+      .select(".chart-selection-container")
+      .append("svg")
+      .attr("preserveAspectRatio", "none")
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr("viewBox", `0 0 ${this.width} ${this.height}`);
+
+    this.chart_selection_g = this.svg_selection.append("g").attr("transform", "translate(" + translation + ")");
 
     this.svg_abs
       .append("defs")
@@ -3761,7 +3774,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   initiateShiftDragZoom(event: MouseEvent) {
-    if (event.button !== 0 || !event.shiftKey || !this.chart_abs_g || !this.x_scale_copy) return;
+    if (event.button !== 0 || !event.shiftKey || !this.chart_selection_g || !this.x_scale_copy) return;
     event.preventDefault();
     event.stopPropagation();
     this.overlayManagerService.dismissAll();
@@ -3769,7 +3782,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const startX = this.getRelativeXFromMouseEvent(event);
     const clampedStartX = Math.max(0, Math.min(this.inner_width, startX));
 
-    const selectionGroup = this.chart_abs_g.append("g").attr("class", "chart-selection-group").style("pointer-events", "none");
+    const selectionGroup = this.chart_selection_g.append("g").attr("class", "chart-selection-group").style("pointer-events", "none");
 
     const selectionBg = selectionGroup
       .append("rect")

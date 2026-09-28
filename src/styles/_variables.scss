@@ -231,6 +231,7 @@ $transition-drawer: $transition-drawer-enter;
 $ease-spring-out: cubic-bezier(0.25, 1, 0.4, 1);
 
 // Z-Index Layers
+$zindex-chart-selection: 10;
 $zindex-context-menu: 1050;
 $zindex-typeahead-dropdown: 1060;
 $zindex-quick-help-popover: 1070;
