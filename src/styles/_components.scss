@@ -1011,6 +1011,11 @@
     transform: rotate(180deg);
   }
 
+  &.anim-spin-hover svg.spinning,
+  &.anim-spin-hover svg.fa-spin {
+    animation: spin-from-180 0.85s linear infinite;
+  }
+
   &.anim-scale-hover:hover:not(:disabled) svg {
     transform: scale(1.15);
   }
@@ -1067,6 +1072,11 @@
 
   &.anim-spin-hover:hover:not(:disabled) svg {
     transform: rotate(180deg);
+  }
+
+  &.anim-spin-hover svg.spinning,
+  &.anim-spin-hover svg.fa-spin {
+    animation: spin-from-180 0.85s linear infinite;
   }
 
   &.anim-scale-hover:hover:not(:disabled) svg {
@@ -1838,6 +1848,11 @@ input[type="checkbox"]:checked + .chip-content,
     &.anim-spin-hover:hover:not(:disabled) svg {
       transform: rotate(180deg);
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &.anim-spin-hover svg.spinning,
+    &.anim-spin-hover svg.fa-spin {
+      animation: spin-from-180 0.85s linear infinite;
     }
 
     &:focus {
@@ -2625,4 +2640,17 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
     opacity: 0;
   }
 }
+
+/* Spin animation starting from hover endpoint (180deg) for reload buttons */
+@keyframes spin-from-180 {
+  from {
+    transform: rotate(180deg);
+  }
+
+  to {
+    transform: rotate(540deg);
+  }
+}
+
+
 
