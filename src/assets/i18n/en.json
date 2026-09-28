@@ -254,8 +254,8 @@
     "ZOOM": "Zoom"
   },
   "MODAL-SHORTCUTS": {
-    "TITLE": "Keyboard Shortcuts",
-    "SUBTITLE": "Cheatsheet of shortcuts and interactions across the app",
+    "TITLE": "Shortcuts & Interactions",
+    "SUBTITLE": "Cheatsheet of keyboard shortcuts and gestures across the app",
     "CLOSE": "Close",
     "CLOSE_HINT": "Press {{key1}} or {{key2}} to close",
     "SECTION_GLOBAL_NAV": "Global Navigation",
@@ -265,12 +265,19 @@
     "NAV_CONFIG": "Configure assignment",
     "NAV_SHORTCUTS": "Toggle shortcuts panel",
     "TOGGLE_ANONYMOUS": "Toggle anonymous mode",
-    "SECTION_GRAPHS": "Graphs & Visualizations",
+    "SECTION_GRAPHS": "Graphs & Sessions",
     "GRAPH_ZOOM_IN": "Zoom in",
     "GRAPH_ZOOM_OUT": "Zoom out",
     "GRAPH_RESET_ZOOM": "Reset zoom",
+    "GRAPH_SESSION_NAV": "Previous / next session",
     "GRAPH_RELOAD": "Reload data",
     "GRAPH_COPY_HASH": "Copy hovered commit hash",
+    "SECTION_GESTURES": "Mouse & Gestures",
+    "GESTURE_SESSION_INFO": "Show session details",
+    "GESTURE_SESSION_FOCUS": "Focus on session",
+    "GESTURE_BOX_ZOOM": "Time range box zoom",
+    "GESTURE_WHEEL_ZOOM": "Zoom graph timeline",
+    "GESTURE_CONTEXT_MENU": "Context menu (milestone / session)",
     "SECTION_FILTERS": "Filter Bar & Search",
     "FILTER_FOCUS": "Focus search bar",
     "FILTER_CLEAR": "Clear active filters",
@@ -281,7 +288,11 @@
     "KEY_SPACE": "Space",
     "KEY_ESC": "Esc",
     "KEY_DELETE": "Del",
-    "KEY_SHIFT": "Shift"
+    "KEY_SHIFT": "Shift",
+    "KEY_CLICK": "Click",
+    "KEY_DBLCLICK": "Double-click",
+    "KEY_RIGHT_CLICK": "Right click",
+    "KEY_DRAG": "Drag"
   },
   "TOAST": {
     "HASH_COPIED": "Commit hash copied!"

@@ -252,8 +252,8 @@
     "ZOOM": "Увеличить"
   },
   "MODAL-SHORTCUTS": {
-    "TITLE": "Сочетания клавиш",
-    "SUBTITLE": "Шпаргалка по горячим клавишам и действиям в приложении",
+    "TITLE": "Горячие клавиши и жесты",
+    "SUBTITLE": "Шпаргалка по сочетаниям клавиш и взаимодействию в приложении",
     "CLOSE": "Закрыть",
     "CLOSE_HINT": "Нажмите {{key1}} или {{key2}}, чтобы закрыть",
     "SECTION_GLOBAL_NAV": "Глобальная навигация",
@@ -263,12 +263,19 @@
     "NAV_CONFIG": "Настроить задание",
     "NAV_SHORTCUTS": "Показать / скрыть горячие клавиши",
     "TOGGLE_ANONYMOUS": "Включить / выключить анонимный режим",
-    "SECTION_GRAPHS": "Графики и визуализации",
+    "SECTION_GRAPHS": "Графики и занятия",
     "GRAPH_ZOOM_IN": "Увеличить",
     "GRAPH_ZOOM_OUT": "Уменьшить",
     "GRAPH_RESET_ZOOM": "Сбросить масштаб",
+    "GRAPH_SESSION_NAV": "Предыдущее / следующее занятие",
     "GRAPH_RELOAD": "Обновить данные",
     "GRAPH_COPY_HASH": "Копировать хеш коммита",
+    "SECTION_GESTURES": "Мышь и жесты",
+    "GESTURE_SESSION_INFO": "Показать сведения о занятии",
+    "GESTURE_SESSION_FOCUS": "Сфокусироваться на занятии",
+    "GESTURE_BOX_ZOOM": "Выделение области масштабирования",
+    "GESTURE_WHEEL_ZOOM": "Масштабирование шкалы времени",
+    "GESTURE_CONTEXT_MENU": "Контекстное меню (веха / занятие)",
     "SECTION_FILTERS": "Панель фильтров и поиск",
     "FILTER_FOCUS": "Активировать строку поиска",
     "FILTER_CLEAR": "Очистить фильтры",
@@ -279,7 +286,11 @@
     "KEY_SPACE": "Пробел",
     "KEY_ESC": "Esc",
     "KEY_DELETE": "Удал.",
-    "KEY_SHIFT": "Shift"
+    "KEY_SHIFT": "Shift",
+    "KEY_CLICK": "Клик",
+    "KEY_DBLCLICK": "Двойной клик",
+    "KEY_RIGHT_CLICK": "Правый клик",
+    "KEY_DRAG": "Перетаскивание"
   },
   "TOAST": {
     "HASH_COPIED": "Хеш коммита скопирован!"

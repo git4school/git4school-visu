@@ -253,8 +253,8 @@
     "ZOOM": "Zoomer"
   },
   "MODAL-SHORTCUTS": {
-    "TITLE": "Raccourcis clavier",
-    "SUBTITLE": "Aide-mémoire des raccourcis et interactions de l'application",
+    "TITLE": "Raccourcis & Interactions",
+    "SUBTITLE": "Aide-mémoire des raccourcis clavier et gestes de l'application",
     "CLOSE": "Fermer",
     "CLOSE_HINT": "Appuyez sur {{key1}} ou {{key2}} pour fermer",
     "SECTION_GLOBAL_NAV": "Navigation globale",
@@ -264,12 +264,19 @@
     "NAV_CONFIG": "Configurer le devoir",
     "NAV_SHORTCUTS": "Afficher / masquer les raccourcis",
     "TOGGLE_ANONYMOUS": "Basculer le mode anonymat",
-    "SECTION_GRAPHS": "Graphiques & Visualisations",
+    "SECTION_GRAPHS": "Graphiques & Séances",
     "GRAPH_ZOOM_IN": "Zoomer",
     "GRAPH_ZOOM_OUT": "Dézoomer",
     "GRAPH_RESET_ZOOM": "Réinitialiser le zoom",
+    "GRAPH_SESSION_NAV": "Séance précédente / suivante",
     "GRAPH_RELOAD": "Recharger les données",
     "GRAPH_COPY_HASH": "Copier le hash du commit survolé",
+    "SECTION_GESTURES": "Souris & Gestes",
+    "GESTURE_SESSION_INFO": "Afficher les infos d'une séance",
+    "GESTURE_SESSION_FOCUS": "Zoomer sur la séance",
+    "GESTURE_BOX_ZOOM": "Sélectionner une zone de zoom",
+    "GESTURE_WHEEL_ZOOM": "Zoomer sur le graphique",
+    "GESTURE_CONTEXT_MENU": "Menu contextuel (jalon / séance)",
     "SECTION_FILTERS": "Barre de filtres & Recherche",
     "FILTER_FOCUS": "Activer la barre de recherche",
     "FILTER_CLEAR": "Réinitialiser les filtres",
@@ -280,7 +287,11 @@
     "KEY_SPACE": "Espace",
     "KEY_ESC": "Échap",
     "KEY_DELETE": "Suppr",
-    "KEY_SHIFT": "Maj"
+    "KEY_SHIFT": "Shift",
+    "KEY_CLICK": "Clic",
+    "KEY_DBLCLICK": "Double-clic",
+    "KEY_RIGHT_CLICK": "Clic droit",
+    "KEY_DRAG": "Glisser"
   },
   "TOAST": {
     "HASH_COPIED": "Hash du commit copié !"
