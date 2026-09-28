@@ -4,7 +4,7 @@
     <div class="assignments-section">
         <div class="sidebar-section-header">
             <span class="sidebar-section-title">{{ 'SETTINGS.RECENT-ASSIGNMENTS' | translate }}</span>
-            <button class="limit-toggle-pill mr-3" (click)="toggleDisplayLimit()" [title]="'SETTINGS.TOGGLE-DISPLAY-LIMIT' | translate">
+            <button class="limit-toggle-pill mr-3" (click)="toggleDisplayLimit()" [appTooltip]="'SETTINGS.TOGGLE-DISPLAY-LIMIT' | translate">
                 <ng-container *ngIf="displayLimit !== 'all'">{{ displayLimit }}</ng-container>
                 <svg *ngIf="displayLimit === 'all'" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 1 0 0-8c-2 0-4 1.33-6 4Z"/>
@@ -20,11 +20,11 @@
                             <i class="fab fa-lg" [ngClass]="{'fa-github': assignment.uiType === 'github', 'fa-gitlab': assignment.uiType === 'gitlab'}"></i>
                         </div>
                         <div style="flex: 1; min-width: 0;">
-                            <span class="d-block font-weight-bold" style="color: var(--color-on-surface); font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" [title]="assignment.title">{{ assignment.title }}</span>
-                            <span class="d-block text-muted" style="font-size: 0.7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" [title]="assignment.metadata?.course">{{ assignment.metadata?.course }}</span>
+                            <span class="d-block font-weight-bold" style="color: var(--color-on-surface); font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" [appTooltip]="assignment.title" [onlyIfTruncated]="true">{{ assignment.title }}</span>
+                            <span class="d-block text-muted" style="font-size: 0.7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" [appTooltip]="assignment.metadata?.course" [onlyIfTruncated]="true">{{ assignment.metadata?.course }}</span>
                         </div>
                     </div>
-                    <button class="btn-action-icon" (click)="$event.stopPropagation(); editAssignment(assignment)" title="Paramètres" style="min-width: 32px; min-height: 32px;">
+                    <button class="btn-action-icon" (click)="$event.stopPropagation(); editAssignment(assignment)" [appTooltip]="'SETTINGS.TITLE' | translate" style="min-width: 32px; min-height: 32px;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="3"></circle>
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -127,6 +127,21 @@
             </div>
             <label class="modern-toggle ml-3">
                 <input type="checkbox" [checked]="themeService.showLegend">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+
+        <!-- Anonymous Mode Toggle -->
+        <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="anonymizationService.toggleAnonymousMode()">
+            <div class="d-flex align-items-center">
+                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+                <span>{{ "SETTINGS.ANONYMOUS-MODE" | translate }}</span>
+            </div>
+            <label class="modern-toggle ml-3">
+                <input type="checkbox" [checked]="anonymizationService.isAnonymous">
                 <span class="toggle-slider"></span>
             </label>
         </div>

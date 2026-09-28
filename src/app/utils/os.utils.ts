@@ -14,20 +14,35 @@ export class OsUtils {
   }
 
   static isTypingInInput(event: Event | KeyboardEvent): boolean {
+    const selector = "input, textarea, select, [contenteditable='true'], questions-chooser, ngb-typeahead-window, .typeahead-dropdown";
     const target = event.target as HTMLElement;
-    return (
-      !!target &&
+    if (
+      target &&
       (target.tagName === "INPUT" ||
         target.tagName === "TEXTAREA" ||
-        target.isContentEditable)
-    );
+        target.tagName === "SELECT" ||
+        target.isContentEditable ||
+        Boolean(target.closest(selector)))
+    ) {
+      return true;
+    }
+
+    const active = document.activeElement as HTMLElement;
+    if (
+      active &&
+      (active.tagName === "INPUT" ||
+        active.tagName === "TEXTAREA" ||
+        active.tagName === "SELECT" ||
+        active.isContentEditable ||
+        Boolean(active.closest(selector)))
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
-  private static resolveKeyTranslation(
-    key: string,
-    fallback: string,
-    translateService?: TranslateService
-  ): string {
+  private static resolveKeyTranslation(key: string, fallback: string, translateService?: TranslateService): string {
     if (translateService) {
       const trans = translateService.instant(key);
       if (trans && trans !== key) return trans;

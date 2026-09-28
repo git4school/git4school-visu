@@ -21,7 +21,7 @@
   <div class="shortcuts-grid">
     <!-- Column 1: Global Navigation -->
     <div class="shortcuts-column">
-      <div class="shortcuts-column-header d-flex align-items-center mb-3">
+      <div class="shortcuts-column-header d-flex align-items-center mb-2">
         <i class="fas fa-compass column-icon mr-2"></i>
         <span class="column-title">
           {{ 'MODAL-SHORTCUTS.SECTION_GLOBAL_NAV' | translate }}
@@ -30,62 +30,40 @@
       <div class="shortcuts-list">
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_OVERVIEW' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <kbd class="shortcut-key">1</kbd>
         </div>
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_STUDENTS' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <kbd class="shortcut-key">2</kbd>
         </div>
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_QUESTIONS' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <kbd class="shortcut-key">3</kbd>
         </div>
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_CONFIG' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <kbd class="shortcut-key">C</kbd>
         </div>
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.NAV_SHORTCUTS' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <kbd class="shortcut-key">?</kbd>
         </div>
-      </div>
-    </div>
-
-    <!-- Column 2: Graphs & Visualizations -->
-    <div class="shortcuts-column">
-      <div class="shortcuts-column-header d-flex align-items-center mb-3">
-        <i class="fas fa-chart-line column-icon mr-2"></i>
-        <span class="column-title">
-          {{ 'MODAL-SHORTCUTS.SECTION_GRAPHS' | translate }}
-        </span>
-      </div>
-      <div class="shortcuts-list">
         <div class="shortcut-row">
-          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_ZOOM_IN' | translate }}</span>
-          <kbd class="shortcut-key">+</kbd>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_ZOOM_OUT' | translate }}</span>
-          <kbd class="shortcut-key">-</kbd>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_RESET_ZOOM' | translate }}</span>
-          <kbd class="shortcut-key">{{ 'MODAL-SHORTCUTS.KEY_SPACE' | translate }}</kbd>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_RELOAD' | translate }}</span>
-          <kbd class="shortcut-key">R</kbd>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_COPY_HASH' | translate }}</span>
-          <kbd class="shortcut-key">H</kbd>
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.TOGGLE_ANONYMOUS' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <kbd class="shortcut-key">A</kbd>
         </div>
       </div>
     </div>
 
-    <!-- Column 3: Filter Bar & Search -->
+    <!-- Column 2: Filter Bar & Search -->
     <div class="shortcuts-column">
-      <div class="shortcuts-column-header d-flex align-items-center mb-3">
+      <div class="shortcuts-column-header d-flex align-items-center mb-2">
         <i class="fas fa-filter column-icon mr-2"></i>
         <span class="column-title">
           {{ 'MODAL-SHORTCUTS.SECTION_FILTERS' | translate }}
@@ -94,14 +72,17 @@
       <div class="shortcuts-list">
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_FOCUS' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <kbd class="shortcut-key">F</kbd>
         </div>
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_CLEAR' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <kbd class="shortcut-key">{{ 'MODAL-SHORTCUTS.KEY_ESC' | translate }}</kbd>
         </div>
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_NAVIGATE' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <div class="shortcut-combo">
             <kbd class="shortcut-key">←</kbd>
             <kbd class="shortcut-key">→</kbd>
@@ -109,6 +90,7 @@
         </div>
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_MOVE' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <div class="shortcut-combo">
             <kbd class="shortcut-key">{{ modifierKey }}</kbd>
             <span class="key-sep">+</span>
@@ -119,11 +101,106 @@
         </div>
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_DELETE' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <kbd class="shortcut-key">{{ 'MODAL-SHORTCUTS.KEY_DELETE' | translate }}</kbd>
         </div>
         <div class="shortcut-row">
           <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.FILTER_EXCLUDE' | translate }}</span>
+          <span class="shortcut-dots"></span>
           <kbd class="shortcut-key">!</kbd>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 3: Graphs & Sessions -->
+    <div class="shortcuts-column">
+      <div class="shortcuts-column-header d-flex align-items-center mb-2">
+        <i class="fas fa-chart-line column-icon mr-2"></i>
+        <span class="column-title">
+          {{ 'MODAL-SHORTCUTS.SECTION_GRAPHS' | translate }}
+        </span>
+      </div>
+      <div class="shortcuts-list">
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_ZOOM_IN' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <kbd class="shortcut-key">+</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_ZOOM_OUT' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <kbd class="shortcut-key">-</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_RESET_ZOOM' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <kbd class="shortcut-key">{{ 'MODAL-SHORTCUTS.KEY_SPACE' | translate }}</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_SESSION_NAV' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <div class="shortcut-combo">
+            <kbd class="shortcut-key">←</kbd>
+            <kbd class="shortcut-key">→</kbd>
+          </div>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_RELOAD' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <kbd class="shortcut-key">R</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GRAPH_COPY_HASH' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <kbd class="shortcut-key">H</kbd>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 4: Mouse & Gestures -->
+    <div class="shortcuts-column">
+      <div class="shortcuts-column-header d-flex align-items-center mb-2">
+        <i class="fas fa-mouse-pointer column-icon mr-2"></i>
+        <span class="column-title">
+          {{ 'MODAL-SHORTCUTS.SECTION_GESTURES' | translate }}
+        </span>
+      </div>
+      <div class="shortcuts-list">
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GESTURE_SESSION_INFO' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GESTURE_SESSION_FOCUS' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <div class="shortcut-combo">
+            <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
+            <span class="shortcut-key shortcut-key-sm">2×</span>
+          </div>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GESTURE_BOX_ZOOM' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <div class="shortcut-combo">
+            <kbd class="shortcut-key">{{ 'MODAL-SHORTCUTS.KEY_SHIFT' | translate }}</kbd>
+            <span class="key-sep">+</span>
+            <ng-container *ngTemplateOutlet="mouseDragIcon"></ng-container>
+          </div>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GESTURE_WHEEL_ZOOM' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <div class="shortcut-combo">
+            <kbd class="shortcut-key">{{ 'MODAL-SHORTCUTS.KEY_SHIFT' | translate }}</kbd>
+            <span class="key-sep">+</span>
+            <ng-container *ngTemplateOutlet="mouseWheelIcon"></ng-container>
+          </div>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-label">{{ 'MODAL-SHORTCUTS.GESTURE_CONTEXT_MENU' | translate }}</span>
+          <span class="shortcut-dots"></span>
+          <ng-container *ngTemplateOutlet="mouseRightClickIcon"></ng-container>
         </div>
       </div>
     </div>
@@ -135,3 +212,49 @@
     {{ 'MODAL-SHORTCUTS.CLOSE_HINT' | translate:{ key1: '?', key2: ('MODAL-SHORTCUTS.KEY_ESC' | translate) } }}
   </span>
 </div>
+
+<ng-template #mouseLeftClickIcon>
+  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>
+      <path d="M5 9h14"></path>
+      <path d="M12 2v7"></path>
+      <path d="M5 9V9C5 5.134 8.134 2 12 2V9H5Z" fill="currentColor"></path>
+    </svg>
+  </span>
+</ng-template>
+
+<ng-template #mouseRightClickIcon>
+  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>
+      <path d="M5 9h14"></path>
+      <path d="M12 2v7"></path>
+      <path d="M19 9V9C19 5.134 15.866 2 12 2V9H19Z" fill="currentColor"></path>
+    </svg>
+  </span>
+</ng-template>
+
+<ng-template #mouseDragIcon>
+  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">
+    <svg width="15" height="13" viewBox="0 0 26 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="7" y="2" width="12" height="20" rx="6" ry="6"></rect>
+      <path d="M7 9h12"></path>
+      <path d="M13 2v7"></path>
+      <path d="M7 9V8C7 4.686 9.686 2 13 2V9H7Z" fill="currentColor"></path>
+      <polyline points="3.5 9.5 1 12 3.5 14.5"></polyline>
+      <polyline points="22.5 9.5 25 12 22.5 14.5"></polyline>
+    </svg>
+  </span>
+</ng-template>
+
+<ng-template #mouseWheelIcon>
+  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>
+      <path d="M5 9h14"></path>
+      <path d="M12 2v7"></path>
+      <rect x="10.5" y="4" width="3" height="5.5" rx="1.5" fill="currentColor" stroke="none"></rect>
+    </svg>
+  </span>
+</ng-template>

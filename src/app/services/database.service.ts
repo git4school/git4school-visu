@@ -79,15 +79,73 @@ export class DatabaseService extends Dexie {
             }
           });
       });
+    this.version(5)
+      .stores({
+        assignments: "++id, metadata.title, provider, instanceHost",
+      })
+      .upgrade((tx) => {
+        return tx
+          .table("assignments")
+          .toCollection()
+          .modify((assignment) => {
+            if (!assignment.provider) {
+              assignment.provider = "github";
+            }
+            if (!assignment.instanceHost) {
+              if (assignment.provider === "gitlab") {
+                const firstRepoUrl = assignment.repositories?.[0]?.url;
+                if (firstRepoUrl) {
+                  const sshMatch = firstRepoUrl.match(/^git@([^:]+):/);
+                  if (sshMatch && sshMatch[1]) {
+                    assignment.instanceHost = sshMatch[1];
+                  } else {
+                    try {
+                      assignment.instanceHost = new URL(firstRepoUrl).hostname;
+                    } catch {
+                      assignment.instanceHost = "gitlab.com";
+                    }
+                  }
+                } else {
+                  assignment.instanceHost = "gitlab.com";
+                }
+              } else {
+                assignment.instanceHost = "github.com";
+              }
+            }
+            if (assignment.repositories && Array.isArray(assignment.repositories)) {
+              assignment.repositories.forEach((repo: any) => {
+                if (!repo.provider) {
+                  repo.provider = assignment.provider || "github";
+                }
+              });
+            }
+          });
+      });
     this.assignments = this.table("assignments");
     this.assignments.mapToClass(Assignment);
   }
 
   getAllAssignments(): Promise<Assignment[]> {
-    return this.assignments.toArray().then((assignments) => plainToClass(Assignment, assignments));
+    return this.assignments.toArray().then((assignments) =>
+      plainToClass(Assignment, assignments).map((assignment) => {
+        if (!assignment.provider) {
+          assignment.provider = "github";
+        }
+        if (!assignment.instanceHost) {
+          assignment.instanceHost = assignment.resolvedInstanceHost;
+        }
+        return assignment;
+      }),
+    );
   }
 
   saveAssignment(assignment: Assignment): Promise<number> {
+    if (!assignment.provider) {
+      assignment.provider = "github";
+    }
+    if (!assignment.instanceHost) {
+      assignment.instanceHost = assignment.resolvedInstanceHost;
+    }
     return this.assignments.put(assignment).then((id) => {
       this.dbChanged.next();
       return id;
@@ -101,7 +159,19 @@ export class DatabaseService extends Dexie {
   }
 
   getAssignmentById(id: number): Promise<Assignment> {
-    return this.assignments.get(id).then((assignment) => plainToClass(Assignment, assignment));
+    return this.assignments.get(id).then((assignment) => {
+      if (!assignment) {
+        return assignment;
+      }
+      const hydrated = plainToClass(Assignment, assignment);
+      if (!hydrated.provider) {
+        hydrated.provider = "github";
+      }
+      if (!hydrated.instanceHost) {
+        hydrated.instanceHost = hydrated.resolvedInstanceHost;
+      }
+      return hydrated;
+    });
   }
 
   exportDB(): Promise<any> {

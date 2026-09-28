@@ -379,7 +379,7 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
   dropPosition: "left" | "right" | null = null;
 
   trackByFn(index: number, item: any): any {
-    return item;
+    return item ? `${item.type}_${item.value}_${index}` : index;
   }
 
   public clearAll() {
@@ -473,9 +473,11 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
       } else if (event.key === "ArrowLeft") {
         this.navigateLeft();
         event.preventDefault();
+        event.stopPropagation();
       } else if (event.key === "ArrowRight") {
         this.navigateRight();
         event.preventDefault();
+        event.stopPropagation();
       } else if (event.key === "Delete" || event.key === "Backspace") {
         this.deleteItem(this.selectedPillIndex);
         this.focusAfterDelete();
@@ -745,6 +747,9 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
     setTimeout(() => {
       this.focus();
     }, 0);
+    requestAnimationFrame(() => {
+      this.focus();
+    });
   }
 
   addQuestions(tokens: string[]) {
@@ -825,6 +830,7 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
   onBackspace() {
     if (!this.question && this.items.length > 0) {
       this.deleteItem(this.items.length - 1);
+      this.focus();
     }
   }
 
@@ -845,6 +851,7 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
           event.preventDefault();
         } else if (this.items.length > 0) {
           this.deleteItem(this.items.length - 1);
+          this.focus();
           event.preventDefault();
         }
       } else if (event.key === "ArrowLeft" && this.items.length > 0) {
@@ -880,6 +887,9 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
   }
 
   onCloseClick(index: number, event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
     // Find the start of the merged group
     let start = index;
     while (start > 0 && this.items[start - 1].operatorAfter === "AND") {
@@ -893,8 +903,9 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
 
     if (this.selectedPillIndex !== null) {
       this.focusAfterDelete();
+    } else {
+      this.focus();
     }
-    event.stopPropagation();
   }
 
   @ViewChildren("editInputs") editInputs: QueryList<ElementRef>;
@@ -1471,6 +1482,10 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
 
   writeValue(obj: any): void {
     if (obj) {
+      const areEqual = Array.isArray(obj) && obj.length === this.questions.length && obj.every((q, idx) => q === this.questions[idx]);
+      if (areEqual && this.items.length > 0) {
+        return;
+      }
       this.questions = [...obj];
       // Re-sync items since questions changed externally
       this.syncItemsFromInputs();

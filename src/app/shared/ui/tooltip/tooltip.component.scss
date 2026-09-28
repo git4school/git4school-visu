@@ -6,14 +6,17 @@
   position: absolute;
   z-index: $zindex-tooltip;
   pointer-events: none;
+  max-width: calc(100vw - 16px);
 }
 
 .tooltip-container {
   display: flex;
   align-items: center;
   gap: 8px;
+  box-sizing: border-box;
   width: max-content;
-  max-width: var(--tooltip-max-width, 300px);
+  /* Default text tooltips have a readable compact width */
+  max-width: var(--tooltip-max-width, min(360px, calc(100vw - 24px)));
   background-color: var(--tooltip-glass-bg, var(--color-surface));
   color: var(--text-color);
   padding: 6px 12px;
@@ -24,35 +27,56 @@
   border: 1px solid var(--border-color);
   opacity: 0;
   will-change: opacity, transform;
-  transition: opacity 140ms ease-out, transform 140ms ease-out;
+  transform-origin: var(--transform-origin, center);
+  transition:
+    transform 0.125s ease-out,
+    opacity 0.125s ease-out;
 
   /* Glassmorphism / Minimalist */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 
+  &.has-template {
+    /* Template tooltips can expand to fit their rich content & helpers while bounded safely */
+    max-width: var(--tooltip-max-width, min(480px, calc(100vw - 24px)));
+    align-items: stretch;
+  }
+
   &.top {
+    --transform-origin: bottom center;
     transform: translateY(4px) scale(0.97);
-    transform-origin: bottom center;
   }
 
   &.bottom {
+    --transform-origin: top center;
     transform: translateY(-4px) scale(0.97);
-    transform-origin: top center;
   }
 
   &.left {
+    --transform-origin: right center;
     transform: translateX(4px) scale(0.97);
-    transform-origin: right center;
   }
 
   &.right {
+    --transform-origin: left center;
     transform: translateX(-4px) scale(0.97);
-    transform-origin: left center;
   }
 
   &.show {
     opacity: 1;
     transform: translate(0, 0) scale(1);
+  }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  /* Disables subsequent animations in warm state */
+  &[data-instant],
+  &.instant {
+    transition-duration: 0ms !important;
   }
 }
 
@@ -63,5 +87,18 @@
   overflow-wrap: break-word;
   word-break: normal;
   text-align: left;
+
+  &.w-100 {
+    display: block;
+    width: 100%;
+  }
+}
+
+.shortcut-combo {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
