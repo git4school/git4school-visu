@@ -90,9 +90,6 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   editingAssignmentId: number | null = null;
   isCreatingNew = false;
 
-  isSortHovered = false;
-  sortWasClicked = false;
-
   private dbSubscription?: Subscription;
   private overlaySub: Subscription | null = null;
   private accountsSub?: Subscription;
@@ -937,19 +934,8 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     return moment(dateStr).format(format);
   }
 
-  onSortMouseEnter() {
-    this.isSortHovered = true;
-    this.sortWasClicked = false;
-  }
-
-  onSortMouseLeave() {
-    this.isSortHovered = false;
-    this.sortWasClicked = false;
-  }
-
   toggleSortDirection() {
     this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
-    this.sortWasClicked = true;
     this.sortAssignments();
   }
 

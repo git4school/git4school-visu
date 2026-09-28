@@ -19,9 +19,17 @@
   font-size: 1rem;
   line-height: 1.5;
   border-radius: $radius-md;
-  transition: all $transition-fast;
+  transition: color $transition-fast, background-color $transition-fast, border-color $transition-fast, box-shadow $transition-fast, transform $transition-fast;
   cursor: pointer;
   outline: none;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  svg,
+  i {
+    pointer-events: none;
+  }
 
   &:focus {
     box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
@@ -53,8 +61,8 @@
   border-color: $color-primary;
 
   &:hover:not(:disabled) {
-    background-color: $color-primary-hover;
-    border-color: $color-primary-hover;
+    background-color: var(--color-primary-hover, #1d4ed8);
+    border-color: var(--color-primary-hover, #1d4ed8);
   }
 }
 
@@ -64,7 +72,8 @@
   border-color: var(--color-text-muted);
 
   &:hover:not(:disabled) {
-    filter: brightness(0.9);
+    background-color: var(--color-secondary-hover, var(--color-text-secondary));
+    border-color: var(--color-secondary-hover, var(--color-text-secondary));
   }
 }
 
@@ -74,7 +83,8 @@
   border-color: var(--color-danger);
 
   &:hover:not(:disabled) {
-    filter: brightness(0.9);
+    background-color: var(--color-danger-hover, #b91c1c);
+    border-color: var(--color-danger-hover, #b91c1c);
   }
 }
 
@@ -553,8 +563,13 @@
   justify-content: center;
   cursor: pointer;
   transition: background-color $transition-fast, color $transition-fast, transform $transition-fast;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
-  i {
+  i,
+  svg {
+    pointer-events: none;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -940,10 +955,15 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  transition: background-color 0.15s ease, color 0.15s ease, filter 0.15s ease;
+  transition: background-color $transition-fast, color $transition-fast, border-color $transition-fast, box-shadow $transition-fast;
   cursor: pointer;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
-  svg {
+  svg,
+  i {
+    pointer-events: none;
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -951,7 +971,7 @@
   .fa-caret-down {
     display: inline-block;
     transform-origin: 50% 50%;
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color $transition-fast;
   }
 
   &:hover {
@@ -964,7 +984,6 @@
     transform: none;
     background-color: var(--color-primary-bg);
     color: var(--color-primary);
-    filter: brightness(0.96);
 
     .dropdown-chevron,
     .fa-caret-down {
@@ -1029,10 +1048,15 @@
   align-items: center;
   justify-content: center;
   color: #6b7280;
-  transition: background-color 0.15s, color 0.15s;
+  transition: background-color $transition-fast, color $transition-fast;
   cursor: pointer;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
-  svg {
+  svg,
+  i {
+    pointer-events: none;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -2290,88 +2314,93 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
     .custom-control-label {
         margin-left: 0.5rem;
     }
-}
 
-.bar-divider {
-    width: 1px;
-    height: 24px;
-    background-color: var(--color-border);
-    margin: 0 8px;
-}
+    .bar-divider {
+        width: 1px;
+        height: 24px;
+        background-color: var(--color-border);
+        margin: 0 8px;
+    }
 
-.bar-input {
-    border: none;
-    background: transparent;
-    color: var(--color-text-primary);
-    padding: 4px 8px;
-    font-size: 14px;
-    width: 115px;
-    
-    &::placeholder {
-        color: var(--color-text-muted);
-    }
-    
-    &:focus {
-        outline: none;
-    }
-}
-
-.bar-btn-primary {
-    background: transparent;
-    border: none;
-    color: var(--color-text-primary);
-    font-size: 14px;
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 100px;
-    transition: $transition-fast;
-    
-    i {
-        color: var(--color-text-secondary);
-    }
-    
-    &:hover {
-        background-color: var(--filter-bg);
-    }
-}
-
-.bar-btn-danger {
-    background: transparent;
-    border: none;
-    color: var(--color-danger);
-    font-size: 14px;
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 100px;
-    transition: $transition-fast;
-    
-    i {
-        color: var(--color-danger);
-    }
-    
-    &:hover {
-        background-color: rgba(220, 38, 38, 0.1);
-    }
-}
-
-.bar-btn-icon {
-    background: transparent;
-    border: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    font-size: 12px;
-    cursor: pointer;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    transition: $transition-fast;
-    margin-left: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    &:hover {
-        background-color: var(--filter-bg);
+    .bar-input {
+        border: none;
+        background: transparent;
         color: var(--color-text-primary);
+        padding: 4px 8px;
+        font-size: 14px;
+        width: 115px;
+        
+        &::placeholder {
+            color: var(--color-text-muted);
+        }
+        
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .bar-btn-primary {
+        background: transparent;
+        border: none;
+        color: var(--color-text-primary);
+        font-size: 14px;
+        cursor: pointer;
+        padding: 6px 12px;
+        border-radius: 100px;
+        transition: background-color $transition-fast, color $transition-fast;
+        backface-visibility: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        
+        .fa {
+            color: var(--color-text-secondary);
+        }
+        
+        &:hover {
+            background-color: var(--filter-bg);
+        }
+    }
+
+    .bar-btn-danger {
+        background: transparent;
+        border: none;
+        color: var(--color-danger);
+        font-size: 14px;
+        cursor: pointer;
+        padding: 6px 12px;
+        border-radius: 100px;
+        transition: background-color $transition-fast, color $transition-fast;
+        backface-visibility: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        
+        &:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+    }
+
+    .bar-btn-icon {
+        background: transparent;
+        border: 1px solid var(--color-border);
+        color: var(--color-text-muted);
+        font-size: 12px;
+        cursor: pointer;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        transition: background-color $transition-fast, color $transition-fast, border-color $transition-fast;
+        margin-left: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backface-visibility: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        &:hover {
+            background-color: var(--filter-bg);
+            color: var(--color-text-primary);
+        }
     }
 }
 
@@ -2402,7 +2431,7 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
   border-radius: 0.25rem;
 }
 
-// Floating Legend for Graphs
+/* Floating Legend for Graphs */
 .legend-floating-container {
   position: absolute;
   bottom: 20px;
@@ -2410,7 +2439,7 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
   z-index: 1000;
 
   .modern-dropdown-menu {
-    background-color: var(--tooltip-glass-bg); // Less transparent than normal glass-bg
+    background-color: var(--tooltip-glass-bg); /* Less transparent than normal glass-bg */
   }
 }
 
@@ -2425,7 +2454,10 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
   border: 1px solid var(--color-border);
   border-radius: 20px;
   padding: 0 12px;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   .legend-text {
     max-width: 0;
@@ -2463,7 +2495,6 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
     transform: none;
     background-color: var(--color-primary-bg);
     color: var(--color-primary);
-    filter: brightness(0.96);
   }
 }
 
@@ -2508,7 +2539,10 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
   background: transparent;
   outline: none;
   line-height: 1.25;
-  transition: transform 0.16s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.16s ease, filter 0.16s ease;
+  transition: transform 0.16s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.16s ease;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   &:hover {
     transform: translateY(-1px);

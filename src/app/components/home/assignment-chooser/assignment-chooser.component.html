@@ -29,7 +29,7 @@
           }}:</span>
 
         <div ngbDropdown class="dropdown d-inline-block">
-          <button class="btn-outline-ghost" ngbDropdownToggle>
+          <button type="button" class="btn-outline-ghost" ngbDropdownToggle>
             <span>{{ getSortLabel(sortField) | translate }}</span>
             <svg class="dropdown-chevron ml-2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
@@ -58,11 +58,10 @@
           </div>
         </div>
 
-        <button class="btn btn-sm btn-outline-ghost ml-2" (click)="toggleSortDirection()"
-          (mouseenter)="onSortMouseEnter()" (mouseleave)="onSortMouseLeave()"
+        <button type="button" class="btn btn-sm btn-outline-ghost sort-direction-btn ml-2" (click)="toggleSortDirection()"
           [appTooltip]="('ASSIGNMENT-CHOOSER.SORT-DIRECTION' | translate)">
           <svg class="sort-direction-svg" [class.is-asc]="sortDirection === 'asc'"
-            [class.show-hover]="isSortHovered && !sortWasClicked" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            width="16" height="16" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <g class="sort-bars">
               <line x1="4" y1="6" x2="14" y2="6"></line>
