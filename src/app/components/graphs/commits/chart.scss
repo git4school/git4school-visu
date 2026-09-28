@@ -450,3 +450,66 @@ body.dark-theme .commit {
     transform: scale(0.88);
   }
 }
+
+/* Zone de sélection de zoom (Shift + Drag) — Craft & Subtle style */
+.chart-selection-group {
+  pointer-events: none;
+  animation: selectionFadeIn 120ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+
+  &.selection-exiting {
+    animation: selectionFadeOut 180ms ease-out forwards;
+  }
+}
+
+.chart-selection-bg {
+  fill: var(--color-primary);
+  fill-opacity: 0.07;
+  stroke: none;
+}
+
+.chart-selection-edge {
+  stroke: var(--color-primary);
+  stroke-width: 1.5px;
+  stroke-opacity: 0.7;
+}
+
+.chart-selection-top-bar {
+  fill: var(--color-primary);
+  opacity: 0.9;
+}
+
+.chart-selection-badge-bg {
+  fill: var(--color-surface);
+  stroke: var(--color-border);
+  stroke-width: 1px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.08)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.04));
+}
+
+.chart-selection-badge-text {
+  fill: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+@keyframes selectionFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes selectionFadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
