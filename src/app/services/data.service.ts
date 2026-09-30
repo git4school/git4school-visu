@@ -112,7 +112,7 @@ export class DataService {
         groups.add(m.tpGroup.trim());
       }
     }
-    return Array.from(groups).sort();
+    return Array.from(groups).sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }));
   }
 
   set tpGroups(groups: string[]) {

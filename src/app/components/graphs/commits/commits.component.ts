@@ -181,6 +181,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   isShiftDragging = false;
   private sessionClickTimer: any = null;
   private lastClickedSession: Session | null = null;
+  private sessionUids = new WeakMap<Session, string>();
+  private nextSessionUid = 1;
   ////////////////////////
 
   public modeHoverState: any = {
@@ -1377,7 +1379,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   buildSessionBody(g: d3.Selection<any, any, any, any>, session: Session) {
     const overview = this;
-    const sessionKey = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+    const sessionKey = overview.getSessionUid(session);
 
     let group = g
       .append("g")
@@ -1408,14 +1410,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         overview.handleSessionDblClick(targetSession);
       })
       .on("mouseenter", () => {
-        const key = overview.getSessionKeyNum(session);
-        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", "0.55");
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        const key = overview.getSessionKeyNum(session);
-        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", null);
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1456,7 +1456,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   buildSessionHeader(g: d3.Selection<any, any, any, any>, session: Session, overlapGroup?: Session[]) {
     const overview = this;
-    const sessionKey = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+    const sessionKey = overview.getSessionUid(session);
 
     let group = g
       .append("g")
@@ -1487,14 +1487,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         overview.handleSessionDblClick(targetSession);
       })
       .on("mouseenter", () => {
-        const key = overview.getSessionKeyNum(session);
-        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", "0.55");
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        const key = overview.getSessionKeyNum(session);
-        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", null);
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1569,6 +1567,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const foY = 0;
     const foH = 24;
 
+    const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
+    const minFoWidth = isOverlap ? 74 : 55;
+
     const fo = group
       .append("foreignObject")
       .attr("class", "session-header-fo")
@@ -1576,8 +1577,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .attr("y", foY)
       .attr("width", foWidth)
       .attr("height", foH)
-      .style("visibility", foWidth < 28 ? "hidden" : "visible")
-      .style("pointer-events", "auto")
+      .style("display", foWidth < minFoWidth ? "none" : null)
+      .style("visibility", foWidth < minFoWidth ? "hidden" : "visible")
+      .style("pointer-events", foWidth < minFoWidth ? "none" : "auto")
       .style("overflow", "hidden");
 
     SessionHeaderRenderer.renderHeader({
@@ -1681,9 +1683,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   loadSessions() {
-    let loaded_sessions: Session[] = this.dataService.sessions.filter(
-      (session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter,
-    );
+    let loaded_sessions: Session[] = this.dataService.sessions
+      .filter((session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter)
+      .slice()
+      .sort((a, b) => this.compareSessions(a, b));
 
     this.overlapGroups = this.computeOverlapGroups(loaded_sessions);
     const newActiveIndices = new Map<string, number>();
@@ -1692,6 +1695,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         const groupId = this.getGroupId(group);
         const existingIdx = this.activeSessionIndices.get(groupId);
         newActiveIndices.set(groupId, existingIdx !== undefined && existingIdx < group.length ? existingIdx : 0);
+      }
+    }
+    if (this.lastFocusedSession) {
+      for (const group of this.overlapGroups) {
+        if (group.length > 1) {
+          const idx = group.findIndex((s) => this.isSameSession(s, this.lastFocusedSession));
+          if (idx !== -1) {
+            const groupId = this.getGroupId(group);
+            newActiveIndices.set(groupId, idx);
+          }
+        }
       }
     }
     this.activeSessionIndices = newActiveIndices;
@@ -3242,6 +3256,16 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         return;
       }
 
+      const overlapGroup = overview.getSessionOverlapGroup(s);
+      const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
+      if (isOverlap) {
+        const activeSession = overview.getActiveSession(s);
+        const isActive = overview.isSameSession(s, activeSession);
+        g.style("opacity", isActive ? null : "0.25");
+      } else {
+        g.style("opacity", null);
+      }
+
       g.select(".session-body").attr("x", visX1).attr("width", visWidth);
 
       const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
@@ -3260,6 +3284,23 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (this.session_header_g) {
       this.session_header_g.selectAll(".session-header-container").each(function (s: Session) {
         const g = d3.select(this);
+        const fo = g.select(".session-header-fo");
+
+        const overlapGroup = overview.getSessionOverlapGroup(s);
+        const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
+
+        if (isOverlap) {
+          const activeSession = overview.getActiveSession(s);
+          const isActive = overview.isSameSession(s, activeSession);
+          if (!isActive) {
+            g.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            if (!fo.empty()) {
+              fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            }
+            return;
+          }
+        }
+
         const rawX1 = overview.xScaledTimeZoned(s.startDate);
         const rawX2 = overview.xScaledTimeZoned(s.endDate);
 
@@ -3269,17 +3310,15 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
         const isVisible = !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < overview.inner_width && visWidth > 0;
 
-        const fo = g.select(".session-header-fo");
-
         if (!isVisible) {
-          g.style("display", "none").style("visibility", "hidden");
+          g.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
           if (!fo.empty()) {
-            fo.style("display", "none").style("visibility", "hidden");
+            fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
           }
           return;
         }
 
-        g.style("display", null).style("visibility", "visible");
+        g.style("display", null).style("visibility", "visible").style("pointer-events", "auto");
 
         // 1. Continuous header background (clamped to 0..inner_width)
         const headerY = 0;
@@ -3325,10 +3364,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           namePill.select(".session-name-text").text(displayName);
         }
 
-        const overlapGroup = overview.getSessionOverlapGroup(s);
-        const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
         const navReservedWidth = isOverlap ? 74 : 0; // Left arrow (~22px) + Right arrow (~22px) + Counter (~22px) + gaps (~8px)
-        const minFoWidth = isOverlap ? 48 : 28;
+        const minFoWidth = isOverlap ? 74 : 55;
 
         if (isOverlap && overlapGroup) {
           const groupId = overview.getGroupId(overlapGroup);
@@ -3341,11 +3378,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
         if (foWidth < minFoWidth) {
           // Extremely narrow: hide badges completely
-          fo.style("display", "none").style("visibility", "hidden");
+          fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
           return;
         }
 
-        fo.style("display", null).style("visibility", "visible");
+        fo.style("display", null).style("visibility", "visible").style("pointer-events", "auto");
 
         const availWidth = Math.max(0, foWidth - navReservedWidth);
 
@@ -3440,7 +3477,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             if (!moreBtn.empty()) {
               moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
             }
-          } else if (availWidth >= 38) {
+          } else if (availWidth >= 55) {
             // Only enough room for Name truncated with ellipsis
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", `${availWidth - 6}px`);
@@ -3455,8 +3492,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
               moreBtn.style("display", "none");
             }
           } else {
-            // Width between minFoWidth and 38px:
-            // Too small for Name pill, show "..." badge representing the hidden session info
+            // Width below 55px: Too small for Name pill.
+            // Hide pills; navigation controls (< 1/5 >) remain visible if overlapping.
             if (!namePill.empty()) {
               namePill.style("display", "none");
             }
@@ -3467,7 +3504,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
               noteBtn.style("display", "none");
             }
             if (!moreBtn.empty()) {
-              moreBtn.style("display", "inline-flex");
+              moreBtn.style("display", "none");
             }
           }
         }
@@ -3897,17 +3934,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return this.dataService.sessions
       .filter((session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter)
       .slice()
-      .sort((a, b) => {
-        const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
-        const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
-        const diffStart = aStart - bStart;
-        if (diffStart !== 0) return diffStart;
-        const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
-        const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
-        const diffEnd = aEnd - bEnd;
-        if (diffEnd !== 0) return diffEnd;
-        return (a.label || "").localeCompare(b.label || "");
-      });
+      .sort((a, b) => this.compareSessions(a, b));
   }
 
   navigateToNextSession(direction: 1 | -1) {
@@ -3918,12 +3945,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     let currentIndex = -1;
 
     if (this.lastFocusedSession) {
-      currentIndex = sessions.findIndex(
-        (s) =>
-          this.getSessionKeyNum(s) === this.getSessionKeyNum(this.lastFocusedSession) &&
-          s.tpGroup === this.lastFocusedSession.tpGroup &&
-          (s.label && this.lastFocusedSession.label ? s.label === this.lastFocusedSession.label : true),
-      );
+      currentIndex = sessions.findIndex((s) => this.isSameSession(s, this.lastFocusedSession));
     }
 
     if (currentIndex !== -1) {
@@ -3958,12 +3980,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
       if (this.overlapGroups) {
         for (const group of this.overlapGroups) {
-          const sessionIdx = group.findIndex(
-            (s) =>
-              this.getSessionKeyNum(s) === this.getSessionKeyNum(targetSession) &&
-              s.tpGroup === targetSession.tpGroup &&
-              (s.label && targetSession.label ? s.label === targetSession.label : true),
-          );
+          const sessionIdx = group.findIndex((s) => this.isSameSession(s, targetSession));
           if (sessionIdx !== -1) {
             const groupId = this.getGroupId(group);
             this.activeSessionIndices.set(groupId, sessionIdx);
@@ -4079,7 +4096,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   private computeOverlapGroups(sessions: Session[]): Session[][] {
-    const sorted = [...sessions].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+    const comparator = (a: Session, b: Session) => this.compareSessions(a, b);
+
+    const sorted = [...sessions].sort(comparator);
     const groups: Session[][] = [];
     const visited = new Set<Session>();
     for (const session of sorted) {
@@ -4098,7 +4117,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           }
         }
       }
-      groups.push(group.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()));
+      groups.push(group.sort(comparator));
     }
     return groups;
   }
@@ -4111,8 +4130,89 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return aStart < bEnd && bStart < aEnd;
   }
 
+  public compareSessions(a: Session, b: Session): number {
+    if (!a && !b) return 0;
+    if (!a) return 1;
+    if (!b) return -1;
+
+    const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
+    const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
+    const aValid = !isNaN(aStart);
+    const bValid = !isNaN(bStart);
+    if (!aValid && !bValid) return 0;
+    if (!aValid) return 1;
+    if (!bValid) return -1;
+    const diffStart = aStart - bStart;
+    if (diffStart !== 0) return diffStart;
+
+    const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
+    const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
+    const aEndValid = !isNaN(aEnd);
+    const bEndValid = !isNaN(bEnd);
+    if (aEndValid && bEndValid) {
+      const diffEnd = aEnd - bEnd;
+      if (diffEnd !== 0) return diffEnd;
+    }
+
+    const tpGroups = this.dataService?.tpGroups || [];
+    const groupA = a.tpGroup ? a.tpGroup.trim() : "";
+    const groupB = b.tpGroup ? b.tpGroup.trim() : "";
+
+    if (groupA !== groupB) {
+      if (!groupA) return -1;
+      if (!groupB) return 1;
+
+      const idxA = tpGroups.indexOf(groupA);
+      const idxB = tpGroups.indexOf(groupB);
+
+      if (idxA !== -1 && idxB !== -1) {
+        if (idxA !== idxB) return idxA - idxB;
+      } else if (idxA !== -1) {
+        return -1;
+      } else if (idxB !== -1) {
+        return 1;
+      }
+
+      const naturalGroupDiff = groupA.localeCompare(groupB, undefined, { numeric: true, sensitivity: "base" });
+      if (naturalGroupDiff !== 0) return naturalGroupDiff;
+    }
+
+    return (a.label || "").localeCompare(b.label || "", undefined, { numeric: true, sensitivity: "base" });
+  }
+
+  public getSessionUid(session: Session): string {
+    if (!session) return "unknown";
+    let uid = this.sessionUids.get(session);
+    if (!uid) {
+      const start = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+      const end = session.endDate instanceof Date ? session.endDate.getTime() : new Date(session.endDate).getTime();
+      const grp = (session.tpGroup || "all").replace(/[^a-zA-Z0-9_-]/g, "_");
+      const lbl = (session.label || "").replace(/[^a-zA-Z0-9_-]/g, "_");
+      uid = `s_${start}_${end}_${grp}_${lbl}_${this.nextSessionUid++}`;
+      this.sessionUids.set(session, uid);
+    }
+    return uid;
+  }
+
+  public isSameSession(a: Session, b: Session): boolean {
+    if (!a || !b) return false;
+    if (a === b) return true;
+    const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
+    const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
+    const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
+    const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
+    return aStart === bStart && aEnd === bEnd && (a.tpGroup || "") === (b.tpGroup || "") && (a.label || "") === (b.label || "");
+  }
+
   public getGroupId(group: Session[]): string {
-    return String(new Date(group[0].startDate).getTime());
+    if (!group || group.length === 0) return "";
+    return group
+      .map((s) => {
+        const start = s.startDate instanceof Date ? s.startDate.getTime() : new Date(s.startDate).getTime();
+        const end = s.endDate instanceof Date ? s.endDate.getTime() : new Date(s.endDate).getTime();
+        return `${start}_${end}_${s.tpGroup || "all"}_${s.label || ""}`;
+      })
+      .join("__");
   }
 
   public getSessionKeyNum(session: Session): number {
@@ -4120,7 +4220,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   public getSessionOverlapGroup(session: Session): Session[] | null {
-    return this.overlapGroups.find((g) => g.includes(session)) || null;
+    if (!this.overlapGroups || !session) return null;
+    return this.overlapGroups.find((g) => g.includes(session) || g.some((s) => this.isSameSession(s, session))) || null;
   }
 
   public getActiveSession(session: Session): Session {
@@ -4129,7 +4230,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (!group || group.length <= 1) return session;
     const groupId = this.getGroupId(group);
     const activeIdx = this.activeSessionIndices.get(groupId) ?? 0;
-    return group[activeIdx] ?? session;
+    return group[activeIdx] ?? group[0] ?? session;
   }
 
   public sessionCoversTime(session: Session, time: number): boolean {
@@ -4170,12 +4271,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     // If multiple candidates overlap at this time, prioritize currently active session
     for (const cand of candidates) {
       const active = this.getActiveSession(cand);
-      if (active === cand) {
+      if (this.isSameSession(active, cand)) {
         return cand;
       }
     }
 
-    if (this.lastFocusedSession && candidates.includes(this.lastFocusedSession)) {
+    if (this.lastFocusedSession && candidates.some((c) => this.isSameSession(c, this.lastFocusedSession))) {
       return this.lastFocusedSession;
     }
 
@@ -4186,12 +4287,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (!session) return session;
     const group = this.getSessionOverlapGroup(session);
     if (group && group.length > 1) {
-      const idx = group.findIndex(
-        (s) =>
-          this.getSessionKeyNum(s) === this.getSessionKeyNum(session) &&
-          s.tpGroup === session.tpGroup &&
-          (s.label && session.label ? s.label === session.label : true),
-      );
+      let idx = group.indexOf(session);
+      if (idx === -1) {
+        idx = group.findIndex((s) => this.isSameSession(s, session));
+      }
       if (idx !== -1) {
         const groupId = this.getGroupId(group);
         const currentIdx = this.activeSessionIndices.get(groupId);
@@ -4213,40 +4312,60 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   public updateSessionVisibility(shouldRaise = false) {
-    if (!this.overlapGroups || !this.session_g) return;
-    for (const group of this.overlapGroups) {
-      if (group.length <= 1) continue;
-      const groupId = this.getGroupId(group);
-      const activeIdx = this.activeSessionIndices.get(groupId) ?? 0;
-      group.forEach((session, idx) => {
-        const key = this.getSessionKeyNum(session);
-        const isActive = idx === activeIdx;
-        const bodyGroup = this.session_g.select(`.session-group-${key}`);
-        if (isActive) {
-          bodyGroup.style("opacity", null).style("pointer-events", "auto");
-          if (shouldRaise) {
-            bodyGroup.raise();
-          }
-        } else {
-          bodyGroup.style("opacity", "0.25").style("pointer-events", "auto");
+    if (!this.overlapGroups) return;
+    const overview = this;
+
+    if (this.session_g) {
+      this.session_g.selectAll(".session-container").each(function (s: Session) {
+        const g = d3.select(this);
+        const group = overview.getSessionOverlapGroup(s);
+        if (!group || group.length <= 1) {
+          g.style("opacity", null).style("pointer-events", "auto");
+          return;
         }
-        if (!this.session_header_g) return;
-        const hdrGroup = this.session_header_g.select(`.session-hdr-group-${key}`);
-        if (hdrGroup.empty()) return;
+        const activeSession = overview.getActiveSession(s);
+        const isActive = overview.isSameSession(s, activeSession);
+        if (isActive) {
+          g.style("opacity", null).style("pointer-events", "auto");
+          if (shouldRaise) {
+            g.raise();
+          }
+        } else {
+          g.style("opacity", "0.25").style("pointer-events", "auto");
+        }
+      });
+    }
+
+    if (this.session_header_g) {
+      this.session_header_g.selectAll(".session-header-container").each(function (s: Session) {
+        const g = d3.select(this);
+        const group = overview.getSessionOverlapGroup(s);
+        if (!group || group.length <= 1) {
+          return;
+        }
+        const activeSession = overview.getActiveSession(s);
+        const isActive = overview.isSameSession(s, activeSession);
+        const fo = g.select(".session-header-fo");
         if (!isActive) {
-          hdrGroup.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+          g.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+          if (!fo.empty()) {
+            fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+          }
         } else {
           if (shouldRaise) {
-            hdrGroup.raise();
+            g.raise();
           }
-          const rawX1 = this.xScaledTimeZoned(session.startDate);
-          const rawX2 = this.xScaledTimeZoned(session.endDate);
+          const rawX1 = overview.xScaledTimeZoned(s.startDate);
+          const rawX2 = overview.xScaledTimeZoned(s.endDate);
           const isInViewport =
-            !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < this.inner_width && Math.max(0, rawX2 - Math.max(0, rawX1)) > 0;
+            !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < overview.inner_width && Math.max(0, rawX2 - Math.max(0, rawX1)) > 0;
           if (isInViewport) {
-            hdrGroup.style("display", null).style("visibility", null).style("pointer-events", "auto");
+            g.style("display", null).style("visibility", null).style("pointer-events", "auto");
           } else {
-            hdrGroup.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            g.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            if (!fo.empty()) {
+              fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            }
           }
         }
       });
