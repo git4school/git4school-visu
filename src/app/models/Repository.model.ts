@@ -71,11 +71,11 @@ export class Repository {
     }
 
     if (!last_name) {
-      return first_name.substring(0, max_length - 1) + ".";
+      return Utils.truncateMiddle(first_name, max_length);
     }
 
     if (!first_name) {
-      return last_name.substring(0, max_length - 1) + ".";
+      return Utils.truncateMiddle(last_name, max_length);
     }
 
     let last_name_final_length = Math.min(max_length - 4, last_name.length);
@@ -98,7 +98,7 @@ export class Repository {
     if (displayName.length > Utils.OVERVIEW_NAME_LENGTH_LIMIT) {
       let numberOfSpace = (displayName.match(/ /g) || []).length;
       if (numberOfSpace === 0) {
-        displayName = displayName.substring(0, Utils.OVERVIEW_NAME_LENGTH_LIMIT - 1) + ".";
+        displayName = Utils.truncateMiddle(displayName, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
       } else if (numberOfSpace == 1) {
         let [lastName, firstName] = displayName.split(" ");
         displayName = Repository.getFormattedName(firstName, lastName, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
