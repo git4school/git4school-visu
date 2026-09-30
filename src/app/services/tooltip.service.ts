@@ -35,6 +35,7 @@ export class TooltipService {
     placement: "top" | "bottom" | "left" | "right" = "top",
     shortcutKeys?: string[],
     maxWidth?: string | number,
+    customOffset?: { x?: number; y?: number },
   ) {
     if (this.warmResetTimeout) {
       clearTimeout(this.warmResetTimeout);
@@ -57,7 +58,7 @@ export class TooltipService {
 
       // Calculate position
       const rect = element.getBoundingClientRect();
-      this.setPosition(rect, placement).then(() => {
+      this.setPosition(rect, placement, customOffset).then(() => {
         this.tooltipComponentRef?.instance.reveal();
       });
     };
@@ -81,6 +82,7 @@ export class TooltipService {
     instant: boolean = false,
     context?: any,
     maxWidth?: string | number,
+    customOffset?: { x?: number; y?: number },
   ) {
     if (this.warmResetTimeout) {
       clearTimeout(this.warmResetTimeout);
@@ -111,7 +113,7 @@ export class TooltipService {
         height: 0,
       } as DOMRect;
 
-      this.setPosition(rect, placement).then(() => {
+      this.setPosition(rect, placement, customOffset).then(() => {
         this.tooltipComponentRef?.instance.reveal();
       });
     };
@@ -127,7 +129,7 @@ export class TooltipService {
     return this.tooltipComponentRef !== null;
   }
 
-  moveTooltip(x: number, y: number, placement: "top" | "bottom" | "left" | "right" = "top") {
+  moveTooltip(x: number, y: number, placement: "top" | "bottom" | "left" | "right" = "top", customOffset?: { x?: number; y?: number }) {
     if (this.tooltipComponentRef) {
       const rect = {
         top: y,
@@ -137,7 +139,7 @@ export class TooltipService {
         width: 0,
         height: 0,
       } as DOMRect;
-      this.setPosition(rect, placement);
+      this.setPosition(rect, placement, customOffset);
     }
   }
 
@@ -288,7 +290,11 @@ export class TooltipService {
     return { top, left };
   }
 
-  private setPosition(rect: DOMRect, placement: "top" | "bottom" | "left" | "right"): Promise<void> {
+  private setPosition(
+    rect: DOMRect,
+    placement: "top" | "bottom" | "left" | "right",
+    customOffset?: { x?: number; y?: number },
+  ): Promise<void> {
     return new Promise((resolve) => {
       if (!this.tooltipComponentRef) {
         resolve();
@@ -311,6 +317,11 @@ export class TooltipService {
         const offset = 12; // distance from element
 
         let { top, left } = this.adjustPlacementToFit(rect, tooltipRect, placement, offset);
+
+        if (customOffset) {
+          if (customOffset.x !== undefined) left += customOffset.x;
+          if (customOffset.y !== undefined) top += customOffset.y;
+        }
 
         const bounded = this.ensureWithinBounds(top, left, tooltipRect);
         top = bounded.top + window.scrollY;

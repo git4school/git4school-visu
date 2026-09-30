@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { Commit, CommitColor } from "@models/Commit.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
+import { AnonymizationService } from "@services/anonymization.service";
+import { Utils } from "@services/utils";
 import * as moment from "moment";
 
 export interface GracePeriodResult {
@@ -48,6 +50,7 @@ export interface SessionProgressRibbonData {
   questionsRibbon: RibbonDataPoint[];
   commitsRibbon: RibbonDataPoint[];
   studentCommitsPoints: Array<{
+    repoId: string;
     student: string;
     time: Date;
     relativeMinutes: number;
@@ -98,14 +101,19 @@ export class SessionAnalyticsService {
   readonly MAX_GRACE_MINUTES = 30;
   readonly MAX_CONSECUTIVE_GAP_MINUTES = 4;
 
+  constructor(private anonymizationService?: AnonymizationService) {}
+
+  getStudentDisplayName(repo: Repository): string {
+    const rawName = this.anonymizationService
+      ? this.anonymizationService.getDisplayName(repo)
+      : repo.getDisplayName() || repo.name || "Étudiant";
+    return Utils.truncateMiddle(rawName, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
+  }
+
   /**
    * Computes the dynamic adaptive grace period for a session.
    */
-  computeDynamicGracePeriod(
-    session: Session,
-    commits: Commit[],
-    repositories: Repository[]
-  ): GracePeriodResult {
+  computeDynamicGracePeriod(session: Session, commits: Commit[], repositories: Repository[]): GracePeriodResult {
     if (!session || !session.endDate) {
       return {
         effectiveEndDate: session?.endDate || new Date(),
@@ -117,8 +125,7 @@ export class SessionAnalyticsService {
 
     const sessionStartTime = new Date(session.startDate).getTime();
     const sessionEndTime = new Date(session.endDate).getTime();
-    const baseGraceEndTime =
-      sessionEndTime + this.BASE_GRACE_MINUTES * 60 * 1000;
+    const baseGraceEndTime = sessionEndTime + this.BASE_GRACE_MINUTES * 60 * 1000;
     const maxGraceEndTime = sessionEndTime + this.MAX_GRACE_MINUTES * 60 * 1000;
 
     // Filter candidate commits matching group if specified
@@ -139,10 +146,7 @@ export class SessionAnalyticsService {
         }
         return true;
       })
-      .sort(
-        (a, b) =>
-          new Date(a.commitDate).getTime() - new Date(b.commitDate).getTime()
-      );
+      .sort((a, b) => new Date(a.commitDate).getTime() - new Date(b.commitDate).getTime());
 
     let currentCutoffTime = baseGraceEndTime;
     let lastAcceptedTime = sessionEndTime;
@@ -160,10 +164,7 @@ export class SessionAnalyticsService {
 
       // If beyond base grace, check continuous chain gap (<= 4 min)
       const gapMinutes = (commitTime - lastAcceptedTime) / (60 * 1000);
-      if (
-        gapMinutes <= this.MAX_CONSECUTIVE_GAP_MINUTES &&
-        commitTime <= maxGraceEndTime
-      ) {
+      if (gapMinutes <= this.MAX_CONSECUTIVE_GAP_MINUTES && commitTime <= maxGraceEndTime) {
         lastAcceptedTime = commitTime;
         currentCutoffTime = Math.max(currentCutoffTime, commitTime);
         extendedStudents.add(commit.author || "Unknown");
@@ -173,12 +174,8 @@ export class SessionAnalyticsService {
       }
     }
 
-    const effectiveEndDate = new Date(
-      Math.max(sessionEndTime, currentCutoffTime)
-    );
-    const graceMinutes = Math.round(
-      (effectiveEndDate.getTime() - sessionEndTime) / (60 * 1000)
-    );
+    const effectiveEndDate = new Date(Math.max(sessionEndTime, currentCutoffTime));
+    const graceMinutes = Math.round((effectiveEndDate.getTime() - sessionEndTime) / (60 * 1000));
     const isExtended = graceMinutes > this.BASE_GRACE_MINUTES;
 
     return {
@@ -192,19 +189,8 @@ export class SessionAnalyticsService {
   /**
    * Checks if a commit belongs to a session
    */
-  isCommitInSession(
-    commit: Commit,
-    session: Session,
-    graceMinutes = 0,
-    repoGroup?: string
-  ): boolean {
-    if (
-      !commit ||
-      !commit.commitDate ||
-      !session ||
-      !session.startDate ||
-      !session.endDate
-    ) {
+  isCommitInSession(commit: Commit, session: Session, graceMinutes = 0, repoGroup?: string): boolean {
+    if (!commit || !commit.commitDate || !session || !session.startDate || !session.endDate) {
       return false;
     }
 
@@ -222,15 +208,11 @@ export class SessionAnalyticsService {
   /**
    * Computes comprehensive analytical stats for a single session
    */
-  computeSessionStats(
-    session: Session,
-    repositories: Repository[],
-    questions: string[] = []
-  ): SessionDetailedStats {
+  computeSessionStats(session: Session, repositories: Repository[], questions: string[] = []): SessionDetailedStats {
     // 1. Filter matching repositories
     const relevantRepos = (repositories || []).filter((r) => {
       if (!session.tpGroup) return true;
-      return !r.tpGroup || r.tpGroup === session.tpGroup;
+      return r.tpGroup === session.tpGroup;
     });
 
     // Extract all commits in relevant repos
@@ -240,11 +222,7 @@ export class SessionAnalyticsService {
     });
 
     // 2. Compute dynamic grace period
-    const graceResult = this.computeDynamicGracePeriod(
-      session,
-      allCandidateCommits,
-      relevantRepos
-    );
+    const graceResult = this.computeDynamicGracePeriod(session, allCandidateCommits, relevantRepos);
     const sessionStart = new Date(session.startDate);
     const effectiveEnd = graceResult.effectiveEndDate;
 
@@ -267,10 +245,7 @@ export class SessionAnalyticsService {
           const t = new Date(c.commitDate).getTime();
           return t >= sessionStartMs && t <= sessionEndMs;
         })
-        .sort(
-          (a, b) =>
-            new Date(a.commitDate).getTime() - new Date(b.commitDate).getTime()
-        );
+        .sort((a, b) => new Date(a.commitDate).getTime() - new Date(b.commitDate).getTime());
 
       const inCount = repoCommits.length;
       inSessionCommitsCount += inCount;
@@ -291,19 +266,17 @@ export class SessionAnalyticsService {
 
         if (c.isCloture && c.question) {
           closedQuestionsForStudent.add(c.question);
-          questionsClosedSet.set(
-            c.question,
-            (questionsClosedSet.get(c.question) || 0) + 1
-          );
+          questionsClosedSet.set(c.question, (questionsClosedSet.get(c.question) || 0) + 1);
         }
 
         const qIdx = c.question ? questions.indexOf(c.question) + 1 : 0;
-        const relMinutes = Math.round(
-          (cDate.getTime() - sessionStartMs) / 60000
-        );
+        const relMinutes = Math.round((cDate.getTime() - sessionStartMs) / 60000);
+        const repoId = repo.url || repo.name || repo.getDisplayName() || "repo";
+        const studentDisplayName = this.getStudentDisplayName(repo);
 
         ribbonPoints.push({
-          student: repo.getDisplayName() || repo.name || "Étudiant",
+          repoId,
+          student: studentDisplayName,
           time: cDate,
           relativeMinutes: relMinutes,
           questionIndex: qIdx,
@@ -328,7 +301,7 @@ export class SessionAnalyticsService {
 
       studentsActivity.push({
         repository: repo,
-        studentName: repo.getDisplayName() || repo.name || "Étudiant",
+        studentName: this.getStudentDisplayName(repo),
         tpGroup: repo.tpGroup,
         inSessionCommitsCount: inCount,
         totalCommitsCount: repo.commits?.length || 0,
@@ -342,10 +315,7 @@ export class SessionAnalyticsService {
 
     const totalEligibleStudents = relevantRepos.length;
     const inactiveStudentsCount = totalEligibleStudents - activeStudentsCount;
-    const participationRate =
-      totalEligibleStudents > 0
-        ? (activeStudentsCount / totalEligibleStudents) * 100
-        : 0;
+    const participationRate = totalEligibleStudents > 0 ? (activeStudentsCount / totalEligibleStudents) * 100 : 0;
 
     // 4. Histogram Buckets (15 min)
     const BUCKET_MINUTES = 15;
@@ -355,9 +325,7 @@ export class SessionAnalyticsService {
 
     for (let b = 0; b < numBuckets; b++) {
       const bStart = new Date(sessionStartMs + b * bucketDurationMs);
-      const bEnd = new Date(
-        Math.min(sessionEndMs, bStart.getTime() + bucketDurationMs)
-      );
+      const bEnd = new Date(Math.min(sessionEndMs, bStart.getTime() + bucketDurationMs));
       const bLabel = moment(bStart).format("HH:mm");
 
       const bucketCommits = ribbonPoints.filter((p) => {
@@ -393,42 +361,41 @@ export class SessionAnalyticsService {
     const commitsRibbon: RibbonDataPoint[] = [];
     const timePoints: Date[] = [];
 
+    // Cohort evaluated: active students in session, or all relevant repos if none
+    const activeRepos = relevantRepos.filter((r) =>
+      studentsActivity.some((sa) => sa.repository === r && (sa.status === "active" || sa.status === "low")),
+    );
+    const cohortToSample = activeRepos.length > 0 ? activeRepos : relevantRepos;
+
     for (let s = 0; s < numSamples; s++) {
-      const sampleTimeMs = Math.min(
-        sessionEndMs,
-        sessionStartMs + s * sampleMs
-      );
+      const sampleTimeMs = Math.min(sessionEndMs, sessionStartMs + s * sampleMs);
       const sampleTime = new Date(sampleTimeMs);
       const relMin = Math.round((sampleTimeMs - sessionStartMs) / 60000);
       timePoints.push(sampleTime);
 
-      // Compute stats for questions and commits for all relevant repos up to sampleTime
+      // Compute stats for questions and commits for cohort up to sampleTime
       const studentQIndices: number[] = [];
       const studentCommitCounts: number[] = [];
 
-      relevantRepos.forEach((repo) => {
+      cohortToSample.forEach((repo) => {
         let maxQ = 0;
         let cCount = 0;
         repo.commits?.forEach((c) => {
           const ct = new Date(c.commitDate).getTime();
           if (ct >= sessionStartMs && ct <= sampleTimeMs) {
             cCount++;
-            if (c.question) {
-              const qIdx = questions.indexOf(c.question) + 1;
-              if (qIdx > maxQ) maxQ = qIdx;
-            }
+          }
+          if (ct <= sampleTimeMs && c.question) {
+            const qIdx = questions.indexOf(c.question) + 1;
+            if (qIdx > maxQ) maxQ = qIdx;
           }
         });
         studentQIndices.push(maxQ);
         studentCommitCounts.push(cCount);
       });
 
-      questionsRibbon.push(
-        this.calculateRibbonPoint(sampleTime, relMin, studentQIndices)
-      );
-      commitsRibbon.push(
-        this.calculateRibbonPoint(sampleTime, relMin, studentCommitCounts)
-      );
+      questionsRibbon.push(this.calculateRibbonPoint(sampleTime, relMin, studentQIndices));
+      commitsRibbon.push(this.calculateRibbonPoint(sampleTime, relMin, studentCommitCounts));
     }
 
     const ribbonData: SessionProgressRibbonData = {
@@ -444,16 +411,11 @@ export class SessionAnalyticsService {
       return {
         question: q,
         closedByCount: closed,
-        percentage:
-          totalEligibleStudents > 0
-            ? (closed / totalEligibleStudents) * 100
-            : 0,
+        percentage: totalEligibleStudents > 0 ? (closed / totalEligibleStudents) * 100 : 0,
       };
     });
 
-    const displayName =
-      session.label ||
-      `Séance ${session.tpGroup ? `(${session.tpGroup})` : ""}`;
+    const displayName = session.label || `Séance ${session.tpGroup ? `(${session.tpGroup})` : ""}`;
 
     return {
       session,
@@ -466,13 +428,8 @@ export class SessionAnalyticsService {
       participationRate,
       inSessionCommitsCount,
       totalPeriodCommitsCount: allCandidateCommits.length,
-      inSessionRatio:
-        allCandidateCommits.length > 0
-          ? (inSessionCommitsCount / allCandidateCommits.length) * 100
-          : 100,
-      resolvedQuestionsCount: questionsSummary.filter(
-        (q) => q.closedByCount > 0
-      ).length,
+      inSessionRatio: allCandidateCommits.length > 0 ? (inSessionCommitsCount / allCandidateCommits.length) * 100 : 100,
+      resolvedQuestionsCount: questionsSummary.filter((q) => q.closedByCount > 0).length,
       questionsSummary,
       histogramBuckets,
       ribbonData,
@@ -481,53 +438,12 @@ export class SessionAnalyticsService {
   }
 
   /**
-   * Helper to calculate statistical quartiles (Q1, Median, Q3) for an array of numbers
-   */
-  private calculateRibbonPoint(
-    time: Date,
-    relativeMinutes: number,
-    values: number[]
-  ): RibbonDataPoint {
-    if (!values || values.length === 0) {
-      return { time, relativeMinutes, median: 0, q1: 0, q3: 0, min: 0, max: 0 };
-    }
-
-    const sorted = [...values].sort((a, b) => a - b);
-    const min = sorted[0];
-    const max = sorted[sorted.length - 1];
-
-    const median = this.percentile(sorted, 0.5);
-    const q1 = this.percentile(sorted, 0.25);
-    const q3 = this.percentile(sorted, 0.75);
-
-    return {
-      time,
-      relativeMinutes,
-      median,
-      q1,
-      q3,
-      min,
-      max,
-    };
-  }
-
-  private percentile(sorted: number[], p: number): number {
-    const pos = (sorted.length - 1) * p;
-    const base = Math.floor(pos);
-    const rest = pos - base;
-    if (sorted[base + 1] !== undefined) {
-      return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
-    }
-    return sorted[base];
-  }
-
-  /**
    * Detects suggested sessions from commit clusters across all repositories
    */
   detectSuggestedSessions(
     repositories: Repository[],
     defaultDurationMinutes = 120,
-    existingSessions: Session[] = []
+    existingSessions: Session[] = [],
   ): SuggestedSessionResult[] {
     if (!repositories || repositories.length === 0) return [];
 
@@ -555,16 +471,10 @@ export class SessionAnalyticsService {
 
       if (allCommits.length < 3) return;
 
-      allCommits.sort(
-        (a, b) =>
-          new Date(a.commit.commitDate).getTime() -
-          new Date(b.commit.commitDate).getTime()
-      );
+      allCommits.sort((a, b) => new Date(a.commit.commitDate).getTime() - new Date(b.commit.commitDate).getTime());
 
       // Count existing sessions for this group
-      const existingForGroup = (existingSessions || []).filter(
-        (s) => (s.tpGroup || "") === (groupName || "")
-      ).length;
+      const existingForGroup = (existingSessions || []).filter((s) => (s.tpGroup || "") === (groupName || "")).length;
       let groupSessionCounter = existingForGroup;
 
       // 15-minute slot aggregation
@@ -619,9 +529,7 @@ export class SessionAnalyticsService {
 
         // Use default duration if cluster is around that size, or adapt if clearly longer
         const durationToUseMin =
-          clusterDurationMin > defaultDurationMinutes + 30
-            ? Math.round(clusterDurationMin / 30) * 30
-            : defaultDurationMinutes;
+          clusterDurationMin > defaultDurationMinutes + 30 ? Math.round(clusterDurationMin / 30) * 30 : defaultDurationMinutes;
 
         const startDate = new Date(clusterStart);
         const endDate = new Date(clusterStart + durationToUseMin * 60 * 1000);
@@ -631,10 +539,7 @@ export class SessionAnalyticsService {
           if ((es.tpGroup || "") !== (groupName || "")) return false;
           const esStart = new Date(es.startDate).getTime();
           const esEnd = new Date(es.endDate).getTime();
-          return (
-            Math.max(startDate.getTime(), esStart) <
-            Math.min(endDate.getTime(), esEnd)
-          );
+          return Math.max(startDate.getTime(), esStart) < Math.min(endDate.getTime(), esEnd);
         });
         if (overlapsExisting) return;
 
@@ -651,13 +556,7 @@ export class SessionAnalyticsService {
           const suggestedLabel = `Séance ${groupSessionCounter}`;
 
           // Note: session.label is intentionally undefined so the application's default dynamic label mechanism works
-          const session = new Session(
-            startDate,
-            endDate,
-            groupName || undefined,
-            undefined,
-            undefined
-          );
+          const session = new Session(startDate, endDate, groupName || undefined, undefined, undefined);
 
           suggestions.push({
             session,
@@ -670,8 +569,43 @@ export class SessionAnalyticsService {
       });
     });
 
-    return suggestions.sort(
-      (a, b) => a.session.startDate.getTime() - b.session.startDate.getTime()
-    );
+    return suggestions.sort((a, b) => a.session.startDate.getTime() - b.session.startDate.getTime());
+  }
+
+  /**
+   * Helper to calculate statistical quartiles (Q1, Median, Q3) for an array of numbers
+   */
+  private calculateRibbonPoint(time: Date, relativeMinutes: number, values: number[]): RibbonDataPoint {
+    if (!values || values.length === 0) {
+      return { time, relativeMinutes, median: 0, q1: 0, q3: 0, min: 0, max: 0 };
+    }
+
+    const sorted = [...values].sort((a, b) => a - b);
+    const min = sorted[0];
+    const max = sorted[sorted.length - 1];
+
+    const median = this.percentile(sorted, 0.5);
+    const q1 = this.percentile(sorted, 0.25);
+    const q3 = this.percentile(sorted, 0.75);
+
+    return {
+      time,
+      relativeMinutes,
+      median,
+      q1,
+      q3,
+      min,
+      max,
+    };
+  }
+
+  private percentile(sorted: number[], p: number): number {
+    const pos = (sorted.length - 1) * p;
+    const base = Math.floor(pos);
+    const rest = pos - base;
+    if (sorted[base + 1] !== undefined) {
+      return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+    }
+    return sorted[base];
   }
 }
