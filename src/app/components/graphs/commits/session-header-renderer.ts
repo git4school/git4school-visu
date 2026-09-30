@@ -85,7 +85,10 @@ export class SessionHeaderRenderer {
       return;
     }
 
-    const sessionIdxInGroup = overlapGroup.indexOf(session);
+    let sessionIdxInGroup = overlapGroup.indexOf(session);
+    if (sessionIdxInGroup === -1 && overview && typeof overview.isSameSession === "function") {
+      sessionIdxInGroup = overlapGroup.findIndex((s) => overview.isSameSession(s, session));
+    }
     const groupSize = overlapGroup.length;
 
     /* SVG chevrons — stroke cohérent avec les icônes de l'app */
