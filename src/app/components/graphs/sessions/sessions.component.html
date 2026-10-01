@@ -56,7 +56,7 @@
   </div>
 
   <!-- SCROLLABLE SESSIONS CONTENT -->
-  <div class="sessions-scrollable-container flex-grow-1 overflow-auto px-3 pb-4">
+  <div class="sessions-scrollable-container flex-grow-1 px-3 pb-4">
 
   <!-- LOADER PROGRESS -->
   <div *ngIf="isCalculating" class="calc-loader-banner p-3 my-2 rounded-lg d-flex flex-column align-items-center justify-content-center">
@@ -107,27 +107,64 @@
   <!-- CONTENT (WHEN SESSIONS EXIST) -->
   <ng-container *ngIf="!isCalculating && getFilteredSessions().length > 0">
     <!-- HORIZONTAL PILLS RIBBON -->
-    <div class="sessions-ribbon-bar py-2 px-1 d-flex align-items-center overflow-auto" style="gap: 8px;">
-      <!-- Macro Pill: Toutes les séances -->
-      <button class="btn session-pill-btn d-flex align-items-center flex-shrink-0" [class.active]="selectedSessionIndex === -1" (click)="selectSession(-1)">
+    <div class="sessions-ribbon-wrapper my-2 d-flex align-items-center">
+      <!-- Fixed Macro Pill: Toutes les séances (always visible) -->
+      <button type="button"
+              class="btn session-pill-btn d-flex align-items-center flex-shrink-0"
+              [class.active]="selectedSessionIndex === -1"
+              (click)="selectSession(-1)">
         <i class="fas fa-layer-group mr-2"></i>
         <span>{{ 'SESSIONS-GRAPH.ALL_SESSIONS' | translate }}</span>
         <span class="badge badge-pill badge-secondary ml-2">{{ getFilteredSessions().length }}</span>
       </button>
 
-      <div class="ribbon-divider mx-1"></div>
+      <div class="ribbon-divider mx-2 flex-shrink-0"></div>
 
-      <!-- Individual Session Pills -->
-      <button *ngFor="let s of getFilteredSessions(); let i = index" class="btn session-pill-btn d-flex align-items-center flex-shrink-0" [class.active]="selectedSessionIndex === i" (click)="selectSession(i)">
-        <svg class="icon-calendar mr-2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-          <line x1="16" y1="2" x2="16" y2="6"></line>
-          <line x1="8" y1="2" x2="8" y2="6"></line>
-          <line x1="3" y1="10" x2="21" y2="10"></line>
-        </svg>
-        <span class="pill-label mr-2">{{ s.displayName }}</span>
-        <span class="badge-mini-stat">{{ s.participationRate | number:'1.0-0' }}%</span>
-      </button>
+      <!-- Scrollable Individual Sessions Subwrapper -->
+      <div class="sessions-scroll-subwrapper d-flex align-items-center flex-grow-1">
+        <!-- Left Chevron -->
+        <button *ngIf="canScrollLeft"
+                type="button"
+                class="ribbon-nav-btn prev flex-shrink-0 mr-1"
+                (click)="scrollRibbon('left')"
+                aria-label="Scroll left">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <!-- Scrollable Track: Individual Sessions Only -->
+        <div #ribbonBar
+             class="sessions-ribbon-bar py-1 px-1 d-flex align-items-center flex-grow-1"
+             (wheel)="onRibbonWheel($event)"
+             (scroll)="onRibbonScroll()">
+          <button *ngFor="let s of getFilteredSessions(); let i = index"
+                  type="button"
+                  class="btn session-pill-btn d-flex align-items-center flex-shrink-0"
+                  [class.active]="selectedSessionIndex === i"
+                  (click)="selectSession(i)">
+            <svg class="icon-calendar mr-2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span class="pill-label mr-2">{{ s.displayName }}</span>
+            <span class="badge-mini-stat">{{ s.participationRate | number:'1.0-0' }}%</span>
+          </button>
+        </div>
+
+        <!-- Right Chevron -->
+        <button *ngIf="canScrollRight"
+                type="button"
+                class="ribbon-nav-btn next flex-shrink-0 ml-1"
+                (click)="scrollRibbon('right')"
+                aria-label="Scroll right">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <!-- VIEW 1: MACRO OVERVIEW (selectedSessionIndex === -1) -->

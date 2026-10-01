@@ -9,20 +9,88 @@
 }
 
 .sessions-scrollable-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
   min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Sessions Ribbon Pills */
+.sessions-ribbon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.sessions-scroll-subwrapper {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+}
+
+.ribbon-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+  box-shadow: var(--shadow-sm);
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  z-index: 2;
+
+  &.prev {
+    margin-right: 6px;
+  }
+
+  &.next {
+    margin-left: 6px;
+  }
+
+  &:hover {
+    background-color: var(--color-hover);
+    color: var(--color-text-primary);
+    border-color: var(--color-primary);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
 .sessions-ribbon-bar {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-border) transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Hide scrollbar on Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar on IE/Edge */
+  -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
-    height: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: var(--color-border);
-    border-radius: 4px;
+    display: none; /* Hide scrollbar on Chrome/Safari/Opera */
+    width: 0;
+    height: 0;
   }
 }
 
@@ -30,6 +98,15 @@
   width: 1px;
   height: 24px;
   background-color: var(--color-border);
+}
+
+.badge-mini-stat {
+  font-size: 0.75rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background-color: var(--color-hover);
+  color: var(--color-text-secondary);
+  font-weight: 600;
 }
 
 .session-pill-btn {
@@ -52,27 +129,18 @@
   &.active {
     background-color: var(--color-primary);
     border-color: var(--color-primary);
-    color: #ffffff;
+    color: #fff;
     box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
 
     .badge-mini-stat {
       background-color: rgba(255, 255, 255, 0.25);
-      color: #ffffff;
+      color: #fff;
     }
 
     svg {
-      stroke: #ffffff;
+      stroke: #fff;
     }
   }
-}
-
-.badge-mini-stat {
-  font-size: 0.75rem;
-  padding: 1px 6px;
-  border-radius: 10px;
-  background-color: var(--color-surface-hover, rgba(0, 0, 0, 0.06));
-  color: var(--color-text-secondary);
-  font-weight: 600;
 }
 
 /* KPI Cards */
@@ -184,6 +252,7 @@
   &.status-active {
     background-color: var(--color-success);
   }
+
   &.status-inactive {
     background-color: var(--color-danger);
   }
