@@ -71,6 +71,9 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   readonly commitColors = [CommitColor.INTERMEDIATE, CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER];
   assignmentsModified$?: Subscription;
   private resizeObserver?: any;
+  private isTrajectoryWarm = false;
+  private trajectoryWarmResetTimeout: any = null;
+  private readonly TRAJECTORY_WARM_RESET_DELAY = 450;
 
   constructor(
     public dataService: DataService,
@@ -153,6 +156,10 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     }
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
+    }
+    if (this.trajectoryWarmResetTimeout) {
+      clearTimeout(this.trajectoryWarmResetTimeout);
+      this.trajectoryWarmResetTimeout = null;
     }
   }
 
@@ -763,8 +770,16 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
               return isCloture ? 4 : 3;
             });
 
-          // Draw the student's individual trajectory curve
-          hoverTrajectoryGroup.selectAll("*").remove();
+          // Warm-up check: if we already showed a trajectory recently, render instantly without animation
+          if (this.trajectoryWarmResetTimeout) {
+            clearTimeout(this.trajectoryWarmResetTimeout);
+            this.trajectoryWarmResetTimeout = null;
+          }
+          const shouldAnimate = !this.isTrajectoryWarm;
+          this.isTrajectoryWarm = true;
+
+          // Clear any ongoing trajectory transition immediately
+          hoverTrajectoryGroup.selectAll("*").interrupt().remove();
 
           const studentPoints = validPoints
             .filter((pt) => (p.repoId && pt.repoId ? pt.repoId === p.repoId : pt.student === p.student))
@@ -788,28 +803,73 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
               .y((d) => yScale(d.val))
               .curve(d3.curveMonotoneX);
 
-            hoverTrajectoryGroup
-              .append("path")
-              .datum(curvePoints)
-              .attr("class", "student-trajectory-line")
-              .attr("d", studentLine)
-              .style("fill", "none")
-              .style("stroke", "var(--color-primary)")
-              .style("stroke-width", "2px")
-              .style("stroke-linecap", "round")
-              .style("stroke-linejoin", "round")
-              .style("stroke-dasharray", "4,3")
-              .style("opacity", "0")
-              .transition()
-              .duration(150)
-              .style("opacity", "0.85");
+            const lastPtTime = new Date(studentPoints[studentPoints.length - 1].time);
+            const targetWidth = Math.min(innerWidth + 10, xScale(lastPtTime) + 8);
+
+            if (shouldAnimate) {
+              // Progressive reveal of dashed curve via clipPath (<300ms, strong ease-out)
+              const clipId = "student-trajectory-clip-" + Math.random().toString(36).substring(2, 9);
+              const clip = hoverTrajectoryGroup.append("defs").append("clipPath").attr("id", clipId);
+              const clipRect = clip
+                .append("rect")
+                .attr("x", 0)
+                .attr("y", -10)
+                .attr("width", 0)
+                .attr("height", innerHeight + 20);
+
+              hoverTrajectoryGroup
+                .append("path")
+                .datum(curvePoints)
+                .attr("class", "student-trajectory-line")
+                .attr("clip-path", `url(#${clipId})`)
+                .attr("d", studentLine)
+                .style("fill", "none")
+                .style("stroke", "var(--color-primary)")
+                .style("stroke-width", "2px")
+                .style("stroke-linecap", "round")
+                .style("stroke-linejoin", "round")
+                .style("stroke-dasharray", "4,3")
+                .style("opacity", "0.95");
+
+              clipRect.transition().duration(240).ease(d3.easeCubicOut).attr("width", Math.max(0, targetWidth));
+            } else {
+              // Warm state: render dashed line instantly without drawing animation
+              hoverTrajectoryGroup
+                .append("path")
+                .datum(curvePoints)
+                .attr("class", "student-trajectory-line")
+                .attr("d", studentLine)
+                .style("fill", "none")
+                .style("stroke", "var(--color-primary)")
+                .style("stroke-width", "2px")
+                .style("stroke-linecap", "round")
+                .style("stroke-linejoin", "round")
+                .style("stroke-dasharray", "4,3")
+                .style("opacity", "0.95");
+            }
           }
         })
         .on("mouseleave", () => {
           this.tooltipService.hide();
 
-          // Clear trajectory line
-          hoverTrajectoryGroup.selectAll("*").remove();
+          // Smooth exit for trajectory line (exit faster than enter: ~120ms fade-out)
+          hoverTrajectoryGroup
+            .selectAll("path")
+            .interrupt()
+            .transition()
+            .duration(120)
+            .ease(d3.easeCubicOut)
+            .style("opacity", "0")
+            .remove();
+
+          // Warm-up reset: grace period before resetting warm state
+          if (this.trajectoryWarmResetTimeout) {
+            clearTimeout(this.trajectoryWarmResetTimeout);
+          }
+          this.trajectoryWarmResetTimeout = setTimeout(() => {
+            this.isTrajectoryWarm = false;
+            this.trajectoryWarmResetTimeout = null;
+          }, this.TRAJECTORY_WARM_RESET_DELAY);
 
           // Restore all circles
           pointsGroup
