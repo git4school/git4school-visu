@@ -820,5 +820,24 @@
       "UNIT-MINUTE": "мин",
       "RESET-TOAST": "Имитация часов сброшена."
     }
+  },
+  "SESSION-TAB": {
+    "TAB": {
+      "IN-PROGRESS": "Сессия идёт",
+      "UPCOMING-SHORT": "Сессия скоро",
+      "LABEL-FALLBACK": "Сессия"
+    },
+    "PANEL": {
+      "TP-GROUP": "Группа",
+      "ACTIVE-STUDENTS": "Активных студентов",
+      "IN-SESSION-COMMITS": "Коммитов на сессии",
+      "RESOLVED-QUESTIONS": "Закрытых вопросов",
+      "PARTICIPATION": "Вовлечённость",
+      "LOADING-STATS": "Подсчёт активности…",
+      "VIEW-IN-GRAPH": "Показать на графике",
+      "EDIT": "Изменить",
+      "CLOSE": "Закрыть",
+      "UPDATED-TOAST": "Сессия обновлена."
+    }
   }
 }

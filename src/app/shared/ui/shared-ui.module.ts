@@ -22,6 +22,9 @@ import { ShortcutsModalComponent } from "./shortcuts-modal/shortcuts-modal.compo
 import { DevBarComponent } from "./dev-bar/dev-bar.component";
 import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.component";
 
+/* Languette de séance en cours */
+import { SessionTabComponent } from "./session-tab/session-tab.component";
+
 @NgModule({
   declarations: [
     ModalComponent,
@@ -40,6 +43,7 @@ import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.compo
     ShortcutsModalComponent,
     DevBarComponent,
     SegmentedRadioComponent,
+    SessionTabComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -59,6 +63,7 @@ import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.compo
     ShortcutsModalComponent,
     DevBarComponent,
     SegmentedRadioComponent,
+    SessionTabComponent,
   ],
   entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent],
 })

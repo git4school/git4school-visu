@@ -81,6 +81,9 @@
             </div>
         </nav>
 
+        <!-- Session folder tab: only inside an assignment's views, never on the assignment list -->
+        <app-session-tab *ngIf="!isHome && dataService.dataLoaded()"></app-session-tab>
+
         <div class="container-fluid flex-grow-1 d-flex flex-column" [class.px-0]="isHome" style="overflow: hidden; min-height: 0;">
             <div class="row flex-grow-1" [class.mx-0]="isHome" style="overflow: hidden; min-height: 0;">
                 <div class="col-12 d-flex flex-column" [class.px-0]="isHome" [style.padding-bottom]="isHome ? '0' : '1rem'" style="overflow-y: auto; overflow-x: hidden; min-height: 0; max-height: 100%;">

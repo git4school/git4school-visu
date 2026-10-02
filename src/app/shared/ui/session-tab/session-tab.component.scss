@@ -1,0 +1,356 @@
+@import "variables";
+
+/* Session folder tab ("peek").
+   One single surface, translated horizontally. The strip is the visible 48px of the panel,
+   so opening is a single GPU transform — no width/height animation anywhere. */
+.peek {
+  position: fixed;
+  inset: 0;
+  z-index: $zindex-session-pane;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* Clips the off-screen part of the surface: no horizontal scrollbar, no stray tab stops */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.peek-surface {
+  display: flex;
+  align-items: stretch;
+  width: 380px;
+  max-height: min(74vh, 620px);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-right: none;
+  border-radius: 16px 0 0 16px;
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  will-change: transform;
+  /* closed: only the 48px strip stays on screen */
+  transform: translate3d(calc(100% - 48px), 0, 0);
+  transition: transform $transition-panel-exit;
+}
+
+/* hover: the surface slides out 20px — a promise that more exists */
+@media (hover: hover) and (pointer: fine) {
+  .peek.is-hovered:not(.is-open) .peek-surface {
+    transform: translate3d(calc(100% - 68px), 0, 0);
+    transition: transform $transition-popover-shift;
+  }
+}
+
+/* open: fully out. Declared after :hover so it wins at equal specificity */
+.peek.is-open .peek-surface {
+  transform: translate3d(0, 0, 0);
+  transition: transform $transition-panel-enter;
+}
+
+/* ---------- the strip: the panel's left edge ---------- */
+.peek-strip {
+  position: relative;
+  flex: 0 0 48px;
+  width: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 0;
+  overflow: hidden;
+  border: none;
+  border-radius: 16px 0 0 16px;
+  background: linear-gradient(180deg, var(--color-primary-bg) 0%, var(--color-surface) 55%);
+  cursor: pointer;
+  outline: none;
+  transition: background-color $transition-fast, transform $transition-fast;
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+/* Swap rail: the three lines travel inside this box. --travel, --out-bottom and
+   --in-enter are measured from the DOM, because they depend on the text lengths
+   and CSS cannot subtract a child's height from its container's. */
+.peek-rail {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.peek-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: max-content;
+  margin-right: auto;
+  margin-left: auto;
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  font-family: $font-family-sans;
+  will-change: transform;
+  transition: transform $transition-tab-swap, color $transition-tab-swap;
+}
+
+.peek-line--label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.peek-line--counter {
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-primary);
+  transform: translateY(var(--travel, 0px)) rotate(180deg);
+}
+
+/* --- état EN COURS : libellé en haut, compteur plaqué en bas --- */
+.peek-line--in {
+  transform: translateY(0) rotate(180deg);
+}
+
+.peek-line--out {
+  transform: translateY(calc(var(--out-bottom, 0px) + var(--travel, 0px))) rotate(180deg);
+}
+
+/* --- état À VENIR : les trois lignes remontent d'une case --- */
+.peek.is-upcoming .peek-line--in {
+  transform: translateY(calc(-1 * var(--in-enter, 0px))) rotate(180deg);
+}
+
+.peek.is-upcoming .peek-line--counter {
+  color: var(--color-warning);
+  transform: translateY(0) rotate(180deg);
+}
+
+.peek.is-upcoming .peek-line--out {
+  transform: translateY(var(--out-bottom, 0px)) rotate(180deg);
+}
+
+.peek-strip-chevron {
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+  transition: transform $transition-fast;
+}
+
+/* ---------- the panel body ---------- */
+.peek-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  /* Required so overflow-y can clip inside a stretched flex item */
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1rem 1rem;
+  font-family: $font-family-sans;
+  overflow-y: auto;
+}
+
+.peek-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.peek-state-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.peek-state-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: currentcolor;
+}
+
+.peek.is-upcoming .peek-state-pill {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.peek-head-time {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.peek-close {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  outline: none;
+  transition: background-color $transition-fast, color $transition-fast, transform $transition-fast;
+
+  &:hover {
+    background-color: var(--color-hover);
+    color: var(--color-text-primary);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.peek-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-text-primary);
+}
+
+.peek-when,
+.peek-tp,
+.peek-notes,
+.peek-nostats {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+.peek-tp {
+  margin-top: 0.15rem;
+}
+
+.peek-sep {
+  margin: 0 0.25rem;
+  color: var(--color-text-muted);
+}
+
+.peek-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+}
+
+.peek-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 10px;
+  background-color: var(--color-hover);
+}
+
+.peek-stat-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+
+  small {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+}
+
+.peek-stat-lbl {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
+.peek-nostats {
+  margin-top: 0.85rem;
+  font-style: italic;
+}
+
+.peek-notes {
+  margin-top: 0.7rem;
+  padding-left: 0.6rem;
+  border-left: 2px solid var(--color-border);
+  font-style: italic;
+  max-height: 4.2em;
+  overflow: hidden;
+}
+
+.peek-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+}
+
+.peek-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: transparent;
+  color: var(--color-text-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: background-color $transition-fast, border-color $transition-fast, color $transition-fast, transform $transition-fast;
+
+  &:hover {
+    background-color: var(--color-hover);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.peek-btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary);
+
+    &:hover {
+      background-color: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .peek-surface,
+  .peek-strip,
+  .peek-strip-chevron,
+  .peek-close,
+  .peek-btn {
+    transition: none;
+  }
+
+  /* No travel: the swap snaps to its new position, only the colour eases */
+  .peek-line {
+    transition: color $transition-fast;
+  }
+}

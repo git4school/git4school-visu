@@ -823,5 +823,24 @@
       "UNIT-MINUTE": "min",
       "RESET-TOAST": "Horloge simulée réinitialisée."
     }
+  },
+  "SESSION-TAB": {
+    "TAB": {
+      "IN-PROGRESS": "Séance en cours",
+      "UPCOMING-SHORT": "Séance bientôt",
+      "LABEL-FALLBACK": "Séance"
+    },
+    "PANEL": {
+      "TP-GROUP": "Groupe",
+      "ACTIVE-STUDENTS": "Étudiants actifs",
+      "IN-SESSION-COMMITS": "Commits en séance",
+      "RESOLVED-QUESTIONS": "Questions résolues",
+      "PARTICIPATION": "Participation",
+      "LOADING-STATS": "Calcul de l'activité…",
+      "VIEW-IN-GRAPH": "Voir dans le graphe",
+      "EDIT": "Modifier",
+      "CLOSE": "Fermer",
+      "UPDATED-TOAST": "Séance mise à jour."
+    }
   }
 }

@@ -3777,6 +3777,32 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.zoomToSession(targetSession);
   }
 
+  /**
+   * External zoom request coming from the session folder tab. The event may arrive while
+   * the graph is still rebuilding after the route change, so poll briefly until the scales
+   * exist instead of dropping the request.
+   */
+  @HostListener("window:git4school:zoom-to-session", ["$event"])
+  onZoomToSessionRequested(event: CustomEvent): void {
+    const session = (event as CustomEvent)?.detail?.session as Session;
+    if (session) {
+      this.zoomToSessionWhenReady(session);
+    }
+  }
+
+  private zoomToSessionWhenReady(session: Session, attempt = 0): void {
+    if (this.data_g && this.zoom && this.x_scale) {
+      const target = this.resolveSessionAtDate(session.startDate, session) || session;
+      this.activateSession(target);
+      this.zoomToSession(target);
+      return;
+    }
+    if (attempt >= 25) {
+      return;
+    }
+    setTimeout(() => this.zoomToSessionWhenReady(session, attempt + 1), 100);
+  }
+
   showSessionInfoTooltip(session: Session, clientX: number, clientY: number) {
     this.ngZone.run(() => {
       this.isSessionTooltipPinned = true;
