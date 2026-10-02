@@ -43,6 +43,14 @@ interface SessionTabView {
 const SWAP_MS = 450;
 
 /**
+ * The counter switches to the running value part-way through the swap rather than at the end,
+ * so its growth lands while the counter is still moving and the change is masked by the motion.
+ * The easing spends most of the travel in the first ~100ms, so this has to be early to have any
+ * movement left to hide behind.
+ */
+const COUNTDOWN_RELEASE_RATIO = 0.15;
+
+/**
  * Folder tab pinned to the right edge, shown as soon as the closest session is running or
  * starts within 5 minutes. Hovering peeks the panel out by 20px, clicking opens it fully.
  * Mounted inside the assignment layout, so it never shows on the assignment list.
@@ -306,7 +314,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
       this.countdownHold = null;
       this.rebuildView();
       this.scheduleMeasure();
-    }, SWAP_MS);
+    }, SWAP_MS * COUNTDOWN_RELEASE_RATIO);
   }
 
   private clearCountdownHold(): void {
@@ -325,7 +333,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     if (!rail) {
       return;
     }
-    const counter = rail.querySelector<HTMLElement>(".peek-line--counter");
+    const counter = rail.querySelector<HTMLElement>(".peek-counter__text");
     const incoming = rail.querySelector<HTMLElement>(".peek-line--in");
     const outgoing = rail.querySelector<HTMLElement>(".peek-line--out");
     if (!counter || !incoming || !outgoing) {

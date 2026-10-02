@@ -24,7 +24,8 @@
            in both directions (shifting the dev-bar clock backwards plays it in reverse). -->
       <span class="peek-rail" #rail aria-hidden="true">
         <span class="peek-line peek-line--label peek-line--in">{{ "SESSION-TAB.TAB.IN-PROGRESS" | translate }}</span>
-        <span class="peek-line peek-line--counter">{{ view.countdown }}</span>
+        <!-- The counter is a full-height carriage whose text is pinned to its bottom -->
+        <span class="peek-counter"><span class="peek-counter__text">{{ view.countdown }}</span></span>
         <span class="peek-line peek-line--label peek-line--out">{{ "SESSION-TAB.TAB.UPCOMING-SHORT" | translate }}</span>
       </span>
       <i class="fas peek-strip-chevron" [ngClass]="view.open ? 'fa-chevron-right' : 'fa-chevron-left'"></i>
