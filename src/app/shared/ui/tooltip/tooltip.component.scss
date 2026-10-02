@@ -94,6 +94,39 @@
   }
 }
 
+.resolved-questions-tooltip {
+  min-width: 180px;
+  padding: 1px 1px 0;
+  color: var(--color-text-primary);
+}
+
+.resolved-questions-tooltip-title {
+  margin-bottom: 7px;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.resolved-questions-tooltip ul {
+  display: grid;
+  gap: 3px;
+  max-height: 220px;
+  margin: 0;
+  padding: 0 0 0 17px;
+  overflow-y: auto;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.35;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.resolved-questions-tooltip li {
+  padding-left: 2px;
+}
+
 .shortcut-combo {
   display: inline-flex;
   align-items: center;
@@ -101,4 +134,3 @@
   flex-shrink: 0;
   white-space: nowrap;
 }
-

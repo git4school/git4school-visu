@@ -120,6 +120,18 @@
     word-break: break-word;
   }
 
+  .repository-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .repository-tp-group-pill {
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+  }
+
   p {
     margin: 0;
     white-space: normal;
@@ -171,4 +183,3 @@
     }
   }
 }
-

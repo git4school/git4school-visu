@@ -5,7 +5,7 @@ import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.compo
 import { CommitsComponent } from "@components/graphs/commits/commits.component";
 import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
 import { SessionsComponent } from "@components/graphs/sessions/sessions.component";
-import { StudentsCommitsComponent } from "@components/graphs/students-commits/students-commits.component";
+import { StudentsComponent } from "@components/graphs/students/students.component";
 import { HomeComponent } from "@components/home/home.component";
 import { AppNavLayoutComponent } from "@components/nav-layouts/app-nav-layout/app-nav-layout.component";
 import { GitlabCallbackComponent } from "@components/auth-callback/gitlab-callback.component";

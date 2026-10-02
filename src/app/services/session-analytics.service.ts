@@ -70,6 +70,7 @@ export interface SessionDetailedStats {
   totalEligibleStudents: number;
   activeStudentsCount: number;
   inactiveStudentsCount: number;
+  studentsWithoutResolvedQuestionsCount: number;
   participationRate: number;
   inSessionCommitsCount: number;
   totalPeriodCommitsCount: number;
@@ -315,6 +316,9 @@ export class SessionAnalyticsService {
 
     const totalEligibleStudents = relevantRepos.length;
     const inactiveStudentsCount = totalEligibleStudents - activeStudentsCount;
+    const studentsWithoutResolvedQuestionsCount = studentsActivity.filter(
+      (student) => student.questionsCompletedInSession.length === 0,
+    ).length;
     const participationRate = totalEligibleStudents > 0 ? (activeStudentsCount / totalEligibleStudents) * 100 : 0;
 
     // 4. Histogram Buckets (15 min)
@@ -425,6 +429,7 @@ export class SessionAnalyticsService {
       totalEligibleStudents,
       activeStudentsCount,
       inactiveStudentsCount,
+      studentsWithoutResolvedQuestionsCount,
       participationRate,
       inSessionCommitsCount,
       totalPeriodCommitsCount: allCandidateCommits.length,
