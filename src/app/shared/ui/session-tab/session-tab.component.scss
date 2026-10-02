@@ -103,12 +103,31 @@
   color: var(--color-text-secondary);
 }
 
-.peek-line--counter {
+/* The counter is a full-height carriage whose text is pinned to the carriage's bottom. In the
+   running state its base IS the anchor: a change in the text length grows upward and never
+   moves the base, which is what removes the correction after the swap. It also means the
+   running position is translateY(0) — no measured value is involved in it at all. */
+.peek-counter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--color-primary);
+  will-change: transform;
+  transition: transform $transition-tab-swap, color $transition-tab-swap;
+  transform: translateY(0);
+}
+
+.peek-counter__text {
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  font-family: $font-family-sans;
   font-size: 0.72rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: var(--color-primary);
-  transform: translateY(var(--travel, 0px)) rotate(180deg);
+  transform: rotate(180deg);
 }
 
 /* --- état EN COURS : libellé en haut, compteur plaqué en bas --- */
@@ -125,9 +144,12 @@
   transform: translateY(calc(-1 * var(--in-enter, 0px))) rotate(180deg);
 }
 
-.peek.is-upcoming .peek-line--counter {
+.peek.is-upcoming .peek-counter {
   color: var(--color-warning);
-  transform: translateY(0) rotate(180deg);
+  /* Poser le haut franc : la boîte remonte de (hauteur du rail - hauteur du texte), qui est
+     exactement --travel. Dans cette fenêtre le décompte fait toujours 4 caractères (4:59 -> 0:00),
+     donc la valeur ne bouge jamais pendant l'état « à venir ». */
+  transform: translateY(calc(-1 * var(--travel, 0px)));
 }
 
 .peek.is-upcoming .peek-line--out {
@@ -350,7 +372,8 @@
   }
 
   /* No travel: the swap snaps to its new position, only the colour eases */
-  .peek-line {
+  .peek-line,
+  .peek-counter {
     transition: color $transition-fast;
   }
 }
