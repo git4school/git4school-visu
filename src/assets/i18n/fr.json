@@ -544,7 +544,6 @@
     "TEXT": "Mode Texte (Nombre exact)"
   },
   "PERCENT-COMMITS": "% des commits",
-  "QUESTIONS": "Questions",
   "STUDENTS": "Étudiant·es",
   "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER": "Rechercher une question (ex: 1.1) ou un mot-clé de commit...",
   "QUESTIONS-CHOOSER-QUESTIONS-HEADER": "Questions du TP",
@@ -808,6 +807,21 @@
     "TOOLTIPS": {
       "STUDENTS_COUNT": "Étudiants actifs",
       "COMMITS_COUNT": "Total des commits"
+    }
+  },
+  "DEV-BAR": {
+    "CLOCK": {
+      "TOOLTIP": "Décaler la date et l'heure vues par l'application (tests)",
+      "LABEL": "Horloge",
+      "HEADER": "Horloge simulée",
+      "SIMULATED": "Date / heure simulée",
+      "FIELD-LABEL": "Nouvelle date",
+      "RESET": "Réinitialiser",
+      "HINT": "Le décalage n'agit que sur l'affichage : l'heure réelle continue de s'écouler. Il est perdu au rechargement de la page.",
+      "UNIT-DAY": "j",
+      "UNIT-HOUR": "h",
+      "UNIT-MINUTE": "min",
+      "RESET-TOAST": "Horloge simulée réinitialisée."
     }
   }
 }

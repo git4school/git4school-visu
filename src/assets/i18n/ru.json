@@ -374,7 +374,7 @@
     "DELETE-BUTTON": "Удалить сеанс",
     "NOTES": "Личные заметки"
   },
-"MODAL-ADD-REPOSITORIES": {
+  "MODAL-ADD-REPOSITORIES": {
     "TITLE": "Добавить репозитории",
     "BACK": "Вернуться к репозиториям",
     "BUTTON-ADD": "Добавить",
@@ -541,7 +541,6 @@
   },
   "LAST-CLOSED-QUESTION": "Последний закрытый вопрос",
   "PERCENT-COMMITS": "% коммитов",
-  "QUESTIONS": "Вопросы",
   "STUDENTS": "Студенты",
   "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER": "Поиск вопроса (напр. 1.1) или ключевого слова коммита...",
   "QUESTIONS-CHOOSER-QUESTIONS-HEADER": "Вопросы задания",
@@ -805,6 +804,21 @@
     "TOOLTIPS": {
       "STUDENTS_COUNT": "Активных студентов",
       "COMMITS_COUNT": "Всего коммитов"
+    }
+  },
+  "DEV-BAR": {
+    "CLOCK": {
+      "TOOLTIP": "Сместить дату и время, которые видит приложение (для тестов)",
+      "LABEL": "Часы",
+      "HEADER": "Имитация часов",
+      "SIMULATED": "Имитированные дата / время",
+      "FIELD-LABEL": "Новая дата",
+      "RESET": "Сбросить",
+      "HINT": "Смещение влияет только на отображение: реальное время продолжает идти. Сбрасывается при перезагрузке страницы.",
+      "UNIT-DAY": "д",
+      "UNIT-HOUR": "ч",
+      "UNIT-MINUTE": "мин",
+      "RESET-TOAST": "Имитация часов сброшена."
     }
   }
 }

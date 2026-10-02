@@ -23,6 +23,7 @@ import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { OverlayManagerService } from "@services/overlay-manager.service";
 import { ToastService } from "@services/toast.service";
+import { ClockService } from "@services/clock.service";
 import { Subscription } from "rxjs";
 import * as moment from "moment";
 
@@ -108,6 +109,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     private assignmentsService: AssignmentsService,
     private configurationService: ConfigurationService,
     private cdr: ChangeDetectorRef,
+    private clockService: ClockService,
   ) {}
 
   @HostListener("document:click", ["$event"])
@@ -758,7 +760,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   computeStatus(assignment: Assignment): "prepared" | "ongoing" | "finished" | "default" {
-    const now = moment();
+    const now = this.clockService.moment();
     const startDate = assignment.startDate ? moment(assignment.startDate) : null;
     const endDate = assignment.endDate ? moment(assignment.endDate) : null;
 
@@ -882,7 +884,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     if (!start || !end) return 0;
     const startM = moment(start);
     const endM = moment(end);
-    const now = moment();
+    const now = this.clockService.moment();
 
     if (now.isBefore(startM)) return 0;
     if (now.isAfter(endM)) return 100;
@@ -911,7 +913,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
 
   getRemainingTime(end: string): string {
     if (!end) return "";
-    const now = moment();
+    const now = this.clockService.moment();
     const endM = moment(end);
 
     if (now.isAfter(endM)) return "";
