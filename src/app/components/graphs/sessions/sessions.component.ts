@@ -38,7 +38,8 @@ export interface MacroSessionOverview {
   inSessionRatio: number;
   outOfSessionRatio: number;
   totalHoursSupervised: string;
-  questionsAddressedCount: number;
+  questionsResolvedCount: number;
+  resolvedQuestions: string[];
   totalQuestionsCount: number;
   sessionsStats: SessionDetailedStats[];
 }
@@ -49,9 +50,15 @@ export interface MacroSessionOverview {
   styleUrls: ["./sessions.component.scss"],
 })
 export class SessionsComponent extends BaseGraphComponent implements OnInit, AfterViewInit, OnDestroy {
+  private static readonly MACRO_CHART_MIN_SLOT_WIDTH = 56;
+  private static readonly MACRO_CHART_MAX_SLOT_WIDTH = 190;
+  private static readonly MACRO_CHART_MAX_BAR_WIDTH = 64;
+  private static readonly MACRO_CHART_CHAR_WIDTH = 6.2;
+
   @ViewChild("ribbonChartContainer") ribbonChartContainer?: ElementRef;
   @ViewChild("histogramChartContainer") histogramChartContainer?: ElementRef;
   @ViewChild("comparisonChartContainer") comparisonChartContainer?: ElementRef;
+  @ViewChild("macroChartScroller") macroChartScroller?: ElementRef<HTMLDivElement>;
   @ViewChild("ribbonBar") ribbonBar?: ElementRef<HTMLDivElement>;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
 
@@ -74,6 +81,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   private isTrajectoryWarm = false;
   private trajectoryWarmResetTimeout: any = null;
   private readonly TRAJECTORY_WARM_RESET_DELAY = 450;
+  private sessionToCenter?: Session;
 
   constructor(
     public dataService: DataService,
@@ -137,9 +145,14 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     });
 
     const checkAndObserve = () => {
-      const el = this.ribbonChartContainer?.nativeElement || this.comparisonChartContainer?.nativeElement;
-      if (el) {
-        this.resizeObserver.observe(el);
+      const ribbonEl = this.ribbonChartContainer?.nativeElement;
+      // Observe the scroll wrapper, not the chart itself: the chart width is driven by its content.
+      const macroWrapper = this.macroChartScroller?.nativeElement;
+      if (ribbonEl) {
+        this.resizeObserver.observe(ribbonEl);
+      }
+      if (macroWrapper) {
+        this.resizeObserver.observe(macroWrapper);
       }
       if (this.ribbonBar?.nativeElement) {
         this.resizeObserver.observe(this.ribbonBar.nativeElement);
@@ -207,8 +220,13 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
 
       // Ensure valid selected index
       const filtered = this.getFilteredSessions();
+      const sessionToCenterIndex = this.sessionToCenter ? filtered.findIndex((stat) => stat.session === this.sessionToCenter) : -1;
       if (this.selectedSessionIndex >= filtered.length) {
         this.selectedSessionIndex = filtered.length > 0 ? 0 : -1;
+      }
+      if (sessionToCenterIndex >= 0) {
+        this.sessionToCenter = undefined;
+        setTimeout(() => this.scrollSelectedPillIntoView(sessionToCenterIndex), 50);
       }
 
       this.calcProgress = 100;
@@ -349,11 +367,18 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     modalRef.componentInstance.defaultSessionDuration = this.dataService.assignment?.defaultSessionDuration;
 
     modalRef.result
-      .then((updatedSession: Session) => {
+      .then((result: Session | { deleted: true }) => {
+        if (result && "deleted" in result) {
+          this.deleteSession(session);
+          return;
+        }
+
+        const updatedSession = result as Session;
         if (updatedSession) {
           const idx = this.dataService.sessions.indexOf(session);
           if (idx > -1) {
             this.dataService.sessions[idx] = updatedSession;
+            this.sessionToCenter = updatedSession;
             this.saveAndRefreshAssignment();
             this.toastService.success(
               this.translateService.instant("SUCCESS") || "Succès",
@@ -369,6 +394,8 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     const idx = this.dataService.sessions.indexOf(session);
     if (idx > -1) {
       this.dataService.sessions.splice(idx, 1);
+      this.selectedSessionIndex = -1;
+      this.sessionToCenter = undefined;
       this.saveAndRefreshAssignment();
       this.toastService.success(
         this.translateService.instant("SUCCESS") || "Succès",
@@ -436,6 +463,24 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     });
     const baseName = defaultName && defaultName !== "DEFAULT-SESSION-NAME" ? defaultName : `Séance ${num}`;
     return session.tpGroup && !this.dataService.groupFilter ? `${baseName} (${session.tpGroup})` : baseName;
+  }
+
+  getResolvedQuestionsTooltip(questions: string[] | undefined): string {
+    const resolvedQuestions = (questions || []).filter(Boolean);
+    if (resolvedQuestions.length === 0) {
+      return this.translateService.instant("SESSIONS-GRAPH.KPIS.NO_RESOLVED_QUESTIONS");
+    }
+
+    const title = this.escapeHtml(this.translateService.instant("SESSIONS-GRAPH.KPIS.RESOLVED_QUESTIONS_LIST"));
+    const items = resolvedQuestions.map((question) => `<li>${this.escapeHtml(question)}</li>`).join("");
+
+    return `<div class="resolved-questions-tooltip"><div class="resolved-questions-tooltip-title">${title}</div><ul>${items}</ul></div>`;
+  }
+
+  getCurrentResolvedQuestions(): string[] {
+    return (this.getCurrentSessionStats()?.questionsSummary || [])
+      .filter((question) => question.closedByCount > 0)
+      .map((question) => question.question);
   }
 
   // --- PRIVATE HELPERS & RENDERING ---
@@ -530,9 +575,6 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
           questionsSet.add(qs.question);
         }
       });
-      stat.ribbonData?.studentCommitsPoints?.forEach((p) => {
-        if (p.questionName) questionsSet.add(p.questionName);
-      });
     });
 
     const averageParticipationRate = totalSessions > 0 ? sumPartRate / totalSessions : 0;
@@ -552,7 +594,8 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
       inSessionRatio,
       outOfSessionRatio,
       totalHoursSupervised,
-      questionsAddressedCount: questionsSet.size,
+      questionsResolvedCount: questionsSet.size,
+      resolvedQuestions: Array.from(questionsSet),
       totalQuestionsCount: this.dataService.questions?.length || 0,
       sessionsStats: filtered,
     };
@@ -1033,10 +1076,19 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     const filtered = this.getFilteredSessions();
     if (filtered.length === 0) return;
 
-    const bounds = container.getBoundingClientRect();
-    const width = Math.max(300, bounds.width);
+    const bounds = (this.macroChartScroller?.nativeElement ?? container).getBoundingClientRect();
+    if (bounds.width <= 0) return;
+
     const height = 260;
-    const margin = { top: 30, right: 35, bottom: 45, left: 50 };
+    const margin = { top: 14, right: 35, bottom: 45, left: 50 };
+
+    const labels = filtered.map((s) => s.displayName);
+    const slotWidth = this.computeMacroSlotWidth(labels);
+
+    // The chart grows horizontally beyond its wrapper, which scrolls (see .macro-chart-scroll-wrapper).
+    const width = Math.max(bounds.width, labels.length * slotWidth + margin.left + margin.right);
+    container.style.width = `${width}px`;
+
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
@@ -1045,8 +1097,6 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     const svg = d3.select(container).append("svg").attr("width", width).attr("height", height).attr("viewBox", `0 0 ${width} ${height}`);
 
     const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-
-    const labels = filtered.map((s) => s.displayName);
 
     const xScale = d3.scaleBand().domain(labels).range([0, innerWidth]).padding(0.3);
 
@@ -1065,11 +1115,12 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
       );
 
     // Axes
-    g.append("g")
-      .attr("class", "x-axis")
-      .attr("transform", `translate(0,${innerHeight})`)
-      .call(d3.axisBottom(xScale))
+    const xAxis = g.append("g").attr("class", "x-axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale));
+
+    xAxis
       .selectAll("text")
+      .text((label) => this.truncateMacroLabel(`${label}`, slotWidth))
+      .attr("title", (label) => `${label}`)
       .style("fill", "var(--color-text-secondary)")
       .style("font-size", "11px");
 
@@ -1085,21 +1136,14 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
       .style("fill", "var(--color-text-secondary)")
       .style("font-size", "11px");
 
-    // Title
-    svg
-      .append("text")
-      .attr("x", margin.left)
-      .attr("y", 16)
-      .attr("fill", "var(--color-text-secondary)")
-      .style("font-size", "11px")
-      .style("font-weight", "500")
-      .text(this.translateService.instant("SESSIONS-GRAPH.MACRO.CHART_TITLE") || "Taux de présence active par séance (%)");
-
     // Bars
     filtered.forEach((stat, i) => {
-      const bx = xScale(stat.displayName);
-      if (bx === undefined) return;
-      const bWidth = xScale.bandwidth();
+      const bandX = xScale(stat.displayName);
+      if (bandX === undefined) return;
+      // Keep bars slim and centered inside their (possibly very wide) column.
+      const bandWidth = xScale.bandwidth();
+      const bWidth = Math.min(bandWidth, SessionsComponent.MACRO_CHART_MAX_BAR_WIDTH);
+      const bx = bandX + (bandWidth - bWidth) / 2;
       const bHeight = innerHeight - yScale(stat.participationRate);
 
       g.append("rect")
@@ -1133,11 +1177,33 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     });
   }
 
+  /**
+   * Largeur minimale d'une colonne du graphique macro, déduite du libellé de séance le plus long
+   * pour éviter que les libellés de l'axe X se chevauchent quand il y a beaucoup de séances.
+   */
+  private computeMacroSlotWidth(labels: string[]): number {
+    const longestLabel = labels.reduce((max, label) => Math.max(max, (label || "").length), 0);
+    const required = longestLabel * SessionsComponent.MACRO_CHART_CHAR_WIDTH + 20;
+
+    return Math.min(SessionsComponent.MACRO_CHART_MAX_SLOT_WIDTH, Math.max(SessionsComponent.MACRO_CHART_MIN_SLOT_WIDTH, required));
+  }
+
+  private truncateMacroLabel(label: string, slotWidth: number): string {
+    const maxChars = Math.floor((slotWidth - 10) / SessionsComponent.MACRO_CHART_CHAR_WIDTH);
+    if (maxChars < 4 || label.length <= maxChars) return label;
+
+    return `${label.slice(0, maxChars - 1)}…`;
+  }
+
   private saveAndRefreshAssignment(): void {
     if (this.dataService.assignment) {
       this.databaseService.saveAssignment(this.dataService.assignment);
       this.assignmentsService.assignmentModified.next();
     }
     this.loadGraphDataAndRefresh();
+  }
+
+  private escapeHtml(value: string): string {
+    return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
 }

@@ -704,6 +704,11 @@
     "ALL_SESSIONS": "All sessions",
     "OFFICIAL_END": "Official end",
     "TOLERANCE_BADGE": "Active grace period: +{{minutes}} min ({{students}} students)",
+    "TABS": {
+      "TIMELINE": "Timeline & Cadence",
+      "MATRIX": "Progress Matrix",
+      "STUDENTS": "Attendance & Engagement"
+    },
     "KPIS": {
       "AVG_PARTICIPATION": "Average Active Attendance",
       "AVG_PARTICIPATION_SUB": "Across all sessions",
@@ -716,11 +721,51 @@
       "PARTICIPATION_RATE": "Active Attendance Rate",
       "STUDENTS_ACTIVE": "active students",
       "COMMITS_COUNT": "Commits produced",
-      "OF_DAY_COMMITS": "of session commits",
+      "OF_ANALYZED_COMMITS": "of analyzed commits made during the session",
       "QUESTIONS_RESOLVED": "Questions Resolved",
       "QUESTIONS_RESOLVED_SUB": "Questions closed during this session",
-      "INACTIVE_STUDENTS": "Inactive Students",
-      "INACTIVE_STUDENTS_SUB": "Zero commits during session"
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS": "Students with no resolved question",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_SUB": "No question resolved during this session",
+      "INACTIVE_STUDENTS": "Inactive students",
+      "INACTIVE_STUDENTS_SUB": "Zero commits during session",
+      "WORK_DISTRIBUTION": "Effort Distribution",
+      "QUESTIONS_COVERED": "Resolved Questions",
+      "TOTAL_HOURS": "Supervised Hours",
+      "IN_SESSION": "in session",
+      "AUTONOMOUS": "autonomous",
+      "ANALYZE_BTN": "Analyze",
+      "BACK_TO_ALL": "All sessions",
+      "AVG_PARTICIPATION_TOOLTIP": "Average percentage of students active per session (at least 1 commit in the slot).",
+      "WORK_DISTRIBUTION_TOOLTIP": "Share of all commits made during lab sessions vs independent work.",
+      "QUESTIONS_COVERED_TOOLTIP": "Distinct questions started by at least one student, out of the total assignment questions.",
+      "OF_ASSIGNMENT": "of assignment",
+      "PARTICIPATION_RATE_TOOLTIP": "Percentage of group students who pushed at least 1 commit during this session.",
+      "QUESTIONS_RESOLVED_TOOLTIP": "Distinct questions closed by at least one student during this session.",
+      "RESOLVED_QUESTIONS_LIST": "Resolved questions",
+      "NO_RESOLVED_QUESTIONS": "No question was resolved during this session",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_TOOLTIP": "Number of students who resolved no question during this session."
+    },
+    "MATRIX": {
+      "TITLE": "Synthetic Progress Matrix (Students × Questions)",
+      "SUBTITLE": "Cross-tabular view of student progress across assignment questions",
+      "LEGEND_BEFORE": "Validated before review",
+      "LEGEND_BETWEEN": "Validated after review",
+      "LEGEND_AFTER": "Validated after correction",
+      "LEGEND_IN_PROGRESS": "In progress",
+      "LEGEND_NOT_STARTED": "Not started",
+      "LEGEND_IN_SESSION": "Closed in session",
+      "SCOPE_ALL": "All assignment",
+      "SCOPE_SESSION": "During session",
+      "SEARCH_PLACEHOLDER": "Filter student...",
+      "STUDENT_COL": "Student",
+      "PROGRESS_COL": "Progress",
+      "SORT_NAME": "Sort by name",
+      "SORT_PROGRESS": "Sort by progress",
+      "VALIDATED_AT": "Validated on",
+      "LAST_COMMIT": "Last commit",
+      "COMMITS_COUNT": "{{count}} commit(s)",
+      "IN_SESSION_BADGE": "Closed during this session",
+      "NO_QUESTIONS": "No questions configured for this assignment"
     },
     "MACRO": {
       "CHART_TITLE": "Attendance Dynamics per Session (%)",
@@ -766,4 +811,3 @@
     }
   }
 }
-

@@ -704,6 +704,11 @@
     "ALL_SESSIONS": "Toutes les séances",
     "OFFICIAL_END": "Fin officielle",
     "TOLERANCE_BADGE": "Tolérance active : +{{minutes}} min ({{students}} étudiants)",
+    "TABS": {
+      "TIMELINE": "Chronologie & Rythme",
+      "MATRIX": "Matrice d'avancement",
+      "STUDENTS": "Présences & Engagement"
+    },
     "KPIS": {
       "AVG_PARTICIPATION": "Présence active moyenne",
       "AVG_PARTICIPATION_SUB": "Sur l'ensemble des séances",
@@ -716,11 +721,51 @@
       "PARTICIPATION_RATE": "Taux de présence active",
       "STUDENTS_ACTIVE": "étudiants actifs",
       "COMMITS_COUNT": "Commits réalisés",
-      "OF_DAY_COMMITS": "des commits de la séance",
+      "OF_ANALYZED_COMMITS": "des commits analysés réalisés pendant la séance",
       "QUESTIONS_RESOLVED": "Questions résolues",
       "QUESTIONS_RESOLVED_SUB": "Questions clôturées pendant la séance",
-      "INACTIVE_STUDENTS": "Étudiants inactifs",
-      "INACTIVE_STUDENTS_SUB": "Aucun commit pendant la séance"
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS": "Étudiant·es sans question résolue",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_SUB": "Aucune question résolue pendant la séance",
+      "INACTIVE_STUDENTS": "Étudiant·es inactif·ves",
+      "INACTIVE_STUDENTS_SUB": "Aucun commit pendant la séance",
+      "WORK_DISTRIBUTION": "Répartition de l'effort",
+      "QUESTIONS_COVERED": "Questions résolues",
+      "TOTAL_HOURS": "Heures encadrées",
+      "IN_SESSION": "en séance",
+      "AUTONOMOUS": "autonome",
+      "ANALYZE_BTN": "Analyser",
+      "BACK_TO_ALL": "Toutes les séances",
+      "AVG_PARTICIPATION_TOOLTIP": "Moyenne des pourcentages d'étudiant·es ayant commité lors de chaque séance (au moins 1 commit dans le créneau).",
+      "WORK_DISTRIBUTION_TOOLTIP": "Proportion de l'ensemble des commits réalisés pendant les séances de TP vs en autonomie.",
+      "QUESTIONS_COVERED_TOOLTIP": "Nombre de questions distinctes entamées par au moins un·e étudiant·e, sur le total du sujet.",
+      "OF_ASSIGNMENT": "du sujet",
+      "PARTICIPATION_RATE_TOOLTIP": "Pourcentage d'étudiant·es du groupe ayant poussé au moins 1 commit pendant cette séance.",
+      "QUESTIONS_RESOLVED_TOOLTIP": "Nombre de questions distinctes du sujet clôturées par au moins un·e étudiant·e lors de cette séance.",
+      "RESOLVED_QUESTIONS_LIST": "Questions résolues",
+      "NO_RESOLVED_QUESTIONS": "Aucune question résolue pendant cette séance",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_TOOLTIP": "Nombre d'étudiant·es n'ayant résolu aucune question pendant cette séance."
+    },
+    "MATRIX": {
+      "TITLE": "Matrice d'avancement synthétique (Étudiants × Questions)",
+      "SUBTITLE": "Vue matricielle du statut de chaque question pour chaque étudiant",
+      "LEGEND_BEFORE": "Validé avant revue",
+      "LEGEND_BETWEEN": "Validé après correction",
+      "LEGEND_AFTER": "Validé après correction finale",
+      "LEGEND_IN_PROGRESS": "En cours",
+      "LEGEND_NOT_STARTED": "Non commencé",
+      "LEGEND_IN_SESSION": "Clôturé en séance",
+      "SCOPE_ALL": "Tout le devoir",
+      "SCOPE_SESSION": "Pendant la séance",
+      "SEARCH_PLACEHOLDER": "Filtrer un étudiant...",
+      "STUDENT_COL": "Étudiant",
+      "PROGRESS_COL": "Progression",
+      "SORT_NAME": "Trier par nom",
+      "SORT_PROGRESS": "Trier par progression",
+      "VALIDATED_AT": "Validé le",
+      "LAST_COMMIT": "Dernier commit",
+      "COMMITS_COUNT": "{{count}} commit(s)",
+      "IN_SESSION_BADGE": "Clôturé pendant cette séance",
+      "NO_QUESTIONS": "Aucune question définie pour ce devoir"
     },
     "MACRO": {
       "CHART_TITLE": "Dynamique de présence par séance (%)",
@@ -766,4 +811,3 @@
     }
   }
 }
-

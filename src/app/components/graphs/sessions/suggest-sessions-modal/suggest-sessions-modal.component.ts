@@ -21,10 +21,7 @@ export class SuggestSessionsModalComponent implements OnInit {
 
   selectableItems: SelectableSuggestedSession[] = [];
 
-  constructor(
-    public activeModalService: CustomModalRef,
-    public translateService: TranslateService
-  ) {}
+  constructor(public activeModalService: CustomModalRef, public translateService: TranslateService) {}
 
   ngOnInit(): void {
     this.selectableItems = (this.suggestions || []).map((s) => ({
@@ -40,10 +37,7 @@ export class SuggestSessionsModalComponent implements OnInit {
   }
 
   get allSelected(): boolean {
-    return (
-      this.selectableItems.length > 0 &&
-      this.selectableItems.every((s) => s.selected)
-    );
+    return this.selectableItems.length > 0 && this.selectableItems.every((s) => s.selected);
   }
 
   toggleSelectAll(): void {

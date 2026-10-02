@@ -169,58 +169,81 @@
 
     <!-- VIEW 1: MACRO OVERVIEW (selectedSessionIndex === -1) -->
     <div *ngIf="selectedSessionIndex === -1" class="macro-view-content d-flex flex-column flex-grow-1 mt-2" style="gap: 20px;">
-      <!-- 4 Global KPI Cards -->
-      <div class="row" style="margin: 0 -8px;">
-        <div class="col-12 col-sm-6 col-lg-3 px-2 mb-3">
-          <div class="kpi-card p-3 rounded-lg border h-100 d-flex flex-column justify-content-between">
-            <div class="d-flex align-items-center justify-content-between text-muted mb-2">
-              <span class="kpi-title small font-weight-medium">{{ 'SESSIONS-GRAPH.KPIS.AVG_PARTICIPATION' | translate }}</span>
-              <i class="fas fa-user-check text-primary"></i>
-            </div>
-            <div class="kpi-value font-weight-bold" style="font-size: 1.8rem; color: var(--color-text-primary);">
-              {{ macroStats?.averageParticipationRate | number:'1.0-1' }}%
-            </div>
-            <span class="small text-muted">{{ 'SESSIONS-GRAPH.KPIS.AVG_PARTICIPATION_SUB' | translate }}</span>
+      <!-- Compact Global Metrics Strip (Apple / Emil style) -->
+      <div class="metrics-strip border rounded-lg p-3 d-flex align-items-center justify-content-between flex-wrap">
+        <!-- 1. Présence active moyenne -->
+        <div class="metric-item flex-fill">
+          <span class="metric-label">
+            {{ 'SESSIONS-GRAPH.KPIS.AVG_PARTICIPATION' | translate }}
+            <span class="metric-info-badge" [appTooltip]="'SESSIONS-GRAPH.KPIS.AVG_PARTICIPATION_TOOLTIP' | translate">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </span>
+          </span>
+          <div class="metric-value-row d-flex align-items-baseline">
+            <span class="metric-value">{{ macroStats?.averageParticipationRate | number:'1.0-1' }}%</span>
           </div>
+          <span class="metric-sub">{{ 'SESSIONS-GRAPH.KPIS.AVG_PARTICIPATION_SUB' | translate }}</span>
         </div>
 
-        <div class="col-12 col-sm-6 col-lg-3 px-2 mb-3">
-          <div class="kpi-card p-3 rounded-lg border h-100 d-flex flex-column justify-content-between">
-            <div class="d-flex align-items-center justify-content-between text-muted mb-2">
-              <span class="kpi-title small font-weight-medium">{{ 'SESSIONS-GRAPH.KPIS.IN_SESSION_COMMITS' | translate }}</span>
-              <i class="fas fa-code-branch text-success"></i>
-            </div>
-            <div class="kpi-value font-weight-bold" style="font-size: 1.8rem; color: var(--color-text-primary);">
-              {{ macroStats?.totalInSessionCommits }}
-            </div>
-            <span class="small text-muted">{{ 'SESSIONS-GRAPH.KPIS.IN_SESSION_COMMITS_SUB' | translate: { ratio: (macroStats?.inSessionRatio | number:'1.0-0') } }}</span>
+        <div class="metric-divider"></div>
+
+        <!-- 2. Répartition de l'effort (en séance vs autonome) -->
+        <div class="metric-item flex-fill">
+          <span class="metric-label">
+            {{ 'SESSIONS-GRAPH.KPIS.WORK_DISTRIBUTION' | translate }}
+            <span class="metric-info-badge" [appTooltip]="'SESSIONS-GRAPH.KPIS.WORK_DISTRIBUTION_TOOLTIP' | translate">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </span>
+          </span>
+          <div class="metric-value-row d-flex align-items-baseline" style="gap: 8px;">
+            <span class="metric-value">{{ macroStats?.inSessionRatio | number:'1.0-0' }}%</span>
+            <span class="metric-sub-val text-muted">/ {{ macroStats?.outOfSessionRatio | number:'1.0-0' }}%</span>
           </div>
+          <div class="distribution-bar my-1">
+            <div class="distribution-segment in-session" [style.width.%]="macroStats?.inSessionRatio" [appTooltip]="macroStats?.totalInSessionCommits + ' ' + ('SESSIONS-GRAPH.KPIS.IN_SESSION' | translate)"></div>
+            <div class="distribution-segment autonomous" [style.width.%]="macroStats?.outOfSessionRatio" [appTooltip]="macroStats?.totalOutOfSessionCommits + ' ' + ('SESSIONS-GRAPH.KPIS.AUTONOMOUS' | translate)"></div>
+          </div>
+          <span class="metric-sub">
+            {{ macroStats?.totalInSessionCommits }} {{ 'SESSIONS-GRAPH.KPIS.IN_SESSION' | translate }} &bull; {{ macroStats?.totalOutOfSessionCommits }} {{ 'SESSIONS-GRAPH.KPIS.AUTONOMOUS' | translate }}
+          </span>
         </div>
 
-        <div class="col-12 col-sm-6 col-lg-3 px-2 mb-3">
-          <div class="kpi-card p-3 rounded-lg border h-100 d-flex flex-column justify-content-between">
-            <div class="d-flex align-items-center justify-content-between text-muted mb-2">
-              <span class="kpi-title small font-weight-medium">{{ 'SESSIONS-GRAPH.KPIS.AUTONOMOUS_COMMITS' | translate }}</span>
-              <i class="fas fa-home text-info"></i>
-            </div>
-            <div class="kpi-value font-weight-bold" style="font-size: 1.8rem; color: var(--color-text-primary);">
-              {{ macroStats?.totalOutOfSessionCommits }}
-            </div>
-            <span class="small text-muted">{{ 'SESSIONS-GRAPH.KPIS.AUTONOMOUS_COMMITS_SUB' | translate }}</span>
+        <div class="metric-divider"></div>
+
+        <!-- 3. Séances planifiées & Heures encadrées -->
+        <div class="metric-item flex-fill">
+          <span class="metric-label">{{ 'SESSIONS-GRAPH.KPIS.TOTAL_SESSIONS' | translate }}</span>
+          <div class="metric-value-row d-flex align-items-baseline" style="gap: 6px;">
+            <span class="metric-value">{{ macroStats?.totalSessionsCount }}</span>
+            <span class="metric-sub-val text-muted">({{ macroStats?.totalHoursSupervised }})</span>
           </div>
+          <span class="metric-sub">{{ 'SESSIONS-GRAPH.KPIS.TOTAL_HOURS' | translate }}</span>
         </div>
 
-        <div class="col-12 col-sm-6 col-lg-3 px-2 mb-3">
-          <div class="kpi-card p-3 rounded-lg border h-100 d-flex flex-column justify-content-between">
-            <div class="d-flex align-items-center justify-content-between text-muted mb-2">
-              <span class="kpi-title small font-weight-medium">{{ 'SESSIONS-GRAPH.KPIS.TOTAL_SESSIONS' | translate }}</span>
-              <i class="fas fa-calendar-check text-warning"></i>
-            </div>
-            <div class="kpi-value font-weight-bold" style="font-size: 1.8rem; color: var(--color-text-primary);">
-              {{ macroStats?.totalSessionsCount }}
-            </div>
-            <span class="small text-muted">{{ 'SESSIONS-GRAPH.KPIS.TOTAL_SESSIONS_SUB' | translate }}</span>
+        <div class="metric-divider"></div>
+
+        <!-- 4. Questions résolues -->
+        <div class="metric-item flex-fill">
+          <span class="metric-label">
+            {{ 'SESSIONS-GRAPH.KPIS.QUESTIONS_RESOLVED' | translate }}
+          </span>
+          <div class="metric-value-row d-flex align-items-baseline" style="gap: 6px;">
+            <span
+              class="metric-value metric-value-tooltip"
+              [appTooltip]="getResolvedQuestionsTooltip(macroStats?.resolvedQuestions)"
+              [maxWidth]="320"
+            >{{ macroStats?.questionsResolvedCount }}</span>
+            <span class="metric-sub-val text-muted">/ {{ macroStats?.totalQuestionsCount }}</span>
           </div>
+          <span class="metric-sub">{{ (macroStats?.totalQuestionsCount ? (macroStats?.questionsResolvedCount! / macroStats?.totalQuestionsCount * 100) : 0) | number:'1.0-0' }}% {{ 'SESSIONS-GRAPH.KPIS.OF_ASSIGNMENT' | translate }}</span>
         </div>
       </div>
 
@@ -236,7 +259,10 @@
             </p>
           </div>
         </div>
-        <div #comparisonChartContainer class="w-100" style="min-height: 260px;"></div>
+        <!-- chart-container provides the styled (non-overlay) scrollbar, see _components.scss -->
+        <div #macroChartScroller class="chart-container macro-chart-scroll-wrapper">
+          <div #comparisonChartContainer style="min-height: 240px;"></div>
+        </div>
       </div>
 
       <!-- Interactive Sessions Grid -->
@@ -281,15 +307,20 @@
 
                 <div class="d-flex justify-content-between small text-muted">
                   <span>{{ s.inSessionCommitsCount }} commits</span>
-                  <span>{{ s.resolvedQuestionsCount }} questions</span>
+                  <span>{{ s.resolvedQuestionsCount }} {{ 'SESSIONS-GRAPH.KPIS.QUESTIONS_RESOLVED' | translate }}</span>
                 </div>
               </div>
 
-              <!-- Dynamic Grace Period Pill if active -->
-              <div *ngIf="s.gracePeriod.isExtended" class="mt-3 pt-2 border-top">
-                <span class="badge-tolerance-notice small">
+              <!-- Card Footer with Grace Period Notice & CTA -->
+              <div class="d-flex align-items-center justify-content-between mt-3 pt-2 border-top">
+                <span *ngIf="s.gracePeriod.isExtended" class="badge-tolerance-notice small">
                   <i class="fas fa-magic mr-1"></i>
-                  {{ 'SESSIONS-GRAPH.TOLERANCE_BADGE' | translate: { minutes: s.gracePeriod.graceMinutes, students: s.gracePeriod.extendedStudentsCount } }}
+                  +{{ s.gracePeriod.graceMinutes }} min
+                </span>
+                <span *ngIf="!s.gracePeriod.isExtended"></span>
+                <span class="session-card-cta small font-weight-medium">
+                  {{ 'SESSIONS-GRAPH.KPIS.ANALYZE_BTN' | translate }}
+                  <i class="fas fa-arrow-right ml-1 fa-xs"></i>
                 </span>
               </div>
             </div>
@@ -326,116 +357,169 @@
           <button class="btn btn-outline-ghost btn-sm" (click)="openEditSessionModal(getCurrentSessionStats()!.session)">
             <i class="fas fa-pencil-alt mr-1"></i>{{ 'EDIT' | translate }}
           </button>
+          <button class="btn btn-outline-ghost btn-sm" (click)="selectSession(-1)">
+            <i class="fas fa-th mr-1"></i>{{ 'SESSIONS-GRAPH.KPIS.BACK_TO_ALL' | translate }}
+          </button>
         </div>
       </div>
 
-      <!-- 4 Session KPI Cards -->
-      <div class="row" style="margin: 0 -8px;">
-        <div class="col-12 col-sm-6 col-lg-3 px-2 mb-3">
-          <div class="kpi-card p-3 rounded-lg border h-100 d-flex flex-column justify-content-between">
-            <div class="d-flex align-items-center justify-content-between text-muted mb-2">
-              <span class="kpi-title small font-weight-medium">{{ 'SESSIONS-GRAPH.KPIS.PARTICIPATION_RATE' | translate }}</span>
-              <i class="fas fa-users text-primary"></i>
-            </div>
-            <div class="kpi-value font-weight-bold" style="font-size: 1.8rem; color: var(--color-text-primary);">
-              {{ getCurrentSessionStats()?.participationRate | number:'1.0-0' }}%
-            </div>
-            <span class="small text-muted">
-              {{ getCurrentSessionStats()?.activeStudentsCount }} / {{ getCurrentSessionStats()?.totalEligibleStudents }} {{ 'SESSIONS-GRAPH.KPIS.STUDENTS_ACTIVE' | translate }}
+      <!-- Compact Session Metrics Strip (Apple / Emil style) -->
+      <div class="metrics-strip border rounded-lg p-3 d-flex align-items-center justify-content-between flex-wrap">
+        <!-- 1. Taux de présence active -->
+        <div class="metric-item flex-fill">
+          <span class="metric-label">
+            {{ 'SESSIONS-GRAPH.KPIS.PARTICIPATION_RATE' | translate }}
+            <span class="metric-info-badge" [appTooltip]="'SESSIONS-GRAPH.KPIS.PARTICIPATION_RATE_TOOLTIP' | translate">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </span>
+          </span>
+          <div class="metric-value-row d-flex align-items-baseline">
+            <span class="metric-value">{{ getCurrentSessionStats()?.participationRate | number:'1.0-0' }}%</span>
+          </div>
+          <span class="metric-sub">
+            {{ getCurrentSessionStats()?.activeStudentsCount }} / {{ getCurrentSessionStats()?.totalEligibleStudents }} {{ 'SESSIONS-GRAPH.KPIS.STUDENTS_ACTIVE' | translate }}
+          </span>
+        </div>
+
+        <div class="metric-divider"></div>
+
+        <!-- 2. Commits réalisés -->
+        <div class="metric-item flex-fill">
+          <span class="metric-label">{{ 'SESSIONS-GRAPH.KPIS.COMMITS_COUNT' | translate }}</span>
+          <div class="metric-value-row d-flex align-items-baseline">
+            <span class="metric-value">{{ getCurrentSessionStats()?.inSessionCommitsCount }}</span>
+          </div>
+          <span class="metric-sub">
+            {{ getCurrentSessionStats()?.inSessionRatio | number:'1.0-0' }}% {{ 'SESSIONS-GRAPH.KPIS.OF_ANALYZED_COMMITS' | translate }}
+          </span>
+        </div>
+
+        <div class="metric-divider"></div>
+
+        <!-- 3. Questions résolues -->
+        <div class="metric-item flex-fill">
+          <span class="metric-label">
+            {{ 'SESSIONS-GRAPH.KPIS.QUESTIONS_RESOLVED' | translate }}
+          </span>
+          <div class="metric-value-row d-flex align-items-baseline">
+            <span
+              class="metric-value metric-value-tooltip text-success"
+              [appTooltip]="getResolvedQuestionsTooltip(getCurrentResolvedQuestions())"
+              [maxWidth]="320"
+            >{{ getCurrentSessionStats()?.resolvedQuestionsCount }}</span>
+          </div>
+          <span class="metric-sub">{{ 'SESSIONS-GRAPH.KPIS.QUESTIONS_RESOLVED_SUB' | translate }}</span>
+        </div>
+
+        <div class="metric-divider"></div>
+
+        <!-- 4. Étudiant·es n'ayant résolu aucune question -->
+        <div class="metric-item flex-fill">
+          <span class="metric-label">
+            {{ 'SESSIONS-GRAPH.KPIS.STUDENTS_WITHOUT_RESOLVED_QUESTIONS' | translate }}
+            <span class="metric-info-badge" [appTooltip]="'SESSIONS-GRAPH.KPIS.STUDENTS_WITHOUT_RESOLVED_QUESTIONS_TOOLTIP' | translate">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </span>
+          </span>
+          <div class="metric-value-row d-flex align-items-baseline">
+            <span class="metric-value" [class.text-danger]="(getCurrentSessionStats()?.studentsWithoutResolvedQuestionsCount || 0) > 0">
+              {{ getCurrentSessionStats()?.studentsWithoutResolvedQuestionsCount }}
             </span>
           </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-lg-3 px-2 mb-3">
-          <div class="kpi-card p-3 rounded-lg border h-100 d-flex flex-column justify-content-between">
-            <div class="d-flex align-items-center justify-content-between text-muted mb-2">
-              <span class="kpi-title small font-weight-medium">{{ 'SESSIONS-GRAPH.KPIS.COMMITS_COUNT' | translate }}</span>
-              <i class="fas fa-code-branch text-success"></i>
-            </div>
-            <div class="kpi-value font-weight-bold" style="font-size: 1.8rem; color: var(--color-text-primary);">
-              {{ getCurrentSessionStats()?.inSessionCommitsCount }}
-            </div>
-            <span class="small text-muted">
-              {{ getCurrentSessionStats()?.inSessionRatio | number:'1.0-0' }}% {{ 'SESSIONS-GRAPH.KPIS.OF_DAY_COMMITS' | translate }}
-            </span>
-          </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-lg-3 px-2 mb-3">
-          <div class="kpi-card p-3 rounded-lg border h-100 d-flex flex-column justify-content-between">
-            <div class="d-flex align-items-center justify-content-between text-muted mb-2">
-              <span class="kpi-title small font-weight-medium">{{ 'SESSIONS-GRAPH.KPIS.QUESTIONS_RESOLVED' | translate }}</span>
-              <i class="fas fa-check-circle text-info"></i>
-            </div>
-            <div class="kpi-value font-weight-bold" style="font-size: 1.8rem; color: var(--color-text-primary);">
-              {{ getCurrentSessionStats()?.resolvedQuestionsCount }}
-            </div>
-            <span class="small text-muted">{{ 'SESSIONS-GRAPH.KPIS.QUESTIONS_RESOLVED_SUB' | translate }}</span>
-          </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-lg-3 px-2 mb-3">
-          <div class="kpi-card p-3 rounded-lg border h-100 d-flex flex-column justify-content-between">
-            <div class="d-flex align-items-center justify-content-between text-muted mb-2">
-              <span class="kpi-title small font-weight-medium">{{ 'SESSIONS-GRAPH.KPIS.INACTIVE_STUDENTS' | translate }}</span>
-              <i class="fas fa-user-clock text-danger"></i>
-            </div>
-            <div class="kpi-value font-weight-bold" style="font-size: 1.8rem; color: var(--color-danger);">
-              {{ getCurrentSessionStats()?.inactiveStudentsCount }}
-            </div>
-            <span class="small text-muted">{{ 'SESSIONS-GRAPH.KPIS.INACTIVE_STUDENTS_SUB' | translate }}</span>
-          </div>
+          <span class="metric-sub">{{ 'SESSIONS-GRAPH.KPIS.STUDENTS_WITHOUT_RESOLVED_QUESTIONS_SUB' | translate }}</span>
         </div>
       </div>
 
-      <!-- CHART 1: PROGRESSION RIBBON CHART (VOTRE IMAGE !) -->
-      <div class="chart-card p-4 rounded-lg border">
-        <div class="d-flex justify-content-between align-items-center flex-wrap mb-3" style="gap: 12px;">
-          <div>
-            <div class="d-flex align-items-center" style="gap: 8px;">
-              <h6 class="font-weight-bold mb-0" style="color: var(--color-text-primary);">
-                {{ 'SESSIONS-GRAPH.RIBBON.TITLE' | translate }}
+      <!-- Segmented Subtabs Control (Apple style) -->
+      <div class="segmented-control-wrapper d-flex justify-content-between align-items-center flex-wrap" style="gap: 12px;">
+        <div class="apple-segmented-control" role="tablist">
+          <button type="button" class="segment-btn" [class.active]="activeSubTab === 'timeline'" (click)="setActiveSubTab('timeline')">
+            <i class="fas fa-chart-line mr-2"></i>
+            <span>{{ 'SESSIONS-GRAPH.TABS.TIMELINE' | translate }}</span>
+          </button>
+          <button type="button" class="segment-btn" [class.active]="activeSubTab === 'matrix'" (click)="setActiveSubTab('matrix')">
+            <i class="fas fa-th-large mr-2"></i>
+            <span>{{ 'SESSIONS-GRAPH.TABS.MATRIX' | translate }}</span>
+          </button>
+          <button type="button" class="segment-btn" [class.active]="activeSubTab === 'students'" (click)="setActiveSubTab('students')">
+            <i class="fas fa-user-check mr-2"></i>
+            <span>{{ 'SESSIONS-GRAPH.TABS.STUDENTS' | translate }}</span>
+            <span class="badge-count ml-2">{{ getCurrentSessionStats()?.studentsActivity?.length }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SUBTAB 1: TIMELINE (Ribbon Progression + Cadence Histogram) -->
+      <div [style.display]="activeSubTab === 'timeline' ? 'flex' : 'none'" class="flex-column" style="gap: 20px;">
+        <!-- CHART 1: PROGRESSION RIBBON CHART -->
+        <div class="chart-card p-4 rounded-lg border">
+          <div class="d-flex justify-content-between align-items-center flex-wrap mb-3" style="gap: 12px;">
+            <div>
+              <div class="d-flex align-items-center" style="gap: 8px;">
+                <h6 class="font-weight-bold mb-0" style="color: var(--color-text-primary);">
+                  {{ 'SESSIONS-GRAPH.RIBBON.TITLE' | translate }}
+                </h6>
+                <span class="badge badge-secondary px-2 py-1 small font-weight-normal">
+                  {{ 'SESSIONS-GRAPH.RIBBON.SUBTITLE_BADGE' | translate }}
+                </span>
+              </div>
+              <p class="text-muted small mb-0 mt-1">
+                {{ 'SESSIONS-GRAPH.RIBBON.EXPLANATION' | translate }}
+              </p>
+            </div>
+
+            <!-- Toggle Display Mode: Questions vs Commits -->
+            <div class="btn-group btn-group-sm" role="group">
+              <button type="button" class="btn" [class.btn-primary]="displayMode === 'questions'" [class.btn-outline-ghost]="displayMode !== 'questions'" (click)="toggleDisplayMode('questions')">
+                <i class="fas fa-tasks mr-1"></i>{{ 'SESSIONS-GRAPH.RIBBON.MODE_QUESTIONS' | translate }}
+              </button>
+              <button type="button" class="btn" [class.btn-primary]="displayMode === 'commits'" [class.btn-outline-ghost]="displayMode !== 'commits'" (click)="toggleDisplayMode('commits')">
+                <i class="fas fa-chart-line mr-1"></i>{{ 'SESSIONS-GRAPH.RIBBON.MODE_COMMITS' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div #ribbonChartContainer class="w-100" style="min-height: 340px;"></div>
+        </div>
+
+        <!-- CHART 2: 15-MINUTE CADENCE HISTOGRAM -->
+        <div class="chart-card p-4 rounded-lg border">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h6 class="font-weight-bold mb-1" style="color: var(--color-text-primary);">
+                {{ 'SESSIONS-GRAPH.HISTOGRAM.TITLE' | translate }}
               </h6>
-              <span class="badge badge-secondary px-2 py-1 small font-weight-normal">
-                {{ 'SESSIONS-GRAPH.RIBBON.SUBTITLE_BADGE' | translate }}
-              </span>
+              <p class="text-muted small mb-0">
+                {{ 'SESSIONS-GRAPH.HISTOGRAM.SUBTITLE' | translate }}
+              </p>
             </div>
-            <p class="text-muted small mb-0 mt-1">
-              {{ 'SESSIONS-GRAPH.RIBBON.EXPLANATION' | translate }}
-            </p>
           </div>
-
-          <!-- Toggle Display Mode: Questions vs Commits -->
-          <div class="btn-group btn-group-sm" role="group">
-            <button type="button" class="btn" [class.btn-primary]="displayMode === 'questions'" [class.btn-outline-ghost]="displayMode !== 'questions'" (click)="toggleDisplayMode('questions')">
-              <i class="fas fa-tasks mr-1"></i>{{ 'SESSIONS-GRAPH.RIBBON.MODE_QUESTIONS' | translate }}
-            </button>
-            <button type="button" class="btn" [class.btn-primary]="displayMode === 'commits'" [class.btn-outline-ghost]="displayMode !== 'commits'" (click)="toggleDisplayMode('commits')">
-              <i class="fas fa-chart-line mr-1"></i>{{ 'SESSIONS-GRAPH.RIBBON.MODE_COMMITS' | translate }}
-            </button>
-          </div>
+          <div #histogramChartContainer class="w-100" style="min-height: 210px;"></div>
         </div>
-
-        <div #ribbonChartContainer class="w-100" style="min-height: 340px;"></div>
       </div>
 
-      <!-- CHART 2: 15-MINUTE CADENCE HISTOGRAM -->
-      <div class="chart-card p-4 rounded-lg border">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <h6 class="font-weight-bold mb-1" style="color: var(--color-text-primary);">
-              {{ 'SESSIONS-GRAPH.HISTOGRAM.TITLE' | translate }}
-            </h6>
-            <p class="text-muted small mb-0">
-              {{ 'SESSIONS-GRAPH.HISTOGRAM.SUBTITLE' | translate }}
-            </p>
-          </div>
-        </div>
-        <div #histogramChartContainer class="w-100" style="min-height: 210px;"></div>
+      <!-- SUBTAB 2: PROGRESSION MATRIX (Students x Questions) -->
+      <div *ngIf="activeSubTab === 'matrix'">
+        <app-students-questions-matrix
+          [repositories]="getCurrentSessionRepositories()"
+          [questions]="dataService.questions"
+          [session]="getCurrentSessionStats()?.session"
+          [filterGroup]="dataService.groupFilter"
+          [reviews]="dataService.assignment?.reviews"
+          [corrections]="dataService.assignment?.corrections">
+        </app-students-questions-matrix>
       </div>
 
-      <!-- STUDENTS ACTIVITY TABLE WITH INACTIVE HIGHLIGHT -->
-      <div class="students-table-card p-4 rounded-lg border mb-4">
+      <!-- SUBTAB 3: STUDENTS ACTIVITY TABLE WITH INACTIVE HIGHLIGHT -->
+      <div *ngIf="activeSubTab === 'students'" class="students-table-card p-4 rounded-lg border mb-4">
         <div class="d-flex justify-content-between align-items-center flex-wrap mb-3" style="gap: 12px;">
           <div>
             <h6 class="font-weight-bold mb-1" style="color: var(--color-text-primary);">

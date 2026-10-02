@@ -100,6 +100,44 @@ body.dark-theme .commit {
   transition: stroke-opacity var(--transition-normal);
 }
 
+.session-group-pill {
+  box-sizing: border-box;
+  background: var(--color-surface);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  gap: 4px;
+  height: 18px;
+  line-height: 1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+  min-width: 0;
+  overflow: hidden;
+  pointer-events: auto;
+  align-self: center;
+
+  > svg {
+    width: 11px;
+    height: 11px;
+    min-width: 11px;
+    min-height: 11px;
+    flex-shrink: 0;
+  }
+
+  .session-pill-text {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+}
+
 .session-container {
   cursor: default;
 

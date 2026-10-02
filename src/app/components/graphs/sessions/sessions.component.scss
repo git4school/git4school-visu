@@ -123,45 +123,195 @@
   &:hover {
     background-color: var(--color-hover);
     color: var(--color-text-primary);
-    border-color: var(--color-border-hover, var(--color-primary));
+    border-color: var(--color-primary);
   }
 
   &.active {
     background-color: var(--color-primary);
     border-color: var(--color-primary);
-    color: #fff;
-    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    color: var(--color-on-primary);
+    box-shadow: var(--shadow-sm);
 
     .badge-mini-stat {
       background-color: rgba(255, 255, 255, 0.25);
-      color: #fff;
+      color: var(--color-on-primary);
     }
 
     svg {
-      stroke: #fff;
+      stroke: var(--color-on-primary);
     }
   }
 }
 
-/* KPI Cards */
-.kpi-card {
+/* Compact Metrics Strip (Apple / Emil style) */
+.metrics-strip {
   background-color: var(--color-surface);
   border-color: var(--color-border) !important;
   box-shadow: var(--shadow-sm);
-  border-radius: 10px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 12px;
+  gap: 1.5rem;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+}
+
+.metric-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.metric-info-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  opacity: 0.65;
+  cursor: help;
+  line-height: 1;
+  transition: opacity 0.15s ease, color 0.15s ease, transform 0.15s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    opacity: 1;
+    color: var(--color-primary);
+    transform: scale(1.15);
+  }
+}
+
+.metric-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.metric-value-tooltip {
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+  border-radius: 8px;
+  padding: 0 0.3rem;
+  margin-left: -0.3rem;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-hover);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+}
+
+.metric-sub-val {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.metric-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.2rem;
+}
+
+.metric-divider {
+  width: 1px;
+  height: 38px;
+  background-color: var(--color-border);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.distribution-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--color-border);
+  display: flex;
+  overflow: hidden;
+
+  .distribution-segment {
+    height: 100%;
+    transition: width 0.3s ease;
+
+    &.in-session {
+      background-color: var(--color-primary);
+    }
+
+    &.autonomous {
+      background-color: var(--color-info);
+    }
+  }
+}
+
+/* Segmented Subtabs Control (Apple style) */
+.segmented-control-wrapper {
+  margin-top: 0.25rem;
+}
+
+.apple-segmented-control {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  background-color: var(--color-hover);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  gap: 2px;
+}
+
+.segment-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.95rem;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    color: var(--color-text-primary);
   }
 
-  .kpi-title {
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.75rem;
+  &:active {
+    transform: scale(0.97);
   }
+
+  &.active {
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.badge-count {
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background-color: var(--color-hover);
+  color: var(--color-text-secondary);
+  font-weight: 600;
 }
 
 /* Chart Cards */
@@ -172,6 +322,19 @@
   border-radius: 10px;
 }
 
+/* Horizontal scroll for the macro chart: the chart grows wider than the card and the wrapper scrolls.
+   The scrollbar look comes from the global .chart-container rule (transparent track, 10px rounded thumb). */
+.macro-chart-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  overscroll-behavior-x: contain;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 /* Interactive Session Card (Macro View) */
 .session-card {
   background-color: var(--color-surface);
@@ -180,10 +343,22 @@
   border-radius: 10px;
   transition: all 0.2s ease;
 
+  .session-card-cta {
+    color: var(--color-primary);
+
+    i {
+      transition: transform 0.2s ease;
+    }
+  }
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
     border-color: var(--color-primary) !important;
+
+    .session-card-cta i {
+      transform: translateX(3px);
+    }
   }
 }
 

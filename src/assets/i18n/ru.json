@@ -701,6 +701,11 @@
     "ALL_SESSIONS": "Все сессии",
     "OFFICIAL_END": "Официальный конец",
     "TOLERANCE_BADGE": "Активный допуск: +{{minutes}} мин ({{students}} студентов)",
+    "TABS": {
+      "TIMELINE": "Хронология и темп",
+      "MATRIX": "Матрица успеваемости",
+      "STUDENTS": "Посещаемость и вовлеченность"
+    },
     "KPIS": {
       "AVG_PARTICIPATION": "Средняя активная посещаемость",
       "AVG_PARTICIPATION_SUB": "По всем сессиям",
@@ -713,11 +718,51 @@
       "PARTICIPATION_RATE": "Доля активных студентов",
       "STUDENTS_ACTIVE": "активных студентов",
       "COMMITS_COUNT": "Создано коммитов",
-      "OF_DAY_COMMITS": "коммитов за сессию",
+      "OF_ANALYZED_COMMITS": "проанализированных коммитов, сделанных во время сессии",
       "QUESTIONS_RESOLVED": "Решено вопросов",
       "QUESTIONS_RESOLVED_SUB": "Вопросов закрыто на сессии",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS": "Студенты без решённых вопросов",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_SUB": "За сессию не решено ни одного вопроса",
       "INACTIVE_STUDENTS": "Неактивные студенты",
-      "INACTIVE_STUDENTS_SUB": "Нет коммитов за сессию"
+      "INACTIVE_STUDENTS_SUB": "Нет коммитов за сессию",
+      "WORK_DISTRIBUTION": "Распределение усилий",
+      "QUESTIONS_COVERED": "Решённые вопросы",
+      "TOTAL_HOURS": "Часов с преподавателем",
+      "IN_SESSION": "на занятиях",
+      "AUTONOMOUS": "самостоятельно",
+      "ANALYZE_BTN": "Анализ",
+      "BACK_TO_ALL": "Все сессии",
+      "AVG_PARTICIPATION_TOOLTIP": "Средний процент активных студентов за занятие (минимум 1 коммит за время сессии).",
+      "WORK_DISTRIBUTION_TOOLTIP": "Доля коммитов, сделанных во время занятий, по сравнению с самостоятельной работой.",
+      "QUESTIONS_COVERED_TOOLTIP": "Количество задач, начатых хотя бы одним студентом, относительно общего числа задач.",
+      "OF_ASSIGNMENT": "задания",
+      "PARTICIPATION_RATE_TOOLTIP": "Процент студентов группы, сделавших хотя бы 1 коммит за эту сессию.",
+      "QUESTIONS_RESOLVED_TOOLTIP": "Количество задач, закрытых хотя бы одним студентом во время этой сессии.",
+      "RESOLVED_QUESTIONS_LIST": "Решённые вопросы",
+      "NO_RESOLVED_QUESTIONS": "За эту сессию не решено ни одного вопроса",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_TOOLTIP": "Количество студентов, не решивших ни одного вопроса за эту сессию."
+    },
+    "MATRIX": {
+      "TITLE": "Сводная матрица успеваемости (Студенты × Задачи)",
+      "SUBTITLE": "Табличный обзор статуса каждой задачи для каждого студента",
+      "LEGEND_BEFORE": "Сдано до ревью",
+      "LEGEND_BETWEEN": "Сдано после ревью",
+      "LEGEND_AFTER": "Сдано после финальной проверки",
+      "LEGEND_IN_PROGRESS": "В процессе",
+      "LEGEND_NOT_STARTED": "Не начато",
+      "LEGEND_IN_SESSION": "Закрыто на занятии",
+      "SCOPE_ALL": "За всё время",
+      "SCOPE_SESSION": "На этом занятии",
+      "SEARCH_PLACEHOLDER": "Поиск студента...",
+      "STUDENT_COL": "Студент",
+      "PROGRESS_COL": "Прогресс",
+      "SORT_NAME": "По имени",
+      "SORT_PROGRESS": "По прогрессу",
+      "VALIDATED_AT": "Сдано",
+      "LAST_COMMIT": "Последний коммит",
+      "COMMITS_COUNT": "{{count}} коммит(ов)",
+      "IN_SESSION_BADGE": "Выполнено на занятии",
+      "NO_QUESTIONS": "Для этого задания нет вопросов"
     },
     "MACRO": {
       "CHART_TITLE": "Динамика посещаемости по сессиям (%)",
@@ -763,4 +808,3 @@
     }
   }
 }
-

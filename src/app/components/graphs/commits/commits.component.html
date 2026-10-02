@@ -328,6 +328,31 @@
 </div>
 </ng-template>
 <ng-template #d3TooltipTemplate>
+  <ng-template #tpGroupPill let-tpGroup="tpGroup" let-pillClass="pillClass">
+    <span
+      class="badge session-pill session-group-pill d-inline-flex align-items-center"
+      [class.repository-tp-group-pill]="pillClass === 'repository-tp-group-pill'"
+      [style.border]="pillClass === 'repository-tp-group-pill' ? '0' : null"
+      style="display: inline-flex !important; align-items: center !important; justify-content: center; box-sizing: border-box; column-gap: 4px; height: 18px; padding: 1px 7px; line-height: 1 !important; vertical-align: middle; box-shadow: var(--shadow-md);"
+    >
+      <svg
+        style="display: block; width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <span class="session-pill-text session-group-text text-truncate" style="display: inline-block; line-height: 1 !important; vertical-align: middle;">{{ tpGroup }}</span>
+    </span>
+  </ng-template>
+
   <div
     *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null && hovered_repository == null"
     id="commit_hover"
@@ -351,7 +376,14 @@
     *ngIf="hovered_repository != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null"
     id="repository_hover"
   >
-    <div class="repo-name">{{ hovered_repository.name }}</div>
+    <div class="repository-header">
+      <div class="repo-name">{{ hovered_repository.name }}</div>
+      <ng-container
+        *ngIf="hovered_repository.tpGroup"
+        [ngTemplateOutlet]="tpGroupPill"
+        [ngTemplateOutletContext]="{ tpGroup: hovered_repository.tpGroup, pillClass: 'repository-tp-group-pill' }"
+      ></ng-container>
+    </div>
     <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end" *ngIf="hovered_repository.url && !anonymizationService.isAnonymous">
       <div class="tooltip-helper-item d-flex align-items-center">
         <span>{{ 'OVERVIEW-GRAPH.OPEN-REPO' | translate }}</span>
@@ -369,17 +401,11 @@
       <span style="font-weight: 600; color: var(--color-primary); font-size: 0.9rem;">
         {{ getSessionDisplayName(hovered_session) }}
       </span>
-      <span *ngIf="hovered_session.tpGroup"
-            class="badge d-inline-flex align-items-center"
-            style="display: inline-flex !important; align-items: center !important; justify-content: center; background: rgba(56, 189, 248, 0.15); color: var(--color-text-secondary); font-size: 0.75rem; font-weight: 500; border-radius: 9999px; padding: 0 8px; height: 20px; line-height: 1; vertical-align: middle;">
-        <svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0; display: block; margin-right: 5px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-        <span style="display: inline-block; line-height: 1;">{{ hovered_session.tpGroup }}</span>
-      </span>
+      <ng-container
+        *ngIf="hovered_session.tpGroup"
+        [ngTemplateOutlet]="tpGroupPill"
+        [ngTemplateOutletContext]="{ tpGroup: hovered_session.tpGroup }"
+      ></ng-container>
     </div>
     <div class="text-muted small mb-2" style="font-size: 0.78rem;">
       <i class="far fa-clock mr-1"></i>
@@ -492,5 +518,3 @@
   (saveSession)="onSaveSession($event)"
 >
 </overview-graph-contextual-menu>
-
-

@@ -1,18 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from "@angular/forms";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Session } from "@models/Session.model";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { DataService } from "@services/data.service";
@@ -35,21 +22,21 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   @Input() defaultSessionDuration;
   @Input() notes: string;
   sessionForm: FormGroup;
-  defaultLabel: string = "";
+  defaultLabel = "";
   private destroy$ = new Subject<void>();
 
   get resolvedTpGroups(): string[] {
-    return this.tpGroups?.length ? this.tpGroups : (this.dataService?.tpGroups || []);
+    return this.tpGroups?.length ? this.tpGroups : this.dataService?.tpGroups || [];
   }
 
-  notesOpen: boolean = false;
+  notesOpen = false;
 
   constructor(
     public activeModalService: CustomModalRef,
     public fb: FormBuilder,
     private dataService: DataService,
     private translateService: TranslateService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   endTimeValidator(): ValidatorFn {
@@ -62,7 +49,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
         const mEnd = moment(endTime, "HH:mm");
         if (mEnd.isAfter(mStart) || mEnd.isBefore(mStart)) {
           // Allow cross-midnight or just any valid time, we handle wrap around in the component.
-          // For simplicity, just return null if both are present. 
+          // For simplicity, just return null if both are present.
           // If strict order is needed:
           // if (mEnd.isAfter(mStart)) return null;
           // But since period mode can cross midnight, we return null.
@@ -77,11 +64,9 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     this.computeDefaultLabel();
     this.initForm();
 
-    this.translateService.onLangChange
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.computeDefaultLabel();
-      });
+    this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.computeDefaultLabel();
+    });
   }
 
   ngOnDestroy(): void {
@@ -96,7 +81,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       .filter((s) => (s.tpGroup || "") === group && s !== this.session)
       .slice()
       .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-    
+
     const curTime = this.session?.startDate ? new Date(this.session.startDate).getTime() : 0;
     let idx = sameGroup.findIndex((s) => new Date(s.startDate).getTime() > curTime);
     let sessionNumber = idx === -1 ? sameGroup.length + 1 : idx + 1;
@@ -115,10 +100,10 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
   private initForm() {
     const tStart = Utils.getTimeFromDate(this.session.startDate);
-    const startStr = tStart ? `${tStart.hour.toString().padStart(2, '0')}:${tStart.minute.toString().padStart(2, '0')}` : '12:00';
-    
+    const startStr = tStart ? `${tStart.hour.toString().padStart(2, "0")}:${tStart.minute.toString().padStart(2, "0")}` : "12:00";
+
     const tEnd = Utils.getTimeFromDate(this.session.endDate);
-    const endStr = tEnd ? `${tEnd.hour.toString().padStart(2, '0')}:${tEnd.minute.toString().padStart(2, '0')}` : '14:00';
+    const endStr = tEnd ? `${tEnd.hour.toString().padStart(2, "0")}:${tEnd.minute.toString().padStart(2, "0")}` : "14:00";
 
     this.sessionForm = this.fb.group({
       label: [this.session.label || ""],
@@ -129,10 +114,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       notes: [this.session.notes || ""],
     });
     this.sessionForm.setValidators(this.endTimeValidator());
-    
+
     // Recompute default placeholder if TP group changes
-    this.sessionForm.get('tpGroup')?.valueChanges
-      .pipe(takeUntil(this.destroy$))
+    this.sessionForm
+      .get("tpGroup")
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.computeDefaultLabel();
       });
@@ -146,32 +132,32 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   onPeriodChange(event: { start: string; end: string }) {
     this.sessionForm.patchValue({
       startTime: event.start,
-      endTime: event.end
+      endTime: event.end,
     });
     this.sessionForm.markAsDirty();
   }
 
   deleteSession() {
-    this.activeModalService.close(null);
+    this.activeModalService.close({ deleted: true });
   }
 
   submitSession() {
     let form = this.sessionForm;
-    const [hStart, mStart] = form.value.startTime.split(':').map(Number);
-    const [hEnd, mEnd] = form.value.endTime.split(':').map(Number);
+    const [hStart, mStart] = form.value.startTime.split(":").map(Number);
+    const [hEnd, mEnd] = form.value.endTime.split(":").map(Number);
 
     let startDate = moment(form.value.date).set({ hour: hStart, minute: mStart }).toDate();
     let endDate = moment(form.value.date).set({ hour: hEnd, minute: mEnd }).toDate();
-    
+
     if (moment(endDate).isBefore(startDate)) {
-      endDate = moment(endDate).add(1, 'days').toDate(); // Wrap around midnight
+      endDate = moment(endDate).add(1, "days").toDate(); // Wrap around midnight
     }
     const session = new Session(
       startDate,
       endDate,
       form.value.tpGroup ? form.value.tpGroup.trim() : "",
       form.value.notes ? form.value.notes.trim() : "",
-      form.value.label ? form.value.label.trim() : ""
+      form.value.label ? form.value.label.trim() : "",
     );
 
     this.activeModalService.close(session);

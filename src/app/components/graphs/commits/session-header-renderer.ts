@@ -41,15 +41,7 @@ export class SessionHeaderRenderer {
           </span>
 
           <!-- Pill 2: Groupe de TP -->
-          ${
-            groupName
-              ? `
-          <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;">
-            ${usersSvg}
-            <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
-          </span>`
-              : ""
-          }
+          ${this.renderGroupPill(groupName, usersSvg)}
 
           <!-- Pill 3: Note button -->
           ${
@@ -115,15 +107,7 @@ export class SessionHeaderRenderer {
           </span>
 
           <!-- Pill 2: Groupe de TP -->
-          ${
-            groupName
-              ? `
-          <span class="badge session-pill session-group-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;">
-            ${usersSvg}
-            <span class="session-pill-text session-group-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${groupName}</span>
-          </span>`
-              : ""
-          }
+          ${this.renderGroupPill(groupName, usersSvg)}
 
           <!-- Pill 3: Note button -->
           ${
@@ -231,11 +215,7 @@ export class SessionHeaderRenderer {
           <span style="font-weight: 600; color: var(--color-primary); font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
             ${sName}
           </span>
-          ${
-            sGroup
-              ? `<span class="badge" style="display: inline-flex; align-items: center; background: rgba(56, 189, 248, 0.15); color: var(--color-text-secondary); font-size: 0.72rem; font-weight: 500; border-radius: 9999px; padding: 1px 7px; height: 18px; line-height: 1; flex-shrink: 0;">${sGroup}</span>`
-              : ""
-          }
+          ${this.renderGroupPill(sGroup, this.renderUsersSvg())}
         </div>
         <div style="font-size: 0.78rem; color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px; margin-bottom: ${
           hasNotes ? "6px" : "0"
@@ -252,6 +232,22 @@ export class SessionHeaderRenderer {
         }
       </div>
     `;
+  }
+
+  private static renderGroupPill(groupName: string, usersSvg: string): string {
+    if (!groupName) return "";
+
+    return `
+      <span class="badge session-pill session-group-pill d-inline-flex align-items-center">
+        ${usersSvg}
+        <span class="session-pill-text session-group-text text-truncate">${this.escapeHtml(groupName)}</span>
+      </span>
+    `;
+  }
+
+  private static renderUsersSvg(): string {
+    // eslint-disable-next-line @typescript-eslint/quotes
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>';
   }
 
   private static escapeHtml(str: string): string {
