@@ -823,5 +823,24 @@
       "UNIT-MINUTE": "min",
       "RESET-TOAST": "Simulated clock reset."
     }
+  },
+  "SESSION-TAB": {
+    "TAB": {
+      "IN-PROGRESS": "Session running",
+      "UPCOMING-SHORT": "Session soon",
+      "LABEL-FALLBACK": "Session"
+    },
+    "PANEL": {
+      "TP-GROUP": "Group",
+      "ACTIVE-STUDENTS": "Active students",
+      "IN-SESSION-COMMITS": "In-session commits",
+      "RESOLVED-QUESTIONS": "Resolved questions",
+      "PARTICIPATION": "Participation",
+      "LOADING-STATS": "Computing activity…",
+      "VIEW-IN-GRAPH": "View in graph",
+      "EDIT": "Edit",
+      "CLOSE": "Close",
+      "UPDATED-TOAST": "Session updated."
+    }
   }
 }

@@ -1,0 +1,94 @@
+<!-- Session folder tab: one single surface, the strip is its left edge.
+     Rendered only when a session is eligible — without this guard every binding below
+     dereferences a null view and the template throws on each change-detection pass. -->
+<div
+  class="peek"
+  *ngIf="view"
+  [class.is-open]="view.open"
+  [class.is-hovered]="hovered"
+  [class.is-upcoming]="view.state === 'upcoming'"
+>
+  <div class="peek-surface">
+    <!-- The strip IS the visible sliver of the panel -->
+    <button
+      type="button"
+      class="peek-strip"
+      (click)="togglePanel()"
+      (mouseenter)="hovered = true"
+      (mouseleave)="hovered = false"
+      [attr.aria-expanded]="view.open"
+      [attr.aria-label]="view.label"
+    >
+      <!-- Swap rail: the in-progress label, the counter and the upcoming label all travel
+           down by one slot. The texts are static per element, so the swap reads correctly
+           in both directions (shifting the dev-bar clock backwards plays it in reverse). -->
+      <span class="peek-rail" #rail aria-hidden="true">
+        <span class="peek-line peek-line--label peek-line--in">{{ "SESSION-TAB.TAB.IN-PROGRESS" | translate }}</span>
+        <span class="peek-line peek-line--counter">{{ view.countdown }}</span>
+        <span class="peek-line peek-line--label peek-line--out">{{ "SESSION-TAB.TAB.UPCOMING-SHORT" | translate }}</span>
+      </span>
+      <i class="fas peek-strip-chevron" [ngClass]="view.open ? 'fa-chevron-right' : 'fa-chevron-left'"></i>
+    </button>
+
+    <!-- Panel body: off-screen while closed, revealed by the surface transform -->
+    <div class="peek-body" (mouseenter)="hovered = true" (mouseleave)="hovered = false">
+      <header class="peek-head">
+        <span class="peek-state-pill">
+          <span class="peek-state-dot"></span>
+          {{ (view.state === "in-progress" ? "SESSION-TAB.TAB.IN-PROGRESS" : "SESSION-TAB.TAB.UPCOMING-SHORT") | translate }}
+        </span>
+        <span class="peek-head-time">{{ view.countdown }}</span>
+        <button type="button" class="peek-close" (click)="closePanel()" [attr.aria-label]="'SESSION-TAB.PANEL.CLOSE' | translate">
+          <i class="fas fa-times"></i>
+        </button>
+      </header>
+
+      <h3 class="peek-title">{{ view.label }}</h3>
+
+      <p class="peek-when">
+        <i class="far fa-calendar mr-1.5"></i>{{ view.dateLabel }}
+        <span class="peek-sep">·</span>
+        {{ view.timeRange }}
+        <span class="peek-sep">·</span>
+        {{ view.durationLabel }}
+      </p>
+
+      <p class="peek-tp" *ngIf="view.tpGroup">
+        <i class="fas fa-users mr-1.5"></i>{{ "SESSION-TAB.PANEL.TP-GROUP" | translate }} {{ view.tpGroup }}
+      </p>
+
+      <div class="peek-stats" *ngIf="view.stats; else loadingStats">
+        <div class="peek-stat">
+          <span class="peek-stat-val">{{ view.stats.activeStudentsCount }}<small>/{{ view.stats.totalEligibleStudents }}</small></span>
+          <span class="peek-stat-lbl">{{ "SESSION-TAB.PANEL.ACTIVE-STUDENTS" | translate }}</span>
+        </div>
+        <div class="peek-stat">
+          <span class="peek-stat-val">{{ view.stats.inSessionCommitsCount }}</span>
+          <span class="peek-stat-lbl">{{ "SESSION-TAB.PANEL.IN-SESSION-COMMITS" | translate }}</span>
+        </div>
+        <div class="peek-stat">
+          <span class="peek-stat-val">{{ view.stats.resolvedQuestionsCount }}</span>
+          <span class="peek-stat-lbl">{{ "SESSION-TAB.PANEL.RESOLVED-QUESTIONS" | translate }}</span>
+        </div>
+        <div class="peek-stat">
+          <span class="peek-stat-val">{{ view.stats.participationRate }}%</span>
+          <span class="peek-stat-lbl">{{ "SESSION-TAB.PANEL.PARTICIPATION" | translate }}</span>
+        </div>
+      </div>
+      <ng-template #loadingStats>
+        <p class="peek-nostats"><i class="fas fa-circle-notch fa-spin mr-1.5"></i>{{ "SESSION-TAB.PANEL.LOADING-STATS" | translate }}</p>
+      </ng-template>
+
+      <p class="peek-notes" *ngIf="view.notes">{{ view.notes }}</p>
+
+      <footer class="peek-actions">
+        <button type="button" class="peek-btn peek-btn-primary" (click)="onViewInGraph()">
+          <i class="fas fa-chart-line mr-1.5"></i>{{ "SESSION-TAB.PANEL.VIEW-IN-GRAPH" | translate }}
+        </button>
+        <button type="button" class="peek-btn" (click)="onEditSession()">
+          <i class="fas fa-pen mr-1.5"></i>{{ "SESSION-TAB.PANEL.EDIT" | translate }}
+        </button>
+      </footer>
+    </div>
+  </div>
+</div>
