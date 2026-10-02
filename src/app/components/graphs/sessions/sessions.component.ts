@@ -14,6 +14,7 @@ import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
+import { ClockService } from "@services/clock.service";
 import { DataService } from "@services/data.service";
 import { LoaderService } from "@services/loader.service";
 import { SessionAnalyticsService, SessionDetailedStats, StudentSessionActivity } from "@services/session-analytics.service";
@@ -95,6 +96,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     private customModalService: CustomModalService,
     private databaseService: DatabaseService,
     private cdr: ChangeDetectorRef,
+    private clockService: ClockService,
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -335,7 +337,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
 
   openAddSessionModal(): void {
     const modalRef = this.customModalService.open(EditSessionComponent, {});
-    const now = new Date();
+    const now = this.clockService.now();
     const duration = this.dataService.assignment?.defaultSessionDuration || {
       hour: 2,
       minute: 0,

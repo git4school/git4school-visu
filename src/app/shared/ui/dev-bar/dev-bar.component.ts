@@ -1,8 +1,10 @@
 import { Component, HostListener, OnDestroy, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
 import { filter } from "rxjs/operators";
 import { environment } from "@environments/environment";
+import { ClockService, DAY_MS, HOUR_MS, MINUTE_MS } from "@services/clock.service";
 import { DevFlagsService } from "@services/dev-flags.service";
 import { MockGitlabInstanceService } from "@app/dev-mock/mock-gitlab-instance.service";
 import { ToastService } from "@services/toast.service";
@@ -19,8 +21,11 @@ import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-mo
 export class DevBarComponent implements OnInit, OnDestroy {
   readonly isProduction = environment.production;
 
+  readonly DAY_MS = DAY_MS;
+  readonly HOUR_MS = HOUR_MS;
+
   isCollapsed = false;
-  activePopover: "toasts" | "modals" | "perf" | null = null;
+  activePopover: "toasts" | "modals" | "clock" | null = null;
 
   fps = 60;
   memoryMB: number | null = null;
@@ -28,11 +33,15 @@ export class DevBarComponent implements OnInit, OnDestroy {
   breakpoint = "desktop";
   currentRoute = "";
 
+  clockDate: Date | null = null;
+
   private animFrameId: number | null = null;
   private frameCount = 0;
   private lastFpsTime = performance.now();
   private memoryIntervalId: any = null;
+  private clockTickerId: any = null;
   private routerSub: Subscription | null = null;
+  private clockSub: Subscription | null = null;
 
   constructor(
     public devFlagsService: DevFlagsService,
@@ -40,6 +49,8 @@ export class DevBarComponent implements OnInit, OnDestroy {
     public toastService: ToastService,
     public themeService: ThemeService,
     public githubAuthService: GithubAuthService,
+    public clockService: ClockService,
+    private translateService: TranslateService,
     private customModalService: CustomModalService,
     private router: Router,
   ) {}
@@ -70,28 +81,81 @@ export class DevBarComponent implements OnInit, OnDestroy {
     this.routerSub = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: any) => {
       this.currentRoute = event.urlAfterRedirects || event.url;
     });
+
+    /* Reflect simulated clock shifts immediately in the dev bar display */
+    this.clockSub = this.clockService.offsetMs$.subscribe(() => {
+      this.clockDate = this.clockService.now();
+    });
   }
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.animFrameId);
     clearInterval(this.memoryIntervalId);
+    clearInterval(this.clockTickerId);
     this.routerSub?.unsubscribe();
+    this.clockSub?.unsubscribe();
   }
 
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
-    this.activePopover = null;
+    this.closePopover();
     try {
       localStorage.setItem("git4school_dev_bar_collapsed", String(this.isCollapsed));
     } catch (e) {}
   }
 
-  togglePopover(name: "toasts" | "modals" | "perf"): void {
+  togglePopover(name: "toasts" | "modals" | "clock"): void {
     this.activePopover = this.activePopover === name ? null : name;
+
+    if (this.activePopover === "clock") {
+      this.openClockPopover();
+    } else {
+      this.stopClockTicker();
+    }
   }
 
   closePopover(): void {
     this.activePopover = null;
+    this.stopClockTicker();
+  }
+
+  /* Simulated Clock */
+  get clockOffsetLabel(): string {
+    const ms = this.clockService.offsetMs;
+    if (ms === 0) {
+      return "";
+    }
+    const sign = ms > 0 ? "+" : "-";
+    const abs = Math.abs(ms);
+    if (abs >= DAY_MS && abs % HOUR_MS === 0) {
+      return `${sign}${abs / DAY_MS} ${this.translateService.instant("DEV-BAR.CLOCK.UNIT-DAY")}`;
+    }
+    if (abs >= HOUR_MS && abs % MINUTE_MS === 0) {
+      return `${sign}${abs / HOUR_MS} ${this.translateService.instant("DEV-BAR.CLOCK.UNIT-HOUR")}`;
+    }
+    return `${sign}${Math.round(abs / MINUTE_MS)} ${this.translateService.instant("DEV-BAR.CLOCK.UNIT-MINUTE")}`;
+  }
+
+  get simulatedNowLabel(): string {
+    return this.clockService.moment().format("DD/MM/YYYY HH:mm");
+  }
+
+  onClockDateChange(date: Date | null): void {
+    if (date) {
+      this.clockService.setNow(date);
+    }
+  }
+
+  shiftClock(deltaMs: number): void {
+    this.clockService.shift(deltaMs);
+  }
+
+  resetClock(): void {
+    this.clockService.reset();
+    this.toastService.success(
+      this.translateService.instant("DEV-BAR.CLOCK.HEADER"),
+      this.translateService.instant("DEV-BAR.CLOCK.RESET-TOAST"),
+    );
   }
 
   /* Toasts Testing Triggers */
@@ -187,6 +251,20 @@ export class DevBarComponent implements OnInit, OnDestroy {
 
     this.animFrameId = requestAnimationFrame(this.startFpsLoop);
   };
+
+  private openClockPopover(): void {
+    this.stopClockTicker();
+    this.clockDate = this.clockService.now();
+    /* The offset is fixed but the real clock keeps ticking: keep the readout fresh */
+    this.clockTickerId = setInterval(() => {
+      this.clockDate = this.clockService.now();
+    }, 10000);
+  }
+
+  private stopClockTicker(): void {
+    clearInterval(this.clockTickerId);
+    this.clockTickerId = null;
+  }
 
   private startMemoryMonitoring(): void {
     const updateMem = () => {

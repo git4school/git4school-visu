@@ -544,7 +544,6 @@
     "TEXT": "Text Mode (Exact number)"
   },
   "PERCENT-COMMITS": "% of commits",
-  "QUESTIONS": "Questions",
   "STUDENTS": "Students",
   "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER": "Search a question (e.g. 1.1) or a commit keyword...",
   "QUESTIONS-CHOOSER-QUESTIONS-HEADER": "Assignment Questions",
@@ -808,6 +807,21 @@
     "TOOLTIPS": {
       "STUDENTS_COUNT": "Active students",
       "COMMITS_COUNT": "Total commits"
+    }
+  },
+  "DEV-BAR": {
+    "CLOCK": {
+      "TOOLTIP": "Shift the date and time seen by the app (for testing)",
+      "LABEL": "Clock",
+      "HEADER": "Simulated clock",
+      "SIMULATED": "Simulated date / time",
+      "FIELD-LABEL": "New date",
+      "RESET": "Reset",
+      "HINT": "The offset only affects what the app displays: the real clock keeps ticking. It is lost on page reload.",
+      "UNIT-DAY": "d",
+      "UNIT-HOUR": "h",
+      "UNIT-MINUTE": "min",
+      "RESET-TOAST": "Simulated clock reset."
     }
   }
 }

@@ -119,6 +119,60 @@
       </div>
     </div>
 
+    <!-- Simulated Clock Menu -->
+    <div class="dev-btn-group position-relative">
+      <button
+        type="button"
+        class="dev-bar-btn"
+        [class.active]="activePopover === 'clock'"
+        [class.clock-shifted]="clockService.isShifted"
+        (click)="togglePopover('clock')"
+        [appTooltip]="'DEV-BAR.CLOCK.TOOLTIP' | translate"
+        placement="top"
+      >
+        <i class="fas fa-clock mr-1.5"></i>
+        <span>{{ "DEV-BAR.CLOCK.LABEL" | translate }}</span>
+        <span class="clock-offset-badge" *ngIf="clockService.isShifted">{{ clockOffsetLabel }}</span>
+        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+      </button>
+
+      <!-- Simulated Clock Popover -->
+      <div *ngIf="activePopover === 'clock'" class="dev-popover clock-popover">
+        <div class="popover-header">{{ "DEV-BAR.CLOCK.HEADER" | translate }}</div>
+        <div class="popover-body clock-body">
+          <div class="clock-readout">
+            <span class="clock-readout-label">{{ "DEV-BAR.CLOCK.SIMULATED" | translate }}</span>
+            <span class="clock-readout-value">{{ simulatedNowLabel }}</span>
+          </div>
+
+          <app-date-range-picker
+            mode="datetime"
+            [date]="clockDate"
+            [singleLabel]="'DEV-BAR.CLOCK.FIELD-LABEL'"
+            (dateChange)="onClockDateChange($event)"
+          ></app-date-range-picker>
+
+          <div class="clock-shift-row">
+            <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(-DAY_MS)">-1 j</button>
+            <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(-HOUR_MS)">-1 h</button>
+            <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(HOUR_MS)">+1 h</button>
+            <button type="button" class="btn-pop-action clock-shift" (click)="shiftClock(DAY_MS)">+1 j</button>
+          </div>
+
+          <button
+            type="button"
+            class="btn-pop-action clock-reset"
+            [disabled]="!clockService.isShifted"
+            (click)="resetClock()"
+          >
+            <i class="fas fa-undo-alt mr-1.5"></i> {{ "DEV-BAR.CLOCK.RESET" | translate }}
+          </button>
+
+          <p class="clock-hint">{{ "DEV-BAR.CLOCK.HINT" | translate }}</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Theme Switcher -->
     <button
       type="button"
