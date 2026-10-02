@@ -25,10 +25,13 @@
       <span class="peek-rail" #rail aria-hidden="true">
         <span class="peek-line peek-line--label peek-line--in">{{ "SESSION-TAB.TAB.IN-PROGRESS" | translate }}</span>
         <!-- The counter is a full-height carriage whose text is pinned to its bottom -->
-        <span class="peek-counter"><span class="peek-counter__text">{{ view.countdown }}</span></span>
+        <span class="peek-counter">
+          <span class="peek-counter__carriage"><span class="peek-counter__text">{{ view.countdown }}</span></span>
+        </span>
         <span class="peek-line peek-line--label peek-line--out">{{ "SESSION-TAB.TAB.UPCOMING-SHORT" | translate }}</span>
       </span>
-      <i class="fas peek-strip-chevron" [ngClass]="view.open ? 'fa-chevron-right' : 'fa-chevron-left'"></i>
+      <!-- One fixed icon, rotated when open, like the app's dropdown carets -->
+      <i class="fas fa-chevron-left peek-strip-chevron" aria-hidden="true"></i>
     </button>
 
     <!-- Panel body: off-screen while closed, revealed by the surface transform -->
