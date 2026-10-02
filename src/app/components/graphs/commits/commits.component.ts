@@ -717,18 +717,20 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.zoom = d3
       .zoom()
       .interpolate((p0: [number, number, number], p1: [number, number, number]) => {
-        const x0 = p0[0],
-          y0 = p0[1],
-          w0 = Math.max(1e-6, p0[2]);
-        const x1 = p1[0],
-          y1 = p1[1],
+        const w0 = Math.max(1e-6, p0[2]),
           w1 = Math.max(1e-6, p1[2]);
-        const dx = x1 - x0,
-          dy = y1 - y0;
-        return (t: number) => {
-          const wt = w0 === w1 ? w0 : w0 * Math.pow(w1 / w0, t);
-          return [x0 + t * dx, y0 + t * dy, wt];
-        };
+        /* k est interpolé linéairement, et non géométriquement. La perception du zoom est
+           proportionnelle à k alors que k géométrique ne l'est qu'en log(k) : sur un zoom guidé
+           type (séance de 2 h dans un domaine d'un mois, k de 1 à 288) le zoom géométrique
+           n'a fait que ~6 % de la taille finale à mi-parcours, alors que le déplacement est
+           déjà à 50 %. D'où une animation en deux temps, "ça bouge puis ça zoome".
+           En interpolant x et k tous deux linéairement, le point visé se déplace en ligne
+           droite à l'écran ET change de taille au même rythme : les deux mouvements sont
+           rigoureusement synchronisés, quel que soit le rapport de zoom. */
+        const dx = p1[0] - p0[0],
+          dy = p1[1] - p0[1],
+          dw = w1 - w0;
+        return (t: number) => [p0[0] + t * dx, p0[1] + t * dy, w0 + t * dw];
       })
       .on("start", (event) => {
         overview.hovered_commit = undefined;
@@ -3685,11 +3687,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     let target_k = (dt * visibleRatio) / sessionDuration;
     target_k = Math.max(1, Math.min(target_k, this.maxZoom));
 
-    let translate_x = 0;
-    if (target_k > 1) {
-      const centerTime = (startTime + endTime) / 2;
-      translate_x = this.inner_width / 2 - ((centerTime - minDate) / dt) * this.inner_width * target_k;
-    }
+    /* Toujours recentrer, même quand target_k est clamse à 1 (séance déjà aussi large
+       que la fenêtre) : le zoom seul ne doit pas laisser la séance décentrée. */
+    const centerTime = (startTime + endTime) / 2;
+    const translate_x = this.inner_width / 2 - ((centerTime - minDate) / dt) * this.inner_width * target_k;
 
     const transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
 
