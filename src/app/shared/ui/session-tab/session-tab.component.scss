@@ -103,20 +103,29 @@
   color: var(--color-text-secondary);
 }
 
-/* The counter is a full-height carriage whose text is pinned to the carriage's bottom. In the
-   running state its base IS the anchor: a change in the text length grows upward and never
-   moves the base, which is what removes the correction after the swap. It also means the
-   running position is translateY(0) — no measured value is involved in it at all. */
+/* Slot: slides into the panel and fades out when the panel opens, so the strip keeps only its
+   label. Only transform and opacity, both GPU-composited. */
 .peek-counter {
+  position: absolute;
+  inset: 0;
+  color: var(--color-primary);
+  will-change: transform, opacity;
+  transition: transform $transition-snap, opacity $transition-snap;
+}
+
+/* Carriage: the vertical swap. Its text is pinned to the carriage's bottom, so in the running
+   state the base IS the anchor: a change in the text length grows upward and never moves the
+   base, which is what removes the correction after the swap. It also means the running position
+   is translateY(0) — no measured value is involved in it at all. */
+.peek-counter__carriage {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  color: var(--color-primary);
   will-change: transform;
-  transition: transform $transition-tab-swap, color $transition-tab-swap;
+  transition: transform $transition-tab-swap;
   transform: translateY(0);
 }
 
@@ -146,10 +155,21 @@
 
 .peek.is-upcoming .peek-counter {
   color: var(--color-warning);
+}
+
+.peek.is-upcoming .peek-counter__carriage {
   /* Poser le haut franc : la boîte remonte de (hauteur du rail - hauteur du texte), qui est
      exactement --travel. Dans cette fenêtre le décompte fait toujours 4 caractères (4:59 -> 0:00),
      donc la valeur ne bouge jamais pendant l'état « à venir ». */
   transform: translateY(calc(-1 * var(--travel, 0px)));
+}
+
+/* Ouverture : le compteur s'efface vers le panneau, et plus vite que le panneau ne s'ouvre
+   (checklist d'Emil : sortie plus rapide que l'entrée). */
+.peek.is-open .peek-counter {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: transform $transition-snap-fast, opacity $transition-snap-fast;
 }
 
 .peek.is-upcoming .peek-line--out {
@@ -159,7 +179,15 @@
 .peek-strip-chevron {
   font-size: 0.6rem;
   color: var(--color-text-muted);
-  transition: transform $transition-fast;
+  transform-origin: 50% 50%;
+  /* Fermeture : le panneau rentre en 180ms, le chevron revient au même rythme */
+  transition: transform $transition-panel-exit;
+}
+
+/* Ouverture : même rythme que le panneau qui sort */
+.peek.is-open .peek-strip-chevron {
+  transform: rotate(180deg);
+  transition: transform $transition-panel-enter;
 }
 
 /* ---------- the panel body ---------- */
@@ -371,9 +399,13 @@
     transition: none;
   }
 
-  /* No travel: the swap snaps to its new position, only the colour eases */
+  /* No travel: positions snap, only the colour and the counter's fade ease */
   .peek-line,
-  .peek-counter {
+  .peek-counter__carriage {
     transition: color $transition-fast;
+  }
+
+  .peek-counter {
+    transition: opacity $transition-fast;
   }
 }
