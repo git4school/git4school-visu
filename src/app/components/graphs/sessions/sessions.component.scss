@@ -150,12 +150,18 @@
   box-shadow: var(--shadow-sm);
   border-radius: 12px;
   gap: 1.5rem;
+  flex-wrap: nowrap; /* The whole KPI band always stays on a single row */
+
+  @media (max-width: 992px) {
+    flex-wrap: wrap;
+  }
 }
 
 .metric-item {
   display: flex;
   flex-direction: column;
-  min-width: 140px;
+  flex: 1 1 140px;
+  min-width: 0;
 }
 
 .metric-label {
@@ -174,6 +180,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   color: var(--color-text-secondary);
   opacity: 0.65;
   cursor: help;
@@ -204,7 +211,7 @@
 .metric-value-tooltip {
   display: inline-flex;
   align-items: center;
-  cursor: help;
+  cursor: default;
   border-radius: 8px;
   padding: 0 0.3rem;
   margin-left: -0.3rem;
@@ -231,6 +238,7 @@
 
 .metric-divider {
   width: 1px;
+  flex-shrink: 0;
   height: 38px;
   background-color: var(--color-border);
 
