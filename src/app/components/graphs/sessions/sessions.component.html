@@ -170,9 +170,9 @@
     <!-- VIEW 1: MACRO OVERVIEW (selectedSessionIndex === -1) -->
     <div *ngIf="selectedSessionIndex === -1" class="macro-view-content d-flex flex-column flex-grow-1 mt-2" style="gap: 20px;">
       <!-- Compact Global Metrics Strip (Apple / Emil style) -->
-      <div class="metrics-strip border rounded-lg p-3 d-flex align-items-center justify-content-between flex-wrap">
+      <div class="metrics-strip border rounded-lg p-3 d-flex align-items-center justify-content-between">
         <!-- 1. Présence active moyenne -->
-        <div class="metric-item flex-fill">
+        <div class="metric-item">
           <span class="metric-label">
             {{ 'SESSIONS-GRAPH.KPIS.AVG_PARTICIPATION' | translate }}
             <span class="metric-info-badge" [appTooltip]="'SESSIONS-GRAPH.KPIS.AVG_PARTICIPATION_TOOLTIP' | translate">
@@ -192,7 +192,7 @@
         <div class="metric-divider"></div>
 
         <!-- 2. Répartition de l'effort (en séance vs autonome) -->
-        <div class="metric-item flex-fill">
+        <div class="metric-item">
           <span class="metric-label">
             {{ 'SESSIONS-GRAPH.KPIS.WORK_DISTRIBUTION' | translate }}
             <span class="metric-info-badge" [appTooltip]="'SESSIONS-GRAPH.KPIS.WORK_DISTRIBUTION_TOOLTIP' | translate">
@@ -219,7 +219,7 @@
         <div class="metric-divider"></div>
 
         <!-- 3. Séances planifiées & Heures encadrées -->
-        <div class="metric-item flex-fill">
+        <div class="metric-item">
           <span class="metric-label">{{ 'SESSIONS-GRAPH.KPIS.TOTAL_SESSIONS' | translate }}</span>
           <div class="metric-value-row d-flex align-items-baseline" style="gap: 6px;">
             <span class="metric-value">{{ macroStats?.totalSessionsCount }}</span>
@@ -231,7 +231,7 @@
         <div class="metric-divider"></div>
 
         <!-- 4. Questions résolues -->
-        <div class="metric-item flex-fill">
+        <div class="metric-item">
           <span class="metric-label">
             {{ 'SESSIONS-GRAPH.KPIS.QUESTIONS_RESOLVED' | translate }}
           </span>
@@ -364,9 +364,9 @@
       </div>
 
       <!-- Compact Session Metrics Strip (Apple / Emil style) -->
-      <div class="metrics-strip border rounded-lg p-3 d-flex align-items-center justify-content-between flex-wrap">
+      <div class="metrics-strip border rounded-lg p-3 d-flex align-items-center justify-content-between">
         <!-- 1. Taux de présence active -->
-        <div class="metric-item flex-fill">
+        <div class="metric-item">
           <span class="metric-label">
             {{ 'SESSIONS-GRAPH.KPIS.PARTICIPATION_RATE' | translate }}
             <span class="metric-info-badge" [appTooltip]="'SESSIONS-GRAPH.KPIS.PARTICIPATION_RATE_TOOLTIP' | translate">
@@ -388,7 +388,7 @@
         <div class="metric-divider"></div>
 
         <!-- 2. Commits réalisés -->
-        <div class="metric-item flex-fill">
+        <div class="metric-item">
           <span class="metric-label">{{ 'SESSIONS-GRAPH.KPIS.COMMITS_COUNT' | translate }}</span>
           <div class="metric-value-row d-flex align-items-baseline">
             <span class="metric-value">{{ getCurrentSessionStats()?.inSessionCommitsCount }}</span>
@@ -401,7 +401,7 @@
         <div class="metric-divider"></div>
 
         <!-- 3. Questions résolues -->
-        <div class="metric-item flex-fill">
+        <div class="metric-item">
           <span class="metric-label">
             {{ 'SESSIONS-GRAPH.KPIS.QUESTIONS_RESOLVED' | translate }}
           </span>
@@ -418,7 +418,7 @@
         <div class="metric-divider"></div>
 
         <!-- 4. Étudiant·es n'ayant résolu aucune question -->
-        <div class="metric-item flex-fill">
+        <div class="metric-item">
           <span class="metric-label">
             {{ 'SESSIONS-GRAPH.KPIS.STUDENTS_WITHOUT_RESOLVED_QUESTIONS' | translate }}
             <span class="metric-info-badge" [appTooltip]="'SESSIONS-GRAPH.KPIS.STUDENTS_WITHOUT_RESOLVED_QUESTIONS_TOOLTIP' | translate">
