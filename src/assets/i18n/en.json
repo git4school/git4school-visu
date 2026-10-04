@@ -224,6 +224,8 @@
     "CHANGE-TIME-SCALE-TOOLTIP": "Change the time scale",
     "DOWNLOAD-TOOLTIP": "Download current assignment configuration file",
     "RELOAD-TOOLTIP": "Reload",
+    "NOW-TOOLTIP": "Go to now",
+    "NOW-LABEL": "Now",
     "LEGEND": {
       "TITLE": "Legend",
       "COMMIT": "Commit",
@@ -272,6 +274,7 @@
     "GRAPH_ZOOM_IN": "Zoom in",
     "GRAPH_ZOOM_OUT": "Zoom out",
     "GRAPH_RESET_ZOOM": "Reset zoom",
+    "GRAPH_GO_NOW": "Go to now",
     "GRAPH_SESSION_NAV": "Previous / next session",
     "GRAPH_RELOAD": "Reload data",
     "GRAPH_COPY_HASH": "Copy hovered commit hash",
