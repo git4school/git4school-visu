@@ -26,6 +26,7 @@ import { ThemeService } from "@services/theme.service";
 import { TooltipService } from "@services/tooltip.service";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 import { AnonymizationService } from "@services/anonymization.service";
+import { ClockService } from "@services/clock.service";
 import { Subject, Subscription, concat } from "rxjs";
 import { skip, takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
@@ -126,6 +127,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   commits_line_g: d3.Selection<any, any, any, any>;
   data_g: d3.Selection<any, any, any, any>;
   commits_g: d3.Selection<any, any, any, any>;
+  now_g: d3.Selection<any, any, any, any>;
 
   x_scale: d3.ScaleTime<any, any, any>;
   x_scale_copy: d3.ScaleTime<any, any, any>; // Used by zooming
@@ -162,6 +164,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   private last_zoom_k = 0;
   private zoomTimeoutId: any = null;
   private zoomRafId: number | null = null;
+  private nowTicker: any = null;
+  private nowLabelWidth = 56;
   isRefreshing = false;
   private isThrottledGroupUpdate = false;
   private needsGroupUpdate = false;
@@ -257,6 +261,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     public anonymizationService: AnonymizationService,
     private ngZone: NgZone,
     public overlayManagerService: OverlayManagerService,
+    private clockService: ClockService,
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -311,6 +316,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_session = undefined;
       }
     });
+
+    /* Follow the simulated clock (dev bar) and keep the "now" marker in sync with wall time. */
+    this.clockService.offsetMs$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.tickNowIndicator();
+    });
+    this.nowTicker = setInterval(() => this.tickNowIndicator(), 60000);
   }
 
   pressedShortcut: string = null;
@@ -360,6 +371,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       event.preventDefault();
       this.resetZoom(false);
       this.triggerShortcut("space");
+    } else if (key === "m" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      event.preventDefault();
+      this.focusNow();
+      this.triggerShortcut("m");
     } else if (event.key === "ArrowLeft" && !event.ctrlKey && !event.metaKey && !event.altKey) {
       event.preventDefault();
       this.navigateToNextSession(-1);
@@ -408,6 +423,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (this.zoomRafId !== null) {
       cancelAnimationFrame(this.zoomRafId);
       this.zoomRafId = null;
+    }
+    if (this.nowTicker) {
+      clearInterval(this.nowTicker);
+      this.nowTicker = null;
     }
     if (this.sessionClickTimer) {
       clearTimeout(this.sessionClickTimer);
@@ -652,6 +671,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       suggestionLimit: 5,
     };
     this.updateSessionsTransforms();
+    this.updateNowIndicator();
   }
 
   loadGraph(startDate?: string, endDate?: string) {
@@ -708,6 +728,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.loadPoints();
     this.loadAnnotations();
     this.setupZoom(conserveZoom);
+    this.updateNowIndicator();
   }
 
   setupZoom(conserveZoom: boolean = false) {
@@ -905,6 +926,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.data_g = this.chart_svg.append("g");
 
     this.chart_abs_g = this.svg_abs.append("g").attr("transform", "translate(" + translation + ")");
+    this.now_g = null;
 
     d3.select(".chart-selection-container").selectAll("svg").remove();
     this.svg_selection = d3
@@ -1115,6 +1137,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.loadSessions();
     }
     this.updateMilestoneCutoutMask();
+    if (this.now_g) {
+      this.now_g.raise();
+    }
   }
 
   loadMilestoneAnnotations() {
@@ -1189,6 +1214,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.updateMilestoneCutoutMask();
     if (this.session_header_g) {
       this.session_header_g.raise();
+    }
+    if (this.now_g) {
+      this.now_g.raise();
     }
   }
 
@@ -2945,6 +2973,14 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       maxDate = ext[1];
     }
 
+    // While the assignment is running, extend the domain up to "now" so the
+    // current-time marker stays visible and the last-commit -> now gap is shown.
+    if (this.isAssignmentInProgress()) {
+      const now = this.clockService.now();
+      if (now < minDate) minDate = now;
+      if (now > maxDate) maxDate = now;
+    }
+
     // Add 2% padding to the graph's time domain so elements don't touch the edges
     if (minDate && maxDate) {
       let timeDiff = maxDate.getTime() - minDate.getTime();
@@ -2952,6 +2988,16 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       let padding = timeDiff * 0.02;
       minDate = new Date(minDate.getTime() - padding);
       maxDate = new Date(maxDate.getTime() + padding);
+    }
+
+    // Keep a minimum forward headroom while the assignment runs so the "now"
+    // marker does not outrun the domain and force frequent full re-renders.
+    if (minDate && maxDate && this.isAssignmentInProgress()) {
+      const now = this.clockService.now();
+      const minHeadroom = 30 * 60 * 1000;
+      if (maxDate.getTime() < now.getTime() + minHeadroom) {
+        maxDate = new Date(now.getTime() + minHeadroom);
+      }
     }
 
     this.setupAxis(repositories, minDate, maxDate);
@@ -3135,9 +3181,131 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return this.x_scale_copy(d) + this.getOffset(d);
   }
 
+  /** True while the assignment window covers the app's current time. */
+  isAssignmentInProgress(now: Date = this.clockService.now()): boolean {
+    const start = this.dataService.startDate ? new Date(this.dataService.startDate) : null;
+    const end = this.dataService.endDate ? new Date(this.dataService.endDate) : null;
+    if (!start || !end || isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return false;
+    }
+    const t = now.getTime();
+    return t >= start.getTime() && t <= end.getTime();
+  }
+
+  /** Animate the viewport to a 24h window centered on the current time. */
+  focusNow() {
+    const now = this.clockService.now();
+    if (!this.isAssignmentInProgress(now)) {
+      return;
+    }
+
+    const domain = this.x_scale ? this.x_scale.domain() : null;
+    const domainSpan = domain ? domain[1].getTime() - domain[0].getTime() : 0;
+
+    /* If the whole domain already fits in 24h, a full reset shows everything. */
+    if (domainSpan <= 24 * 60 * 60 * 1000) {
+      this.resetZoom(false);
+      return;
+    }
+
+    const halfWindow = 12 * 60 * 60 * 1000;
+    this.zoomToDateRange(new Date(now.getTime() - halfWindow), new Date(now.getTime() + halfWindow), 0);
+  }
+
+  updateNowIndicator() {
+    if (!this.chart_abs_g || !this.x_scale_copy) {
+      return;
+    }
+
+    const now = this.clockService.now();
+    if (!this.isAssignmentInProgress(now)) {
+      this.hideNowIndicator();
+      return;
+    }
+
+    const x = this.xScaledTimeZoned(now);
+    if (isNaN(x) || x < 0 || x > this.inner_width) {
+      this.hideNowIndicator();
+      return;
+    }
+
+    this.ensureNowIndicator();
+
+    const plotHeight = this.inner_height;
+    this.now_g.style("display", null).attr("transform", `translate(${x}, ${this.inner_margin.top})`);
+    this.now_g.select(".now-line").attr("y1", 0).attr("y2", plotHeight);
+
+    const labelText = `${this.translateService.instant("OVERVIEW-GRAPH.NOW-LABEL")} ${CommitsComponent.formatHour(now)}`;
+    const text = this.now_g.select(".now-label-text");
+    if (text.text() !== labelText) {
+      text.text(labelText);
+      const node = text.node() as SVGTextElement;
+      if (node && typeof node.getBBox === "function") {
+        this.nowLabelWidth = Math.max(56, node.getBBox().width + 14);
+      }
+    }
+
+    const width = this.nowLabelWidth;
+    const height = 16;
+    let pillX = -width / 2;
+    if (x + pillX + width > this.inner_width) {
+      pillX = this.inner_width - x - width;
+    }
+    if (x + pillX < 0) {
+      pillX = -x;
+    }
+
+    const bgY = plotHeight - height - 4;
+    this.now_g
+      .select(".now-label-bg")
+      .attr("x", pillX)
+      .attr("y", bgY)
+      .attr("width", width)
+      .attr("height", height)
+      .attr("rx", height / 2)
+      .attr("ry", height / 2);
+    text.attr("x", pillX + width / 2).attr("y", bgY + height / 2);
+
+    const node = this.now_g.node();
+    if (node && node.parentNode && node.parentNode.lastElementChild !== node) {
+      this.now_g.raise();
+    }
+  }
+
+  private ensureNowIndicator() {
+    if (this.now_g && this.now_g.node() && this.now_g.node().isConnected) {
+      return;
+    }
+
+    this.now_g = this.chart_abs_g.append("g").attr("class", "now-indicator").style("pointer-events", "none");
+    this.now_g.append("line").attr("class", "now-line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", 0);
+
+    const label = this.now_g.append("g").attr("class", "now-label");
+    label.append("rect").attr("class", "now-label-bg");
+    label.append("text").attr("class", "now-label-text").attr("text-anchor", "middle").attr("dominant-baseline", "central");
+  }
+
+  private hideNowIndicator() {
+    if (this.now_g) {
+      this.now_g.style("display", "none");
+    }
+  }
+
+  /** Called by the clock subscription / ticker; extends the domain if wall time outran it. */
+  private tickNowIndicator() {
+    const now = this.clockService.now();
+    const domain = this.x_scale ? this.x_scale.domain() : null;
+    if (domain && this.isAssignmentInProgress(now) && (now.getTime() > domain[1].getTime() || now.getTime() < domain[0].getTime())) {
+      this.loadGraphDataAndRefresh(true);
+      return;
+    }
+    this.updateNowIndicator();
+  }
+
   refreshElementState() {
     this.updateNodesVisibilityAndTransforms();
     this.updateMilestoneVisibility();
+    this.updateNowIndicator();
 
     if (!this.repositories_g) return;
 

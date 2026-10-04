@@ -35,6 +35,7 @@ $font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Robot
   --color-warning: #d97706;       // Amber/Orange: Warnings, dates, highlights
   --color-warning-bg: rgba(217, 119, 6, 0.12);
   --color-info: #0ea5e9;          // Light blue for info
+  --color-now: #7c3aed;           // Violet: "now" marker on timelines
 
   /* Provider Colors */
   --color-github: #181717;
@@ -123,6 +124,7 @@ body.dark-theme {
   --color-warning: #f59e0b;       // Brighter amber
   --color-warning-bg: rgba(245, 158, 11, 0.18);
   --color-info: #38bdf8;          // Light blue
+  --color-now: #a78bfa;           // Brighter violet: "now" marker on timelines
 
   /* Provider Colors */
   --color-github: #fff;
@@ -194,6 +196,7 @@ $color-danger: var(--color-danger);
 $color-danger-bg: var(--color-danger-bg);
 $color-warning: var(--color-warning);
 $color-info: var(--color-info);
+$color-now: var(--color-now);
 
 $shadow-sm: var(--shadow-sm);
 $shadow-md: var(--shadow-md);

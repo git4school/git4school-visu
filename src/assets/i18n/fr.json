@@ -223,6 +223,8 @@
     "CHANGE-TIME-SCALE-TOOLTIP": "Changer l'échelle de temps",
     "DOWNLOAD-TOOLTIP": "Télécharger le fichier de configuration du devoir courant",
     "RELOAD-TOOLTIP": "Recharger",
+    "NOW-TOOLTIP": "Aller à l'instant présent",
+    "NOW-LABEL": "Maintenant",
     "LEGEND": {
       "TITLE": "Légende",
       "COMMIT": "Commit",
@@ -271,6 +273,7 @@
     "GRAPH_ZOOM_IN": "Zoomer",
     "GRAPH_ZOOM_OUT": "Dézoomer",
     "GRAPH_RESET_ZOOM": "Réinitialiser le zoom",
+    "GRAPH_GO_NOW": "Aller à l'instant présent",
     "GRAPH_SESSION_NAV": "Séance précédente / suivante",
     "GRAPH_RELOAD": "Recharger les données",
     "GRAPH_COPY_HASH": "Copier le hash du commit survolé",

@@ -454,6 +454,34 @@ body.dark-theme .commit {
   }
 }
 
+/* "Now" marker — repère discret de l'instant présent sur l'axe temporel. */
+.now-indicator {
+  pointer-events: none;
+
+  .now-line {
+    stroke: var(--color-now);
+    stroke-width: 1px;
+    stroke-dasharray: 4 3;
+    stroke-opacity: 0.55;
+  }
+
+  .now-label-bg {
+    fill: var(--color-surface);
+    stroke: var(--color-now);
+    stroke-width: 1px;
+    stroke-opacity: 0.5;
+  }
+
+  .now-label-text {
+    fill: var(--color-now);
+    font-family: var(--font-family-sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    user-select: none;
+  }
+}
+
 /* Session edge arrows — Navigation entre séances superposées
  * Ghost par défaut, reveal au hover, feedback physique au clic.
  * Padding étendu pour une zone de clic confortable sans encombrer. */
