@@ -2973,9 +2973,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       maxDate = ext[1];
     }
 
-    // While the assignment is running, extend the domain up to "now" so the
-    // current-time marker stays visible and the last-commit -> now gap is shown.
-    if (this.isAssignmentInProgress()) {
+    // When "now" is within the assignment window (or that window is unbounded),
+    // extend the domain up to it so the marker stays visible and the gap is shown.
+    if (this.isNowInAssignmentWindow()) {
       const now = this.clockService.now();
       if (now < minDate) minDate = now;
       if (now > maxDate) maxDate = now;
@@ -2990,9 +2990,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       maxDate = new Date(maxDate.getTime() + padding);
     }
 
-    // Keep a minimum forward headroom while the assignment runs so the "now"
-    // marker does not outrun the domain and force frequent full re-renders.
-    if (minDate && maxDate && this.isAssignmentInProgress()) {
+    // Keep a minimum forward headroom so the "now" marker does not outrun the
+    // domain and force frequent full re-renders.
+    if (minDate && maxDate && this.isNowInAssignmentWindow()) {
       const now = this.clockService.now();
       const minHeadroom = 30 * 60 * 1000;
       if (maxDate.getTime() < now.getTime() + minHeadroom) {
@@ -3181,21 +3181,29 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return this.x_scale_copy(d) + this.getOffset(d);
   }
 
-  /** True while the assignment window covers the app's current time. */
-  isAssignmentInProgress(now: Date = this.clockService.now()): boolean {
+  /**
+   * True unless "now" is before the assignment start or after its end.
+   * Each bound is optional: a missing (or invalid) date imposes no constraint,
+   * so an assignment without dates always shows the current-time marker.
+   */
+  isNowInAssignmentWindow(now: Date = this.clockService.now()): boolean {
     const start = this.dataService.startDate ? new Date(this.dataService.startDate) : null;
     const end = this.dataService.endDate ? new Date(this.dataService.endDate) : null;
-    if (!start || !end || isNaN(start.getTime()) || isNaN(end.getTime())) {
+    const t = now.getTime();
+
+    if (start && !isNaN(start.getTime()) && t < start.getTime()) {
       return false;
     }
-    const t = now.getTime();
-    return t >= start.getTime() && t <= end.getTime();
+    if (end && !isNaN(end.getTime()) && t > end.getTime()) {
+      return false;
+    }
+    return true;
   }
 
   /** Animate the viewport to a 24h window centered on the current time. */
   focusNow() {
     const now = this.clockService.now();
-    if (!this.isAssignmentInProgress(now)) {
+    if (!this.isNowInAssignmentWindow(now)) {
       return;
     }
 
@@ -3218,7 +3226,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
 
     const now = this.clockService.now();
-    if (!this.isAssignmentInProgress(now)) {
+    if (!this.isNowInAssignmentWindow(now)) {
       this.hideNowIndicator();
       return;
     }
@@ -3295,7 +3303,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   private tickNowIndicator() {
     const now = this.clockService.now();
     const domain = this.x_scale ? this.x_scale.domain() : null;
-    if (domain && this.isAssignmentInProgress(now) && (now.getTime() > domain[1].getTime() || now.getTime() < domain[0].getTime())) {
+    if (domain && this.isNowInAssignmentWindow(now) && (now.getTime() > domain[1].getTime() || now.getTime() < domain[0].getTime())) {
       this.loadGraphDataAndRefresh(true);
       return;
     }
