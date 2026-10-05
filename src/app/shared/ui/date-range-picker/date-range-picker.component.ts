@@ -560,6 +560,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       if (field === "day") this.endDayStr = value;
       else if (field === "month") this.endMonthStr = value;
       else if (field === "year") this.endYearStr = value;
+      else if (field === "hour") this.endHourStr = value;
+      else if (field === "minute") this.endMinuteStr = value;
     }
   }
 
@@ -774,7 +776,12 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       startEls.push(this.startHourEl, this.startMinuteEl);
     }
 
-    if (this.isSingleDate) return startEls;
+    if (this.isSingleDate) {
+      if (this.mode === "datetime-period") {
+        startEls.push(this.endHourEl, this.endMinuteEl);
+      }
+      return startEls;
+    }
 
     const endEls = this.isFrench ? [this.endDayEl, this.endMonthEl, this.endYearEl] : [this.endMonthEl, this.endDayEl, this.endYearEl];
 
@@ -819,8 +826,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     const day = this.isSingleDate ? this.startDayStr : isStart ? this.startDayStr : this.endDayStr;
     const month = this.isSingleDate ? this.startMonthStr : isStart ? this.startMonthStr : this.endMonthStr;
     const year = this.isSingleDate ? this.startYearStr : isStart ? this.startYearStr : this.endYearStr;
-    const hour = isStart && this.hasTime && this.isSingleDate ? this.startHourStr : null;
-    const minute = isStart && this.hasTime && this.isSingleDate ? this.startMinuteStr : null;
+    const hour = this.hasTime && this.isSingleDate ? this.startHourStr : null;
+    const minute = this.hasTime && this.isSingleDate ? this.startMinuteStr : null;
 
     if (day.length === 0 && month.length === 0 && year.length === 0) {
       if (this.isSingleDate) this.setSingleDate(null);
@@ -843,18 +850,10 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       if (!parsed.isValid()) return;
 
       if (this.isSingleDate) {
-        this.setSingleDate(parsed);
         if (this.mode === "datetime-period") {
-          if (
-            this.endHourStr.length === 2 &&
-            this.endMinuteStr.length === 2 &&
-            this.startHourStr.length === 2 &&
-            this.startMinuteStr.length === 2
-          ) {
-            this.startTime = `${this.startHourStr}:${this.startMinuteStr}`;
-            this.endTime = `${this.endHourStr}:${this.endMinuteStr}`;
-            this.periodChange.emit({ start: this.startTime, end: this.endTime });
-          }
+          this.applyPeriodTimes(parsed);
+        } else {
+          this.setSingleDate(parsed);
         }
         return;
       }
@@ -874,5 +873,47 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         }
       }
     }
+  }
+
+  /**
+   * Applies the datetime-period time fields after a date parse.
+   * Keeps the period within a single day by swapping the times when the end is before the start,
+   * mirroring the clock picker and the date-range swap behavior.
+   */
+  private applyPeriodTimes(parsedDate: moment.Moment): void {
+    const startHour = this.startHourStr;
+    const startMinute = this.startMinuteStr;
+    const endHour = this.endHourStr;
+    const endMinute = this.endMinuteStr;
+
+    if (startHour.length !== 2 || startMinute.length !== 2 || endHour.length !== 2 || endMinute.length !== 2) {
+      this.setSingleDate(parsedDate);
+      return;
+    }
+
+    let start = `${startHour}:${startMinute}`;
+    let end = `${endHour}:${endMinute}`;
+
+    if (this.timeToMinutes(start) > this.timeToMinutes(end)) {
+      [start, end] = [end, start];
+    }
+
+    const startDate = parsedDate
+      .clone()
+      .hour(parseInt(start.slice(0, 2), 10))
+      .minute(parseInt(start.slice(3, 5), 10));
+    this.setSingleDate(startDate);
+    this.startHourStr = start.slice(0, 2);
+    this.startMinuteStr = start.slice(3, 5);
+    this.endHourStr = end.slice(0, 2);
+    this.endMinuteStr = end.slice(3, 5);
+    this.startTime = start;
+    this.endTime = end;
+    this.periodChange.emit({ start, end });
+  }
+
+  private timeToMinutes(time: string): number {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
   }
 }
