@@ -761,10 +761,21 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         return (t: number) => [p0[0] + t * dx, p0[1] + t * dy, w0 + t * dw];
       })
       .on("start", (event) => {
+        const hadChartHover =
+          overview.hovered_commit != null ||
+          overview.hovered_group_commit != null ||
+          overview.hovered_session != null ||
+          overview.hovered_milestone != null ||
+          overview.hovered_repository != null;
+
         overview.hovered_commit = undefined;
         overview.hovered_group_commit = undefined;
         overview.hovered_g = null;
-        overview.tooltipService.hide();
+        /* Only dismiss the chart's own hover tooltip; leave a toolbar button
+           tooltip alive so its keycap animation stays visible on shortcut use. */
+        if (hadChartHover) {
+          overview.tooltipService.hide();
+        }
         if (event.sourceEvent != null) {
           overview.overlayManagerService.dismissAll({ blurInput: true });
         }
@@ -3228,7 +3239,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   updateNowIndicator() {
-    if (!this.chart_abs_g || !this.x_scale_copy) {
+    if (!this.chart_selection_g || !this.x_scale_copy) {
       return;
     }
 
@@ -3307,7 +3318,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       return;
     }
 
-    this.now_g = this.chart_abs_g.append("g").attr("class", "now-indicator").style("pointer-events", "none");
+    /* The selection overlay sits above the scrollable data layer, so the "now"
+       marker can receive hover there (the transparent #data rect would otherwise
+       swallow pointer events across the whole plot). */
+    this.now_g = this.chart_selection_g.append("g").attr("class", "now-indicator").style("pointer-events", "none");
     this.now_g.append("line").attr("class", "now-line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", 0);
 
     const label = this.now_g.append("g").attr("class", "now-label");
