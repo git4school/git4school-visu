@@ -829,6 +829,28 @@
       "UNIT-HOUR": "h",
       "UNIT-MINUTE": "min",
       "RESET-TOAST": "Horloge simulée réinitialisée."
+    },
+    "MOCK": {
+      "TITLE": "Mock Git",
+      "GITLAB": "Tester GitLab",
+      "GITLAB-TOOLTIP": "Activer/désactiver le compte GitLab simulé (prof.turing @ gitlab.univ-tlse3.fr)",
+      "GITLAB-ON": "Compte GitLab simulé activé (prof.turing @ gitlab.univ-tlse3.fr).",
+      "GITLAB-OFF": "Compte GitLab simulé désactivé.",
+      "GITHUB": "Tester GitHub",
+      "GITHUB-TOOLTIP": "Activer/désactiver le compte GitHub simulé (prof.octocat)",
+      "GITHUB-ON": "Compte GitHub simulé activé (prof.octocat).",
+      "GITHUB-OFF": "Compte GitHub simulé désactivé."
+    },
+    "FIXTURE": {
+      "LABEL": "Démo",
+      "TOOLTIP": "Charger un devoir de démonstration avec des données simulées",
+      "HEADER": "Devoir de démonstration",
+      "GITHUB": "Démo GitHub",
+      "GITLAB": "Démo GitLab",
+      "CLEAR": "Désactiver la démo",
+      "GITHUB-LOADED": "Devoir de démonstration GitHub chargé (6 étudiants).",
+      "GITLAB-LOADED": "Devoir de démonstration GitLab chargé (6 étudiants).",
+      "CLEARED": "Mode démonstration désactivé."
     }
   },
   "SESSION-TAB": {

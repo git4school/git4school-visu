@@ -381,6 +381,14 @@
   }
 }
 
+/* Right-aligned popover variant (used by the right section to avoid overflow) */
+.dev-popover-right {
+  right: 0;
+  left: auto;
+  transform: none;
+  animation: popoverFadeInRight 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 @keyframes popoverFadeIn {
   from {
     opacity: 0;
@@ -390,6 +398,18 @@
   to {
     opacity: 1;
     transform: translate(-50%, 0);
+  }
+}
+
+@keyframes popoverFadeInRight {
+  from {
+    opacity: 0;
+    transform: translate(0, 6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
   }
 }
 

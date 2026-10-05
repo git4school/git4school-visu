@@ -90,35 +90,6 @@
       </div>
     </div>
 
-    <!-- Modals Menu -->
-    <div class="dev-btn-group position-relative">
-      <button
-        type="button"
-        class="dev-bar-btn"
-        [class.active]="activePopover === 'modals'"
-        (click)="togglePopover('modals')"
-        [appTooltip]="'Ouvrir une modale de l\'application'"
-        placement="top"
-      >
-        <i class="fas fa-window-restore mr-1.5"></i>
-        <span>Modales</span>
-        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
-      </button>
-
-      <!-- Modals Popover -->
-      <div *ngIf="activePopover === 'modals'" class="dev-popover">
-        <div class="popover-header">Ouvrir une modale</div>
-        <div class="popover-body">
-          <button type="button" class="btn-pop-action" (click)="openAccountsModal()">
-            <i class="fas fa-user-plus mr-1.5 text-primary"></i> Comptes Git
-          </button>
-          <button type="button" class="btn-pop-action" (click)="openShortcutsModal()">
-            <i class="fas fa-keyboard mr-1.5 text-primary"></i> Raccourcis clavier
-          </button>
-        </div>
-      </div>
-    </div>
-
     <!-- Simulated Clock Menu -->
     <div class="dev-btn-group position-relative">
       <button
@@ -173,18 +144,6 @@
       </div>
     </div>
 
-    <!-- Theme Switcher -->
-    <button
-      type="button"
-      class="dev-bar-btn"
-      (click)="toggleTheme()"
-      [appTooltip]="themeService.isDarkMode ? 'Passer en mode clair' : 'Passer en mode sombre'"
-      placement="top"
-    >
-      <i class="fas mr-1.5" [ngClass]="themeService.isDarkMode ? 'fa-sun text-warning' : 'fa-moon'"></i>
-      <span>{{ themeService.isDarkMode ? 'Clair' : 'Sombre' }}</span>
-    </button>
-
     <!-- Storage Reset -->
     <button
       type="button"
@@ -206,13 +165,58 @@
       class="dev-flag-toggle"
       [class.is-enabled]="mockGitlabInstanceService.isMockActive"
       (click)="toggleMockGitlab()"
-      [appTooltip]="(mockGitlabInstanceService.isMockActive ? 'Désactiver' : 'Activer') + ' le mock GitLab (UT3)'"
+      [appTooltip]="'DEV-BAR.MOCK.GITLAB-TOOLTIP' | translate"
       placement="top"
     >
-      <i class="fas fa-server mr-1.5"></i>
-      <span>Tester Instance GitLab</span>
+      <i class="fab fa-gitlab mr-1.5"></i>
+      <span>{{ "DEV-BAR.MOCK.GITLAB" | translate }}</span>
       <span class="flag-switch"></span>
     </button>
+
+    <!-- Mock GitHub Instance Toggle -->
+    <button
+      type="button"
+      class="dev-flag-toggle"
+      [class.is-enabled]="mockGithubInstanceService.isMockActive"
+      (click)="toggleMockGithub()"
+      [appTooltip]="'DEV-BAR.MOCK.GITHUB-TOOLTIP' | translate"
+      placement="top"
+    >
+      <i class="fab fa-github mr-1.5"></i>
+      <span>{{ "DEV-BAR.MOCK.GITHUB" | translate }}</span>
+      <span class="flag-switch"></span>
+    </button>
+
+    <!-- Demo Fixture Loader -->
+    <div class="dev-btn-group position-relative">
+      <button
+        type="button"
+        class="dev-bar-btn"
+        [class.active]="activePopover === 'demo'"
+        (click)="togglePopover('demo')"
+        [appTooltip]="'DEV-BAR.FIXTURE.TOOLTIP' | translate"
+        placement="top"
+      >
+        <i class="fas fa-flask mr-1.5"></i>
+        <span>{{ "DEV-BAR.FIXTURE.LABEL" | translate }}</span>
+        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+      </button>
+
+      <div *ngIf="activePopover === 'demo'" class="dev-popover dev-popover-right">
+        <div class="popover-header">{{ "DEV-BAR.FIXTURE.HEADER" | translate }}</div>
+        <div class="popover-body">
+          <button type="button" class="btn-pop-action" (click)="loadDemo('github')">
+            <i class="fab fa-github mr-1.5"></i> {{ "DEV-BAR.FIXTURE.GITHUB" | translate }}
+          </button>
+          <button type="button" class="btn-pop-action" (click)="loadDemo('gitlab')">
+            <i class="fab fa-gitlab mr-1.5"></i> {{ "DEV-BAR.FIXTURE.GITLAB" | translate }}
+          </button>
+          <button type="button" class="btn-pop-action toast-warning" (click)="clearDemo()">
+            <i class="fas fa-times-circle mr-1.5"></i> {{ "DEV-BAR.FIXTURE.CLEAR" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Minimize Button -->
     <button

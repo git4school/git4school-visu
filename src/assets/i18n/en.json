@@ -829,6 +829,28 @@
       "UNIT-HOUR": "h",
       "UNIT-MINUTE": "min",
       "RESET-TOAST": "Simulated clock reset."
+    },
+    "MOCK": {
+      "TITLE": "Mock Git",
+      "GITLAB": "Test GitLab",
+      "GITLAB-TOOLTIP": "Toggle the mocked GitLab account (prof.turing @ gitlab.univ-tlse3.fr)",
+      "GITLAB-ON": "Mocked GitLab account enabled (prof.turing @ gitlab.univ-tlse3.fr).",
+      "GITLAB-OFF": "Mocked GitLab account disabled.",
+      "GITHUB": "Test GitHub",
+      "GITHUB-TOOLTIP": "Toggle the mocked GitHub account (prof.octocat)",
+      "GITHUB-ON": "Mocked GitHub account enabled (prof.octocat).",
+      "GITHUB-OFF": "Mocked GitHub account disabled."
+    },
+    "FIXTURE": {
+      "LABEL": "Demo",
+      "TOOLTIP": "Load a demo assignment backed by simulated data",
+      "HEADER": "Demo assignment",
+      "GITHUB": "GitHub demo",
+      "GITLAB": "GitLab demo",
+      "CLEAR": "Disable demo mode",
+      "GITHUB-LOADED": "GitHub demo assignment loaded (6 students).",
+      "GITLAB-LOADED": "GitLab demo assignment loaded (6 students).",
+      "CLEARED": "Demo mode disabled."
     }
   },
   "SESSION-TAB": {
