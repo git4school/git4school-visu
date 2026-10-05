@@ -821,40 +821,61 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     this.data_g = this.data_g.call(this.zoom).on("dblclick.zoom", null);
 
-    d3.select(".chart-container").on(
-      "wheel",
-      (event: WheelEvent) => {
-        // Zooming is handled by d3.zoom if shiftKey is pressed
-        if (event.shiftKey) return;
-
-        let dx = event.deltaX;
-        let dy = event.deltaY;
-
-        // Handle ctrl+wheel to scroll horizontally if the device only emits deltaY
-        if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
-          dx = dy;
-          dy = 0;
-        }
-
-        // If there is significant horizontal scrolling, or ctrl key is pressed
-        if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
-          overview.overlayManagerService.dismissAll();
-          event.preventDefault(); // Prevent browser back/forward or default scroll
-          event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
-
-          if (this.zoom && this.data_g) {
-            // Pan horizontally
-            this.data_g.call(this.zoom.translateBy, -dx / (this.current_zoom?.k || 1), 0);
-          }
-        }
-      },
-      { passive: false },
-    );
+    d3.select(".chart-container").on("wheel", (event: WheelEvent) => this.handleGraphWheel(event), { passive: false });
 
     if (conserveZoom) {
       this.resetZoom(true);
     } else {
       this.resetZoom(false);
+    }
+  }
+
+  /** Horizontal pan (and ctrl+wheel) shared by the chart body and the "now" marker. */
+  private handleGraphWheel(event: WheelEvent) {
+    // Zooming is handled by d3.zoom if shiftKey is pressed
+    if (event.shiftKey) return;
+
+    let dx = event.deltaX;
+    let dy = event.deltaY;
+
+    // Handle ctrl+wheel to scroll horizontally if the device only emits deltaY
+    if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
+      dx = dy;
+      dy = 0;
+    }
+
+    // If there is significant horizontal scrolling, or ctrl key is pressed
+    if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+      this.overlayManagerService.dismissAll();
+      event.preventDefault(); // Prevent browser back/forward or default scroll
+      event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
+
+      if (this.zoom && this.data_g) {
+        // Pan horizontally
+        this.data_g.call(this.zoom.translateBy, -dx / (this.current_zoom?.k || 1), 0);
+      }
+    }
+  }
+
+  /**
+   * Wheel over the "now" marker must behave like the chart body: pan horizontally,
+   * and forward vertical wheel to the scrollable repo list (the marker lives in a
+   * separate overlay, so the native scroll would not reach it).
+   */
+  private handleNowWheel(event: WheelEvent) {
+    if (event.shiftKey) return;
+
+    const isHorizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.ctrlKey;
+    if (isHorizontal) {
+      this.handleGraphWheel(event);
+      return;
+    }
+
+    const container = document.querySelector(".chart-container") as HTMLElement;
+    if (container) {
+      container.scrollTop += event.deltaY;
+      container.scrollLeft += event.deltaX;
+      event.preventDefault();
     }
   }
 
@@ -3322,6 +3343,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
        marker can receive hover there (the transparent #data rect would otherwise
        swallow pointer events across the whole plot). */
     this.now_g = this.chart_selection_g.append("g").attr("class", "now-indicator").style("pointer-events", "none");
+    this.now_g.on("wheel", (event: WheelEvent) => this.handleNowWheel(event), { passive: false });
     this.now_g.append("line").attr("class", "now-line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", 0);
 
     const label = this.now_g.append("g").attr("class", "now-label");
