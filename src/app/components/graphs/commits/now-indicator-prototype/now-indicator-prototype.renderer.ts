@@ -1,5 +1,5 @@
-/* PROTOTYPE — renders the three "now" indicator variants (A / F / G) into the
- * commits graph. Dev-only, removed once a variant is chosen.
+/* PROTOTYPE — renders the "now" indicator variants (A / G) into the commits
+ * graph. Dev-only, removed once a variant is chosen.
  * See AGENTS.md §1 "Prototypes". */
 import * as d3 from "d3";
 import { NowIndicatorVariant } from "./now-indicator-prototype.service";
@@ -13,20 +13,20 @@ export interface NowIndicatorPrototypeContext {
 }
 
 export class NowIndicatorPrototypeRenderer {
+  private static readonly HITBOX_HALF_WIDTH = 10;
+
   static render(host: d3.Selection<any, any, any, any>, variant: NowIndicatorVariant, ctx: NowIndicatorPrototypeContext): void {
     if (!host || host.empty()) {
       return;
     }
 
     host.selectAll("*").remove();
+    host.classed("proto-now-hover", false);
     host.style("display", null).attr("transform", `translate(${ctx.x}, ${ctx.top})`);
 
     switch (variant) {
       case "A":
-        this.renderGhostLine(host, ctx);
-        break;
-      case "F":
-        this.renderFutureBand(host, ctx);
+        this.renderCursorLine(host, ctx);
         break;
       case "G":
         this.renderAxisFlag(host, ctx);
@@ -36,23 +36,70 @@ export class NowIndicatorPrototypeRenderer {
     }
   }
 
-  /** A — faint dashed line across the plot + a dot on the x-axis; time on hover. */
-  private static renderGhostLine(host: d3.Selection<any, any, any, any>, ctx: NowIndicatorPrototypeContext): void {
+  /** A — dotted reference line; hovering reveals a pill that follows the cursor. */
+  private static renderCursorLine(host: d3.Selection<any, any, any, any>, ctx: NowIndicatorPrototypeContext): void {
     host.append("line").attr("class", "proto-now-line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", ctx.plotHeight);
 
-    host.append("circle").attr("class", "proto-now-dot").attr("cx", 0).attr("cy", ctx.plotHeight).attr("r", 3.5);
+    const pill = host.append("g").attr("class", "proto-now-pill");
+    const content = pill.append("g").attr("class", "proto-now-pill-content");
 
-    this.appendHoverLabel(host, ctx);
-    this.appendHitbox(host, ctx);
-  }
+    const text = content
+      .append("text")
+      .attr("class", "proto-now-pill-text")
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "central")
+      .text(ctx.labelText);
 
-  /** F — dimmed "future" band from now to the right edge; no label. */
-  private static renderFutureBand(host: d3.Selection<any, any, any, any>, ctx: NowIndicatorPrototypeContext): void {
-    const width = Math.max(0, ctx.innerWidth - ctx.x);
+    const height = 18;
+    let width = Math.max(64, ctx.labelText.length * 5.6 + 18);
+    const node = text.node() as SVGTextElement;
+    if (node && typeof node.getBBox === "function") {
+      const measured = node.getBBox().width;
+      if (measured > 0) {
+        width = Math.max(64, measured + 18);
+      }
+    }
 
-    host.append("rect").attr("class", "proto-now-band").attr("x", 0).attr("y", 0).attr("width", width).attr("height", ctx.plotHeight);
+    /* Keep the pill inside the plot when the line sits near the right edge. */
+    let centerX = 0;
+    if (ctx.x + width / 2 > ctx.innerWidth) {
+      centerX = ctx.innerWidth - ctx.x - width / 2;
+    }
 
-    host.append("line").attr("class", "proto-now-band-edge").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", ctx.plotHeight);
+    content
+      .insert("rect", "text")
+      .attr("class", "proto-now-pill-bg")
+      .attr("x", centerX - width / 2)
+      .attr("y", -height / 2)
+      .attr("width", width)
+      .attr("height", height)
+      .attr("rx", height / 2)
+      .attr("ry", height / 2);
+
+    text.attr("x", centerX).attr("y", 0);
+
+    const follow = (event: MouseEvent) => {
+      const [, py] = d3.pointer(event, host.node());
+      pill.attr("transform", `translate(0, ${py})`);
+    };
+
+    host
+      .append("rect")
+      .attr("class", "proto-now-hitbox proto-now-hitbox-line")
+      .attr("x", -this.HITBOX_HALF_WIDTH)
+      .attr("y", 0)
+      .attr("width", this.HITBOX_HALF_WIDTH * 2)
+      .attr("height", ctx.plotHeight)
+      .on("mouseenter", (event: MouseEvent) => {
+        follow(event);
+        host.classed("proto-now-hover", true);
+      })
+      .on("mousemove", (event: MouseEvent) => {
+        follow(event);
+      })
+      .on("mouseleave", () => {
+        host.classed("proto-now-hover", false);
+      });
   }
 
   /** G — small tick + triangle on the x-axis; time on hover. */
@@ -121,7 +168,7 @@ export class NowIndicatorPrototypeRenderer {
   private static appendHitbox(host: d3.Selection<any, any, any, any>, ctx: NowIndicatorPrototypeContext): void {
     host
       .append("rect")
-      .attr("class", "proto-now-hitbox")
+      .attr("class", "proto-now-hitbox proto-now-hitbox-flag")
       .attr("x", -10)
       .attr("y", ctx.plotHeight - 16)
       .attr("width", 20)

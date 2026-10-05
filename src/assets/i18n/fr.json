@@ -862,8 +862,7 @@
   "PROTO": {
     "NOW": {
       "TITLE": "Prototype — indicateur « maintenant »",
-      "A": "A · Trait + point",
-      "F": "F · Bande futur",
+      "A": "A · Trait pointillé + pastille",
       "G": "G · Repère axe",
       "NONE": "Aucun"
     }

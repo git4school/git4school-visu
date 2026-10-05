@@ -9,7 +9,7 @@ import { NowIndicatorPrototypeService, NowIndicatorVariant } from "./now-indicat
   styleUrls: ["./now-indicator-prototype-panel.component.scss"],
 })
 export class NowIndicatorPanelPrototypeComponent {
-  readonly variants: NowIndicatorVariant[] = ["A", "F", "G", "none"];
+  readonly variants: NowIndicatorVariant[] = ["A", "G", "none"];
 
   constructor(public nowPrototype: NowIndicatorPrototypeService) {}
 

@@ -862,8 +862,7 @@
   "PROTO": {
     "NOW": {
       "TITLE": "Prototype — now indicator",
-      "A": "A · Ghost line + dot",
-      "F": "F · Future band",
+      "A": "A · Dotted line + pill",
       "G": "G · Axis flag",
       "NONE": "None"
     }
