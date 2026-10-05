@@ -26,6 +26,11 @@ export class ConfigurationComponent implements OnInit, OnDestroy {
   @Input() assignment: Assignment;
   @Input() modalRef?: any;
   @Output() close = new EventEmitter<Assignment>();
+  /**
+   * Emitted after the displayed tab changes, so the host (inline editor) can re-fit the card
+   * now that its height changed. Irrelevant in a modal, where nobody listens.
+   */
+  @Output() tabChanged = new EventEmitter<"metadata" | "repositories">();
 
   @ViewChild("metadataComp") metadataComp: MetadataComponent;
   @ViewChild("reposComp") reposComp: EditRepositoriesComponent;
@@ -77,10 +82,14 @@ export class ConfigurationComponent implements OnInit, OnDestroy {
 
   selectTab(tab: "metadata" | "repositories") {
     this.flushSave();
+    if (this.activeTab === tab) {
+      return;
+    }
     this.activeTab = tab;
     if (tab === "repositories") {
       this.reposInitialized = true;
     }
+    this.tabChanged.emit(tab);
   }
 
   /**

@@ -1074,15 +1074,18 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
 
     this.editingAssignment = assignment;
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const el = document.getElementById("assignment-card-" + assignment.id);
-        if (el) {
-          el.style.setProperty("scroll-margin-top", "80px");
-          el.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        }
-      });
-    });
+    this.scrollEditingCardIntoView(assignment);
+  }
+
+  /**
+   * Re-runs the "show the whole card" scroll. Called when the inline editor's height changes,
+   * e.g. after switching configuration tabs, so the card fits in the viewport again.
+   */
+  onConfigurationTabChanged() {
+    if (!this.editingAssignment) {
+      return;
+    }
+    this.scrollEditingCardIntoView(this.editingAssignment);
   }
 
   closeEdit(assignment?: Assignment) {
@@ -1125,6 +1128,18 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     if (file) {
       this.importDB(file);
     }
+  }
+
+  private scrollEditingCardIntoView(assignment: any) {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = document.getElementById("assignment-card-" + assignment.id);
+        if (el) {
+          el.style.setProperty("scroll-margin-top", "80px");
+          el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      });
+    });
   }
 
   private rememberLastUsedProvider(assignment: Assignment): void {

@@ -555,7 +555,8 @@
 
       <!-- Inline Configuration Section -->
       <div class="inline-configuration-wrapper" *ngIf="editingAssignment === assignment">
-        <app-configuration [assignment]="assignment" (close)="closeEdit($event)">
+        <app-configuration [assignment]="assignment" (close)="closeEdit($event)"
+          (tabChanged)="onConfigurationTabChanged()">
         </app-configuration>
       </div>
     </div>
