@@ -27,8 +27,6 @@ import { TooltipService } from "@services/tooltip.service";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 import { AnonymizationService } from "@services/anonymization.service";
 import { ClockService } from "@services/clock.service";
-import { NowIndicatorPrototypeService } from "./now-indicator-prototype/now-indicator-prototype.service";
-import { NowIndicatorPrototypeRenderer } from "./now-indicator-prototype/now-indicator-prototype.renderer";
 import { Subject, Subscription, concat } from "rxjs";
 import { skip, takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
@@ -167,7 +165,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   private zoomTimeoutId: any = null;
   private zoomRafId: number | null = null;
   private nowTicker: any = null;
-  private nowLabelWidth = 56;
+  private nowLabelWidth = 64;
   isRefreshing = false;
   private isThrottledGroupUpdate = false;
   private needsGroupUpdate = false;
@@ -264,7 +262,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     private ngZone: NgZone,
     public overlayManagerService: OverlayManagerService,
     private clockService: ClockService,
-    public nowPrototype: NowIndicatorPrototypeService,
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -325,9 +322,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.tickNowIndicator();
     });
     this.nowTicker = setInterval(() => this.tickNowIndicator(), 60000);
-
-    /* PROTOTYPE — re-render the "now" marker when the variant switcher changes. */
-    this.nowPrototype.variant$.pipe(takeUntil(this.destroy$)).subscribe(() => this.updateNowIndicator());
   }
 
   pressedShortcut: string = null;
@@ -3307,65 +3301,46 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       return;
     }
 
-    this.ensureNowHost();
+    this.ensureNowIndicator();
 
+    const plotHeight = this.inner_height;
     const labelText = `${this.translateService.instant("OVERVIEW-GRAPH.NOW-LABEL")} ${CommitsComponent.formatHour(now)}`;
 
-    /* PROTOTYPE — dev-only A/F/G variants; production keeps the reference pill. */
-    if (this.nowPrototype.isActive) {
-      NowIndicatorPrototypeRenderer.render(this.now_g, this.nowPrototype.variant, {
-        x,
-        innerWidth: this.inner_width,
-        plotHeight: this.inner_height,
-        top: this.inner_margin.top,
-        labelText,
-      });
-      this.raiseNowIndicator();
-      return;
-    }
-
-    this.renderLegacyNowIndicator(x, labelText);
-  }
-
-  private renderLegacyNowIndicator(x: number, labelText: string) {
-    const plotHeight = this.inner_height;
     this.now_g.style("display", null).attr("transform", `translate(${x}, ${this.inner_margin.top})`);
     this.now_g.select(".now-line").attr("y1", 0).attr("y2", plotHeight);
+    this.now_g.select(".now-hitbox").attr("y", 0).attr("height", plotHeight);
 
-    const text = this.now_g.select(".now-label-text");
+    const text = this.now_g.select(".now-pill-text");
     if (text.text() !== labelText) {
       text.text(labelText);
       const node = text.node() as SVGTextElement;
       if (node && typeof node.getBBox === "function") {
-        this.nowLabelWidth = Math.max(56, node.getBBox().width + 14);
+        this.nowLabelWidth = Math.max(64, node.getBBox().width + 18);
       }
     }
 
     const width = this.nowLabelWidth;
-    const height = 16;
-    let pillX = -width / 2;
-    if (x + pillX + width > this.inner_width) {
-      pillX = this.inner_width - x - width;
-    }
-    if (x + pillX < 0) {
-      pillX = -x;
+    const height = 18;
+    /* Keep the pill inside the plot when the marker sits near the right edge. */
+    let centerX = 0;
+    if (x + width / 2 > this.inner_width) {
+      centerX = this.inner_width - x - width / 2;
     }
 
-    const bgY = plotHeight - height - 4;
     this.now_g
-      .select(".now-label-bg")
-      .attr("x", pillX)
-      .attr("y", bgY)
+      .select(".now-pill-bg")
+      .attr("x", centerX - width / 2)
+      .attr("y", -height / 2)
       .attr("width", width)
       .attr("height", height)
       .attr("rx", height / 2)
       .attr("ry", height / 2);
-    text.attr("x", pillX + width / 2).attr("y", bgY + height / 2);
+    text.attr("x", centerX).attr("y", 0);
 
     this.raiseNowIndicator();
   }
 
-  private ensureNowHost() {
+  private ensureNowIndicator() {
     if (this.now_g && this.now_g.node() && this.now_g.node().isConnected) {
       return;
     }
@@ -3375,11 +3350,30 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
        swallow pointer events across the whole plot). */
     this.now_g = this.chart_selection_g.append("g").attr("class", "now-indicator").style("pointer-events", "none");
     this.now_g.on("wheel", (event: WheelEvent) => this.handleNowWheel(event), { passive: false });
+
     this.now_g.append("line").attr("class", "now-line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", 0);
 
-    const label = this.now_g.append("g").attr("class", "now-label");
-    label.append("rect").attr("class", "now-label-bg");
-    label.append("text").attr("class", "now-label-text").attr("text-anchor", "middle").attr("dominant-baseline", "central");
+    const pill = this.now_g.append("g").attr("class", "now-pill");
+    const content = pill.append("g").attr("class", "now-pill-content");
+    content.append("text").attr("class", "now-pill-text").attr("text-anchor", "middle").attr("dominant-baseline", "central");
+    content.insert("rect", "text").attr("class", "now-pill-bg");
+
+    const follow = (event: MouseEvent) => {
+      const [, py] = d3.pointer(event, this.now_g.node());
+      pill.attr("transform", `translate(0, ${py})`);
+    };
+
+    this.now_g
+      .append("rect")
+      .attr("class", "now-hitbox")
+      .attr("x", -10)
+      .attr("width", 20)
+      .on("mouseenter", (event: MouseEvent) => {
+        follow(event);
+        this.now_g.classed("now-hover", true);
+      })
+      .on("mousemove", (event: MouseEvent) => follow(event))
+      .on("mouseleave", () => this.now_g.classed("now-hover", false));
   }
 
   private raiseNowIndicator() {
