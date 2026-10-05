@@ -454,31 +454,61 @@ body.dark-theme .commit {
   }
 }
 
-/* "Now" marker — repère discret de l'instant présent sur l'axe temporel. */
+/* "Now" marker — dotted reference line; hovering reveals a pill that follows the cursor. */
 .now-indicator {
   pointer-events: none;
 
   .now-line {
     stroke: var(--color-now);
     stroke-width: 1px;
-    stroke-dasharray: 4 3;
-    stroke-opacity: 0.55;
-  }
-
-  .now-label-bg {
-    fill: var(--color-surface);
-    stroke: var(--color-now);
-    stroke-width: 1px;
+    stroke-dasharray: 1 4;
+    stroke-linecap: round;
     stroke-opacity: 0.5;
   }
 
-  .now-label-text {
+  .now-hitbox {
+    fill: transparent;
+    pointer-events: all;
+    cursor: none;
+  }
+
+  .now-pill {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 140ms ease;
+  }
+
+  .now-pill-content {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0.86);
+    transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .now-pill-bg {
+    fill: var(--color-surface);
+    stroke: var(--color-now);
+    stroke-width: 1px;
+    stroke-opacity: 0.45;
+  }
+
+  .now-pill-text {
     fill: var(--color-now);
     font-family: var(--font-family-sans);
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.01em;
     user-select: none;
+  }
+
+  &.now-hover {
+    .now-pill {
+      opacity: 1;
+    }
+
+    .now-pill-content {
+      transform: scale(1);
+    }
   }
 }
 
@@ -579,6 +609,3 @@ body.dark-theme .commit {
     opacity: 0;
   }
 }
-
-/* PROTOTYPE — "now" indicator variants A / F / G (remove with now-indicator-prototype/). */
-@import "now-indicator-prototype/now-indicator-prototype";
