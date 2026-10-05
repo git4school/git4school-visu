@@ -839,7 +839,10 @@
       "GITHUB": "Tester GitHub",
       "GITHUB-TOOLTIP": "Activer/désactiver le compte GitHub simulé (prof.octocat)",
       "GITHUB-ON": "Compte GitHub simulé activé (prof.octocat).",
-      "GITHUB-OFF": "Compte GitHub simulé désactivé."
+      "GITHUB-OFF": "Compte GitHub simulé désactivé.",
+      "LABEL": "Comptes Git",
+      "HEADER": "Comptes Git simulés",
+      "TOOLTIP": "Activer/désactiver les comptes Git simulés (GitLab UT3, GitHub)"
     },
     "FIXTURE": {
       "LABEL": "Démo",
@@ -851,6 +854,14 @@
       "GITHUB-LOADED": "Devoir de démonstration GitHub chargé (6 étudiants).",
       "GITLAB-LOADED": "Devoir de démonstration GitLab chargé (6 étudiants).",
       "CLEARED": "Mode démonstration désactivé."
+    },
+    "SESSION": {
+      "LABEL": "Séance +30 s",
+      "TOOLTIP": "Ajoute une séance démarrant dans 30 secondes, pour tester la languette de séance",
+      "LABEL-VALUE": "DEV · +30 s",
+      "TOAST-TITLE": "Dev Bar",
+      "ADDED": "Séance ajoutée : elle démarre dans 30 secondes.",
+      "NO-ASSIGNMENT": "Aucun devoir chargé : impossible d'ajouter une séance."
     }
   },
   "SESSION-TAB": {

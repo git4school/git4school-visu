@@ -839,7 +839,10 @@
       "GITHUB": "Test GitHub",
       "GITHUB-TOOLTIP": "Toggle the mocked GitHub account (prof.octocat)",
       "GITHUB-ON": "Mocked GitHub account enabled (prof.octocat).",
-      "GITHUB-OFF": "Mocked GitHub account disabled."
+      "GITHUB-OFF": "Mocked GitHub account disabled.",
+      "LABEL": "Git accounts",
+      "HEADER": "Simulated Git accounts",
+      "TOOLTIP": "Enable/disable the simulated Git accounts (GitLab UT3, GitHub)"
     },
     "FIXTURE": {
       "LABEL": "Demo",
@@ -851,6 +854,14 @@
       "GITHUB-LOADED": "GitHub demo assignment loaded (6 students).",
       "GITLAB-LOADED": "GitLab demo assignment loaded (6 students).",
       "CLEARED": "Demo mode disabled."
+    },
+    "SESSION": {
+      "LABEL": "Session +30 s",
+      "TOOLTIP": "Adds a session starting in 30 seconds, to exercise the session tab",
+      "LABEL-VALUE": "DEV · +30 s",
+      "TOAST-TITLE": "Dev Bar",
+      "ADDED": "Session added: it starts in 30 seconds.",
+      "NO-ASSIGNMENT": "No assignment loaded: cannot add a session."
     }
   },
   "SESSION-TAB": {

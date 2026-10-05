@@ -179,19 +179,6 @@
 
     .metric-dot { background-color: var(--color-danger); }
   }
-
-  &.route-pill {
-    max-width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    .route-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
 }
 
 /* Center Section: Actions */
@@ -252,6 +239,22 @@
   &.active .pop-caret {
     transform: rotate(180deg);
   }
+
+  &.clock-shifted {
+    color: var(--color-warning);
+
+    .pop-caret {
+      color: var(--color-text-muted);
+    }
+  }
+
+  &.mocks-enabled {
+    color: var(--color-primary);
+
+    .pop-caret {
+      color: var(--color-text-muted);
+    }
+  }
 }
 
 /* Right Section: Feature Flags */
@@ -310,6 +313,18 @@
         transform: translateX(9px);
       }
     }
+  }
+}
+
+/* Les deux bascules Git vivent dans un popover : pleine largeur, interrupteur à droite */
+.dev-popover .dev-flag-toggle {
+  width: 100%;
+  height: auto;
+  padding: 0.35rem 0.55rem;
+  justify-content: flex-start;
+
+  .flag-switch {
+    margin-left: auto;
   }
 }
 
