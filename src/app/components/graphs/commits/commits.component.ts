@@ -863,7 +863,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
    * separate overlay, so the native scroll would not reach it).
    */
   private handleNowWheel(event: WheelEvent) {
-    if (event.shiftKey) return;
+    if (event.shiftKey) {
+      this.forwardWheelToZoom(event);
+      return;
+    }
 
     const isHorizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.ctrlKey;
     if (isHorizontal) {
@@ -877,6 +880,34 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       container.scrollLeft += event.deltaX;
       event.preventDefault();
     }
+  }
+
+  /**
+   * Re-dispatch a shift+wheel from the "now" overlay onto the zoomed data layer so
+   * the d3.zoom wheel handler (which only reacts when shiftKey is set) zooms as usual.
+   */
+  private forwardWheelToZoom(event: WheelEvent) {
+    const node = this.data_g && (this.data_g.node() as Element | null);
+    if (!node) return;
+
+    event.preventDefault();
+    node.dispatchEvent(
+      new WheelEvent("wheel", {
+        deltaX: event.deltaX,
+        deltaY: event.deltaY,
+        deltaMode: event.deltaMode,
+        shiftKey: true,
+        ctrlKey: event.ctrlKey,
+        altKey: event.altKey,
+        metaKey: event.metaKey,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        screenX: event.screenX,
+        screenY: event.screenY,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
   }
 
   refresh() {
