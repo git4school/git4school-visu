@@ -375,11 +375,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.zoomGraph(0.8);
     } else if (event.code === "Space" || key === " ") {
       event.preventDefault();
-      this.resetZoom(false);
+      /* Keep the hovered tooltip alive so its keycap animation is visible. */
+      this.resetZoom(false, false);
       this.triggerShortcut("space");
     } else if (key === "m" && !event.ctrlKey && !event.metaKey && !event.altKey) {
       event.preventDefault();
-      this.focusNow();
+      this.focusNow(false);
       this.triggerShortcut("m");
     } else if (event.key === "ArrowLeft" && !event.ctrlKey && !event.metaKey && !event.altKey) {
       event.preventDefault();
@@ -3207,7 +3208,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   /** Animate the viewport to a 24h window centered on the current time. */
-  focusNow() {
+  focusNow(dismissOverlays = true) {
     const now = this.clockService.now();
     if (!this.isNowInAssignmentWindow(now)) {
       return;
@@ -3218,12 +3219,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     /* If the whole domain already fits in 24h, a full reset shows everything. */
     if (domainSpan <= 24 * 60 * 60 * 1000) {
-      this.resetZoom(false);
+      this.resetZoom(false, dismissOverlays);
       return;
     }
 
     const halfWindow = 12 * 60 * 60 * 1000;
-    this.zoomToDateRange(new Date(now.getTime() - halfWindow), new Date(now.getTime() + halfWindow), 0);
+    this.zoomToDateRange(new Date(now.getTime() - halfWindow), new Date(now.getTime() + halfWindow), 0, dismissOverlays);
   }
 
   updateNowIndicator() {
@@ -3820,7 +3821,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.drag = !this.drag;
   }
 
-  resetZoom(conserve?: boolean) {
+  resetZoom(conserve?: boolean, dismissOverlays = true) {
     if (conserve) {
       if (this.current_zoom) {
         this.data_g.call(this.zoom.transform, this.current_zoom);
@@ -3831,7 +3832,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
 
     this.current_zoom = null;
-    this.overlayManagerService.dismissTransient();
+    if (dismissOverlays) {
+      this.overlayManagerService.dismissTransient();
+    }
     if (this.data_g && this.zoom) {
       this.data_g.transition().duration(750).call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
     }
@@ -3901,7 +3904,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.data_g.transition().duration(750).call(this.zoom.transform, transform);
   }
 
-  zoomToDateRange(startDate: Date, endDate: Date, marginRatio = 0.05) {
+  zoomToDateRange(startDate: Date, endDate: Date, marginRatio = 0.05, dismissOverlays = true) {
     if (!startDate || !endDate || !this.data_g || !this.zoom || !this.x_scale) return;
     this.hovered_commit = undefined;
     this.hovered_group_commit = undefined;
@@ -3910,8 +3913,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.hovered_repository = undefined;
     this.hovered_g = null;
     this.isSessionTooltipPinned = false;
-    this.tooltipService.hide();
-    this.overlayManagerService.dismissAll();
+    if (dismissOverlays) {
+      this.tooltipService.hide();
+      this.overlayManagerService.dismissAll();
+    }
 
     const time_domain = this.x_scale.domain();
     const minDate = time_domain[0].valueOf() as number;

@@ -5,7 +5,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "@environments/environment";
 
-export type NowIndicatorVariant = "A" | "F" | "G" | "none";
+export type NowIndicatorVariant = "A" | "G" | "none";
 
 @Injectable({
   providedIn: "root",
