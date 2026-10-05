@@ -224,6 +224,9 @@
     "CHANGE-TIME-SCALE-TOOLTIP": "Changer l'échelle de temps",
     "DOWNLOAD-TOOLTIP": "Télécharger le fichier de configuration du devoir courant",
     "RELOAD-TOOLTIP": "Recharger",
+    "NAVIGATION": {
+      "GROUP-TITLE": "Navigation"
+    },
     "NOW-TOOLTIP": "Aller à l'instant présent",
     "NOW-LABEL": "Maintenant",
     "LEGEND": {
@@ -855,5 +858,14 @@
     "TOAST-NEW-ASSIGNMENT-NOT-CREATED": "Le devoir n'a pas été créé : le titre est obligatoire.",
     "TOAST-TITLE-NOT-SAVED": "Le titre n'a pas été enregistré car il est obligatoire.",
     "TOAST-SAVE-FAILED": "Échec de l'enregistrement. Vos modifications restent en attente."
+  },
+  "PROTO": {
+    "NOW": {
+      "TITLE": "Prototype — indicateur « maintenant »",
+      "A": "A · Trait + point",
+      "F": "F · Bande futur",
+      "G": "G · Repère axe",
+      "NONE": "Aucun"
+    }
   }
 }

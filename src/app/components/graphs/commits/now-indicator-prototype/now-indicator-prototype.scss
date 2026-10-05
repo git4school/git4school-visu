@@ -1,0 +1,76 @@
+/* PROTOTYPE — "now" indicator variants A / F / G.
+ * Imported by chart.scss while prototyping; removed once a variant is chosen.
+ * Prototype tokens are prefixed `proto` and must not leak into the design system. */
+.now-indicator {
+  --proto-now-color: var(--color-now);
+  --proto-now-band-opacity: 0.05;
+}
+
+/* A — ghost line + axis dot */
+.now-indicator .proto-now-line {
+  stroke: var(--proto-now-color);
+  stroke-width: 1px;
+  stroke-dasharray: 3 3;
+  stroke-opacity: 0.28;
+}
+
+.now-indicator .proto-now-dot {
+  fill: var(--proto-now-color);
+  fill-opacity: 0.55;
+}
+
+/* F — dimmed future band */
+.now-indicator .proto-now-band {
+  fill: var(--proto-now-color);
+  fill-opacity: var(--proto-now-band-opacity);
+  stroke: none;
+}
+
+.now-indicator .proto-now-band-edge {
+  stroke: var(--proto-now-color);
+  stroke-width: 1px;
+  stroke-opacity: 0.25;
+}
+
+/* G — axis tick + triangle */
+.now-indicator .proto-now-tick {
+  stroke: var(--proto-now-color);
+  stroke-width: 1.5px;
+}
+
+.now-indicator .proto-now-flag {
+  fill: var(--proto-now-color);
+  fill-opacity: 0.85;
+}
+
+/* Shared hover affordance (A & G) */
+.now-indicator .proto-now-hitbox {
+  fill: transparent;
+  pointer-events: all;
+  cursor: help;
+}
+
+.now-indicator .proto-now-label {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.now-indicator:hover .proto-now-label {
+  opacity: 1;
+}
+
+.now-indicator .proto-now-label-bg {
+  fill: var(--color-surface);
+  stroke: var(--proto-now-color);
+  stroke-width: 1px;
+  stroke-opacity: 0.5;
+}
+
+.now-indicator .proto-now-label-text {
+  fill: var(--proto-now-color);
+  font-family: var(--font-family-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
