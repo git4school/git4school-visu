@@ -194,7 +194,8 @@
       "REMAINING": "Restant :",
       "TOTAL": "Total :"
     },
-    "UNSAVED-CHANGES": "Modifications non enregistrées"
+    "UNSAVED-CHANGES": "Modifications non enregistrées",
+    "DONE": "Terminé"
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "Aucun commit trouvé",
@@ -527,8 +528,8 @@
     "TP_GROUP_DEMO": "Groupe 1",
     "ADD_SEARCH_BTN_TITLE": "Ajouter la sélection",
     "ADD_SEARCH_BTN_DESC": "Cliquez sur ce bouton pour ajouter les dépôts sélectionnés à votre devoir.",
-    "SAVE_BTN_TITLE": "Enregistrer",
-    "SAVE_BTN_DESC": "Il ne vous reste plus qu'à enregistrer le devoir !",
+    "SAVE_BTN_TITLE": "Sauvegarde automatique",
+    "SAVE_BTN_DESC": "Vos modifications sont enregistrées automatiquement. Fermez ce panneau quand vous avez terminé.",
     "EXPORT_TITLE": "Exporter vos devoirs",
     "EXPORT_DESC": "Une fois sauvegardés, vous pouvez exporter l'intégralité de vos devoirs ou seulement la sélection au format JSON.",
     "IMPORT_TITLE": "Importer des devoirs",
@@ -845,5 +846,14 @@
       "CLOSE": "Fermer",
       "UPDATED-TOAST": "Séance mise à jour."
     }
+  },
+  "AUTOSAVE": {
+    "SAVING": "Enregistrement…",
+    "SAVED": "Enregistré",
+    "UNSAVED-REQUIRED-TITLE": "Titre obligatoire",
+    "TITLE-REQUIRED-FEEDBACK": "Le titre est obligatoire.",
+    "TOAST-NEW-ASSIGNMENT-NOT-CREATED": "Le devoir n'a pas été créé : le titre est obligatoire.",
+    "TOAST-TITLE-NOT-SAVED": "Le titre n'a pas été enregistré car il est obligatoire.",
+    "TOAST-SAVE-FAILED": "Échec de l'enregistrement. Vos modifications restent en attente."
   }
 }

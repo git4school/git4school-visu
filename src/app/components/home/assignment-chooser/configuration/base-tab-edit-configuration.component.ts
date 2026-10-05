@@ -1,19 +1,11 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-} from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { BaseEditConfigurationComponent } from "./base-edit-configuration.component";
 
 @Component({
   template: "",
 })
-export abstract class BaseTabEditConfigurationComponent<Data>
-  extends BaseEditConfigurationComponent<Data[]>
-  implements OnInit
-{
+export abstract class BaseTabEditConfigurationComponent<Data> extends BaseEditConfigurationComponent implements OnInit {
   @Input() datas: Data[];
   formGroups: FormGroup[];
 
@@ -70,7 +62,6 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   deleteRow(index: number) {
     this.removeRow(index);
     this.modify();
-    this.submitForm();
   }
 
   validateRow(group: FormGroup) {
@@ -78,7 +69,6 @@ export abstract class BaseTabEditConfigurationComponent<Data>
       group.get("isEditable").setValue(false);
       group.disable();
       this.modify();
-      this.submitForm();
     } else {
       group.get("isInvalid").setValue(false);
       group.get("isInvalid").setValue(true);
@@ -101,6 +91,4 @@ export abstract class BaseTabEditConfigurationComponent<Data>
   }
 
   protected abstract createFormGroup(data?: Data);
-
-  abstract submitForm(): void;
 }

@@ -6,9 +6,12 @@
       <!-- Title -->
       <div class="col-12">
         <app-text-input #titleInput id="title" formControlName="title" [label]="'METADATA.TITLE' | translate" [required]="true"
-          [invalid]="metadataForm.controls.title.invalid && metadataForm.controls.title.touched"
-          [valid]="!metadataForm.controls.title.invalid && metadataForm.controls.title.touched">
+          [invalid]="metadataForm.controls.title.invalid && (metadataForm.controls.title.touched || titleSaveAttempted)"
+          [valid]="!metadataForm.controls.title.invalid && metadataForm.controls.title.touched" (blurred)="notifyBlur()">
         </app-text-input>
+        <div class="metadata-feedback" *ngIf="metadataForm.controls.title.invalid && titleSaveAttempted">
+          {{ 'AUTOSAVE.TITLE-REQUIRED-FEEDBACK' | translate }}
+        </div>
       </div>
     </div>
 
@@ -17,19 +20,19 @@
       <div class="col-12 d-flex flex-nowrap" style="gap: 0.5rem;">
         <!-- Course -->
         <div style="flex: 3;">
-          <app-text-input id="course" formControlName="course" [label]="'METADATA.COURSE' | translate">
+          <app-text-input id="course" formControlName="course" [label]="'METADATA.COURSE' | translate" (blurred)="notifyBlur()">
           </app-text-input>
         </div>
 
         <!-- Program -->
         <div style="flex: 3;">
-          <app-text-input id="program" formControlName="program" [label]="'METADATA.PROGRAM' | translate">
+          <app-text-input id="program" formControlName="program" [label]="'METADATA.PROGRAM' | translate" (blurred)="notifyBlur()">
           </app-text-input>
         </div>
 
         <!-- Year -->
         <div style="flex: 1;">
-          <app-text-input id="year" formControlName="year" [label]="'METADATA.YEAR' | translate">
+          <app-text-input id="year" formControlName="year" [label]="'METADATA.YEAR' | translate" (blurred)="notifyBlur()">
           </app-text-input>
         </div>
       </div>

@@ -95,3 +95,20 @@
     background-color: var(--color-bg-body);
   }
 }
+
+.autosave-indicator {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color 0.2s ease;
+
+  &--saved {
+    color: var(--color-success);
+  }
+
+  &--warning {
+    color: var(--color-danger);
+  }
+}

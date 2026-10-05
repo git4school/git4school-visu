@@ -89,6 +89,21 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
     return Array.from(new Set(groups)).sort();
   }
 
+  /**
+   * Returns the repositories that are safe to persist: committed rows and in-progress edits of
+   * already saved rows (using their last committed snapshot). Invalid or brand-new rows are excluded.
+   */
+  get committedRepositories(): Repository[] {
+    return this.getFormControls
+      .map((group) => this.committedValue(group))
+      .filter((value) => !!value?.url)
+      .map((value) => {
+        const repo = Repository.withJSON(value);
+        repo.provider = this.provider;
+        return repo;
+      });
+  }
+
   toggleSelection(index: number) {
     if (this.selectedRepositories.has(index)) {
       this.selectedRepositories.delete(index);
@@ -248,6 +263,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
                   item.control.get("tpGroup")?.setValue(item.newGroup);
                 }
                 this.cdref.markForCheck();
+                this.modify();
               }, 120);
 
               setTimeout(() => {
@@ -257,8 +273,6 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
             }, staggerDelay);
           });
 
-          this.modify();
-          this.submitForm();
           this.toastService.success(
             this.translateService.instant("SUCCESS"),
             this.translateService.instant("EDIT-REPOSITORIES.NAMES-REFRESH-SUCCESS"),
@@ -308,14 +322,6 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
       },
       (error) => {},
     );
-  }
-
-  /**
-   * Get the formControls (all the repositories in the list) and save them in the assignment
-   */
-  submitForm() {
-    const controls = this.getFormControls;
-    this.save(controls.map((row) => Repository.withJSON(row.value)));
   }
 
   /**
@@ -445,6 +451,13 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
         );
       }
     };
+  }
+
+  /**
+   * Value to persist for a row: the live value for committed rows, or the last committed snapshot while a row is being edited
+   */
+  private committedValue(group: FormGroup): any {
+    return group.get("isEditable").value ? group.get("save").value : group.value;
   }
 
   /**

@@ -3,18 +3,31 @@ import { Component, EventEmitter, Output } from "@angular/core";
 @Component({
   template: "",
 })
-export abstract class BaseEditConfigurationComponent<Data> {
-  @Output() modified = new EventEmitter();
-  @Output() saved = new EventEmitter<Data>();
-  isModified = false;
+export abstract class BaseEditConfigurationComponent {
+  /**
+   * Emitted for discrete changes (dates, questions, repositories, ...) that can be persisted right away.
+   */
+  @Output() modified = new EventEmitter<void>();
+
+  /**
+   * Emitted for free-text changes (title, course, program, year) that must be debounced by the parent.
+   */
+  @Output() textModified = new EventEmitter<void>();
+
+  /**
+   * Emitted when a free-text field loses focus, so the parent can flush immediately.
+   */
+  @Output() textBlurred = new EventEmitter<void>();
+
+  notifyBlur() {
+    this.textBlurred.emit();
+  }
 
   protected modify() {
-    this.isModified = true;
     this.modified.emit();
   }
 
-  protected save(data: Data) {
-    this.isModified = false;
-    this.saved.emit(data);
+  protected modifyText() {
+    this.textModified.emit();
   }
 }

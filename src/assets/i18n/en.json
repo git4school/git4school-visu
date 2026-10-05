@@ -195,7 +195,8 @@
       "REMAINING": "Remaining:",
       "TOTAL": "Total:"
     },
-    "UNSAVED-CHANGES": "Unsaved changes"
+    "UNSAVED-CHANGES": "Unsaved changes",
+    "DONE": "Done"
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "No commits found",
@@ -527,8 +528,8 @@
     "TP_GROUP_DEMO": "Group 1",
     "ADD_SEARCH_BTN_TITLE": "Add Selection",
     "ADD_SEARCH_BTN_DESC": "Click this button to add the selected repositories to your assignment.",
-    "SAVE_BTN_TITLE": "Save",
-    "SAVE_BTN_DESC": "All that's left is to save the assignment!",
+    "SAVE_BTN_TITLE": "Automatic save",
+    "SAVE_BTN_DESC": "Your changes are saved automatically. Close this panel when you are done.",
     "EXPORT_TITLE": "Export your assignments",
     "EXPORT_DESC": "Once saved, you can export all your assignments or only the selection in JSON format.",
     "IMPORT_TITLE": "Import assignments",
@@ -845,5 +846,14 @@
       "CLOSE": "Close",
       "UPDATED-TOAST": "Session updated."
     }
+  },
+  "AUTOSAVE": {
+    "SAVING": "Saving…",
+    "SAVED": "Saved",
+    "UNSAVED-REQUIRED-TITLE": "Title required",
+    "TITLE-REQUIRED-FEEDBACK": "A title is required.",
+    "TOAST-NEW-ASSIGNMENT-NOT-CREATED": "The assignment was not created: a title is required.",
+    "TOAST-TITLE-NOT-SAVED": "The title was not saved because it is required.",
+    "TOAST-SAVE-FAILED": "Saving failed. Your changes are still pending."
   }
 }

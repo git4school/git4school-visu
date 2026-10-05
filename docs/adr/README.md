@@ -19,6 +19,7 @@ Ce répertoire contient l'historique formalisé de toutes les décisions d'archi
 | [0007](./0007-services-de-donnees-git-pattern-strategie-et-facade.md) | Services de données Git découplés (Pattern Stratégie, Registre & Façade CommitsService) | Intégration Git / Architecture | `Accepté` |
 | [0008](./0008-memorisation-securisee-tokens-forges.md) | Mémorisation sécurisée des jetons d'accès aux forges (sessionStorage vs localStorage) et sensibilisation aux risques XSS | Sécurité / Stockage Client | `Accepté` |
 | [0009](./0009-detection-multilingue-et-reaffectation-noms-depots.md) | Détection multilingue agnostique et réaffectation ciblée des noms d'étudiants | Métadonnées / UX & Animations | `Accepté` |
+| [0010](./0010-sauvegarde-automatique-de-la-configuration-du-devoir.md) | Sauvegarde automatique de la configuration d'un devoir (debounce & flush) | Persistance / UX | `Accepté` |
 
 ---
 

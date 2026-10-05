@@ -88,7 +88,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   lastUsedInstanceName = "";
 
   // Inline edit state
-  editingAssignmentId: number | null = null;
+  editingAssignment: Assignment | null = null;
   isCreatingNew = false;
 
   private dbSubscription?: Subscription;
@@ -559,7 +559,11 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     this.loadPreferences();
     this.loadAssignments();
     this.dbSubscription = this.databaseService.dbChanged.subscribe(() => {
-      this.loadAssignments();
+      // While an inline editor is open, the assignment object is mutated live; reloading would
+      // replace it with a fresh reference and close the editor. closeEdit() reloads on exit.
+      if (!this.editingAssignment) {
+        this.loadAssignments();
+      }
     });
 
     this.overlaySub = this.overlayManager.dismiss$.subscribe(() => {
@@ -646,15 +650,6 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   async loadAssignments() {
-    // Preserve editing state if possible, unless it's a new assignment
-    const currentEditingId = this.editingAssignmentId;
-    const wasCreatingNew = this.isCreatingNew;
-    let newAssignmentObj = null;
-
-    if (wasCreatingNew) {
-      newAssignmentObj = this.assignments.find((a) => a.id === -1);
-    }
-
     await this.databaseService.getAllAssignments().then((assignments) => {
       // Map assignments to add UI-specific computed properties directly to the Assignment objects
       this.assignments = assignments.map((a) => {
@@ -690,8 +685,8 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
       }
 
       // Restore new assignment if we were creating one
-      if (wasCreatingNew && newAssignmentObj) {
-        this.assignments.unshift(newAssignmentObj);
+      if (this.isCreatingNew && this.editingAssignment && this.editingAssignment.id === -1) {
+        this.assignments.unshift(this.editingAssignment);
       }
       this.cdr.detectChanges();
       requestAnimationFrame(() => {
@@ -1077,7 +1072,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
       this.isCreatingNew = false;
     }
 
-    this.editingAssignmentId = assignment.id;
+    this.editingAssignment = assignment;
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -1090,32 +1085,15 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     });
   }
 
-  cancelEdit() {
+  closeEdit(assignment?: Assignment) {
+    if (assignment) {
+      this.rememberLastUsedProvider(assignment);
+    }
     if (this.isCreatingNew) {
       this.assignments = this.assignments.filter((a) => a.id !== -1);
-      this.isCreatingNew = false;
-    }
-    this.editingAssignmentId = null;
-    this.loadAssignments(); // Reload to revert any unsaved changes
-  }
-
-  onAssignmentSaved(assignment: Assignment) {
-    if (assignment && assignment.provider) {
-      this.lastUsedProvider = assignment.provider;
-      this.lastUsedHost = assignment.instanceHost || (assignment.provider === "gitlab" ? "gitlab.com" : "github.com");
-      this.lastUsedInstanceName = assignment.instanceName || "";
-      try {
-        localStorage.setItem("git4school_last_provider", assignment.provider);
-        localStorage.setItem("git4school_last_host", this.lastUsedHost);
-        if (assignment.instanceName) {
-          localStorage.setItem("git4school_last_instance_name", assignment.instanceName);
-        } else {
-          localStorage.removeItem("git4school_last_instance_name");
-        }
-      } catch (e) {}
     }
     this.isCreatingNew = false;
-    this.editingAssignmentId = null;
+    this.editingAssignment = null;
     this.loadAssignments();
   }
 
@@ -1147,6 +1125,24 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     if (file) {
       this.importDB(file);
     }
+  }
+
+  private rememberLastUsedProvider(assignment: Assignment): void {
+    if (!assignment || !assignment.provider) {
+      return;
+    }
+    this.lastUsedProvider = assignment.provider;
+    this.lastUsedHost = assignment.instanceHost || (assignment.provider === "gitlab" ? "gitlab.com" : "github.com");
+    this.lastUsedInstanceName = assignment.instanceName || "";
+    try {
+      localStorage.setItem("git4school_last_provider", assignment.provider);
+      localStorage.setItem("git4school_last_host", this.lastUsedHost);
+      if (assignment.instanceName) {
+        localStorage.setItem("git4school_last_instance_name", assignment.instanceName);
+      } else {
+        localStorage.removeItem("git4school_last_instance_name");
+      }
+    } catch (e) {}
   }
 
   private cleanHostname(host: string): string {
