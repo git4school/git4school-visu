@@ -1,11 +1,14 @@
 import { Component, HostListener, OnDestroy, OnInit } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
-import { filter } from "rxjs/operators";
 import { environment } from "@environments/environment";
 import { GitProviderType } from "@models/Account.model";
+import { Session } from "@models/Session.model";
+import { AssignmentsService } from "@services/assignments.service";
 import { ClockService, DAY_MS, HOUR_MS, MINUTE_MS } from "@services/clock.service";
+import { DataService } from "@services/data.service";
+import { DatabaseService } from "@services/database.service";
 import { DevFlagsService } from "@services/dev-flags.service";
 import { DevFixtureService } from "@app/dev-mock/dev-fixture.service";
 import { MockGithubInstanceService } from "@app/dev-mock/mock-github-instance.service";
@@ -25,13 +28,12 @@ export class DevBarComponent implements OnInit, OnDestroy {
   readonly HOUR_MS = HOUR_MS;
 
   isCollapsed = false;
-  activePopover: "toasts" | "clock" | "demo" | null = null;
+  activePopover: "toasts" | "clock" | "mocks" | "demo" | null = null;
 
   fps = 60;
   memoryMB: number | null = null;
   viewportWidth = window.innerWidth;
   breakpoint = "desktop";
-  currentRoute = "";
 
   clockDate: Date | null = null;
 
@@ -40,7 +42,6 @@ export class DevBarComponent implements OnInit, OnDestroy {
   private lastFpsTime = performance.now();
   private memoryIntervalId: any = null;
   private clockTickerId: any = null;
-  private routerSub: Subscription | null = null;
   private clockSub: Subscription | null = null;
 
   constructor(
@@ -51,6 +52,9 @@ export class DevBarComponent implements OnInit, OnDestroy {
     public toastService: ToastService,
     public githubAuthService: GithubAuthService,
     public clockService: ClockService,
+    public dataService: DataService,
+    private assignmentsService: AssignmentsService,
+    private databaseService: DatabaseService,
     private translateService: TranslateService,
     private router: Router,
   ) {}
@@ -76,12 +80,6 @@ export class DevBarComponent implements OnInit, OnDestroy {
     this.startFpsLoop();
     this.startMemoryMonitoring();
 
-    /* Listen to route changes */
-    this.currentRoute = this.router.url;
-    this.routerSub = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: any) => {
-      this.currentRoute = event.urlAfterRedirects || event.url;
-    });
-
     /* Reflect simulated clock shifts immediately in the dev bar display */
     this.clockSub = this.clockService.offsetMs$.subscribe(() => {
       this.clockDate = this.clockService.now();
@@ -94,7 +92,6 @@ export class DevBarComponent implements OnInit, OnDestroy {
     cancelAnimationFrame(this.animFrameId);
     clearInterval(this.memoryIntervalId);
     clearInterval(this.clockTickerId);
-    this.routerSub?.unsubscribe();
     this.clockSub?.unsubscribe();
   }
 
@@ -106,7 +103,7 @@ export class DevBarComponent implements OnInit, OnDestroy {
     } catch (e) {}
   }
 
-  togglePopover(name: "toasts" | "clock" | "demo"): void {
+  togglePopover(name: "toasts" | "clock" | "mocks" | "demo"): void {
     this.activePopover = this.activePopover === name ? null : name;
 
     if (this.activePopover === "clock") {
@@ -206,6 +203,41 @@ export class DevBarComponent implements OnInit, OnDestroy {
     const active = await this.mockGithubInstanceService.toggleMock();
     const key = active ? "DEV-BAR.MOCK.GITHUB-ON" : "DEV-BAR.MOCK.GITHUB-OFF";
     this.toastService.success(this.translateService.instant("DEV-BAR.MOCK.TITLE"), this.translateService.instant(key));
+  }
+
+  /* Add a session starting in 30 seconds, to exercise the session tab's swap */
+  async addTestSession(): Promise<void> {
+    const assignment = this.dataService.assignment;
+    if (!assignment) {
+      this.toastService.warning(
+        this.translateService.instant("DEV-BAR.SESSION.TOAST-TITLE"),
+        this.translateService.instant("DEV-BAR.SESSION.NO-ASSIGNMENT"),
+      );
+      return;
+    }
+
+    const start = new Date(this.clockService.now().getTime() + 30 * 1000);
+    const duration = assignment.defaultSessionDuration || { hour: 2, minute: 0 };
+    const end = new Date(start.getTime() + (duration.hour * 60 + duration.minute) * 60 * 1000);
+
+    this.dataService.sessions = [
+      ...(this.dataService.sessions || []),
+      new Session(
+        start,
+        end,
+        this.dataService.groupFilter || undefined,
+        undefined,
+        this.translateService.instant("DEV-BAR.SESSION.LABEL-VALUE"),
+      ),
+    ];
+
+    await this.databaseService.saveAssignment(assignment);
+    this.assignmentsService.assignmentModified.next();
+
+    this.toastService.success(
+      this.translateService.instant("DEV-BAR.SESSION.TOAST-TITLE"),
+      this.translateService.instant("DEV-BAR.SESSION.ADDED"),
+    );
   }
 
   /* Demo fixture */

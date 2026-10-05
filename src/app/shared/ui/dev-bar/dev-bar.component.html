@@ -45,12 +45,6 @@
       <i class="fas fa-desktop mr-1"></i>
       <span>{{ viewportWidth }}px · {{ breakpoint }}</span>
     </div>
-
-    <!-- Route -->
-    <div class="metric-pill route-pill" [appTooltip]="'Route active : ' + currentRoute" placement="top">
-      <i class="fas fa-compass mr-1"></i>
-      <span class="route-text">{{ currentRoute || '/' }}</span>
-    </div>
   </div>
 
   <!-- Center: Action & Test Triggers -->
@@ -144,6 +138,18 @@
       </div>
     </div>
 
+    <!-- Add a session starting in 30 seconds -->
+    <button
+      type="button"
+      class="dev-bar-btn"
+      (click)="addTestSession()"
+      [appTooltip]="'DEV-BAR.SESSION.TOOLTIP' | translate"
+      placement="top"
+    >
+      <i class="fas fa-calendar-plus mr-1.5"></i>
+      <span>{{ "DEV-BAR.SESSION.LABEL" | translate }}</span>
+    </button>
+
     <!-- Storage Reset -->
     <button
       type="button"
@@ -159,33 +165,49 @@
 
   <!-- Right: Feature Flags & Controls -->
   <div class="dev-bar-section right-section">
-    <!-- Mock GitLab Instance Toggle -->
-    <button
-      type="button"
-      class="dev-flag-toggle"
-      [class.is-enabled]="mockGitlabInstanceService.isMockActive"
-      (click)="toggleMockGitlab()"
-      [appTooltip]="'DEV-BAR.MOCK.GITLAB-TOOLTIP' | translate"
-      placement="top"
-    >
-      <i class="fab fa-gitlab mr-1.5"></i>
-      <span>{{ "DEV-BAR.MOCK.GITLAB" | translate }}</span>
-      <span class="flag-switch"></span>
-    </button>
+    <!-- Mock Git accounts, grouped under one dropdown -->
+    <div class="dev-btn-group position-relative">
+      <button
+        type="button"
+        class="dev-bar-btn"
+        [class.active]="activePopover === 'mocks'"
+        [class.mocks-enabled]="mockGitlabInstanceService.isMockActive || mockGithubInstanceService.isMockActive"
+        (click)="togglePopover('mocks')"
+        [appTooltip]="'DEV-BAR.MOCK.TOOLTIP' | translate"
+        placement="top"
+      >
+        <i class="fas fa-server mr-1.5"></i>
+        <span>{{ "DEV-BAR.MOCK.LABEL" | translate }}</span>
+        <i class="fas fa-chevron-up ml-1 pop-caret"></i>
+      </button>
 
-    <!-- Mock GitHub Instance Toggle -->
-    <button
-      type="button"
-      class="dev-flag-toggle"
-      [class.is-enabled]="mockGithubInstanceService.isMockActive"
-      (click)="toggleMockGithub()"
-      [appTooltip]="'DEV-BAR.MOCK.GITHUB-TOOLTIP' | translate"
-      placement="top"
-    >
-      <i class="fab fa-github mr-1.5"></i>
-      <span>{{ "DEV-BAR.MOCK.GITHUB" | translate }}</span>
-      <span class="flag-switch"></span>
-    </button>
+      <div *ngIf="activePopover === 'mocks'" class="dev-popover dev-popover-right">
+        <div class="popover-header">{{ "DEV-BAR.MOCK.HEADER" | translate }}</div>
+        <div class="popover-body">
+          <button
+            type="button"
+            class="dev-flag-toggle"
+            [class.is-enabled]="mockGitlabInstanceService.isMockActive"
+            (click)="toggleMockGitlab()"
+          >
+            <i class="fab fa-gitlab mr-1.5"></i>
+            <span>{{ "DEV-BAR.MOCK.GITLAB" | translate }}</span>
+            <span class="flag-switch"></span>
+          </button>
+
+          <button
+            type="button"
+            class="dev-flag-toggle"
+            [class.is-enabled]="mockGithubInstanceService.isMockActive"
+            (click)="toggleMockGithub()"
+          >
+            <i class="fab fa-github mr-1.5"></i>
+            <span>{{ "DEV-BAR.MOCK.GITHUB" | translate }}</span>
+            <span class="flag-switch"></span>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Demo Fixture Loader -->
     <div class="dev-btn-group position-relative">
