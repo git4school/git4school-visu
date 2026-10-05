@@ -225,6 +225,9 @@
     "CHANGE-TIME-SCALE-TOOLTIP": "Change the time scale",
     "DOWNLOAD-TOOLTIP": "Download current assignment configuration file",
     "RELOAD-TOOLTIP": "Reload",
+    "NAVIGATION": {
+      "GROUP-TITLE": "Navigation"
+    },
     "NOW-TOOLTIP": "Go to now",
     "NOW-LABEL": "Now",
     "LEGEND": {
@@ -855,5 +858,14 @@
     "TOAST-NEW-ASSIGNMENT-NOT-CREATED": "The assignment was not created: a title is required.",
     "TOAST-TITLE-NOT-SAVED": "The title was not saved because it is required.",
     "TOAST-SAVE-FAILED": "Saving failed. Your changes are still pending."
+  },
+  "PROTO": {
+    "NOW": {
+      "TITLE": "Prototype — now indicator",
+      "A": "A · Ghost line + dot",
+      "F": "F · Future band",
+      "G": "G · Axis flag",
+      "NONE": "None"
+    }
   }
 }
