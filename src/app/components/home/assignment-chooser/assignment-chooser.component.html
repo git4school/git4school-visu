@@ -414,13 +414,13 @@
     <div class="assignment-card" *ngFor="let assignment of filteredAssignments; trackBy: trackByAssignmentId" [id]="'assignment-card-' + assignment.id" [ngClass]="{
            'disabled-card': !isAssignmentConnected(assignment), 
            'is-selected': isSelected(assignment.id),
-           'is-editing': editingAssignmentId === assignment.id,
-           'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignmentId !== assignment.id,
+           'is-editing': editingAssignment === assignment,
+           'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignment !== assignment,
            'status-preview-dimmed': hoveredStatusPreview && assignment.id !== -1 && assignment.uiStatus !== hoveredStatusPreview
          }"
          [appTooltip]="!isAssignmentConnected(assignment) && assignment.id !== -1 ? getDisconnectedTooltip(assignment) : null"
          placement="top">
-      <div class="card-content d-flex align-items-center" *ngIf="editingAssignmentId !== assignment.id">
+      <div class="card-content d-flex align-items-center" *ngIf="editingAssignment !== assignment">
 
         <!-- Selection Zone (Logo / Checkbox) -->
         <div class="selection-zone mr-3" (mouseenter)="hoveredAssignment = assignment.id"
@@ -499,9 +499,6 @@
             <span class="meta-item"><i class="far fa-clock mr-1"></i> {{ assignment.lastModificationDate | date: 'short'
               }}</span>
           </div>
-          <div class="meta-info text-muted" style="font-size: 0.85rem;" *ngIf="assignment.id === -1">
-            <span>{{ 'HOME.UNSAVED-CHANGES' | translate }}</span>
-          </div>
         </div>
 
         <!-- Timeline (Dates) -->
@@ -557,8 +554,8 @@
       </div>
 
       <!-- Inline Configuration Section -->
-      <div class="inline-configuration-wrapper" *ngIf="editingAssignmentId === assignment.id">
-        <app-configuration [assignment]="assignment" (close)="cancelEdit()" (saved)="onAssignmentSaved($event)">
+      <div class="inline-configuration-wrapper" *ngIf="editingAssignment === assignment">
+        <app-configuration [assignment]="assignment" (close)="closeEdit($event)">
         </app-configuration>
       </div>
     </div>
