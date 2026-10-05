@@ -215,7 +215,10 @@ export class ConfigurationComponent implements OnInit, OnDestroy {
    */
   private applyFormToAssignment() {
     if (this.metadataComp) {
-      const value = this.metadataComp.metadataForm.value;
+      // getRawValue() reads the controls directly: a child's valueChanges fires before the
+      // parent FormGroup recomputes its cached `value`, so `value` would be one change behind
+      // for immediate (non-debounced) saves.
+      const value = this.metadataComp.metadataForm.getRawValue();
       const metadata = this.assignment.metadata;
       if (this.isTitleValid) {
         metadata.title = value.title;
