@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
 import { Assignment } from "@models/Assignment.model";
@@ -33,6 +33,7 @@ export type SortDirection = "asc" | "desc" | "";
 })
 export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent<Repository> implements OnInit {
   @Input() assignment?: Assignment;
+  @ViewChild("repositoryList") repositoryList: ElementRef<HTMLElement>;
 
   nameDirection: SortDirection;
   lastPropertySorted: string;
@@ -295,6 +296,14 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   }
 
   /**
+   * Adds an empty repository row for manual entry and scrolls the list so the new row is visible.
+   */
+  addEmptyRow() {
+    this.addRow();
+    this.scrollToLastRow();
+  }
+
+  /**
    * Opens the modal to add one or several repositories from a list retrieved from Github or GitLab.
    * If the modal is closed with the "Add" button, all the new selected repositories are saved in the assignment
    */
@@ -458,6 +467,20 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
    */
   private committedValue(group: FormGroup): any {
     return group.get("isEditable").value ? group.get("save").value : group.value;
+  }
+
+  /**
+   * Scrolls the repository list to the bottom once the newly added row has been rendered.
+   */
+  private scrollToLastRow() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const list = this.repositoryList?.nativeElement;
+        if (list) {
+          list.scrollTop = list.scrollHeight;
+        }
+      });
+    });
   }
 
   /**
