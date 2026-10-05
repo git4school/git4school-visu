@@ -73,7 +73,7 @@
 
     </div>
 
-    <div class="repository-list">
+    <div #repositoryList class="repository-list">
         <!-- Empty State -->
         <div class="empty-state text-center py-3 text-muted" *ngIf="getFormControls.length === 0">
             <app-repo-icon mode="empty" class="mb-2" style="font-size: 3em; opacity: 0.5;"></app-repo-icon>
@@ -211,7 +211,7 @@
     </div>
 
     <div class="bottom-actions">
-        <button id="tour-add-empty-repo-btn" type="button" class="btn-action" (click)="addRow()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
+        <button id="tour-add-empty-repo-btn" type="button" class="btn-action" (click)="addEmptyRow()" [appTooltip]="'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY' | translate">
             <app-repo-icon mode="add" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>
             {{ 'EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY' | translate }}
         </button>
