@@ -4,14 +4,14 @@ import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
 import { filter } from "rxjs/operators";
 import { environment } from "@environments/environment";
+import { GitProviderType } from "@models/Account.model";
 import { ClockService, DAY_MS, HOUR_MS, MINUTE_MS } from "@services/clock.service";
 import { DevFlagsService } from "@services/dev-flags.service";
+import { DevFixtureService } from "@app/dev-mock/dev-fixture.service";
+import { MockGithubInstanceService } from "@app/dev-mock/mock-github-instance.service";
 import { MockGitlabInstanceService } from "@app/dev-mock/mock-gitlab-instance.service";
 import { ToastService } from "@services/toast.service";
-import { ThemeService } from "@services/theme.service";
 import { GithubAuthService } from "@services/github-auth.service";
-import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
-import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
 
 @Component({
   selector: "app-dev-bar",
@@ -25,7 +25,7 @@ export class DevBarComponent implements OnInit, OnDestroy {
   readonly HOUR_MS = HOUR_MS;
 
   isCollapsed = false;
-  activePopover: "toasts" | "modals" | "clock" | null = null;
+  activePopover: "toasts" | "clock" | "demo" | null = null;
 
   fps = 60;
   memoryMB: number | null = null;
@@ -46,12 +46,12 @@ export class DevBarComponent implements OnInit, OnDestroy {
   constructor(
     public devFlagsService: DevFlagsService,
     public mockGitlabInstanceService: MockGitlabInstanceService,
+    public mockGithubInstanceService: MockGithubInstanceService,
+    public devFixtureService: DevFixtureService,
     public toastService: ToastService,
-    public themeService: ThemeService,
     public githubAuthService: GithubAuthService,
     public clockService: ClockService,
     private translateService: TranslateService,
-    private customModalService: CustomModalService,
     private router: Router,
   ) {}
 
@@ -86,6 +86,8 @@ export class DevBarComponent implements OnInit, OnDestroy {
     this.clockSub = this.clockService.offsetMs$.subscribe(() => {
       this.clockDate = this.clockService.now();
     });
+
+    this.restoreFixtureIfActive();
   }
 
   ngOnDestroy(): void {
@@ -104,7 +106,7 @@ export class DevBarComponent implements OnInit, OnDestroy {
     } catch (e) {}
   }
 
-  togglePopover(name: "toasts" | "modals" | "clock"): void {
+  togglePopover(name: "toasts" | "clock" | "demo"): void {
     this.activePopover = this.activePopover === name ? null : name;
 
     if (this.activePopover === "clock") {
@@ -193,29 +195,38 @@ export class DevBarComponent implements OnInit, OnDestroy {
     this.toastService[c.method](c.title, c.msg);
   }
 
-  /* Modals Quick Open */
-  openAccountsModal(): void {
-    window.dispatchEvent(new CustomEvent("git4school:open-accounts-modal"));
-    this.closePopover();
-  }
-
-  openShortcutsModal(): void {
-    this.customModalService.open(ShortcutsModalComponent, { size: "lg" });
-    this.closePopover();
-  }
-
-  /* Mock GitLab Instance */
+  /* Mock Git Instances */
   async toggleMockGitlab(): Promise<void> {
     const active = await this.mockGitlabInstanceService.toggleMock();
-    const state = active ? "activé (prof.turing @ gitlab.univ-tlse3.fr)" : "désactivé";
-    this.toastService.success("Mock GitLab", `Mock d'instance GitLab ${state}`);
+    const key = active ? "DEV-BAR.MOCK.GITLAB-ON" : "DEV-BAR.MOCK.GITLAB-OFF";
+    this.toastService.success(this.translateService.instant("DEV-BAR.MOCK.TITLE"), this.translateService.instant(key));
+  }
+
+  async toggleMockGithub(): Promise<void> {
+    const active = await this.mockGithubInstanceService.toggleMock();
+    const key = active ? "DEV-BAR.MOCK.GITHUB-ON" : "DEV-BAR.MOCK.GITHUB-OFF";
+    this.toastService.success(this.translateService.instant("DEV-BAR.MOCK.TITLE"), this.translateService.instant(key));
+  }
+
+  /* Demo fixture */
+  async loadDemo(provider: GitProviderType): Promise<void> {
+    await this.devFixtureService.loadDemoAssignment(provider);
+    this.closePopover();
+    const key = provider === "gitlab" ? "DEV-BAR.FIXTURE.GITLAB-LOADED" : "DEV-BAR.FIXTURE.GITHUB-LOADED";
+    this.toastService.success(this.translateService.instant("DEV-BAR.FIXTURE.LABEL"), this.translateService.instant(key));
+    this.router.navigate(["commits"]);
+  }
+
+  clearDemo(): void {
+    this.devFixtureService.clearDemo();
+    this.closePopover();
+    this.toastService.warning(
+      this.translateService.instant("DEV-BAR.FIXTURE.LABEL"),
+      this.translateService.instant("DEV-BAR.FIXTURE.CLEARED"),
+    );
   }
 
   /* Quick Utilities */
-  toggleTheme(): void {
-    this.themeService.toggleTheme();
-  }
-
   clearStorage(): void {
     try {
       localStorage.clear();
@@ -223,6 +234,18 @@ export class DevBarComponent implements OnInit, OnDestroy {
     } catch (e) {
       this.toastService.error("Dev Bar", "Impossible de vider le LocalStorage.");
     }
+  }
+
+  private restoreFixtureIfActive(): void {
+    this.devFixtureService.restoreIfActive().then((assignment) => {
+      if (!assignment) {
+        return;
+      }
+      const url = this.router.url;
+      if (url === "/" || url.includes("/home")) {
+        this.router.navigate(["commits"]);
+      }
+    });
   }
 
   private updateViewport(): void {

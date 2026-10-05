@@ -826,6 +826,28 @@
       "UNIT-HOUR": "ч",
       "UNIT-MINUTE": "мин",
       "RESET-TOAST": "Имитация часов сброшена."
+    },
+    "MOCK": {
+      "TITLE": "Mock Git",
+      "GITLAB": "Тест GitLab",
+      "GITLAB-TOOLTIP": "Включить/выключить имитацию аккаунта GitLab (prof.turing @ gitlab.univ-tlse3.fr)",
+      "GITLAB-ON": "Имитация аккаунта GitLab включена (prof.turing @ gitlab.univ-tlse3.fr).",
+      "GITLAB-OFF": "Имитация аккаунта GitLab выключена.",
+      "GITHUB": "Тест GitHub",
+      "GITHUB-TOOLTIP": "Включить/выключить имитацию аккаунта GitHub (prof.octocat)",
+      "GITHUB-ON": "Имитация аккаунта GitHub включена (prof.octocat).",
+      "GITHUB-OFF": "Имитация аккаунта GitHub выключена."
+    },
+    "FIXTURE": {
+      "LABEL": "Демо",
+      "TOOLTIP": "Загрузить демонстрационное задание с имитированными данными",
+      "HEADER": "Демонстрационное задание",
+      "GITHUB": "Демо GitHub",
+      "GITLAB": "Демо GitLab",
+      "CLEAR": "Отключить демо-режим",
+      "GITHUB-LOADED": "Демонстрационное задание GitHub загружено (6 студентов).",
+      "GITLAB-LOADED": "Демонстрационное задание GitLab загружено (6 студентов).",
+      "CLEARED": "Демо-режим отключён."
     }
   },
   "SESSION-TAB": {
