@@ -891,5 +891,8 @@
     "TOAST-NEW-ASSIGNMENT-NOT-CREATED": "Le devoir n'a pas été créé : le titre est obligatoire.",
     "TOAST-TITLE-NOT-SAVED": "Le titre n'a pas été enregistré car il est obligatoire.",
     "TOAST-SAVE-FAILED": "Échec de l'enregistrement. Vos modifications restent en attente."
+  },
+  "DATE-RANGE-PICKER": {
+    "TAB-HINT": "Définir la fin à"
   }
 }
