@@ -341,6 +341,7 @@
     "COLUMN-NAME": "Name",
     "COLUMN-URL": "URL",
     "COLUMN-TP-GROUP": "TP group",
+    "SORT-COLUMN-TP-GROUP": "Group",
     "MESSAGE-INVALID-URL": "You must have access to the repository !",
     "BUTTON-SAVE": "Save",
     "MESSAGE-REPO-ALREADY-ADDED": "This repository is already added !",
