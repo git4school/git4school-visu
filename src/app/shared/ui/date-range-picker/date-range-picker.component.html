@@ -56,13 +56,21 @@
             (keydown)="onKeyDown($event, true, 'minute')" (blur)="onBlur(true)">
           <ng-container *ngIf="mode === 'datetime-period'">
             <span class="time-arrow-separator"><i class="fas fa-arrow-right"></i></span>
-            <input #endHour type="text" class="segment-input hour" placeholder="HH"
-              maxlength="2" [value]="endHourStr" (input)="onInputType($event, false, 'hour')"
-              (keydown)="onKeyDown($event, false, 'hour')" (blur)="onBlur(false)">
-            <span class="separator">:</span>
-            <input #endMinute type="text" class="segment-input minute" placeholder="MM"
-              maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, 'minute')"
-              (keydown)="onKeyDown($event, false, 'minute')" (blur)="onBlur(false)">
+            <span class="end-time-segments">
+              <input #endHour type="text" class="segment-input hour" placeholder="HH"
+                maxlength="2" [value]="endHourStr" (input)="onInputType($event, false, 'hour')"
+                (keydown)="onKeyDown($event, false, 'hour')" (blur)="onBlur(false)"
+                (focus)="onEndHourFocus()">
+              <span class="separator">:</span>
+              <input #endMinute type="text" class="segment-input minute" placeholder="MM"
+                maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, 'minute')"
+                (keydown)="onKeyDown($event, false, 'minute')" (blur)="onBlur(false)">
+              <span class="tab-suggestion" *ngIf="showTabSuggestion && suggestedEndTime" [class.above]="tabSuggestionAbove" aria-live="polite">
+                <kbd class="shortcut-key shortcut-key-sm" [class.shortcut-pressed-anim]="tabShortcutPressed">⇥ Tab</kbd>
+                <span class="tab-suggestion-text">{{ 'DATE-RANGE-PICKER.TAB-HINT' | translate }}</span>
+                <span class="tab-suggestion-time">{{ suggestedEndTime }}</span>
+              </span>
+            </span>
           </ng-container>
         </ng-container>
       </div>

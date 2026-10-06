@@ -143,6 +143,62 @@
         user-select: none;
         pointer-events: none;
       }
+
+      .end-time-segments {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        flex-shrink: 0;
+      }
+
+      .tab-suggestion {
+        position: absolute;
+        top: calc(100% + 14px);
+        left: 0;
+        z-index: $zindex-quick-help-popover;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        width: max-content;
+        padding: 5px 8px;
+        background-color: var(--tooltip-glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 10px;
+        box-shadow: var(--shadow-lg);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        font-size: 12px;
+        white-space: nowrap;
+        pointer-events: none;
+        transform-origin: top left;
+        animation: tabSuggestionInDown 0.14s ease-out;
+
+        &.above {
+          top: auto;
+          bottom: calc(100% + 14px);
+          transform-origin: bottom left;
+          animation-name: tabSuggestionInUp;
+        }
+
+        kbd {
+          margin-left: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          animation: none;
+        }
+      }
+
+      .tab-suggestion-text {
+        color: var(--color-text-secondary);
+      }
+
+      .tab-suggestion-time {
+        color: var(--color-text-primary);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
     }
 
     .arrow-separator {
@@ -343,7 +399,9 @@
             transition: opacity 0.15s ease;
             pointer-events: none;
           }
+
           &::before { left: 0; }
+
           &::after { right: 0; }
 
           /* Activate visual range connections */
@@ -414,7 +472,9 @@
 
         .sparkle-icon {
           &.purple { color: #a855f7; }
+
           &.yellow { color: #eab308; }
+
           &.blue { color: #3b82f6; }
         }
 
@@ -437,5 +497,29 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes tabSuggestionInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tabSuggestionInUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

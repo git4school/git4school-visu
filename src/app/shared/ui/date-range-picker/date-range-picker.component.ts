@@ -71,6 +71,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   alignRight = false;
   viewDate: moment.Moment;
   hoverDate: moment.Moment | null = null;
+  showTabSuggestion = false;
+  tabSuggestionAbove = false;
+  tabShortcutPressed = false;
 
   calendar: CalendarDay[][] = [];
   weekDays: string[] = [];
@@ -225,6 +228,19 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       this.alignRight = false;
     }
     this.cdr.markForCheck();
+  }
+
+  onEndHourFocus() {
+    if (this.mode !== "datetime-period") return;
+
+    // The floating suggestion replaces the calendar popup while editing the end time
+    if (this.isOpen) {
+      this.closePopup();
+    }
+
+    const endHourElement = this.endHourEl?.nativeElement as HTMLElement | undefined;
+    this.tabSuggestionAbove = !!endHourElement && window.innerHeight - endHourElement.getBoundingClientRect().bottom < 80;
+    this.showTabSuggestion = this.suggestedEndTime !== "";
   }
 
   private initViewDate(): void {
@@ -418,6 +434,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onPeriodChange(period: { start: string; end: string }) {
+    this.showTabSuggestion = false;
     this.startTime = period.start;
     this.endTime = period.end;
     this.startHourStr = this.startTime.split(":")[0];
@@ -445,6 +462,16 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   get timeString(): string {
     if (!this.date) return "12:00";
     return moment(this.date).format("HH:mm");
+  }
+
+  get suggestedEndTime(): string {
+    if (this.startHourStr.length !== 2 || this.startMinuteStr.length !== 2) return "";
+
+    const endMinutes = this.timeToMinutes(`${this.startHourStr}:${this.startMinuteStr}`) + this.defaultDuration;
+    // Keep the period within a single day, mirroring the clock picker behavior
+    if (endMinutes >= 24 * 60) return "23:55";
+
+    return this.minutesToTime(endMinutes);
   }
 
   isStartDate(date: moment.Moment): boolean {
@@ -591,6 +618,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
   onInputType(event: Event, isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute") {
     const input = event.target as HTMLInputElement;
+    if (!isStart) {
+      this.showTabSuggestion = false;
+    }
     let value = input.value.replace(/\D/g, ""); // Keep only digits
 
     const maxLength = field === "year" ? 4 : 2;
@@ -632,6 +662,19 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
   onKeyDown(event: KeyboardEvent, isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute") {
     const input = event.target as HTMLInputElement;
+
+    // Accept the tab suggestion: fill the end time from the start time + default duration
+    if (this.showTabSuggestion && !isStart && field === "hour" && event.key === "Tab" && !event.shiftKey) {
+      event.preventDefault();
+      this.acceptTabSuggestion();
+      return;
+    }
+
+    // Any other interaction in the end fields dismisses the suggestion
+    if (!isStart) {
+      this.showTabSuggestion = false;
+    }
+
     if (event.key === "Backspace" && input.value === "") {
       this.focusPrevious(isStart, field, "end");
     } else if (event.key === "ArrowLeft" && input.selectionStart === 0) {
@@ -644,6 +687,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onBlur(isStart: boolean) {
+    if (!isStart && !this.tabShortcutPressed) {
+      this.showTabSuggestion = false;
+    }
     if (isStart) {
       this.startMonthStr = this.padMonth(this.startMonthStr);
       this.startDayStr = this.padAndValidateDay(this.startDayStr, this.getMaxDays(true));
@@ -915,5 +961,39 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   private timeToMinutes(time: string): number {
     const [hours, minutes] = time.split(":").map(Number);
     return hours * 60 + minutes;
+  }
+
+  private acceptTabSuggestion(): void {
+    const end = this.suggestedEndTime;
+    if (!end) {
+      this.showTabSuggestion = false;
+      return;
+    }
+
+    // Mirror the shared shortcut press animation (see triggerShortcut in the graph components)
+    this.tabShortcutPressed = true;
+    setTimeout(() => {
+      this.tabShortcutPressed = false;
+      this.showTabSuggestion = false;
+      this.cdr.markForCheck();
+    }, 150);
+
+    this.endHourStr = end.slice(0, 2);
+    this.endMinuteStr = end.slice(3, 5);
+
+    if (this.date) {
+      this.applyPeriodTimes(moment(this.date));
+    } else {
+      this.startTime = `${this.startHourStr}:${this.startMinuteStr}`;
+      this.endTime = end;
+      this.periodChange.emit({ start: this.startTime, end: this.endTime });
+    }
+    this.focusNext(false, "hour");
+  }
+
+  private minutesToTime(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}`;
   }
 }
