@@ -527,7 +527,7 @@
   [tpGroups]="dataService.tpGroups"
   [questions]="dataService.questions"
   [typeaheadSettings]="typeaheadSettings"
-  [defaultSessionDuration]="defaultSessionDuration"
+  [defaultSessionDuration]="dataService.assignment?.defaultSessionDuration"
   [groupFilter]="dataService.groupFilter"
   (deleteMilestone)="onDeleteMilestone($event)"
   (deleteSession)="onDeleteSession($event)"

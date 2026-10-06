@@ -15,7 +15,7 @@ import { OverviewGraphContextualMenuComponent } from "@components/overview-graph
 import { Commit, CommitColor } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
-import { NgbDropdown, NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDropdown, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { DataService } from "@services/data.service";
@@ -88,7 +88,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   showCorrections = true;
   showReviews = true;
   showOthers = true;
-  defaultSessionDuration: NgbTimeStruct;
   // Modal variables
   dateModal;
   labelModal: string;
@@ -285,7 +284,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       } catch (e) {}
     }
 
-    this.defaultSessionDuration = this.dataService.assignment.defaultSessionDuration;
     this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
     this.updateLang();
