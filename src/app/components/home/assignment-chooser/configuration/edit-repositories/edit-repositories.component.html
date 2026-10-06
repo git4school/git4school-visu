@@ -2,7 +2,7 @@
     <!-- Top bar -->
     <div class="sort-bar mb-3 d-flex position-relative align-items-center w-100">
         <div class="d-flex align-items-center" style="gap: 1rem;">
-            <div class="d-flex align-items-center" style="gap: 0.5rem;">
+            <div class="sort-pills-group d-flex align-items-center" style="gap: 0.5rem;">
                 <span class="sort-label mr-1">{{ 'SORT_BY' | translate }}:</span>
                 <button class="sort-pill" [class.active]="lastPropertySorted === 'name'" (click)="onSort('name')">
                     {{ 'EDIT-REPOSITORIES.COLUMN-NAME' | translate }}

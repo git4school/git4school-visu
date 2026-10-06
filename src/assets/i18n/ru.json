@@ -351,8 +351,8 @@
     "ADD-REPOSITORY": "Добавить несколько репозиториев",
     "NEW-REPOSITORY": "Неизвестный студент",
     "NO-REPOSITORIES": "Репозитории не найдены",
-    "BUTTON-REFRESH-NAMES": "Обновить имена",
-    "BUTTON-CONFIRM-REFRESH-NAMES": "Подтвердить замену?",
+    "BUTTON-REFRESH-NAMES": "Обновить",
+    "BUTTON-CONFIRM-REFRESH-NAMES": "Подтвердить?",
     "TOOLTIP-REFRESH-NAMES": "Ищет имена в IDENTITY.json или README и перезаписывает существующие",
     "NAMES-REFRESH-SUCCESS": "Имена успешно обновлены",
     "NAMES-REFRESH-NONE": "Изменений в именах не обнаружено"
