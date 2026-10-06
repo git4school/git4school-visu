@@ -338,6 +338,7 @@
     "COLUMN-NAME": "Имя",
     "COLUMN-URL": "URL",
     "COLUMN-TP-GROUP": "Группа TP",
+    "SORT-COLUMN-TP-GROUP": "Группа",
     "MESSAGE-INVALID-URL": "У вас должен быть доступ к репозиторию!",
     "BUTTON-SAVE": "Сохранить",
     "MESSAGE-REPO-ALREADY-ADDED": "Этот репозиторий уже добавлен!",

@@ -242,34 +242,34 @@
                 </tr>
             </tbody>
         </table>
-    </div>
 
-    <!-- Floating Action Bar -->
-    <div class="floating-action-bar-container" [class.show]="selected.length > 0">
-        <div class="floating-action-bar">
-            
-            <div class="selected-count d-flex align-items-center pl-2 pr-3">
-                <span class="font-weight-bold mx-2" style="color: var(--color-text-primary);">{{ selected.length }} {{ 'MODAL-ADD-REPOSITORIES.SELECTED-REPOSITORIES' | translate }}</span>
+        <!-- Floating Action Bar -->
+        <div class="floating-action-bar-container floating-sticky" [class.show]="selected.length > 0">
+            <div class="floating-action-bar">
+
+                <div class="selected-count d-flex align-items-center pl-2 pr-3">
+                    <span class="font-weight-bold mx-2" style="color: var(--color-text-primary);">{{ selected.length }} {{ 'MODAL-ADD-REPOSITORIES.SELECTED-REPOSITORIES' | translate }}</span>
+                </div>
+
+                <div class="bar-divider"></div>
+
+                <div class="action-inputs d-flex align-items-center px-3">
+                    <i class="fas fa-users mr-2" style="color: var(--color-text-muted);"></i>
+                    <input id="tour-modal-tp-group" type="text" class="bar-input" [(ngModel)]="tpGroup" [placeholder]="'MODAL-ADD-REPOSITORIES.TP-GROUP' | translate" [appTooltip]="'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP' | translate">
+                </div>
+
+                <div class="bar-divider"></div>
+
+                <button id="tour-modal-add-btn" class="bar-btn-primary d-flex align-items-center" (click)="onClose()">
+                    <span class="font-weight-bold" style="color: var(--color-primary);">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</span>
+                </button>
+
+
+                <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="clearSelection()">
+                    <i class="fas fa-times"></i>
+                </button>
+
             </div>
-            
-            <div class="bar-divider"></div>
-            
-            <div class="action-inputs d-flex align-items-center px-3">
-                <i class="fas fa-users mr-2" style="color: var(--color-text-muted);"></i>
-                <input id="tour-modal-tp-group" type="text" class="bar-input" [(ngModel)]="tpGroup" [placeholder]="'MODAL-ADD-REPOSITORIES.TP-GROUP' | translate" [appTooltip]="'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP' | translate">
-            </div>
-            
-            <div class="bar-divider"></div>
-            
-            <button id="tour-modal-add-btn" class="bar-btn-primary d-flex align-items-center" (click)="onClose()">
-                <span class="font-weight-bold" style="color: var(--color-primary);">{{ 'MODAL-ADD-REPOSITORIES.BUTTON-ADD' | translate }}</span>
-            </button>
-            
-            
-            <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="clearSelection()">
-                <i class="fas fa-times"></i>
-            </button>
-            
         </div>
     </div>
 </div>

@@ -341,6 +341,7 @@
     "COLUMN-NAME": "Nom",
     "COLUMN-URL": "URL",
     "COLUMN-TP-GROUP": "Groupe de TP",
+    "SORT-COLUMN-TP-GROUP": "Groupe",
     "MESSAGE-INVALID-URL": "Vous devez avoir accès au dépôt !",
     "BUTTON-SAVE": "Sauvegarder",
     "MESSAGE-REPO-ALREADY-ADDED": "Ce dépôt est déjà ajouté !",
