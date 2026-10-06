@@ -354,8 +354,8 @@
     "ADD-REPOSITORY": "Add multiple repositories",
     "NEW-REPOSITORY": "Unknown student",
     "NO-REPOSITORIES": "No repositories found",
-    "BUTTON-REFRESH-NAMES": "Reassign names",
-    "BUTTON-CONFIRM-REFRESH-NAMES": "Confirm overwrite?",
+    "BUTTON-REFRESH-NAMES": "Reassign",
+    "BUTTON-CONFIRM-REFRESH-NAMES": "Confirm?",
     "TOOLTIP-REFRESH-NAMES": "Scans names from IDENTITY.json or README and overwrites existing names",
     "NAMES-REFRESH-SUCCESS": "Names successfully reassigned",
     "NAMES-REFRESH-NONE": "No name changes detected"

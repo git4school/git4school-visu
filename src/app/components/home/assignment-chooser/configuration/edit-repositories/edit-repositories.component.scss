@@ -11,6 +11,12 @@
       font-size: 0.85rem;
       color: var(--color-text-secondary);
       font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .sort-pills-group {
+      flex-shrink: 0;
     }
 
     .sort-pill {
@@ -42,7 +48,9 @@
     }
 
     .search-container { position: relative;
-      width: 250px;
+      flex: 1 1 120px;
+      min-width: 120px;
+      max-width: 250px;
 
       .search-icon {
         position: absolute;
@@ -79,6 +87,7 @@
       position: relative;
       display: flex;
       align-items: center;
+      flex-shrink: 0;
 
       .pill-refresh-container {
         display: inline-flex;
@@ -96,6 +105,7 @@
           display: inline-flex;
           align-items: center;
           gap: 0.45rem;
+          white-space: nowrap;
           height: 32px;
           padding: 0 0.85rem;
           border-radius: $radius-full;
