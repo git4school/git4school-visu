@@ -589,7 +589,8 @@
   }
 
   .filter-dropdown-container {
-    .btn-outline-ghost {
+    /* Ne cibler que le bouton racine : les dropdowns imbriqués du panneau ne doivent pas hériter du format icône 34px */
+    > .btn-outline-ghost {
       box-sizing: border-box;
       height: 34px;
       min-width: 34px;
@@ -646,6 +647,18 @@
       color: var(--color-text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+    }
+
+    /* Toggles Cours / Programme / Année : pleine largeur, libellé tronqué à gauche, chevron à droite.
+       Les utilitaires .w-100 et .text-truncate ne sont pas définis dans les styles du projet. */
+    .filter-section [ngbDropdown] > .btn-outline-ghost {
+      width: 100%;
+
+      span.text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
 
     .filter-chips {

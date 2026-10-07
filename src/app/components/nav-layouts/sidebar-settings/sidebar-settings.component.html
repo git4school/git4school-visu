@@ -111,7 +111,7 @@
             </div>
             
             <div ngbDropdownMenu class="modern-dropdown-menu">
-                <button *ngFor="let lang of translateService.getLangs()" class="dropdown-item" [class.active]="lang === currentLang" (click)="changeLanguage(lang)" style="font-weight: 500; padding: 0.4rem 1rem;">
+                <button ngbDropdownItem *ngFor="let lang of translateService.getLangs()" class="dropdown-item" [class.active]="lang === currentLang" (click)="changeLanguage(lang)" style="font-weight: 500; padding: 0.4rem 1rem;">
                     {{ langNames[lang] || lang }}
                 </button>
             </div>
