@@ -790,7 +790,8 @@
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dropdown.show .dropdown-chevron,
+/* Cibler le toggle du dropdown concerné uniquement (enfants directs) : un dropdown imbriqué
+   dans un dropdown ouvert ne doit pas pivoter son chevron tant qu'il n'est pas ouvert lui-même. */
 .show > .dropdown-chevron,
 .show > [ngbDropdownToggle] .dropdown-chevron,
 .dropdown-toggle[aria-expanded="true"] .dropdown-chevron,

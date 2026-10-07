@@ -13,6 +13,7 @@ import { ToastsComponent } from "./toasts/toasts.component";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { TooltipDirective } from "./tooltip/tooltip.directive";
 import { TypeaheadKeyboardNavDirective } from "./typeahead-nav/typeahead-nav.directive";
+import { DropdownArrowNavDirective } from "./dropdown-arrow-nav/dropdown-arrow-nav.directive";
 import { CustomModalContainerComponent } from "./custom-modal/custom-modal-container/custom-modal-container.component";
 import { TypePickerComponent } from "./type-picker/type-picker.component";
 import { TimePickerComponent } from "../../components/time-picker/time-picker.component";
@@ -36,6 +37,7 @@ import { SessionTabComponent } from "./session-tab/session-tab.component";
     TooltipComponent,
     TooltipDirective,
     TypeaheadKeyboardNavDirective,
+    DropdownArrowNavDirective,
     CustomModalContainerComponent,
     TypePickerComponent,
     TimePickerComponent,
@@ -56,6 +58,7 @@ import { SessionTabComponent } from "./session-tab/session-tab.component";
     TooltipComponent,
     TooltipDirective,
     TypeaheadKeyboardNavDirective,
+    DropdownArrowNavDirective,
     CustomModalContainerComponent,
     TypePickerComponent,
     TimePickerComponent,
