@@ -54,7 +54,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
   @ViewChild("questionsChooser") questionsChooser;
-  @ViewChild("groupDropdown") groupDropdown?: NgbDropdown;
   @ViewChild("legendDropdown") legendDropdown?: NgbDropdown;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
 
@@ -65,6 +64,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   contextualMenuShown: boolean;
 
   assignmentsModified$: Subscription;
+  groupFilterSub: Subscription;
 
   displayModes = {
     opacity: false,
@@ -286,6 +286,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
+    /* Le filtre de groupe est global (navbar) : rafraîchir la vue à chaque changement. */
+    this.groupFilterSub = this.dataService.groupFilter$.subscribe(() => this.loadGraphDataAndRefresh(false));
     this.updateLang();
     this.translateService.onLangChange.subscribe((event: TranslationChangeEvent) => {
       this.updateLang();
@@ -297,9 +299,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
       if (OverlayManagerService.shouldDismiss(OverlayType.DROPDOWN, event)) {
-        if (this.groupDropdown && this.groupDropdown.isOpen()) {
-          this.groupDropdown.close();
-        }
         if (this.legendDropdown && this.legendDropdown.isOpen()) {
           this.legendDropdown.close();
         }
@@ -437,6 +436,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.removeDragTimeIndicator();
     document.body.style.cursor = "";
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
+    if (this.groupFilterSub) {
+      this.groupFilterSub.unsubscribe();
+    }
     document.body.style.overscrollBehaviorX = "auto";
   }
 

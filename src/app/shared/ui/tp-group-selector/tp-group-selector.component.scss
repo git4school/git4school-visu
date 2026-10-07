@@ -1,0 +1,152 @@
+@import "variables";
+
+/* Sélecteur de groupe de TP — segment droit de la pill de contexte du devoir (navbar).
+   Le segment s'étire à la hauteur intérieure de la pill : rayon intérieur = rayon extérieur − 2px,
+   les courbes restent parallèles (concentriques). */
+
+:host {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+}
+
+/* Le menu s'ancre à ce conteneur (le projet ne définit pas `.dropdown { position: relative }`). */
+.tp-group-selector {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.tp-group-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 100%;
+  max-width: 100%;
+  padding: 0 0.55rem;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  &[aria-expanded="true"] {
+    background-color: var(--color-hover);
+  }
+
+  /* Le focus clavier ne doit pas dessiner d'anneau : l'état ouvert/actif suffit. */
+  &:focus {
+    outline: none;
+  }
+
+  /* Filtre actif : capsule bleue sans contour. */
+  &.tp-group-pill--active,
+  &.tp-group-pill--active:hover,
+  &.tp-group-pill--active:focus,
+  &.tp-group-pill--active[aria-expanded="true"] {
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary);
+
+    .dropdown-chevron {
+      color: var(--color-primary);
+    }
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tp-group-pill:hover {
+    background-color: var(--color-hover);
+  }
+}
+
+.tp-group-label {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Panneau : largeur au contenu, espace minimal entre le nom du groupe et le compteur.
+   Entrée/sortie en fondu + échelle ancrée au déclencheur ; transitions interruptibles. */
+.tp-group-menu {
+  display: block;
+  min-width: 0;
+  width: max-content;
+  padding: 0.3rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.96) translateY(-2px);
+  transform-origin: top left;
+  transition: opacity 100ms ease, transform 120ms ease, visibility 0s 120ms;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    transition: opacity 150ms ease-out, transform 180ms $transition-snap, visibility 0s;
+  }
+
+  .dropdown-item {
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+.tp-group-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.tp-group-name {
+  min-width: 0;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Badge de comptage : largeur identique pour chaque groupe, icône à gauche, nombre à droite. */
+.tp-group-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  width: 2.5rem;
+  padding: 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  background-color: var(--color-hover);
+  border-radius: 9999px;
+
+  i {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .tp-group-label {
+    max-width: 100px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-group-menu,
+  .tp-group-menu.show {
+    transform: none;
+    transition: opacity 120ms ease, visibility 0s 120ms;
+  }
+
+  .tp-group-menu.show {
+    transition: opacity 120ms ease, visibility 0s;
+  }
+}

@@ -11,7 +11,9 @@
   "DATE": "Date",
   "TP-GROUP-SELECT": {
     "PLACEHOLDER": "Sélectionner un groupe de tp",
-    "ALL": "Tout"
+    "ALL": "Tout",
+    "TOOLTIP": "Filtrer par groupe de TP",
+    "STUDENT-COUNT": "{{count}} étudiant·es"
   },
   "ERRORS": {
     "REPOSITORY-NOT-FOUND": "Le dépôt n'a pas été trouvé ou vous n'avez aucun droit dessus",
@@ -301,7 +303,8 @@
     "KEY_CLICK": "Clic",
     "KEY_DBLCLICK": "Double-clic",
     "KEY_RIGHT_CLICK": "Clic droit",
-    "KEY_DRAG": "Glisser"
+    "KEY_DRAG": "Glisser",
+    "SELECT_GROUP": "Ouvrir / fermer le filtre de groupe de TP"
   },
   "TOAST": {
     "HASH_COPIED": "Hash du commit copié !"

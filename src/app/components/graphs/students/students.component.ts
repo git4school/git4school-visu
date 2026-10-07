@@ -30,6 +30,7 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
 
   readonly slider_step = Utils.SLIDER_STEP;
   assignmentsModified$: Subscription;
+  groupFilterSub: Subscription;
 
   date: number;
   min: number;
@@ -78,6 +79,8 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
   ngOnInit() {
     setTimeout(() => {
       this.assignmentsModified$ = this.subscribeAssignmentModified();
+      /* Le filtre de groupe est global (navbar) : rafraîchir la vue à chaque changement. */
+      this.groupFilterSub = this.dataService.groupFilter$.subscribe(() => this.loadGraphDataAndRefresh());
       this.translateService.onLangChange.subscribe(() => {
         this.loadGraphDataAndRefresh();
       });
@@ -110,6 +113,9 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
 
   ngOnDestroy(): void {
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
+    if (this.groupFilterSub) {
+      this.groupFilterSub.unsubscribe();
+    }
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }

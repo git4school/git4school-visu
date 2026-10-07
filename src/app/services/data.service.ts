@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 import { Assignment } from "@models/Assignment.model";
 import { QuestionClosingMode } from "@models/Metadata.model";
 import { Milestone } from "@models/Milestone.model";
@@ -26,7 +27,12 @@ export class DataService {
   /**
    * The filtered group selected during the session
    */
-  groupFilter: string;
+  private _groupFilter: string;
+
+  /**
+   * Emits the new group filter whenever it changes, so the mounted view can refresh
+   */
+  readonly groupFilter$ = new Subject<string>();
 
   /**
    * The index of the threshold bar of the graph "questions-completion"
@@ -53,7 +59,20 @@ export class DataService {
     this.barIndex = 5;
     this._tpGroups = [];
     this.hideDeleteRepoConfirmation = false;
-    this.groupFilter = "";
+    this._groupFilter = "";
+  }
+
+  get groupFilter(): string {
+    return this._groupFilter;
+  }
+
+  set groupFilter(groupFilter: string) {
+    const next = groupFilter || "";
+    if (this._groupFilter === next) {
+      return;
+    }
+    this._groupFilter = next;
+    this.groupFilter$.next(next);
   }
 
   saveData(assignment: Assignment = this.assignment): Promise<number> {

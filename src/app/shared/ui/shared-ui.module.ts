@@ -26,6 +26,9 @@ import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.compo
 /* Languette de séance en cours */
 import { SessionTabComponent } from "./session-tab/session-tab.component";
 
+/* Sélecteur de groupe de TP (pill de contexte du devoir) */
+import { TpGroupSelectorComponent } from "./tp-group-selector/tp-group-selector.component";
+
 @NgModule({
   declarations: [
     ModalComponent,
@@ -46,6 +49,7 @@ import { SessionTabComponent } from "./session-tab/session-tab.component";
     DevBarComponent,
     SegmentedRadioComponent,
     SessionTabComponent,
+    TpGroupSelectorComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -67,6 +71,7 @@ import { SessionTabComponent } from "./session-tab/session-tab.component";
     DevBarComponent,
     SegmentedRadioComponent,
     SessionTabComponent,
+    TpGroupSelectorComponent,
   ],
   entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent],
 })

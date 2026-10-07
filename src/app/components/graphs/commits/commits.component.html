@@ -17,33 +17,6 @@
     </questions-chooser>
   </div>
 
-  <!-- Middle: Group Selector -->
-  <div>
-    <div ngbDropdown #groupDropdown="ngbDropdown" class="dropdown d-inline-block">
-      <button class="btn-outline-ghost" ngbDropdownToggle>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-        <span>{{ dataService.groupFilter || ('TP-GROUP-SELECT.ALL' | translate) }}</span>
-        <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </button>
-      <div ngbDropdownMenu class="modern-dropdown-menu">
-        <button ngbDropdownItem class="dropdown-item" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = ''; loadGraphDataAndRefresh(false)">
-          {{ "TP-GROUP-SELECT.ALL" | translate }}
-        </button>
-        <div class="dropdown-divider"></div>
-        <button ngbDropdownItem class="dropdown-item" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh(false)">
-          {{ tpGroup }}
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- Right Side: Action Tools -->
   <div class="d-flex align-items-center" style="gap: 0.25rem;">
     <!-- Markers Group -->

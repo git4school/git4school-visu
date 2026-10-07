@@ -1,2 +1,97 @@
 @import "variables";
 @import "components";
+
+/* Pill de contexte du devoir (navbar) : contrôle segmenté titre + filtre de groupe de TP.
+   Deux segments encartés de 2px dans une seule pastille ; le séparateur s'efface quand un
+   groupe est actif (la capsule bleue fait alors la séparation). */
+.assignment-pill {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 2rem;
+  padding: 2px;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background-color: var(--color-bg-body);
+}
+
+.assignment-pill-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  max-width: 240px;
+  padding: 0 0.7rem;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: background-color $transition-fast, color $transition-fast, transform $transition-tactile;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-primary-bg);
+  }
+}
+
+.assignment-pill-title-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assignment-pill-cog {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  transition: color $transition-fast, transform $transition-snap;
+}
+
+.assignment-pill-separator {
+  flex-shrink: 0;
+  align-self: center;
+  width: 1px;
+  height: 1rem;
+  margin: 0 2px;
+  background-color: var(--color-border);
+  transition: opacity $transition-fast;
+
+  &.is-hidden {
+    opacity: 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .assignment-pill-title:hover {
+    background-color: var(--color-hover);
+    color: var(--color-text-primary);
+
+    .assignment-pill-cog {
+      color: var(--color-primary);
+      transform: rotate(90deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assignment-pill-title {
+    transition: background-color $transition-fast, color $transition-fast;
+
+    &:active {
+      transform: none;
+    }
+  }
+
+  .assignment-pill-cog {
+    transform: none !important;
+  }
+}

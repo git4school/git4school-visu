@@ -12,7 +12,9 @@
   "DATE": "Дата",
   "TP-GROUP-SELECT": {
     "PLACEHOLDER": "Выберите группу TP",
-    "ALL": "Все"
+    "ALL": "Все",
+    "TOOLTIP": "Фильтр по группе TP",
+    "STUDENT-COUNT": "{{count}} студ."
   },
   "ERRORS": {
     "REPOSITORY-NOT-FOUND": "Репозиторий не найден или у вас нет к нему прав доступа",
@@ -300,7 +302,8 @@
     "KEY_CLICK": "Клик",
     "KEY_DBLCLICK": "Двойной клик",
     "KEY_RIGHT_CLICK": "Правый клик",
-    "KEY_DRAG": "Перетаскивание"
+    "KEY_DRAG": "Перетаскивание",
+    "SELECT_GROUP": "Открыть / закрыть фильтр групп TP"
   },
   "TOAST": {
     "HASH_COPIED": "Хеш коммита скопирован!"

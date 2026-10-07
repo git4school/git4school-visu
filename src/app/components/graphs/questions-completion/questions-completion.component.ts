@@ -28,6 +28,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
 
   readonly slider_step = Utils.SLIDER_STEP;
   assignmentsModified$: Subscription;
+  groupFilterSub: Subscription;
 
   date: number;
   min: number;
@@ -57,6 +58,8 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
   ngOnInit() {
     setTimeout(() => {
       this.assignmentsModified$ = this.subscribeAssignmentModified();
+      /* Le filtre de groupe est global (navbar) : rafraîchir la vue à chaque changement. */
+      this.groupFilterSub = this.dataService.groupFilter$.subscribe(() => this.loadGraphDataAndRefresh());
       this.translateService.onLangChange.subscribe(() => {
         this.loadGraphDataAndRefresh();
       });
@@ -89,6 +92,9 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
 
   ngOnDestroy(): void {
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
+    if (this.groupFilterSub) {
+      this.groupFilterSub.unsubscribe();
+    }
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
