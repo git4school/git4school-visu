@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Optional, ViewChild } from "@angular/core";
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, Optional, ViewChild } from "@angular/core";
 import { Assignment } from "@models/Assignment.model";
 import { TranslateService } from "@ngx-translate/core";
 import { DataService } from "@services/data.service";
 import { ToastService } from "@services/toast.service";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
+import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { MetadataComponent } from "./metadata/metadata.component";
 import { EditRepositoriesComponent } from "./edit-repositories/edit-repositories.component";
 
@@ -56,8 +57,25 @@ export class ConfigurationComponent implements OnInit, OnDestroy {
     public translateService: TranslateService,
     public dataService: DataService,
     private toastService: ToastService,
+    private customModalService: CustomModalService,
     @Optional() public activeModal: CustomModalRef,
   ) {}
+
+  /**
+   * In inline mode, Échap closes the editor like the former "Done" button (flush + close).
+   * When a modal is open (this component's own modal or any other), dismissal is owned by
+   * the modal container; an inner widget that already consumed the key keeps priority.
+   */
+  @HostListener("document:keydown.escape", ["$event"])
+  onEscape(event: KeyboardEvent): void {
+    if (this.closeHandled || event.defaultPrevented) {
+      return;
+    }
+    if (this.activeModal || this.modalRef || this.customModalService.hasOpenModals()) {
+      return;
+    }
+    this.closeEditor();
+  }
 
   ngOnInit(): void {
     this.saveState = "idle";
@@ -114,7 +132,7 @@ export class ConfigurationComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Flushes pending changes and leaves the editor (inline "Done" button or modal close button).
+   * Flushes pending changes and leaves the editor (inline chevron / Échap, or modal close button).
    */
   async closeEditor() {
     this.closeHandled = true;

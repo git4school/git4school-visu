@@ -201,7 +201,8 @@
       "TOTAL": "Total:"
     },
     "UNSAVED-CHANGES": "Unsaved changes",
-    "DONE": "Done"
+    "DONE": "Done",
+    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Close editing"
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "No commits found",

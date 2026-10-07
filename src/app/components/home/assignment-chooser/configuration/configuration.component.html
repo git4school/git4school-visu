@@ -1,6 +1,5 @@
 <div class="inline-config-container">
-    <div id="tour-autosave" class="d-flex align-items-center justify-content-between mb-2 config-header border-bottom-0"
-        style="padding: 1.5rem 40px 0.5rem 40px;">
+    <div id="tour-autosave" class="d-flex align-items-center justify-content-between config-header">
         <div class="d-flex align-items-center" style="gap: 1.5rem;">
             <div class="filter-group" [attr.data-active]="activeTab">
                 <div class="filter-indicator"></div>
@@ -23,11 +22,21 @@
             </span>
         </div>
 
+        <!-- Fermeture inline : le bouton d'édition de la carte se transforme en chevron, à la même position -->
+        <button *ngIf="!activeModal && !modalRef" type="button" class="config-inline-close" (click)="closeEditor()"
+            [appTooltip]="'HOME.CLOSE-EDIT-ASSIGNMENT-TOOLTIP' | translate"
+            [attr.aria-label]="'HOME.CLOSE-EDIT-ASSIGNMENT-TOOLTIP' | translate" placement="left">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 15 12 9 18 15"></polyline>
+            </svg>
+        </button>
+
         <button *ngIf="activeModal || modalRef" type="button" class="btn btn-outline-ghost" style="border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-hover);" (click)="closeEditor()">
             <i class="fas fa-times"></i>
         </button>
     </div>
-    <div class="config-body px-4 pb-4 pt-2">
+    <div class="config-body">
 
         <div class="tab-content pt-0">
             <div [hidden]="activeTab !== 'metadata'">
@@ -42,13 +51,4 @@
             </div>
         </div>
         </div>
-
-
-    <div class="modal-footer border-top-0 pt-0 pb-4 d-flex justify-content-start align-items-center w-100" *ngIf="!activeModal && !modalRef" style="padding-left: 40px; padding-right: 40px;">
-        <button type="button" class="btn btn-primary shadow-sm"
-            style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1.5rem; font-size: 0.9rem; text-transform: none;"
-            (click)="closeEditor()">
-            <i class="fas fa-check mr-2"></i> {{ 'HOME.DONE' | translate }}
-        </button>
-    </div>
 </div>

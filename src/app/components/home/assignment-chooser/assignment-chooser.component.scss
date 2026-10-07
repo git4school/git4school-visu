@@ -806,6 +806,9 @@
 
   &.is-editing {
     z-index: 10;
+    /* L'édition part du bord haut de la carte : la gouttière de 1.5rem de l'en-tête
+       place le chevron exactement à la position du bouton d'édition. */
+    padding-top: 0;
   }
 
   /* Le menu d'actions liquide doit passer au-dessus des cartes voisines */

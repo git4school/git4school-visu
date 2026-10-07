@@ -22,10 +22,17 @@
 
 .inline-config-container {
   .config-header {
+    /* Gouttière de la page d'édition : 1.5rem partout (le bas est porté par le corps). */
+    padding: 1.5rem 1.5rem 0;
+
     h4 {
       font-family: "Inter", "Roboto", sans-serif;
       font-weight: 600;
     }
+  }
+
+  .config-body {
+    padding: 1.5rem;
   }
 
   .divider-vertical {
@@ -93,6 +100,34 @@
 
   .bg-light-surface {
     background-color: var(--color-bg-body);
+  }
+}
+
+/* En mode inline, remplace le bouton "Terminé" : le bouton d'édition de la carte
+   se transforme en chevron, à la même position (menu d'actions + marge à sa droite). */
+.config-inline-close {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-right: 2.5rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--color-bg-body);
+    color: var(--color-text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 }
 
