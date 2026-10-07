@@ -1,0 +1,60 @@
+<div class="liquid-actions" [class.is-open]="isOpen" [class.is-gulp]="isGulp"
+  (mouseleave)="onGroupLeave()" (keydown)="onKeydown($event)" (click)="onGroupClick($event)">
+  <!-- Couche liquide : le filtre goo fait fusionner puis se détacher les gouttes -->
+  <div class="liquid" aria-hidden="true">
+    <div class="goo">
+      <span class="blob" (animationend)="onBlobAnimationEnd()"></span>
+      <span class="drop d1"></span>
+      <span class="drop d2"></span>
+      <span class="drop d3"></span>
+    </div>
+  </div>
+
+  <!-- Gouttes cliquables (au-dessus du liquide, non déformées par le filtre) -->
+  <div class="menu" role="group" [attr.aria-label]="triggerTooltip" [attr.inert]="isOpen ? null : ''">
+    <button type="button" class="item d1 item-delete" [appTooltip]="deleteTooltip" [attr.aria-label]="deleteTooltip"
+      (click)="onAction('delete', $event)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 6h18"></path>
+        <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+        <line x1="10" y1="11" x2="10" y2="17"></line>
+        <line x1="14" y1="11" x2="14" y2="17"></line>
+      </svg>
+    </button>
+    <button type="button" class="item d2 item-duplicate" [appTooltip]="duplicateTooltip"
+      [attr.aria-label]="duplicateTooltip" (click)="onAction('duplicate', $event)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+    </button>
+    <button type="button" class="item d3 item-archive" [appTooltip]="archiveTooltip" [attr.aria-label]="archiveTooltip"
+      (click)="onAction('archive', $event)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="21 8 21 21 3 21 3 8"></polyline>
+        <rect x="1" y="3" width="22" height="5"></rect>
+        <line x1="10" y1="12" x2="14" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Déclencheur : ellipsis qui devient une croix -->
+  <button #triggerRef type="button" class="trigger" [disabled]="disabled" aria-haspopup="true"
+    [attr.aria-expanded]="isOpen" (mouseenter)="onTriggerEnter()" (click)="onTriggerClick($event)"
+    [appTooltip]="triggerTooltip">
+    <svg class="trigger-icon-open" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <circle cx="5" cy="12" r="1.9"></circle>
+      <circle cx="12" cy="12" r="1.9"></circle>
+      <circle cx="19" cy="12" r="1.9"></circle>
+    </svg>
+    <svg class="trigger-icon-close" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+</div>

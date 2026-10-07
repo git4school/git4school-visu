@@ -151,6 +151,9 @@
     "SELECT-ASSIGNMENT-TOOLTIP": "Sélectionner le devoir et le charger",
     "EDIT-ASSIGNMENT-TOOLTIP": "Modifier la configuration du devoir",
     "DELETE-ASSIGNMENT-TOOLTIP": "Supprimer le devoir",
+    "OTHER-ACTIONS": "Autres actions",
+    "DUPLICATE-ASSIGNMENT": "Dupliquer le devoir",
+    "ARCHIVE-ASSIGNMENT": "Archiver le devoir",
     "CONNECT-PROMPT-TITLE": "Connectez-vous à votre fournisseur",
     "CONNECT-PROMPT-DESC": "Certains devoirs nécessitent que vous soyez connecté à GitHub ou GitLab pour être consultés ou modifiés.",
     "STATUS": {

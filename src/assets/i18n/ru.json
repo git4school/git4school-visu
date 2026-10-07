@@ -150,6 +150,9 @@
     "SELECT-ASSIGNMENT-TOOLTIP": "Выбрать задание и загрузить его",
     "EDIT-ASSIGNMENT-TOOLTIP": "Редактировать конфигурацию задания",
     "DELETE-ASSIGNMENT-TOOLTIP": "Удалить задание",
+    "OTHER-ACTIONS": "Другие действия",
+    "DUPLICATE-ASSIGNMENT": "Дублировать задание",
+    "ARCHIVE-ASSIGNMENT": "Архивировать задание",
     "CONNECT-PROMPT-TITLE": "Подключитесь к провайдеру",
     "CONNECT-PROMPT-DESC": "Некоторые задания требуют подключения к GitHub или GitLab для доступа или изменения.",
     "STATUS": {

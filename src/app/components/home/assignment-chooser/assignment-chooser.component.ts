@@ -91,6 +91,9 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   editingAssignment: Assignment | null = null;
   isCreatingNew = false;
 
+  // Assignment card whose liquid actions menu is open (raises the card z-index)
+  openActionsAssignmentId: number | null = null;
+
   private dbSubscription?: Subscription;
   private overlaySub: Subscription | null = null;
   private accountsSub?: Subscription;
@@ -963,6 +966,11 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
       return;
     }
     this.databaseService.deleteAssignment(assignment.id);
+  }
+
+  /** Suit l'ouverture du menu d'actions liquides pour relever la carte concernée. */
+  onActionsMenuOpenChange(assignmentId: number, isOpen: boolean) {
+    this.openActionsAssignmentId = isOpen ? assignmentId : null;
   }
 
   createAssignment(provider?: GitProviderType, instanceHost?: string, instanceName?: string, event?: MouseEvent) {

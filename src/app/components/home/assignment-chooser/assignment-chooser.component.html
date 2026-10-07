@@ -415,6 +415,7 @@
            'disabled-card': !isAssignmentConnected(assignment), 
            'is-selected': isSelected(assignment.id),
            'is-editing': editingAssignment === assignment,
+           'has-open-actions': openActionsAssignmentId === assignment.id,
            'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignment !== assignment,
            'status-preview-dimmed': hoveredStatusPreview && assignment.id !== -1 && assignment.uiStatus !== hoveredStatusPreview
          }"
@@ -544,12 +545,15 @@
             [appTooltip]="getAssignmentEditTooltip(assignment) | translate">
             <i class="fas fa-cog"></i>
           </button>
-          <button type="button" class="btn btn-icon-action btn-light text-danger ml-2"
-            (click)="$event.stopPropagation(); deleteAssignment(assignment)"
+          <app-liquid-action-menu class="ml-2"
             [disabled]="!isAssignmentConnected(assignment) || assignment.id === -1"
-            [appTooltip]="getAssignmentDeleteTooltip(assignment) | translate">
-            <i class="far fa-trash-alt"></i>
-          </button>
+            [triggerTooltip]="'HOME.OTHER-ACTIONS' | translate"
+            [deleteTooltip]="getAssignmentDeleteTooltip(assignment) | translate"
+            [duplicateTooltip]="'HOME.DUPLICATE-ASSIGNMENT' | translate"
+            [archiveTooltip]="'HOME.ARCHIVE-ASSIGNMENT' | translate"
+            (delete)="deleteAssignment(assignment)"
+            (openChange)="onActionsMenuOpenChange(assignment.id, $event)">
+          </app-liquid-action-menu>
         </div>
       </div>
 

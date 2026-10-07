@@ -808,6 +808,11 @@
     z-index: 10;
   }
 
+  /* Le menu d'actions liquide doit passer au-dessus des cartes voisines */
+  &.has-open-actions {
+    z-index: 10;
+  }
+
   &::before {
     content: '';
     position: absolute;

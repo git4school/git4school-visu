@@ -152,6 +152,9 @@
     "SELECT-ASSIGNMENT-TOOLTIP": "Select assignment and load it",
     "EDIT-ASSIGNMENT-TOOLTIP": "Edit assignment configuration",
     "DELETE-ASSIGNMENT-TOOLTIP": "Delete assignment",
+    "OTHER-ACTIONS": "Other actions",
+    "DUPLICATE-ASSIGNMENT": "Duplicate assignment",
+    "ARCHIVE-ASSIGNMENT": "Archive assignment",
     "CONNECT-PROMPT-TITLE": "Connect to your provider",
     "CONNECT-PROMPT-DESC": "Some assignments require you to be connected to GitHub or GitLab to be accessed or modified.",
     "STATUS": {
