@@ -29,6 +29,9 @@ import { SessionTabComponent } from "./session-tab/session-tab.component";
 /* Sélecteur de groupe de TP (pill de contexte du devoir) */
 import { TpGroupSelectorComponent } from "./tp-group-selector/tp-group-selector.component";
 
+/* Menu d'actions secondaires « liquid morphism » (carte de devoir) */
+import { LiquidActionMenuComponent } from "./liquid-action-menu/liquid-action-menu.component";
+
 @NgModule({
   declarations: [
     ModalComponent,
@@ -50,6 +53,7 @@ import { TpGroupSelectorComponent } from "./tp-group-selector/tp-group-selector.
     SegmentedRadioComponent,
     SessionTabComponent,
     TpGroupSelectorComponent,
+    LiquidActionMenuComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -72,6 +76,7 @@ import { TpGroupSelectorComponent } from "./tp-group-selector/tp-group-selector.
     SegmentedRadioComponent,
     SessionTabComponent,
     TpGroupSelectorComponent,
+    LiquidActionMenuComponent,
   ],
   entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent],
 })

@@ -1,0 +1,265 @@
+/* Menu d'actions « liquid morphism » : les gouttes se détachent du bouton ellipsis. */
+:host {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.liquid-actions {
+  --spring: cubic-bezier(0.3, 1.45, 0.6, 1);
+
+  position: relative;
+  width: 32px;
+  height: 32px;
+
+  /* Pont de survol invisible : garde le menu ouvert quand la souris va du bouton vers une goutte */
+  &::before {
+    content: '';
+    position: absolute;
+    left: -55px;
+    right: -55px;
+    top: -80px;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+  /* Zone du liquide : assez large pour contenir l'éventail des gouttes */
+  .liquid {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 200px;
+    height: 170px;
+    margin: -85px 0 0 -100px;
+    pointer-events: none;
+    filter: drop-shadow(var(--liquid-actions-shadow));
+  }
+
+  .goo {
+    position: absolute;
+    inset: 0;
+    filter: url(#g4s-liquid-goo);
+  }
+
+  .blob,
+  .drop {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+  }
+
+  /* Pas de fond de base : le liquide n'apparaît qu'à l'ouverture (comme un bouton ghost) */
+  .blob {
+    width: 32px;
+    height: 32px;
+    margin: -16px 0 0 -16px;
+    background: transparent;
+    transition: background-color 0.15s ease 0.22s;
+  }
+
+  .drop {
+    width: var(--s);
+    height: var(--s);
+    margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+    background: transparent;
+    transform: translate(0, 0) scale(0.5);
+    transition: transform 0.38s cubic-bezier(0.55, 0, 0.75, 0.35) var(--c),
+      background-color 0.15s ease 0.22s;
+  }
+
+  /* Positions, tailles et délais de chaque goutte (partagés avec les items) */
+  .d1 {
+    --x: -38px;
+    --y: -42px;
+    --s: 32px;
+    --d: 0.08s;
+    --c: 0.06s;
+  }
+
+  .d2 {
+    --x: 0;
+    --y: -58px;
+    --s: 36px;
+    --d: 0.16s;
+    --c: 0.03s;
+  }
+
+  .d3 {
+    --x: 38px;
+    --y: -40px;
+    --s: 30px;
+    --d: 0.24s;
+    --c: 0s;
+  }
+
+  .menu {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .item {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--s);
+    height: var(--s);
+    margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(0, 0) scale(0.5);
+    transition: transform 0.38s cubic-bezier(0.55, 0, 0.75, 0.35) var(--c),
+      opacity 0.15s ease var(--c),
+      background 0.15s ease;
+  }
+
+  .item-delete {
+    color: var(--color-danger);
+  }
+
+  .item-duplicate {
+    color: var(--color-primary);
+  }
+
+  .item-archive {
+    color: var(--color-text-secondary);
+  }
+
+  .item:hover {
+    background: var(--color-hover);
+  }
+
+  /* Déclencheur ghost : transparent au repos, fond carré au survol/ouverture */
+  .trigger {
+    position: relative;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: background-color 0.15s ease 0.22s, color 0.15s ease;
+  }
+
+  .trigger:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .trigger:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  .trigger-icon-open,
+  .trigger-icon-close {
+    grid-area: 1 / 1;
+    transition: opacity 0.25s ease, transform 0.4s var(--spring);
+  }
+
+  .trigger-icon-close {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+  }
+
+  &.is-open {
+    &::before {
+      pointer-events: auto;
+    }
+
+    .blob {
+      background: var(--filter-bg);
+      transition: background-color 0.12s ease;
+      animation: liquid-bulge 0.85s var(--spring);
+    }
+
+    .drop {
+      background: var(--filter-bg);
+      transform: translate(var(--x), var(--y)) scale(1);
+      transition: transform 0.9s var(--spring) var(--d),
+        background-color 0.12s ease;
+    }
+
+    .item {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(var(--x), var(--y)) scale(1);
+      transition: transform 0.9s var(--spring) var(--d),
+        opacity 0.25s ease calc(var(--d) + 0.22s),
+        background 0.15s ease;
+    }
+
+    .trigger {
+      background: var(--filter-bg);
+      color: var(--color-text-primary);
+      transition: background-color 0.12s ease, color 0.12s ease;
+    }
+
+    .trigger-icon-open {
+      opacity: 0;
+      transform: rotate(90deg) scale(0.5);
+    }
+
+    .trigger-icon-close {
+      opacity: 1;
+      transform: rotate(0) scale(1);
+    }
+  }
+
+  &.is-gulp .blob {
+    animation: liquid-gulp 0.5s var(--spring);
+  }
+}
+
+/* Ressort liquide : dépasse un peu, puis se pose */
+@supports (transition-timing-function: linear(0, 1)) {
+  .liquid-actions {
+    --spring: linear(0, 0.08 2%, 0.3 4.5%, 0.58 8%, 0.84 12%, 1.02 16%, 1.1 20%,
+      1.13 24%, 1.11 28%, 1.06 34%, 1.02 40%, 0.995 48%, 0.99 56%,
+      1.002 70%, 1);
+  }
+}
+
+@keyframes liquid-bulge {
+  0% { transform: scale(1); }
+
+  18% { transform: scale(1.1, 0.88); }
+
+  42% { transform: scale(0.94, 1.1); }
+
+  100% { transform: scale(1); }
+}
+
+@keyframes liquid-gulp {
+  0% { transform: scale(1); }
+
+  35% { transform: scale(1.14); }
+
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-actions .drop,
+  .liquid-actions .item,
+  .liquid-actions .blob,
+  .liquid-actions .trigger,
+  .liquid-actions .trigger-icon-open,
+  .liquid-actions .trigger-icon-close {
+    transition-duration: 0.01s !important;
+    transition-delay: 0s !important;
+    animation: none !important;
+  }
+}
