@@ -70,7 +70,7 @@ export class LiquidActionMenuComponent implements OnDestroy {
       return;
     }
     this.clearCloseTimer();
-    this.closeTimer = setTimeout(() => this.close(), 200);
+    this.closeTimer = setTimeout(() => this.close(), 60);
   }
 
   /** Clic sur le déclencheur : bascule (tactile et clavier). */
@@ -141,7 +141,7 @@ export class LiquidActionMenuComponent implements OnDestroy {
     /* « Gloup » quand les gouttes sont ré-absorbées. */
     this.gulpTimer = setTimeout(() => {
       this.isGulp = true;
-    }, 340);
+    }, 180);
   }
 
   private clearTimers(): void {
