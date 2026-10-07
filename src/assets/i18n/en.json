@@ -12,7 +12,9 @@
   "DATE": "Date",
   "TP-GROUP-SELECT": {
     "PLACEHOLDER": "Select a tp group",
-    "ALL": "All"
+    "ALL": "All",
+    "TOOLTIP": "Filter by TP group",
+    "STUDENT-COUNT": "{{count}} student(s)"
   },
   "ERRORS": {
     "REPOSITORY-NOT-FOUND": "Repository not found or you have no rights on it",
@@ -302,7 +304,8 @@
     "KEY_CLICK": "Click",
     "KEY_DBLCLICK": "Double-click",
     "KEY_RIGHT_CLICK": "Right click",
-    "KEY_DRAG": "Drag"
+    "KEY_DRAG": "Drag",
+    "SELECT_GROUP": "Open / close the TP group filter"
   },
   "TOAST": {
     "HASH_COPIED": "Commit hash copied!"

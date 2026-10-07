@@ -78,6 +78,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
 
   readonly commitColors = [CommitColor.INTERMEDIATE, CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER];
   assignmentsModified$?: Subscription;
+  groupFilterSub?: Subscription;
   private resizeObserver?: any;
   private isTrajectoryWarm = false;
   private trajectoryWarmResetTimeout: any = null;
@@ -129,6 +130,8 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
 
   ngOnInit(): void {
     this.assignmentsModified$ = this.subscribeAssignmentModified();
+    /* Le filtre de groupe est global (navbar) : rafraîchir la vue à chaque changement. */
+    this.groupFilterSub = this.dataService.groupFilter$.subscribe(() => this.loadGraphDataAndRefresh());
     this.translateService.onLangChange.subscribe(() => {
       this.loadGraphDataAndRefresh();
     });
@@ -168,6 +171,9 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   ngOnDestroy(): void {
     if (this.assignmentsModified$) {
       this.unsubscribeAssignmentModified(this.assignmentsModified$);
+    }
+    if (this.groupFilterSub) {
+      this.groupFilterSub.unsubscribe();
     }
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();

@@ -1,31 +1,6 @@
 <div class="d-flex flex-column flex-grow-1" style="min-height: 0;">
   <!-- TOOLBAR -->
   <div class="modern-toolbar">
-    <!-- Group Selector Dropdown -->
-    <div ngbDropdown class="dropdown d-inline-block">
-      <button class="btn-outline-ghost" ngbDropdownToggle>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-        <span>{{ dataService.groupFilter || ('TP-GROUP-SELECT.ALL' | translate) }}</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </button>
-      <div ngbDropdownMenu class="modern-dropdown-menu">
-        <button ngbDropdownItem class="dropdown-item py-2" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = ''; loadGraphDataAndRefresh()">
-          {{ "TP-GROUP-SELECT.ALL" | translate }}
-        </button>
-        <div class="dropdown-divider"></div>
-        <button ngbDropdownItem class="dropdown-item py-2" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh()">
-          {{ tpGroup }}
-        </button>
-      </div>
-    </div>
-
     <!-- Reload Button -->
     <button class="btn-outline-ghost anim-spin-hover" (click)="loadGraph(dataService.startDate, dataService.endDate)" [disabled]="!dataService.repositories?.length || loading" [appTooltip]="{ text: ('OVERVIEW-GRAPH.RELOAD-TOOLTIP' | translate), shortcut: ['R'] }">
       <svg [class.fa-spin]="loading" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
