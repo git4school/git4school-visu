@@ -27,11 +27,10 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 200px;
-    height: 170px;
-    margin: -85px 0 0 -100px;
+    width: 160px;
+    height: 140px;
+    margin: -70px 0 0 -80px;
     pointer-events: none;
-    filter: drop-shadow(var(--liquid-actions-shadow));
   }
 
   .goo {
@@ -54,7 +53,7 @@
     height: 32px;
     margin: -16px 0 0 -16px;
     background: transparent;
-    transition: background-color 0.15s ease 0.22s;
+    transition: background-color 0.1s ease 0.1s;
   }
 
   .drop {
@@ -63,8 +62,8 @@
     margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
     background: transparent;
     transform: translate(0, 0) scale(0.5);
-    transition: transform 0.38s cubic-bezier(0.55, 0, 0.75, 0.35) var(--c),
-      background-color 0.15s ease 0.22s;
+    transition: transform 0.18s cubic-bezier(0.55, 0, 0.75, 0.35) var(--c),
+      background-color 0.1s ease 0.1s;
   }
 
   /* Positions, tailles et délais de chaque goutte (partagés avec les items) */
@@ -72,23 +71,23 @@
     --x: -38px;
     --y: -42px;
     --s: 32px;
-    --d: 0.08s;
-    --c: 0.06s;
+    --d: 0.04s;
+    --c: 0.04s;
   }
 
   .d2 {
     --x: 0;
     --y: -58px;
     --s: 36px;
-    --d: 0.16s;
-    --c: 0.03s;
+    --d: 0.08s;
+    --c: 0.02s;
   }
 
   .d3 {
     --x: 38px;
     --y: -40px;
     --s: 30px;
-    --d: 0.24s;
+    --d: 0.12s;
     --c: 0s;
   }
 
@@ -108,7 +107,7 @@
     display: grid;
     place-items: center;
     padding: 0;
-    border: 0;
+    border: 1px solid transparent;
     border-radius: 50%;
     background: transparent;
     color: var(--color-text-secondary);
@@ -116,21 +115,14 @@
     opacity: 0;
     pointer-events: none;
     transform: translate(0, 0) scale(0.5);
-    transition: transform 0.38s cubic-bezier(0.55, 0, 0.75, 0.35) var(--c),
-      opacity 0.15s ease var(--c),
+    transition: transform 0.18s cubic-bezier(0.55, 0, 0.75, 0.35) var(--c),
+      opacity 0.1s ease var(--c),
+      border-color 0.1s ease var(--c),
       background 0.15s ease;
   }
 
   .item-delete {
     color: var(--color-danger);
-  }
-
-  .item-duplicate {
-    color: var(--color-primary);
-  }
-
-  .item-archive {
-    color: var(--color-text-secondary);
   }
 
   .item:hover {
@@ -151,7 +143,7 @@
     background: transparent;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition: background-color 0.15s ease 0.22s, color 0.15s ease;
+    transition: background-color 0.1s ease 0.1s, color 0.1s ease 0.1s, transform 0.1s ease-out;
   }
 
   .trigger:disabled {
@@ -164,10 +156,14 @@
     outline-offset: 3px;
   }
 
+  .trigger:active {
+    transform: scale(0.94);
+  }
+
   .trigger-icon-open,
   .trigger-icon-close {
     grid-area: 1 / 1;
-    transition: opacity 0.25s ease, transform 0.4s var(--spring);
+    transition: opacity 0.15s ease, transform 0.25s var(--spring);
   }
 
   .trigger-icon-close {
@@ -181,31 +177,39 @@
     }
 
     .blob {
-      background: var(--filter-bg);
-      transition: background-color 0.12s ease;
-      animation: liquid-bulge 0.85s var(--spring);
+      background: var(--liquid-actions-bg);
+      transition: background-color 0.1s ease;
+      animation: liquid-bulge 0.5s var(--spring);
     }
 
     .drop {
-      background: var(--filter-bg);
+      background: var(--liquid-actions-bg);
       transform: translate(var(--x), var(--y)) scale(1);
-      transition: transform 0.9s var(--spring) var(--d),
-        background-color 0.12s ease;
+      transition: transform 0.45s var(--spring) var(--d),
+        background-color 0.1s ease;
     }
 
     .item {
       opacity: 1;
       pointer-events: auto;
+      border-color: var(--color-border);
       transform: translate(var(--x), var(--y)) scale(1);
-      transition: transform 0.9s var(--spring) var(--d),
-        opacity 0.25s ease calc(var(--d) + 0.22s),
+      transition: transform 0.45s var(--spring) var(--d),
+        opacity 0.15s ease calc(var(--d) + 0.12s),
+        border-color 0.1s ease,
         background 0.15s ease;
     }
 
+    /* Feedback au press : le bouton répond immédiatement */
+    .item:active {
+      transform: translate(var(--x), var(--y)) scale(0.94);
+      transition: transform 0.1s ease-out;
+    }
+
     .trigger {
-      background: var(--filter-bg);
+      background: var(--liquid-actions-bg);
       color: var(--color-text-primary);
-      transition: background-color 0.12s ease, color 0.12s ease;
+      transition: background-color 0.1s ease, color 0.1s ease, transform 0.1s ease-out;
     }
 
     .trigger-icon-open {
@@ -220,7 +224,7 @@
   }
 
   &.is-gulp .blob {
-    animation: liquid-gulp 0.5s var(--spring);
+    animation: liquid-gulp 0.4s var(--spring);
   }
 }
 
@@ -252,14 +256,25 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Mouvement supprimé, fondus conservés (les gouttes apparaissent en place) */
   .liquid-actions .drop,
-  .liquid-actions .item,
-  .liquid-actions .blob,
-  .liquid-actions .trigger,
+  .liquid-actions .item {
+    transform: translate(var(--x), var(--y)) scale(1) !important;
+    transition: opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease !important;
+  }
+
+  .liquid-actions .blob {
+    transition: background-color 0.15s ease !important;
+    animation: none !important;
+  }
+
+  .liquid-actions .trigger {
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+  }
+
   .liquid-actions .trigger-icon-open,
   .liquid-actions .trigger-icon-close {
-    transition-duration: 0.01s !important;
-    transition-delay: 0s !important;
-    animation: none !important;
+    transform: none !important;
+    transition: opacity 0.15s ease !important;
   }
 }
