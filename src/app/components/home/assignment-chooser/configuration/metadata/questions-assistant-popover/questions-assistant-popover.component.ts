@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, HostListener, ChangeDetectorRef } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, ChangeDetectorRef } from "@angular/core";
 import { QuestionClosingMode } from "@models/Metadata.model";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 import { Subject } from "rxjs";
@@ -74,15 +74,9 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
   private boundScroll: (() => void) | null = null;
   private boundResize: (() => void) | null = null;
   private boundClick: ((event: MouseEvent) => void) | null = null;
+  private boundKeydown: ((event: KeyboardEvent) => void) | null = null;
 
   constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef, private overlayManagerService: OverlayManagerService) {}
-
-  @HostListener("keydown.escape")
-  public onEscape(): void {
-    if (this.isOpen) {
-      this.close();
-    }
-  }
 
   public ngOnInit(): void {
     if (this.customClosingKeywords && this.customClosingKeywords.length > 0) {
@@ -105,6 +99,18 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
       }
     };
     document.addEventListener("click", this.boundClick, { capture: true });
+
+    this.boundKeydown = (event: KeyboardEvent) => {
+      if (!this.isOpen || event.key !== "Escape") {
+        return;
+      }
+      // Le popover est déplacé dans <body> : capturé avant le gestionnaire de l'éditeur
+      // inline pour ne fermer que le popover au premier appui sur Échap.
+      event.preventDefault();
+      event.stopPropagation();
+      this.close();
+    };
+    document.addEventListener("keydown", this.boundKeydown, true);
 
     this.boundScroll = () => {
       if (this.isOpen) {
@@ -132,6 +138,10 @@ export class QuestionsAssistantPopoverComponent implements OnInit, OnDestroy {
     if (this.boundClick) {
       document.removeEventListener("click", this.boundClick, { capture: true });
       this.boundClick = null;
+    }
+    if (this.boundKeydown) {
+      document.removeEventListener("keydown", this.boundKeydown, true);
+      this.boundKeydown = null;
     }
     if (this.boundScroll) {
       document.removeEventListener("scroll", this.boundScroll, { capture: true });

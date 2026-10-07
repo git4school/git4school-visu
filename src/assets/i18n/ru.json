@@ -199,7 +199,8 @@
       "TOTAL": "Всего:"
     },
     "UNSAVED-CHANGES": "Несохраненные изменения",
-    "DONE": "Готово"
+    "DONE": "Готово",
+    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Закрыть редактирование"
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "Коммиты не найдены",

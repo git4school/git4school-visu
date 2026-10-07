@@ -143,6 +143,29 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
 
   handleEscape(event?: KeyboardEvent) {
     if (this.isModalOpen()) return;
+
+    const isPopupOpen = !!this.instance && this.instance.isPopupOpen();
+    if (this.mode === "add") {
+      // Formulaire : Échap annule la saisie en cours sans effacer les questions validées.
+      if (!this.question && !isPopupOpen) {
+        // Rien à annuler : laisser Échap remonter (ex. fermeture de l'éditeur inline).
+        return;
+      }
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      if (isPopupOpen) {
+        this.instance.dismissPopup();
+      }
+      this.question = "";
+      if (this.inputField && this.inputField.nativeElement) {
+        this.inputField.nativeElement.blur();
+      }
+      this.cdr.markForCheck();
+      return;
+    }
+
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -151,7 +174,7 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
     if (this.showQuickHelp) {
       this.closeQuickHelp();
     }
-    if (this.instance && this.instance.isPopupOpen()) {
+    if (isPopupOpen) {
       this.instance.dismissPopup();
     }
     this.clearAll();

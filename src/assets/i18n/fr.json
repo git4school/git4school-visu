@@ -200,7 +200,8 @@
       "TOTAL": "Total :"
     },
     "UNSAVED-CHANGES": "Modifications non enregistrées",
-    "DONE": "Terminé"
+    "DONE": "Terminé",
+    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Fermer l'édition"
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "Aucun commit trouvé",

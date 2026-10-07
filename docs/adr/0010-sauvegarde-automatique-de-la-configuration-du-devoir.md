@@ -10,7 +10,7 @@ Deux contraintes s'opposaient : ne pas écrire en base à chaque frappe clavier,
 2. Cadence différenciée :
    - Champs libres (titre, cours, programme, année) : debounce de 600 ms après la dernière frappe.
    - Changements discrets (dates, questions, mode de clôture, durée, dépôts) : persistance immédiate.
-3. Garantie de non-perte par « flush » : à la perte de focus, au changement d'onglet, à la fermeture (bouton « Terminé » en ligne, croix de la modale, clic extérieur ou `Esc`) et à la destruction du composant (`ngOnDestroy`). Les sauvegardes concurrentes sont sérialisées et rejouées si de nouvelles modifications arrivent pendant l'écriture.
+3. Garantie de non-perte par « flush » : à la perte de focus, au changement d'onglet, à la fermeture (chevron ou `Échap` en ligne, croix de la modale, clic extérieur) et à la destruction du composant (`ngOnDestroy`). Les sauvegardes concurrentes sont sérialisées et rejouées si de nouvelles modifications arrivent pendant l'écriture.
 4. Le titre est un champ obligatoire : il n'est jamais persisté à l'état invalide (le titre valide précédent est conservé). Pour un devoir neuf (`id === -1`), aucun enregistrement n'est créé tant que le titre n'a jamais été valide ; la fermeture d'une carte jamais titrée la supprime.
 5. Un indicateur discret dans l'en-tête remplace le bandeau (« Enregistrement… / Enregistré / Titre obligatoire »). À la fermeture, si des données n'ont pas pu être enregistrées (titre invalide), un toast d'erreur explique la cause.
 6. Les notifications applicatives (`assignmentModified`) et le rechargement (`repoToLoad`) ne sont déclenchés qu'une fois, à la fermeture, pour ne pas recalculer les graphes à chaque frappe.
