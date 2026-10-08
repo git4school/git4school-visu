@@ -18,10 +18,6 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
   @Input() provider: GitProviderType = "github";
   @Input() instanceHost?: string;
   rows: Repository[];
-  nameMatches: Repository[] = [];
-  contentMatches: Repository[] = [];
-  isNameMatchesCollapsed = false;
-  isContentMatchesCollapsed = false;
   loading: boolean;
   selected: Repository[];
   selectedUrls: Set<string> = new Set();
@@ -36,18 +32,6 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
   private searchFilter;
 
   constructor(public activeModal: CustomModalRef, private commitsService: CommitsService, private ngZone: NgZone) {}
-
-  get hasGroupedMatches(): boolean {
-    return Boolean(this.searchFilter) && (this.contentMatches.length > 0 || this.nameMatches.length > 0);
-  }
-
-  toggleNameMatches() {
-    this.isNameMatchesCollapsed = !this.isNameMatchesCollapsed;
-  }
-
-  toggleContentMatches() {
-    this.isContentMatchesCollapsed = !this.isContentMatchesCollapsed;
-  }
 
   getDisplayName(repo: Repository): string {
     if (!repo || !repo.name) return "";
@@ -189,26 +173,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
     return false;
   }
 
-  isContentMatch(repo: Repository, searchFilter: string): boolean {
-    if (!searchFilter || !repo) return false;
-    const { owner, name } = this.getSearchTerms(searchFilter);
-    const repoUrl = (repo.url || "").toLowerCase();
-
-    if (owner && !repoUrl.includes(`/${owner}/`)) {
-      return false;
-    }
-
-    if (!name) return false;
-    const cleanName = name.replace(/[-_]+$/, "");
-    const coreSearch = Utils.extractAssignmentCore(name, owner);
-    const desc = (repo.description || "").toLowerCase();
-    return (Boolean(cleanName) && desc.includes(cleanName)) || (Boolean(coreSearch) && desc.includes(coreSearch));
-  }
-
-  private updateMatchesGrouping() {
+  private filterRowsByName() {
     if (!this.searchFilter) {
-      this.nameMatches = this.rows;
-      this.contentMatches = [];
       return;
     }
 
@@ -227,29 +193,18 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
       }
     }
 
-    const nameGroupRows: Repository[] = [];
-    const contentGroupRows: Repository[] = [];
-    const { owner } = this.getSearchTerms(this.searchFilter);
-    const isGlobalSearch = !owner;
-
+    // Keep a group only when its root or one of its forks matches by name
+    const nameMatchedRows: Repository[] = [];
     for (const group of groups) {
       const rootNameMatch = this.isNameMatch(group.root, this.searchFilter);
       const childNameMatch = group.children.some((c) => this.isNameMatch(c, this.searchFilter));
 
       if (rootNameMatch || childNameMatch) {
-        nameGroupRows.push(group.root, ...group.children);
-      } else {
-        const rootContentMatch = this.isContentMatch(group.root, this.searchFilter);
-        const childContentMatch = group.children.some((c) => this.isContentMatch(c, this.searchFilter));
-
-        if (isGlobalSearch || rootContentMatch || childContentMatch) {
-          contentGroupRows.push(group.root, ...group.children);
-        }
+        nameMatchedRows.push(group.root, ...group.children);
       }
     }
 
-    this.nameMatches = nameGroupRows;
-    this.contentMatches = contentGroupRows;
+    this.rows = nameMatchedRows;
   }
 
   private updateResults(repositories: Repository[], isFirstPage = false) {
@@ -441,8 +396,6 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
       return;
     }
     this.searchFilter = cleanValue;
-    this.isNameMatchesCollapsed = false;
-    this.isContentMatchesCollapsed = false;
     if (!this.searchFilter) {
       this.cursor = undefined;
       this.done = false;
@@ -462,9 +415,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
       const targetQuery = (parts.length > 1 ? parts[1] : parts[0]).trim();
       const seenUrls = new Set(this.repoList.map((r) => r.url));
       const targetUrl = this.getTargetSourceUrl(this.searchFilter);
-      const filtered = this.allUserRepositories.filter(
-        (r) => !seenUrls.has(r.url) && (this.isNameMatch(r, this.searchFilter) || this.isContentMatch(r, this.searchFilter)),
-      );
+      const filtered = this.allUserRepositories.filter((r) => !seenUrls.has(r.url) && this.isNameMatch(r, this.searchFilter));
       this.rows = this.organizeHierarchy(filtered, targetUrl);
       this.applySort();
       this.loading = true;
@@ -529,7 +480,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
       }
       this.rows = sorted;
     }
-    this.updateMatchesGrouping();
+    this.filterRowsByName();
   }
 
   getAvatarUrl(repo: Repository): string | null {
