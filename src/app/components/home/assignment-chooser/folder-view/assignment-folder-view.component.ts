@@ -34,6 +34,9 @@ export class AssignmentFolderViewComponent implements OnChanges {
   /** Dossier dont les feuilles sont sorties (un seul à la fois). */
   openAssignmentId: number | null = null;
 
+  /** Dispositions « au repos » calculées par dossier (voir getRestLayout). */
+  private readonly restLayouts = new Map<number, { [key: string]: string }>();
+
   constructor(
     public translateService: TranslateService,
     public assignmentsService: AssignmentsService,
@@ -162,8 +165,46 @@ export class AssignmentFolderViewComponent implements OnChanges {
     return Utils.getProgressBarColor(progress);
   }
 
+  /**
+   * Disposition « au repos » des feuilles, légèrement randomisée par dossier (angle,
+   * décalages) pour éviter la monotonie de la grille. Même devoir → même disposition
+   * (graine stable), mise en cache car appelée à chaque détection de changements.
+   */
+  getRestLayout(assignment: any): { [key: string]: string } {
+    const cached = this.restLayouts.get(assignment.id);
+    if (cached) {
+      return cached;
+    }
+    const layout = this.buildRestLayout(assignment);
+    this.restLayouts.set(assignment.id, layout);
+    return layout;
+  }
+
   private closeOpenFolder(): void {
     this.openAssignmentId = null;
+  }
+
+  /** Petites variations déterministes autour des valeurs par défaut (graine = id + titre). */
+  private buildRestLayout(assignment: any): { [key: string]: string } {
+    const rand = (salt: number): number => {
+      const source = `${assignment.id}:${assignment.title || ""}#${salt}`;
+      let seed = 2166136261;
+      for (let i = 0; i < source.length; i++) {
+        seed = Math.imul(seed ^ source.charCodeAt(i), 16777619);
+      }
+      return ((seed >>> 0) % 2000) / 1000 - 1;
+    };
+    const tx1 = 10 + rand(1) * 1.4;
+    /* La feuille de planning garde toujours 2,5 à 3,3 % d'avance : sa tranche reste visible. */
+    const tx2 = tx1 + 2.5 + (rand(2) + 1) * 0.4;
+    return {
+      "--page-rot-1": `${(-2.2 + rand(3) * 1.1).toFixed(2)}deg`,
+      "--page-rot-2": `${(2.6 + rand(4) * 1.1).toFixed(2)}deg`,
+      "--page-tx-closed-1": `${tx1.toFixed(2)}%`,
+      "--page-tx-closed-2": `${tx2.toFixed(2)}%`,
+      "--page-ty-closed-1": `${(rand(5) * 1.1).toFixed(2)}%`,
+      "--page-ty-closed-2": `${(rand(6) * 1.1).toFixed(2)}%`,
+    };
   }
 
   /**

@@ -108,7 +108,7 @@
    la composition dans la vue, les voisins floutés passant dessous. */
 .folder-item.is-open .folder-stage {
   transform: translateX(var(--folder-open-shift, 0));
-  transition: transform $transition-drawer-enter;
+  transition: transform $transition-panel-enter;
 }
 
 /* Anneau de sélection autour du dossier complet */
@@ -128,7 +128,8 @@
 }
 
 /* Chemise arrière : même taille et mêmes bords haut/bas que le rabat (panneaux
-   parfaitement alignés), simplement décalée vers la droite pour former la tranche. */
+   parfaitement alignés), simplement décalée vers la droite pour former la tranche
+   (5 % : elle ne ressort que d'un filet, comme sur l'image de référence). */
 .folder-back {
   position: absolute;
   inset: 0;
@@ -137,7 +138,7 @@
   background: var(--folder-cover-bg, var(--folder-default-bg));
   filter: brightness(0.93) saturate(0.98);
   box-shadow: var(--folder-shadow-back);
-  transform: translate(8%, 0);
+  transform: translate(5%, 0);
 }
 
 /* Feuilles A4 : bords francs (très léger arrondi), sans liseré, toujours nettes. */
@@ -164,19 +165,21 @@
 .folder-page--meta {
   --tx: var(--page-tx-closed-1);
   --rot: var(--page-rot-1);
+  --ty: var(--page-ty-closed-1, 0);
   z-index: 3;
 }
 
 .folder-page--dates {
   --tx: var(--page-tx-closed-2);
   --rot: var(--page-rot-2);
+  --ty: var(--page-ty-closed-2, 0);
 }
 
 /* Ouvert : les deux feuilles sortent entièrement côte à côte et remontent un peu. */
 .folder-item.is-open .folder-page {
   --ty: calc(var(--page-lift) * -1);
 
-  transition: transform $transition-drawer-enter;
+  transition: transform $transition-panel-enter;
 }
 
 .folder-item.is-open .folder-page--meta {
@@ -231,7 +234,8 @@
 }
 
 /* Rabat : fond de couleur unie OPAQUE (aucune démarcation du panneau arrière ne doit
-   apparaître à travers) ; seul le léger calque « pages » donne l'effet dépoli. */
+   apparaître à travers, y compris au survol) ; seul le calque « pages » donne l'effet
+   dépoli, la transparence reste identique dans tous les états du rabat. */
 .folder-cover {
   position: absolute;
   inset: 0;
@@ -261,7 +265,7 @@
 /* Rabat ouvert : effet de dossier qui s'ouvre au survol (image de référence). */
 .folder-item.is-open .folder-cover {
   transform: rotateY(var(--cover-ry-open));
-  transition: transform $transition-drawer-enter;
+  transition: transform $transition-panel-enter;
 }
 
 .cover-text {
@@ -371,10 +375,11 @@
   }
 }
 
-/* Rangée d'actions, sous le dossier (le texte du rabat ne bouge jamais). */
+/* Rangée d'actions : ancrée dans le bas du dossier en chevauchant légèrement son bord
+   inférieur (image de référence) ; les feuilles, remontées, restent au-dessus. */
 .folder-actions {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% - 22px);
   left: 0;
   z-index: 5;
   display: flex;
@@ -450,7 +455,8 @@
 
 /* Calque « pages » : à l'intérieur du rabat, on devine très légèrement les feuilles
    (même place, même format), floues et fondues — l'effet dépoli de la référence.
-   Il s'efface quand les vraies feuilles sortent. */
+   La transparence persiste au survol (on voit les feuilles sortir à travers) et ne
+   s'efface qu'une fois le dossier grand ouvert. */
 .cover-pages {
   position: absolute;
   top: 6.5%;
@@ -494,6 +500,29 @@
   height: 7px;
 }
 
+/* Tampon de forge : filigrane très discret (logo GitHub/GitLab du devoir), centré
+   horizontalement aux deux tiers de la hauteur, légèrement incliné comme un cachet. */
+.cover-stamp {
+  position: absolute;
+  top: 33.3%;
+  left: 50%;
+  display: grid;
+  width: 38%;
+  aspect-ratio: 1;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.13;
+  place-items: center;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  pointer-events: none;
+}
+
+.cover-stamp svg {
+  width: 44%;
+  height: 44%;
+  fill: currentColor;
+}
+
 .folder-item.is-open .cover-pages {
   opacity: 0;
 }
@@ -504,10 +533,6 @@
 @media (hover: hover) and (pointer: fine) and (min-width: 701px) {
   .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-cover {
     transform: rotateY(var(--cover-ry-open));
-  }
-
-  .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .cover-pages {
-    opacity: 0;
   }
 
   .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-page--meta {
