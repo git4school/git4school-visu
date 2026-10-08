@@ -88,7 +88,7 @@
     visibility: visible;
     pointer-events: auto;
     transform: none;
-    transition: opacity 150ms ease-out, transform 180ms $transition-snap, visibility 0s;
+    transition: opacity 150ms ease-out, transform $transition-snap, visibility 0s;
   }
 
   .dropdown-item {
