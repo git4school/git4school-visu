@@ -30,7 +30,7 @@
   font-weight: 600;
   letter-spacing: -0.01em;
   cursor: pointer;
-  transition: background-color $transition-fast, color $transition-fast, transform $transition-tactile;
+  transition: color $transition-fast, transform $transition-tactile;
 
   &:active {
     transform: scale(0.98);

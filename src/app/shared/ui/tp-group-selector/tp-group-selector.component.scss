@@ -31,7 +31,7 @@
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color $transition-fast, color $transition-fast;
+  transition: color $transition-fast;
 
   &[aria-expanded="true"] {
     background-color: var(--color-hover);

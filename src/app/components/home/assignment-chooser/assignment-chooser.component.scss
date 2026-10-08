@@ -600,8 +600,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 240ms ease,
-                  border-color 240ms ease,
+      transition: border-color 240ms ease,
                   box-shadow 240ms ease,
                   transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1),
                   color 240ms ease;
@@ -966,7 +965,7 @@
   justify-content: center;
   border: none;
   background: transparent;
-  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  transition: color 0.15s ease, transform 0.15s ease;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

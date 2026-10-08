@@ -27,7 +27,7 @@
   box-sizing: border-box;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color $transition-fast, color $transition-fast, border-color $transition-fast, filter $transition-fast;
+  transition: color $transition-fast, border-color $transition-fast;
 
   &:hover {
     color: var(--color-text-primary);
