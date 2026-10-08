@@ -201,7 +201,12 @@
     },
     "UNSAVED-CHANGES": "Modifications non enregistrées",
     "DONE": "Terminé",
-    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Fermer l'édition"
+    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Fermer l'édition",
+    "VIEW-LIST": "Afficher en liste",
+    "VIEW-FOLDERS": "Afficher en dossiers",
+    "SELECT-ASSIGNMENT": "Sélectionner le devoir",
+    "LOAD-ASSIGNMENT": "Charger",
+    "CONFIGURE-ASSIGNMENT": "Configurer"
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "Aucun commit trouvé",

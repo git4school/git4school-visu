@@ -24,6 +24,7 @@ import { DatabaseService } from "@services/database.service";
 import { OverlayManagerService } from "@services/overlay-manager.service";
 import { ToastService } from "@services/toast.service";
 import { ClockService } from "@services/clock.service";
+import { Utils } from "@services/utils";
 import { Subscription } from "rxjs";
 import * as moment from "moment";
 
@@ -52,6 +53,8 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
 
   sortField = "lastModificationDate";
   sortDirection: "asc" | "desc" = "desc";
+
+  viewMode: "list" | "folders" = "list";
 
   filterType = "all";
 
@@ -326,6 +329,24 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     return result;
   }
 
+  /** Devoirs de la vue dossiers : les brouillons de création (id -1) n'existent qu'en liste. */
+  get folderAssignments(): any[] {
+    return this.filteredAssignments.filter((a) => a.id !== -1);
+  }
+
+  /** Bascule liste ↔ dossiers ; ferme d'abord l'édition inline en cours (sauvegarde garantie). */
+  setView(mode: "list" | "folders") {
+    if (this.viewMode === mode) {
+      return;
+    }
+    if (this.editingAssignment || this.isCreatingNew) {
+      this.closeEdit();
+    }
+    this.viewMode = mode;
+    this.savePreferences();
+    this.cdr.markForCheck();
+  }
+
   getActiveFiltersCount(): number {
     let count = 0;
     const s = this.advancedFilters.status;
@@ -427,56 +448,27 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   isAssignmentConnected(assignment: any): boolean {
-    if (!assignment) {
-      return false;
-    }
-    const provider = (assignment.provider || assignment.uiType || "github") as GitProviderType;
-    const host = assignment.instanceHost || (assignment.resolvedInstanceHost ? assignment.resolvedInstanceHost : undefined);
-    return this.accountsService.hasAccountForHost(provider, host);
+    return this.assignmentsService.isAssignmentConnected(assignment);
   }
 
   isCustomGitlab(assignment: any): boolean {
-    if (!assignment) {
-      return false;
-    }
-    const provider = assignment.provider || assignment.uiType;
-    const host = assignment.instanceHost || assignment.resolvedInstanceHost;
-    return provider === "gitlab" && Boolean(host && host !== "gitlab.com");
+    return this.assignmentsService.isCustomGitlab(assignment);
   }
 
   getAssignmentTooltip(assignment: any): string {
-    if (this.isAssignmentConnected(assignment)) {
-      return "HOME.SELECT-ASSIGNMENT-TOOLTIP";
-    }
-    return this.getDisconnectedTooltip(assignment);
+    return this.assignmentsService.getAssignmentTooltip(assignment);
   }
 
   getAssignmentEditTooltip(assignment: any): string {
-    if (this.isAssignmentConnected(assignment)) {
-      return "HOME.EDIT-ASSIGNMENT-TOOLTIP";
-    }
-    return this.getDisconnectedTooltip(assignment);
+    return this.assignmentsService.getAssignmentEditTooltip(assignment);
   }
 
   getAssignmentDeleteTooltip(assignment: any): string {
-    if (this.isAssignmentConnected(assignment)) {
-      return "HOME.DELETE-ASSIGNMENT-TOOLTIP";
-    }
-    return this.getDisconnectedTooltip(assignment);
+    return this.assignmentsService.getAssignmentDeleteTooltip(assignment);
   }
 
   getDisconnectedTooltip(assignment: any): string {
-    const provider = assignment?.provider || "github";
-    const host = assignment?.instanceHost || assignment?.resolvedInstanceHost;
-    if (provider === "gitlab") {
-      if (host && host !== "gitlab.com") {
-        return this.translateService.instant("HOME.MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM", {
-          host: assignment?.instanceName || host,
-        });
-      }
-      return this.translateService.instant("HOME.MUST-LOGIN-ASSIGNMENT-GITLAB");
-    }
-    return this.translateService.instant("HOME.MUST-LOGIN-ASSIGNMENT-GITHUB");
+    return this.assignmentsService.getDisconnectedTooltip(assignment);
   }
 
   onStatusMouseEnter(status: string) {
@@ -623,6 +615,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
         if (parsed.sortField) this.sortField = parsed.sortField;
         if (parsed.sortDirection) this.sortDirection = parsed.sortDirection;
         if (parsed.advancedFilters) this.advancedFilters = parsed.advancedFilters;
+        if (parsed.viewMode === "list" || parsed.viewMode === "folders") this.viewMode = parsed.viewMode;
       } catch (e) {
         console.error("Could not load preferences", e);
       }
@@ -648,6 +641,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
         sortField: this.sortField,
         sortDirection: this.sortDirection,
         advancedFilters: this.advancedFilters,
+        viewMode: this.viewMode,
       }),
     );
   }
@@ -862,20 +856,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   getDuration(start: string, end: string): string {
-    if (!start || !end) return "";
-    const startM = moment(start);
-    const endM = moment(end);
-    const diffDays = endM.diff(startM, "days");
-
-    if (diffDays === 0) {
-      const diffHours = endM.diff(startM, "hours");
-      if (diffHours === 0) {
-        const diffMinutes = endM.diff(startM, "minutes");
-        return `${diffMinutes} ${this.translateService.instant("HOME.DURATION.MINUTES")}`;
-      }
-      return `${diffHours} ${this.translateService.instant("HOME.DURATION.HOURS")}`;
-    }
-    return `${diffDays} ${this.translateService.instant("HOME.DURATION.DAYS")}`;
+    return Utils.getDuration(start, end, (key) => this.translateService.instant(key));
   }
 
   getProgress(start: string, end: string): number {
@@ -895,43 +876,19 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   getProgressBarColor(progress: number): string {
-    if (progress === 100) return "#9ca3af";
-    const hue = 120 - progress * 1.2;
-    // Gradient from slightly lighter/warmer hue to target hue
-    return `linear-gradient(90deg, hsl(${hue + 15}, 85%, 65%) 0%, hsl(${hue}, 85%, 55%) 100%)`;
+    return Utils.getProgressBarColor(progress);
   }
 
   getProgressBarTextColor(progress: number): string {
-    if (progress === 100) return "#9ca3af";
-    const hue = 120 - progress * 1.2;
-    const isDarkTheme = document.body.classList.contains("dark-theme");
-    const lightness = isDarkTheme ? 75 : 45; // Brighter for dark mode, darker for light mode
-    return `hsl(${hue}, 85%, ${lightness}%)`;
+    return Utils.getProgressBarTextColor(progress);
   }
 
   getRemainingTime(end: string): string {
-    if (!end) return "";
-    const now = this.clockService.moment();
-    const endM = moment(end);
-
-    if (now.isAfter(endM)) return "";
-
-    const diffDays = endM.diff(now, "days");
-    if (diffDays === 0) {
-      const diffHours = endM.diff(now, "hours");
-      if (diffHours === 0) {
-        const diffMinutes = endM.diff(now, "minutes");
-        return `${diffMinutes} ${this.translateService.instant("HOME.DURATION.MINUTES")}`;
-      }
-      return `${diffHours} ${this.translateService.instant("HOME.DURATION.HOURS")}`;
-    }
-    return `${diffDays} ${this.translateService.instant("HOME.DURATION.DAYS")}`;
+    return Utils.getRemainingTime(end, this.clockService.moment(), (key) => this.translateService.instant(key));
   }
 
   formatDate(dateStr: string, format: string): string {
-    if (!dateStr) return "";
-    moment.locale(this.translateService.currentLang || "en");
-    return moment(dateStr).format(format);
+    return Utils.formatDate(dateStr, format, this.translateService.currentLang);
   }
 
   toggleSortDirection() {
@@ -1027,6 +984,17 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     }
     (assignment as any).uiType = targetProvider;
     (assignment as any).uiStatus = "prepared";
+
+    // Vue dossiers : pas d'éditeur inline, la création passe directement par la modale.
+    if (this.viewMode === "folders") {
+      this.isCreatingNew = true;
+      this.configurationService.openConfigurationModal(assignment).finally(() => {
+        this.isCreatingNew = false;
+        this.loadAssignments();
+      });
+      return;
+    }
+
     this.assignments.unshift(assignment); // Add to the top
     this.isCreatingNew = true;
     this.editAssignment(assignment);
@@ -1083,6 +1051,21 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     this.editingAssignment = assignment;
 
     this.scrollEditingCardIntoView(assignment);
+  }
+
+  /**
+   * Vue dossiers : la configuration passe par la modale existante (autosave et garde de
+   * fermeture de ConfigurationComponent), puis la liste est rechargée.
+   */
+  configureAssignment(assignment: any) {
+    if (!this.isAssignmentConnected(assignment)) {
+      const msg = this.getDisconnectedTooltip(assignment);
+      this.toastService.warning(this.translateService.instant("WARNING"), msg);
+      return;
+    }
+    this.databaseService.getAssignmentById(assignment.id).then((fullAssignment) => {
+      this.configurationService.openConfigurationModal(fullAssignment).finally(() => this.loadAssignments());
+    });
   }
 
   /**

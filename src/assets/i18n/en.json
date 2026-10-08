@@ -202,7 +202,12 @@
     },
     "UNSAVED-CHANGES": "Unsaved changes",
     "DONE": "Done",
-    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Close editing"
+    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Close editing",
+    "VIEW-LIST": "Show as list",
+    "VIEW-FOLDERS": "Show as folders",
+    "SELECT-ASSIGNMENT": "Select assignment",
+    "LOAD-ASSIGNMENT": "Load",
+    "CONFIGURE-ASSIGNMENT": "Configure"
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "No commits found",

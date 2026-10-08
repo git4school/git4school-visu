@@ -200,7 +200,12 @@
     },
     "UNSAVED-CHANGES": "Несохраненные изменения",
     "DONE": "Готово",
-    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Закрыть редактирование"
+    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Закрыть редактирование",
+    "VIEW-LIST": "Показать списком",
+    "VIEW-FOLDERS": "Показать папками",
+    "SELECT-ASSIGNMENT": "Выбрать задание",
+    "LOAD-ASSIGNMENT": "Загрузить",
+    "CONFIGURE-ASSIGNMENT": "Настроить"
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "Коммиты не найдены",

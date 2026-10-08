@@ -1,0 +1,110 @@
+<div class="folder-view" [class.has-open]="openAssignmentId !== null" [class.selection-mode]="selectionMode">
+  <!-- Flou de focalisation : purement visuel, les clics le traversent vers les dossiers -->
+  <div class="folder-overlay" [class.show]="openAssignmentId !== null" aria-hidden="true"></div>
+
+  <div class="folder-grid">
+    <div
+      class="folder-item"
+      *ngFor="let assignment of assignments; trackBy: trackByAssignmentId"
+      [id]="'assignment-folder-' + assignment.id"
+      [class.is-open]="isOpen(assignment)"
+      [class.is-selected]="isSelected(assignment.id)"
+      [class.is-disabled]="!isConnected(assignment)"
+      [ngClass]="'status-' + assignment.uiStatus">
+
+      <div class="folder-stage" (click)="toggleOpen(assignment)">
+        <div class="folder-back" aria-hidden="true"></div>
+
+        <!-- Feuille 1 : métadonnées du devoir (le titre reste sur le rabat) -->
+        <div class="folder-page folder-page--meta" [attr.aria-hidden]="isOpen(assignment) ? null : 'true'">
+          <dl class="page-fields">
+            <div class="page-field">
+              <dt>{{ 'METADATA.COURSE' | translate }}</dt>
+              <dd>{{ assignment.course || '—' }}</dd>
+            </div>
+            <div class="page-field">
+              <dt>{{ 'METADATA.PROGRAM' | translate }}</dt>
+              <dd>{{ assignment.program || '—' }}</dd>
+            </div>
+            <div class="page-field">
+              <dt>{{ 'METADATA.YEAR' | translate }}</dt>
+              <dd>{{ assignment.year || '—' }}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Feuille 2 : planning et avancement (uniquement si le devoir est daté) -->
+        <div class="folder-page folder-page--dates" *ngIf="assignment.startDate || assignment.endDate"
+          [attr.aria-hidden]="isOpen(assignment) ? null : 'true'">
+          <dl class="page-fields">
+            <div class="page-field" *ngIf="assignment.startDate">
+              <dt>{{ 'METADATA.START-DATE' | translate }}</dt>
+              <dd>{{ formatDate(assignment.startDate, 'DD MMM YYYY · HH:mm') }}</dd>
+            </div>
+            <div class="page-field" *ngIf="assignment.endDate">
+              <dt>{{ 'METADATA.END-DATE' | translate }}</dt>
+              <dd>{{ formatDate(assignment.endDate, 'DD MMM YYYY · HH:mm') }}</dd>
+            </div>
+            <div class="page-field" *ngIf="assignment.startDate && assignment.endDate">
+              <dt>{{ 'HOME.DURATION.TOTAL' | translate }}</dt>
+              <dd>{{ getDuration(assignment.startDate, assignment.endDate) }}</dd>
+            </div>
+            <div class="page-field" *ngIf="assignment.endDate && getRemainingTime(assignment.endDate)">
+              <dt>{{ 'HOME.DURATION.REMAINING' | translate }}</dt>
+              <dd>{{ getRemainingTime(assignment.endDate) }}</dd>
+            </div>
+          </dl>
+          <div class="page-progress" *ngIf="assignment.startDate && assignment.endDate">
+            <div class="progress-track">
+              <div class="progress-fill" [style.width.%]="assignment.uiProgress"
+                [style.background]="getProgressBarColor(assignment.uiProgress)"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rabat -->
+        <button type="button" class="folder-cover" [attr.aria-expanded]="isOpen(assignment)"
+          [appTooltip]="!isConnected(assignment) ? getDisconnectedTooltip(assignment) : null">
+          <span class="cover-pages" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="cover-text">
+            <span class="cover-title" [appTooltip]="assignment.title" [onlyIfTruncated]="true">{{ assignment.title ||
+              ('HOME.NEW-ASSIGNMENT' | translate) }}</span>
+            <span class="cover-subtitle">
+              <i class="far fa-clock" aria-hidden="true"></i> {{ assignment.lastModificationDate | date: 'short' }}
+            </span>
+            <span class="cover-state">{{ 'HOME.STATUS.' + assignment.uiStatus.toUpperCase() | translate }}</span>
+          </span>
+          <span class="cover-lines" aria-hidden="true"><i></i><i></i></span>
+        </button>
+
+        <!-- Case de sélection (au survol, ou persistante si sélectionné) -->
+        <button *ngIf="assignment.id !== -1" type="button" class="folder-select" [class.is-checked]="isSelected(assignment.id)"
+          [attr.aria-pressed]="isSelected(assignment.id)" [attr.aria-label]="'HOME.SELECT-ASSIGNMENT' | translate"
+          [appTooltip]="'HOME.SELECT-ASSIGNMENT' | translate" (click)="onSelectionToggle(assignment.id, $event)">
+          <svg *ngIf="isSelected(assignment.id)" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="3.5 8.5 6.5 11.5 12.5 4.5"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Actions, sous les feuilles sorties et alignées sur le dossier -->
+      <div class="folder-actions" [class.show]="isOpen(assignment)">
+        <button type="button" class="folder-action folder-action--primary" [disabled]="!isConnected(assignment)"
+          [appTooltip]="getAssignmentTooltip(assignment) | translate" (click)="onLoad(assignment, $event)">
+          <i class="far fa-arrow-alt-circle-right" aria-hidden="true"></i>
+          <span>{{ 'HOME.LOAD-ASSIGNMENT' | translate }}</span>
+        </button>
+        <button type="button" class="folder-action" [disabled]="!isConnected(assignment)"
+          [appTooltip]="getAssignmentEditTooltip(assignment) | translate" (click)="onConfigure(assignment, $event)">
+          <i class="fas fa-cog" aria-hidden="true"></i>
+          <span>{{ 'HOME.CONFIGURE-ASSIGNMENT' | translate }}</span>
+        </button>
+        <app-liquid-action-menu [disabled]="!isConnected(assignment)" [triggerTooltip]="'HOME.OTHER-ACTIONS' | translate"
+          [deleteTooltip]="getAssignmentDeleteTooltip(assignment) | translate"
+          [duplicateTooltip]="'HOME.DUPLICATE-ASSIGNMENT' | translate" [archiveTooltip]="'HOME.ARCHIVE-ASSIGNMENT' | translate"
+          (delete)="onDelete(assignment)"></app-liquid-action-menu>
+      </div>
+    </div>
+  </div>
+</div>

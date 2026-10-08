@@ -266,6 +266,30 @@
           </div>
         </div>
       </div> <!-- Closes search-filters-group -->
+
+      <div class="divider-vertical mx-2"></div>
+
+      <!-- Bascule liste / dossiers -->
+      <button type="button" class="btn-outline-ghost view-toggle-btn" (click)="setView(viewMode === 'list' ? 'folders' : 'list')"
+        [appTooltip]="(viewMode === 'list' ? 'HOME.VIEW-FOLDERS' : 'HOME.VIEW-LIST') | translate"
+        [attr.aria-label]="(viewMode === 'list' ? 'HOME.VIEW-FOLDERS' : 'HOME.VIEW-LIST') | translate">
+        <svg *ngIf="viewMode === 'list'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+        </svg>
+        <svg *ngIf="viewMode === 'folders'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3.1" y1="6" x2="3.11" y2="6"></line>
+          <line x1="3.1" y1="12" x2="3.11" y2="12"></line>
+          <line x1="3.1" y1="18" x2="3.11" y2="18"></line>
+        </svg>
+      </button>
     </div> <!-- Closes left-controls -->
 
     <div class="actions-group d-flex" style="gap: 0.5rem;">
@@ -410,7 +434,7 @@
   </div>
 
   <!-- Assignment List -->
-  <div class="assignment-list" [class.selection-mode]="selectionMode">
+  <div class="assignment-list" *ngIf="viewMode === 'list'" [class.selection-mode]="selectionMode">
     <div class="assignment-card" *ngFor="let assignment of filteredAssignments; trackBy: trackByAssignmentId" [id]="'assignment-card-' + assignment.id" [ngClass]="{
            'disabled-card': !isAssignmentConnected(assignment), 
            'is-selected': isSelected(assignment.id),
@@ -564,12 +588,18 @@
         </app-configuration>
       </div>
     </div>
+  </div>
 
-    <!-- Empty State -->
-    <div *ngIf="filteredAssignments.length === 0" class="empty-state text-center py-5 text-muted">
-      <i class="fas fa-folder-open fa-3x mb-3" style="opacity: 0.5;"></i>
-      <h5>{{ 'HOME.NO-ASSIGNMENTS' | translate }}</h5>
-    </div>
+  <!-- Folder grid -->
+  <assignment-folder-view *ngIf="viewMode === 'folders'" [assignments]="folderAssignments"
+    [selectionMode]="selectionMode" [selectedAssignments]="selectedAssignments" (load)="selectAssignment($event)"
+    (configure)="configureAssignment($event)" (delete)="deleteAssignment($event)"
+    (selectionToggle)="toggleSelection($event)"></assignment-folder-view>
+
+  <!-- Empty State -->
+  <div *ngIf="filteredAssignments.length === 0" class="empty-state text-center py-5 text-muted">
+    <i class="fas fa-folder-open fa-3x mb-3" style="opacity: 0.5;"></i>
+    <h5>{{ 'HOME.NO-ASSIGNMENTS' | translate }}</h5>
   </div>
 
   <!-- Floating Action Bar for Selection Mode -->

@@ -341,4 +341,68 @@ export class Utils {
 
     return { name, tpGroup };
   }
+
+  /**
+   * Formats the duration between two dates for the assignment views (days, hours or minutes).
+   */
+  static getDuration(start: string, end: string, translate: (key: string) => string): string {
+    if (!start || !end) return "";
+    const startM = moment(start);
+    const endM = moment(end);
+    const diffDays = endM.diff(startM, "days");
+
+    if (diffDays === 0) {
+      const diffHours = endM.diff(startM, "hours");
+      if (diffHours === 0) {
+        const diffMinutes = endM.diff(startM, "minutes");
+        return `${diffMinutes} ${translate("HOME.DURATION.MINUTES")}`;
+      }
+      return `${diffHours} ${translate("HOME.DURATION.HOURS")}`;
+    }
+    return `${diffDays} ${translate("HOME.DURATION.DAYS")}`;
+  }
+
+  /**
+   * Time left before `end`, relative to the app clock (`now`); empty once the deadline has passed.
+   */
+  static getRemainingTime(end: string, now: moment.Moment, translate: (key: string) => string): string {
+    if (!end) return "";
+    const endM = moment(end);
+
+    if (now.isAfter(endM)) return "";
+
+    const diffDays = endM.diff(now, "days");
+    if (diffDays === 0) {
+      const diffHours = endM.diff(now, "hours");
+      if (diffHours === 0) {
+        const diffMinutes = endM.diff(now, "minutes");
+        return `${diffMinutes} ${translate("HOME.DURATION.MINUTES")}`;
+      }
+      return `${diffHours} ${translate("HOME.DURATION.HOURS")}`;
+    }
+    return `${diffDays} ${translate("HOME.DURATION.DAYS")}`;
+  }
+
+  /** Formats a date with the given moment format and locale (shared by the assignment views). */
+  static formatDate(dateStr: string, format: string, lang: string): string {
+    if (!dateStr) return "";
+    moment.locale(lang || "en");
+    return moment(dateStr).format(format);
+  }
+
+  /** Background of a progress bar: a hue that slides from green (0 %) to red (100 %). */
+  static getProgressBarColor(progress: number): string {
+    if (progress === 100) return "#9ca3af";
+    const hue = 120 - progress * 1.2;
+    return `linear-gradient(90deg, hsl(${hue + 15}, 85%, 65%) 0%, hsl(${hue}, 85%, 55%) 100%)`;
+  }
+
+  /** Text color matching the progress bar hue, brighter in dark mode for contrast. */
+  static getProgressBarTextColor(progress: number): string {
+    if (progress === 100) return "#9ca3af";
+    const hue = 120 - progress * 1.2;
+    const isDarkTheme = document.body.classList.contains("dark-theme");
+    const lightness = isDarkTheme ? 75 : 45;
+    return `hsl(${hue}, 85%, ${lightness}%)`;
+  }
 }

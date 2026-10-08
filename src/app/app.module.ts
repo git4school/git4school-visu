@@ -19,6 +19,7 @@ import { SuggestSessionsModalComponent } from "@components/graphs/sessions/sugge
 import { StudentsQuestionsMatrixComponent } from "@components/graphs/sessions/students-questions-matrix/students-questions-matrix.component";
 import { StudentsComponent } from "@components/graphs/students/students.component";
 import { AssignmentChooserComponent } from "@components/home/assignment-chooser/assignment-chooser.component";
+import { AssignmentFolderViewComponent } from "@components/home/assignment-chooser/folder-view/assignment-folder-view.component";
 import { ConfigurationComponent } from "@components/home/assignment-chooser/configuration/configuration.component";
 import { EditRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component";
 // eslint-disable-next-line max-len
@@ -127,6 +128,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     ConfigurationComponent,
     ModalAddRepositoriesComponent,
     AssignmentChooserComponent,
+    AssignmentFolderViewComponent,
     FileChooserComponent,
     EditMilestoneComponent,
     QuestionsChooserComponent,
