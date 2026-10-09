@@ -14,8 +14,10 @@
   --page-width: 80%;
   --page-tx-closed-1: 10%;
   --page-tx-closed-2: 12.5%;
-  --page-tx-hover-1: 44%;
-  --page-tx-hover-2: 46%;
+  --page-tx-hover-1: 96%;
+  --page-tx-hover-2: 130%;
+  --page-ty-hover-1: 4%;
+  --page-ty-hover-2: -9%;
   --page-tx-open-1: 54%;
   --page-tx-open-2: 160%;
   --page-rot-1: -2.2deg;
@@ -25,6 +27,7 @@
   --page-rot-open-1: -1.4deg;
   --page-rot-open-2: 1.4deg;
   --cover-ry: -13deg;
+  --cover-ry-hover: -24deg;
   --cover-ry-open: -60deg;
   --page-lift: 22px;
 
@@ -91,6 +94,13 @@
   z-index: 10;
 }
 
+/* Dossier survolé : ses feuilles, qui débordent sur les voisins, passent au-dessus d'eux. */
+@media (hover: hover) and (pointer: fine) {
+  .folder-item:not(.is-open):hover {
+    z-index: 2;
+  }
+}
+
 .folder-item.is-disabled {
   opacity: 0.62;
 }
@@ -109,22 +119,6 @@
 .folder-item.is-open .folder-stage {
   transform: translateX(var(--folder-open-shift, 0));
   transition: transform $transition-panel-enter;
-}
-
-/* Anneau de sélection autour du dossier complet */
-.folder-stage::after {
-  content: '';
-  position: absolute;
-  inset: -5px;
-  border: 2px solid var(--color-primary);
-  border-radius: calc(var(--folder-radius) + 5px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity $transition-fast;
-}
-
-.folder-item.is-selected .folder-stage::after {
-  opacity: 1;
 }
 
 /* Chemise arrière : même taille et mêmes bords haut/bas que le rabat (panneaux
@@ -194,8 +188,7 @@
   transition-delay: 55ms;
 }
 
-/* Contenu des feuilles : champs de métadonnées puis planning. Au survol, le rabat
-   s'entrouvre en grand (voir --cover-ry-open) : la zone de texte reste identifiable. */
+/* Contenu des feuilles : champs de métadonnées puis planning. */
 .page-fields {
   display: flex;
   flex-direction: column;
@@ -477,7 +470,8 @@
 
 /* Tampon de forge : filigrane très discret (logo GitHub/GitLab du devoir), centré
    horizontalement aux deux tiers de la hauteur, légèrement incliné comme un cachet
-   (micro-variance par dossier : `--stamp-dx/dy/rot`, voir getRestLayout). */
+   (micro-variance par dossier : `--stamp-dx/dy/rot`, voir getRestLayout). Sélectionné,
+   il s'allume comme une LED (voir plus bas). */
 .cover-stamp {
   position: absolute;
   top: calc(33.3% + var(--stamp-dy, 0));
@@ -486,6 +480,7 @@
   opacity: 0.13;
   pointer-events: none;
   transform: translate(-50%, -50%) rotate(var(--stamp-rot, -8deg));
+  transition: opacity $transition-fast, filter $transition-fast;
 }
 
 .cover-stamp svg {
@@ -495,25 +490,97 @@
   fill: currentColor;
 }
 
+/* Sélection : le tampon de forge s'allume comme une LED (remplace l'ancien anneau
+   de contour autour du dossier). */
+.folder-item.is-selected .cover-stamp {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px var(--folder-led-glow)) drop-shadow(0 0 14px var(--folder-led-glow));
+}
+
+/* Easter egg : après un long moment sans changement de sélection, les LED des dossiers
+   sélectionnés clignotent comme des ampoules défectueuses. `--led-duration` (durée
+   légèrement différente par dossier) désynchronise les clignotements. */
+@keyframes folder-led-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  3% {
+    opacity: 0.35;
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  7% {
+    opacity: 0.12;
+  }
+
+  9% {
+    opacity: 0.9;
+  }
+
+  11% {
+    opacity: 0.3;
+  }
+
+  13% {
+    opacity: 1;
+  }
+
+  16% {
+    opacity: 0.5;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  21% {
+    opacity: 0.15;
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  58% {
+    opacity: 0.65;
+  }
+
+  61% {
+    opacity: 1;
+  }
+}
+
+.folder-view.led-idle .folder-item.is-selected .cover-stamp {
+  animation: folder-led-flicker var(--led-duration, 8s) infinite;
+}
+
 .folder-item.is-open .cover-ghosts {
   opacity: 0;
 }
 
-/* Survol : le rabat s'entrouvre (effet dossier, image de référence), la feuille 1 sort
-   en majorité et la feuille 2 reste presque entièrement cachée derrière elle. Désactivé
-   quand un dossier est ouvert ou en sélection, et sous 701 px (cellules plafonnées). */
+/* Survol : le rabat s'entrouvre à peine (--cover-ry-hover, bien moins qu'à l'ouverture)
+   et les deux feuilles sortent en éventail, leur partie gauche restant sous le rabat
+   (d'où le flou visible dessus). Désactivé quand un dossier est ouvert ou en sélection,
+   et sous 701 px (cellules plafonnées). */
 @media (hover: hover) and (pointer: fine) and (min-width: 701px) {
   .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-cover {
-    transform: rotateY(var(--cover-ry-open));
+    transform: rotateY(var(--cover-ry-hover));
   }
 
   .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-page--meta {
     --tx: var(--page-tx-hover-1);
+    --ty: var(--page-ty-hover-1);
     --rot: var(--page-rot-hover-1);
   }
 
   .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-page--dates {
     --tx: var(--page-tx-hover-2);
+    --ty: var(--page-ty-hover-2);
     --rot: var(--page-rot-hover-2);
   }
 }
@@ -563,6 +630,11 @@
   .cover-ghosts,
   .folder-item.is-open .cover-ghosts {
     transition: opacity 120ms ease-out;
+  }
+
+  .cover-stamp {
+    animation: none;
+    transition: none;
   }
 
   .folder-actions {

@@ -1,4 +1,5 @@
-<div class="folder-view" [class.has-open]="openAssignmentId !== null" [class.selection-mode]="selectionMode">
+<div class="folder-view" [class.has-open]="openAssignmentId !== null" [class.selection-mode]="selectionMode"
+  [class.led-idle]="ledIdle">
   <!-- Flou de focalisation : purement visuel, les clics le traversent vers les dossiers -->
   <div class="folder-overlay" [class.show]="openAssignmentId !== null" aria-hidden="true"></div>
 

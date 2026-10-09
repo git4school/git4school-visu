@@ -144,9 +144,6 @@
         "INFO-3": "Seules les questions renseignées ici seront traitées par l'application (jalons, graphes)"
       }
     },
-    "ASSIGNMENT-LIST": {
-      "TITLE": "Liste des devoirs"
-    },
     "CREATE-ASSIGNMENT-TOOLTIP": "Créer un nouveau devoir",
     "SELECT-ASSIGNMENT-TOOLTIP": "Sélectionner le devoir et le charger",
     "EDIT-ASSIGNMENT-TOOLTIP": "Modifier la configuration du devoir",

@@ -1,10 +1,27 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  DoCheck,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
 import { Assignment } from "@models/Assignment.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { ClockService } from "@services/clock.service";
 import { OverlayManagerService } from "@services/overlay-manager.service";
 import { Utils } from "@services/utils";
+
+/**
+ * Easter egg : passé ce délai sans changement de sélection, les LED des dossiers
+ * sélectionnés se mettent à clignoter comme des ampoules défectueuses (voir ngDoCheck).
+ */
+const LED_IDLE_FLICKER_DELAY_MS = 10000;
 
 /**
  * Vue « dossiers » de la liste des devoirs : une grille de dossiers dont la couleur
@@ -21,7 +38,7 @@ import { Utils } from "@services/utils";
   templateUrl: "./assignment-folder-view.component.html",
   styleUrls: ["./assignment-folder-view.component.scss"],
 })
-export class AssignmentFolderViewComponent implements OnChanges {
+export class AssignmentFolderViewComponent implements DoCheck, OnChanges, OnDestroy {
   @Input() assignments: Assignment[] = [];
   @Input() selectionMode = false;
   @Input() selectedAssignments: Set<number> = new Set<number>();
@@ -34,8 +51,17 @@ export class AssignmentFolderViewComponent implements OnChanges {
   /** Dossier dont les feuilles sont sorties (un seul à la fois). */
   openAssignmentId: number | null = null;
 
+  /** Easter egg : vrai quand la sélection est stable depuis assez longtemps (voir ngDoCheck). */
+  ledIdle = false;
+
   /** Dispositions « au repos » calculées par dossier (voir getRestLayout). */
   private readonly restLayouts = new Map<number, { [key: string]: string }>();
+
+  /** Signature de la sélection courante, pour détecter ses changements (Set muté en place). */
+  private selectionSignature = "";
+
+  /** Minuteur d'inactivité de la sélection, armé à chaque changement (voir ngDoCheck). */
+  private ledIdleTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     public translateService: TranslateService,
@@ -77,6 +103,24 @@ export class AssignmentFolderViewComponent implements OnChanges {
     if (changes.assignments && this.openAssignmentId !== null && !this.assignments.some((a) => a.id === this.openAssignmentId)) {
       this.openAssignmentId = null;
     }
+  }
+
+  /**
+   * La sélection est un `Set` muté en place par le parent : `ngOnChanges` ne se déclenche
+   * donc pas sur ses changements. On compare une signature à chaque cycle pour repérer
+   * ceux-ci et (re)armer l'easter egg des LED qui clignotent.
+   */
+  ngDoCheck(): void {
+    const signature = this.computeSelectionSignature();
+    if (signature === this.selectionSignature) {
+      return;
+    }
+    this.selectionSignature = signature;
+    this.scheduleLedIdleFlicker();
+  }
+
+  ngOnDestroy(): void {
+    this.clearLedIdleTimer();
   }
 
   trackByAssignmentId(index: number, item: any): any {
@@ -167,9 +211,9 @@ export class AssignmentFolderViewComponent implements OnChanges {
 
   /**
    * Disposition « au repos » d'un dossier, légèrement randomisée (angles et décalages des
-   * feuilles, placement et orientation du tampon de forge) pour éviter la monotonie de la
-   * grille. Même devoir → même disposition (graine stable), mise en cache car appelée à
-   * chaque détection de changements.
+   * feuilles, placement et orientation du tampon de forge, cadence de l'easter egg des LED)
+   * pour éviter la monotonie de la grille. Même devoir → même disposition (graine stable),
+   * mise en cache car appelée à chaque détection de changements.
    */
   getRestLayout(assignment: any): { [key: string]: string } {
     const cached = this.restLayouts.get(assignment.id);
@@ -183,6 +227,38 @@ export class AssignmentFolderViewComponent implements OnChanges {
 
   private closeOpenFolder(): void {
     this.openAssignmentId = null;
+  }
+
+  /** Signature stable de la sélection (identifiants triés), comparée d'un cycle à l'autre. */
+  private computeSelectionSignature(): string {
+    return Array.from(this.selectedAssignments)
+      .sort((a, b) => a - b)
+      .join(",");
+  }
+
+  /**
+   * (Re)arme l'easter egg : à chaque changement de sélection on éteint le clignotement
+   * et on redémarre le compte à rebours. Sans sélection, il n'y a rien à faire clignoter.
+   */
+  private scheduleLedIdleFlicker(): void {
+    this.clearLedIdleTimer();
+    if (this.ledIdle) {
+      this.ledIdle = false;
+    }
+    if (this.selectedAssignments.size === 0) {
+      return;
+    }
+    this.ledIdleTimer = setTimeout(() => {
+      this.ledIdleTimer = null;
+      this.ledIdle = true;
+    }, LED_IDLE_FLICKER_DELAY_MS);
+  }
+
+  private clearLedIdleTimer(): void {
+    if (this.ledIdleTimer !== null) {
+      clearTimeout(this.ledIdleTimer);
+      this.ledIdleTimer = null;
+    }
   }
 
   /** Petites variations déterministes autour des valeurs par défaut (graine = id + titre). */
@@ -208,6 +284,8 @@ export class AssignmentFolderViewComponent implements OnChanges {
       "--stamp-dx": `${(rand(7) * 1.2).toFixed(2)}%`,
       "--stamp-dy": `${(rand(8) * 1.2).toFixed(2)}%`,
       "--stamp-rot": `${(-8 + rand(9) * 2.5).toFixed(2)}deg`,
+      /* Durées légèrement différentes : les ampoules défectueuses se désynchronisent. */
+      "--led-duration": `${(7.6 + (rand(10) + 1) * 0.8).toFixed(2)}s`,
     };
   }
 

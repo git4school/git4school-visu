@@ -145,9 +145,6 @@
         "INFO-3": "Only the questions provided here will be handled by the application (milestones, graphs)"
       }
     },
-    "ASSIGNMENT-LIST": {
-      "TITLE": "Assignment list"
-    },
     "CREATE-ASSIGNMENT-TOOLTIP": "Create a new assignment",
     "SELECT-ASSIGNMENT-TOOLTIP": "Select assignment and load it",
     "EDIT-ASSIGNMENT-TOOLTIP": "Edit assignment configuration",
