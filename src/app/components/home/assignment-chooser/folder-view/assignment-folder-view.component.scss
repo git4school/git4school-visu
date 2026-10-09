@@ -202,7 +202,8 @@
   gap: 8px;
 }
 
-.page-field dt {
+.page-field .page-label {
+  display: block;
   font-size: 0.58rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -210,7 +211,8 @@
   color: var(--folder-page-muted);
 }
 
-.page-field dd {
+.page-field .page-value {
+  display: block;
   font-size: 0.73rem;
   font-weight: 500;
   line-height: 1.3;
@@ -218,16 +220,19 @@
 }
 
 .page-progress {
+  display: block;
   margin-top: 10px;
 }
 
 .progress-track {
+  display: block;
   height: 6px;
   border-radius: 9999px;
   background: var(--folder-page-line);
 }
 
 .progress-fill {
+  display: block;
   height: 100%;
   border-radius: inherit;
   transition: width $transition-normal;
@@ -453,77 +458,44 @@
   }
 }
 
-/* Calque « pages » : à l'intérieur du rabat, on devine très légèrement les feuilles
-   (même place, même format), floues et fondues — l'effet dépoli de la référence.
-   La transparence persiste au survol (on voit les feuilles sortir à travers) et ne
-   s'efface qu'une fois le dossier grand ouvert. */
-.cover-pages {
+/* Transparence du rabat : copies floutées des feuilles, qui portent les mêmes classes
+   et les mêmes variables que les vraies — elles suivent donc exactement leurs
+   mouvements et sortent du rabat en même temps qu'elles. La découpe du rabat
+   (overflow) ne laisse voir que la partie encore masquée par lui. */
+.cover-ghosts {
   position: absolute;
-  top: 6.5%;
-  left: 10%;
-  display: flex;
-  flex-direction: column;
-  gap: 7%;
-  width: 80%;
-  height: 87%;
-  padding: 10% 9%;
-  border-radius: 4px;
-  background: var(--folder-page-bg);
+  inset: 0;
   opacity: 0.17;
   filter: blur(10px);
   pointer-events: none;
   transition: opacity 240ms ease-out;
 }
 
-.cover-pages i {
-  height: 5px;
-  border-radius: 2px;
-  background: var(--folder-page-ink);
-  opacity: 0.45;
-}
-
-.cover-pages i:nth-child(1) {
-  width: 46%;
-}
-
-.cover-pages i:nth-child(2) {
-  width: 70%;
-  height: 7px;
-}
-
-.cover-pages i:nth-child(3) {
-  width: 52%;
-}
-
-.cover-pages i:nth-child(4) {
-  width: 74%;
-  height: 7px;
+.cover-ghost {
+  box-shadow: none;
 }
 
 /* Tampon de forge : filigrane très discret (logo GitHub/GitLab du devoir), centré
-   horizontalement aux deux tiers de la hauteur, légèrement incliné comme un cachet. */
+   horizontalement aux deux tiers de la hauteur, légèrement incliné comme un cachet
+   (micro-variance par dossier : `--stamp-dx/dy/rot`, voir getRestLayout). */
 .cover-stamp {
   position: absolute;
-  top: 33.3%;
-  left: 50%;
-  display: grid;
-  width: 38%;
-  aspect-ratio: 1;
-  border: 1.5px solid currentColor;
-  border-radius: 50%;
+  top: calc(33.3% + var(--stamp-dy, 0));
+  left: calc(50% + var(--stamp-dx, 0));
+  width: 17%;
   opacity: 0.13;
-  place-items: center;
-  transform: translate(-50%, -50%) rotate(-8deg);
   pointer-events: none;
+  transform: translate(-50%, -50%) rotate(var(--stamp-rot, -8deg));
 }
 
 .cover-stamp svg {
-  width: 44%;
-  height: 44%;
+  display: block;
+  width: 100%;
+  height: auto;
   fill: currentColor;
 }
 
-.folder-item.is-open .cover-pages {
+.folder-item.is-open .cover-ghosts {
   opacity: 0;
 }
 
@@ -586,6 +558,11 @@
   .folder-cover,
   .folder-item.is-open .folder-cover {
     transition: none;
+  }
+
+  .cover-ghosts,
+  .folder-item.is-open .cover-ghosts {
+    transition: opacity 120ms ease-out;
   }
 
   .folder-actions {

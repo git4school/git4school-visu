@@ -18,55 +18,28 @@
 
         <!-- Feuille 1 : métadonnées du devoir (le titre reste sur le rabat) -->
         <div class="folder-page folder-page--meta" [attr.aria-hidden]="isOpen(assignment) ? null : 'true'">
-          <dl class="page-fields">
-            <div class="page-field">
-              <dt>{{ 'METADATA.COURSE' | translate }}</dt>
-              <dd>{{ assignment.course || '—' }}</dd>
-            </div>
-            <div class="page-field">
-              <dt>{{ 'METADATA.PROGRAM' | translate }}</dt>
-              <dd>{{ assignment.program || '—' }}</dd>
-            </div>
-            <div class="page-field">
-              <dt>{{ 'METADATA.YEAR' | translate }}</dt>
-              <dd>{{ assignment.year || '—' }}</dd>
-            </div>
-          </dl>
+          <ng-container *ngTemplateOutlet="metaPage"></ng-container>
         </div>
 
         <!-- Feuille 2 : planning et avancement (uniquement si le devoir est daté) -->
         <div class="folder-page folder-page--dates" *ngIf="assignment.startDate || assignment.endDate"
           [attr.aria-hidden]="isOpen(assignment) ? null : 'true'">
-          <dl class="page-fields">
-            <div class="page-field" *ngIf="assignment.startDate">
-              <dt>{{ 'METADATA.START-DATE' | translate }}</dt>
-              <dd>{{ formatDate(assignment.startDate, 'DD MMM YYYY · HH:mm') }}</dd>
-            </div>
-            <div class="page-field" *ngIf="assignment.endDate">
-              <dt>{{ 'METADATA.END-DATE' | translate }}</dt>
-              <dd>{{ formatDate(assignment.endDate, 'DD MMM YYYY · HH:mm') }}</dd>
-            </div>
-            <div class="page-field" *ngIf="assignment.startDate && assignment.endDate">
-              <dt>{{ 'HOME.DURATION.TOTAL' | translate }}</dt>
-              <dd>{{ getDuration(assignment.startDate, assignment.endDate) }}</dd>
-            </div>
-            <div class="page-field" *ngIf="assignment.endDate && getRemainingTime(assignment.endDate)">
-              <dt>{{ 'HOME.DURATION.REMAINING' | translate }}</dt>
-              <dd>{{ getRemainingTime(assignment.endDate) }}</dd>
-            </div>
-          </dl>
-          <div class="page-progress" *ngIf="assignment.startDate && assignment.endDate">
-            <div class="progress-track">
-              <div class="progress-fill" [style.width.%]="assignment.uiProgress"
-                [style.background]="getProgressBarColor(assignment.uiProgress)"></div>
-            </div>
-          </div>
+          <ng-container *ngTemplateOutlet="datesPage"></ng-container>
         </div>
 
         <!-- Rabat -->
         <button type="button" class="folder-cover" [attr.aria-expanded]="isOpen(assignment)"
           [appTooltip]="!isConnected(assignment) ? getDisconnectedTooltip(assignment) : null">
-          <span class="cover-pages" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <!-- Transparence : copies floutées des feuilles (mêmes positions et mouvements
+               qu'elles), elles sortent donc du rabat en même temps que les vraies -->
+          <span class="cover-ghosts" aria-hidden="true">
+            <span class="folder-page folder-page--meta cover-ghost">
+              <ng-container *ngTemplateOutlet="metaPage"></ng-container>
+            </span>
+            <span class="folder-page folder-page--dates cover-ghost" *ngIf="assignment.startDate || assignment.endDate">
+              <ng-container *ngTemplateOutlet="datesPage"></ng-container>
+            </span>
+          </span>
           <span class="cover-stamp" aria-hidden="true">
             <svg *ngIf="assignment.uiType === 'gitlab'" viewBox="0 0 512 512">
               <path
@@ -98,6 +71,51 @@
           </svg>
         </button>
       </div>
+
+      <!-- Contenus de feuilles partagés : vraies feuilles A4 et copies floutées du rabat -->
+      <ng-template #metaPage>
+        <span class="page-fields">
+          <span class="page-field">
+            <span class="page-label">{{ 'METADATA.COURSE' | translate }}</span>
+            <span class="page-value">{{ assignment.course || '—' }}</span>
+          </span>
+          <span class="page-field">
+            <span class="page-label">{{ 'METADATA.PROGRAM' | translate }}</span>
+            <span class="page-value">{{ assignment.program || '—' }}</span>
+          </span>
+          <span class="page-field">
+            <span class="page-label">{{ 'METADATA.YEAR' | translate }}</span>
+            <span class="page-value">{{ assignment.year || '—' }}</span>
+          </span>
+        </span>
+      </ng-template>
+
+      <ng-template #datesPage>
+        <span class="page-fields">
+          <span class="page-field" *ngIf="assignment.startDate">
+            <span class="page-label">{{ 'METADATA.START-DATE' | translate }}</span>
+            <span class="page-value">{{ formatDate(assignment.startDate, 'DD MMM YYYY · HH:mm') }}</span>
+          </span>
+          <span class="page-field" *ngIf="assignment.endDate">
+            <span class="page-label">{{ 'METADATA.END-DATE' | translate }}</span>
+            <span class="page-value">{{ formatDate(assignment.endDate, 'DD MMM YYYY · HH:mm') }}</span>
+          </span>
+          <span class="page-field" *ngIf="assignment.startDate && assignment.endDate">
+            <span class="page-label">{{ 'HOME.DURATION.TOTAL' | translate }}</span>
+            <span class="page-value">{{ getDuration(assignment.startDate, assignment.endDate) }}</span>
+          </span>
+          <span class="page-field" *ngIf="assignment.endDate && getRemainingTime(assignment.endDate)">
+            <span class="page-label">{{ 'HOME.DURATION.REMAINING' | translate }}</span>
+            <span class="page-value">{{ getRemainingTime(assignment.endDate) }}</span>
+          </span>
+        </span>
+        <span class="page-progress" *ngIf="assignment.startDate && assignment.endDate">
+          <span class="progress-track">
+            <span class="progress-fill" [style.width.%]="assignment.uiProgress"
+              [style.background]="getProgressBarColor(assignment.uiProgress)"></span>
+          </span>
+        </span>
+      </ng-template>
 
       <!-- Actions, sous les feuilles sorties et alignées sur le dossier -->
       <div class="folder-actions" [class.show]="isOpen(assignment)">

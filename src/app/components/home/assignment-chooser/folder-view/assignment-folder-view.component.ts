@@ -166,9 +166,10 @@ export class AssignmentFolderViewComponent implements OnChanges {
   }
 
   /**
-   * Disposition « au repos » des feuilles, légèrement randomisée par dossier (angle,
-   * décalages) pour éviter la monotonie de la grille. Même devoir → même disposition
-   * (graine stable), mise en cache car appelée à chaque détection de changements.
+   * Disposition « au repos » d'un dossier, légèrement randomisée (angles et décalages des
+   * feuilles, placement et orientation du tampon de forge) pour éviter la monotonie de la
+   * grille. Même devoir → même disposition (graine stable), mise en cache car appelée à
+   * chaque détection de changements.
    */
   getRestLayout(assignment: any): { [key: string]: string } {
     const cached = this.restLayouts.get(assignment.id);
@@ -204,6 +205,9 @@ export class AssignmentFolderViewComponent implements OnChanges {
       "--page-tx-closed-2": `${tx2.toFixed(2)}%`,
       "--page-ty-closed-1": `${(rand(5) * 1.1).toFixed(2)}%`,
       "--page-ty-closed-2": `${(rand(6) * 1.1).toFixed(2)}%`,
+      "--stamp-dx": `${(rand(7) * 1.2).toFixed(2)}%`,
+      "--stamp-dy": `${(rand(8) * 1.2).toFixed(2)}%`,
+      "--stamp-rot": `${(-8 + rand(9) * 2.5).toFixed(2)}deg`,
     };
   }
 
