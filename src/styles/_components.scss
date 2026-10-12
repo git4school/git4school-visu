@@ -2612,6 +2612,16 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
     color: var(--badge-default-text);
     border-color: var(--badge-default-border);
   }
+
+  /* Badge d'archivage : même géométrie que les statuts, mais aucune action (un devoir
+     archivé n'est visible que dans son onglet, où le filtrage par statut n'a pas de sens). */
+  &.status-archived {
+    background-color: var(--badge-default-bg);
+    color: var(--badge-default-text);
+    border-color: var(--badge-default-border);
+    cursor: default;
+    text-transform: none;
+  }
 }
 
 @keyframes status-pulse {

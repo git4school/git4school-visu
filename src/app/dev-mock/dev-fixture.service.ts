@@ -116,7 +116,22 @@ export class DevFixtureService {
     const id = await this.databaseService.saveAssignment(assignment);
     assignment.id = id;
     this.saveAssignmentId(id);
+    await this.seedArchivedAssignment(provider, epoch);
     return assignment;
+  }
+
+  /**
+   * Seeds an already-archived copy so the « Archivés » tab, its badge and the restore
+   * action can be exercised live without a real account. Deliberately a separate row:
+   * the demo assignment itself must stay active.
+   */
+  private async seedArchivedAssignment(provider: GitProviderType, epoch: number): Promise<void> {
+    const archived = buildDemoAssignment(provider, epoch);
+    archived.title = provider === "gitlab" ? "Démo — UE Algo TP0 (archivé, GitLab)" : "Démo — UE Algo TP0 (archivé, GitHub)";
+    /* Fixture hors affichage : l'horloge système suffit (voir AGENTS.md). */
+    archived.archivedAt = new Date(epoch - 30 * 24 * 60 * 60 * 1000);
+    archived.lastModificationDate = archived.archivedAt;
+    await this.databaseService.saveAssignment(archived);
   }
 
   private saveActive(provider: GitProviderType): void {

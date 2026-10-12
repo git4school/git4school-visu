@@ -46,7 +46,13 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     white-space: nowrap;
+
+    .filter-pill-icon {
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
 
     &:hover:not(.active) {
       color: var(--color-text-primary);
@@ -864,6 +870,14 @@
   &.is-shrunk {
     &::before {
       left: calc(1.2rem + 40px - 0.5rem);
+    }
+  }
+
+  /* Devoir rangé : il ne doit jamais se confondre avec un devoir actif. Le contenu est
+     atténué (et non la carte entière) pour que l'éditeur inline reste pleinement lisible. */
+  &.is-archived {
+    .card-content {
+      opacity: 0.72;
     }
   }
 }

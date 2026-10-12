@@ -16,6 +16,7 @@ import { Assignment } from "@models/Assignment.model";
 import { GitProviderType } from "@models/GitAuthProvider.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
+import { buildDuplicateAssignment } from "@services/assignment-duplicate.util";
 import { AccountsService } from "@services/accounts.service";
 import { GithubAuthService } from "@services/github-auth.service";
 import { ConfigurationService } from "@services/configuration.service";
@@ -93,6 +94,12 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   // Inline edit state
   editingAssignment: Assignment | null = null;
   isCreatingNew = false;
+
+  /**
+   * Champ que l'éditeur inline doit focaliser à son ouverture : l'année quand la carte
+   * provient d'une duplication (seul champ qu'elle ne recopie pas), le titre sinon.
+   */
+  inlineFocusField: "title" | "year" = "title";
 
   // Assignment card whose liquid actions menu is open (raises the card z-index)
   openActionsAssignmentId: number | null = null;
@@ -207,6 +214,10 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
       });
     });
 
+    /* Toujours visible, en dernière position : un onglet qui apparaît/disparaît selon les
+       données serait plus déroutant qu'un onglet vide. */
+    pills.push({ key: "archived", label: "HOME.FILTER.ARCHIVED" });
+
     return pills;
   }
 
@@ -263,7 +274,12 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     const newAssignment = this.assignments.find((a) => a.id === -1);
 
     // Apply filterType
-    if (this.filterType !== "all") {
+    if (this.filterType === "archived") {
+      result = result.filter((a) => a.id === -1 || this.isArchived(a));
+    } else {
+      // Les devoirs archivés ne sont visibles que dans l'onglet « Archivés ».
+      result = result.filter((a) => a.id === -1 || !this.isArchived(a));
+
       if (this.filterType === "github") {
         result = result.filter((a) => a.id === -1 || !a.provider || a.provider === "github");
       } else if (this.filterType === "gitlab" || this.filterType === "gitlab-cloud") {
@@ -277,7 +293,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
         result = result.filter(
           (a) => a.id === -1 || (a.provider === "gitlab" && (a.instanceHost === targetHost || a.resolvedInstanceHost === targetHost)),
         );
-      } else {
+      } else if (this.filterType !== "all") {
         result = result.filter((a) => (a as any).uiType === this.filterType || a.id === -1);
       }
     }
@@ -345,6 +361,16 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     this.viewMode = mode;
     this.savePreferences();
     this.cdr.markForCheck();
+  }
+
+  /** Devoir archivé : visible uniquement dans l'onglet « Archivés ». */
+  isArchived(assignment: any): boolean {
+    return Boolean(assignment?.archivedAt);
+  }
+
+  /** Message d'état vide, contextualisé pour l'onglet « Archivés ». */
+  get emptyStateMessageKey(): string {
+    return this.filterType === "archived" ? "HOME.NO-ARCHIVED-ASSIGNMENTS" : "HOME.NO-ASSIGNMENTS";
   }
 
   getActiveFiltersCount(): number {
@@ -469,6 +495,10 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
 
   getDisconnectedTooltip(assignment: any): string {
     return this.assignmentsService.getDisconnectedTooltip(assignment);
+  }
+
+  getArchiveToggleTooltip(assignment: any): string {
+    return this.assignmentsService.getArchiveToggleTooltip(assignment);
   }
 
   onStatusMouseEnter(status: string) {
@@ -673,7 +703,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
 
       // Fallback: if no provider is explicitly stored in localStorage, use provider of most recent assignment
       if (!localStorage.getItem("git4school_last_provider")) {
-        const lastAssignment = this.assignments.find((a) => a.provider && a.id !== -1);
+        const lastAssignment = this.assignments.find((a) => a.provider && a.id !== -1 && !a.archivedAt);
         if (lastAssignment && lastAssignment.provider) {
           this.lastUsedProvider = lastAssignment.provider;
           this.lastUsedHost = lastAssignment.instanceHost || (lastAssignment.provider === "gitlab" ? "gitlab.com" : "github.com");
@@ -925,6 +955,83 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     this.databaseService.deleteAssignment(assignment.id);
   }
 
+  /**
+   * Duplique un devoir : même forge, titre suffixé « (n) », cours, programme, questions,
+   * options de clôture et durée de séance par défaut (voir `buildDuplicateAssignment`).
+   * La copie est persistée puis ouverte en édition, le focus placé sur l'année : le seul
+   * champ métier à renseigner, l'année n'étant jamais dupliquée.
+   */
+  async duplicateAssignment(assignment: any) {
+    if (!assignment || assignment.id === -1) {
+      return;
+    }
+    const existingTitles = this.assignments.filter((a) => a.id !== -1).map((a) => a.title);
+    const copy = buildDuplicateAssignment(assignment, existingTitles);
+    copy.lastModificationDate = this.clockService.now();
+    (copy as any).uiStatus = this.computeStatus(copy);
+    (copy as any).uiType = this.computeType(copy);
+    (copy as any).uiProgress = this.getProgress(copy.startDate, copy.endDate);
+
+    // La copie est affichée tout de suite en liste : elle doit résister au rechargement
+    // déclenché par sa propre écriture (même garde que l'édition en cours).
+    if (this.viewMode === "list") {
+      this.inlineFocusField = "year";
+      this.editingAssignment = copy;
+    }
+    try {
+      copy.id = await this.databaseService.saveAssignment(copy);
+    } catch (err) {
+      if (this.viewMode === "list") {
+        this.editingAssignment = null;
+      }
+      this.toastService.error(this.translateService.instant("ERROR"), this.translateService.instant("HOME.DUPLICATE-TOAST-FAILED"));
+      return;
+    }
+    this.rememberLastUsedProvider(copy);
+    this.toastService.success(this.translateService.instant("SUCCESS"), this.translateService.instant("HOME.DUPLICATE-TOAST"));
+
+    // Vue dossiers : pas d'éditeur inline, la suite passe par la modale (comme la création).
+    if (this.viewMode === "folders") {
+      this.isCreatingNew = true;
+      this.configurationService.openConfigurationModal(copy, { initialFocusField: "year" }).finally(() => {
+        this.isCreatingNew = false;
+        this.loadAssignments();
+      });
+      return;
+    }
+
+    this.assignments.unshift(copy);
+    this.scrollEditingCardIntoView(copy);
+    this.cdr.markForCheck();
+  }
+
+  /**
+   * Archive un devoir, ou le restaure : un devoir archivé n'est visible que dans l'onglet
+   * « Archivés » et son action redevient « Restaurer ». La date d'archivage n'est posée que
+   * par cette action et n'est jamais retouchée par l'édition de la configuration.
+   */
+  async toggleArchive(assignment: any) {
+    if (!assignment || assignment.id === -1) {
+      return;
+    }
+    try {
+      const stored = await this.databaseService.getAssignmentById(assignment.id);
+      if (!stored) {
+        return;
+      }
+      const restoring = Boolean(stored.archivedAt);
+      stored.archivedAt = restoring ? undefined : this.clockService.now();
+      stored.lastModificationDate = this.clockService.now();
+      await this.databaseService.saveAssignment(stored);
+      this.toastService.success(
+        this.translateService.instant("SUCCESS"),
+        this.translateService.instant(restoring ? "HOME.RESTORE-TOAST" : "HOME.ARCHIVE-TOAST"),
+      );
+    } catch (err) {
+      this.toastService.error(this.translateService.instant("ERROR"), this.translateService.instant("HOME.ARCHIVE-TOAST-FAILED"));
+    }
+  }
+
   /** Suit l'ouverture du menu d'actions liquides pour relever la carte concernée. */
   onActionsMenuOpenChange(assignmentId: number, isOpen: boolean) {
     this.openActionsAssignmentId = isOpen ? assignmentId : null;
@@ -1048,6 +1155,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
       this.isCreatingNew = false;
     }
 
+    this.inlineFocusField = "title";
     this.editingAssignment = assignment;
 
     this.scrollEditingCardIntoView(assignment);

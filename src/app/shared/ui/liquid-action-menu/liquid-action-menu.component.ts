@@ -21,6 +21,8 @@ export class LiquidActionMenuComponent implements OnDestroy {
   @Input() deleteTooltip = "";
   @Input() duplicateTooltip = "";
   @Input() archiveTooltip = "";
+  /** Bascule la goutte d'archivage en « restaurer » (devoir déjà archivé). */
+  @Input() restoreMode = false;
 
   @Output() delete = new EventEmitter<void>();
   @Output() duplicate = new EventEmitter<void>();

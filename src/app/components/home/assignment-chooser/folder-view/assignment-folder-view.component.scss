@@ -105,6 +105,12 @@
   opacity: 0.62;
 }
 
+/* Devoir rangé : reste lisible mais ne se confond pas avec un devoir actif. Le dossier
+   ouvert garde son rendu normal (les feuilles sorties doivent rester nettes). */
+.folder-item.is-archived:not(.is-open) {
+  opacity: 0.78;
+}
+
 .folder-stage {
   position: relative;
   width: 100%;

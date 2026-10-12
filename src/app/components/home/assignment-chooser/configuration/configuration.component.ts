@@ -26,6 +26,12 @@ const SAVED_INDICATOR_MS = 1500;
 export class ConfigurationComponent implements OnInit, OnDestroy {
   @Input() assignment: Assignment;
   @Input() modalRef?: any;
+  /**
+   * Champ de métadonnées à focaliser à l'ouverture. La duplication place le focus sur
+   * l'année, seul champ qu'elle ne recopie pas ; le défaut préserve le comportement
+   * historique du titre pour la création et l'édition classiques.
+   */
+  @Input() initialFocusField: "title" | "year" = "title";
   @Output() close = new EventEmitter<Assignment>();
   /**
    * Emitted after the displayed tab changes, so the host (inline editor) can re-fit the card

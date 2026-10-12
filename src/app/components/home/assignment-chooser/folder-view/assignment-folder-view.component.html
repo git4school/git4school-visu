@@ -10,6 +10,7 @@
       [id]="'assignment-folder-' + assignment.id"
       [class.is-open]="isOpen(assignment)"
       [class.is-selected]="isSelected(assignment.id)"
+      [class.is-archived]="isArchived(assignment)"
       [class.is-disabled]="!isConnected(assignment)"
       [ngClass]="'status-' + assignment.uiStatus"
       [style]="getRestLayout(assignment)">
@@ -57,7 +58,11 @@
             <span class="cover-subtitle">
               <i class="far fa-clock" aria-hidden="true"></i> {{ assignment.lastModificationDate | date: 'short' }}
             </span>
-            <span class="cover-state">{{ 'HOME.STATUS.' + assignment.uiStatus.toUpperCase() | translate }}</span>
+            <!-- Devoir rangé : la ligne de statut cède la place à la date d'archivage. -->
+            <span class="cover-state" *ngIf="!isArchived(assignment)">{{ 'HOME.STATUS.' + assignment.uiStatus.toUpperCase()
+              | translate }}</span>
+            <span class="cover-state" *ngIf="isArchived(assignment)">{{
+              'HOME.ARCHIVED-ON' | translate:{date: formatDate(assignment.archivedAt, 'DD MMM YYYY')} }}</span>
           </span>
           <span class="cover-lines" aria-hidden="true"><i></i><i></i></span>
         </button>
@@ -132,8 +137,10 @@
         </button>
         <app-liquid-action-menu [disabled]="!isConnected(assignment)" [triggerTooltip]="'HOME.OTHER-ACTIONS' | translate"
           [deleteTooltip]="getAssignmentDeleteTooltip(assignment) | translate"
-          [duplicateTooltip]="'HOME.DUPLICATE-ASSIGNMENT' | translate" [archiveTooltip]="'HOME.ARCHIVE-ASSIGNMENT' | translate"
-          (delete)="onDelete(assignment)"></app-liquid-action-menu>
+          [duplicateTooltip]="'HOME.DUPLICATE-ASSIGNMENT' | translate" [archiveTooltip]="getArchiveToggleTooltip(assignment)"
+          [restoreMode]="isArchived(assignment)"
+          (delete)="onDelete(assignment)" (duplicate)="onDuplicate(assignment)"
+          (archive)="onArchive(assignment)"></app-liquid-action-menu>
       </div>
     </div>
   </div>

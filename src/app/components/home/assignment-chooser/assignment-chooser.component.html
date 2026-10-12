@@ -16,6 +16,13 @@
         [class.filter-pill-custom]="pill.isCustom"
         (click)="setFilter(pill.key)"
       >
+        <!-- L'onglet « Archivés » porte l'icône boîte de son action de menu. -->
+        <svg *ngIf="pill.key === 'archived'" class="filter-pill-icon" width="13" height="13" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="21 8 21 21 3 21 3 8"></polyline>
+          <rect x="1" y="3" width="22" height="5"></rect>
+          <line x1="10" y1="12" x2="14" y2="12"></line>
+        </svg>
         {{ pill.isCustom ? pill.label : (pill.label | translate) }}
       </button>
     </div>
@@ -438,6 +445,7 @@
     <div class="assignment-card" *ngFor="let assignment of filteredAssignments; trackBy: trackByAssignmentId" [id]="'assignment-card-' + assignment.id" [ngClass]="{
            'disabled-card': !isAssignmentConnected(assignment), 
            'is-selected': isSelected(assignment.id),
+           'is-archived': isArchived(assignment),
            'is-editing': editingAssignment === assignment,
            'has-open-actions': openActionsAssignmentId === assignment.id,
            'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignment !== assignment,
@@ -480,8 +488,21 @@
               [appTooltip]="assignment.title" placement="bottom">{{ assignment.title || ('HOME.NEW-ASSIGNMENT' |
               translate) }}</h5>
 
+            <!-- Devoir archivé : le badge de statut est remplacé (il isole les filtres de
+                 statut, ce qui n'a pas de sens pour un devoir rangé dans son propre onglet) -->
+            <span class="badge status-badge status-archived" *ngIf="assignment.id !== -1 && isArchived(assignment)"
+              [appTooltip]="'HOME.ARCHIVED-ON' | translate:{date: formatDate(assignment.archivedAt, 'DD MMM YYYY · HH:mm')}">
+              <svg class="status-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                <rect x="1" y="3" width="22" height="5"></rect>
+                <line x1="10" y1="12" x2="14" y2="12"></line>
+              </svg>
+              <span class="status-text">{{ 'HOME.ARCHIVED-BADGE' | translate }}</span>
+            </span>
+
             <!-- Status Badge -->
-            <button type="button" class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus" *ngIf="assignment.id !== -1"
+            <button type="button" class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus" *ngIf="assignment.id !== -1 && !isArchived(assignment)"
               [appTooltip]="getStatusTooltip(assignment.uiStatus) | translate"
               (mouseenter)="onStatusMouseEnter(assignment.uiStatus)"
               (mouseleave)="onStatusMouseLeave()"
@@ -574,8 +595,11 @@
             [triggerTooltip]="'HOME.OTHER-ACTIONS' | translate"
             [deleteTooltip]="getAssignmentDeleteTooltip(assignment) | translate"
             [duplicateTooltip]="'HOME.DUPLICATE-ASSIGNMENT' | translate"
-            [archiveTooltip]="'HOME.ARCHIVE-ASSIGNMENT' | translate"
+            [archiveTooltip]="getArchiveToggleTooltip(assignment)"
+            [restoreMode]="isArchived(assignment)"
             (delete)="deleteAssignment(assignment)"
+            (duplicate)="duplicateAssignment(assignment)"
+            (archive)="toggleArchive(assignment)"
             (openChange)="onActionsMenuOpenChange(assignment.id, $event)">
           </app-liquid-action-menu>
         </div>
@@ -583,8 +607,8 @@
 
       <!-- Inline Configuration Section -->
       <div class="inline-configuration-wrapper" *ngIf="editingAssignment === assignment">
-        <app-configuration [assignment]="assignment" (close)="closeEdit($event)"
-          (tabChanged)="onConfigurationTabChanged()">
+        <app-configuration [assignment]="assignment" [initialFocusField]="inlineFocusField"
+          (close)="closeEdit($event)" (tabChanged)="onConfigurationTabChanged()">
         </app-configuration>
       </div>
     </div>
@@ -594,12 +618,13 @@
   <assignment-folder-view *ngIf="viewMode === 'folders'" [assignments]="folderAssignments"
     [selectionMode]="selectionMode" [selectedAssignments]="selectedAssignments" (load)="selectAssignment($event)"
     (configure)="configureAssignment($event)" (delete)="deleteAssignment($event)"
+    (duplicate)="duplicateAssignment($event)" (archive)="toggleArchive($event)"
     (selectionToggle)="toggleSelection($event)"></assignment-folder-view>
 
   <!-- Empty State -->
   <div *ngIf="filteredAssignments.length === 0" class="empty-state text-center py-5 text-muted">
     <i class="fas fa-folder-open fa-3x mb-3" style="opacity: 0.5;"></i>
-    <h5>{{ 'HOME.NO-ASSIGNMENTS' | translate }}</h5>
+    <h5>{{ emptyStateMessageKey | translate }}</h5>
   </div>
 
   <!-- Floating Action Bar for Selection Mode -->

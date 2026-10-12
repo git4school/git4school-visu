@@ -188,7 +188,8 @@
       "ALL": "All",
       "GITHUB": "GitHub",
       "GITLAB": "GitLab",
-      "GITLAB_CLOUD": "GitLab.com"
+      "GITLAB_CLOUD": "GitLab.com",
+      "ARCHIVED": "Archived"
     },
     "DURATION": {
       "DAYS": "d",
@@ -204,7 +205,16 @@
     "VIEW-FOLDERS": "Show as folders",
     "SELECT-ASSIGNMENT": "Select assignment",
     "LOAD-ASSIGNMENT": "Load",
-    "CONFIGURE-ASSIGNMENT": "Configure"
+    "CONFIGURE-ASSIGNMENT": "Configure",
+    "RESTORE-ASSIGNMENT": "Restore assignment",
+    "ARCHIVED-BADGE": "Archived",
+    "ARCHIVED-ON": "Archived on {{date}}",
+    "NO-ARCHIVED-ASSIGNMENTS": "No archived assignments",
+    "DUPLICATE-TOAST": "Assignment duplicated",
+    "DUPLICATE-TOAST-FAILED": "Could not duplicate the assignment.",
+    "ARCHIVE-TOAST": "Assignment archived",
+    "RESTORE-TOAST": "Assignment restored",
+    "ARCHIVE-TOAST-FAILED": "Could not archive the assignment."
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "No commits found",

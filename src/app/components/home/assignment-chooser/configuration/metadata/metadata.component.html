@@ -32,7 +32,7 @@
 
         <!-- Year -->
         <div style="flex: 1;">
-          <app-text-input id="year" formControlName="year" [label]="'METADATA.YEAR' | translate" (blurred)="notifyBlur()">
+          <app-text-input #yearInput id="year" formControlName="year" [label]="'METADATA.YEAR' | translate" (blurred)="notifyBlur()">
           </app-text-input>
         </div>
       </div>

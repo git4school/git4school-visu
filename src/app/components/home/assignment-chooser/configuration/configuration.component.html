@@ -40,8 +40,9 @@
 
         <div class="tab-content pt-0">
             <div [hidden]="activeTab !== 'metadata'">
-                <metadata #metadataComp [metadata]="assignment.metadata" (modified)="onImmediateModification()"
-                    (textModified)="onTextModification()" (textBlurred)="onTextBlur()">
+                <metadata #metadataComp [metadata]="assignment.metadata" [initialFocusField]="initialFocusField"
+                    (modified)="onImmediateModification()" (textModified)="onTextModification()"
+                    (textBlurred)="onTextBlur()">
                 </metadata>
             </div>
             <div *ngIf="reposInitialized" [hidden]="activeTab !== 'repositories'">

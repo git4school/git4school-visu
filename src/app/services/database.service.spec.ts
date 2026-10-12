@@ -98,4 +98,22 @@ describe("DatabaseService", () => {
     expect(rawStored?.provider).toBe("gitlab");
     expect(rawStored?.instanceHost).toBe("gitlab.example.org");
   });
+
+  it("should persist and rehydrate the archiving date as a Date", async () => {
+    const archivedAt = new Date("2026-09-01T10:30:00.000Z");
+    const assignment = new Assignment();
+    assignment.title = "Archived Assignment";
+    assignment.archivedAt = archivedAt;
+
+    const id = await service.saveAssignment(assignment);
+
+    const fromId = await service.getAssignmentById(id);
+    expect(fromId?.archivedAt instanceof Date).toBe(true);
+    expect(fromId?.archivedAt?.getTime()).toBe(archivedAt.getTime());
+
+    const assignments = await service.getAllAssignments();
+    const loaded = assignments.find((a) => a.id === id);
+    expect(loaded?.archivedAt instanceof Date).toBe(true);
+    expect(loaded?.archivedAt?.getTime()).toBe(archivedAt.getTime());
+  });
 });

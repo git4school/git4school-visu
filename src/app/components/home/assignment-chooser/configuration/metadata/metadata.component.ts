@@ -21,7 +21,10 @@ import { QuestionsChooserComponent } from "@components/questions-chooser/questio
 })
 export class MetadataComponent extends BaseEditConfigurationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() metadata: Metadata;
+  /** Champ focalisé à l'ouverture de l'éditeur (voir ConfigurationComponent.initialFocusField). */
+  @Input() initialFocusField: "title" | "year" = "title";
   @ViewChild("titleInput") titleInput: TextInputComponent;
+  @ViewChild("yearInput") yearInput: TextInputComponent;
   @ViewChild("questionsChooser") questionsChooser: QuestionsChooserComponent;
   public metadataForm: FormGroup;
 
@@ -72,8 +75,9 @@ export class MetadataComponent extends BaseEditConfigurationComponent implements
   ngAfterViewInit() {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        if (this.titleInput && this.titleInput.inputElement) {
-          this.titleInput.inputElement.nativeElement.focus({ preventScroll: true });
+        const target = this.initialFocusField === "year" ? this.yearInput : this.titleInput;
+        if (target && target.inputElement) {
+          target.inputElement.nativeElement.focus({ preventScroll: true });
         }
       });
     });

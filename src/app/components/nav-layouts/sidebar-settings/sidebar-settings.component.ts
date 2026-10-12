@@ -109,6 +109,10 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     this.totalAssignmentsCount = all.length;
 
     const filtered = all.filter((a) => {
+      /* Un devoir archivé n'est visible que dans l'onglet « Archivés » de l'accueil. */
+      if (a.archivedAt) {
+        return false;
+      }
       const type = this.computeType(a);
       (a as any).uiType = type;
       return this.accountsService.hasAccountForHost(type, a.instanceHost || a.resolvedInstanceHost);

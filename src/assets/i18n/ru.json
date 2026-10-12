@@ -186,7 +186,8 @@
       "ALL": "Все",
       "GITHUB": "GitHub",
       "GITLAB": "GitLab",
-      "GITLAB_CLOUD": "GitLab.com"
+      "GITLAB_CLOUD": "GitLab.com",
+      "ARCHIVED": "Архивные"
     },
     "DURATION": {
       "DAYS": "дн",
@@ -202,7 +203,16 @@
     "VIEW-FOLDERS": "Показать папками",
     "SELECT-ASSIGNMENT": "Выбрать задание",
     "LOAD-ASSIGNMENT": "Загрузить",
-    "CONFIGURE-ASSIGNMENT": "Настроить"
+    "CONFIGURE-ASSIGNMENT": "Настроить",
+    "RESTORE-ASSIGNMENT": "Восстановить задание",
+    "ARCHIVED-BADGE": "Архивное",
+    "ARCHIVED-ON": "Архивировано {{date}}",
+    "NO-ARCHIVED-ASSIGNMENTS": "Нет архивных заданий",
+    "DUPLICATE-TOAST": "Задание продублировано",
+    "DUPLICATE-TOAST-FAILED": "Не удалось продублировать задание.",
+    "ARCHIVE-TOAST": "Задание архивировано",
+    "RESTORE-TOAST": "Задание восстановлено",
+    "ARCHIVE-TOAST-FAILED": "Не удалось архивировать задание."
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "Коммиты не найдены",

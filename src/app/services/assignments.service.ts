@@ -131,4 +131,9 @@ export class AssignmentsService {
     }
     return this.getDisconnectedTooltip(assignment);
   }
+
+  /** Tooltip of the archive action, which becomes a restore action on an archived assignment. */
+  getArchiveToggleTooltip(assignment: any): string {
+    return this.translateService.instant(assignment?.archivedAt ? "HOME.RESTORE-ASSIGNMENT" : "HOME.ARCHIVE-ASSIGNMENT");
+  }
 }

@@ -46,6 +46,8 @@ export class AssignmentFolderViewComponent implements DoCheck, OnChanges, OnDest
   @Output() load = new EventEmitter<Assignment>();
   @Output() configure = new EventEmitter<Assignment>();
   @Output() delete = new EventEmitter<Assignment>();
+  @Output() duplicate = new EventEmitter<Assignment>();
+  @Output() archive = new EventEmitter<Assignment>();
   @Output() selectionToggle = new EventEmitter<number>();
 
   /** Dossier dont les feuilles sont sorties (un seul à la fois). */
@@ -173,8 +175,32 @@ export class AssignmentFolderViewComponent implements DoCheck, OnChanges, OnDest
     this.delete.emit(assignment);
   }
 
+  /**
+   * Comme « Configurer », la duplication ouvre un éditeur par-dessus la grille : le dossier
+   * sorti est refermé et l'événement vient du menu liquide (pas d'événement DOM à stopper,
+   * le menu le fait déjà).
+   */
+  onDuplicate(assignment: any): void {
+    this.closeOpenFolder();
+    this.duplicate.emit(assignment);
+  }
+
+  /** Le rechargement provoqué par l'archivage referme le dossier sorti (voir ngOnChanges). */
+  onArchive(assignment: any): void {
+    this.archive.emit(assignment);
+  }
+
   isConnected(assignment: any): boolean {
     return this.assignmentsService.isAssignmentConnected(assignment);
+  }
+
+  /** Devoir archivé : visible uniquement dans l'onglet « Archivés ». */
+  isArchived(assignment: any): boolean {
+    return Boolean(assignment?.archivedAt);
+  }
+
+  getArchiveToggleTooltip(assignment: any): string {
+    return this.assignmentsService.getArchiveToggleTooltip(assignment);
   }
 
   getDisconnectedTooltip(assignment: any): string {
