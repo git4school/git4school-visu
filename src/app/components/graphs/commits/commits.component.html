@@ -351,7 +351,7 @@
     <p>{{ hovered_commit.message }}</p>
     <p>{{ getCommitAuthorDisplayName(hovered_commit) }}</p>
     <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">
-      <div class="tooltip-helper-item d-flex align-items-center" *ngIf="!anonymizationService.isAnonymous">
+      <div class="tooltip-helper-item d-flex align-items-center">
         <span>{{ 'COMMIT-TOOLTIP.OPEN_COMMIT' | translate }}</span>
         <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
       </div>

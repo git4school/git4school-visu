@@ -2906,10 +2906,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     let x = this.xScaledTimeZoned(commit.commitDate);
 
-    let comp: d3.Selection<any, any, any, any> = g.append("a");
-    if (!this.anonymizationService.isAnonymous) {
-      comp.attr("href", (d) => d[0].url).attr("target", "_blank");
-    }
+    let comp: d3.Selection<any, any, any, any> = g
+      .append("a")
+      .attr("href", (d) => d[0].url)
+      .attr("target", "_blank");
 
     if (commit.isCloture) {
       comp = comp.append("circle").attr("class", "commit-cloture");
