@@ -13,7 +13,8 @@
     "PLACEHOLDER": "Sélectionner un groupe de tp",
     "ALL": "Tout",
     "TOOLTIP": "Filtrer par groupe de TP",
-    "STUDENT-COUNT": "{{count}} étudiant·es"
+    "STUDENT-COUNT": "{{count}} étudiant·es",
+    "SESSION-ACTIVE": "Séance en cours"
   },
   "ERRORS": {
     "REPOSITORY-NOT-FOUND": "Le dépôt n'a pas été trouvé ou vous n'avez aucun droit dessus",
@@ -770,6 +771,8 @@
       "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_TOOLTIP": "Nombre d'étudiant·es n'ayant résolu aucune question pendant cette séance."
     },
     "MATRIX": {
+      "COMING_SOON_TITLE": "Matrice d'avancement",
+      "COMING_SOON": "Cette vue arrive prochainement.",
       "TITLE": "Matrice d'avancement synthétique (Étudiants × Questions)",
       "SUBTITLE": "Vue matricielle du statut de chaque question pour chaque étudiant",
       "LEGEND_BEFORE": "Validé avant revue",
@@ -798,8 +801,8 @@
     },
     "RIBBON": {
       "TITLE": "Trajectoire de progression & Dispersion du groupe",
-      "SUBTITLE_BADGE": "Médiane + Intervalle interquartile",
-      "EXPLANATION": "La courbe bleue indique l'avancement médian du groupe. Le ruban ombré représente la zone où se situent 50% des étudiants (Q1-Q3).",
+      "SUBTITLE_BADGE": "Moyenne + Intervalle interquartile",
+      "EXPLANATION": "La courbe bleue indique l'avancement moyen du groupe. Le ruban ombré représente la zone où se situent 50% des étudiant·es (Q1-Q3).",
       "MODE_QUESTIONS": "Questions résolues",
       "MODE_COMMITS": "Commits cumulés",
       "Y_AXIS_QUESTIONS": "Questions complétées",
@@ -885,19 +888,53 @@
   "SESSION-TAB": {
     "TAB": {
       "IN-PROGRESS": "Séance en cours",
+      "IN-PROGRESS-SHORT": "En cours",
       "UPCOMING-SHORT": "Séance bientôt",
+      "UPCOMING-TAB": "Bientôt",
       "LABEL-FALLBACK": "Séance"
     },
     "PANEL": {
       "TP-GROUP": "Groupe",
-      "ACTIVE-STUDENTS": "Étudiants actifs",
-      "IN-SESSION-COMMITS": "Commits en séance",
-      "RESOLVED-QUESTIONS": "Questions résolues",
-      "PARTICIPATION": "Participation",
-      "LOADING-STATS": "Calcul de l'activité…",
+      "PREV": "Séance précédente",
+      "NEXT": "Séance suivante",
+      "HEALTH": {
+        "ACTIVE": "actif·ves",
+        "WATCH": "à relancer",
+        "INACTIVE": "inactif·ves",
+        "QUESTIONS": "Questions résolues",
+        "ACTIVE-LIST": "Étudiant·es actif·ves",
+        "WATCH-LIST": "À relancer",
+        "INACTIVE-LIST": "Étudiant·es inactif·ves",
+        "QUESTIONS-LIST": "Questions résolues",
+        "NONE": "Aucun·e"
+      },
+      "WATCH": {
+        "TITLE": "À aider",
+        "SEE-ALL": "Voir tout",
+        "ALL-GOOD": "Tous les étudiant·es sont actif·ves",
+        "REASON-NO-COMMIT": "Aucun commit",
+        "REASON-STALE": "Sans activité depuis {{minutes}} min"
+      },
+      "PACE": {
+        "TITLE": "Rythme",
+        "PER-15": "commits / 15 min",
+        "BUCKET": "{{time}} · {{count}} commits",
+        "STALLED": "Coup de mou"
+      },
+      "TIMELINE": {
+        "TITLE": "Chronologie",
+        "TOOLTIP": "Chaque pastille est une question résolue : à l'horizontale le temps, à la verticale le rang de la question. La courbe bleue est la progression moyenne du groupe ; survolez une pastille pour voir la trajectoire de l'étudiant·e."
+      },
+      "FEED": {
+        "TITLE": "Dernière activité",
+        "JUST-NOW": "à l'instant",
+        "MIN-AGO": "il y a {{minutes}} min"
+      },
+      "REFRESH": "Rafraîchir les données",
+      "REFRESH-TOOLTIP": "Récupérer les derniers commits",
+      "REFRESH-AUTO-TOOLTIP": "Actualisation automatique pendant la séance",
       "VIEW-IN-GRAPH": "Voir dans le graphe",
       "EDIT": "Modifier",
-      "CLOSE": "Fermer",
       "UPDATED-TOAST": "Séance mise à jour."
     }
   },

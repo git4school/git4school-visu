@@ -12,12 +12,14 @@ import {
 import { CommitColor } from "@models/Commit.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
+import { ActivatedRoute } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { ClockService } from "@services/clock.service";
 import { DataService } from "@services/data.service";
 import { LoaderService } from "@services/loader.service";
 import { SessionAnalyticsService, SessionDetailedStats, StudentSessionActivity } from "@services/session-analytics.service";
+import { getSessionDisplayName } from "@services/session-label.util";
 import { ThemeService } from "@services/theme.service";
 import { ToastService } from "@services/toast.service";
 import { TooltipService } from "@services/tooltip.service";
@@ -84,6 +86,8 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   private trajectoryWarmResetTimeout: any = null;
   private readonly TRAJECTORY_WARM_RESET_DELAY = 450;
   private sessionToCenter?: Session;
+  /** Deep-link target from the session panel ("Voir tout"): session start + sub-tab to open. */
+  private pendingDeepLink?: { startMs: number; sub?: "timeline" | "matrix" | "students" };
 
   constructor(
     public dataService: DataService,
@@ -98,6 +102,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     private databaseService: DatabaseService,
     private cdr: ChangeDetectorRef,
     private clockService: ClockService,
+    private route: ActivatedRoute,
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -128,6 +133,27 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     }
   }
 
+  /** Session panel switcher: select and center the matching session in the ribbon. */
+  @HostListener("window:git4school:focus-session", ["$event"])
+  onFocusSession(event: CustomEvent): void {
+    const session = (event as CustomEvent)?.detail?.session as Session;
+    if (!session) {
+      return;
+    }
+    const startMs = new Date(session.startDate).getTime();
+    const filtered = this.getFilteredSessions();
+    const idx = filtered.findIndex((stat) => new Date(stat.session.startDate).getTime() === startMs);
+    if (idx < 0) {
+      return;
+    }
+    this.selectedSessionIndex = idx;
+    this.safeDetectChanges();
+    setTimeout(() => {
+      this.renderCurrentCharts();
+      this.scrollSelectedPillIntoView(idx);
+    }, 50);
+  }
+
   ngOnInit(): void {
     this.assignmentsModified$ = this.subscribeAssignmentModified();
     /* Le filtre de groupe est global (navbar) : rafraîchir la vue à chaque changement. */
@@ -135,6 +161,8 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     this.translateService.onLangChange.subscribe(() => {
       this.loadGraphDataAndRefresh();
     });
+
+    this.readDeepLink();
 
     if (this.dataService.repoToLoad) {
       this.loadGraph(this.dataService.startDate, this.dataService.endDate);
@@ -228,6 +256,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
 
       // Ensure valid selected index
       const filtered = this.getFilteredSessions();
+      this.applyDeepLink(filtered);
       const sessionToCenterIndex = this.sessionToCenter ? filtered.findIndex((stat) => stat.session === this.sessionToCenter) : -1;
       if (this.selectedSessionIndex >= filtered.length) {
         this.selectedSessionIndex = filtered.length > 0 ? 0 : -1;
@@ -445,32 +474,10 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   getSessionDisplayName(session: Session): string {
-    if (!session) return "";
-    if (session.label && session.label.trim().length > 0) {
-      const baseLabel = session.label.trim();
-      return session.tpGroup && !this.dataService.groupFilter ? `${baseLabel} (${session.tpGroup})` : baseLabel;
-    }
-    const allSessions = this.dataService?.sessions || [];
-    const sameGroup = allSessions
-      .filter((s) => (s.tpGroup || "") === (session.tpGroup || ""))
-      .slice()
-      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-
-    let idx = sameGroup.indexOf(session);
-    if (idx === -1) {
-      idx = sameGroup.findIndex(
-        (s) =>
-          new Date(s.startDate).getTime() === new Date(session.startDate).getTime() &&
-          new Date(s.endDate).getTime() === new Date(session.endDate).getTime() &&
-          (s.tpGroup || "") === (session.tpGroup || ""),
-      );
-    }
-    const num = idx >= 0 ? idx + 1 : 1;
-    const defaultName = this.translateService.instant("DEFAULT-SESSION-NAME", {
-      number: num,
+    return getSessionDisplayName(session, this.dataService?.sessions || [], this.translateService, {
+      includeGroupSuffix: true,
+      groupFilter: this.dataService.groupFilter,
     });
-    const baseName = defaultName && defaultName !== "DEFAULT-SESSION-NAME" ? defaultName : `Séance ${num}`;
-    return session.tpGroup && !this.dataService.groupFilter ? `${baseName} (${session.tpGroup})` : baseName;
   }
 
   getResolvedQuestionsTooltip(questions: string[] | undefined): string {
@@ -492,6 +499,42 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   // --- PRIVATE HELPERS & RENDERING ---
+
+  /** Reads the "Voir tout" deep-link (session panel) so the target session and sub-tab are restored. */
+  private readDeepLink(): void {
+    const params = this.route.snapshot.queryParamMap;
+    const sessionParam = params.get("session");
+    if (!sessionParam) {
+      return;
+    }
+    const startMs = new Date(sessionParam).getTime();
+    if (isNaN(startMs)) {
+      return;
+    }
+    const sub = params.get("sub");
+    this.pendingDeepLink = {
+      startMs,
+      sub: sub === "matrix" || sub === "students" ? sub : undefined,
+    };
+  }
+
+  /** Applies a pending deep-link once the stats (and thus the filtered list) are available. */
+  private applyDeepLink(filtered: SessionDetailedStats[]): void {
+    const deepLink = this.pendingDeepLink;
+    if (!deepLink) {
+      return;
+    }
+    const idx = filtered.findIndex((stat) => new Date(stat.session.startDate).getTime() === deepLink.startMs);
+    if (idx < 0) {
+      return;
+    }
+    this.selectedSessionIndex = idx;
+    if (deepLink.sub) {
+      this.activeSubTab = deepLink.sub;
+    }
+    this.sessionToCenter = filtered[idx].session;
+    this.pendingDeepLink = undefined;
+  }
 
   private updateRibbonNavButtons(): void {
     if (!this.ribbonBar?.nativeElement) return;
@@ -723,11 +766,11 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
       .style("fill", "var(--color-primary)")
       .style("fill-opacity", "0.14");
 
-    // 2. Median Trend Line
+    // 2. Average Trend Line
     const line = d3
       .line<any>()
       .x((d) => xScale(d.time))
-      .y((d) => yScale(d.median))
+      .y((d) => yScale(d.mean))
       .curve(d3.curveMonotoneX);
 
     g.append("path")

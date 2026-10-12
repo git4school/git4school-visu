@@ -33,7 +33,15 @@
       [class.active]="selected === group"
       (click)="select(group)"
     >
-      <span class="tp-group-name">{{ group }}</span>
+      <span class="tp-group-main">
+        <span
+          class="tp-group-dot"
+          *ngIf="hasActiveSession(group)"
+          [appTooltip]="'TP-GROUP-SELECT.SESSION-ACTIVE' | translate"
+          aria-hidden="true"
+        ></span>
+        <span class="tp-group-name">{{ group }}</span>
+      </span>
       <span
         class="tp-group-count"
         *ngIf="countFor(group) > 0"

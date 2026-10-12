@@ -111,6 +111,42 @@
   white-space: nowrap;
 }
 
+.tp-group-main {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+/* Point « séance en cours » : vert, discret, à côté du nom du groupe. */
+.tp-group-dot {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-success);
+  box-shadow: 0 0 0 2px var(--color-surface);
+  animation: tp-group-dot-pulse 2s ease-in-out infinite;
+}
+
+/* Inline dot in the "Tout" row (not wrapped in .tp-group-main). */
+.tp-group-menu .dropdown-item > .tp-group-dot {
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
+
+@keyframes tp-group-dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
 /* Badge de comptage : largeur identique pour chaque groupe, icône à gauche, nombre à droite. */
 .tp-group-count {
   display: inline-flex;
@@ -148,5 +184,9 @@
 
   .tp-group-menu.show {
     transition: opacity 120ms ease, visibility 0s;
+  }
+
+  .tp-group-dot {
+    animation: none;
   }
 }

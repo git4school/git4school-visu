@@ -38,6 +38,7 @@ export interface SessionHistogramBucket {
 export interface RibbonDataPoint {
   time: Date;
   relativeMinutes: number;
+  mean: number;
   median: number;
   q1: number;
   q3: number;
@@ -86,6 +87,70 @@ export interface SessionDetailedStats {
   studentsActivity: StudentSessionActivity[];
 }
 
+export type StudentRisk = "active" | "watch" | "inactive";
+
+export interface StudentWatchItem {
+  repository: Repository;
+  studentName: string;
+  risk: StudentRisk;
+  /** i18n key explaining why the student needs attention. */
+  reasonKey: string;
+  /** Minutes since the last commit, when the reason is time-based. */
+  reasonMinutes?: number;
+  inSessionCommitsCount: number;
+}
+
+export interface PaceBucket {
+  label: string;
+  total: number;
+  isCurrent: boolean;
+  /** 0..100 bar height, relative to the busiest elapsed bucket. */
+  height: number;
+}
+
+export interface LiveFeedItem {
+  studentName: string;
+  questionName: string;
+  isCloture: boolean;
+  minutesAgo: number;
+  justNow: boolean;
+  commitUrl: string;
+}
+
+/**
+ * Actionable "live cockpit" indicators derived from the detailed stats, so the teacher can
+ * orchestrate the session: who needs help, the class pace and the latest activity.
+ */
+export interface SessionLiveIndicators {
+  activeCount: number;
+  watchCount: number;
+  inactiveCount: number;
+  totalStudents: number;
+  resolvedQuestions: number;
+  totalQuestions: number;
+  questionsPct: number;
+  /** Student names per health bucket (for the hover tooltips). */
+  activeStudents: string[];
+  watchStudents: string[];
+  inactiveStudents: string[];
+  /** Names of the resolved questions (for the hover tooltip). */
+  resolvedQuestionsList: string[];
+  /** Live resolved-questions scatter (one dot per completion) + group average progress curve. */
+  resolvedChart: {
+    dots: Array<{ x: number; y: number; question: string; student: string; minutesAgo: number }>;
+    average: Array<{ x: number; y: number }>;
+    /** Per-student cumulative progress trajectory (0..100 box), keyed by student name. */
+    trajectories: Record<string, Array<{ x: number; y: number }>>;
+  };
+  watchlist: StudentWatchItem[];
+  pace: {
+    buckets: PaceBucket[];
+    commitsLast15: number;
+    stalled: boolean;
+  };
+  feed: LiveFeedItem[];
+}
+
 export interface SuggestedSessionResult {
   session: Session;
   activeStudentsCount: number;
@@ -101,6 +166,11 @@ export class SessionAnalyticsService {
   readonly BASE_GRACE_MINUTES = 3;
   readonly MAX_GRACE_MINUTES = 30;
   readonly MAX_CONSECUTIVE_GAP_MINUTES = 4;
+
+  /** No commit for longer than this flags a student "to nudge" and a class "stalled". */
+  readonly LIVE_STALE_MINUTES = 15;
+  readonly LIVE_WATCHLIST_LIMIT = 4;
+  readonly LIVE_FEED_LIMIT = 4;
 
   constructor(private anonymizationService?: AnonymizationService) {}
 
@@ -443,6 +513,184 @@ export class SessionAnalyticsService {
   }
 
   /**
+   * Derives the actionable "live cockpit" indicators from the already-computed detailed stats.
+   * Pure and cheap (no extra data pass): the teacher gets who needs help, the class pace and the
+   * latest activity. `nowMs` comes from ClockService so the dev-bar clock shift is honoured.
+   */
+  buildLiveIndicators(stats: SessionDetailedStats, nowMs: number): SessionLiveIndicators {
+    const staleMs = this.LIVE_STALE_MINUTES * 60 * 1000;
+    const students = stats.studentsActivity || [];
+    const startMs = new Date(stats.session.startDate).getTime();
+
+    let activeCount = 0;
+    let watchCount = 0;
+    let inactiveCount = 0;
+    const activeStudents: string[] = [];
+    const watchStudents: string[] = [];
+    const inactiveStudents: string[] = [];
+    const watchCandidates: StudentWatchItem[] = [];
+
+    /* Only the commits that already happened (relative to the simulated clock) count: a session's
+       window extends into the future, so a commit made "later" must not mark its student active. */
+    students.forEach((student) => {
+      const pastCommits = (student.repository?.commits || []).filter((commit) => {
+        const t = new Date(commit.commitDate).getTime();
+        return t >= startMs && t <= nowMs;
+      });
+      const pastCount = pastCommits.length;
+      const lastPastMs = pastCount
+        ? pastCommits.reduce((max, commit) => Math.max(max, new Date(commit.commitDate).getTime()), 0)
+        : undefined;
+
+      if (pastCount === 0) {
+        inactiveCount++;
+        inactiveStudents.push(student.studentName);
+        watchCandidates.push({
+          repository: student.repository,
+          studentName: student.studentName,
+          risk: "inactive",
+          reasonKey: "SESSION-TAB.PANEL.WATCH.REASON-NO-COMMIT",
+          inSessionCommitsCount: 0,
+        });
+        return;
+      }
+      if (lastPastMs !== undefined && nowMs - lastPastMs > staleMs) {
+        watchCount++;
+        watchStudents.push(student.studentName);
+        watchCandidates.push({
+          repository: student.repository,
+          studentName: student.studentName,
+          risk: "watch",
+          reasonKey: "SESSION-TAB.PANEL.WATCH.REASON-STALE",
+          reasonMinutes: Math.round((nowMs - lastPastMs) / 60000),
+          inSessionCommitsCount: pastCount,
+        });
+        return;
+      }
+      activeCount++;
+      activeStudents.push(student.studentName);
+    });
+
+    /* Inactives first, then the longest-idle students. */
+    watchCandidates.sort((a, b) => {
+      if (a.risk !== b.risk) {
+        return a.risk === "inactive" ? -1 : 1;
+      }
+      return (b.reasonMinutes || 0) - (a.reasonMinutes || 0);
+    });
+
+    const points = (stats.ribbonData?.studentCommitsPoints || []).filter((p) => p.time.getTime() <= nowMs);
+
+    /* Only the elapsed buckets are shown; the current one is highlighted. Counts are recomputed
+       from the past-only points (the precomputed buckets include the future). Cap to 16 tranches. */
+    const elapsedBuckets = (stats.histogramBuckets || []).filter((b) => new Date(b.startDate).getTime() <= nowMs).slice(-16);
+    const bucketTotals = elapsedBuckets.map((b) => {
+      const bStart = new Date(b.startDate).getTime();
+      const bEnd = new Date(b.endDate).getTime();
+      return {
+        label: b.label,
+        total: points.filter((p) => p.time.getTime() >= bStart && p.time.getTime() < bEnd).length,
+        isCurrent: nowMs >= bStart && nowMs < bEnd,
+      };
+    });
+    const maxTotal = bucketTotals.reduce((max, b) => Math.max(max, b.total), 1);
+    const buckets: PaceBucket[] = bucketTotals.map((b) => ({ ...b, height: Math.round((b.total / maxTotal) * 100) }));
+
+    const commitsLast15 = points.filter((p) => nowMs - p.time.getTime() <= staleMs).length;
+    const lastActivityMs = points.reduce((max, p) => Math.max(max, p.time.getTime()), startMs);
+    const stalled = nowMs - lastActivityMs > staleMs;
+
+    const feed: LiveFeedItem[] = [...points]
+      .sort((a, b) => b.time.getTime() - a.time.getTime())
+      .slice(0, this.LIVE_FEED_LIMIT)
+      .map((p) => {
+        const minutesAgo = Math.max(0, Math.round((nowMs - p.time.getTime()) / 60000));
+        return {
+          studentName: p.student,
+          questionName: p.questionName,
+          isCloture: p.isCloture,
+          minutesAgo,
+          justNow: minutesAgo < 1,
+          commitUrl: p.commit?.url || "",
+        };
+      });
+
+    const totalQuestions = (stats.questionsSummary || []).length;
+
+    /* Resolved questions must honour the simulated clock: only closing commits up to `now` count. */
+    const resolvedSet = new Set<string>();
+    points.forEach((p) => {
+      if (p.isCloture && p.questionName) {
+        resolvedSet.add(p.questionName);
+      }
+    });
+    const resolvedQuestionsList = (stats.questionsSummary || []).filter((q) => resolvedSet.has(q.question)).map((q) => q.question);
+    const resolvedQuestions = resolvedQuestionsList.length;
+
+    /* Live scatter of question completions: one dot per closing commit (x = elapsed share,
+       y = question rank, higher rank up). The group's AVERAGE progress curve adds context. */
+    const elapsed = Math.max(1, nowMs - startMs);
+    const totalQ = Math.max(1, totalQuestions);
+    const clampPct = (v: number) => Math.min(100, Math.max(0, v));
+    const dots = points
+      .filter((p) => p.isCloture && p.questionName && p.questionIndex > 0)
+      .map((p) => ({
+        x: clampPct(((p.time.getTime() - startMs) / elapsed) * 100),
+        y: clampPct(100 - (p.questionIndex / totalQ) * 100),
+        question: p.questionName,
+        student: p.student,
+        minutesAgo: Math.max(0, Math.round((nowMs - p.time.getTime()) / 60000)),
+      }));
+    const elapsedMinutes = Math.max(1, Math.round(elapsed / 60000));
+    const average: Array<{ x: number; y: number }> = (stats.ribbonData?.questionsRibbon || [])
+      .filter((r) => r.time.getTime() <= nowMs)
+      .map((r) => ({
+        x: clampPct((r.relativeMinutes / elapsedMinutes) * 100),
+        y: clampPct(100 - (r.mean / totalQ) * 100),
+      }));
+
+    /* Per-student cumulative progress trajectory (hover in the panel, like the sessions ribbon). */
+    const byStudent = new Map<string, typeof points>();
+    points.forEach((p) => {
+      const arr = byStudent.get(p.student) || [];
+      arr.push(p);
+      byStudent.set(p.student, arr);
+    });
+    const trajectories: Record<string, Array<{ x: number; y: number }>> = {};
+    byStudent.forEach((arr, student) => {
+      arr.sort((a, b) => a.time.getTime() - b.time.getTime());
+      let maxQ = 0;
+      const pts: Array<{ x: number; y: number }> = [{ x: 0, y: 100 }];
+      arr.forEach((p) => {
+        maxQ = Math.max(maxQ, p.questionIndex);
+        pts.push({
+          x: clampPct(((p.time.getTime() - startMs) / elapsed) * 100),
+          y: clampPct(100 - (maxQ / totalQ) * 100),
+        });
+      });
+      trajectories[student] = pts;
+    });
+
+    return {
+      activeCount,
+      watchCount,
+      inactiveCount,
+      totalStudents: stats.totalEligibleStudents,
+      resolvedQuestions,
+      totalQuestions,
+      questionsPct: totalQuestions > 0 ? Math.round((resolvedQuestions / totalQuestions) * 100) : 0,
+      activeStudents,
+      watchStudents,
+      inactiveStudents,
+      resolvedQuestionsList,
+      resolvedChart: { dots, average, trajectories },
+      watchlist: watchCandidates.slice(0, this.LIVE_WATCHLIST_LIMIT),
+      pace: { buckets, commitsLast15, stalled },
+      feed,
+    };
+  }
+
+  /**
    * Detects suggested sessions from commit clusters across all repositories
    */
   detectSuggestedSessions(
@@ -582,13 +830,14 @@ export class SessionAnalyticsService {
    */
   private calculateRibbonPoint(time: Date, relativeMinutes: number, values: number[]): RibbonDataPoint {
     if (!values || values.length === 0) {
-      return { time, relativeMinutes, median: 0, q1: 0, q3: 0, min: 0, max: 0 };
+      return { time, relativeMinutes, mean: 0, median: 0, q1: 0, q3: 0, min: 0, max: 0 };
     }
 
     const sorted = [...values].sort((a, b) => a - b);
     const min = sorted[0];
     const max = sorted[sorted.length - 1];
 
+    const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
     const median = this.percentile(sorted, 0.5);
     const q1 = this.percentile(sorted, 0.25);
     const q3 = this.percentile(sorted, 0.75);
@@ -596,6 +845,7 @@ export class SessionAnalyticsService {
     return {
       time,
       relativeMinutes,
+      mean,
       median,
       q1,
       q3,

@@ -481,8 +481,17 @@
         </div>
       </div>
 
-      <!-- SUBTAB 2: PROGRESSION MATRIX (Students x Questions) -->
+      <!-- SUBTAB 2: PROGRESSION MATRIX — temporarily replaced by a "coming soon" placeholder.
+           StudentsQuestionsMatrixComponent code is kept; re-enable the commented block below when ready. -->
       <div *ngIf="activeSubTab === 'matrix'">
+        <div class="students-table-card p-5 rounded-lg border mb-4 text-center">
+          <i class="fas fa-hourglass-half fa-2x mb-3" style="color: var(--color-text-muted);"></i>
+          <h6 class="font-weight-bold mb-1" style="color: var(--color-text-primary);">
+            {{ 'SESSIONS-GRAPH.MATRIX.COMING_SOON_TITLE' | translate }}
+          </h6>
+          <p class="text-muted small mb-0">{{ 'SESSIONS-GRAPH.MATRIX.COMING_SOON' | translate }}</p>
+        </div>
+        <!--
         <app-students-questions-matrix
           [repositories]="getCurrentSessionRepositories()"
           [questions]="dataService.questions"
@@ -491,6 +500,7 @@
           [reviews]="dataService.assignment?.reviews"
           [corrections]="dataService.assignment?.corrections">
         </app-students-questions-matrix>
+        -->
       </div>
 
       <!-- SUBTAB 3: STUDENTS ACTIVITY TABLE WITH INACTIVE HIGHLIGHT -->

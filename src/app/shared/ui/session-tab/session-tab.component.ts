@@ -6,12 +6,15 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 import { Session } from "@models/Session.model";
+import { Repository } from "@models/Repository.model";
 import { AssignmentsService } from "@services/assignments.service";
 import { ClockService, MINUTE_MS } from "@services/clock.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
+import { LoaderService } from "@services/loader.service";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
-import { SessionAnalyticsService, SessionDetailedStats } from "@services/session-analytics.service";
+import { SessionAnalyticsService, SessionDetailedStats, SessionLiveIndicators } from "@services/session-analytics.service";
+import { getSessionDisplayName } from "@services/session-label.util";
 import { ToastService } from "@services/toast.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { EditSessionComponent } from "@components/edit-session/edit-session.component";
@@ -29,13 +32,20 @@ interface SessionTabView {
   durationLabel: string;
   tpGroup: string | null;
   notes: string | null;
-  stats: {
-    activeStudentsCount: number;
-    totalEligibleStudents: number;
-    inSessionCommitsCount: number;
-    resolvedQuestionsCount: number;
-    participationRate: number;
-  } | null;
+  /** Actionable live indicators, null until the stats are computed (panel open). */
+  live: SessionLiveIndicators | null;
+  /** True while a session is running: the data is refreshed automatically. */
+  autoRefresh: boolean;
+  /** Session switcher state; null when there is at most one eligible session. */
+  nav: { canPrev: boolean; canNext: boolean; index: number; total: number } | null;
+  /** HTML tooltips for the health counts and the resolved-questions metric. */
+  tooltips: { active: string; watch: string; inactive: string; questions: string } | null;
+  /** Resolved-questions scatter: one dot per completion, plus the group average curve (line + area). */
+  resolvedDots: Array<{ x: number; y: number; question: string; student: string; minutesAgo: number }>;
+  resolvedAveragePoints: string;
+  resolvedAverageArea: string;
+  timelineStart: string;
+  timelineNow: string;
   open: boolean;
 }
 
@@ -49,6 +59,9 @@ const SWAP_MS = 450;
  * movement left to hide behind.
  */
 const COUNTDOWN_RELEASE_RATIO = 0.15;
+
+/** Data refresh cadence while a session is running (auto, even with the panel closed). */
+const AUTO_REFRESH_MS = 3 * MINUTE_MS;
 
 /**
  * Folder tab pinned to the right edge, shown as soon as the closest session is running or
@@ -65,15 +78,31 @@ export class SessionTabComponent implements OnInit, OnDestroy {
 
   view: SessionTabView | null = null;
   hovered = false;
+  /** True while a manual/auto refresh is in flight (drives the spinner). */
+  refreshing = false;
+  /** Student whose commit trajectory is highlighted on the resolved-questions chart. */
+  hoveredStudent: string | null = null;
+  hoveredTrajectory = "";
 
   private session: Session | null = null;
   private state: "in-progress" | "upcoming" = "upcoming";
+  /** All currently eligible sessions (running, else upcoming), chronological order. */
+  private eligibleSessions: Session[] = [];
+  /** Key of the user's selected session, kept across the 1s ticks. */
+  private selectedKey = "";
   private stats: SessionDetailedStats | null = null;
   private statsCacheKey = "";
   private open = false;
   private now = Date.now();
   private tickId: any = null;
+  private autoRefreshId: any = null;
   private destroy$ = new Subject<void>();
+
+  /* The live indicators only move once a minute (relative times) or when the stats change:
+     caching keeps the *ngFor lists identity-stable across the 1s ticks. */
+  private liveCache: SessionLiveIndicators | null = null;
+  private liveCacheStats: SessionDetailedStats | null = null;
+  private liveCacheMinute = -1;
 
   /** While the swap plays, the counter is held at zero instead of jumping to the session length. */
   private countdownHold: string | null = null;
@@ -94,6 +123,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     private customModalService: CustomModalService,
     private toastService: ToastService,
     private translateService: TranslateService,
+    private loaderService: LoaderService,
   ) {}
 
   /** The rail only exists while a session is eligible, so wire the observer from the setter. */
@@ -123,10 +153,14 @@ export class SessionTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    /* Dismiss the panel when another overlay takes over (never for plain tooltips) */
+    /* Dismiss the panel when another overlay takes over (never for plain tooltips).
+       Events that exclude SESSION_PANE (e.g. scrolling the graph) leave the panel open. */
     const closingTypes = [OverlayType.ALL, OverlayType.CONTEXT_MENU, OverlayType.DROPDOWN, OverlayType.QUICK_HELP];
     this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
-      if (this.open && closingTypes.some((type) => OverlayManagerService.shouldDismiss(type, event))) {
+      if (!this.open || event.options?.exclude?.includes(OverlayType.SESSION_PANE)) {
+        return;
+      }
+      if (closingTypes.some((type) => OverlayManagerService.shouldDismiss(type, event))) {
         this.closePanel();
       }
     });
@@ -148,12 +182,16 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     /* A session becomes eligible at start-5min and stops being eligible at its end */
     this.refreshNow();
     this.tickId = setInterval(() => this.refreshNow(), 1000);
+
+    /* Keep the data fresh while a session is running, whether or not the panel is open */
+    this.autoRefreshId = setInterval(() => this.autoRefreshTick(), AUTO_REFRESH_MS);
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
     clearInterval(this.tickId);
+    clearInterval(this.autoRefreshId);
     clearTimeout(this.holdTimer);
     this.railObserver?.disconnect();
     if (this.measureRafId !== null) {
@@ -180,7 +218,80 @@ export class SessionTabComponent implements OnInit, OnDestroy {
       return;
     }
     this.open = false;
+    /* Drop the hover peek so the close animates fully to the closed position in one motion:
+       closing from the tab (pointer still over it) would otherwise stop at the peek offset. */
+    this.hovered = false;
     this.rebuildView();
+  }
+
+  /** Pulls the latest commits from the provider (manual button or auto-refresh during a session). */
+  refresh(): void {
+    if (this.refreshing) {
+      return;
+    }
+    this.refreshing = true;
+    this.loaderService.loadRepositories(this.dataService.startDate, this.dataService.endDate).subscribe({
+      error: () => {
+        this.refreshing = false;
+      },
+      complete: () => {
+        this.refreshing = false;
+        this.invalidateStats();
+      },
+    });
+  }
+
+  openRepository(repository: Repository): void {
+    if (repository?.url) {
+      window.open(repository.url, "_blank");
+    }
+  }
+
+  openCommit(url: string): void {
+    if (url) {
+      window.open(url, "_blank");
+    }
+  }
+
+  /** Tooltip for a resolved-questions scatter dot: "iter 5 · Alice · 6 min ago". */
+  dotTooltip(dot: { question: string; student: string; minutesAgo: number }): string {
+    const ago =
+      dot.minutesAgo < 1
+        ? this.translateService.instant("SESSION-TAB.PANEL.FEED.JUST-NOW")
+        : this.translateService.instant("SESSION-TAB.PANEL.FEED.MIN-AGO", { minutes: dot.minutesAgo });
+    return `${dot.question} · ${dot.student} · ${ago}`;
+  }
+
+  /** Highlight the hovered student's commit trajectory on the chart (like the sessions ribbon). */
+  onDotEnter(student: string): void {
+    this.hoveredStudent = student;
+    const trajectory = this.liveCache?.resolvedChart.trajectories?.[student];
+    this.hoveredTrajectory = trajectory ? this.buildPolyline(trajectory) : "";
+  }
+
+  onDotLeave(): void {
+    this.hoveredStudent = null;
+    this.hoveredTrajectory = "";
+  }
+
+  selectPrev(): void {
+    this.stepSelection(-1);
+  }
+
+  selectNext(): void {
+    this.stepSelection(1);
+  }
+
+  onOpenMatrix(): void {
+    const session = this.session;
+    this.closePanel();
+    if (!session) {
+      this.router.navigate(["/sessions"]);
+      return;
+    }
+    this.router.navigate(["/sessions"], {
+      queryParams: { sub: "matrix", session: new Date(session.startDate).toISOString() },
+    });
   }
 
   onViewInGraph(): void {
@@ -239,11 +350,23 @@ export class SessionTabComponent implements OnInit, OnDestroy {
 
   private refreshNow(): void {
     this.now = this.clockService.now().getTime();
-    const eligible = this.resolveEligibleSession();
-    const changed = this.sessionKey(eligible) !== this.sessionKey(this.session);
+    const list = this.resolveEligibleSessions();
+    this.eligibleSessions = list;
+
+    /* Keep the user's selected session across ticks; fall back to the default when it is gone. */
+    let selected = list.find((s) => this.sessionKey(s) === this.selectedKey) || null;
+    if (!selected && list.length) {
+      selected = this.defaultSelection(list);
+      this.selectedKey = selected ? this.sessionKey(selected) : "";
+    }
+    if (!selected) {
+      this.selectedKey = "";
+    }
+
+    const changed = this.sessionKey(selected) !== this.sessionKey(this.session);
     const wasUpcoming = this.state === "upcoming";
     const state: "in-progress" | "upcoming" =
-      eligible && this.now >= this.startMs(eligible) && this.now <= this.endMs(eligible) ? "in-progress" : "upcoming";
+      selected && this.now >= this.startMs(selected) && this.now <= this.endMs(selected) ? "in-progress" : "upcoming";
 
     /* The same session just started: the counter holds at zero while the swap plays, instead of
        jumping straight to the whole session length. */
@@ -253,10 +376,10 @@ export class SessionTabComponent implements OnInit, OnDestroy {
       this.clearCountdownHold();
     }
 
-    this.session = eligible;
+    this.session = selected;
     this.state = state;
 
-    if (!eligible || changed) {
+    if (!selected || changed) {
       /* No session, or a different one took over: stale stats and an open panel are meaningless */
       this.stats = null;
       this.statsCacheKey = "";
@@ -268,6 +391,45 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     this.rebuildView();
     /* The texts may have changed length (the counter loses a digit, the wording changes) */
     this.scheduleMeasure();
+  }
+
+  /** Switches to the previous/next eligible session without closing the panel. */
+  private stepSelection(delta: number): void {
+    const list = this.eligibleSessions;
+    if (list.length < 2) {
+      return;
+    }
+    const current = list.findIndex((s) => this.sessionKey(s) === this.selectedKey);
+    const next = (current < 0 ? 0 : current) + delta;
+    if (next < 0 || next >= list.length) {
+      return;
+    }
+    this.applySelection(list[next]);
+  }
+
+  /** Applies a manual session switch: recompute the stats, keep the panel open. */
+  private applySelection(session: Session): void {
+    this.selectedKey = this.sessionKey(session);
+    this.session = session;
+    this.state = this.now >= this.startMs(session) && this.now <= this.endMs(session) ? "in-progress" : "upcoming";
+    this.clearCountdownHold();
+    this.ensureStats();
+    this.rebuildView();
+    this.scheduleMeasure();
+    /* Focus the newly selected session in the graph (handled by the commits/sessions views). */
+    window.dispatchEvent(new CustomEvent("git4school:focus-session", { detail: { session } }));
+  }
+
+  /** Default pick: the most recently started running session, else the soonest upcoming one. */
+  private defaultSelection(list: Session[]): Session | null {
+    if (!list.length) {
+      return null;
+    }
+    const running = list.filter((s) => this.now >= this.startMs(s) && this.now <= this.endMs(s));
+    if (running.length) {
+      return running.reduce((a, b) => (this.startMs(b) >= this.startMs(a) ? b : a));
+    }
+    return list.reduce((a, b) => (this.startMs(b) <= this.startMs(a) ? b : a));
   }
 
   private rebuildView(): void {
@@ -282,28 +444,96 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     const inProgress = this.state === "in-progress";
     const remaining = inProgress ? end - now : start - now;
 
+    const list = this.eligibleSessions;
+    const index = list.findIndex((s) => this.sessionKey(s) === this.selectedKey);
+    const nav =
+      list.length > 1 ? { canPrev: index > 0, canNext: index >= 0 && index < list.length - 1, index: index + 1, total: list.length } : null;
+    const live = this.buildLive();
+
     this.view = {
       session,
       state: this.state,
       countdown: this.countdownHold ?? this.formatCountdown(remaining),
       progress: inProgress ? this.clamp01((now - start) / Math.max(1, end - start)) : 0,
-      label: session.label && session.label.trim() ? session.label : this.translateService.instant("SESSION-TAB.TAB.LABEL-FALLBACK"),
+      label: getSessionDisplayName(session, this.dataService.sessions || [], this.translateService),
       dateLabel: this.formatDateLabel(start),
       timeRange: `${moment(start).format("HH:mm")} – ${moment(end).format("HH:mm")}`,
       durationLabel: this.formatDuration(end - start),
       tpGroup: session.tpGroup || null,
       notes: session.notes && session.notes.trim() ? session.notes : null,
-      stats: this.stats
+      live,
+      autoRefresh: this.state === "in-progress",
+      nav,
+      tooltips: live
         ? {
-            activeStudentsCount: this.stats.activeStudentsCount,
-            totalEligibleStudents: this.stats.totalEligibleStudents,
-            inSessionCommitsCount: this.stats.inSessionCommitsCount,
-            resolvedQuestionsCount: this.stats.resolvedQuestionsCount,
-            participationRate: Math.round(this.stats.participationRate),
+            active: this.buildListTooltip("SESSION-TAB.PANEL.HEALTH.ACTIVE-LIST", live.activeStudents),
+            watch: this.buildListTooltip("SESSION-TAB.PANEL.HEALTH.WATCH-LIST", live.watchStudents),
+            inactive: this.buildListTooltip("SESSION-TAB.PANEL.HEALTH.INACTIVE-LIST", live.inactiveStudents),
+            questions: this.buildListTooltip("SESSION-TAB.PANEL.HEALTH.QUESTIONS-LIST", live.resolvedQuestionsList),
           }
         : null,
+      resolvedDots: live ? live.resolvedChart.dots : [],
+      resolvedAveragePoints: live ? this.buildPolyline(live.resolvedChart.average) : "",
+      resolvedAverageArea: live ? this.buildArea(live.resolvedChart.average) : "",
+      timelineStart: moment(start).format("HH:mm"),
+      timelineNow: moment(now).format("HH:mm"),
       open: this.open,
     };
+  }
+
+  /** Live indicators, cached per stats reference and per minute (relative times only move that often). */
+  private buildLive(): SessionLiveIndicators | null {
+    if (!this.open || !this.stats) {
+      this.liveCache = null;
+      this.liveCacheStats = null;
+      this.liveCacheMinute = -1;
+      return null;
+    }
+    const minute = Math.floor(this.now / MINUTE_MS);
+    if (this.liveCache && this.liveCacheStats === this.stats && this.liveCacheMinute === minute) {
+      return this.liveCache;
+    }
+    this.liveCacheStats = this.stats;
+    this.liveCacheMinute = minute;
+    this.liveCache = this.sessionAnalyticsService.buildLiveIndicators(this.stats, this.now);
+    return this.liveCache;
+  }
+
+  /** HTML list tooltip, same markup as the sessions view's resolved-questions tooltip. */
+  private buildListTooltip(titleKey: string, items: string[]): string {
+    const title = this.escapeHtml(this.translateService.instant(titleKey));
+    const list = (items || []).filter((item) => item && item.trim());
+    if (!list.length) {
+      const none = this.escapeHtml(this.translateService.instant("SESSION-TAB.PANEL.HEALTH.NONE"));
+      return (
+        `<div class="resolved-questions-tooltip"><div class="resolved-questions-tooltip-title">${title}</div>` +
+        `<div class="peek-tooltip-empty">${none}</div></div>`
+      );
+    }
+    const lis = list.map((item) => `<li>${this.escapeHtml(item)}</li>`).join("");
+    return `<div class="resolved-questions-tooltip"><div class="resolved-questions-tooltip-title">${title}</div>` + `<ul>${lis}</ul></div>`;
+  }
+
+  /** SVG polyline points (0..100 box) from a list of {x,y}. */
+  private buildPolyline(points: Array<{ x: number; y: number }>): string {
+    return points.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
+  }
+
+  /** Polygon points (0..100 box) closing the curve along the baseline. */
+  private buildArea(points: Array<{ x: number; y: number }>): string {
+    if (!points.length) {
+      return "";
+    }
+    return `0,100 ${this.buildPolyline(points)} 100,100`;
+  }
+
+  private escapeHtml(value: string): string {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
   }
 
   private holdCountdown(): void {
@@ -425,8 +655,15 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     this.refreshNow();
   }
 
-  /** In-progress sessions win; among them the most recently started. Otherwise the soonest upcoming. */
-  private resolveEligibleSession(): Session | null {
+  /** Auto-refresh only while a session is actually running (panel open or not). */
+  private autoRefreshTick(): void {
+    if (this.state === "in-progress" && !this.refreshing) {
+      this.refresh();
+    }
+  }
+
+  /** Running sessions (chronological order), else the soonest upcoming ones. */
+  private resolveEligibleSessions(): Session[] {
     const now = this.now;
     const sessions = (this.dataService.sessions || []).filter(
       (s) =>
@@ -444,13 +681,9 @@ export class SessionTabComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (running.length) {
-      return running.reduce((a, b) => (this.startMs(b) >= this.startMs(a) ? b : a));
-    }
-    if (upcoming.length) {
-      return upcoming.reduce((a, b) => (this.startMs(b) <= this.startMs(a) ? b : a));
-    }
-    return null;
+    running.sort((a, b) => this.startMs(a) - this.startMs(b));
+    upcoming.sort((a, b) => this.startMs(a) - this.startMs(b));
+    return running.length ? running : upcoming;
   }
 
   private startMs(session: Session): number {

@@ -36,6 +36,7 @@ export class TooltipService {
     shortcutKeys?: string[],
     maxWidth?: string | number,
     customOffset?: { x?: number; y?: number },
+    instant = false,
   ) {
     if (this.warmResetTimeout) {
       clearTimeout(this.warmResetTimeout);
@@ -43,7 +44,7 @@ export class TooltipService {
     }
 
     const wasShowing = this.isShowing();
-    const shouldBeInstant = this.isWarm || wasShowing;
+    const shouldBeInstant = instant || this.isWarm || wasShowing;
 
     this.destroyTooltip();
 

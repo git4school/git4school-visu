@@ -27,6 +27,7 @@ import { TooltipService } from "@services/tooltip.service";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 import { AnonymizationService } from "@services/anonymization.service";
 import { ClockService } from "@services/clock.service";
+import { getSessionDisplayName } from "@services/session-label.util";
 import { Subject, Subscription, concat } from "rxjs";
 import { skip, takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
@@ -840,7 +841,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     // If there is significant horizontal scrolling, or ctrl key is pressed
     if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
-      this.overlayManagerService.dismissAll();
+      this.overlayManagerService.dismissAll({ exclude: [OverlayType.SESSION_PANE] });
       event.preventDefault(); // Prevent browser back/forward or default scroll
       event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
 
@@ -1066,7 +1067,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             dy = 0;
           }
           if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
-            overview.overlayManagerService.dismissAll();
+            overview.overlayManagerService.dismissAll({ exclude: [OverlayType.SESSION_PANE] });
             event.preventDefault();
             event.stopPropagation();
             if (overview.zoom && overview.data_g) {
@@ -1131,8 +1132,13 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .on("mouseleave", () => {
         document.body.style.overscrollBehaviorX = "auto";
       })
+      .on("click", (event: MouseEvent) => {
+        /* Any click in the chart closes the session pane; scrolling deliberately does not. */
+        if (event.shiftKey) return;
+        overview.overlayManagerService.dismissAll({ blurInput: true });
+      })
       .on("scroll", (event) => {
-        overview.overlayManagerService.dismissAll();
+        overview.overlayManagerService.dismissAll({ exclude: [OverlayType.SESSION_PANE] });
         const node = event.target as HTMLElement;
         if (node && (node.scrollLeft <= 0 || node.scrollLeft >= 2)) {
           node.scrollLeft = 1;
@@ -1439,26 +1445,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   getSessionDisplayName(session: Session): string {
-    if (!session) return "";
-    if (session.label && session.label.trim().length > 0) {
-      return session.label.trim();
-    }
-    const allSessions = this.dataService?.sessions || [];
-    const sameGroup = allSessions
-      .filter((s) => (s.tpGroup || "") === (session.tpGroup || ""))
-      .slice()
-      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-
-    const idx = sameGroup.indexOf(session);
-    const num = idx >= 0 ? idx + 1 : 1;
-    const defaultName = this.translateService.instant("DEFAULT-SESSION-NAME", {
-      number: num,
-    });
-    if (defaultName && defaultName !== "DEFAULT-SESSION-NAME") {
-      return defaultName;
-    }
-    const sessionPrefix = this.translateService.instant("SESSION") || "Séance";
-    return `${sessionPrefix} ${num}`;
+    return getSessionDisplayName(session, this.dataService?.sessions || [], this.translateService);
   }
 
   formatSessionTime(session: Session): string {
@@ -3932,13 +3919,15 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.data_g.transition().duration(750).call(this.zoom.transform, transform);
   }
 
-  zoomToSession(session: Session, marginRatio = 0.1) {
+  zoomToSession(session: Session, marginRatio = 0.1, dismissOverlays = true) {
     if (!session || !this.data_g || !this.zoom || !this.x_scale) return;
     this.hovered_commit = undefined;
     this.hovered_group_commit = undefined;
     this.hovered_g = null;
     this.tooltipService.hide();
-    this.overlayManagerService.dismissAll();
+    if (dismissOverlays) {
+      this.overlayManagerService.dismissAll();
+    }
 
     const time_domain = this.x_scale.domain();
     const minDate = time_domain[0].valueOf() as number;
@@ -4060,17 +4049,26 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
   }
 
-  private zoomToSessionWhenReady(session: Session, attempt = 0): void {
+  /** Session panel switcher: focus (zoom to) the selected session, without dismissing the panel. */
+  @HostListener("window:git4school:focus-session", ["$event"])
+  onFocusSessionRequested(event: CustomEvent): void {
+    const session = (event as CustomEvent)?.detail?.session as Session;
+    if (session) {
+      this.zoomToSessionWhenReady(session, 0, false);
+    }
+  }
+
+  private zoomToSessionWhenReady(session: Session, attempt = 0, dismissOverlays = true): void {
     if (this.data_g && this.zoom && this.x_scale) {
       const target = this.resolveSessionAtDate(session.startDate, session) || session;
       this.activateSession(target);
-      this.zoomToSession(target);
+      this.zoomToSession(target, 0.1, dismissOverlays);
       return;
     }
     if (attempt >= 25) {
       return;
     }
-    setTimeout(() => this.zoomToSessionWhenReady(session, attempt + 1), 100);
+    setTimeout(() => this.zoomToSessionWhenReady(session, attempt + 1, dismissOverlays), 100);
   }
 
   showSessionInfoTooltip(session: Session, clientX: number, clientY: number) {

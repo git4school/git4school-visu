@@ -8,6 +8,8 @@ export enum OverlayType {
   TYPEAHEAD = "TYPEAHEAD",
   QUICK_HELP = "QUICK_HELP",
   DROPDOWN = "DROPDOWN",
+  /** Persistent quick-view pane (session tab). Excluded from scroll-driven dismissals. */
+  SESSION_PANE = "SESSION_PANE",
 }
 
 export interface DismissOptions {

@@ -215,7 +215,7 @@
   border-radius: 8px;
   padding: 0 0.3rem;
   margin-left: -0.3rem;
-  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  transition: color 0.15s ease, transform 0.15s ease;
 
   &:hover {
     background-color: var(--color-hover);

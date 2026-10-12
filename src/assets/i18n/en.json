@@ -14,7 +14,8 @@
     "PLACEHOLDER": "Select a tp group",
     "ALL": "All",
     "TOOLTIP": "Filter by TP group",
-    "STUDENT-COUNT": "{{count}} student(s)"
+    "STUDENT-COUNT": "{{count}} student(s)",
+    "SESSION-ACTIVE": "Session running"
   },
   "ERRORS": {
     "REPOSITORY-NOT-FOUND": "Repository not found or you have no rights on it",
@@ -770,6 +771,8 @@
       "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_TOOLTIP": "Number of students who resolved no question during this session."
     },
     "MATRIX": {
+      "COMING_SOON_TITLE": "Progress matrix",
+      "COMING_SOON": "This view is coming soon.",
       "TITLE": "Synthetic Progress Matrix (Students × Questions)",
       "SUBTITLE": "Cross-tabular view of student progress across assignment questions",
       "LEGEND_BEFORE": "Validated before review",
@@ -798,8 +801,8 @@
     },
     "RIBBON": {
       "TITLE": "Cohort Progression Trajectory & Dispersion",
-      "SUBTITLE_BADGE": "Median + Interquartile Range",
-      "EXPLANATION": "The blue line indicates median cohort progression. The shaded ribbon represents where 50% of students fall (Q1-Q3).",
+      "SUBTITLE_BADGE": "Mean + Interquartile Range",
+      "EXPLANATION": "The blue line indicates mean cohort progression. The shaded ribbon represents where 50% of students fall (Q1-Q3).",
       "MODE_QUESTIONS": "Resolved questions",
       "MODE_COMMITS": "Cumulative commits",
       "Y_AXIS_QUESTIONS": "Completed questions",
@@ -885,19 +888,53 @@
   "SESSION-TAB": {
     "TAB": {
       "IN-PROGRESS": "Session running",
+      "IN-PROGRESS-SHORT": "Running",
       "UPCOMING-SHORT": "Session soon",
+      "UPCOMING-TAB": "Soon",
       "LABEL-FALLBACK": "Session"
     },
     "PANEL": {
       "TP-GROUP": "Group",
-      "ACTIVE-STUDENTS": "Active students",
-      "IN-SESSION-COMMITS": "In-session commits",
-      "RESOLVED-QUESTIONS": "Resolved questions",
-      "PARTICIPATION": "Participation",
-      "LOADING-STATS": "Computing activity…",
+      "PREV": "Previous session",
+      "NEXT": "Next session",
+      "HEALTH": {
+        "ACTIVE": "active",
+        "WATCH": "to nudge",
+        "INACTIVE": "inactive",
+        "QUESTIONS": "Resolved questions",
+        "ACTIVE-LIST": "Active students",
+        "WATCH-LIST": "To nudge",
+        "INACTIVE-LIST": "Inactive students",
+        "QUESTIONS-LIST": "Resolved questions",
+        "NONE": "None"
+      },
+      "WATCH": {
+        "TITLE": "Needs help",
+        "SEE-ALL": "See all",
+        "ALL-GOOD": "All students are active",
+        "REASON-NO-COMMIT": "No commit yet",
+        "REASON-STALE": "Idle for {{minutes}} min"
+      },
+      "PACE": {
+        "TITLE": "Pace",
+        "PER-15": "commits / 15 min",
+        "BUCKET": "{{time}} · {{count}} commits",
+        "STALLED": "Slowing down"
+      },
+      "TIMELINE": {
+        "TITLE": "Timeline",
+        "TOOLTIP": "Each dot is a resolved question: time horizontally, question rank vertically. The blue line is the group's mean progression; hover a dot to see that student's trajectory."
+      },
+      "FEED": {
+        "TITLE": "Latest activity",
+        "JUST-NOW": "just now",
+        "MIN-AGO": "{{minutes}} min ago"
+      },
+      "REFRESH": "Refresh data",
+      "REFRESH-TOOLTIP": "Fetch the latest commits",
+      "REFRESH-AUTO-TOOLTIP": "Automatic refresh while the session is running",
       "VIEW-IN-GRAPH": "View in graph",
       "EDIT": "Edit",
-      "CLOSE": "Close",
       "UPDATED-TOAST": "Session updated."
     }
   },

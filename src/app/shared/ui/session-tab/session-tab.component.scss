@@ -1,5 +1,10 @@
 @import "variables";
 
+/* Width of the folder tab (the visible sliver when the panel is closed). */
+$peek-strip-width: 44px;
+/* Height of the short folder tab. */
+$peek-strip-height: 170px;
+
 /* Session folder tab ("peek").
    One single surface, translated horizontally. The strip is the visible 48px of the panel,
    so opening is a single GPU transform — no width/height animation anywhere. */
@@ -16,26 +21,27 @@
 }
 
 .peek-surface {
+  position: relative;
   display: flex;
   align-items: stretch;
   width: 380px;
-  max-height: min(74vh, 620px);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-right: none;
-  border-radius: 16px 0 0 16px;
-  box-shadow: var(--shadow-lg);
+  /* Fixed height: the panel always has the same height, and the body scrolls when the live
+     cockpit content grows. */
+  height: min(74vh, 620px);
+  /* Transparent layout shell: the opaque panel lives on .peek-body and the folder tab on
+     .peek-strip, which overlaps the panel's left border so the two read as one shape. */
+  background-color: transparent;
   pointer-events: auto;
   will-change: transform;
-  /* closed: only the 48px strip stays on screen */
-  transform: translate3d(calc(100% - 48px), 0, 0);
+  /* closed: only the tab stays on screen */
+  transform: translate3d(calc(100% - #{$peek-strip-width}), 0, 0);
   transition: transform $transition-panel-exit;
 }
 
 /* hover: the surface slides out 20px — a promise that more exists */
 @media (hover: hover) and (pointer: fine) {
   .peek.is-hovered:not(.is-open) .peek-surface {
-    transform: translate3d(calc(100% - 68px), 0, 0);
+    transform: translate3d(calc(100% - #{$peek-strip-width + 20px}), 0, 0);
     transition: transform $transition-popover-shift;
   }
 }
@@ -46,23 +52,31 @@
   transition: transform $transition-panel-enter;
 }
 
-/* ---------- the strip: the panel's left edge ---------- */
+/* ---------- the strip: the folder tab, merged with the panel ---------- */
 .peek-strip {
-  position: relative;
-  flex: 0 0 48px;
-  width: 48px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  /* +1px so the tab covers the body's left border and the seam disappears */
+  width: calc(#{$peek-strip-width} + 1px);
+  height: $peek-strip-height;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.85rem 0;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
   overflow: hidden;
-  border: none;
+  border: 1px solid var(--color-border);
+  border-right: none;
   border-radius: 16px 0 0 16px;
-  background: linear-gradient(180deg, var(--color-primary-bg) 0%, var(--color-surface) 55%);
+  /* Same tinted gradient as before, layered OVER the opaque surface colour so the tab stays
+     opaque in dark mode too (--color-primary-bg is translucent there). */
+  background-color: var(--color-surface);
+  background-image: linear-gradient(180deg, var(--color-primary-bg) 0%, var(--color-surface) 60%);
   cursor: pointer;
   outline: none;
-  transition: background-color $transition-fast, transform $transition-fast;
+  transition: transform $transition-fast;
 
   &:active {
     transform: scale(0.99);
@@ -190,17 +204,26 @@
   transition: transform $transition-panel-enter;
 }
 
-/* ---------- the panel body ---------- */
+/* ---------- the panel body: the sliding opaque panel ---------- */
 .peek-body {
+  align-self: stretch;
   flex: 1 1 auto;
   min-width: 0;
   /* Required so overflow-y can clip inside a stretched flex item */
   min-height: 0;
+  /* Starts after the tab column; the tab overlaps the left border so they merge */
+  margin-left: $peek-strip-width;
   display: flex;
   flex-direction: column;
-  padding: 0.9rem 1rem 1rem;
+  padding: 0.9rem 1rem 0;
   font-family: $font-family-sans;
   overflow-y: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-right: none;
+  /* Top-left is square (merged into the tab), bottom-left rounded */
+  border-radius: 0 0 0 16px;
+  box-shadow: var(--shadow-lg);
 }
 
 .peek-head {
@@ -244,7 +267,8 @@
   color: var(--color-text-primary);
 }
 
-.peek-close {
+.peek-refresh {
+  position: relative;
   width: 22px;
   height: 22px;
   display: inline-flex;
@@ -256,15 +280,42 @@
   color: var(--color-text-muted);
   cursor: pointer;
   outline: none;
-  transition: background-color $transition-fast, color $transition-fast, transform $transition-fast;
+  transition: color $transition-fast, transform $transition-fast;
 
   &:hover {
-    background-color: var(--color-hover);
     color: var(--color-text-primary);
   }
 
   &:active {
     transform: scale(0.9);
+  }
+
+  &.is-refreshing {
+    color: var(--color-primary);
+  }
+}
+
+/* Auto-refresh active (session running): small pulsing dot on the refresh button. */
+.peek-refresh-badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-surface);
+  animation: peek-pulse 2s ease-in-out infinite;
+}
+
+@keyframes peek-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
   }
 }
 
@@ -278,11 +329,18 @@
 
 .peek-when,
 .peek-tp,
-.peek-notes,
-.peek-nostats {
+.peek-notes {
   margin: 0;
   font-size: 0.74rem;
   color: var(--color-text-secondary);
+}
+
+/* Keep the whole slot (date · time · duration) on a single line, next to the switcher arrows */
+.peek-when {
+  font-size: 0.68rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .peek-tp {
@@ -294,37 +352,80 @@
   color: var(--color-text-muted);
 }
 
-.peek-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.4rem;
-  margin-top: 0.85rem;
-}
-
-.peek-stat {
+/* Session title block with the prev/next switcher arrows */
+.peek-session {
   display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  padding: 0.45rem 0.55rem;
-  border-radius: 10px;
-  background-color: var(--color-hover);
+  align-items: center;
+  gap: 0.35rem;
 }
 
-.peek-stat-val {
-  font-size: 1.05rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.1;
-  color: var(--color-text-primary);
+.peek-session-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
 
-  small {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
+.peek-nav {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.6rem;
+  cursor: pointer;
+  outline: none;
+  transition: color $transition-fast;
+
+  &:disabled {
+    color: var(--color-border);
+    cursor: default;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-hover);
+    color: var(--color-text-primary);
   }
 }
 
-.peek-stat-lbl {
+/* ---------- live cockpit ---------- */
+.peek-health {
+  margin-top: 0.85rem;
+}
+
+.peek-health-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 9999px;
+  overflow: hidden;
+  background-color: var(--color-hover);
+}
+
+.peek-health-seg {
+  flex-basis: 0;
+  min-width: 0;
+}
+
+.peek-health-seg--active {
+  background-color: var(--color-success);
+}
+
+.peek-health-seg--watch {
+  background-color: var(--color-warning);
+}
+
+.peek-health-seg--inactive {
+  background-color: var(--color-text-muted);
+}
+
+.peek-health-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.6rem;
+  margin-top: 0.4rem;
   font-size: 0.6rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -332,9 +433,367 @@
   color: var(--color-text-muted);
 }
 
-.peek-nostats {
+.peek-health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+
+  b {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+}
+
+.peek-health-item--active b {
+  color: var(--color-success);
+}
+
+.peek-health-item--watch b {
+  color: var(--color-warning);
+}
+
+.peek-questions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.2rem 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.peek-questions-lbl {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
+.peek-questions-val {
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+/* Hover feedback on a clickable metric number — same as the sessions view's .metric-value-tooltip. */
+.peek-metric-tooltip {
+  display: inline-flex;
+  align-items: center;
+  cursor: default;
+  border-radius: 8px;
+  padding: 0 0.3rem;
+  margin-left: -0.3rem;
+  transition: color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-hover);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+}
+
+.peek-questions-track {
+  grid-column: 1 / -1;
+  height: 4px;
+  border-radius: 9999px;
+  background-color: var(--color-hover);
+  overflow: hidden;
+}
+
+.peek-questions-fill {
+  display: block;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  transition: width $transition-fast;
+}
+
+/* Generic live block */
+.peek-section {
   margin-top: 0.85rem;
-  font-style: italic;
+}
+
+.peek-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.peek-section-title {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+
+/* Info badge (same look as the sessions view's .metric-info-badge) with an explanatory tooltip. */
+.peek-info-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+  color: var(--color-text-secondary);
+  opacity: 0.65;
+  cursor: help;
+  line-height: 1;
+  transition: opacity 0.15s ease, color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    opacity: 1;
+    color: var(--color-primary);
+    transform: scale(1.15);
+  }
+}
+
+.peek-section-link {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Watchlist */
+.peek-watch-list {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.peek-watch-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.45rem;
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background-color: var(--color-hover);
+  }
+}
+
+.peek-watch-name {
+  flex: 0 1 auto;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.peek-watch-reason {
+  margin-left: auto;
+  font-size: 0.62rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.peek-watch-open {
+  font-size: 0.58rem;
+  color: var(--color-text-muted);
+}
+
+.peek-allgood {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.35rem 0 0;
+  font-size: 0.68rem;
+  color: var(--color-success);
+}
+
+/* Pace sparkline */
+.peek-pace-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.peek-pace-rate {
+  font-size: 0.62rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+}
+
+.peek-pace-stall {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-warning);
+}
+
+.peek-spark {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 34px;
+  margin-top: 0.35rem;
+}
+
+.peek-spark-bar {
+  flex: 1 1 0;
+  min-width: 2px;
+  min-height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-primary-bg);
+}
+
+.peek-spark-bar.is-current {
+  background-color: var(--color-primary);
+}
+
+/* Resolved-questions timeline */
+.peek-timeline-section {
+  margin-top: 0.85rem;
+}
+
+.peek-timeline {
+  position: relative;
+  width: 100%;
+  height: 72px;
+  margin-top: 0.35rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.peek-timeline-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.peek-timeline-avg-area {
+  fill: var(--color-primary-bg);
+  stroke: none;
+}
+
+.peek-timeline-avg-line {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.peek-timeline-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background-color: var(--color-success);
+  cursor: default;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  &:hover {
+    transform: scale(1.5);
+  }
+
+  &.is-dimmed {
+    opacity: 0.2;
+  }
+}
+
+.peek-timeline-trajectory {
+  fill: none;
+  stroke: var(--color-text-secondary);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  stroke-linecap: round;
+}
+
+.peek-timeline-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.15rem;
+  font-size: 0.58rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+/* Live feed */
+.peek-feed-list {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.peek-feed-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.45rem;
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background-color: var(--color-hover);
+  }
+}
+
+.peek-feed-icon {
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+
+  &.fa-check-circle {
+    color: var(--color-success);
+  }
+}
+
+.peek-feed-name {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.peek-feed-what {
+  font-size: 0.62rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.peek-feed-ago {
+  margin-left: auto;
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
 }
 
 .peek-notes {
@@ -347,28 +806,36 @@
 }
 
 .peek-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin-top: auto;
-  padding-top: 0.9rem;
+  flex-direction: row;
+  gap: 0.5rem;
+  /* Push to the bottom when short; stick to the bottom when the body scrolls */
+  margin: auto -1rem 0;
+  padding: 0.75rem 1rem 1rem;
+  background-color: var(--color-surface);
 }
 
 .peek-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.4rem;
+  flex: 0 1 auto;
   height: 32px;
-  padding: 0 0.75rem;
+  padding: 0 0.5rem;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background-color: transparent;
   color: var(--color-text-primary);
   font-size: 0.75rem;
   font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
   outline: none;
-  transition: background-color $transition-fast, border-color $transition-fast, color $transition-fast, transform $transition-fast;
+  transition: border-color $transition-fast, color $transition-fast, transform $transition-fast;
 
   &:hover {
     background-color: var(--color-hover);
@@ -379,6 +846,7 @@
   }
 
   &.peek-btn-primary {
+    flex: 1 1 auto;
     background-color: var(--color-primary);
     border-color: var(--color-primary);
     color: var(--color-on-primary);
@@ -394,9 +862,15 @@
   .peek-surface,
   .peek-strip,
   .peek-strip-chevron,
-  .peek-close,
+  .peek-refresh,
   .peek-btn {
     transition: none;
+  }
+
+  /* No pulsing badge and no spinning refresh icon */
+  .peek-refresh-badge,
+  .peek-refresh .fa-spin {
+    animation: none;
   }
 
   /* No travel: positions snap, only the colour and the counter's fade ease */
