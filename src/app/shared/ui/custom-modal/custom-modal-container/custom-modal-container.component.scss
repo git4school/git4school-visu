@@ -31,7 +31,7 @@
 }
 
 .custom-modal-dialog {
-  background-color: var(--color-surface, #ffffff);
+  background-color: var(--color-surface, #fff);
   border-radius: 32px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.04);
   display: flex;
@@ -87,6 +87,7 @@
   border-top-left-radius: 32px;
   border-top-right-radius: 32px;
 }
+
 ::ng-deep .custom-modal-dialog .modal-body:last-child {
   border-bottom-left-radius: 32px;
   border-bottom-right-radius: 32px;

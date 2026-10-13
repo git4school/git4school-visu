@@ -38,9 +38,11 @@
 
   &.wrap-content {
     width: fit-content;
+
     .buttons-row {
       width: fit-content;
     }
+
     .type-btn {
       flex: 0 0 auto;
       padding: 0.4rem 1.2rem;

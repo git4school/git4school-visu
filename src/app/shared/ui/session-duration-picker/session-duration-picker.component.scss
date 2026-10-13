@@ -90,6 +90,7 @@
 
   &:hover:not(.active) {
     background-color: var(--color-border);
+
     .dp-ticks {
       transform: rotate(-30deg);
     }
@@ -98,7 +99,7 @@
   &.active {
     background-color: var(--color-primary);
     border-color: var(--color-primary);
-    color: #ffffff;
+    color: #fff;
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
 
@@ -115,8 +116,11 @@
 
 @keyframes springRelease {
   0% { transform: rotate(-30deg); }
+
   35% { transform: rotate(15deg); }
+
   65% { transform: rotate(-5deg); }
+
   100% { transform: rotate(0deg); }
 }
 

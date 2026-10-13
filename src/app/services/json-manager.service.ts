@@ -20,9 +20,7 @@ export class JsonManagerService {
       try {
         json = JSON.parse(text);
       } catch (e) {
-        json = Promise.reject(
-          this.translateService.instant("ERROR-CANNOT-READ-FILE")
-        );
+        json = Promise.reject(this.translateService.instant("ERROR-CANNOT-READ-FILE"));
       }
       return json;
     });

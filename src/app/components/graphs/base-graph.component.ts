@@ -15,7 +15,7 @@ export abstract class BaseGraphComponent implements OnInit {
   constructor(
     protected loaderService: LoaderService,
     protected assignmentsService: AssignmentsService,
-    protected dataService: DataService
+    protected dataService: DataService,
   ) {}
 
   ngOnInit(): void {}
@@ -32,19 +32,8 @@ export abstract class BaseGraphComponent implements OnInit {
 
   abstract loadGraph(startDate?: string, endDate?: string);
 
-  loadGraphMetadata(
-    repositories: Repository[],
-    reviews: Milestone[],
-    corrections: Milestone[],
-    questions,
-    conserveZoom: boolean = false
-  ) {
-    this.loaderService.loadCommitsMetadata(
-      repositories,
-      reviews,
-      corrections,
-      questions
-    );
+  loadGraphMetadata(repositories: Repository[], reviews: Milestone[], corrections: Milestone[], questions, conserveZoom: boolean = false) {
+    this.loaderService.loadCommitsMetadata(repositories, reviews, corrections, questions);
     this.loadGraphDataAndRefresh(conserveZoom);
   }
 

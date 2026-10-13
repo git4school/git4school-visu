@@ -1,10 +1,4 @@
-import {
-  Component,
-  forwardRef,
-  OnInit,
-  ElementRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, forwardRef, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 
@@ -20,9 +14,7 @@ import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
     },
   ],
 })
-export class SessionDurationPickerComponent
-  implements ControlValueAccessor, OnInit
-{
+export class SessionDurationPickerComponent implements ControlValueAccessor, OnInit {
   @ViewChild("customInput") customInput: ElementRef<HTMLInputElement>;
 
   // Internal state in minutes
@@ -118,10 +110,6 @@ export class SessionDurationPickerComponent
 
   isCustomActive(): boolean {
     if (!this.currentMinutes || this.currentMinutes <= 0) return false;
-    return (
-      !this.presets.includes(this.currentMinutes) ||
-      (this.customMinutes !== null &&
-        this.currentMinutes === this.customMinutes)
-    );
+    return !this.presets.includes(this.currentMinutes) || (this.customMinutes !== null && this.currentMinutes === this.customMinutes);
   }
 }

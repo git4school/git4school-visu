@@ -10,10 +10,7 @@ export class TourService {
   private hasSeenTourKey = "hasSeenTour";
   private driverObj: any;
 
-  constructor(
-    private translate: TranslateService,
-    private router: Router
-  ) {}
+  constructor(private translate: TranslateService, private router: Router) {}
 
   /**
    * Check if the tour should be shown (first visit).
@@ -86,19 +83,14 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
-              const createBtn = document.querySelector(
-                "#tour-create-assignment-btn"
-              ) as HTMLElement;
+              const createBtn = document.querySelector("#tour-create-assignment-btn") as HTMLElement;
               const handleCreateClick = () => {
                 createBtn.removeEventListener("click", handleCreateClick);
                 setTimeout(() => this.nextStep(), 300);
               };
-              if (createBtn)
-                createBtn.addEventListener("click", handleCreateClick);
+              if (createBtn) createBtn.addEventListener("click", handleCreateClick);
             },
           },
         },
@@ -110,12 +102,9 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
-              const input = (document.querySelector("#title input") ||
-                document.querySelector("#title")) as HTMLInputElement;
+              const input = (document.querySelector("#title input") || document.querySelector("#title")) as HTMLInputElement;
               const handleFocus = () => {
                 input.removeEventListener("focus", handleFocus);
                 this.typeText("title", "Test Onboarding", () => {
@@ -134,12 +123,9 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
-              const input = (document.querySelector("#course input") ||
-                document.querySelector("#course")) as HTMLInputElement;
+              const input = (document.querySelector("#course input") || document.querySelector("#course")) as HTMLInputElement;
               const handleFocus = () => {
                 input.removeEventListener("focus", handleFocus);
                 this.typeText("course", "Git4School", () => {
@@ -178,13 +164,9 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
-              const tab = document.querySelector(
-                "#tour-repositories-tab"
-              ) as HTMLElement;
+              const tab = document.querySelector("#tour-repositories-tab") as HTMLElement;
               const handleTabClick = () => {
                 tab.removeEventListener("click", handleTabClick);
                 setTimeout(() => this.nextStep(), 300);
@@ -197,19 +179,13 @@ export class TourService {
           element: "#tour-add-empty-repo-btn",
           popover: {
             title: this.translate.instant("TOUR.REPOSITORIES_MANUAL_ADD_TITLE"),
-            description: this.translate.instant(
-              "TOUR.REPOSITORIES_MANUAL_ADD_DESC"
-            ),
+            description: this.translate.instant("TOUR.REPOSITORIES_MANUAL_ADD_DESC"),
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
-              const addBtn = document.querySelector(
-                "#tour-add-empty-repo-btn"
-              ) as HTMLElement;
+              const addBtn = document.querySelector("#tour-add-empty-repo-btn") as HTMLElement;
               const handleAddClick = () => {
                 addBtn.removeEventListener("click", handleAddClick);
                 setTimeout(() => this.nextStep(), 300);
@@ -226,25 +202,18 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
 
               const waitForElem = setInterval(() => {
-                const input = (document.querySelector("#url-0 input") ||
-                  document.querySelector("#url-0")) as HTMLInputElement;
+                const input = (document.querySelector("#url-0 input") || document.querySelector("#url-0")) as HTMLInputElement;
                 if (input) {
                   clearInterval(waitForElem);
                   const handleFocus = () => {
                     input.removeEventListener("focus", handleFocus);
-                    this.typeText(
-                      "url-0",
-                      "https://github.com/git4school/git4school-visu",
-                      () => {
-                        setTimeout(() => this.nextStep(), 500);
-                      }
-                    );
+                    this.typeText("url-0", "https://github.com/git4school/git4school-visu", () => {
+                      setTimeout(() => this.nextStep(), 500);
+                    });
                   };
                   input.addEventListener("focus", handleFocus);
                 }
@@ -269,15 +238,11 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
 
               const waitForBtn = setInterval(() => {
-                const valBtn = document.querySelector(
-                  "#tour-validate-repo-0"
-                ) as HTMLButtonElement;
+                const valBtn = document.querySelector("#tour-validate-repo-0") as HTMLButtonElement;
                 if (valBtn && !valBtn.disabled) {
                   clearInterval(waitForBtn);
                   const handleValClick = () => {
@@ -298,19 +263,14 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
-              const searchBtn = document.querySelector(
-                "#tour-add-search-repo-btn"
-              ) as HTMLElement;
+              const searchBtn = document.querySelector("#tour-add-search-repo-btn") as HTMLElement;
               const handleSearchClick = () => {
                 searchBtn.removeEventListener("click", handleSearchClick);
                 setTimeout(() => this.nextStep(), 300);
               };
-              if (searchBtn)
-                searchBtn.addEventListener("click", handleSearchClick);
+              if (searchBtn) searchBtn.addEventListener("click", handleSearchClick);
             },
           },
         },
@@ -322,33 +282,23 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
               const waitForInput = setInterval(() => {
-                const input = document.querySelector(
-                  "#tour-modal-search-input"
-                ) as HTMLInputElement;
+                const input = document.querySelector("#tour-modal-search-input") as HTMLInputElement;
                 if (input) {
                   clearInterval(waitForInput);
                   const handleFocus = () => {
                     input.removeEventListener("focus", handleFocus);
-                    this.typeText(
-                      "tour-modal-search-input",
-                      "elaastic/",
-                      () => {
-                        const waitForTable = setInterval(() => {
-                          const row = document.querySelector(
-                            "app-modal-add-repositories tbody tr.table-row"
-                          ) as HTMLElement;
-                          if (row) {
-                            clearInterval(waitForTable);
-                            setTimeout(() => this.nextStep(), 500);
-                          }
-                        }, 100);
-                      }
-                    );
+                    this.typeText("tour-modal-search-input", "elaastic/", () => {
+                      const waitForTable = setInterval(() => {
+                        const row = document.querySelector("app-modal-add-repositories tbody tr.table-row") as HTMLElement;
+                        if (row) {
+                          clearInterval(waitForTable);
+                          setTimeout(() => this.nextStep(), 500);
+                        }
+                      }, 100);
+                    });
                   };
                   input.addEventListener("focus", handleFocus);
                 }
@@ -373,33 +323,20 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
 
-              const input = document.querySelector(
-                "#tour-modal-search-input"
-              ) as HTMLInputElement;
+              const input = document.querySelector("#tour-modal-search-input") as HTMLInputElement;
               if (input) {
-                this.typeText(
-                  "tour-modal-search-input",
-                  "elaastic/elaastix",
-                  () => {
-                    const waitForSpecificResult = setInterval(() => {
-                      const row = document.querySelector(
-                        "app-modal-add-repositories tbody tr.table-row"
-                      ) as HTMLElement;
-                      if (
-                        row &&
-                        row.innerText.toLowerCase().includes("elaastix")
-                      ) {
-                        clearInterval(waitForSpecificResult);
-                        setTimeout(() => this.nextStep(), 500);
-                      }
-                    }, 100);
-                  }
-                );
+                this.typeText("tour-modal-search-input", "elaastic/elaastix", () => {
+                  const waitForSpecificResult = setInterval(() => {
+                    const row = document.querySelector("app-modal-add-repositories tbody tr.table-row") as HTMLElement;
+                    if (row && row.innerText.toLowerCase().includes("elaastix")) {
+                      clearInterval(waitForSpecificResult);
+                      setTimeout(() => this.nextStep(), 500);
+                    }
+                  }, 100);
+                });
               }
             },
           },
@@ -408,21 +345,15 @@ export class TourService {
           element: "app-modal-add-repositories .modern-table-container",
           popover: {
             title: this.translate.instant("TOUR.SEARCH_SPECIFIC_RESULT_TITLE"),
-            description: this.translate.instant(
-              "TOUR.SEARCH_SPECIFIC_RESULT_DESC"
-            ),
+            description: this.translate.instant("TOUR.SEARCH_SPECIFIC_RESULT_DESC"),
             side: "left",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
 
               const waitForRow = setInterval(() => {
-                const firstRow = document.querySelector(
-                  "app-modal-add-repositories tbody tr.table-row"
-                ) as HTMLElement;
+                const firstRow = document.querySelector("app-modal-add-repositories tbody tr.table-row") as HTMLElement;
                 if (firstRow) {
                   clearInterval(waitForRow);
                   const handleRowClick = () => {
@@ -443,19 +374,13 @@ export class TourService {
             side: "top",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
-              this.typeText(
-                "tour-modal-tp-group",
-                this.translate.instant("TOUR.TP_GROUP_DEMO"),
-                () => {
-                  setTimeout(() => {
-                    if (nextBtn) nextBtn.style.display = "block";
-                  }, 500);
-                }
-              );
+              this.typeText("tour-modal-tp-group", this.translate.instant("TOUR.TP_GROUP_DEMO"), () => {
+                setTimeout(() => {
+                  if (nextBtn) nextBtn.style.display = "block";
+                }, 500);
+              });
             },
           },
         },
@@ -467,13 +392,9 @@ export class TourService {
             side: "top",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
-              const btn = document.querySelector(
-                "#tour-modal-add-btn"
-              ) as HTMLElement;
+              const btn = document.querySelector("#tour-modal-add-btn") as HTMLElement;
               const handleBtnClick = () => {
                 btn.removeEventListener("click", handleBtnClick);
                 setTimeout(() => this.nextStep(), 500);
@@ -490,9 +411,7 @@ export class TourService {
             side: "bottom",
             align: "start",
             onPopoverRender: (popover, { config, state }) => {
-              const nextBtn = document.querySelector(
-                ".driver-popover-next-btn"
-              ) as HTMLElement;
+              const nextBtn = document.querySelector(".driver-popover-next-btn") as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
 
               const waitForClose = setInterval(() => {
@@ -559,13 +478,8 @@ export class TourService {
   /**
    * Simulates typing text into an HTML input element
    */
-  public typeText(
-    elementId: string,
-    text: string,
-    callback?: () => void
-  ): void {
-    const el = (document.querySelector("#" + elementId + " input") ||
-      document.getElementById(elementId)) as HTMLInputElement;
+  public typeText(elementId: string, text: string, callback?: () => void): void {
+    const el = (document.querySelector("#" + elementId + " input") || document.getElementById(elementId)) as HTMLInputElement;
     if (!el) return;
 
     el.value = "";
