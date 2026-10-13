@@ -40,13 +40,10 @@ import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { ToastService } from "@services/toast.service";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import * as firebase from "firebase/app";
 import "firebase/performance";
-import { ChartsModule } from "ng2-charts";
 import { ClipboardModule } from "ngx-clipboard";
 import { MarkdownModule } from "ngx-markdown";
-import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -149,8 +146,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ChartsModule,
-    NgxSpinnerModule,
     FontAwesomeModule,
     SharedUiModule,
     BrowserAnimationsModule,
@@ -164,7 +159,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       },
     }),
     NgbModule,
-    NgxDatatableModule,
   ],
   providers: [
     GithubAuthService,
