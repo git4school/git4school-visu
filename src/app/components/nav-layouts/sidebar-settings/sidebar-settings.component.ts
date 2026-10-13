@@ -15,6 +15,7 @@ import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
 import { AccountsService } from "@services/accounts.service";
 import { AnonymizationService } from "@services/anonymization.service";
+import { WhatsNewService } from "@services/whats-new.service";
 import { environment } from "@environments/environment";
 
 @Component({
@@ -32,6 +33,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   recentAssignments: Assignment[] = [];
   totalAssignmentsCount = 0;
   displayLimit: number | "all" = 5;
+  appVersion = environment.version;
   langNames: { [key: string]: string } = {
     en: "English",
     fr: "Français",
@@ -54,6 +56,7 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
     private tourService: TourService,
     private customModalService: CustomModalService,
     public accountsService: AccountsService,
+    private whatsNewService: WhatsNewService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -217,5 +220,10 @@ export class SidebarSettingsComponent implements OnInit, OnDestroy, OnChanges {
   openShortcuts() {
     this.onClose.emit();
     this.customModalService.open(ShortcutsModalComponent, { size: "lg" });
+  }
+
+  openWhatsNew() {
+    this.onClose.emit();
+    this.whatsNewService.open();
   }
 }

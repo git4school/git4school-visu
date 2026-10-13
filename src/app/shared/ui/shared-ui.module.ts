@@ -32,6 +32,9 @@ import { TpGroupSelectorComponent } from "./tp-group-selector/tp-group-selector.
 /* Menu d'actions secondaires « liquid morphism » (carte de devoir) */
 import { LiquidActionMenuComponent } from "./liquid-action-menu/liquid-action-menu.component";
 
+/* Modale « Nouveautés » : présente les apports de la version courante */
+import { WhatsNewModalComponent } from "./whats-new/whats-new-modal.component";
+
 @NgModule({
   declarations: [
     ModalComponent,
@@ -54,6 +57,7 @@ import { LiquidActionMenuComponent } from "./liquid-action-menu/liquid-action-me
     SessionTabComponent,
     TpGroupSelectorComponent,
     LiquidActionMenuComponent,
+    WhatsNewModalComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -77,7 +81,8 @@ import { LiquidActionMenuComponent } from "./liquid-action-menu/liquid-action-me
     SessionTabComponent,
     TpGroupSelectorComponent,
     LiquidActionMenuComponent,
+    WhatsNewModalComponent,
   ],
-  entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent],
+  entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent, WhatsNewModalComponent],
 })
 export class SharedUiModule {}

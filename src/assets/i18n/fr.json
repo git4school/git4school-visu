@@ -65,7 +65,8 @@
     "LANGUAGE": "Langue",
     "APPEARANCE": "Apparence",
     "HELP-TUTORIAL": "Aide & Documentation",
-    "ACCOUNT": "Compte"
+    "ACCOUNT": "Compte",
+    "WHATS-NEW": "Nouveautés"
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Rechercher un devoir...",
@@ -949,5 +950,98 @@
   },
   "DATE-RANGE-PICKER": {
     "TAB-HINT": "Définir la fin à"
+  },
+  "WHATS-NEW": {
+    "TITLE": "Nouveautés",
+    "SUBTITLE": "Version {{version}} · {{date}}",
+    "TAB-CURRENT": "Version {{version}}",
+    "TAB-HISTORY": "Versions précédentes",
+    "TAG-NEW": "Nouveau",
+    "TAG-IMPROVED": "Amélioré",
+    "FULL-CHANGELOG": "Consulter le changelog complet",
+    "CONFIRM": "J'ai compris",
+    "CLOSE-LABEL": "Fermer les nouveautés",
+    "RELEASES": {
+      "V2-7-0": {
+        "DATE": "13 octobre 2026",
+        "SUMMARY": "Cette version ajoute une vue entièrement consacrée au suivi des séances, un panneau de suivi en direct pendant les travaux pratiques, une présentation des devoirs en dossiers et un repère du temps présent dans le graphe des commits.",
+        "FEATURES": {
+          "SESSIONS-VIEW": {
+            "TITLE": "Vue séances : participation et progression",
+            "DESC": "Le nouvel onglet « Séances » réunit, pour chaque séance, le taux de participation, les commits produits pendant et en dehors du créneau, ainsi que la progression du groupe. Survolez une question résolue pour afficher la trajectoire de commits de l'étudiant qui l'a fermée.",
+            "HINT": "Onglet « Séances » de la barre de navigation, ou touche {{sessionsTab}}.",
+            "ALT": "Vue séances : indicateurs de participation, courbe de progression du groupe et tableau d'activité par étudiant."
+          },
+          "LIVE-SESSION": {
+            "TITLE": "Suivi d'une séance en direct",
+            "DESC": "Pendant une séance, un panneau latéral indique l'état du groupe (étudiants actifs, à relancer, inactifs), le rythme de travail, les questions résolues et les derniers commits. Il liste également les étudiants à aider, avec le motif et le lien vers leur dépôt.",
+            "HINT": "Onglet « Séance en cours » sur le bord gauche de l'écran ; les données se rafraîchissent toutes les trois minutes.",
+            "ALT": "Panneau de séance en direct : état du groupe, rythme de travail, questions résolues et activité récente."
+          },
+          "FOLDER-VIEW": {
+            "TITLE": "Devoirs présentés en dossiers",
+            "DESC": "La liste des devoirs peut s'afficher sous forme de dossiers : la couverture s'entrouvre au survol et laisse apparaître les feuilles du devoir. La case de sélection permet d'agir sur plusieurs devoirs à la fois.",
+            "HINT": "Bouton « Afficher en dossiers », au-dessus de la liste des devoirs.",
+            "ALT": "Liste des devoirs présentée en dossiers, avec la couverture d'un devoir entrouverte sur ses feuilles."
+          },
+          "NOW-MARKER": {
+            "TITLE": "Repère du temps présent dans le graphe",
+            "DESC": "Un trait vertical situe le temps présent sur la frise des commits : le travail déjà effectué et le temps restant se distinguent d'un seul regard.",
+            "HINT": "Touche {{nowMarker}} dans le graphe des commits ; {{shift}}+molette pour zoomer autour du repère."
+          },
+          "QUICK-ACTIONS": {
+            "TITLE": "Actions rapides sur un devoir",
+            "DESC": "Chaque carte de devoir propose un menu d'actions : dupliquer le devoir pour repartir de sa structure sans recopier les dates, ou l'archiver pour le retirer de la liste. Un devoir archivé se consulte et se restaure depuis le filtre « Archivés ».",
+            "HINT": "Bouton d'actions en haut à droite de chaque carte de devoir.",
+            "ALT": "Menu d'actions d'une carte de devoir, ouvert sur les actions dupliquer, archiver et supprimer."
+          },
+          "AUTOSAVE": {
+            "TITLE": "Enregistrement automatique de la configuration",
+            "DESC": "Les modifications apportées à la configuration d'un devoir sont enregistrées au fil de la saisie : il n'est plus nécessaire de valider avant de fermer. Un indicateur précise l'état de l'enregistrement.",
+            "HINT": "Indicateur affiché dans l'en-tête de l'éditeur de devoir."
+          },
+          "TP-GROUP-FILTER": {
+            "TITLE": "Filtre de groupe de TP unifié",
+            "DESC": "Le filtre de groupe de TP est désormais placé dans la barre de navigation et s'applique à toutes les vues du devoir : il n'est plus nécessaire de le régler sur chaque graphique.",
+            "HINT": "Pilule du devoir, dans la barre de navigation ; touche {{groupFilter}} pour ouvrir le filtre."
+          },
+          "GRAPH-INTERACTIONS": {
+            "TITLE": "Interactions du graphe affinées",
+            "DESC": "Un clic sur une séance affiche ses informations, un double-clic la cadre dans la vue et un glisser avec la touche {{shift}} dessine un rectangle de zoom. Les déplacements dans le graphe gagnent également en fluidité.",
+            "HINT": "Graphe des commits ; les flèches ← et → passent d'une séance à l'autre."
+          }
+        }
+      },
+      "V2-6-0": {
+        "DATE": "13 octobre 2026",
+        "SUMMARY": "Cette version a introduit la connexion aux instances GitLab auto-hébergées, la gestion de plusieurs comptes, le mode anonymat et la recherche repliable.",
+        "FEATURES": {
+          "HOSTED-GITLAB": {
+            "TITLE": "GitLab auto-hébergé et comptes multiples",
+            "DESC": "L'application se connecte aux instances GitLab auto-hébergées, en plus de gitlab.com. Plusieurs comptes peuvent être enregistrés en parallèle, y compris sur une même forge."
+          },
+          "TOKEN-REFRESH": {
+            "TITLE": "Renouvellement automatique des jetons GitLab",
+            "DESC": "Les jetons GitLab arrivés à expiration sont renouvelés automatiquement en cours d'utilisation, sans reconnexion manuelle."
+          },
+          "TOKEN-STATUS": {
+            "TITLE": "État des connexions",
+            "DESC": "La liste des comptes signale les jetons expirés et rappelle qu'une reconnexion est nécessaire."
+          },
+          "ANONYMOUS-MODE": {
+            "TITLE": "Mode anonymat",
+            "DESC": "Un bouton masque instantanément les noms des étudiants, des dépôts et des auteurs, pour présenter les résultats à une classe sans exposer d'identités."
+          },
+          "SEARCH-BAR": {
+            "TITLE": "Recherche repliable",
+            "DESC": "La recherche de devoirs se replie pour laisser toute la place à la liste, et se déploie en un clic."
+          },
+          "STUDENT-REPOS": {
+            "TITLE": "Accès aux dépôts des étudiants",
+            "DESC": "Depuis la vue des étudiants, un clic ouvre le dépôt correspondant sur la forge associée."
+          }
+        }
+      }
+    }
   }
 }
