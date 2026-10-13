@@ -11,6 +11,8 @@ import { AnonymizationService } from "@services/anonymization.service";
 import { Subscription } from "rxjs";
 import { skip } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
+import { StackedBarChart, StackedBarScaffold } from "../shared/stacked-bar-chart";
+import { Repository } from "@models/Repository.model";
 import { Utils } from "../../../services/utils";
 import { OsUtils } from "@utils/os.utils";
 import * as d3 from "d3";
@@ -174,68 +176,42 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     const element = this.chartContainer.nativeElement;
     const leftElement = this.leftAxisContainer.nativeElement;
     const rightElement = this.rightAxisContainer.nativeElement;
-    d3.select(element).selectAll("*").remove();
-    d3.select(leftElement).selectAll("*").remove();
-    d3.select(rightElement).selectAll("*").remove();
 
-    if (!this.chartData || this.chartData.length === 0) return;
-
-    const margin = { top: 40, right: 80, bottom: 100, left: 60 };
-    const minBarWidth = 60;
-    const requiredWidth = this.chartData.length * minBarWidth;
-    const width = Math.max(element.clientWidth - margin.left - margin.right, requiredWidth);
-    const height = element.clientHeight - margin.top - margin.bottom;
-
-    if (width <= 0 || height <= 0) return;
-
-    this.chartMargin = margin;
-
-    this.svg = d3
-      .select(element)
-      .append("svg")
-      .style("display", "block")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+    if (!StackedBarChart.prepare([element, leftElement, rightElement], this.chartData ? this.chartData.length : 0)) {
+      return;
+    }
 
     const colors = [CommitColor.INTERMEDIATE, CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER];
+    const scaffold = StackedBarChart.createScaffold(
+      element,
+      this.chartData.map((d) => d.student),
+      {
+        margin: { top: 40, right: 80, bottom: 100, left: 60 },
+        minBarWidth: 60,
+        axisFontSize: 11,
+      },
+    );
 
-    const keys = colors.map((c) => c.label).filter((k) => !this.hiddenCategories.has(k));
-    const stackedData = d3.stack().keys(keys)(this.chartData);
+    if (!scaffold) {
+      return;
+    }
 
-    // X Scale: Students
-    const x = d3
-      .scaleBand()
-      .domain(this.chartData.map((d) => d.student))
-      .range([0, width])
-      .padding(0.3);
+    this.chartMargin = scaffold.margin;
+    this.svg = scaffold.svg;
 
-    // Y Scale Left: Percentages (0-100)
-    const yLeft = d3.scaleLinear().domain([0, 100]).range([height, 0]);
-
-    // Y Scale Right: Questions
     const questionsList = this.dataService.questions ? this.dataService.questions.slice() : [];
     const yRight = d3
       .scalePoint()
       .domain(questionsList)
-      .range([height - 15, 15])
+      .range([scaffold.height - 15, 15])
       .padding(0);
 
-    // Axes
-    const xAxis = this.svg.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x));
-
-    xAxis
-      .selectAll(".tick")
-      .selectAll("text")
+    // X axis: one band per student, labelled with the (possibly anonymised, truncated) name.
+    // A click opens the repository, a hover shows the repository tooltip.
+    StackedBarChart.renderBottomAxis(scaffold, { fontSize: 11 })
       .call((g) => g.classed("repo_name", true))
-      .style("text-anchor", "end")
-      .attr("dx", "-.8em")
-      .attr("dy", ".15em")
-      .attr("transform", "rotate(-45)")
-      .style("font-size", "11px")
       .each(function (this: SVGTextElement) {
-        let textStr = this.textContent || "";
+        const textStr = this.textContent || "";
         this.textContent = Utils.truncateMiddle(textStr, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
       })
       .on("click", (event: MouseEvent, d: any) => {
@@ -244,9 +220,7 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
           return;
         }
         const matchedItem = this.chartData.find((cd) => cd.student === d);
-        const repo = this.dataService.repositories.find(
-          (r) => r.name === d || (matchedItem && (r.name === matchedItem.rawName || r.url === matchedItem.url)),
-        );
+        const repo = this.findRepositoryForBand(d, matchedItem);
         if (repo?.url) {
           window.open(repo.url, "_blank");
         }
@@ -254,9 +228,7 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
       .on("mouseenter", (event: MouseEvent, d: any) => {
         event.stopPropagation();
         const matchedItem = this.chartData.find((cd) => cd.student === d);
-        const repo = this.dataService.repositories.find(
-          (r) => r.name === d || (matchedItem && (r.name === matchedItem.rawName || r.url === matchedItem.url)),
-        );
+        const repo = this.findRepositoryForBand(d, matchedItem);
         if (repo || matchedItem) {
           this.ngZone.run(() => {
             this.hovered_repository = {
@@ -281,96 +253,11 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
         });
       });
 
-    const svgLeft = d3
-      .select(leftElement)
-      .append("svg")
-      .style("display", "block")
-      .attr("width", margin.left)
-      .attr("height", height + margin.top + margin.bottom)
-      .style("pointer-events", "none");
+    StackedBarChart.renderLeftPercentAxis(leftElement, scaffold, this.translateService.instant("PERCENT-COMMITS"), 11);
+    StackedBarChart.renderRightAxis(rightElement, scaffold, yRight, this.translateService.instant("QUESTIONS"), 11);
+    StackedBarChart.renderGrid(scaffold);
 
-    const leftPath = `M 0 0 L ${margin.left} 0 L ${margin.left} ${margin.top + height} L ${margin.left - margin.bottom} ${
-      margin.top + height + margin.bottom
-    } L 0 ${margin.top + height + margin.bottom} Z`;
-    svgLeft.append("path").attr("d", leftPath).attr("fill", "var(--color-bg-body)").style("pointer-events", "auto");
-
-    const leftG = svgLeft.append("g").attr("transform", `translate(${margin.left},${margin.top})`).style("pointer-events", "auto");
-
-    leftG
-      .call(
-        d3
-          .axisLeft(yLeft)
-          .ticks(10)
-          .tickFormat((d) => d + "%"),
-      )
-      .selectAll("text")
-      .style("fill", "var(--color-text-primary)")
-      .style("font-size", "11px");
-
-    leftG.selectAll(".domain").remove();
-    leftG.selectAll(".tick line").remove();
-
-    // Left Y-Axis Label
-    leftG
-      .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - 60 + 5)
-      .attr("x", 0 - height / 2)
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .style("fill", "var(--color-text-secondary)")
-      .style("font-size", "12px")
-      .text(this.translateService.instant("PERCENT-COMMITS"));
-
-    const svgRightWidth = margin.right + margin.bottom;
-    const svgRight = d3
-      .select(rightElement)
-      .append("svg")
-      .style("display", "block")
-      .attr("width", svgRightWidth)
-      .attr("height", height + margin.top + margin.bottom)
-      .style("pointer-events", "none");
-
-    const rightPath = `M ${margin.bottom} 0 L ${svgRightWidth} 0 L ${svgRightWidth} ${margin.top + height + margin.bottom} L 0 ${
-      margin.top + height + margin.bottom
-    } L ${margin.bottom} ${margin.top + height} Z`;
-    svgRight.append("path").attr("d", rightPath).attr("fill", "var(--color-bg-body)").style("pointer-events", "auto");
-
-    const rightG = svgRight.append("g").attr("transform", `translate(${margin.bottom},${margin.top})`).style("pointer-events", "auto");
-
-    rightG.call(d3.axisRight(yRight)).selectAll("text").style("fill", "var(--color-text-primary)").style("font-size", "11px");
-
-    rightG.selectAll(".domain").remove();
-    rightG.selectAll(".tick line").remove();
-
-    // Right Y-Axis Label
-    rightG
-      .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", margin.right - 20)
-      .attr("x", 0 - height / 2)
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .style("fill", "var(--color-text-secondary)")
-      .style("font-size", "12px")
-      .text(this.translateService.instant("QUESTIONS"));
-
-    // Gridlines for left axis
-    const yAxisGrid = d3
-      .axisLeft(yLeft)
-      .tickSize(-width)
-      .tickFormat(() => "")
-      .ticks(10);
-    this.svg
-      .append("g")
-      .attr("class", "grid")
-      .call(yAxisGrid)
-      .selectAll("line")
-      .style("stroke", "var(--color-border)")
-      .style("stroke-opacity", "0.5")
-      .style("shape-rendering", "crispEdges");
-
-    this.svg.selectAll(".domain").remove();
+    const stackedData = d3.stack().keys(colors.map((c) => c.label).filter((k) => !this.hiddenCategories.has(k)))(this.chartData);
 
     // Hover background rects
     this.svg
@@ -380,10 +267,10 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
       .enter()
       .append("rect")
       .attr("class", "hover-bg")
-      .attr("x", (d) => x(d.student) - x.bandwidth() * 0.1)
+      .attr("x", (d) => scaffold.x(d.student) - scaffold.x.bandwidth() * 0.1)
       .attr("y", 0)
-      .attr("width", x.bandwidth() * 1.2)
-      .attr("height", height)
+      .attr("width", scaffold.x.bandwidth() * 1.2)
+      .attr("height", scaffold.height)
       .style("fill", "transparent")
       .on("mouseover", (event, d) => {
         this.showTooltip(event, d, colors);
@@ -408,101 +295,13 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     // Draw Stacked Bars
     const visibleColors = colors.filter((c) => !this.hiddenCategories.has(c.label));
 
-    const groups = this.svg
-      .selectAll("g.layer")
-      .data(stackedData)
-      .enter()
-      .append("g")
-      .classed("layer", true)
-      .style("fill", (d, i) => visibleColors[i].color);
-
-    groups
-      .selectAll("rect.bar")
-      .data((d) => d)
-      .enter()
-      .append("rect")
-      .attr("class", "bar")
-      .attr("x", (d) => x(d.data.student))
-      .attr("y", (d) => yLeft(d[1]))
-      .attr("height", (d) => {
-        const h = yLeft(d[0]) - yLeft(d[1]);
-        return isNaN(h) ? 0 : h;
-      })
-      .attr("width", x.bandwidth())
-      .style("pointer-events", "none")
-      .style("transition", "opacity 0.2s");
-
-    // Badges for total commits (on top of each bar)
-    const badgeGroup = this.svg.append("g").attr("class", "badges");
-
-    this.chartData.forEach((d) => {
-      if (d.commitsCount > 0) {
-        const badgeX = x(d.student) + x.bandwidth() / 2;
-        const badgeY = yLeft(100) - 15; // slightly above the 100% bar
-
-        // pill background
-        badgeGroup
-          .append("rect")
-          .attr("x", badgeX - 16)
-          .attr("y", badgeY - 10)
-          .attr("width", 32)
-          .attr("height", 20)
-          .attr("rx", 10)
-          .attr("ry", 10)
-          .style("fill", "var(--color-surface)")
-          .style("stroke", "var(--color-border)")
-          .style("stroke-width", 1)
-          .style("pointer-events", "none");
-
-        // text
-        badgeGroup
-          .append("text")
-          .attr("x", badgeX)
-          .attr("y", badgeY + 4)
-          .attr("text-anchor", "middle")
-          .style("fill", "var(--color-text-primary)")
-          .style("font-size", "10px")
-          .style("font-weight", "bold")
-          .style("pointer-events", "none")
-          .text(d.commitsCount);
-      }
+    StackedBarChart.renderLayers(scaffold, stackedData, visibleColors, (d) => d.data.student, {
+      className: "bar",
+      pointerEventsNone: true,
     });
 
-    // Draw Line and Dots
-    if (this.showProgressionLine) {
-      const line = d3
-        .line<any>()
-        .x((d) => x(d.student) + x.bandwidth() / 2)
-        .y((d) => {
-          if (!d.lastQuestionDone) return height;
-          return yRight(d.lastQuestionDone) || height;
-        });
-
-      this.svg
-        .append("path")
-        .datum(this.chartData)
-        .attr("fill", "none")
-        .attr("stroke", "var(--color-primary)")
-        .attr("stroke-width", 2)
-        .attr("d", line);
-
-      this.svg
-        .selectAll(".dot")
-        .data(this.chartData)
-        .enter()
-        .append("circle")
-        .classed("dot", true)
-        .attr("cx", (d) => x(d.student) + x.bandwidth() / 2)
-        .attr("cy", (d) => {
-          if (!d.lastQuestionDone) return height;
-          return yRight(d.lastQuestionDone) || height;
-        })
-        .attr("r", 4)
-        .attr("fill", "var(--color-primary)")
-        .attr("stroke", "var(--color-surface)")
-        .attr("stroke-width", 2)
-        .style("pointer-events", "none");
-    }
+    this.renderCommitCountBadges(scaffold);
+    this.renderProgressionLine(scaffold, yRight);
   }
 
   showTooltip(event: MouseEvent, data: any, colors: any[]) {
@@ -586,5 +385,88 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     setTimeout(() => {
       if (this.pressedShortcut === key) this.pressedShortcut = null;
     }, 150);
+  }
+
+  /** Finds the repository behind a band label (display name) or its chart datum. */
+  private findRepositoryForBand(band: string, chartDatum: any): Repository {
+    return this.dataService.repositories.find(
+      (r) => r.name === band || (chartDatum && (r.name === chartDatum.rawName || r.url === chartDatum.url)),
+    );
+  }
+
+  /** Renders the total commit count of each student in a pill above his bar. */
+  private renderCommitCountBadges(scaffold: StackedBarScaffold): void {
+    const badgeGroup = scaffold.svg.append("g").attr("class", "badges");
+
+    this.chartData.forEach((d) => {
+      if (d.commitsCount > 0) {
+        const badgeX = scaffold.x(d.student) + scaffold.x.bandwidth() / 2;
+        const badgeY = scaffold.y(100) - 15; // slightly above the 100% bar
+
+        // pill background
+        badgeGroup
+          .append("rect")
+          .attr("x", badgeX - 16)
+          .attr("y", badgeY - 10)
+          .attr("width", 32)
+          .attr("height", 20)
+          .attr("rx", 10)
+          .attr("ry", 10)
+          .style("fill", "var(--color-surface)")
+          .style("stroke", "var(--color-border)")
+          .style("stroke-width", 1)
+          .style("pointer-events", "none");
+
+        // text
+        badgeGroup
+          .append("text")
+          .attr("x", badgeX)
+          .attr("y", badgeY + 4)
+          .attr("text-anchor", "middle")
+          .style("fill", "var(--color-text-primary)")
+          .style("font-size", "10px")
+          .style("font-weight", "bold")
+          .style("pointer-events", "none")
+          .text(d.commitsCount);
+      }
+    });
+  }
+
+  /**
+   * Draws the line and dots of the questions progression (right axis), students without an
+   * answered question being pinned to the bottom of the chart.
+   */
+  private renderProgressionLine(scaffold: StackedBarScaffold, yRight: d3.ScalePoint<string>): void {
+    if (!this.showProgressionLine) {
+      return;
+    }
+
+    const questionY = (d: any): number => (d.lastQuestionDone ? yRight(d.lastQuestionDone) || scaffold.height : scaffold.height);
+    const line = d3
+      .line<any>()
+      .x((d) => scaffold.x(d.student) + scaffold.x.bandwidth() / 2)
+      .y(questionY);
+
+    scaffold.svg
+      .append("path")
+      .datum(this.chartData)
+      .attr("fill", "none")
+      .attr("stroke", "var(--color-primary)")
+      .attr("stroke-width", 2)
+      .attr("d", line);
+
+    scaffold.svg
+      .selectAll(".dot")
+      .data(this.chartData)
+      .enter()
+      .append("circle")
+      .classed("dot", true)
+      .attr("cx", (d) => scaffold.x(d.student) + scaffold.x.bandwidth() / 2)
+      .attr("cy", questionY)
+      .attr("r", 4)
+      .attr("fill", "var(--color-primary)")
+      .attr("stroke", "var(--color-surface)")
+      .attr("stroke-width", 2)
+      .style("pointer-events", "none");
   }
 }
