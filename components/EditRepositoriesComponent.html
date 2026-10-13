@@ -179,6 +179,9 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                                 <a href="#nameDirection" >nameDirection</a>
                             </li>
                             <li>
+                                <a href="#repositoryList" >repositoryList</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#rotateMatrix" >rotateMatrix</a>
                             </li>
@@ -193,9 +196,6 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                             </li>
                             <li>
                                 <a href="#formGroups" >formGroups</a>
-                            </li>
-                            <li>
-                                <a href="#isModified" >isModified</a>
                             </li>
                         </ul>
                     </td>
@@ -214,6 +214,9 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                                 <a href="#accessToRepoValidator" >accessToRepoValidator</a>
                             </li>
                             <li>
+                                <a href="#addEmptyRow" >addEmptyRow</a>
+                            </li>
+                            <li>
                                 <a href="#cancelConfirmRefresh" >cancelConfirmRefresh</a>
                             </li>
                             <li>
@@ -221,6 +224,10 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                             </li>
                             <li>
                                 <a href="#cancelSelection" >cancelSelection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#committedValue" >committedValue</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -266,10 +273,11 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#sort" >sort</a>
+                                <a href="#scrollToLastRow" >scrollToLastRow</a>
                             </li>
                             <li>
-                                <a href="#submitForm" >submitForm</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#sort" >sort</a>
                             </li>
                             <li>
                                 <a href="#toggleSelectAll" >toggleSelectAll</a>
@@ -316,7 +324,10 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#save" >save</a>
+                                <a href="#modifyText" >modifyText</a>
+                            </li>
+                            <li>
+                                <a href="#notifyBlur" >notifyBlur</a>
                             </li>
                         </ul>
                     </td>
@@ -352,7 +363,10 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                                 <a href="#modified" >modified</a>
                             </li>
                             <li>
-                                <a href="#saved" >saved</a>
+                                <a href="#textBlurred" >textBlurred</a>
+                            </li>
+                            <li>
+                                <a href="#textModified" >textModified</a>
                             </li>
                         </ul>
                     </td>
@@ -380,6 +394,9 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                                 <li>
                                     <a href="#existingTpGroups" >existingTpGroups</a>
                                 </li>
+                                <li>
+                                    <a href="#committedRepositories" >committedRepositories</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -398,7 +415,7 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -577,7 +594,7 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                             </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:17</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:9</a></code>
 </div>
                             </td>
                         </tr>
@@ -608,18 +625,24 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                             </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:7</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:10</a></code>
 </div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emitted for discrete changes (dates, questions, repositories, ...) that can be persisted right away.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="saved"></a>
-                        <b>saved</b>
+                        <a name="textBlurred"></a>
+                        <b>textBlurred</b>
                     </td>
                 </tr>
                 <tr>
@@ -636,10 +659,50 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                             </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:8</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:20</a></code>
 </div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emitted when a free-text field loses focus, so the parent can flush immediately.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="textModified"></a>
+                        <b>textModified</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:15</a></code>
+</div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emitted for free-text changes (title, course, program, year) that must be debounced by the parent.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -672,8 +735,8 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="418"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:418</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="433"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:433</a></div>
                 </td>
             </tr>
 
@@ -727,6 +790,45 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="addEmptyRow"></a>
+                    <span class="name">
+                        <span ><b>addEmptyRow</b></span>
+                        <a href="#addEmptyRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addEmptyRow()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="301"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:301</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adds an empty repository row for manual entry and scrolls the list so the new row is visible.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="cancelConfirmRefresh"></a>
                     <span class="name">
                         <span ><b>cancelConfirmRefresh</b></span>
@@ -743,8 +845,8 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="158"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:158</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:174</a></div>
                 </td>
             </tr>
 
@@ -818,7 +920,7 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:338</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:353</a></code>
 </div>
                 </td>
             </tr>
@@ -910,8 +1012,8 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:137</a></div>
                 </td>
             </tr>
 
@@ -922,6 +1024,79 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="committedValue"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>committedValue</b></span>
+                        <a href="#committedValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>committedValue(group: <a href="https://angular.io/api/forms/FormGroup" target="_blank">FormGroup</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="468"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:468</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Value to persist for a row: the live value for committed rows, or the last committed snapshot while a row is being edited</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>group</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -955,7 +1130,7 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:373</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:388</a></code>
 </div>
                 </td>
             </tr>
@@ -1032,8 +1207,8 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:142</a></div>
                 </td>
             </tr>
 
@@ -1069,8 +1244,8 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="169"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:169</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:185</a></div>
                 </td>
             </tr>
 
@@ -1106,8 +1281,8 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="326"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:326</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="341"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:341</a></div>
                 </td>
             </tr>
 
@@ -1183,8 +1358,8 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:121</a></div>
                 </td>
             </tr>
 
@@ -1220,8 +1395,8 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:117</a></div>
                 </td>
             </tr>
 
@@ -1295,7 +1470,7 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:134</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:150</a></code>
 </div>
                 </td>
             </tr>
@@ -1332,8 +1507,8 @@ or by selecting it in the list of repositories retrieved from Github or GitLab</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="364"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:364</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="379"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:379</a></div>
                 </td>
             </tr>
 
@@ -1410,8 +1585,8 @@ the confirmation modal is not displayed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:141</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:157</a></div>
                 </td>
             </tr>
 
@@ -1447,8 +1622,8 @@ the confirmation modal is not displayed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="351"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:351</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="366"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:366</a></div>
                 </td>
             </tr>
 
@@ -1524,8 +1699,8 @@ the confirmation modal is not displayed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="287"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:287</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="310"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:310</a></div>
                 </td>
             </tr>
 
@@ -1566,8 +1741,8 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="406"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:406</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="421"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:421</a></div>
                 </td>
             </tr>
 
@@ -1607,8 +1782,8 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="453"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:453</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="489"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:489</a></div>
                 </td>
             </tr>
 
@@ -1616,6 +1791,47 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Change the sorting mode according to the current sorting mode and the <a href="rotateMatrix">rotateMatrix</a></p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollToLastRow"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>scrollToLastRow</b></span>
+                        <a href="#scrollToLastRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>scrollToLastRow()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="475"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:475</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Scrolls the repository list to the bottom once the newly added row has been rendered.</p>
 </div>
 
                     <div class="io-description">
@@ -1648,8 +1864,8 @@ If the modal is closed with the &quot;Add&quot; button, all the new selected rep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="462"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:462</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="498"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:498</a></div>
                 </td>
             </tr>
 
@@ -1709,51 +1925,6 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="submitForm"></a>
-                    <span class="name">
-                        <span ><b>submitForm</b></span>
-                        <a href="#submitForm"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>submitForm()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../components/BaseTabEditConfigurationComponent.html" target="_self" >BaseTabEditConfigurationComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:316</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Get the formControls (all the repositories in the list) and save them in the assignment</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="toggleSelectAll"></a>
                     <span class="name">
                         <span ><b>toggleSelectAll</b></span>
@@ -1770,8 +1941,8 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:127</a></div>
                 </td>
             </tr>
 
@@ -1807,8 +1978,8 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:108</a></div>
                 </td>
             </tr>
 
@@ -1876,8 +2047,8 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="279"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:279</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="294"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:294</a></div>
                 </td>
             </tr>
 
@@ -1965,7 +2136,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:48</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:40</a></code>
 </div>
                 </td>
             </tr>
@@ -2040,7 +2211,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:70</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:62</a></code>
 </div>
                 </td>
             </tr>
@@ -2115,7 +2286,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:59</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:51</a></code>
 </div>
                 </td>
             </tr>
@@ -2190,7 +2361,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:37</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:29</a></code>
 </div>
                 </td>
             </tr>
@@ -2265,7 +2436,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:33</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:25</a></code>
 </div>
                 </td>
             </tr>
@@ -2340,7 +2511,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:42</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:34</a></code>
 </div>
                 </td>
             </tr>
@@ -2415,7 +2586,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:65</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:57</a></code>
 </div>
                 </td>
             </tr>
@@ -2490,7 +2661,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:98</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:88</a></code>
 </div>
                 </td>
             </tr>
@@ -2565,7 +2736,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:94</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:84</a></code>
 </div>
                 </td>
             </tr>
@@ -2640,7 +2811,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:76</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:67</a></code>
 </div>
                 </td>
             </tr>
@@ -2717,7 +2888,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:11</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:26</a></code>
 </div>
                 </td>
             </tr>
@@ -2738,18 +2909,18 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="save"></a>
+                    <a name="modifyText"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
-                        <span ><b>save</b></span>
-                        <a href="#save"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>modifyText</b></span>
+                        <a href="#modifyText"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>save(data: <a href="https://angular.io/api/router/Data" target="_blank">Data</a>)</code>
+                    <code>modifyText()</code>
                 </td>
             </tr>
 
@@ -2762,7 +2933,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:16</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:30</a></code>
 </div>
                 </td>
             </tr>
@@ -2772,40 +2943,51 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="https://angular.io/api/router/Data" target="_blank" >Data</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifyBlur"></a>
+                    <span class="name">
+                        <span ><b>notifyBlur</b></span>
+                        <a href="#notifyBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifyBlur()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:22</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
                     <div class="io-description">
-                        
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
                     </div>
                 </td>
             </tr>
@@ -2837,7 +3019,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -2868,7 +3050,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -2900,7 +3082,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -2927,7 +3109,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -2958,7 +3140,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -2983,7 +3165,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -3008,7 +3190,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -3034,7 +3216,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -3060,7 +3242,42 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="repositoryList"></a>
+                    <span class="name">
+                        <span ><b>repositoryList</b></span>
+                        <a href="#repositoryList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;repositoryList&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -3095,7 +3312,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -3126,7 +3343,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -3157,7 +3374,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -3182,7 +3399,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -3214,39 +3431,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:18</a></code>
-</div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isModified"></a>
-                    <span class="name">
-                        <span ><b>isModified</b></span>
-                        <a href="#isModified"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
-</div>
-                            </td>
-                        </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:9</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/BaseTabEditConfigurationComponent.html#source" target="_self" >BaseTabEditConfigurationComponent:10</a></code>
 </div>
                         </td>
                     </tr>
@@ -3276,7 +3461,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:50</a></div>
                                 </td>
                             </tr>
 
@@ -3298,7 +3483,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:53</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:54</a></div>
                                 </td>
                             </tr>
 
@@ -3320,7 +3505,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:76</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:77</a></div>
                                 </td>
                             </tr>
 
@@ -3342,9 +3527,43 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:87</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:88</a></div>
                                 </td>
                             </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="committedRepositories"></a>
+                        <span class="name"><b>committedRepositories</b><a href="#committedRepositories"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>committedRepositories()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component.ts:97</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns the repositories that are safe to persist: committed rows and in-progress edits of
+already saved rows (using their last committed snapshot). Invalid or brand-new rows are excluded.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../classes/Repository.html" target="_self" >Repository[]</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -3353,7 +3572,7 @@ The sorting used is an alphabetical sorting as all the properties of a repositor
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from &quot;@angular/core&quot;;
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from &quot;@angular/forms&quot;;
 import { Error, Repository } from &quot;@models/Repository.model&quot;;
 import { Assignment } from &quot;@models/Assignment.model&quot;;
@@ -3388,6 +3607,7 @@ export type SortDirection &#x3D; &quot;asc&quot; | &quot;desc&quot; | &quot;&quo
 })
 export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent&lt;Repository&gt; implements OnInit {
   @Input() assignment?: Assignment;
+  @ViewChild(&quot;repositoryList&quot;) repositoryList: ElementRef&lt;HTMLElement&gt;;
 
   nameDirection: SortDirection;
   lastPropertySorted: string;
@@ -3442,6 +3662,21 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   get existingTpGroups(): string[] {
     const groups &#x3D; this.getFormControls.map((group) &#x3D;&gt; group.get(&quot;tpGroup&quot;)?.value).filter((val) &#x3D;&gt; val &amp;&amp; val.trim() !&#x3D;&#x3D; &quot;&quot;);
     return Array.from(new Set(groups)).sort();
+  }
+
+  /**
+   * Returns the repositories that are safe to persist: committed rows and in-progress edits of
+   * already saved rows (using their last committed snapshot). Invalid or brand-new rows are excluded.
+   */
+  get committedRepositories(): Repository[] {
+    return this.getFormControls
+      .map((group) &#x3D;&gt; this.committedValue(group))
+      .filter((value) &#x3D;&gt; !!value?.url)
+      .map((value) &#x3D;&gt; {
+        const repo &#x3D; Repository.withJSON(value);
+        repo.provider &#x3D; this.provider;
+        return repo;
+      });
   }
 
   toggleSelection(index: number) {
@@ -3603,6 +3838,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
                   item.control.get(&quot;tpGroup&quot;)?.setValue(item.newGroup);
                 }
                 this.cdref.markForCheck();
+                this.modify();
               }, 120);
 
               setTimeout(() &#x3D;&gt; {
@@ -3612,8 +3848,6 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
             }, staggerDelay);
           });
 
-          this.modify();
-          this.submitForm();
           this.toastService.success(
             this.translateService.instant(&quot;SUCCESS&quot;),
             this.translateService.instant(&quot;EDIT-REPOSITORIES.NAMES-REFRESH-SUCCESS&quot;),
@@ -3633,6 +3867,14 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
    */
   trackByRepo(index: number, group: FormGroup): any {
     return group.get(&quot;url&quot;)?.value || index;
+  }
+
+  /**
+   * Adds an empty repository row for manual entry and scrolls the list so the new row is visible.
+   */
+  addEmptyRow() {
+    this.addRow();
+    this.scrollToLastRow();
   }
 
   /**
@@ -3663,14 +3905,6 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
       },
       (error) &#x3D;&gt; {},
     );
-  }
-
-  /**
-   * Get the formControls (all the repositories in the list) and save them in the assignment
-   */
-  submitForm() {
-    const controls &#x3D; this.getFormControls;
-    this.save(controls.map((row) &#x3D;&gt; Repository.withJSON(row.value)));
   }
 
   /**
@@ -3803,6 +4037,27 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   }
 
   /**
+   * Value to persist for a row: the live value for committed rows, or the last committed snapshot while a row is being edited
+   */
+  private committedValue(group: FormGroup): any {
+    return group.get(&quot;isEditable&quot;).value ? group.get(&quot;save&quot;).value : group.value;
+  }
+
+  /**
+   * Scrolls the repository list to the bottom once the newly added row has been rendered.
+   */
+  private scrollToLastRow() {
+    requestAnimationFrame(() &#x3D;&gt; {
+      requestAnimationFrame(() &#x3D;&gt; {
+        const list &#x3D; this.repositoryList?.nativeElement;
+        if (list) {
+          list.scrollTop &#x3D; list.scrollHeight;
+        }
+      });
+    });
+  }
+
+  /**
    * Change the sorting mode according to the current sorting mode and the {@link rotateMatrix}
    */
   private rotate() {
@@ -3831,7 +4086,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
     &lt;!-- Top bar --&gt;
     &lt;div class&#x3D;&quot;sort-bar mb-3 d-flex position-relative align-items-center w-100&quot;&gt;
         &lt;div class&#x3D;&quot;d-flex align-items-center&quot; style&#x3D;&quot;gap: 1rem;&quot;&gt;
-            &lt;div class&#x3D;&quot;d-flex align-items-center&quot; style&#x3D;&quot;gap: 0.5rem;&quot;&gt;
+            &lt;div class&#x3D;&quot;sort-pills-group d-flex align-items-center&quot; style&#x3D;&quot;gap: 0.5rem;&quot;&gt;
                 &lt;span class&#x3D;&quot;sort-label mr-1&quot;&gt;{{ &#x27;SORT_BY&#x27; | translate }}:&lt;/span&gt;
                 &lt;button class&#x3D;&quot;sort-pill&quot; [class.active]&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;name&#x27;&quot; (click)&#x3D;&quot;onSort(&#x27;name&#x27;)&quot;&gt;
                     {{ &#x27;EDIT-REPOSITORIES.COLUMN-NAME&#x27; | translate }}
@@ -3850,7 +4105,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
                     &lt;/ng-container&gt;
                 &lt;/button&gt;
                 &lt;button class&#x3D;&quot;sort-pill&quot; [class.active]&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;tpGroup&#x27;&quot; (click)&#x3D;&quot;onSort(&#x27;tpGroup&#x27;)&quot;&gt;
-                    {{ &#x27;EDIT-REPOSITORIES.COLUMN-TP-GROUP&#x27; | translate }}
+                    {{ &#x27;EDIT-REPOSITORIES.SORT-COLUMN-TP-GROUP&#x27; | translate }}
                     &lt;ng-container *ngIf&#x3D;&quot;lastPropertySorted &#x3D;&#x3D;&#x3D; &#x27;tpGroup&#x27;&quot;&gt;
                         &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort&quot;&gt;&lt;/i&gt;&lt;/span&gt;
                         &lt;span *ngIf&#x3D;&quot;nameDirection &#x3D;&#x3D;&#x3D; &#x27;desc&#x27;&quot;&gt;&lt;i class&#x3D;&quot;fas fa-sort-up&quot;&gt;&lt;/i&gt;&lt;/span&gt;
@@ -3902,7 +4157,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
 
     &lt;/div&gt;
 
-    &lt;div class&#x3D;&quot;repository-list&quot;&gt;
+    &lt;div #repositoryList class&#x3D;&quot;repository-list&quot;&gt;
         &lt;!-- Empty State --&gt;
         &lt;div class&#x3D;&quot;empty-state text-center py-3 text-muted&quot; *ngIf&#x3D;&quot;getFormControls.length &#x3D;&#x3D;&#x3D; 0&quot;&gt;
             &lt;app-repo-icon mode&#x3D;&quot;empty&quot; class&#x3D;&quot;mb-2&quot; style&#x3D;&quot;font-size: 3em; opacity: 0.5;&quot;&gt;&lt;/app-repo-icon&gt;
@@ -4040,7 +4295,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
     &lt;/div&gt;
 
     &lt;div class&#x3D;&quot;bottom-actions&quot;&gt;
-        &lt;button id&#x3D;&quot;tour-add-empty-repo-btn&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-action&quot; (click)&#x3D;&quot;addRow()&quot; [appTooltip]&#x3D;&quot;&#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY&#x27; | translate&quot;&gt;
+        &lt;button id&#x3D;&quot;tour-add-empty-repo-btn&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-action&quot; (click)&#x3D;&quot;addEmptyRow()&quot; [appTooltip]&#x3D;&quot;&#x27;EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY&#x27; | translate&quot;&gt;
             &lt;app-repo-icon mode&#x3D;&quot;add&quot; class&#x3D;&quot;mr-1&quot; style&#x3D;&quot;font-size: 1.25em;&quot;&gt;&lt;/app-repo-icon&gt;
             {{ &#x27;EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY&#x27; | translate }}
         &lt;/button&gt;
@@ -4081,10 +4336,17 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
 
 .inline-config-container {
   .config-header {
+    /* Gouttière de la page d&#x27;édition : 1.5rem partout (le bas est porté par le corps). */
+    padding: 1.5rem 1.5rem 0;
+
     h4 {
       font-family: &quot;Inter&quot;, &quot;Roboto&quot;, sans-serif;
       font-weight: 600;
     }
+  }
+
+  .config-body {
+    padding: 1.5rem;
   }
 
   .divider-vertical {
@@ -4153,7 +4415,53 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   .bg-light-surface {
     background-color: var(--color-bg-body);
   }
-}</code></pre>
+}
+
+/* En mode inline, remplace le bouton &quot;Terminé&quot; : le bouton d&#x27;édition de la carte
+   se transforme en chevron, à la même position (menu d&#x27;actions + marge à sa droite). */
+.config-inline-close {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-right: 2.5rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &amp;:hover {
+    background: var(--color-bg-body);
+    color: var(--color-text-primary);
+  }
+
+  &amp;:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.autosave-indicator {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color 0.2s ease;
+
+  &amp;--saved {
+    color: var(--color-success);
+  }
+
+  &amp;--warning {
+    color: var(--color-danger);
+  }
+}
+</code></pre>
                 <p class="comment">
                     <code>./edit-repositories.component.scss</code>
                 </p>
@@ -4162,7 +4470,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
 .repositories-form-container {
   display: flex;
   flex-direction: column;
-  padding: 0 16px;
+  padding: 0;
   position: relative;
 
   .sort-bar {
@@ -4170,6 +4478,12 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
       font-size: 0.85rem;
       color: var(--color-text-secondary);
       font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .sort-pills-group {
+      flex-shrink: 0;
     }
 
     .sort-pill {
@@ -4201,7 +4515,9 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
     }
 
     .search-container { position: relative;
-      width: 250px;
+      flex: 1 1 120px;
+      min-width: 120px;
+      max-width: 250px;
 
       .search-icon {
         position: absolute;
@@ -4238,6 +4554,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
       position: relative;
       display: flex;
       align-items: center;
+      flex-shrink: 0;
 
       .pill-refresh-container {
         display: inline-flex;
@@ -4255,6 +4572,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
           display: inline-flex;
           align-items: center;
           gap: 0.45rem;
+          white-space: nowrap;
           height: 32px;
           padding: 0 0.85rem;
           border-radius: $radius-full;
@@ -4717,9 +5035,9 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="repositories-form-container">    <!-- Top bar -->    <div class="sort-bar mb-3 d-flex position-relative align-items-center w-100">        <div class="d-flex align-items-center" style="gap: 1rem;">            <div class="d-flex align-items-center" style="gap: 0.5rem;">                <span class="sort-label mr-1">{{ \'SORT_BY\' | translate }}:</span>                <button class="sort-pill" [class.active]="lastPropertySorted === \'name\'" (click)="onSort(\'name\')">                    {{ \'EDIT-REPOSITORIES.COLUMN-NAME\' | translate }}                    <ng-container *ngIf="lastPropertySorted === \'name\'">                        <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                        <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                        <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                    </ng-container>                </button>                <button class="sort-pill" [class.active]="lastPropertySorted === \'url\'" (click)="onSort(\'url\')">                    {{ \'EDIT-REPOSITORIES.COLUMN-URL\' | translate }}                    <ng-container *ngIf="lastPropertySorted === \'url\'">                        <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                        <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                        <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                    </ng-container>                </button>                <button class="sort-pill" [class.active]="lastPropertySorted === \'tpGroup\'" (click)="onSort(\'tpGroup\')">                    {{ \'EDIT-REPOSITORIES.COLUMN-TP-GROUP\' | translate }}                    <ng-container *ngIf="lastPropertySorted === \'tpGroup\'">                        <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                        <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                        <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                    </ng-container>                </button>            </div>            <!-- Search -->            <div class="search-container position-relative">                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                    <circle cx="11" cy="11" r="8"></circle>                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>                </svg>                <input type="text" class="form-control modern-search-input" [placeholder]="\'EDIT-REPOSITORIES.SEARCH-PLACEHOLDER\' | translate" [(ngModel)]="searchQuery">            </div>            <!-- Refresh Names Button (Apple Design Pill with Morphing Confirmation) -->            <!-- Refresh Names Button (Apple Design Pill with Morphing Confirmation) -->            <div class="refresh-names-wrapper" *ngIf="getFormControls.length > 0 && isConnectedToProvider">                <div class="pill-refresh-container" [class.confirming]="isConfirmingRefresh">                    <button type="button" class="btn-refresh-names"                            [class.confirming]="isConfirmingRefresh"                            [class.loading]="isRefreshingNames"                            [disabled]="isRefreshingNames"                            (click)="onRefreshNamesClick()"                            [appTooltip]="!isConfirmingRefresh ? (\'EDIT-REPOSITORIES.TOOLTIP-REFRESH-NAMES\' | translate) : null">                        <span class="btn-refresh-content" *ngIf="!isConfirmingRefresh">                            <svg class="refresh-icon" [class.spinning]="isRefreshingNames" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                                <polyline points="23 4 23 10 17 10"></polyline>                                <polyline points="1 20 1 14 7 14"></polyline>                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>                            </svg>                            <span class="btn-label">{{ \'EDIT-REPOSITORIES.BUTTON-REFRESH-NAMES\' | translate }}</span>                        </span>                        <span class="btn-confirm-content" *ngIf="isConfirmingRefresh">                            <i class="fas fa-exclamation-circle confirm-icon"></i>                            <span class="btn-label font-weight-bold">{{ \'EDIT-REPOSITORIES.BUTTON-CONFIRM-REFRESH-NAMES\' | translate }}</span>                        </span>                    </button>                    <button type="button" class="btn-cancel-refresh-split" *ngIf="isConfirmingRefresh"                            (click)="cancelConfirmRefresh($event)" [appTooltip]="\'CANCEL\' | translate">                        <i class="fas fa-times"></i>                    </button>                </div>            </div>        </div>    </div>    <div class="repository-list">        <!-- Empty State -->        <div class="empty-state text-center py-3 text-muted" *ngIf="getFormControls.length === 0">            <app-repo-icon mode="empty" class="mb-2" style="font-size: 3em; opacity: 0.5;"></app-repo-icon>            <h5>{{ \'EDIT-REPOSITORIES.NO-REPOSITORIES\' | translate }}</h5>        </div>        <div *ngFor="let group of filteredFormControls; let i = index; trackBy: trackByRepo" [formGroup]="group" class="mb-2">                        <!-- View Mode -->            <div class="repository-card" *ngIf="!group.get(\'isEditable\').value"                 [class.is-selected]="isSelected(getFormControls.indexOf(group))"                 [class.is-shrunk]="(hoveredRepository === getFormControls.indexOf(group) || isSelected(getFormControls.indexOf(group)))">                                <div class="repo-info-container">                    <div class="selection-zone mr-3"                         (mouseenter)="hoveredRepository = getFormControls.indexOf(group)"                         (mouseleave)="hoveredRepository = null"                         (click)="toggleSelection(getFormControls.indexOf(group)); $event.stopPropagation()">                        <div class="type-indicator-overlay repo-icon m-0">                            <img *ngIf="group.get(\'avatarUrl\')?.value" [src]="group.get(\'avatarUrl\').value" alt="Repository Avatar" class="repo-avatar-image">                            <app-repo-icon *ngIf="!group.get(\'avatarUrl\')?.value"></app-repo-icon>                        </div>                        <div class="selection-checkbox-overlay">                            <div class="custom-control custom-checkbox" style="pointer-events: none;">                                <input type="checkbox" class="custom-control-input" [id]="\'check-repo-\' + getFormControls.indexOf(group)" [checked]="isSelected(getFormControls.indexOf(group))">                                <label class="custom-control-label" [for]="\'check-repo-\' + getFormControls.indexOf(group)"></label>                            </div>                        </div>                    </div>                    <div class="repo-details" style="margin-right: 1rem;">                        <div class="repo-name marquee-container" style="max-width: 100%;">                            <span class="marquee-content d-flex align-items-center gap-2"                                  [class.name-morphing]="animatingRepoUrls.has(group.get(\'url\').value)">                                {{ group.get(\'name\').value || (\'EDIT-REPOSITORIES.NEW-REPOSITORY\' | translate) }}                                <button *ngIf="group.get(\'errors\').value.length > 0" class="btn btn-outline-danger error-btn ml-2"                                        [appTooltip]="getErrorTooltip(group.get(\'errors\').value)">                                    <i class="fas fa-exclamation-triangle"></i>                                </button>                            </span>                        </div>                        <a class="repo-url" [href]="group.get(\'url\').value" target="_blank" (click)="$event.stopPropagation()" style="margin-top: 0.25rem;">                            {{ group.get(\'url\').value }}                            <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>                                <polyline points="15 3 21 3 21 9"></polyline>                                <line x1="10" y1="14" x2="21" y2="3"></line>                            </svg>                        </a>                    </div>                </div>                <div class="repo-badge mr-3" *ngIf="group.get(\'tpGroup\').value"                     [class.name-morphing]="animatingRepoUrls.has(group.get(\'url\').value)">                    {{ group.get(\'tpGroup\').value }}                </div>                                <div class="repo-actions">                    <button type="button" class="btn-icon-action text-secondary" (click)="editRow(group)" [appTooltip]="\'EDIT\' | translate">                        <svg class="modern-icon icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                            <path class="page" d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />                            <path class="pencil" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />                        </svg>                    </button>                    <button type="button" class="btn-icon-action text-danger" (click)="onDeleteRow(getFormControls.indexOf(group))" [appTooltip]="\'DELETE\' | translate">                        <svg class="modern-icon icon-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                            <path class="lid" d="M3 6h18 M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />                            <path class="bin" d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 5v6m4-6v6m4-6v6" />                        </svg>                    </button>                </div>            </div>            <!-- Edit Mode -->            <div class="repository-card-edit" *ngIf="group.get(\'isEditable\').value">                <div class="edit-row">                    <div class="input-group-col col-name">                        <app-text-input id="name-{{i}}" formControlName="name" [label]="\'EDIT-REPOSITORIES.COLUMN-NAME\' | translate"></app-text-input>                    </div>                    <div class="input-group-col col-url">                        <app-text-input id="url-{{i}}" formControlName="url" [label]="\'EDIT-REPOSITORIES.COLUMN-URL\' | translate" [required]="true"                            [invalid]="group.get(\'url\').invalid && (group.get(\'url\').touched || group.get(\'url\').dirty)">                        </app-text-input>                        <div class="error-feedback" *ngIf="(group.get(\'url\').hasError(\'required\') || group.get(\'url\').hasError(\'repoAlreadyAdded\')) && (group.get(\'url\').touched || group.get(\'url\').dirty)">                            <ng-container *ngIf="group.get(\'url\').hasError(\'required\')">{{ \'ERROR-MESSAGE-URL-REQUIRED\' | translate }}</ng-container>                            <ng-container *ngIf="group.get(\'url\').hasError(\'repoAlreadyAdded\')">{{ \'ERROR-MESSAGE-REPO-ALREADY-ADDED\' | translate }}</ng-container>                                                    </div>                    </div>                    <div class="input-group-col col-tp">                        <app-text-input [id]="\'repo-tp-\' + getFormControls.indexOf(group)" formControlName="tpGroup"                                        [label]="\'EDIT-REPOSITORIES.COLUMN-TP-GROUP\' | translate" [suggestions]="existingTpGroups"></app-text-input>                    </div>                    <div class="edit-actions">                        <button type="button" class="btn-icon-action text-secondary" (click)="cancelRow(group, getFormControls.indexOf(group))" [appTooltip]="\'CANCEL\' | translate" style="width: 36px; height: 36px;">                            <i class="fas fa-times"></i>                        </button>                        <button [id]="\'tour-validate-repo-\' + i" type="button" class="btn-icon-action text-primary" (click)="validateRow(group)" [appTooltip]="\'VALIDATE\' | translate" [disabled]="!group.valid" style="width: 36px; height: 36px;">                            <i class="fas fa-check"></i>                        </button>                    </div>                </div>            </div>        </div>        <!-- Floating Action Bar for Selection Mode -->        <div class="floating-action-bar-container floating-sticky" [class.show]="selectionMode">            <div class="floating-action-bar">                <!-- Select All Checkbox -->                <div class="custom-control custom-checkbox d-flex align-items-center pl-2 pr-3" style="cursor: pointer;" (click)="toggleSelectAll()">                    <input type="checkbox" class="custom-control-input" id="floatingSelectAll" [checked]="isAllSelected()" style="pointer-events: none;">                    <label class="custom-control-label font-weight-bold mb-0" for="floatingSelectAll" style="color: var(--color-text-primary); pointer-events: none; padding-top: 2px;">                        {{ selectedRepositories.size }} {{ \'EDIT-REPOSITORIES.SELECTED-REPOSITORIES\' | translate }}                    </label>                </div>                <div class="bar-divider"></div>                <!-- Delete Button -->                <button class="bar-btn-danger d-flex align-items-center" (click)="deleteSelected()">                    <i class="fas fa-trash mr-2"></i>                    <span class="font-weight-bold">{{ \'DELETE\' | translate }}</span>                </button>                <!-- Close Button -->                <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="cancelSelection()">                    <i class="fas fa-times"></i>                </button>            </div>        </div>    </div>    <div class="bottom-actions">        <button id="tour-add-empty-repo-btn" type="button" class="btn-action" (click)="addRow()" [appTooltip]="\'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY\' | translate">            <app-repo-icon mode="add" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>            {{ \'EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY\' | translate }}        </button>        <button id="tour-add-search-repo-btn" *ngIf="isConnectedToProvider" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="\'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES\' | translate">            <app-repo-icon mode="add-multiple" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>            {{ \'EDIT-REPOSITORIES.ADD-REPOSITORY\' | translate }}        </button>    </div>    </div></div>'
-    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
-    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
+        var COMPONENT_TEMPLATE = '<div><div class="repositories-form-container">    <!-- Top bar -->    <div class="sort-bar mb-3 d-flex position-relative align-items-center w-100">        <div class="d-flex align-items-center" style="gap: 1rem;">            <div class="sort-pills-group d-flex align-items-center" style="gap: 0.5rem;">                <span class="sort-label mr-1">{{ \'SORT_BY\' | translate }}:</span>                <button class="sort-pill" [class.active]="lastPropertySorted === \'name\'" (click)="onSort(\'name\')">                    {{ \'EDIT-REPOSITORIES.COLUMN-NAME\' | translate }}                    <ng-container *ngIf="lastPropertySorted === \'name\'">                        <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                        <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                        <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                    </ng-container>                </button>                <button class="sort-pill" [class.active]="lastPropertySorted === \'url\'" (click)="onSort(\'url\')">                    {{ \'EDIT-REPOSITORIES.COLUMN-URL\' | translate }}                    <ng-container *ngIf="lastPropertySorted === \'url\'">                        <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                        <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                        <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                    </ng-container>                </button>                <button class="sort-pill" [class.active]="lastPropertySorted === \'tpGroup\'" (click)="onSort(\'tpGroup\')">                    {{ \'EDIT-REPOSITORIES.SORT-COLUMN-TP-GROUP\' | translate }}                    <ng-container *ngIf="lastPropertySorted === \'tpGroup\'">                        <span *ngIf="nameDirection === \'\'"><i class="fas fa-sort"></i></span>                        <span *ngIf="nameDirection === \'desc\'"><i class="fas fa-sort-up"></i></span>                        <span *ngIf="nameDirection === \'asc\'"><i class="fas fa-sort-down"></i></span>                    </ng-container>                </button>            </div>            <!-- Search -->            <div class="search-container position-relative">                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                    <circle cx="11" cy="11" r="8"></circle>                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>                </svg>                <input type="text" class="form-control modern-search-input" [placeholder]="\'EDIT-REPOSITORIES.SEARCH-PLACEHOLDER\' | translate" [(ngModel)]="searchQuery">            </div>            <!-- Refresh Names Button (Apple Design Pill with Morphing Confirmation) -->            <!-- Refresh Names Button (Apple Design Pill with Morphing Confirmation) -->            <div class="refresh-names-wrapper" *ngIf="getFormControls.length > 0 && isConnectedToProvider">                <div class="pill-refresh-container" [class.confirming]="isConfirmingRefresh">                    <button type="button" class="btn-refresh-names"                            [class.confirming]="isConfirmingRefresh"                            [class.loading]="isRefreshingNames"                            [disabled]="isRefreshingNames"                            (click)="onRefreshNamesClick()"                            [appTooltip]="!isConfirmingRefresh ? (\'EDIT-REPOSITORIES.TOOLTIP-REFRESH-NAMES\' | translate) : null">                        <span class="btn-refresh-content" *ngIf="!isConfirmingRefresh">                            <svg class="refresh-icon" [class.spinning]="isRefreshingNames" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                                <polyline points="23 4 23 10 17 10"></polyline>                                <polyline points="1 20 1 14 7 14"></polyline>                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>                            </svg>                            <span class="btn-label">{{ \'EDIT-REPOSITORIES.BUTTON-REFRESH-NAMES\' | translate }}</span>                        </span>                        <span class="btn-confirm-content" *ngIf="isConfirmingRefresh">                            <i class="fas fa-exclamation-circle confirm-icon"></i>                            <span class="btn-label font-weight-bold">{{ \'EDIT-REPOSITORIES.BUTTON-CONFIRM-REFRESH-NAMES\' | translate }}</span>                        </span>                    </button>                    <button type="button" class="btn-cancel-refresh-split" *ngIf="isConfirmingRefresh"                            (click)="cancelConfirmRefresh($event)" [appTooltip]="\'CANCEL\' | translate">                        <i class="fas fa-times"></i>                    </button>                </div>            </div>        </div>    </div>    <div #repositoryList class="repository-list">        <!-- Empty State -->        <div class="empty-state text-center py-3 text-muted" *ngIf="getFormControls.length === 0">            <app-repo-icon mode="empty" class="mb-2" style="font-size: 3em; opacity: 0.5;"></app-repo-icon>            <h5>{{ \'EDIT-REPOSITORIES.NO-REPOSITORIES\' | translate }}</h5>        </div>        <div *ngFor="let group of filteredFormControls; let i = index; trackBy: trackByRepo" [formGroup]="group" class="mb-2">                        <!-- View Mode -->            <div class="repository-card" *ngIf="!group.get(\'isEditable\').value"                 [class.is-selected]="isSelected(getFormControls.indexOf(group))"                 [class.is-shrunk]="(hoveredRepository === getFormControls.indexOf(group) || isSelected(getFormControls.indexOf(group)))">                                <div class="repo-info-container">                    <div class="selection-zone mr-3"                         (mouseenter)="hoveredRepository = getFormControls.indexOf(group)"                         (mouseleave)="hoveredRepository = null"                         (click)="toggleSelection(getFormControls.indexOf(group)); $event.stopPropagation()">                        <div class="type-indicator-overlay repo-icon m-0">                            <img *ngIf="group.get(\'avatarUrl\')?.value" [src]="group.get(\'avatarUrl\').value" alt="Repository Avatar" class="repo-avatar-image">                            <app-repo-icon *ngIf="!group.get(\'avatarUrl\')?.value"></app-repo-icon>                        </div>                        <div class="selection-checkbox-overlay">                            <div class="custom-control custom-checkbox" style="pointer-events: none;">                                <input type="checkbox" class="custom-control-input" [id]="\'check-repo-\' + getFormControls.indexOf(group)" [checked]="isSelected(getFormControls.indexOf(group))">                                <label class="custom-control-label" [for]="\'check-repo-\' + getFormControls.indexOf(group)"></label>                            </div>                        </div>                    </div>                    <div class="repo-details" style="margin-right: 1rem;">                        <div class="repo-name marquee-container" style="max-width: 100%;">                            <span class="marquee-content d-flex align-items-center gap-2"                                  [class.name-morphing]="animatingRepoUrls.has(group.get(\'url\').value)">                                {{ group.get(\'name\').value || (\'EDIT-REPOSITORIES.NEW-REPOSITORY\' | translate) }}                                <button *ngIf="group.get(\'errors\').value.length > 0" class="btn btn-outline-danger error-btn ml-2"                                        [appTooltip]="getErrorTooltip(group.get(\'errors\').value)">                                    <i class="fas fa-exclamation-triangle"></i>                                </button>                            </span>                        </div>                        <a class="repo-url" [href]="group.get(\'url\').value" target="_blank" (click)="$event.stopPropagation()" style="margin-top: 0.25rem;">                            {{ group.get(\'url\').value }}                            <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>                                <polyline points="15 3 21 3 21 9"></polyline>                                <line x1="10" y1="14" x2="21" y2="3"></line>                            </svg>                        </a>                    </div>                </div>                <div class="repo-badge mr-3" *ngIf="group.get(\'tpGroup\').value"                     [class.name-morphing]="animatingRepoUrls.has(group.get(\'url\').value)">                    {{ group.get(\'tpGroup\').value }}                </div>                                <div class="repo-actions">                    <button type="button" class="btn-icon-action text-secondary" (click)="editRow(group)" [appTooltip]="\'EDIT\' | translate">                        <svg class="modern-icon icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                            <path class="page" d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />                            <path class="pencil" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />                        </svg>                    </button>                    <button type="button" class="btn-icon-action text-danger" (click)="onDeleteRow(getFormControls.indexOf(group))" [appTooltip]="\'DELETE\' | translate">                        <svg class="modern-icon icon-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                            <path class="lid" d="M3 6h18 M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />                            <path class="bin" d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 5v6m4-6v6m4-6v6" />                        </svg>                    </button>                </div>            </div>            <!-- Edit Mode -->            <div class="repository-card-edit" *ngIf="group.get(\'isEditable\').value">                <div class="edit-row">                    <div class="input-group-col col-name">                        <app-text-input id="name-{{i}}" formControlName="name" [label]="\'EDIT-REPOSITORIES.COLUMN-NAME\' | translate"></app-text-input>                    </div>                    <div class="input-group-col col-url">                        <app-text-input id="url-{{i}}" formControlName="url" [label]="\'EDIT-REPOSITORIES.COLUMN-URL\' | translate" [required]="true"                            [invalid]="group.get(\'url\').invalid && (group.get(\'url\').touched || group.get(\'url\').dirty)">                        </app-text-input>                        <div class="error-feedback" *ngIf="(group.get(\'url\').hasError(\'required\') || group.get(\'url\').hasError(\'repoAlreadyAdded\')) && (group.get(\'url\').touched || group.get(\'url\').dirty)">                            <ng-container *ngIf="group.get(\'url\').hasError(\'required\')">{{ \'ERROR-MESSAGE-URL-REQUIRED\' | translate }}</ng-container>                            <ng-container *ngIf="group.get(\'url\').hasError(\'repoAlreadyAdded\')">{{ \'ERROR-MESSAGE-REPO-ALREADY-ADDED\' | translate }}</ng-container>                                                    </div>                    </div>                    <div class="input-group-col col-tp">                        <app-text-input [id]="\'repo-tp-\' + getFormControls.indexOf(group)" formControlName="tpGroup"                                        [label]="\'EDIT-REPOSITORIES.COLUMN-TP-GROUP\' | translate" [suggestions]="existingTpGroups"></app-text-input>                    </div>                    <div class="edit-actions">                        <button type="button" class="btn-icon-action text-secondary" (click)="cancelRow(group, getFormControls.indexOf(group))" [appTooltip]="\'CANCEL\' | translate" style="width: 36px; height: 36px;">                            <i class="fas fa-times"></i>                        </button>                        <button [id]="\'tour-validate-repo-\' + i" type="button" class="btn-icon-action text-primary" (click)="validateRow(group)" [appTooltip]="\'VALIDATE\' | translate" [disabled]="!group.valid" style="width: 36px; height: 36px;">                            <i class="fas fa-check"></i>                        </button>                    </div>                </div>            </div>        </div>        <!-- Floating Action Bar for Selection Mode -->        <div class="floating-action-bar-container floating-sticky" [class.show]="selectionMode">            <div class="floating-action-bar">                <!-- Select All Checkbox -->                <div class="custom-control custom-checkbox d-flex align-items-center pl-2 pr-3" style="cursor: pointer;" (click)="toggleSelectAll()">                    <input type="checkbox" class="custom-control-input" id="floatingSelectAll" [checked]="isAllSelected()" style="pointer-events: none;">                    <label class="custom-control-label font-weight-bold mb-0" for="floatingSelectAll" style="color: var(--color-text-primary); pointer-events: none; padding-top: 2px;">                        {{ selectedRepositories.size }} {{ \'EDIT-REPOSITORIES.SELECTED-REPOSITORIES\' | translate }}                    </label>                </div>                <div class="bar-divider"></div>                <!-- Delete Button -->                <button class="bar-btn-danger d-flex align-items-center" (click)="deleteSelected()">                    <i class="fas fa-trash mr-2"></i>                    <span class="font-weight-bold">{{ \'DELETE\' | translate }}</span>                </button>                <!-- Close Button -->                <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="cancelSelection()">                    <i class="fas fa-times"></i>                </button>            </div>        </div>    </div>    <div class="bottom-actions">        <button id="tour-add-empty-repo-btn" type="button" class="btn-action" (click)="addEmptyRow()" [appTooltip]="\'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORY\' | translate">            <app-repo-icon mode="add" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>            {{ \'EDIT-REPOSITORIES.ADD-EMPTY-REPOSITORY\' | translate }}        </button>        <button id="tour-add-search-repo-btn" *ngIf="isConnectedToProvider" type="button" class="btn-action" (click)="openAddRepositoriesModal()" [appTooltip]="\'EDIT-REPOSITORIES.TOOLTIP-ADD-REPOSITORIES\' | translate">            <app-repo-icon mode="add-multiple" class="mr-1" style="font-size: 1.25em;"></app-repo-icon>            {{ \'EDIT-REPOSITORIES.ADD-REPOSITORY\' | translate }}        </button>    </div>    </div></div>'
+    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AssignmentFolderViewComponent', 'selector': 'assignment-folder-view'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'LiquidActionMenuComponent', 'selector': 'app-liquid-action-menu'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'SessionsComponent', 'selector': 'app-sessions'},{'name': 'SessionTabComponent', 'selector': 'app-session-tab'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'StudentsQuestionsMatrixComponent', 'selector': 'app-students-questions-matrix'},{'name': 'SuggestSessionsModalComponent', 'selector': 'app-suggest-sessions-modal'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TpGroupSelectorComponent', 'selector': 'app-tp-group-selector'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'},{'name': 'WhatsNewModalComponent', 'selector': 'app-whats-new-modal'}];
+    var DIRECTIVES = [{'name': 'DropdownArrowNavDirective', 'selector': '[ngbDropdown]'},{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
     var ACTUAL_COMPONENT = {'name': 'EditRepositoriesComponent'};
 </script>
 <script src="../js/tree.js"></script>

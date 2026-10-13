@@ -1,0 +1,1715 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li
+  >
+  SessionTabView</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/shared/ui/session-tab/session-tab.component.ts</code>
+        </p>
+
+
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#autoRefresh" 
+>
+                                            autoRefresh
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#countdown" 
+>
+                                            countdown
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#dateLabel" 
+>
+                                            dateLabel
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#durationLabel" 
+>
+                                            durationLabel
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#label" 
+>
+                                            label
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#live" 
+>
+                                            live
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#nav" 
+>
+                                            nav
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#notes" 
+>
+                                            notes
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#open" 
+>
+                                            open
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#progress" 
+>
+                                            progress
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#resolvedAverageArea" 
+>
+                                            resolvedAverageArea
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#resolvedAveragePoints" 
+>
+                                            resolvedAveragePoints
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#resolvedDots" 
+>
+                                            resolvedDots
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#session" 
+>
+                                            session
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#state" 
+>
+                                            state
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#timelineNow" 
+>
+                                            timelineNow
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#timelineStart" 
+>
+                                            timelineStart
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#timeRange" 
+>
+                                            timeRange
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#tooltips" 
+>
+                                            tooltips
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#tpGroup" 
+>
+                                            tpGroup
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="autoRefresh"></a>
+                                        <span class="name "><b>autoRefresh</b>
+                                            <a href="#autoRefresh">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>autoRefresh:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>True while a session is running: the data is refreshed automatically.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="countdown"></a>
+                                        <span class="name "><b>countdown</b>
+                                            <a href="#countdown">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>countdown:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Pre-formatted remaining time, e.g. &quot;2:34&quot; or &quot;1:23:45&quot;.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="dateLabel"></a>
+                                        <span class="name "><b>dateLabel</b>
+                                            <a href="#dateLabel">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>dateLabel:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="durationLabel"></a>
+                                        <span class="name "><b>durationLabel</b>
+                                            <a href="#durationLabel">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>durationLabel:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="label"></a>
+                                        <span class="name "><b>label</b>
+                                            <a href="#label">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>label:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="live"></a>
+                                        <span class="name "><b>live</b>
+                                            <a href="#live">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>live:         <code><a href="../interfaces/SessionLiveIndicators.html" target="_self" >SessionLiveIndicators | null</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/SessionLiveIndicators.html" target="_self" >SessionLiveIndicators | null</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Actionable live indicators, null until the stats are computed (panel open).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="nav"></a>
+                                        <span class="name "><b>nav</b>
+                                            <a href="#nav">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>nav:     <code>literal type | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type | null</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Session switcher state; null when there is at most one eligible session.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="notes"></a>
+                                        <span class="name "><b>notes</b>
+                                            <a href="#notes">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>notes:     <code>string | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | null</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="open"></a>
+                                        <span class="name "><b>open</b>
+                                            <a href="#open">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>open:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="progress"></a>
+                                        <span class="name "><b>progress</b>
+                                            <a href="#progress">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>progress:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>0..1 progress through the session (0 when upcoming).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="resolvedAverageArea"></a>
+                                        <span class="name "><b>resolvedAverageArea</b>
+                                            <a href="#resolvedAverageArea">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>resolvedAverageArea:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="resolvedAveragePoints"></a>
+                                        <span class="name "><b>resolvedAveragePoints</b>
+                                            <a href="#resolvedAveragePoints">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>resolvedAveragePoints:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="resolvedDots"></a>
+                                        <span class="name "><b>resolvedDots</b>
+                                            <a href="#resolvedDots">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>resolvedDots:     <code>Array&lt;literal type&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>Array&lt;literal type&gt;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Resolved-questions scatter: one dot per completion, plus the group average curve (line + area).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="session"></a>
+                                        <span class="name "><b>session</b>
+                                            <a href="#session">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>session:         <code><a href="../classes/Session.html" target="_self" >Session</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../classes/Session.html" target="_self" >Session</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="state"></a>
+                                        <span class="name "><b>state</b>
+                                            <a href="#state">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>state:     <code>&quot;in-progress&quot; | &quot;upcoming&quot;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>&quot;in-progress&quot; | &quot;upcoming&quot;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="timelineNow"></a>
+                                        <span class="name "><b>timelineNow</b>
+                                            <a href="#timelineNow">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>timelineNow:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="timelineStart"></a>
+                                        <span class="name "><b>timelineStart</b>
+                                            <a href="#timelineStart">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>timelineStart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="timeRange"></a>
+                                        <span class="name "><b>timeRange</b>
+                                            <a href="#timeRange">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>timeRange:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="tooltips"></a>
+                                        <span class="name "><b>tooltips</b>
+                                            <a href="#tooltips">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>tooltips:     <code>literal type | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type | null</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>HTML tooltips for the health counts and the resolved-questions metric.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="tpGroup"></a>
+                                        <span class="name "><b>tpGroup</b>
+                                            <a href="#tpGroup">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>tpGroup:     <code>string | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | null</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from &quot;@angular/core&quot;;
+import { Router } from &quot;@angular/router&quot;;
+import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import * as moment from &quot;moment&quot;;
+import { Subject } from &quot;rxjs&quot;;
+import { takeUntil } from &quot;rxjs/operators&quot;;
+
+import { Session } from &quot;@models/Session.model&quot;;
+import { Repository } from &quot;@models/Repository.model&quot;;
+import { AssignmentsService } from &quot;@services/assignments.service&quot;;
+import { ClockService, MINUTE_MS } from &quot;@services/clock.service&quot;;
+import { DataService } from &quot;@services/data.service&quot;;
+import { DatabaseService } from &quot;@services/database.service&quot;;
+import { LoaderService } from &quot;@services/loader.service&quot;;
+import { OverlayManagerService, OverlayType } from &quot;@services/overlay-manager.service&quot;;
+import { SessionAnalyticsService, SessionDetailedStats, SessionLiveIndicators } from &quot;@services/session-analytics.service&quot;;
+import { getSessionDisplayName } from &quot;@services/session-label.util&quot;;
+import { ToastService } from &quot;@services/toast.service&quot;;
+import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
+import { EditSessionComponent } from &quot;@components/edit-session/edit-session.component&quot;;
+
+interface SessionTabView {
+  session: Session;
+  state: &quot;in-progress&quot; | &quot;upcoming&quot;;
+  /** Pre-formatted remaining time, e.g. &quot;2:34&quot; or &quot;1:23:45&quot;. */
+  countdown: string;
+  /** 0..1 progress through the session (0 when upcoming). */
+  progress: number;
+  label: string;
+  dateLabel: string;
+  timeRange: string;
+  durationLabel: string;
+  tpGroup: string | null;
+  notes: string | null;
+  /** Actionable live indicators, null until the stats are computed (panel open). */
+  live: SessionLiveIndicators | null;
+  /** True while a session is running: the data is refreshed automatically. */
+  autoRefresh: boolean;
+  /** Session switcher state; null when there is at most one eligible session. */
+  nav: { canPrev: boolean; canNext: boolean; index: number; total: number } | null;
+  /** HTML tooltips for the health counts and the resolved-questions metric. */
+  tooltips: { active: string; watch: string; inactive: string; questions: string } | null;
+  /** Resolved-questions scatter: one dot per completion, plus the group average curve (line + area). */
+  resolvedDots: Array&lt;{ x: number; y: number; question: string; student: string; minutesAgo: number }&gt;;
+  resolvedAveragePoints: string;
+  resolvedAverageArea: string;
+  timelineStart: string;
+  timelineNow: string;
+  open: boolean;
+}
+
+/** Must stay in sync with $transition-tab-swap (the counter is frozen for this long). */
+const SWAP_MS &#x3D; 450;
+
+/**
+ * The counter switches to the running value part-way through the swap rather than at the end,
+ * so its growth lands while the counter is still moving and the change is masked by the motion.
+ * The easing spends most of the travel in the first ~100ms, so this has to be early to have any
+ * movement left to hide behind.
+ */
+const COUNTDOWN_RELEASE_RATIO &#x3D; 0.15;
+
+/** Data refresh cadence while a session is running (auto, even with the panel closed). */
+const AUTO_REFRESH_MS &#x3D; 3 * MINUTE_MS;
+
+/**
+ * Folder tab pinned to the right edge, shown as soon as the closest session is running or
+ * starts within 5 minutes. Hovering peeks the panel out by 20px, clicking opens it fully.
+ * Mounted inside the assignment layout, so it never shows on the assignment list.
+ */
+@Component({
+  selector: &quot;app-session-tab&quot;,
+  templateUrl: &quot;./session-tab.component.html&quot;,
+  styleUrls: [&quot;./session-tab.component.scss&quot;],
+})
+export class SessionTabComponent implements OnInit, OnDestroy {
+  readonly upcomingWindowMs &#x3D; 5 * MINUTE_MS;
+
+  view: SessionTabView | null &#x3D; null;
+  hovered &#x3D; false;
+  /** True while a manual/auto refresh is in flight (drives the spinner). */
+  refreshing &#x3D; false;
+  /** Student whose commit trajectory is highlighted on the resolved-questions chart. */
+  hoveredStudent: string | null &#x3D; null;
+  hoveredTrajectory &#x3D; &quot;&quot;;
+
+  private session: Session | null &#x3D; null;
+  private state: &quot;in-progress&quot; | &quot;upcoming&quot; &#x3D; &quot;upcoming&quot;;
+  /** All currently eligible sessions (running, else upcoming), chronological order. */
+  private eligibleSessions: Session[] &#x3D; [];
+  /** Key of the user&#x27;s selected session, kept across the 1s ticks. */
+  private selectedKey &#x3D; &quot;&quot;;
+  private stats: SessionDetailedStats | null &#x3D; null;
+  private statsCacheKey &#x3D; &quot;&quot;;
+  private open &#x3D; false;
+  private now &#x3D; Date.now();
+  private tickId: any &#x3D; null;
+  private autoRefreshId: any &#x3D; null;
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+
+  /* The live indicators only move once a minute (relative times) or when the stats change:
+     caching keeps the *ngFor lists identity-stable across the 1s ticks. */
+  private liveCache: SessionLiveIndicators | null &#x3D; null;
+  private liveCacheStats: SessionDetailedStats | null &#x3D; null;
+  private liveCacheMinute &#x3D; -1;
+
+  /** While the swap plays, the counter is held at zero instead of jumping to the session length. */
+  private countdownHold: string | null &#x3D; null;
+  private holdTimer: any &#x3D; null;
+
+  private railEl: HTMLElement | null &#x3D; null;
+  private railObserver: any &#x3D; null;
+  private measureRafId: number | null &#x3D; null;
+
+  constructor(
+    private router: Router,
+    private clockService: ClockService,
+    public dataService: DataService,
+    private databaseService: DatabaseService,
+    private assignmentsService: AssignmentsService,
+    private overlayManagerService: OverlayManagerService,
+    private sessionAnalyticsService: SessionAnalyticsService,
+    private customModalService: CustomModalService,
+    private toastService: ToastService,
+    private translateService: TranslateService,
+    private loaderService: LoaderService,
+  ) {}
+
+  /** The rail only exists while a session is eligible, so wire the observer from the setter. */
+  @ViewChild(&quot;rail&quot;)
+  set railRef(ref: ElementRef&lt;HTMLElement&gt; | undefined) {
+    this.railObserver?.disconnect();
+    this.railObserver &#x3D; null;
+    this.railEl &#x3D; ref?.nativeElement ?? null;
+    const ObserverCtor &#x3D; (window as any).ResizeObserver;
+    if (!this.railEl || !ObserverCtor) {
+      /* Without ResizeObserver the rail is still measured on every refresh tick */
+      this.measureRail();
+      this.scheduleMeasure();
+      return;
+    }
+    this.railObserver &#x3D; new ObserverCtor(() &#x3D;&gt; this.scheduleMeasure());
+    this.railObserver.observe(this.railEl);
+    /* Measure synchronously so the first paint already has the final positions: otherwise the
+       lines would slide in from zero on appearance. */
+    this.measureRail();
+    this.scheduleMeasure();
+  }
+
+  @HostListener(&quot;document:keydown.escape&quot;)
+  onEscape(): void {
+    this.closePanel();
+  }
+
+  ngOnInit(): void {
+    /* Dismiss the panel when another overlay takes over (never for plain tooltips).
+       Events that exclude SESSION_PANE (e.g. scrolling the graph) leave the panel open. */
+    const closingTypes &#x3D; [OverlayType.ALL, OverlayType.CONTEXT_MENU, OverlayType.DROPDOWN, OverlayType.QUICK_HELP];
+    this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) &#x3D;&gt; {
+      if (!this.open || event.options?.exclude?.includes(OverlayType.SESSION_PANE)) {
+        return;
+      }
+      if (closingTypes.some((type) &#x3D;&gt; OverlayManagerService.shouldDismiss(type, event))) {
+        this.closePanel();
+      }
+    });
+
+    /* Re-evaluate immediately when the dev-bar clock is shifted */
+    this.clockService.offsetMs$.pipe(takeUntil(this.destroy$)).subscribe(() &#x3D;&gt; this.refreshNow());
+
+    /* Commit data changed somewhere else: the stats may have moved */
+    this.databaseService.dbChanged.pipe(takeUntil(this.destroy$)).subscribe(() &#x3D;&gt; this.invalidateStats());
+    this.assignmentsService.assignmentModified.pipe(takeUntil(this.destroy$)).subscribe(() &#x3D;&gt; this.invalidateStats());
+
+    /* Date wording follows the active language, and so do the swap distances (the labels
+       change length). Re-measure once the DOM has re-rendered. */
+    this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() &#x3D;&gt; {
+      this.rebuildView();
+      this.scheduleMeasure();
+    });
+
+    /* A session becomes eligible at start-5min and stops being eligible at its end */
+    this.refreshNow();
+    this.tickId &#x3D; setInterval(() &#x3D;&gt; this.refreshNow(), 1000);
+
+    /* Keep the data fresh while a session is running, whether or not the panel is open */
+    this.autoRefreshId &#x3D; setInterval(() &#x3D;&gt; this.autoRefreshTick(), AUTO_REFRESH_MS);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    clearInterval(this.tickId);
+    clearInterval(this.autoRefreshId);
+    clearTimeout(this.holdTimer);
+    this.railObserver?.disconnect();
+    if (this.measureRafId !&#x3D;&#x3D; null) {
+      cancelAnimationFrame(this.measureRafId);
+      this.measureRafId &#x3D; null;
+    }
+  }
+
+  togglePanel(): void {
+    if (this.open) {
+      this.closePanel();
+      return;
+    }
+    /* Dismiss other overlays FIRST: going through the dismiss stream after opening would
+       make our own listener treat the panel as the overlay being replaced. */
+    this.overlayManagerService.dismissTransient();
+    this.open &#x3D; true;
+    this.ensureStats();
+    this.rebuildView();
+  }
+
+  closePanel(): void {
+    if (!this.open) {
+      return;
+    }
+    this.open &#x3D; false;
+    /* Drop the hover peek so the close animates fully to the closed position in one motion:
+       closing from the tab (pointer still over it) would otherwise stop at the peek offset. */
+    this.hovered &#x3D; false;
+    this.rebuildView();
+  }
+
+  /** Pulls the latest commits from the provider (manual button or auto-refresh during a session). */
+  refresh(): void {
+    if (this.refreshing) {
+      return;
+    }
+    this.refreshing &#x3D; true;
+    this.loaderService.loadRepositories(this.dataService.startDate, this.dataService.endDate).subscribe({
+      error: () &#x3D;&gt; {
+        this.refreshing &#x3D; false;
+      },
+      complete: () &#x3D;&gt; {
+        this.refreshing &#x3D; false;
+        this.invalidateStats();
+      },
+    });
+  }
+
+  openRepository(repository: Repository): void {
+    if (repository?.url) {
+      window.open(repository.url, &quot;_blank&quot;);
+    }
+  }
+
+  openCommit(url: string): void {
+    if (url) {
+      window.open(url, &quot;_blank&quot;);
+    }
+  }
+
+  /** Tooltip for a resolved-questions scatter dot: &quot;iter 5 · Alice · 6 min ago&quot;. */
+  dotTooltip(dot: { question: string; student: string; minutesAgo: number }): string {
+    const ago &#x3D;
+      dot.minutesAgo &lt; 1
+        ? this.translateService.instant(&quot;SESSION-TAB.PANEL.FEED.JUST-NOW&quot;)
+        : this.translateService.instant(&quot;SESSION-TAB.PANEL.FEED.MIN-AGO&quot;, { minutes: dot.minutesAgo });
+    return &#x60;${dot.question} · ${dot.student} · ${ago}&#x60;;
+  }
+
+  /** Highlight the hovered student&#x27;s commit trajectory on the chart (like the sessions ribbon). */
+  onDotEnter(student: string): void {
+    this.hoveredStudent &#x3D; student;
+    const trajectory &#x3D; this.liveCache?.resolvedChart.trajectories?.[student];
+    this.hoveredTrajectory &#x3D; trajectory ? this.buildPolyline(trajectory) : &quot;&quot;;
+  }
+
+  onDotLeave(): void {
+    this.hoveredStudent &#x3D; null;
+    this.hoveredTrajectory &#x3D; &quot;&quot;;
+  }
+
+  selectPrev(): void {
+    this.stepSelection(-1);
+  }
+
+  selectNext(): void {
+    this.stepSelection(1);
+  }
+
+  onOpenMatrix(): void {
+    const session &#x3D; this.session;
+    this.closePanel();
+    if (!session) {
+      this.router.navigate([&quot;/sessions&quot;]);
+      return;
+    }
+    this.router.navigate([&quot;/sessions&quot;], {
+      queryParams: { sub: &quot;matrix&quot;, session: new Date(session.startDate).toISOString() },
+    });
+  }
+
+  onViewInGraph(): void {
+    const session &#x3D; this.session;
+    this.closePanel();
+    if (!session) {
+      return;
+    }
+    this.router.navigate([&quot;/commits&quot;]).then(() &#x3D;&gt; {
+      /* Let the graph mount/rebuild before asking it to zoom */
+      requestAnimationFrame(() &#x3D;&gt; {
+        window.dispatchEvent(new CustomEvent(&quot;git4school:zoom-to-session&quot;, { detail: { session } }));
+      });
+    });
+  }
+
+  onEditSession(): void {
+    const session &#x3D; this.session;
+    if (!session) {
+      return;
+    }
+    const modalRef &#x3D; this.customModalService.open(EditSessionComponent, {});
+    modalRef.componentInstance.session &#x3D; session;
+    modalRef.componentInstance.addMode &#x3D; false;
+    /* The modal takes over the screen: don&#x27;t leave the panel open behind it */
+    this.closePanel();
+
+    modalRef.result
+      .then((result: any) &#x3D;&gt; {
+        const sessions &#x3D; this.dataService.sessions || [];
+        const index &#x3D; sessions.indexOf(session);
+        if (result &amp;&amp; result.deleted) {
+          if (index &gt;&#x3D; 0) {
+            sessions.splice(index, 1);
+          }
+          this.saveAndNotify();
+          this.invalidateStats();
+          return;
+        }
+        if (!result) {
+          return;
+        }
+        if (index &gt;&#x3D; 0) {
+          sessions[index] &#x3D; result;
+        }
+        this.saveAndNotify();
+        this.session &#x3D; result;
+        this.invalidateStats();
+        this.toastService.success(
+          this.translateService.instant(&quot;SUCCESS&quot;),
+          this.translateService.instant(&quot;SESSION-TAB.PANEL.UPDATED-TOAST&quot;),
+        );
+      })
+      .catch(() &#x3D;&gt; {});
+  }
+
+  private refreshNow(): void {
+    this.now &#x3D; this.clockService.now().getTime();
+    const list &#x3D; this.resolveEligibleSessions();
+    this.eligibleSessions &#x3D; list;
+
+    /* Keep the user&#x27;s selected session across ticks; fall back to the default when it is gone. */
+    let selected &#x3D; list.find((s) &#x3D;&gt; this.sessionKey(s) &#x3D;&#x3D;&#x3D; this.selectedKey) || null;
+    if (!selected &amp;&amp; list.length) {
+      selected &#x3D; this.defaultSelection(list);
+      this.selectedKey &#x3D; selected ? this.sessionKey(selected) : &quot;&quot;;
+    }
+    if (!selected) {
+      this.selectedKey &#x3D; &quot;&quot;;
+    }
+
+    const changed &#x3D; this.sessionKey(selected) !&#x3D;&#x3D; this.sessionKey(this.session);
+    const wasUpcoming &#x3D; this.state &#x3D;&#x3D;&#x3D; &quot;upcoming&quot;;
+    const state: &quot;in-progress&quot; | &quot;upcoming&quot; &#x3D;
+      selected &amp;&amp; this.now &gt;&#x3D; this.startMs(selected) &amp;&amp; this.now &lt;&#x3D; this.endMs(selected) ? &quot;in-progress&quot; : &quot;upcoming&quot;;
+
+    /* The same session just started: the counter holds at zero while the swap plays, instead of
+       jumping straight to the whole session length. */
+    if (!changed &amp;&amp; wasUpcoming &amp;&amp; state &#x3D;&#x3D;&#x3D; &quot;in-progress&quot;) {
+      this.holdCountdown();
+    } else if (changed || state &#x3D;&#x3D;&#x3D; &quot;upcoming&quot;) {
+      this.clearCountdownHold();
+    }
+
+    this.session &#x3D; selected;
+    this.state &#x3D; state;
+
+    if (!selected || changed) {
+      /* No session, or a different one took over: stale stats and an open panel are meaningless */
+      this.stats &#x3D; null;
+      this.statsCacheKey &#x3D; &quot;&quot;;
+      this.open &#x3D; false;
+    } else if (this.open) {
+      this.ensureStats();
+    }
+
+    this.rebuildView();
+    /* The texts may have changed length (the counter loses a digit, the wording changes) */
+    this.scheduleMeasure();
+  }
+
+  /** Switches to the previous/next eligible session without closing the panel. */
+  private stepSelection(delta: number): void {
+    const list &#x3D; this.eligibleSessions;
+    if (list.length &lt; 2) {
+      return;
+    }
+    const current &#x3D; list.findIndex((s) &#x3D;&gt; this.sessionKey(s) &#x3D;&#x3D;&#x3D; this.selectedKey);
+    const next &#x3D; (current &lt; 0 ? 0 : current) + delta;
+    if (next &lt; 0 || next &gt;&#x3D; list.length) {
+      return;
+    }
+    this.applySelection(list[next]);
+  }
+
+  /** Applies a manual session switch: recompute the stats, keep the panel open. */
+  private applySelection(session: Session): void {
+    this.selectedKey &#x3D; this.sessionKey(session);
+    this.session &#x3D; session;
+    this.state &#x3D; this.now &gt;&#x3D; this.startMs(session) &amp;&amp; this.now &lt;&#x3D; this.endMs(session) ? &quot;in-progress&quot; : &quot;upcoming&quot;;
+    this.clearCountdownHold();
+    this.ensureStats();
+    this.rebuildView();
+    this.scheduleMeasure();
+    /* Focus the newly selected session in the graph (handled by the commits/sessions views). */
+    window.dispatchEvent(new CustomEvent(&quot;git4school:focus-session&quot;, { detail: { session } }));
+  }
+
+  /** Default pick: the most recently started running session, else the soonest upcoming one. */
+  private defaultSelection(list: Session[]): Session | null {
+    if (!list.length) {
+      return null;
+    }
+    const running &#x3D; list.filter((s) &#x3D;&gt; this.now &gt;&#x3D; this.startMs(s) &amp;&amp; this.now &lt;&#x3D; this.endMs(s));
+    if (running.length) {
+      return running.reduce((a, b) &#x3D;&gt; (this.startMs(b) &gt;&#x3D; this.startMs(a) ? b : a));
+    }
+    return list.reduce((a, b) &#x3D;&gt; (this.startMs(b) &lt;&#x3D; this.startMs(a) ? b : a));
+  }
+
+  private rebuildView(): void {
+    const session &#x3D; this.session;
+    if (!session) {
+      this.view &#x3D; null;
+      return;
+    }
+    const now &#x3D; this.now;
+    const start &#x3D; this.startMs(session);
+    const end &#x3D; this.endMs(session);
+    const inProgress &#x3D; this.state &#x3D;&#x3D;&#x3D; &quot;in-progress&quot;;
+    const remaining &#x3D; inProgress ? end - now : start - now;
+
+    const list &#x3D; this.eligibleSessions;
+    const index &#x3D; list.findIndex((s) &#x3D;&gt; this.sessionKey(s) &#x3D;&#x3D;&#x3D; this.selectedKey);
+    const nav &#x3D;
+      list.length &gt; 1 ? { canPrev: index &gt; 0, canNext: index &gt;&#x3D; 0 &amp;&amp; index &lt; list.length - 1, index: index + 1, total: list.length } : null;
+    const live &#x3D; this.buildLive();
+
+    this.view &#x3D; {
+      session,
+      state: this.state,
+      countdown: this.countdownHold ?? this.formatCountdown(remaining),
+      progress: inProgress ? this.clamp01((now - start) / Math.max(1, end - start)) : 0,
+      label: getSessionDisplayName(session, this.dataService.sessions || [], this.translateService),
+      dateLabel: this.formatDateLabel(start),
+      timeRange: &#x60;${moment(start).format(&quot;HH:mm&quot;)} – ${moment(end).format(&quot;HH:mm&quot;)}&#x60;,
+      durationLabel: this.formatDuration(end - start),
+      tpGroup: session.tpGroup || null,
+      notes: session.notes &amp;&amp; session.notes.trim() ? session.notes : null,
+      live,
+      autoRefresh: this.state &#x3D;&#x3D;&#x3D; &quot;in-progress&quot;,
+      nav,
+      tooltips: live
+        ? {
+            active: this.buildListTooltip(&quot;SESSION-TAB.PANEL.HEALTH.ACTIVE-LIST&quot;, live.activeStudents),
+            watch: this.buildListTooltip(&quot;SESSION-TAB.PANEL.HEALTH.WATCH-LIST&quot;, live.watchStudents),
+            inactive: this.buildListTooltip(&quot;SESSION-TAB.PANEL.HEALTH.INACTIVE-LIST&quot;, live.inactiveStudents),
+            questions: this.buildListTooltip(&quot;SESSION-TAB.PANEL.HEALTH.QUESTIONS-LIST&quot;, live.resolvedQuestionsList),
+          }
+        : null,
+      resolvedDots: live ? live.resolvedChart.dots : [],
+      resolvedAveragePoints: live ? this.buildPolyline(live.resolvedChart.average) : &quot;&quot;,
+      resolvedAverageArea: live ? this.buildArea(live.resolvedChart.average) : &quot;&quot;,
+      timelineStart: moment(start).format(&quot;HH:mm&quot;),
+      timelineNow: moment(now).format(&quot;HH:mm&quot;),
+      open: this.open,
+    };
+  }
+
+  /** Live indicators, cached per stats reference and per minute (relative times only move that often). */
+  private buildLive(): SessionLiveIndicators | null {
+    if (!this.open || !this.stats) {
+      this.liveCache &#x3D; null;
+      this.liveCacheStats &#x3D; null;
+      this.liveCacheMinute &#x3D; -1;
+      return null;
+    }
+    const minute &#x3D; Math.floor(this.now / MINUTE_MS);
+    if (this.liveCache &amp;&amp; this.liveCacheStats &#x3D;&#x3D;&#x3D; this.stats &amp;&amp; this.liveCacheMinute &#x3D;&#x3D;&#x3D; minute) {
+      return this.liveCache;
+    }
+    this.liveCacheStats &#x3D; this.stats;
+    this.liveCacheMinute &#x3D; minute;
+    this.liveCache &#x3D; this.sessionAnalyticsService.buildLiveIndicators(this.stats, this.now);
+    return this.liveCache;
+  }
+
+  /** HTML list tooltip, same markup as the sessions view&#x27;s resolved-questions tooltip. */
+  private buildListTooltip(titleKey: string, items: string[]): string {
+    const title &#x3D; this.escapeHtml(this.translateService.instant(titleKey));
+    const list &#x3D; (items || []).filter((item) &#x3D;&gt; item &amp;&amp; item.trim());
+    if (!list.length) {
+      const none &#x3D; this.escapeHtml(this.translateService.instant(&quot;SESSION-TAB.PANEL.HEALTH.NONE&quot;));
+      return (
+        &#x60;&lt;div class&#x3D;&quot;resolved-questions-tooltip&quot;&gt;&lt;div class&#x3D;&quot;resolved-questions-tooltip-title&quot;&gt;${title}&lt;/div&gt;&#x60; +
+        &#x60;&lt;div class&#x3D;&quot;peek-tooltip-empty&quot;&gt;${none}&lt;/div&gt;&lt;/div&gt;&#x60;
+      );
+    }
+    const lis &#x3D; list.map((item) &#x3D;&gt; &#x60;&lt;li&gt;${this.escapeHtml(item)}&lt;/li&gt;&#x60;).join(&quot;&quot;);
+    return &#x60;&lt;div class&#x3D;&quot;resolved-questions-tooltip&quot;&gt;&lt;div class&#x3D;&quot;resolved-questions-tooltip-title&quot;&gt;${title}&lt;/div&gt;&#x60; + &#x60;&lt;ul&gt;${lis}&lt;/ul&gt;&lt;/div&gt;&#x60;;
+  }
+
+  /** SVG polyline points (0..100 box) from a list of {x,y}. */
+  private buildPolyline(points: Array&lt;{ x: number; y: number }&gt;): string {
+    return points.map((p) &#x3D;&gt; &#x60;${p.x.toFixed(2)},${p.y.toFixed(2)}&#x60;).join(&quot; &quot;);
+  }
+
+  /** Polygon points (0..100 box) closing the curve along the baseline. */
+  private buildArea(points: Array&lt;{ x: number; y: number }&gt;): string {
+    if (!points.length) {
+      return &quot;&quot;;
+    }
+    return &#x60;0,100 ${this.buildPolyline(points)} 100,100&#x60;;
+  }
+
+  private escapeHtml(value: string): string {
+    return String(value ?? &quot;&quot;)
+      .replace(/&amp;/g, &quot;&amp;amp;&quot;)
+      .replace(/&lt;/g, &quot;&amp;lt;&quot;)
+      .replace(/&gt;/g, &quot;&amp;gt;&quot;)
+      .replace(/&quot;/g, &quot;&amp;quot;&quot;)
+      .replace(/&#x27;/g, &quot;&amp;#39;&quot;);
+  }
+
+  private holdCountdown(): void {
+    this.countdownHold &#x3D; &quot;0:00&quot;;
+    clearTimeout(this.holdTimer);
+    this.holdTimer &#x3D; setTimeout(() &#x3D;&gt; {
+      this.holdTimer &#x3D; null;
+      this.countdownHold &#x3D; null;
+      this.rebuildView();
+      this.scheduleMeasure();
+    }, SWAP_MS * COUNTDOWN_RELEASE_RATIO);
+  }
+
+  private clearCountdownHold(): void {
+    clearTimeout(this.holdTimer);
+    this.holdTimer &#x3D; null;
+    this.countdownHold &#x3D; null;
+  }
+
+  /**
+   * Publishes the three swap distances as CSS custom properties on the rail.
+   * They depend on the text lengths, which CSS cannot read, so they come from the DOM.
+   * offsetHeight is layout-only, so a transform in flight does not corrupt the reading.
+   */
+  private measureRail(): void {
+    const rail &#x3D; this.railEl;
+    if (!rail) {
+      return;
+    }
+    const counter &#x3D; rail.querySelector&lt;HTMLElement&gt;(&quot;.peek-counter__text&quot;);
+    const incoming &#x3D; rail.querySelector&lt;HTMLElement&gt;(&quot;.peek-line--in&quot;);
+    const outgoing &#x3D; rail.querySelector&lt;HTMLElement&gt;(&quot;.peek-line--out&quot;);
+    if (!counter || !incoming || !outgoing) {
+      return;
+    }
+    const railHeight &#x3D; rail.clientHeight;
+    const counterHeight &#x3D; counter.offsetHeight;
+    const incomingHeight &#x3D; incoming.offsetHeight;
+    const outgoingHeight &#x3D; outgoing.offsetHeight;
+    if (!railHeight || !counterHeight || !incomingHeight || !outgoingHeight) {
+      return;
+    }
+
+    /* The counter&#x27;s gap is the shared travel: the labels ride along with it so the three lines
+       stay in lockstep. The flush positions are the rail&#x27;s height minus each text&#x27;s own length. */
+    const travel &#x3D; Math.max(0, railHeight - counterHeight);
+    rail.style.setProperty(&quot;--travel&quot;, &#x60;${travel}px&#x60;);
+    /* The outgoing label sits flush at the bottom, and its length differs from the incoming one */
+    rail.style.setProperty(&quot;--out-bottom&quot;, &#x60;${Math.max(0, railHeight - outgoingHeight)}px&#x60;);
+    /* Enough to start fully hidden even when the text is longer than the gap */
+    rail.style.setProperty(&quot;--in-enter&quot;, &#x60;${Math.max(travel, incomingHeight)}px&#x60;);
+  }
+
+  /** Remeasure once the DOM has caught up with the latest view (the counter&#x27;s text length varies). */
+  private scheduleMeasure(): void {
+    if (this.measureRafId !&#x3D;&#x3D; null) {
+      return;
+    }
+    this.measureRafId &#x3D; requestAnimationFrame(() &#x3D;&gt; {
+      this.measureRafId &#x3D; null;
+      this.measureRail();
+    });
+  }
+
+  private formatDateLabel(ms: number): string {
+    moment.locale(this.translateService.currentLang || &quot;en&quot;);
+    return moment(ms).format(&quot;dddd D MMMM&quot;);
+  }
+
+  /** &quot;1h30&quot; / &quot;45 min&quot; */
+  private formatDuration(ms: number): string {
+    const totalMinutes &#x3D; Math.max(0, Math.round(ms / MINUTE_MS));
+    const hours &#x3D; Math.floor(totalMinutes / 60);
+    const minutes &#x3D; totalMinutes % 60;
+    if (hours &amp;&amp; minutes) {
+      return &#x60;${hours}h${String(minutes).padStart(2, &quot;0&quot;)}&#x60;;
+    }
+    return hours ? &#x60;${hours}h&#x60; : &#x60;${minutes} min&#x60;;
+  }
+
+  /** &quot;2:34&quot; under an hour, &quot;1:23:45&quot; above. Language-neutral on purpose. */
+  private formatCountdown(ms: number): string {
+    const total &#x3D; Math.max(0, Math.floor(ms / 1000));
+    const minutes &#x3D; Math.floor((total % 3600) / 60);
+    const seconds &#x3D; total % 60;
+    const pad &#x3D; (n: number) &#x3D;&gt; String(n).padStart(2, &quot;0&quot;);
+    const hours &#x3D; Math.floor(total / 3600);
+    return hours &gt; 0 ? &#x60;${hours}:${pad(minutes)}:${pad(seconds)}&#x60; : &#x60;${minutes}:${pad(seconds)}&#x60;;
+  }
+
+  /**
+   * Stats are expensive (histogram + ribbon + per-student activity), so they are computed
+   * only while the panel is open and cached until the commit data changes.
+   */
+  private ensureStats(): void {
+    const session &#x3D; this.session;
+    if (!session) {
+      return;
+    }
+    const key &#x3D; this.sessionKey(session);
+    if (this.statsCacheKey &#x3D;&#x3D;&#x3D; key) {
+      return;
+    }
+    this.statsCacheKey &#x3D; key;
+    try {
+      this.stats &#x3D; this.sessionAnalyticsService.computeSessionStats(
+        session,
+        this.dataService.repositories || [],
+        this.dataService.questions || [],
+      );
+    } catch (e) {
+      this.stats &#x3D; null;
+    }
+  }
+
+  private invalidateStats(): void {
+    this.stats &#x3D; null;
+    this.statsCacheKey &#x3D; &quot;&quot;;
+    this.refreshNow();
+  }
+
+  /** Auto-refresh only while a session is actually running (panel open or not). */
+  private autoRefreshTick(): void {
+    if (this.state &#x3D;&#x3D;&#x3D; &quot;in-progress&quot; &amp;&amp; !this.refreshing) {
+      this.refresh();
+    }
+  }
+
+  /** Running sessions (chronological order), else the soonest upcoming ones. */
+  private resolveEligibleSessions(): Session[] {
+    const now &#x3D; this.now;
+    const sessions &#x3D; (this.dataService.sessions || []).filter(
+      (s) &#x3D;&gt;
+        !!s &amp;&amp; !!s.startDate &amp;&amp; !!s.endDate &amp;&amp; (!this.dataService.groupFilter || !s.tpGroup || s.tpGroup &#x3D;&#x3D;&#x3D; this.dataService.groupFilter),
+    );
+
+    const running: Session[] &#x3D; [];
+    const upcoming: Session[] &#x3D; [];
+    for (const session of sessions) {
+      const start &#x3D; this.startMs(session);
+      if (now &gt;&#x3D; start &amp;&amp; now &lt;&#x3D; this.endMs(session)) {
+        running.push(session);
+      } else if (start &gt; now &amp;&amp; start - now &lt;&#x3D; this.upcomingWindowMs) {
+        upcoming.push(session);
+      }
+    }
+
+    running.sort((a, b) &#x3D;&gt; this.startMs(a) - this.startMs(b));
+    upcoming.sort((a, b) &#x3D;&gt; this.startMs(a) - this.startMs(b));
+    return running.length ? running : upcoming;
+  }
+
+  private startMs(session: Session): number {
+    return this.toMs(session.startDate);
+  }
+
+  private endMs(session: Session): number {
+    const start &#x3D; this.startMs(session);
+    const end &#x3D; this.toMs(session.endDate);
+    /* Sessions may wrap around midnight (see EditSessionComponent) */
+    return end &lt; start ? end + 24 * 60 * MINUTE_MS : end;
+  }
+
+  private toMs(value: Date): number {
+    return value instanceof Date ? value.getTime() : new Date(value).getTime();
+  }
+
+  private sessionKey(session: Session | null): string {
+    if (!session) {
+      return &quot;&quot;;
+    }
+    return &#x60;${this.startMs(session)}|${this.endMs(session)}|${session.tpGroup || &quot;&quot;}|${session.label || &quot;&quot;}&#x60;;
+  }
+
+  private clamp01(value: number): number {
+    return Math.min(1, Math.max(0, value));
+  }
+
+  private saveAndNotify(): void {
+    if (this.dataService.assignment) {
+      this.databaseService.saveAssignment(this.dataService.assignment);
+      this.assignmentsService.assignmentModified.next();
+    }
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'SessionTabView.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -32,8 +32,73 @@
                <div class="content getting-started">
                    <div class="content-data">
 
-<h2 id="260">2.6.0</h2>
+<h2 id="270">2.7.0</h2>
 <h3 id="added">Added</h3>
+<h4 id="sessions-view">Sessions view</h4>
+<ul>
+<li>⭐ <strong>New Sessions view</strong>, dedicated to attendance and progress analysis:<ul>
+<li>KPI strip kept on a single row: active attendance rate, in-session and out-of-session commits, supervised hours, resolved questions and inactive students</li>
+<li>scrollable macro chart of the selected session, with a pinned session pill and previous/next navigation buttons</li>
+<li><strong>progression ribbon</strong> plotting the cohort&#39;s mean progression together with the Q1–Q3 dispersion band, for both resolved questions and cumulated commits</li>
+<li>per-student commit trajectory revealed when hovering a resolved question, with smart tooltips and truncated names</li>
+<li>attendance and engagement table, and a <em>Progress Matrix</em> tab temporarily replaced by a <strong>coming soon</strong> placeholder</li>
+</ul>
+</li>
+<li>Session suggestions modal, which detects sessions from peaks of simultaneous commit activity</li>
+</ul>
+<h4 id="live-session-panel">Live session panel</h4>
+<ul>
+<li>⭐ <strong>Session tab</strong> docked to the left edge of the assignment views, with an upcoming-to-running swap animation and a commit counter that slides into the panel when it opens</li>
+<li>⭐ <strong>Live cockpit</strong> for a running session: group health (active / to nudge / inactive), a <em>Needs help</em> watchlist with the reason and the repository link, a 15-minute pace sparkline with a slowdown alert, the timeline of resolved questions and a live activity feed</li>
+<li>Session switcher (<code>‹ ›</code>) available when several sessions are running, with a label shared by the graph and the sessions view</li>
+<li>Manual refresh and automatic refresh every 3 minutes while a session is running</li>
+</ul>
+<h4 id="assignments">Assignments</h4>
+<ul>
+<li>⭐ <strong>Folder view</strong>: the assignment list can be displayed as A4-style folders with a 3D cover that opens on hover, fanned-out sheets and a forge stamp; the selected folder lights its forge stamp up like an LED</li>
+<li>⭐ <strong>Assignment duplication</strong>: the copy keeps the forge, course, program, questions, closing options and default session duration, and opens for editing on the year field</li>
+<li>⭐ <strong>Assignment archiving</strong>: archived assignments are only listed in the dedicated <em>Archived</em> filter, and are restored from the same action menu</li>
+<li><strong>Liquid action menu</strong> on assignment cards for secondary actions, with a round trigger and a liquid morphism effect</li>
+<li><strong>Autosave</strong> of the assignment configuration: free-text fields are debounced, discrete changes are saved immediately, and pending changes are flushed on blur, tab switch, close and component destruction</li>
+</ul>
+<h4 id="overview-graph">Overview graph</h4>
+<ul>
+<li>⭐ <strong>&quot;Now&quot; marker</strong> on the commits graph, reachable with the <code>M</code> shortcut, that can be zoomed with shift+wheel and scrolled over</li>
+<li>Zoom scale is now interpolated linearly, so guided zooms and recentring animate in a single motion</li>
+<li>Overlapping sessions are ordered by TP group and can be navigated with edge arrows or the contextual menu</li>
+<li>Single click on a session shows its information, double click focuses it, and shift+drag performs a box zoom</li>
+<li><code>Tab</code> fills the session end time from the default session duration</li>
+</ul>
+<h4 id="home">Home</h4>
+<ul>
+<li><strong>TP group filter</strong> moved into the assignment context pill of the navbar, shared by every view and reachable with the <code>G</code> shortcut</li>
+<li>Adding a repository manually scrolls the repository list to the new row</li>
+<li>Add-repositories search is restricted to repository name and source URL matches</li>
+<li>Dropdown menus can be navigated with the arrow keys, and Escape closes the inline assignment editor</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Session info tooltip on single click, and commit page click restored in anonymous mode</li>
+<li>Session time fields no longer zero the start time, and the range is constrained to a single day</li>
+<li>Stale default session duration in the commits graph</li>
+<li>Assignment autosave reading stale form values for immediate fields</li>
+<li>Delayed scale animation when opening the TP group selector</li>
+<li>Intermittent selection jump when navigating dropdowns with the arrow keys</li>
+<li>Ghost button hover backgrounds applied instantly, to stop a one-frame flicker in Chromium</li>
+<li>Sessions KPI strip kept on a single row, and default cursor on the resolved questions tooltip</li>
+<li>Horizontal scroll of the session list, with a fixed macro pill and navigation buttons</li>
+<li>Now marker hover layer and its shortcut tooltip, including when the assignment dates are unbounded</li>
+<li>Edited assignment card re-fitted when switching configuration tabs</li>
+<li>Repositories toolbar kept on one line with shorter labels, and group sort pill shortened</li>
+</ul>
+<h3 id="modified">Modified</h3>
+<ul>
+<li>Sessions view, commits graph and session tab now read the current time through <code>ClockService</code></li>
+<li>Developer tools: slimmer dev bar with a Git mocks dropdown, an offline Git demo (GitHub and GitLab fixtures) and a simulated clock backed by <code>ClockService</code></li>
+</ul>
+<hr>
+<h2 id="260">2.6.0</h2>
+<h3 id="added-1">Added</h3>
 <h4 id="general">General</h4>
 <ul>
 <li>⭐ <strong>Self-hosted GitLab support</strong>: connect any self-hosted GitLab instance alongside gitlab.com, with multi-account management (one account per instance, host and display name stored per account)</li>
@@ -41,7 +106,7 @@
 <li>Generic token validity check with <strong>expired-token indicators</strong> in the accounts UI</li>
 <li>⭐ Visual <strong>anonymization mode</strong> for classroom presentations — student names, repositories and authors are hidden on demand via <code>AnonymizationService</code></li>
 </ul>
-<h4 id="overview-graph">Overview graph</h4>
+<h4 id="overview-graph-1">Overview graph</h4>
 <ul>
 <li>⭐ Student repository navigation with tooltip feedback in the students view</li>
 <li><strong>Overlapping session navigation</strong>: edge arrows and a contextual menu option to switch between sessions sharing the same date range</li>
@@ -51,11 +116,11 @@
 <li>Emil Kowalski-inspired tooltip warm-up animation; legacy tooltip styles removed</li>
 <li>Redesigned shortcuts modal with structured cards, dotted leaders and mouse SVG icons</li>
 </ul>
-<h4 id="home">Home</h4>
+<h4 id="home-1">Home</h4>
 <ul>
 <li>⭐ Collapsible animated search bar in the assignment chooser</li>
 </ul>
-<h3 id="fixed">Fixed</h3>
+<h3 id="fixed-1">Fixed</h3>
 <ul>
 <li>Tooltip content adaptation, helper expansion and viewport boundaries</li>
 <li>Commit grouping on strip toggle and centered session counter</li>
@@ -66,7 +131,7 @@
 <li>Refresh button spin animation now starts seamlessly from its hover angle</li>
 <li>Assignment chooser search bar focus</li>
 </ul>
-<h3 id="modified">Modified</h3>
+<h3 id="modified-1">Modified</h3>
 <ul>
 <li>Refactored <code>GitlabDataService</code> member ordering</li>
 <li>Optimized assignment loading (<code>LoaderService</code>)</li>
@@ -74,7 +139,7 @@
 </ul>
 <hr>
 <h2 id="251">2.5.1</h2>
-<h3 id="fixed-1">Fixed</h3>
+<h3 id="fixed-2">Fixed</h3>
 <h4 id="repositories--utils">Repositories &amp; Utils</h4>
 <ul>
 <li><strong>TP Group Extraction from README</strong>: Correctly extract TP group located after a checked markdown checkbox (<code>- [x]</code> or <code>- [X]</code>) instead of capturing brackets.</li>
@@ -82,7 +147,7 @@
 </ul>
 <hr>
 <h2 id="250">2.5.0</h2>
-<h3 id="added-1">Added</h3>
+<h3 id="added-2">Added</h3>
 <h4 id="configuration--repositories">Configuration &amp; Repositories</h4>
 <ul>
 <li><strong>Multilingual Student Name Detection</strong>:<ul>
@@ -105,7 +170,7 @@
 </ul>
 <hr>
 <h2 id="240">2.4.0</h2>
-<h3 id="added-2">Added</h3>
+<h3 id="added-3">Added</h3>
 <h4 id="general-1">General</h4>
 <ul>
 <li>⭐ <strong>GitLab support</strong>: users can now connect to GitLab via OAuth 2.0 PKCE, in addition to GitHub<ul>
@@ -116,13 +181,13 @@
 </li>
 <li>Architecture Decision Records (ADR) showcase page published on the GitHub Wiki</li>
 </ul>
-<h3 id="fixed-2">Fixed</h3>
+<h3 id="fixed-3">Fixed</h3>
 <ul>
 <li>Unit test failures in <code>AccountsService</code>, token storage and GitLab callback specs</li>
 </ul>
 <hr>
 <h2 id="230">2.3.0</h2>
-<h3 id="modified-1">Modified</h3>
+<h3 id="modified-2">Modified</h3>
 <h4 id="general-2">General</h4>
 <ul>
 <li>Views have been renamed for consistency and clarity</li>
@@ -130,19 +195,19 @@
 </ul>
 <hr>
 <h2 id="221">2.2.1</h2>
-<h3 id="added-3">Added</h3>
+<h3 id="added-4">Added</h3>
 <h4 id="questions-chooser">Questions chooser</h4>
 <ul>
 <li>⭐ Improved dropdown, assistant and accordion button click feedback with chevron rotation animation</li>
 </ul>
-<h3 id="fixed-3">Fixed</h3>
+<h3 id="fixed-4">Fixed</h3>
 <ul>
 <li>Fixed a crash in the question completion graph caused by a question casing mismatch</li>
 <li>Prevented typeahead selection jumps during arrow navigation via a dedicated directive (ADR-0005)</li>
 </ul>
 <hr>
 <h2 id="220">2.2.0</h2>
-<h3 id="added-4">Added</h3>
+<h3 id="added-5">Added</h3>
 <h4 id="questions-chooser-1">Questions chooser</h4>
 <ul>
 <li>⭐ A <strong>questions assistant popover</strong> with contextual help for commit closing rules configuration<ul>
@@ -152,7 +217,7 @@
 <li>⭐ Support for <strong>pasting multiple questions</strong> at once using a delimiter separator</li>
 <li>Advanced mode for adding questions with finer-grained configuration</li>
 </ul>
-<h3 id="fixed-4">Fixed</h3>
+<h3 id="fixed-5">Fixed</h3>
 <ul>
 <li>Popover stacking above the navbar and hover flickering</li>
 <li>Outside click dismissal of the questions assistant popover inside modals</li>
@@ -161,13 +226,13 @@
 </ul>
 <hr>
 <h2 id="211">2.1.1</h2>
-<h3 id="fixed-5">Fixed</h3>
+<h3 id="fixed-6">Fixed</h3>
 <ul>
 <li>Fixed animation lag on the disconnect button in the sidebar</li>
 </ul>
 <hr>
 <h2 id="210">2.1.0</h2>
-<h3 id="added-5">Added</h3>
+<h3 id="added-6">Added</h3>
 <h4 id="sidebar--navigation">Sidebar &amp; Navigation</h4>
 <ul>
 <li>⭐ <strong>Git accounts management</strong>: connected accounts are now displayed and managed directly in the sidebar and the connection modal</li>
@@ -176,44 +241,44 @@
 <ul>
 <li>A <strong>developer toolbar</strong> for debugging and toggling feature flags (hidden in production)</li>
 </ul>
-<h3 id="modified-2">Modified</h3>
+<h3 id="modified-3">Modified</h3>
 <h4 id="general-3">General</h4>
 <ul>
 <li>Cyclomatic complexity reduced across several components; regression test suite added</li>
 <li>Codacy metrics configured; Stylelint integrated for SCSS quality</li>
 <li>Codacy issues resolved across the codebase</li>
 </ul>
-<h3 id="fixed-6">Fixed</h3>
+<h3 id="fixed-7">Fixed</h3>
 <ul>
 <li>Fixed a 1-month offset in the commit tooltip date format</li>
 </ul>
 <hr>
 <h2 id="205">2.0.5</h2>
-<h3 id="added-6">Added</h3>
-<h4 id="overview-graph-1">Overview graph</h4>
+<h3 id="added-7">Added</h3>
+<h4 id="overview-graph-2">Overview graph</h4>
 <ul>
 <li>⭐ Milestone labels redesigned with <strong>chronological overlap masking</strong> to avoid visual clutter</li>
 </ul>
-<h3 id="modified-3">Modified</h3>
-<h4 id="home-1">Home</h4>
+<h3 id="modified-4">Modified</h3>
+<h4 id="home-2">Home</h4>
 <ul>
 <li>⭐ Assignment status badges improved; status filters interaction polished</li>
 </ul>
-<h3 id="fixed-7">Fixed</h3>
+<h3 id="fixed-8">Fixed</h3>
 <ul>
 <li>Milestone bar thickness, text width and cutout bounds aligned precisely</li>
 </ul>
 <hr>
 <h2 id="204">2.0.4</h2>
-<h3 id="modified-4">Modified</h3>
-<h4 id="overview-graph-2">Overview graph</h4>
+<h3 id="modified-5">Modified</h3>
+<h4 id="overview-graph-3">Overview graph</h4>
 <ul>
 <li>⭐ Session visualization redesigned with <strong>sticky header badges</strong>, custom labels, and a responsive layout</li>
 <li>Milestone and session updates are now applied smoothly without recreating the graph</li>
 <li>Overlay management refactored into <code>OverlayManagerService</code> to coordinate dropdown and popover closing</li>
 <li>Search input focus is maintained after pressing Enter</li>
 </ul>
-<h3 id="fixed-8">Fixed</h3>
+<h3 id="fixed-9">Fixed</h3>
 <ul>
 <li>Milestone drag pill clipping and dark mode text contrast</li>
 <li>Popovers no longer stack above the navbar</li>
@@ -224,15 +289,15 @@
 </ul>
 <hr>
 <h2 id="203">2.0.3</h2>
-<h3 id="fixed-9">Fixed</h3>
+<h3 id="fixed-10">Fixed</h3>
 <ul>
 <li>Date preview corrected when moving a milestone in the overview graph</li>
 <li>Milestone drag pill clipping and dark mode text contrast</li>
 </ul>
 <hr>
 <h2 id="202">2.0.2</h2>
-<h3 id="modified-5">Modified</h3>
-<h4 id="overview-graph-3">Overview graph</h4>
+<h3 id="modified-6">Modified</h3>
+<h4 id="overview-graph-4">Overview graph</h4>
 <ul>
 <li>⭐ Milestone types order inverted to better match the expected workflow</li>
 <li>⭐ Milestone label upper strip is now clickable; strip hidden when no milestone to display</li>
@@ -240,13 +305,13 @@
 <li>More subtle required-field message for milestone type</li>
 <li>Long-press is now required to drag milestones (prevents accidental drags)</li>
 </ul>
-<h3 id="fixed-10">Fixed</h3>
+<h3 id="fixed-11">Fixed</h3>
 <ul>
 <li>Click date calculation corrected on sessions and milestones</li>
 </ul>
 <hr>
 <h2 id="201">2.0.1</h2>
-<h3 id="fixed-11">Fixed</h3>
+<h3 id="fixed-12">Fixed</h3>
 <h4 id="assignment-editor">Assignment editor</h4>
 <ul>
 <li>Repositories search fixed (including forked repos)</li>
@@ -255,7 +320,7 @@
 </ul>
 <hr>
 <h2 id="200">2.0.0</h2>
-<h3 id="added-7">Added</h3>
+<h3 id="added-8">Added</h3>
 <h4 id="general-4">General</h4>
 <ul>
 <li>⭐ <strong>Full UI redesign</strong> — modern sidebar navigation, floating panel, custom modal system, dark theme overhaul</li>
@@ -264,7 +329,7 @@
 <li>Custom <strong>toast service</strong> and <strong>tooltip service</strong> replacing third-party libraries</li>
 <li>⭐ <strong>Onboarding tutorial</strong> (initially automatic, then triggered manually from the sidebar)</li>
 </ul>
-<h4 id="home-2">Home</h4>
+<h4 id="home-3">Home</h4>
 <ul>
 <li>⭐ Assignment list now shows <strong>search and filter</strong> controls (saved in LocalStorage)</li>
 <li>⭐ Assignments can be <strong>filtered by forge</strong> (only assignments from the connected forge are shown)</li>
@@ -272,7 +337,7 @@
 <li>Number of assignments displayed in the sidebar is configurable</li>
 <li>⭐ Sidebar is <strong>resizable</strong>; width is saved in LocalStorage</li>
 </ul>
-<h4 id="overview-graph-4">Overview graph</h4>
+<h4 id="overview-graph-5">Overview graph</h4>
 <ul>
 <li>⭐ <strong>Drag milestones</strong> directly on the graph (requires long-press)</li>
 <li>⭐ Click on <strong>grouped commits</strong> to zoom in on them</li>
@@ -293,7 +358,7 @@
 <li>Student names display fixed in commits and questions graphs</li>
 <li>Students now displayed with their names adjusted and truncated if too long</li>
 </ul>
-<h3 id="modified-6">Modified</h3>
+<h3 id="modified-7">Modified</h3>
 <h4 id="general-5">General</h4>
 <ul>
 <li>All charts migrated from Chart.js to <strong>D3.js</strong></li>
@@ -307,7 +372,7 @@
 <li>Repository avatar now shown in the assignment repositories list</li>
 <li>Auto-scroll to the edited assignment when opening it from the list</li>
 </ul>
-<h3 id="fixed-12">Fixed</h3>
+<h3 id="fixed-13">Fixed</h3>
 <ul>
 <li>Fixed calendar popover placement and TP group selector</li>
 <li>Fixed scroll issue in the Home page</li>
@@ -318,26 +383,26 @@
 </ul>
 <hr>
 <h2 id="162">1.6.2</h2>
-<h3 id="fixed-13">Fixed</h3>
+<h3 id="fixed-14">Fixed</h3>
 <ul>
 <li>Fixed session activity line display</li>
 </ul>
 <hr>
 <h2 id="161">1.6.1</h2>
-<h3 id="fixed-14">Fixed</h3>
+<h3 id="fixed-15">Fixed</h3>
 <ul>
 <li>Fixed session display, milestone line length, and zoom on WebKit-based browsers</li>
 </ul>
 <hr>
 <h2 id="160">1.6.0</h2>
-<h3 id="modified-7">Modified</h3>
-<h4 id="overview-graph-5">Overview graph</h4>
+<h3 id="modified-8">Modified</h3>
+<h4 id="overview-graph-6">Overview graph</h4>
 <ul>
 <li>Commits and questions graphs migrated from <strong>Chart.js to D3.js</strong> for more control and performance</li>
 <li>⭐ Overview is now <strong>responsive</strong> and adapts to the screen size</li>
 <li>⭐ GitHub authentication now uses a <strong>popup</strong> instead of a redirect</li>
 </ul>
-<h3 id="fixed-15">Fixed</h3>
+<h3 id="fixed-16">Fixed</h3>
 <ul>
 <li>Fixed scroll issues and contextual menu positioning</li>
 <li>Fixed tooltip rendered at wrong time and position</li>
@@ -348,8 +413,8 @@
 </ul>
 <hr>
 <h2 id="153">1.5.3</h2>
-<h3 id="added-8">Added</h3>
-<h4 id="overview-graph-6">Overview graph</h4>
+<h3 id="added-9">Added</h3>
+<h4 id="overview-graph-7">Overview graph</h4>
 <ul>
 <li>⭐ Teachers can now <strong>add personal notes</strong> to a milestone or session</li>
 <li>⭐ Repository URL in the assignment editor is now <strong>clickable</strong> (opens in a new tab)</li>
@@ -358,8 +423,8 @@
 <ul>
 <li>The maximum date of the sliders now adjusts to the latest commit date</li>
 </ul>
-<h3 id="modified-8">Modified</h3>
-<h4 id="overview-graph-7">Overview graph</h4>
+<h3 id="modified-9">Modified</h3>
+<h4 id="overview-graph-8">Overview graph</h4>
 <ul>
 <li>Long student names are now <strong>truncated</strong> in the overview graph</li>
 </ul>
@@ -367,57 +432,57 @@
 <ul>
 <li>Confirmation modal when importing multiple assignments has been removed</li>
 </ul>
-<h3 id="fixed-16">Fixed</h3>
+<h3 id="fixed-17">Fixed</h3>
 <ul>
 <li>Date slider maximum date corrected to reach the last commit (fix #119)</li>
 </ul>
 <hr>
 <h2 id="152">1.5.2</h2>
-<h3 id="modified-9">Modified</h3>
+<h3 id="modified-10">Modified</h3>
 <h4 id="general-6">General</h4>
 <ul>
 <li>⭐ Now <strong>loads more than 100 commits per repository</strong> using GitHub API pagination</li>
 <li>Upload and download assignment icons updated</li>
 </ul>
-<h3 id="fixed-17">Fixed</h3>
+<h3 id="fixed-18">Fixed</h3>
 <ul>
 <li>Fixed commits not being retrieved when there are fewer than 100</li>
 <li>Fixed live deploy to Firebase</li>
 </ul>
 <hr>
 <h2 id="151">1.5.1</h2>
-<h3 id="fixed-18">Fixed</h3>
+<h3 id="fixed-19">Fixed</h3>
 <ul>
 <li>Firebase configuration updated</li>
 </ul>
 <hr>
 <h2 id="150">1.5.0</h2>
-<h3 id="added-9">Added</h3>
+<h3 id="added-10">Added</h3>
 <h4 id="general-7">General</h4>
 <ul>
 <li>⭐ Support for reading an <strong>IDENTITY file</strong> to retrieve student identity information from repositories</li>
 </ul>
-<h4 id="overview-graph-8">Overview graph</h4>
+<h4 id="overview-graph-9">Overview graph</h4>
 <ul>
 <li>⭐ The currently filtered group is used when <strong>adding a milestone or session</strong> (fix #124)</li>
 <li>⭐ Group filter is <strong>kept active</strong> for a session (fix #120)</li>
 <li><code>&quot;All&quot;</code> milestones remain visible on a filtered overview graph</li>
 </ul>
-<h3 id="modified-10">Modified</h3>
+<h3 id="modified-11">Modified</h3>
 <h4 id="cicd">CI/CD</h4>
 <ul>
 <li>A comment with the <strong>staging link</strong> is automatically added when deployed</li>
 </ul>
 <hr>
 <h2 id="143">1.4.3</h2>
-<h3 id="fixed-19">Fixed</h3>
+<h3 id="fixed-20">Fixed</h3>
 <ul>
 <li>Zoom level is no longer reset on graph manipulation</li>
 <li>Fixed <code>repoAlreadyAddedValidator</code> — the validator was detecting itself as already present, preventing editing a repository</li>
 </ul>
 <hr>
 <h2 id="142">1.4.2</h2>
-<h3 id="added-10">Added</h3>
+<h3 id="added-11">Added</h3>
 <h4 id="assignment-editor-2">Assignment editor</h4>
 <ul>
 <li>Repository list is now <strong>scrollable</strong></li>
@@ -425,7 +490,7 @@
 <li>Pressing <strong>Enter</strong> while editing a repository validates the row</li>
 <li>Confirmation dialog added when <strong>deleting a repository</strong></li>
 </ul>
-<h3 id="fixed-20">Fixed</h3>
+<h3 id="fixed-21">Fixed</h3>
 <ul>
 <li>Fixed error when importing an assignment with a milestone (fix #106)</li>
 <li>Fixed save occurring when cancelling an empty row</li>
@@ -433,26 +498,26 @@
 </ul>
 <hr>
 <h2 id="141">1.4.1</h2>
-<h3 id="added-11">Added</h3>
-<h4 id="overview-graph-9">Overview graph</h4>
+<h3 id="added-12">Added</h3>
+<h4 id="overview-graph-10">Overview graph</h4>
 <ul>
 <li>⭐ <strong>Time picker</strong> restored in the milestone edition modal (lost during the datepicker library change)</li>
 </ul>
-<h3 id="fixed-21">Fixed</h3>
+<h3 id="fixed-22">Fixed</h3>
 <ul>
 <li>Fixed error when importing an assignment with a milestone (fix #106)</li>
 </ul>
 <hr>
 <h2 id="140">1.4.0</h2>
-<h3 id="modified-11">Modified</h3>
-<h4 id="home-3">Home</h4>
+<h3 id="modified-12">Modified</h3>
+<h4 id="home-4">Home</h4>
 <ul>
 <li>An assignment now have a parameter for the <em>default session duration</em> in its configuration<ul>
 <li>The duration is <strong>1h30</strong> by default</li>
 </ul>
 </li>
 </ul>
-<h4 id="overview-graph-10">Overview graph</h4>
+<h4 id="overview-graph-11">Overview graph</h4>
 <ul>
 <li>Left click now opens a contextual menu instead of editing a milestone<ul>
 <li>The following actions are possible based on the clicked element :<ul>
@@ -471,14 +536,14 @@
 <li>Milestone date in milestone edition modal is now using <em>ngb-datepicker</em></li>
 </ul>
 <h3 id="deleted-1">Deleted</h3>
-<h4 id="home-4">Home</h4>
+<h4 id="home-5">Home</h4>
 <ul>
 <li>Sessions edition has been removed from the assignment configuration as it has been moved to the overview graph</li>
 </ul>
-<h3 id="fixed-22">Fixed</h3>
+<h3 id="fixed-23">Fixed</h3>
 <h2 id="135">1.3.5</h2>
-<h3 id="modified-12">Modified</h3>
-<h4 id="home-5">Home</h4>
+<h3 id="modified-13">Modified</h3>
+<h4 id="home-6">Home</h4>
 <ul>
 <li>Performance greatly improved when assignments with many commits are loaded in the assignments list</li>
 </ul>
@@ -486,13 +551,13 @@
 <ul>
 <li>All the internal handling of export/import of one or more assignments has been redesigned to depend only directly on the Assignment model</li>
 </ul>
-<h3 id="fixed-23">Fixed</h3>
+<h3 id="fixed-24">Fixed</h3>
 <ul>
 <li>Fixed a bug related to time shift</li>
 </ul>
 <h2 id="134">1.3.4</h2>
-<h3 id="added-12">Added</h3>
-<h4 id="home-6">Home</h4>
+<h3 id="added-13">Added</h3>
+<h4 id="home-7">Home</h4>
 <ul>
 <li><p>Assignments list</p>
 <ul>
@@ -503,8 +568,8 @@
 <li><p>Automatic reconnection to Github if the user has not manually disconnected from Git4School</p>
 </li>
 </ul>
-<h3 id="modified-13">Modified</h3>
-<h4 id="home-7">Home</h4>
+<h3 id="modified-14">Modified</h3>
+<h4 id="home-8">Home</h4>
 <ul>
 <li><p>Presentation page adjustments</p>
 <ul>
@@ -522,7 +587,7 @@
 </li>
 </ul>
 <h2 id="133">1.3.3</h2>
-<h3 id="added-13">Added</h3>
+<h3 id="added-14">Added</h3>
 <h4 id="general-8">General</h4>
 <ul>
 <li>User documentation has been fully migrated and rewritten to a <a href="https://git4school.github.io/">dedicated space</a></li>
@@ -531,7 +596,7 @@
 <ul>
 <li>A button leading to the <strong>user documentation</strong> page is now always accessible in the navigation bar</li>
 </ul>
-<h3 id="modified-14">Modified</h3>
+<h3 id="modified-15">Modified</h3>
 <h4 id="general-9">General</h4>
 <ul>
 <li>Technical documentation has been updated to indicate how to edit user documentation</li>
@@ -540,7 +605,7 @@
 <ul>
 <li>The languages in the dropdown list are <em>centered</em></li>
 </ul>
-<h4 id="home-8">Home</h4>
+<h4 id="home-9">Home</h4>
 <ul>
 <li>A page presenting the application is displayed when the user is not logged in</li>
 </ul>
@@ -549,16 +614,16 @@
 <ul>
 <li>The login button is no longer displayed in the navigation bar</li>
 </ul>
-<h4 id="home-9">Home</h4>
+<h4 id="home-10">Home</h4>
 <ul>
 <li>User documentation has been deleted from the home page</li>
 </ul>
-<h3 id="fixed-24">Fixed</h3>
+<h3 id="fixed-25">Fixed</h3>
 <ul>
 <li>Fixed a bug blocking from adding a milestone after importing the assignment with no milestone</li>
 </ul>
 <h2 id="132">1.3.2</h2>
-<h3 id="added-14">Added</h3>
+<h3 id="added-15">Added</h3>
 <h4 id="configuration-modal">Configuration Modal</h4>
 <ul>
 <li>An icon is displayed in the tabs (metadata, repositories, sessions) that need to be saved</li>
@@ -572,7 +637,7 @@
 <li>The button to <em>export</em> an assignment has been moved to the <strong>navigation bar</strong> so that it is accessible from anywhere</li>
 <li>The button to <em>configure</em> an assignment has been added in the <strong>navigation bar</strong> so that it is accessible from anywhere</li>
 </ul>
-<h3 id="modified-15">Modified</h3>
+<h3 id="modified-16">Modified</h3>
 <h4 id="usability">Usability</h4>
 <ul>
 <li>The clickable area of the elements in the accordion on the home page has been expanded to the entire box of each title</li>
@@ -590,18 +655,18 @@
 <ul>
 <li><em>Graphs</em> menu is no longer visible when on home page for usability reasons</li>
 </ul>
-<h4 id="overview-graph-11">Overview graph</h4>
+<h4 id="overview-graph-12">Overview graph</h4>
 <ul>
 <li>The button to <em>export</em> an assignment has been removed from the graph <em>overview</em> page because we want it to be accessible from any page (except the <em>home</em> page)</li>
 <li>The button to <em>import</em> an assignment has been removed from the <em>overview</em> graph page because it is already in the assignment configuration modal</li>
 </ul>
 <h2 id="131">1.3.1</h2>
-<h3 id="added-15">Added</h3>
+<h3 id="added-16">Added</h3>
 <h4 id="configuration-modal-2">Configuration modal</h4>
 <ul>
 <li>A JS alert is asking the user to confirm if they want to leave the configuration modal without saving changes</li>
 </ul>
-<h3 id="modified-16">Modified</h3>
+<h3 id="modified-17">Modified</h3>
 <h4 id="general-11">General</h4>
 <ul>
 <li>Update to <strong>Angular 11</strong><ul>
@@ -619,7 +684,7 @@
 <li>Date format placeholder are <em>localized</em></li>
 </ul>
 <h2 id="130">1.3.0</h2>
-<h3 id="added-16">Added</h3>
+<h3 id="added-17">Added</h3>
 <h4 id="home-page-1">Home page</h4>
 <ul>
 <li>A list on the home page lets the user view, <em>select</em>, <em>modify</em>, <em>delete</em> the assignments that he has saved, or <em>add</em> a new one<ul>
@@ -631,7 +696,7 @@
 <ul>
 <li>The assignment the user is working on is saved <strong>locally</strong> each time it is modified and each time the data is loaded from Github</li>
 </ul>
-<h3 id="modified-17">Modified</h3>
+<h3 id="modified-18">Modified</h3>
 <h4 id="general-13">General</h4>
 <ul>
 <li>Now all tooltips have a <strong>500ms</strong> open delay to meet the usability standards for tooltips.</li>
@@ -644,7 +709,7 @@
 <ul>
 <li>Questions are no longer required in the form to match the model</li>
 </ul>
-<h4 id="overview-graph-12">Overview graph</h4>
+<h4 id="overview-graph-13">Overview graph</h4>
 <ul>
 <li>The file chooser has been transformed into a component to be usable elsewhere in the application (in the edition of an assignment)</li>
 <li>It is possible to select &quot;all&quot; in the TP group of milestones</li>
@@ -654,17 +719,17 @@
 <ul>
 <li>The page has been removed because it is possible to modify the assignments of the <strong>home page</strong></li>
 </ul>
-<h3 id="fixed-25">Fixed</h3>
+<h3 id="fixed-26">Fixed</h3>
 <ul>
 <li>Fixed a navigation bug when no data was loaded</li>
 </ul>
 <h2 id="120">1.2.0</h2>
-<h3 id="added-17">Added</h3>
+<h3 id="added-18">Added</h3>
 <h4 id="general-14">General</h4>
 <ul>
 <li>It is now possible to start the configuration directly from the application, without a configuration file</li>
 </ul>
-<h3 id="modified-18">Modified</h3>
+<h3 id="modified-19">Modified</h3>
 <h4 id="project">Project</h4>
 <ul>
 <li>&quot;Known issues&quot; section updated in the ReadMe</li>
@@ -681,16 +746,16 @@
 <ul>
 <li>A repository that does not have a TP group specified either in the application or in the ReadMe retrieved from Github is now assigned to a default group</li>
 </ul>
-<h4 id="overview-graph-13">Overview graph</h4>
+<h4 id="overview-graph-14">Overview graph</h4>
 <ul>
 <li>When creating a milestone, it is now possible not to assign any TP group to it so that it affects all repositories</li>
 </ul>
-<h3 id="fixed-26">Fixed</h3>
+<h3 id="fixed-27">Fixed</h3>
 <ul>
 <li>A bug that caused the application to load infinitely and block navigation when all the repositories had been deleted</li>
 </ul>
 <h2 id="110">1.1.0</h2>
-<h3 id="added-18">Added</h3>
+<h3 id="added-19">Added</h3>
 <h4 id="project-1">Project</h4>
 <ul>
 <li>Continuous integration and deployment of technical and user documentation<ul>
@@ -745,7 +810,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="modified-19">Modified</h3>
+<h3 id="modified-20">Modified</h3>
 <h4 id="general-17">General</h4>
 <ul>
 <li>Localization updated</li>
@@ -763,7 +828,7 @@
 <li>All graph components now inherit the same base component to factorize the code and allow potential future integration of new graphs</li>
 <li>Commits closing a question without milestone associated are now displayed in green</li>
 </ul>
-<h4 id="overview-graph-14">Overview graph</h4>
+<h4 id="overview-graph-15">Overview graph</h4>
 <ul>
 <li>It is now possible to upload 2 times in a row the same file<ul>
 <li>This is the only workaround we found for the <em>reread button bug</em></li>
@@ -775,24 +840,24 @@
 <li>Bar index is now saved for the user session</li>
 </ul>
 <h3 id="deleted-5">Deleted</h3>
-<h4 id="overview-graph-15">Overview graph</h4>
+<h4 id="overview-graph-16">Overview graph</h4>
 <ul>
 <li><em>Reread</em> button because it was not working and there is no workaround to make it work</li>
 </ul>
 <h2 id="100">1.0.0</h2>
-<h3 id="added-19">Added</h3>
+<h3 id="added-20">Added</h3>
 <h4 id="general-18">General</h4>
 <ul>
 <li>Localization (english &amp; french)</li>
 <li>Connection with Github</li>
 </ul>
-<h4 id="home-10">Home</h4>
+<h4 id="home-11">Home</h4>
 <ul>
 <li>Documentation about JSON and ReadMe structure</li>
 <li>Documentation on the use of the application</li>
 <li>Display the CHANGELOG from the Github repository</li>
 </ul>
-<h4 id="overview-graph-16">Overview graph</h4>
+<h4 id="overview-graph-17">Overview graph</h4>
 <ul>
 <li>Displays the student commits given in the JSON configuration file (they have a different shape and color depending on the associated milestones)<ul>
 <li>Move the mouse over a commit to display its details</li>

@@ -1,0 +1,1111 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >DevFixtureService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/dev-mock/dev-fixture.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>DEV-ONLY service building a complete demo assignment (metadata, sessions,
+milestones and repositories) stored in IndexedDB and paired with a mocked Git
+account. It lets the app be exercised offline, logged-in and with real-looking
+data through the full loading pipeline.</p>
+
+            </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#clearDemo" >clearDemo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#ensureMockAccount" >ensureMockAccount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#loadDemoAssignment" >loadDemoAssignment</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#readAssignmentId" >readAssignmentId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#restoreIfActive" >restoreIfActive</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#saveActive" >saveActive</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#saveAssignmentId" >saveAssignmentId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#seedArchivedAssignment" >seedArchivedAssignment</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#seedAssignment" >seedAssignment</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#isActive" >isActive</a>
+                                </li>
+                                <li>
+                                    <a href="#provider" >provider</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(databaseService: <a href="../injectables/DatabaseService.html" target="_self">DatabaseService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, mockGitlabInstanceService: <a href="../injectables/MockGitlabInstanceService.html" target="_self">MockGitlabInstanceService</a>, mockGithubInstanceService: <a href="../injectables/MockGithubInstanceService.html" target="_self">MockGithubInstanceService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:23</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>databaseService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>mockGitlabInstanceService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MockGitlabInstanceService.html" target="_self" >MockGitlabInstanceService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>mockGithubInstanceService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MockGithubInstanceService.html" target="_self" >MockGithubInstanceService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearDemo"></a>
+                    <span class="name">
+                        <span ><b>clearDemo</b></span>
+                        <a href="#clearDemo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearDemo()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:90</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Disables the demo mode flags. The seeded assignment itself is kept in the
+database so it remains reachable from the home list.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ensureMockAccount"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>ensureMockAccount</b></span>
+                        <a href="#ensureMockAccount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ensureMockAccount(provider: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:100</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>provider</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadDemoAssignment"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>loadDemoAssignment</b></span>
+                        <a href="#loadDemoAssignment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadDemoAssignment(provider: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:51</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Enables the matching mock account (if needed), seeds a fresh demo assignment
+and sets it as the current one so the guards let the user reach the graphs.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>provider</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Assignment.html" target="_self" >Promise&lt;Assignment&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readAssignmentId"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>readAssignmentId</b></span>
+                        <a href="#readAssignmentId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>readAssignmentId()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="154"
+                            class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:154</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>number | null</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="restoreIfActive"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>restoreIfActive</b></span>
+                        <a href="#restoreIfActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>restoreIfActive()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:64</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Re-activates the demo mode after a reload: re-enables the mocked account,
+restores (or re-seeds) the assignment and makes it current.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Assignment.html" target="_self" >Promise&lt;Assignment | null&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveActive"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>saveActive</b></span>
+                        <a href="#saveActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveActive(provider: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:137</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>provider</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveAssignmentId"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>saveAssignmentId</b></span>
+                        <a href="#saveAssignmentId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveAssignmentId(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:146</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="seedArchivedAssignment"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>seedArchivedAssignment</b></span>
+                        <a href="#seedArchivedAssignment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>seedArchivedAssignment(provider: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>, epoch: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:128</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Seeds an already-archived copy so the « Archivés » tab, its badge and the restore
+action can be exercised live without a real account. Deliberately a separate row:
+the demo assignment itself must stay active.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>provider</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>epoch</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="seedAssignment"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>seedAssignment</b></span>
+                        <a href="#seedAssignment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>seedAssignment(provider: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:112</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>provider</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Assignment.html" target="_self" >Promise&lt;Assignment&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isActive"></a>
+                        <span class="name"><b>isActive</b><a href="#isActive"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isActive()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:31</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="provider"></a>
+                        <span class="name"><b>provider</b><a href="#provider"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>provider()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/dev-mock/dev-fixture.service.ts:39</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
+import { GitProviderType } from &quot;@models/Account.model&quot;;
+import { Assignment } from &quot;@models/Assignment.model&quot;;
+import { DatabaseService } from &quot;@services/database.service&quot;;
+import { DataService } from &quot;@services/data.service&quot;;
+import { MockGithubInstanceService } from &quot;./mock-github-instance.service&quot;;
+import { MockGitlabInstanceService } from &quot;./mock-gitlab-instance.service&quot;;
+import { buildDemoAssignment, setFixtureEpoch } from &quot;./mock-fixtures&quot;;
+
+const FIXTURE_ACTIVE_KEY &#x3D; &quot;g4s_dev_fixture_active&quot;;
+const FIXTURE_PROVIDER_KEY &#x3D; &quot;g4s_dev_fixture_provider&quot;;
+const FIXTURE_ASSIGNMENT_ID_KEY &#x3D; &quot;g4s_dev_fixture_assignment_id&quot;;
+
+/**
+ * DEV-ONLY service building a complete demo assignment (metadata, sessions,
+ * milestones and repositories) stored in IndexedDB and paired with a mocked Git
+ * account. It lets the app be exercised offline, logged-in and with real-looking
+ * data through the full loading pipeline.
+ */
+@Injectable({
+  providedIn: &quot;root&quot;,
+})
+export class DevFixtureService {
+  constructor(
+    private databaseService: DatabaseService,
+    private dataService: DataService,
+    private mockGitlabInstanceService: MockGitlabInstanceService,
+    private mockGithubInstanceService: MockGithubInstanceService,
+  ) {}
+
+  get isActive(): boolean {
+    try {
+      return localStorage.getItem(FIXTURE_ACTIVE_KEY) &#x3D;&#x3D;&#x3D; &quot;true&quot;;
+    } catch {
+      return false;
+    }
+  }
+
+  get provider(): GitProviderType {
+    try {
+      return localStorage.getItem(FIXTURE_PROVIDER_KEY) &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; ? &quot;gitlab&quot; : &quot;github&quot;;
+    } catch {
+      return &quot;github&quot;;
+    }
+  }
+
+  /**
+   * Enables the matching mock account (if needed), seeds a fresh demo assignment
+   * and sets it as the current one so the guards let the user reach the graphs.
+   */
+  async loadDemoAssignment(provider: GitProviderType): Promise&lt;Assignment&gt; {
+    await this.ensureMockAccount(provider);
+    const assignment &#x3D; await this.seedAssignment(provider);
+    this.saveActive(provider);
+    this.dataService.assignment &#x3D; assignment;
+    this.dataService.groupFilter &#x3D; &quot;&quot;;
+    return assignment;
+  }
+
+  /**
+   * Re-activates the demo mode after a reload: re-enables the mocked account,
+   * restores (or re-seeds) the assignment and makes it current.
+   */
+  async restoreIfActive(): Promise&lt;Assignment | null&gt; {
+    if (!this.isActive) {
+      return null;
+    }
+
+    const provider &#x3D; this.provider;
+    await this.ensureMockAccount(provider);
+
+    const id &#x3D; this.readAssignmentId();
+    if (id !&#x3D;&#x3D; null) {
+      const existing &#x3D; await this.databaseService.getAssignmentById(id);
+      if (existing) {
+        this.dataService.assignment &#x3D; existing;
+        return existing;
+      }
+    }
+
+    const assignment &#x3D; await this.seedAssignment(provider);
+    this.dataService.assignment &#x3D; assignment;
+    return assignment;
+  }
+
+  /**
+   * Disables the demo mode flags. The seeded assignment itself is kept in the
+   * database so it remains reachable from the home list.
+   */
+  clearDemo(): void {
+    try {
+      localStorage.removeItem(FIXTURE_ACTIVE_KEY);
+      localStorage.removeItem(FIXTURE_PROVIDER_KEY);
+      localStorage.removeItem(FIXTURE_ASSIGNMENT_ID_KEY);
+    } catch {
+      /* Storage unavailable */
+    }
+  }
+
+  private async ensureMockAccount(provider: GitProviderType): Promise&lt;void&gt; {
+    if (provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot;) {
+      if (!this.mockGitlabInstanceService.isMockActive) {
+        await this.mockGitlabInstanceService.enableMock();
+      }
+      return;
+    }
+    if (!this.mockGithubInstanceService.isMockActive) {
+      this.mockGithubInstanceService.enableMock();
+    }
+  }
+
+  private async seedAssignment(provider: GitProviderType): Promise&lt;Assignment&gt; {
+    const epoch &#x3D; Date.now();
+    setFixtureEpoch(epoch);
+    const assignment &#x3D; buildDemoAssignment(provider, epoch);
+    const id &#x3D; await this.databaseService.saveAssignment(assignment);
+    assignment.id &#x3D; id;
+    this.saveAssignmentId(id);
+    await this.seedArchivedAssignment(provider, epoch);
+    return assignment;
+  }
+
+  /**
+   * Seeds an already-archived copy so the « Archivés » tab, its badge and the restore
+   * action can be exercised live without a real account. Deliberately a separate row:
+   * the demo assignment itself must stay active.
+   */
+  private async seedArchivedAssignment(provider: GitProviderType, epoch: number): Promise&lt;void&gt; {
+    const archived &#x3D; buildDemoAssignment(provider, epoch);
+    archived.title &#x3D; provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; ? &quot;Démo — UE Algo TP0 (archivé, GitLab)&quot; : &quot;Démo — UE Algo TP0 (archivé, GitHub)&quot;;
+    /* Fixture hors affichage : l&#x27;horloge système suffit (voir AGENTS.md). */
+    archived.archivedAt &#x3D; new Date(epoch - 30 * 24 * 60 * 60 * 1000);
+    archived.lastModificationDate &#x3D; archived.archivedAt;
+    await this.databaseService.saveAssignment(archived);
+  }
+
+  private saveActive(provider: GitProviderType): void {
+    try {
+      localStorage.setItem(FIXTURE_ACTIVE_KEY, &quot;true&quot;);
+      localStorage.setItem(FIXTURE_PROVIDER_KEY, provider);
+    } catch {
+      /* Storage unavailable */
+    }
+  }
+
+  private saveAssignmentId(id: number): void {
+    try {
+      localStorage.setItem(FIXTURE_ASSIGNMENT_ID_KEY, String(id));
+    } catch {
+      /* Storage unavailable */
+    }
+  }
+
+  private readAssignmentId(): number | null {
+    try {
+      const raw &#x3D; localStorage.getItem(FIXTURE_ASSIGNMENT_ID_KEY);
+      const parsed &#x3D; raw ? parseInt(raw, 10) : NaN;
+      return isNaN(parsed) ? null : parsed;
+    } catch {
+      return null;
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'DevFixtureService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

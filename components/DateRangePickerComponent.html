@@ -147,6 +147,10 @@
                                 <a href="#calendarPopupEl" >calendarPopupEl</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#clockSubscription" >clockSubscription</a>
+                            </li>
+                            <li>
                                 <a href="#dropUp" >dropUp</a>
                             </li>
                             <li>
@@ -205,6 +209,9 @@
                                 <a href="#onWindowResize" >onWindowResize</a>
                             </li>
                             <li>
+                                <a href="#showTabSuggestion" >showTabSuggestion</a>
+                            </li>
+                            <li>
                                 <a href="#startDayEl" >startDayEl</a>
                             </li>
                             <li>
@@ -235,6 +242,12 @@
                                 <a href="#startYearStr" >startYearStr</a>
                             </li>
                             <li>
+                                <a href="#tabShortcutPressed" >tabShortcutPressed</a>
+                            </li>
+                            <li>
+                                <a href="#tabSuggestionAbove" >tabSuggestionAbove</a>
+                            </li>
+                            <li>
                                 <a href="#viewDate" >viewDate</a>
                             </li>
                             <li>
@@ -254,7 +267,15 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#acceptTabSuggestion" >acceptTabSuggestion</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#adjustPopupPosition" >adjustPopupPosition</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#applyPeriodTimes" >applyPeriodTimes</a>
                             </li>
                             <li>
                                 <a href="#closePopup" >closePopup</a>
@@ -306,6 +327,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#minutesToTime" >minutesToTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#moveFocus" >moveFocus</a>
                             </li>
                             <li>
@@ -331,6 +356,9 @@
                             </li>
                             <li>
                                 <a href="#onDateLeave" >onDateLeave</a>
+                            </li>
+                            <li>
+                                <a href="#onEndHourFocus" >onEndHourFocus</a>
                             </li>
                             <li>
                                 <a href="#onFocusOut" >onFocusOut</a>
@@ -382,6 +410,10 @@
                             </li>
                             <li>
                                 <a href="#setToday" >setToday</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#timeToMinutes" >timeToMinutes</a>
                             </li>
                             <li>
                                 <a href="#togglePopup" >togglePopup</a>
@@ -505,6 +537,9 @@
                                     <a href="#timeString" >timeString</a>
                                 </li>
                                 <li>
+                                    <a href="#suggestedEndTime" >suggestedEndTime</a>
+                                </li>
+                                <li>
                                     <a href="#orderedElements" >orderedElements</a>
                                 </li>
                             </ul>
@@ -520,12 +555,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, translateService: TranslateService, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, translateService: TranslateService, clockService: <a href="../injectables/ClockService.html" target="_self">ClockService</a>, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:87</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:96</a></div>
                             </td>
                         </tr>
 
@@ -559,6 +594,18 @@
                                                   
                                                         <td>
                                                                     <code>TranslateService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>clockService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ClockService.html" target="_self" >ClockService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -610,7 +657,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:47</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -636,7 +683,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:38</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -662,7 +709,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:34</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -683,12 +730,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&#x27;METADATA.END-DATE&#x27;</code>
+                        <i>Default value : </i><code>&quot;METADATA.END-DATE&quot;</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:50</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -709,12 +756,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&#x27;14:00&#x27;</code>
+                        <i>Default value : </i><code>&quot;14:00&quot;</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:37</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -735,12 +782,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&#x27;date-range&#x27;</code>
+                        <i>Default value : </i><code>&quot;date-range&quot;</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:35</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -761,12 +808,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&#x27;DATE&#x27;</code>
+                        <i>Default value : </i><code>&quot;DATE&quot;</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:51</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -792,7 +839,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:33</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -813,12 +860,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&#x27;METADATA.START-DATE&#x27;</code>
+                        <i>Default value : </i><code>&quot;METADATA.START-DATE&quot;</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:49</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -839,12 +886,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&#x27;12:00&#x27;</code>
+                        <i>Default value : </i><code>&quot;12:00&quot;</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:36</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -868,7 +915,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:50</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:55</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -889,7 +936,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:54</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -910,7 +957,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:39</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -931,7 +978,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:53</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -964,8 +1011,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="322"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:322</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="356"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:356</a></div>
                 </td>
             </tr>
 
@@ -978,6 +1025,45 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="acceptTabSuggestion"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>acceptTabSuggestion</b></span>
+                        <a href="#acceptTabSuggestion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>acceptTabSuggestion()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="966"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:966</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1000,8 +1086,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="231"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:231</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="265"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:265</a></div>
                 </td>
             </tr>
 
@@ -1012,6 +1098,81 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyPeriodTimes"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>applyPeriodTimes</b></span>
+                        <a href="#applyPeriodTimes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyPeriodTimes(parsedDate: moment.Moment)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="929"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:929</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Applies the datetime-period time fields after a date parse.
+Keeps the period within a single day by swapping the times when the end is before the start,
+mirroring the clock picker and the date-range swap behavior.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parsedDate</td>
+                                    <td>
+                                            <code>moment.Moment</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1037,8 +1198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="308"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:308</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="342"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:342</a></div>
                 </td>
             </tr>
 
@@ -1076,8 +1237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="794"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:794</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="863"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:863</a></div>
                 </td>
             </tr>
 
@@ -1171,8 +1332,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="798"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:798</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="867"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:867</a></div>
                 </td>
             </tr>
 
@@ -1266,8 +1427,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="666"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:666</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="726"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:726</a></div>
                 </td>
             </tr>
 
@@ -1305,8 +1466,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="736"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:736</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="797"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:797</a></div>
                 </td>
             </tr>
 
@@ -1388,8 +1549,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="552"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:552</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="599"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:599</a></div>
                 </td>
             </tr>
 
@@ -1459,8 +1620,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="212"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:212</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="246"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:246</a></div>
                 </td>
             </tr>
 
@@ -1496,8 +1657,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="439"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:439</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="484"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:484</a></div>
                 </td>
             </tr>
 
@@ -1565,8 +1726,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="482"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:482</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="527"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:527</a></div>
                 </td>
             </tr>
 
@@ -1634,8 +1795,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="477"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:477</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="522"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:522</a></div>
                 </td>
             </tr>
 
@@ -1703,8 +1864,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="443"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:443</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="488"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:488</a></div>
                 </td>
             </tr>
 
@@ -1772,8 +1933,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="471"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:471</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="516"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:516</a></div>
                 </td>
             </tr>
 
@@ -1841,8 +2002,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="464"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:464</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="509"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:509</a></div>
                 </td>
             </tr>
 
@@ -1910,8 +2071,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="432"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:432</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="477"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:477</a></div>
                 </td>
             </tr>
 
@@ -1963,6 +2124,77 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="minutesToTime"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>minutesToTime</b></span>
+                        <a href="#minutesToTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>minutesToTime(minutes: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="994"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:994</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>minutes</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="moveFocus"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -1981,8 +2213,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="773"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:773</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="837"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:837</a></div>
                 </td>
             </tr>
 
@@ -2086,8 +2318,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="331"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:331</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="365"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:365</a></div>
                 </td>
             </tr>
 
@@ -2123,8 +2355,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:107</a></div>
                 </td>
             </tr>
 
@@ -2192,8 +2424,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="179"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:179</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="197"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:197</a></div>
                 </td>
             </tr>
 
@@ -2229,8 +2461,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:148</a></div>
                 </td>
             </tr>
 
@@ -2266,8 +2498,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="630"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:630</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="689"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:689</a></div>
                 </td>
             </tr>
 
@@ -2335,8 +2567,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="343"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:343</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="377"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:377</a></div>
                 </td>
             </tr>
 
@@ -2404,8 +2636,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="394"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:394</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="428"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:428</a></div>
                 </td>
             </tr>
 
@@ -2473,8 +2705,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="398"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:398</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="432"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:432</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEndHourFocus"></a>
+                    <span class="name">
+                        <span ><b>onEndHourFocus</b></span>
+                        <a href="#onEndHourFocus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onEndHourFocus()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:233</a></div>
                 </td>
             </tr>
 
@@ -2517,8 +2786,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="322"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:322</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="356"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:356</a></div>
                 </td>
             </tr>
 
@@ -2586,8 +2855,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="572"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:572</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="619"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:619</a></div>
                 </td>
             </tr>
 
@@ -2679,8 +2948,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="613"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:613</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="663"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:663</a></div>
                 </td>
             </tr>
 
@@ -2772,8 +3041,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="402"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:402</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="436"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:436</a></div>
                 </td>
             </tr>
 
@@ -2841,8 +3110,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="412"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:412</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="447"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:447</a></div>
                 </td>
             </tr>
 
@@ -2912,8 +3181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="562"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:562</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="609"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:609</a></div>
                 </td>
             </tr>
 
@@ -2995,8 +3264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="548"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:548</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="595"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:595</a></div>
                 </td>
             </tr>
 
@@ -3064,8 +3333,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="337"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:337</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="371"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:371</a></div>
                 </td>
             </tr>
 
@@ -3103,8 +3372,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="700"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:700</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="761"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:761</a></div>
                 </td>
             </tr>
 
@@ -3174,8 +3443,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="534"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:534</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="579"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:579</a></div>
                 </td>
             </tr>
 
@@ -3269,8 +3538,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="694"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:694</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="755"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:755</a></div>
                 </td>
             </tr>
 
@@ -3340,8 +3609,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="688"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:688</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="749"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:749</a></div>
                 </td>
             </tr>
 
@@ -3409,8 +3678,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="524"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:524</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="569"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:569</a></div>
                 </td>
             </tr>
 
@@ -3446,8 +3715,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="514"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:514</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="559"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:559</a></div>
                 </td>
             </tr>
 
@@ -3483,8 +3752,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="487"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:487</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="532"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:532</a></div>
                 </td>
             </tr>
 
@@ -3495,6 +3764,77 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timeToMinutes"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>timeToMinutes</b></span>
+                        <a href="#timeToMinutes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>timeToMinutes(time: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="961"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:961</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>time</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -3520,8 +3860,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="213"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:213</a></div>
                 </td>
             </tr>
 
@@ -3559,8 +3899,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="802"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:802</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="871"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:871</a></div>
                 </td>
             </tr>
 
@@ -3630,8 +3970,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="706"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:706</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="767"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:767</a></div>
                 </td>
             </tr>
 
@@ -3713,8 +4053,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="650"
-                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:650</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="712"
+                            class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:712</a></div>
                 </td>
             </tr>
 
@@ -3754,7 +4094,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:71</a></div>
                         </td>
                     </tr>
 
@@ -3785,7 +4125,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:78</a></div>
                         </td>
                     </tr>
 
@@ -3821,7 +4161,34 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clockSubscription"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>clockSubscription</b></span>
+                        <a href="#clockSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:96</a></div>
                         </td>
                     </tr>
 
@@ -3846,7 +4213,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -3881,7 +4248,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:64</a></div>
                         </td>
                     </tr>
 
@@ -3912,7 +4279,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:87</a></div>
                         </td>
                     </tr>
 
@@ -3947,7 +4314,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:62</a></div>
                         </td>
                     </tr>
 
@@ -3978,7 +4345,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:82</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:90</a></div>
                         </td>
                     </tr>
 
@@ -4013,7 +4380,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -4044,7 +4411,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:91</a></div>
                         </td>
                     </tr>
 
@@ -4079,7 +4446,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -4110,7 +4477,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:80</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:88</a></div>
                         </td>
                     </tr>
 
@@ -4145,7 +4512,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -4176,7 +4543,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:81</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:89</a></div>
                         </td>
                     </tr>
 
@@ -4207,7 +4574,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -4232,7 +4599,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:93</a></div>
                         </td>
                     </tr>
 
@@ -4257,7 +4624,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -4284,7 +4651,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:87</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:95</a></div>
                         </td>
                     </tr>
 
@@ -4310,7 +4677,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="315" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:315</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="349" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:349</a></div>
                         </td>
                     </tr>
 
@@ -4336,7 +4703,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="296" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:296</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="330" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:330</a></div>
                         </td>
                     </tr>
 
@@ -4362,7 +4729,32 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="302" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:302</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="336" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:336</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showTabSuggestion"></a>
+                    <span class="name">
+                        <span ><b>showTabSuggestion</b></span>
+                        <a href="#showTabSuggestion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -4397,7 +4789,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -4428,7 +4820,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -4463,7 +4855,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -4494,7 +4886,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:85</a></div>
                         </td>
                     </tr>
 
@@ -4529,7 +4921,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -4560,7 +4952,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:86</a></div>
                         </td>
                     </tr>
 
@@ -4595,7 +4987,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -4626,7 +5018,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -4661,7 +5053,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -4692,7 +5084,57 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tabShortcutPressed"></a>
+                    <span class="name">
+                        <span ><b>tabShortcutPressed</b></span>
+                        <a href="#tabShortcutPressed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tabSuggestionAbove"></a>
+                    <span class="name">
+                        <span ><b>tabSuggestionAbove</b></span>
+                        <a href="#tabSuggestionAbove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -4716,14 +5158,9 @@
 
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>moment()</code>
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:67</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:72</a></div>
                         </td>
                     </tr>
 
@@ -4754,7 +5191,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:79</a></div>
                         </td>
                     </tr>
 
@@ -4783,7 +5220,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:41</a></div>
                                 </td>
                             </tr>
 
@@ -4805,7 +5242,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:44</a></div>
                                 </td>
                             </tr>
 
@@ -4827,7 +5264,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="188" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:188</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="209" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:209</a></div>
                                 </td>
                             </tr>
 
@@ -4849,7 +5286,29 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="427" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:427</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="462" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:462</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="suggestedEndTime"></a>
+                        <span class="name"><b>suggestedEndTime</b><a href="#suggestedEndTime"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>suggestedEndTime()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="467" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:467</a></div>
                                 </td>
                             </tr>
 
@@ -4871,7 +5330,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="755" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:755</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="816" class="link-to-prism">src/app/shared/ui/date-range-picker/date-range-picker.component.ts:816</a></div>
                                 </td>
                             </tr>
 
@@ -4894,11 +5353,12 @@
   ViewChild,
   ChangeDetectorRef,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from &quot;@angular/core&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import * as moment from &quot;moment&quot;;
 import { Subscription } from &quot;rxjs&quot;;
+import { ClockService } from &quot;@services/clock.service&quot;;
 
 export interface CalendarDay {
   date: moment.Moment;
@@ -4915,19 +5375,23 @@ export interface CalendarDay {
 export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() startDate: Date | null &#x3D; null;
   @Input() endDate: Date | null &#x3D; null;
-  @Input() mode: &#x27;date-range&#x27; | &#x27;date&#x27; | &#x27;datetime&#x27; | &#x27;datetime-period&#x27; &#x3D; &#x27;date-range&#x27;;
-  @Input() startTime: string &#x3D; &#x27;12:00&#x27;;
-  @Input() endTime: string &#x3D; &#x27;14:00&#x27;;
+  @Input() mode: &quot;date-range&quot; | &quot;date&quot; | &quot;datetime&quot; | &quot;datetime-period&quot; &#x3D; &quot;date-range&quot;;
+  @Input() startTime &#x3D; &quot;12:00&quot;;
+  @Input() endTime &#x3D; &quot;14:00&quot;;
   @Input() defaultDuration &#x3D; 120;
   @Output() periodChange &#x3D; new EventEmitter&lt;{ start: string; end: string }&gt;();
 
-  get isSingleDate(): boolean { return this.mode !&#x3D;&#x3D; &#x27;date-range&#x27;; }
-  get hasTime(): boolean { return this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime&#x27; || this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27;; }
+  get isSingleDate(): boolean {
+    return this.mode !&#x3D;&#x3D; &quot;date-range&quot;;
+  }
+  get hasTime(): boolean {
+    return this.mode &#x3D;&#x3D;&#x3D; &quot;datetime&quot; || this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot;;
+  }
   @Input() date: Date | null &#x3D; null;
-  
-  @Input() startLabel &#x3D; &#x27;METADATA.START-DATE&#x27;;
-  @Input() endLabel &#x3D; &#x27;METADATA.END-DATE&#x27;;
-  @Input() singleLabel &#x3D; &#x27;DATE&#x27;;
+
+  @Input() startLabel &#x3D; &quot;METADATA.START-DATE&quot;;
+  @Input() endLabel &#x3D; &quot;METADATA.END-DATE&quot;;
+  @Input() singleLabel &#x3D; &quot;DATE&quot;;
 
   @Output() startDateChange &#x3D; new EventEmitter&lt;Date | null&gt;();
   @Output() endDateChange &#x3D; new EventEmitter&lt;Date | null&gt;();
@@ -4948,8 +5412,11 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   isOpen &#x3D; false;
   dropUp &#x3D; false;
   alignRight &#x3D; false;
-  viewDate: moment.Moment &#x3D; moment();
+  viewDate: moment.Moment;
   hoverDate: moment.Moment | null &#x3D; null;
+  showTabSuggestion &#x3D; false;
+  tabSuggestionAbove &#x3D; false;
+  tabShortcutPressed &#x3D; false;
 
   calendar: CalendarDay[][] &#x3D; [];
   weekDays: string[] &#x3D; [];
@@ -4969,15 +5436,19 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   isFrench &#x3D; false;
 
   private langSubscription: Subscription;
+  private clockSubscription: Subscription;
 
   constructor(
     private elementRef: ElementRef,
     private translateService: TranslateService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private clockService: ClockService,
+    private cdr: ChangeDetectorRef,
+  ) {
+    this.viewDate &#x3D; this.clockService.moment();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes[&#x27;date&#x27;] &amp;&amp; this.isSingleDate) {
+    if (changes[&quot;date&quot;] &amp;&amp; this.isSingleDate) {
       if (this.date) {
         this.viewDate &#x3D; moment(this.date);
         this.updateInputStrings(true, moment(this.date));
@@ -4985,20 +5456,20 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         this.updateInputStrings(true, null);
       }
     }
-    
-    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27;) {
-      if (changes[&#x27;startTime&#x27;] &amp;&amp; this.startTime) {
-        this.startHourStr &#x3D; this.startTime.split(&#x27;:&#x27;)[0];
-        this.startMinuteStr &#x3D; this.startTime.split(&#x27;:&#x27;)[1];
+
+    if (this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot;) {
+      if (changes[&quot;startTime&quot;] &amp;&amp; this.startTime) {
+        this.startHourStr &#x3D; this.startTime.split(&quot;:&quot;)[0];
+        this.startMinuteStr &#x3D; this.startTime.split(&quot;:&quot;)[1];
       }
-      if (changes[&#x27;endTime&#x27;] &amp;&amp; this.endTime) {
-        this.endHourStr &#x3D; this.endTime.split(&#x27;:&#x27;)[0];
-        this.endMinuteStr &#x3D; this.endTime.split(&#x27;:&#x27;)[1];
+      if (changes[&quot;endTime&quot;] &amp;&amp; this.endTime) {
+        this.endHourStr &#x3D; this.endTime.split(&quot;:&quot;)[0];
+        this.endMinuteStr &#x3D; this.endTime.split(&quot;:&quot;)[1];
       }
     }
-    
+
     if (!this.isSingleDate) {
-      if (changes[&#x27;startDate&#x27;]) {
+      if (changes[&quot;startDate&quot;]) {
         if (this.startDate) {
           this.viewDate &#x3D; moment(this.startDate);
           this.updateInputStrings(true, moment(this.startDate));
@@ -5006,7 +5477,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
           this.updateInputStrings(true, null);
         }
       }
-      if (changes[&#x27;endDate&#x27;]) {
+      if (changes[&quot;endDate&quot;]) {
         if (this.endDate) {
           if (!this.startDate) this.viewDate &#x3D; moment(this.endDate);
           this.updateInputStrings(false, moment(this.endDate));
@@ -5023,22 +5494,22 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       this.updateLocale();
     });
 
-    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27;) {
+    if (this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot;) {
       if (this.startTime) {
-        this.startHourStr &#x3D; this.startTime.split(&#x27;:&#x27;)[0];
-        this.startMinuteStr &#x3D; this.startTime.split(&#x27;:&#x27;)[1];
+        this.startHourStr &#x3D; this.startTime.split(&quot;:&quot;)[0];
+        this.startMinuteStr &#x3D; this.startTime.split(&quot;:&quot;)[1];
       }
       if (this.endTime) {
-        this.endHourStr &#x3D; this.endTime.split(&#x27;:&#x27;)[0];
-        this.endMinuteStr &#x3D; this.endTime.split(&#x27;:&#x27;)[1];
+        this.endHourStr &#x3D; this.endTime.split(&quot;:&quot;)[0];
+        this.endMinuteStr &#x3D; this.endTime.split(&quot;:&quot;)[1];
       }
     }
-    
+
     if (this.isSingleDate &amp;&amp; this.date) {
       this.viewDate &#x3D; moment(this.date);
       this.updateInputStrings(true, moment(this.date));
     }
-    
+
     if (!this.isSingleDate) {
       if (this.startDate) {
         this.viewDate &#x3D; moment(this.startDate);
@@ -5054,6 +5525,12 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.generateCalendar();
 
+    // Keep the &quot;today&quot; highlight in sync when the dev bar shifts the simulated clock
+    this.clockSubscription &#x3D; this.clockService.offsetMs$.subscribe(() &#x3D;&gt; {
+      this.generateCalendar();
+      this.cdr.markForCheck();
+    });
+
     // Use capture phase to bypass stopPropagation() called by modals
     document.addEventListener(&quot;click&quot;, this.onDocumentClick, { capture: true });
     document.addEventListener(&quot;scroll&quot;, this.onScroll, { capture: true, passive: true });
@@ -5063,6 +5540,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void {
     if (this.langSubscription) {
       this.langSubscription.unsubscribe();
+    }
+    if (this.clockSubscription) {
+      this.clockSubscription.unsubscribe();
     }
     document.removeEventListener(&quot;click&quot;, this.onDocumentClick, { capture: true });
     document.removeEventListener(&quot;scroll&quot;, this.onScroll, { capture: true });
@@ -5093,18 +5573,31 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     this.cdr.markForCheck();
   }
 
+  onEndHourFocus() {
+    if (this.mode !&#x3D;&#x3D; &quot;datetime-period&quot;) return;
+
+    // The floating suggestion replaces the calendar popup while editing the end time
+    if (this.isOpen) {
+      this.closePopup();
+    }
+
+    const endHourElement &#x3D; this.endHourEl?.nativeElement as HTMLElement | undefined;
+    this.tabSuggestionAbove &#x3D; !!endHourElement &amp;&amp; window.innerHeight - endHourElement.getBoundingClientRect().bottom &lt; 80;
+    this.showTabSuggestion &#x3D; this.suggestedEndTime !&#x3D;&#x3D; &quot;&quot;;
+  }
+
   private initViewDate(): void {
-    if (this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27;) {
+    if (this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot;) {
       if (this.startTime) {
-        this.startHourStr &#x3D; this.startTime.split(&#x27;:&#x27;)[0];
-        this.startMinuteStr &#x3D; this.startTime.split(&#x27;:&#x27;)[1];
+        this.startHourStr &#x3D; this.startTime.split(&quot;:&quot;)[0];
+        this.startMinuteStr &#x3D; this.startTime.split(&quot;:&quot;)[1];
       }
       if (this.endTime) {
-        this.endHourStr &#x3D; this.endTime.split(&#x27;:&#x27;)[0];
-        this.endMinuteStr &#x3D; this.endTime.split(&#x27;:&#x27;)[1];
+        this.endHourStr &#x3D; this.endTime.split(&quot;:&quot;)[0];
+        this.endMinuteStr &#x3D; this.endTime.split(&quot;:&quot;)[1];
       }
     }
-    
+
     if (this.isSingleDate &amp;&amp; this.date) {
       this.viewDate &#x3D; moment(this.date);
     } else if (!this.isSingleDate &amp;&amp; this.startDate) {
@@ -5115,11 +5608,11 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   private adjustPopupPosition(): void {
     if (!this.isOpen) return;
 
-    const popupEl &#x3D; this.calendarPopupEl?.nativeElement || (this.elementRef.nativeElement.querySelector(&#x27;.calendar-popup&#x27;) as HTMLElement);
+    const popupEl &#x3D; this.calendarPopupEl?.nativeElement || (this.elementRef.nativeElement.querySelector(&quot;.calendar-popup&quot;) as HTMLElement);
     if (!popupEl) return;
 
     const triggerRect &#x3D; this.elementRef.nativeElement.getBoundingClientRect();
-    const popupWidth &#x3D; popupEl.offsetWidth || ((this.isSingleDate &amp;&amp; this.hasTime) || this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27; ? 650 : 350);
+    const popupWidth &#x3D; popupEl.offsetWidth || ((this.isSingleDate &amp;&amp; this.hasTime) || this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot; ? 650 : 350);
     const popupHeight &#x3D; popupEl.offsetHeight || 390;
 
     const margin &#x3D; 12;
@@ -5173,8 +5666,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
     popupEl.style.left &#x3D; &#x60;${relativeLeft}px&#x60;;
     popupEl.style.top &#x3D; &#x60;${relativeTop}px&#x60;;
-    popupEl.style.right &#x3D; &#x27;auto&#x27;;
-    popupEl.style.bottom &#x3D; &#x27;auto&#x27;;
+    popupEl.style.right &#x3D; &quot;auto&quot;;
+    popupEl.style.bottom &#x3D; &quot;auto&quot;;
   }
 
   private onScroll &#x3D; () &#x3D;&gt; {
@@ -5235,7 +5728,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
           clickedDate.hour(12).minute(0);
         }
       }
-      
+
       this.setSingleDate(clickedDate);
       if (!this.hasTime) {
         this.closePopup();
@@ -5246,8 +5739,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.startDate &amp;&amp; !this.endDate) {
       this.setStartDate(clickedDate);
       return;
-    } 
-    
+    }
+
     if (this.startDate &amp;&amp; !this.endDate) {
       if (clickedDate.isBefore(this.startDate)) {
         this.setEndDate(moment(this.startDate));
@@ -5257,8 +5750,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.closePopup();
       return;
-    } 
-    
+    }
+
     if (!this.startDate &amp;&amp; this.endDate) {
       if (clickedDate.isAfter(this.endDate)) {
         this.setStartDate(moment(this.endDate));
@@ -5268,8 +5761,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.closePopup();
       return;
-    } 
-    
+    }
+
     // Both exist. Reset and start over
     this.setStartDate(clickedDate);
     this.setEndDate(null);
@@ -5283,34 +5776,45 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     this.hoverDate &#x3D; null;
   }
 
-  onPeriodChange(period: { start: string, end: string }) {
+  onPeriodChange(period: { start: string; end: string }) {
+    this.showTabSuggestion &#x3D; false;
     this.startTime &#x3D; period.start;
     this.endTime &#x3D; period.end;
-    this.startHourStr &#x3D; this.startTime.split(&#x27;:&#x27;)[0];
-    this.startMinuteStr &#x3D; this.startTime.split(&#x27;:&#x27;)[1];
-    this.endHourStr &#x3D; this.endTime.split(&#x27;:&#x27;)[0];
-    this.endMinuteStr &#x3D; this.endTime.split(&#x27;:&#x27;)[1];
+    this.startHourStr &#x3D; this.startTime.split(&quot;:&quot;)[0];
+    this.startMinuteStr &#x3D; this.startTime.split(&quot;:&quot;)[1];
+    this.endHourStr &#x3D; this.endTime.split(&quot;:&quot;)[0];
+    this.endMinuteStr &#x3D; this.endTime.split(&quot;:&quot;)[1];
     this.periodChange.emit(period);
   }
 
   onTimeChange(newTime: string) {
     if (!this.date) {
       // If no date is set, use today
-      const today &#x3D; moment().startOf(&#x27;day&#x27;);
-      const [h, m] &#x3D; newTime.split(&#x27;:&#x27;);
+      const today &#x3D; this.clockService.moment().startOf(&quot;day&quot;);
+      const [h, m] &#x3D; newTime.split(&quot;:&quot;);
       today.hour(parseInt(h, 10)).minute(parseInt(m, 10));
       this.setSingleDate(today);
     } else {
       const updatedDate &#x3D; moment(this.date);
-      const [h, m] &#x3D; newTime.split(&#x27;:&#x27;);
+      const [h, m] &#x3D; newTime.split(&quot;:&quot;);
       updatedDate.hour(parseInt(h, 10)).minute(parseInt(m, 10));
       this.setSingleDate(updatedDate);
     }
   }
 
   get timeString(): string {
-    if (!this.date) return &#x27;12:00&#x27;;
-    return moment(this.date).format(&#x27;HH:mm&#x27;);
+    if (!this.date) return &quot;12:00&quot;;
+    return moment(this.date).format(&quot;HH:mm&quot;);
+  }
+
+  get suggestedEndTime(): string {
+    if (this.startHourStr.length !&#x3D;&#x3D; 2 || this.startMinuteStr.length !&#x3D;&#x3D; 2) return &quot;&quot;;
+
+    const endMinutes &#x3D; this.timeToMinutes(&#x60;${this.startHourStr}:${this.startMinuteStr}&#x60;) + this.defaultDuration;
+    // Keep the period within a single day, mirroring the clock picker behavior
+    if (endMinutes &gt;&#x3D; 24 * 60) return &quot;23:55&quot;;
+
+    return this.minutesToTime(endMinutes);
   }
 
   isStartDate(date: moment.Moment): boolean {
@@ -5346,44 +5850,44 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   isRangeRight(date: moment.Moment): boolean {
-    if (this.isSingleDate || !this.startDate || !date.isSame(this.startDate, &#x27;day&#x27;)) return false;
-    if (this.endDate &amp;&amp; moment(this.endDate).isAfter(this.startDate, &#x27;day&#x27;)) return true;
-    if (!this.endDate &amp;&amp; this.hoverDate &amp;&amp; this.hoverDate.isAfter(this.startDate, &#x27;day&#x27;)) return true;
+    if (this.isSingleDate || !this.startDate || !date.isSame(this.startDate, &quot;day&quot;)) return false;
+    if (this.endDate &amp;&amp; moment(this.endDate).isAfter(this.startDate, &quot;day&quot;)) return true;
+    if (!this.endDate &amp;&amp; this.hoverDate &amp;&amp; this.hoverDate.isAfter(this.startDate, &quot;day&quot;)) return true;
     return false;
   }
 
   isRangeLeft(date: moment.Moment): boolean {
-    if (this.isSingleDate || !this.startDate || !date.isSame(this.startDate, &#x27;day&#x27;)) return false;
-    if (!this.endDate &amp;&amp; this.hoverDate &amp;&amp; this.hoverDate.isBefore(this.startDate, &#x27;day&#x27;)) return true;
+    if (this.isSingleDate || !this.startDate || !date.isSame(this.startDate, &quot;day&quot;)) return false;
+    if (!this.endDate &amp;&amp; this.hoverDate &amp;&amp; this.hoverDate.isBefore(this.startDate, &quot;day&quot;)) return true;
     return false;
   }
 
   isHoverForwardEnd(date: moment.Moment): boolean {
     if (this.isSingleDate || this.endDate || !this.startDate || !this.hoverDate) return false;
-    return date.isSame(this.hoverDate, &#x27;day&#x27;) &amp;&amp; this.hoverDate.isAfter(this.startDate, &#x27;day&#x27;);
+    return date.isSame(this.hoverDate, &quot;day&quot;) &amp;&amp; this.hoverDate.isAfter(this.startDate, &quot;day&quot;);
   }
 
   isHoverBackwardStart(date: moment.Moment): boolean {
     if (this.isSingleDate || this.endDate || !this.startDate || !this.hoverDate) return false;
-    return date.isSame(this.hoverDate, &#x27;day&#x27;) &amp;&amp; this.hoverDate.isBefore(this.startDate, &#x27;day&#x27;);
+    return date.isSame(this.hoverDate, &quot;day&quot;) &amp;&amp; this.hoverDate.isBefore(this.startDate, &quot;day&quot;);
   }
 
   setToday() {
-    const today &#x3D; moment();
+    const today &#x3D; this.clockService.moment();
     if (!this.hasTime || !this.isSingleDate) {
       today.startOf(&quot;day&quot;);
     }
-    
+
     if (this.isSingleDate) {
       this.setSingleDate(today);
-      if (this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27;) {
-        const endDate &#x3D; today.clone().add(this.defaultDuration, &#x27;minutes&#x27;);
-        this.startTime &#x3D; today.format(&#x27;HH:mm&#x27;);
-        this.endTime &#x3D; endDate.format(&#x27;HH:mm&#x27;);
-        this.startHourStr &#x3D; today.format(&#x27;HH&#x27;);
-        this.startMinuteStr &#x3D; today.format(&#x27;mm&#x27;);
-        this.endHourStr &#x3D; endDate.format(&#x27;HH&#x27;);
-        this.endMinuteStr &#x3D; endDate.format(&#x27;mm&#x27;);
+      if (this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot;) {
+        const endDate &#x3D; today.clone().add(this.defaultDuration, &quot;minutes&quot;);
+        this.startTime &#x3D; today.format(&quot;HH:mm&quot;);
+        this.endTime &#x3D; endDate.format(&quot;HH:mm&quot;);
+        this.startHourStr &#x3D; today.format(&quot;HH&quot;);
+        this.startMinuteStr &#x3D; today.format(&quot;mm&quot;);
+        this.endHourStr &#x3D; endDate.format(&quot;HH&quot;);
+        this.endMinuteStr &#x3D; endDate.format(&quot;mm&quot;);
         this.periodChange.emit({ start: this.startTime, end: this.endTime });
       }
     } else {
@@ -5396,8 +5900,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setThisWeek() {
-    const start &#x3D; moment().startOf(&quot;week&quot;);
-    const end &#x3D; moment().endOf(&quot;week&quot;).startOf(&quot;day&quot;);
+    const start &#x3D; this.clockService.moment().startOf(&quot;week&quot;);
+    const end &#x3D; this.clockService.moment().endOf(&quot;week&quot;).startOf(&quot;day&quot;);
     this.setStartDate(start);
     this.setEndDate(end);
     this.viewDate &#x3D; start.clone();
@@ -5406,8 +5910,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setThisMonth() {
-    const start &#x3D; moment().startOf(&quot;month&quot;);
-    const end &#x3D; moment().endOf(&quot;month&quot;).startOf(&quot;day&quot;);
+    const start &#x3D; this.clockService.moment().startOf(&quot;month&quot;);
+    const end &#x3D; this.clockService.moment().endOf(&quot;month&quot;).startOf(&quot;day&quot;);
     this.setStartDate(start);
     this.setEndDate(end);
     this.viewDate &#x3D; start.clone();
@@ -5426,6 +5930,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       if (field &#x3D;&#x3D;&#x3D; &quot;day&quot;) this.endDayStr &#x3D; value;
       else if (field &#x3D;&#x3D;&#x3D; &quot;month&quot;) this.endMonthStr &#x3D; value;
       else if (field &#x3D;&#x3D;&#x3D; &quot;year&quot;) this.endYearStr &#x3D; value;
+      else if (field &#x3D;&#x3D;&#x3D; &quot;hour&quot;) this.endHourStr &#x3D; value;
+      else if (field &#x3D;&#x3D;&#x3D; &quot;minute&quot;) this.endMinuteStr &#x3D; value;
     }
   }
 
@@ -5455,6 +5961,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
   onInputType(event: Event, isStart: boolean, field: &quot;day&quot; | &quot;month&quot; | &quot;year&quot; | &quot;hour&quot; | &quot;minute&quot;) {
     const input &#x3D; event.target as HTMLInputElement;
+    if (!isStart) {
+      this.showTabSuggestion &#x3D; false;
+    }
     let value &#x3D; input.value.replace(/\D/g, &quot;&quot;); // Keep only digits
 
     const maxLength &#x3D; field &#x3D;&#x3D;&#x3D; &quot;year&quot; ? 4 : 2;
@@ -5494,24 +6003,36 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onKeyDown(
-    event: KeyboardEvent,
-    isStart: boolean,
-    field: &quot;day&quot; | &quot;month&quot; | &quot;year&quot; | &quot;hour&quot; | &quot;minute&quot;
-  ) {
+  onKeyDown(event: KeyboardEvent, isStart: boolean, field: &quot;day&quot; | &quot;month&quot; | &quot;year&quot; | &quot;hour&quot; | &quot;minute&quot;) {
     const input &#x3D; event.target as HTMLInputElement;
+
+    // Accept the tab suggestion: fill the end time from the start time + default duration
+    if (this.showTabSuggestion &amp;&amp; !isStart &amp;&amp; field &#x3D;&#x3D;&#x3D; &quot;hour&quot; &amp;&amp; event.key &#x3D;&#x3D;&#x3D; &quot;Tab&quot; &amp;&amp; !event.shiftKey) {
+      event.preventDefault();
+      this.acceptTabSuggestion();
+      return;
+    }
+
+    // Any other interaction in the end fields dismisses the suggestion
+    if (!isStart) {
+      this.showTabSuggestion &#x3D; false;
+    }
+
     if (event.key &#x3D;&#x3D;&#x3D; &quot;Backspace&quot; &amp;&amp; input.value &#x3D;&#x3D;&#x3D; &quot;&quot;) {
-      this.focusPrevious(isStart, field, &#x27;end&#x27;);
+      this.focusPrevious(isStart, field, &quot;end&quot;);
     } else if (event.key &#x3D;&#x3D;&#x3D; &quot;ArrowLeft&quot; &amp;&amp; input.selectionStart &#x3D;&#x3D;&#x3D; 0) {
       event.preventDefault();
-      this.focusPrevious(isStart, field, &#x27;end&#x27;);
+      this.focusPrevious(isStart, field, &quot;end&quot;);
     } else if (event.key &#x3D;&#x3D;&#x3D; &quot;ArrowRight&quot; &amp;&amp; input.selectionEnd &#x3D;&#x3D;&#x3D; input.value.length) {
       event.preventDefault();
-      this.focusNext(isStart, field, &#x27;start&#x27;);
+      this.focusNext(isStart, field, &quot;start&quot;);
     }
   }
 
   onBlur(isStart: boolean) {
+    if (!isStart &amp;&amp; !this.tabShortcutPressed) {
+      this.showTabSuggestion &#x3D; false;
+    }
     if (isStart) {
       this.startMonthStr &#x3D; this.padMonth(this.startMonthStr);
       this.startDayStr &#x3D; this.padAndValidateDay(this.startDayStr, this.getMaxDays(true));
@@ -5520,7 +6041,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         if (this.startMinuteStr &amp;&amp; this.startMinuteStr.length &#x3D;&#x3D;&#x3D; 1) this.startMinuteStr &#x3D; &#x60;0${this.startMinuteStr}&#x60;;
       }
     } else {
-      if (this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27;) {
+      if (this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot;) {
         if (this.endHourStr &amp;&amp; this.endHourStr.length &#x3D;&#x3D;&#x3D; 1) this.endHourStr &#x3D; &#x60;0${this.endHourStr}&#x60;;
         if (this.endMinuteStr &amp;&amp; this.endMinuteStr.length &#x3D;&#x3D;&#x3D; 1) this.endMinuteStr &#x3D; &#x60;0${this.endMinuteStr}&#x60;;
       } else {
@@ -5537,11 +6058,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     moment.locale(lang);
 
     this.weekDays &#x3D; [];
-    const startOfWeek &#x3D; moment().startOf(&quot;week&quot;);
+    const startOfWeek &#x3D; this.clockService.moment().startOf(&quot;week&quot;);
     for (let i &#x3D; 0; i &lt; 7; i++) {
-      this.weekDays.push(
-        startOfWeek.clone().add(i, &quot;days&quot;).format(&quot;ddd&quot;).toUpperCase()
-      );
+      this.weekDays.push(startOfWeek.clone().add(i, &quot;days&quot;).format(&quot;ddd&quot;).toUpperCase());
     }
 
     this.generateCalendar();
@@ -5553,6 +6072,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     const startOfCalendar &#x3D; startOfMonth.clone().startOf(&quot;week&quot;);
 
     let current &#x3D; startOfCalendar.clone();
+    const today &#x3D; this.clockService.moment();
 
     for (let week &#x3D; 0; week &lt; 6; week++) {
       const weekDays: CalendarDay[] &#x3D; [];
@@ -5560,7 +6080,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         weekDays.push({
           date: current.clone(),
           day: current.date(),
-          isToday: current.isSame(moment(), &quot;day&quot;),
+          isToday: current.isSame(today, &quot;day&quot;),
           isCurrentMonth: current.month() &#x3D;&#x3D;&#x3D; this.viewDate.month(),
         });
         current.add(1, &quot;days&quot;);
@@ -5625,7 +6145,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       if (field &#x3D;&#x3D;&#x3D; &quot;hour&quot;) return this.startHourEl;
       if (field &#x3D;&#x3D;&#x3D; &quot;minute&quot;) return this.startMinuteEl;
     } else {
-      if (this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27;) {
+      if (this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot;) {
         if (field &#x3D;&#x3D;&#x3D; &quot;hour&quot;) return this.endHourEl;
         if (field &#x3D;&#x3D;&#x3D; &quot;minute&quot;) return this.endMinuteEl;
       }
@@ -5637,58 +6157,66 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private get orderedElements(): ElementRef[] {
-    const startEls &#x3D; this.isFrench 
-      ? [this.startDayEl, this.startMonthEl, this.startYearEl] 
+    const startEls &#x3D; this.isFrench
+      ? [this.startDayEl, this.startMonthEl, this.startYearEl]
       : [this.startMonthEl, this.startDayEl, this.startYearEl];
 
     if (this.hasTime &amp;&amp; this.isSingleDate) {
       startEls.push(this.startHourEl, this.startMinuteEl);
     }
 
-    if (this.isSingleDate) return startEls;
+    if (this.isSingleDate) {
+      if (this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot;) {
+        startEls.push(this.endHourEl, this.endMinuteEl);
+      }
+      return startEls;
+    }
 
-    const endEls &#x3D; this.isFrench 
-      ? [this.endDayEl, this.endMonthEl, this.endYearEl] 
-      : [this.endMonthEl, this.endDayEl, this.endYearEl];
+    const endEls &#x3D; this.isFrench ? [this.endDayEl, this.endMonthEl, this.endYearEl] : [this.endMonthEl, this.endDayEl, this.endYearEl];
 
     return [...startEls, ...endEls];
   }
 
-  private moveFocus(isStart: boolean, field: &quot;day&quot; | &quot;month&quot; | &quot;year&quot; | &quot;hour&quot; | &quot;minute&quot;, direction: 1 | -1, cursorPosition?: &#x27;start&#x27; | &#x27;end&#x27;) {
+  private moveFocus(
+    isStart: boolean,
+    field: &quot;day&quot; | &quot;month&quot; | &quot;year&quot; | &quot;hour&quot; | &quot;minute&quot;,
+    direction: 1 | -1,
+    cursorPosition?: &quot;start&quot; | &quot;end&quot;,
+  ) {
     const currentEl &#x3D; this.getElementFor(isStart, field);
     if (!currentEl) return;
-    
+
     const elements &#x3D; this.orderedElements;
     const currentIndex &#x3D; elements.indexOf(currentEl);
     if (currentIndex &#x3D;&#x3D;&#x3D; -1) return;
-    
+
     const nextEl &#x3D; elements[currentIndex + direction];
     if (nextEl) {
       const el &#x3D; nextEl.nativeElement as HTMLInputElement;
       el.focus();
       if (cursorPosition) {
         setTimeout(() &#x3D;&gt; {
-          const pos &#x3D; cursorPosition &#x3D;&#x3D;&#x3D; &#x27;start&#x27; ? 0 : el.value.length;
+          const pos &#x3D; cursorPosition &#x3D;&#x3D;&#x3D; &quot;start&quot; ? 0 : el.value.length;
           el.setSelectionRange(pos, pos);
         });
       }
     }
   }
 
-  private focusNext(isStart: boolean, field: &quot;day&quot; | &quot;month&quot; | &quot;year&quot; | &quot;hour&quot; | &quot;minute&quot;, cursorPosition?: &#x27;start&#x27; | &#x27;end&#x27;) {
+  private focusNext(isStart: boolean, field: &quot;day&quot; | &quot;month&quot; | &quot;year&quot; | &quot;hour&quot; | &quot;minute&quot;, cursorPosition?: &quot;start&quot; | &quot;end&quot;) {
     this.moveFocus(isStart, field, 1, cursorPosition);
   }
 
-  private focusPrevious(isStart: boolean, field: &quot;day&quot; | &quot;month&quot; | &quot;year&quot; | &quot;hour&quot; | &quot;minute&quot;, cursorPosition?: &#x27;start&#x27; | &#x27;end&#x27;) {
+  private focusPrevious(isStart: boolean, field: &quot;day&quot; | &quot;month&quot; | &quot;year&quot; | &quot;hour&quot; | &quot;minute&quot;, cursorPosition?: &quot;start&quot; | &quot;end&quot;) {
     this.moveFocus(isStart, field, -1, cursorPosition);
   }
 
   private tryParseDate(isStart: boolean) {
-    const day &#x3D; this.isSingleDate ? this.startDayStr : (isStart ? this.startDayStr : this.endDayStr);
-    const month &#x3D; this.isSingleDate ? this.startMonthStr : (isStart ? this.startMonthStr : this.endMonthStr);
-    const year &#x3D; this.isSingleDate ? this.startYearStr : (isStart ? this.startYearStr : this.endYearStr);
-    const hour &#x3D; (isStart &amp;&amp; this.hasTime &amp;&amp; this.isSingleDate) ? this.startHourStr : null;
-    const minute &#x3D; (isStart &amp;&amp; this.hasTime &amp;&amp; this.isSingleDate) ? this.startMinuteStr : null;
+    const day &#x3D; this.isSingleDate ? this.startDayStr : isStart ? this.startDayStr : this.endDayStr;
+    const month &#x3D; this.isSingleDate ? this.startMonthStr : isStart ? this.startMonthStr : this.endMonthStr;
+    const year &#x3D; this.isSingleDate ? this.startYearStr : isStart ? this.startYearStr : this.endYearStr;
+    const hour &#x3D; this.hasTime &amp;&amp; this.isSingleDate ? this.startHourStr : null;
+    const minute &#x3D; this.hasTime &amp;&amp; this.isSingleDate ? this.startMinuteStr : null;
 
     if (day.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; month.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; year.length &#x3D;&#x3D;&#x3D; 0) {
       if (this.isSingleDate) this.setSingleDate(null);
@@ -5700,7 +6228,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     if (day.length &#x3D;&#x3D;&#x3D; 2 &amp;&amp; month.length &#x3D;&#x3D;&#x3D; 2 &amp;&amp; year.length &#x3D;&#x3D;&#x3D; 4) {
       let format &#x3D; &quot;YYYY-MM-DD&quot;;
       let dateString &#x3D; &#x60;${year}-${month}-${day}&#x60;;
-      
+
       if (hour !&#x3D;&#x3D; null &amp;&amp; minute !&#x3D;&#x3D; null) {
         if (hour.length !&#x3D;&#x3D; 2 || minute.length !&#x3D;&#x3D; 2) return; // Wait for full time input
         format &#x3D; &quot;YYYY-MM-DD HH:mm&quot;;
@@ -5711,14 +6239,10 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       if (!parsed.isValid()) return;
 
       if (this.isSingleDate) {
-        this.setSingleDate(parsed);
-        if (this.mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27;) {
-           if (this.endHourStr.length &#x3D;&#x3D;&#x3D; 2 &amp;&amp; this.endMinuteStr.length &#x3D;&#x3D;&#x3D; 2 &amp;&amp;
-               this.startHourStr.length &#x3D;&#x3D;&#x3D; 2 &amp;&amp; this.startMinuteStr.length &#x3D;&#x3D;&#x3D; 2) {
-               this.startTime &#x3D; &#x60;${this.startHourStr}:${this.startMinuteStr}&#x60;;
-               this.endTime &#x3D; &#x60;${this.endHourStr}:${this.endMinuteStr}&#x60;;
-               this.periodChange.emit({ start: this.startTime, end: this.endTime });
-           }
+        if (this.mode &#x3D;&#x3D;&#x3D; &quot;datetime-period&quot;) {
+          this.applyPeriodTimes(parsed);
+        } else {
+          this.setSingleDate(parsed);
         }
         return;
       }
@@ -5738,6 +6262,82 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         }
       }
     }
+  }
+
+  /**
+   * Applies the datetime-period time fields after a date parse.
+   * Keeps the period within a single day by swapping the times when the end is before the start,
+   * mirroring the clock picker and the date-range swap behavior.
+   */
+  private applyPeriodTimes(parsedDate: moment.Moment): void {
+    const startHour &#x3D; this.startHourStr;
+    const startMinute &#x3D; this.startMinuteStr;
+    const endHour &#x3D; this.endHourStr;
+    const endMinute &#x3D; this.endMinuteStr;
+
+    if (startHour.length !&#x3D;&#x3D; 2 || startMinute.length !&#x3D;&#x3D; 2 || endHour.length !&#x3D;&#x3D; 2 || endMinute.length !&#x3D;&#x3D; 2) {
+      this.setSingleDate(parsedDate);
+      return;
+    }
+
+    let start &#x3D; &#x60;${startHour}:${startMinute}&#x60;;
+    let end &#x3D; &#x60;${endHour}:${endMinute}&#x60;;
+
+    if (this.timeToMinutes(start) &gt; this.timeToMinutes(end)) {
+      [start, end] &#x3D; [end, start];
+    }
+
+    const startDate &#x3D; parsedDate
+      .clone()
+      .hour(parseInt(start.slice(0, 2), 10))
+      .minute(parseInt(start.slice(3, 5), 10));
+    this.setSingleDate(startDate);
+    this.startHourStr &#x3D; start.slice(0, 2);
+    this.startMinuteStr &#x3D; start.slice(3, 5);
+    this.endHourStr &#x3D; end.slice(0, 2);
+    this.endMinuteStr &#x3D; end.slice(3, 5);
+    this.startTime &#x3D; start;
+    this.endTime &#x3D; end;
+    this.periodChange.emit({ start, end });
+  }
+
+  private timeToMinutes(time: string): number {
+    const [hours, minutes] &#x3D; time.split(&quot;:&quot;).map(Number);
+    return hours * 60 + minutes;
+  }
+
+  private acceptTabSuggestion(): void {
+    const end &#x3D; this.suggestedEndTime;
+    if (!end) {
+      this.showTabSuggestion &#x3D; false;
+      return;
+    }
+
+    // Mirror the shared shortcut press animation (see triggerShortcut in the graph components)
+    this.tabShortcutPressed &#x3D; true;
+    setTimeout(() &#x3D;&gt; {
+      this.tabShortcutPressed &#x3D; false;
+      this.showTabSuggestion &#x3D; false;
+      this.cdr.markForCheck();
+    }, 150);
+
+    this.endHourStr &#x3D; end.slice(0, 2);
+    this.endMinuteStr &#x3D; end.slice(3, 5);
+
+    if (this.date) {
+      this.applyPeriodTimes(moment(this.date));
+    } else {
+      this.startTime &#x3D; &#x60;${this.startHourStr}:${this.startMinuteStr}&#x60;;
+      this.endTime &#x3D; end;
+      this.periodChange.emit({ start: this.startTime, end: this.endTime });
+    }
+    this.focusNext(false, &quot;hour&quot;);
+  }
+
+  private minutesToTime(minutes: number): string {
+    const hours &#x3D; Math.floor(minutes / 60);
+    const mins &#x3D; minutes % 60;
+    return &#x60;${hours.toString().padStart(2, &quot;0&quot;)}:${mins.toString().padStart(2, &quot;0&quot;)}&#x60;;
   }
 }
 </code></pre>
@@ -5802,13 +6402,21 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
             (keydown)&#x3D;&quot;onKeyDown($event, true, &#x27;minute&#x27;)&quot; (blur)&#x3D;&quot;onBlur(true)&quot;&gt;
           &lt;ng-container *ngIf&#x3D;&quot;mode &#x3D;&#x3D;&#x3D; &#x27;datetime-period&#x27;&quot;&gt;
             &lt;span class&#x3D;&quot;time-arrow-separator&quot;&gt;&lt;i class&#x3D;&quot;fas fa-arrow-right&quot;&gt;&lt;/i&gt;&lt;/span&gt;
-            &lt;input #endHour type&#x3D;&quot;text&quot; class&#x3D;&quot;segment-input hour&quot; placeholder&#x3D;&quot;HH&quot;
-              maxlength&#x3D;&quot;2&quot; [value]&#x3D;&quot;endHourStr&quot; (input)&#x3D;&quot;onInputType($event, false, &#x27;hour&#x27;)&quot;
-              (keydown)&#x3D;&quot;onKeyDown($event, false, &#x27;hour&#x27;)&quot; (blur)&#x3D;&quot;onBlur(false)&quot;&gt;
-            &lt;span class&#x3D;&quot;separator&quot;&gt;:&lt;/span&gt;
-            &lt;input #endMinute type&#x3D;&quot;text&quot; class&#x3D;&quot;segment-input minute&quot; placeholder&#x3D;&quot;MM&quot;
-              maxlength&#x3D;&quot;2&quot; [value]&#x3D;&quot;endMinuteStr&quot; (input)&#x3D;&quot;onInputType($event, false, &#x27;minute&#x27;)&quot;
-              (keydown)&#x3D;&quot;onKeyDown($event, false, &#x27;minute&#x27;)&quot; (blur)&#x3D;&quot;onBlur(false)&quot;&gt;
+            &lt;span class&#x3D;&quot;end-time-segments&quot;&gt;
+              &lt;input #endHour type&#x3D;&quot;text&quot; class&#x3D;&quot;segment-input hour&quot; placeholder&#x3D;&quot;HH&quot;
+                maxlength&#x3D;&quot;2&quot; [value]&#x3D;&quot;endHourStr&quot; (input)&#x3D;&quot;onInputType($event, false, &#x27;hour&#x27;)&quot;
+                (keydown)&#x3D;&quot;onKeyDown($event, false, &#x27;hour&#x27;)&quot; (blur)&#x3D;&quot;onBlur(false)&quot;
+                (focus)&#x3D;&quot;onEndHourFocus()&quot;&gt;
+              &lt;span class&#x3D;&quot;separator&quot;&gt;:&lt;/span&gt;
+              &lt;input #endMinute type&#x3D;&quot;text&quot; class&#x3D;&quot;segment-input minute&quot; placeholder&#x3D;&quot;MM&quot;
+                maxlength&#x3D;&quot;2&quot; [value]&#x3D;&quot;endMinuteStr&quot; (input)&#x3D;&quot;onInputType($event, false, &#x27;minute&#x27;)&quot;
+                (keydown)&#x3D;&quot;onKeyDown($event, false, &#x27;minute&#x27;)&quot; (blur)&#x3D;&quot;onBlur(false)&quot;&gt;
+              &lt;span class&#x3D;&quot;tab-suggestion&quot; *ngIf&#x3D;&quot;showTabSuggestion &amp;&amp; suggestedEndTime&quot; [class.above]&#x3D;&quot;tabSuggestionAbove&quot; aria-live&#x3D;&quot;polite&quot;&gt;
+                &lt;kbd class&#x3D;&quot;shortcut-key shortcut-key-sm&quot; [class.shortcut-pressed-anim]&#x3D;&quot;tabShortcutPressed&quot;&gt;⇥ Tab&lt;/kbd&gt;
+                &lt;span class&#x3D;&quot;tab-suggestion-text&quot;&gt;{{ &#x27;DATE-RANGE-PICKER.TAB-HINT&#x27; | translate }}&lt;/span&gt;
+                &lt;span class&#x3D;&quot;tab-suggestion-time&quot;&gt;{{ suggestedEndTime }}&lt;/span&gt;
+              &lt;/span&gt;
+            &lt;/span&gt;
           &lt;/ng-container&gt;
         &lt;/ng-container&gt;
       &lt;/div&gt;
@@ -6013,6 +6621,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         &amp;::placeholder {
           color: var(--color-text-muted);
           font-weight: 400;
+          font-size: 0.78rem;
         }
 
         &amp;.day,
@@ -6062,6 +6671,62 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
         flex-shrink: 0;
         user-select: none;
         pointer-events: none;
+      }
+
+      .end-time-segments {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        flex-shrink: 0;
+      }
+
+      .tab-suggestion {
+        position: absolute;
+        top: calc(100% + 14px);
+        left: 0;
+        z-index: $zindex-quick-help-popover;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        width: max-content;
+        padding: 5px 8px;
+        background-color: var(--tooltip-glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 10px;
+        box-shadow: var(--shadow-lg);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        font-size: 12px;
+        white-space: nowrap;
+        pointer-events: none;
+        transform-origin: top left;
+        animation: tabSuggestionInDown 0.14s ease-out;
+
+        &amp;.above {
+          top: auto;
+          bottom: calc(100% + 14px);
+          transform-origin: bottom left;
+          animation-name: tabSuggestionInUp;
+        }
+
+        kbd {
+          margin-left: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          animation: none;
+        }
+      }
+
+      .tab-suggestion-text {
+        color: var(--color-text-secondary);
+      }
+
+      .tab-suggestion-time {
+        color: var(--color-text-primary);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
       }
     }
 
@@ -6263,7 +6928,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
             transition: opacity 0.15s ease;
             pointer-events: none;
           }
+
           &amp;::before { left: 0; }
+
           &amp;::after { right: 0; }
 
           /* Activate visual range connections */
@@ -6334,7 +7001,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 
         .sparkle-icon {
           &amp;.purple { color: #a855f7; }
+
           &amp;.yellow { color: #eab308; }
+
           &amp;.blue { color: #3b82f6; }
         }
 
@@ -6357,6 +7026,30 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes tabSuggestionInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tabSuggestionInUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }</code></pre>
     </div>
@@ -6386,9 +7079,9 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="date-range-container">  <!-- Labels -->  <div class="labels-row" *ngIf="!isSingleDate">    <span class="label-text start-label">{{ startLabel | translate }}</span>    <span class="label-arrow-spacer"></span>    <span class="label-text end-label">{{ endLabel | translate }}</span>    <span class="label-button-spacer"></span>  </div>  <div class="labels-row" *ngIf="isSingleDate && singleLabel && singleLabel.trim() !== \'\'">    <span class="label-text single-label">{{ singleLabel | translate }}</span>    <span class="label-button-spacer"></span>  </div>  <!-- Input Trigger -->  <div class="input-trigger" (click)="togglePopup()">    <div class="segments-group">      <!-- Start Date Segments -->      <div class="date-segments" (click)="$event.stopPropagation()">        <!-- Date Segments (Locale specific order) -->        <ng-container *ngIf="isFrench; else enStartFormat">          <input #startDay type="text" class="segment-input day" [placeholder]="\'DATE-PLACEHOLDER.DD\' | translate"            maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, \'day\')"            (keydown)="onKeyDown($event, true, \'day\')" (blur)="onBlur(true)">          <span class="separator">/</span>          <input #startMonth type="text" class="segment-input month" [placeholder]="\'DATE-PLACEHOLDER.MM\' | translate"            maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, \'month\')"            (keydown)="onKeyDown($event, true, \'month\')" (blur)="onBlur(true)">          <span class="separator">/</span>          <input #startYear type="text" class="segment-input year" [placeholder]="\'DATE-PLACEHOLDER.YYYY\' | translate"            maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, \'year\')"            (keydown)="onKeyDown($event, true, \'year\')" (blur)="onBlur(true)">        </ng-container>        <ng-template #enStartFormat>          <input #startMonth type="text" class="segment-input month" [placeholder]="\'DATE-PLACEHOLDER.MM\' | translate"            maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, \'month\')"            (keydown)="onKeyDown($event, true, \'month\')" (blur)="onBlur(true)">          <span class="separator">/</span>          <input #startDay type="text" class="segment-input day" [placeholder]="\'DATE-PLACEHOLDER.DD\' | translate"            maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, \'day\')"            (keydown)="onKeyDown($event, true, \'day\')" (blur)="onBlur(true)">          <span class="separator">/</span>          <input #startYear type="text" class="segment-input year" [placeholder]="\'DATE-PLACEHOLDER.YYYY\' | translate"            maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, \'year\')"            (keydown)="onKeyDown($event, true, \'year\')" (blur)="onBlur(true)">        </ng-template>        <!-- Time Segments (Universal format) -->        <ng-container *ngIf="isSingleDate && hasTime">          <span class="date-time-spacer"></span>          <input #startHour type="text" class="segment-input hour" placeholder="HH"            maxlength="2" [value]="startHourStr" (input)="onInputType($event, true, \'hour\')"            (keydown)="onKeyDown($event, true, \'hour\')" (blur)="onBlur(true)">          <span class="separator">:</span>          <input #startMinute type="text" class="segment-input minute" placeholder="MM"            maxlength="2" [value]="startMinuteStr" (input)="onInputType($event, true, \'minute\')"            (keydown)="onKeyDown($event, true, \'minute\')" (blur)="onBlur(true)">          <ng-container *ngIf="mode === \'datetime-period\'">            <span class="time-arrow-separator"><i class="fas fa-arrow-right"></i></span>            <input #endHour type="text" class="segment-input hour" placeholder="HH"              maxlength="2" [value]="endHourStr" (input)="onInputType($event, false, \'hour\')"              (keydown)="onKeyDown($event, false, \'hour\')" (blur)="onBlur(false)">            <span class="separator">:</span>            <input #endMinute type="text" class="segment-input minute" placeholder="MM"              maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, \'minute\')"              (keydown)="onKeyDown($event, false, \'minute\')" (blur)="onBlur(false)">          </ng-container>        </ng-container>      </div>      <span class="arrow-separator" *ngIf="!isSingleDate"><i class="fas fa-arrow-right"></i></span>      <!-- End Date Segments -->      <div class="date-segments" (click)="$event.stopPropagation()" *ngIf="!isSingleDate">        <ng-container *ngIf="isFrench; else enEndFormat">          <input #endDay type="text" class="segment-input day" [placeholder]="\'DATE-PLACEHOLDER.DD\' | translate"            maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, \'day\')"            (keydown)="onKeyDown($event, false, \'day\')" (blur)="onBlur(false)">          <span class="separator">/</span>          <input #endMonth type="text" class="segment-input month" [placeholder]="\'DATE-PLACEHOLDER.MM\' | translate"            maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, \'month\')"            (keydown)="onKeyDown($event, false, \'month\')" (blur)="onBlur(false)">          <span class="separator">/</span>          <input #endYear type="text" class="segment-input year" [placeholder]="\'DATE-PLACEHOLDER.YYYY\' | translate"            maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, \'year\')"            (keydown)="onKeyDown($event, false, \'year\')" (blur)="onBlur(false)">        </ng-container>        <ng-template #enEndFormat>          <input #endMonth type="text" class="segment-input month" [placeholder]="\'DATE-PLACEHOLDER.MM\' | translate"            maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, \'month\')"            (keydown)="onKeyDown($event, false, \'month\')" (blur)="onBlur(false)">          <span class="separator">/</span>          <input #endDay type="text" class="segment-input day" [placeholder]="\'DATE-PLACEHOLDER.DD\' | translate"            maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, \'day\')"            (keydown)="onKeyDown($event, false, \'day\')" (blur)="onBlur(false)">          <span class="separator">/</span>          <input #endYear type="text" class="segment-input year" [placeholder]="\'DATE-PLACEHOLDER.YYYY\' | translate"            maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, \'year\')"            (keydown)="onKeyDown($event, false, \'year\')" (blur)="onBlur(false)">        </ng-template>      </div>    </div>    <!-- Calendar Icon Button -->    <button type="button" class="calendar-btn" (click)="togglePopup(); $event.stopPropagation()">      <i class="far fa-calendar-alt"></i>    </button>  </div>  <div class="calendar-popup" #calendarPopup *ngIf="isOpen" (click)="$event.stopPropagation()" [class.drop-up]="dropUp" [class.align-right]="alignRight">    <!-- Quick Selectors Header -->    <div class="calendar-quick-selectors">      <button type="button" class="quick-btn" (click)="setToday()">        <svg class="sparkle-icon purple" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>        <span>{{ \'TODAY\' | translate }}</span>      </button>      <button type="button" class="quick-btn" (click)="setThisWeek()" *ngIf="!isSingleDate">        <svg class="sparkle-icon yellow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>        <span>{{ \'THIS_WEEK\' | translate }}</span>      </button>      <button type="button" class="quick-btn" (click)="setThisMonth()" *ngIf="!isSingleDate">        <svg class="sparkle-icon blue" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>        <span>{{ \'THIS_MONTH\' | translate }}</span>      </button>    </div>    <div class="popup-content-layout">      <!-- Calendar Side -->      <div class="calendar-side">        <!-- Calendar Header -->        <div class="calendar-header">          <button type="button" class="nav-btn" (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>          <span class="current-month">{{ currentMonthName }}</span>          <button type="button" class="nav-btn" (click)="nextMonth()"><i class="fas fa-chevron-right"></i></button>        </div>        <!-- Calendar Body -->        <div class="calendar-body">          <div class="weekdays-row">            <span class="weekday" *ngFor="let d of weekDays">{{ d }}</span>          </div>          <div class="days-grid">            <ng-container *ngFor="let week of calendar">              <div class="day-cell" *ngFor="let day of week" [class.outside-month]="!day.isCurrentMonth"                [class.selected-start]="isStartDate(day.date)" [class.selected-end]="isEndDate(day.date)"                [class.in-range]="isInRange(day.date)" [class.today]="day.isToday"                [class.range-right]="isRangeRight(day.date)" [class.range-left]="isRangeLeft(day.date)"                [class.hover-end]="isHoverForwardEnd(day.date)" [class.hover-start]="isHoverBackwardStart(day.date)"                (click)="onDateClick(day)"                (mouseenter)="onDateHover(day)" (mouseleave)="onDateLeave()">                <div class="day-number">{{ day.day }}</div>              </div>            </ng-container>          </div>        </div>      </div>      <!-- Time Picker Side -->      <ng-container *ngIf="isSingleDate && hasTime">        <div class="time-picker-divider"></div>        <div class="time-picker-side">          <app-time-picker *ngIf="mode === \'datetime\'" [mode]="\'single\'" [time]="timeString" (timeChange)="onTimeChange($event)"></app-time-picker>          <app-time-picker *ngIf="mode === \'datetime-period\'" [mode]="\'period\'" [startTime]="startTime" [endTime]="endTime" [defaultDuration]="defaultDuration" (periodChange)="onPeriodChange($event)"></app-time-picker>        </div>      </ng-container>    </div>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
-    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
+        var COMPONENT_TEMPLATE = '<div><div class="date-range-container">  <!-- Labels -->  <div class="labels-row" *ngIf="!isSingleDate">    <span class="label-text start-label">{{ startLabel | translate }}</span>    <span class="label-arrow-spacer"></span>    <span class="label-text end-label">{{ endLabel | translate }}</span>    <span class="label-button-spacer"></span>  </div>  <div class="labels-row" *ngIf="isSingleDate && singleLabel && singleLabel.trim() !== \'\'">    <span class="label-text single-label">{{ singleLabel | translate }}</span>    <span class="label-button-spacer"></span>  </div>  <!-- Input Trigger -->  <div class="input-trigger" (click)="togglePopup()">    <div class="segments-group">      <!-- Start Date Segments -->      <div class="date-segments" (click)="$event.stopPropagation()">        <!-- Date Segments (Locale specific order) -->        <ng-container *ngIf="isFrench; else enStartFormat">          <input #startDay type="text" class="segment-input day" [placeholder]="\'DATE-PLACEHOLDER.DD\' | translate"            maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, \'day\')"            (keydown)="onKeyDown($event, true, \'day\')" (blur)="onBlur(true)">          <span class="separator">/</span>          <input #startMonth type="text" class="segment-input month" [placeholder]="\'DATE-PLACEHOLDER.MM\' | translate"            maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, \'month\')"            (keydown)="onKeyDown($event, true, \'month\')" (blur)="onBlur(true)">          <span class="separator">/</span>          <input #startYear type="text" class="segment-input year" [placeholder]="\'DATE-PLACEHOLDER.YYYY\' | translate"            maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, \'year\')"            (keydown)="onKeyDown($event, true, \'year\')" (blur)="onBlur(true)">        </ng-container>        <ng-template #enStartFormat>          <input #startMonth type="text" class="segment-input month" [placeholder]="\'DATE-PLACEHOLDER.MM\' | translate"            maxlength="2" [value]="startMonthStr" (input)="onInputType($event, true, \'month\')"            (keydown)="onKeyDown($event, true, \'month\')" (blur)="onBlur(true)">          <span class="separator">/</span>          <input #startDay type="text" class="segment-input day" [placeholder]="\'DATE-PLACEHOLDER.DD\' | translate"            maxlength="2" [value]="startDayStr" (input)="onInputType($event, true, \'day\')"            (keydown)="onKeyDown($event, true, \'day\')" (blur)="onBlur(true)">          <span class="separator">/</span>          <input #startYear type="text" class="segment-input year" [placeholder]="\'DATE-PLACEHOLDER.YYYY\' | translate"            maxlength="4" [value]="startYearStr" (input)="onInputType($event, true, \'year\')"            (keydown)="onKeyDown($event, true, \'year\')" (blur)="onBlur(true)">        </ng-template>        <!-- Time Segments (Universal format) -->        <ng-container *ngIf="isSingleDate && hasTime">          <span class="date-time-spacer"></span>          <input #startHour type="text" class="segment-input hour" placeholder="HH"            maxlength="2" [value]="startHourStr" (input)="onInputType($event, true, \'hour\')"            (keydown)="onKeyDown($event, true, \'hour\')" (blur)="onBlur(true)">          <span class="separator">:</span>          <input #startMinute type="text" class="segment-input minute" placeholder="MM"            maxlength="2" [value]="startMinuteStr" (input)="onInputType($event, true, \'minute\')"            (keydown)="onKeyDown($event, true, \'minute\')" (blur)="onBlur(true)">          <ng-container *ngIf="mode === \'datetime-period\'">            <span class="time-arrow-separator"><i class="fas fa-arrow-right"></i></span>            <span class="end-time-segments">              <input #endHour type="text" class="segment-input hour" placeholder="HH"                maxlength="2" [value]="endHourStr" (input)="onInputType($event, false, \'hour\')"                (keydown)="onKeyDown($event, false, \'hour\')" (blur)="onBlur(false)"                (focus)="onEndHourFocus()">              <span class="separator">:</span>              <input #endMinute type="text" class="segment-input minute" placeholder="MM"                maxlength="2" [value]="endMinuteStr" (input)="onInputType($event, false, \'minute\')"                (keydown)="onKeyDown($event, false, \'minute\')" (blur)="onBlur(false)">              <span class="tab-suggestion" *ngIf="showTabSuggestion && suggestedEndTime" [class.above]="tabSuggestionAbove" aria-live="polite">                <kbd class="shortcut-key shortcut-key-sm" [class.shortcut-pressed-anim]="tabShortcutPressed">⇥ Tab</kbd>                <span class="tab-suggestion-text">{{ \'DATE-RANGE-PICKER.TAB-HINT\' | translate }}</span>                <span class="tab-suggestion-time">{{ suggestedEndTime }}</span>              </span>            </span>          </ng-container>        </ng-container>      </div>      <span class="arrow-separator" *ngIf="!isSingleDate"><i class="fas fa-arrow-right"></i></span>      <!-- End Date Segments -->      <div class="date-segments" (click)="$event.stopPropagation()" *ngIf="!isSingleDate">        <ng-container *ngIf="isFrench; else enEndFormat">          <input #endDay type="text" class="segment-input day" [placeholder]="\'DATE-PLACEHOLDER.DD\' | translate"            maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, \'day\')"            (keydown)="onKeyDown($event, false, \'day\')" (blur)="onBlur(false)">          <span class="separator">/</span>          <input #endMonth type="text" class="segment-input month" [placeholder]="\'DATE-PLACEHOLDER.MM\' | translate"            maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, \'month\')"            (keydown)="onKeyDown($event, false, \'month\')" (blur)="onBlur(false)">          <span class="separator">/</span>          <input #endYear type="text" class="segment-input year" [placeholder]="\'DATE-PLACEHOLDER.YYYY\' | translate"            maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, \'year\')"            (keydown)="onKeyDown($event, false, \'year\')" (blur)="onBlur(false)">        </ng-container>        <ng-template #enEndFormat>          <input #endMonth type="text" class="segment-input month" [placeholder]="\'DATE-PLACEHOLDER.MM\' | translate"            maxlength="2" [value]="endMonthStr" (input)="onInputType($event, false, \'month\')"            (keydown)="onKeyDown($event, false, \'month\')" (blur)="onBlur(false)">          <span class="separator">/</span>          <input #endDay type="text" class="segment-input day" [placeholder]="\'DATE-PLACEHOLDER.DD\' | translate"            maxlength="2" [value]="endDayStr" (input)="onInputType($event, false, \'day\')"            (keydown)="onKeyDown($event, false, \'day\')" (blur)="onBlur(false)">          <span class="separator">/</span>          <input #endYear type="text" class="segment-input year" [placeholder]="\'DATE-PLACEHOLDER.YYYY\' | translate"            maxlength="4" [value]="endYearStr" (input)="onInputType($event, false, \'year\')"            (keydown)="onKeyDown($event, false, \'year\')" (blur)="onBlur(false)">        </ng-template>      </div>    </div>    <!-- Calendar Icon Button -->    <button type="button" class="calendar-btn" (click)="togglePopup(); $event.stopPropagation()">      <i class="far fa-calendar-alt"></i>    </button>  </div>  <div class="calendar-popup" #calendarPopup *ngIf="isOpen" (click)="$event.stopPropagation()" [class.drop-up]="dropUp" [class.align-right]="alignRight">    <!-- Quick Selectors Header -->    <div class="calendar-quick-selectors">      <button type="button" class="quick-btn" (click)="setToday()">        <svg class="sparkle-icon purple" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>        <span>{{ \'TODAY\' | translate }}</span>      </button>      <button type="button" class="quick-btn" (click)="setThisWeek()" *ngIf="!isSingleDate">        <svg class="sparkle-icon yellow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>        <span>{{ \'THIS_WEEK\' | translate }}</span>      </button>      <button type="button" class="quick-btn" (click)="setThisMonth()" *ngIf="!isSingleDate">        <svg class="sparkle-icon blue" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C12 6.6 17.4 12 24 12C17.4 12 12 17.4 12 24C12 17.4 6.6 12 0 12C6.6 12 12 6.6 12 0Z"/></svg>        <span>{{ \'THIS_MONTH\' | translate }}</span>      </button>    </div>    <div class="popup-content-layout">      <!-- Calendar Side -->      <div class="calendar-side">        <!-- Calendar Header -->        <div class="calendar-header">          <button type="button" class="nav-btn" (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>          <span class="current-month">{{ currentMonthName }}</span>          <button type="button" class="nav-btn" (click)="nextMonth()"><i class="fas fa-chevron-right"></i></button>        </div>        <!-- Calendar Body -->        <div class="calendar-body">          <div class="weekdays-row">            <span class="weekday" *ngFor="let d of weekDays">{{ d }}</span>          </div>          <div class="days-grid">            <ng-container *ngFor="let week of calendar">              <div class="day-cell" *ngFor="let day of week" [class.outside-month]="!day.isCurrentMonth"                [class.selected-start]="isStartDate(day.date)" [class.selected-end]="isEndDate(day.date)"                [class.in-range]="isInRange(day.date)" [class.today]="day.isToday"                [class.range-right]="isRangeRight(day.date)" [class.range-left]="isRangeLeft(day.date)"                [class.hover-end]="isHoverForwardEnd(day.date)" [class.hover-start]="isHoverBackwardStart(day.date)"                (click)="onDateClick(day)"                (mouseenter)="onDateHover(day)" (mouseleave)="onDateLeave()">                <div class="day-number">{{ day.day }}</div>              </div>            </ng-container>          </div>        </div>      </div>      <!-- Time Picker Side -->      <ng-container *ngIf="isSingleDate && hasTime">        <div class="time-picker-divider"></div>        <div class="time-picker-side">          <app-time-picker *ngIf="mode === \'datetime\'" [mode]="\'single\'" [time]="timeString" (timeChange)="onTimeChange($event)"></app-time-picker>          <app-time-picker *ngIf="mode === \'datetime-period\'" [mode]="\'period\'" [startTime]="startTime" [endTime]="endTime" [defaultDuration]="defaultDuration" (periodChange)="onPeriodChange($event)"></app-time-picker>        </div>      </ng-container>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AssignmentFolderViewComponent', 'selector': 'assignment-folder-view'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'LiquidActionMenuComponent', 'selector': 'app-liquid-action-menu'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'SessionsComponent', 'selector': 'app-sessions'},{'name': 'SessionTabComponent', 'selector': 'app-session-tab'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'StudentsQuestionsMatrixComponent', 'selector': 'app-students-questions-matrix'},{'name': 'SuggestSessionsModalComponent', 'selector': 'app-suggest-sessions-modal'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TpGroupSelectorComponent', 'selector': 'app-tp-group-selector'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'},{'name': 'WhatsNewModalComponent', 'selector': 'app-whats-new-modal'}];
+    var DIRECTIVES = [{'name': 'DropdownArrowNavDirective', 'selector': '[ngbDropdown]'},{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
     var ACTUAL_COMPONENT = {'name': 'DateRangePickerComponent'};
 </script>
 <script src="../js/tree.js"></script>

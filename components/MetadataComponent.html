@@ -156,8 +156,17 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#immediateFields" >immediateFields</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -167,14 +176,22 @@
                                 <a href="#questionsChooser" >questionsChooser</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#textFields" >textFields</a>
+                            </li>
+                            <li>
                                 <a href="#titleInput" >titleInput</a>
+                            </li>
+                            <li>
+                                <a href="#titleSaveAttempted" >titleSaveAttempted</a>
                             </li>
                             <li>
                                     <span class="modifier">Readonly</span>
                                 <a href="#typeaheadSettings" >typeaheadSettings</a>
                             </li>
                             <li>
-                                <a href="#isModified" >isModified</a>
+                                <a href="#yearInput" >yearInput</a>
                             </li>
                         </ul>
                     </td>
@@ -193,6 +210,10 @@
                                 <a href="#createFormGroup" >createFormGroup</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#listenToFieldChanges" >listenToFieldChanges</a>
+                            </li>
+                            <li>
                                 <a href="#ngAfterViewInit" >ngAfterViewInit</a>
                             </li>
                             <li>
@@ -202,10 +223,10 @@
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
-                                <a href="#onAddQuestionsFromAssistant" >onAddQuestionsFromAssistant</a>
+                                <a href="#notifySaveAttempt" >notifySaveAttempt</a>
                             </li>
                             <li>
-                                <a href="#submitMetadata" >submitMetadata</a>
+                                <a href="#onAddQuestionsFromAssistant" >onAddQuestionsFromAssistant</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -213,7 +234,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#save" >save</a>
+                                <a href="#modifyText" >modifyText</a>
+                            </li>
+                            <li>
+                                <a href="#notifyBlur" >notifyBlur</a>
                             </li>
                         </ul>
                     </td>
@@ -227,6 +251,9 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                <a href="#initialFocusField" >initialFocusField</a>
+                            </li>
                             <li>
                                 <a href="#metadata" >metadata</a>
                             </li>
@@ -246,7 +273,10 @@
                                 <a href="#modified" >modified</a>
                             </li>
                             <li>
-                                <a href="#saved" >saved</a>
+                                <a href="#textBlurred" >textBlurred</a>
+                            </li>
+                            <li>
+                                <a href="#textModified" >textModified</a>
                             </li>
                         </ul>
                     </td>
@@ -269,7 +299,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:55</a></div>
                             </td>
                         </tr>
 
@@ -285,6 +315,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -299,6 +330,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>Form builder used to build the metadata form</p>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -315,6 +350,38 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="initialFocusField"></a>
+                        <b>initialFocusField</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;title&quot; | &quot;year&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;title&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:25</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Champ focalisé à l&#39;ouverture de l&#39;éditeur (voir ConfigurationComponent.initialFocusField).</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="metadata"></a>
                         <b>metadata</b>
                     </td>
@@ -327,7 +394,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:23</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -357,18 +424,24 @@
                             </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:7</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:10</a></code>
 </div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emitted for discrete changes (dates, questions, repositories, ...) that can be persisted right away.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="saved"></a>
-                        <b>saved</b>
+                        <a name="textBlurred"></a>
+                        <b>textBlurred</b>
                     </td>
                 </tr>
                 <tr>
@@ -385,10 +458,50 @@
                             </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:8</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:20</a></code>
 </div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emitted when a free-text field loses focus, so the parent can flush immediately.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="textModified"></a>
+                        <b>textModified</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:15</a></code>
+</div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emitted for free-text changes (title, course, program, year) that must be debounced by the parent.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -421,8 +534,47 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:122</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listenToFieldChanges"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>listenToFieldChanges</b></span>
+                        <a href="#listenToFieldChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>listenToFieldChanges()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:107</a></div>
                 </td>
             </tr>
 
@@ -458,8 +610,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:75</a></div>
                 </td>
             </tr>
 
@@ -495,8 +647,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:86</a></div>
                 </td>
             </tr>
 
@@ -532,8 +684,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:68</a></div>
                 </td>
             </tr>
 
@@ -541,6 +693,45 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>When the component is initialized, we initialize startDate and endDate with data from dataService</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifySaveAttempt"></a>
+                    <span class="name">
+                        <span ><b>notifySaveAttempt</b></span>
+                        <a href="#notifySaveAttempt"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifySaveAttempt()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:103</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Called by the parent on every save attempt. Keeps the required-title feedback in sync with the save lifecycle.</p>
 </div>
 
                     <div class="io-description">
@@ -571,8 +762,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:94</a></div>
                 </td>
             </tr>
 
@@ -626,45 +817,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="submitMetadata"></a>
-                    <span class="name">
-                        <span ><b>submitMetadata</b></span>
-                        <a href="#submitMetadata"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>submitMetadata()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:78</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>This method is called when the form is submitted (when save button is pressed). Updates data with new values entered</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="modify"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
@@ -689,7 +841,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:11</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:26</a></code>
 </div>
                 </td>
             </tr>
@@ -710,18 +862,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="save"></a>
+                    <a name="modifyText"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
-                        <span ><b>save</b></span>
-                        <a href="#save"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>modifyText</b></span>
+                        <a href="#modifyText"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>save(data: <a href="https://angular.io/api/router/Data" target="_blank">Data</a>)</code>
+                    <code>modifyText()</code>
                 </td>
             </tr>
 
@@ -734,7 +886,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:16</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:30</a></code>
 </div>
                 </td>
             </tr>
@@ -744,40 +896,51 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="https://angular.io/api/router/Data" target="_blank" >Data</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifyBlur"></a>
+                    <span class="name">
+                        <span ><b>notifyBlur</b></span>
+                        <a href="#notifyBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifyBlur()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:22</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
                     <div class="io-description">
-                        
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
                     </div>
                 </td>
             </tr>
@@ -789,6 +952,32 @@
     <h3 id="inputs">
         Properties
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -809,7 +998,52 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">Form builder used to build the metadata form</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="immediateFields"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>immediateFields</b></span>
+                        <a href="#immediateFields"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    &quot;startDate&quot;,
+    &quot;endDate&quot;,
+    &quot;questions&quot;,
+    &quot;closingMode&quot;,
+    &quot;customClosingKeywords&quot;,
+    &quot;defaultSessionDuration&quot;,
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -836,7 +1070,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -871,7 +1105,40 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="textFields"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>textFields</b></span>
+                        <a href="#textFields"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&quot;title&quot;, &quot;course&quot;, &quot;program&quot;, &quot;year&quot;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -906,10 +1173,41 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:26</a></div>
                         </td>
                     </tr>
 
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="titleSaveAttempted"></a>
+                    <span class="name">
+                        <span ><b>titleSaveAttempted</b></span>
+                        <a href="#titleSaveAttempted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set to true on the first save attempt so the required-title feedback only appears once a save was tried.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -941,7 +1239,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -958,28 +1256,31 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="isModified"></a>
+                    <a name="yearInput"></a>
                     <span class="name">
-                        <span ><b>isModified</b></span>
-                        <a href="#isModified"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>yearInput</b></span>
+                        <a href="#yearInput"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
+                        <i>Type : </i>        <code><a href="../components/TextInputComponent.html" target="_self" >TextInputComponent</a></code>
+
                     </td>
                 </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../components/BaseEditConfigurationComponent.html" target="_self" >BaseEditConfigurationComponent</a></code>
-</div>
-                            </td>
-                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;yearInput&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/BaseEditConfigurationComponent.html#source" target="_self" >BaseEditConfigurationComponent:9</a></code>
-</div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/metadata/metadata.component.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -998,6 +1299,8 @@ import { Metadata } from &quot;@models/Metadata.model&quot;;
 import { NgbDateAdapter } from &quot;@ng-bootstrap/ng-bootstrap&quot;;
 import { NgbDateNativeUTCFranceAdapter } from &quot;@services/ngb-date-native-utcfrance-adapter.service&quot;;
 import * as moment from &quot;moment&quot;;
+import { Subject } from &quot;rxjs&quot;;
+import { takeUntil } from &quot;rxjs/operators&quot;;
 import { BaseEditConfigurationComponent } from &quot;../base-edit-configuration.component&quot;;
 import { TextInputComponent } from &quot;@shared/ui/text-input/text-input.component&quot;;
 import { QuestionsChooserComponent } from &quot;@components/questions-chooser/questions-chooser.component&quot;;
@@ -1011,11 +1314,19 @@ import { QuestionsChooserComponent } from &quot;@components/questions-chooser/qu
   styleUrls: [&quot;../configuration.component.scss&quot;, &quot;./metadata.component.scss&quot;],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeUTCFranceAdapter }],
 })
-export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadata&gt; implements OnInit, OnDestroy, AfterViewInit {
+export class MetadataComponent extends BaseEditConfigurationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() metadata: Metadata;
+  /** Champ focalisé à l&#x27;ouverture de l&#x27;éditeur (voir ConfigurationComponent.initialFocusField). */
+  @Input() initialFocusField: &quot;title&quot; | &quot;year&quot; &#x3D; &quot;title&quot;;
   @ViewChild(&quot;titleInput&quot;) titleInput: TextInputComponent;
+  @ViewChild(&quot;yearInput&quot;) yearInput: TextInputComponent;
   @ViewChild(&quot;questionsChooser&quot;) questionsChooser: QuestionsChooserComponent;
   public metadataForm: FormGroup;
+
+  /**
+   * Set to true on the first save attempt so the required-title feedback only appears once a save was tried.
+   */
+  titleSaveAttempted &#x3D; false;
 
   /**
    * Settings for the typeahead text input
@@ -1025,9 +1336,22 @@ export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadat
     suggestionLimit: 5,
   };
 
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+
+  private readonly textFields &#x3D; [&quot;title&quot;, &quot;course&quot;, &quot;program&quot;, &quot;year&quot;];
+
+  private readonly immediateFields &#x3D; [
+    &quot;startDate&quot;,
+    &quot;endDate&quot;,
+    &quot;questions&quot;,
+    &quot;closingMode&quot;,
+    &quot;customClosingKeywords&quot;,
+    &quot;defaultSessionDuration&quot;,
+  ];
+
   /**
    * MetadataComponent constructor
-   * @param toastService Service used to display toasts for success or error cases
+   * @param fb Form builder used to build the metadata form
    */
   constructor(public fb: FormBuilder) {
     super();
@@ -1040,22 +1364,24 @@ export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadat
     this.metadata.startDate &#x3D; this.metadata.startDate &amp;&amp; moment(this.metadata.startDate, &quot;YYYY-MM-DD HH:mm&quot;).format(&quot;YYYY-MM-DDTHH:mm&quot;);
     this.metadata.endDate &#x3D; this.metadata.endDate &amp;&amp; moment(this.metadata.endDate, &quot;YYYY-MM-DD HH:mm&quot;).format(&quot;YYYY-MM-DDTHH:mm&quot;);
     this.createFormGroup();
-    this.metadataForm.valueChanges.subscribe(() &#x3D;&gt; {
-      this.modify();
-    });
+    this.listenToFieldChanges();
   }
 
   ngAfterViewInit() {
     requestAnimationFrame(() &#x3D;&gt; {
       requestAnimationFrame(() &#x3D;&gt; {
-        if (this.titleInput &amp;&amp; this.titleInput.inputElement) {
-          this.titleInput.inputElement.nativeElement.focus({ preventScroll: true });
+        const target &#x3D; this.initialFocusField &#x3D;&#x3D;&#x3D; &quot;year&quot; ? this.yearInput : this.titleInput;
+        if (target &amp;&amp; target.inputElement) {
+          target.inputElement.nativeElement.focus({ preventScroll: true });
         }
       });
     });
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   /**
    * Adds multiple questions from the questions assistant popover
@@ -1067,28 +1393,30 @@ export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadat
   }
 
   /**
-   * This method is called when the form is submitted (when save button is pressed). Updates data with new values entered
+   * Called by the parent on every save attempt. Keeps the required-title feedback in sync with the save lifecycle.
    */
-  submitMetadata() {
-    let modifiedMetadata &#x3D; this.metadataForm.value;
-    let metadata &#x3D; new Metadata();
-    metadata.title &#x3D; modifiedMetadata.title;
-    metadata.course &#x3D; modifiedMetadata.course;
-    metadata.program &#x3D; modifiedMetadata.program;
-    metadata.year &#x3D; modifiedMetadata.year;
-    metadata.startDate &#x3D; modifiedMetadata.startDate;
-    metadata.endDate &#x3D; modifiedMetadata.endDate;
-    metadata.questions &#x3D; modifiedMetadata.questions;
-    metadata.closingMode &#x3D; modifiedMetadata.closingMode;
-    metadata.customClosingKeywords &#x3D; modifiedMetadata.customClosingKeywords;
-    metadata.defaultSessionDuration &#x3D; modifiedMetadata.defaultSessionDuration;
+  notifySaveAttempt() {
+    this.titleSaveAttempted &#x3D; true;
+  }
 
-    this.save(metadata);
+  private listenToFieldChanges() {
+    this.textFields.forEach((name) &#x3D;&gt; {
+      this.metadataForm
+        .get(name)
+        ?.valueChanges.pipe(takeUntil(this.destroy$))
+        .subscribe(() &#x3D;&gt; this.modifyText());
+    });
+    this.immediateFields.forEach((name) &#x3D;&gt; {
+      this.metadataForm
+        .get(name)
+        ?.valueChanges.pipe(takeUntil(this.destroy$))
+        .subscribe(() &#x3D;&gt; this.modify());
+    });
   }
 
   private createFormGroup() {
     this.metadataForm &#x3D; this.fb.group({
-      title: [this.metadata.title, Validators.required],
+      title: [this.metadata.title, [Validators.required, Validators.pattern(/\S/)]],
       course: [this.metadata.course],
       program: [this.metadata.program],
       year: [this.metadata.year],
@@ -1119,9 +1447,12 @@ export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadat
       &lt;!-- Title --&gt;
       &lt;div class&#x3D;&quot;col-12&quot;&gt;
         &lt;app-text-input #titleInput id&#x3D;&quot;title&quot; formControlName&#x3D;&quot;title&quot; [label]&#x3D;&quot;&#x27;METADATA.TITLE&#x27; | translate&quot; [required]&#x3D;&quot;true&quot;
-          [invalid]&#x3D;&quot;metadataForm.controls.title.invalid &amp;&amp; metadataForm.controls.title.touched&quot;
-          [valid]&#x3D;&quot;!metadataForm.controls.title.invalid &amp;&amp; metadataForm.controls.title.touched&quot;&gt;
+          [invalid]&#x3D;&quot;metadataForm.controls.title.invalid &amp;&amp; (metadataForm.controls.title.touched || titleSaveAttempted)&quot;
+          [valid]&#x3D;&quot;!metadataForm.controls.title.invalid &amp;&amp; metadataForm.controls.title.touched&quot; (blurred)&#x3D;&quot;notifyBlur()&quot;&gt;
         &lt;/app-text-input&gt;
+        &lt;div class&#x3D;&quot;metadata-feedback&quot; *ngIf&#x3D;&quot;metadataForm.controls.title.invalid &amp;&amp; titleSaveAttempted&quot;&gt;
+          {{ &#x27;AUTOSAVE.TITLE-REQUIRED-FEEDBACK&#x27; | translate }}
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
 
@@ -1130,19 +1461,19 @@ export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadat
       &lt;div class&#x3D;&quot;col-12 d-flex flex-nowrap&quot; style&#x3D;&quot;gap: 0.5rem;&quot;&gt;
         &lt;!-- Course --&gt;
         &lt;div style&#x3D;&quot;flex: 3;&quot;&gt;
-          &lt;app-text-input id&#x3D;&quot;course&quot; formControlName&#x3D;&quot;course&quot; [label]&#x3D;&quot;&#x27;METADATA.COURSE&#x27; | translate&quot;&gt;
+          &lt;app-text-input id&#x3D;&quot;course&quot; formControlName&#x3D;&quot;course&quot; [label]&#x3D;&quot;&#x27;METADATA.COURSE&#x27; | translate&quot; (blurred)&#x3D;&quot;notifyBlur()&quot;&gt;
           &lt;/app-text-input&gt;
         &lt;/div&gt;
 
         &lt;!-- Program --&gt;
         &lt;div style&#x3D;&quot;flex: 3;&quot;&gt;
-          &lt;app-text-input id&#x3D;&quot;program&quot; formControlName&#x3D;&quot;program&quot; [label]&#x3D;&quot;&#x27;METADATA.PROGRAM&#x27; | translate&quot;&gt;
+          &lt;app-text-input id&#x3D;&quot;program&quot; formControlName&#x3D;&quot;program&quot; [label]&#x3D;&quot;&#x27;METADATA.PROGRAM&#x27; | translate&quot; (blurred)&#x3D;&quot;notifyBlur()&quot;&gt;
           &lt;/app-text-input&gt;
         &lt;/div&gt;
 
         &lt;!-- Year --&gt;
         &lt;div style&#x3D;&quot;flex: 1;&quot;&gt;
-          &lt;app-text-input id&#x3D;&quot;year&quot; formControlName&#x3D;&quot;year&quot; [label]&#x3D;&quot;&#x27;METADATA.YEAR&#x27; | translate&quot;&gt;
+          &lt;app-text-input #yearInput id&#x3D;&quot;year&quot; formControlName&#x3D;&quot;year&quot; [label]&#x3D;&quot;&#x27;METADATA.YEAR&#x27; | translate&quot; (blurred)&#x3D;&quot;notifyBlur()&quot;&gt;
           &lt;/app-text-input&gt;
         &lt;/div&gt;
       &lt;/div&gt;
@@ -1232,10 +1563,17 @@ export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadat
 
 .inline-config-container {
   .config-header {
+    /* Gouttière de la page d&#x27;édition : 1.5rem partout (le bas est porté par le corps). */
+    padding: 1.5rem 1.5rem 0;
+
     h4 {
       font-family: &quot;Inter&quot;, &quot;Roboto&quot;, sans-serif;
       font-weight: 600;
     }
+  }
+
+  .config-body {
+    padding: 1.5rem;
   }
 
   .divider-vertical {
@@ -1304,7 +1642,53 @@ export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadat
   .bg-light-surface {
     background-color: var(--color-bg-body);
   }
-}</code></pre>
+}
+
+/* En mode inline, remplace le bouton &quot;Terminé&quot; : le bouton d&#x27;édition de la carte
+   se transforme en chevron, à la même position (menu d&#x27;actions + marge à sa droite). */
+.config-inline-close {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-right: 2.5rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &amp;:hover {
+    background: var(--color-bg-body);
+    color: var(--color-text-primary);
+  }
+
+  &amp;:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.autosave-indicator {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color 0.2s ease;
+
+  &amp;--saved {
+    color: var(--color-success);
+  }
+
+  &amp;--warning {
+    color: var(--color-danger);
+  }
+}
+</code></pre>
                 <p class="comment">
                     <code>./metadata.component.scss</code>
                 </p>
@@ -1317,6 +1701,23 @@ export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadat
   color: var(--color-text-secondary);
   margin-bottom: 0.25rem;
   display: block;
+}
+
+.metadata-feedback {
+  font-size: 0.75rem;
+  color: var(--color-danger);
+  opacity: 0.85;
+  margin-top: 0.25rem;
+  padding-left: 0.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* La page d&#x27;édition utilise une gouttière unique de 1.5rem : on neutralise le padding
+   de la grille pour aligner les champs sur les onglets et le contenu de la carte. */
+.form-row [class*&#x3D;&quot;col-&quot;] {
+  padding-right: 0;
+  padding-left: 0;
 }
 </code></pre>
     </div>
@@ -1346,9 +1747,9 @@ export class MetadataComponent extends BaseEditConfigurationComponent&lt;Metadat
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="metadata-form-container">  <form onkeydown="return event.key != \'Enter\';" [formGroup]="metadataForm" novalidate>    <!-- Row 1: Title -->    <div class="form-row mt-2">      <!-- Title -->      <div class="col-12">        <app-text-input #titleInput id="title" formControlName="title" [label]="\'METADATA.TITLE\' | translate" [required]="true"          [invalid]="metadataForm.controls.title.invalid && metadataForm.controls.title.touched"          [valid]="!metadataForm.controls.title.invalid && metadataForm.controls.title.touched">        </app-text-input>      </div>    </div>    <!-- Row 2: Course, Program, Year (3-3-1 ratio) -->    <div class="form-row mt-2">      <div class="col-12 d-flex flex-nowrap" style="gap: 0.5rem;">        <!-- Course -->        <div style="flex: 3;">          <app-text-input id="course" formControlName="course" [label]="\'METADATA.COURSE\' | translate">          </app-text-input>        </div>        <!-- Program -->        <div style="flex: 3;">          <app-text-input id="program" formControlName="program" [label]="\'METADATA.PROGRAM\' | translate">          </app-text-input>        </div>        <!-- Year -->        <div style="flex: 1;">          <app-text-input id="year" formControlName="year" [label]="\'METADATA.YEAR\' | translate">          </app-text-input>        </div>      </div>    </div>    <!-- Row 3: Questions -->    <div id="tour-questions" class="form-row mt-0 mb-3">      <div class="col-md-12">        <div class="form-group mb-0">          <div class="d-flex justify-content-between align-items-center mb-1">            <label for="questionsChooser" class="mb-0"              style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary);">              {{ \'QUESTIONS\' | translate }}            </label>            <app-questions-assistant-popover              [variant]="\'ghost\'"              [iconType]="\'magic-wand\'"              [alignRight]="true"              [closingMode]="metadataForm.get(\'closingMode\').value"              (closingModeChange)="metadataForm.get(\'closingMode\').setValue($event)"              [customClosingKeywords]="metadataForm.get(\'customClosingKeywords\').value"              (customClosingKeywordsChange)="metadataForm.get(\'customClosingKeywords\').setValue($event)"              (addQuestions)="onAddQuestionsFromAssistant($event)">            </app-questions-assistant-popover>          </div>          <div style="width: 100%;">            <questions-chooser #questionsChooser formControlName="questions" [mode]="\'add\'" [openOnFocus]="true"              [noQuestionMessage]="true" [maxPillsWidth]="\'70%\'">            </questions-chooser>          </div>        </div>      </div>    </div>    <!-- Row 4: Dates, Duration -->    <div id="tour-dates" class="form-row mt-1">      <div class="col-12 d-flex flex-nowrap align-items-end" style="gap: 2rem;">        <!-- Date Range Picker -->        <div style="flex: 0 1 300px;">          <app-date-range-picker [startDate]="metadataForm.get(\'startDate\').value"            (startDateChange)="metadataForm.get(\'startDate\').setValue($event)"            [endDate]="metadataForm.get(\'endDate\').value"            (endDateChange)="metadataForm.get(\'endDate\').setValue($event)">          </app-date-range-picker>        </div>        <div class="duration-section d-flex flex-column justify-content-end" style="flex: 0 1 auto; margin-bottom: 2px;">          <label for="defaultSessionDuration"            style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem;">{{ \'DEFAULT-SESSION-DURATION\' | translate }}</label>          <div class="form-group mb-0">            <app-session-duration-picker id="defaultSessionDuration" formControlName="defaultSessionDuration">            </app-session-duration-picker>          </div>        </div>      </div>    </div>  </form></div></div>'
-    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
-    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
+        var COMPONENT_TEMPLATE = '<div><div class="metadata-form-container">  <form onkeydown="return event.key != \'Enter\';" [formGroup]="metadataForm" novalidate>    <!-- Row 1: Title -->    <div class="form-row mt-2">      <!-- Title -->      <div class="col-12">        <app-text-input #titleInput id="title" formControlName="title" [label]="\'METADATA.TITLE\' | translate" [required]="true"          [invalid]="metadataForm.controls.title.invalid && (metadataForm.controls.title.touched || titleSaveAttempted)"          [valid]="!metadataForm.controls.title.invalid && metadataForm.controls.title.touched" (blurred)="notifyBlur()">        </app-text-input>        <div class="metadata-feedback" *ngIf="metadataForm.controls.title.invalid && titleSaveAttempted">          {{ \'AUTOSAVE.TITLE-REQUIRED-FEEDBACK\' | translate }}        </div>      </div>    </div>    <!-- Row 2: Course, Program, Year (3-3-1 ratio) -->    <div class="form-row mt-2">      <div class="col-12 d-flex flex-nowrap" style="gap: 0.5rem;">        <!-- Course -->        <div style="flex: 3;">          <app-text-input id="course" formControlName="course" [label]="\'METADATA.COURSE\' | translate" (blurred)="notifyBlur()">          </app-text-input>        </div>        <!-- Program -->        <div style="flex: 3;">          <app-text-input id="program" formControlName="program" [label]="\'METADATA.PROGRAM\' | translate" (blurred)="notifyBlur()">          </app-text-input>        </div>        <!-- Year -->        <div style="flex: 1;">          <app-text-input #yearInput id="year" formControlName="year" [label]="\'METADATA.YEAR\' | translate" (blurred)="notifyBlur()">          </app-text-input>        </div>      </div>    </div>    <!-- Row 3: Questions -->    <div id="tour-questions" class="form-row mt-0 mb-3">      <div class="col-md-12">        <div class="form-group mb-0">          <div class="d-flex justify-content-between align-items-center mb-1">            <label for="questionsChooser" class="mb-0"              style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary);">              {{ \'QUESTIONS\' | translate }}            </label>            <app-questions-assistant-popover              [variant]="\'ghost\'"              [iconType]="\'magic-wand\'"              [alignRight]="true"              [closingMode]="metadataForm.get(\'closingMode\').value"              (closingModeChange)="metadataForm.get(\'closingMode\').setValue($event)"              [customClosingKeywords]="metadataForm.get(\'customClosingKeywords\').value"              (customClosingKeywordsChange)="metadataForm.get(\'customClosingKeywords\').setValue($event)"              (addQuestions)="onAddQuestionsFromAssistant($event)">            </app-questions-assistant-popover>          </div>          <div style="width: 100%;">            <questions-chooser #questionsChooser formControlName="questions" [mode]="\'add\'" [openOnFocus]="true"              [noQuestionMessage]="true" [maxPillsWidth]="\'70%\'">            </questions-chooser>          </div>        </div>      </div>    </div>    <!-- Row 4: Dates, Duration -->    <div id="tour-dates" class="form-row mt-1">      <div class="col-12 d-flex flex-nowrap align-items-end" style="gap: 2rem;">        <!-- Date Range Picker -->        <div style="flex: 0 1 300px;">          <app-date-range-picker [startDate]="metadataForm.get(\'startDate\').value"            (startDateChange)="metadataForm.get(\'startDate\').setValue($event)"            [endDate]="metadataForm.get(\'endDate\').value"            (endDateChange)="metadataForm.get(\'endDate\').setValue($event)">          </app-date-range-picker>        </div>        <div class="duration-section d-flex flex-column justify-content-end" style="flex: 0 1 auto; margin-bottom: 2px;">          <label for="defaultSessionDuration"            style="font-weight: 500; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.2rem;">{{ \'DEFAULT-SESSION-DURATION\' | translate }}</label>          <div class="form-group mb-0">            <app-session-duration-picker id="defaultSessionDuration" formControlName="defaultSessionDuration">            </app-session-duration-picker>          </div>        </div>      </div>    </div>  </form></div></div>'
+    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AssignmentFolderViewComponent', 'selector': 'assignment-folder-view'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'LiquidActionMenuComponent', 'selector': 'app-liquid-action-menu'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'SessionsComponent', 'selector': 'app-sessions'},{'name': 'SessionTabComponent', 'selector': 'app-session-tab'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'StudentsQuestionsMatrixComponent', 'selector': 'app-students-questions-matrix'},{'name': 'SuggestSessionsModalComponent', 'selector': 'app-suggest-sessions-modal'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TpGroupSelectorComponent', 'selector': 'app-tp-group-selector'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'},{'name': 'WhatsNewModalComponent', 'selector': 'app-whats-new-modal'}];
+    var DIRECTIVES = [{'name': 'DropdownArrowNavDirective', 'selector': '[ngbDropdown]'},{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
     var ACTUAL_COMPONENT = {'name': 'MetadataComponent'};
 </script>
 <script src="../js/tree.js"></script>

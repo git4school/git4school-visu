@@ -172,6 +172,10 @@
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#openWhatsNewOnNewVersion" >openWhatsNewOnNewVersion</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -190,12 +194,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(githubAuthService: <a href="../injectables/GithubAuthService.html" target="_self">GithubAuthService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, translateService: TranslateService, themeService: <a href="../injectables/ThemeService.html" target="_self">ThemeService</a>)</code>
+<code>constructor(githubAuthService: <a href="../injectables/GithubAuthService.html" target="_self">GithubAuthService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, translateService: TranslateService, themeService: <a href="../injectables/ThemeService.html" target="_self">ThemeService</a>, whatsNewService: <a href="../injectables/WhatsNewService.html" target="_self">WhatsNewService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/app.component.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/app.component.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -293,6 +297,22 @@
 
                                                         </td>
                                                 </tr>
+                                                <tr>
+                                                        <td>whatsNewService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WhatsNewService.html" target="_self" >WhatsNewService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <p>Service handling the &quot;What&#39;s New&quot; modal</p>
+
+                                                        </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -331,8 +351,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/app.component.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/app/app.component.ts:45</a></div>
                 </td>
             </tr>
 
@@ -340,6 +360,47 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>This method is called once the component is loaded.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openWhatsNewOnNewVersion"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>openWhatsNewOnNewVersion</b></span>
+                        <a href="#openWhatsNewOnNewVersion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>openWhatsNewOnNewVersion()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">src/app/app.component.ts:53</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Shows the highlights of the running version once, when the user has never seen this version.</p>
 </div>
 
                     <div class="io-description">
@@ -376,7 +437,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/app.component.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/app.component.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -408,7 +469,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/app.component.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/app.component.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -439,7 +500,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/app.component.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/app.component.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -466,7 +527,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/app.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/app.component.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -490,6 +551,7 @@ import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { GithubAuthService } from &quot;@services/github-auth.service&quot;;
 import { DataService } from &quot;@services/data.service&quot;;
 import { ThemeService } from &quot;@services/theme.service&quot;;
+import { WhatsNewService } from &quot;@services/whats-new.service&quot;;
 import * as Chart from &quot;chart.js&quot;;
 // import * as ChartDataLabels from &quot;chartjs-plugin-datalabels&quot;;
 import { default as ChartDataLabels } from &quot;chartjs-plugin-datalabels&quot;;
@@ -513,6 +575,7 @@ export class AppComponent implements OnInit {
    * @param router
    * @param translateService Service used to translate the application
    * @param themeService Service used to handle theme
+   * @param whatsNewService Service handling the &quot;What&#x27;s New&quot; modal
    */
   constructor(
     public githubAuthService: GithubAuthService,
@@ -520,6 +583,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     public translateService: TranslateService,
     private themeService: ThemeService,
+    private whatsNewService: WhatsNewService,
   ) {}
 
   /**
@@ -527,13 +591,38 @@ export class AppComponent implements OnInit {
    */
   ngOnInit(): void {
     Chart.pluginService.unregister(ChartDataLabels);
+    this.openWhatsNewOnNewVersion();
+  }
+
+  /**
+   * Shows the highlights of the running version once, when the user has never seen this version.
+   */
+  private openWhatsNewOnNewVersion(): void {
+    if (!this.whatsNewService.shouldShow()) {
+      return;
+    }
+
+    /* Double requestAnimationFrame: let the application shell paint before the modal slides in. */
+    requestAnimationFrame(() &#x3D;&gt; {
+      requestAnimationFrame(() &#x3D;&gt; this.whatsNewService.showIfNeeded());
+    });
   }
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;router-outlet&gt;&lt;/router-outlet&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;!-- Filtre « goo » partagé par les menus d&#x27;actions liquides (liquid morphism) --&gt;
+&lt;svg class&#x3D;&quot;liquid-goo-defs&quot; width&#x3D;&quot;0&quot; height&#x3D;&quot;0&quot; aria-hidden&#x3D;&quot;true&quot; focusable&#x3D;&quot;false&quot;&gt;
+  &lt;defs&gt;
+    &lt;filter id&#x3D;&quot;g4s-liquid-goo&quot; x&#x3D;&quot;-25%&quot; y&#x3D;&quot;-25%&quot; width&#x3D;&quot;150%&quot; height&#x3D;&quot;150%&quot; color-interpolation-filters&#x3D;&quot;sRGB&quot;&gt;
+      &lt;feGaussianBlur in&#x3D;&quot;SourceGraphic&quot; stdDeviation&#x3D;&quot;5&quot; result&#x3D;&quot;blur&quot; /&gt;
+      &lt;feColorMatrix in&#x3D;&quot;blur&quot; mode&#x3D;&quot;matrix&quot;
+        values&#x3D;&quot;1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10&quot; /&gt;
+    &lt;/filter&gt;
+  &lt;/defs&gt;
+&lt;/svg&gt;
+&lt;router-outlet&gt;&lt;/router-outlet&gt;
 &lt;app-toasts&gt;&lt;/app-toasts&gt;
 &lt;app-dev-bar *ngIf&#x3D;&quot;!isProduction&quot;&gt;&lt;/app-dev-bar&gt;
 </code></pre>
@@ -543,7 +632,13 @@ export class AppComponent implements OnInit {
                 <p class="comment">
                     <code>./app.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss"></code></pre>
+                <pre class="line-numbers"><code class="language-scss">.liquid-goo-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -571,9 +666,9 @@ export class AppComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><router-outlet></router-outlet><app-toasts></app-toasts><app-dev-bar *ngIf="!isProduction"></app-dev-bar></div>'
-    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
-    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
+        var COMPONENT_TEMPLATE = '<div><!-- Filtre « goo » partagé par les menus d\'actions liquides (liquid morphism) --><svg class="liquid-goo-defs" width="0" height="0" aria-hidden="true" focusable="false">  <defs>    <filter id="g4s-liquid-goo" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />      <feColorMatrix in="blur" mode="matrix"        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" />    </filter>  </defs></svg><router-outlet></router-outlet><app-toasts></app-toasts><app-dev-bar *ngIf="!isProduction"></app-dev-bar></div>'
+    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AssignmentFolderViewComponent', 'selector': 'assignment-folder-view'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'LiquidActionMenuComponent', 'selector': 'app-liquid-action-menu'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'SessionsComponent', 'selector': 'app-sessions'},{'name': 'SessionTabComponent', 'selector': 'app-session-tab'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'StudentsQuestionsMatrixComponent', 'selector': 'app-students-questions-matrix'},{'name': 'SuggestSessionsModalComponent', 'selector': 'app-suggest-sessions-modal'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TpGroupSelectorComponent', 'selector': 'app-tp-group-selector'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'},{'name': 'WhatsNewModalComponent', 'selector': 'app-whats-new-modal'}];
+    var DIRECTIVES = [{'name': 'DropdownArrowNavDirective', 'selector': '[ngbDropdown]'},{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
     var ACTUAL_COMPONENT = {'name': 'AppComponent'};
 </script>
 <script src="../js/tree.js"></script>

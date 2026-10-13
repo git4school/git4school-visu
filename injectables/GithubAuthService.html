@@ -140,6 +140,9 @@ Implements the GitAuthProvider strategy interface.</p>
                                 <a href="#checkTokenValidity" >checkTokenValidity</a>
                             </li>
                             <li>
+                                <a href="#clearMockSession" >clearMockSession</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Async</span>
                                 <a href="#fetchUserProfile" >fetchUserProfile</a>
                             </li>
@@ -152,6 +155,9 @@ Implements the GitAuthProvider strategy interface.</p>
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#handleAuthResult" >handleAuthResult</a>
+                            </li>
+                            <li>
+                                <a href="#injectMockSession" >injectMockSession</a>
                             </li>
                             <li>
                                 <a href="#isSignedIn" >isSignedIn</a>
@@ -209,7 +215,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/services/github-auth.service.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/services/github-auth.service.ts:53</a></div>
                             </td>
                         </tr>
 
@@ -320,8 +326,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:161</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:162</a></div>
                 </td>
             </tr>
 
@@ -331,6 +337,45 @@ Implements the GitAuthProvider strategy interface.</p>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearMockSession"></a>
+                    <span class="name">
+                        <span ><b>clearMockSession</b></span>
+                        <a href="#clearMockSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearMockSession()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="255"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:255</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>DEV ONLY — Clears the fake GitHub session injected by injectMockSession.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -359,8 +404,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="207"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:207</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:208</a></div>
                 </td>
             </tr>
 
@@ -428,8 +473,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:79</a></div>
                 </td>
             </tr>
 
@@ -465,8 +510,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:141</a></div>
                 </td>
             </tr>
 
@@ -536,8 +581,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="295"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:295</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="327"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:327</a></div>
                 </td>
             </tr>
 
@@ -606,6 +651,91 @@ Implements the GitAuthProvider strategy interface.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="injectMockSession"></a>
+                    <span class="name">
+                        <span ><b>injectMockSession</b></span>
+                        <a href="#injectMockSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>injectMockSession(token: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, profile: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:242</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>DEV ONLY — Injects a fake GitHub session so the app can be exercised against
+the mocked GitHub API (MockGithubInterceptor) without a real Firebase popup.
+No-op in production.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>token</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>profile</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="isSignedIn"></a>
                     <span class="name">
                         <span ><b>isSignedIn</b></span>
@@ -622,8 +752,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -659,8 +789,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:201</a></div>
                 </td>
             </tr>
 
@@ -698,8 +828,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="314"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:314</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="346"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:346</a></div>
                 </td>
             </tr>
 
@@ -737,8 +867,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="236"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:236</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="268"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:268</a></div>
                 </td>
             </tr>
 
@@ -776,8 +906,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -847,8 +977,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="120"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:120</a></div>
                 </td>
             </tr>
 
@@ -886,8 +1016,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="282"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:282</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="314"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:314</a></div>
                 </td>
             </tr>
 
@@ -957,8 +1087,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="261"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:261</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="293"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:293</a></div>
                 </td>
             </tr>
 
@@ -1043,8 +1173,8 @@ Implements the GitAuthProvider strategy interface.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">src/app/services/github-auth.service.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">src/app/services/github-auth.service.ts:149</a></div>
                 </td>
             </tr>
 
@@ -1124,7 +1254,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/services/github-auth.service.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/services/github-auth.service.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -1155,7 +1285,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/services/github-auth.service.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/services/github-auth.service.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1186,7 +1316,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/services/github-auth.service.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/github-auth.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -1218,7 +1348,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/services/github-auth.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/services/github-auth.service.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -1243,7 +1373,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/github-auth.service.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/services/github-auth.service.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -1275,7 +1405,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/services/github-auth.service.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/services/github-auth.service.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -1307,7 +1437,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/services/github-auth.service.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/services/github-auth.service.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -1338,7 +1468,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/github-auth.service.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/services/github-auth.service.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -1369,7 +1499,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/services/github-auth.service.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/services/github-auth.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -1400,7 +1530,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/services/github-auth.service.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/services/github-auth.service.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -1432,7 +1562,7 @@ Implements the GitAuthProvider strategy interface.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/services/github-auth.service.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/services/github-auth.service.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -1457,6 +1587,7 @@ import { catchError, map, shareReplay, tap } from &quot;rxjs/operators&quot;;
 import { Account, GitProviderType, TokenStatus } from &quot;@models/Account.model&quot;;
 import { GitAuthProvider } from &quot;@models/GitAuthProvider.model&quot;;
 import { TokenStorageService } from &quot;@services/token-storage.service&quot;;
+import { environment } from &quot;@environments/environment&quot;;
 import { ToastService } from &quot;./toast.service&quot;;
 
 export interface AuthState {
@@ -1678,6 +1809,37 @@ export class GithubAuthService implements GitAuthProvider {
       }
       console.warn(&quot;Could not fetch GitHub profile via API:&quot;, e);
     }
+  }
+
+  /**
+   * DEV ONLY — Injects a fake GitHub session so the app can be exercised against
+   * the mocked GitHub API (MockGithubInterceptor) without a real Firebase popup.
+   * No-op in production.
+   */
+  injectMockSession(token: string, profile: { username: string; avatarUrl?: string | null; displayName?: string | null }): void {
+    if (environment.production) {
+      return;
+    }
+    this.token &#x3D; token;
+    this.tokenStatus &#x3D; &quot;valid&quot;;
+    this.tokenStorageService.saveToken(&quot;github&quot;, token, true);
+    this.updateProfile(profile, true);
+  }
+
+  /**
+   * DEV ONLY — Clears the fake GitHub session injected by injectMockSession.
+   */
+  clearMockSession(): void {
+    if (environment.production) {
+      return;
+    }
+    this.token &#x3D; null;
+    this.username &#x3D; null;
+    this.avatarUrl &#x3D; null;
+    this.displayName &#x3D; null;
+    this.tokenStatus &#x3D; &quot;unknown&quot;;
+    this.tokenStorageService.clearAll(&quot;github&quot;);
+    this.notifyAuthChange();
   }
 
   private restoreSession(): void {

@@ -223,8 +223,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="564"
-                            class="link-to-prism">src/app/services/tour.service.ts:564</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="555"
+                            class="link-to-prism">src/app/services/tour.service.ts:555</a></div>
                 </td>
             </tr>
 
@@ -305,8 +305,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="553"
-                            class="link-to-prism">src/app/services/tour.service.ts:553</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="544"
+                            class="link-to-prism">src/app/services/tour.service.ts:544</a></div>
                 </td>
             </tr>
 
@@ -430,8 +430,8 @@ Temporarily disabled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="571"
-                            class="link-to-prism">src/app/services/tour.service.ts:571</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="562"
+                            class="link-to-prism">src/app/services/tour.service.ts:562</a></div>
                 </td>
             </tr>
 
@@ -1061,7 +1061,7 @@ export class TourService {
           },
         },
         {
-          element: &quot;#tour-save-btn&quot;,
+          element: &quot;#tour-autosave&quot;,
           popover: {
             title: this.translate.instant(&quot;TOUR.SAVE_BTN_TITLE&quot;),
             description: this.translate.instant(&quot;TOUR.SAVE_BTN_DESC&quot;),
@@ -1073,21 +1073,12 @@ export class TourService {
               ) as HTMLElement;
               if (nextBtn) nextBtn.style.display &#x3D; &quot;none&quot;;
 
-              const saveBtn &#x3D; document.querySelector(
-                &quot;#tour-save-btn&quot;
-              ) as HTMLButtonElement;
-              if (saveBtn) {
-                const handleSaveClick &#x3D; () &#x3D;&gt; {
-                  saveBtn.removeEventListener(&quot;click&quot;, handleSaveClick);
-                  const waitForClose &#x3D; setInterval(() &#x3D;&gt; {
-                    if (!document.querySelector(&quot;app-configuration&quot;)) {
-                      clearInterval(waitForClose);
-                      setTimeout(() &#x3D;&gt; this.nextStep(), 500);
-                    }
-                  }, 200);
-                };
-                saveBtn.addEventListener(&quot;click&quot;, handleSaveClick);
-              }
+              const waitForClose &#x3D; setInterval(() &#x3D;&gt; {
+                if (!document.querySelector(&quot;app-configuration&quot;)) {
+                  clearInterval(waitForClose);
+                  setTimeout(() &#x3D;&gt; this.nextStep(), 500);
+                }
+              }, 200);
             },
           },
         },

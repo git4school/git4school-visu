@@ -1,0 +1,4566 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  AssignmentFolderViewComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Vue « dossiers » de la liste des devoirs : une grille de dossiers dont la couleur
+traduit le statut. Au survol, la feuille « métadonnées » sort légèrement du rabat
+(l&#39;autre reste cachée derrière) ; au clic, les deux feuilles A4 (métadonnées puis
+planning) sortent entièrement côte à côte et les actions s&#39;affichent dessous, le
+reste de la grille passant derrière un flou de focalisation.</p>
+<p>Composant présentationnel : l&#39;état de sélection et les actions restent gérés par
+<code>AssignmentChooserComponent</code>.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/DoCheck" target="_blank" >DoCheck</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>assignment-folder-view</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./assignment-folder-view.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./assignment-folder-view.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#assignmentsService" >assignmentsService</a>
+                            </li>
+                            <li>
+                                <a href="#ledIdle" >ledIdle</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ledIdleTimer" >ledIdleTimer</a>
+                            </li>
+                            <li>
+                                <a href="#openAssignmentId" >openAssignmentId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#restLayouts" >restLayouts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#selectionSignature" >selectionSignature</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#translateService" >translateService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#applyOpenShift" >applyOpenShift</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#buildRestLayout" >buildRestLayout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#clearLedIdleTimer" >clearLedIdleTimer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#closeOpenFolder" >closeOpenFolder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#computeSelectionSignature" >computeSelectionSignature</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fitOpenFolderInView" >fitOpenFolderInView</a>
+                            </li>
+                            <li>
+                                <a href="#formatDate" >formatDate</a>
+                            </li>
+                            <li>
+                                <a href="#getArchiveToggleTooltip" >getArchiveToggleTooltip</a>
+                            </li>
+                            <li>
+                                <a href="#getAssignmentDeleteTooltip" >getAssignmentDeleteTooltip</a>
+                            </li>
+                            <li>
+                                <a href="#getAssignmentEditTooltip" >getAssignmentEditTooltip</a>
+                            </li>
+                            <li>
+                                <a href="#getAssignmentTooltip" >getAssignmentTooltip</a>
+                            </li>
+                            <li>
+                                <a href="#getDisconnectedTooltip" >getDisconnectedTooltip</a>
+                            </li>
+                            <li>
+                                <a href="#getDuration" >getDuration</a>
+                            </li>
+                            <li>
+                                <a href="#getProgressBarColor" >getProgressBarColor</a>
+                            </li>
+                            <li>
+                                <a href="#getRemainingTime" >getRemainingTime</a>
+                            </li>
+                            <li>
+                                <a href="#getRestLayout" >getRestLayout</a>
+                            </li>
+                            <li>
+                                <a href="#isArchived" >isArchived</a>
+                            </li>
+                            <li>
+                                <a href="#isConnected" >isConnected</a>
+                            </li>
+                            <li>
+                                <a href="#isOpen" >isOpen</a>
+                            </li>
+                            <li>
+                                <a href="#isSelected" >isSelected</a>
+                            </li>
+                            <li>
+                                <a href="#ngDoCheck" >ngDoCheck</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#onArchive" >onArchive</a>
+                            </li>
+                            <li>
+                                <a href="#onConfigure" >onConfigure</a>
+                            </li>
+                            <li>
+                                <a href="#onDelete" >onDelete</a>
+                            </li>
+                            <li>
+                                <a href="#onDocumentClick" >onDocumentClick</a>
+                            </li>
+                            <li>
+                                <a href="#onDuplicate" >onDuplicate</a>
+                            </li>
+                            <li>
+                                <a href="#onEscape" >onEscape</a>
+                            </li>
+                            <li>
+                                <a href="#onLoad" >onLoad</a>
+                            </li>
+                            <li>
+                                <a href="#onSelectionToggle" >onSelectionToggle</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#scheduleLedIdleFlicker" >scheduleLedIdleFlicker</a>
+                            </li>
+                            <li>
+                                <a href="#toggleOpen" >toggleOpen</a>
+                            </li>
+                            <li>
+                                <a href="#trackByAssignmentId" >trackByAssignmentId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#assignments" >assignments</a>
+                            </li>
+                            <li>
+                                <a href="#selectedAssignments" >selectedAssignments</a>
+                            </li>
+                            <li>
+                                <a href="#selectionMode" >selectionMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#archive" >archive</a>
+                            </li>
+                            <li>
+                                <a href="#configure" >configure</a>
+                            </li>
+                            <li>
+                                <a href="#delete" >delete</a>
+                            </li>
+                            <li>
+                                <a href="#duplicate" >duplicate</a>
+                            </li>
+                            <li>
+                                <a href="#load" >load</a>
+                            </li>
+                            <li>
+                                <a href="#selectionToggle" >selectionToggle</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#document:click" >document:click</a>
+                            </li>
+                            <li>
+                                <a href="#document:keydown.escape" >document:keydown.escape</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(translateService: TranslateService, assignmentsService: <a href="../injectables/AssignmentsService.html" target="_self">AssignmentsService</a>, clockService: <a href="../injectables/ClockService.html" target="_self">ClockService</a>, overlayManager: <a href="../injectables/OverlayManagerService.html" target="_self">OverlayManagerService</a>, elementRef: ElementRef<HTMLElement>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:66</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>translateService</td>
+                                                  
+                                                        <td>
+                                                                    <code>TranslateService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>assignmentsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AssignmentsService.html" target="_self" >AssignmentsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>clockService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ClockService.html" target="_self" >ClockService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>overlayManager</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OverlayManagerService.html" target="_self" >OverlayManagerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>elementRef</td>
+                                                  
+                                                        <td>
+                                                                    <code>ElementRef&lt;HTMLElement&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="assignments"></a>
+                        <b>assignments</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Assignment.html" target="_self" >Assignment[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:42</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedAssignments"></a>
+                        <b>selectedAssignments</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Set&lt;number&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Set&lt;number&gt;()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:44</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectionMode"></a>
+                        <b>selectionMode</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:43</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="archive"></a>
+                        <b>archive</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:50</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="configure"></a>
+                        <b>configure</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:47</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="delete"></a>
+                        <b>delete</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:48</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="duplicate"></a>
+                        <b>duplicate</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:49</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="load"></a>
+                        <b>load</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:46</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectionToggle"></a>
+                        <b>selectionToggle</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:51</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:click"></a>
+                    <span class="name">
+                        <span ><b>document:click</b></span>
+                        <a href="#document:click"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:click(event: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:81</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ferme le dossier ouvert dès qu&#39;un clic tombe hors des dossiers. Les clics sur un
+dossier restent gérés par ce dossier (fermeture, ou bascule directe vers un autre).</p>
+</div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:keydown.escape"></a>
+                    <span class="name">
+                        <span ><b>document:keydown.escape</b></span>
+                        <a href="#document:keydown.escape"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:keydown.escape()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Échap referme le dossier ouvert.</p>
+</div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyOpenShift"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>applyOpenShift</b></span>
+                        <a href="#applyOpenShift"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyOpenShift(el: HTMLElement)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="344"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:344</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Décale la composition ouverte vers la gauche quand elle dépasse le bord droit de la
+vue. La largeur ouverte vaut ≈ 220 % de la largeur du dossier avec la feuille de
+planning (décalage 160 % × 80 % + position 10 % + largeur 80 %), et ≈ 134 % sans
+elle (devoir non daté), sans jamais sortir du bord gauche.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>el</td>
+                                    <td>
+                                            <code>HTMLElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildRestLayout"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>buildRestLayout</b></span>
+                        <a href="#buildRestLayout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>buildRestLayout(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="291"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:291</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Petites variations déterministes autour des valeurs par défaut (graine = id + titre).</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>literal type</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearLedIdleTimer"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>clearLedIdleTimer</b></span>
+                        <a href="#clearLedIdleTimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearLedIdleTimer()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="283"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:283</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeOpenFolder"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>closeOpenFolder</b></span>
+                        <a href="#closeOpenFolder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>closeOpenFolder()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:254</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="computeSelectionSignature"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>computeSelectionSignature</b></span>
+                        <a href="#computeSelectionSignature"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>computeSelectionSignature()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="259"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:259</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Signature stable de la sélection (identifiants triés), comparée d&#39;un cycle à l&#39;autre.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fitOpenFolderInView"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>fitOpenFolderInView</b></span>
+                        <a href="#fitOpenFolderInView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>fitOpenFolderInView(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="323"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:323</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ramène le dossier ouvert dans la vue : les feuilles s&#39;étendent vers la droite, un
+dossier des dernières colonnes doit donc être décalé vers la gauche, puis on réserve
+une marge basse pour que la rangée d&#39;actions reste visible.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatDate"></a>
+                    <span class="name">
+                        <span ><b>formatDate</b></span>
+                        <a href="#formatDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatDate(dateStr: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, format: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="230"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:230</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dateStr</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>format</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getArchiveToggleTooltip"></a>
+                    <span class="name">
+                        <span ><b>getArchiveToggleTooltip</b></span>
+                        <a href="#getArchiveToggleTooltip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getArchiveToggleTooltip(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:202</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAssignmentDeleteTooltip"></a>
+                    <span class="name">
+                        <span ><b>getAssignmentDeleteTooltip</b></span>
+                        <a href="#getAssignmentDeleteTooltip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAssignmentDeleteTooltip(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:218</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAssignmentEditTooltip"></a>
+                    <span class="name">
+                        <span ><b>getAssignmentEditTooltip</b></span>
+                        <a href="#getAssignmentEditTooltip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAssignmentEditTooltip(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="214"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:214</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAssignmentTooltip"></a>
+                    <span class="name">
+                        <span ><b>getAssignmentTooltip</b></span>
+                        <a href="#getAssignmentTooltip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAssignmentTooltip(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="210"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:210</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDisconnectedTooltip"></a>
+                    <span class="name">
+                        <span ><b>getDisconnectedTooltip</b></span>
+                        <a href="#getDisconnectedTooltip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDisconnectedTooltip(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="206"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:206</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDuration"></a>
+                    <span class="name">
+                        <span ><b>getDuration</b></span>
+                        <a href="#getDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDuration(start: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, end: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="222"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:222</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>start</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>end</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProgressBarColor"></a>
+                    <span class="name">
+                        <span ><b>getProgressBarColor</b></span>
+                        <a href="#getProgressBarColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getProgressBarColor(progress: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="234"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:234</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>progress</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRemainingTime"></a>
+                    <span class="name">
+                        <span ><b>getRemainingTime</b></span>
+                        <a href="#getRemainingTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getRemainingTime(end: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="226"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:226</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>end</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRestLayout"></a>
+                    <span class="name">
+                        <span ><b>getRestLayout</b></span>
+                        <a href="#getRestLayout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getRestLayout(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="244"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:244</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Disposition « au repos » d&#39;un dossier, légèrement randomisée (angles et décalages des
+feuilles, placement et orientation du tampon de forge, cadence de l&#39;easter egg des LED)
+pour éviter la monotonie de la grille. Même devoir → même disposition (graine stable),
+mise en cache car appelée à chaque détection de changements.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>literal type</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isArchived"></a>
+                    <span class="name">
+                        <span ><b>isArchived</b></span>
+                        <a href="#isArchived"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isArchived(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:198</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Devoir archivé : visible uniquement dans l&#39;onglet « Archivés ».</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isConnected"></a>
+                    <span class="name">
+                        <span ><b>isConnected</b></span>
+                        <a href="#isConnected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isConnected(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:193</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isOpen"></a>
+                    <span class="name">
+                        <span ><b>isOpen</b></span>
+                        <a href="#isOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isOpen(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="132"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:132</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSelected"></a>
+                    <span class="name">
+                        <span ><b>isSelected</b></span>
+                        <a href="#isSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isSelected(assignmentId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:136</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignmentId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngDoCheck"></a>
+                    <span class="name">
+                        <span ><b>ngDoCheck</b></span>
+                        <a href="#ngDoCheck"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngDoCheck()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:115</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>La sélection est un <code>Set</code> muté en place par le parent : <code>ngOnChanges</code> ne se déclenche
+donc pas sur ses changements. On compare une signature à chaque cycle pour repérer
+ceux-ci et (re)armer l&#39;easter egg des LED qui clignotent.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:103</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:124</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onArchive"></a>
+                    <span class="name">
+                        <span ><b>onArchive</b></span>
+                        <a href="#onArchive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onArchive(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="189"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:189</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Le rechargement provoqué par l&#39;archivage referme le dossier sorti (voir ngOnChanges).</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onConfigure"></a>
+                    <span class="name">
+                        <span ><b>onConfigure</b></span>
+                        <a href="#onConfigure"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onConfigure(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, event: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:168</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDelete"></a>
+                    <span class="name">
+                        <span ><b>onDelete</b></span>
+                        <a href="#onDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDelete(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:174</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDocumentClick"></a>
+                    <span class="name">
+                        <span ><b>onDocumentClick</b></span>
+                        <a href="#onDocumentClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDocumentClick(event: MouseEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:click&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:81</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ferme le dossier ouvert dès qu&#39;un clic tombe hors des dossiers. Les clics sur un
+dossier restent gérés par ce dossier (fermeture, ou bascule directe vers un autre).</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDuplicate"></a>
+                    <span class="name">
+                        <span ><b>onDuplicate</b></span>
+                        <a href="#onDuplicate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDuplicate(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:183</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Comme « Configurer », la duplication ouvre un éditeur par-dessus la grille : le dossier
+sorti est refermé et l&#39;événement vient du menu liquide (pas d&#39;événement DOM à stopper,
+le menu le fait déjà).</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEscape"></a>
+                    <span class="name">
+                        <span ><b>onEscape</b></span>
+                        <a href="#onEscape"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onEscape()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:keydown.escape&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Échap referme le dossier ouvert.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onLoad"></a>
+                    <span class="name">
+                        <span ><b>onLoad</b></span>
+                        <a href="#onLoad"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onLoad(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, event: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:163</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSelectionToggle"></a>
+                    <span class="name">
+                        <span ><b>onSelectionToggle</b></span>
+                        <a href="#onSelectionToggle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSelectionToggle(assignmentId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, event: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:158</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignmentId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scheduleLedIdleFlicker"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>scheduleLedIdleFlicker</b></span>
+                        <a href="#scheduleLedIdleFlicker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>scheduleLedIdleFlicker()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="269"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:269</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>(Re)arme l&#39;easter egg : à chaque changement de sélection on éteint le clignotement
+et on redémarre le compte à rebours. Sans sélection, il n&#39;y a rien à faire clignoter.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleOpen"></a>
+                    <span class="name">
+                        <span ><b>toggleOpen</b></span>
+                        <a href="#toggleOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleOpen(assignment: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:144</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clic sur le rabat : en mode sélection, tout le dossier sélectionne/désélectionne ;
+sinon il ouvre le dossier, le referme, ou bascule directement vers un autre.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignment</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="trackByAssignmentId"></a>
+                    <span class="name">
+                        <span ><b>trackByAssignmentId</b></span>
+                        <a href="#trackByAssignmentId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>trackByAssignmentId(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, item: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:128</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="assignmentsService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>assignmentsService</b></span>
+                        <a href="#assignmentsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AssignmentsService.html" target="_self" >AssignmentsService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ledIdle"></a>
+                    <span class="name">
+                        <span ><b>ledIdle</b></span>
+                        <a href="#ledIdle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Easter egg : vrai quand la sélection est stable depuis assez longtemps (voir ngDoCheck).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ledIdleTimer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>ledIdleTimer</b></span>
+                        <a href="#ledIdleTimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ReturnType&lt;&gt; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Minuteur d&#39;inactivité de la sélection, armé à chaque changement (voir ngDoCheck).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openAssignmentId"></a>
+                    <span class="name">
+                        <span ><b>openAssignmentId</b></span>
+                        <a href="#openAssignmentId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dossier dont les feuilles sont sorties (un seul à la fois).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="restLayouts"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>restLayouts</b></span>
+                        <a href="#restLayouts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;number, { [key: string]: string }&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dispositions « au repos » calculées par dossier (voir getRestLayout).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectionSignature"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>selectionSignature</b></span>
+                        <a href="#selectionSignature"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Signature de la sélection courante, pour détecter ses changements (Set muté en place).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="translateService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>translateService</b></span>
+                        <a href="#translateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TranslateService</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/components/home/assignment-chooser/folder-view/assignment-folder-view.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  DoCheck,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChanges,
+} from &quot;@angular/core&quot;;
+import { Assignment } from &quot;@models/Assignment.model&quot;;
+import { TranslateService } from &quot;@ngx-translate/core&quot;;
+import { AssignmentsService } from &quot;@services/assignments.service&quot;;
+import { ClockService } from &quot;@services/clock.service&quot;;
+import { OverlayManagerService } from &quot;@services/overlay-manager.service&quot;;
+import { Utils } from &quot;@services/utils&quot;;
+
+/**
+ * Easter egg : passé ce délai sans changement de sélection, les LED des dossiers
+ * sélectionnés se mettent à clignoter comme des ampoules défectueuses (voir ngDoCheck).
+ */
+const LED_IDLE_FLICKER_DELAY_MS &#x3D; 10000;
+
+/**
+ * Vue « dossiers » de la liste des devoirs : une grille de dossiers dont la couleur
+ * traduit le statut. Au survol, la feuille « métadonnées » sort légèrement du rabat
+ * (l&#x27;autre reste cachée derrière) ; au clic, les deux feuilles A4 (métadonnées puis
+ * planning) sortent entièrement côte à côte et les actions s&#x27;affichent dessous, le
+ * reste de la grille passant derrière un flou de focalisation.
+ *
+ * Composant présentationnel : l&#x27;état de sélection et les actions restent gérés par
+ * &#x60;AssignmentChooserComponent&#x60;.
+ */
+@Component({
+  selector: &quot;assignment-folder-view&quot;,
+  templateUrl: &quot;./assignment-folder-view.component.html&quot;,
+  styleUrls: [&quot;./assignment-folder-view.component.scss&quot;],
+})
+export class AssignmentFolderViewComponent implements DoCheck, OnChanges, OnDestroy {
+  @Input() assignments: Assignment[] &#x3D; [];
+  @Input() selectionMode &#x3D; false;
+  @Input() selectedAssignments: Set&lt;number&gt; &#x3D; new Set&lt;number&gt;();
+
+  @Output() load &#x3D; new EventEmitter&lt;Assignment&gt;();
+  @Output() configure &#x3D; new EventEmitter&lt;Assignment&gt;();
+  @Output() delete &#x3D; new EventEmitter&lt;Assignment&gt;();
+  @Output() duplicate &#x3D; new EventEmitter&lt;Assignment&gt;();
+  @Output() archive &#x3D; new EventEmitter&lt;Assignment&gt;();
+  @Output() selectionToggle &#x3D; new EventEmitter&lt;number&gt;();
+
+  /** Dossier dont les feuilles sont sorties (un seul à la fois). */
+  openAssignmentId: number | null &#x3D; null;
+
+  /** Easter egg : vrai quand la sélection est stable depuis assez longtemps (voir ngDoCheck). */
+  ledIdle &#x3D; false;
+
+  /** Dispositions « au repos » calculées par dossier (voir getRestLayout). */
+  private readonly restLayouts &#x3D; new Map&lt;number, { [key: string]: string }&gt;();
+
+  /** Signature de la sélection courante, pour détecter ses changements (Set muté en place). */
+  private selectionSignature &#x3D; &quot;&quot;;
+
+  /** Minuteur d&#x27;inactivité de la sélection, armé à chaque changement (voir ngDoCheck). */
+  private ledIdleTimer: ReturnType&lt;typeof setTimeout&gt; | null &#x3D; null;
+
+  constructor(
+    public translateService: TranslateService,
+    public assignmentsService: AssignmentsService,
+    private clockService: ClockService,
+    private overlayManager: OverlayManagerService,
+    private elementRef: ElementRef&lt;HTMLElement&gt;,
+  ) {}
+
+  /**
+   * Ferme le dossier ouvert dès qu&#x27;un clic tombe hors des dossiers. Les clics sur un
+   * dossier restent gérés par ce dossier (fermeture, ou bascule directe vers un autre).
+   */
+  @HostListener(&quot;document:click&quot;, [&quot;$event&quot;])
+  onDocumentClick(event: MouseEvent): void {
+    if (this.openAssignmentId &#x3D;&#x3D;&#x3D; null) {
+      return;
+    }
+    const target &#x3D; event.target as HTMLElement;
+    if (!target || !target.isConnected) {
+      return;
+    }
+    if (target.closest(&quot;.folder-item&quot;)) {
+      return;
+    }
+    this.closeOpenFolder();
+  }
+
+  /** Échap referme le dossier ouvert. */
+  @HostListener(&quot;document:keydown.escape&quot;)
+  onEscape(): void {
+    if (this.openAssignmentId !&#x3D;&#x3D; null) {
+      this.closeOpenFolder();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    /* Un rechargement de la base peut faire disparaître le dossier ouvert (suppression, import…). */
+    if (changes.assignments &amp;&amp; this.openAssignmentId !&#x3D;&#x3D; null &amp;&amp; !this.assignments.some((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; this.openAssignmentId)) {
+      this.openAssignmentId &#x3D; null;
+    }
+  }
+
+  /**
+   * La sélection est un &#x60;Set&#x60; muté en place par le parent : &#x60;ngOnChanges&#x60; ne se déclenche
+   * donc pas sur ses changements. On compare une signature à chaque cycle pour repérer
+   * ceux-ci et (re)armer l&#x27;easter egg des LED qui clignotent.
+   */
+  ngDoCheck(): void {
+    const signature &#x3D; this.computeSelectionSignature();
+    if (signature &#x3D;&#x3D;&#x3D; this.selectionSignature) {
+      return;
+    }
+    this.selectionSignature &#x3D; signature;
+    this.scheduleLedIdleFlicker();
+  }
+
+  ngOnDestroy(): void {
+    this.clearLedIdleTimer();
+  }
+
+  trackByAssignmentId(index: number, item: any): any {
+    return item?.id !&#x3D;&#x3D; undefined ? item.id : index;
+  }
+
+  isOpen(assignment: any): boolean {
+    return this.openAssignmentId &#x3D;&#x3D;&#x3D; assignment.id;
+  }
+
+  isSelected(assignmentId: number): boolean {
+    return this.selectedAssignments.has(assignmentId);
+  }
+
+  /**
+   * Clic sur le rabat : en mode sélection, tout le dossier sélectionne/désélectionne ;
+   * sinon il ouvre le dossier, le referme, ou bascule directement vers un autre.
+   */
+  toggleOpen(assignment: any): void {
+    if (this.selectionMode) {
+      this.selectionToggle.emit(assignment.id);
+      return;
+    }
+    if (this.openAssignmentId &#x3D;&#x3D;&#x3D; assignment.id) {
+      this.closeOpenFolder();
+      return;
+    }
+    this.openAssignmentId &#x3D; assignment.id;
+    this.overlayManager.dismissTransient();
+    this.fitOpenFolderInView(assignment);
+  }
+
+  onSelectionToggle(assignmentId: number, event: MouseEvent): void {
+    event.stopPropagation();
+    this.selectionToggle.emit(assignmentId);
+  }
+
+  onLoad(assignment: any, event: MouseEvent): void {
+    event.stopPropagation();
+    this.load.emit(assignment);
+  }
+
+  onConfigure(assignment: any, event: MouseEvent): void {
+    event.stopPropagation();
+    this.closeOpenFolder();
+    this.configure.emit(assignment);
+  }
+
+  onDelete(assignment: any): void {
+    this.delete.emit(assignment);
+  }
+
+  /**
+   * Comme « Configurer », la duplication ouvre un éditeur par-dessus la grille : le dossier
+   * sorti est refermé et l&#x27;événement vient du menu liquide (pas d&#x27;événement DOM à stopper,
+   * le menu le fait déjà).
+   */
+  onDuplicate(assignment: any): void {
+    this.closeOpenFolder();
+    this.duplicate.emit(assignment);
+  }
+
+  /** Le rechargement provoqué par l&#x27;archivage referme le dossier sorti (voir ngOnChanges). */
+  onArchive(assignment: any): void {
+    this.archive.emit(assignment);
+  }
+
+  isConnected(assignment: any): boolean {
+    return this.assignmentsService.isAssignmentConnected(assignment);
+  }
+
+  /** Devoir archivé : visible uniquement dans l&#x27;onglet « Archivés ». */
+  isArchived(assignment: any): boolean {
+    return Boolean(assignment?.archivedAt);
+  }
+
+  getArchiveToggleTooltip(assignment: any): string {
+    return this.assignmentsService.getArchiveToggleTooltip(assignment);
+  }
+
+  getDisconnectedTooltip(assignment: any): string {
+    return this.assignmentsService.getDisconnectedTooltip(assignment);
+  }
+
+  getAssignmentTooltip(assignment: any): string {
+    return this.assignmentsService.getAssignmentTooltip(assignment);
+  }
+
+  getAssignmentEditTooltip(assignment: any): string {
+    return this.assignmentsService.getAssignmentEditTooltip(assignment);
+  }
+
+  getAssignmentDeleteTooltip(assignment: any): string {
+    return this.assignmentsService.getAssignmentDeleteTooltip(assignment);
+  }
+
+  getDuration(start: string, end: string): string {
+    return Utils.getDuration(start, end, (key) &#x3D;&gt; this.translateService.instant(key));
+  }
+
+  getRemainingTime(end: string): string {
+    return Utils.getRemainingTime(end, this.clockService.moment(), (key) &#x3D;&gt; this.translateService.instant(key));
+  }
+
+  formatDate(dateStr: string, format: string): string {
+    return Utils.formatDate(dateStr, format, this.translateService.currentLang);
+  }
+
+  getProgressBarColor(progress: number): string {
+    return Utils.getProgressBarColor(progress);
+  }
+
+  /**
+   * Disposition « au repos » d&#x27;un dossier, légèrement randomisée (angles et décalages des
+   * feuilles, placement et orientation du tampon de forge, cadence de l&#x27;easter egg des LED)
+   * pour éviter la monotonie de la grille. Même devoir → même disposition (graine stable),
+   * mise en cache car appelée à chaque détection de changements.
+   */
+  getRestLayout(assignment: any): { [key: string]: string } {
+    const cached &#x3D; this.restLayouts.get(assignment.id);
+    if (cached) {
+      return cached;
+    }
+    const layout &#x3D; this.buildRestLayout(assignment);
+    this.restLayouts.set(assignment.id, layout);
+    return layout;
+  }
+
+  private closeOpenFolder(): void {
+    this.openAssignmentId &#x3D; null;
+  }
+
+  /** Signature stable de la sélection (identifiants triés), comparée d&#x27;un cycle à l&#x27;autre. */
+  private computeSelectionSignature(): string {
+    return Array.from(this.selectedAssignments)
+      .sort((a, b) &#x3D;&gt; a - b)
+      .join(&quot;,&quot;);
+  }
+
+  /**
+   * (Re)arme l&#x27;easter egg : à chaque changement de sélection on éteint le clignotement
+   * et on redémarre le compte à rebours. Sans sélection, il n&#x27;y a rien à faire clignoter.
+   */
+  private scheduleLedIdleFlicker(): void {
+    this.clearLedIdleTimer();
+    if (this.ledIdle) {
+      this.ledIdle &#x3D; false;
+    }
+    if (this.selectedAssignments.size &#x3D;&#x3D;&#x3D; 0) {
+      return;
+    }
+    this.ledIdleTimer &#x3D; setTimeout(() &#x3D;&gt; {
+      this.ledIdleTimer &#x3D; null;
+      this.ledIdle &#x3D; true;
+    }, LED_IDLE_FLICKER_DELAY_MS);
+  }
+
+  private clearLedIdleTimer(): void {
+    if (this.ledIdleTimer !&#x3D;&#x3D; null) {
+      clearTimeout(this.ledIdleTimer);
+      this.ledIdleTimer &#x3D; null;
+    }
+  }
+
+  /** Petites variations déterministes autour des valeurs par défaut (graine &#x3D; id + titre). */
+  private buildRestLayout(assignment: any): { [key: string]: string } {
+    const rand &#x3D; (salt: number): number &#x3D;&gt; {
+      const source &#x3D; &#x60;${assignment.id}:${assignment.title || &quot;&quot;}#${salt}&#x60;;
+      let seed &#x3D; 2166136261;
+      for (let i &#x3D; 0; i &lt; source.length; i++) {
+        seed &#x3D; Math.imul(seed ^ source.charCodeAt(i), 16777619);
+      }
+      return ((seed &gt;&gt;&gt; 0) % 2000) / 1000 - 1;
+    };
+    const tx1 &#x3D; 10 + rand(1) * 1.4;
+    /* La feuille de planning garde toujours 2,5 à 3,3 % d&#x27;avance : sa tranche reste visible. */
+    const tx2 &#x3D; tx1 + 2.5 + (rand(2) + 1) * 0.4;
+    return {
+      &quot;--page-rot-1&quot;: &#x60;${(-2.2 + rand(3) * 1.1).toFixed(2)}deg&#x60;,
+      &quot;--page-rot-2&quot;: &#x60;${(2.6 + rand(4) * 1.1).toFixed(2)}deg&#x60;,
+      &quot;--page-tx-closed-1&quot;: &#x60;${tx1.toFixed(2)}%&#x60;,
+      &quot;--page-tx-closed-2&quot;: &#x60;${tx2.toFixed(2)}%&#x60;,
+      &quot;--page-ty-closed-1&quot;: &#x60;${(rand(5) * 1.1).toFixed(2)}%&#x60;,
+      &quot;--page-ty-closed-2&quot;: &#x60;${(rand(6) * 1.1).toFixed(2)}%&#x60;,
+      &quot;--stamp-dx&quot;: &#x60;${(rand(7) * 1.2).toFixed(2)}%&#x60;,
+      &quot;--stamp-dy&quot;: &#x60;${(rand(8) * 1.2).toFixed(2)}%&#x60;,
+      &quot;--stamp-rot&quot;: &#x60;${(-8 + rand(9) * 2.5).toFixed(2)}deg&#x60;,
+      /* Durées légèrement différentes : les ampoules défectueuses se désynchronisent. */
+      &quot;--led-duration&quot;: &#x60;${(7.6 + (rand(10) + 1) * 0.8).toFixed(2)}s&#x60;,
+    };
+  }
+
+  /**
+   * Ramène le dossier ouvert dans la vue : les feuilles s&#x27;étendent vers la droite, un
+   * dossier des dernières colonnes doit donc être décalé vers la gauche, puis on réserve
+   * une marge basse pour que la rangée d&#x27;actions reste visible.
+   */
+  private fitOpenFolderInView(assignment: any): void {
+    requestAnimationFrame(() &#x3D;&gt; {
+      requestAnimationFrame(() &#x3D;&gt; {
+        const el &#x3D; document.getElementById(&quot;assignment-folder-&quot; + assignment.id);
+        if (!el) {
+          return;
+        }
+        this.applyOpenShift(el);
+        el.style.setProperty(&quot;scroll-margin-top&quot;, &quot;96px&quot;);
+        el.style.setProperty(&quot;scroll-margin-bottom&quot;, &quot;140px&quot;);
+        el.scrollIntoView({ behavior: &quot;smooth&quot;, block: &quot;nearest&quot;, inline: &quot;nearest&quot; });
+      });
+    });
+  }
+
+  /**
+   * Décale la composition ouverte vers la gauche quand elle dépasse le bord droit de la
+   * vue. La largeur ouverte vaut ≈ 220 % de la largeur du dossier avec la feuille de
+   * planning (décalage 160 % × 80 % + position 10 % + largeur 80 %), et ≈ 134 % sans
+   * elle (devoir non daté), sans jamais sortir du bord gauche.
+   */
+  private applyOpenShift(el: HTMLElement): void {
+    el.style.removeProperty(&quot;--folder-open-shift&quot;);
+    const stage &#x3D; el.querySelector(&quot;.folder-stage&quot;) as HTMLElement;
+    const stageWidth &#x3D; stage ? stage.getBoundingClientRect().width : el.getBoundingClientRect().width;
+    const itemRect &#x3D; el.getBoundingClientRect();
+    const hostRect &#x3D; this.elementRef.nativeElement.getBoundingClientRect();
+    const compositionRatio &#x3D; el.querySelector(&quot;.folder-page--dates&quot;) ? 2.22 : 1.35;
+    const compositionRight &#x3D; itemRect.left + stageWidth * compositionRatio;
+    let shift &#x3D; Math.min(0, Math.round(hostRect.right - compositionRight));
+    if (shift &lt; 0) {
+      /* Ne jamais pousser le rabat plus à gauche que le bord de la vue. */
+      shift &#x3D; Math.max(shift, Math.round(hostRect.left + 8 - itemRect.left));
+    }
+    if (shift !&#x3D;&#x3D; 0) {
+      el.style.setProperty(&quot;--folder-open-shift&quot;, shift + &quot;px&quot;);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;folder-view&quot; [class.has-open]&#x3D;&quot;openAssignmentId !&#x3D;&#x3D; null&quot; [class.selection-mode]&#x3D;&quot;selectionMode&quot;
+  [class.led-idle]&#x3D;&quot;ledIdle&quot;&gt;
+  &lt;!-- Flou de focalisation : purement visuel, les clics le traversent vers les dossiers --&gt;
+  &lt;div class&#x3D;&quot;folder-overlay&quot; [class.show]&#x3D;&quot;openAssignmentId !&#x3D;&#x3D; null&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;folder-grid&quot;&gt;
+    &lt;div
+      class&#x3D;&quot;folder-item&quot;
+      *ngFor&#x3D;&quot;let assignment of assignments; trackBy: trackByAssignmentId&quot;
+      [id]&#x3D;&quot;&#x27;assignment-folder-&#x27; + assignment.id&quot;
+      [class.is-open]&#x3D;&quot;isOpen(assignment)&quot;
+      [class.is-selected]&#x3D;&quot;isSelected(assignment.id)&quot;
+      [class.is-archived]&#x3D;&quot;isArchived(assignment)&quot;
+      [class.is-disabled]&#x3D;&quot;!isConnected(assignment)&quot;
+      [ngClass]&#x3D;&quot;&#x27;status-&#x27; + assignment.uiStatus&quot;
+      [style]&#x3D;&quot;getRestLayout(assignment)&quot;&gt;
+
+      &lt;div class&#x3D;&quot;folder-stage&quot; (click)&#x3D;&quot;toggleOpen(assignment)&quot;&gt;
+        &lt;div class&#x3D;&quot;folder-back&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/div&gt;
+
+        &lt;!-- Feuille 1 : métadonnées du devoir (le titre reste sur le rabat) --&gt;
+        &lt;div class&#x3D;&quot;folder-page folder-page--meta&quot; [attr.aria-hidden]&#x3D;&quot;isOpen(assignment) ? null : &#x27;true&#x27;&quot;&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;metaPage&quot;&gt;&lt;/ng-container&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Feuille 2 : planning et avancement (uniquement si le devoir est daté) --&gt;
+        &lt;div class&#x3D;&quot;folder-page folder-page--dates&quot; *ngIf&#x3D;&quot;assignment.startDate || assignment.endDate&quot;
+          [attr.aria-hidden]&#x3D;&quot;isOpen(assignment) ? null : &#x27;true&#x27;&quot;&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;datesPage&quot;&gt;&lt;/ng-container&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Rabat --&gt;
+        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;folder-cover&quot; [attr.aria-expanded]&#x3D;&quot;isOpen(assignment)&quot;
+          [appTooltip]&#x3D;&quot;!isConnected(assignment) ? getDisconnectedTooltip(assignment) : null&quot;&gt;
+          &lt;!-- Transparence : copies floutées des feuilles (mêmes positions et mouvements
+               qu&#x27;elles), elles sortent donc du rabat en même temps que les vraies --&gt;
+          &lt;span class&#x3D;&quot;cover-ghosts&quot; aria-hidden&#x3D;&quot;true&quot;&gt;
+            &lt;span class&#x3D;&quot;folder-page folder-page--meta cover-ghost&quot;&gt;
+              &lt;ng-container *ngTemplateOutlet&#x3D;&quot;metaPage&quot;&gt;&lt;/ng-container&gt;
+            &lt;/span&gt;
+            &lt;span class&#x3D;&quot;folder-page folder-page--dates cover-ghost&quot; *ngIf&#x3D;&quot;assignment.startDate || assignment.endDate&quot;&gt;
+              &lt;ng-container *ngTemplateOutlet&#x3D;&quot;datesPage&quot;&gt;&lt;/ng-container&gt;
+            &lt;/span&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;cover-stamp&quot; aria-hidden&#x3D;&quot;true&quot;&gt;
+            &lt;svg *ngIf&#x3D;&quot;assignment.uiType &#x3D;&#x3D;&#x3D; &#x27;gitlab&#x27;&quot; viewBox&#x3D;&quot;0 0 512 512&quot;&gt;
+              &lt;path
+                d&#x3D;&quot;M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z&quot; /&gt;
+            &lt;/svg&gt;
+            &lt;svg *ngIf&#x3D;&quot;assignment.uiType !&#x3D;&#x3D; &#x27;gitlab&#x27;&quot; viewBox&#x3D;&quot;0 0 496 512&quot;&gt;
+              &lt;path
+                d&#x3D;&quot;M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z&quot; /&gt;
+            &lt;/svg&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;cover-text&quot;&gt;
+            &lt;span class&#x3D;&quot;cover-title&quot; [appTooltip]&#x3D;&quot;assignment.title&quot; [onlyIfTruncated]&#x3D;&quot;true&quot;&gt;{{ assignment.title ||
+              (&#x27;HOME.NEW-ASSIGNMENT&#x27; | translate) }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;cover-subtitle&quot;&gt;
+              &lt;i class&#x3D;&quot;far fa-clock&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/i&gt; {{ assignment.lastModificationDate | date: &#x27;short&#x27; }}
+            &lt;/span&gt;
+            &lt;!-- Devoir rangé : la ligne de statut cède la place à la date d&#x27;archivage. --&gt;
+            &lt;span class&#x3D;&quot;cover-state&quot; *ngIf&#x3D;&quot;!isArchived(assignment)&quot;&gt;{{ &#x27;HOME.STATUS.&#x27; + assignment.uiStatus.toUpperCase()
+              | translate }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;cover-state&quot; *ngIf&#x3D;&quot;isArchived(assignment)&quot;&gt;{{
+              &#x27;HOME.ARCHIVED-ON&#x27; | translate:{date: formatDate(assignment.archivedAt, &#x27;DD MMM YYYY&#x27;)} }}&lt;/span&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;cover-lines&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+
+        &lt;!-- Case de sélection (au survol, ou persistante si sélectionné) --&gt;
+        &lt;button *ngIf&#x3D;&quot;assignment.id !&#x3D;&#x3D; -1&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;folder-select&quot; [class.is-checked]&#x3D;&quot;isSelected(assignment.id)&quot;
+          [attr.aria-pressed]&#x3D;&quot;isSelected(assignment.id)&quot; [attr.aria-label]&#x3D;&quot;&#x27;HOME.SELECT-ASSIGNMENT&#x27; | translate&quot;
+          [appTooltip]&#x3D;&quot;&#x27;HOME.SELECT-ASSIGNMENT&#x27; | translate&quot; (click)&#x3D;&quot;onSelectionToggle(assignment.id, $event)&quot;&gt;
+          &lt;svg *ngIf&#x3D;&quot;isSelected(assignment.id)&quot; width&#x3D;&quot;12&quot; height&#x3D;&quot;12&quot; viewBox&#x3D;&quot;0 0 16 16&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot;
+            stroke-width&#x3D;&quot;2.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; aria-hidden&#x3D;&quot;true&quot;&gt;
+            &lt;polyline points&#x3D;&quot;3.5 8.5 6.5 11.5 12.5 4.5&quot;&gt;&lt;/polyline&gt;
+          &lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Contenus de feuilles partagés : vraies feuilles A4 et copies floutées du rabat --&gt;
+      &lt;ng-template #metaPage&gt;
+        &lt;span class&#x3D;&quot;page-fields&quot;&gt;
+          &lt;span class&#x3D;&quot;page-field&quot;&gt;
+            &lt;span class&#x3D;&quot;page-label&quot;&gt;{{ &#x27;METADATA.COURSE&#x27; | translate }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;page-value&quot;&gt;{{ assignment.course || &#x27;—&#x27; }}&lt;/span&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;page-field&quot;&gt;
+            &lt;span class&#x3D;&quot;page-label&quot;&gt;{{ &#x27;METADATA.PROGRAM&#x27; | translate }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;page-value&quot;&gt;{{ assignment.program || &#x27;—&#x27; }}&lt;/span&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;page-field&quot;&gt;
+            &lt;span class&#x3D;&quot;page-label&quot;&gt;{{ &#x27;METADATA.YEAR&#x27; | translate }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;page-value&quot;&gt;{{ assignment.year || &#x27;—&#x27; }}&lt;/span&gt;
+          &lt;/span&gt;
+        &lt;/span&gt;
+      &lt;/ng-template&gt;
+
+      &lt;ng-template #datesPage&gt;
+        &lt;span class&#x3D;&quot;page-fields&quot;&gt;
+          &lt;span class&#x3D;&quot;page-field&quot; *ngIf&#x3D;&quot;assignment.startDate&quot;&gt;
+            &lt;span class&#x3D;&quot;page-label&quot;&gt;{{ &#x27;METADATA.START-DATE&#x27; | translate }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;page-value&quot;&gt;{{ formatDate(assignment.startDate, &#x27;DD MMM YYYY · HH:mm&#x27;) }}&lt;/span&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;page-field&quot; *ngIf&#x3D;&quot;assignment.endDate&quot;&gt;
+            &lt;span class&#x3D;&quot;page-label&quot;&gt;{{ &#x27;METADATA.END-DATE&#x27; | translate }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;page-value&quot;&gt;{{ formatDate(assignment.endDate, &#x27;DD MMM YYYY · HH:mm&#x27;) }}&lt;/span&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;page-field&quot; *ngIf&#x3D;&quot;assignment.startDate &amp;&amp; assignment.endDate&quot;&gt;
+            &lt;span class&#x3D;&quot;page-label&quot;&gt;{{ &#x27;HOME.DURATION.TOTAL&#x27; | translate }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;page-value&quot;&gt;{{ getDuration(assignment.startDate, assignment.endDate) }}&lt;/span&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;page-field&quot; *ngIf&#x3D;&quot;assignment.endDate &amp;&amp; getRemainingTime(assignment.endDate)&quot;&gt;
+            &lt;span class&#x3D;&quot;page-label&quot;&gt;{{ &#x27;HOME.DURATION.REMAINING&#x27; | translate }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;page-value&quot;&gt;{{ getRemainingTime(assignment.endDate) }}&lt;/span&gt;
+          &lt;/span&gt;
+        &lt;/span&gt;
+        &lt;span class&#x3D;&quot;page-progress&quot; *ngIf&#x3D;&quot;assignment.startDate &amp;&amp; assignment.endDate&quot;&gt;
+          &lt;span class&#x3D;&quot;progress-track&quot;&gt;
+            &lt;span class&#x3D;&quot;progress-fill&quot; [style.width.%]&#x3D;&quot;assignment.uiProgress&quot;
+              [style.background]&#x3D;&quot;getProgressBarColor(assignment.uiProgress)&quot;&gt;&lt;/span&gt;
+          &lt;/span&gt;
+        &lt;/span&gt;
+      &lt;/ng-template&gt;
+
+      &lt;!-- Actions, sous les feuilles sorties et alignées sur le dossier --&gt;
+      &lt;div class&#x3D;&quot;folder-actions&quot; [class.show]&#x3D;&quot;isOpen(assignment)&quot;&gt;
+        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;folder-action folder-action--primary&quot; [disabled]&#x3D;&quot;!isConnected(assignment)&quot;
+          [appTooltip]&#x3D;&quot;getAssignmentTooltip(assignment) | translate&quot; (click)&#x3D;&quot;onLoad(assignment, $event)&quot;&gt;
+          &lt;i class&#x3D;&quot;far fa-arrow-alt-circle-right&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/i&gt;
+          &lt;span&gt;{{ &#x27;HOME.LOAD-ASSIGNMENT&#x27; | translate }}&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;folder-action&quot; [disabled]&#x3D;&quot;!isConnected(assignment)&quot;
+          [appTooltip]&#x3D;&quot;getAssignmentEditTooltip(assignment) | translate&quot; (click)&#x3D;&quot;onConfigure(assignment, $event)&quot;&gt;
+          &lt;i class&#x3D;&quot;fas fa-cog&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/i&gt;
+          &lt;span&gt;{{ &#x27;HOME.CONFIGURE-ASSIGNMENT&#x27; | translate }}&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;app-liquid-action-menu [disabled]&#x3D;&quot;!isConnected(assignment)&quot; [triggerTooltip]&#x3D;&quot;&#x27;HOME.OTHER-ACTIONS&#x27; | translate&quot;
+          [deleteTooltip]&#x3D;&quot;getAssignmentDeleteTooltip(assignment) | translate&quot;
+          [duplicateTooltip]&#x3D;&quot;&#x27;HOME.DUPLICATE-ASSIGNMENT&#x27; | translate&quot; [archiveTooltip]&#x3D;&quot;getArchiveToggleTooltip(assignment)&quot;
+          [restoreMode]&#x3D;&quot;isArchived(assignment)&quot;
+          (delete)&#x3D;&quot;onDelete(assignment)&quot; (duplicate)&#x3D;&quot;onDuplicate(assignment)&quot;
+          (archive)&#x3D;&quot;onArchive(assignment)&quot;&gt;&lt;/app-liquid-action-menu&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./assignment-folder-view.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;variables&#x27;;
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   Vue « dossiers » des devoirs.
+   Stage (dossier) : largeur / hauteur &#x3D; 10 / 13, proportions de la référence validée.
+   Le rabat est légèrement incliné en 3D ; les feuilles glissent en % de leur propre
+   largeur, dans trois états : fermé (tranches visibles dans la fente) → survol (rabat
+   ouvert en grand, feuille 1 majoritaire, feuille 2 cachée derrière) → ouvert (les deux
+   feuilles entièrement visibles côte à côte).
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.folder-view {
+  --folder-radius: 18px;
+  --page-width: 80%;
+  --page-tx-closed-1: 10%;
+  --page-tx-closed-2: 12.5%;
+  --page-tx-hover-1: 96%;
+  --page-tx-hover-2: 130%;
+  --page-ty-hover-1: 4%;
+  --page-ty-hover-2: -9%;
+  --page-tx-open-1: 54%;
+  --page-tx-open-2: 160%;
+  --page-rot-1: -2.2deg;
+  --page-rot-2: 2.6deg;
+  --page-rot-hover-1: -1.2deg;
+  --page-rot-hover-2: 1.2deg;
+  --page-rot-open-1: -1.4deg;
+  --page-rot-open-2: 1.4deg;
+  --cover-ry: -13deg;
+  --cover-ry-hover: -24deg;
+  --cover-ry-open: -60deg;
+  --page-lift: 22px;
+
+  position: relative;
+  /* Réserve la place de la sortie de feuille au survol du dernier dossier de la rangée
+     (≈ 28 % d&#x27;une cellule) pour ne jamais déclencher de défilement horizontal. */
+  padding-right: 58px;
+}
+
+/* Flou de focalisation quand un dossier est ouvert (les clics le traversent). */
+.folder-overlay {
+  position: absolute;
+  inset: -8px;
+  z-index: 5;
+  pointer-events: none;
+  background: var(--folder-overlay-bg);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity $transition-normal;
+}
+
+.folder-overlay.show {
+  opacity: 1;
+}
+
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 168px));
+  column-gap: 54px;
+  row-gap: 40px;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.folder-item {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+/* Couleur du rabat par statut (tokens light/dark de _variables.scss) */
+.folder-item.status-prepared {
+  --folder-cover-bg: var(--folder-prepared-bg);
+  --folder-ink: var(--folder-prepared-ink);
+}
+
+.folder-item.status-ongoing {
+  --folder-cover-bg: var(--folder-ongoing-bg);
+  --folder-ink: var(--folder-ongoing-ink);
+}
+
+.folder-item.status-finished {
+  --folder-cover-bg: var(--folder-finished-bg);
+  --folder-ink: var(--folder-finished-ink);
+}
+
+.folder-item.status-default {
+  --folder-cover-bg: var(--folder-default-bg);
+  --folder-ink: var(--folder-default-ink);
+}
+
+.folder-item.is-open {
+  z-index: 10;
+}
+
+/* Dossier survolé : ses feuilles, qui débordent sur les voisins, passent au-dessus d&#x27;eux. */
+@media (hover: hover) and (pointer: fine) {
+  .folder-item:not(.is-open):hover {
+    z-index: 2;
+  }
+}
+
+.folder-item.is-disabled {
+  opacity: 0.62;
+}
+
+/* Devoir rangé : reste lisible mais ne se confond pas avec un devoir actif. Le dossier
+   ouvert garde son rendu normal (les feuilles sorties doivent rester nettes). */
+.folder-item.is-archived:not(.is-open) {
+  opacity: 0.78;
+}
+
+.folder-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 10 / 13;
+  perspective: 1600px;
+  cursor: pointer;
+  transition: transform $transition-snap;
+}
+
+/* Dossier ouvert près du bord droit : le décalage (calculé à l&#x27;ouverture) ramène toute
+   la composition dans la vue, les voisins floutés passant dessous. */
+.folder-item.is-open .folder-stage {
+  transform: translateX(var(--folder-open-shift, 0));
+  transition: transform $transition-panel-enter;
+}
+
+/* Chemise arrière : même taille et mêmes bords haut/bas que le rabat (panneaux
+   parfaitement alignés), simplement décalée vers la droite pour former la tranche
+   (5 % : elle ne ressort que d&#x27;un filet, comme sur l&#x27;image de référence). */
+.folder-back {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--folder-radius);
+  background: var(--folder-cover-bg, var(--folder-default-bg));
+  filter: brightness(0.93) saturate(0.98);
+  box-shadow: var(--folder-shadow-back);
+  transform: translate(5%, 0);
+}
+
+/* Feuilles A4 : bords francs (très léger arrondi), sans liseré, toujours nettes. */
+.folder-page {
+  position: absolute;
+  top: 6.5%;
+  left: 10%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: var(--page-width);
+  height: 87%;
+  padding: 9% 8%;
+  overflow: hidden;
+  border: none;
+  border-radius: 4px;
+  background: var(--folder-page-bg);
+  color: var(--folder-page-ink);
+  box-shadow: var(--folder-shadow-page);
+  transform: translateX(var(--tx)) translateY(var(--ty, 0)) rotate(var(--rot));
+  transition: transform $transition-snap;
+}
+
+.folder-page--meta {
+  --tx: var(--page-tx-closed-1);
+  --rot: var(--page-rot-1);
+  --ty: var(--page-ty-closed-1, 0);
+  z-index: 3;
+}
+
+.folder-page--dates {
+  --tx: var(--page-tx-closed-2);
+  --rot: var(--page-rot-2);
+  --ty: var(--page-ty-closed-2, 0);
+}
+
+/* Ouvert : les deux feuilles sortent entièrement côte à côte et remontent un peu. */
+.folder-item.is-open .folder-page {
+  --ty: calc(var(--page-lift) * -1);
+
+  transition: transform $transition-panel-enter;
+}
+
+.folder-item.is-open .folder-page--meta {
+  --tx: var(--page-tx-open-1);
+  --rot: var(--page-rot-open-1);
+  transition-delay: 0ms;
+}
+
+.folder-item.is-open .folder-page--dates {
+  --tx: var(--page-tx-open-2);
+  --rot: var(--page-rot-open-2);
+  transition-delay: 55ms;
+}
+
+/* Contenu des feuilles : champs de métadonnées puis planning. */
+.page-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.page-field .page-label {
+  display: block;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--folder-page-muted);
+}
+
+.page-field .page-value {
+  display: block;
+  font-size: 0.73rem;
+  font-weight: 500;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.page-progress {
+  display: block;
+  margin-top: 10px;
+}
+
+.progress-track {
+  display: block;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--folder-page-line);
+}
+
+.progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width $transition-normal;
+}
+
+/* Rabat : fond de couleur unie OPAQUE (aucune démarcation du panneau arrière ne doit
+   apparaître à travers, y compris au survol) ; seul le calque « pages » donne l&#x27;effet
+   dépoli, la transparence reste identique dans tous les états du rabat. */
+.folder-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  border-radius: var(--folder-radius);
+  background: var(--folder-cover-bg, var(--folder-default-bg));
+  color: var(--folder-ink, var(--folder-default-ink));
+  /* Petite ombre portée du panneau avant, projetée sur la chemise arrière et les feuilles. */
+  box-shadow: var(--folder-shadow-panel);
+  text-align: left;
+  cursor: pointer;
+  transform: rotateY(var(--cover-ry));
+  transform-origin: left center;
+  transition: transform $transition-snap;
+}
+
+.folder-cover:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Rabat ouvert : effet de dossier qui s&#x27;ouvre au survol (image de référence). */
+.folder-item.is-open .folder-cover {
+  transform: rotateY(var(--cover-ry-open));
+  transition: transform $transition-panel-enter;
+}
+
+.cover-text {
+  position: absolute;
+  right: 16px;
+  bottom: 34px;
+  left: 16px;
+}
+
+.cover-title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
+}
+
+.cover-subtitle {
+  display: block;
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: 0.72rem;
+  opacity: 0.78;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cover-subtitle i {
+  margin-right: 2px;
+}
+
+/* Statut du devoir, sous la date de dernière modification. */
+.cover-state {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.cover-lines {
+  position: absolute;
+  right: 16px;
+  bottom: 15px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: opacity $transition-fast;
+}
+
+.cover-lines i {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.22;
+}
+
+/* Dossier ouvert : les filets s&#x27;effacent (le texte du rabat, lui, ne bouge pas). */
+.folder-item.is-open .cover-lines {
+  opacity: 0;
+}
+
+/* Case de sélection : discrète, en haut à gauche du dossier, au survol (ou persistante
+   si sélectionné). */
+.folder-select {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 6;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  background: var(--folder-pill-bg);
+  color: var(--folder-ink, var(--folder-default-ink));
+  place-items: center;
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+  cursor: pointer;
+  transition: opacity $transition-fast, transform $transition-snap;
+}
+
+.folder-select.is-checked {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.folder-item.is-open .folder-select {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .folder-item:not(.is-open):hover .folder-select {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* Rangée d&#x27;actions : ancrée dans le bas du dossier en chevauchant légèrement son bord
+   inférieur (image de référence) ; les feuilles, remontées, restent au-dessus. */
+.folder-actions {
+  position: absolute;
+  top: calc(100% - 22px);
+  left: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: max-content;
+  padding: 3px;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 140ms ease-out, transform 140ms ease-out, visibility 0s linear 200ms;
+}
+
+.folder-actions.show {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity 180ms ease-out 140ms, transform 180ms ease-out 140ms, visibility 0s linear 0s;
+}
+
+.folder-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color $transition-fast, transform $transition-tactile;
+}
+
+.folder-action i {
+  font-size: 0.9rem;
+}
+
+.folder-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.folder-action:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* Le fond et la teinte changent instantanément (pas de fondu : clignotement Chromium). */
+.folder-action--primary {
+  color: var(--color-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .folder-action:hover:not(:disabled) {
+    background: var(--color-bg-body);
+    color: var(--color-text-primary);
+  }
+
+  .folder-action--primary:hover:not(:disabled) {
+    background: var(--color-primary-bg);
+    color: var(--color-primary-hover);
+  }
+}
+
+/* Transparence du rabat : copies floutées des feuilles, qui portent les mêmes classes
+   et les mêmes variables que les vraies — elles suivent donc exactement leurs
+   mouvements et sortent du rabat en même temps qu&#x27;elles. La découpe du rabat
+   (overflow) ne laisse voir que la partie encore masquée par lui. */
+.cover-ghosts {
+  position: absolute;
+  inset: 0;
+  opacity: 0.17;
+  filter: blur(10px);
+  pointer-events: none;
+  transition: opacity 240ms ease-out;
+}
+
+.cover-ghost {
+  box-shadow: none;
+}
+
+/* Tampon de forge : filigrane très discret (logo GitHub/GitLab du devoir), centré
+   horizontalement aux deux tiers de la hauteur, légèrement incliné comme un cachet
+   (micro-variance par dossier : &#x60;--stamp-dx/dy/rot&#x60;, voir getRestLayout). Sélectionné,
+   il s&#x27;allume comme une LED (voir plus bas). */
+.cover-stamp {
+  position: absolute;
+  top: calc(33.3% + var(--stamp-dy, 0));
+  left: calc(50% + var(--stamp-dx, 0));
+  width: 17%;
+  opacity: 0.13;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(var(--stamp-rot, -8deg));
+  transition: opacity $transition-fast, filter $transition-fast;
+}
+
+.cover-stamp svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: currentColor;
+}
+
+/* Sélection : le tampon de forge s&#x27;allume comme une LED (remplace l&#x27;ancien anneau
+   de contour autour du dossier). */
+.folder-item.is-selected .cover-stamp {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px var(--folder-led-glow)) drop-shadow(0 0 14px var(--folder-led-glow));
+}
+
+/* Easter egg : après un long moment sans changement de sélection, les LED des dossiers
+   sélectionnés clignotent comme des ampoules défectueuses. &#x60;--led-duration&#x60; (durée
+   légèrement différente par dossier) désynchronise les clignotements. */
+@keyframes folder-led-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  3% {
+    opacity: 0.35;
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  7% {
+    opacity: 0.12;
+  }
+
+  9% {
+    opacity: 0.9;
+  }
+
+  11% {
+    opacity: 0.3;
+  }
+
+  13% {
+    opacity: 1;
+  }
+
+  16% {
+    opacity: 0.5;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  21% {
+    opacity: 0.15;
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  58% {
+    opacity: 0.65;
+  }
+
+  61% {
+    opacity: 1;
+  }
+}
+
+.folder-view.led-idle .folder-item.is-selected .cover-stamp {
+  animation: folder-led-flicker var(--led-duration, 8s) infinite;
+}
+
+.folder-item.is-open .cover-ghosts {
+  opacity: 0;
+}
+
+/* Survol : le rabat s&#x27;entrouvre à peine (--cover-ry-hover, bien moins qu&#x27;à l&#x27;ouverture)
+   et les deux feuilles sortent en éventail, leur partie gauche restant sous le rabat
+   (d&#x27;où le flou visible dessus). Désactivé quand un dossier est ouvert ou en sélection,
+   et sous 701 px (cellules plafonnées). */
+@media (hover: hover) and (pointer: fine) and (min-width: 701px) {
+  .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-cover {
+    transform: rotateY(var(--cover-ry-hover));
+  }
+
+  .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-page--meta {
+    --tx: var(--page-tx-hover-1);
+    --ty: var(--page-ty-hover-1);
+    --rot: var(--page-rot-hover-1);
+  }
+
+  .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-page--dates {
+    --tx: var(--page-tx-hover-2);
+    --ty: var(--page-ty-hover-2);
+    --rot: var(--page-rot-hover-2);
+  }
+}
+
+/* Petits écrans : dossiers plus compacts, pas de sortie au survol (tactile). */
+@media (max-width: 700px) {
+  .folder-view {
+    padding-right: 24px;
+  }
+
+  .folder-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 176px));
+    column-gap: 28px;
+    row-gap: 32px;
+    justify-content: center;
+  }
+
+  .cover-title {
+    font-size: 0.85rem;
+  }
+
+  .folder-action span {
+    display: none;
+  }
+
+  .folder-action {
+    padding: 0 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folder-stage,
+  .folder-item.is-open .folder-stage {
+    transition: none;
+  }
+
+  .folder-page,
+  .folder-item.is-open .folder-page {
+    transition: none;
+  }
+
+  .folder-cover,
+  .folder-item.is-open .folder-cover {
+    transition: none;
+  }
+
+  .cover-ghosts,
+  .folder-item.is-open .cover-ghosts {
+    transition: opacity 120ms ease-out;
+  }
+
+  .cover-stamp {
+    animation: none;
+    transition: none;
+  }
+
+  .folder-actions {
+    transform: none;
+    transition: opacity 120ms ease-out, visibility 0s linear 200ms;
+  }
+
+  .folder-actions.show {
+    transform: none;
+    transition: opacity 120ms ease-out, visibility 0s linear 0s;
+  }
+
+  .folder-overlay {
+    transition: opacity 120ms ease-out;
+  }
+
+  .folder-select {
+    transition: opacity 120ms ease-out;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="folder-view" [class.has-open]="openAssignmentId !== null" [class.selection-mode]="selectionMode"  [class.led-idle]="ledIdle">  <!-- Flou de focalisation : purement visuel, les clics le traversent vers les dossiers -->  <div class="folder-overlay" [class.show]="openAssignmentId !== null" aria-hidden="true"></div>  <div class="folder-grid">    <div      class="folder-item"      *ngFor="let assignment of assignments; trackBy: trackByAssignmentId"      [id]="\'assignment-folder-\' + assignment.id"      [class.is-open]="isOpen(assignment)"      [class.is-selected]="isSelected(assignment.id)"      [class.is-archived]="isArchived(assignment)"      [class.is-disabled]="!isConnected(assignment)"      [ngClass]="\'status-\' + assignment.uiStatus"      [style]="getRestLayout(assignment)">      <div class="folder-stage" (click)="toggleOpen(assignment)">        <div class="folder-back" aria-hidden="true"></div>        <!-- Feuille 1 : métadonnées du devoir (le titre reste sur le rabat) -->        <div class="folder-page folder-page--meta" [attr.aria-hidden]="isOpen(assignment) ? null : \'true\'">          <ng-container *ngTemplateOutlet="metaPage"></ng-container>        </div>        <!-- Feuille 2 : planning et avancement (uniquement si le devoir est daté) -->        <div class="folder-page folder-page--dates" *ngIf="assignment.startDate || assignment.endDate"          [attr.aria-hidden]="isOpen(assignment) ? null : \'true\'">          <ng-container *ngTemplateOutlet="datesPage"></ng-container>        </div>        <!-- Rabat -->        <button type="button" class="folder-cover" [attr.aria-expanded]="isOpen(assignment)"          [appTooltip]="!isConnected(assignment) ? getDisconnectedTooltip(assignment) : null">          <!-- Transparence : copies floutées des feuilles (mêmes positions et mouvements               qu\'elles), elles sortent donc du rabat en même temps que les vraies -->          <span class="cover-ghosts" aria-hidden="true">            <span class="folder-page folder-page--meta cover-ghost">              <ng-container *ngTemplateOutlet="metaPage"></ng-container>            </span>            <span class="folder-page folder-page--dates cover-ghost" *ngIf="assignment.startDate || assignment.endDate">              <ng-container *ngTemplateOutlet="datesPage"></ng-container>            </span>          </span>          <span class="cover-stamp" aria-hidden="true">            <svg *ngIf="assignment.uiType === \'gitlab\'" viewBox="0 0 512 512">              <path                d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z" />            </svg>            <svg *ngIf="assignment.uiType !== \'gitlab\'" viewBox="0 0 496 512">              <path                d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />            </svg>          </span>          <span class="cover-text">            <span class="cover-title" [appTooltip]="assignment.title" [onlyIfTruncated]="true">{{ assignment.title ||              (\'HOME.NEW-ASSIGNMENT\' | translate) }}</span>            <span class="cover-subtitle">              <i class="far fa-clock" aria-hidden="true"></i> {{ assignment.lastModificationDate | date: \'short\' }}            </span>            <!-- Devoir rangé : la ligne de statut cède la place à la date d\'archivage. -->            <span class="cover-state" *ngIf="!isArchived(assignment)">{{ \'HOME.STATUS.\' + assignment.uiStatus.toUpperCase()              | translate }}</span>            <span class="cover-state" *ngIf="isArchived(assignment)">{{              \'HOME.ARCHIVED-ON\' | translate:{date: formatDate(assignment.archivedAt, \'DD MMM YYYY\')} }}</span>          </span>          <span class="cover-lines" aria-hidden="true"><i></i><i></i></span>        </button>        <!-- Case de sélection (au survol, ou persistante si sélectionné) -->        <button *ngIf="assignment.id !== -1" type="button" class="folder-select" [class.is-checked]="isSelected(assignment.id)"          [attr.aria-pressed]="isSelected(assignment.id)" [attr.aria-label]="\'HOME.SELECT-ASSIGNMENT\' | translate"          [appTooltip]="\'HOME.SELECT-ASSIGNMENT\' | translate" (click)="onSelectionToggle(assignment.id, $event)">          <svg *ngIf="isSelected(assignment.id)" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor"            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">            <polyline points="3.5 8.5 6.5 11.5 12.5 4.5"></polyline>          </svg>        </button>      </div>      <!-- Contenus de feuilles partagés : vraies feuilles A4 et copies floutées du rabat -->      <ng-template #metaPage>        <span class="page-fields">          <span class="page-field">            <span class="page-label">{{ \'METADATA.COURSE\' | translate }}</span>            <span class="page-value">{{ assignment.course || \'—\' }}</span>          </span>          <span class="page-field">            <span class="page-label">{{ \'METADATA.PROGRAM\' | translate }}</span>            <span class="page-value">{{ assignment.program || \'—\' }}</span>          </span>          <span class="page-field">            <span class="page-label">{{ \'METADATA.YEAR\' | translate }}</span>            <span class="page-value">{{ assignment.year || \'—\' }}</span>          </span>        </span>      </ng-template>      <ng-template #datesPage>        <span class="page-fields">          <span class="page-field" *ngIf="assignment.startDate">            <span class="page-label">{{ \'METADATA.START-DATE\' | translate }}</span>            <span class="page-value">{{ formatDate(assignment.startDate, \'DD MMM YYYY · HH:mm\') }}</span>          </span>          <span class="page-field" *ngIf="assignment.endDate">            <span class="page-label">{{ \'METADATA.END-DATE\' | translate }}</span>            <span class="page-value">{{ formatDate(assignment.endDate, \'DD MMM YYYY · HH:mm\') }}</span>          </span>          <span class="page-field" *ngIf="assignment.startDate && assignment.endDate">            <span class="page-label">{{ \'HOME.DURATION.TOTAL\' | translate }}</span>            <span class="page-value">{{ getDuration(assignment.startDate, assignment.endDate) }}</span>          </span>          <span class="page-field" *ngIf="assignment.endDate && getRemainingTime(assignment.endDate)">            <span class="page-label">{{ \'HOME.DURATION.REMAINING\' | translate }}</span>            <span class="page-value">{{ getRemainingTime(assignment.endDate) }}</span>          </span>        </span>        <span class="page-progress" *ngIf="assignment.startDate && assignment.endDate">          <span class="progress-track">            <span class="progress-fill" [style.width.%]="assignment.uiProgress"              [style.background]="getProgressBarColor(assignment.uiProgress)"></span>          </span>        </span>      </ng-template>      <!-- Actions, sous les feuilles sorties et alignées sur le dossier -->      <div class="folder-actions" [class.show]="isOpen(assignment)">        <button type="button" class="folder-action folder-action--primary" [disabled]="!isConnected(assignment)"          [appTooltip]="getAssignmentTooltip(assignment) | translate" (click)="onLoad(assignment, $event)">          <i class="far fa-arrow-alt-circle-right" aria-hidden="true"></i>          <span>{{ \'HOME.LOAD-ASSIGNMENT\' | translate }}</span>        </button>        <button type="button" class="folder-action" [disabled]="!isConnected(assignment)"          [appTooltip]="getAssignmentEditTooltip(assignment) | translate" (click)="onConfigure(assignment, $event)">          <i class="fas fa-cog" aria-hidden="true"></i>          <span>{{ \'HOME.CONFIGURE-ASSIGNMENT\' | translate }}</span>        </button>        <app-liquid-action-menu [disabled]="!isConnected(assignment)" [triggerTooltip]="\'HOME.OTHER-ACTIONS\' | translate"          [deleteTooltip]="getAssignmentDeleteTooltip(assignment) | translate"          [duplicateTooltip]="\'HOME.DUPLICATE-ASSIGNMENT\' | translate" [archiveTooltip]="getArchiveToggleTooltip(assignment)"          [restoreMode]="isArchived(assignment)"          (delete)="onDelete(assignment)" (duplicate)="onDuplicate(assignment)"          (archive)="onArchive(assignment)"></app-liquid-action-menu>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AssignmentFolderViewComponent', 'selector': 'assignment-folder-view'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'LiquidActionMenuComponent', 'selector': 'app-liquid-action-menu'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'SessionsComponent', 'selector': 'app-sessions'},{'name': 'SessionTabComponent', 'selector': 'app-session-tab'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'StudentsQuestionsMatrixComponent', 'selector': 'app-students-questions-matrix'},{'name': 'SuggestSessionsModalComponent', 'selector': 'app-suggest-sessions-modal'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TpGroupSelectorComponent', 'selector': 'app-tp-group-selector'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'},{'name': 'WhatsNewModalComponent', 'selector': 'app-whats-new-modal'}];
+    var DIRECTIVES = [{'name': 'DropdownArrowNavDirective', 'selector': '[ngbDropdown]'},{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
+    var ACTUAL_COMPONENT = {'name': 'AssignmentFolderViewComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AssignmentFolderViewComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

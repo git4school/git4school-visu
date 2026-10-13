@@ -352,6 +352,7 @@ import { catchError, map, shareReplay, tap } from &quot;rxjs/operators&quot;;
 import { Account, GitProviderType, TokenStatus } from &quot;@models/Account.model&quot;;
 import { GitAuthProvider } from &quot;@models/GitAuthProvider.model&quot;;
 import { TokenStorageService } from &quot;@services/token-storage.service&quot;;
+import { environment } from &quot;@environments/environment&quot;;
 import { ToastService } from &quot;./toast.service&quot;;
 
 export interface AuthState {
@@ -573,6 +574,37 @@ export class GithubAuthService implements GitAuthProvider {
       }
       console.warn(&quot;Could not fetch GitHub profile via API:&quot;, e);
     }
+  }
+
+  /**
+   * DEV ONLY — Injects a fake GitHub session so the app can be exercised against
+   * the mocked GitHub API (MockGithubInterceptor) without a real Firebase popup.
+   * No-op in production.
+   */
+  injectMockSession(token: string, profile: { username: string; avatarUrl?: string | null; displayName?: string | null }): void {
+    if (environment.production) {
+      return;
+    }
+    this.token &#x3D; token;
+    this.tokenStatus &#x3D; &quot;valid&quot;;
+    this.tokenStorageService.saveToken(&quot;github&quot;, token, true);
+    this.updateProfile(profile, true);
+  }
+
+  /**
+   * DEV ONLY — Clears the fake GitHub session injected by injectMockSession.
+   */
+  clearMockSession(): void {
+    if (environment.production) {
+      return;
+    }
+    this.token &#x3D; null;
+    this.username &#x3D; null;
+    this.avatarUrl &#x3D; null;
+    this.displayName &#x3D; null;
+    this.tokenStatus &#x3D; &quot;unknown&quot;;
+    this.tokenStorageService.clearAll(&quot;github&quot;);
+    this.notifyAuthChange();
   }
 
   private restoreSession(): void {

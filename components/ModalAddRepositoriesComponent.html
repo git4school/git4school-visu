@@ -144,9 +144,6 @@
                                 <a href="#allUserRepositories" >allUserRepositories</a>
                             </li>
                             <li>
-                                <a href="#contentMatches" >contentMatches</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#cursor" >cursor</a>
                             </li>
@@ -158,16 +155,7 @@
                                 <a href="#done" >done</a>
                             </li>
                             <li>
-                                <a href="#isContentMatchesCollapsed" >isContentMatchesCollapsed</a>
-                            </li>
-                            <li>
-                                <a href="#isNameMatchesCollapsed" >isNameMatchesCollapsed</a>
-                            </li>
-                            <li>
                                 <a href="#loading" >loading</a>
-                            </li>
-                            <li>
-                                <a href="#nameMatches" >nameMatches</a>
                             </li>
                             <li>
                                 <a href="#rows" >rows</a>
@@ -222,6 +210,10 @@
                                 <a href="#deselectRepo" >deselectRepo</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#filterRowsByName" >filterRowsByName</a>
+                            </li>
+                            <li>
                                 <a href="#getAvatarUrl" >getAvatarUrl</a>
                             </li>
                             <li>
@@ -249,9 +241,6 @@
                             </li>
                             <li>
                                 <a href="#isAllSelected" >isAllSelected</a>
-                            </li>
-                            <li>
-                                <a href="#isContentMatch" >isContentMatch</a>
                             </li>
                             <li>
                                 <a href="#isNameMatch" >isNameMatch</a>
@@ -296,12 +285,6 @@
                                 <a href="#sort" >sort</a>
                             </li>
                             <li>
-                                <a href="#toggleContentMatches" >toggleContentMatches</a>
-                            </li>
-                            <li>
-                                <a href="#toggleNameMatches" >toggleNameMatches</a>
-                            </li>
-                            <li>
                                 <a href="#toggleSelectAll" >toggleSelectAll</a>
                             </li>
                             <li>
@@ -309,10 +292,6 @@
                             </li>
                             <li>
                                 <a href="#trackByUrl" >trackByUrl</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#updateMatchesGrouping" >updateMatchesGrouping</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -354,20 +333,6 @@
 
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Accessors</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                    <a href="#hasGroupedMatches" >hasGroupedMatches</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
         </tbody>
     </table>
 </section>
@@ -383,7 +348,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -544,8 +509,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="485"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:485</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="436"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:436</a></div>
                 </td>
             </tr>
 
@@ -581,8 +546,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="432"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:432</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="387"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:387</a></div>
                 </td>
             </tr>
 
@@ -620,8 +585,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="366"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:366</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="321"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:321</a></div>
                 </td>
             </tr>
 
@@ -673,6 +638,45 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="filterRowsByName"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>filterRowsByName</b></span>
+                        <a href="#filterRowsByName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>filterRowsByName()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:176</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getAvatarUrl"></a>
                     <span class="name">
                         <span ><b>getAvatarUrl</b></span>
@@ -689,8 +693,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="535"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:535</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="486"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:486</a></div>
                 </td>
             </tr>
 
@@ -758,8 +762,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="375"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:375</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="330"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:330</a></div>
                 </td>
             </tr>
 
@@ -827,8 +831,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:36</a></div>
                 </td>
             </tr>
 
@@ -896,8 +900,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="331"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:331</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="286"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:286</a></div>
                 </td>
             </tr>
 
@@ -961,8 +965,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:129</a></div>
                 </td>
             </tr>
 
@@ -1032,8 +1036,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:42</a></div>
                 </td>
             </tr>
 
@@ -1101,8 +1105,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="381"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:381</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="336"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:336</a></div>
                 </td>
             </tr>
 
@@ -1172,8 +1176,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="545"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:545</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="496"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:496</a></div>
                 </td>
             </tr>
 
@@ -1209,8 +1213,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="418"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:418</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="373"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:373</a></div>
                 </td>
             </tr>
 
@@ -1221,87 +1225,6 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isContentMatch"></a>
-                    <span class="name">
-                        <span ><b>isContentMatch</b></span>
-                        <a href="#isContentMatch"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>isContentMatch(repo: <a href="../classes/Repository.html" target="_self">Repository</a>, searchFilter: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:192</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>repo</td>
-                                    <td>
-                                                <code><a href="../classes/Repository.html" target="_self" >Repository</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>searchFilter</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -1327,8 +1250,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:148</a></div>
                 </td>
             </tr>
 
@@ -1408,8 +1331,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="355"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:355</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="310"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:310</a></div>
                 </td>
             </tr>
 
@@ -1479,8 +1402,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="321"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:321</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="276"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:276</a></div>
                 </td>
             </tr>
 
@@ -1516,8 +1439,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="569"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:569</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="520"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:520</a></div>
                 </td>
             </tr>
 
@@ -1553,8 +1476,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="581"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:581</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="532"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:532</a></div>
                 </td>
             </tr>
 
@@ -1590,8 +1513,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="564"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:564</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="515"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:515</a></div>
                 </td>
             </tr>
 
@@ -1627,8 +1550,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="346"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:346</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="301"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:301</a></div>
                 </td>
             </tr>
 
@@ -1664,8 +1587,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="335"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:335</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="290"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:290</a></div>
                 </td>
             </tr>
 
@@ -1733,8 +1656,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="437"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:437</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="392"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:392</a></div>
                 </td>
             </tr>
 
@@ -1798,8 +1721,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:55</a></div>
                 </td>
             </tr>
 
@@ -1881,8 +1804,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="286"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:286</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="241"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:241</a></div>
                 </td>
             </tr>
 
@@ -1969,8 +1892,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="359"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:359</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="314"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:314</a></div>
                 </td>
             </tr>
 
@@ -2038,8 +1961,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="475"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:475</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="426"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:426</a></div>
                 </td>
             </tr>
 
@@ -2091,80 +2014,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="toggleContentMatches"></a>
-                    <span class="name">
-                        <span ><b>toggleContentMatches</b></span>
-                        <a href="#toggleContentMatches"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>toggleContentMatches()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:48</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="toggleNameMatches"></a>
-                    <span class="name">
-                        <span ><b>toggleNameMatches</b></span>
-                        <a href="#toggleNameMatches"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>toggleNameMatches()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:44</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="toggleSelectAll"></a>
                     <span class="name">
                         <span ><b>toggleSelectAll</b></span>
@@ -2181,8 +2030,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="422"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:422</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="377"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:377</a></div>
                 </td>
             </tr>
 
@@ -2218,8 +2067,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="386"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:386</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="341"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:341</a></div>
                 </td>
             </tr>
 
@@ -2287,8 +2136,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="577"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:577</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="528"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:528</a></div>
                 </td>
             </tr>
 
@@ -2352,45 +2201,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="updateMatchesGrouping"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>updateMatchesGrouping</b></span>
-                        <a href="#updateMatchesGrouping"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateMatchesGrouping()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="208"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:208</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="updateResults"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -2409,8 +2219,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="255"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:255</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="210"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:210</a></div>
                 </td>
             </tr>
 
@@ -2497,8 +2307,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="307"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:307</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="262"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:262</a></div>
                 </td>
             </tr>
 
@@ -2585,8 +2395,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="314"
-                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:314</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="269"
+                            class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:269</a></div>
                 </td>
             </tr>
 
@@ -2691,7 +2501,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -2722,38 +2532,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:29</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="contentMatches"></a>
-                    <span class="name">
-                        <span ><b>contentMatches</b></span>
-                        <a href="#contentMatches"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Repository.html" target="_self" >Repository[]</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>[]</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -2780,7 +2559,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -2842,57 +2621,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:33</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isContentMatchesCollapsed"></a>
-                    <span class="name">
-                        <span ><b>isContentMatchesCollapsed</b></span>
-                        <a href="#isContentMatchesCollapsed"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:24</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isNameMatchesCollapsed"></a>
-                    <span class="name">
-                        <span ><b>isNameMatchesCollapsed</b></span>
-                        <a href="#isNameMatchesCollapsed"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -2914,37 +2643,6 @@
                     <td class="col-md-4">
                         <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:25</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="nameMatches"></a>
-                    <span class="name">
-                        <span ><b>nameMatches</b></span>
-                        <a href="#nameMatches"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Repository.html" target="_self" >Repository[]</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>[]</code>
                     </td>
                 </tr>
                     <tr>
@@ -2996,7 +2694,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -3023,7 +2721,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -3050,7 +2748,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -3076,7 +2774,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -3107,7 +2805,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -3138,7 +2836,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -3163,7 +2861,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -3189,7 +2887,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -3198,33 +2896,6 @@
     </table>
 </section>
 
-    <section>
-    <h3 id="accessors">
-        Accessors
-    </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="hasGroupedMatches"></a>
-                        <span class="name"><b>hasGroupedMatches</b><a href="#hasGroupedMatches"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>hasGroupedMatches()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/home/assignment-chooser/configuration/edit-repositories/modal-add-repositories/modal-add-repositories.component.ts:40</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-</section>
 </div>
 
 
@@ -3249,10 +2920,6 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
   @Input() provider: GitProviderType &#x3D; &quot;github&quot;;
   @Input() instanceHost?: string;
   rows: Repository[];
-  nameMatches: Repository[] &#x3D; [];
-  contentMatches: Repository[] &#x3D; [];
-  isNameMatchesCollapsed &#x3D; false;
-  isContentMatchesCollapsed &#x3D; false;
   loading: boolean;
   selected: Repository[];
   selectedUrls: Set&lt;string&gt; &#x3D; new Set();
@@ -3267,18 +2934,6 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
   private searchFilter;
 
   constructor(public activeModal: CustomModalRef, private commitsService: CommitsService, private ngZone: NgZone) {}
-
-  get hasGroupedMatches(): boolean {
-    return Boolean(this.searchFilter) &amp;&amp; (this.contentMatches.length &gt; 0 || this.nameMatches.length &gt; 0);
-  }
-
-  toggleNameMatches() {
-    this.isNameMatchesCollapsed &#x3D; !this.isNameMatchesCollapsed;
-  }
-
-  toggleContentMatches() {
-    this.isContentMatchesCollapsed &#x3D; !this.isContentMatchesCollapsed;
-  }
 
   getDisplayName(repo: Repository): string {
     if (!repo || !repo.name) return &quot;&quot;;
@@ -3420,26 +3075,8 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
     return false;
   }
 
-  isContentMatch(repo: Repository, searchFilter: string): boolean {
-    if (!searchFilter || !repo) return false;
-    const { owner, name } &#x3D; this.getSearchTerms(searchFilter);
-    const repoUrl &#x3D; (repo.url || &quot;&quot;).toLowerCase();
-
-    if (owner &amp;&amp; !repoUrl.includes(&#x60;/${owner}/&#x60;)) {
-      return false;
-    }
-
-    if (!name) return false;
-    const cleanName &#x3D; name.replace(/[-_]+$/, &quot;&quot;);
-    const coreSearch &#x3D; Utils.extractAssignmentCore(name, owner);
-    const desc &#x3D; (repo.description || &quot;&quot;).toLowerCase();
-    return (Boolean(cleanName) &amp;&amp; desc.includes(cleanName)) || (Boolean(coreSearch) &amp;&amp; desc.includes(coreSearch));
-  }
-
-  private updateMatchesGrouping() {
+  private filterRowsByName() {
     if (!this.searchFilter) {
-      this.nameMatches &#x3D; this.rows;
-      this.contentMatches &#x3D; [];
       return;
     }
 
@@ -3458,29 +3095,18 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
       }
     }
 
-    const nameGroupRows: Repository[] &#x3D; [];
-    const contentGroupRows: Repository[] &#x3D; [];
-    const { owner } &#x3D; this.getSearchTerms(this.searchFilter);
-    const isGlobalSearch &#x3D; !owner;
-
+    // Keep a group only when its root or one of its forks matches by name
+    const nameMatchedRows: Repository[] &#x3D; [];
     for (const group of groups) {
       const rootNameMatch &#x3D; this.isNameMatch(group.root, this.searchFilter);
       const childNameMatch &#x3D; group.children.some((c) &#x3D;&gt; this.isNameMatch(c, this.searchFilter));
 
       if (rootNameMatch || childNameMatch) {
-        nameGroupRows.push(group.root, ...group.children);
-      } else {
-        const rootContentMatch &#x3D; this.isContentMatch(group.root, this.searchFilter);
-        const childContentMatch &#x3D; group.children.some((c) &#x3D;&gt; this.isContentMatch(c, this.searchFilter));
-
-        if (isGlobalSearch || rootContentMatch || childContentMatch) {
-          contentGroupRows.push(group.root, ...group.children);
-        }
+        nameMatchedRows.push(group.root, ...group.children);
       }
     }
 
-    this.nameMatches &#x3D; nameGroupRows;
-    this.contentMatches &#x3D; contentGroupRows;
+    this.rows &#x3D; nameMatchedRows;
   }
 
   private updateResults(repositories: Repository[], isFirstPage &#x3D; false) {
@@ -3672,8 +3298,6 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
       return;
     }
     this.searchFilter &#x3D; cleanValue;
-    this.isNameMatchesCollapsed &#x3D; false;
-    this.isContentMatchesCollapsed &#x3D; false;
     if (!this.searchFilter) {
       this.cursor &#x3D; undefined;
       this.done &#x3D; false;
@@ -3693,9 +3317,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
       const targetQuery &#x3D; (parts.length &gt; 1 ? parts[1] : parts[0]).trim();
       const seenUrls &#x3D; new Set(this.repoList.map((r) &#x3D;&gt; r.url));
       const targetUrl &#x3D; this.getTargetSourceUrl(this.searchFilter);
-      const filtered &#x3D; this.allUserRepositories.filter(
-        (r) &#x3D;&gt; !seenUrls.has(r.url) &amp;&amp; (this.isNameMatch(r, this.searchFilter) || this.isContentMatch(r, this.searchFilter)),
-      );
+      const filtered &#x3D; this.allUserRepositories.filter((r) &#x3D;&gt; !seenUrls.has(r.url) &amp;&amp; this.isNameMatch(r, this.searchFilter));
       this.rows &#x3D; this.organizeHierarchy(filtered, targetUrl);
       this.applySort();
       this.loading &#x3D; true;
@@ -3760,7 +3382,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
       }
       this.rows &#x3D; sorted;
     }
-    this.updateMatchesGrouping();
+    this.filterRowsByName();
   }
 
   getAvatarUrl(repo: Repository): string | null {
@@ -3871,174 +3493,52 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
                 &lt;/tr&gt;
             &lt;/thead&gt;
             &lt;tbody&gt;
-                &lt;ng-container *ngIf&#x3D;&quot;hasGroupedMatches; else plainList&quot;&gt;
-                    &lt;!-- Section 1: Matches by name --&gt;
-                    &lt;tr *ngIf&#x3D;&quot;nameMatches.length &gt; 0&quot; class&#x3D;&quot;group-header-row&quot; (click)&#x3D;&quot;toggleNameMatches()&quot;&gt;
-                        &lt;td colspan&#x3D;&quot;3&quot; class&#x3D;&quot;pl-3&quot;&gt;
-                            &lt;span class&#x3D;&quot;group-header-badge&quot;&gt;
-                                &lt;i class&#x3D;&quot;fas fa-tag mr-1&quot;&gt;&lt;/i&gt;
-                                {{ &#x27;MODAL-ADD-REPOSITORIES.SECTION-NAME-MATCHES&#x27; | translate }} ({{ nameMatches.length }})
-                                &lt;i class&#x3D;&quot;fas fa-chevron-right group-collapse-icon ml-1&quot; [class.rotated]&#x3D;&quot;!isNameMatchesCollapsed&quot;&gt;&lt;/i&gt;
-                            &lt;/span&gt;
-                        &lt;/td&gt;
-                    &lt;/tr&gt;
-                    &lt;ng-container *ngIf&#x3D;&quot;!isNameMatchesCollapsed&quot;&gt;
-                        &lt;tr *ngFor&#x3D;&quot;let row of nameMatches; trackBy: trackByUrl&quot; 
-                            [class.selected]&#x3D;&quot;isSelected(row)&quot; 
-                            [class.child-fork-row]&#x3D;&quot;row.isChildFork&quot;
-                            (click)&#x3D;&quot;toggleSelection(row)&quot;
-                            class&#x3D;&quot;table-row&quot;&gt;
-                            &lt;td class&#x3D;&quot;checkbox-col pl-3 pr-2&quot; style&#x3D;&quot;cursor: pointer;&quot;&gt;
-                                &lt;div class&#x3D;&quot;custom-checkbox&quot; 
-                                     [class.checked]&#x3D;&quot;isSelected(row)&quot;
-                                     [appTooltip]&#x3D;&quot;hasChildForks(row) ? (&#x27;MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE&#x27; | translate) : &#x27;&#x27;&quot;
-                                     placement&#x3D;&quot;top&quot;&gt;
-                                    &lt;i class&#x3D;&quot;fas fa-check&quot;&gt;&lt;/i&gt;
-                                &lt;/div&gt;
-                            &lt;/td&gt;
-                            &lt;td class&#x3D;&quot;name-col font-weight-500 pr-4&quot; style&#x3D;&quot;color: var(--color-text-primary);&quot;&gt;
-                                &lt;div class&#x3D;&quot;d-flex align-items-center w-100 min-w-0&quot; [class.child-fork-item]&#x3D;&quot;row.isChildFork&quot;&gt;
-                                    &lt;div *ngIf&#x3D;&quot;row.isChildFork&quot; class&#x3D;&quot;fork-branch-guide mr-2 d-flex align-items-center&quot;&gt;
-                                        &lt;svg class&#x3D;&quot;fork-branch-svg&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;22&quot; viewBox&#x3D;&quot;0 0 14 22&quot; fill&#x3D;&quot;none&quot;&gt;
-                                            &lt;path d&#x3D;&quot;M3 0v12a3 3 0 0 0 3 3h7&quot; stroke&#x3D;&quot;var(--color-border)&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot;/&gt;
-                                        &lt;/svg&gt;
-                                        &lt;i class&#x3D;&quot;fas fa-code-branch text-muted ml-1&quot; style&#x3D;&quot;font-size: 0.7rem;&quot;&gt;&lt;/i&gt;
-                                    &lt;/div&gt;
-                                    &lt;div class&#x3D;&quot;repo-icon mr-3 d-flex align-items-center justify-content-center&quot; [class.repo-icon-sm]&#x3D;&quot;row.isChildFork&quot;&gt;
-                                        &lt;img *ngIf&#x3D;&quot;getAvatarUrl(row)&quot; [src]&#x3D;&quot;getAvatarUrl(row)&quot; alt&#x3D;&quot;Repository Avatar&quot; class&#x3D;&quot;repo-avatar-image&quot;&gt;
-                                        &lt;app-repo-icon *ngIf&#x3D;&quot;!getAvatarUrl(row)&quot;&gt;&lt;/app-repo-icon&gt;
-                                    &lt;/div&gt;
-                                    &lt;div class&#x3D;&quot;d-flex flex-column flex-grow-1 min-w-0&quot;&gt;
-                                        &lt;span class&#x3D;&quot;text-truncate repo-name-text&quot; [appTooltip]&#x3D;&quot;row.name !&#x3D;&#x3D; getDisplayName(row) ? row.name : &#x27;&#x27;&quot; placement&#x3D;&quot;top&quot;&gt;{{ getDisplayName(row) }}&lt;/span&gt;
-                                        &lt;small *ngIf&#x3D;&quot;row.description&quot; 
-                                               class&#x3D;&quot;repo-desc-text&quot;
-                                               [appTooltip]&#x3D;&quot;row.description&quot;
-                                               [onlyIfTruncated]&#x3D;&quot;true&quot;
-                                               placement&#x3D;&quot;top&quot;&gt;{{ row.description }}&lt;/small&gt;
-                                    &lt;/div&gt;
-                                &lt;/div&gt;
-                            &lt;/td&gt;
-                            &lt;td class&#x3D;&quot;url-col pl-3 pr-4&quot;&gt;
-                                &lt;a class&#x3D;&quot;repo-url d-inline-flex align-items-center text-truncate&quot; [href]&#x3D;&quot;row.url&quot; target&#x3D;&quot;_blank&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
-                                    &lt;span class&#x3D;&quot;text-truncate&quot;&gt;{{ row.url }}&lt;/span&gt;
-                                    &lt;svg class&#x3D;&quot;ext-icon ml-1&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-                                        &lt;path d&#x3D;&quot;M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6&quot;&gt;&lt;/path&gt;
-                                        &lt;polyline points&#x3D;&quot;15 3 21 3 21 9&quot;&gt;&lt;/polyline&gt;
-                                        &lt;line x1&#x3D;&quot;10&quot; y1&#x3D;&quot;14&quot; x2&#x3D;&quot;21&quot; y2&#x3D;&quot;3&quot;&gt;&lt;/line&gt;
-                                    &lt;/svg&gt;
-                                &lt;/a&gt;
-                            &lt;/td&gt;
-                        &lt;/tr&gt;
-                    &lt;/ng-container&gt;
-
-                    &lt;!-- Section 2: Matches in description or README --&gt;
-                    &lt;tr *ngIf&#x3D;&quot;contentMatches.length &gt; 0&quot; class&#x3D;&quot;group-header-row&quot; (click)&#x3D;&quot;toggleContentMatches()&quot;&gt;
-                        &lt;td colspan&#x3D;&quot;3&quot; class&#x3D;&quot;pl-3&quot;&gt;
-                            &lt;span class&#x3D;&quot;group-header-badge&quot;&gt;
-                                &lt;i class&#x3D;&quot;fas fa-file-alt mr-1&quot;&gt;&lt;/i&gt;
-                                {{ &#x27;MODAL-ADD-REPOSITORIES.SECTION-CONTENT-MATCHES&#x27; | translate }} ({{ contentMatches.length }})
-                                &lt;i class&#x3D;&quot;fas fa-chevron-right group-collapse-icon ml-1&quot; [class.rotated]&#x3D;&quot;!isContentMatchesCollapsed&quot;&gt;&lt;/i&gt;
-                            &lt;/span&gt;
-                        &lt;/td&gt;
-                    &lt;/tr&gt;
-                    &lt;ng-container *ngIf&#x3D;&quot;!isContentMatchesCollapsed&quot;&gt;
-                        &lt;tr *ngFor&#x3D;&quot;let row of contentMatches; trackBy: trackByUrl&quot; 
-                            [class.selected]&#x3D;&quot;isSelected(row)&quot; 
-                            [class.child-fork-row]&#x3D;&quot;row.isChildFork&quot;
-                            (click)&#x3D;&quot;toggleSelection(row)&quot;
-                            class&#x3D;&quot;table-row&quot;&gt;
-                            &lt;td class&#x3D;&quot;checkbox-col pl-3 pr-2&quot; style&#x3D;&quot;cursor: pointer;&quot;&gt;
-                                &lt;div class&#x3D;&quot;custom-checkbox&quot; 
-                                     [class.checked]&#x3D;&quot;isSelected(row)&quot;
-                                     [appTooltip]&#x3D;&quot;hasChildForks(row) ? (&#x27;MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE&#x27; | translate) : &#x27;&#x27;&quot;
-                                     placement&#x3D;&quot;top&quot;&gt;
-                                    &lt;i class&#x3D;&quot;fas fa-check&quot;&gt;&lt;/i&gt;
-                                &lt;/div&gt;
-                            &lt;/td&gt;
-                            &lt;td class&#x3D;&quot;name-col font-weight-500 pr-4&quot; style&#x3D;&quot;color: var(--color-text-primary);&quot;&gt;
-                                &lt;div class&#x3D;&quot;d-flex align-items-center w-100 min-w-0&quot; [class.child-fork-item]&#x3D;&quot;row.isChildFork&quot;&gt;
-                                    &lt;div *ngIf&#x3D;&quot;row.isChildFork&quot; class&#x3D;&quot;fork-branch-guide mr-2 d-flex align-items-center&quot;&gt;
-                                        &lt;svg class&#x3D;&quot;fork-branch-svg&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;22&quot; viewBox&#x3D;&quot;0 0 14 22&quot; fill&#x3D;&quot;none&quot;&gt;
-                                            &lt;path d&#x3D;&quot;M3 0v12a3 3 0 0 0 3 3h7&quot; stroke&#x3D;&quot;var(--color-border)&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot;/&gt;
-                                        &lt;/svg&gt;
-                                        &lt;i class&#x3D;&quot;fas fa-code-branch text-muted ml-1&quot; style&#x3D;&quot;font-size: 0.7rem;&quot;&gt;&lt;/i&gt;
-                                    &lt;/div&gt;
-                                    &lt;div class&#x3D;&quot;repo-icon mr-3 d-flex align-items-center justify-content-center&quot; [class.repo-icon-sm]&#x3D;&quot;row.isChildFork&quot;&gt;
-                                        &lt;img *ngIf&#x3D;&quot;getAvatarUrl(row)&quot; [src]&#x3D;&quot;getAvatarUrl(row)&quot; alt&#x3D;&quot;Repository Avatar&quot; class&#x3D;&quot;repo-avatar-image&quot;&gt;
-                                        &lt;app-repo-icon *ngIf&#x3D;&quot;!getAvatarUrl(row)&quot;&gt;&lt;/app-repo-icon&gt;
-                                    &lt;/div&gt;
-                                    &lt;div class&#x3D;&quot;d-flex flex-column flex-grow-1 min-w-0&quot;&gt;
-                                        &lt;span class&#x3D;&quot;text-truncate repo-name-text&quot; [appTooltip]&#x3D;&quot;row.name !&#x3D;&#x3D; getDisplayName(row) ? row.name : &#x27;&#x27;&quot; placement&#x3D;&quot;top&quot;&gt;{{ getDisplayName(row) }}&lt;/span&gt;
-                                        &lt;small *ngIf&#x3D;&quot;row.description&quot; 
-                                               class&#x3D;&quot;repo-desc-text&quot;
-                                               [appTooltip]&#x3D;&quot;row.description&quot;
-                                               [onlyIfTruncated]&#x3D;&quot;true&quot;
-                                               placement&#x3D;&quot;top&quot;&gt;{{ row.description }}&lt;/small&gt;
-                                    &lt;/div&gt;
-                                &lt;/div&gt;
-                            &lt;/td&gt;
-                            &lt;td class&#x3D;&quot;url-col pl-3 pr-4&quot;&gt;
-                                &lt;a class&#x3D;&quot;repo-url d-inline-flex align-items-center text-truncate&quot; [href]&#x3D;&quot;row.url&quot; target&#x3D;&quot;_blank&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
-                                    &lt;span class&#x3D;&quot;text-truncate&quot;&gt;{{ row.url }}&lt;/span&gt;
-                                    &lt;svg class&#x3D;&quot;ext-icon ml-1&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-                                        &lt;path d&#x3D;&quot;M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6&quot;&gt;&lt;/path&gt;
-                                        &lt;polyline points&#x3D;&quot;15 3 21 3 21 9&quot;&gt;&lt;/polyline&gt;
-                                        &lt;line x1&#x3D;&quot;10&quot; y1&#x3D;&quot;14&quot; x2&#x3D;&quot;21&quot; y2&#x3D;&quot;3&quot;&gt;&lt;/line&gt;
-                                    &lt;/svg&gt;
-                                &lt;/a&gt;
-                            &lt;/td&gt;
-                        &lt;/tr&gt;
-                    &lt;/ng-container&gt;
-                &lt;/ng-container&gt;
-
-                &lt;ng-template #plainList&gt;
-                    &lt;tr *ngFor&#x3D;&quot;let row of rows; trackBy: trackByUrl&quot; 
-                        [class.selected]&#x3D;&quot;isSelected(row)&quot; 
-                        [class.child-fork-row]&#x3D;&quot;row.isChildFork&quot;
-                        (click)&#x3D;&quot;toggleSelection(row)&quot;
-                        class&#x3D;&quot;table-row&quot;&gt;
-                        &lt;td class&#x3D;&quot;checkbox-col pl-3 pr-2&quot; style&#x3D;&quot;cursor: pointer;&quot;&gt;
-                            &lt;div class&#x3D;&quot;custom-checkbox&quot; 
-                                 [class.checked]&#x3D;&quot;isSelected(row)&quot;
-                                 [appTooltip]&#x3D;&quot;hasChildForks(row) ? (&#x27;MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE&#x27; | translate) : &#x27;&#x27;&quot;
-                                 placement&#x3D;&quot;top&quot;&gt;
-                                &lt;i class&#x3D;&quot;fas fa-check&quot;&gt;&lt;/i&gt;
-                            &lt;/div&gt;
-                        &lt;/td&gt;
-                        &lt;td class&#x3D;&quot;name-col font-weight-500 pr-4&quot; style&#x3D;&quot;color: var(--color-text-primary);&quot;&gt;
-                            &lt;div class&#x3D;&quot;d-flex align-items-center w-100 min-w-0&quot; [class.child-fork-item]&#x3D;&quot;row.isChildFork&quot;&gt;
-                                &lt;div *ngIf&#x3D;&quot;row.isChildFork&quot; class&#x3D;&quot;fork-branch-guide mr-2 d-flex align-items-center&quot;&gt;
-                                    &lt;svg class&#x3D;&quot;fork-branch-svg&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;22&quot; viewBox&#x3D;&quot;0 0 14 22&quot; fill&#x3D;&quot;none&quot;&gt;
-                                        &lt;path d&#x3D;&quot;M3 0v12a3 3 0 0 0 3 3h7&quot; stroke&#x3D;&quot;var(--color-border)&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot;/&gt;
-                                    &lt;/svg&gt;
-                                    &lt;i class&#x3D;&quot;fas fa-code-branch text-muted ml-1&quot; style&#x3D;&quot;font-size: 0.7rem;&quot;&gt;&lt;/i&gt;
-                                &lt;/div&gt;
-                                &lt;div class&#x3D;&quot;repo-icon mr-3 d-flex align-items-center justify-content-center&quot; [class.repo-icon-sm]&#x3D;&quot;row.isChildFork&quot;&gt;
-                                    &lt;img *ngIf&#x3D;&quot;getAvatarUrl(row)&quot; [src]&#x3D;&quot;getAvatarUrl(row)&quot; alt&#x3D;&quot;Repository Avatar&quot; class&#x3D;&quot;repo-avatar-image&quot;&gt;
-                                    &lt;app-repo-icon *ngIf&#x3D;&quot;!getAvatarUrl(row)&quot;&gt;&lt;/app-repo-icon&gt;
-                                &lt;/div&gt;
-                                &lt;div class&#x3D;&quot;d-flex flex-column flex-grow-1 min-w-0&quot;&gt;
-                                    &lt;span class&#x3D;&quot;text-truncate repo-name-text&quot; [appTooltip]&#x3D;&quot;row.name !&#x3D;&#x3D; getDisplayName(row) ? row.name : &#x27;&#x27;&quot; placement&#x3D;&quot;top&quot;&gt;{{ getDisplayName(row) }}&lt;/span&gt;
-                                    &lt;small *ngIf&#x3D;&quot;row.description&quot; 
-                                           class&#x3D;&quot;repo-desc-text&quot;
-                                           [appTooltip]&#x3D;&quot;row.description&quot;
-                                           [onlyIfTruncated]&#x3D;&quot;true&quot;
-                                           placement&#x3D;&quot;top&quot;&gt;{{ row.description }}&lt;/small&gt;
-                                &lt;/div&gt;
-                            &lt;/div&gt;
-                        &lt;/td&gt;
-                        &lt;td class&#x3D;&quot;url-col pl-3 pr-4&quot;&gt;
-                            &lt;a class&#x3D;&quot;repo-url d-inline-flex align-items-center text-truncate&quot; [href]&#x3D;&quot;row.url&quot; target&#x3D;&quot;_blank&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
-                                &lt;span class&#x3D;&quot;text-truncate&quot;&gt;{{ row.url }}&lt;/span&gt;
-                                &lt;svg class&#x3D;&quot;ext-icon ml-1&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-                                    &lt;path d&#x3D;&quot;M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6&quot;&gt;&lt;/path&gt;
-                                    &lt;polyline points&#x3D;&quot;15 3 21 3 21 9&quot;&gt;&lt;/polyline&gt;
-                                    &lt;line x1&#x3D;&quot;10&quot; y1&#x3D;&quot;14&quot; x2&#x3D;&quot;21&quot; y2&#x3D;&quot;3&quot;&gt;&lt;/line&gt;
+                &lt;tr *ngFor&#x3D;&quot;let row of rows; trackBy: trackByUrl&quot; 
+                    [class.selected]&#x3D;&quot;isSelected(row)&quot; 
+                    [class.child-fork-row]&#x3D;&quot;row.isChildFork&quot;
+                    (click)&#x3D;&quot;toggleSelection(row)&quot;
+                    class&#x3D;&quot;table-row&quot;&gt;
+                    &lt;td class&#x3D;&quot;checkbox-col pl-3 pr-2&quot; style&#x3D;&quot;cursor: pointer;&quot;&gt;
+                        &lt;div class&#x3D;&quot;custom-checkbox&quot; 
+                             [class.checked]&#x3D;&quot;isSelected(row)&quot;
+                             [appTooltip]&#x3D;&quot;hasChildForks(row) ? (&#x27;MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE&#x27; | translate) : &#x27;&#x27;&quot;
+                             placement&#x3D;&quot;top&quot;&gt;
+                            &lt;i class&#x3D;&quot;fas fa-check&quot;&gt;&lt;/i&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                    &lt;td class&#x3D;&quot;name-col font-weight-500 pr-4&quot; style&#x3D;&quot;color: var(--color-text-primary);&quot;&gt;
+                        &lt;div class&#x3D;&quot;d-flex align-items-center w-100 min-w-0&quot; [class.child-fork-item]&#x3D;&quot;row.isChildFork&quot;&gt;
+                            &lt;div *ngIf&#x3D;&quot;row.isChildFork&quot; class&#x3D;&quot;fork-branch-guide mr-2 d-flex align-items-center&quot;&gt;
+                                &lt;svg class&#x3D;&quot;fork-branch-svg&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;22&quot; viewBox&#x3D;&quot;0 0 14 22&quot; fill&#x3D;&quot;none&quot;&gt;
+                                    &lt;path d&#x3D;&quot;M3 0v12a3 3 0 0 0 3 3h7&quot; stroke&#x3D;&quot;var(--color-border)&quot; stroke-width&#x3D;&quot;1.5&quot; stroke-linecap&#x3D;&quot;round&quot;/&gt;
                                 &lt;/svg&gt;
-                            &lt;/a&gt;
-                        &lt;/td&gt;
-                    &lt;/tr&gt;
-                &lt;/ng-template&gt;
+                                &lt;i class&#x3D;&quot;fas fa-code-branch text-muted ml-1&quot; style&#x3D;&quot;font-size: 0.7rem;&quot;&gt;&lt;/i&gt;
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;repo-icon mr-3 d-flex align-items-center justify-content-center&quot; [class.repo-icon-sm]&#x3D;&quot;row.isChildFork&quot;&gt;
+                                &lt;img *ngIf&#x3D;&quot;getAvatarUrl(row)&quot; [src]&#x3D;&quot;getAvatarUrl(row)&quot; alt&#x3D;&quot;Repository Avatar&quot; class&#x3D;&quot;repo-avatar-image&quot;&gt;
+                                &lt;app-repo-icon *ngIf&#x3D;&quot;!getAvatarUrl(row)&quot;&gt;&lt;/app-repo-icon&gt;
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;d-flex flex-column flex-grow-1 min-w-0&quot;&gt;
+                                &lt;span class&#x3D;&quot;text-truncate repo-name-text&quot; [appTooltip]&#x3D;&quot;row.name !&#x3D;&#x3D; getDisplayName(row) ? row.name : &#x27;&#x27;&quot; placement&#x3D;&quot;top&quot;&gt;{{ getDisplayName(row) }}&lt;/span&gt;
+                                &lt;small *ngIf&#x3D;&quot;row.description&quot; 
+                                       class&#x3D;&quot;repo-desc-text&quot;
+                                       [appTooltip]&#x3D;&quot;row.description&quot;
+                                       [onlyIfTruncated]&#x3D;&quot;true&quot;
+                                       placement&#x3D;&quot;top&quot;&gt;{{ row.description }}&lt;/small&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                    &lt;td class&#x3D;&quot;url-col pl-3 pr-4&quot;&gt;
+                        &lt;a class&#x3D;&quot;repo-url d-inline-flex align-items-center text-truncate&quot; [href]&#x3D;&quot;row.url&quot; target&#x3D;&quot;_blank&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
+                            &lt;span class&#x3D;&quot;text-truncate&quot;&gt;{{ row.url }}&lt;/span&gt;
+                            &lt;svg class&#x3D;&quot;ext-icon ml-1&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+                                &lt;path d&#x3D;&quot;M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6&quot;&gt;&lt;/path&gt;
+                                &lt;polyline points&#x3D;&quot;15 3 21 3 21 9&quot;&gt;&lt;/polyline&gt;
+                                &lt;line x1&#x3D;&quot;10&quot; y1&#x3D;&quot;14&quot; x2&#x3D;&quot;21&quot; y2&#x3D;&quot;3&quot;&gt;&lt;/line&gt;
+                            &lt;/svg&gt;
+                        &lt;/a&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
 
                 &lt;ng-container *ngIf&#x3D;&quot;loading&quot;&gt;
                     &lt;tr *ngFor&#x3D;&quot;let i of [1, 2, 3]&quot; class&#x3D;&quot;table-row&quot; style&#x3D;&quot;pointer-events: none;&quot;&gt;
@@ -4064,34 +3564,34 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
                 &lt;/tr&gt;
             &lt;/tbody&gt;
         &lt;/table&gt;
-    &lt;/div&gt;
 
-    &lt;!-- Floating Action Bar --&gt;
-    &lt;div class&#x3D;&quot;floating-action-bar-container&quot; [class.show]&#x3D;&quot;selected.length &gt; 0&quot;&gt;
-        &lt;div class&#x3D;&quot;floating-action-bar&quot;&gt;
-            
-            &lt;div class&#x3D;&quot;selected-count d-flex align-items-center pl-2 pr-3&quot;&gt;
-                &lt;span class&#x3D;&quot;font-weight-bold mx-2&quot; style&#x3D;&quot;color: var(--color-text-primary);&quot;&gt;{{ selected.length }} {{ &#x27;MODAL-ADD-REPOSITORIES.SELECTED-REPOSITORIES&#x27; | translate }}&lt;/span&gt;
+        &lt;!-- Floating Action Bar --&gt;
+        &lt;div class&#x3D;&quot;floating-action-bar-container floating-sticky&quot; [class.show]&#x3D;&quot;selected.length &gt; 0&quot;&gt;
+            &lt;div class&#x3D;&quot;floating-action-bar&quot;&gt;
+
+                &lt;div class&#x3D;&quot;selected-count d-flex align-items-center pl-2 pr-3&quot;&gt;
+                    &lt;span class&#x3D;&quot;font-weight-bold mx-2&quot; style&#x3D;&quot;color: var(--color-text-primary);&quot;&gt;{{ selected.length }} {{ &#x27;MODAL-ADD-REPOSITORIES.SELECTED-REPOSITORIES&#x27; | translate }}&lt;/span&gt;
+                &lt;/div&gt;
+
+                &lt;div class&#x3D;&quot;bar-divider&quot;&gt;&lt;/div&gt;
+
+                &lt;div class&#x3D;&quot;action-inputs d-flex align-items-center px-3&quot;&gt;
+                    &lt;i class&#x3D;&quot;fas fa-users mr-2&quot; style&#x3D;&quot;color: var(--color-text-muted);&quot;&gt;&lt;/i&gt;
+                    &lt;input id&#x3D;&quot;tour-modal-tp-group&quot; type&#x3D;&quot;text&quot; class&#x3D;&quot;bar-input&quot; [(ngModel)]&#x3D;&quot;tpGroup&quot; [placeholder]&#x3D;&quot;&#x27;MODAL-ADD-REPOSITORIES.TP-GROUP&#x27; | translate&quot; [appTooltip]&#x3D;&quot;&#x27;MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP&#x27; | translate&quot;&gt;
+                &lt;/div&gt;
+
+                &lt;div class&#x3D;&quot;bar-divider&quot;&gt;&lt;/div&gt;
+
+                &lt;button id&#x3D;&quot;tour-modal-add-btn&quot; class&#x3D;&quot;bar-btn-primary d-flex align-items-center&quot; (click)&#x3D;&quot;onClose()&quot;&gt;
+                    &lt;span class&#x3D;&quot;font-weight-bold&quot; style&#x3D;&quot;color: var(--color-primary);&quot;&gt;{{ &#x27;MODAL-ADD-REPOSITORIES.BUTTON-ADD&#x27; | translate }}&lt;/span&gt;
+                &lt;/button&gt;
+
+
+                &lt;button class&#x3D;&quot;bar-btn-icon d-flex align-items-center justify-content-center&quot; (click)&#x3D;&quot;clearSelection()&quot;&gt;
+                    &lt;i class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;
+                &lt;/button&gt;
+
             &lt;/div&gt;
-            
-            &lt;div class&#x3D;&quot;bar-divider&quot;&gt;&lt;/div&gt;
-            
-            &lt;div class&#x3D;&quot;action-inputs d-flex align-items-center px-3&quot;&gt;
-                &lt;i class&#x3D;&quot;fas fa-users mr-2&quot; style&#x3D;&quot;color: var(--color-text-muted);&quot;&gt;&lt;/i&gt;
-                &lt;input id&#x3D;&quot;tour-modal-tp-group&quot; type&#x3D;&quot;text&quot; class&#x3D;&quot;bar-input&quot; [(ngModel)]&#x3D;&quot;tpGroup&quot; [placeholder]&#x3D;&quot;&#x27;MODAL-ADD-REPOSITORIES.TP-GROUP&#x27; | translate&quot; [appTooltip]&#x3D;&quot;&#x27;MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP&#x27; | translate&quot;&gt;
-            &lt;/div&gt;
-            
-            &lt;div class&#x3D;&quot;bar-divider&quot;&gt;&lt;/div&gt;
-            
-            &lt;button id&#x3D;&quot;tour-modal-add-btn&quot; class&#x3D;&quot;bar-btn-primary d-flex align-items-center&quot; (click)&#x3D;&quot;onClose()&quot;&gt;
-                &lt;span class&#x3D;&quot;font-weight-bold&quot; style&#x3D;&quot;color: var(--color-primary);&quot;&gt;{{ &#x27;MODAL-ADD-REPOSITORIES.BUTTON-ADD&#x27; | translate }}&lt;/span&gt;
-            &lt;/button&gt;
-            
-            
-            &lt;button class&#x3D;&quot;bar-btn-icon d-flex align-items-center justify-content-center&quot; (click)&#x3D;&quot;clearSelection()&quot;&gt;
-                &lt;i class&#x3D;&quot;fas fa-times&quot;&gt;&lt;/i&gt;
-            &lt;/button&gt;
-            
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -4109,6 +3609,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
 
 .search-input-wrapper {
     position: relative;
+
     .search-icon {
         position: absolute;
         left: 12px;
@@ -4118,6 +3619,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
         z-index: 5;
         pointer-events: none;
     }
+
     .modern-search-input {
         padding-left: 36px;
         border-radius: 8px;
@@ -4127,17 +3629,20 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
         transition: all 0.2s ease;
         font-size: 0.9rem;
         height: 38px;
+
+        &amp;::placeholder {
+            color: var(--color-text-muted);
+            transition: color 0.2s ease;
+        }
+
         &amp;:focus {
             box-shadow: none !important;
             outline: none;
             border-color: var(--color-border) !important;
+
             &amp;::placeholder {
                 color: transparent;
             }
-        }
-        &amp;::placeholder {
-            color: var(--color-text-muted);
-            transition: color 0.2s ease;
         }
     }
 }
@@ -4153,9 +3658,11 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
     &amp;::-webkit-scrollbar {
         width: 6px;
     }
+
     &amp;::-webkit-scrollbar-track {
         background: transparent;
     }
+
     &amp;::-webkit-scrollbar-thumb {
         background-color: var(--color-border);
         border-radius: $radius-full;
@@ -4259,6 +3766,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
     &amp;.checked {
         border-color: var(--color-primary);
         background-color: transparent;
+
         i, svg {
             color: var(--color-primary);
         }
@@ -4343,53 +3851,6 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
     }
 }
 
-.group-header-row {
-    cursor: pointer;
-    user-select: none;
-
-    td {
-        padding: 12px 0 6px 0 !important;
-        border-bottom: none !important;
-        background-color: transparent !important;
-    }
-    .group-header-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--color-text-muted);
-        padding: 4px 10px;
-        border-radius: $radius-full;
-        background-color: var(--filter-bg);
-        border: 1px solid var(--color-border);
-        transition: all $transition-fast;
-        cursor: pointer;
-
-        .group-collapse-icon {
-            font-size: 0.65rem;
-            transition: transform $transition-fast ease-in-out;
-            color: var(--color-text-muted);
-
-            &amp;.rotated {
-                transform: rotate(90deg);
-            }
-        }
-
-        &amp;:hover {
-            color: var(--color-text-primary);
-            border-color: var(--color-primary);
-            background-color: var(--color-surface);
-
-            .group-collapse-icon {
-                color: var(--color-primary);
-            }
-        }
-    }
-}
-
 .child-fork-row {
     background-color: var(--color-surface);
     
@@ -4452,9 +3913,9 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modal-header border-bottom-0 pb-3 pt-4 px-4 align-items-center">    <button class="btn-outline-ghost d-flex align-items-center" style="padding-left: 0;" (click)="activeModal.dismiss(\'Cross click\')">        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">            <line x1="19" y1="12" x2="5" y2="12"></line>            <polyline points="12 19 5 12 12 5"></polyline>        </svg>        <span class="font-weight-bold" style="font-size: 1.1rem; color: var(--color-text-primary);">{{ \'MODAL-ADD-REPOSITORIES.BACK\' | translate }}</span>    </button></div><div class="modal-body pt-0 pb-4 px-0 d-flex flex-column position-relative" style="height: 500px;">        <div class="px-4 mb-3 d-flex align-items-center">        <!-- Search Bar mimicking the target "Customize/Filter" area style -->        <div class="search-input-wrapper flex-grow-1" style="margin-right: 6px;">            <svg class="search-icon position-absolute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                <circle cx="11" cy="11" r="8"></circle>                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>            </svg>            <input id="tour-modal-search-input" class="form-control modern-search-input" type="text"                placeholder="{{ \'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER\' | translate }}" (input)="onSearch($event)"                ngbAutofocus />        </div>    </div>        <div #reposTable class="modern-table-container flex-grow-1 px-4">        <table class="modern-table w-100">            <colgroup>                <col style="width: 52px;">                <col style="width: 48%;">                <col style="width: auto;">            </colgroup>            <thead>                <tr>                    <th class="checkbox-col pl-3 text-left">                        <div class="custom-checkbox" [class.checked]="isAllSelected()" (click)="toggleSelectAll()">                            <i class="fas fa-check"></i>                        </div>                    </th>                    <th class="name-col text-left pr-4 cursor-pointer" (click)="sort(\'name\')">                        {{ \'MODAL-ADD-REPOSITORIES.COLUMN-NAME\' | translate }}                        <span *ngIf="sortBy === \'name\' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>                        <span *ngIf="sortBy === \'name\' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>                    </th>                    <th class="url-col text-left pl-3 pr-4 cursor-pointer" (click)="sort(\'url\')">                        {{ \'MODAL-ADD-REPOSITORIES.COLUMN-URL\' | translate }}                        <span *ngIf="sortBy === \'url\' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>                        <span *ngIf="sortBy === \'url\' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>                    </th>                </tr>            </thead>            <tbody>                <ng-container *ngIf="hasGroupedMatches; else plainList">                    <!-- Section 1: Matches by name -->                    <tr *ngIf="nameMatches.length > 0" class="group-header-row" (click)="toggleNameMatches()">                        <td colspan="3" class="pl-3">                            <span class="group-header-badge">                                <i class="fas fa-tag mr-1"></i>                                {{ \'MODAL-ADD-REPOSITORIES.SECTION-NAME-MATCHES\' | translate }} ({{ nameMatches.length }})                                <i class="fas fa-chevron-right group-collapse-icon ml-1" [class.rotated]="!isNameMatchesCollapsed"></i>                            </span>                        </td>                    </tr>                    <ng-container *ngIf="!isNameMatchesCollapsed">                        <tr *ngFor="let row of nameMatches; trackBy: trackByUrl"                             [class.selected]="isSelected(row)"                             [class.child-fork-row]="row.isChildFork"                            (click)="toggleSelection(row)"                            class="table-row">                            <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">                                <div class="custom-checkbox"                                      [class.checked]="isSelected(row)"                                     [appTooltip]="hasChildForks(row) ? (\'MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE\' | translate) : \'\'"                                     placement="top">                                    <i class="fas fa-check"></i>                                </div>                            </td>                            <td class="name-col font-weight-500 pr-4" style="color: var(--color-text-primary);">                                <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">                                    <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">                                        <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">                                            <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>                                        </svg>                                        <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>                                    </div>                                    <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">                                        <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">                                        <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>                                    </div>                                    <div class="d-flex flex-column flex-grow-1 min-w-0">                                        <span class="text-truncate repo-name-text" [appTooltip]="row.name !== getDisplayName(row) ? row.name : \'\'" placement="top">{{ getDisplayName(row) }}</span>                                        <small *ngIf="row.description"                                                class="repo-desc-text"                                               [appTooltip]="row.description"                                               [onlyIfTruncated]="true"                                               placement="top">{{ row.description }}</small>                                    </div>                                </div>                            </td>                            <td class="url-col pl-3 pr-4">                                <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">                                    <span class="text-truncate">{{ row.url }}</span>                                    <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>                                        <polyline points="15 3 21 3 21 9"></polyline>                                        <line x1="10" y1="14" x2="21" y2="3"></line>                                    </svg>                                </a>                            </td>                        </tr>                    </ng-container>                    <!-- Section 2: Matches in description or README -->                    <tr *ngIf="contentMatches.length > 0" class="group-header-row" (click)="toggleContentMatches()">                        <td colspan="3" class="pl-3">                            <span class="group-header-badge">                                <i class="fas fa-file-alt mr-1"></i>                                {{ \'MODAL-ADD-REPOSITORIES.SECTION-CONTENT-MATCHES\' | translate }} ({{ contentMatches.length }})                                <i class="fas fa-chevron-right group-collapse-icon ml-1" [class.rotated]="!isContentMatchesCollapsed"></i>                            </span>                        </td>                    </tr>                    <ng-container *ngIf="!isContentMatchesCollapsed">                        <tr *ngFor="let row of contentMatches; trackBy: trackByUrl"                             [class.selected]="isSelected(row)"                             [class.child-fork-row]="row.isChildFork"                            (click)="toggleSelection(row)"                            class="table-row">                            <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">                                <div class="custom-checkbox"                                      [class.checked]="isSelected(row)"                                     [appTooltip]="hasChildForks(row) ? (\'MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE\' | translate) : \'\'"                                     placement="top">                                    <i class="fas fa-check"></i>                                </div>                            </td>                            <td class="name-col font-weight-500 pr-4" style="color: var(--color-text-primary);">                                <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">                                    <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">                                        <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">                                            <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>                                        </svg>                                        <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>                                    </div>                                    <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">                                        <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">                                        <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>                                    </div>                                    <div class="d-flex flex-column flex-grow-1 min-w-0">                                        <span class="text-truncate repo-name-text" [appTooltip]="row.name !== getDisplayName(row) ? row.name : \'\'" placement="top">{{ getDisplayName(row) }}</span>                                        <small *ngIf="row.description"                                                class="repo-desc-text"                                               [appTooltip]="row.description"                                               [onlyIfTruncated]="true"                                               placement="top">{{ row.description }}</small>                                    </div>                                </div>                            </td>                            <td class="url-col pl-3 pr-4">                                <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">                                    <span class="text-truncate">{{ row.url }}</span>                                    <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>                                        <polyline points="15 3 21 3 21 9"></polyline>                                        <line x1="10" y1="14" x2="21" y2="3"></line>                                    </svg>                                </a>                            </td>                        </tr>                    </ng-container>                </ng-container>                <ng-template #plainList>                    <tr *ngFor="let row of rows; trackBy: trackByUrl"                         [class.selected]="isSelected(row)"                         [class.child-fork-row]="row.isChildFork"                        (click)="toggleSelection(row)"                        class="table-row">                        <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">                            <div class="custom-checkbox"                                  [class.checked]="isSelected(row)"                                 [appTooltip]="hasChildForks(row) ? (\'MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE\' | translate) : \'\'"                                 placement="top">                                <i class="fas fa-check"></i>                            </div>                        </td>                        <td class="name-col font-weight-500 pr-4" style="color: var(--color-text-primary);">                            <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">                                <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">                                    <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">                                        <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>                                    </svg>                                    <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>                                </div>                                <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">                                    <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">                                    <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>                                </div>                                <div class="d-flex flex-column flex-grow-1 min-w-0">                                    <span class="text-truncate repo-name-text" [appTooltip]="row.name !== getDisplayName(row) ? row.name : \'\'" placement="top">{{ getDisplayName(row) }}</span>                                    <small *ngIf="row.description"                                            class="repo-desc-text"                                           [appTooltip]="row.description"                                           [onlyIfTruncated]="true"                                           placement="top">{{ row.description }}</small>                                </div>                            </div>                        </td>                        <td class="url-col pl-3 pr-4">                            <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">                                <span class="text-truncate">{{ row.url }}</span>                                <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>                                    <polyline points="15 3 21 3 21 9"></polyline>                                    <line x1="10" y1="14" x2="21" y2="3"></line>                                </svg>                            </a>                        </td>                    </tr>                </ng-template>                <ng-container *ngIf="loading">                    <tr *ngFor="let i of [1, 2, 3]" class="table-row" style="pointer-events: none;">                        <td class="checkbox-col pl-3 pr-2">                            <div class="skeleton-box" style="width: 18px; height: 18px; border-radius: 4px; margin-top: 2px;"></div>                        </td>                        <td class="name-col font-weight-500 pr-3">                            <div class="d-flex align-items-center py-1">                                <div class="skeleton-box mr-3" style="width: 36px; height: 36px; border-radius: 8px;"></div>                                <div class="skeleton-box flex-grow-1" style="height: 1rem; max-width: 200px; border-radius: 4px;"></div>                            </div>                        </td>                        <td class="url-col pr-4">                            <div class="skeleton-box" style="height: 1rem; width: 80%; max-width: 300px; border-radius: 4px;"></div>                        </td>                    </tr>                </ng-container>                <tr *ngIf="!loading && rows.length === 0" class="empty-row">                    <td colspan="3" class="text-center py-5 text-muted">                        <app-repo-icon mode="empty" class="mb-3 d-block mx-auto opacity-50" style="font-size: 3em;"></app-repo-icon>                        <h5>{{ \'EDIT-REPOSITORIES.NO-REPOSITORIES\' | translate }}</h5>                    </td>                </tr>            </tbody>        </table>    </div>    <!-- Floating Action Bar -->    <div class="floating-action-bar-container" [class.show]="selected.length > 0">        <div class="floating-action-bar">                        <div class="selected-count d-flex align-items-center pl-2 pr-3">                <span class="font-weight-bold mx-2" style="color: var(--color-text-primary);">{{ selected.length }} {{ \'MODAL-ADD-REPOSITORIES.SELECTED-REPOSITORIES\' | translate }}</span>            </div>                        <div class="bar-divider"></div>                        <div class="action-inputs d-flex align-items-center px-3">                <i class="fas fa-users mr-2" style="color: var(--color-text-muted);"></i>                <input id="tour-modal-tp-group" type="text" class="bar-input" [(ngModel)]="tpGroup" [placeholder]="\'MODAL-ADD-REPOSITORIES.TP-GROUP\' | translate" [appTooltip]="\'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP\' | translate">            </div>                        <div class="bar-divider"></div>                        <button id="tour-modal-add-btn" class="bar-btn-primary d-flex align-items-center" (click)="onClose()">                <span class="font-weight-bold" style="color: var(--color-primary);">{{ \'MODAL-ADD-REPOSITORIES.BUTTON-ADD\' | translate }}</span>            </button>                                    <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="clearSelection()">                <i class="fas fa-times"></i>            </button>                    </div>    </div></div></div>'
-    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
-    var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
+        var COMPONENT_TEMPLATE = '<div><div class="modal-header border-bottom-0 pb-3 pt-4 px-4 align-items-center">    <button class="btn-outline-ghost d-flex align-items-center" style="padding-left: 0;" (click)="activeModal.dismiss(\'Cross click\')">        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">            <line x1="19" y1="12" x2="5" y2="12"></line>            <polyline points="12 19 5 12 12 5"></polyline>        </svg>        <span class="font-weight-bold" style="font-size: 1.1rem; color: var(--color-text-primary);">{{ \'MODAL-ADD-REPOSITORIES.BACK\' | translate }}</span>    </button></div><div class="modal-body pt-0 pb-4 px-0 d-flex flex-column position-relative" style="height: 500px;">        <div class="px-4 mb-3 d-flex align-items-center">        <!-- Search Bar mimicking the target "Customize/Filter" area style -->        <div class="search-input-wrapper flex-grow-1" style="margin-right: 6px;">            <svg class="search-icon position-absolute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                <circle cx="11" cy="11" r="8"></circle>                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>            </svg>            <input id="tour-modal-search-input" class="form-control modern-search-input" type="text"                placeholder="{{ \'MODAL-ADD-REPOSITORIES.PLACEHOLDER-FILTER\' | translate }}" (input)="onSearch($event)"                ngbAutofocus />        </div>    </div>        <div #reposTable class="modern-table-container flex-grow-1 px-4">        <table class="modern-table w-100">            <colgroup>                <col style="width: 52px;">                <col style="width: 48%;">                <col style="width: auto;">            </colgroup>            <thead>                <tr>                    <th class="checkbox-col pl-3 text-left">                        <div class="custom-checkbox" [class.checked]="isAllSelected()" (click)="toggleSelectAll()">                            <i class="fas fa-check"></i>                        </div>                    </th>                    <th class="name-col text-left pr-4 cursor-pointer" (click)="sort(\'name\')">                        {{ \'MODAL-ADD-REPOSITORIES.COLUMN-NAME\' | translate }}                        <span *ngIf="sortBy === \'name\' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>                        <span *ngIf="sortBy === \'name\' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>                    </th>                    <th class="url-col text-left pl-3 pr-4 cursor-pointer" (click)="sort(\'url\')">                        {{ \'MODAL-ADD-REPOSITORIES.COLUMN-URL\' | translate }}                        <span *ngIf="sortBy === \'url\' && sortDesc"><i class="fas fa-chevron-down ml-1 text-muted" style="font-size: 0.7rem;"></i></span>                        <span *ngIf="sortBy === \'url\' && !sortDesc"><i class="fas fa-chevron-up ml-1 text-muted" style="font-size: 0.7rem;"></i></span>                    </th>                </tr>            </thead>            <tbody>                <tr *ngFor="let row of rows; trackBy: trackByUrl"                     [class.selected]="isSelected(row)"                     [class.child-fork-row]="row.isChildFork"                    (click)="toggleSelection(row)"                    class="table-row">                    <td class="checkbox-col pl-3 pr-2" style="cursor: pointer;">                        <div class="custom-checkbox"                              [class.checked]="isSelected(row)"                             [appTooltip]="hasChildForks(row) ? (\'MODAL-ADD-REPOSITORIES.TOOLTIP-SOURCE-CYCLE\' | translate) : \'\'"                             placement="top">                            <i class="fas fa-check"></i>                        </div>                    </td>                    <td class="name-col font-weight-500 pr-4" style="color: var(--color-text-primary);">                        <div class="d-flex align-items-center w-100 min-w-0" [class.child-fork-item]="row.isChildFork">                            <div *ngIf="row.isChildFork" class="fork-branch-guide mr-2 d-flex align-items-center">                                <svg class="fork-branch-svg" width="14" height="22" viewBox="0 0 14 22" fill="none">                                    <path d="M3 0v12a3 3 0 0 0 3 3h7" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>                                </svg>                                <i class="fas fa-code-branch text-muted ml-1" style="font-size: 0.7rem;"></i>                            </div>                            <div class="repo-icon mr-3 d-flex align-items-center justify-content-center" [class.repo-icon-sm]="row.isChildFork">                                <img *ngIf="getAvatarUrl(row)" [src]="getAvatarUrl(row)" alt="Repository Avatar" class="repo-avatar-image">                                <app-repo-icon *ngIf="!getAvatarUrl(row)"></app-repo-icon>                            </div>                            <div class="d-flex flex-column flex-grow-1 min-w-0">                                <span class="text-truncate repo-name-text" [appTooltip]="row.name !== getDisplayName(row) ? row.name : \'\'" placement="top">{{ getDisplayName(row) }}</span>                                <small *ngIf="row.description"                                        class="repo-desc-text"                                       [appTooltip]="row.description"                                       [onlyIfTruncated]="true"                                       placement="top">{{ row.description }}</small>                            </div>                        </div>                    </td>                    <td class="url-col pl-3 pr-4">                        <a class="repo-url d-inline-flex align-items-center text-truncate" [href]="row.url" target="_blank" (click)="$event.stopPropagation()">                            <span class="text-truncate">{{ row.url }}</span>                            <svg class="ext-icon ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>                                <polyline points="15 3 21 3 21 9"></polyline>                                <line x1="10" y1="14" x2="21" y2="3"></line>                            </svg>                        </a>                    </td>                </tr>                <ng-container *ngIf="loading">                    <tr *ngFor="let i of [1, 2, 3]" class="table-row" style="pointer-events: none;">                        <td class="checkbox-col pl-3 pr-2">                            <div class="skeleton-box" style="width: 18px; height: 18px; border-radius: 4px; margin-top: 2px;"></div>                        </td>                        <td class="name-col font-weight-500 pr-3">                            <div class="d-flex align-items-center py-1">                                <div class="skeleton-box mr-3" style="width: 36px; height: 36px; border-radius: 8px;"></div>                                <div class="skeleton-box flex-grow-1" style="height: 1rem; max-width: 200px; border-radius: 4px;"></div>                            </div>                        </td>                        <td class="url-col pr-4">                            <div class="skeleton-box" style="height: 1rem; width: 80%; max-width: 300px; border-radius: 4px;"></div>                        </td>                    </tr>                </ng-container>                <tr *ngIf="!loading && rows.length === 0" class="empty-row">                    <td colspan="3" class="text-center py-5 text-muted">                        <app-repo-icon mode="empty" class="mb-3 d-block mx-auto opacity-50" style="font-size: 3em;"></app-repo-icon>                        <h5>{{ \'EDIT-REPOSITORIES.NO-REPOSITORIES\' | translate }}</h5>                    </td>                </tr>            </tbody>        </table>        <!-- Floating Action Bar -->        <div class="floating-action-bar-container floating-sticky" [class.show]="selected.length > 0">            <div class="floating-action-bar">                <div class="selected-count d-flex align-items-center pl-2 pr-3">                    <span class="font-weight-bold mx-2" style="color: var(--color-text-primary);">{{ selected.length }} {{ \'MODAL-ADD-REPOSITORIES.SELECTED-REPOSITORIES\' | translate }}</span>                </div>                <div class="bar-divider"></div>                <div class="action-inputs d-flex align-items-center px-3">                    <i class="fas fa-users mr-2" style="color: var(--color-text-muted);"></i>                    <input id="tour-modal-tp-group" type="text" class="bar-input" [(ngModel)]="tpGroup" [placeholder]="\'MODAL-ADD-REPOSITORIES.TP-GROUP\' | translate" [appTooltip]="\'MODAL-ADD-REPOSITORIES.PLACEHOLDER-TPGROUP\' | translate">                </div>                <div class="bar-divider"></div>                <button id="tour-modal-add-btn" class="bar-btn-primary d-flex align-items-center" (click)="onClose()">                    <span class="font-weight-bold" style="color: var(--color-primary);">{{ \'MODAL-ADD-REPOSITORIES.BUTTON-ADD\' | translate }}</span>                </button>                <button class="bar-btn-icon d-flex align-items-center justify-content-center" (click)="clearSelection()">                    <i class="fas fa-times"></i>                </button>            </div>        </div>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AssignmentFolderViewComponent', 'selector': 'assignment-folder-view'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'LiquidActionMenuComponent', 'selector': 'app-liquid-action-menu'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'SessionsComponent', 'selector': 'app-sessions'},{'name': 'SessionTabComponent', 'selector': 'app-session-tab'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'StudentsQuestionsMatrixComponent', 'selector': 'app-students-questions-matrix'},{'name': 'SuggestSessionsModalComponent', 'selector': 'app-suggest-sessions-modal'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TpGroupSelectorComponent', 'selector': 'app-tp-group-selector'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'},{'name': 'WhatsNewModalComponent', 'selector': 'app-whats-new-modal'}];
+    var DIRECTIVES = [{'name': 'DropdownArrowNavDirective', 'selector': '[ngbDropdown]'},{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
     var ACTUAL_COMPONENT = {'name': 'ModalAddRepositoriesComponent'};
 </script>
 <script src="../js/tree.js"></script>

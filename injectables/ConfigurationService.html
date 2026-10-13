@@ -100,12 +100,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(translateService: TranslateService, modalService: <a href="../injectables/CustomModalService.html" target="_self">CustomModalService</a>)</code>
+<code>constructor(modalService: <a href="../injectables/CustomModalService.html" target="_self">CustomModalService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/services/configuration.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/services/configuration.service.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -122,18 +122,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                        <td>translateService</td>
-                                                  
-                                                        <td>
-                                                                    <code>TranslateService</code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                         <td>modalService</td>
                                                   
@@ -173,15 +161,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>openConfigurationModal(assignment: <a href="../classes/Assignment.html" target="_self">Assignment</a>)</code>
+<code>openConfigurationModal(assignment: <a href="../classes/Assignment.html" target="_self">Assignment</a>, options?: <a href="../interfaces/ConfigurationModalOptions.html" target="_self">ConfigurationModalOptions</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">src/app/services/configuration.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/services/configuration.service.ts:23</a></div>
                 </td>
             </tr>
 
@@ -213,6 +201,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../interfaces/ConfigurationModalOptions.html" target="_self" >ConfigurationModalOptions</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -238,30 +238,36 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { ConfigurationComponent } from &quot;@components/home/assignment-chooser/configuration/configuration.component&quot;;
 import { Assignment } from &quot;@models/Assignment.model&quot;;
-import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
+
+/** Champ de métadonnées à focaliser à l&#x27;ouverture de l&#x27;éditeur. */
+export type ConfigurationFocusField &#x3D; &quot;title&quot; | &quot;year&quot;;
+
+export interface ConfigurationModalOptions {
+  /**
+   * Champ recevant le focus à l&#x27;ouverture (titre par défaut). La duplication demande
+   * l&#x27;année : c&#x27;est le seul champ métier qu&#x27;elle ne recopie pas.
+   */
+  initialFocusField?: ConfigurationFocusField;
+}
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class ConfigurationService {
-  constructor(
-    private translateService: TranslateService,
-    private modalService: CustomModalService
-  ) {}
+  constructor(private modalService: CustomModalService) {}
 
-  openConfigurationModal(assignment: Assignment): Promise&lt;any&gt; {
-    let translation &#x3D; this.translateService.instant(&quot;MESSAGE-UNSAVED-GUARD&quot;);
-    let customModalRef &#x3D; this.modalService.open(ConfigurationComponent, {
+  openConfigurationModal(assignment: Assignment, options?: ConfigurationModalOptions): Promise&lt;any&gt; {
+    const customModalRef &#x3D; this.modalService.open(ConfigurationComponent, {
       size: &quot;lg&quot;,
-      beforeDismiss: () &#x3D;&gt; {
-        return (
-          !customModalRef.componentInstance.isModified || confirm(translation)
-        );
-      },
+      // Flush pending autosave before dismissing so the caller reloads fresh data (see ADR 0010).
+      beforeDismiss: () &#x3D;&gt; Promise.resolve(customModalRef.componentInstance?.flush()).then(() &#x3D;&gt; true),
     });
     customModalRef.componentInstance.assignment &#x3D; assignment;
     customModalRef.componentInstance.modalRef &#x3D; customModalRef;
+    if (options?.initialFocusField) {
+      customModalRef.componentInstance.initialFocusField &#x3D; options.initialFocusField;
+    }
     return customModalRef.result;
   }
 }

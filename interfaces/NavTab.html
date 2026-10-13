@@ -85,6 +85,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#icon" 
 >
                                             icon
@@ -106,6 +107,13 @@
                                         <a href="#shortcut" 
 >
                                             shortcut
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#svg" 
+>
+                                            svg
                                         </a>
                                 </li>
                                 <li>
@@ -152,6 +160,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -261,6 +274,44 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="svg"></a>
+                                        <span class="name "><b>svg</b>
+                                            <a href="#svg">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>svg:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="tooltipKey"></a>
                                         <span class="name "><b>tooltipKey</b>
                                             <a href="#tooltipKey">
@@ -295,7 +346,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, HostListener, OnInit } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, HostListener, OnInit, ViewChild } from &quot;@angular/core&quot;;
 import { Router } from &quot;@angular/router&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { AssignmentsService } from &quot;@services/assignments.service&quot;;
@@ -308,11 +359,13 @@ import { AnonymizationService } from &quot;@services/anonymization.service&quot;
 import { CustomModalService } from &quot;@shared/ui/custom-modal/custom-modal.service&quot;;
 import { CustomModalRef } from &quot;@shared/ui/custom-modal/custom-modal-ref&quot;;
 import { ShortcutsModalComponent } from &quot;@shared/ui/shortcuts-modal/shortcuts-modal.component&quot;;
+import { TpGroupSelectorComponent } from &quot;@shared/ui/tp-group-selector/tp-group-selector.component&quot;;
 import { OsUtils } from &quot;@utils/os.utils&quot;;
 
 export interface NavTab {
   route: string;
-  icon: string;
+  icon?: string;
+  svg?: string;
   labelKey: string;
   tooltipKey: string;
   shortcut: string[];
@@ -342,6 +395,7 @@ export class AppNavLayoutComponent implements OnInit {
   sidebarWidth &#x3D; 310;
   isResizing &#x3D; false;
   private shortcutsModalRef: CustomModalRef | null &#x3D; null;
+  @ViewChild(TpGroupSelectorComponent) private groupSelector?: TpGroupSelectorComponent;
 
   readonly navTabs: NavTab[] &#x3D; [
     {
@@ -364,6 +418,13 @@ export class AppNavLayoutComponent implements OnInit {
       labelKey: &quot;NAVBAR.QUESTIONS-COMPLETION&quot;,
       tooltipKey: &quot;NAVBAR.QUESTIONS-COMPLETION-TOOLTIP&quot;,
       shortcut: [&quot;3&quot;],
+    },
+    {
+      route: &quot;sessions&quot;,
+      svg: &quot;session-calendar&quot;,
+      labelKey: &quot;NAVBAR.SESSIONS&quot;,
+      tooltipKey: &quot;NAVBAR.SESSIONS-TOOLTIP&quot;,
+      shortcut: [&quot;4&quot;],
     },
   ];
 
@@ -416,6 +477,8 @@ export class AppNavLayoutComponent implements OnInit {
       this.navigateTab(&quot;students&quot;);
     } else if (key &#x3D;&#x3D;&#x3D; &quot;3&quot;) {
       this.navigateTab(&quot;questions-completion&quot;);
+    } else if (key &#x3D;&#x3D;&#x3D; &quot;4&quot;) {
+      this.navigateTab(&quot;sessions&quot;);
     } else if (key &#x3D;&#x3D;&#x3D; &quot;?&quot;) {
       this.toggleShortcutsModal();
     } else if (key &#x3D;&#x3D;&#x3D; &quot;c&quot;) {
@@ -430,7 +493,24 @@ export class AppNavLayoutComponent implements OnInit {
         event.preventDefault();
         this.anonymizationService.toggleAnonymousMode();
       }
+    } else if (
+      key &#x3D;&#x3D;&#x3D; &quot;g&quot; &amp;&amp;
+      !event.ctrlKey &amp;&amp;
+      !event.metaKey &amp;&amp;
+      !event.altKey &amp;&amp;
+      !this.isHome &amp;&amp;
+      this.dataService.dataLoaded() &amp;&amp;
+      !this.hasActiveModal
+    ) {
+      /* Raccourci G : ouvrir/fermer le filtre de groupe de TP. */
+      event.preventDefault();
+      this.groupSelector?.toggle();
     }
+  }
+
+  /* Le filtre de groupe est global : &#x60;DataService.groupFilter$&#x60; rafraîchit la vue active. */
+  onGroupFilterChange(group: string): void {
+    this.dataService.groupFilter &#x3D; group;
   }
 
   private get hasActiveModal(): boolean {

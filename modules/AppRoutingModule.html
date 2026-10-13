@@ -79,6 +79,7 @@ import { RouterModule, Routes } from &quot;@angular/router&quot;;
 import { FourOhFourComponent } from &quot;@components/four-oh-four/four-oh-four.component&quot;;
 import { CommitsComponent } from &quot;@components/graphs/commits/commits.component&quot;;
 import { QuestionsCompletionComponent } from &quot;@components/graphs/questions-completion/questions-completion.component&quot;;
+import { SessionsComponent } from &quot;@components/graphs/sessions/sessions.component&quot;;
 import { StudentsComponent } from &quot;@components/graphs/students/students.component&quot;;
 import { HomeComponent } from &quot;@components/home/home.component&quot;;
 import { AppNavLayoutComponent } from &quot;@components/nav-layouts/app-nav-layout/app-nav-layout.component&quot;;
@@ -119,6 +120,11 @@ const APP_ROUTES: Routes &#x3D; [
     canActivate: [AuthGuard, DataProvidedGuard],
     component: QuestionsCompletionComponent,
   },
+  {
+    path: &quot;sessions&quot;,
+    canActivate: [AuthGuard, DataProvidedGuard],
+    component: SessionsComponent,
+  },
   { path: &quot;&quot;, redirectTo: &quot;/home&quot;, pathMatch: &quot;full&quot; },
 ];
 
@@ -148,6 +154,10 @@ const ROUTES: Routes &#x3D; [
             path: &quot;questions-completion&quot;,
             canActivate: [AuthGuard, DataProvidedGuard],
             component: QuestionsCompletionComponent,
+          }, {
+            path: &quot;sessions&quot;,
+            canActivate: [AuthGuard, DataProvidedGuard],
+            component: SessionsComponent,
           }, { path: &quot;&quot;, redirectTo: &quot;/home&quot;, pathMatch: &quot;full&quot; },
         { path: &quot;home&quot;, component: HomeComponent },
         { path: &quot;not-found&quot;, component: FourOhFourComponent }

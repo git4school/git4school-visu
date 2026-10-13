@@ -91,13 +91,18 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#_groupFilter" >_groupFilter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#_tpGroups" >_tpGroups</a>
                             </li>
                             <li>
                                 <a href="#barIndex" >barIndex</a>
                             </li>
                             <li>
-                                <a href="#groupFilter" >groupFilter</a>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#groupFilter$" >groupFilter$</a>
                             </li>
                             <li>
                                 <a href="#hideDeleteRepoConfirmation" >hideDeleteRepoConfirmation</a>
@@ -142,6 +147,9 @@
                     <tr>
                         <td class="col-md-4">
                             <ul class="index-list">
+                                <li>
+                                    <a href="#groupFilter" >groupFilter</a>
+                                </li>
                                 <li>
                                     <a href="#assignment" >assignment</a>
                                 </li>
@@ -208,7 +216,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/services/data.service.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/services/data.service.ts:52</a></div>
                             </td>
                         </tr>
 
@@ -273,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">src/app/services/data.service.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">src/app/services/data.service.ts:87</a></div>
                 </td>
             </tr>
 
@@ -318,8 +326,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">src/app/services/data.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">src/app/services/data.service.ts:78</a></div>
                 </td>
             </tr>
 
@@ -397,13 +405,46 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/services/data.service.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/services/data.service.ts:52</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>The practical course, represents the data from the configuration file</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_groupFilter"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_groupFilter</b></span>
+                        <a href="#_groupFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/services/data.service.ts:30</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The filtered group selected during the session</p>
 </div>
                 </td>
             </tr>
@@ -435,7 +476,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/data.service.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/services/data.service.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -467,7 +508,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/services/data.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/data.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -484,28 +525,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="groupFilter"></a>
+                    <a name="groupFilter$"></a>
                     <span class="name">
-                        <span ><b>groupFilter</b></span>
-                        <a href="#groupFilter"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>groupFilter$</b></span>
+                        <a href="#groupFilter$"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
+                        <i>Default value : </i><code>new Subject&lt;string&gt;()</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/services/data.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/services/data.service.ts:35</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>The filtered group selected during the session</p>
+                    <div class="io-description"><p>Emits the new group filter whenever it changes, so the mounted view can refresh</p>
 </div>
                 </td>
             </tr>
@@ -531,7 +572,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/services/data.service.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/services/data.service.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -563,7 +604,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/services/data.service.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/data.service.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -595,7 +636,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/data.service.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/services/data.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -612,6 +653,75 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="groupFilter"></a>
+                        <span class="name"><b>groupFilter</b><a href="#groupFilter"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>groupFilter()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/services/data.service.ts:65</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>groupFilter(groupFilter: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/services/data.service.ts:69</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>groupFilter</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="assignment"></a>
                         <span class="name"><b>assignment</b><a href="#assignment"><span class="icon ion-ios-link"></span></a></span>
                     </td>
@@ -624,7 +734,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/services/data.service.ts:72</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/services/data.service.ts:91</a></div>
                                 </td>
                             </tr>
 
@@ -635,7 +745,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/services/data.service.ts:76</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/services/data.service.ts:95</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -693,7 +803,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/services/data.service.ts:81</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/app/services/data.service.ts:100</a></div>
                                 </td>
                             </tr>
 
@@ -704,7 +814,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/services/data.service.ts:85</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">src/app/services/data.service.ts:104</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -762,7 +872,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/services/data.service.ts:89</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">src/app/services/data.service.ts:108</a></div>
                                 </td>
                             </tr>
 
@@ -773,7 +883,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">src/app/services/data.service.ts:118</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">src/app/services/data.service.ts:137</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -831,7 +941,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">src/app/services/data.service.ts:122</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">src/app/services/data.service.ts:141</a></div>
                                 </td>
                             </tr>
 
@@ -842,7 +952,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="139" class="link-to-prism">src/app/services/data.service.ts:139</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">src/app/services/data.service.ts:158</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -900,7 +1010,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">src/app/services/data.service.ts:145</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">src/app/services/data.service.ts:164</a></div>
                                 </td>
                             </tr>
 
@@ -911,7 +1021,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">src/app/services/data.service.ts:149</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">src/app/services/data.service.ts:168</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -969,7 +1079,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/app/services/data.service.ts:155</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">src/app/services/data.service.ts:174</a></div>
                                 </td>
                             </tr>
 
@@ -980,7 +1090,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="159" class="link-to-prism">src/app/services/data.service.ts:159</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">src/app/services/data.service.ts:178</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1038,7 +1148,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="165" class="link-to-prism">src/app/services/data.service.ts:165</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="184" class="link-to-prism">src/app/services/data.service.ts:184</a></div>
                                 </td>
                             </tr>
 
@@ -1049,7 +1159,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">src/app/services/data.service.ts:169</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="188" class="link-to-prism">src/app/services/data.service.ts:188</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1107,7 +1217,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">src/app/services/data.service.ts:174</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">src/app/services/data.service.ts:193</a></div>
                                 </td>
                             </tr>
 
@@ -1118,7 +1228,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">src/app/services/data.service.ts:178</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="197" class="link-to-prism">src/app/services/data.service.ts:197</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1176,7 +1286,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="182" class="link-to-prism">src/app/services/data.service.ts:182</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">src/app/services/data.service.ts:201</a></div>
                                 </td>
                             </tr>
 
@@ -1187,7 +1297,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="186" class="link-to-prism">src/app/services/data.service.ts:186</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="205" class="link-to-prism">src/app/services/data.service.ts:205</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1245,7 +1355,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="190" class="link-to-prism">src/app/services/data.service.ts:190</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="209" class="link-to-prism">src/app/services/data.service.ts:209</a></div>
                                 </td>
                             </tr>
 
@@ -1256,7 +1366,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="194" class="link-to-prism">src/app/services/data.service.ts:194</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="213" class="link-to-prism">src/app/services/data.service.ts:213</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1314,7 +1424,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/services/data.service.ts:198</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="217" class="link-to-prism">src/app/services/data.service.ts:217</a></div>
                                 </td>
                             </tr>
 
@@ -1325,7 +1435,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="202" class="link-to-prism">src/app/services/data.service.ts:202</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="221" class="link-to-prism">src/app/services/data.service.ts:221</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1383,7 +1493,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="206" class="link-to-prism">src/app/services/data.service.ts:206</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="225" class="link-to-prism">src/app/services/data.service.ts:225</a></div>
                                 </td>
                             </tr>
 
@@ -1394,7 +1504,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="210" class="link-to-prism">src/app/services/data.service.ts:210</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="229" class="link-to-prism">src/app/services/data.service.ts:229</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1452,7 +1562,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="215" class="link-to-prism">src/app/services/data.service.ts:215</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="234" class="link-to-prism">src/app/services/data.service.ts:234</a></div>
                                 </td>
                             </tr>
 
@@ -1463,7 +1573,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="219" class="link-to-prism">src/app/services/data.service.ts:219</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="238" class="link-to-prism">src/app/services/data.service.ts:238</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1521,7 +1631,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="224" class="link-to-prism">src/app/services/data.service.ts:224</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="243" class="link-to-prism">src/app/services/data.service.ts:243</a></div>
                                 </td>
                             </tr>
 
@@ -1532,7 +1642,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="228" class="link-to-prism">src/app/services/data.service.ts:228</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="247" class="link-to-prism">src/app/services/data.service.ts:247</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1590,7 +1700,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="232" class="link-to-prism">src/app/services/data.service.ts:232</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="251" class="link-to-prism">src/app/services/data.service.ts:251</a></div>
                                 </td>
                             </tr>
 
@@ -1601,7 +1711,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="236" class="link-to-prism">src/app/services/data.service.ts:236</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="255" class="link-to-prism">src/app/services/data.service.ts:255</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1659,7 +1769,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="240" class="link-to-prism">src/app/services/data.service.ts:240</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="259" class="link-to-prism">src/app/services/data.service.ts:259</a></div>
                                 </td>
                             </tr>
 
@@ -1670,7 +1780,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="244" class="link-to-prism">src/app/services/data.service.ts:244</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="263" class="link-to-prism">src/app/services/data.service.ts:263</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1718,6 +1828,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
+import { Subject } from &quot;rxjs&quot;;
 import { Assignment } from &quot;@models/Assignment.model&quot;;
 import { QuestionClosingMode } from &quot;@models/Metadata.model&quot;;
 import { Milestone } from &quot;@models/Milestone.model&quot;;
@@ -1745,7 +1856,12 @@ export class DataService {
   /**
    * The filtered group selected during the session
    */
-  groupFilter: string;
+  private _groupFilter: string;
+
+  /**
+   * Emits the new group filter whenever it changes, so the mounted view can refresh
+   */
+  readonly groupFilter$ &#x3D; new Subject&lt;string&gt;();
 
   /**
    * The index of the threshold bar of the graph &quot;questions-completion&quot;
@@ -1772,7 +1888,20 @@ export class DataService {
     this.barIndex &#x3D; 5;
     this._tpGroups &#x3D; [];
     this.hideDeleteRepoConfirmation &#x3D; false;
-    this.groupFilter &#x3D; &quot;&quot;;
+    this._groupFilter &#x3D; &quot;&quot;;
+  }
+
+  get groupFilter(): string {
+    return this._groupFilter;
+  }
+
+  set groupFilter(groupFilter: string) {
+    const next &#x3D; groupFilter || &quot;&quot;;
+    if (this._groupFilter &#x3D;&#x3D;&#x3D; next) {
+      return;
+    }
+    this._groupFilter &#x3D; next;
+    this.groupFilter$.next(next);
   }
 
   saveData(assignment: Assignment &#x3D; this.assignment): Promise&lt;number&gt; {
@@ -1831,7 +1960,7 @@ export class DataService {
         groups.add(m.tpGroup.trim());
       }
     }
-    return Array.from(groups).sort();
+    return Array.from(groups).sort((a, b) &#x3D;&gt; a.localeCompare(b, undefined, { numeric: true, sensitivity: &quot;base&quot; }));
   }
 
   set tpGroups(groups: string[]) {

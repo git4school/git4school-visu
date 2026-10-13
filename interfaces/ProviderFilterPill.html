@@ -376,6 +376,7 @@ import { Assignment } from &quot;@models/Assignment.model&quot;;
 import { GitProviderType } from &quot;@models/GitAuthProvider.model&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import { AssignmentsService } from &quot;@services/assignments.service&quot;;
+import { buildDuplicateAssignment } from &quot;@services/assignment-duplicate.util&quot;;
 import { AccountsService } from &quot;@services/accounts.service&quot;;
 import { GithubAuthService } from &quot;@services/github-auth.service&quot;;
 import { ConfigurationService } from &quot;@services/configuration.service&quot;;
@@ -383,6 +384,8 @@ import { DataService } from &quot;@services/data.service&quot;;
 import { DatabaseService } from &quot;@services/database.service&quot;;
 import { OverlayManagerService } from &quot;@services/overlay-manager.service&quot;;
 import { ToastService } from &quot;@services/toast.service&quot;;
+import { ClockService } from &quot;@services/clock.service&quot;;
+import { Utils } from &quot;@services/utils&quot;;
 import { Subscription } from &quot;rxjs&quot;;
 import * as moment from &quot;moment&quot;;
 
@@ -411,6 +414,8 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
 
   sortField &#x3D; &quot;lastModificationDate&quot;;
   sortDirection: &quot;asc&quot; | &quot;desc&quot; &#x3D; &quot;desc&quot;;
+
+  viewMode: &quot;list&quot; | &quot;folders&quot; &#x3D; &quot;list&quot;;
 
   filterType &#x3D; &quot;all&quot;;
 
@@ -447,8 +452,17 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   lastUsedInstanceName &#x3D; &quot;&quot;;
 
   // Inline edit state
-  editingAssignmentId: number | null &#x3D; null;
+  editingAssignment: Assignment | null &#x3D; null;
   isCreatingNew &#x3D; false;
+
+  /**
+   * Champ que l&#x27;éditeur inline doit focaliser à son ouverture : l&#x27;année quand la carte
+   * provient d&#x27;une duplication (seul champ qu&#x27;elle ne recopie pas), le titre sinon.
+   */
+  inlineFocusField: &quot;title&quot; | &quot;year&quot; &#x3D; &quot;title&quot;;
+
+  // Assignment card whose liquid actions menu is open (raises the card z-index)
+  openActionsAssignmentId: number | null &#x3D; null;
 
   private dbSubscription?: Subscription;
   private overlaySub: Subscription | null &#x3D; null;
@@ -468,6 +482,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     private assignmentsService: AssignmentsService,
     private configurationService: ConfigurationService,
     private cdr: ChangeDetectorRef,
+    private clockService: ClockService,
   ) {}
 
   @HostListener(&quot;document:click&quot;, [&quot;$event&quot;])
@@ -559,6 +574,10 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
       });
     });
 
+    /* Toujours visible, en dernière position : un onglet qui apparaît/disparaît selon les
+       données serait plus déroutant qu&#x27;un onglet vide. */
+    pills.push({ key: &quot;archived&quot;, label: &quot;HOME.FILTER.ARCHIVED&quot; });
+
     return pills;
   }
 
@@ -615,7 +634,12 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     const newAssignment &#x3D; this.assignments.find((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; -1);
 
     // Apply filterType
-    if (this.filterType !&#x3D;&#x3D; &quot;all&quot;) {
+    if (this.filterType &#x3D;&#x3D;&#x3D; &quot;archived&quot;) {
+      result &#x3D; result.filter((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; -1 || this.isArchived(a));
+    } else {
+      // Les devoirs archivés ne sont visibles que dans l&#x27;onglet « Archivés ».
+      result &#x3D; result.filter((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; -1 || !this.isArchived(a));
+
       if (this.filterType &#x3D;&#x3D;&#x3D; &quot;github&quot;) {
         result &#x3D; result.filter((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; -1 || !a.provider || a.provider &#x3D;&#x3D;&#x3D; &quot;github&quot;);
       } else if (this.filterType &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; || this.filterType &#x3D;&#x3D;&#x3D; &quot;gitlab-cloud&quot;) {
@@ -629,7 +653,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
         result &#x3D; result.filter(
           (a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; -1 || (a.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; &amp;&amp; (a.instanceHost &#x3D;&#x3D;&#x3D; targetHost || a.resolvedInstanceHost &#x3D;&#x3D;&#x3D; targetHost)),
         );
-      } else {
+      } else if (this.filterType !&#x3D;&#x3D; &quot;all&quot;) {
         result &#x3D; result.filter((a) &#x3D;&gt; (a as any).uiType &#x3D;&#x3D;&#x3D; this.filterType || a.id &#x3D;&#x3D;&#x3D; -1);
       }
     }
@@ -679,6 +703,34 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     }
 
     return result;
+  }
+
+  /** Devoirs de la vue dossiers : les brouillons de création (id -1) n&#x27;existent qu&#x27;en liste. */
+  get folderAssignments(): any[] {
+    return this.filteredAssignments.filter((a) &#x3D;&gt; a.id !&#x3D;&#x3D; -1);
+  }
+
+  /** Bascule liste ↔ dossiers ; ferme d&#x27;abord l&#x27;édition inline en cours (sauvegarde garantie). */
+  setView(mode: &quot;list&quot; | &quot;folders&quot;) {
+    if (this.viewMode &#x3D;&#x3D;&#x3D; mode) {
+      return;
+    }
+    if (this.editingAssignment || this.isCreatingNew) {
+      this.closeEdit();
+    }
+    this.viewMode &#x3D; mode;
+    this.savePreferences();
+    this.cdr.markForCheck();
+  }
+
+  /** Devoir archivé : visible uniquement dans l&#x27;onglet « Archivés ». */
+  isArchived(assignment: any): boolean {
+    return Boolean(assignment?.archivedAt);
+  }
+
+  /** Message d&#x27;état vide, contextualisé pour l&#x27;onglet « Archivés ». */
+  get emptyStateMessageKey(): string {
+    return this.filterType &#x3D;&#x3D;&#x3D; &quot;archived&quot; ? &quot;HOME.NO-ARCHIVED-ASSIGNMENTS&quot; : &quot;HOME.NO-ASSIGNMENTS&quot;;
   }
 
   getActiveFiltersCount(): number {
@@ -782,56 +834,31 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   isAssignmentConnected(assignment: any): boolean {
-    if (!assignment) {
-      return false;
-    }
-    const provider &#x3D; (assignment.provider || assignment.uiType || &quot;github&quot;) as GitProviderType;
-    const host &#x3D; assignment.instanceHost || (assignment.resolvedInstanceHost ? assignment.resolvedInstanceHost : undefined);
-    return this.accountsService.hasAccountForHost(provider, host);
+    return this.assignmentsService.isAssignmentConnected(assignment);
   }
 
   isCustomGitlab(assignment: any): boolean {
-    if (!assignment) {
-      return false;
-    }
-    const provider &#x3D; assignment.provider || assignment.uiType;
-    const host &#x3D; assignment.instanceHost || assignment.resolvedInstanceHost;
-    return provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; &amp;&amp; Boolean(host &amp;&amp; host !&#x3D;&#x3D; &quot;gitlab.com&quot;);
+    return this.assignmentsService.isCustomGitlab(assignment);
   }
 
   getAssignmentTooltip(assignment: any): string {
-    if (this.isAssignmentConnected(assignment)) {
-      return &quot;HOME.SELECT-ASSIGNMENT-TOOLTIP&quot;;
-    }
-    return this.getDisconnectedTooltip(assignment);
+    return this.assignmentsService.getAssignmentTooltip(assignment);
   }
 
   getAssignmentEditTooltip(assignment: any): string {
-    if (this.isAssignmentConnected(assignment)) {
-      return &quot;HOME.EDIT-ASSIGNMENT-TOOLTIP&quot;;
-    }
-    return this.getDisconnectedTooltip(assignment);
+    return this.assignmentsService.getAssignmentEditTooltip(assignment);
   }
 
   getAssignmentDeleteTooltip(assignment: any): string {
-    if (this.isAssignmentConnected(assignment)) {
-      return &quot;HOME.DELETE-ASSIGNMENT-TOOLTIP&quot;;
-    }
-    return this.getDisconnectedTooltip(assignment);
+    return this.assignmentsService.getAssignmentDeleteTooltip(assignment);
   }
 
   getDisconnectedTooltip(assignment: any): string {
-    const provider &#x3D; assignment?.provider || &quot;github&quot;;
-    const host &#x3D; assignment?.instanceHost || assignment?.resolvedInstanceHost;
-    if (provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot;) {
-      if (host &amp;&amp; host !&#x3D;&#x3D; &quot;gitlab.com&quot;) {
-        return this.translateService.instant(&quot;HOME.MUST-LOGIN-ASSIGNMENT-GITLAB-CUSTOM&quot;, {
-          host: assignment?.instanceName || host,
-        });
-      }
-      return this.translateService.instant(&quot;HOME.MUST-LOGIN-ASSIGNMENT-GITLAB&quot;);
-    }
-    return this.translateService.instant(&quot;HOME.MUST-LOGIN-ASSIGNMENT-GITHUB&quot;);
+    return this.assignmentsService.getDisconnectedTooltip(assignment);
+  }
+
+  getArchiveToggleTooltip(assignment: any): string {
+    return this.assignmentsService.getArchiveToggleTooltip(assignment);
   }
 
   onStatusMouseEnter(status: string) {
@@ -917,7 +944,11 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     this.loadPreferences();
     this.loadAssignments();
     this.dbSubscription &#x3D; this.databaseService.dbChanged.subscribe(() &#x3D;&gt; {
-      this.loadAssignments();
+      // While an inline editor is open, the assignment object is mutated live; reloading would
+      // replace it with a fresh reference and close the editor. closeEdit() reloads on exit.
+      if (!this.editingAssignment) {
+        this.loadAssignments();
+      }
     });
 
     this.overlaySub &#x3D; this.overlayManager.dismiss$.subscribe(() &#x3D;&gt; {
@@ -974,6 +1005,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
         if (parsed.sortField) this.sortField &#x3D; parsed.sortField;
         if (parsed.sortDirection) this.sortDirection &#x3D; parsed.sortDirection;
         if (parsed.advancedFilters) this.advancedFilters &#x3D; parsed.advancedFilters;
+        if (parsed.viewMode &#x3D;&#x3D;&#x3D; &quot;list&quot; || parsed.viewMode &#x3D;&#x3D;&#x3D; &quot;folders&quot;) this.viewMode &#x3D; parsed.viewMode;
       } catch (e) {
         console.error(&quot;Could not load preferences&quot;, e);
       }
@@ -999,20 +1031,12 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
         sortField: this.sortField,
         sortDirection: this.sortDirection,
         advancedFilters: this.advancedFilters,
+        viewMode: this.viewMode,
       }),
     );
   }
 
   async loadAssignments() {
-    // Preserve editing state if possible, unless it&#x27;s a new assignment
-    const currentEditingId &#x3D; this.editingAssignmentId;
-    const wasCreatingNew &#x3D; this.isCreatingNew;
-    let newAssignmentObj &#x3D; null;
-
-    if (wasCreatingNew) {
-      newAssignmentObj &#x3D; this.assignments.find((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; -1);
-    }
-
     await this.databaseService.getAllAssignments().then((assignments) &#x3D;&gt; {
       // Map assignments to add UI-specific computed properties directly to the Assignment objects
       this.assignments &#x3D; assignments.map((a) &#x3D;&gt; {
@@ -1039,7 +1063,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
 
       // Fallback: if no provider is explicitly stored in localStorage, use provider of most recent assignment
       if (!localStorage.getItem(&quot;git4school_last_provider&quot;)) {
-        const lastAssignment &#x3D; this.assignments.find((a) &#x3D;&gt; a.provider &amp;&amp; a.id !&#x3D;&#x3D; -1);
+        const lastAssignment &#x3D; this.assignments.find((a) &#x3D;&gt; a.provider &amp;&amp; a.id !&#x3D;&#x3D; -1 &amp;&amp; !a.archivedAt);
         if (lastAssignment &amp;&amp; lastAssignment.provider) {
           this.lastUsedProvider &#x3D; lastAssignment.provider;
           this.lastUsedHost &#x3D; lastAssignment.instanceHost || (lastAssignment.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; ? &quot;gitlab.com&quot; : &quot;github.com&quot;);
@@ -1048,8 +1072,8 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
       }
 
       // Restore new assignment if we were creating one
-      if (wasCreatingNew &amp;&amp; newAssignmentObj) {
-        this.assignments.unshift(newAssignmentObj);
+      if (this.isCreatingNew &amp;&amp; this.editingAssignment &amp;&amp; this.editingAssignment.id &#x3D;&#x3D;&#x3D; -1) {
+        this.assignments.unshift(this.editingAssignment);
       }
       this.cdr.detectChanges();
       requestAnimationFrame(() &#x3D;&gt; {
@@ -1118,7 +1142,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   computeStatus(assignment: Assignment): &quot;prepared&quot; | &quot;ongoing&quot; | &quot;finished&quot; | &quot;default&quot; {
-    const now &#x3D; moment();
+    const now &#x3D; this.clockService.moment();
     const startDate &#x3D; assignment.startDate ? moment(assignment.startDate) : null;
     const endDate &#x3D; assignment.endDate ? moment(assignment.endDate) : null;
 
@@ -1222,27 +1246,14 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   getDuration(start: string, end: string): string {
-    if (!start || !end) return &quot;&quot;;
-    const startM &#x3D; moment(start);
-    const endM &#x3D; moment(end);
-    const diffDays &#x3D; endM.diff(startM, &quot;days&quot;);
-
-    if (diffDays &#x3D;&#x3D;&#x3D; 0) {
-      const diffHours &#x3D; endM.diff(startM, &quot;hours&quot;);
-      if (diffHours &#x3D;&#x3D;&#x3D; 0) {
-        const diffMinutes &#x3D; endM.diff(startM, &quot;minutes&quot;);
-        return &#x60;${diffMinutes} ${this.translateService.instant(&quot;HOME.DURATION.MINUTES&quot;)}&#x60;;
-      }
-      return &#x60;${diffHours} ${this.translateService.instant(&quot;HOME.DURATION.HOURS&quot;)}&#x60;;
-    }
-    return &#x60;${diffDays} ${this.translateService.instant(&quot;HOME.DURATION.DAYS&quot;)}&#x60;;
+    return Utils.getDuration(start, end, (key) &#x3D;&gt; this.translateService.instant(key));
   }
 
   getProgress(start: string, end: string): number {
     if (!start || !end) return 0;
     const startM &#x3D; moment(start);
     const endM &#x3D; moment(end);
-    const now &#x3D; moment();
+    const now &#x3D; this.clockService.moment();
 
     if (now.isBefore(startM)) return 0;
     if (now.isAfter(endM)) return 100;
@@ -1255,43 +1266,19 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   getProgressBarColor(progress: number): string {
-    if (progress &#x3D;&#x3D;&#x3D; 100) return &quot;#9ca3af&quot;;
-    const hue &#x3D; 120 - progress * 1.2;
-    // Gradient from slightly lighter/warmer hue to target hue
-    return &#x60;linear-gradient(90deg, hsl(${hue + 15}, 85%, 65%) 0%, hsl(${hue}, 85%, 55%) 100%)&#x60;;
+    return Utils.getProgressBarColor(progress);
   }
 
   getProgressBarTextColor(progress: number): string {
-    if (progress &#x3D;&#x3D;&#x3D; 100) return &quot;#9ca3af&quot;;
-    const hue &#x3D; 120 - progress * 1.2;
-    const isDarkTheme &#x3D; document.body.classList.contains(&quot;dark-theme&quot;);
-    const lightness &#x3D; isDarkTheme ? 75 : 45; // Brighter for dark mode, darker for light mode
-    return &#x60;hsl(${hue}, 85%, ${lightness}%)&#x60;;
+    return Utils.getProgressBarTextColor(progress);
   }
 
   getRemainingTime(end: string): string {
-    if (!end) return &quot;&quot;;
-    const now &#x3D; moment();
-    const endM &#x3D; moment(end);
-
-    if (now.isAfter(endM)) return &quot;&quot;;
-
-    const diffDays &#x3D; endM.diff(now, &quot;days&quot;);
-    if (diffDays &#x3D;&#x3D;&#x3D; 0) {
-      const diffHours &#x3D; endM.diff(now, &quot;hours&quot;);
-      if (diffHours &#x3D;&#x3D;&#x3D; 0) {
-        const diffMinutes &#x3D; endM.diff(now, &quot;minutes&quot;);
-        return &#x60;${diffMinutes} ${this.translateService.instant(&quot;HOME.DURATION.MINUTES&quot;)}&#x60;;
-      }
-      return &#x60;${diffHours} ${this.translateService.instant(&quot;HOME.DURATION.HOURS&quot;)}&#x60;;
-    }
-    return &#x60;${diffDays} ${this.translateService.instant(&quot;HOME.DURATION.DAYS&quot;)}&#x60;;
+    return Utils.getRemainingTime(end, this.clockService.moment(), (key) &#x3D;&gt; this.translateService.instant(key));
   }
 
   formatDate(dateStr: string, format: string): string {
-    if (!dateStr) return &quot;&quot;;
-    moment.locale(this.translateService.currentLang || &quot;en&quot;);
-    return moment(dateStr).format(format);
+    return Utils.formatDate(dateStr, format, this.translateService.currentLang);
   }
 
   toggleSortDirection() {
@@ -1326,6 +1313,88 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
       return;
     }
     this.databaseService.deleteAssignment(assignment.id);
+  }
+
+  /**
+   * Duplique un devoir : même forge, titre suffixé « (n) », cours, programme, questions,
+   * options de clôture et durée de séance par défaut (voir &#x60;buildDuplicateAssignment&#x60;).
+   * La copie est persistée puis ouverte en édition, le focus placé sur l&#x27;année : le seul
+   * champ métier à renseigner, l&#x27;année n&#x27;étant jamais dupliquée.
+   */
+  async duplicateAssignment(assignment: any) {
+    if (!assignment || assignment.id &#x3D;&#x3D;&#x3D; -1) {
+      return;
+    }
+    const existingTitles &#x3D; this.assignments.filter((a) &#x3D;&gt; a.id !&#x3D;&#x3D; -1).map((a) &#x3D;&gt; a.title);
+    const copy &#x3D; buildDuplicateAssignment(assignment, existingTitles);
+    copy.lastModificationDate &#x3D; this.clockService.now();
+    (copy as any).uiStatus &#x3D; this.computeStatus(copy);
+    (copy as any).uiType &#x3D; this.computeType(copy);
+    (copy as any).uiProgress &#x3D; this.getProgress(copy.startDate, copy.endDate);
+
+    // La copie est affichée tout de suite en liste : elle doit résister au rechargement
+    // déclenché par sa propre écriture (même garde que l&#x27;édition en cours).
+    if (this.viewMode &#x3D;&#x3D;&#x3D; &quot;list&quot;) {
+      this.inlineFocusField &#x3D; &quot;year&quot;;
+      this.editingAssignment &#x3D; copy;
+    }
+    try {
+      copy.id &#x3D; await this.databaseService.saveAssignment(copy);
+    } catch (err) {
+      if (this.viewMode &#x3D;&#x3D;&#x3D; &quot;list&quot;) {
+        this.editingAssignment &#x3D; null;
+      }
+      this.toastService.error(this.translateService.instant(&quot;ERROR&quot;), this.translateService.instant(&quot;HOME.DUPLICATE-TOAST-FAILED&quot;));
+      return;
+    }
+    this.rememberLastUsedProvider(copy);
+    this.toastService.success(this.translateService.instant(&quot;SUCCESS&quot;), this.translateService.instant(&quot;HOME.DUPLICATE-TOAST&quot;));
+
+    // Vue dossiers : pas d&#x27;éditeur inline, la suite passe par la modale (comme la création).
+    if (this.viewMode &#x3D;&#x3D;&#x3D; &quot;folders&quot;) {
+      this.isCreatingNew &#x3D; true;
+      this.configurationService.openConfigurationModal(copy, { initialFocusField: &quot;year&quot; }).finally(() &#x3D;&gt; {
+        this.isCreatingNew &#x3D; false;
+        this.loadAssignments();
+      });
+      return;
+    }
+
+    this.assignments.unshift(copy);
+    this.scrollEditingCardIntoView(copy);
+    this.cdr.markForCheck();
+  }
+
+  /**
+   * Archive un devoir, ou le restaure : un devoir archivé n&#x27;est visible que dans l&#x27;onglet
+   * « Archivés » et son action redevient « Restaurer ». La date d&#x27;archivage n&#x27;est posée que
+   * par cette action et n&#x27;est jamais retouchée par l&#x27;édition de la configuration.
+   */
+  async toggleArchive(assignment: any) {
+    if (!assignment || assignment.id &#x3D;&#x3D;&#x3D; -1) {
+      return;
+    }
+    try {
+      const stored &#x3D; await this.databaseService.getAssignmentById(assignment.id);
+      if (!stored) {
+        return;
+      }
+      const restoring &#x3D; Boolean(stored.archivedAt);
+      stored.archivedAt &#x3D; restoring ? undefined : this.clockService.now();
+      stored.lastModificationDate &#x3D; this.clockService.now();
+      await this.databaseService.saveAssignment(stored);
+      this.toastService.success(
+        this.translateService.instant(&quot;SUCCESS&quot;),
+        this.translateService.instant(restoring ? &quot;HOME.RESTORE-TOAST&quot; : &quot;HOME.ARCHIVE-TOAST&quot;),
+      );
+    } catch (err) {
+      this.toastService.error(this.translateService.instant(&quot;ERROR&quot;), this.translateService.instant(&quot;HOME.ARCHIVE-TOAST-FAILED&quot;));
+    }
+  }
+
+  /** Suit l&#x27;ouverture du menu d&#x27;actions liquides pour relever la carte concernée. */
+  onActionsMenuOpenChange(assignmentId: number, isOpen: boolean) {
+    this.openActionsAssignmentId &#x3D; isOpen ? assignmentId : null;
   }
 
   createAssignment(provider?: GitProviderType, instanceHost?: string, instanceName?: string, event?: MouseEvent) {
@@ -1382,6 +1451,17 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     }
     (assignment as any).uiType &#x3D; targetProvider;
     (assignment as any).uiStatus &#x3D; &quot;prepared&quot;;
+
+    // Vue dossiers : pas d&#x27;éditeur inline, la création passe directement par la modale.
+    if (this.viewMode &#x3D;&#x3D;&#x3D; &quot;folders&quot;) {
+      this.isCreatingNew &#x3D; true;
+      this.configurationService.openConfigurationModal(assignment).finally(() &#x3D;&gt; {
+        this.isCreatingNew &#x3D; false;
+        this.loadAssignments();
+      });
+      return;
+    }
+
     this.assignments.unshift(assignment); // Add to the top
     this.isCreatingNew &#x3D; true;
     this.editAssignment(assignment);
@@ -1435,45 +1515,47 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
       this.isCreatingNew &#x3D; false;
     }
 
-    this.editingAssignmentId &#x3D; assignment.id;
+    this.inlineFocusField &#x3D; &quot;title&quot;;
+    this.editingAssignment &#x3D; assignment;
 
-    requestAnimationFrame(() &#x3D;&gt; {
-      requestAnimationFrame(() &#x3D;&gt; {
-        const el &#x3D; document.getElementById(&quot;assignment-card-&quot; + assignment.id);
-        if (el) {
-          el.style.setProperty(&quot;scroll-margin-top&quot;, &quot;80px&quot;);
-          el.scrollIntoView({ behavior: &quot;smooth&quot;, block: &quot;nearest&quot; });
-        }
-      });
+    this.scrollEditingCardIntoView(assignment);
+  }
+
+  /**
+   * Vue dossiers : la configuration passe par la modale existante (autosave et garde de
+   * fermeture de ConfigurationComponent), puis la liste est rechargée.
+   */
+  configureAssignment(assignment: any) {
+    if (!this.isAssignmentConnected(assignment)) {
+      const msg &#x3D; this.getDisconnectedTooltip(assignment);
+      this.toastService.warning(this.translateService.instant(&quot;WARNING&quot;), msg);
+      return;
+    }
+    this.databaseService.getAssignmentById(assignment.id).then((fullAssignment) &#x3D;&gt; {
+      this.configurationService.openConfigurationModal(fullAssignment).finally(() &#x3D;&gt; this.loadAssignments());
     });
   }
 
-  cancelEdit() {
-    if (this.isCreatingNew) {
-      this.assignments &#x3D; this.assignments.filter((a) &#x3D;&gt; a.id !&#x3D;&#x3D; -1);
-      this.isCreatingNew &#x3D; false;
+  /**
+   * Re-runs the &quot;show the whole card&quot; scroll. Called when the inline editor&#x27;s height changes,
+   * e.g. after switching configuration tabs, so the card fits in the viewport again.
+   */
+  onConfigurationTabChanged() {
+    if (!this.editingAssignment) {
+      return;
     }
-    this.editingAssignmentId &#x3D; null;
-    this.loadAssignments(); // Reload to revert any unsaved changes
+    this.scrollEditingCardIntoView(this.editingAssignment);
   }
 
-  onAssignmentSaved(assignment: Assignment) {
-    if (assignment &amp;&amp; assignment.provider) {
-      this.lastUsedProvider &#x3D; assignment.provider;
-      this.lastUsedHost &#x3D; assignment.instanceHost || (assignment.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; ? &quot;gitlab.com&quot; : &quot;github.com&quot;);
-      this.lastUsedInstanceName &#x3D; assignment.instanceName || &quot;&quot;;
-      try {
-        localStorage.setItem(&quot;git4school_last_provider&quot;, assignment.provider);
-        localStorage.setItem(&quot;git4school_last_host&quot;, this.lastUsedHost);
-        if (assignment.instanceName) {
-          localStorage.setItem(&quot;git4school_last_instance_name&quot;, assignment.instanceName);
-        } else {
-          localStorage.removeItem(&quot;git4school_last_instance_name&quot;);
-        }
-      } catch (e) {}
+  closeEdit(assignment?: Assignment) {
+    if (assignment) {
+      this.rememberLastUsedProvider(assignment);
+    }
+    if (this.isCreatingNew) {
+      this.assignments &#x3D; this.assignments.filter((a) &#x3D;&gt; a.id !&#x3D;&#x3D; -1);
     }
     this.isCreatingNew &#x3D; false;
-    this.editingAssignmentId &#x3D; null;
+    this.editingAssignment &#x3D; null;
     this.loadAssignments();
   }
 
@@ -1505,6 +1587,36 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     if (file) {
       this.importDB(file);
     }
+  }
+
+  private scrollEditingCardIntoView(assignment: any) {
+    requestAnimationFrame(() &#x3D;&gt; {
+      requestAnimationFrame(() &#x3D;&gt; {
+        const el &#x3D; document.getElementById(&quot;assignment-card-&quot; + assignment.id);
+        if (el) {
+          el.style.setProperty(&quot;scroll-margin-top&quot;, &quot;80px&quot;);
+          el.scrollIntoView({ behavior: &quot;smooth&quot;, block: &quot;nearest&quot; });
+        }
+      });
+    });
+  }
+
+  private rememberLastUsedProvider(assignment: Assignment): void {
+    if (!assignment || !assignment.provider) {
+      return;
+    }
+    this.lastUsedProvider &#x3D; assignment.provider;
+    this.lastUsedHost &#x3D; assignment.instanceHost || (assignment.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; ? &quot;gitlab.com&quot; : &quot;github.com&quot;);
+    this.lastUsedInstanceName &#x3D; assignment.instanceName || &quot;&quot;;
+    try {
+      localStorage.setItem(&quot;git4school_last_provider&quot;, assignment.provider);
+      localStorage.setItem(&quot;git4school_last_host&quot;, this.lastUsedHost);
+      if (assignment.instanceName) {
+        localStorage.setItem(&quot;git4school_last_instance_name&quot;, assignment.instanceName);
+      } else {
+        localStorage.removeItem(&quot;git4school_last_instance_name&quot;);
+      }
+    } catch (e) {}
   }
 
   private cleanHostname(host: string): string {

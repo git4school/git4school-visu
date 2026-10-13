@@ -532,15 +532,7 @@ export class SessionHeaderRenderer {
           &lt;/span&gt;
 
           &lt;!-- Pill 2: Groupe de TP --&gt;
-          ${
-            groupName
-              ? &#x60;
-          &lt;span class&#x3D;&quot;badge session-pill session-group-pill d-inline-flex align-items-center&quot; style&#x3D;&quot;box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;&quot;&gt;
-            ${usersSvg}
-            &lt;span class&#x3D;&quot;session-pill-text session-group-text text-truncate&quot; style&#x3D;&quot;min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;&quot;&gt;${groupName}&lt;/span&gt;
-          &lt;/span&gt;&#x60;
-              : &quot;&quot;
-          }
+          ${this.renderGroupPill(groupName, usersSvg)}
 
           &lt;!-- Pill 3: Note button --&gt;
           ${
@@ -576,7 +568,10 @@ export class SessionHeaderRenderer {
       return;
     }
 
-    const sessionIdxInGroup &#x3D; overlapGroup.indexOf(session);
+    let sessionIdxInGroup &#x3D; overlapGroup.indexOf(session);
+    if (sessionIdxInGroup &#x3D;&#x3D;&#x3D; -1 &amp;&amp; overview &amp;&amp; typeof overview.isSameSession &#x3D;&#x3D;&#x3D; &quot;function&quot;) {
+      sessionIdxInGroup &#x3D; overlapGroup.findIndex((s) &#x3D;&gt; overview.isSameSession(s, session));
+    }
     const groupSize &#x3D; overlapGroup.length;
 
     /* SVG chevrons — stroke cohérent avec les icônes de l&#x27;app */
@@ -603,15 +598,7 @@ export class SessionHeaderRenderer {
           &lt;/span&gt;
 
           &lt;!-- Pill 2: Groupe de TP --&gt;
-          ${
-            groupName
-              ? &#x60;
-          &lt;span class&#x3D;&quot;badge session-pill session-group-pill d-inline-flex align-items-center&quot; style&#x3D;&quot;box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;&quot;&gt;
-            ${usersSvg}
-            &lt;span class&#x3D;&quot;session-pill-text session-group-text text-truncate&quot; style&#x3D;&quot;min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;&quot;&gt;${groupName}&lt;/span&gt;
-          &lt;/span&gt;&#x60;
-              : &quot;&quot;
-          }
+          ${this.renderGroupPill(groupName, usersSvg)}
 
           &lt;!-- Pill 3: Note button --&gt;
           ${
@@ -719,11 +706,7 @@ export class SessionHeaderRenderer {
           &lt;span style&#x3D;&quot;font-weight: 600; color: var(--color-primary); font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;&quot;&gt;
             ${sName}
           &lt;/span&gt;
-          ${
-            sGroup
-              ? &#x60;&lt;span class&#x3D;&quot;badge&quot; style&#x3D;&quot;display: inline-flex; align-items: center; background: rgba(56, 189, 248, 0.15); color: var(--color-text-secondary); font-size: 0.72rem; font-weight: 500; border-radius: 9999px; padding: 1px 7px; height: 18px; line-height: 1; flex-shrink: 0;&quot;&gt;${sGroup}&lt;/span&gt;&#x60;
-              : &quot;&quot;
-          }
+          ${this.renderGroupPill(sGroup, this.renderUsersSvg())}
         &lt;/div&gt;
         &lt;div style&#x3D;&quot;font-size: 0.78rem; color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px; margin-bottom: ${
           hasNotes ? &quot;6px&quot; : &quot;0&quot;
@@ -740,6 +723,22 @@ export class SessionHeaderRenderer {
         }
       &lt;/div&gt;
     &#x60;;
+  }
+
+  private static renderGroupPill(groupName: string, usersSvg: string): string {
+    if (!groupName) return &quot;&quot;;
+
+    return &#x60;
+      &lt;span class&#x3D;&quot;badge session-pill session-group-pill d-inline-flex align-items-center&quot;&gt;
+        ${usersSvg}
+        &lt;span class&#x3D;&quot;session-pill-text session-group-text text-truncate&quot;&gt;${this.escapeHtml(groupName)}&lt;/span&gt;
+      &lt;/span&gt;
+    &#x60;;
+  }
+
+  private static renderUsersSvg(): string {
+    // eslint-disable-next-line @typescript-eslint/quotes
+    return &#x27;&lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;path d&#x3D;&quot;M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2&quot;&gt;&lt;/path&gt;&lt;circle cx&#x3D;&quot;9&quot; cy&#x3D;&quot;7&quot; r&#x3D;&quot;4&quot;&gt;&lt;/circle&gt;&lt;path d&#x3D;&quot;M23 21v-2a4 4 0 0 0-3-3.87&quot;&gt;&lt;/path&gt;&lt;path d&#x3D;&quot;M16 3.13a4 4 0 0 1 0 7.75&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&#x27;;
   }
 
   private static escapeHtml(str: string): string {
