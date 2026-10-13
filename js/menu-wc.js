@@ -82,13 +82,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/AppModule.html" data-type="entity-link" >AppModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-AppModule-7d8c6b712d6fa71b9c6acc8a8e051cc45729139c33564be8f4c51add1654dd3227e9f8dec7a13ec08e44fc8e17367b5a4acc45094ef7d56a6af12632f3ba3d2c"' : 'data-target="#xs-components-links-module-AppModule-7d8c6b712d6fa71b9c6acc8a8e051cc45729139c33564be8f4c51add1654dd3227e9f8dec7a13ec08e44fc8e17367b5a4acc45094ef7d56a6af12632f3ba3d2c"' }>
+                                            'data-target="#components-links-module-AppModule-1f3eddd1e85ff11c3d5c4420a77f705fe085b9f0912fc52d0a688a52c4a2462d72050d382fcb30ada1e217627e26476aff8e48e55a8487ff0429ce38458832bb"' : 'data-target="#xs-components-links-module-AppModule-1f3eddd1e85ff11c3d5c4420a77f705fe085b9f0912fc52d0a688a52c4a2462d72050d382fcb30ada1e217627e26476aff8e48e55a8487ff0429ce38458832bb"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-7d8c6b712d6fa71b9c6acc8a8e051cc45729139c33564be8f4c51add1654dd3227e9f8dec7a13ec08e44fc8e17367b5a4acc45094ef7d56a6af12632f3ba3d2c"' :
-                                            'id="xs-components-links-module-AppModule-7d8c6b712d6fa71b9c6acc8a8e051cc45729139c33564be8f4c51add1654dd3227e9f8dec7a13ec08e44fc8e17367b5a4acc45094ef7d56a6af12632f3ba3d2c"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-1f3eddd1e85ff11c3d5c4420a77f705fe085b9f0912fc52d0a688a52c4a2462d72050d382fcb30ada1e217627e26476aff8e48e55a8487ff0429ce38458832bb"' :
+                                            'id="xs-components-links-module-AppModule-1f3eddd1e85ff11c3d5c4420a77f705fe085b9f0912fc52d0a688a52c4a2462d72050d382fcb30ada1e217627e26476aff8e48e55a8487ff0429ce38458832bb"' }>
                                             <li class="link">
                                                 <a href="components/AccountsComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AccountsComponent</a>
                                             </li>
@@ -165,13 +165,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#injectables-links-module-AppModule-7d8c6b712d6fa71b9c6acc8a8e051cc45729139c33564be8f4c51add1654dd3227e9f8dec7a13ec08e44fc8e17367b5a4acc45094ef7d56a6af12632f3ba3d2c"' : 'data-target="#xs-injectables-links-module-AppModule-7d8c6b712d6fa71b9c6acc8a8e051cc45729139c33564be8f4c51add1654dd3227e9f8dec7a13ec08e44fc8e17367b5a4acc45094ef7d56a6af12632f3ba3d2c"' }>
+                                        'data-target="#injectables-links-module-AppModule-1f3eddd1e85ff11c3d5c4420a77f705fe085b9f0912fc52d0a688a52c4a2462d72050d382fcb30ada1e217627e26476aff8e48e55a8487ff0429ce38458832bb"' : 'data-target="#xs-injectables-links-module-AppModule-1f3eddd1e85ff11c3d5c4420a77f705fe085b9f0912fc52d0a688a52c4a2462d72050d382fcb30ada1e217627e26476aff8e48e55a8487ff0429ce38458832bb"' }>
                                         <span class="icon ion-md-arrow-round-down"></span>
                                         <span>Injectables</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-AppModule-7d8c6b712d6fa71b9c6acc8a8e051cc45729139c33564be8f4c51add1654dd3227e9f8dec7a13ec08e44fc8e17367b5a4acc45094ef7d56a6af12632f3ba3d2c"' :
-                                        'id="xs-injectables-links-module-AppModule-7d8c6b712d6fa71b9c6acc8a8e051cc45729139c33564be8f4c51add1654dd3227e9f8dec7a13ec08e44fc8e17367b5a4acc45094ef7d56a6af12632f3ba3d2c"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-AppModule-1f3eddd1e85ff11c3d5c4420a77f705fe085b9f0912fc52d0a688a52c4a2462d72050d382fcb30ada1e217627e26476aff8e48e55a8487ff0429ce38458832bb"' :
+                                        'id="xs-injectables-links-module-AppModule-1f3eddd1e85ff11c3d5c4420a77f705fe085b9f0912fc52d0a688a52c4a2462d72050d382fcb30ada1e217627e26476aff8e48e55a8487ff0429ce38458832bb"' }>
                                         <li class="link">
                                             <a href="injectables/CommitsService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CommitsService</a>
                                         </li>
@@ -371,6 +371,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/Session.html" data-type="entity-link" >Session</a>
                             </li>
                             <li class="link">
+                                <a href="classes/SessionHeaderRenderer.html" data-type="entity-link" >SessionHeaderRenderer</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/Utils.html" data-type="entity-link" >Utils</a>
                             </li>
                         </ul>
@@ -385,6 +388,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <ul class="links collapse " ${ isNormalMode ? 'id="injectables-links"' : 'id="xs-injectables-links"' }>
                                 <li class="link">
                                     <a href="injectables/AccountsService.html" data-type="entity-link" >AccountsService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/AnonymizationService.html" data-type="entity-link" >AnonymizationService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/AssignmentsService.html" data-type="entity-link" >AssignmentsService</a>
@@ -417,6 +423,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/GitlabAuthService.html" data-type="entity-link" >GitlabAuthService</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/GitlabCustomAuthService.html" data-type="entity-link" >GitlabCustomAuthService</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/GitlabDataService.html" data-type="entity-link" >GitlabDataService</a>
                                 </li>
                                 <li class="link">
@@ -424,6 +433,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/LoaderService.html" data-type="entity-link" >LoaderService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/MockGitlabInstanceService.html" data-type="entity-link" >MockGitlabInstanceService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/NgbDateNativeUTCFranceAdapter.html" data-type="entity-link" >NgbDateNativeUTCFranceAdapter</a>
@@ -448,6 +460,22 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                             </ul>
                         </li>
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ? 'data-target="#interceptors-links"' :
+                            'data-target="#xs-interceptors-links"' }>
+                            <span class="icon ion-ios-swap"></span>
+                            <span>Interceptors</span>
+                            <span class="icon ion-ios-arrow-down"></span>
+                        </div>
+                        <ul class="links collapse " ${ isNormalMode ? 'id="interceptors-links"' : 'id="xs-interceptors-links"' }>
+                            <li class="link">
+                                <a href="interceptors/GitlabAuthInterceptor.html" data-type="entity-link" >GitlabAuthInterceptor</a>
+                            </li>
+                            <li class="link">
+                                <a href="interceptors/MockGitlabInterceptor.html" data-type="entity-link" >MockGitlabInterceptor</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="chapter">
                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ? 'data-target="#guards-links"' :
                             'data-target="#xs-guards-links"' }>
@@ -512,6 +540,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/GitlabAuthState.html" data-type="entity-link" >GitlabAuthState</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/GitlabCustomUser.html" data-type="entity-link" >GitlabCustomUser</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/GitlabCustomUserData.html" data-type="entity-link" >GitlabCustomUserData</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/GitlabUser.html" data-type="entity-link" >GitlabUser</a>
                             </li>
                             <li class="link">
@@ -521,10 +555,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/OverlayDismissEvent.html" data-type="entity-link" >OverlayDismissEvent</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/ProviderFilterPill.html" data-type="entity-link" >ProviderFilterPill</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/RepositoryMetadata.html" data-type="entity-link" >RepositoryMetadata</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/SegmentedRadioOption.html" data-type="entity-link" >SegmentedRadioOption</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/SessionHeaderRenderContext.html" data-type="entity-link" >SessionHeaderRenderContext</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/StoredTokenEnvelope.html" data-type="entity-link" >StoredTokenEnvelope</a>

@@ -297,8 +297,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders, HttpParams } from &quot;@angular/common/http&quot;;
 import { Injectable } from &quot;@angular/core&quot;;
-import { BehaviorSubject, Observable } from &quot;rxjs&quot;;
-import { Account, GitProviderType } from &quot;@models/Account.model&quot;;
+import { BehaviorSubject, Observable, from, of } from &quot;rxjs&quot;;
+import { catchError, map, switchMap } from &quot;rxjs/operators&quot;;
+import { Account, GitProviderType, TokenStatus } from &quot;@models/Account.model&quot;;
 import { GitAuthProvider } from &quot;@models/GitAuthProvider.model&quot;;
 import { TokenStorageService } from &quot;@services/token-storage.service&quot;;
 import { environment } from &quot;../../environments/environment&quot;;
@@ -315,6 +316,7 @@ export interface GitlabAuthState {
   isSignedIn: boolean;
   token: string | null;
   user: GitlabUser | null;
+  tokenStatus?: TokenStatus;
 }
 
 interface TokenResponse {
@@ -338,24 +340,29 @@ export class GitlabAuthService implements GitAuthProvider {
   token: string | null &#x3D; null;
   currentUser: GitlabUser | null &#x3D; null;
   loading &#x3D; false;
+  tokenStatus: TokenStatus &#x3D; &quot;unknown&quot;;
 
   public authChange$ &#x3D; new BehaviorSubject&lt;GitlabAuthState&gt;({
     isSignedIn: false,
     token: null,
     user: null,
+    tokenStatus: &quot;unknown&quot;,
   });
 
   private clientId &#x3D; environment.gitlab?.clientId || &quot;&quot;;
   private redirectUri &#x3D; environment.gitlab?.redirectUri || &quot;/auth/callback&quot;;
   private instanceUrl &#x3D; (environment.gitlab?.instanceUrl || &quot;https://gitlab.com&quot;).replace(/\/+$/, &quot;&quot;);
   private scope &#x3D; environment.gitlab?.scope || &quot;read_api read_user&quot;;
+  private refreshPromise: Promise&lt;string | null&gt; | null &#x3D; null;
+  private refreshTimer: any &#x3D; null;
+  private readonly refreshBufferSeconds &#x3D; 300;
 
   constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) {
     this.restoreSession();
   }
 
   isSignedIn(): boolean {
-    return !!(this.token &amp;&amp; this.currentUser);
+    return !!((this.token || this.tokenStorageService.getRefreshToken(&quot;gitlab&quot;)) &amp;&amp; this.currentUser);
   }
 
   getAccount(): Account | null {
@@ -369,6 +376,7 @@ export class GitlabAuthService implements GitAuthProvider {
       username: this.currentUser.username,
       avatarUrl: this.currentUser.avatar_url || null,
       isCurrent: false,
+      tokenStatus: this.tokenStatus,
     };
   }
 
@@ -426,10 +434,12 @@ export class GitlabAuthService implements GitAuthProvider {
 
       this.token &#x3D; accessToken;
       this.currentUser &#x3D; user;
+      this.tokenStatus &#x3D; &quot;valid&quot;;
 
-      this.tokenStorageService.saveToken(&quot;gitlab&quot;, accessToken, rememberMe, tokenResponse.expires_in);
+      this.tokenStorageService.saveToken(&quot;gitlab&quot;, accessToken, rememberMe, tokenResponse.expires_in, tokenResponse.refresh_token);
       this.tokenStorageService.saveUserData(&quot;gitlab&quot;, user, rememberMe);
 
+      this.scheduleProactiveRefresh(tokenResponse.expires_in);
       this.notifyAuthChange();
       return user;
     } finally {
@@ -439,9 +449,79 @@ export class GitlabAuthService implements GitAuthProvider {
     }
   }
 
+  async refreshAccessToken(): Promise&lt;string | null&gt; {
+    if (this.refreshPromise) {
+      return this.refreshPromise;
+    }
+
+    this.refreshPromise &#x3D; this.performTokenRefresh().finally(() &#x3D;&gt; {
+      this.refreshPromise &#x3D; null;
+    });
+
+    return this.refreshPromise;
+  }
+
+  async ensureValidToken(): Promise&lt;string | null&gt; {
+    const isExpiring &#x3D; this.tokenStorageService.isTokenExpired(&quot;gitlab&quot;, this.refreshBufferSeconds);
+    if (this.token &amp;&amp; !isExpiring) {
+      return this.token;
+    }
+
+    if (this.tokenStorageService.getRefreshToken(&quot;gitlab&quot;)) {
+      return this.refreshAccessToken();
+    }
+
+    return this.token;
+  }
+
+  checkTokenValidity(): Observable&lt;boolean&gt; {
+    if (!this.isSignedIn()) {
+      this.tokenStatus &#x3D; &quot;unknown&quot;;
+      this.notifyAuthChange();
+      return of(false);
+    }
+
+    return from(this.ensureValidToken()).pipe(
+      switchMap((validToken) &#x3D;&gt; {
+        if (!validToken) {
+          this.tokenStatus &#x3D; &quot;invalid&quot;;
+          this.notifyAuthChange();
+          return of(false);
+        }
+        const userUrl &#x3D; &#x60;${this.instanceUrl}/api/v4/user&#x60;;
+        const headers &#x3D; new HttpHeaders({
+          Authorization: &#x60;Bearer ${validToken}&#x60;,
+        });
+        return this.http.get&lt;GitlabUser&gt;(userUrl, { headers }).pipe(
+          map(() &#x3D;&gt; {
+            this.tokenStatus &#x3D; &quot;valid&quot;;
+            this.notifyAuthChange();
+            return true;
+          }),
+          catchError((err) &#x3D;&gt; {
+            if (err?.status &#x3D;&#x3D;&#x3D; 401 || err?.status &#x3D;&#x3D;&#x3D; 403) {
+              this.tokenStatus &#x3D; &quot;invalid&quot;;
+              this.notifyAuthChange();
+            }
+            return of(false);
+          }),
+        );
+      }),
+    );
+  }
+
+  markTokenInvalid(): void {
+    if (this.tokenStatus !&#x3D;&#x3D; &quot;invalid&quot;) {
+      this.tokenStatus &#x3D; &quot;invalid&quot;;
+      this.notifyAuthChange();
+    }
+  }
+
   signOut(): void {
+    this.clearRefreshTimer();
     this.token &#x3D; null;
     this.currentUser &#x3D; null;
+    this.tokenStatus &#x3D; &quot;unknown&quot;;
     this.tokenStorageService.clearAll(&quot;gitlab&quot;);
     this.notifyAuthChange();
   }
@@ -603,6 +683,83 @@ export class GitlabAuthService implements GitAuthProvider {
     return this.http.post&lt;TokenResponse&gt;(tokenUrl, body.toString(), { headers }).toPromise();
   }
 
+  private refreshCodeForToken(refreshToken: string): Promise&lt;TokenResponse&gt; {
+    const tokenUrl &#x3D; &#x60;${this.instanceUrl}/oauth/token&#x60;;
+    const body &#x3D; new HttpParams()
+      .set(&quot;client_id&quot;, this.clientId)
+      .set(&quot;grant_type&quot;, &quot;refresh_token&quot;)
+      .set(&quot;refresh_token&quot;, refreshToken)
+      .set(&quot;redirect_uri&quot;, this.effectiveRedirectUri);
+
+    const headers &#x3D; new HttpHeaders({
+      &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;,
+    });
+
+    return this.http.post&lt;TokenResponse&gt;(tokenUrl, body.toString(), { headers }).toPromise();
+  }
+
+  private async performTokenRefresh(): Promise&lt;string | null&gt; {
+    const storedRefreshToken &#x3D; this.tokenStorageService.getRefreshToken(&quot;gitlab&quot;);
+    if (!storedRefreshToken) {
+      return null;
+    }
+
+    try {
+      const response &#x3D; await this.refreshCodeForToken(storedRefreshToken);
+      const newAccessToken &#x3D; response.access_token;
+      const newRefreshToken &#x3D; response.refresh_token || storedRefreshToken;
+      const expiresIn &#x3D; response.expires_in;
+      const rememberMe &#x3D; this.tokenStorageService.isRemembered(&quot;gitlab&quot;);
+
+      this.token &#x3D; newAccessToken;
+      this.tokenStorageService.saveToken(&quot;gitlab&quot;, newAccessToken, rememberMe, expiresIn, newRefreshToken);
+
+      this.scheduleProactiveRefresh(expiresIn);
+      this.notifyAuthChange();
+
+      return newAccessToken;
+    } catch (err: any) {
+      const status &#x3D; err?.status || err?.statusCode;
+      const errorPayload &#x3D; err?.error;
+      const isGrantInvalid &#x3D;
+        status &#x3D;&#x3D;&#x3D; 400 &amp;&amp;
+        (errorPayload?.error &#x3D;&#x3D;&#x3D; &quot;invalid_grant&quot; || (typeof errorPayload &#x3D;&#x3D;&#x3D; &quot;string&quot; &amp;&amp; errorPayload.includes(&quot;invalid_grant&quot;)));
+
+      if (status &#x3D;&#x3D;&#x3D; 401 || isGrantInvalid) {
+        console.warn(&quot;[GitLab Auth] Refresh token expired or revoked, signing out:&quot;, err?.message || err);
+        this.signOut();
+      } else {
+        console.error(&quot;[GitLab Auth] Failed to refresh GitLab token:&quot;, err?.message || err);
+      }
+      return null;
+    }
+  }
+
+  private scheduleProactiveRefresh(expiresInSeconds?: number): void {
+    this.clearRefreshTimer();
+
+    if (!expiresInSeconds || expiresInSeconds &lt;&#x3D; 0) {
+      return;
+    }
+
+    const delayMs &#x3D; Math.max((expiresInSeconds - this.refreshBufferSeconds) * 1000, 10000);
+
+    this.refreshTimer &#x3D; setTimeout(() &#x3D;&gt; {
+      if (this.isSignedIn()) {
+        this.refreshAccessToken().catch((err) &#x3D;&gt; {
+          console.warn(&quot;[GitLab Auth] Background silent refresh failed:&quot;, err);
+        });
+      }
+    }, delayMs);
+  }
+
+  private clearRefreshTimer(): void {
+    if (this.refreshTimer) {
+      clearTimeout(this.refreshTimer);
+      this.refreshTimer &#x3D; null;
+    }
+  }
+
   private fetchUserProfile(token: string): Promise&lt;GitlabUser&gt; {
     const userUrl &#x3D; &#x60;${this.instanceUrl}/api/v4/user&#x60;;
     const headers &#x3D; new HttpHeaders({
@@ -614,14 +771,31 @@ export class GitlabAuthService implements GitAuthProvider {
 
   private restoreSession(): void {
     const storedToken &#x3D; this.tokenStorageService.getToken(&quot;gitlab&quot;);
+    const storedRefreshToken &#x3D; this.tokenStorageService.getRefreshToken(&quot;gitlab&quot;);
     const storedUser &#x3D; this.tokenStorageService.getUserData&lt;GitlabUser&gt;(&quot;gitlab&quot;);
 
-    if (storedToken &amp;&amp; storedUser) {
+    if ((storedToken || storedRefreshToken) &amp;&amp; storedUser) {
       this.token &#x3D; storedToken;
       this.currentUser &#x3D; storedUser;
       this.notifyAuthChange();
-    } else if (storedToken || storedUser) {
+
+      if (!storedToken || this.tokenStorageService.isTokenExpired(&quot;gitlab&quot;, this.refreshBufferSeconds)) {
+        this.refreshAccessToken().catch((err) &#x3D;&gt; {
+          console.warn(&quot;[GitLab Auth] Initial session restore refresh failed:&quot;, err);
+        });
+      } else {
+        const expiresAt &#x3D; this.tokenStorageService.getAccessTokenExpiresAt(&quot;gitlab&quot;);
+        if (expiresAt) {
+          const remainingSeconds &#x3D; Math.round((expiresAt - Date.now()) / 1000);
+          this.scheduleProactiveRefresh(remainingSeconds);
+        }
+      }
+      this.checkTokenValidity().subscribe();
+    } else if (storedToken || storedRefreshToken || storedUser) {
+      this.tokenStatus &#x3D; &quot;unknown&quot;;
       this.tokenStorageService.clearAll(&quot;gitlab&quot;);
+    } else {
+      this.tokenStatus &#x3D; &quot;unknown&quot;;
     }
   }
 
@@ -630,6 +804,7 @@ export class GitlabAuthService implements GitAuthProvider {
       isSignedIn: this.isSignedIn(),
       token: this.token,
       user: this.currentUser,
+      tokenStatus: this.tokenStatus,
     });
   }
 }

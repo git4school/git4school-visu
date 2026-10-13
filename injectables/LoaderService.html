@@ -87,10 +87,18 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#executeLoadRepositories" >executeLoadRepositories</a>
+                            </li>
+                            <li>
                                 <a href="#loadCommitsMetadata" >loadCommitsMetadata</a>
                             </li>
                             <li>
                                 <a href="#loadRepositories" >loadRepositories</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#showInvalidTokenToast" >showInvalidTokenToast</a>
                             </li>
                         </ul>
                     </td>
@@ -110,12 +118,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(commitsService: <a href="../injectables/CommitsService.html" target="_self">CommitsService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, translateService: TranslateService, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>)</code>
+<code>constructor(commitsService: <a href="../injectables/CommitsService.html" target="_self">CommitsService</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, translateService: TranslateService, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>, accountsService: <a href="../injectables/AccountsService.html" target="_self">AccountsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/loader.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/loader.service.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -197,6 +205,22 @@
 
                                                         </td>
                                                 </tr>
+                                                <tr>
+                                                        <td>accountsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AccountsService.html" target="_self" >AccountsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <p>The service managing accounts and token status</p>
+
+                                                        </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -215,6 +239,89 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="executeLoadRepositories"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>executeLoadRepositories</b></span>
+                        <a href="#executeLoadRepositories"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>executeLoadRepositories(startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">src/app/services/loader.service.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>startDate</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>endDate</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="loadCommitsMetadata"></a>
                     <span class="name">
                         <span ><b>loadCommitsMetadata</b></span>
@@ -224,15 +331,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadCommitsMetadata(repositories: <a href="../classes/Repository.html" target="_self">Repository[]</a>, reviews: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, corrections: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, questions: string[], closingMode?: <a href="../undefineds/QuestionClosingMode.html" target="_self">QuestionClosingMode</a>, customClosingKeywords?: string[])</code>
+<code>loadCommitsMetadata(repositories: <a href="../classes/Repository.html" target="_self">Repository[]</a>, reviews: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, corrections: <a href="../classes/Milestone.html" target="_self">Milestone[]</a>, questions: string[], closingMode?: <a href="../undefineds/QuestionClosingMode.html" target="_self">QuestionClosingMode</a>, customKeywords?: string[])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/services/loader.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/app/services/loader.service.ts:45</a></div>
                 </td>
             </tr>
 
@@ -316,7 +423,7 @@
 
                                 </tr>
                                 <tr>
-                                    <td>customClosingKeywords</td>
+                                    <td>customKeywords</td>
                                     <td>
                                             <code>string[]</code>
                                     </td>
@@ -363,15 +470,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">src/app/services/loader.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">src/app/services/loader.service.ts:69</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Fetch the repositories from Github and loads their commits with <a href="../injectables/LoaderService.html#loadCommitsMetadata">loadCommitsMetadata</a></p>
+                    <div class="io-description"><p>Fetch the repositories from Git provider and loads their commits with <a href="../injectables/LoaderService.html#loadCommitsMetadata">loadCommitsMetadata</a></p>
 </div>
 
                     <div class="io-description">
@@ -435,6 +542,77 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showInvalidTokenToast"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>showInvalidTokenToast</b></span>
+                        <a href="#showInvalidTokenToast"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>showInvalidTokenToast(provider: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">src/app/services/loader.service.ts:137</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>provider</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -446,8 +624,9 @@ import { Milestone } from &quot;@models/Milestone.model&quot;;
 import { QuestionClosingMode } from &quot;@models/Metadata.model&quot;;
 import { Repository } from &quot;@models/Repository.model&quot;;
 import { TranslateService } from &quot;@ngx-translate/core&quot;;
-import { Observable } from &quot;rxjs&quot;;
+import { Observable, of } from &quot;rxjs&quot;;
 import { map } from &quot;rxjs/operators&quot;;
+import { AccountsService } from &quot;./accounts.service&quot;;
 import { CommitsService } from &quot;./commits.service&quot;;
 import { DataService } from &quot;./data.service&quot;;
 import { ToastService } from &quot;./toast.service&quot;;
@@ -464,12 +643,14 @@ export class LoaderService {
    * @param dataService The service that stores the data
    * @param translateService The translation service
    * @param toastService The service displaying error or warning toasts
+   * @param accountsService The service managing accounts and token status
    */
   constructor(
     private commitsService: CommitsService,
     private dataService: DataService,
     private translateService: TranslateService,
     private toastService: ToastService,
+    private accountsService: AccountsService,
   ) {}
 
   /**
@@ -488,25 +669,53 @@ export class LoaderService {
     corrections: Milestone[],
     questions: string[],
     closingMode?: QuestionClosingMode,
-    customClosingKeywords?: string[],
+    customKeywords?: string[],
   ) {
     const mode &#x3D; closingMode || this.dataService.closingMode;
-    const customKeywords &#x3D; customClosingKeywords !&#x3D;&#x3D; undefined ? customClosingKeywords : this.dataService.customClosingKeywords;
+    const keywords &#x3D; customKeywords !&#x3D;&#x3D; undefined ? customKeywords : this.dataService.customClosingKeywords;
 
     repositories.forEach((repository) &#x3D;&gt; {
       let filteredReviews &#x3D; reviews?.filter((review) &#x3D;&gt; review.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup || !review.tpGroup);
       let filteredCorrections &#x3D; corrections?.filter((correction) &#x3D;&gt; correction.tpGroup &#x3D;&#x3D;&#x3D; repository.tpGroup || !correction.tpGroup);
 
-      repository.commits?.forEach((commit) &#x3D;&gt; commit.updateMetadata(filteredReviews, filteredCorrections, questions, mode, customKeywords));
+      repository.commits?.forEach((commit) &#x3D;&gt; commit.updateMetadata(filteredReviews, filteredCorrections, questions, mode, keywords));
     });
   }
 
   /**
-   * Fetch the repositories from Github and loads their commits with [loadCommitsMetadata]{@link LoaderService#loadCommitsMetadata}
+   * Fetch the repositories from Git provider and loads their commits with [loadCommitsMetadata]{@link LoaderService#loadCommitsMetadata}
    * @param startDate The date from which commits are retrieved
    * @param endDate The date up to which commits are retrieved
    */
   loadRepositories(startDate?: string, endDate?: string): Observable&lt;void&gt; {
+    const firstRepo &#x3D; this.dataService.repositories?.[0];
+    if (!firstRepo) {
+      return of(undefined);
+    }
+
+    const provider &#x3D; firstRepo.provider || &quot;github&quot;;
+    let instanceHost: string | undefined;
+    if (firstRepo.url) {
+      try {
+        instanceHost &#x3D; new URL(firstRepo.url).hostname;
+      } catch {}
+    }
+
+    const tokenStatus &#x3D; this.accountsService.getTokenStatus(provider, instanceHost);
+
+    if (tokenStatus &#x3D;&#x3D;&#x3D; &quot;invalid&quot;) {
+      this.showInvalidTokenToast(provider);
+      return of(undefined);
+    }
+
+    if (tokenStatus &#x3D;&#x3D;&#x3D; &quot;unknown&quot;) {
+      this.accountsService.checkTokenValidity(provider, instanceHost).subscribe();
+    }
+
+    return this.executeLoadRepositories(startDate, endDate);
+  }
+
+  private executeLoadRepositories(startDate?: string, endDate?: string): Observable&lt;void&gt; {
     let translations &#x3D; this.translateService.instant([
       &quot;ERRORS.REPOSITORY-NOT-FOUND&quot;,
       &quot;ERRORS.README-NOT-FOUND&quot;,
@@ -544,6 +753,13 @@ export class LoaderService {
         }
       }),
     );
+  }
+
+  private showInvalidTokenToast(provider: string): void {
+    const title &#x3D; this.translateService.instant(&quot;TOKEN_HEALTH.ERROR_TITLE&quot;);
+    const messageKey &#x3D; provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; ? &quot;TOKEN_HEALTH.ERROR_MSG_GITLAB&quot; : &quot;TOKEN_HEALTH.ERROR_MSG_GITHUB&quot;;
+    const message &#x3D; this.translateService.instant(messageKey);
+    this.toastService.error(title, message);
   }
 }
 </code></pre>

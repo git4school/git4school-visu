@@ -164,8 +164,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">src/app/utils/os.utils.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">src/app/utils/os.utils.ts:83</a></div>
                 </td>
             </tr>
 
@@ -247,8 +247,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/app/utils/os.utils.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">src/app/utils/os.utils.ts:53</a></div>
                 </td>
             </tr>
 
@@ -512,8 +512,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/app/utils/os.utils.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/app/utils/os.utils.ts:45</a></div>
                 </td>
             </tr>
 
@@ -638,20 +638,35 @@ export class OsUtils {
   }
 
   static isTypingInInput(event: Event | KeyboardEvent): boolean {
+    const selector &#x3D; &quot;input, textarea, select, [contenteditable&#x3D;&#x27;true&#x27;], questions-chooser, ngb-typeahead-window, .typeahead-dropdown&quot;;
     const target &#x3D; event.target as HTMLElement;
-    return (
-      !!target &amp;&amp;
+    if (
+      target &amp;&amp;
       (target.tagName &#x3D;&#x3D;&#x3D; &quot;INPUT&quot; ||
         target.tagName &#x3D;&#x3D;&#x3D; &quot;TEXTAREA&quot; ||
-        target.isContentEditable)
-    );
+        target.tagName &#x3D;&#x3D;&#x3D; &quot;SELECT&quot; ||
+        target.isContentEditable ||
+        Boolean(target.closest(selector)))
+    ) {
+      return true;
+    }
+
+    const active &#x3D; document.activeElement as HTMLElement;
+    if (
+      active &amp;&amp;
+      (active.tagName &#x3D;&#x3D;&#x3D; &quot;INPUT&quot; ||
+        active.tagName &#x3D;&#x3D;&#x3D; &quot;TEXTAREA&quot; ||
+        active.tagName &#x3D;&#x3D;&#x3D; &quot;SELECT&quot; ||
+        active.isContentEditable ||
+        Boolean(active.closest(selector)))
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
-  private static resolveKeyTranslation(
-    key: string,
-    fallback: string,
-    translateService?: TranslateService
-  ): string {
+  private static resolveKeyTranslation(key: string, fallback: string, translateService?: TranslateService): string {
     if (translateService) {
       const trans &#x3D; translateService.instant(key);
       if (trans &amp;&amp; trans !&#x3D;&#x3D; key) return trans;

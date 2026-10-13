@@ -1,0 +1,1005 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Git4School documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Git4School documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li >SessionHeaderRenderer</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/components/graphs/commits/session-header-renderer.ts</code>
+        </p>
+
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#attachTooltip" >attachTooltip</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#buildSessionTooltipHtml" >buildSessionTooltipHtml</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#escapeHtml" >escapeHtml</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#renderHeader" >renderHeader</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#renderOverlappingSession" >renderOverlappingSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#renderSingleSession" >renderSingleSession</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachTooltip"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
+                        <span ><b>attachTooltip</b></span>
+                        <a href="#attachTooltip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>attachTooltip(selection: d3.Selection<any | any | any | any>, svc: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, getText: () => void, placement: "top" | "bottom" | "left" | "right", maxWidth?: string | number)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="262"
+                            class="link-to-prism">src/app/components/graphs/commits/session-header-renderer.ts:262</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>selection</td>
+                                    <td>
+                                            <code>d3.Selection&lt;any | any | any | any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>svc</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>getText</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>placement</td>
+                                    <td>
+                                            <code>&quot;top&quot; | &quot;bottom&quot; | &quot;left&quot; | &quot;right&quot;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&quot;bottom&quot;</code>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>maxWidth</td>
+                                    <td>
+                                            <code>string | number</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildSessionTooltipHtml"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
+                        <span ><b>buildSessionTooltipHtml</b></span>
+                        <a href="#buildSessionTooltipHtml"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>buildSessionTooltipHtml(title: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, session: <a href="../classes/Session.html" target="_self">Session</a>, overview: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="215"
+                            class="link-to-prism">src/app/components/graphs/commits/session-header-renderer.ts:215</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>title</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>session</td>
+                                    <td>
+                                                <code><a href="../classes/Session.html" target="_self" >Session</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>overview</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="escapeHtml"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
+                        <span ><b>escapeHtml</b></span>
+                        <a href="#escapeHtml"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>escapeHtml(str: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">src/app/components/graphs/commits/session-header-renderer.ts:254</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>str</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renderHeader"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>renderHeader</b></span>
+                        <a href="#renderHeader"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>renderHeader(ctx: <a href="../interfaces/SessionHeaderRenderContext.html" target="_self">SessionHeaderRenderContext</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/app/components/graphs/commits/session-header-renderer.ts:19</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ctx</td>
+                                    <td>
+                                                <code><a href="../interfaces/SessionHeaderRenderContext.html" target="_self" >SessionHeaderRenderContext</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renderOverlappingSession"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
+                        <span ><b>renderOverlappingSession</b></span>
+                        <a href="#renderOverlappingSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>renderOverlappingSession(ctx: <a href="../interfaces/SessionHeaderRenderContext.html" target="_self">SessionHeaderRenderContext</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">src/app/components/graphs/commits/session-header-renderer.ts:80</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ctx</td>
+                                    <td>
+                                                <code><a href="../interfaces/SessionHeaderRenderContext.html" target="_self" >SessionHeaderRenderContext</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renderSingleSession"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
+                        <span ><b>renderSingleSession</b></span>
+                        <a href="#renderSingleSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>renderSingleSession(ctx: <a href="../interfaces/SessionHeaderRenderContext.html" target="_self">SessionHeaderRenderContext</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/components/graphs/commits/session-header-renderer.ts:31</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ctx</td>
+                                    <td>
+                                                <code><a href="../interfaces/SessionHeaderRenderContext.html" target="_self" >SessionHeaderRenderContext</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as d3 from &quot;d3&quot;;
+import { Session } from &quot;@models/Session.model&quot;;
+
+export interface SessionHeaderRenderContext {
+  session: Session;
+  overlapGroup: Session[] | null;
+  overview: any;
+  displayName: string;
+  groupName: string;
+  hasNotes: boolean;
+  fo: d3.Selection&lt;SVGForeignObjectElement, any, any, any&gt;;
+  calendarSvg: string;
+  usersSvg: string;
+  noteSvg: string;
+}
+
+export class SessionHeaderRenderer {
+  public static renderHeader(ctx: SessionHeaderRenderContext): void {
+    const isOverlap &#x3D; !!(ctx.overlapGroup &amp;&amp; ctx.overlapGroup.length &gt; 1);
+    if (isOverlap) {
+      this.renderOverlappingSession(ctx);
+    } else {
+      this.renderSingleSession(ctx);
+    }
+  }
+
+  /* -------------------------------------------------------------
+   * Séance non superposée (rendu standard sans flèches)
+   * ------------------------------------------------------------- */
+  private static renderSingleSession(ctx: SessionHeaderRenderContext): void {
+    const { displayName, groupName, hasNotes, fo, calendarSvg, usersSvg, noteSvg } &#x3D; ctx;
+
+    fo.html(&#x60;
+      &lt;div class&#x3D;&quot;session-header-inner d-flex align-items-center&quot; style&#x3D;&quot;gap: 4px; height: 100%; min-height: 24px; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; pointer-events: auto; overflow: visible; width: 100%; position: relative;&quot;&gt;
+        &lt;div class&#x3D;&quot;session-header-pills-container d-flex align-items-center&quot; style&#x3D;&quot;gap: 4px; overflow: visible; min-width: 0; flex: 1 1 auto; height: 100%; flex-wrap: nowrap;&quot;&gt;
+          &lt;!-- Pill 1: Nom de séance --&gt;
+          &lt;span class&#x3D;&quot;badge session-pill session-name-pill d-inline-flex align-items-center&quot; style&#x3D;&quot;box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;&quot;&gt;
+            ${calendarSvg}
+            &lt;span class&#x3D;&quot;session-pill-text session-name-text text-truncate&quot; style&#x3D;&quot;min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;&quot;&gt;${displayName}&lt;/span&gt;
+          &lt;/span&gt;
+
+          &lt;!-- Pill 2: Groupe de TP --&gt;
+          ${
+            groupName
+              ? &#x60;
+          &lt;span class&#x3D;&quot;badge session-pill session-group-pill d-inline-flex align-items-center&quot; style&#x3D;&quot;box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;&quot;&gt;
+            ${usersSvg}
+            &lt;span class&#x3D;&quot;session-pill-text session-group-text text-truncate&quot; style&#x3D;&quot;min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;&quot;&gt;${groupName}&lt;/span&gt;
+          &lt;/span&gt;&#x60;
+              : &quot;&quot;
+          }
+
+          &lt;!-- Pill 3: Note button --&gt;
+          ${
+            hasNotes
+              ? &#x60;
+          &lt;span role&#x3D;&quot;button&quot; tabindex&#x3D;&quot;0&quot; class&#x3D;&quot;btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0&quot; style&#x3D;&quot;box-sizing: border-box; width: 18px; height: 18px; min-width: 18px; min-height: 18px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto; align-self: center;&quot;&gt;
+            ${noteSvg}
+          &lt;/span&gt;&#x60;
+              : &quot;&quot;
+          }
+
+          &lt;!-- More indicator (...) when some info is hidden --&gt;
+          &lt;span role&#x3D;&quot;button&quot; tabindex&#x3D;&quot;0&quot; class&#x3D;&quot;session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center&quot; style&#x3D;&quot;width: 16px; height: 18px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0; align-self: center;&quot;&gt;
+            &lt;svg viewBox&#x3D;&quot;0 0 16 16&quot; width&#x3D;&quot;16&quot; height&#x3D;&quot;16&quot; fill&#x3D;&quot;currentColor&quot; style&#x3D;&quot;flex-shrink: 0; display: block;&quot;&gt;
+              &lt;circle cx&#x3D;&quot;2.5&quot; cy&#x3D;&quot;8&quot; r&#x3D;&quot;1.8&quot; /&gt;
+              &lt;circle cx&#x3D;&quot;8&quot; cy&#x3D;&quot;8&quot; r&#x3D;&quot;1.8&quot; /&gt;
+              &lt;circle cx&#x3D;&quot;13.5&quot; cy&#x3D;&quot;8&quot; r&#x3D;&quot;1.8&quot; /&gt;
+            &lt;/svg&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &#x60;);
+  }
+
+  /* -------------------------------------------------------------
+   * Séance superposée (flèches d&#x27;arête aux extrémités + badges centrés)
+   * ------------------------------------------------------------- */
+  private static renderOverlappingSession(ctx: SessionHeaderRenderContext): void {
+    const { session, overlapGroup, overview, displayName, groupName, hasNotes, fo, calendarSvg, usersSvg, noteSvg } &#x3D; ctx;
+
+    if (!overlapGroup || overlapGroup.length &lt;&#x3D; 1) {
+      this.renderSingleSession(ctx);
+      return;
+    }
+
+    const sessionIdxInGroup &#x3D; overlapGroup.indexOf(session);
+    const groupSize &#x3D; overlapGroup.length;
+
+    /* SVG chevrons — stroke cohérent avec les icônes de l&#x27;app */
+    /* prettier-ignore */
+    // eslint-disable-next-line @typescript-eslint/quotes
+    const chevronLeft &#x3D; &#x27;&lt;svg width&#x3D;&quot;10&quot; height&#x3D;&quot;10&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;polyline points&#x3D;&quot;15 18 9 12 15 6&quot;/&gt;&lt;/svg&gt;&#x27;;
+    /* prettier-ignore */
+    // eslint-disable-next-line @typescript-eslint/quotes
+    const chevronRight &#x3D; &#x27;&lt;svg width&#x3D;&quot;10&quot; height&#x3D;&quot;10&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2.5&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;polyline points&#x3D;&quot;9 18 15 12 9 6&quot;/&gt;&lt;/svg&gt;&#x27;;
+
+    fo.html(&#x60;
+      &lt;div class&#x3D;&quot;session-header-inner d-flex align-items-center justify-content-between&quot; style&#x3D;&quot;height: 100%; min-height: 24px; padding-top: 0; padding-bottom: 0; padding-left: 2px; padding-right: 2px; pointer-events: auto; overflow: visible; width: 100%; position: relative;&quot;&gt;
+        &lt;!-- Left arrow (collée au bord gauche) --&gt;
+        &lt;button class&#x3D;&quot;session-edge-arrow session-edge-prev flex-shrink-0&quot; type&#x3D;&quot;button&quot; style&#x3D;&quot;height: 18px; align-self: center;&quot;&gt;
+          ${chevronLeft}
+        &lt;/button&gt;
+
+        &lt;!-- Zone centrale centrée --&gt;
+        &lt;div class&#x3D;&quot;session-header-pills-container d-flex align-items-center justify-content-center&quot; style&#x3D;&quot;gap: 4px; overflow: visible; min-width: 0; flex: 1 1 auto; height: 100%; padding: 0 4px; flex-wrap: nowrap;&quot;&gt;
+          &lt;!-- Pill 1: Nom de séance --&gt;
+          &lt;span class&#x3D;&quot;badge session-pill session-name-pill d-inline-flex align-items-center&quot; style&#x3D;&quot;box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;&quot;&gt;
+            ${calendarSvg}
+            &lt;span class&#x3D;&quot;session-pill-text session-name-text text-truncate&quot; style&#x3D;&quot;min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;&quot;&gt;${displayName}&lt;/span&gt;
+          &lt;/span&gt;
+
+          &lt;!-- Pill 2: Groupe de TP --&gt;
+          ${
+            groupName
+              ? &#x60;
+          &lt;span class&#x3D;&quot;badge session-pill session-group-pill d-inline-flex align-items-center&quot; style&#x3D;&quot;box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-secondary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;&quot;&gt;
+            ${usersSvg}
+            &lt;span class&#x3D;&quot;session-pill-text session-group-text text-truncate&quot; style&#x3D;&quot;min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;&quot;&gt;${groupName}&lt;/span&gt;
+          &lt;/span&gt;&#x60;
+              : &quot;&quot;
+          }
+
+          &lt;!-- Pill 3: Note button --&gt;
+          ${
+            hasNotes
+              ? &#x60;
+          &lt;span role&#x3D;&quot;button&quot; tabindex&#x3D;&quot;0&quot; class&#x3D;&quot;btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0&quot; style&#x3D;&quot;box-sizing: border-box; width: 18px; height: 18px; min-width: 18px; min-height: 18px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto; align-self: center;&quot;&gt;
+            ${noteSvg}
+          &lt;/span&gt;&#x60;
+              : &quot;&quot;
+          }
+
+          &lt;!-- More indicator (...) when some info is hidden --&gt;
+          &lt;span role&#x3D;&quot;button&quot; tabindex&#x3D;&quot;0&quot; class&#x3D;&quot;session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center&quot; style&#x3D;&quot;width: 16px; height: 18px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0; align-self: center;&quot;&gt;
+            &lt;svg viewBox&#x3D;&quot;0 0 16 16&quot; width&#x3D;&quot;16&quot; height&#x3D;&quot;16&quot; fill&#x3D;&quot;currentColor&quot; style&#x3D;&quot;flex-shrink: 0; display: block;&quot;&gt;
+              &lt;circle cx&#x3D;&quot;2.5&quot; cy&#x3D;&quot;8&quot; r&#x3D;&quot;1.8&quot; /&gt;
+              &lt;circle cx&#x3D;&quot;8&quot; cy&#x3D;&quot;8&quot; r&#x3D;&quot;1.8&quot; /&gt;
+              &lt;circle cx&#x3D;&quot;13.5&quot; cy&#x3D;&quot;8&quot; r&#x3D;&quot;1.8&quot; /&gt;
+            &lt;/svg&gt;
+          &lt;/span&gt;
+
+          &lt;!-- Compteur (forme originale texte simple) --&gt;
+          &lt;span class&#x3D;&quot;session-counter flex-shrink-0&quot; style&#x3D;&quot;font-size: 10px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; line-height: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; padding: 0 2px; user-select: none; align-self: center; vertical-align: middle;&quot;&gt;${
+            sessionIdxInGroup + 1
+          }/${groupSize}&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Right arrow (collée au bord droit) --&gt;
+        &lt;button class&#x3D;&quot;session-edge-arrow session-edge-next flex-shrink-0&quot; type&#x3D;&quot;button&quot; style&#x3D;&quot;height: 18px; align-self: center;&quot;&gt;
+          ${chevronRight}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &#x60;);
+
+    const groupId &#x3D; overview.getGroupId(overlapGroup);
+    const svc &#x3D; overview.tooltipService;
+    const len &#x3D; overlapGroup.length;
+
+    const getIdx &#x3D; () &#x3D;&gt; overview.activeSessionIndices.get(groupId) ?? 0;
+
+    this.attachTooltip(
+      fo.select(&quot;.session-edge-prev&quot;),
+      svc,
+      () &#x3D;&gt; {
+        const prevIdx &#x3D; (getIdx() - 1 + len) % len;
+        const targetSession &#x3D; overlapGroup[prevIdx];
+        const title &#x3D; &#x60;Séance précédente (${prevIdx + 1}/${len})&#x60;;
+        return this.buildSessionTooltipHtml(title, targetSession, overview);
+      },
+      &quot;bottom&quot;,
+      &quot;270px&quot;,
+    );
+    fo.select(&quot;.session-edge-prev&quot;).on(&quot;click&quot;, (e: MouseEvent) &#x3D;&gt; {
+      e.stopPropagation();
+      svc.hide();
+      const prevIdx &#x3D; (getIdx() - 1 + len) % len;
+      overview.activeSessionIndices.set(groupId, prevIdx);
+      const targetSession &#x3D; overlapGroup[prevIdx];
+      overview.lastFocusedSession &#x3D; targetSession;
+      overview.updateSessionsTransforms();
+      overview.updateSessionVisibility(true);
+      overview.zoomToSession(targetSession);
+    });
+
+    this.attachTooltip(
+      fo.select(&quot;.session-edge-next&quot;),
+      svc,
+      () &#x3D;&gt; {
+        const nextIdx &#x3D; (getIdx() + 1) % len;
+        const targetSession &#x3D; overlapGroup[nextIdx];
+        const title &#x3D; &#x60;Séance suivante (${nextIdx + 1}/${len})&#x60;;
+        return this.buildSessionTooltipHtml(title, targetSession, overview);
+      },
+      &quot;bottom&quot;,
+      &quot;270px&quot;,
+    );
+    fo.select(&quot;.session-edge-next&quot;).on(&quot;click&quot;, (e: MouseEvent) &#x3D;&gt; {
+      e.stopPropagation();
+      svc.hide();
+      const nextIdx &#x3D; (getIdx() + 1) % len;
+      overview.activeSessionIndices.set(groupId, nextIdx);
+      const targetSession &#x3D; overlapGroup[nextIdx];
+      overview.lastFocusedSession &#x3D; targetSession;
+      overview.updateSessionsTransforms();
+      overview.updateSessionVisibility(true);
+      overview.zoomToSession(targetSession);
+    });
+  }
+
+  /* -------------------------------------------------------------
+   * Helper : Construit la carte tooltip riche d&#x27;une séance cible
+   * ------------------------------------------------------------- */
+  private static buildSessionTooltipHtml(title: string, session: Session, overview: any): string {
+    const sName &#x3D; this.escapeHtml(overview.getSessionDisplayName(session));
+    const sGroup &#x3D; session.tpGroup ? this.escapeHtml(session.tpGroup) : &quot;&quot;;
+    const timeFormatted &#x3D; this.escapeHtml(overview.formatSessionTime(session));
+    const hasNotes &#x3D; !!(session.notes &amp;&amp; session.notes.trim().length &gt; 0);
+    const notesEscaped &#x3D; hasNotes ? this.escapeHtml(session.notes.trim()) : &quot;&quot;;
+
+    return &#x60;
+      &lt;div style&#x3D;&quot;text-align: left; min-width: 180px; max-width: 260px; font-family: inherit;&quot;&gt;
+        &lt;div style&#x3D;&quot;font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-text-muted); margin-bottom: 4px;&quot;&gt;
+          ${title}
+        &lt;/div&gt;
+        &lt;div style&#x3D;&quot;display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 3px;&quot;&gt;
+          &lt;span style&#x3D;&quot;font-weight: 600; color: var(--color-primary); font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;&quot;&gt;
+            ${sName}
+          &lt;/span&gt;
+          ${
+            sGroup
+              ? &#x60;&lt;span class&#x3D;&quot;badge&quot; style&#x3D;&quot;display: inline-flex; align-items: center; background: rgba(56, 189, 248, 0.15); color: var(--color-text-secondary); font-size: 0.72rem; font-weight: 500; border-radius: 9999px; padding: 1px 7px; height: 18px; line-height: 1; flex-shrink: 0;&quot;&gt;${sGroup}&lt;/span&gt;&#x60;
+              : &quot;&quot;
+          }
+        &lt;/div&gt;
+        &lt;div style&#x3D;&quot;font-size: 0.78rem; color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px; margin-bottom: ${
+          hasNotes ? &quot;6px&quot; : &quot;0&quot;
+        };&quot;&gt;
+          &lt;i class&#x3D;&quot;far fa-clock&quot; style&#x3D;&quot;font-size: 10px;&quot;&gt;&lt;/i&gt;
+          &lt;span&gt;${timeFormatted}&lt;/span&gt;
+        &lt;/div&gt;
+        ${
+          hasNotes
+            ? &#x60;&lt;div style&#x3D;&quot;border-top: 1px solid var(--color-border); padding-top: 5px; margin-top: 5px;&quot;&gt;
+          &lt;p style&#x3D;&quot;margin-bottom: 0; font-size: 0.8rem; color: var(--color-text-primary); white-space: pre-wrap; line-height: 1.3; max-height: 80px; overflow-y: auto;&quot;&gt;${notesEscaped}&lt;/p&gt;
+        &lt;/div&gt;&#x60;
+            : &quot;&quot;
+        }
+      &lt;/div&gt;
+    &#x60;;
+  }
+
+  private static escapeHtml(str: string): string {
+    if (!str) return &quot;&quot;;
+    return str.replace(/&amp;/g, &quot;&amp;amp;&quot;).replace(/&lt;/g, &quot;&amp;lt;&quot;).replace(/&gt;/g, &quot;&amp;gt;&quot;).replace(/&quot;/g, &quot;&amp;quot;&quot;).replace(/&#x27;/g, &quot;&amp;#039;&quot;);
+  }
+
+  /* -------------------------------------------------------------
+   * Helper : Attache les events de tooltip sur une sélection D3 HTML.
+   * ------------------------------------------------------------- */
+  private static attachTooltip(
+    selection: d3.Selection&lt;any, any, any, any&gt;,
+    svc: any,
+    getText: () &#x3D;&gt; string,
+    placement: &quot;top&quot; | &quot;bottom&quot; | &quot;left&quot; | &quot;right&quot; &#x3D; &quot;bottom&quot;,
+    maxWidth?: string | number,
+  ): void {
+    selection
+      .on(&quot;mouseenter&quot;, function (this: HTMLElement) {
+        svc.show(getText(), this, placement, undefined, maxWidth);
+      })
+      .on(&quot;mouseleave&quot;, () &#x3D;&gt; svc.hide())
+      .on(&quot;mousedown&quot;, () &#x3D;&gt; svc.hide());
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'SessionHeaderRenderer.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

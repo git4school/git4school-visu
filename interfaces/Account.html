@@ -86,6 +86,13 @@
                             <ul class="index-list">
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#authType" 
+>
+                                            authType
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#avatarUrl" 
 >
                                             avatarUrl
@@ -101,6 +108,13 @@
                                         <a href="#instanceHost" 
 >
                                             instanceHost
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#instanceName" 
+>
+                                            instanceName
                                         </a>
                                 </li>
                                 <li>
@@ -131,6 +145,13 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#tokenStatus" 
+>
+                                            tokenStatus
+                                        </a>
+                                </li>
+                                <li>
                                         <a href="#username" 
 >
                                             username
@@ -147,6 +168,44 @@
 
             <section>
                 <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="authType"></a>
+                                        <span class="name "><b>authType</b>
+                                            <a href="#authType">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>authType:     <code>&quot;oauth&quot; | &quot;pat&quot;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>&quot;oauth&quot; | &quot;pat&quot;</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
                     <table class="table table-sm table-bordered">
                         <tbody>
                                 <tr>
@@ -245,6 +304,44 @@
                                         </td>
                                     </tr>
 
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="instanceName"></a>
+                                        <span class="name "><b>instanceName</b>
+                                            <a href="#instanceName">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>instanceName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -402,6 +499,44 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="tokenStatus"></a>
+                                        <span class="name "><b>tokenStatus</b>
+                                            <a href="#tokenStatus">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>tokenStatus:         <code><a href="../miscellaneous/typealiases.html#TokenStatus" target="_self" >TokenStatus</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#TokenStatus" target="_self" >TokenStatus</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="username"></a>
                                         <span class="name "><b>username</b>
                                             <a href="#username">
@@ -437,6 +572,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export type GitProviderType &#x3D; &quot;github&quot; | &quot;gitlab&quot;;
+export type TokenStatus &#x3D; &quot;valid&quot; | &quot;invalid&quot; | &quot;unknown&quot;;
 
 export interface Account {
   id: string;
@@ -444,9 +580,12 @@ export interface Account {
   username: string;
   avatarUrl?: string | null;
   instanceHost: string;
+  instanceName?: string;
+  authType?: &quot;oauth&quot; | &quot;pat&quot;;
   tokenExpiresInDays?: number | null;
   lastSync?: string;
   isCurrent?: boolean;
+  tokenStatus?: TokenStatus;
 }
 </code></pre>
     </div>

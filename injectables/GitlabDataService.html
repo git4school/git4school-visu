@@ -127,6 +127,9 @@
                                 <a href="#getBaseOrigin" >getBaseOrigin</a>
                             </li>
                             <li>
+                                <a href="#getHeadersForHost" >getHeadersForHost</a>
+                            </li>
+                            <li>
                                 <a href="#getRepositories" >getRepositories</a>
                             </li>
                             <li>
@@ -178,12 +181,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, gitlabAuthService: <a href="../injectables/GitlabAuthService.html" target="_self">GitlabAuthService</a>, translateService: TranslateService)</code>
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, gitlabAuthService: <a href="../injectables/GitlabAuthService.html" target="_self">GitlabAuthService</a>, tokenStorageService: <a href="../injectables/TokenStorageService.html" target="_self">TokenStorageService</a>, translateService: TranslateService)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/gitlab-data.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/gitlab-data.service.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -217,6 +220,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/GitlabAuthService.html" target="_self" >GitlabAuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>tokenStorageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TokenStorageService.html" target="_self" >TokenStorageService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -265,15 +280,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>extractRepoPathAndOrigin(repoUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>extractRepoPathAndOrigin(repoUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, instanceHost?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="333"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:333</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="382"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:382</a></div>
                 </td>
             </tr>
 
@@ -301,6 +316,18 @@
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>instanceHost</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -336,15 +363,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>fetchAllCommits(origin: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, defaultBranch: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>fetchAllCommits(origin: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, defaultBranch: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, startDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endDate?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, headers?: <a href="https://angular.io/api/common/http/HttpHeaders" target="_blank">HttpHeaders</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="281"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:281</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="320"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:320</a></div>
                 </td>
             </tr>
 
@@ -424,6 +451,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>headers</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpHeaders" target="_blank" >HttpHeaders</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -455,15 +494,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>fetchCommitsPage(baseUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, page: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, accumulated: <a href="../classes/Commit.html" target="_self">Commit[]</a>)</code>
+                    <code>fetchCommitsPage(baseUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, page: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, accumulated: <a href="../classes/Commit.html" target="_self">Commit[]</a>, headers?: <a href="https://angular.io/api/common/http/HttpHeaders" target="_blank">HttpHeaders</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="295"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:295</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="342"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:342</a></div>
                 </td>
             </tr>
 
@@ -519,6 +558,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>headers</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpHeaders" target="_blank" >HttpHeaders</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -555,8 +606,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:68</a></div>
                 </td>
             </tr>
 
@@ -626,8 +677,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="232"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:232</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="269"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:269</a></div>
                 </td>
             </tr>
 
@@ -721,8 +772,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:228</a></div>
                 </td>
             </tr>
 
@@ -785,15 +836,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getBaseApi()</code>
+                    <code>getBaseApi(instanceHost?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="370"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:370</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="421"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:421</a></div>
                 </td>
             </tr>
 
@@ -802,8 +853,40 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>instanceHost</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -824,15 +907,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getBaseOrigin()</code>
+                    <code>getBaseOrigin(instanceHost?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="365"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:365</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="415"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:415</a></div>
                 </td>
             </tr>
 
@@ -841,8 +924,109 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>instanceHost</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHeadersForHost"></a>
+                    <span class="name">
+                        <span ><b>getHeadersForHost</b></span>
+                        <a href="#getHeadersForHost"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getHeadersForHost(host?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:32</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>host</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/common/http/HttpHeaders" target="_blank" >HttpHeaders</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -868,8 +1052,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:52</a></div>
                 </td>
             </tr>
 
@@ -954,15 +1138,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getRepositoriesByAuthenticatedUser(cursor?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageLimit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>getRepositoriesByAuthenticatedUser(cursor?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageLimit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, instanceHost?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:77</a></div>
                 </td>
             </tr>
 
@@ -1012,6 +1196,20 @@
                                     </td>
 
                                 </tr>
+                                <tr>
+                                    <td>instanceHost</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1041,15 +1239,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getRepositoriesBySearch(searchFilter: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cursor?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageLimit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>getRepositoriesBySearch(searchFilter: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cursor?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageLimit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, instanceHost?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:106</a></div>
                 </td>
             </tr>
 
@@ -1113,6 +1311,20 @@
                                     </td>
 
                                 </tr>
+                                <tr>
+                                    <td>instanceHost</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1151,8 +1363,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="316"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:316</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="364"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:364</a></div>
                 </td>
             </tr>
 
@@ -1227,15 +1439,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>searchProjectsByKeyword(keyword: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, page: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, pageLimit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, baseApi: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>searchProjectsByKeyword(keyword: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, page: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, pageLimit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, baseApi: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, headers: <a href="https://angular.io/api/common/http/HttpHeaders" target="_blank">HttpHeaders</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="193"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:193</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:183</a></div>
                 </td>
             </tr>
 
@@ -1303,6 +1515,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>headers</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpHeaders" target="_blank" >HttpHeaders</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1339,8 +1563,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="176"
-                            class="link-to-prism">src/app/services/gitlab-data.service.ts:176</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">src/app/services/gitlab-data.service.ts:164</a></div>
                 </td>
             </tr>
 
@@ -1420,7 +1644,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/gitlab-data.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/gitlab-data.service.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -1449,7 +1673,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/services/gitlab-data.service.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/gitlab-data.service.ts:28</a></div>
                                 </td>
                             </tr>
 
@@ -1471,6 +1695,7 @@ import * as moment from &quot;moment&quot;;
 import { forkJoin, Observable, of } from &quot;rxjs&quot;;
 import { catchError, map, switchMap, tap } from &quot;rxjs/operators&quot;;
 import { GitlabAuthService } from &quot;./gitlab-auth.service&quot;;
+import { TokenStorageService } from &quot;./token-storage.service&quot;;
 import { Utils } from &quot;./utils&quot;;
 
 @Injectable({
@@ -1479,13 +1704,35 @@ import { Utils } from &quot;./utils&quot;;
 export class GitlabDataService implements GitDataService {
   public readonly provider: GitProviderType &#x3D; &quot;gitlab&quot;;
 
-  constructor(private http: HttpClient, private gitlabAuthService: GitlabAuthService, private translateService: TranslateService) {}
+  constructor(
+    private http: HttpClient,
+    private gitlabAuthService: GitlabAuthService,
+    private tokenStorageService: TokenStorageService,
+    private translateService: TranslateService,
+  ) {}
 
   get headers(): HttpHeaders {
-    return new HttpHeaders({
+    return this.getHeadersForHost();
+  }
+
+  getHeadersForHost(host?: string): HttpHeaders {
+    let token: string | null &#x3D; null;
+    if (host) {
+      const cleanHost &#x3D; host.replace(/^https?:\/\//i, &quot;&quot;).replace(/\/.*$/, &quot;&quot;);
+      token &#x3D; this.tokenStorageService.getToken(&quot;gitlab&quot;, cleanHost);
+    }
+    if (!token) {
+      token &#x3D; this.gitlabAuthService.token || this.tokenStorageService.getToken(&quot;gitlab&quot;);
+    }
+
+    const headersConfig: { [name: string]: string } &#x3D; {
       &quot;Content-Type&quot;: &quot;application/json&quot;,
-      Authorization: &#x60;Bearer ${this.gitlabAuthService.token}&#x60;,
-    });
+    };
+    if (token) {
+      headersConfig[&quot;Authorization&quot;] &#x3D; &#x60;Bearer ${token}&#x60;;
+      headersConfig[&quot;PRIVATE-TOKEN&quot;] &#x3D; token;
+    }
+    return new HttpHeaders(headersConfig);
   }
 
   getRepositories(repoTab: Repository[], startDate?: string, endDate?: string): Observable&lt;Repository[]&gt; {
@@ -1513,51 +1760,13 @@ export class GitlabDataService implements GitDataService {
     return forkJoin(observables);
   }
 
-  private fetchSingleRepositoryMetadata(repo: Repository): Observable&lt;RepositoryMetadata&gt; {
-    const { origin, path } &#x3D; this.extractRepoPathAndOrigin(repo.url);
-    if (!path) {
-      return of({ url: repo.url, name: &quot;&quot;, tpGroup: &quot;&quot; });
-    }
-
-    const projectUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}&#x60;;
-
-    return this.http.get&lt;any&gt;(projectUrl, { headers: this.headers }).pipe(
-      switchMap((project) &#x3D;&gt; {
-        const defaultBranch &#x3D; project?.default_branch || &quot;main&quot;;
-        const readmeUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/files/README%2Emd/raw?ref&#x3D;${encodeURIComponent(
-          defaultBranch,
-        )}&#x60;;
-        const identityUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(
-          path,
-        )}/repository/files/IDENTITY%2Ejson/raw?ref&#x3D;${encodeURIComponent(defaultBranch)}&#x60;;
-
-        return forkJoin({
-          readme: this.http.get(readmeUrl, { headers: this.headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
-          identity: this.http.get(identityUrl, { headers: this.headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
-        }).pipe(
-          map(({ readme, identity }) &#x3D;&gt; {
-            const { name, tpGroup } &#x3D; Utils.extractRepositoryMetadata(identity, readme);
-            return {
-              url: repo.url,
-              name,
-              tpGroup,
-            };
-          }),
-        );
-      }),
-      catchError((err) &#x3D;&gt; {
-        console.error(&#x60;Error fetching GitLab repo metadata for ${repo.url}&#x60;, err);
-        return of({ url: repo.url, name: &quot;&quot;, tpGroup: &quot;&quot; });
-      }),
-    );
-  }
-
-  getRepositoriesByAuthenticatedUser(cursor?: string, pageLimit &#x3D; 100): Observable&lt;GitDataSearchResult&gt; {
-    const baseApi &#x3D; this.getBaseApi();
+  getRepositoriesByAuthenticatedUser(cursor?: string, pageLimit &#x3D; 100, instanceHost?: string): Observable&lt;GitDataSearchResult&gt; {
+    const baseApi &#x3D; this.getBaseApi(instanceHost);
+    const headers &#x3D; this.getHeadersForHost(instanceHost);
     const page &#x3D; cursor ? parseInt(cursor, 10) : 1;
     const url &#x3D; &#x60;${baseApi}/projects?membership&#x3D;true&amp;order_by&#x3D;created_at&amp;sort&#x3D;desc&amp;per_page&#x3D;${pageLimit}&amp;page&#x3D;${page}&#x60;;
 
-    return this.http.get&lt;any[]&gt;(url, { headers: this.headers, observe: &quot;response&quot; }).pipe(
+    return this.http.get&lt;any[]&gt;(url, { headers, observe: &quot;response&quot; }).pipe(
       map((response: HttpResponse&lt;any[]&gt;) &#x3D;&gt; {
         const nextPage &#x3D; response.headers.get(&quot;x-next-page&quot;);
         const projects &#x3D; response.body || [];
@@ -1580,24 +1789,27 @@ export class GitlabDataService implements GitDataService {
     );
   }
 
-  getRepositoriesBySearch(searchFilter: string, cursor?: string, pageLimit &#x3D; 100): Observable&lt;GitDataSearchResult&gt; {
+  getRepositoriesBySearch(searchFilter: string, cursor?: string, pageLimit &#x3D; 100, instanceHost?: string): Observable&lt;GitDataSearchResult&gt; {
     const cleanFilter &#x3D; searchFilter ? searchFilter.trim() : &quot;&quot;;
     if (!cleanFilter) {
-      return this.getRepositoriesByAuthenticatedUser(cursor, pageLimit);
+      return this.getRepositoriesByAuthenticatedUser(cursor, pageLimit, instanceHost);
     }
 
-    const baseApi &#x3D; this.getBaseApi();
+    const baseApi &#x3D; this.getBaseApi(instanceHost);
+    const headers &#x3D; this.getHeadersForHost(instanceHost);
     const page &#x3D; cursor ? parseInt(cursor, 10) : 1;
 
     // Check if filter is a full URL or owner/name
-    const repoInfo &#x3D; this.extractRepoPathAndOrigin(cleanFilter);
+    const repoInfo &#x3D; this.extractRepoPathAndOrigin(cleanFilter, instanceHost);
     if (repoInfo.path) {
+      const targetHost &#x3D; new URL(repoInfo.origin).hostname;
+      const targetHeaders &#x3D; this.getHeadersForHost(targetHost);
       const projectApiUrl &#x3D; &#x60;${repoInfo.origin}/api/v4/projects/${encodeURIComponent(repoInfo.path)}&#x60;;
       const forksUrl &#x3D; &#x60;${repoInfo.origin}/api/v4/projects/${encodeURIComponent(repoInfo.path)}/forks?per_page&#x3D;${pageLimit}&amp;page&#x3D;${page}&#x60;;
 
       return forkJoin({
-        project: this.http.get&lt;any&gt;(projectApiUrl, { headers: this.headers }).pipe(catchError(() &#x3D;&gt; of(null))),
-        forks: this.http.get&lt;any[]&gt;(forksUrl, { headers: this.headers, observe: &quot;response&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
+        project: this.http.get&lt;any&gt;(projectApiUrl, { headers: targetHeaders }).pipe(catchError(() &#x3D;&gt; of(null))),
+        forks: this.http.get&lt;any[]&gt;(forksUrl, { headers: targetHeaders, observe: &quot;response&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
       }).pipe(
         map(({ project, forks }) &#x3D;&gt; {
           const reposMap &#x3D; new Map&lt;string, Repository&gt;();
@@ -1627,12 +1839,12 @@ export class GitlabDataService implements GitDataService {
           if (result) {
             return of(result);
           }
-          return this.searchProjectsByKeyword(cleanFilter, page, pageLimit, baseApi);
+          return this.searchProjectsByKeyword(cleanFilter, page, pageLimit, baseApi, headers);
         }),
       );
     }
 
-    return this.searchProjectsByKeyword(cleanFilter, page, pageLimit, baseApi);
+    return this.searchProjectsByKeyword(cleanFilter, page, pageLimit, baseApi, headers);
   }
 
   verifyUserAccess(repoUrl: string): Observable&lt;any&gt; {
@@ -1640,8 +1852,10 @@ export class GitlabDataService implements GitDataService {
     if (!path) {
       return of({ valid: false });
     }
+    const host &#x3D; new URL(origin).hostname;
+    const headers &#x3D; this.getHeadersForHost(host);
     const url &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}&#x60;;
-    return this.http.get&lt;any&gt;(url, { headers: this.headers }).pipe(
+    return this.http.get&lt;any&gt;(url, { headers }).pipe(
       map((project) &#x3D;&gt; ({
         ...project,
         owner: {
@@ -1652,13 +1866,19 @@ export class GitlabDataService implements GitDataService {
     );
   }
 
-  private searchProjectsByKeyword(keyword: string, page: number, pageLimit: number, baseApi: string): Observable&lt;GitDataSearchResult&gt; {
+  private searchProjectsByKeyword(
+    keyword: string,
+    page: number,
+    pageLimit: number,
+    baseApi: string,
+    headers: HttpHeaders,
+  ): Observable&lt;GitDataSearchResult&gt; {
     const memberUrl &#x3D; &#x60;${baseApi}/projects?search&#x3D;${encodeURIComponent(keyword)}&amp;membership&#x3D;true&amp;per_page&#x3D;${pageLimit}&amp;page&#x3D;${page}&#x60;;
     const allUrl &#x3D; &#x60;${baseApi}/projects?search&#x3D;${encodeURIComponent(keyword)}&amp;per_page&#x3D;${pageLimit}&amp;page&#x3D;${page}&#x60;;
 
     return forkJoin({
-      memberRes: this.http.get&lt;any[]&gt;(memberUrl, { headers: this.headers, observe: &quot;response&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
-      allRes: this.http.get&lt;any[]&gt;(allUrl, { headers: this.headers, observe: &quot;response&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
+      memberRes: this.http.get&lt;any[]&gt;(memberUrl, { headers, observe: &quot;response&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
+      allRes: this.http.get&lt;any[]&gt;(allUrl, { headers, observe: &quot;response&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
     }).pipe(
       map(({ memberRes, allRes }) &#x3D;&gt; {
         const reposMap &#x3D; new Map&lt;string, Repository&gt;();
@@ -1691,16 +1911,17 @@ export class GitlabDataService implements GitDataService {
     );
   }
 
-  private fetchSingleRepositoryData(repo: Repository, startDate?: string, endDate?: string): Observable&lt;Repository&gt; {
+  private fetchSingleRepositoryMetadata(repo: Repository): Observable&lt;RepositoryMetadata&gt; {
     const { origin, path } &#x3D; this.extractRepoPathAndOrigin(repo.url);
     if (!path) {
-      repo.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
-      return of(repo);
+      return of({ url: repo.url, name: &quot;&quot;, tpGroup: &quot;&quot; });
     }
 
+    const host &#x3D; new URL(origin).hostname;
+    const headers &#x3D; this.getHeadersForHost(host);
     const projectUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}&#x60;;
 
-    return this.http.get&lt;any&gt;(projectUrl, { headers: this.headers }).pipe(
+    return this.http.get&lt;any&gt;(projectUrl, { headers }).pipe(
       switchMap((project) &#x3D;&gt; {
         const defaultBranch &#x3D; project?.default_branch || &quot;main&quot;;
         const readmeUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/files/README%2Emd/raw?ref&#x3D;${encodeURIComponent(
@@ -1711,9 +1932,51 @@ export class GitlabDataService implements GitDataService {
         )}/repository/files/IDENTITY%2Ejson/raw?ref&#x3D;${encodeURIComponent(defaultBranch)}&#x60;;
 
         return forkJoin({
-          readme: this.http.get(readmeUrl, { headers: this.headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
-          identity: this.http.get(identityUrl, { headers: this.headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
-          commits: this.fetchAllCommits(origin, path, defaultBranch, startDate, endDate),
+          readme: this.http.get(readmeUrl, { headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
+          identity: this.http.get(identityUrl, { headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
+        }).pipe(
+          map(({ readme, identity }) &#x3D;&gt; {
+            const { name, tpGroup } &#x3D; Utils.extractRepositoryMetadata(identity, readme);
+            return {
+              url: repo.url,
+              name,
+              tpGroup,
+            };
+          }),
+        );
+      }),
+      catchError((err) &#x3D;&gt; {
+        console.error(&#x60;Error fetching GitLab repo metadata for ${repo.url}&#x60;, err);
+        return of({ url: repo.url, name: &quot;&quot;, tpGroup: &quot;&quot; });
+      }),
+    );
+  }
+
+  private fetchSingleRepositoryData(repo: Repository, startDate?: string, endDate?: string): Observable&lt;Repository&gt; {
+    const { origin, path } &#x3D; this.extractRepoPathAndOrigin(repo.url);
+    if (!path) {
+      repo.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
+      return of(repo);
+    }
+
+    const host &#x3D; new URL(origin).hostname;
+    const headers &#x3D; this.getHeadersForHost(host);
+    const projectUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}&#x60;;
+
+    return this.http.get&lt;any&gt;(projectUrl, { headers }).pipe(
+      switchMap((project) &#x3D;&gt; {
+        const defaultBranch &#x3D; project?.default_branch || &quot;main&quot;;
+        const readmeUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/files/README%2Emd/raw?ref&#x3D;${encodeURIComponent(
+          defaultBranch,
+        )}&#x60;;
+        const identityUrl &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(
+          path,
+        )}/repository/files/IDENTITY%2Ejson/raw?ref&#x3D;${encodeURIComponent(defaultBranch)}&#x60;;
+
+        return forkJoin({
+          readme: this.http.get(readmeUrl, { headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
+          identity: this.http.get(identityUrl, { headers, responseType: &quot;text&quot; }).pipe(catchError(() &#x3D;&gt; of(null))),
+          commits: this.fetchAllCommits(origin, path, defaultBranch, startDate, endDate, headers),
         }).pipe(
           map(({ readme, identity, commits }) &#x3D;&gt; {
             const { name, tpGroup } &#x3D; Utils.extractRepositoryMetadata(identity, readme);
@@ -1740,7 +2003,14 @@ export class GitlabDataService implements GitDataService {
     );
   }
 
-  private fetchAllCommits(origin: string, path: string, defaultBranch: string, startDate?: string, endDate?: string): Observable&lt;Commit[]&gt; {
+  private fetchAllCommits(
+    origin: string,
+    path: string,
+    defaultBranch: string,
+    startDate?: string,
+    endDate?: string,
+    headers?: HttpHeaders,
+  ): Observable&lt;Commit[]&gt; {
     let url &#x3D; &#x60;${origin}/api/v4/projects/${encodeURIComponent(path)}/repository/commits?ref_name&#x3D;${encodeURIComponent(
       defaultBranch,
     )}&amp;per_page&#x3D;100&#x60;;
@@ -1751,12 +2021,14 @@ export class GitlabDataService implements GitDataService {
       url +&#x3D; &#x60;&amp;until&#x3D;${encodeURIComponent(moment(endDate).toDate().toISOString())}&#x60;;
     }
 
-    return this.fetchCommitsPage(url, 1, []);
+    const effectiveHeaders &#x3D; headers || this.getHeadersForHost(new URL(origin).hostname);
+    return this.fetchCommitsPage(url, 1, [], effectiveHeaders);
   }
 
-  private fetchCommitsPage(baseUrl: string, page: number, accumulated: Commit[]): Observable&lt;Commit[]&gt; {
+  private fetchCommitsPage(baseUrl: string, page: number, accumulated: Commit[], headers?: HttpHeaders): Observable&lt;Commit[]&gt; {
     const pageUrl &#x3D; &#x60;${baseUrl}&amp;page&#x3D;${page}&#x60;;
-    return this.http.get&lt;any[]&gt;(pageUrl, { headers: this.headers, observe: &quot;response&quot; }).pipe(
+    const effectiveHeaders &#x3D; headers || this.headers;
+    return this.http.get&lt;any[]&gt;(pageUrl, { headers: effectiveHeaders, observe: &quot;response&quot; }).pipe(
       switchMap((response: HttpResponse&lt;any[]&gt;) &#x3D;&gt; {
         const nodes &#x3D; response.body || [];
         const commits &#x3D; nodes.map((n) &#x3D;&gt; Commit.withGitlabJSON(n));
@@ -1764,7 +2036,7 @@ export class GitlabDataService implements GitDataService {
 
         const nextPage &#x3D; response.headers.get(&quot;x-next-page&quot;);
         if (nextPage &amp;&amp; nextPage.trim() !&#x3D;&#x3D; &quot;&quot; &amp;&amp; nodes.length &gt; 0) {
-          return this.fetchCommitsPage(baseUrl, parseInt(nextPage, 10), allCommits);
+          return this.fetchCommitsPage(baseUrl, parseInt(nextPage, 10), allCommits, effectiveHeaders);
         }
         return of(allCommits);
       }),
@@ -1787,14 +2059,15 @@ export class GitlabDataService implements GitDataService {
       project.description,
       isFork,
       resolvedParent,
+      undefined,
+      &quot;gitlab&quot;,
     );
-    repo.provider &#x3D; &quot;gitlab&quot;;
     return repo;
   }
 
-  private extractRepoPathAndOrigin(repoUrl: string): { origin: string; path: string } {
+  private extractRepoPathAndOrigin(repoUrl: string, instanceHost?: string): { origin: string; path: string } {
     if (!repoUrl) {
-      return { origin: this.getBaseOrigin(), path: &quot;&quot; };
+      return { origin: this.getBaseOrigin(instanceHost), path: &quot;&quot; };
     }
     let clean &#x3D; repoUrl.trim();
     // Handle SSH format e.g. git@gitlab.com:group/subgroup/project.git
@@ -1807,7 +2080,8 @@ export class GitlabDataService implements GitDataService {
     }
 
     try {
-      const url &#x3D; new URL(clean.startsWith(&quot;http&quot;) ? clean : &#x60;https://${this.gitlabAuthService.instanceHost}/${clean}&#x60;);
+      const defaultHost &#x3D; instanceHost || this.gitlabAuthService.instanceHost || &quot;gitlab.com&quot;;
+      const url &#x3D; new URL(clean.startsWith(&quot;http&quot;) ? clean : &#x60;https://${defaultHost}/${clean}&#x60;);
       const path &#x3D; url.pathname
         .replace(/^\//, &quot;&quot;)
         .replace(/\.git$/, &quot;&quot;)
@@ -1815,7 +2089,7 @@ export class GitlabDataService implements GitDataService {
       return { origin: url.origin, path };
     } catch (e) {
       return {
-        origin: this.getBaseOrigin(),
+        origin: this.getBaseOrigin(instanceHost),
         path: clean
           .replace(/^\//, &quot;&quot;)
           .replace(/\.git$/, &quot;&quot;)
@@ -1824,13 +2098,14 @@ export class GitlabDataService implements GitDataService {
     }
   }
 
-  private getBaseOrigin(): string {
-    const host &#x3D; this.gitlabAuthService.instanceHost || &quot;gitlab.com&quot;;
-    return &#x60;https://${host.replace(/^https?:\/\//i, &quot;&quot;).replace(/\/.*$/, &quot;&quot;)}&#x60;;
+  private getBaseOrigin(instanceHost?: string): string {
+    const rawHost &#x3D; instanceHost || this.gitlabAuthService.instanceHost || &quot;gitlab.com&quot;;
+    const host &#x3D; rawHost.replace(/^https?:\/\//i, &quot;&quot;).replace(/\/.*$/, &quot;&quot;);
+    return &#x60;https://${host}&#x60;;
   }
 
-  private getBaseApi(): string {
-    return &#x60;${this.getBaseOrigin()}/api/v4&#x60;;
+  private getBaseApi(instanceHost?: string): string {
+    return &#x60;${this.getBaseOrigin(instanceHost)}/api/v4&#x60;;
   }
 }
 </code></pre>

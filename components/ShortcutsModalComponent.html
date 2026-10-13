@@ -561,7 +561,7 @@ export class ShortcutsModalComponent {
   &lt;div class&#x3D;&quot;shortcuts-grid&quot;&gt;
     &lt;!-- Column 1: Global Navigation --&gt;
     &lt;div class&#x3D;&quot;shortcuts-column&quot;&gt;
-      &lt;div class&#x3D;&quot;shortcuts-column-header d-flex align-items-center mb-3&quot;&gt;
+      &lt;div class&#x3D;&quot;shortcuts-column-header d-flex align-items-center mb-2&quot;&gt;
         &lt;i class&#x3D;&quot;fas fa-compass column-icon mr-2&quot;&gt;&lt;/i&gt;
         &lt;span class&#x3D;&quot;column-title&quot;&gt;
           {{ &#x27;MODAL-SHORTCUTS.SECTION_GLOBAL_NAV&#x27; | translate }}
@@ -570,62 +570,40 @@ export class ShortcutsModalComponent {
       &lt;div class&#x3D;&quot;shortcuts-list&quot;&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.NAV_OVERVIEW&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;1&lt;/kbd&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.NAV_STUDENTS&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;2&lt;/kbd&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.NAV_QUESTIONS&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;3&lt;/kbd&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.NAV_CONFIG&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;C&lt;/kbd&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.NAV_SHORTCUTS&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;?&lt;/kbd&gt;
         &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Column 2: Graphs &amp; Visualizations --&gt;
-    &lt;div class&#x3D;&quot;shortcuts-column&quot;&gt;
-      &lt;div class&#x3D;&quot;shortcuts-column-header d-flex align-items-center mb-3&quot;&gt;
-        &lt;i class&#x3D;&quot;fas fa-chart-line column-icon mr-2&quot;&gt;&lt;/i&gt;
-        &lt;span class&#x3D;&quot;column-title&quot;&gt;
-          {{ &#x27;MODAL-SHORTCUTS.SECTION_GRAPHS&#x27; | translate }}
-        &lt;/span&gt;
-      &lt;/div&gt;
-      &lt;div class&#x3D;&quot;shortcuts-list&quot;&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
-          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_ZOOM_IN&#x27; | translate }}&lt;/span&gt;
-          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;+&lt;/kbd&gt;
-        &lt;/div&gt;
-        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
-          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_ZOOM_OUT&#x27; | translate }}&lt;/span&gt;
-          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;-&lt;/kbd&gt;
-        &lt;/div&gt;
-        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
-          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_RESET_ZOOM&#x27; | translate }}&lt;/span&gt;
-          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.KEY_SPACE&#x27; | translate }}&lt;/kbd&gt;
-        &lt;/div&gt;
-        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
-          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_RELOAD&#x27; | translate }}&lt;/span&gt;
-          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;R&lt;/kbd&gt;
-        &lt;/div&gt;
-        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
-          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_COPY_HASH&#x27; | translate }}&lt;/span&gt;
-          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;H&lt;/kbd&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.TOGGLE_ANONYMOUS&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;A&lt;/kbd&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
 
-    &lt;!-- Column 3: Filter Bar &amp; Search --&gt;
+    &lt;!-- Column 2: Filter Bar &amp; Search --&gt;
     &lt;div class&#x3D;&quot;shortcuts-column&quot;&gt;
-      &lt;div class&#x3D;&quot;shortcuts-column-header d-flex align-items-center mb-3&quot;&gt;
+      &lt;div class&#x3D;&quot;shortcuts-column-header d-flex align-items-center mb-2&quot;&gt;
         &lt;i class&#x3D;&quot;fas fa-filter column-icon mr-2&quot;&gt;&lt;/i&gt;
         &lt;span class&#x3D;&quot;column-title&quot;&gt;
           {{ &#x27;MODAL-SHORTCUTS.SECTION_FILTERS&#x27; | translate }}
@@ -634,14 +612,17 @@ export class ShortcutsModalComponent {
       &lt;div class&#x3D;&quot;shortcuts-list&quot;&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.FILTER_FOCUS&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;F&lt;/kbd&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.FILTER_CLEAR&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.KEY_ESC&#x27; | translate }}&lt;/kbd&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.FILTER_NAVIGATE&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;div class&#x3D;&quot;shortcut-combo&quot;&gt;
             &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;←&lt;/kbd&gt;
             &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;→&lt;/kbd&gt;
@@ -649,6 +630,7 @@ export class ShortcutsModalComponent {
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.FILTER_MOVE&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;div class&#x3D;&quot;shortcut-combo&quot;&gt;
             &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;{{ modifierKey }}&lt;/kbd&gt;
             &lt;span class&#x3D;&quot;key-sep&quot;&gt;+&lt;/span&gt;
@@ -659,11 +641,106 @@ export class ShortcutsModalComponent {
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.FILTER_DELETE&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.KEY_DELETE&#x27; | translate }}&lt;/kbd&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
           &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.FILTER_EXCLUDE&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
           &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;!&lt;/kbd&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Column 3: Graphs &amp; Sessions --&gt;
+    &lt;div class&#x3D;&quot;shortcuts-column&quot;&gt;
+      &lt;div class&#x3D;&quot;shortcuts-column-header d-flex align-items-center mb-2&quot;&gt;
+        &lt;i class&#x3D;&quot;fas fa-chart-line column-icon mr-2&quot;&gt;&lt;/i&gt;
+        &lt;span class&#x3D;&quot;column-title&quot;&gt;
+          {{ &#x27;MODAL-SHORTCUTS.SECTION_GRAPHS&#x27; | translate }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;shortcuts-list&quot;&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_ZOOM_IN&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;+&lt;/kbd&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_ZOOM_OUT&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;-&lt;/kbd&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_RESET_ZOOM&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.KEY_SPACE&#x27; | translate }}&lt;/kbd&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_SESSION_NAV&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;div class&#x3D;&quot;shortcut-combo&quot;&gt;
+            &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;←&lt;/kbd&gt;
+            &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;→&lt;/kbd&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_RELOAD&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;R&lt;/kbd&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GRAPH_COPY_HASH&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;H&lt;/kbd&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Column 4: Mouse &amp; Gestures --&gt;
+    &lt;div class&#x3D;&quot;shortcuts-column&quot;&gt;
+      &lt;div class&#x3D;&quot;shortcuts-column-header d-flex align-items-center mb-2&quot;&gt;
+        &lt;i class&#x3D;&quot;fas fa-mouse-pointer column-icon mr-2&quot;&gt;&lt;/i&gt;
+        &lt;span class&#x3D;&quot;column-title&quot;&gt;
+          {{ &#x27;MODAL-SHORTCUTS.SECTION_GESTURES&#x27; | translate }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;shortcuts-list&quot;&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GESTURE_SESSION_INFO&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;mouseLeftClickIcon&quot;&gt;&lt;/ng-container&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GESTURE_SESSION_FOCUS&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;div class&#x3D;&quot;shortcut-combo&quot;&gt;
+            &lt;ng-container *ngTemplateOutlet&#x3D;&quot;mouseLeftClickIcon&quot;&gt;&lt;/ng-container&gt;
+            &lt;span class&#x3D;&quot;shortcut-key shortcut-key-sm&quot;&gt;2×&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GESTURE_BOX_ZOOM&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;div class&#x3D;&quot;shortcut-combo&quot;&gt;
+            &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.KEY_SHIFT&#x27; | translate }}&lt;/kbd&gt;
+            &lt;span class&#x3D;&quot;key-sep&quot;&gt;+&lt;/span&gt;
+            &lt;ng-container *ngTemplateOutlet&#x3D;&quot;mouseDragIcon&quot;&gt;&lt;/ng-container&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GESTURE_WHEEL_ZOOM&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;div class&#x3D;&quot;shortcut-combo&quot;&gt;
+            &lt;kbd class&#x3D;&quot;shortcut-key&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.KEY_SHIFT&#x27; | translate }}&lt;/kbd&gt;
+            &lt;span class&#x3D;&quot;key-sep&quot;&gt;+&lt;/span&gt;
+            &lt;ng-container *ngTemplateOutlet&#x3D;&quot;mouseWheelIcon&quot;&gt;&lt;/ng-container&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;shortcut-row&quot;&gt;
+          &lt;span class&#x3D;&quot;shortcut-label&quot;&gt;{{ &#x27;MODAL-SHORTCUTS.GESTURE_CONTEXT_MENU&#x27; | translate }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;shortcut-dots&quot;&gt;&lt;/span&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;mouseRightClickIcon&quot;&gt;&lt;/ng-container&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -675,6 +752,52 @@ export class ShortcutsModalComponent {
     {{ &#x27;MODAL-SHORTCUTS.CLOSE_HINT&#x27; | translate:{ key1: &#x27;?&#x27;, key2: (&#x27;MODAL-SHORTCUTS.KEY_ESC&#x27; | translate) } }}
   &lt;/span&gt;
 &lt;/div&gt;
+
+&lt;ng-template #mouseLeftClickIcon&gt;
+  &lt;span class&#x3D;&quot;shortcut-key mouse-keycap d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;svg width&#x3D;&quot;13&quot; height&#x3D;&quot;13&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+      &lt;rect x&#x3D;&quot;5&quot; y&#x3D;&quot;2&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;20&quot; rx&#x3D;&quot;7&quot; ry&#x3D;&quot;7&quot;&gt;&lt;/rect&gt;
+      &lt;path d&#x3D;&quot;M5 9h14&quot;&gt;&lt;/path&gt;
+      &lt;path d&#x3D;&quot;M12 2v7&quot;&gt;&lt;/path&gt;
+      &lt;path d&#x3D;&quot;M5 9V9C5 5.134 8.134 2 12 2V9H5Z&quot; fill&#x3D;&quot;currentColor&quot;&gt;&lt;/path&gt;
+    &lt;/svg&gt;
+  &lt;/span&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #mouseRightClickIcon&gt;
+  &lt;span class&#x3D;&quot;shortcut-key mouse-keycap d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;svg width&#x3D;&quot;13&quot; height&#x3D;&quot;13&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+      &lt;rect x&#x3D;&quot;5&quot; y&#x3D;&quot;2&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;20&quot; rx&#x3D;&quot;7&quot; ry&#x3D;&quot;7&quot;&gt;&lt;/rect&gt;
+      &lt;path d&#x3D;&quot;M5 9h14&quot;&gt;&lt;/path&gt;
+      &lt;path d&#x3D;&quot;M12 2v7&quot;&gt;&lt;/path&gt;
+      &lt;path d&#x3D;&quot;M19 9V9C19 5.134 15.866 2 12 2V9H19Z&quot; fill&#x3D;&quot;currentColor&quot;&gt;&lt;/path&gt;
+    &lt;/svg&gt;
+  &lt;/span&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #mouseDragIcon&gt;
+  &lt;span class&#x3D;&quot;shortcut-key mouse-keycap d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;svg width&#x3D;&quot;15&quot; height&#x3D;&quot;13&quot; viewBox&#x3D;&quot;0 0 26 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+      &lt;rect x&#x3D;&quot;7&quot; y&#x3D;&quot;2&quot; width&#x3D;&quot;12&quot; height&#x3D;&quot;20&quot; rx&#x3D;&quot;6&quot; ry&#x3D;&quot;6&quot;&gt;&lt;/rect&gt;
+      &lt;path d&#x3D;&quot;M7 9h12&quot;&gt;&lt;/path&gt;
+      &lt;path d&#x3D;&quot;M13 2v7&quot;&gt;&lt;/path&gt;
+      &lt;path d&#x3D;&quot;M7 9V8C7 4.686 9.686 2 13 2V9H7Z&quot; fill&#x3D;&quot;currentColor&quot;&gt;&lt;/path&gt;
+      &lt;polyline points&#x3D;&quot;3.5 9.5 1 12 3.5 14.5&quot;&gt;&lt;/polyline&gt;
+      &lt;polyline points&#x3D;&quot;22.5 9.5 25 12 22.5 14.5&quot;&gt;&lt;/polyline&gt;
+    &lt;/svg&gt;
+  &lt;/span&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #mouseWheelIcon&gt;
+  &lt;span class&#x3D;&quot;shortcut-key mouse-keycap d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;svg width&#x3D;&quot;13&quot; height&#x3D;&quot;13&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
+      &lt;rect x&#x3D;&quot;5&quot; y&#x3D;&quot;2&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;20&quot; rx&#x3D;&quot;7&quot; ry&#x3D;&quot;7&quot;&gt;&lt;/rect&gt;
+      &lt;path d&#x3D;&quot;M5 9h14&quot;&gt;&lt;/path&gt;
+      &lt;path d&#x3D;&quot;M12 2v7&quot;&gt;&lt;/path&gt;
+      &lt;rect x&#x3D;&quot;10.5&quot; y&#x3D;&quot;4&quot; width&#x3D;&quot;3&quot; height&#x3D;&quot;5.5&quot; rx&#x3D;&quot;1.5&quot; fill&#x3D;&quot;currentColor&quot; stroke&#x3D;&quot;none&quot;&gt;&lt;/rect&gt;
+    &lt;/svg&gt;
+  &lt;/span&gt;
+&lt;/ng-template&gt;
 </code></pre>
     </div>
 
@@ -737,28 +860,31 @@ export class ShortcutsModalComponent {
 
 .shortcuts-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.25rem;
 
-  @media (max-width: 860px) {
+  @media (max-width: 720px) {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 }
 
 .shortcuts-column {
   display: flex;
   flex-direction: column;
-
-  &amp;:not(:last-child) {
-    @media (min-width: 861px) {
-      padding-right: 2rem;
-      border-right: 1px solid var(--color-border);
-    }
-  }
+  background: var(--color-bg-body);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 0.85rem 1rem;
 }
 
 .shortcuts-column-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-border);
+
   .column-icon {
     font-size: 0.8rem;
     color: var(--color-primary);
@@ -766,10 +892,10 @@ export class ShortcutsModalComponent {
   }
 
   .column-title {
-    font-size: 0.775rem;
+    font-size: 0.725rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     color: var(--color-text-secondary);
   }
 }
@@ -777,24 +903,41 @@ export class ShortcutsModalComponent {
 .shortcuts-list {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.1rem;
 }
 
 .shortcut-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.375rem 0;
-  gap: 0.75rem;
+  padding: 0.25rem 0.35rem;
+  border-radius: 8px;
+  transition: background-color $transition-fast;
+
+  &amp;:hover {
+    background-color: var(--color-hover);
+  }
 
   .shortcut-label {
-    font-size: 0.825rem;
+    font-size: 0.815rem;
     color: var(--color-text-primary);
     font-weight: 400;
     line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .shortcut-dots {
+    flex: 1;
+    border-bottom: 1px dashed var(--color-border);
+    margin: 0 0.5rem;
+    opacity: 0.5;
+    min-width: 10px;
+    height: 1px;
+    align-self: center;
   }
 }
-
 
 .footer-hint {
   font-size: 0.75rem;
@@ -830,7 +973,7 @@ export class ShortcutsModalComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modal-header border-bottom-0 pb-2 pt-4 d-flex justify-content-between align-items-center flex-nowrap w-100 px-4">  <div class="d-flex align-items-center">    <div class="modal-header-icon mr-3 d-flex align-items-center justify-content-center">      <i class="fas fa-keyboard"></i>    </div>    <div>      <h5 class="modal-title m-0">        {{ \'MODAL-SHORTCUTS.TITLE\' | translate }}      </h5>      <p class="modal-subtitle mb-0">        {{ \'MODAL-SHORTCUTS.SUBTITLE\' | translate }}      </p>    </div>  </div>  <button type="button" class="btn btn-close-modal" (click)="close()" [attr.aria-label]="\'MODAL-SHORTCUTS.CLOSE\' | translate">    <i class="fas fa-times"></i>  </button></div><div class="modal-body py-3 px-4">  <div class="shortcuts-grid">    <!-- Column 1: Global Navigation -->    <div class="shortcuts-column">      <div class="shortcuts-column-header d-flex align-items-center mb-3">        <i class="fas fa-compass column-icon mr-2"></i>        <span class="column-title">          {{ \'MODAL-SHORTCUTS.SECTION_GLOBAL_NAV\' | translate }}        </span>      </div>      <div class="shortcuts-list">        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_OVERVIEW\' | translate }}</span>          <kbd class="shortcut-key">1</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_STUDENTS\' | translate }}</span>          <kbd class="shortcut-key">2</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_QUESTIONS\' | translate }}</span>          <kbd class="shortcut-key">3</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_CONFIG\' | translate }}</span>          <kbd class="shortcut-key">C</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_SHORTCUTS\' | translate }}</span>          <kbd class="shortcut-key">?</kbd>        </div>      </div>    </div>    <!-- Column 2: Graphs & Visualizations -->    <div class="shortcuts-column">      <div class="shortcuts-column-header d-flex align-items-center mb-3">        <i class="fas fa-chart-line column-icon mr-2"></i>        <span class="column-title">          {{ \'MODAL-SHORTCUTS.SECTION_GRAPHS\' | translate }}        </span>      </div>      <div class="shortcuts-list">        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_ZOOM_IN\' | translate }}</span>          <kbd class="shortcut-key">+</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_ZOOM_OUT\' | translate }}</span>          <kbd class="shortcut-key">-</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_RESET_ZOOM\' | translate }}</span>          <kbd class="shortcut-key">{{ \'MODAL-SHORTCUTS.KEY_SPACE\' | translate }}</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_RELOAD\' | translate }}</span>          <kbd class="shortcut-key">R</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_COPY_HASH\' | translate }}</span>          <kbd class="shortcut-key">H</kbd>        </div>      </div>    </div>    <!-- Column 3: Filter Bar & Search -->    <div class="shortcuts-column">      <div class="shortcuts-column-header d-flex align-items-center mb-3">        <i class="fas fa-filter column-icon mr-2"></i>        <span class="column-title">          {{ \'MODAL-SHORTCUTS.SECTION_FILTERS\' | translate }}        </span>      </div>      <div class="shortcuts-list">        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_FOCUS\' | translate }}</span>          <kbd class="shortcut-key">F</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_CLEAR\' | translate }}</span>          <kbd class="shortcut-key">{{ \'MODAL-SHORTCUTS.KEY_ESC\' | translate }}</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_NAVIGATE\' | translate }}</span>          <div class="shortcut-combo">            <kbd class="shortcut-key">←</kbd>            <kbd class="shortcut-key">→</kbd>          </div>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_MOVE\' | translate }}</span>          <div class="shortcut-combo">            <kbd class="shortcut-key">{{ modifierKey }}</kbd>            <span class="key-sep">+</span>            <kbd class="shortcut-key">←</kbd>            <span class="key-sep">/</span>            <kbd class="shortcut-key">→</kbd>          </div>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_DELETE\' | translate }}</span>          <kbd class="shortcut-key">{{ \'MODAL-SHORTCUTS.KEY_DELETE\' | translate }}</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_EXCLUDE\' | translate }}</span>          <kbd class="shortcut-key">!</kbd>        </div>      </div>    </div>  </div></div><div class="modal-footer border-top-0 pt-2 pb-4 px-4 d-flex justify-content-center align-items-center w-100">  <span class="footer-hint">    {{ \'MODAL-SHORTCUTS.CLOSE_HINT\' | translate:{ key1: \'?\', key2: (\'MODAL-SHORTCUTS.KEY_ESC\' | translate) } }}  </span></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="modal-header border-bottom-0 pb-2 pt-4 d-flex justify-content-between align-items-center flex-nowrap w-100 px-4">  <div class="d-flex align-items-center">    <div class="modal-header-icon mr-3 d-flex align-items-center justify-content-center">      <i class="fas fa-keyboard"></i>    </div>    <div>      <h5 class="modal-title m-0">        {{ \'MODAL-SHORTCUTS.TITLE\' | translate }}      </h5>      <p class="modal-subtitle mb-0">        {{ \'MODAL-SHORTCUTS.SUBTITLE\' | translate }}      </p>    </div>  </div>  <button type="button" class="btn btn-close-modal" (click)="close()" [attr.aria-label]="\'MODAL-SHORTCUTS.CLOSE\' | translate">    <i class="fas fa-times"></i>  </button></div><div class="modal-body py-3 px-4">  <div class="shortcuts-grid">    <!-- Column 1: Global Navigation -->    <div class="shortcuts-column">      <div class="shortcuts-column-header d-flex align-items-center mb-2">        <i class="fas fa-compass column-icon mr-2"></i>        <span class="column-title">          {{ \'MODAL-SHORTCUTS.SECTION_GLOBAL_NAV\' | translate }}        </span>      </div>      <div class="shortcuts-list">        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_OVERVIEW\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">1</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_STUDENTS\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">2</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_QUESTIONS\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">3</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_CONFIG\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">C</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.NAV_SHORTCUTS\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">?</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.TOGGLE_ANONYMOUS\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">A</kbd>        </div>      </div>    </div>    <!-- Column 2: Filter Bar & Search -->    <div class="shortcuts-column">      <div class="shortcuts-column-header d-flex align-items-center mb-2">        <i class="fas fa-filter column-icon mr-2"></i>        <span class="column-title">          {{ \'MODAL-SHORTCUTS.SECTION_FILTERS\' | translate }}        </span>      </div>      <div class="shortcuts-list">        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_FOCUS\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">F</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_CLEAR\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">{{ \'MODAL-SHORTCUTS.KEY_ESC\' | translate }}</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_NAVIGATE\' | translate }}</span>          <span class="shortcut-dots"></span>          <div class="shortcut-combo">            <kbd class="shortcut-key">←</kbd>            <kbd class="shortcut-key">→</kbd>          </div>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_MOVE\' | translate }}</span>          <span class="shortcut-dots"></span>          <div class="shortcut-combo">            <kbd class="shortcut-key">{{ modifierKey }}</kbd>            <span class="key-sep">+</span>            <kbd class="shortcut-key">←</kbd>            <span class="key-sep">/</span>            <kbd class="shortcut-key">→</kbd>          </div>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_DELETE\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">{{ \'MODAL-SHORTCUTS.KEY_DELETE\' | translate }}</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.FILTER_EXCLUDE\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">!</kbd>        </div>      </div>    </div>    <!-- Column 3: Graphs & Sessions -->    <div class="shortcuts-column">      <div class="shortcuts-column-header d-flex align-items-center mb-2">        <i class="fas fa-chart-line column-icon mr-2"></i>        <span class="column-title">          {{ \'MODAL-SHORTCUTS.SECTION_GRAPHS\' | translate }}        </span>      </div>      <div class="shortcuts-list">        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_ZOOM_IN\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">+</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_ZOOM_OUT\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">-</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_RESET_ZOOM\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">{{ \'MODAL-SHORTCUTS.KEY_SPACE\' | translate }}</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_SESSION_NAV\' | translate }}</span>          <span class="shortcut-dots"></span>          <div class="shortcut-combo">            <kbd class="shortcut-key">←</kbd>            <kbd class="shortcut-key">→</kbd>          </div>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_RELOAD\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">R</kbd>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GRAPH_COPY_HASH\' | translate }}</span>          <span class="shortcut-dots"></span>          <kbd class="shortcut-key">H</kbd>        </div>      </div>    </div>    <!-- Column 4: Mouse & Gestures -->    <div class="shortcuts-column">      <div class="shortcuts-column-header d-flex align-items-center mb-2">        <i class="fas fa-mouse-pointer column-icon mr-2"></i>        <span class="column-title">          {{ \'MODAL-SHORTCUTS.SECTION_GESTURES\' | translate }}        </span>      </div>      <div class="shortcuts-list">        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GESTURE_SESSION_INFO\' | translate }}</span>          <span class="shortcut-dots"></span>          <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GESTURE_SESSION_FOCUS\' | translate }}</span>          <span class="shortcut-dots"></span>          <div class="shortcut-combo">            <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>            <span class="shortcut-key shortcut-key-sm">2×</span>          </div>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GESTURE_BOX_ZOOM\' | translate }}</span>          <span class="shortcut-dots"></span>          <div class="shortcut-combo">            <kbd class="shortcut-key">{{ \'MODAL-SHORTCUTS.KEY_SHIFT\' | translate }}</kbd>            <span class="key-sep">+</span>            <ng-container *ngTemplateOutlet="mouseDragIcon"></ng-container>          </div>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GESTURE_WHEEL_ZOOM\' | translate }}</span>          <span class="shortcut-dots"></span>          <div class="shortcut-combo">            <kbd class="shortcut-key">{{ \'MODAL-SHORTCUTS.KEY_SHIFT\' | translate }}</kbd>            <span class="key-sep">+</span>            <ng-container *ngTemplateOutlet="mouseWheelIcon"></ng-container>          </div>        </div>        <div class="shortcut-row">          <span class="shortcut-label">{{ \'MODAL-SHORTCUTS.GESTURE_CONTEXT_MENU\' | translate }}</span>          <span class="shortcut-dots"></span>          <ng-container *ngTemplateOutlet="mouseRightClickIcon"></ng-container>        </div>      </div>    </div>  </div></div><div class="modal-footer border-top-0 pt-2 pb-4 px-4 d-flex justify-content-center align-items-center w-100">  <span class="footer-hint">    {{ \'MODAL-SHORTCUTS.CLOSE_HINT\' | translate:{ key1: \'?\', key2: (\'MODAL-SHORTCUTS.KEY_ESC\' | translate) } }}  </span></div><ng-template #mouseLeftClickIcon>  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">      <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>      <path d="M5 9h14"></path>      <path d="M12 2v7"></path>      <path d="M5 9V9C5 5.134 8.134 2 12 2V9H5Z" fill="currentColor"></path>    </svg>  </span></ng-template><ng-template #mouseRightClickIcon>  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">      <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>      <path d="M5 9h14"></path>      <path d="M12 2v7"></path>      <path d="M19 9V9C19 5.134 15.866 2 12 2V9H19Z" fill="currentColor"></path>    </svg>  </span></ng-template><ng-template #mouseDragIcon>  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">    <svg width="15" height="13" viewBox="0 0 26 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">      <rect x="7" y="2" width="12" height="20" rx="6" ry="6"></rect>      <path d="M7 9h12"></path>      <path d="M13 2v7"></path>      <path d="M7 9V8C7 4.686 9.686 2 13 2V9H7Z" fill="currentColor"></path>      <polyline points="3.5 9.5 1 12 3.5 14.5"></polyline>      <polyline points="22.5 9.5 25 12 22.5 14.5"></polyline>    </svg>  </span></ng-template><ng-template #mouseWheelIcon>  <span class="shortcut-key mouse-keycap d-flex align-items-center justify-content-center">    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">      <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>      <path d="M5 9h14"></path>      <path d="M12 2v7"></path>      <rect x="10.5" y="4" width="3" height="5.5" rx="1.5" fill="currentColor" stroke="none"></rect>    </svg>  </span></ng-template></div>'
     var COMPONENTS = [{'name': 'AccountsComponent', 'selector': 'app-accounts'},{'name': 'AddAccountModalComponent', 'selector': 'app-add-account-modal'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppNavLayoutComponent', 'selector': 'app-app-nav-layout'},{'name': 'AssignmentChooserComponent', 'selector': 'assignment-chooser'},{'name': 'AuthLangNavItemComponent', 'selector': 'auth-lang-nav-item'},{'name': 'BaseEditConfigurationComponent', 'selector': ''},{'name': 'BaseGraphComponent', 'selector': ''},{'name': 'BaseTabEditConfigurationComponent', 'selector': ''},{'name': 'CommitsComponent', 'selector': 'commits'},{'name': 'ConfigurationComponent', 'selector': 'app-configuration'},{'name': 'CustomModalContainerComponent', 'selector': 'app-custom-modal-container'},{'name': 'DatepickerComponent', 'selector': 'app-datepicker'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DevBarComponent', 'selector': 'app-dev-bar'},{'name': 'EditMilestoneComponent', 'selector': 'edit-milestone'},{'name': 'EditRepositoriesComponent', 'selector': 'edit-repositories'},{'name': 'EditSessionComponent', 'selector': 'app-edit-session'},{'name': 'FileChooserComponent', 'selector': 'file-chooser'},{'name': 'FourOhFourComponent', 'selector': 'four-oh-four'},{'name': 'GitlabCallbackComponent', 'selector': 'app-gitlab-callback'},{'name': 'HelpNavItemComponent', 'selector': 'help-nav-item'},{'name': 'HomeComponent', 'selector': 'home'},{'name': 'MetadataComponent', 'selector': 'metadata'},{'name': 'ModalAddRepositoriesComponent', 'selector': 'app-modal-add-repositories'},{'name': 'ModalComponent', 'selector': 'app-modal'},{'name': 'OverviewGraphContextualMenuComponent', 'selector': 'overview-graph-contextual-menu'},{'name': 'QuestionsAssistantPopoverComponent', 'selector': 'app-questions-assistant-popover'},{'name': 'QuestionsChooserComponent', 'selector': 'questions-chooser'},{'name': 'QuestionsCompletionComponent', 'selector': 'questions-completion'},{'name': 'RepoIconComponent', 'selector': 'app-repo-icon'},{'name': 'SegmentedRadioComponent', 'selector': 'app-segmented-radio'},{'name': 'SessionDurationPickerComponent', 'selector': 'app-session-duration-picker'},{'name': 'ShortcutsModalComponent', 'selector': 'app-shortcuts-modal'},{'name': 'SidebarSettingsComponent', 'selector': 'app-sidebar-settings'},{'name': 'StudentsComponent', 'selector': 'students'},{'name': 'TextInputComponent', 'selector': 'app-text-input'},{'name': 'TimePickerComponent', 'selector': 'app-time-picker'},{'name': 'ToastsComponent', 'selector': 'app-toasts'},{'name': 'TooltipComponent', 'selector': 'app-tooltip'},{'name': 'TypePickerComponent', 'selector': 'app-type-picker'}];
     var DIRECTIVES = [{'name': 'TooltipDirective', 'selector': '[appTooltip]'},{'name': 'TypeaheadKeyboardNavDirective', 'selector': 'input[ngbTypeahead]'}];
     var ACTUAL_COMPONENT = {'name': 'ShortcutsModalComponent'};

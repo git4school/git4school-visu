@@ -114,10 +114,26 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#refreshBufferSeconds" >refreshBufferSeconds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#refreshPromise" >refreshPromise</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#refreshTimer" >refreshTimer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#scope" >scope</a>
                             </li>
                             <li>
                                 <a href="#token" >token</a>
+                            </li>
+                            <li>
+                                <a href="#tokenStatus" >tokenStatus</a>
                             </li>
                         </ul>
                     </td>
@@ -134,6 +150,17 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#base64UrlEncode" >base64UrlEncode</a>
+                            </li>
+                            <li>
+                                <a href="#checkTokenValidity" >checkTokenValidity</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#clearRefreshTimer" >clearRefreshTimer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#ensureValidToken" >ensureValidToken</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -170,6 +197,9 @@
                                 <a href="#loginWithPopup" >loginWithPopup</a>
                             </li>
                             <li>
+                                <a href="#markTokenInvalid" >markTokenInvalid</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#notifyAuthChange" >notifyAuthChange</a>
                             </li>
@@ -179,7 +209,24 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#performTokenRefresh" >performTokenRefresh</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#refreshAccessToken" >refreshAccessToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#refreshCodeForToken" >refreshCodeForToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#restoreSession" >restoreSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#scheduleProactiveRefresh" >scheduleProactiveRefresh</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -225,7 +272,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/services/gitlab-auth.service.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/services/gitlab-auth.service.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -302,8 +349,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:187</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="267"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:267</a></div>
                 </td>
             </tr>
 
@@ -355,6 +402,121 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="checkTokenValidity"></a>
+                    <span class="name">
+                        <span ><b>checkTokenValidity</b></span>
+                        <a href="#checkTokenValidity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkTokenValidity()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:180</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearRefreshTimer"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>clearRefreshTimer</b></span>
+                        <a href="#clearRefreshTimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearRefreshTimer()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="459"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:459</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ensureValidToken"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>ensureValidToken</b></span>
+                        <a href="#ensureValidToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ensureValidToken()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="167"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:167</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="exchangeCodeForToken"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -373,8 +535,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="293"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:293</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="373"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:373</a></div>
                 </td>
             </tr>
 
@@ -456,8 +618,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="309"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:309</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="466"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:466</a></div>
                 </td>
             </tr>
 
@@ -528,8 +690,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="174"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:174</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:254</a></div>
                 </td>
             </tr>
 
@@ -599,8 +761,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="168"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="248"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:248</a></div>
                 </td>
             </tr>
 
@@ -638,8 +800,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="181"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:181</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="261"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:261</a></div>
                 </td>
             </tr>
 
@@ -707,8 +869,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -744,8 +906,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="152"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:152</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="232"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:232</a></div>
                 </td>
             </tr>
 
@@ -813,8 +975,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:67</a></div>
                 </td>
             </tr>
 
@@ -852,8 +1014,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -905,6 +1067,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="markTokenInvalid"></a>
+                    <span class="name">
+                        <span ><b>markTokenInvalid</b></span>
+                        <a href="#markTokenInvalid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>markTokenInvalid()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:216</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="notifyAuthChange"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -923,8 +1122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="331"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:331</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="505"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:505</a></div>
                 </td>
             </tr>
 
@@ -962,8 +1161,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="195"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:195</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="275"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:275</a></div>
                 </td>
             </tr>
 
@@ -1027,6 +1226,156 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="performTokenRefresh"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>performTokenRefresh</b></span>
+                        <a href="#performTokenRefresh"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>performTokenRefresh()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="404"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:404</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshAccessToken"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>refreshAccessToken</b></span>
+                        <a href="#refreshAccessToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>refreshAccessToken()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:155</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshCodeForToken"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>refreshCodeForToken</b></span>
+                        <a href="#refreshCodeForToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>refreshCodeForToken(refreshToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="389"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:389</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>refreshToken</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/TokenResponse.html" target="_self" >Promise&lt;TokenResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="restoreSession"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -1045,8 +1394,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="318"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:318</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="475"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:475</a></div>
                 </td>
             </tr>
 
@@ -1057,6 +1406,77 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scheduleProactiveRefresh"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>scheduleProactiveRefresh</b></span>
+                        <a href="#scheduleProactiveRefresh"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>scheduleProactiveRefresh(expiresInSeconds?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="441"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:441</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>expiresInSeconds</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1084,8 +1504,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:86</a></div>
                 </td>
             </tr>
 
@@ -1153,8 +1573,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="223"
+                            class="link-to-prism">src/app/services/gitlab-auth.service.ts:223</a></div>
                 </td>
             </tr>
 
@@ -1194,12 +1614,13 @@
     isSignedIn: false,
     token: null,
     user: null,
+    tokenStatus: &quot;unknown&quot;,
   })</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/services/gitlab-auth.service.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/services/gitlab-auth.service.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -1225,7 +1646,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/services/gitlab-auth.service.ts:51</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/services/gitlab-auth.service.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -1256,7 +1677,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/services/gitlab-auth.service.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/services/gitlab-auth.service.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -1288,7 +1709,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/services/gitlab-auth.service.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/services/gitlab-auth.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -1314,7 +1735,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/services/gitlab-auth.service.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/services/gitlab-auth.service.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -1339,7 +1760,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/services/gitlab-auth.service.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/services/gitlab-auth.service.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1371,7 +1792,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/services/gitlab-auth.service.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/services/gitlab-auth.service.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1403,7 +1824,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/gitlab-auth.service.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/services/gitlab-auth.service.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -1429,7 +1850,104 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/services/gitlab-auth.service.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/services/gitlab-auth.service.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshBufferSeconds"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>refreshBufferSeconds</b></span>
+                        <a href="#refreshBufferSeconds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>300</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/services/gitlab-auth.service.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshPromise"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>refreshPromise</b></span>
+                        <a href="#refreshPromise"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Promise&lt;string | null&gt; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/services/gitlab-auth.service.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshTimer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>refreshTimer</b></span>
+                        <a href="#refreshTimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/services/gitlab-auth.service.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -1455,7 +1973,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/services/gitlab-auth.service.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/services/gitlab-auth.service.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -1486,7 +2004,38 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/services/gitlab-auth.service.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/services/gitlab-auth.service.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tokenStatus"></a>
+                    <span class="name">
+                        <span ><b>tokenStatus</b></span>
+                        <a href="#tokenStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#TokenStatus" target="_self" >TokenStatus</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;unknown&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/services/gitlab-auth.service.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1515,7 +2064,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="160" class="link-to-prism">src/app/services/gitlab-auth.service.ts:160</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="240" class="link-to-prism">src/app/services/gitlab-auth.service.ts:240</a></div>
                                 </td>
                             </tr>
 
@@ -1528,8 +2077,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders, HttpParams } from &quot;@angular/common/http&quot;;
 import { Injectable } from &quot;@angular/core&quot;;
-import { BehaviorSubject, Observable } from &quot;rxjs&quot;;
-import { Account, GitProviderType } from &quot;@models/Account.model&quot;;
+import { BehaviorSubject, Observable, from, of } from &quot;rxjs&quot;;
+import { catchError, map, switchMap } from &quot;rxjs/operators&quot;;
+import { Account, GitProviderType, TokenStatus } from &quot;@models/Account.model&quot;;
 import { GitAuthProvider } from &quot;@models/GitAuthProvider.model&quot;;
 import { TokenStorageService } from &quot;@services/token-storage.service&quot;;
 import { environment } from &quot;../../environments/environment&quot;;
@@ -1546,6 +2096,7 @@ export interface GitlabAuthState {
   isSignedIn: boolean;
   token: string | null;
   user: GitlabUser | null;
+  tokenStatus?: TokenStatus;
 }
 
 interface TokenResponse {
@@ -1569,24 +2120,29 @@ export class GitlabAuthService implements GitAuthProvider {
   token: string | null &#x3D; null;
   currentUser: GitlabUser | null &#x3D; null;
   loading &#x3D; false;
+  tokenStatus: TokenStatus &#x3D; &quot;unknown&quot;;
 
   public authChange$ &#x3D; new BehaviorSubject&lt;GitlabAuthState&gt;({
     isSignedIn: false,
     token: null,
     user: null,
+    tokenStatus: &quot;unknown&quot;,
   });
 
   private clientId &#x3D; environment.gitlab?.clientId || &quot;&quot;;
   private redirectUri &#x3D; environment.gitlab?.redirectUri || &quot;/auth/callback&quot;;
   private instanceUrl &#x3D; (environment.gitlab?.instanceUrl || &quot;https://gitlab.com&quot;).replace(/\/+$/, &quot;&quot;);
   private scope &#x3D; environment.gitlab?.scope || &quot;read_api read_user&quot;;
+  private refreshPromise: Promise&lt;string | null&gt; | null &#x3D; null;
+  private refreshTimer: any &#x3D; null;
+  private readonly refreshBufferSeconds &#x3D; 300;
 
   constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) {
     this.restoreSession();
   }
 
   isSignedIn(): boolean {
-    return !!(this.token &amp;&amp; this.currentUser);
+    return !!((this.token || this.tokenStorageService.getRefreshToken(&quot;gitlab&quot;)) &amp;&amp; this.currentUser);
   }
 
   getAccount(): Account | null {
@@ -1600,6 +2156,7 @@ export class GitlabAuthService implements GitAuthProvider {
       username: this.currentUser.username,
       avatarUrl: this.currentUser.avatar_url || null,
       isCurrent: false,
+      tokenStatus: this.tokenStatus,
     };
   }
 
@@ -1657,10 +2214,12 @@ export class GitlabAuthService implements GitAuthProvider {
 
       this.token &#x3D; accessToken;
       this.currentUser &#x3D; user;
+      this.tokenStatus &#x3D; &quot;valid&quot;;
 
-      this.tokenStorageService.saveToken(&quot;gitlab&quot;, accessToken, rememberMe, tokenResponse.expires_in);
+      this.tokenStorageService.saveToken(&quot;gitlab&quot;, accessToken, rememberMe, tokenResponse.expires_in, tokenResponse.refresh_token);
       this.tokenStorageService.saveUserData(&quot;gitlab&quot;, user, rememberMe);
 
+      this.scheduleProactiveRefresh(tokenResponse.expires_in);
       this.notifyAuthChange();
       return user;
     } finally {
@@ -1670,9 +2229,79 @@ export class GitlabAuthService implements GitAuthProvider {
     }
   }
 
+  async refreshAccessToken(): Promise&lt;string | null&gt; {
+    if (this.refreshPromise) {
+      return this.refreshPromise;
+    }
+
+    this.refreshPromise &#x3D; this.performTokenRefresh().finally(() &#x3D;&gt; {
+      this.refreshPromise &#x3D; null;
+    });
+
+    return this.refreshPromise;
+  }
+
+  async ensureValidToken(): Promise&lt;string | null&gt; {
+    const isExpiring &#x3D; this.tokenStorageService.isTokenExpired(&quot;gitlab&quot;, this.refreshBufferSeconds);
+    if (this.token &amp;&amp; !isExpiring) {
+      return this.token;
+    }
+
+    if (this.tokenStorageService.getRefreshToken(&quot;gitlab&quot;)) {
+      return this.refreshAccessToken();
+    }
+
+    return this.token;
+  }
+
+  checkTokenValidity(): Observable&lt;boolean&gt; {
+    if (!this.isSignedIn()) {
+      this.tokenStatus &#x3D; &quot;unknown&quot;;
+      this.notifyAuthChange();
+      return of(false);
+    }
+
+    return from(this.ensureValidToken()).pipe(
+      switchMap((validToken) &#x3D;&gt; {
+        if (!validToken) {
+          this.tokenStatus &#x3D; &quot;invalid&quot;;
+          this.notifyAuthChange();
+          return of(false);
+        }
+        const userUrl &#x3D; &#x60;${this.instanceUrl}/api/v4/user&#x60;;
+        const headers &#x3D; new HttpHeaders({
+          Authorization: &#x60;Bearer ${validToken}&#x60;,
+        });
+        return this.http.get&lt;GitlabUser&gt;(userUrl, { headers }).pipe(
+          map(() &#x3D;&gt; {
+            this.tokenStatus &#x3D; &quot;valid&quot;;
+            this.notifyAuthChange();
+            return true;
+          }),
+          catchError((err) &#x3D;&gt; {
+            if (err?.status &#x3D;&#x3D;&#x3D; 401 || err?.status &#x3D;&#x3D;&#x3D; 403) {
+              this.tokenStatus &#x3D; &quot;invalid&quot;;
+              this.notifyAuthChange();
+            }
+            return of(false);
+          }),
+        );
+      }),
+    );
+  }
+
+  markTokenInvalid(): void {
+    if (this.tokenStatus !&#x3D;&#x3D; &quot;invalid&quot;) {
+      this.tokenStatus &#x3D; &quot;invalid&quot;;
+      this.notifyAuthChange();
+    }
+  }
+
   signOut(): void {
+    this.clearRefreshTimer();
     this.token &#x3D; null;
     this.currentUser &#x3D; null;
+    this.tokenStatus &#x3D; &quot;unknown&quot;;
     this.tokenStorageService.clearAll(&quot;gitlab&quot;);
     this.notifyAuthChange();
   }
@@ -1834,6 +2463,83 @@ export class GitlabAuthService implements GitAuthProvider {
     return this.http.post&lt;TokenResponse&gt;(tokenUrl, body.toString(), { headers }).toPromise();
   }
 
+  private refreshCodeForToken(refreshToken: string): Promise&lt;TokenResponse&gt; {
+    const tokenUrl &#x3D; &#x60;${this.instanceUrl}/oauth/token&#x60;;
+    const body &#x3D; new HttpParams()
+      .set(&quot;client_id&quot;, this.clientId)
+      .set(&quot;grant_type&quot;, &quot;refresh_token&quot;)
+      .set(&quot;refresh_token&quot;, refreshToken)
+      .set(&quot;redirect_uri&quot;, this.effectiveRedirectUri);
+
+    const headers &#x3D; new HttpHeaders({
+      &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;,
+    });
+
+    return this.http.post&lt;TokenResponse&gt;(tokenUrl, body.toString(), { headers }).toPromise();
+  }
+
+  private async performTokenRefresh(): Promise&lt;string | null&gt; {
+    const storedRefreshToken &#x3D; this.tokenStorageService.getRefreshToken(&quot;gitlab&quot;);
+    if (!storedRefreshToken) {
+      return null;
+    }
+
+    try {
+      const response &#x3D; await this.refreshCodeForToken(storedRefreshToken);
+      const newAccessToken &#x3D; response.access_token;
+      const newRefreshToken &#x3D; response.refresh_token || storedRefreshToken;
+      const expiresIn &#x3D; response.expires_in;
+      const rememberMe &#x3D; this.tokenStorageService.isRemembered(&quot;gitlab&quot;);
+
+      this.token &#x3D; newAccessToken;
+      this.tokenStorageService.saveToken(&quot;gitlab&quot;, newAccessToken, rememberMe, expiresIn, newRefreshToken);
+
+      this.scheduleProactiveRefresh(expiresIn);
+      this.notifyAuthChange();
+
+      return newAccessToken;
+    } catch (err: any) {
+      const status &#x3D; err?.status || err?.statusCode;
+      const errorPayload &#x3D; err?.error;
+      const isGrantInvalid &#x3D;
+        status &#x3D;&#x3D;&#x3D; 400 &amp;&amp;
+        (errorPayload?.error &#x3D;&#x3D;&#x3D; &quot;invalid_grant&quot; || (typeof errorPayload &#x3D;&#x3D;&#x3D; &quot;string&quot; &amp;&amp; errorPayload.includes(&quot;invalid_grant&quot;)));
+
+      if (status &#x3D;&#x3D;&#x3D; 401 || isGrantInvalid) {
+        console.warn(&quot;[GitLab Auth] Refresh token expired or revoked, signing out:&quot;, err?.message || err);
+        this.signOut();
+      } else {
+        console.error(&quot;[GitLab Auth] Failed to refresh GitLab token:&quot;, err?.message || err);
+      }
+      return null;
+    }
+  }
+
+  private scheduleProactiveRefresh(expiresInSeconds?: number): void {
+    this.clearRefreshTimer();
+
+    if (!expiresInSeconds || expiresInSeconds &lt;&#x3D; 0) {
+      return;
+    }
+
+    const delayMs &#x3D; Math.max((expiresInSeconds - this.refreshBufferSeconds) * 1000, 10000);
+
+    this.refreshTimer &#x3D; setTimeout(() &#x3D;&gt; {
+      if (this.isSignedIn()) {
+        this.refreshAccessToken().catch((err) &#x3D;&gt; {
+          console.warn(&quot;[GitLab Auth] Background silent refresh failed:&quot;, err);
+        });
+      }
+    }, delayMs);
+  }
+
+  private clearRefreshTimer(): void {
+    if (this.refreshTimer) {
+      clearTimeout(this.refreshTimer);
+      this.refreshTimer &#x3D; null;
+    }
+  }
+
   private fetchUserProfile(token: string): Promise&lt;GitlabUser&gt; {
     const userUrl &#x3D; &#x60;${this.instanceUrl}/api/v4/user&#x60;;
     const headers &#x3D; new HttpHeaders({
@@ -1845,14 +2551,31 @@ export class GitlabAuthService implements GitAuthProvider {
 
   private restoreSession(): void {
     const storedToken &#x3D; this.tokenStorageService.getToken(&quot;gitlab&quot;);
+    const storedRefreshToken &#x3D; this.tokenStorageService.getRefreshToken(&quot;gitlab&quot;);
     const storedUser &#x3D; this.tokenStorageService.getUserData&lt;GitlabUser&gt;(&quot;gitlab&quot;);
 
-    if (storedToken &amp;&amp; storedUser) {
+    if ((storedToken || storedRefreshToken) &amp;&amp; storedUser) {
       this.token &#x3D; storedToken;
       this.currentUser &#x3D; storedUser;
       this.notifyAuthChange();
-    } else if (storedToken || storedUser) {
+
+      if (!storedToken || this.tokenStorageService.isTokenExpired(&quot;gitlab&quot;, this.refreshBufferSeconds)) {
+        this.refreshAccessToken().catch((err) &#x3D;&gt; {
+          console.warn(&quot;[GitLab Auth] Initial session restore refresh failed:&quot;, err);
+        });
+      } else {
+        const expiresAt &#x3D; this.tokenStorageService.getAccessTokenExpiresAt(&quot;gitlab&quot;);
+        if (expiresAt) {
+          const remainingSeconds &#x3D; Math.round((expiresAt - Date.now()) / 1000);
+          this.scheduleProactiveRefresh(remainingSeconds);
+        }
+      }
+      this.checkTokenValidity().subscribe();
+    } else if (storedToken || storedRefreshToken || storedUser) {
+      this.tokenStatus &#x3D; &quot;unknown&quot;;
       this.tokenStorageService.clearAll(&quot;gitlab&quot;);
+    } else {
+      this.tokenStatus &#x3D; &quot;unknown&quot;;
     }
   }
 
@@ -1861,6 +2584,7 @@ export class GitlabAuthService implements GitAuthProvider {
       isSignedIn: this.isSignedIn(),
       token: this.token,
       user: this.currentUser,
+      tokenStatus: this.tokenStatus,
     });
   }
 }

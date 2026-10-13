@@ -209,8 +209,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">src/app/services/database.service.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">src/app/services/database.service.ts:155</a></div>
                 </td>
             </tr>
 
@@ -278,8 +278,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">src/app/services/database.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">src/app/services/database.service.ts:177</a></div>
                 </td>
             </tr>
 
@@ -315,8 +315,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">src/app/services/database.service.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/app/services/database.service.ts:128</a></div>
                 </td>
             </tr>
 
@@ -352,8 +352,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">src/app/services/database.service.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">src/app/services/database.service.ts:161</a></div>
                 </td>
             </tr>
 
@@ -421,8 +421,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">src/app/services/database.service.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="186"
+                            class="link-to-prism">src/app/services/database.service.ts:186</a></div>
                 </td>
             </tr>
 
@@ -527,8 +527,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">src/app/services/database.service.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">src/app/services/database.service.ts:142</a></div>
                 </td>
             </tr>
 
@@ -720,15 +720,73 @@ export class DatabaseService extends Dexie {
             }
           });
       });
+    this.version(5)
+      .stores({
+        assignments: &quot;++id, metadata.title, provider, instanceHost&quot;,
+      })
+      .upgrade((tx) &#x3D;&gt; {
+        return tx
+          .table(&quot;assignments&quot;)
+          .toCollection()
+          .modify((assignment) &#x3D;&gt; {
+            if (!assignment.provider) {
+              assignment.provider &#x3D; &quot;github&quot;;
+            }
+            if (!assignment.instanceHost) {
+              if (assignment.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot;) {
+                const firstRepoUrl &#x3D; assignment.repositories?.[0]?.url;
+                if (firstRepoUrl) {
+                  const sshMatch &#x3D; firstRepoUrl.match(/^git@([^:]+):/);
+                  if (sshMatch &amp;&amp; sshMatch[1]) {
+                    assignment.instanceHost &#x3D; sshMatch[1];
+                  } else {
+                    try {
+                      assignment.instanceHost &#x3D; new URL(firstRepoUrl).hostname;
+                    } catch {
+                      assignment.instanceHost &#x3D; &quot;gitlab.com&quot;;
+                    }
+                  }
+                } else {
+                  assignment.instanceHost &#x3D; &quot;gitlab.com&quot;;
+                }
+              } else {
+                assignment.instanceHost &#x3D; &quot;github.com&quot;;
+              }
+            }
+            if (assignment.repositories &amp;&amp; Array.isArray(assignment.repositories)) {
+              assignment.repositories.forEach((repo: any) &#x3D;&gt; {
+                if (!repo.provider) {
+                  repo.provider &#x3D; assignment.provider || &quot;github&quot;;
+                }
+              });
+            }
+          });
+      });
     this.assignments &#x3D; this.table(&quot;assignments&quot;);
     this.assignments.mapToClass(Assignment);
   }
 
   getAllAssignments(): Promise&lt;Assignment[]&gt; {
-    return this.assignments.toArray().then((assignments) &#x3D;&gt; plainToClass(Assignment, assignments));
+    return this.assignments.toArray().then((assignments) &#x3D;&gt;
+      plainToClass(Assignment, assignments).map((assignment) &#x3D;&gt; {
+        if (!assignment.provider) {
+          assignment.provider &#x3D; &quot;github&quot;;
+        }
+        if (!assignment.instanceHost) {
+          assignment.instanceHost &#x3D; assignment.resolvedInstanceHost;
+        }
+        return assignment;
+      }),
+    );
   }
 
   saveAssignment(assignment: Assignment): Promise&lt;number&gt; {
+    if (!assignment.provider) {
+      assignment.provider &#x3D; &quot;github&quot;;
+    }
+    if (!assignment.instanceHost) {
+      assignment.instanceHost &#x3D; assignment.resolvedInstanceHost;
+    }
     return this.assignments.put(assignment).then((id) &#x3D;&gt; {
       this.dbChanged.next();
       return id;
@@ -742,7 +800,19 @@ export class DatabaseService extends Dexie {
   }
 
   getAssignmentById(id: number): Promise&lt;Assignment&gt; {
-    return this.assignments.get(id).then((assignment) &#x3D;&gt; plainToClass(Assignment, assignment));
+    return this.assignments.get(id).then((assignment) &#x3D;&gt; {
+      if (!assignment) {
+        return assignment;
+      }
+      const hydrated &#x3D; plainToClass(Assignment, assignment);
+      if (!hydrated.provider) {
+        hydrated.provider &#x3D; &quot;github&quot;;
+      }
+      if (!hydrated.instanceHost) {
+        hydrated.instanceHost &#x3D; hydrated.resolvedInstanceHost;
+      }
+      return hydrated;
+    });
   }
 
   exportDB(): Promise&lt;any&gt; {

@@ -109,6 +109,13 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#tokenStatus" 
+>
+                                            tokenStatus
+                                        </a>
+                                </li>
+                                <li>
                                         <a href="#username" 
 >
                                             username
@@ -261,6 +268,44 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="tokenStatus"></a>
+                                        <span class="name "><b>tokenStatus</b>
+                                            <a href="#tokenStatus">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>tokenStatus:         <code><a href="../miscellaneous/typealiases.html#TokenStatus" target="_self" >TokenStatus</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#TokenStatus" target="_self" >TokenStatus</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="username"></a>
                                         <span class="name "><b>username</b>
                                             <a href="#username">
@@ -302,8 +347,9 @@ import { TranslateService } from &quot;@ngx-translate/core&quot;;
 import * as firebase from &quot;firebase/app&quot;;
 import { auth } from &quot;firebase/app&quot;;
 import &quot;firebase/auth&quot;;
-import { BehaviorSubject, Observable } from &quot;rxjs&quot;;
-import { Account, GitProviderType } from &quot;@models/Account.model&quot;;
+import { BehaviorSubject, Observable, of } from &quot;rxjs&quot;;
+import { catchError, map, shareReplay, tap } from &quot;rxjs/operators&quot;;
+import { Account, GitProviderType, TokenStatus } from &quot;@models/Account.model&quot;;
 import { GitAuthProvider } from &quot;@models/GitAuthProvider.model&quot;;
 import { TokenStorageService } from &quot;@services/token-storage.service&quot;;
 import { ToastService } from &quot;./toast.service&quot;;
@@ -314,6 +360,7 @@ export interface AuthState {
   username: string | null;
   avatarUrl: string | null;
   displayName: string | null;
+  tokenStatus?: TokenStatus;
 }
 
 /**
@@ -333,6 +380,7 @@ export class GithubAuthService implements GitAuthProvider {
   avatarUrl: string | null &#x3D; null;
   displayName: string | null &#x3D; null;
   loading &#x3D; false;
+  tokenStatus: TokenStatus &#x3D; &quot;unknown&quot;;
 
   public authChange$ &#x3D; new BehaviorSubject&lt;AuthState&gt;({
     isSignedIn: false,
@@ -340,7 +388,10 @@ export class GithubAuthService implements GitAuthProvider {
     username: null,
     avatarUrl: null,
     displayName: null,
+    tokenStatus: &quot;unknown&quot;,
   });
+
+  private validityCheck$: Observable&lt;boolean&gt; | null &#x3D; null;
 
   constructor(
     private router: Router,
@@ -378,6 +429,7 @@ export class GithubAuthService implements GitAuthProvider {
       username,
       avatarUrl: this.avatarUrl || &#x60;https://avatars.githubusercontent.com/${username}&#x60;,
       isCurrent: true,
+      tokenStatus: this.tokenStatus,
     };
   }
 
@@ -416,6 +468,7 @@ export class GithubAuthService implements GitAuthProvider {
       this.username &#x3D; null;
       this.avatarUrl &#x3D; null;
       this.displayName &#x3D; null;
+      this.tokenStatus &#x3D; &quot;unknown&quot;;
       this.tokenStorageService.clearAll(&quot;github&quot;);
       localStorage.removeItem(&quot;dev_github_token&quot;);
       localStorage.removeItem(&quot;github_username&quot;);
@@ -447,6 +500,52 @@ export class GithubAuthService implements GitAuthProvider {
     return this.http.get(url, httpOptions);
   }
 
+  checkTokenValidity(): Observable&lt;boolean&gt; {
+    if (!this.token) {
+      this.tokenStatus &#x3D; &quot;unknown&quot;;
+      this.notifyAuthChange();
+      return of(false);
+    }
+
+    if (this.validityCheck$) {
+      return this.validityCheck$;
+    }
+
+    const httpOptions &#x3D; {
+      headers: new HttpHeaders({
+        Authorization: &quot;token &quot; + this.token,
+      }),
+    };
+
+    this.validityCheck$ &#x3D; this.http.get(&quot;https://api.github.com/rate_limit&quot;, httpOptions).pipe(
+      map(() &#x3D;&gt; {
+        this.tokenStatus &#x3D; &quot;valid&quot;;
+        this.notifyAuthChange();
+        return true;
+      }),
+      catchError((error) &#x3D;&gt; {
+        if (error?.status &#x3D;&#x3D;&#x3D; 401 || error?.status &#x3D;&#x3D;&#x3D; 403) {
+          this.tokenStatus &#x3D; &quot;invalid&quot;;
+          this.notifyAuthChange();
+        }
+        return of(false);
+      }),
+      tap(() &#x3D;&gt; {
+        this.validityCheck$ &#x3D; null;
+      }),
+      shareReplay(1),
+    );
+
+    return this.validityCheck$;
+  }
+
+  markTokenInvalid(): void {
+    if (this.tokenStatus !&#x3D;&#x3D; &quot;invalid&quot;) {
+      this.tokenStatus &#x3D; &quot;invalid&quot;;
+      this.notifyAuthChange();
+    }
+  }
+
   async fetchUserProfile(rememberMe?: boolean): Promise&lt;void&gt; {
     if (!this.token) {
       return;
@@ -468,7 +567,10 @@ export class GithubAuthService implements GitAuthProvider {
         },
         isRemembered,
       );
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.status &#x3D;&#x3D;&#x3D; 401 || e?.status &#x3D;&#x3D;&#x3D; 403) {
+        this.markTokenInvalid();
+      }
       console.warn(&quot;Could not fetch GitHub profile via API:&quot;, e);
     }
   }
@@ -486,11 +588,13 @@ export class GithubAuthService implements GitAuthProvider {
       this.username &#x3D; storedUser?.username || null;
       this.avatarUrl &#x3D; storedUser?.avatarUrl || null;
       this.displayName &#x3D; storedUser?.displayName || null;
+      this.checkTokenValidity().subscribe();
     } else {
       this.token &#x3D; null;
       this.username &#x3D; null;
       this.avatarUrl &#x3D; null;
       this.displayName &#x3D; null;
+      this.tokenStatus &#x3D; &quot;unknown&quot;;
     }
 
     this.notifyAuthChange();
@@ -533,6 +637,7 @@ export class GithubAuthService implements GitAuthProvider {
   private handleAuthResult(result: any, rememberMe &#x3D; false): void {
     this.token &#x3D; result?.credential?.accessToken ?? this.token;
     if (this.token) {
+      this.tokenStatus &#x3D; &quot;valid&quot;;
       this.tokenStorageService.saveToken(&quot;github&quot;, this.token, rememberMe);
     }
     this.updateProfile(
@@ -555,6 +660,7 @@ export class GithubAuthService implements GitAuthProvider {
       username: this.username,
       avatarUrl: this.avatarUrl,
       displayName: this.displayName,
+      tokenStatus: this.tokenStatus,
     });
   }
 }

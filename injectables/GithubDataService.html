@@ -263,8 +263,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="720"
-                            class="link-to-prism">src/app/services/github-data.service.ts:720</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="729"
+                            class="link-to-prism">src/app/services/github-data.service.ts:729</a></div>
                 </td>
             </tr>
 
@@ -423,8 +423,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="654"
-                            class="link-to-prism">src/app/services/github-data.service.ts:654</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="660"
+                            class="link-to-prism">src/app/services/github-data.service.ts:660</a></div>
                 </td>
             </tr>
 
@@ -587,8 +587,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="536"
-                            class="link-to-prism">src/app/services/github-data.service.ts:536</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="539"
+                            class="link-to-prism">src/app/services/github-data.service.ts:539</a></div>
                 </td>
             </tr>
 
@@ -682,8 +682,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="764"
-                            class="link-to-prism">src/app/services/github-data.service.ts:764</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="773"
+                            class="link-to-prism">src/app/services/github-data.service.ts:773</a></div>
                 </td>
             </tr>
 
@@ -931,8 +931,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="191"
-                            class="link-to-prism">src/app/services/github-data.service.ts:191</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">src/app/services/github-data.service.ts:194</a></div>
                 </td>
             </tr>
 
@@ -1032,8 +1032,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="505"
-                            class="link-to-prism">src/app/services/github-data.service.ts:505</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="508"
+                            class="link-to-prism">src/app/services/github-data.service.ts:508</a></div>
                 </td>
             </tr>
 
@@ -1069,8 +1069,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="499"
-                            class="link-to-prism">src/app/services/github-data.service.ts:499</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="502"
+                            class="link-to-prism">src/app/services/github-data.service.ts:502</a></div>
                 </td>
             </tr>
 
@@ -1402,6 +1402,9 @@ export class GithubDataService implements GitDataService {
           };
         }),
         catchError((err) &#x3D;&gt; {
+          if (err?.status &#x3D;&#x3D;&#x3D; 401 || err?.status &#x3D;&#x3D;&#x3D; 403) {
+            this.githubAuthService.markTokenInvalid();
+          }
           console.error(&quot;Error fetching authenticated GitHub user repositories&quot;, err);
           return of({
             completed: true,
@@ -1869,6 +1872,9 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
           }
         }),
         catchError((error) &#x3D;&gt; {
+          if (error?.status &#x3D;&#x3D;&#x3D; 401 || error?.status &#x3D;&#x3D;&#x3D; 403) {
+            this.githubAuthService.markTokenInvalid();
+          }
           console.error(&quot;GraphQL batch error&quot;, error);
           return of(repoTab);
         }),
@@ -1935,6 +1941,9 @@ ${this.getCommitHistoryQueryFragment(&#x60;first: 100, after: &quot;${info.curso
           }
         }),
         catchError((error) &#x3D;&gt; {
+          if (error?.status &#x3D;&#x3D;&#x3D; 401 || error?.status &#x3D;&#x3D;&#x3D; 403) {
+            this.githubAuthService.markTokenInvalid();
+          }
           console.error(&quot;fetchRemainingCommits batch error&quot;, error);
           return of(null);
         }),

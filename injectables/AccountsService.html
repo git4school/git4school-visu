@@ -110,6 +110,11 @@
                             <li>
                                     <span class="modifier">Public</span>
                                     <span class="modifier">Optional</span>
+                                <a href="#gitlabCustomAuthService" >gitlabCustomAuthService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
                                 <a href="#gitlabDataService" >gitlabDataService</a>
                             </li>
                             <li>
@@ -129,7 +134,16 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#checkAllTokens" >checkAllTokens</a>
+                            </li>
+                            <li>
+                                <a href="#checkTokenValidity" >checkTokenValidity</a>
+                            </li>
+                            <li>
                                 <a href="#disconnectAccount" >disconnectAccount</a>
+                            </li>
+                            <li>
+                                <a href="#getActiveProvider" >getActiveProvider</a>
                             </li>
                             <li>
                                 <a href="#getDataService" >getDataService</a>
@@ -141,7 +155,13 @@
                                 <a href="#getProvider" >getProvider</a>
                             </li>
                             <li>
+                                <a href="#getTokenStatus" >getTokenStatus</a>
+                            </li>
+                            <li>
                                 <a href="#hasAccount" >hasAccount</a>
+                            </li>
+                            <li>
+                                <a href="#hasAccountForHost" >hasAccountForHost</a>
                             </li>
                             <li>
                                 <a href="#isEmpty" >isEmpty</a>
@@ -195,12 +215,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(githubAuthService: <a href="../injectables/GithubAuthService.html" target="_self">GithubAuthService</a>, gitlabAuthService: <a href="../injectables/GitlabAuthService.html" target="_self">GitlabAuthService</a>, githubDataService?: <a href="../injectables/GithubDataService.html" target="_self">GithubDataService</a>, gitlabDataService?: <a href="../injectables/GitlabDataService.html" target="_self">GitlabDataService</a>)</code>
+<code>constructor(githubAuthService: <a href="../injectables/GithubAuthService.html" target="_self">GithubAuthService</a>, gitlabAuthService: <a href="../injectables/GitlabAuthService.html" target="_self">GitlabAuthService</a>, gitlabCustomAuthService?: <a href="../injectables/GitlabCustomAuthService.html" target="_self">GitlabCustomAuthService</a>, githubDataService?: <a href="../injectables/GithubDataService.html" target="_self">GithubDataService</a>, gitlabDataService?: <a href="../injectables/GitlabDataService.html" target="_self">GitlabDataService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/services/accounts.service.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/services/accounts.service.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -238,6 +258,18 @@
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>gitlabCustomAuthService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GitlabCustomAuthService.html" target="_self" >GitlabCustomAuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -283,6 +315,130 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="checkAllTokens"></a>
+                    <span class="name">
+                        <span ><b>checkAllTokens</b></span>
+                        <a href="#checkAllTokens"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkAllTokens()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/app/services/accounts.service.ts:126</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkTokenValidity"></a>
+                    <span class="name">
+                        <span ><b>checkTokenValidity</b></span>
+                        <a href="#checkTokenValidity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkTokenValidity(providerType: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>, instanceHost?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">src/app/services/accounts.service.ts:115</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>providerType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&quot;github&quot;</code>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>instanceHost</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="disconnectAccount"></a>
                     <span class="name">
                         <span ><b>disconnectAccount</b></span>
@@ -299,8 +455,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">src/app/services/accounts.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">src/app/services/accounts.service.ts:135</a></div>
                 </td>
             </tr>
 
@@ -352,6 +508,79 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getActiveProvider"></a>
+                    <span class="name">
+                        <span ><b>getActiveProvider</b></span>
+                        <a href="#getActiveProvider"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getActiveProvider(providerType: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">src/app/services/accounts.service.ts:103</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>providerType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&quot;github&quot;</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/GitAuthProvider.html" target="_self" >GitAuthProvider | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getDataService"></a>
                     <span class="name">
                         <span ><b>getDataService</b></span>
@@ -368,8 +597,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">src/app/services/accounts.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">src/app/services/accounts.service.ts:87</a></div>
                 </td>
             </tr>
 
@@ -441,8 +670,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">src/app/services/accounts.service.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">src/app/services/accounts.service.ts:164</a></div>
                 </td>
             </tr>
 
@@ -510,8 +739,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">src/app/services/accounts.service.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/app/services/accounts.service.ts:99</a></div>
                 </td>
             </tr>
 
@@ -563,6 +792,93 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getTokenStatus"></a>
+                    <span class="name">
+                        <span ><b>getTokenStatus</b></span>
+                        <a href="#getTokenStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTokenStatus(providerType: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>, instanceHost?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">src/app/services/accounts.service.ts:107</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>providerType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&quot;github&quot;</code>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>instanceHost</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#TokenStatus" target="_self" >TokenStatus</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="hasAccount"></a>
                     <span class="name">
                         <span ><b>hasAccount</b></span>
@@ -579,8 +895,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">src/app/services/accounts.service.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/app/services/accounts.service.ts:66</a></div>
                 </td>
             </tr>
 
@@ -632,6 +948,87 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="hasAccountForHost"></a>
+                    <span class="name">
+                        <span ><b>hasAccountForHost</b></span>
+                        <a href="#hasAccountForHost"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasAccountForHost(provider: <a href="../undefineds/GitProviderType.html" target="_self">GitProviderType</a>, instanceHost?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">src/app/services/accounts.service.ts:74</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>provider</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#GitProviderType" target="_self" >GitProviderType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>instanceHost</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="isEmpty"></a>
                     <span class="name">
                         <span ><b>isEmpty</b></span>
@@ -648,8 +1045,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">src/app/services/accounts.service.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="160"
+                            class="link-to-prism">src/app/services/accounts.service.ts:160</a></div>
                 </td>
             </tr>
 
@@ -685,8 +1082,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">src/app/services/accounts.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">src/app/services/accounts.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -724,8 +1121,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">src/app/services/accounts.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">src/app/services/accounts.service.ts:181</a></div>
                 </td>
             </tr>
 
@@ -795,8 +1192,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">src/app/services/accounts.service.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">src/app/services/accounts.service.ts:190</a></div>
                 </td>
             </tr>
 
@@ -838,7 +1235,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/services/accounts.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/services/accounts.service.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -864,7 +1261,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/accounts.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/accounts.service.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -890,7 +1287,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/accounts.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/accounts.service.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -916,7 +1313,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/services/accounts.service.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/services/accounts.service.ts:21</a></div>
                         </td>
                     </tr>
 
@@ -943,7 +1340,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/services/accounts.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/services/accounts.service.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -980,7 +1377,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/accounts.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/accounts.service.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -1007,7 +1404,44 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/services/accounts.service.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/accounts.service.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gitlabCustomAuthService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>gitlabCustomAuthService</b></span>
+                        <a href="#gitlabCustomAuthService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/GitlabCustomAuthService.html" target="_self" >GitlabCustomAuthService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Optional()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/services/accounts.service.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -1044,7 +1478,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/services/accounts.service.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/accounts.service.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -1070,7 +1504,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/accounts.service.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/services/accounts.service.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -1099,7 +1533,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/services/accounts.service.ts:43</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/services/accounts.service.ts:53</a></div>
                                 </td>
                             </tr>
 
@@ -1121,7 +1555,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/services/accounts.service.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/services/accounts.service.ts:57</a></div>
                                 </td>
                             </tr>
 
@@ -1143,7 +1577,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/services/accounts.service.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/services/accounts.service.ts:61</a></div>
                                 </td>
                             </tr>
 
@@ -1155,12 +1589,13 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy, Optional } from &quot;@angular/core&quot;;
-import { BehaviorSubject, Observable, Subscription } from &quot;rxjs&quot;;
+import { BehaviorSubject, Observable, Subscription, of } from &quot;rxjs&quot;;
 import { GithubAuthService } from &quot;@services/github-auth.service&quot;;
 import { GitlabAuthService } from &quot;@services/gitlab-auth.service&quot;;
+import { GitlabCustomAuthService } from &quot;@services/gitlab-custom-auth.service&quot;;
 import { GithubDataService } from &quot;@services/github-data.service&quot;;
 import { GitlabDataService } from &quot;@services/gitlab-data.service&quot;;
-import { Account, GitProviderType } from &quot;@models/Account.model&quot;;
+import { Account, GitProviderType, TokenStatus } from &quot;@models/Account.model&quot;;
 import { GitAuthProvider } from &quot;@models/GitAuthProvider.model&quot;;
 import { GitDataService } from &quot;@models/GitDataService.model&quot;;
 
@@ -1178,6 +1613,7 @@ export class AccountsService implements OnDestroy {
   constructor(
     public githubAuthService: GithubAuthService,
     public gitlabAuthService: GitlabAuthService,
+    @Optional() public gitlabCustomAuthService?: GitlabCustomAuthService,
     @Optional() public githubDataService?: GithubDataService,
     @Optional() public gitlabDataService?: GitlabDataService,
   ) {
@@ -1185,6 +1621,14 @@ export class AccountsService implements OnDestroy {
 
     this.registerProvider(this.githubAuthService);
     this.registerProvider(this.gitlabAuthService);
+
+    if (this.gitlabCustomAuthService?.accountsChange$) {
+      this.authSubscription.add(
+        this.gitlabCustomAuthService.accountsChange$.subscribe(() &#x3D;&gt; {
+          this.updateAccounts();
+        }),
+      );
+    }
 
     if (this.githubDataService) {
       this.dataServices.set(&quot;github&quot;, this.githubDataService);
@@ -1205,11 +1649,29 @@ export class AccountsService implements OnDestroy {
   }
 
   get isGitlabConnected(): boolean {
-    return this.gitlabAuthService.isSignedIn();
+    const customCount &#x3D; this.gitlabCustomAuthService?.getAccounts?.()?.length || 0;
+    return this.gitlabAuthService.isSignedIn() || customCount &gt; 0;
   }
 
   hasAccount(providerType: GitProviderType): boolean {
+    if (providerType &#x3D;&#x3D;&#x3D; &quot;gitlab&quot;) {
+      const customCount &#x3D; this.gitlabCustomAuthService?.getAccounts?.()?.length || 0;
+      return Boolean(this.gitlabAuthService.isSignedIn() || customCount &gt; 0);
+    }
     return Boolean(this.providers.get(providerType)?.isSignedIn());
+  }
+
+  hasAccountForHost(provider: GitProviderType, instanceHost?: string): boolean {
+    if (provider &#x3D;&#x3D;&#x3D; &quot;github&quot;) {
+      return this.githubAuthService.isSignedIn();
+    }
+    if (provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot;) {
+      if (!instanceHost || instanceHost &#x3D;&#x3D;&#x3D; &quot;gitlab.com&quot;) {
+        return this.gitlabAuthService.isSignedIn();
+      }
+      return !!this.gitlabCustomAuthService?.hasAccount?.(instanceHost);
+    }
+    return false;
   }
 
   getDataService(providerType: GitProviderType &#x3D; &quot;github&quot;): GitDataService {
@@ -1228,12 +1690,55 @@ export class AccountsService implements OnDestroy {
     return this.providers.get(providerType);
   }
 
+  getActiveProvider(providerType: GitProviderType &#x3D; &quot;github&quot;): GitAuthProvider | undefined {
+    return this.providers.get(providerType);
+  }
+
+  getTokenStatus(providerType: GitProviderType &#x3D; &quot;github&quot;, instanceHost?: string): TokenStatus {
+    if (providerType &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; &amp;&amp; instanceHost &amp;&amp; instanceHost !&#x3D;&#x3D; &quot;gitlab.com&quot; &amp;&amp; this.gitlabCustomAuthService) {
+      return this.gitlabCustomAuthService.getTokenStatus(instanceHost);
+    }
+    const provider &#x3D; this.providers.get(providerType);
+    return provider?.tokenStatus || &quot;unknown&quot;;
+  }
+
+  checkTokenValidity(providerType: GitProviderType &#x3D; &quot;github&quot;, instanceHost?: string): Observable&lt;boolean&gt; {
+    if (providerType &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; &amp;&amp; instanceHost &amp;&amp; instanceHost !&#x3D;&#x3D; &quot;gitlab.com&quot; &amp;&amp; this.gitlabCustomAuthService) {
+      return this.gitlabCustomAuthService.checkTokenValidity(instanceHost);
+    }
+    const provider &#x3D; this.providers.get(providerType);
+    if (provider) {
+      return provider.checkTokenValidity();
+    }
+    return of(false);
+  }
+
+  checkAllTokens(): void {
+    for (const provider of this.providers.values()) {
+      if (provider.isSignedIn()) {
+        provider.checkTokenValidity().subscribe();
+      }
+    }
+    this.gitlabCustomAuthService?.checkTokenValidity().subscribe();
+  }
+
   disconnectAccount(id: string): void {
     const account &#x3D; this.currentAccounts.find((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; id);
     if (account) {
+      if (account.authType &#x3D;&#x3D;&#x3D; &quot;pat&quot; || (account.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; &amp;&amp; account.instanceHost &amp;&amp; account.instanceHost !&#x3D;&#x3D; &quot;gitlab.com&quot;)) {
+        this.gitlabCustomAuthService?.disconnectInstance(account.instanceHost);
+        return;
+      }
       this.providers.get(account.provider)?.signOut();
       return;
     }
+
+    const customMatch &#x3D; this.gitlabCustomAuthService?.getAccounts?.()?.find((a) &#x3D;&gt; a.id &#x3D;&#x3D;&#x3D; id || a.instanceHost &#x3D;&#x3D;&#x3D; id);
+    if (customMatch) {
+      this.gitlabCustomAuthService?.disconnectInstance(customMatch.instanceHost);
+      return;
+    }
+
     for (const provider of this.providers.values()) {
       if (id.includes(provider.provider)) {
         provider.signOut();
@@ -1250,14 +1755,17 @@ export class AccountsService implements OnDestroy {
     if (!account?.username) {
       return &quot;#&quot;;
     }
+    const cleanHost &#x3D; account.instanceHost ? account.instanceHost.replace(/^https?:\/\//i, &quot;&quot;).replace(/\/.*$/, &quot;&quot;) : &quot;&quot;;
     const provider &#x3D; account.provider ? this.providers.get(account.provider as GitProviderType) : undefined;
-    if (provider &amp;&amp; (!account.instanceHost || account.instanceHost &#x3D;&#x3D;&#x3D; provider.instanceHost)) {
+    if (account.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; &amp;&amp; cleanHost &amp;&amp; cleanHost !&#x3D;&#x3D; &quot;gitlab.com&quot; &amp;&amp; this.gitlabCustomAuthService?.getProfileUrl) {
+      return this.gitlabCustomAuthService.getProfileUrl(cleanHost, account.username);
+    }
+    if (provider &amp;&amp; (!cleanHost || cleanHost &#x3D;&#x3D;&#x3D; provider.instanceHost)) {
       return provider.getProfileUrl(account.username);
     }
     const fallbackHost &#x3D; provider?.instanceHost || (account.provider &#x3D;&#x3D;&#x3D; &quot;gitlab&quot; ? &quot;gitlab.com&quot; : &quot;github.com&quot;);
-    const host &#x3D; account.instanceHost || fallbackHost;
-    const cleanHost &#x3D; host.replace(/^https?:\/\//i, &quot;&quot;).replace(/\/.*$/, &quot;&quot;);
-    return &#x60;https://${cleanHost}/${encodeURIComponent(account.username)}&#x60;;
+    const host &#x3D; cleanHost || fallbackHost;
+    return &#x60;https://${host}/${encodeURIComponent(account.username)}&#x60;;
   }
 
   private registerProvider(provider: GitAuthProvider): void {
@@ -1277,6 +1785,11 @@ export class AccountsService implements OnDestroy {
         acc.isCurrent &#x3D; false;
         accounts.push(acc);
       }
+    }
+    const customAccounts &#x3D; this.gitlabCustomAuthService?.getAccounts?.() || [];
+    for (const cAcc of customAccounts) {
+      cAcc.isCurrent &#x3D; false;
+      accounts.push(cAcc);
     }
     if (accounts.length &gt; 0) {
       const primaryIdx &#x3D; accounts.findIndex((a) &#x3D;&gt; a.provider &#x3D;&#x3D;&#x3D; &quot;github&quot;);

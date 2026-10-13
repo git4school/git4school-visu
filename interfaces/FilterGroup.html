@@ -520,7 +520,7 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
   dropPosition: &quot;left&quot; | &quot;right&quot; | null &#x3D; null;
 
   trackByFn(index: number, item: any): any {
-    return item;
+    return item ? &#x60;${item.type}_${item.value}_${index}&#x60; : index;
   }
 
   public clearAll() {
@@ -614,9 +614,11 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
       } else if (event.key &#x3D;&#x3D;&#x3D; &quot;ArrowLeft&quot;) {
         this.navigateLeft();
         event.preventDefault();
+        event.stopPropagation();
       } else if (event.key &#x3D;&#x3D;&#x3D; &quot;ArrowRight&quot;) {
         this.navigateRight();
         event.preventDefault();
+        event.stopPropagation();
       } else if (event.key &#x3D;&#x3D;&#x3D; &quot;Delete&quot; || event.key &#x3D;&#x3D;&#x3D; &quot;Backspace&quot;) {
         this.deleteItem(this.selectedPillIndex);
         this.focusAfterDelete();
@@ -886,6 +888,9 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
     setTimeout(() &#x3D;&gt; {
       this.focus();
     }, 0);
+    requestAnimationFrame(() &#x3D;&gt; {
+      this.focus();
+    });
   }
 
   addQuestions(tokens: string[]) {
@@ -966,6 +971,7 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
   onBackspace() {
     if (!this.question &amp;&amp; this.items.length &gt; 0) {
       this.deleteItem(this.items.length - 1);
+      this.focus();
     }
   }
 
@@ -986,6 +992,7 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
           event.preventDefault();
         } else if (this.items.length &gt; 0) {
           this.deleteItem(this.items.length - 1);
+          this.focus();
           event.preventDefault();
         }
       } else if (event.key &#x3D;&#x3D;&#x3D; &quot;ArrowLeft&quot; &amp;&amp; this.items.length &gt; 0) {
@@ -1021,6 +1028,9 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
   }
 
   onCloseClick(index: number, event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
     // Find the start of the merged group
     let start &#x3D; index;
     while (start &gt; 0 &amp;&amp; this.items[start - 1].operatorAfter &#x3D;&#x3D;&#x3D; &quot;AND&quot;) {
@@ -1034,8 +1044,9 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
 
     if (this.selectedPillIndex !&#x3D;&#x3D; null) {
       this.focusAfterDelete();
+    } else {
+      this.focus();
     }
-    event.stopPropagation();
   }
 
   @ViewChildren(&quot;editInputs&quot;) editInputs: QueryList&lt;ElementRef&gt;;
@@ -1612,6 +1623,10 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
 
   writeValue(obj: any): void {
     if (obj) {
+      const areEqual &#x3D; Array.isArray(obj) &amp;&amp; obj.length &#x3D;&#x3D;&#x3D; this.questions.length &amp;&amp; obj.every((q, idx) &#x3D;&gt; q &#x3D;&#x3D;&#x3D; this.questions[idx]);
+      if (areEqual &amp;&amp; this.items.length &gt; 0) {
+        return;
+      }
       this.questions &#x3D; [...obj];
       // Re-sync items since questions changed externally
       this.syncItemsFromInputs();
