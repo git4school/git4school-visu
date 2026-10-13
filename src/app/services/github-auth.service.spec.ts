@@ -151,6 +151,7 @@ describe("GithubAuthService", () => {
     );
 
     const newService = new GithubAuthService(routerSpy, TestBed.inject(HttpClient), toastSpy, tokenStorageService);
+    httpMock.expectOne("https://api.github.com/rate_limit").flush({});
 
     expect(newService.isSignedIn()).toBeTrue();
     expect(newService.token).toBe("gho_saved_token");

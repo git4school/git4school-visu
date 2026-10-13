@@ -178,6 +178,9 @@ export class GithubDataService implements GitDataService {
           };
         }),
         catchError((err) => {
+          if (err?.status === 401 || err?.status === 403) {
+            this.githubAuthService.markTokenInvalid();
+          }
           console.error("Error fetching authenticated GitHub user repositories", err);
           return of({
             completed: true,
@@ -645,6 +648,9 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
           }
         }),
         catchError((error) => {
+          if (error?.status === 401 || error?.status === 403) {
+            this.githubAuthService.markTokenInvalid();
+          }
           console.error("GraphQL batch error", error);
           return of(repoTab);
         }),
@@ -711,6 +717,9 @@ ${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since
           }
         }),
         catchError((error) => {
+          if (error?.status === 401 || error?.status === 403) {
+            this.githubAuthService.markTokenInvalid();
+          }
           console.error("fetchRemainingCommits batch error", error);
           return of(null);
         }),

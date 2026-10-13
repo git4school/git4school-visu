@@ -14,6 +14,7 @@ export class TooltipComponent implements OnInit, OnDestroy {
   @Input() shortcutKeys?: string[];
   @Input() context?: any;
   @Input() maxWidth?: string | number;
+  @Input() instant = false;
 
   show = false;
   shortcutPressed = false;

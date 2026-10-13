@@ -51,7 +51,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   }
 
   get isConnectedToProvider(): boolean {
-    return this.accountsService.hasAccount(this.provider);
+    return this.accountsService.hasAccountForHost(this.provider, this.assignment?.instanceHost || this.assignment?.resolvedInstanceHost);
   }
 
   private rotateMatrix: { [key: string]: SortDirection } = {
@@ -288,6 +288,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
     let modalReference: CustomModalRef = this.modalService.open(ModalAddRepositoriesComponent, { size: "lg" });
     modalReference.componentInstance.repoList = this.getFormControls.map((row) => Repository.withJSON(row.value));
     modalReference.componentInstance.provider = this.provider;
+    modalReference.componentInstance.instanceHost = this.assignment?.instanceHost || this.assignment?.resolvedInstanceHost;
 
     modalReference.result.then(
       (result) => {

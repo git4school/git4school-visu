@@ -1,7 +1,8 @@
 import { LOCATION_INITIALIZED, registerLocaleData } from "@angular/common";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from "@angular/common/http";
 import localeFr from "@angular/common/locales/fr";
 import localeRu from "@angular/common/locales/ru";
+import { GitlabAuthInterceptor } from "@interceptors/gitlab-auth.interceptor";
 import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedUiModule } from "./shared/ui/shared-ui.module";
@@ -53,6 +54,7 @@ import { SidebarSettingsComponent } from "./components/nav-layouts/sidebar-setti
 import { AccountsComponent } from "./components/nav-layouts/sidebar-settings/accounts/accounts.component";
 import { AddAccountModalComponent } from "./components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component";
 import { GitlabCallbackComponent } from "@components/auth-callback/gitlab-callback.component";
+import { MockGitlabInterceptor } from "./dev-mock/mock-gitlab.interceptor";
 
 /**
  * Firebase configuration file
@@ -174,6 +176,16 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     },
     DatabaseService,
     NgbActiveModal,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: GitlabAuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MockGitlabInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

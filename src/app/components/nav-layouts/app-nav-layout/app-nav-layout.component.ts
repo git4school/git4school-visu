@@ -7,6 +7,7 @@ import { ConfigurationService } from "@services/configuration.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { ThemeService } from "@services/theme.service";
+import { AnonymizationService } from "@services/anonymization.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
@@ -34,6 +35,7 @@ export class AppNavLayoutComponent implements OnInit {
     private databaseService: DatabaseService,
     private configurationService: ConfigurationService,
     public themeService: ThemeService,
+    public anonymizationService: AnonymizationService,
     private router: Router,
     private customModalService: CustomModalService,
   ) {}
@@ -125,6 +127,11 @@ export class AppNavLayoutComponent implements OnInit {
           event.preventDefault();
           this.openCurrentAssignmentConfig();
         }
+      }
+    } else if (key === "a" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      if (this.dataService.dataLoaded() && !this.isHome && !this.hasActiveModal) {
+        event.preventDefault();
+        this.anonymizationService.toggleAnonymousMode();
       }
     }
   }

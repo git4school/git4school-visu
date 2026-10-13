@@ -11,18 +11,6 @@ import { GitProviderType } from "@models/GitAuthProvider.model";
  * milestones (reviews, corrections).
  */
 export class Assignment {
-  id: number;
-  uiStatus?: "prepared" | "ongoing" | "finished" | "default";
-  provider: GitProviderType = "github";
-
-  get uiType(): GitProviderType {
-    return this.provider || "github";
-  }
-
-  set uiType(value: GitProviderType) {
-    this.provider = value || "github";
-  }
-
   @Type(() => Metadata)
   metadata: Metadata;
 
@@ -57,6 +45,12 @@ export class Assignment {
   @Type(() => Repository)
   repositories: Repository[];
 
+  id: number;
+  instanceHost?: string;
+  instanceName?: string;
+  uiStatus?: "prepared" | "ongoing" | "finished" | "default";
+  provider: GitProviderType = "github";
+
   constructor() {
     this.metadata = new Metadata();
     this.reviews = [];
@@ -64,6 +58,36 @@ export class Assignment {
     this.others = [];
     this.sessions = [];
     this.repositories = [];
+  }
+
+  get uiType(): GitProviderType {
+    return this.provider || "github";
+  }
+
+  set uiType(value: GitProviderType) {
+    this.provider = value || "github";
+  }
+
+  get resolvedInstanceHost(): string {
+    if (this.instanceHost) {
+      return this.instanceHost;
+    }
+    if (this.provider === "gitlab") {
+      const firstRepoUrl = this.repositories?.[0]?.url;
+      if (firstRepoUrl) {
+        const sshMatch = firstRepoUrl.match(/^git@([^:]+):/);
+        if (sshMatch && sshMatch[1]) {
+          return sshMatch[1];
+        }
+        try {
+          return new URL(firstRepoUrl).hostname;
+        } catch {
+          // ignore invalid url
+        }
+      }
+      return "gitlab.com";
+    }
+    return "github.com";
   }
 
   get title(): string {
