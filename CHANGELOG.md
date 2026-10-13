@@ -1,24 +1,44 @@
-## [Unreleased]
+## 2.6.0
 
 ### Added
+
+#### General
+
+- ⭐ **Self-hosted GitLab support**: connect any self-hosted GitLab instance alongside gitlab.com, with multi-account management (one account per instance, host and display name stored per account)
+- Automatic GitLab OAuth token refresh with rotation and a dedicated HTTP interceptor
+- Generic token validity check with **expired-token indicators** in the accounts UI
+- ⭐ Visual **anonymization mode** for classroom presentations — student names, repositories and authors are hidden on demand via `AnonymizationService`
 
 #### Overview graph
 
 - ⭐ Student repository navigation with tooltip feedback in the students view
+- **Overlapping session navigation**: edge arrows and a contextual menu option to switch between sessions sharing the same date range
+- Improved overlapping-session selection, hit-testing and priority management
+- Session navigation shortcuts in the commits graph
+- Refined commits graph interactions: session info click, focus via double-click and subtle shift-drag zoom
+- Emil Kowalski-inspired tooltip warm-up animation; legacy tooltip styles removed
+- Redesigned shortcuts modal with structured cards, dotted leaders and mouse SVG icons
 
 #### Home
 
 - ⭐ Collapsible animated search bar in the assignment chooser
 
-#### General
-
-- ⭐ Support for self-hosted GitLab instances with multi-account management
-- Automatic GitLab OAuth token refresh with rotation and HTTP interceptor
-- ⭐ Visual **anonymization mode** for classroom presentations — student names, repositories and authors are hidden on demand via `AnonymizationService`
-
 ### Fixed
 
 - Tooltip content adaptation, helper expansion and viewport boundaries
+- Commit grouping on strip toggle and centered session counter
+- Dedicated areas for session info and milestone names to avoid overlapping
+- Zoom selection overlay and duration badge now drawn above grid lines
+- Zoom bounce when focusing a session
+- Button hover flickering; stabilized subpixel rendering transitions
+- Refresh button spin animation now starts seamlessly from its hover angle
+- Assignment chooser search bar focus
+
+### Modified
+
+- Refactored `GitlabDataService` member ordering
+- Optimized assignment loading (`LoaderService`)
+- Updated unit test suites for the GitHub/GitLab auth services, `DevFlagsService`, `AccountsService` and `AddAccountModalComponent`
 
 ---
 
