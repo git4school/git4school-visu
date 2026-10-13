@@ -1133,9 +1133,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         document.body.style.overscrollBehaviorX = "auto";
       })
       .on("click", (event: MouseEvent) => {
-        /* Any click in the chart closes the session pane; scrolling deliberately does not. */
+        /* Any click in the chart closes the session pane; scrolling deliberately does not.
+           A click on a session arms the single-click info tooltip through a 250 ms timer
+           (handleSessionClick): keep TOOLTIP out of this dismissal so it is not cancelled
+           before it can show, while still closing the pane and the other overlays. */
         if (event.shiftKey) return;
-        overview.overlayManagerService.dismissAll({ blurInput: true });
+        const rawDate = overview.getDateFromMouseEvent(event);
+        const sessionUnderCursor = !!overview.resolveSessionAtDate(rawDate);
+        overview.overlayManagerService.dismissAll({
+          blurInput: true,
+          exclude: sessionUnderCursor ? [OverlayType.TOOLTIP] : undefined,
+        });
       })
       .on("scroll", (event) => {
         overview.overlayManagerService.dismissAll({ exclude: [OverlayType.SESSION_PANE] });
