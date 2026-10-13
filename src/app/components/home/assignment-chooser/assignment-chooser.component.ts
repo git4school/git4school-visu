@@ -17,6 +17,14 @@ import { GitProviderType } from "@models/GitAuthProvider.model";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { buildDuplicateAssignment } from "@services/assignment-duplicate.util";
+import {
+  AssignmentDropdownField,
+  buildProviderFilterPills,
+  countActiveFilters,
+  filterAssignments,
+  isArchivedAssignment,
+  ProviderFilterPill,
+} from "@services/assignment-filters.util";
 import { AccountsService } from "@services/accounts.service";
 import { GithubAuthService } from "@services/github-auth.service";
 import { ConfigurationService } from "@services/configuration.service";
@@ -28,15 +36,6 @@ import { ClockService } from "@services/clock.service";
 import { Utils } from "@services/utils";
 import { Subscription } from "rxjs";
 import * as moment from "moment";
-
-export interface ProviderFilterPill {
-  key: string;
-  label: string;
-  provider?: GitProviderType;
-  instanceHost?: string;
-  instanceName?: string;
-  isCustom?: boolean;
-}
 
 @Component({
   selector: "assignment-chooser",
@@ -151,74 +150,13 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   get providerFilterPills(): ProviderFilterPill[] {
-    const pills: ProviderFilterPill[] = [{ key: "all", label: "HOME.FILTER.ALL" }];
-
-    const hasGithub =
-      this.accountsService.isGithubConnected || (this.assignments && this.assignments.some((a) => !a.provider || a.provider === "github"));
-    if (hasGithub) {
-      pills.push({
-        key: "github",
-        label: "HOME.FILTER.GITHUB",
-        provider: "github",
-        instanceHost: "github.com",
-      });
-    }
-
-    const hasGitlabCloud =
-      this.accountsService.isGitlabConnected ||
-      (this.assignments &&
-        this.assignments.some(
-          (a) => a.provider === "gitlab" && (!a.instanceHost || a.instanceHost === "gitlab.com" || a.resolvedInstanceHost === "gitlab.com"),
-        ));
-    if (hasGitlabCloud) {
-      pills.push({
-        key: "gitlab",
-        label: "HOME.FILTER.GITLAB",
-        provider: "gitlab",
-        instanceHost: "gitlab.com",
-      });
-    }
-
-    const customHostMap = new Map<string, { name: string; isConnected: boolean }>();
-
-    const connectedCustom = this.accountsService.gitlabCustomAuthService?.getAccounts() || [];
-    connectedCustom.forEach((acc) => {
-      if (acc.instanceHost) {
-        customHostMap.set(acc.instanceHost, {
-          name: acc.instanceName || this.cleanHostname(acc.instanceHost),
-          isConnected: true,
-        });
-      }
+    return buildProviderFilterPills({
+      assignments: this.assignments,
+      isGithubConnected: this.accountsService.isGithubConnected,
+      isGitlabConnected: this.accountsService.isGitlabConnected,
+      customAccounts: this.connectedCustomGitlabAccounts,
+      hasAccountForHost: (provider, host) => this.accountsService.hasAccountForHost(provider, host),
     });
-
-    if (this.assignments) {
-      this.assignments.forEach((a) => {
-        const host = a.instanceHost || (a.provider === "gitlab" && a.resolvedInstanceHost !== "gitlab.com" ? a.resolvedInstanceHost : null);
-        if (a.provider === "gitlab" && host && host !== "gitlab.com" && !customHostMap.has(host)) {
-          customHostMap.set(host, {
-            name: a.instanceName || this.cleanHostname(host),
-            isConnected: this.accountsService.hasAccountForHost("gitlab", host),
-          });
-        }
-      });
-    }
-
-    customHostMap.forEach((info, host) => {
-      pills.push({
-        key: `gitlab:${host}`,
-        label: `GitLab (${info.name})`,
-        provider: "gitlab",
-        instanceHost: host,
-        instanceName: info.name,
-        isCustom: true,
-      });
-    });
-
-    /* Toujours visible, en dernière position : un onglet qui apparaît/disparaît selon les
-       données serait plus déroutant qu'un onglet vide. */
-    pills.push({ key: "archived", label: "HOME.FILTER.ARCHIVED" });
-
-    return pills;
   }
 
   get selectedFilterPill(): ProviderFilterPill | undefined {
@@ -268,81 +206,11 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   get filteredAssignments() {
-    let result = this.assignments;
-
-    // Always show the assignment currently being created at the top, even if it doesn't match filters
-    const newAssignment = this.assignments.find((a) => a.id === -1);
-
-    // Apply filterType
-    if (this.filterType === "archived") {
-      result = result.filter((a) => a.id === -1 || this.isArchived(a));
-    } else {
-      // Les devoirs archivés ne sont visibles que dans l'onglet « Archivés ».
-      result = result.filter((a) => a.id === -1 || !this.isArchived(a));
-
-      if (this.filterType === "github") {
-        result = result.filter((a) => a.id === -1 || !a.provider || a.provider === "github");
-      } else if (this.filterType === "gitlab" || this.filterType === "gitlab-cloud") {
-        result = result.filter(
-          (a) =>
-            a.id === -1 ||
-            (a.provider === "gitlab" && (!a.instanceHost || a.instanceHost === "gitlab.com" || a.resolvedInstanceHost === "gitlab.com")),
-        );
-      } else if (this.filterType.startsWith("gitlab:")) {
-        const targetHost = this.filterType.substring(7);
-        result = result.filter(
-          (a) => a.id === -1 || (a.provider === "gitlab" && (a.instanceHost === targetHost || a.resolvedInstanceHost === targetHost)),
-        );
-      } else if (this.filterType !== "all") {
-        result = result.filter((a) => (a as any).uiType === this.filterType || a.id === -1);
-      }
-    }
-
-    // Apply search query
-    if (this.searchQuery && this.searchQuery.trim() !== "") {
-      const q = this.searchQuery.toLowerCase().trim();
-      result = result.filter(
-        (a) =>
-          a.id === -1 ||
-          (a.title && a.title.toLowerCase().includes(q)) ||
-          (a.course && a.course.toLowerCase().includes(q)) ||
-          (a.program && a.program.toLowerCase().includes(q)) ||
-          (a.year && a.year.toLowerCase().includes(q)),
-      );
-    }
-
-    // Apply advanced status filters
-    const statusFilters = this.advancedFilters.status;
-    const isAnyStatusFilterActive = statusFilters.prepared || statusFilters.ongoing || statusFilters.finished || statusFilters.default;
-
-    if (isAnyStatusFilterActive) {
-      result = result.filter((a) => {
-        if (a.id === -1) return true;
-        const status = (a as any).uiStatus;
-        if (status === "prepared" && statusFilters.prepared) return true;
-        if (status === "ongoing" && statusFilters.ongoing) return true;
-        if (status === "finished" && statusFilters.finished) return true;
-        if (status === "default" && statusFilters.default) return true;
-        return false;
-      });
-    }
-
-    // Apply course filter
-    if (this.advancedFilters.course) {
-      result = result.filter((a) => a.id === -1 || a.course === this.advancedFilters.course);
-    }
-
-    // Apply program filter
-    if (this.advancedFilters.program) {
-      result = result.filter((a) => a.id === -1 || a.program === this.advancedFilters.program);
-    }
-
-    // Apply year filter
-    if (this.advancedFilters.year) {
-      result = result.filter((a) => a.id === -1 || a.year === this.advancedFilters.year);
-    }
-
-    return result;
+    return filterAssignments(this.assignments, {
+      filterType: this.filterType,
+      searchQuery: this.searchQuery,
+      advancedFilters: this.advancedFilters,
+    });
   }
 
   /** Devoirs de la vue dossiers : les brouillons de création (id -1) n'existent qu'en liste. */
@@ -365,7 +233,13 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
 
   /** Devoir archivé : visible uniquement dans l'onglet « Archivés ». */
   isArchived(assignment: any): boolean {
-    return Boolean(assignment?.archivedAt);
+    return isArchivedAssignment(assignment);
+  }
+
+  /** Valeur d'un filtre avancé (cours / programme / année) sélectionnée dans un dropdown. */
+  setAdvancedFilter(field: AssignmentDropdownField, value: string): void {
+    this.advancedFilters[field] = value;
+    this.savePreferences();
   }
 
   /** Message d'état vide, contextualisé pour l'onglet « Archivés ». */
@@ -374,14 +248,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   getActiveFiltersCount(): number {
-    let count = 0;
-    const s = this.advancedFilters.status;
-    if (!s.prepared || !s.ongoing || !s.finished || !s.default) count++;
-    if (this.advancedFilters.course) count++;
-    if (this.advancedFilters.program) count++;
-    if (this.advancedFilters.year) count++;
-    // filterType (All/Github/Gitlab) is tracked outside the new badge count to preserve its original behavior
-    return count;
+    return countActiveFilters(this.advancedFilters);
   }
 
   resetAdvancedFilters() {
@@ -1257,13 +1124,5 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
         localStorage.removeItem("git4school_last_instance_name");
       }
     } catch (e) {}
-  }
-
-  private cleanHostname(host: string): string {
-    return host
-      .replace(/^https?:\/\//, "")
-      .replace(/^www\./, "")
-      .replace(/^gitlab\./, "")
-      .replace(/\/$/, "");
   }
 }

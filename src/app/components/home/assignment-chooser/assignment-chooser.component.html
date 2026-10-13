@@ -183,86 +183,11 @@
               </div>
             </div>
 
-            <div class="filter-section mb-3">
-              <h6 class="filter-section-title">{{ 'HOME.FILTER.COURSE' | translate }}</h6>
-              <div ngbDropdown class="d-block mt-1 w-100" container="body">
-                <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center"
-                  ngbDropdownToggle
-                  style="border-radius: 6px; padding: 0.375rem 0.75rem; max-width: 100%; overflow: hidden;">
-                  <span class="text-truncate"
-                    style="font-weight: normal; text-align: left; min-width: 0; flex: 1; margin-right: 8px;">{{
-                    advancedFilters.course || ('HOME.FILTER.ALL-COURSES' | translate) }}</span>
-                  <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </button>
-                <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                  <button ngbDropdownItem class="dropdown-item text-truncate" [class.active]="!advancedFilters.course" (click)="advancedFilters.course = ''; savePreferences()">
-                    {{ 'HOME.FILTER.ALL-COURSES' | translate }}
-                  </button>
-                  <div class="dropdown-divider" *ngIf="availableCourses.length > 0"></div>
-                  <button ngbDropdownItem class="dropdown-item text-truncate" *ngFor="let course of availableCourses"
-                    [class.active]="advancedFilters.course === course" (click)="advancedFilters.course = course; savePreferences()" [appTooltip]="course" [onlyIfTruncated]="true">
-                    {{ course }}
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ng-container *ngTemplateOutlet="filterDropdown; context: { title: 'HOME.FILTER.COURSE', allKey: 'HOME.FILTER.ALL-COURSES', items: availableCourses, selected: advancedFilters.course, field: 'course' }"></ng-container>
 
-            <div class="filter-section mb-3">
-              <h6 class="filter-section-title">{{ 'HOME.FILTER.PROGRAM' | translate }}</h6>
-              <div ngbDropdown class="d-block mt-1 w-100" container="body">
-                <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center"
-                  ngbDropdownToggle
-                  style="border-radius: 6px; padding: 0.375rem 0.75rem; max-width: 100%; overflow: hidden;">
-                  <span class="text-truncate"
-                    style="font-weight: normal; text-align: left; min-width: 0; flex: 1; margin-right: 8px;">{{
-                    advancedFilters.program || ('HOME.FILTER.ALL-PROGRAMS' | translate) }}</span>
-                  <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </button>
-                <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                  <button ngbDropdownItem class="dropdown-item text-truncate" [class.active]="!advancedFilters.program" (click)="advancedFilters.program = ''; savePreferences()">
-                    {{ 'HOME.FILTER.ALL-PROGRAMS' | translate }}
-                  </button>
-                  <div class="dropdown-divider" *ngIf="availablePrograms.length > 0"></div>
-                  <button ngbDropdownItem class="dropdown-item text-truncate" *ngFor="let program of availablePrograms"
-                    [class.active]="advancedFilters.program === program" (click)="advancedFilters.program = program; savePreferences()" [appTooltip]="program" [onlyIfTruncated]="true">
-                    {{ program }}
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ng-container *ngTemplateOutlet="filterDropdown; context: { title: 'HOME.FILTER.PROGRAM', allKey: 'HOME.FILTER.ALL-PROGRAMS', items: availablePrograms, selected: advancedFilters.program, field: 'program' }"></ng-container>
 
-            <div class="filter-section mb-3">
-              <h6 class="filter-section-title">{{ 'HOME.FILTER.YEAR' | translate }}</h6>
-              <div ngbDropdown class="d-block mt-1 w-100" container="body">
-                <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center"
-                  ngbDropdownToggle
-                  style="border-radius: 6px; padding: 0.375rem 0.75rem; max-width: 100%; overflow: hidden;">
-                  <span class="text-truncate"
-                    style="font-weight: normal; text-align: left; min-width: 0; flex: 1; margin-right: 8px;">{{
-                    advancedFilters.year || ('HOME.FILTER.ALL-YEARS' | translate) }}</span>
-                  <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </button>
-                <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                  <button ngbDropdownItem class="dropdown-item text-truncate" [class.active]="!advancedFilters.year" (click)="advancedFilters.year = ''; savePreferences()">
-                    {{ 'HOME.FILTER.ALL-YEARS' | translate }}
-                  </button>
-                  <div class="dropdown-divider" *ngIf="availableYears.length > 0"></div>
-                  <button ngbDropdownItem class="dropdown-item text-truncate" *ngFor="let year of availableYears"
-                    [class.active]="advancedFilters.year === year" (click)="advancedFilters.year = year; savePreferences()" [appTooltip]="year" [onlyIfTruncated]="true">
-                    {{ year }}
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ng-container *ngTemplateOutlet="filterDropdown; context: { title: 'HOME.FILTER.YEAR', allKey: 'HOME.FILTER.ALL-YEARS', items: availableYears, selected: advancedFilters.year, field: 'year' }"></ng-container>
 
             <div class="d-flex justify-content-end mt-4 pt-3 border-top filter-footer">
               <button class="btn btn-sm btn-link text-muted" (click)="resetAdvancedFilters()"
@@ -655,3 +580,32 @@
     </div>
   </div>
 </div>
+
+<!-- Reusable Template: advanced filter dropdown (course / program / year) -->
+<ng-template #filterDropdown let-title="title" let-allKey="allKey" let-items="items" let-selected="selected" let-field="field">
+  <div class="filter-section mb-3">
+    <h6 class="filter-section-title">{{ title | translate }}</h6>
+    <div ngbDropdown class="d-block mt-1 w-100" container="body">
+      <button class="btn btn-outline-ghost w-100 d-flex justify-content-between align-items-center"
+        ngbDropdownToggle
+        style="border-radius: 6px; padding: 0.375rem 0.75rem; max-width: 100%; overflow: hidden;">
+        <span class="text-truncate"
+          style="font-weight: normal; text-align: left; min-width: 0; flex: 1; margin-right: 8px;">{{ selected || (allKey | translate) }}</span>
+        <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+      <div ngbDropdownMenu class="modern-dropdown-menu w-100">
+        <button ngbDropdownItem class="dropdown-item text-truncate" [class.active]="!selected" (click)="setAdvancedFilter(field, '')">
+          {{ allKey | translate }}
+        </button>
+        <div class="dropdown-divider" *ngIf="items.length > 0"></div>
+        <button ngbDropdownItem class="dropdown-item text-truncate" *ngFor="let item of items"
+          [class.active]="selected === item" (click)="setAdvancedFilter(field, item)" [appTooltip]="item" [onlyIfTruncated]="true">
+          {{ item }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
