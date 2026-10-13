@@ -28,6 +28,21 @@ import { OverlayManagerService, OverlayType } from "@services/overlay-manager.se
 import { AnonymizationService } from "@services/anonymization.service";
 import { ClockService } from "@services/clock.service";
 import { getSessionDisplayName } from "@services/session-label.util";
+import {
+  compareSessions,
+  computeOverlapGroups,
+  findOverlapGroup,
+  formatSelectionDuration,
+  getGroupId,
+  getSessionKeyNum,
+  isSameSession,
+  resolveActiveSession,
+  resolveSessionAtDate,
+  SessionResolutionContext,
+  sessionCoversTime,
+  SessionUidFactory,
+  sessionsOverlap,
+} from "@services/session-graph.util";
 import { Subject, Subscription, concat } from "rxjs";
 import { skip, takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
@@ -185,8 +200,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   isShiftDragging = false;
   private sessionClickTimer: any = null;
   private lastClickedSession: Session | null = null;
-  private sessionUids = new WeakMap<Session, string>();
-  private nextSessionUid = 1;
+  private sessionUids = new SessionUidFactory();
   ////////////////////////
 
   public modeHoverState: any = {
@@ -4092,25 +4106,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   private formatSelectionDuration(d1: Date, d2: Date): string {
-    const t1 = Math.min(d1.getTime(), d2.getTime());
-    const t2 = Math.max(d1.getTime(), d2.getTime());
-    const diffMs = t2 - t1;
-    const dur = moment.duration(diffMs);
-    const days = Math.floor(dur.asDays());
-    const hours = dur.hours();
-    const minutes = dur.minutes();
-
-    let text = "";
-    if (days > 0) {
-      text += `${days}j `;
-    }
-    if (hours > 0 || days > 0) {
-      text += `${hours}h `;
-    }
-    if (minutes > 0 || (days === 0 && hours === 0)) {
-      text += `${minutes}min`;
-    }
-    return text.trim();
+    return formatSelectionDuration(d1, d2);
   }
 
   initiateShiftDragZoom(event: MouseEvent) {
@@ -4394,211 +4390,80 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.loadSessionAnnotations();
   }
 
+  private buildSessionResolutionContext(): SessionResolutionContext {
+    return {
+      overlapGroups: this.overlapGroups,
+      activeSessionIndices: this.activeSessionIndices,
+      lastFocusedSession: this.lastFocusedSession,
+      visibleSessions: (this.dataService.sessions || []).filter(
+        (s) => !this.dataService.groupFilter || !s.tpGroup || s.tpGroup === this.dataService.groupFilter,
+      ),
+    };
+  }
+
   private saveData() {
     this.updateAfterMilestoneChange();
   }
 
   private computeOverlapGroups(sessions: Session[]): Session[][] {
-    const comparator = (a: Session, b: Session) => this.compareSessions(a, b);
-
-    const sorted = [...sessions].sort(comparator);
-    const groups: Session[][] = [];
-    const visited = new Set<Session>();
-    for (const session of sorted) {
-      if (visited.has(session)) continue;
-      const group: Session[] = [session];
-      visited.add(session);
-      let changed = true;
-      while (changed) {
-        changed = false;
-        for (const other of sorted) {
-          if (visited.has(other)) continue;
-          if (group.some((s) => this.sessionsOverlap(s, other))) {
-            group.push(other);
-            visited.add(other);
-            changed = true;
-          }
-        }
-      }
-      groups.push(group.sort(comparator));
-    }
-    return groups;
+    return computeOverlapGroups(sessions, this.dataService?.tpGroups || []);
   }
 
   private sessionsOverlap(a: Session, b: Session): boolean {
-    const aStart = new Date(a.startDate).getTime();
-    const aEnd = new Date(a.endDate).getTime();
-    const bStart = new Date(b.startDate).getTime();
-    const bEnd = new Date(b.endDate).getTime();
-    return aStart < bEnd && bStart < aEnd;
+    return sessionsOverlap(a, b);
   }
 
   public compareSessions(a: Session, b: Session): number {
-    if (!a && !b) return 0;
-    if (!a) return 1;
-    if (!b) return -1;
-
-    const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
-    const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
-    const aValid = !isNaN(aStart);
-    const bValid = !isNaN(bStart);
-    if (!aValid && !bValid) return 0;
-    if (!aValid) return 1;
-    if (!bValid) return -1;
-    const diffStart = aStart - bStart;
-    if (diffStart !== 0) return diffStart;
-
-    const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
-    const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
-    const aEndValid = !isNaN(aEnd);
-    const bEndValid = !isNaN(bEnd);
-    if (aEndValid && bEndValid) {
-      const diffEnd = aEnd - bEnd;
-      if (diffEnd !== 0) return diffEnd;
-    }
-
-    const tpGroups = this.dataService?.tpGroups || [];
-    const groupA = a.tpGroup ? a.tpGroup.trim() : "";
-    const groupB = b.tpGroup ? b.tpGroup.trim() : "";
-
-    if (groupA !== groupB) {
-      if (!groupA) return -1;
-      if (!groupB) return 1;
-
-      const idxA = tpGroups.indexOf(groupA);
-      const idxB = tpGroups.indexOf(groupB);
-
-      if (idxA !== -1 && idxB !== -1) {
-        if (idxA !== idxB) return idxA - idxB;
-      } else if (idxA !== -1) {
-        return -1;
-      } else if (idxB !== -1) {
-        return 1;
-      }
-
-      const naturalGroupDiff = groupA.localeCompare(groupB, undefined, { numeric: true, sensitivity: "base" });
-      if (naturalGroupDiff !== 0) return naturalGroupDiff;
-    }
-
-    return (a.label || "").localeCompare(b.label || "", undefined, { numeric: true, sensitivity: "base" });
+    return compareSessions(a, b, this.dataService?.tpGroups || []);
   }
 
   public getSessionUid(session: Session): string {
-    if (!session) return "unknown";
-    let uid = this.sessionUids.get(session);
-    if (!uid) {
-      const start = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
-      const end = session.endDate instanceof Date ? session.endDate.getTime() : new Date(session.endDate).getTime();
-      const grp = (session.tpGroup || "all").replace(/[^a-zA-Z0-9_-]/g, "_");
-      const lbl = (session.label || "").replace(/[^a-zA-Z0-9_-]/g, "_");
-      uid = `s_${start}_${end}_${grp}_${lbl}_${this.nextSessionUid++}`;
-      this.sessionUids.set(session, uid);
-    }
-    return uid;
+    return this.sessionUids.uid(session);
   }
 
   public isSameSession(a: Session, b: Session): boolean {
-    if (!a || !b) return false;
-    if (a === b) return true;
-    const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
-    const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
-    const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
-    const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
-    return aStart === bStart && aEnd === bEnd && (a.tpGroup || "") === (b.tpGroup || "") && (a.label || "") === (b.label || "");
+    return isSameSession(a, b);
   }
 
   public getGroupId(group: Session[]): string {
-    if (!group || group.length === 0) return "";
-    return group
-      .map((s) => {
-        const start = s.startDate instanceof Date ? s.startDate.getTime() : new Date(s.startDate).getTime();
-        const end = s.endDate instanceof Date ? s.endDate.getTime() : new Date(s.endDate).getTime();
-        return `${start}_${end}_${s.tpGroup || "all"}_${s.label || ""}`;
-      })
-      .join("__");
+    return getGroupId(group);
   }
 
   public getSessionKeyNum(session: Session): number {
-    return session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+    return getSessionKeyNum(session);
   }
 
   public getSessionOverlapGroup(session: Session): Session[] | null {
-    if (!this.overlapGroups || !session) return null;
-    return this.overlapGroups.find((g) => g.includes(session) || g.some((s) => this.isSameSession(s, session))) || null;
+    return findOverlapGroup(this.overlapGroups, session);
   }
 
   public getActiveSession(session: Session): Session {
-    if (!session) return session;
-    const group = this.getSessionOverlapGroup(session);
-    if (!group || group.length <= 1) return session;
-    const groupId = this.getGroupId(group);
-    const activeIdx = this.activeSessionIndices.get(groupId) ?? 0;
-    return group[activeIdx] ?? group[0] ?? session;
+    return resolveActiveSession(session, {
+      overlapGroups: this.overlapGroups,
+      activeSessionIndices: this.activeSessionIndices,
+    });
   }
 
   public sessionCoversTime(session: Session, time: number): boolean {
-    if (!session || !session.startDate || !session.endDate) return false;
-    const start = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
-    const end = session.endDate instanceof Date ? session.endDate.getTime() : new Date(session.endDate).getTime();
-    return time >= Math.min(start, end) && time <= Math.max(start, end);
+    return sessionCoversTime(session, time);
   }
 
   public resolveSessionAtDate(rawDate: Date, preferredSession?: Session): Session | null {
-    if (!rawDate || isNaN(rawDate.getTime())) return preferredSession || null;
-    const time = rawDate.getTime();
-
-    // 1. If preferredSession is provided:
-    if (preferredSession) {
-      if (this.sessionCoversTime(preferredSession, time)) {
-        return preferredSession;
-      }
-      const group = this.getSessionOverlapGroup(preferredSession);
-      if (group) {
-        const covering = group.find((s) => this.sessionCoversTime(s, time));
-        if (covering) return covering;
-      }
-      const activeSession = this.getActiveSession(preferredSession);
-      if (activeSession && this.sessionCoversTime(activeSession, time)) {
-        return activeSession;
-      }
-    }
-
-    // 2. No preferredSession or preferredSession does not cover time:
-    const visibleSessions = (this.dataService.sessions || []).filter(
-      (s) => !this.dataService.groupFilter || !s.tpGroup || s.tpGroup === this.dataService.groupFilter,
-    );
-    const candidates = visibleSessions.filter((s) => this.sessionCoversTime(s, time));
-    if (candidates.length === 0) return null;
-    if (candidates.length === 1) return candidates[0];
-
-    // If multiple candidates overlap at this time, prioritize currently active session
-    for (const cand of candidates) {
-      const active = this.getActiveSession(cand);
-      if (this.isSameSession(active, cand)) {
-        return cand;
-      }
-    }
-
-    if (this.lastFocusedSession && candidates.some((c) => this.isSameSession(c, this.lastFocusedSession))) {
-      return this.lastFocusedSession;
-    }
-
-    return candidates[0];
+    return resolveSessionAtDate(rawDate, preferredSession, this.buildSessionResolutionContext());
   }
 
   public activateSession(session: Session): Session {
     if (!session) return session;
     const group = this.getSessionOverlapGroup(session);
     if (group && group.length > 1) {
-      let idx = group.indexOf(session);
-      if (idx === -1) {
-        idx = group.findIndex((s) => this.isSameSession(s, session));
+      let index = group.indexOf(session);
+      if (index === -1) {
+        index = group.findIndex((s) => this.isSameSession(s, session));
       }
-      if (idx !== -1) {
+      if (index !== -1) {
         const groupId = this.getGroupId(group);
-        const currentIdx = this.activeSessionIndices.get(groupId);
-        if (currentIdx !== idx) {
-          this.activeSessionIndices.set(groupId, idx);
+        if (this.activeSessionIndices.get(groupId) !== index) {
+          this.activeSessionIndices.set(groupId, index);
           this.updateSessionsTransforms();
           this.updateSessionVisibility(true);
         }

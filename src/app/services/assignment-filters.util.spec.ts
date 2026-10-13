@@ -1,4 +1,11 @@
-import { AssignmentAdvancedFilters, buildProviderFilterPills, cleanHostname, countActiveFilters, filterAssignments, isArchivedAssignment } from "./assignment-filters.util";
+import {
+  AssignmentAdvancedFilters,
+  buildProviderFilterPills,
+  cleanHostname,
+  countActiveFilters,
+  filterAssignments,
+  isArchivedAssignment,
+} from "./assignment-filters.util";
 
 describe("assignment-filters.util", () => {
   const allStatuses = { status: { prepared: true, ongoing: true, finished: true, default: true }, course: "", program: "", year: "" };
