@@ -29,39 +29,11 @@ export class SessionHeaderRenderer {
    * Séance non superposée (rendu standard sans flèches)
    * ------------------------------------------------------------- */
   private static renderSingleSession(ctx: SessionHeaderRenderContext): void {
-    const { displayName, groupName, hasNotes, fo, calendarSvg, usersSvg, noteSvg } = ctx;
+    const { fo } = ctx;
 
     fo.html(`
       <div class="session-header-inner d-flex align-items-center" style="gap: 4px; height: 100%; min-height: 24px; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; pointer-events: auto; overflow: visible; width: 100%; position: relative;">
-        <div class="session-header-pills-container d-flex align-items-center" style="gap: 4px; overflow: visible; min-width: 0; flex: 1 1 auto; height: 100%; flex-wrap: nowrap;">
-          <!-- Pill 1: Nom de séance -->
-          <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;">
-            ${calendarSvg}
-            <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
-          </span>
-
-          <!-- Pill 2: Groupe de TP -->
-          ${this.renderGroupPill(groupName, usersSvg)}
-
-          <!-- Pill 3: Note button -->
-          ${
-            hasNotes
-              ? `
-          <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="box-sizing: border-box; width: 18px; height: 18px; min-width: 18px; min-height: 18px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto; align-self: center;">
-            ${noteSvg}
-          </span>`
-              : ""
-          }
-
-          <!-- More indicator (...) when some info is hidden -->
-          <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 18px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0; align-self: center;">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
-              <circle cx="2.5" cy="8" r="1.8" />
-              <circle cx="8" cy="8" r="1.8" />
-              <circle cx="13.5" cy="8" r="1.8" />
-            </svg>
-          </span>
-        </div>
+        ${this.renderPills(ctx)}
       </div>
     `);
   }
@@ -98,41 +70,14 @@ export class SessionHeaderRenderer {
           ${chevronLeft}
         </button>
 
-        <!-- Zone centrale centrée -->
-        <div class="session-header-pills-container d-flex align-items-center justify-content-center" style="gap: 4px; overflow: visible; min-width: 0; flex: 1 1 auto; height: 100%; padding: 0 4px; flex-wrap: nowrap;">
-          <!-- Pill 1: Nom de séance -->
-          <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;">
-            ${calendarSvg}
-            <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${displayName}</span>
-          </span>
-
-          <!-- Pill 2: Groupe de TP -->
-          ${this.renderGroupPill(groupName, usersSvg)}
-
-          <!-- Pill 3: Note button -->
-          ${
-            hasNotes
-              ? `
-          <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="box-sizing: border-box; width: 18px; height: 18px; min-width: 18px; min-height: 18px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto; align-self: center;">
-            ${noteSvg}
-          </span>`
-              : ""
-          }
-
-          <!-- More indicator (...) when some info is hidden -->
-          <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 18px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0; align-self: center;">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
-              <circle cx="2.5" cy="8" r="1.8" />
-              <circle cx="8" cy="8" r="1.8" />
-              <circle cx="13.5" cy="8" r="1.8" />
-            </svg>
-          </span>
-
+        ${this.renderPills(ctx, {
+          centered: true,
+          extra: `
           <!-- Compteur (forme originale texte simple) -->
           <span class="session-counter flex-shrink-0" style="font-size: 10px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; line-height: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; padding: 0 2px; user-select: none; align-self: center; vertical-align: middle;">${
             sessionIdxInGroup + 1
-          }/${groupSize}</span>
-        </div>
+          }/${groupSize}</span>`,
+        })}
 
         <!-- Right arrow (collée au bord droit) -->
         <button class="session-edge-arrow session-edge-next flex-shrink-0" type="button" style="height: 18px; align-self: center;">
@@ -194,6 +139,62 @@ export class SessionHeaderRenderer {
       overview.updateSessionVisibility(true);
       overview.zoomToSession(targetSession);
     });
+  }
+
+  /* -------------------------------------------------------------
+   * Helper : Range la pastille "nom de séance", le groupe, la note et
+   * l'indicateur "..." (partagés par l'en-tête simple et l'en-tête superposé)
+   * ------------------------------------------------------------- */
+  private static renderPills(ctx: SessionHeaderRenderContext, options: { centered?: boolean; extra?: string } = {}): string {
+    const { centered = false, extra = "" } = options;
+    const classes = centered
+      ? "session-header-pills-container d-flex align-items-center justify-content-center"
+      : "session-header-pills-container d-flex align-items-center";
+    const centeredPadding = centered ? "padding: 0 4px;" : "";
+
+    return `
+        <div class="${classes}" style="gap: 4px; overflow: visible; min-width: 0; flex: 1 1 auto; height: 100%; ${centeredPadding} flex-wrap: nowrap;">
+          <!-- Pill 1: Nom de séance -->
+          <span class="badge session-pill session-name-pill d-inline-flex align-items-center" style="box-sizing: border-box; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--color-text-primary); font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 9999px; white-space: nowrap; gap: 4px; height: 18px; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex-shrink: 0; min-width: 0; overflow: hidden; pointer-events: auto; align-self: center;">
+            ${ctx.calendarSvg}
+            <span class="session-pill-text session-name-text text-truncate" style="min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;">${
+              ctx.displayName
+            }</span>
+          </span>
+
+          <!-- Pill 2: Groupe de TP -->
+          ${this.renderGroupPill(ctx.groupName, ctx.usersSvg)}
+
+          <!-- Pill 3: Note button -->
+          ${this.renderNoteButton(ctx.hasNotes, ctx.noteSvg)}
+
+          <!-- More indicator (...) when some info is hidden -->
+          ${this.renderMoreIndicator()}${extra}
+        </div>`;
+  }
+
+  /** Pastille ronde "note" affichée seulement quand la séance porte des notes. */
+  private static renderNoteButton(hasNotes: boolean, noteSvg: string): string {
+    if (!hasNotes) {
+      return "";
+    }
+
+    return `
+          <span role="button" tabindex="0" class="btn session-note-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center p-0" style="box-sizing: border-box; width: 18px; height: 18px; min-width: 18px; min-height: 18px; border-radius: 50%; background: var(--color-surface); border: 1px solid rgba(56, 189, 248, 0.45); color: var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; pointer-events: auto; align-self: center;">
+            ${noteSvg}
+          </span>`;
+  }
+
+  /** Indicateur "..." révélé par le CSS quand une information est masquée. */
+  private static renderMoreIndicator(): string {
+    return `
+          <span role="button" tabindex="0" class="session-more-btn flex-shrink-0 d-inline-flex align-items-center justify-content-center" style="width: 16px; height: 18px; cursor: pointer; pointer-events: auto; display: none; background: transparent; border: none; padding: 0; align-self: center;">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="flex-shrink: 0; display: block;">
+              <circle cx="2.5" cy="8" r="1.8" />
+              <circle cx="8" cy="8" r="1.8" />
+              <circle cx="13.5" cy="8" r="1.8" />
+            </svg>
+          </span>`;
   }
 
   /* -------------------------------------------------------------

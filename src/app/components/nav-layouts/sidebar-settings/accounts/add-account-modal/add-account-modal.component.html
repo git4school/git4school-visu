@@ -201,7 +201,9 @@
       <!-- 1 & 2. GITHUB OR GITLAB CLOUD (Unified via templates) -->
       <ng-container *ngIf="selectedPlatform !== 'gitlab-custom' && currentProvider as provider">
         <ng-container *ngIf="isConnected && connectedAccount as account">
-          <ng-container *ngTemplateOutlet="connectedPanel; context: { provider: provider, account: account }"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="connectedPanel; context: { provider: provider, account: account, profileUrl: profileUrl, isCustom: false }"
+          ></ng-container>
         </ng-container>
         <ng-container *ngIf="!isConnected">
           <ng-container *ngTemplateOutlet="disconnectedPanel; context: { provider: provider }"></ng-container>
@@ -212,98 +214,18 @@
       <ng-container *ngIf="selectedPlatform === 'gitlab-custom'">
         <!-- 3A. An instance is selected and active (view mode) -->
         <ng-container *ngIf="!showAddCustomInstanceForm && selectedCustomAccount as account">
-          <div class="connected-user-panel" [class.is-invalid-token]="account.tokenStatus === 'invalid'">
-            <div class="user-profile-row">
-              <div class="avatar-container mr-3">
-                <img
-                  *ngIf="account.avatarUrl"
-                  [src]="account.avatarUrl"
-                  [alt]="account.username"
-                  class="user-avatar-img"
-                  (error)="account.avatarUrl = null"
-                />
-                <div *ngIf="!account.avatarUrl" class="user-avatar-fallback">
-                  {{ (account.username || 'U').charAt(0).toUpperCase() }}
-                </div>
-                <div *ngIf="account.tokenStatus === 'invalid'" class="account-avatar-invalid-overlay" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" class="invalid-mark-svg">
-                    <line x1="12" y1="5" x2="12" y2="13"></line>
-                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                  </svg>
-                </div>
-              </div>
-              <div class="user-meta-group">
-                <div class="username-link-row">
-                  <a
-                    [href]="customProfileUrl"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="username-link"
-                    [appTooltip]="account.username"
-                    [onlyIfTruncated]="true"
-                  >
-                    <span>{{ account.username }}</span>
-                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon ml-1">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                  </a>
-                  <span class="instance-badge-chip ml-2">
-                    {{ account.instanceName || account.instanceHost }}
-                  </span>
-                  <span *ngIf="account.tokenStatus === 'invalid'" class="status-pill invalid ml-2" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
-                    <span class="dot"></span>
-                    {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="action-buttons-group" [class.is-confirming]="isConfirmingDisconnect">
-              <button
-                type="button"
-                class="btn-action-pill btn-disconnect-action"
-                [class.is-confirming]="isConfirmingDisconnect"
-                (click)="onDisconnectCustomClick($event)"
-                [disabled]="isConnecting"
-                [attr.aria-label]="(isConfirmingDisconnect ? 'CONFIRM' : 'ACCOUNTS.DISCONNECT') | translate"
-              >
-                <span class="btn-morph-content">
-                  <span class="morph-state normal-state">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                      <polyline points="16 17 21 12 16 7"></polyline>
-                      <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                    <span>{{ 'ACCOUNTS.DISCONNECT' | translate }}</span>
-                  </span>
-                  <span class="morph-state confirm-state">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span>{{ 'CONFIRM' | translate }}</span>
-                  </span>
-                </span>
-              </button>
-
-              <button
-                type="button"
-                class="btn-action-pill btn-cancel-action"
-                [class.is-visible]="isConfirmingDisconnect"
-                (click)="cancelConfirmDisconnect($event)"
-                [attr.aria-label]="'CANCEL' | translate"
-                [attr.tabindex]="isConfirmingDisconnect ? 0 : -1"
-                [attr.aria-hidden]="!isConfirmingDisconnect"
-              >
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-                <span>{{ 'CANCEL' | translate }}</span>
-              </button>
-            </div>
-          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              connectedPanel;
+              context: {
+                provider: null,
+                account: account,
+                profileUrl: customProfileUrl,
+                instanceLabel: account.instanceName || account.instanceHost,
+                isCustom: true
+              }
+            "
+          ></ng-container>
         </ng-container>
 
         <!-- 3B. Add / Connect instance form -->
@@ -417,7 +339,14 @@
 </div>
 
 <!-- Reusable Template: Connected State -->
-<ng-template #connectedPanel let-provider="provider" let-account="account">
+<ng-template
+  #connectedPanel
+  let-provider="provider"
+  let-account="account"
+  let-profileUrl="profileUrl"
+  let-instanceLabel="instanceLabel"
+  let-isCustom="isCustom"
+>
   <div class="connected-user-panel" [class.is-invalid-token]="isCurrentTokenInvalid">
     <div class="user-profile-row">
       <div class="avatar-container mr-3">
@@ -445,16 +374,17 @@
             target="_blank"
             rel="noopener noreferrer"
             class="username-link"
-            [appTooltip]="account.username || provider.name"
+            [appTooltip]="account.username || provider?.name"
             [onlyIfTruncated]="true"
           >
-            <span>{{ account.username || provider.name }}</span>
+            <span>{{ account.username || provider?.name }}</span>
             <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon ml-1">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
               <polyline points="15 3 21 3 21 9"></polyline>
               <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
           </a>
+          <span *ngIf="instanceLabel" class="instance-badge-chip ml-2">{{ instanceLabel }}</span>
           <span *ngIf="isCurrentTokenInvalid" class="status-pill invalid ml-2" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
             <span class="dot"></span>
             {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
@@ -468,7 +398,7 @@
         type="button"
         class="btn-action-pill btn-disconnect-action"
         [class.is-confirming]="isConfirmingDisconnect"
-        (click)="onDisconnectClick($event)"
+        (click)="isCustom ? onDisconnectCustomClick($event) : onDisconnectClick($event)"
         [disabled]="isConnecting"
         [attr.aria-label]="(isConfirmingDisconnect ? 'CONFIRM' : 'ACCOUNTS.DISCONNECT') | translate"
       >
