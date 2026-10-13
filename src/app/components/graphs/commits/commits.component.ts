@@ -15,7 +15,7 @@ import { OverviewGraphContextualMenuComponent } from "@components/overview-graph
 import { Commit, CommitColor } from "@models/Commit.model";
 import { Milestone } from "@models/Milestone.model";
 import { Session } from "@models/Session.model";
-import { NgbDropdown, NgbModal, NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDropdown, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService, TranslationChangeEvent } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { DataService } from "@services/data.service";
@@ -26,6 +26,8 @@ import { ThemeService } from "@services/theme.service";
 import { TooltipService } from "@services/tooltip.service";
 import { OverlayManagerService, OverlayType } from "@services/overlay-manager.service";
 import { AnonymizationService } from "@services/anonymization.service";
+import { ClockService } from "@services/clock.service";
+import { getSessionDisplayName } from "@services/session-label.util";
 import { Subject, Subscription, concat } from "rxjs";
 import { skip, takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
@@ -53,7 +55,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   @ViewChild(OverviewGraphContextualMenuComponent) contextualMenu;
   @ViewChild("questionsChooser") questionsChooser;
-  @ViewChild("groupDropdown") groupDropdown?: NgbDropdown;
   @ViewChild("legendDropdown") legendDropdown?: NgbDropdown;
   @ViewChild("d3TooltipTemplate") d3TooltipTemplate!: TemplateRef<any>;
 
@@ -64,6 +65,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   contextualMenuShown: boolean;
 
   assignmentsModified$: Subscription;
+  groupFilterSub: Subscription;
 
   displayModes = {
     opacity: false,
@@ -87,7 +89,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   showCorrections = true;
   showReviews = true;
   showOthers = true;
-  defaultSessionDuration: NgbTimeStruct;
   // Modal variables
   dateModal;
   labelModal: string;
@@ -126,6 +127,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   commits_line_g: d3.Selection<any, any, any, any>;
   data_g: d3.Selection<any, any, any, any>;
   commits_g: d3.Selection<any, any, any, any>;
+  now_g: d3.Selection<any, any, any, any>;
 
   x_scale: d3.ScaleTime<any, any, any>;
   x_scale_copy: d3.ScaleTime<any, any, any>; // Used by zooming
@@ -162,6 +164,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   private last_zoom_k = 0;
   private zoomTimeoutId: any = null;
   private zoomRafId: number | null = null;
+  private nowTicker: any = null;
+  private nowLabelWidth = 64;
   isRefreshing = false;
   private isThrottledGroupUpdate = false;
   private needsGroupUpdate = false;
@@ -181,6 +185,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   isShiftDragging = false;
   private sessionClickTimer: any = null;
   private lastClickedSession: Session | null = null;
+  private sessionUids = new WeakMap<Session, string>();
+  private nextSessionUid = 1;
   ////////////////////////
 
   public modeHoverState: any = {
@@ -255,6 +261,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     public anonymizationService: AnonymizationService,
     private ngZone: NgZone,
     public overlayManagerService: OverlayManagerService,
+    private clockService: ClockService,
   ) {
     super(loaderService, assignmentsService, dataService);
   }
@@ -278,9 +285,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       } catch (e) {}
     }
 
-    this.defaultSessionDuration = this.dataService.assignment.defaultSessionDuration;
     this.contextualMenuShown = false;
     this.assignmentsModified$ = this.subscribeAssignmentModified();
+    /* Le filtre de groupe est global (navbar) : rafraîchir la vue à chaque changement. */
+    this.groupFilterSub = this.dataService.groupFilter$.subscribe(() => this.loadGraphDataAndRefresh(false));
     this.updateLang();
     this.translateService.onLangChange.subscribe((event: TranslationChangeEvent) => {
       this.updateLang();
@@ -292,9 +300,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     this.overlayManagerService.dismiss$.pipe(takeUntil(this.destroy$)).subscribe((event) => {
       if (OverlayManagerService.shouldDismiss(OverlayType.DROPDOWN, event)) {
-        if (this.groupDropdown && this.groupDropdown.isOpen()) {
-          this.groupDropdown.close();
-        }
         if (this.legendDropdown && this.legendDropdown.isOpen()) {
           this.legendDropdown.close();
         }
@@ -309,6 +314,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         this.hovered_session = undefined;
       }
     });
+
+    /* Follow the simulated clock (dev bar) and keep the "now" marker in sync with wall time. */
+    this.clockService.offsetMs$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.tickNowIndicator();
+    });
+    this.nowTicker = setInterval(() => this.tickNowIndicator(), 60000);
   }
 
   pressedShortcut: string = null;
@@ -356,8 +367,13 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.zoomGraph(0.8);
     } else if (event.code === "Space" || key === " ") {
       event.preventDefault();
-      this.resetZoom(false);
+      /* Keep the hovered tooltip alive so its keycap animation is visible. */
+      this.resetZoom(false, false);
       this.triggerShortcut("space");
+    } else if (key === "m" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      event.preventDefault();
+      this.focusNow(false);
+      this.triggerShortcut("m");
     } else if (event.key === "ArrowLeft" && !event.ctrlKey && !event.metaKey && !event.altKey) {
       event.preventDefault();
       this.navigateToNextSession(-1);
@@ -407,6 +423,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       cancelAnimationFrame(this.zoomRafId);
       this.zoomRafId = null;
     }
+    if (this.nowTicker) {
+      clearInterval(this.nowTicker);
+      this.nowTicker = null;
+    }
     if (this.sessionClickTimer) {
       clearTimeout(this.sessionClickTimer);
       this.sessionClickTimer = null;
@@ -417,6 +437,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.removeDragTimeIndicator();
     document.body.style.cursor = "";
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
+    if (this.groupFilterSub) {
+      this.groupFilterSub.unsubscribe();
+    }
     document.body.style.overscrollBehaviorX = "auto";
   }
 
@@ -650,6 +673,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       suggestionLimit: 5,
     };
     this.updateSessionsTransforms();
+    this.updateNowIndicator();
   }
 
   loadGraph(startDate?: string, endDate?: string) {
@@ -706,6 +730,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.loadPoints();
     this.loadAnnotations();
     this.setupZoom(conserveZoom);
+    this.updateNowIndicator();
   }
 
   setupZoom(conserveZoom: boolean = false) {
@@ -715,24 +740,37 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.zoom = d3
       .zoom()
       .interpolate((p0: [number, number, number], p1: [number, number, number]) => {
-        const x0 = p0[0],
-          y0 = p0[1],
-          w0 = Math.max(1e-6, p0[2]);
-        const x1 = p1[0],
-          y1 = p1[1],
+        const w0 = Math.max(1e-6, p0[2]),
           w1 = Math.max(1e-6, p1[2]);
-        const dx = x1 - x0,
-          dy = y1 - y0;
-        return (t: number) => {
-          const wt = w0 === w1 ? w0 : w0 * Math.pow(w1 / w0, t);
-          return [x0 + t * dx, y0 + t * dy, wt];
-        };
+        /* k est interpolé linéairement, et non géométriquement. La perception du zoom est
+           proportionnelle à k alors que k géométrique ne l'est qu'en log(k) : sur un zoom guidé
+           type (séance de 2 h dans un domaine d'un mois, k de 1 à 288) le zoom géométrique
+           n'a fait que ~6 % de la taille finale à mi-parcours, alors que le déplacement est
+           déjà à 50 %. D'où une animation en deux temps, "ça bouge puis ça zoome".
+           En interpolant x et k tous deux linéairement, le point visé se déplace en ligne
+           droite à l'écran ET change de taille au même rythme : les deux mouvements sont
+           rigoureusement synchronisés, quel que soit le rapport de zoom. */
+        const dx = p1[0] - p0[0],
+          dy = p1[1] - p0[1],
+          dw = w1 - w0;
+        return (t: number) => [p0[0] + t * dx, p0[1] + t * dy, w0 + t * dw];
       })
       .on("start", (event) => {
+        const hadChartHover =
+          overview.hovered_commit != null ||
+          overview.hovered_group_commit != null ||
+          overview.hovered_session != null ||
+          overview.hovered_milestone != null ||
+          overview.hovered_repository != null;
+
         overview.hovered_commit = undefined;
         overview.hovered_group_commit = undefined;
         overview.hovered_g = null;
-        overview.tooltipService.hide();
+        /* Only dismiss the chart's own hover tooltip; leave a toolbar button
+           tooltip alive so its keycap animation stays visible on shortcut use. */
+        if (hadChartHover) {
+          overview.tooltipService.hide();
+        }
         if (event.sourceEvent != null) {
           overview.overlayManagerService.dismissAll({ blurInput: true });
         }
@@ -778,41 +816,93 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     this.data_g = this.data_g.call(this.zoom).on("dblclick.zoom", null);
 
-    d3.select(".chart-container").on(
-      "wheel",
-      (event: WheelEvent) => {
-        // Zooming is handled by d3.zoom if shiftKey is pressed
-        if (event.shiftKey) return;
-
-        let dx = event.deltaX;
-        let dy = event.deltaY;
-
-        // Handle ctrl+wheel to scroll horizontally if the device only emits deltaY
-        if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
-          dx = dy;
-          dy = 0;
-        }
-
-        // If there is significant horizontal scrolling, or ctrl key is pressed
-        if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
-          overview.overlayManagerService.dismissAll();
-          event.preventDefault(); // Prevent browser back/forward or default scroll
-          event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
-
-          if (this.zoom && this.data_g) {
-            // Pan horizontally
-            this.data_g.call(this.zoom.translateBy, -dx / (this.current_zoom?.k || 1), 0);
-          }
-        }
-      },
-      { passive: false },
-    );
+    d3.select(".chart-container").on("wheel", (event: WheelEvent) => this.handleGraphWheel(event), { passive: false });
 
     if (conserveZoom) {
       this.resetZoom(true);
     } else {
       this.resetZoom(false);
     }
+  }
+
+  /** Horizontal pan (and ctrl+wheel) shared by the chart body and the "now" marker. */
+  private handleGraphWheel(event: WheelEvent) {
+    // Zooming is handled by d3.zoom if shiftKey is pressed
+    if (event.shiftKey) return;
+
+    let dx = event.deltaX;
+    let dy = event.deltaY;
+
+    // Handle ctrl+wheel to scroll horizontally if the device only emits deltaY
+    if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
+      dx = dy;
+      dy = 0;
+    }
+
+    // If there is significant horizontal scrolling, or ctrl key is pressed
+    if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
+      this.overlayManagerService.dismissAll({ exclude: [OverlayType.SESSION_PANE] });
+      event.preventDefault(); // Prevent browser back/forward or default scroll
+      event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
+
+      if (this.zoom && this.data_g) {
+        // Pan horizontally
+        this.data_g.call(this.zoom.translateBy, -dx / (this.current_zoom?.k || 1), 0);
+      }
+    }
+  }
+
+  /**
+   * Wheel over the "now" marker must behave like the chart body: pan horizontally,
+   * and forward vertical wheel to the scrollable repo list (the marker lives in a
+   * separate overlay, so the native scroll would not reach it).
+   */
+  private handleNowWheel(event: WheelEvent) {
+    if (event.shiftKey) {
+      this.forwardWheelToZoom(event);
+      return;
+    }
+
+    const isHorizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.ctrlKey;
+    if (isHorizontal) {
+      this.handleGraphWheel(event);
+      return;
+    }
+
+    const container = document.querySelector(".chart-container") as HTMLElement;
+    if (container) {
+      container.scrollTop += event.deltaY;
+      container.scrollLeft += event.deltaX;
+      event.preventDefault();
+    }
+  }
+
+  /**
+   * Re-dispatch a shift+wheel from the "now" overlay onto the zoomed data layer so
+   * the d3.zoom wheel handler (which only reacts when shiftKey is set) zooms as usual.
+   */
+  private forwardWheelToZoom(event: WheelEvent) {
+    const node = this.data_g && (this.data_g.node() as Element | null);
+    if (!node) return;
+
+    event.preventDefault();
+    node.dispatchEvent(
+      new WheelEvent("wheel", {
+        deltaX: event.deltaX,
+        deltaY: event.deltaY,
+        deltaMode: event.deltaMode,
+        shiftKey: true,
+        ctrlKey: event.ctrlKey,
+        altKey: event.altKey,
+        metaKey: event.metaKey,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        screenX: event.screenX,
+        screenY: event.screenY,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
   }
 
   refresh() {
@@ -901,6 +991,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.data_g = this.chart_svg.append("g");
 
     this.chart_abs_g = this.svg_abs.append("g").attr("transform", "translate(" + translation + ")");
+    this.now_g = null;
 
     d3.select(".chart-selection-container").selectAll("svg").remove();
     this.svg_selection = d3
@@ -976,7 +1067,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             dy = 0;
           }
           if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
-            overview.overlayManagerService.dismissAll();
+            overview.overlayManagerService.dismissAll({ exclude: [OverlayType.SESSION_PANE] });
             event.preventDefault();
             event.stopPropagation();
             if (overview.zoom && overview.data_g) {
@@ -1041,8 +1132,21 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .on("mouseleave", () => {
         document.body.style.overscrollBehaviorX = "auto";
       })
+      .on("click", (event: MouseEvent) => {
+        /* Any click in the chart closes the session pane; scrolling deliberately does not.
+           A click on a session arms the single-click info tooltip through a 250 ms timer
+           (handleSessionClick): keep TOOLTIP out of this dismissal so it is not cancelled
+           before it can show, while still closing the pane and the other overlays. */
+        if (event.shiftKey) return;
+        const rawDate = overview.getDateFromMouseEvent(event);
+        const sessionUnderCursor = !!overview.resolveSessionAtDate(rawDate);
+        overview.overlayManagerService.dismissAll({
+          blurInput: true,
+          exclude: sessionUnderCursor ? [OverlayType.TOOLTIP] : undefined,
+        });
+      })
       .on("scroll", (event) => {
-        overview.overlayManagerService.dismissAll();
+        overview.overlayManagerService.dismissAll({ exclude: [OverlayType.SESSION_PANE] });
         const node = event.target as HTMLElement;
         if (node && (node.scrollLeft <= 0 || node.scrollLeft >= 2)) {
           node.scrollLeft = 1;
@@ -1111,6 +1215,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.loadSessions();
     }
     this.updateMilestoneCutoutMask();
+    if (this.now_g) {
+      this.now_g.raise();
+    }
   }
 
   loadMilestoneAnnotations() {
@@ -1185,6 +1292,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.updateMilestoneCutoutMask();
     if (this.session_header_g) {
       this.session_header_g.raise();
+    }
+    if (this.now_g) {
+      this.now_g.raise();
     }
   }
 
@@ -1343,26 +1453,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   getSessionDisplayName(session: Session): string {
-    if (!session) return "";
-    if (session.label && session.label.trim().length > 0) {
-      return session.label.trim();
-    }
-    const allSessions = this.dataService?.sessions || [];
-    const sameGroup = allSessions
-      .filter((s) => (s.tpGroup || "") === (session.tpGroup || ""))
-      .slice()
-      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-
-    const idx = sameGroup.indexOf(session);
-    const num = idx >= 0 ? idx + 1 : 1;
-    const defaultName = this.translateService.instant("DEFAULT-SESSION-NAME", {
-      number: num,
-    });
-    if (defaultName && defaultName !== "DEFAULT-SESSION-NAME") {
-      return defaultName;
-    }
-    const sessionPrefix = this.translateService.instant("SESSION") || "Séance";
-    return `${sessionPrefix} ${num}`;
+    return getSessionDisplayName(session, this.dataService?.sessions || [], this.translateService);
   }
 
   formatSessionTime(session: Session): string {
@@ -1377,7 +1468,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   buildSessionBody(g: d3.Selection<any, any, any, any>, session: Session) {
     const overview = this;
-    const sessionKey = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+    const sessionKey = overview.getSessionUid(session);
 
     let group = g
       .append("g")
@@ -1408,14 +1499,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         overview.handleSessionDblClick(targetSession);
       })
       .on("mouseenter", () => {
-        const key = overview.getSessionKeyNum(session);
-        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", "0.55");
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        const key = overview.getSessionKeyNum(session);
-        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", null);
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1456,7 +1545,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   buildSessionHeader(g: d3.Selection<any, any, any, any>, session: Session, overlapGroup?: Session[]) {
     const overview = this;
-    const sessionKey = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+    const sessionKey = overview.getSessionUid(session);
 
     let group = g
       .append("g")
@@ -1487,14 +1576,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         overview.handleSessionDblClick(targetSession);
       })
       .on("mouseenter", () => {
-        const key = overview.getSessionKeyNum(session);
-        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", "0.14");
-        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", "0.55");
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
       })
       .on("mouseleave", () => {
-        const key = overview.getSessionKeyNum(session);
-        d3.selectAll(`.session-bg-${key}`).style("fill-opacity", null);
-        d3.selectAll(`.session-edge-${key}`).style("stroke-opacity", null);
+        d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", null);
+        d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", null);
       });
 
     const rawX1 = this.xScaledTimeZoned(session.startDate);
@@ -1569,6 +1656,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const foY = 0;
     const foH = 24;
 
+    const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
+    const minFoWidth = isOverlap ? 74 : 55;
+
     const fo = group
       .append("foreignObject")
       .attr("class", "session-header-fo")
@@ -1576,8 +1666,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .attr("y", foY)
       .attr("width", foWidth)
       .attr("height", foH)
-      .style("visibility", foWidth < 28 ? "hidden" : "visible")
-      .style("pointer-events", "auto")
+      .style("display", foWidth < minFoWidth ? "none" : null)
+      .style("visibility", foWidth < minFoWidth ? "hidden" : "visible")
+      .style("pointer-events", foWidth < minFoWidth ? "none" : "auto")
       .style("overflow", "hidden");
 
     SessionHeaderRenderer.renderHeader({
@@ -1681,9 +1772,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   loadSessions() {
-    let loaded_sessions: Session[] = this.dataService.sessions.filter(
-      (session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter,
-    );
+    let loaded_sessions: Session[] = this.dataService.sessions
+      .filter((session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter)
+      .slice()
+      .sort((a, b) => this.compareSessions(a, b));
 
     this.overlapGroups = this.computeOverlapGroups(loaded_sessions);
     const newActiveIndices = new Map<string, number>();
@@ -1692,6 +1784,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         const groupId = this.getGroupId(group);
         const existingIdx = this.activeSessionIndices.get(groupId);
         newActiveIndices.set(groupId, existingIdx !== undefined && existingIdx < group.length ? existingIdx : 0);
+      }
+    }
+    if (this.lastFocusedSession) {
+      for (const group of this.overlapGroups) {
+        if (group.length > 1) {
+          const idx = group.findIndex((s) => this.isSameSession(s, this.lastFocusedSession));
+          if (idx !== -1) {
+            const groupId = this.getGroupId(group);
+            newActiveIndices.set(groupId, idx);
+          }
+        }
       }
     }
     this.activeSessionIndices = newActiveIndices;
@@ -2811,10 +2914,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     let x = this.xScaledTimeZoned(commit.commitDate);
 
-    let comp: d3.Selection<any, any, any, any> = g.append("a");
-    if (!this.anonymizationService.isAnonymous) {
-      comp.attr("href", (d) => d[0].url).attr("target", "_blank");
-    }
+    let comp: d3.Selection<any, any, any, any> = g
+      .append("a")
+      .attr("href", (d) => d[0].url)
+      .attr("target", "_blank");
 
     if (commit.isCloture) {
       comp = comp.append("circle").attr("class", "commit-cloture");
@@ -2929,6 +3032,14 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       maxDate = ext[1];
     }
 
+    // When "now" is within the assignment window (or that window is unbounded),
+    // extend the domain up to it so the marker stays visible and the gap is shown.
+    if (this.isNowInAssignmentWindow()) {
+      const now = this.clockService.now();
+      if (now < minDate) minDate = now;
+      if (now > maxDate) maxDate = now;
+    }
+
     // Add 2% padding to the graph's time domain so elements don't touch the edges
     if (minDate && maxDate) {
       let timeDiff = maxDate.getTime() - minDate.getTime();
@@ -2936,6 +3047,16 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       let padding = timeDiff * 0.02;
       minDate = new Date(minDate.getTime() - padding);
       maxDate = new Date(maxDate.getTime() + padding);
+    }
+
+    // Keep a minimum forward headroom so the "now" marker does not outrun the
+    // domain and force frequent full re-renders.
+    if (minDate && maxDate && this.isNowInAssignmentWindow()) {
+      const now = this.clockService.now();
+      const minHeadroom = 30 * 60 * 1000;
+      if (maxDate.getTime() < now.getTime() + minHeadroom) {
+        maxDate = new Date(now.getTime() + minHeadroom);
+      }
     }
 
     this.setupAxis(repositories, minDate, maxDate);
@@ -3119,9 +3240,165 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return this.x_scale_copy(d) + this.getOffset(d);
   }
 
+  /**
+   * True unless "now" is before the assignment start or after its end.
+   * Each bound is optional: a missing (or invalid) date imposes no constraint,
+   * so an assignment without dates always shows the current-time marker.
+   */
+  isNowInAssignmentWindow(now: Date = this.clockService.now()): boolean {
+    const start = this.dataService.startDate ? new Date(this.dataService.startDate) : null;
+    const end = this.dataService.endDate ? new Date(this.dataService.endDate) : null;
+    const t = now.getTime();
+
+    if (start && !isNaN(start.getTime()) && t < start.getTime()) {
+      return false;
+    }
+    if (end && !isNaN(end.getTime()) && t > end.getTime()) {
+      return false;
+    }
+    return true;
+  }
+
+  /** Animate the viewport to a 24h window centered on the current time. */
+  focusNow(dismissOverlays = true) {
+    const now = this.clockService.now();
+    if (!this.isNowInAssignmentWindow(now)) {
+      return;
+    }
+
+    const domain = this.x_scale ? this.x_scale.domain() : null;
+    const domainSpan = domain ? domain[1].getTime() - domain[0].getTime() : 0;
+
+    /* If the whole domain already fits in 24h, a full reset shows everything. */
+    if (domainSpan <= 24 * 60 * 60 * 1000) {
+      this.resetZoom(false, dismissOverlays);
+      return;
+    }
+
+    const halfWindow = 12 * 60 * 60 * 1000;
+    this.zoomToDateRange(new Date(now.getTime() - halfWindow), new Date(now.getTime() + halfWindow), 0, dismissOverlays);
+  }
+
+  updateNowIndicator() {
+    if (!this.chart_selection_g || !this.x_scale_copy) {
+      return;
+    }
+
+    const now = this.clockService.now();
+    if (!this.isNowInAssignmentWindow(now)) {
+      this.hideNowIndicator();
+      return;
+    }
+
+    const x = this.xScaledTimeZoned(now);
+    if (isNaN(x) || x < 0 || x > this.inner_width) {
+      this.hideNowIndicator();
+      return;
+    }
+
+    this.ensureNowIndicator();
+
+    const plotHeight = this.inner_height;
+    const labelText = `${this.translateService.instant("OVERVIEW-GRAPH.NOW-LABEL")} ${CommitsComponent.formatHour(now)}`;
+
+    this.now_g.style("display", null).attr("transform", `translate(${x}, ${this.inner_margin.top})`);
+    this.now_g.select(".now-line").attr("y1", 0).attr("y2", plotHeight);
+    this.now_g.select(".now-hitbox").attr("y", 0).attr("height", plotHeight);
+
+    const text = this.now_g.select(".now-pill-text");
+    if (text.text() !== labelText) {
+      text.text(labelText);
+      const node = text.node() as SVGTextElement;
+      if (node && typeof node.getBBox === "function") {
+        this.nowLabelWidth = Math.max(64, node.getBBox().width + 18);
+      }
+    }
+
+    const width = this.nowLabelWidth;
+    const height = 18;
+    /* Keep the pill inside the plot when the marker sits near the right edge. */
+    let centerX = 0;
+    if (x + width / 2 > this.inner_width) {
+      centerX = this.inner_width - x - width / 2;
+    }
+
+    this.now_g
+      .select(".now-pill-bg")
+      .attr("x", centerX - width / 2)
+      .attr("y", -height / 2)
+      .attr("width", width)
+      .attr("height", height)
+      .attr("rx", height / 2)
+      .attr("ry", height / 2);
+    text.attr("x", centerX).attr("y", 0);
+
+    this.raiseNowIndicator();
+  }
+
+  private ensureNowIndicator() {
+    if (this.now_g && this.now_g.node() && this.now_g.node().isConnected) {
+      return;
+    }
+
+    /* The selection overlay sits above the scrollable data layer, so the "now"
+       marker can receive hover there (the transparent #data rect would otherwise
+       swallow pointer events across the whole plot). */
+    this.now_g = this.chart_selection_g.append("g").attr("class", "now-indicator").style("pointer-events", "none");
+    this.now_g.on("wheel", (event: WheelEvent) => this.handleNowWheel(event), { passive: false });
+
+    this.now_g.append("line").attr("class", "now-line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", 0);
+
+    const pill = this.now_g.append("g").attr("class", "now-pill");
+    const content = pill.append("g").attr("class", "now-pill-content");
+    content.append("text").attr("class", "now-pill-text").attr("text-anchor", "middle").attr("dominant-baseline", "central");
+    content.insert("rect", "text").attr("class", "now-pill-bg");
+
+    const follow = (event: MouseEvent) => {
+      const [, py] = d3.pointer(event, this.now_g.node());
+      pill.attr("transform", `translate(0, ${py})`);
+    };
+
+    this.now_g
+      .append("rect")
+      .attr("class", "now-hitbox")
+      .attr("x", -10)
+      .attr("width", 20)
+      .on("mouseenter", (event: MouseEvent) => {
+        follow(event);
+        this.now_g.classed("now-hover", true);
+      })
+      .on("mousemove", (event: MouseEvent) => follow(event))
+      .on("mouseleave", () => this.now_g.classed("now-hover", false));
+  }
+
+  private raiseNowIndicator() {
+    const node = this.now_g && this.now_g.node();
+    if (node && node.parentNode && node.parentNode.lastElementChild !== node) {
+      this.now_g.raise();
+    }
+  }
+
+  private hideNowIndicator() {
+    if (this.now_g) {
+      this.now_g.style("display", "none");
+    }
+  }
+
+  /** Called by the clock subscription / ticker; extends the domain if wall time outran it. */
+  private tickNowIndicator() {
+    const now = this.clockService.now();
+    const domain = this.x_scale ? this.x_scale.domain() : null;
+    if (domain && this.isNowInAssignmentWindow(now) && (now.getTime() > domain[1].getTime() || now.getTime() < domain[0].getTime())) {
+      this.loadGraphDataAndRefresh(true);
+      return;
+    }
+    this.updateNowIndicator();
+  }
+
   refreshElementState() {
     this.updateNodesVisibilityAndTransforms();
     this.updateMilestoneVisibility();
+    this.updateNowIndicator();
 
     if (!this.repositories_g) return;
 
@@ -3242,6 +3519,16 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         return;
       }
 
+      const overlapGroup = overview.getSessionOverlapGroup(s);
+      const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
+      if (isOverlap) {
+        const activeSession = overview.getActiveSession(s);
+        const isActive = overview.isSameSession(s, activeSession);
+        g.style("opacity", isActive ? null : "0.25");
+      } else {
+        g.style("opacity", null);
+      }
+
       g.select(".session-body").attr("x", visX1).attr("width", visWidth);
 
       const showLeft = rawX1 >= 0 && rawX1 <= overview.inner_width;
@@ -3260,6 +3547,23 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (this.session_header_g) {
       this.session_header_g.selectAll(".session-header-container").each(function (s: Session) {
         const g = d3.select(this);
+        const fo = g.select(".session-header-fo");
+
+        const overlapGroup = overview.getSessionOverlapGroup(s);
+        const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
+
+        if (isOverlap) {
+          const activeSession = overview.getActiveSession(s);
+          const isActive = overview.isSameSession(s, activeSession);
+          if (!isActive) {
+            g.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            if (!fo.empty()) {
+              fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            }
+            return;
+          }
+        }
+
         const rawX1 = overview.xScaledTimeZoned(s.startDate);
         const rawX2 = overview.xScaledTimeZoned(s.endDate);
 
@@ -3269,17 +3573,15 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
         const isVisible = !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < overview.inner_width && visWidth > 0;
 
-        const fo = g.select(".session-header-fo");
-
         if (!isVisible) {
-          g.style("display", "none").style("visibility", "hidden");
+          g.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
           if (!fo.empty()) {
-            fo.style("display", "none").style("visibility", "hidden");
+            fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
           }
           return;
         }
 
-        g.style("display", null).style("visibility", "visible");
+        g.style("display", null).style("visibility", "visible").style("pointer-events", "auto");
 
         // 1. Continuous header background (clamped to 0..inner_width)
         const headerY = 0;
@@ -3325,10 +3627,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           namePill.select(".session-name-text").text(displayName);
         }
 
-        const overlapGroup = overview.getSessionOverlapGroup(s);
-        const isOverlap = !!(overlapGroup && overlapGroup.length > 1);
         const navReservedWidth = isOverlap ? 74 : 0; // Left arrow (~22px) + Right arrow (~22px) + Counter (~22px) + gaps (~8px)
-        const minFoWidth = isOverlap ? 48 : 28;
+        const minFoWidth = isOverlap ? 74 : 55;
 
         if (isOverlap && overlapGroup) {
           const groupId = overview.getGroupId(overlapGroup);
@@ -3341,11 +3641,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
         if (foWidth < minFoWidth) {
           // Extremely narrow: hide badges completely
-          fo.style("display", "none").style("visibility", "hidden");
+          fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
           return;
         }
 
-        fo.style("display", null).style("visibility", "visible");
+        fo.style("display", null).style("visibility", "visible").style("pointer-events", "auto");
 
         const availWidth = Math.max(0, foWidth - navReservedWidth);
 
@@ -3440,7 +3740,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
             if (!moreBtn.empty()) {
               moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
             }
-          } else if (availWidth >= 38) {
+          } else if (availWidth >= 55) {
             // Only enough room for Name truncated with ellipsis
             if (!namePill.empty()) {
               namePill.style("display", "inline-flex").style("max-width", `${availWidth - 6}px`);
@@ -3455,8 +3755,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
               moreBtn.style("display", "none");
             }
           } else {
-            // Width between minFoWidth and 38px:
-            // Too small for Name pill, show "..." badge representing the hidden session info
+            // Width below 55px: Too small for Name pill.
+            // Hide pills; navigation controls (< 1/5 >) remain visible if overlapping.
             if (!namePill.empty()) {
               namePill.style("display", "none");
             }
@@ -3467,7 +3767,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
               noteBtn.style("display", "none");
             }
             if (!moreBtn.empty()) {
-              moreBtn.style("display", "inline-flex");
+              moreBtn.style("display", "none");
             }
           }
         }
@@ -3577,7 +3877,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.drag = !this.drag;
   }
 
-  resetZoom(conserve?: boolean) {
+  resetZoom(conserve?: boolean, dismissOverlays = true) {
     if (conserve) {
       if (this.current_zoom) {
         this.data_g.call(this.zoom.transform, this.current_zoom);
@@ -3588,7 +3888,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
 
     this.current_zoom = null;
-    this.overlayManagerService.dismissTransient();
+    if (dismissOverlays) {
+      this.overlayManagerService.dismissTransient();
+    }
     if (this.data_g && this.zoom) {
       this.data_g.transition().duration(750).call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
     }
@@ -3625,13 +3927,15 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.data_g.transition().duration(750).call(this.zoom.transform, transform);
   }
 
-  zoomToSession(session: Session, marginRatio = 0.1) {
+  zoomToSession(session: Session, marginRatio = 0.1, dismissOverlays = true) {
     if (!session || !this.data_g || !this.zoom || !this.x_scale) return;
     this.hovered_commit = undefined;
     this.hovered_group_commit = undefined;
     this.hovered_g = null;
     this.tooltipService.hide();
-    this.overlayManagerService.dismissAll();
+    if (dismissOverlays) {
+      this.overlayManagerService.dismissAll();
+    }
 
     const time_domain = this.x_scale.domain();
     const minDate = time_domain[0].valueOf() as number;
@@ -3648,18 +3952,17 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     let target_k = (dt * visibleRatio) / sessionDuration;
     target_k = Math.max(1, Math.min(target_k, this.maxZoom));
 
-    let translate_x = 0;
-    if (target_k > 1) {
-      const centerTime = (startTime + endTime) / 2;
-      translate_x = this.inner_width / 2 - ((centerTime - minDate) / dt) * this.inner_width * target_k;
-    }
+    /* Toujours recentrer, même quand target_k est clamse à 1 (séance déjà aussi large
+       que la fenêtre) : le zoom seul ne doit pas laisser la séance décentrée. */
+    const centerTime = (startTime + endTime) / 2;
+    const translate_x = this.inner_width / 2 - ((centerTime - minDate) / dt) * this.inner_width * target_k;
 
     const transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
 
     this.data_g.transition().duration(750).call(this.zoom.transform, transform);
   }
 
-  zoomToDateRange(startDate: Date, endDate: Date, marginRatio = 0.05) {
+  zoomToDateRange(startDate: Date, endDate: Date, marginRatio = 0.05, dismissOverlays = true) {
     if (!startDate || !endDate || !this.data_g || !this.zoom || !this.x_scale) return;
     this.hovered_commit = undefined;
     this.hovered_group_commit = undefined;
@@ -3668,8 +3971,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.hovered_repository = undefined;
     this.hovered_g = null;
     this.isSessionTooltipPinned = false;
-    this.tooltipService.hide();
-    this.overlayManagerService.dismissAll();
+    if (dismissOverlays) {
+      this.tooltipService.hide();
+      this.overlayManagerService.dismissAll();
+    }
 
     const time_domain = this.x_scale.domain();
     const minDate = time_domain[0].valueOf() as number;
@@ -3737,6 +4042,41 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const targetSession = this.activateSession(session);
     this.tooltipService.hide();
     this.zoomToSession(targetSession);
+  }
+
+  /**
+   * External zoom request coming from the session folder tab. The event may arrive while
+   * the graph is still rebuilding after the route change, so poll briefly until the scales
+   * exist instead of dropping the request.
+   */
+  @HostListener("window:git4school:zoom-to-session", ["$event"])
+  onZoomToSessionRequested(event: CustomEvent): void {
+    const session = (event as CustomEvent)?.detail?.session as Session;
+    if (session) {
+      this.zoomToSessionWhenReady(session);
+    }
+  }
+
+  /** Session panel switcher: focus (zoom to) the selected session, without dismissing the panel. */
+  @HostListener("window:git4school:focus-session", ["$event"])
+  onFocusSessionRequested(event: CustomEvent): void {
+    const session = (event as CustomEvent)?.detail?.session as Session;
+    if (session) {
+      this.zoomToSessionWhenReady(session, 0, false);
+    }
+  }
+
+  private zoomToSessionWhenReady(session: Session, attempt = 0, dismissOverlays = true): void {
+    if (this.data_g && this.zoom && this.x_scale) {
+      const target = this.resolveSessionAtDate(session.startDate, session) || session;
+      this.activateSession(target);
+      this.zoomToSession(target, 0.1, dismissOverlays);
+      return;
+    }
+    if (attempt >= 25) {
+      return;
+    }
+    setTimeout(() => this.zoomToSessionWhenReady(session, attempt + 1, dismissOverlays), 100);
   }
 
   showSessionInfoTooltip(session: Session, clientX: number, clientY: number) {
@@ -3897,17 +4237,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return this.dataService.sessions
       .filter((session) => !this.dataService.groupFilter || !session.tpGroup || session.tpGroup === this.dataService.groupFilter)
       .slice()
-      .sort((a, b) => {
-        const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
-        const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
-        const diffStart = aStart - bStart;
-        if (diffStart !== 0) return diffStart;
-        const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
-        const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
-        const diffEnd = aEnd - bEnd;
-        if (diffEnd !== 0) return diffEnd;
-        return (a.label || "").localeCompare(b.label || "");
-      });
+      .sort((a, b) => this.compareSessions(a, b));
   }
 
   navigateToNextSession(direction: 1 | -1) {
@@ -3918,12 +4248,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     let currentIndex = -1;
 
     if (this.lastFocusedSession) {
-      currentIndex = sessions.findIndex(
-        (s) =>
-          this.getSessionKeyNum(s) === this.getSessionKeyNum(this.lastFocusedSession) &&
-          s.tpGroup === this.lastFocusedSession.tpGroup &&
-          (s.label && this.lastFocusedSession.label ? s.label === this.lastFocusedSession.label : true),
-      );
+      currentIndex = sessions.findIndex((s) => this.isSameSession(s, this.lastFocusedSession));
     }
 
     if (currentIndex !== -1) {
@@ -3958,12 +4283,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
       if (this.overlapGroups) {
         for (const group of this.overlapGroups) {
-          const sessionIdx = group.findIndex(
-            (s) =>
-              this.getSessionKeyNum(s) === this.getSessionKeyNum(targetSession) &&
-              s.tpGroup === targetSession.tpGroup &&
-              (s.label && targetSession.label ? s.label === targetSession.label : true),
-          );
+          const sessionIdx = group.findIndex((s) => this.isSameSession(s, targetSession));
           if (sessionIdx !== -1) {
             const groupId = this.getGroupId(group);
             this.activeSessionIndices.set(groupId, sessionIdx);
@@ -4079,7 +4399,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   private computeOverlapGroups(sessions: Session[]): Session[][] {
-    const sorted = [...sessions].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+    const comparator = (a: Session, b: Session) => this.compareSessions(a, b);
+
+    const sorted = [...sessions].sort(comparator);
     const groups: Session[][] = [];
     const visited = new Set<Session>();
     for (const session of sorted) {
@@ -4098,7 +4420,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           }
         }
       }
-      groups.push(group.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()));
+      groups.push(group.sort(comparator));
     }
     return groups;
   }
@@ -4111,8 +4433,89 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return aStart < bEnd && bStart < aEnd;
   }
 
+  public compareSessions(a: Session, b: Session): number {
+    if (!a && !b) return 0;
+    if (!a) return 1;
+    if (!b) return -1;
+
+    const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
+    const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
+    const aValid = !isNaN(aStart);
+    const bValid = !isNaN(bStart);
+    if (!aValid && !bValid) return 0;
+    if (!aValid) return 1;
+    if (!bValid) return -1;
+    const diffStart = aStart - bStart;
+    if (diffStart !== 0) return diffStart;
+
+    const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
+    const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
+    const aEndValid = !isNaN(aEnd);
+    const bEndValid = !isNaN(bEnd);
+    if (aEndValid && bEndValid) {
+      const diffEnd = aEnd - bEnd;
+      if (diffEnd !== 0) return diffEnd;
+    }
+
+    const tpGroups = this.dataService?.tpGroups || [];
+    const groupA = a.tpGroup ? a.tpGroup.trim() : "";
+    const groupB = b.tpGroup ? b.tpGroup.trim() : "";
+
+    if (groupA !== groupB) {
+      if (!groupA) return -1;
+      if (!groupB) return 1;
+
+      const idxA = tpGroups.indexOf(groupA);
+      const idxB = tpGroups.indexOf(groupB);
+
+      if (idxA !== -1 && idxB !== -1) {
+        if (idxA !== idxB) return idxA - idxB;
+      } else if (idxA !== -1) {
+        return -1;
+      } else if (idxB !== -1) {
+        return 1;
+      }
+
+      const naturalGroupDiff = groupA.localeCompare(groupB, undefined, { numeric: true, sensitivity: "base" });
+      if (naturalGroupDiff !== 0) return naturalGroupDiff;
+    }
+
+    return (a.label || "").localeCompare(b.label || "", undefined, { numeric: true, sensitivity: "base" });
+  }
+
+  public getSessionUid(session: Session): string {
+    if (!session) return "unknown";
+    let uid = this.sessionUids.get(session);
+    if (!uid) {
+      const start = session.startDate instanceof Date ? session.startDate.getTime() : new Date(session.startDate).getTime();
+      const end = session.endDate instanceof Date ? session.endDate.getTime() : new Date(session.endDate).getTime();
+      const grp = (session.tpGroup || "all").replace(/[^a-zA-Z0-9_-]/g, "_");
+      const lbl = (session.label || "").replace(/[^a-zA-Z0-9_-]/g, "_");
+      uid = `s_${start}_${end}_${grp}_${lbl}_${this.nextSessionUid++}`;
+      this.sessionUids.set(session, uid);
+    }
+    return uid;
+  }
+
+  public isSameSession(a: Session, b: Session): boolean {
+    if (!a || !b) return false;
+    if (a === b) return true;
+    const aStart = a.startDate instanceof Date ? a.startDate.getTime() : new Date(a.startDate).getTime();
+    const bStart = b.startDate instanceof Date ? b.startDate.getTime() : new Date(b.startDate).getTime();
+    const aEnd = a.endDate instanceof Date ? a.endDate.getTime() : new Date(a.endDate).getTime();
+    const bEnd = b.endDate instanceof Date ? b.endDate.getTime() : new Date(b.endDate).getTime();
+    return aStart === bStart && aEnd === bEnd && (a.tpGroup || "") === (b.tpGroup || "") && (a.label || "") === (b.label || "");
+  }
+
   public getGroupId(group: Session[]): string {
-    return String(new Date(group[0].startDate).getTime());
+    if (!group || group.length === 0) return "";
+    return group
+      .map((s) => {
+        const start = s.startDate instanceof Date ? s.startDate.getTime() : new Date(s.startDate).getTime();
+        const end = s.endDate instanceof Date ? s.endDate.getTime() : new Date(s.endDate).getTime();
+        return `${start}_${end}_${s.tpGroup || "all"}_${s.label || ""}`;
+      })
+      .join("__");
   }
 
   public getSessionKeyNum(session: Session): number {
@@ -4120,7 +4523,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   public getSessionOverlapGroup(session: Session): Session[] | null {
-    return this.overlapGroups.find((g) => g.includes(session)) || null;
+    if (!this.overlapGroups || !session) return null;
+    return this.overlapGroups.find((g) => g.includes(session) || g.some((s) => this.isSameSession(s, session))) || null;
   }
 
   public getActiveSession(session: Session): Session {
@@ -4129,7 +4533,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (!group || group.length <= 1) return session;
     const groupId = this.getGroupId(group);
     const activeIdx = this.activeSessionIndices.get(groupId) ?? 0;
-    return group[activeIdx] ?? session;
+    return group[activeIdx] ?? group[0] ?? session;
   }
 
   public sessionCoversTime(session: Session, time: number): boolean {
@@ -4170,12 +4574,12 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     // If multiple candidates overlap at this time, prioritize currently active session
     for (const cand of candidates) {
       const active = this.getActiveSession(cand);
-      if (active === cand) {
+      if (this.isSameSession(active, cand)) {
         return cand;
       }
     }
 
-    if (this.lastFocusedSession && candidates.includes(this.lastFocusedSession)) {
+    if (this.lastFocusedSession && candidates.some((c) => this.isSameSession(c, this.lastFocusedSession))) {
       return this.lastFocusedSession;
     }
 
@@ -4186,12 +4590,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (!session) return session;
     const group = this.getSessionOverlapGroup(session);
     if (group && group.length > 1) {
-      const idx = group.findIndex(
-        (s) =>
-          this.getSessionKeyNum(s) === this.getSessionKeyNum(session) &&
-          s.tpGroup === session.tpGroup &&
-          (s.label && session.label ? s.label === session.label : true),
-      );
+      let idx = group.indexOf(session);
+      if (idx === -1) {
+        idx = group.findIndex((s) => this.isSameSession(s, session));
+      }
       if (idx !== -1) {
         const groupId = this.getGroupId(group);
         const currentIdx = this.activeSessionIndices.get(groupId);
@@ -4213,40 +4615,60 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   public updateSessionVisibility(shouldRaise = false) {
-    if (!this.overlapGroups || !this.session_g) return;
-    for (const group of this.overlapGroups) {
-      if (group.length <= 1) continue;
-      const groupId = this.getGroupId(group);
-      const activeIdx = this.activeSessionIndices.get(groupId) ?? 0;
-      group.forEach((session, idx) => {
-        const key = this.getSessionKeyNum(session);
-        const isActive = idx === activeIdx;
-        const bodyGroup = this.session_g.select(`.session-group-${key}`);
-        if (isActive) {
-          bodyGroup.style("opacity", null).style("pointer-events", "auto");
-          if (shouldRaise) {
-            bodyGroup.raise();
-          }
-        } else {
-          bodyGroup.style("opacity", "0.25").style("pointer-events", "auto");
+    if (!this.overlapGroups) return;
+    const overview = this;
+
+    if (this.session_g) {
+      this.session_g.selectAll(".session-container").each(function (s: Session) {
+        const g = d3.select(this);
+        const group = overview.getSessionOverlapGroup(s);
+        if (!group || group.length <= 1) {
+          g.style("opacity", null).style("pointer-events", "auto");
+          return;
         }
-        if (!this.session_header_g) return;
-        const hdrGroup = this.session_header_g.select(`.session-hdr-group-${key}`);
-        if (hdrGroup.empty()) return;
+        const activeSession = overview.getActiveSession(s);
+        const isActive = overview.isSameSession(s, activeSession);
+        if (isActive) {
+          g.style("opacity", null).style("pointer-events", "auto");
+          if (shouldRaise) {
+            g.raise();
+          }
+        } else {
+          g.style("opacity", "0.25").style("pointer-events", "auto");
+        }
+      });
+    }
+
+    if (this.session_header_g) {
+      this.session_header_g.selectAll(".session-header-container").each(function (s: Session) {
+        const g = d3.select(this);
+        const group = overview.getSessionOverlapGroup(s);
+        if (!group || group.length <= 1) {
+          return;
+        }
+        const activeSession = overview.getActiveSession(s);
+        const isActive = overview.isSameSession(s, activeSession);
+        const fo = g.select(".session-header-fo");
         if (!isActive) {
-          hdrGroup.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+          g.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+          if (!fo.empty()) {
+            fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+          }
         } else {
           if (shouldRaise) {
-            hdrGroup.raise();
+            g.raise();
           }
-          const rawX1 = this.xScaledTimeZoned(session.startDate);
-          const rawX2 = this.xScaledTimeZoned(session.endDate);
+          const rawX1 = overview.xScaledTimeZoned(s.startDate);
+          const rawX2 = overview.xScaledTimeZoned(s.endDate);
           const isInViewport =
-            !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < this.inner_width && Math.max(0, rawX2 - Math.max(0, rawX1)) > 0;
+            !isNaN(rawX1) && !isNaN(rawX2) && rawX2 > 0 && rawX1 < overview.inner_width && Math.max(0, rawX2 - Math.max(0, rawX1)) > 0;
           if (isInViewport) {
-            hdrGroup.style("display", null).style("visibility", null).style("pointer-events", "auto");
+            g.style("display", null).style("visibility", null).style("pointer-events", "auto");
           } else {
-            hdrGroup.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            g.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            if (!fo.empty()) {
+              fo.style("display", "none").style("visibility", "hidden").style("pointer-events", "none");
+            }
           }
         }
       });

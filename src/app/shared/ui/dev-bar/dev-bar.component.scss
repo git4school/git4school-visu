@@ -179,19 +179,6 @@
 
     .metric-dot { background-color: var(--color-danger); }
   }
-
-  &.route-pill {
-    max-width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    .route-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
 }
 
 /* Center Section: Actions */
@@ -232,6 +219,17 @@
     color: var(--color-danger);
   }
 
+  .clock-offset-badge {
+    margin-left: 0.35rem;
+    padding: 0 0.3rem;
+    border-radius: 9999px;
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning);
+    font-size: 0.6rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
   .pop-caret {
     font-size: 0.55rem;
     opacity: 0.6;
@@ -240,6 +238,22 @@
 
   &.active .pop-caret {
     transform: rotate(180deg);
+  }
+
+  &.clock-shifted {
+    color: var(--color-warning);
+
+    .pop-caret {
+      color: var(--color-text-muted);
+    }
+  }
+
+  &.mocks-enabled {
+    color: var(--color-primary);
+
+    .pop-caret {
+      color: var(--color-text-muted);
+    }
   }
 }
 
@@ -299,6 +313,18 @@
         transform: translateX(9px);
       }
     }
+  }
+}
+
+/* Les deux bascules Git vivent dans un popover : pleine largeur, interrupteur à droite */
+.dev-popover .dev-flag-toggle {
+  width: 100%;
+  height: auto;
+  padding: 0.35rem 0.55rem;
+  justify-content: flex-start;
+
+  .flag-switch {
+    margin-left: auto;
   }
 }
 
@@ -370,6 +396,14 @@
   }
 }
 
+/* Right-aligned popover variant (used by the right section to avoid overflow) */
+.dev-popover-right {
+  right: 0;
+  left: auto;
+  transform: none;
+  animation: popoverFadeInRight 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 @keyframes popoverFadeIn {
   from {
     opacity: 0;
@@ -379,6 +413,18 @@
   to {
     opacity: 1;
     transform: translate(-50%, 0);
+  }
+}
+
+@keyframes popoverFadeInRight {
+  from {
+    opacity: 0;
+    transform: translate(0, 6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
   }
 }
 
@@ -420,4 +466,79 @@
     background-color: var(--color-danger-bg);
     color: var(--color-danger);
   }
+
+  &.clock-shift {
+    justify-content: center;
+    padding: 0.3rem 0.2rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &.clock-reset {
+    justify-content: center;
+    color: var(--color-text-secondary);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+}
+
+/* =========================================================
+   Simulated Clock Popover
+   ========================================================= */
+.clock-popover {
+  width: 340px;
+  overflow: visible;
+
+  .popover-header {
+    margin-bottom: 0.35rem;
+  }
+}
+
+.clock-body {
+  gap: 0.45rem;
+}
+
+.clock-readout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 8px;
+  background-color: var(--color-primary-bg);
+
+  .clock-readout-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  .clock-readout-value {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.clock-shift-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.15rem;
+}
+
+.clock-hint {
+  margin: 0;
+  font-size: 0.62rem;
+  line-height: 1.35;
+  color: var(--color-text-muted);
 }

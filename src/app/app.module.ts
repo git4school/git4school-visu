@@ -13,8 +13,13 @@ import { FileChooserComponent } from "@components/file-chooser/file-chooser.comp
 import { FourOhFourComponent } from "@components/four-oh-four/four-oh-four.component";
 import { CommitsComponent } from "@components/graphs/commits/commits.component";
 import { QuestionsCompletionComponent } from "@components/graphs/questions-completion/questions-completion.component";
+import { SessionsComponent } from "@components/graphs/sessions/sessions.component";
+import { SuggestSessionsModalComponent } from "@components/graphs/sessions/suggest-sessions-modal/suggest-sessions-modal.component";
+// eslint-disable-next-line max-len
+import { StudentsQuestionsMatrixComponent } from "@components/graphs/sessions/students-questions-matrix/students-questions-matrix.component";
 import { StudentsComponent } from "@components/graphs/students/students.component";
 import { AssignmentChooserComponent } from "@components/home/assignment-chooser/assignment-chooser.component";
+import { AssignmentFolderViewComponent } from "@components/home/assignment-chooser/folder-view/assignment-folder-view.component";
 import { ConfigurationComponent } from "@components/home/assignment-chooser/configuration/configuration.component";
 import { EditRepositoriesComponent } from "@components/home/assignment-chooser/configuration/edit-repositories/edit-repositories.component";
 // eslint-disable-next-line max-len
@@ -55,6 +60,7 @@ import { AccountsComponent } from "./components/nav-layouts/sidebar-settings/acc
 import { AddAccountModalComponent } from "./components/nav-layouts/sidebar-settings/accounts/add-account-modal/add-account-modal.component";
 import { GitlabCallbackComponent } from "@components/auth-callback/gitlab-callback.component";
 import { MockGitlabInterceptor } from "./dev-mock/mock-gitlab.interceptor";
+import { MockGithubInterceptor } from "./dev-mock/mock-github.interceptor";
 
 /**
  * Firebase configuration file
@@ -113,12 +119,16 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     CommitsComponent,
     StudentsComponent,
     QuestionsCompletionComponent,
+    SessionsComponent,
+    SuggestSessionsModalComponent,
+    StudentsQuestionsMatrixComponent,
     MetadataComponent,
     QuestionsAssistantPopoverComponent,
     EditRepositoriesComponent,
     ConfigurationComponent,
     ModalAddRepositoriesComponent,
     AssignmentChooserComponent,
+    AssignmentFolderViewComponent,
     FileChooserComponent,
     EditMilestoneComponent,
     QuestionsChooserComponent,
@@ -184,6 +194,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MockGitlabInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MockGithubInterceptor,
       multi: true,
     },
   ],

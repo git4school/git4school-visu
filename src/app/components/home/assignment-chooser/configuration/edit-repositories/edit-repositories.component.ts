@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
 import { Assignment } from "@models/Assignment.model";
@@ -33,6 +33,7 @@ export type SortDirection = "asc" | "desc" | "";
 })
 export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent<Repository> implements OnInit {
   @Input() assignment?: Assignment;
+  @ViewChild("repositoryList") repositoryList: ElementRef<HTMLElement>;
 
   nameDirection: SortDirection;
   lastPropertySorted: string;
@@ -87,6 +88,21 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   get existingTpGroups(): string[] {
     const groups = this.getFormControls.map((group) => group.get("tpGroup")?.value).filter((val) => val && val.trim() !== "");
     return Array.from(new Set(groups)).sort();
+  }
+
+  /**
+   * Returns the repositories that are safe to persist: committed rows and in-progress edits of
+   * already saved rows (using their last committed snapshot). Invalid or brand-new rows are excluded.
+   */
+  get committedRepositories(): Repository[] {
+    return this.getFormControls
+      .map((group) => this.committedValue(group))
+      .filter((value) => !!value?.url)
+      .map((value) => {
+        const repo = Repository.withJSON(value);
+        repo.provider = this.provider;
+        return repo;
+      });
   }
 
   toggleSelection(index: number) {
@@ -248,6 +264,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
                   item.control.get("tpGroup")?.setValue(item.newGroup);
                 }
                 this.cdref.markForCheck();
+                this.modify();
               }, 120);
 
               setTimeout(() => {
@@ -257,8 +274,6 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
             }, staggerDelay);
           });
 
-          this.modify();
-          this.submitForm();
           this.toastService.success(
             this.translateService.instant("SUCCESS"),
             this.translateService.instant("EDIT-REPOSITORIES.NAMES-REFRESH-SUCCESS"),
@@ -278,6 +293,14 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
    */
   trackByRepo(index: number, group: FormGroup): any {
     return group.get("url")?.value || index;
+  }
+
+  /**
+   * Adds an empty repository row for manual entry and scrolls the list so the new row is visible.
+   */
+  addEmptyRow() {
+    this.addRow();
+    this.scrollToLastRow();
   }
 
   /**
@@ -308,14 +331,6 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
       },
       (error) => {},
     );
-  }
-
-  /**
-   * Get the formControls (all the repositories in the list) and save them in the assignment
-   */
-  submitForm() {
-    const controls = this.getFormControls;
-    this.save(controls.map((row) => Repository.withJSON(row.value)));
   }
 
   /**
@@ -445,6 +460,27 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
         );
       }
     };
+  }
+
+  /**
+   * Value to persist for a row: the live value for committed rows, or the last committed snapshot while a row is being edited
+   */
+  private committedValue(group: FormGroup): any {
+    return group.get("isEditable").value ? group.get("save").value : group.value;
+  }
+
+  /**
+   * Scrolls the repository list to the bottom once the newly added row has been rendered.
+   */
+  private scrollToLastRow() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const list = this.repositoryList?.nativeElement;
+        if (list) {
+          list.scrollTop = list.scrollHeight;
+        }
+      });
+    });
   }
 
   /**

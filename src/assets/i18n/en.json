@@ -12,7 +12,10 @@
   "DATE": "Date",
   "TP-GROUP-SELECT": {
     "PLACEHOLDER": "Select a tp group",
-    "ALL": "All"
+    "ALL": "All",
+    "TOOLTIP": "Filter by TP group",
+    "STUDENT-COUNT": "{{count}} student(s)",
+    "SESSION-ACTIVE": "Session running"
   },
   "ERRORS": {
     "REPOSITORY-NOT-FOUND": "Repository not found or you have no rights on it",
@@ -36,6 +39,8 @@
     "STUDENTS-TOOLTIP": "Switch to Students view",
     "QUESTIONS-COMPLETION": "Questions",
     "QUESTIONS-COMPLETION-TOOLTIP": "Switch to Questions view",
+    "SESSIONS": "Sessions",
+    "SESSIONS-TOOLTIP": "Switch to Sessions view",
     "METADATA": "Metadata",
     "SIGN-IN": "Sign in",
     "SIGN-OUT": "Sign out",
@@ -61,7 +66,8 @@
     "LANGUAGE": "Language",
     "APPEARANCE": "Appearance",
     "HELP-TUTORIAL": "Help & Documentation",
-    "ACCOUNT": "Account"
+    "ACCOUNT": "Account",
+    "WHATS-NEW": "What's New"
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Search assignments...",
@@ -141,13 +147,13 @@
         "INFO-3": "Only the questions provided here will be handled by the application (milestones, graphs)"
       }
     },
-    "ASSIGNMENT-LIST": {
-      "TITLE": "Assignment list"
-    },
     "CREATE-ASSIGNMENT-TOOLTIP": "Create a new assignment",
     "SELECT-ASSIGNMENT-TOOLTIP": "Select assignment and load it",
     "EDIT-ASSIGNMENT-TOOLTIP": "Edit assignment configuration",
     "DELETE-ASSIGNMENT-TOOLTIP": "Delete assignment",
+    "OTHER-ACTIONS": "Other actions",
+    "DUPLICATE-ASSIGNMENT": "Duplicate assignment",
+    "ARCHIVE-ASSIGNMENT": "Archive assignment",
     "CONNECT-PROMPT-TITLE": "Connect to your provider",
     "CONNECT-PROMPT-DESC": "Some assignments require you to be connected to GitHub or GitLab to be accessed or modified.",
     "STATUS": {
@@ -184,7 +190,8 @@
       "ALL": "All",
       "GITHUB": "GitHub",
       "GITLAB": "GitLab",
-      "GITLAB_CLOUD": "GitLab.com"
+      "GITLAB_CLOUD": "GitLab.com",
+      "ARCHIVED": "Archived"
     },
     "DURATION": {
       "DAYS": "d",
@@ -193,7 +200,23 @@
       "REMAINING": "Remaining:",
       "TOTAL": "Total:"
     },
-    "UNSAVED-CHANGES": "Unsaved changes"
+    "UNSAVED-CHANGES": "Unsaved changes",
+    "DONE": "Done",
+    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Close editing",
+    "VIEW-LIST": "Show as list",
+    "VIEW-FOLDERS": "Show as folders",
+    "SELECT-ASSIGNMENT": "Select assignment",
+    "LOAD-ASSIGNMENT": "Load",
+    "CONFIGURE-ASSIGNMENT": "Configure",
+    "RESTORE-ASSIGNMENT": "Restore assignment",
+    "ARCHIVED-BADGE": "Archived",
+    "ARCHIVED-ON": "Archived on {{date}}",
+    "NO-ARCHIVED-ASSIGNMENTS": "No archived assignments",
+    "DUPLICATE-TOAST": "Assignment duplicated",
+    "DUPLICATE-TOAST-FAILED": "Could not duplicate the assignment.",
+    "ARCHIVE-TOAST": "Assignment archived",
+    "RESTORE-TOAST": "Assignment restored",
+    "ARCHIVE-TOAST-FAILED": "Could not archive the assignment."
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "No commits found",
@@ -222,6 +245,11 @@
     "CHANGE-TIME-SCALE-TOOLTIP": "Change the time scale",
     "DOWNLOAD-TOOLTIP": "Download current assignment configuration file",
     "RELOAD-TOOLTIP": "Reload",
+    "NAVIGATION": {
+      "GROUP-TITLE": "Navigation"
+    },
+    "NOW-TOOLTIP": "Go to now",
+    "NOW-LABEL": "Now",
     "LEGEND": {
       "TITLE": "Legend",
       "COMMIT": "Commit",
@@ -262,6 +290,7 @@
     "NAV_OVERVIEW": "Commits Tab",
     "NAV_STUDENTS": "Students Tab",
     "NAV_QUESTIONS": "Questions Tab",
+    "NAV_SESSIONS": "Sessions Tab",
     "NAV_CONFIG": "Configure assignment",
     "NAV_SHORTCUTS": "Toggle shortcuts panel",
     "TOGGLE_ANONYMOUS": "Toggle anonymous mode",
@@ -269,6 +298,7 @@
     "GRAPH_ZOOM_IN": "Zoom in",
     "GRAPH_ZOOM_OUT": "Zoom out",
     "GRAPH_RESET_ZOOM": "Reset zoom",
+    "GRAPH_GO_NOW": "Go to now",
     "GRAPH_SESSION_NAV": "Previous / next session",
     "GRAPH_RELOAD": "Reload data",
     "GRAPH_COPY_HASH": "Copy hovered commit hash",
@@ -292,7 +322,8 @@
     "KEY_CLICK": "Click",
     "KEY_DBLCLICK": "Double-click",
     "KEY_RIGHT_CLICK": "Right click",
-    "KEY_DRAG": "Drag"
+    "KEY_DRAG": "Drag",
+    "SELECT_GROUP": "Open / close the TP group filter"
   },
   "TOAST": {
     "HASH_COPIED": "Commit hash copied!"
@@ -331,6 +362,7 @@
     "COLUMN-NAME": "Name",
     "COLUMN-URL": "URL",
     "COLUMN-TP-GROUP": "TP group",
+    "SORT-COLUMN-TP-GROUP": "Group",
     "MESSAGE-INVALID-URL": "You must have access to the repository !",
     "BUTTON-SAVE": "Save",
     "MESSAGE-REPO-ALREADY-ADDED": "This repository is already added !",
@@ -343,8 +375,8 @@
     "ADD-REPOSITORY": "Add multiple repositories",
     "NEW-REPOSITORY": "Unknown student",
     "NO-REPOSITORIES": "No repositories found",
-    "BUTTON-REFRESH-NAMES": "Reassign names",
-    "BUTTON-CONFIRM-REFRESH-NAMES": "Confirm overwrite?",
+    "BUTTON-REFRESH-NAMES": "Reassign",
+    "BUTTON-CONFIRM-REFRESH-NAMES": "Confirm?",
     "TOOLTIP-REFRESH-NAMES": "Scans names from IDENTITY.json or README and overwrites existing names",
     "NAMES-REFRESH-SUCCESS": "Names successfully reassigned",
     "NAMES-REFRESH-NONE": "No name changes detected"
@@ -380,12 +412,10 @@
     "BUTTON-ADD": "Add",
     "COLUMN-NAME": "Name",
     "COLUMN-URL": "URL",
-    "PLACEHOLDER-FILTER": "Search repositories",
+    "PLACEHOLDER-FILTER": "Search by name or forked source repo URL",
     "PLACEHOLDER-TPGROUP": "Write the TP group for all selected repositories",
     "SELECTED-REPOSITORIES": "repository(ies) selected",
     "TP-GROUP": "TP Group",
-    "SECTION-NAME-MATCHES": "Matches by name",
-    "SECTION-CONTENT-MATCHES": "Matches in description or README",
     "TOOLTIP-SOURCE-CYCLE": "<strong>Selection cycle:</strong><br>• 1st click: Select all (source and forks)<br>• 2nd click: Forks only<br>• 3rd click: Source repository only<br>• 4th click: Deselect all"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Add multiple repositories",
@@ -521,8 +551,8 @@
     "TP_GROUP_DEMO": "Group 1",
     "ADD_SEARCH_BTN_TITLE": "Add Selection",
     "ADD_SEARCH_BTN_DESC": "Click this button to add the selected repositories to your assignment.",
-    "SAVE_BTN_TITLE": "Save",
-    "SAVE_BTN_DESC": "All that's left is to save the assignment!",
+    "SAVE_BTN_TITLE": "Automatic save",
+    "SAVE_BTN_DESC": "Your changes are saved automatically. Close this panel when you are done.",
     "EXPORT_TITLE": "Export your assignments",
     "EXPORT_DESC": "Once saved, you can export all your assignments or only the selection in JSON format.",
     "IMPORT_TITLE": "Import assignments",
@@ -541,7 +571,6 @@
     "TEXT": "Text Mode (Exact number)"
   },
   "PERCENT-COMMITS": "% of commits",
-  "QUESTIONS": "Questions",
   "STUDENTS": "Students",
   "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER": "Search a question (e.g. 1.1) or a commit keyword...",
   "QUESTIONS-CHOOSER-QUESTIONS-HEADER": "Assignment Questions",
@@ -690,6 +719,329 @@
     "ERROR_TITLE": "Authentication Expired",
     "ERROR_MSG_GITHUB": "Your GitHub token is invalid or has expired. Please reconnect in the Accounts section.",
     "ERROR_MSG_GITLAB": "Your GitLab token is invalid or has expired. Please reconnect in the Accounts section."
+  },
+  "SESSIONS-GRAPH": {
+    "EMPTY_TITLE": "No sessions configured",
+    "EMPTY_DESC": "Set up lab sessions to analyze active participation rate, work pace, and cohort progression.",
+    "SUGGEST_BUTTON": "Suggest sessions",
+    "SUGGEST_BUTTON_TOOLTIP": "Automatically detects sessions based on simultaneous commit activity peaks",
+    "ADD_BUTTON": "Add a session",
+    "CALCULATING": "Computing session statistics...",
+    "ALL_SESSIONS": "All sessions",
+    "OFFICIAL_END": "Official end",
+    "TOLERANCE_BADGE": "Active grace period: +{{minutes}} min ({{students}} students)",
+    "TABS": {
+      "TIMELINE": "Timeline & Cadence",
+      "MATRIX": "Progress Matrix",
+      "STUDENTS": "Attendance & Engagement"
+    },
+    "KPIS": {
+      "AVG_PARTICIPATION": "Average Active Attendance",
+      "AVG_PARTICIPATION_SUB": "Across all sessions",
+      "IN_SESSION_COMMITS": "In-Session Commits",
+      "IN_SESSION_COMMITS_SUB": "{{ratio}}% of total contributions",
+      "AUTONOMOUS_COMMITS": "Out-of-Session Commits",
+      "AUTONOMOUS_COMMITS_SUB": "Autonomous individual work",
+      "TOTAL_SESSIONS": "Planned Sessions",
+      "TOTAL_SESSIONS_SUB": "Supervised lab sessions",
+      "PARTICIPATION_RATE": "Active Attendance Rate",
+      "STUDENTS_ACTIVE": "active students",
+      "COMMITS_COUNT": "Commits produced",
+      "OF_ANALYZED_COMMITS": "of analyzed commits made during the session",
+      "QUESTIONS_RESOLVED": "Questions Resolved",
+      "QUESTIONS_RESOLVED_SUB": "Questions closed during this session",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS": "Students with no resolved question",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_SUB": "No question resolved during this session",
+      "INACTIVE_STUDENTS": "Inactive students",
+      "INACTIVE_STUDENTS_SUB": "Zero commits during session",
+      "WORK_DISTRIBUTION": "Effort Distribution",
+      "QUESTIONS_COVERED": "Resolved Questions",
+      "TOTAL_HOURS": "Supervised Hours",
+      "IN_SESSION": "in session",
+      "AUTONOMOUS": "autonomous",
+      "ANALYZE_BTN": "Analyze",
+      "BACK_TO_ALL": "All sessions",
+      "AVG_PARTICIPATION_TOOLTIP": "Average percentage of students active per session (at least 1 commit in the slot).",
+      "WORK_DISTRIBUTION_TOOLTIP": "Share of all commits made during lab sessions vs independent work.",
+      "QUESTIONS_COVERED_TOOLTIP": "Distinct questions started by at least one student, out of the total assignment questions.",
+      "OF_ASSIGNMENT": "of assignment",
+      "PARTICIPATION_RATE_TOOLTIP": "Percentage of group students who pushed at least 1 commit during this session.",
+      "QUESTIONS_RESOLVED_TOOLTIP": "Distinct questions closed by at least one student during this session.",
+      "RESOLVED_QUESTIONS_LIST": "Resolved questions",
+      "NO_RESOLVED_QUESTIONS": "No question was resolved during this session",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_TOOLTIP": "Number of students who resolved no question during this session."
+    },
+    "MATRIX": {
+      "COMING_SOON_TITLE": "Progress matrix",
+      "COMING_SOON": "This view is coming soon.",
+      "TITLE": "Synthetic Progress Matrix (Students × Questions)",
+      "SUBTITLE": "Cross-tabular view of student progress across assignment questions",
+      "LEGEND_BEFORE": "Validated before review",
+      "LEGEND_BETWEEN": "Validated after review",
+      "LEGEND_AFTER": "Validated after correction",
+      "LEGEND_IN_PROGRESS": "In progress",
+      "LEGEND_NOT_STARTED": "Not started",
+      "LEGEND_IN_SESSION": "Closed in session",
+      "SCOPE_ALL": "All assignment",
+      "SCOPE_SESSION": "During session",
+      "SEARCH_PLACEHOLDER": "Filter student...",
+      "STUDENT_COL": "Student",
+      "PROGRESS_COL": "Progress",
+      "SORT_NAME": "Sort by name",
+      "SORT_PROGRESS": "Sort by progress",
+      "VALIDATED_AT": "Validated on",
+      "LAST_COMMIT": "Last commit",
+      "COMMITS_COUNT": "{{count}} commit(s)",
+      "IN_SESSION_BADGE": "Closed during this session",
+      "NO_QUESTIONS": "No questions configured for this assignment"
+    },
+    "MACRO": {
+      "CHART_TITLE": "Attendance Dynamics per Session (%)",
+      "CHART_SUBTITLE": "Proportion of students who committed code during each time slot",
+      "SESSIONS_LIST": "Sessions Breakdown"
+    },
+    "RIBBON": {
+      "TITLE": "Cohort Progression Trajectory & Dispersion",
+      "SUBTITLE_BADGE": "Mean + Interquartile Range",
+      "EXPLANATION": "The blue line indicates mean cohort progression. The shaded ribbon represents where 50% of students fall (Q1-Q3).",
+      "MODE_QUESTIONS": "Resolved questions",
+      "MODE_COMMITS": "Cumulative commits",
+      "Y_AXIS_QUESTIONS": "Completed questions",
+      "Y_AXIS_COMMITS": "Cumulative commits",
+      "CUMULATIVE": "Cumulative"
+    },
+    "HISTOGRAM": {
+      "TITLE": "Commit Cadence per 15-Minute Slot",
+      "SUBTITLE": "Volume and distribution of contributions throughout the session"
+    },
+    "STUDENTS_TABLE": {
+      "TITLE": "Student Attendance & Engagement Board",
+      "SUBTITLE": "Quick identification of active contributors and disengaged students",
+      "STATUS_ACTIVE": "Active",
+      "STATUS_LOW": "Low activity",
+      "STATUS_INACTIVE": "Inactive",
+      "COMMITS_IN_SESSION": "In-session commits",
+      "FIRST_COMMIT": "1st commit",
+      "LAST_COMMIT": "Last commit",
+      "LAST_QUESTION": "Last question"
+    },
+    "SUGGEST_MODAL": {
+      "TITLE": "Automatic Session Detection",
+      "SUBTITLE": "Sessions suggested from simultaneous student commit bursts",
+      "SELECT_ALL": "Select all",
+      "NO_SUGGESTIONS": "No sessions automatically detected in this assignment history.",
+      "IMPORT_BUTTON": "Import {{count}} session(s)",
+      "SUCCESS_TOAST": "{{count}} session(s) successfully imported"
+    },
+    "TOOLTIPS": {
+      "STUDENTS_COUNT": "Active students",
+      "COMMITS_COUNT": "Total commits"
+    }
+  },
+  "DEV-BAR": {
+    "CLOCK": {
+      "TOOLTIP": "Shift the date and time seen by the app (for testing)",
+      "LABEL": "Clock",
+      "HEADER": "Simulated clock",
+      "SIMULATED": "Simulated date / time",
+      "FIELD-LABEL": "New date",
+      "RESET": "Reset",
+      "HINT": "The offset only affects what the app displays: the real clock keeps ticking. It is lost on page reload.",
+      "UNIT-DAY": "d",
+      "UNIT-HOUR": "h",
+      "UNIT-MINUTE": "min",
+      "RESET-TOAST": "Simulated clock reset."
+    },
+    "MOCK": {
+      "TITLE": "Mock Git",
+      "GITLAB": "Test GitLab",
+      "GITLAB-TOOLTIP": "Toggle the mocked GitLab account (prof.turing @ gitlab.univ-tlse3.fr)",
+      "GITLAB-ON": "Mocked GitLab account enabled (prof.turing @ gitlab.univ-tlse3.fr).",
+      "GITLAB-OFF": "Mocked GitLab account disabled.",
+      "GITHUB": "Test GitHub",
+      "GITHUB-TOOLTIP": "Toggle the mocked GitHub account (prof.octocat)",
+      "GITHUB-ON": "Mocked GitHub account enabled (prof.octocat).",
+      "GITHUB-OFF": "Mocked GitHub account disabled.",
+      "LABEL": "Git accounts",
+      "HEADER": "Simulated Git accounts",
+      "TOOLTIP": "Enable/disable the simulated Git accounts (GitLab UT3, GitHub)"
+    },
+    "FIXTURE": {
+      "LABEL": "Demo",
+      "TOOLTIP": "Load a demo assignment backed by simulated data",
+      "HEADER": "Demo assignment",
+      "GITHUB": "GitHub demo",
+      "GITLAB": "GitLab demo",
+      "CLEAR": "Disable demo mode",
+      "GITHUB-LOADED": "GitHub demo assignment loaded (6 students).",
+      "GITLAB-LOADED": "GitLab demo assignment loaded (6 students).",
+      "CLEARED": "Demo mode disabled."
+    },
+    "SESSION": {
+      "LABEL": "Session +30 s",
+      "TOOLTIP": "Adds a session starting in 30 seconds, to exercise the session tab",
+      "LABEL-VALUE": "DEV · +30 s",
+      "TOAST-TITLE": "Dev Bar",
+      "ADDED": "Session added: it starts in 30 seconds.",
+      "NO-ASSIGNMENT": "No assignment loaded: cannot add a session."
+    }
+  },
+  "SESSION-TAB": {
+    "TAB": {
+      "IN-PROGRESS": "Session running",
+      "IN-PROGRESS-SHORT": "Running",
+      "UPCOMING-SHORT": "Session soon",
+      "UPCOMING-TAB": "Soon",
+      "LABEL-FALLBACK": "Session"
+    },
+    "PANEL": {
+      "TP-GROUP": "Group",
+      "PREV": "Previous session",
+      "NEXT": "Next session",
+      "HEALTH": {
+        "ACTIVE": "active",
+        "WATCH": "to nudge",
+        "INACTIVE": "inactive",
+        "QUESTIONS": "Resolved questions",
+        "ACTIVE-LIST": "Active students",
+        "WATCH-LIST": "To nudge",
+        "INACTIVE-LIST": "Inactive students",
+        "QUESTIONS-LIST": "Resolved questions",
+        "NONE": "None"
+      },
+      "WATCH": {
+        "TITLE": "Needs help",
+        "SEE-ALL": "See all",
+        "ALL-GOOD": "All students are active",
+        "REASON-NO-COMMIT": "No commit yet",
+        "REASON-STALE": "Idle for {{minutes}} min"
+      },
+      "PACE": {
+        "TITLE": "Pace",
+        "PER-15": "commits / 15 min",
+        "BUCKET": "{{time}} · {{count}} commits",
+        "STALLED": "Slowing down"
+      },
+      "TIMELINE": {
+        "TITLE": "Timeline",
+        "TOOLTIP": "Each dot is a resolved question: time horizontally, question rank vertically. The blue line is the group's mean progression; hover a dot to see that student's trajectory."
+      },
+      "FEED": {
+        "TITLE": "Latest activity",
+        "JUST-NOW": "just now",
+        "MIN-AGO": "{{minutes}} min ago"
+      },
+      "REFRESH": "Refresh data",
+      "REFRESH-TOOLTIP": "Fetch the latest commits",
+      "REFRESH-AUTO-TOOLTIP": "Automatic refresh while the session is running",
+      "VIEW-IN-GRAPH": "View in graph",
+      "EDIT": "Edit",
+      "UPDATED-TOAST": "Session updated."
+    }
+  },
+  "AUTOSAVE": {
+    "SAVING": "Saving…",
+    "SAVED": "Saved",
+    "UNSAVED-REQUIRED-TITLE": "Title required",
+    "TITLE-REQUIRED-FEEDBACK": "A title is required.",
+    "TOAST-NEW-ASSIGNMENT-NOT-CREATED": "The assignment was not created: a title is required.",
+    "TOAST-TITLE-NOT-SAVED": "The title was not saved because it is required.",
+    "TOAST-SAVE-FAILED": "Saving failed. Your changes are still pending."
+  },
+  "DATE-RANGE-PICKER": {
+    "TAB-HINT": "Set end at"
+  },
+  "WHATS-NEW": {
+    "TITLE": "What's New",
+    "SUBTITLE": "Version {{version}} · {{date}}",
+    "TAB-CURRENT": "Version {{version}}",
+    "TAB-HISTORY": "Previous versions",
+    "TAG-NEW": "New",
+    "TAG-IMPROVED": "Improved",
+    "FULL-CHANGELOG": "Read the full changelog",
+    "CONFIRM": "Got it",
+    "CLOSE-LABEL": "Close the release highlights",
+    "RELEASES": {
+      "V2-7-0": {
+        "DATE": "October 13, 2026",
+        "SUMMARY": "This version adds a view dedicated to session tracking, a live panel to follow a class at work, a folder layout for assignments, and a marker of the present time in the commits graph.",
+        "FEATURES": {
+          "SESSIONS-VIEW": {
+            "TITLE": "Sessions view: attendance and progress",
+            "DESC": "The new Sessions tab gathers, for each session, the active attendance rate, the commits produced inside and outside the time slot, and the progress of the group. Hover a resolved question to display the commit trajectory of the student who closed it.",
+            "HINT": "Sessions tab in the navigation bar, or press [[4]].",
+            "ALT": "Sessions view: attendance indicators, group progress curve and per-student activity table."
+          },
+          "LIVE-SESSION": {
+            "TITLE": "Follow a running session live",
+            "DESC": "During a session, a side panel shows the state of the group (active students, students to nudge, inactive students), the work pace, the resolved questions and the latest commits. It also lists the students who need help, with the reason and a link to their repository.",
+            "HINT": "Session running tab on the left edge of the screen; data refreshes every three minutes.",
+            "ALT": "Live session panel: group health, work pace, resolved questions and latest activity."
+          },
+          "FOLDER-VIEW": {
+            "TITLE": "Assignments shown as folders",
+            "DESC": "The assignment list can be displayed as folders: the cover opens slightly on hover and reveals the sheets of the assignment. The checkbox selects several assignments at once.",
+            "HINT": "Show as folders button, above the assignment list.",
+            "ALT": "Assignment list displayed as folders, with one cover open on its sheets."
+          },
+          "NOW-MARKER": {
+            "TITLE": "Present-time marker in the graph",
+            "DESC": "A vertical line marks the present moment on the commit timeline, so that the work already done and the time remaining can be told apart at a glance.",
+            "HINT": "Press [[M]] in the commits graph; [[shift]]+wheel zooms around the marker."
+          },
+          "QUICK-ACTIONS": {
+            "TITLE": "Quick actions on an assignment",
+            "DESC": "Each assignment card offers an action menu: duplicate the assignment to start from its structure without copying the dates, or archive it to remove it from the list. An archived assignment stays available, and can be restored, from the Archived filter.",
+            "HINT": "Action button at the top right of each assignment card.",
+            "ALT": "Action menu of an assignment card, open on the duplicate, archive and delete actions."
+          },
+          "AUTOSAVE": {
+            "TITLE": "Automatic saving of the configuration",
+            "DESC": "Changes made to an assignment configuration are saved as you type: there is no need to confirm before closing. An indicator shows the state of the save.",
+            "HINT": "Indicator displayed in the header of the assignment editor."
+          },
+          "TP-GROUP-FILTER": {
+            "TITLE": "Unified lab group filter",
+            "DESC": "The lab group filter now sits in the navigation bar and applies to every view of the assignment: it no longer has to be set on each graph.",
+            "HINT": "Assignment pill in the navigation bar; press [[G]] to open the filter."
+          },
+          "GRAPH-INTERACTIONS": {
+            "TITLE": "Refined graph interactions",
+            "DESC": "A single click on a session shows its information, a double click frames it, and dragging with the [[shift]] key draws a zoom rectangle. Moving around the graph is also smoother.",
+            "HINT": "Commits graph; press [[←]] or [[→]] to move from one session to the next."
+          }
+        }
+      },
+      "V2-6-0": {
+        "DATE": "October 13, 2026",
+        "SUMMARY": "This version introduced connections to self-hosted GitLab instances, support for several accounts, the anonymous mode and the collapsible search bar.",
+        "FEATURES": {
+          "HOSTED-GITLAB": {
+            "TITLE": "Self-hosted GitLab and multiple accounts",
+            "DESC": "The application connects to self-hosted GitLab instances, in addition to gitlab.com. Several accounts can be registered side by side, including on the same forge."
+          },
+          "TOKEN-REFRESH": {
+            "TITLE": "Automatic GitLab token renewal",
+            "DESC": "Expired GitLab tokens are renewed automatically while the application is in use, without any manual sign-in."
+          },
+          "TOKEN-STATUS": {
+            "TITLE": "Connection status",
+            "DESC": "The account list points out expired tokens and reminds you that signing in again is required."
+          },
+          "ANONYMOUS-MODE": {
+            "TITLE": "Anonymous mode",
+            "DESC": "One button instantly hides student names, repository names and commit authors, to present results to a class without revealing identities."
+          },
+          "SEARCH-BAR": {
+            "TITLE": "Collapsible search bar",
+            "DESC": "The assignment search folds away to leave room for the list, and unfolds in one click."
+          },
+          "STUDENT-REPOS": {
+            "TITLE": "Access to student repositories",
+            "DESC": "From the students view, one click opens the matching repository on the associated forge."
+          }
+        }
+      }
+    }
   }
 }
-

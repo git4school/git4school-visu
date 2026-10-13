@@ -408,16 +408,6 @@
     }
   }
 
-  .assignment-chip {
-    background-color: var(--color-bg-body);
-    color: var(--color-text-secondary);
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 0.2rem 0.2rem 0.2rem 0.8rem;
-    border: 1px solid var(--color-border);
-    border-radius: 99px;
-  }
-
   .anonymize-toggle-pill {
     position: relative;
     display: inline-flex;
@@ -562,7 +552,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color $transition-fast, color $transition-fast, transform $transition-fast;
+  transition: color $transition-fast, transform $transition-fast;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -790,7 +780,8 @@
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dropdown.show .dropdown-chevron,
+/* Cibler le toggle du dropdown concerné uniquement (enfants directs) : un dropdown imbriqué
+   dans un dropdown ouvert ne doit pas pivoter son chevron tant qu'il n'est pas ouvert lui-même. */
 .show > .dropdown-chevron,
 .show > [ngbDropdownToggle] .dropdown-chevron,
 .dropdown-toggle[aria-expanded="true"] .dropdown-chevron,
@@ -835,7 +826,6 @@
   white-space: nowrap;
   background-color: transparent;
   border: 0;
-  transition: background-color $transition-fast;
 
   &:hover, &:focus {
     color: var(--color-primary);
@@ -882,7 +872,7 @@
   padding: 0.25rem;
   cursor: pointer;
   border-radius: $radius-sm;
-  transition: color $transition-fast, background-color $transition-fast;
+  transition: color $transition-fast;
 
   &:hover {
     color: var(--color-danger);
@@ -955,7 +945,7 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  transition: background-color $transition-fast, color $transition-fast, border-color $transition-fast, box-shadow $transition-fast;
+  transition: color $transition-fast, border-color $transition-fast, box-shadow $transition-fast;
   cursor: pointer;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -1053,7 +1043,7 @@
   align-items: center;
   justify-content: center;
   color: #6b7280;
-  transition: background-color $transition-fast, color $transition-fast;
+  transition: color $transition-fast;
   cursor: pointer;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -2362,7 +2352,7 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
         cursor: pointer;
         padding: 6px 12px;
         border-radius: 100px;
-        transition: background-color $transition-fast, color $transition-fast;
+        transition: color $transition-fast;
         backface-visibility: hidden;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -2384,7 +2374,7 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
         cursor: pointer;
         padding: 6px 12px;
         border-radius: 100px;
-        transition: background-color $transition-fast, color $transition-fast;
+        transition: color $transition-fast;
         backface-visibility: hidden;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -2403,7 +2393,7 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
         width: 28px;
         height: 28px;
         border-radius: 50%;
-        transition: background-color $transition-fast, color $transition-fast, border-color $transition-fast;
+        transition: color $transition-fast, border-color $transition-fast;
         margin-left: 8px;
         display: flex;
         align-items: center;
@@ -2469,7 +2459,7 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
   border: 1px solid var(--color-border);
   border-radius: 20px;
   padding: 0 12px;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  transition: color 0.2s, border-color 0.2s;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -2621,6 +2611,16 @@ body:has(app-custom-modal-container) ngb-typeahead-window {
     background-color: var(--badge-default-bg);
     color: var(--badge-default-text);
     border-color: var(--badge-default-border);
+  }
+
+  /* Badge d'archivage : même géométrie que les statuts, mais aucune action (un devoir
+     archivé n'est visible que dans son onglet, où le filtrage par statut n'a pas de sens). */
+  &.status-archived {
+    background-color: var(--badge-default-bg);
+    color: var(--badge-default-text);
+    border-color: var(--badge-default-border);
+    cursor: default;
+    text-transform: none;
   }
 }
 

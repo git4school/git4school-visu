@@ -11,7 +11,10 @@
   "DATE": "Date",
   "TP-GROUP-SELECT": {
     "PLACEHOLDER": "Sélectionner un groupe de tp",
-    "ALL": "Tout"
+    "ALL": "Tout",
+    "TOOLTIP": "Filtrer par groupe de TP",
+    "STUDENT-COUNT": "{{count}} étudiant·es",
+    "SESSION-ACTIVE": "Séance en cours"
   },
   "ERRORS": {
     "REPOSITORY-NOT-FOUND": "Le dépôt n'a pas été trouvé ou vous n'avez aucun droit dessus",
@@ -35,6 +38,8 @@
     "STUDENTS-TOOLTIP": "Basculer vers la vue des étudiant·es",
     "QUESTIONS-COMPLETION": "Questions",
     "QUESTIONS-COMPLETION-TOOLTIP": "Basculer vers la vue des questions",
+    "SESSIONS": "Séances",
+    "SESSIONS-TOOLTIP": "Basculer vers la vue des séances",
     "METADATA": "Métadonnées",
     "SIGN-IN": "S'identifier",
     "SIGN-OUT": "Se déconnecter",
@@ -60,7 +65,8 @@
     "LANGUAGE": "Langue",
     "APPEARANCE": "Apparence",
     "HELP-TUTORIAL": "Aide & Documentation",
-    "ACCOUNT": "Compte"
+    "ACCOUNT": "Compte",
+    "WHATS-NEW": "Nouveautés"
   },
   "HOME": {
     "SEARCH-PLACEHOLDER": "Rechercher un devoir...",
@@ -140,13 +146,13 @@
         "INFO-3": "Seules les questions renseignées ici seront traitées par l'application (jalons, graphes)"
       }
     },
-    "ASSIGNMENT-LIST": {
-      "TITLE": "Liste des devoirs"
-    },
     "CREATE-ASSIGNMENT-TOOLTIP": "Créer un nouveau devoir",
     "SELECT-ASSIGNMENT-TOOLTIP": "Sélectionner le devoir et le charger",
     "EDIT-ASSIGNMENT-TOOLTIP": "Modifier la configuration du devoir",
     "DELETE-ASSIGNMENT-TOOLTIP": "Supprimer le devoir",
+    "OTHER-ACTIONS": "Autres actions",
+    "DUPLICATE-ASSIGNMENT": "Dupliquer le devoir",
+    "ARCHIVE-ASSIGNMENT": "Archiver le devoir",
     "CONNECT-PROMPT-TITLE": "Connectez-vous à votre fournisseur",
     "CONNECT-PROMPT-DESC": "Certains devoirs nécessitent que vous soyez connecté à GitHub ou GitLab pour être consultés ou modifiés.",
     "STATUS": {
@@ -183,7 +189,8 @@
       "ALL": "Tous",
       "GITHUB": "GitHub",
       "GITLAB": "GitLab",
-      "GITLAB_CLOUD": "GitLab.com"
+      "GITLAB_CLOUD": "GitLab.com",
+      "ARCHIVED": "Archivés"
     },
     "DURATION": {
       "DAYS": "j",
@@ -192,7 +199,23 @@
       "REMAINING": "Restant :",
       "TOTAL": "Total :"
     },
-    "UNSAVED-CHANGES": "Modifications non enregistrées"
+    "UNSAVED-CHANGES": "Modifications non enregistrées",
+    "DONE": "Terminé",
+    "CLOSE-EDIT-ASSIGNMENT-TOOLTIP": "Fermer l'édition",
+    "VIEW-LIST": "Afficher en liste",
+    "VIEW-FOLDERS": "Afficher en dossiers",
+    "SELECT-ASSIGNMENT": "Sélectionner le devoir",
+    "LOAD-ASSIGNMENT": "Charger",
+    "CONFIGURE-ASSIGNMENT": "Configurer",
+    "RESTORE-ASSIGNMENT": "Restaurer le devoir",
+    "ARCHIVED-BADGE": "Archivé",
+    "ARCHIVED-ON": "Archivé le {{date}}",
+    "NO-ARCHIVED-ASSIGNMENTS": "Aucun devoir archivé",
+    "DUPLICATE-TOAST": "Devoir dupliqué",
+    "DUPLICATE-TOAST-FAILED": "Échec de la duplication du devoir.",
+    "ARCHIVE-TOAST": "Devoir archivé",
+    "RESTORE-TOAST": "Devoir restauré",
+    "ARCHIVE-TOAST-FAILED": "Échec de l'archivage du devoir."
   },
   "OVERVIEW-GRAPH": {
     "NO-COMMITS-TITLE": "Aucun commit trouvé",
@@ -221,6 +244,11 @@
     "CHANGE-TIME-SCALE-TOOLTIP": "Changer l'échelle de temps",
     "DOWNLOAD-TOOLTIP": "Télécharger le fichier de configuration du devoir courant",
     "RELOAD-TOOLTIP": "Recharger",
+    "NAVIGATION": {
+      "GROUP-TITLE": "Navigation"
+    },
+    "NOW-TOOLTIP": "Aller à l'instant présent",
+    "NOW-LABEL": "Maintenant",
     "LEGEND": {
       "TITLE": "Légende",
       "COMMIT": "Commit",
@@ -261,6 +289,7 @@
     "NAV_OVERVIEW": "Vue Commits",
     "NAV_STUDENTS": "Vue Étudiant·es",
     "NAV_QUESTIONS": "Vue Questions",
+    "NAV_SESSIONS": "Vue Séances",
     "NAV_CONFIG": "Configurer le devoir",
     "NAV_SHORTCUTS": "Afficher / masquer les raccourcis",
     "TOGGLE_ANONYMOUS": "Basculer le mode anonymat",
@@ -268,6 +297,7 @@
     "GRAPH_ZOOM_IN": "Zoomer",
     "GRAPH_ZOOM_OUT": "Dézoomer",
     "GRAPH_RESET_ZOOM": "Réinitialiser le zoom",
+    "GRAPH_GO_NOW": "Aller à l'instant présent",
     "GRAPH_SESSION_NAV": "Séance précédente / suivante",
     "GRAPH_RELOAD": "Recharger les données",
     "GRAPH_COPY_HASH": "Copier le hash du commit survolé",
@@ -291,7 +321,8 @@
     "KEY_CLICK": "Clic",
     "KEY_DBLCLICK": "Double-clic",
     "KEY_RIGHT_CLICK": "Clic droit",
-    "KEY_DRAG": "Glisser"
+    "KEY_DRAG": "Glisser",
+    "SELECT_GROUP": "Ouvrir / fermer le filtre de groupe de TP"
   },
   "TOAST": {
     "HASH_COPIED": "Hash du commit copié !"
@@ -331,6 +362,7 @@
     "COLUMN-NAME": "Nom",
     "COLUMN-URL": "URL",
     "COLUMN-TP-GROUP": "Groupe de TP",
+    "SORT-COLUMN-TP-GROUP": "Groupe",
     "MESSAGE-INVALID-URL": "Vous devez avoir accès au dépôt !",
     "BUTTON-SAVE": "Sauvegarder",
     "MESSAGE-REPO-ALREADY-ADDED": "Ce dépôt est déjà ajouté !",
@@ -343,8 +375,8 @@
     "ADD-REPOSITORY": "Ajouter des dépôts",
     "NEW-REPOSITORY": "Étudiant·e inconnu·e",
     "NO-REPOSITORIES": "Aucun dépôt trouvé",
-    "BUTTON-REFRESH-NAMES": "Réaffecter les noms",
-    "BUTTON-CONFIRM-REFRESH-NAMES": "Confirmer le remplacement ?",
+    "BUTTON-REFRESH-NAMES": "Réaffecter",
+    "BUTTON-CONFIRM-REFRESH-NAMES": "Confirmer ?",
     "TOOLTIP-REFRESH-NAMES": "Recherche les noms dans IDENTITY.json ou le README et remplace les noms existants",
     "NAMES-REFRESH-SUCCESS": "Noms réaffectés avec succès",
     "NAMES-REFRESH-NONE": "Aucune modification de nom détectée"
@@ -380,12 +412,10 @@
     "BUTTON-ADD": "Ajouter",
     "COLUMN-NAME": "Nom",
     "COLUMN-URL": "URL",
-    "PLACEHOLDER-FILTER": "Rechercher des dépôts",
+    "PLACEHOLDER-FILTER": "Rechercher par nom ou URL du dépôt source (forké)",
     "PLACEHOLDER-TPGROUP": "Indiquez le groupe de TP pour tous les dépôts sélectionnés",
     "SELECTED-REPOSITORIES": "dépôt(s) sélectionné(s)",
     "TP-GROUP": "Groupe de TP",
-    "SECTION-NAME-MATCHES": "Correspondances par nom",
-    "SECTION-CONTENT-MATCHES": "Correspondances dans la description ou le README",
     "TOOLTIP-SOURCE-CYCLE": "<strong>Cycle de sélection :</strong><br>• 1ᵉʳ clic : Tout sélectionner (source et forks)<br>• 2ᵉ clic : Forks uniquement<br>• 3ᵉ clic : Dépôt source uniquement<br>• 4ᵉ clic : Tout désélectionner"
   },
   "EDIT-REPOSITORIES-BUTTON-ADD-REPOSITORIES": "Ajouter plusieurs dépôts",
@@ -521,8 +551,8 @@
     "TP_GROUP_DEMO": "Groupe 1",
     "ADD_SEARCH_BTN_TITLE": "Ajouter la sélection",
     "ADD_SEARCH_BTN_DESC": "Cliquez sur ce bouton pour ajouter les dépôts sélectionnés à votre devoir.",
-    "SAVE_BTN_TITLE": "Enregistrer",
-    "SAVE_BTN_DESC": "Il ne vous reste plus qu'à enregistrer le devoir !",
+    "SAVE_BTN_TITLE": "Sauvegarde automatique",
+    "SAVE_BTN_DESC": "Vos modifications sont enregistrées automatiquement. Fermez ce panneau quand vous avez terminé.",
     "EXPORT_TITLE": "Exporter vos devoirs",
     "EXPORT_DESC": "Une fois sauvegardés, vous pouvez exporter l'intégralité de vos devoirs ou seulement la sélection au format JSON.",
     "IMPORT_TITLE": "Importer des devoirs",
@@ -541,7 +571,6 @@
     "TEXT": "Mode Texte (Nombre exact)"
   },
   "PERCENT-COMMITS": "% des commits",
-  "QUESTIONS": "Questions",
   "STUDENTS": "Étudiant·es",
   "QUESTIONS-CHOOSER-SEARCH-PLACEHOLDER": "Rechercher une question (ex: 1.1) ou un mot-clé de commit...",
   "QUESTIONS-CHOOSER-QUESTIONS-HEADER": "Questions du TP",
@@ -690,6 +719,329 @@
     "ERROR_TITLE": "Authentification expirée",
     "ERROR_MSG_GITHUB": "Votre token GitHub est invalide ou a expiré. Reconnectez-vous depuis la section Comptes.",
     "ERROR_MSG_GITLAB": "Votre token GitLab est invalide ou a expiré. Reconnectez-vous depuis la section Comptes."
+  },
+  "SESSIONS-GRAPH": {
+    "EMPTY_TITLE": "Aucune séance configurée",
+    "EMPTY_DESC": "Définissez les séances de TP pour analyser le taux de présence active, le rythme de travail, et la progression de vos étudiants.",
+    "SUGGEST_BUTTON": "Suggérer les séances",
+    "SUGGEST_BUTTON_TOOLTIP": "Détecte automatiquement les séances d'après les pics d'activité simultanée",
+    "ADD_BUTTON": "Ajouter une séance",
+    "CALCULATING": "Calcul des statistiques de séances...",
+    "ALL_SESSIONS": "Toutes les séances",
+    "OFFICIAL_END": "Fin officielle",
+    "TOLERANCE_BADGE": "Tolérance active : +{{minutes}} min ({{students}} étudiants)",
+    "TABS": {
+      "TIMELINE": "Chronologie & Rythme",
+      "MATRIX": "Matrice d'avancement",
+      "STUDENTS": "Présences & Engagement"
+    },
+    "KPIS": {
+      "AVG_PARTICIPATION": "Présence active moyenne",
+      "AVG_PARTICIPATION_SUB": "Sur l'ensemble des séances",
+      "IN_SESSION_COMMITS": "Commits en séance",
+      "IN_SESSION_COMMITS_SUB": "{{ratio}}% de la production totale",
+      "AUTONOMOUS_COMMITS": "Commits hors séance",
+      "AUTONOMOUS_COMMITS_SUB": "Travail personnel autonome",
+      "TOTAL_SESSIONS": "Séances planifiées",
+      "TOTAL_SESSIONS_SUB": "Séances encadrées",
+      "PARTICIPATION_RATE": "Taux de présence active",
+      "STUDENTS_ACTIVE": "étudiants actifs",
+      "COMMITS_COUNT": "Commits réalisés",
+      "OF_ANALYZED_COMMITS": "des commits analysés réalisés pendant la séance",
+      "QUESTIONS_RESOLVED": "Questions résolues",
+      "QUESTIONS_RESOLVED_SUB": "Questions clôturées pendant la séance",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS": "Étudiant·es sans question résolue",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_SUB": "Aucune question résolue pendant la séance",
+      "INACTIVE_STUDENTS": "Étudiant·es inactif·ves",
+      "INACTIVE_STUDENTS_SUB": "Aucun commit pendant la séance",
+      "WORK_DISTRIBUTION": "Répartition de l'effort",
+      "QUESTIONS_COVERED": "Questions résolues",
+      "TOTAL_HOURS": "Heures encadrées",
+      "IN_SESSION": "en séance",
+      "AUTONOMOUS": "autonome",
+      "ANALYZE_BTN": "Analyser",
+      "BACK_TO_ALL": "Toutes les séances",
+      "AVG_PARTICIPATION_TOOLTIP": "Moyenne des pourcentages d'étudiant·es ayant commité lors de chaque séance (au moins 1 commit dans le créneau).",
+      "WORK_DISTRIBUTION_TOOLTIP": "Proportion de l'ensemble des commits réalisés pendant les séances de TP vs en autonomie.",
+      "QUESTIONS_COVERED_TOOLTIP": "Nombre de questions distinctes entamées par au moins un·e étudiant·e, sur le total du sujet.",
+      "OF_ASSIGNMENT": "du sujet",
+      "PARTICIPATION_RATE_TOOLTIP": "Pourcentage d'étudiant·es du groupe ayant poussé au moins 1 commit pendant cette séance.",
+      "QUESTIONS_RESOLVED_TOOLTIP": "Nombre de questions distinctes du sujet clôturées par au moins un·e étudiant·e lors de cette séance.",
+      "RESOLVED_QUESTIONS_LIST": "Questions résolues",
+      "NO_RESOLVED_QUESTIONS": "Aucune question résolue pendant cette séance",
+      "STUDENTS_WITHOUT_RESOLVED_QUESTIONS_TOOLTIP": "Nombre d'étudiant·es n'ayant résolu aucune question pendant cette séance."
+    },
+    "MATRIX": {
+      "COMING_SOON_TITLE": "Matrice d'avancement",
+      "COMING_SOON": "Cette vue arrive prochainement.",
+      "TITLE": "Matrice d'avancement synthétique (Étudiants × Questions)",
+      "SUBTITLE": "Vue matricielle du statut de chaque question pour chaque étudiant",
+      "LEGEND_BEFORE": "Validé avant revue",
+      "LEGEND_BETWEEN": "Validé après correction",
+      "LEGEND_AFTER": "Validé après correction finale",
+      "LEGEND_IN_PROGRESS": "En cours",
+      "LEGEND_NOT_STARTED": "Non commencé",
+      "LEGEND_IN_SESSION": "Clôturé en séance",
+      "SCOPE_ALL": "Tout le devoir",
+      "SCOPE_SESSION": "Pendant la séance",
+      "SEARCH_PLACEHOLDER": "Filtrer un étudiant...",
+      "STUDENT_COL": "Étudiant",
+      "PROGRESS_COL": "Progression",
+      "SORT_NAME": "Trier par nom",
+      "SORT_PROGRESS": "Trier par progression",
+      "VALIDATED_AT": "Validé le",
+      "LAST_COMMIT": "Dernier commit",
+      "COMMITS_COUNT": "{{count}} commit(s)",
+      "IN_SESSION_BADGE": "Clôturé pendant cette séance",
+      "NO_QUESTIONS": "Aucune question définie pour ce devoir"
+    },
+    "MACRO": {
+      "CHART_TITLE": "Dynamique de présence par séance (%)",
+      "CHART_SUBTITLE": "Proportion d'étudiants ayant produit du code pendant chaque créneau",
+      "SESSIONS_LIST": "Détail des séances"
+    },
+    "RIBBON": {
+      "TITLE": "Trajectoire de progression & Dispersion du groupe",
+      "SUBTITLE_BADGE": "Moyenne + Intervalle interquartile",
+      "EXPLANATION": "La courbe bleue indique l'avancement moyen du groupe. Le ruban ombré représente la zone où se situent 50% des étudiant·es (Q1-Q3).",
+      "MODE_QUESTIONS": "Questions résolues",
+      "MODE_COMMITS": "Commits cumulés",
+      "Y_AXIS_QUESTIONS": "Questions complétées",
+      "Y_AXIS_COMMITS": "Commits cumulés",
+      "CUMULATIVE": "Cumul"
+    },
+    "HISTOGRAM": {
+      "TITLE": "Rythme des commits par quart d'heure",
+      "SUBTITLE": "Volume et nature des contributions tout au long de la séance"
+    },
+    "STUDENTS_TABLE": {
+      "TITLE": "Tableau de présence & engagement des étudiants",
+      "SUBTITLE": "Identification rapide des étudiants actifs et des décrocheurs",
+      "STATUS_ACTIVE": "Actif",
+      "STATUS_LOW": "Faible activité",
+      "STATUS_INACTIVE": "Inactif",
+      "COMMITS_IN_SESSION": "Commits en séance",
+      "FIRST_COMMIT": "1er commit",
+      "LAST_COMMIT": "Dernier commit",
+      "LAST_QUESTION": "Dernière question"
+    },
+    "SUGGEST_MODAL": {
+      "TITLE": "Détection automatique des séances",
+      "SUBTITLE": "Séances suggérées d'après les pics synchrones de commits de la promotion",
+      "SELECT_ALL": "Tout sélectionner",
+      "NO_SUGGESTIONS": "Aucune séance détectée automatiquement dans l'historique de ce devoir.",
+      "IMPORT_BUTTON": "Importer {{count}} séance(s)",
+      "SUCCESS_TOAST": "{{count}} séance(s) importée(s) avec succès"
+    },
+    "TOOLTIPS": {
+      "STUDENTS_COUNT": "Étudiants actifs",
+      "COMMITS_COUNT": "Total des commits"
+    }
+  },
+  "DEV-BAR": {
+    "CLOCK": {
+      "TOOLTIP": "Décaler la date et l'heure vues par l'application (tests)",
+      "LABEL": "Horloge",
+      "HEADER": "Horloge simulée",
+      "SIMULATED": "Date / heure simulée",
+      "FIELD-LABEL": "Nouvelle date",
+      "RESET": "Réinitialiser",
+      "HINT": "Le décalage n'agit que sur l'affichage : l'heure réelle continue de s'écouler. Il est perdu au rechargement de la page.",
+      "UNIT-DAY": "j",
+      "UNIT-HOUR": "h",
+      "UNIT-MINUTE": "min",
+      "RESET-TOAST": "Horloge simulée réinitialisée."
+    },
+    "MOCK": {
+      "TITLE": "Mock Git",
+      "GITLAB": "Tester GitLab",
+      "GITLAB-TOOLTIP": "Activer/désactiver le compte GitLab simulé (prof.turing @ gitlab.univ-tlse3.fr)",
+      "GITLAB-ON": "Compte GitLab simulé activé (prof.turing @ gitlab.univ-tlse3.fr).",
+      "GITLAB-OFF": "Compte GitLab simulé désactivé.",
+      "GITHUB": "Tester GitHub",
+      "GITHUB-TOOLTIP": "Activer/désactiver le compte GitHub simulé (prof.octocat)",
+      "GITHUB-ON": "Compte GitHub simulé activé (prof.octocat).",
+      "GITHUB-OFF": "Compte GitHub simulé désactivé.",
+      "LABEL": "Comptes Git",
+      "HEADER": "Comptes Git simulés",
+      "TOOLTIP": "Activer/désactiver les comptes Git simulés (GitLab UT3, GitHub)"
+    },
+    "FIXTURE": {
+      "LABEL": "Démo",
+      "TOOLTIP": "Charger un devoir de démonstration avec des données simulées",
+      "HEADER": "Devoir de démonstration",
+      "GITHUB": "Démo GitHub",
+      "GITLAB": "Démo GitLab",
+      "CLEAR": "Désactiver la démo",
+      "GITHUB-LOADED": "Devoir de démonstration GitHub chargé (6 étudiants).",
+      "GITLAB-LOADED": "Devoir de démonstration GitLab chargé (6 étudiants).",
+      "CLEARED": "Mode démonstration désactivé."
+    },
+    "SESSION": {
+      "LABEL": "Séance +30 s",
+      "TOOLTIP": "Ajoute une séance démarrant dans 30 secondes, pour tester la languette de séance",
+      "LABEL-VALUE": "DEV · +30 s",
+      "TOAST-TITLE": "Dev Bar",
+      "ADDED": "Séance ajoutée : elle démarre dans 30 secondes.",
+      "NO-ASSIGNMENT": "Aucun devoir chargé : impossible d'ajouter une séance."
+    }
+  },
+  "SESSION-TAB": {
+    "TAB": {
+      "IN-PROGRESS": "Séance en cours",
+      "IN-PROGRESS-SHORT": "En cours",
+      "UPCOMING-SHORT": "Séance bientôt",
+      "UPCOMING-TAB": "Bientôt",
+      "LABEL-FALLBACK": "Séance"
+    },
+    "PANEL": {
+      "TP-GROUP": "Groupe",
+      "PREV": "Séance précédente",
+      "NEXT": "Séance suivante",
+      "HEALTH": {
+        "ACTIVE": "actif·ves",
+        "WATCH": "à relancer",
+        "INACTIVE": "inactif·ves",
+        "QUESTIONS": "Questions résolues",
+        "ACTIVE-LIST": "Étudiant·es actif·ves",
+        "WATCH-LIST": "À relancer",
+        "INACTIVE-LIST": "Étudiant·es inactif·ves",
+        "QUESTIONS-LIST": "Questions résolues",
+        "NONE": "Aucun·e"
+      },
+      "WATCH": {
+        "TITLE": "À aider",
+        "SEE-ALL": "Voir tout",
+        "ALL-GOOD": "Tous les étudiant·es sont actif·ves",
+        "REASON-NO-COMMIT": "Aucun commit",
+        "REASON-STALE": "Sans activité depuis {{minutes}} min"
+      },
+      "PACE": {
+        "TITLE": "Rythme",
+        "PER-15": "commits / 15 min",
+        "BUCKET": "{{time}} · {{count}} commits",
+        "STALLED": "Coup de mou"
+      },
+      "TIMELINE": {
+        "TITLE": "Chronologie",
+        "TOOLTIP": "Chaque pastille est une question résolue : à l'horizontale le temps, à la verticale le rang de la question. La courbe bleue est la progression moyenne du groupe ; survolez une pastille pour voir la trajectoire de l'étudiant·e."
+      },
+      "FEED": {
+        "TITLE": "Dernière activité",
+        "JUST-NOW": "à l'instant",
+        "MIN-AGO": "il y a {{minutes}} min"
+      },
+      "REFRESH": "Rafraîchir les données",
+      "REFRESH-TOOLTIP": "Récupérer les derniers commits",
+      "REFRESH-AUTO-TOOLTIP": "Actualisation automatique pendant la séance",
+      "VIEW-IN-GRAPH": "Voir dans le graphe",
+      "EDIT": "Modifier",
+      "UPDATED-TOAST": "Séance mise à jour."
+    }
+  },
+  "AUTOSAVE": {
+    "SAVING": "Enregistrement…",
+    "SAVED": "Enregistré",
+    "UNSAVED-REQUIRED-TITLE": "Titre obligatoire",
+    "TITLE-REQUIRED-FEEDBACK": "Le titre est obligatoire.",
+    "TOAST-NEW-ASSIGNMENT-NOT-CREATED": "Le devoir n'a pas été créé : le titre est obligatoire.",
+    "TOAST-TITLE-NOT-SAVED": "Le titre n'a pas été enregistré car il est obligatoire.",
+    "TOAST-SAVE-FAILED": "Échec de l'enregistrement. Vos modifications restent en attente."
+  },
+  "DATE-RANGE-PICKER": {
+    "TAB-HINT": "Définir la fin à"
+  },
+  "WHATS-NEW": {
+    "TITLE": "Nouveautés",
+    "SUBTITLE": "Version {{version}} · {{date}}",
+    "TAB-CURRENT": "Version {{version}}",
+    "TAB-HISTORY": "Versions précédentes",
+    "TAG-NEW": "Nouveau",
+    "TAG-IMPROVED": "Amélioré",
+    "FULL-CHANGELOG": "Consulter le changelog complet",
+    "CONFIRM": "J'ai compris",
+    "CLOSE-LABEL": "Fermer les nouveautés",
+    "RELEASES": {
+      "V2-7-0": {
+        "DATE": "13 octobre 2026",
+        "SUMMARY": "Cette version ajoute une vue entièrement consacrée au suivi des séances, un panneau de suivi en direct pendant les travaux pratiques, une présentation des devoirs en dossiers et un repère du temps présent dans le graphe des commits.",
+        "FEATURES": {
+          "SESSIONS-VIEW": {
+            "TITLE": "Vue séances : participation et progression",
+            "DESC": "Le nouvel onglet « Séances » réunit, pour chaque séance, le taux de participation, les commits produits pendant et en dehors du créneau, ainsi que la progression du groupe. Survolez une question résolue pour afficher la trajectoire de commits de l'étudiant qui l'a fermée.",
+            "HINT": "Onglet « Séances » de la barre de navigation, ou touche [[4]].",
+            "ALT": "Vue séances : indicateurs de participation, courbe de progression du groupe et tableau d'activité par étudiant."
+          },
+          "LIVE-SESSION": {
+            "TITLE": "Suivi d'une séance en direct",
+            "DESC": "Pendant une séance, un panneau latéral indique l'état du groupe (étudiants actifs, à relancer, inactifs), le rythme de travail, les questions résolues et les derniers commits. Il liste également les étudiants à aider, avec le motif et le lien vers leur dépôt.",
+            "HINT": "Onglet « Séance en cours » sur le bord gauche de l'écran ; les données se rafraîchissent toutes les trois minutes.",
+            "ALT": "Panneau de séance en direct : état du groupe, rythme de travail, questions résolues et activité récente."
+          },
+          "FOLDER-VIEW": {
+            "TITLE": "Devoirs présentés en dossiers",
+            "DESC": "La liste des devoirs peut s'afficher sous forme de dossiers : la couverture s'entrouvre au survol et laisse apparaître les feuilles du devoir. La case de sélection permet d'agir sur plusieurs devoirs à la fois.",
+            "HINT": "Bouton « Afficher en dossiers », au-dessus de la liste des devoirs.",
+            "ALT": "Liste des devoirs présentée en dossiers, avec la couverture d'un devoir entrouverte sur ses feuilles."
+          },
+          "NOW-MARKER": {
+            "TITLE": "Repère du temps présent dans le graphe",
+            "DESC": "Un trait vertical situe le temps présent sur la frise des commits : le travail déjà effectué et le temps restant se distinguent d'un seul regard.",
+            "HINT": "Touche [[M]] dans le graphe des commits ; [[shift]]+molette pour zoomer autour du repère."
+          },
+          "QUICK-ACTIONS": {
+            "TITLE": "Actions rapides sur un devoir",
+            "DESC": "Chaque carte de devoir propose un menu d'actions : dupliquer le devoir pour repartir de sa structure sans recopier les dates, ou l'archiver pour le retirer de la liste. Un devoir archivé se consulte et se restaure depuis le filtre « Archivés ».",
+            "HINT": "Bouton d'actions en haut à droite de chaque carte de devoir.",
+            "ALT": "Menu d'actions d'une carte de devoir, ouvert sur les actions dupliquer, archiver et supprimer."
+          },
+          "AUTOSAVE": {
+            "TITLE": "Enregistrement automatique de la configuration",
+            "DESC": "Les modifications apportées à la configuration d'un devoir sont enregistrées au fil de la saisie : il n'est plus nécessaire de valider avant de fermer. Un indicateur précise l'état de l'enregistrement.",
+            "HINT": "Indicateur affiché dans l'en-tête de l'éditeur de devoir."
+          },
+          "TP-GROUP-FILTER": {
+            "TITLE": "Filtre de groupe de TP unifié",
+            "DESC": "Le filtre de groupe de TP est désormais placé dans la barre de navigation et s'applique à toutes les vues du devoir : il n'est plus nécessaire de le régler sur chaque graphique.",
+            "HINT": "Pilule du devoir, dans la barre de navigation ; touche [[G]] pour ouvrir le filtre."
+          },
+          "GRAPH-INTERACTIONS": {
+            "TITLE": "Interactions du graphe affinées",
+            "DESC": "Un clic sur une séance affiche ses informations, un double-clic la cadre dans la vue et un glisser avec la touche [[shift]] dessine un rectangle de zoom. Les déplacements dans le graphe gagnent également en fluidité.",
+            "HINT": "Graphe des commits ; touches [[←]] et [[→]] pour passer d'une séance à l'autre."
+          }
+        }
+      },
+      "V2-6-0": {
+        "DATE": "13 octobre 2026",
+        "SUMMARY": "Cette version a introduit la connexion aux instances GitLab auto-hébergées, la gestion de plusieurs comptes, le mode anonymat et la recherche repliable.",
+        "FEATURES": {
+          "HOSTED-GITLAB": {
+            "TITLE": "GitLab auto-hébergé et comptes multiples",
+            "DESC": "L'application se connecte aux instances GitLab auto-hébergées, en plus de gitlab.com. Plusieurs comptes peuvent être enregistrés en parallèle, y compris sur une même forge."
+          },
+          "TOKEN-REFRESH": {
+            "TITLE": "Renouvellement automatique des jetons GitLab",
+            "DESC": "Les jetons GitLab arrivés à expiration sont renouvelés automatiquement en cours d'utilisation, sans reconnexion manuelle."
+          },
+          "TOKEN-STATUS": {
+            "TITLE": "État des connexions",
+            "DESC": "La liste des comptes signale les jetons expirés et rappelle qu'une reconnexion est nécessaire."
+          },
+          "ANONYMOUS-MODE": {
+            "TITLE": "Mode anonymat",
+            "DESC": "Un bouton masque instantanément les noms des étudiants, des dépôts et des auteurs, pour présenter les résultats à une classe sans exposer d'identités."
+          },
+          "SEARCH-BAR": {
+            "TITLE": "Recherche repliable",
+            "DESC": "La recherche de devoirs se replie pour laisser toute la place à la liste, et se déploie en un clic."
+          },
+          "STUDENT-REPOS": {
+            "TITLE": "Accès aux dépôts des étudiants",
+            "DESC": "Depuis la vue des étudiants, un clic ouvre le dépôt correspondant sur la forge associée."
+          }
+        }
+      }
+    }
   }
 }
-

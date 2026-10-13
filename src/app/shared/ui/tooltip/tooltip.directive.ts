@@ -9,6 +9,8 @@ export class TooltipDirective implements OnDestroy {
   @Input() placement: "top" | "bottom" | "left" | "right" = "top";
   @Input() onlyIfTruncated = false;
   @Input() maxWidth?: string | number;
+  /** Skip the 400ms show delay (used for dense hover targets like the pace sparkline). */
+  @Input() instant = false;
 
   constructor(private elementRef: ElementRef, private tooltipService: TooltipService) {}
 
@@ -38,7 +40,7 @@ export class TooltipDirective implements OnDestroy {
       }
     }
 
-    this.tooltipService.show(text, this.elementRef.nativeElement, this.placement, shortcut, this.maxWidth);
+    this.tooltipService.show(text, this.elementRef.nativeElement, this.placement, shortcut, this.maxWidth, undefined, this.instant);
   }
 
   @HostListener("mouseleave")

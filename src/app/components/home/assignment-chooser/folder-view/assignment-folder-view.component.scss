@@ -1,0 +1,663 @@
+@import 'variables';
+
+/* =========================================================
+   Vue « dossiers » des devoirs.
+   Stage (dossier) : largeur / hauteur = 10 / 13, proportions de la référence validée.
+   Le rabat est légèrement incliné en 3D ; les feuilles glissent en % de leur propre
+   largeur, dans trois états : fermé (tranches visibles dans la fente) → survol (rabat
+   ouvert en grand, feuille 1 majoritaire, feuille 2 cachée derrière) → ouvert (les deux
+   feuilles entièrement visibles côte à côte).
+   ========================================================= */
+
+.folder-view {
+  --folder-radius: 18px;
+  --page-width: 80%;
+  --page-tx-closed-1: 10%;
+  --page-tx-closed-2: 12.5%;
+  --page-tx-hover-1: 96%;
+  --page-tx-hover-2: 130%;
+  --page-ty-hover-1: 4%;
+  --page-ty-hover-2: -9%;
+  --page-tx-open-1: 54%;
+  --page-tx-open-2: 160%;
+  --page-rot-1: -2.2deg;
+  --page-rot-2: 2.6deg;
+  --page-rot-hover-1: -1.2deg;
+  --page-rot-hover-2: 1.2deg;
+  --page-rot-open-1: -1.4deg;
+  --page-rot-open-2: 1.4deg;
+  --cover-ry: -13deg;
+  --cover-ry-hover: -24deg;
+  --cover-ry-open: -60deg;
+  --page-lift: 22px;
+
+  position: relative;
+  /* Réserve la place de la sortie de feuille au survol du dernier dossier de la rangée
+     (≈ 28 % d'une cellule) pour ne jamais déclencher de défilement horizontal. */
+  padding-right: 58px;
+}
+
+/* Flou de focalisation quand un dossier est ouvert (les clics le traversent). */
+.folder-overlay {
+  position: absolute;
+  inset: -8px;
+  z-index: 5;
+  pointer-events: none;
+  background: var(--folder-overlay-bg);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity $transition-normal;
+}
+
+.folder-overlay.show {
+  opacity: 1;
+}
+
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 168px));
+  column-gap: 54px;
+  row-gap: 40px;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.folder-item {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+/* Couleur du rabat par statut (tokens light/dark de _variables.scss) */
+.folder-item.status-prepared {
+  --folder-cover-bg: var(--folder-prepared-bg);
+  --folder-ink: var(--folder-prepared-ink);
+}
+
+.folder-item.status-ongoing {
+  --folder-cover-bg: var(--folder-ongoing-bg);
+  --folder-ink: var(--folder-ongoing-ink);
+}
+
+.folder-item.status-finished {
+  --folder-cover-bg: var(--folder-finished-bg);
+  --folder-ink: var(--folder-finished-ink);
+}
+
+.folder-item.status-default {
+  --folder-cover-bg: var(--folder-default-bg);
+  --folder-ink: var(--folder-default-ink);
+}
+
+.folder-item.is-open {
+  z-index: 10;
+}
+
+/* Dossier survolé : ses feuilles, qui débordent sur les voisins, passent au-dessus d'eux. */
+@media (hover: hover) and (pointer: fine) {
+  .folder-item:not(.is-open):hover {
+    z-index: 2;
+  }
+}
+
+.folder-item.is-disabled {
+  opacity: 0.62;
+}
+
+/* Devoir rangé : reste lisible mais ne se confond pas avec un devoir actif. Le dossier
+   ouvert garde son rendu normal (les feuilles sorties doivent rester nettes). */
+.folder-item.is-archived:not(.is-open) {
+  opacity: 0.78;
+}
+
+.folder-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 10 / 13;
+  perspective: 1600px;
+  cursor: pointer;
+  transition: transform $transition-snap;
+}
+
+/* Dossier ouvert près du bord droit : le décalage (calculé à l'ouverture) ramène toute
+   la composition dans la vue, les voisins floutés passant dessous. */
+.folder-item.is-open .folder-stage {
+  transform: translateX(var(--folder-open-shift, 0));
+  transition: transform $transition-panel-enter;
+}
+
+/* Chemise arrière : même taille et mêmes bords haut/bas que le rabat (panneaux
+   parfaitement alignés), simplement décalée vers la droite pour former la tranche
+   (5 % : elle ne ressort que d'un filet, comme sur l'image de référence). */
+.folder-back {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--folder-radius);
+  background: var(--folder-cover-bg, var(--folder-default-bg));
+  filter: brightness(0.93) saturate(0.98);
+  box-shadow: var(--folder-shadow-back);
+  transform: translate(5%, 0);
+}
+
+/* Feuilles A4 : bords francs (très léger arrondi), sans liseré, toujours nettes. */
+.folder-page {
+  position: absolute;
+  top: 6.5%;
+  left: 10%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: var(--page-width);
+  height: 87%;
+  padding: 9% 8%;
+  overflow: hidden;
+  border: none;
+  border-radius: 4px;
+  background: var(--folder-page-bg);
+  color: var(--folder-page-ink);
+  box-shadow: var(--folder-shadow-page);
+  transform: translateX(var(--tx)) translateY(var(--ty, 0)) rotate(var(--rot));
+  transition: transform $transition-snap;
+}
+
+.folder-page--meta {
+  --tx: var(--page-tx-closed-1);
+  --rot: var(--page-rot-1);
+  --ty: var(--page-ty-closed-1, 0);
+  z-index: 3;
+}
+
+.folder-page--dates {
+  --tx: var(--page-tx-closed-2);
+  --rot: var(--page-rot-2);
+  --ty: var(--page-ty-closed-2, 0);
+}
+
+/* Ouvert : les deux feuilles sortent entièrement côte à côte et remontent un peu. */
+.folder-item.is-open .folder-page {
+  --ty: calc(var(--page-lift) * -1);
+
+  transition: transform $transition-panel-enter;
+}
+
+.folder-item.is-open .folder-page--meta {
+  --tx: var(--page-tx-open-1);
+  --rot: var(--page-rot-open-1);
+  transition-delay: 0ms;
+}
+
+.folder-item.is-open .folder-page--dates {
+  --tx: var(--page-tx-open-2);
+  --rot: var(--page-rot-open-2);
+  transition-delay: 55ms;
+}
+
+/* Contenu des feuilles : champs de métadonnées puis planning. */
+.page-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.page-field .page-label {
+  display: block;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--folder-page-muted);
+}
+
+.page-field .page-value {
+  display: block;
+  font-size: 0.73rem;
+  font-weight: 500;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.page-progress {
+  display: block;
+  margin-top: 10px;
+}
+
+.progress-track {
+  display: block;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--folder-page-line);
+}
+
+.progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width $transition-normal;
+}
+
+/* Rabat : fond de couleur unie OPAQUE (aucune démarcation du panneau arrière ne doit
+   apparaître à travers, y compris au survol) ; seul le calque « pages » donne l'effet
+   dépoli, la transparence reste identique dans tous les états du rabat. */
+.folder-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  border-radius: var(--folder-radius);
+  background: var(--folder-cover-bg, var(--folder-default-bg));
+  color: var(--folder-ink, var(--folder-default-ink));
+  /* Petite ombre portée du panneau avant, projetée sur la chemise arrière et les feuilles. */
+  box-shadow: var(--folder-shadow-panel);
+  text-align: left;
+  cursor: pointer;
+  transform: rotateY(var(--cover-ry));
+  transform-origin: left center;
+  transition: transform $transition-snap;
+}
+
+.folder-cover:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Rabat ouvert : effet de dossier qui s'ouvre au survol (image de référence). */
+.folder-item.is-open .folder-cover {
+  transform: rotateY(var(--cover-ry-open));
+  transition: transform $transition-panel-enter;
+}
+
+.cover-text {
+  position: absolute;
+  right: 16px;
+  bottom: 34px;
+  left: 16px;
+}
+
+.cover-title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
+}
+
+.cover-subtitle {
+  display: block;
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: 0.72rem;
+  opacity: 0.78;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cover-subtitle i {
+  margin-right: 2px;
+}
+
+/* Statut du devoir, sous la date de dernière modification. */
+.cover-state {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.cover-lines {
+  position: absolute;
+  right: 16px;
+  bottom: 15px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: opacity $transition-fast;
+}
+
+.cover-lines i {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.22;
+}
+
+/* Dossier ouvert : les filets s'effacent (le texte du rabat, lui, ne bouge pas). */
+.folder-item.is-open .cover-lines {
+  opacity: 0;
+}
+
+/* Case de sélection : discrète, en haut à gauche du dossier, au survol (ou persistante
+   si sélectionné). */
+.folder-select {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 6;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  background: var(--folder-pill-bg);
+  color: var(--folder-ink, var(--folder-default-ink));
+  place-items: center;
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+  cursor: pointer;
+  transition: opacity $transition-fast, transform $transition-snap;
+}
+
+.folder-select.is-checked {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.folder-item.is-open .folder-select {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .folder-item:not(.is-open):hover .folder-select {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* Rangée d'actions : ancrée dans le bas du dossier en chevauchant légèrement son bord
+   inférieur (image de référence) ; les feuilles, remontées, restent au-dessus. */
+.folder-actions {
+  position: absolute;
+  top: calc(100% - 22px);
+  left: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: max-content;
+  padding: 3px;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 140ms ease-out, transform 140ms ease-out, visibility 0s linear 200ms;
+}
+
+.folder-actions.show {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity 180ms ease-out 140ms, transform 180ms ease-out 140ms, visibility 0s linear 0s;
+}
+
+.folder-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color $transition-fast, transform $transition-tactile;
+}
+
+.folder-action i {
+  font-size: 0.9rem;
+}
+
+.folder-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.folder-action:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* Le fond et la teinte changent instantanément (pas de fondu : clignotement Chromium). */
+.folder-action--primary {
+  color: var(--color-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .folder-action:hover:not(:disabled) {
+    background: var(--color-bg-body);
+    color: var(--color-text-primary);
+  }
+
+  .folder-action--primary:hover:not(:disabled) {
+    background: var(--color-primary-bg);
+    color: var(--color-primary-hover);
+  }
+}
+
+/* Transparence du rabat : copies floutées des feuilles, qui portent les mêmes classes
+   et les mêmes variables que les vraies — elles suivent donc exactement leurs
+   mouvements et sortent du rabat en même temps qu'elles. La découpe du rabat
+   (overflow) ne laisse voir que la partie encore masquée par lui. */
+.cover-ghosts {
+  position: absolute;
+  inset: 0;
+  opacity: 0.17;
+  filter: blur(10px);
+  pointer-events: none;
+  transition: opacity 240ms ease-out;
+}
+
+.cover-ghost {
+  box-shadow: none;
+}
+
+/* Tampon de forge : filigrane très discret (logo GitHub/GitLab du devoir), centré
+   horizontalement aux deux tiers de la hauteur, légèrement incliné comme un cachet
+   (micro-variance par dossier : `--stamp-dx/dy/rot`, voir getRestLayout). Sélectionné,
+   il s'allume comme une LED (voir plus bas). */
+.cover-stamp {
+  position: absolute;
+  top: calc(33.3% + var(--stamp-dy, 0));
+  left: calc(50% + var(--stamp-dx, 0));
+  width: 17%;
+  opacity: 0.13;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(var(--stamp-rot, -8deg));
+  transition: opacity $transition-fast, filter $transition-fast;
+}
+
+.cover-stamp svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: currentColor;
+}
+
+/* Sélection : le tampon de forge s'allume comme une LED (remplace l'ancien anneau
+   de contour autour du dossier). */
+.folder-item.is-selected .cover-stamp {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px var(--folder-led-glow)) drop-shadow(0 0 14px var(--folder-led-glow));
+}
+
+/* Easter egg : après un long moment sans changement de sélection, les LED des dossiers
+   sélectionnés clignotent comme des ampoules défectueuses. `--led-duration` (durée
+   légèrement différente par dossier) désynchronise les clignotements. */
+@keyframes folder-led-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  3% {
+    opacity: 0.35;
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  7% {
+    opacity: 0.12;
+  }
+
+  9% {
+    opacity: 0.9;
+  }
+
+  11% {
+    opacity: 0.3;
+  }
+
+  13% {
+    opacity: 1;
+  }
+
+  16% {
+    opacity: 0.5;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  21% {
+    opacity: 0.15;
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  58% {
+    opacity: 0.65;
+  }
+
+  61% {
+    opacity: 1;
+  }
+}
+
+.folder-view.led-idle .folder-item.is-selected .cover-stamp {
+  animation: folder-led-flicker var(--led-duration, 8s) infinite;
+}
+
+.folder-item.is-open .cover-ghosts {
+  opacity: 0;
+}
+
+/* Survol : le rabat s'entrouvre à peine (--cover-ry-hover, bien moins qu'à l'ouverture)
+   et les deux feuilles sortent en éventail, leur partie gauche restant sous le rabat
+   (d'où le flou visible dessus). Désactivé quand un dossier est ouvert ou en sélection,
+   et sous 701 px (cellules plafonnées). */
+@media (hover: hover) and (pointer: fine) and (min-width: 701px) {
+  .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-cover {
+    transform: rotateY(var(--cover-ry-hover));
+  }
+
+  .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-page--meta {
+    --tx: var(--page-tx-hover-1);
+    --ty: var(--page-ty-hover-1);
+    --rot: var(--page-rot-hover-1);
+  }
+
+  .folder-view:not(.has-open):not(.selection-mode) .folder-item:hover .folder-page--dates {
+    --tx: var(--page-tx-hover-2);
+    --ty: var(--page-ty-hover-2);
+    --rot: var(--page-rot-hover-2);
+  }
+}
+
+/* Petits écrans : dossiers plus compacts, pas de sortie au survol (tactile). */
+@media (max-width: 700px) {
+  .folder-view {
+    padding-right: 24px;
+  }
+
+  .folder-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 176px));
+    column-gap: 28px;
+    row-gap: 32px;
+    justify-content: center;
+  }
+
+  .cover-title {
+    font-size: 0.85rem;
+  }
+
+  .folder-action span {
+    display: none;
+  }
+
+  .folder-action {
+    padding: 0 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folder-stage,
+  .folder-item.is-open .folder-stage {
+    transition: none;
+  }
+
+  .folder-page,
+  .folder-item.is-open .folder-page {
+    transition: none;
+  }
+
+  .folder-cover,
+  .folder-item.is-open .folder-cover {
+    transition: none;
+  }
+
+  .cover-ghosts,
+  .folder-item.is-open .cover-ghosts {
+    transition: opacity 120ms ease-out;
+  }
+
+  .cover-stamp {
+    animation: none;
+    transition: none;
+  }
+
+  .folder-actions {
+    transform: none;
+    transition: opacity 120ms ease-out, visibility 0s linear 200ms;
+  }
+
+  .folder-actions.show {
+    transform: none;
+    transition: opacity 120ms ease-out, visibility 0s linear 0s;
+  }
+
+  .folder-overlay {
+    transition: opacity 120ms ease-out;
+  }
+
+  .folder-select {
+    transition: opacity 120ms ease-out;
+  }
+}

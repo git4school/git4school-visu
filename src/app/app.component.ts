@@ -4,6 +4,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { GithubAuthService } from "@services/github-auth.service";
 import { DataService } from "@services/data.service";
 import { ThemeService } from "@services/theme.service";
+import { WhatsNewService } from "@services/whats-new.service";
 import * as Chart from "chart.js";
 // import * as ChartDataLabels from "chartjs-plugin-datalabels";
 import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
    * @param router
    * @param translateService Service used to translate the application
    * @param themeService Service used to handle theme
+   * @param whatsNewService Service handling the "What's New" modal
    */
   constructor(
     public githubAuthService: GithubAuthService,
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     public translateService: TranslateService,
     private themeService: ThemeService,
+    private whatsNewService: WhatsNewService,
   ) {}
 
   /**
@@ -41,5 +44,20 @@ export class AppComponent implements OnInit {
    */
   ngOnInit(): void {
     Chart.pluginService.unregister(ChartDataLabels);
+    this.openWhatsNewOnNewVersion();
+  }
+
+  /**
+   * Shows the highlights of the running version once, when the user has never seen this version.
+   */
+  private openWhatsNewOnNewVersion(): void {
+    if (!this.whatsNewService.shouldShow()) {
+      return;
+    }
+
+    /* Double requestAnimationFrame: let the application shell paint before the modal slides in. */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => this.whatsNewService.showIfNeeded());
+    });
   }
 }

@@ -483,7 +483,7 @@ export class TourService {
           },
         },
         {
-          element: "#tour-save-btn",
+          element: "#tour-autosave",
           popover: {
             title: this.translate.instant("TOUR.SAVE_BTN_TITLE"),
             description: this.translate.instant("TOUR.SAVE_BTN_DESC"),
@@ -495,21 +495,12 @@ export class TourService {
               ) as HTMLElement;
               if (nextBtn) nextBtn.style.display = "none";
 
-              const saveBtn = document.querySelector(
-                "#tour-save-btn"
-              ) as HTMLButtonElement;
-              if (saveBtn) {
-                const handleSaveClick = () => {
-                  saveBtn.removeEventListener("click", handleSaveClick);
-                  const waitForClose = setInterval(() => {
-                    if (!document.querySelector("app-configuration")) {
-                      clearInterval(waitForClose);
-                      setTimeout(() => this.nextStep(), 500);
-                    }
-                  }, 200);
-                };
-                saveBtn.addEventListener("click", handleSaveClick);
-              }
+              const waitForClose = setInterval(() => {
+                if (!document.querySelector("app-configuration")) {
+                  clearInterval(waitForClose);
+                  setTimeout(() => this.nextStep(), 500);
+                }
+              }, 200);
             },
           },
         },

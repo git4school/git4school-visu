@@ -16,6 +16,13 @@
         [class.filter-pill-custom]="pill.isCustom"
         (click)="setFilter(pill.key)"
       >
+        <!-- L'onglet « Archivés » porte l'icône boîte de son action de menu. -->
+        <svg *ngIf="pill.key === 'archived'" class="filter-pill-icon" width="13" height="13" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="21 8 21 21 3 21 3 8"></polyline>
+          <rect x="1" y="3" width="22" height="5"></rect>
+          <line x1="10" y1="12" x2="14" y2="12"></line>
+        </svg>
         {{ pill.isCustom ? pill.label : (pill.label | translate) }}
       </button>
     </div>
@@ -37,22 +44,22 @@
             </svg>
           </button>
           <div ngbDropdownMenu class="modern-dropdown-menu">
-            <button class="dropdown-item" [class.active]="sortField === 'lastModificationDate'" (click)="sortBy('lastModificationDate')">
+            <button ngbDropdownItem class="dropdown-item" [class.active]="sortField === 'lastModificationDate'" (click)="sortBy('lastModificationDate')">
               {{ 'ASSIGNMENT-CHOOSER.LAST-MODIFICATION-DATE' | translate }}
             </button>
-            <button class="dropdown-item" [class.active]="sortField === 'title'" (click)="sortBy('title')">
+            <button ngbDropdownItem class="dropdown-item" [class.active]="sortField === 'title'" (click)="sortBy('title')">
               {{ 'ASSIGNMENT-CHOOSER.TITLE' | translate }}
             </button>
-            <button class="dropdown-item" [class.active]="sortField === 'course'" (click)="sortBy('course')">
+            <button ngbDropdownItem class="dropdown-item" [class.active]="sortField === 'course'" (click)="sortBy('course')">
               {{ 'ASSIGNMENT-CHOOSER.COURSE' | translate }}
             </button>
-            <button class="dropdown-item" [class.active]="sortField === 'program'" (click)="sortBy('program')">
+            <button ngbDropdownItem class="dropdown-item" [class.active]="sortField === 'program'" (click)="sortBy('program')">
               {{ 'ASSIGNMENT-CHOOSER.PROGRAM' | translate }}
             </button>
-            <button class="dropdown-item" [class.active]="sortField === 'year'" (click)="sortBy('year')">
+            <button ngbDropdownItem class="dropdown-item" [class.active]="sortField === 'year'" (click)="sortBy('year')">
               {{ 'ASSIGNMENT-CHOOSER.YEAR' | translate }}
             </button>
-            <button class="dropdown-item" [class.active]="sortField === 'daysRemaining'" (click)="sortBy('daysRemaining')">
+            <button ngbDropdownItem class="dropdown-item" [class.active]="sortField === 'daysRemaining'" (click)="sortBy('daysRemaining')">
               {{ 'ASSIGNMENT-CHOOSER.DAYS-REMAINING' | translate }}
             </button>
           </div>
@@ -191,11 +198,11 @@
                   </svg>
                 </button>
                 <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                  <button class="dropdown-item text-truncate" [class.active]="!advancedFilters.course" (click)="advancedFilters.course = ''; savePreferences()">
+                  <button ngbDropdownItem class="dropdown-item text-truncate" [class.active]="!advancedFilters.course" (click)="advancedFilters.course = ''; savePreferences()">
                     {{ 'HOME.FILTER.ALL-COURSES' | translate }}
                   </button>
                   <div class="dropdown-divider" *ngIf="availableCourses.length > 0"></div>
-                  <button class="dropdown-item text-truncate" *ngFor="let course of availableCourses"
+                  <button ngbDropdownItem class="dropdown-item text-truncate" *ngFor="let course of availableCourses"
                     [class.active]="advancedFilters.course === course" (click)="advancedFilters.course = course; savePreferences()" [appTooltip]="course" [onlyIfTruncated]="true">
                     {{ course }}
                   </button>
@@ -218,11 +225,11 @@
                   </svg>
                 </button>
                 <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                  <button class="dropdown-item text-truncate" [class.active]="!advancedFilters.program" (click)="advancedFilters.program = ''; savePreferences()">
+                  <button ngbDropdownItem class="dropdown-item text-truncate" [class.active]="!advancedFilters.program" (click)="advancedFilters.program = ''; savePreferences()">
                     {{ 'HOME.FILTER.ALL-PROGRAMS' | translate }}
                   </button>
                   <div class="dropdown-divider" *ngIf="availablePrograms.length > 0"></div>
-                  <button class="dropdown-item text-truncate" *ngFor="let program of availablePrograms"
+                  <button ngbDropdownItem class="dropdown-item text-truncate" *ngFor="let program of availablePrograms"
                     [class.active]="advancedFilters.program === program" (click)="advancedFilters.program = program; savePreferences()" [appTooltip]="program" [onlyIfTruncated]="true">
                     {{ program }}
                   </button>
@@ -245,11 +252,11 @@
                   </svg>
                 </button>
                 <div ngbDropdownMenu class="modern-dropdown-menu w-100">
-                  <button class="dropdown-item text-truncate" [class.active]="!advancedFilters.year" (click)="advancedFilters.year = ''; savePreferences()">
+                  <button ngbDropdownItem class="dropdown-item text-truncate" [class.active]="!advancedFilters.year" (click)="advancedFilters.year = ''; savePreferences()">
                     {{ 'HOME.FILTER.ALL-YEARS' | translate }}
                   </button>
                   <div class="dropdown-divider" *ngIf="availableYears.length > 0"></div>
-                  <button class="dropdown-item text-truncate" *ngFor="let year of availableYears"
+                  <button ngbDropdownItem class="dropdown-item text-truncate" *ngFor="let year of availableYears"
                     [class.active]="advancedFilters.year === year" (click)="advancedFilters.year = year; savePreferences()" [appTooltip]="year" [onlyIfTruncated]="true">
                     {{ year }}
                   </button>
@@ -266,6 +273,30 @@
           </div>
         </div>
       </div> <!-- Closes search-filters-group -->
+
+      <div class="divider-vertical mx-2"></div>
+
+      <!-- Bascule liste / dossiers -->
+      <button type="button" class="btn-outline-ghost view-toggle-btn" (click)="setView(viewMode === 'list' ? 'folders' : 'list')"
+        [appTooltip]="(viewMode === 'list' ? 'HOME.VIEW-FOLDERS' : 'HOME.VIEW-LIST') | translate"
+        [attr.aria-label]="(viewMode === 'list' ? 'HOME.VIEW-FOLDERS' : 'HOME.VIEW-LIST') | translate">
+        <svg *ngIf="viewMode === 'list'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+        </svg>
+        <svg *ngIf="viewMode === 'folders'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3.1" y1="6" x2="3.11" y2="6"></line>
+          <line x1="3.1" y1="12" x2="3.11" y2="12"></line>
+          <line x1="3.1" y1="18" x2="3.11" y2="18"></line>
+        </svg>
+      </button>
     </div> <!-- Closes left-controls -->
 
     <div class="actions-group d-flex" style="gap: 0.5rem;">
@@ -410,17 +441,19 @@
   </div>
 
   <!-- Assignment List -->
-  <div class="assignment-list" [class.selection-mode]="selectionMode">
+  <div class="assignment-list" *ngIf="viewMode === 'list'" [class.selection-mode]="selectionMode">
     <div class="assignment-card" *ngFor="let assignment of filteredAssignments; trackBy: trackByAssignmentId" [id]="'assignment-card-' + assignment.id" [ngClass]="{
            'disabled-card': !isAssignmentConnected(assignment), 
            'is-selected': isSelected(assignment.id),
-           'is-editing': editingAssignmentId === assignment.id,
-           'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignmentId !== assignment.id,
+           'is-archived': isArchived(assignment),
+           'is-editing': editingAssignment === assignment,
+           'has-open-actions': openActionsAssignmentId === assignment.id,
+           'is-shrunk': (hoveredAssignment === assignment.id || isSelected(assignment.id)) && editingAssignment !== assignment,
            'status-preview-dimmed': hoveredStatusPreview && assignment.id !== -1 && assignment.uiStatus !== hoveredStatusPreview
          }"
          [appTooltip]="!isAssignmentConnected(assignment) && assignment.id !== -1 ? getDisconnectedTooltip(assignment) : null"
          placement="top">
-      <div class="card-content d-flex align-items-center" *ngIf="editingAssignmentId !== assignment.id">
+      <div class="card-content d-flex align-items-center" *ngIf="editingAssignment !== assignment">
 
         <!-- Selection Zone (Logo / Checkbox) -->
         <div class="selection-zone mr-3" (mouseenter)="hoveredAssignment = assignment.id"
@@ -455,8 +488,21 @@
               [appTooltip]="assignment.title" placement="bottom">{{ assignment.title || ('HOME.NEW-ASSIGNMENT' |
               translate) }}</h5>
 
+            <!-- Devoir archivé : le badge de statut est remplacé (il isole les filtres de
+                 statut, ce qui n'a pas de sens pour un devoir rangé dans son propre onglet) -->
+            <span class="badge status-badge status-archived" *ngIf="assignment.id !== -1 && isArchived(assignment)"
+              [appTooltip]="'HOME.ARCHIVED-ON' | translate:{date: formatDate(assignment.archivedAt, 'DD MMM YYYY · HH:mm')}">
+              <svg class="status-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                <rect x="1" y="3" width="22" height="5"></rect>
+                <line x1="10" y1="12" x2="14" y2="12"></line>
+              </svg>
+              <span class="status-text">{{ 'HOME.ARCHIVED-BADGE' | translate }}</span>
+            </span>
+
             <!-- Status Badge -->
-            <button type="button" class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus" *ngIf="assignment.id !== -1"
+            <button type="button" class="badge status-badge" [ngClass]="'status-' + assignment.uiStatus" *ngIf="assignment.id !== -1 && !isArchived(assignment)"
               [appTooltip]="getStatusTooltip(assignment.uiStatus) | translate"
               (mouseenter)="onStatusMouseEnter(assignment.uiStatus)"
               (mouseleave)="onStatusMouseLeave()"
@@ -498,9 +544,6 @@
             </ng-container>
             <span class="meta-item"><i class="far fa-clock mr-1"></i> {{ assignment.lastModificationDate | date: 'short'
               }}</span>
-          </div>
-          <div class="meta-info text-muted" style="font-size: 0.85rem;" *ngIf="assignment.id === -1">
-            <span>{{ 'HOME.UNSAVED-CHANGES' | translate }}</span>
           </div>
         </div>
 
@@ -547,27 +590,41 @@
             [appTooltip]="getAssignmentEditTooltip(assignment) | translate">
             <i class="fas fa-cog"></i>
           </button>
-          <button type="button" class="btn btn-icon-action btn-light text-danger ml-2"
-            (click)="$event.stopPropagation(); deleteAssignment(assignment)"
+          <app-liquid-action-menu class="ml-2"
             [disabled]="!isAssignmentConnected(assignment) || assignment.id === -1"
-            [appTooltip]="getAssignmentDeleteTooltip(assignment) | translate">
-            <i class="far fa-trash-alt"></i>
-          </button>
+            [triggerTooltip]="'HOME.OTHER-ACTIONS' | translate"
+            [deleteTooltip]="getAssignmentDeleteTooltip(assignment) | translate"
+            [duplicateTooltip]="'HOME.DUPLICATE-ASSIGNMENT' | translate"
+            [archiveTooltip]="getArchiveToggleTooltip(assignment)"
+            [restoreMode]="isArchived(assignment)"
+            (delete)="deleteAssignment(assignment)"
+            (duplicate)="duplicateAssignment(assignment)"
+            (archive)="toggleArchive(assignment)"
+            (openChange)="onActionsMenuOpenChange(assignment.id, $event)">
+          </app-liquid-action-menu>
         </div>
       </div>
 
       <!-- Inline Configuration Section -->
-      <div class="inline-configuration-wrapper" *ngIf="editingAssignmentId === assignment.id">
-        <app-configuration [assignment]="assignment" (close)="cancelEdit()" (saved)="onAssignmentSaved($event)">
+      <div class="inline-configuration-wrapper" *ngIf="editingAssignment === assignment">
+        <app-configuration [assignment]="assignment" [initialFocusField]="inlineFocusField"
+          (close)="closeEdit($event)" (tabChanged)="onConfigurationTabChanged()">
         </app-configuration>
       </div>
     </div>
+  </div>
 
-    <!-- Empty State -->
-    <div *ngIf="filteredAssignments.length === 0" class="empty-state text-center py-5 text-muted">
-      <i class="fas fa-folder-open fa-3x mb-3" style="opacity: 0.5;"></i>
-      <h5>{{ 'HOME.NO-ASSIGNMENTS' | translate }}</h5>
-    </div>
+  <!-- Folder grid -->
+  <assignment-folder-view *ngIf="viewMode === 'folders'" [assignments]="folderAssignments"
+    [selectionMode]="selectionMode" [selectedAssignments]="selectedAssignments" (load)="selectAssignment($event)"
+    (configure)="configureAssignment($event)" (delete)="deleteAssignment($event)"
+    (duplicate)="duplicateAssignment($event)" (archive)="toggleArchive($event)"
+    (selectionToggle)="toggleSelection($event)"></assignment-folder-view>
+
+  <!-- Empty State -->
+  <div *ngIf="filteredAssignments.length === 0" class="empty-state text-center py-5 text-muted">
+    <i class="fas fa-folder-open fa-3x mb-3" style="opacity: 0.5;"></i>
+    <h5>{{ emptyStateMessageKey | translate }}</h5>
   </div>
 
   <!-- Floating Action Bar for Selection Mode -->

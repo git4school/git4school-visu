@@ -46,7 +46,13 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     white-space: nowrap;
+
+    .filter-pill-icon {
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
 
     &:hover:not(.active) {
       color: var(--color-text-primary);
@@ -589,7 +595,8 @@
   }
 
   .filter-dropdown-container {
-    .btn-outline-ghost {
+    /* Ne cibler que le bouton racine : les dropdowns imbriqués du panneau ne doivent pas hériter du format icône 34px */
+    > .btn-outline-ghost {
       box-sizing: border-box;
       height: 34px;
       min-width: 34px;
@@ -599,8 +606,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 240ms ease,
-                  border-color 240ms ease,
+      transition: border-color 240ms ease,
                   box-shadow 240ms ease,
                   transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1),
                   color 240ms ease;
@@ -646,6 +652,18 @@
       color: var(--color-text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+    }
+
+    /* Toggles Cours / Programme / Année : pleine largeur, libellé tronqué à gauche, chevron à droite.
+       Les utilitaires .w-100 et .text-truncate ne sont pas définis dans les styles du projet. */
+    .filter-section [ngbDropdown] > .btn-outline-ghost {
+      width: 100%;
+
+      span.text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
 
     .filter-chips {
@@ -768,6 +786,22 @@
   }
 }
 
+.view-toggle-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 8px;
+
+  &:active {
+    transform: scale(0.94);
+  }
+}
+
 .assignment-list {
   display: flex;
   flex-direction: column;
@@ -792,6 +826,14 @@
   }
 
   &.is-editing {
+    z-index: 10;
+    /* L'édition part du bord haut de la carte : la gouttière de 1.5rem de l'en-tête
+       place le chevron exactement à la position du bouton d'édition. */
+    padding-top: 0;
+  }
+
+  /* Le menu d'actions liquide doit passer au-dessus des cartes voisines */
+  &.has-open-actions {
     z-index: 10;
   }
 
@@ -828,6 +870,14 @@
   &.is-shrunk {
     &::before {
       left: calc(1.2rem + 40px - 0.5rem);
+    }
+  }
+
+  /* Devoir rangé : il ne doit jamais se confondre avec un devoir actif. Le contenu est
+     atténué (et non la carte entière) pour que l'éditeur inline reste pleinement lisible. */
+  &.is-archived {
+    .card-content {
+      opacity: 0.72;
     }
   }
 }
@@ -945,7 +995,7 @@
   justify-content: center;
   border: none;
   background: transparent;
-  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  transition: color 0.15s ease, transform 0.15s ease;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

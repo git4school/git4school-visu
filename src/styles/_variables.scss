@@ -27,12 +27,15 @@ $font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Robot
   --color-secondary: #64748b;     /* Slate for secondary actions */
   --color-secondary-hover: #475569;
   --color-success: #059669;       /* Green: Restful, examples, success states */
+  --color-success-bg: rgba(5, 150, 105, 0.12);
   --color-danger: #dc2626;        /* Red: Sparing use, errors, critical actions */
   --color-danger-hover: #b91c1c;
   --color-danger-subtle: rgba(220, 38, 38, 0.45);
   --color-danger-bg: rgba(220, 38, 38, 0.1);
   --color-warning: #d97706;       // Amber/Orange: Warnings, dates, highlights
+  --color-warning-bg: rgba(217, 119, 6, 0.12);
   --color-info: #0ea5e9;          // Light blue for info
+  --color-now: #7c3aed;           // Violet: "now" marker on timelines
 
   /* Provider Colors */
   --color-github: #181717;
@@ -42,6 +45,9 @@ $font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Robot
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+
+  /* Menu d'actions liquides (liquid morphism) : fond quasi blanc, teinte unique */
+  --liquid-actions-bg: #f8fafc;
 
   // Components specific
   --filter-bg: #f3f4f6;
@@ -90,6 +96,27 @@ $font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Robot
   // Milestone Drag Badge
   --badge-drag-shadow: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
   --badge-drag-shadow-ready: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
+
+  // Dossiers de devoirs (vue « dossiers »)
+  --folder-overlay-bg: rgba(248, 250, 252, 0.35);
+  --folder-pill-bg: rgba(255, 255, 255, 0.22);
+  --folder-shadow-back: 0 26px 48px -28px rgba(15, 23, 42, 0.5);
+  --folder-shadow-panel: 8px 3px 14px -8px rgba(15, 23, 42, 0.5);
+  --folder-shadow-page: 0 18px 32px -22px rgba(15, 23, 42, 0.55), 0 3px 8px -5px rgba(15, 23, 42, 0.14);
+  --folder-page-bg: #fbfaf7;
+  --folder-page-ink: #1f2937;
+  --folder-page-muted: #6b7280;
+  --folder-page-line: rgba(15, 23, 42, 0.09);
+  --folder-led-glow: rgba(255, 255, 255, 0.85);
+
+  --folder-prepared-bg: #2563eb;
+  --folder-prepared-ink: #fff;
+  --folder-ongoing-bg: #059669;
+  --folder-ongoing-ink: #fff;
+  --folder-finished-bg: #334155;
+  --folder-finished-ink: #fff;
+  --folder-default-bg: #78716c;
+  --folder-default-ink: #fff;
 }
 
 body.dark-theme {
@@ -113,12 +140,15 @@ body.dark-theme {
   --color-secondary: #94a3b8;     /* Slate */
   --color-secondary-hover: #cbd5e1;
   --color-success: #10b981;       /* Brighter green */
+  --color-success-bg: rgba(16, 185, 129, 0.16);
   --color-danger: #ef4444;        /* Brighter red */
   --color-danger-hover: #dc2626;
   --color-danger-subtle: rgba(239, 68, 68, 0.45);
   --color-danger-bg: rgba(239, 68, 68, 0.15);
   --color-warning: #f59e0b;       // Brighter amber
+  --color-warning-bg: rgba(245, 158, 11, 0.18);
   --color-info: #38bdf8;          // Light blue
+  --color-now: #a78bfa;           // Brighter violet: "now" marker on timelines
 
   /* Provider Colors */
   --color-github: #fff;
@@ -128,6 +158,8 @@ body.dark-theme {
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+
+  --liquid-actions-bg: #0f172a;
 
   // Components specific
   --filter-bg: #0f172a;
@@ -170,6 +202,27 @@ body.dark-theme {
   // Milestone Drag Badge (Dark mode)
   --badge-drag-shadow: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
   --badge-drag-shadow-ready: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.6));
+
+  // Dossiers de devoirs (vue « dossiers »)
+  --folder-overlay-bg: rgba(15, 23, 42, 0.5);
+  --folder-pill-bg: rgba(255, 255, 255, 0.18);
+  --folder-shadow-back: 0 26px 48px -26px rgba(0, 0, 0, 0.85);
+  --folder-shadow-panel: 8px 3px 14px -6px rgba(0, 0, 0, 0.8);
+  --folder-shadow-page: 0 18px 32px -20px rgba(0, 0, 0, 0.8), 0 3px 8px -5px rgba(0, 0, 0, 0.5);
+  --folder-page-bg: #ecebe3;
+  --folder-page-ink: #1f2937;
+  --folder-page-muted: #6b7280;
+  --folder-page-line: rgba(15, 23, 42, 0.1);
+  --folder-led-glow: rgba(255, 255, 255, 0.85);
+
+  --folder-prepared-bg: #1d4ed8;
+  --folder-prepared-ink: #fff;
+  --folder-ongoing-bg: #047857;
+  --folder-ongoing-ink: #fff;
+  --folder-finished-bg: #1e293b;
+  --folder-finished-ink: #fff;
+  --folder-default-bg: #57534e;
+  --folder-default-ink: #fff;
 }
 
 // Map SCSS variables to CSS custom properties so existing code works
@@ -190,6 +243,7 @@ $color-danger: var(--color-danger);
 $color-danger-bg: var(--color-danger-bg);
 $color-warning: var(--color-warning);
 $color-info: var(--color-info);
+$color-now: var(--color-now);
 
 $shadow-sm: var(--shadow-sm);
 $shadow-md: var(--shadow-md);
@@ -230,6 +284,18 @@ $transition-drawer-exit: 0.2s cubic-bezier(0.32, 0, 0.67, 0);
 $transition-drawer: $transition-drawer-enter;
 $ease-spring-out: cubic-bezier(0.25, 1, 0.4, 1);
 
+/* Panneau de séance : plus vif que le drawer modal (450ms), plafonné sous 300ms */
+$transition-panel-enter: 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+$transition-panel-exit: 0.18s cubic-bezier(0.32, 0, 0.67, 0);
+
+/* Bascule à venir -> en cours de la languette de séance. Durée à garder en phase avec
+   SWAP_MS dans session-tab.component.ts (le compteur est gelé pendant ce temps). */
+$transition-tab-swap: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+
+/* Sortie du compteur vers le panneau : même courbe que $transition-snap mais plus vive, la
+   sortie devant être plus rapide que l'entrée (checklist d'Emil). */
+$transition-snap-fast: 150ms cubic-bezier(0.23, 1, 0.32, 1);
+
 // Z-Index Layers
 $zindex-chart-selection: 10;
 $zindex-context-menu: 1050;
@@ -242,6 +308,9 @@ $zindex-sidebar-resizer: 1105;
 $zindex-sidebar-close-btn: 1110;
 
 $zindex-dev-bar: 1150;
+
+/* Languette + panneau de séance en cours, sous les modales */
+$zindex-session-pane: 1160;
 
 $zindex-modal-backdrop: 1200;
 $zindex-modal: 1210;

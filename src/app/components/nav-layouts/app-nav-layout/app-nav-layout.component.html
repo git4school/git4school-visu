@@ -27,11 +27,20 @@
                             <i class="fas fa-arrow-left"></i>
                             <span class="back-text">{{ 'NAVBAR.ASSIGNMENTS' | translate }}</span>
                         </button>
-                        <div *ngIf="dataService.dataLoaded()" class="assignment-chip d-flex align-items-center">
-                            <span [appTooltip]="dataService.title" placement="bottom">{{ truncatedTitle }}</span>
-                            <button class="btn-action-icon ml-2" [appTooltip]="{ text: ('HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate), shortcut: ['C'] }" placement="bottom" (click)="openCurrentAssignmentConfig()">
-                                <i class="fas fa-cog" style="pointer-events: none;"></i>
+                        <!-- Pill de contexte du devoir : titre (configuration) + filtre de groupe de TP -->
+                        <div *ngIf="dataService.dataLoaded()" class="assignment-pill">
+                            <button type="button" class="assignment-pill-title" [appTooltip]="{ text: ('HOME.EDIT-ASSIGNMENT-TOOLTIP' | translate), shortcut: ['C'] }" placement="bottom" (click)="openCurrentAssignmentConfig()">
+                                <span class="assignment-pill-title-text">{{ truncatedTitle }}</span>
+                                <i class="fas fa-cog assignment-pill-cog" aria-hidden="true"></i>
                             </button>
+                            <span class="assignment-pill-separator" aria-hidden="true" [class.is-hidden]="dataService.groupFilter"></span>
+                            <app-tp-group-selector
+                                [groups]="dataService.tpGroups"
+                                [selected]="dataService.groupFilter"
+                                [repositories]="dataService.repositories"
+                                [sessions]="dataService.sessions"
+                                (selectedChange)="onGroupFilterChange($event)"
+                            ></app-tp-group-selector>
                         </div>
                     </ng-container>
                     <ng-template #brandLogo>
@@ -41,10 +50,18 @@
                 
                 <ul class="navbar-nav flex-row align-items-center" *ngIf="!isHome && dataService.dataLoaded()">
                     <li class="nav-item" *ngFor="let tab of navTabs">
-                        <a class="nav-link" [routerLink]="tab.route" routerLinkActive="active"
+                        <a class="nav-link d-flex align-items-center" [routerLink]="tab.route" routerLinkActive="active"
                            [appTooltip]="{ text: (tab.tooltipKey | translate), shortcut: tab.shortcut }"
                            placement="bottom">
-                            <i [class]="tab.icon + ' mr-2'"></i>{{ tab.labelKey | translate }}
+                            <i *ngIf="tab.icon" [class]="tab.icon + ' mr-2'"></i>
+                            <svg *ngIf="tab.svg === 'session-calendar'" class="icon-calendar mr-2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect class="cal-body" x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line class="cal-pin" x1="16" y1="2" x2="16" y2="6"></line>
+                                <line class="cal-pin" x1="8" y1="2" x2="8" y2="6"></line>
+                                <line class="cal-line" x1="3" y1="10" x2="21" y2="10"></line>
+                                <path class="cal-check" d="M9 16l2 2 4-4"></path>
+                            </svg>
+                            <span>{{ tab.labelKey | translate }}</span>
                         </a>
                     </li>
                 </ul>
@@ -72,6 +89,9 @@
                 </button>
             </div>
         </nav>
+
+        <!-- Session folder tab: only inside an assignment's views, never on the assignment list -->
+        <app-session-tab *ngIf="!isHome && dataService.dataLoaded()"></app-session-tab>
 
         <div class="container-fluid flex-grow-1 d-flex flex-column" [class.px-0]="isHome" style="overflow: hidden; min-height: 0;">
             <div class="row flex-grow-1" [class.mx-0]="isHome" style="overflow: hidden; min-height: 0;">

@@ -1,4 +1,4 @@
-import { Component, ElementRef, forwardRef, Input, OnDestroy, OnInit, Optional, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Optional, Output, ViewChild } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable, Subject, merge } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
@@ -32,6 +32,8 @@ export class TextInputComponent implements ControlValueAccessor, OnInit, OnDestr
   @Input() inputmode?: string;
   @Input() maxlength?: number;
   @Input() suggestions?: string[];
+
+  @Output() blurred = new EventEmitter<void>();
 
   @ViewChild("inputElement", { static: false })
   inputElement: ElementRef<HTMLInputElement>;
@@ -121,6 +123,7 @@ export class TextInputComponent implements ControlValueAccessor, OnInit, OnDestr
   onBlur(): void {
     this.isFocused = false;
     this.onTouched();
+    this.blurred.emit();
   }
 
   clearValue(): void {

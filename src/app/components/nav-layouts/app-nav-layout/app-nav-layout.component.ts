@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from "@angular/core";
+import { Component, HostListener, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
@@ -11,11 +11,13 @@ import { AnonymizationService } from "@services/anonymization.service";
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
+import { TpGroupSelectorComponent } from "@shared/ui/tp-group-selector/tp-group-selector.component";
 import { OsUtils } from "@utils/os.utils";
 
 export interface NavTab {
   route: string;
-  icon: string;
+  icon?: string;
+  svg?: string;
   labelKey: string;
   tooltipKey: string;
   shortcut: string[];
@@ -45,6 +47,7 @@ export class AppNavLayoutComponent implements OnInit {
   sidebarWidth = 310;
   isResizing = false;
   private shortcutsModalRef: CustomModalRef | null = null;
+  @ViewChild(TpGroupSelectorComponent) private groupSelector?: TpGroupSelectorComponent;
 
   readonly navTabs: NavTab[] = [
     {
@@ -67,6 +70,13 @@ export class AppNavLayoutComponent implements OnInit {
       labelKey: "NAVBAR.QUESTIONS-COMPLETION",
       tooltipKey: "NAVBAR.QUESTIONS-COMPLETION-TOOLTIP",
       shortcut: ["3"],
+    },
+    {
+      route: "sessions",
+      svg: "session-calendar",
+      labelKey: "NAVBAR.SESSIONS",
+      tooltipKey: "NAVBAR.SESSIONS-TOOLTIP",
+      shortcut: ["4"],
     },
   ];
 
@@ -119,6 +129,8 @@ export class AppNavLayoutComponent implements OnInit {
       this.navigateTab("students");
     } else if (key === "3") {
       this.navigateTab("questions-completion");
+    } else if (key === "4") {
+      this.navigateTab("sessions");
     } else if (key === "?") {
       this.toggleShortcutsModal();
     } else if (key === "c") {
@@ -133,7 +145,24 @@ export class AppNavLayoutComponent implements OnInit {
         event.preventDefault();
         this.anonymizationService.toggleAnonymousMode();
       }
+    } else if (
+      key === "g" &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey &&
+      !this.isHome &&
+      this.dataService.dataLoaded() &&
+      !this.hasActiveModal
+    ) {
+      /* Raccourci G : ouvrir/fermer le filtre de groupe de TP. */
+      event.preventDefault();
+      this.groupSelector?.toggle();
     }
+  }
+
+  /* Le filtre de groupe est global : `DataService.groupFilter$` rafraîchit la vue active. */
+  onGroupFilterChange(group: string): void {
+    this.dataService.groupFilter = group;
   }
 
   private get hasActiveModal(): boolean {

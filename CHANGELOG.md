@@ -1,3 +1,69 @@
+## 2.7.0
+
+### Added
+
+#### Sessions view
+
+- ⭐ **New Sessions view**, dedicated to attendance and progress analysis:
+  - KPI strip kept on a single row: active attendance rate, in-session and out-of-session commits, supervised hours, resolved questions and inactive students
+  - scrollable macro chart of the selected session, with a pinned session pill and previous/next navigation buttons
+  - **progression ribbon** plotting the cohort's mean progression together with the Q1–Q3 dispersion band, for both resolved questions and cumulated commits
+  - per-student commit trajectory revealed when hovering a resolved question, with smart tooltips and truncated names
+  - attendance and engagement table, and a _Progress Matrix_ tab temporarily replaced by a **coming soon** placeholder
+- Session suggestions modal, which detects sessions from peaks of simultaneous commit activity
+
+#### Live session panel
+
+- ⭐ **Session tab** docked to the left edge of the assignment views, with an upcoming-to-running swap animation and a commit counter that slides into the panel when it opens
+- ⭐ **Live cockpit** for a running session: group health (active / to nudge / inactive), a _Needs help_ watchlist with the reason and the repository link, a 15-minute pace sparkline with a slowdown alert, the timeline of resolved questions and a live activity feed
+- Session switcher (`‹ ›`) available when several sessions are running, with a label shared by the graph and the sessions view
+- Manual refresh and automatic refresh every 3 minutes while a session is running
+
+#### Assignments
+
+- ⭐ **Folder view**: the assignment list can be displayed as A4-style folders with a 3D cover that opens on hover, fanned-out sheets and a forge stamp; the selected folder lights its forge stamp up like an LED
+- ⭐ **Assignment duplication**: the copy keeps the forge, course, program, questions, closing options and default session duration, and opens for editing on the year field
+- ⭐ **Assignment archiving**: archived assignments are only listed in the dedicated _Archived_ filter, and are restored from the same action menu
+- **Liquid action menu** on assignment cards for secondary actions, with a round trigger and a liquid morphism effect
+- **Autosave** of the assignment configuration: free-text fields are debounced, discrete changes are saved immediately, and pending changes are flushed on blur, tab switch, close and component destruction
+
+#### Overview graph
+
+- ⭐ **"Now" marker** on the commits graph, reachable with the `M` shortcut, that can be zoomed with shift+wheel and scrolled over
+- Zoom scale is now interpolated linearly, so guided zooms and recentring animate in a single motion
+- Overlapping sessions are ordered by TP group and can be navigated with edge arrows or the contextual menu
+- Single click on a session shows its information, double click focuses it, and shift+drag performs a box zoom
+- `Tab` fills the session end time from the default session duration
+
+#### Home
+
+- **TP group filter** moved into the assignment context pill of the navbar, shared by every view and reachable with the `G` shortcut
+- Adding a repository manually scrolls the repository list to the new row
+- Add-repositories search is restricted to repository name and source URL matches
+- Dropdown menus can be navigated with the arrow keys, and Escape closes the inline assignment editor
+
+### Fixed
+
+- Session info tooltip on single click, and commit page click restored in anonymous mode
+- Session time fields no longer zero the start time, and the range is constrained to a single day
+- Stale default session duration in the commits graph
+- Assignment autosave reading stale form values for immediate fields
+- Delayed scale animation when opening the TP group selector
+- Intermittent selection jump when navigating dropdowns with the arrow keys
+- Ghost button hover backgrounds applied instantly, to stop a one-frame flicker in Chromium
+- Sessions KPI strip kept on a single row, and default cursor on the resolved questions tooltip
+- Horizontal scroll of the session list, with a fixed macro pill and navigation buttons
+- Now marker hover layer and its shortcut tooltip, including when the assignment dates are unbounded
+- Edited assignment card re-fitted when switching configuration tabs
+- Repositories toolbar kept on one line with shorter labels, and group sort pill shortened
+
+### Modified
+
+- Sessions view, commits graph and session tab now read the current time through `ClockService`
+- Developer tools: slimmer dev bar with a Git mocks dropdown, an offline Git demo (GitHub and GitLab fixtures) and a simulated clock backed by `ClockService`
+
+---
+
 ## 2.6.0
 
 ### Added

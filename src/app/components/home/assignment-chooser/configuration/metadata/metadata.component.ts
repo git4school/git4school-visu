@@ -4,6 +4,8 @@ import { Metadata } from "@models/Metadata.model";
 import { NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
 import { NgbDateNativeUTCFranceAdapter } from "@services/ngb-date-native-utcfrance-adapter.service";
 import * as moment from "moment";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { BaseEditConfigurationComponent } from "../base-edit-configuration.component";
 import { TextInputComponent } from "@shared/ui/text-input/text-input.component";
 import { QuestionsChooserComponent } from "@components/questions-chooser/questions-chooser.component";
@@ -17,11 +19,19 @@ import { QuestionsChooserComponent } from "@components/questions-chooser/questio
   styleUrls: ["../configuration.component.scss", "./metadata.component.scss"],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeUTCFranceAdapter }],
 })
-export class MetadataComponent extends BaseEditConfigurationComponent<Metadata> implements OnInit, OnDestroy, AfterViewInit {
+export class MetadataComponent extends BaseEditConfigurationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() metadata: Metadata;
+  /** Champ focalisé à l'ouverture de l'éditeur (voir ConfigurationComponent.initialFocusField). */
+  @Input() initialFocusField: "title" | "year" = "title";
   @ViewChild("titleInput") titleInput: TextInputComponent;
+  @ViewChild("yearInput") yearInput: TextInputComponent;
   @ViewChild("questionsChooser") questionsChooser: QuestionsChooserComponent;
   public metadataForm: FormGroup;
+
+  /**
+   * Set to true on the first save attempt so the required-title feedback only appears once a save was tried.
+   */
+  titleSaveAttempted = false;
 
   /**
    * Settings for the typeahead text input
@@ -31,9 +41,22 @@ export class MetadataComponent extends BaseEditConfigurationComponent<Metadata> 
     suggestionLimit: 5,
   };
 
+  private destroy$ = new Subject<void>();
+
+  private readonly textFields = ["title", "course", "program", "year"];
+
+  private readonly immediateFields = [
+    "startDate",
+    "endDate",
+    "questions",
+    "closingMode",
+    "customClosingKeywords",
+    "defaultSessionDuration",
+  ];
+
   /**
    * MetadataComponent constructor
-   * @param toastService Service used to display toasts for success or error cases
+   * @param fb Form builder used to build the metadata form
    */
   constructor(public fb: FormBuilder) {
     super();
@@ -46,22 +69,24 @@ export class MetadataComponent extends BaseEditConfigurationComponent<Metadata> 
     this.metadata.startDate = this.metadata.startDate && moment(this.metadata.startDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm");
     this.metadata.endDate = this.metadata.endDate && moment(this.metadata.endDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm");
     this.createFormGroup();
-    this.metadataForm.valueChanges.subscribe(() => {
-      this.modify();
-    });
+    this.listenToFieldChanges();
   }
 
   ngAfterViewInit() {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        if (this.titleInput && this.titleInput.inputElement) {
-          this.titleInput.inputElement.nativeElement.focus({ preventScroll: true });
+        const target = this.initialFocusField === "year" ? this.yearInput : this.titleInput;
+        if (target && target.inputElement) {
+          target.inputElement.nativeElement.focus({ preventScroll: true });
         }
       });
     });
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   /**
    * Adds multiple questions from the questions assistant popover
@@ -73,28 +98,30 @@ export class MetadataComponent extends BaseEditConfigurationComponent<Metadata> 
   }
 
   /**
-   * This method is called when the form is submitted (when save button is pressed). Updates data with new values entered
+   * Called by the parent on every save attempt. Keeps the required-title feedback in sync with the save lifecycle.
    */
-  submitMetadata() {
-    let modifiedMetadata = this.metadataForm.value;
-    let metadata = new Metadata();
-    metadata.title = modifiedMetadata.title;
-    metadata.course = modifiedMetadata.course;
-    metadata.program = modifiedMetadata.program;
-    metadata.year = modifiedMetadata.year;
-    metadata.startDate = modifiedMetadata.startDate;
-    metadata.endDate = modifiedMetadata.endDate;
-    metadata.questions = modifiedMetadata.questions;
-    metadata.closingMode = modifiedMetadata.closingMode;
-    metadata.customClosingKeywords = modifiedMetadata.customClosingKeywords;
-    metadata.defaultSessionDuration = modifiedMetadata.defaultSessionDuration;
+  notifySaveAttempt() {
+    this.titleSaveAttempted = true;
+  }
 
-    this.save(metadata);
+  private listenToFieldChanges() {
+    this.textFields.forEach((name) => {
+      this.metadataForm
+        .get(name)
+        ?.valueChanges.pipe(takeUntil(this.destroy$))
+        .subscribe(() => this.modifyText());
+    });
+    this.immediateFields.forEach((name) => {
+      this.metadataForm
+        .get(name)
+        ?.valueChanges.pipe(takeUntil(this.destroy$))
+        .subscribe(() => this.modify());
+    });
   }
 
   private createFormGroup() {
     this.metadataForm = this.fb.group({
-      title: [this.metadata.title, Validators.required],
+      title: [this.metadata.title, [Validators.required, Validators.pattern(/\S/)]],
       course: [this.metadata.course],
       program: [this.metadata.program],
       year: [this.metadata.year],

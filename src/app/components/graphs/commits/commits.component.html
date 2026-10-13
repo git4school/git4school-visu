@@ -17,33 +17,6 @@
     </questions-chooser>
   </div>
 
-  <!-- Middle: Group Selector -->
-  <div>
-    <div ngbDropdown #groupDropdown="ngbDropdown" class="dropdown d-inline-block">
-      <button class="btn-outline-ghost" ngbDropdownToggle>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-        <span>{{ dataService.groupFilter || ('TP-GROUP-SELECT.ALL' | translate) }}</span>
-        <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </button>
-      <div ngbDropdownMenu class="modern-dropdown-menu">
-        <button class="dropdown-item" [class.active]="!dataService.groupFilter" (click)="dataService.groupFilter = ''; loadGraphDataAndRefresh(false)">
-          {{ "TP-GROUP-SELECT.ALL" | translate }}
-        </button>
-        <div class="dropdown-divider"></div>
-        <button class="dropdown-item" *ngFor="let tpGroup of dataService.tpGroups" [class.active]="dataService.groupFilter === tpGroup" (click)="dataService.groupFilter = tpGroup; loadGraphDataAndRefresh(false)">
-          {{ tpGroup }}
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- Right Side: Action Tools -->
   <div class="d-flex align-items-center" style="gap: 0.25rem;">
     <!-- Markers Group -->
@@ -159,16 +132,33 @@
       </span>
     </div>
 
-    <div class="divider-vertical"></div>
+    <!-- Navigation Group -->
+    <div class="d-flex flex-column align-items-center" style="position: relative; margin-right: 0.25rem;">
+      <div class="d-flex align-items-center" style="gap: 0.25rem;">
+        <button class="btn-outline-ghost anim-scale-hover" (click)="resetZoom(false)" [appTooltip]="{ text: ('OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP' | translate), shortcut: ['Space'] }">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="8.5" y1="8.5" x2="13.5" y2="13.5"></line>
+            <line x1="13.5" y1="8.5" x2="8.5" y2="13.5"></line>
+          </svg>
+        </button>
+        <button class="btn-outline-ghost anim-scale-hover" *ngIf="isNowInAssignmentWindow()" (click)="focusNow()" [appTooltip]="{ text: ('OVERVIEW-GRAPH.NOW-TOOLTIP' | translate), shortcut: ['M'] }">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8"></circle>
+            <circle cx="12" cy="12" r="3"></circle>
+            <line x1="12" y1="1.5" x2="12" y2="5"></line>
+            <line x1="12" y1="19" x2="12" y2="22.5"></line>
+            <line x1="1.5" y1="12" x2="5" y2="12"></line>
+            <line x1="19" y1="12" x2="22.5" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+      <span style="position: absolute; top: 100%; margin-top: 4px; font-size: 0.65rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; pointer-events: none; white-space: nowrap;">
+        {{ "OVERVIEW-GRAPH.NAVIGATION.GROUP-TITLE" | translate }}
+      </span>
+    </div>
 
-    <button class="btn-outline-ghost anim-scale-hover" (click)="resetZoom(false)" [appTooltip]="{ text: ('OVERVIEW-GRAPH.RESET-ZOOM-TOOLTIP' | translate), shortcut: ['Space'] }">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        <line x1="8.5" y1="8.5" x2="13.5" y2="13.5"></line>
-        <line x1="13.5" y1="8.5" x2="8.5" y2="13.5"></line>
-      </svg>
-    </button>
     <button class="btn-outline-ghost anim-spin-hover" (click)="loadGraph(dataService.startDate, dataService.endDate)" [disabled]="!dataService.repositories?.length || loading" [appTooltip]="{ text: ('OVERVIEW-GRAPH.RELOAD-TOOLTIP' | translate), shortcut: ['R'] }">
       <div class="d-flex">
         <svg [class.spinning]="loading" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -328,6 +318,31 @@
 </div>
 </ng-template>
 <ng-template #d3TooltipTemplate>
+  <ng-template #tpGroupPill let-tpGroup="tpGroup" let-pillClass="pillClass">
+    <span
+      class="badge session-pill session-group-pill d-inline-flex align-items-center"
+      [class.repository-tp-group-pill]="pillClass === 'repository-tp-group-pill'"
+      [style.border]="pillClass === 'repository-tp-group-pill' ? '0' : null"
+      style="display: inline-flex !important; align-items: center !important; justify-content: center; box-sizing: border-box; column-gap: 4px; height: 18px; padding: 1px 7px; line-height: 1 !important; vertical-align: middle; box-shadow: var(--shadow-md);"
+    >
+      <svg
+        style="display: block; width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0;"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <span class="session-pill-text session-group-text text-truncate" style="display: inline-block; line-height: 1 !important; vertical-align: middle;">{{ tpGroup }}</span>
+    </span>
+  </ng-template>
+
   <div
     *ngIf="hovered_commit != null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null && hovered_repository == null"
     id="commit_hover"
@@ -336,7 +351,7 @@
     <p>{{ hovered_commit.message }}</p>
     <p>{{ getCommitAuthorDisplayName(hovered_commit) }}</p>
     <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end">
-      <div class="tooltip-helper-item d-flex align-items-center" *ngIf="!anonymizationService.isAnonymous">
+      <div class="tooltip-helper-item d-flex align-items-center">
         <span>{{ 'COMMIT-TOOLTIP.OPEN_COMMIT' | translate }}</span>
         <ng-container *ngTemplateOutlet="mouseLeftClickIcon"></ng-container>
       </div>
@@ -351,7 +366,14 @@
     *ngIf="hovered_repository != null && hovered_commit == null && hovered_group_commit == null && hovered_session == null && hovered_milestone == null"
     id="repository_hover"
   >
-    <div class="repo-name">{{ hovered_repository.name }}</div>
+    <div class="repository-header">
+      <div class="repo-name">{{ hovered_repository.name }}</div>
+      <ng-container
+        *ngIf="hovered_repository.tpGroup"
+        [ngTemplateOutlet]="tpGroupPill"
+        [ngTemplateOutletContext]="{ tpGroup: hovered_repository.tpGroup, pillClass: 'repository-tp-group-pill' }"
+      ></ng-container>
+    </div>
     <div class="tooltip-helpers mt-2 text-right d-flex align-items-center justify-content-end" *ngIf="hovered_repository.url && !anonymizationService.isAnonymous">
       <div class="tooltip-helper-item d-flex align-items-center">
         <span>{{ 'OVERVIEW-GRAPH.OPEN-REPO' | translate }}</span>
@@ -369,17 +391,11 @@
       <span style="font-weight: 600; color: var(--color-primary); font-size: 0.9rem;">
         {{ getSessionDisplayName(hovered_session) }}
       </span>
-      <span *ngIf="hovered_session.tpGroup"
-            class="badge d-inline-flex align-items-center"
-            style="display: inline-flex !important; align-items: center !important; justify-content: center; background: rgba(56, 189, 248, 0.15); color: var(--color-text-secondary); font-size: 0.75rem; font-weight: 500; border-radius: 9999px; padding: 0 8px; height: 20px; line-height: 1; vertical-align: middle;">
-        <svg style="width: 11px; height: 11px; min-width: 11px; min-height: 11px; flex-shrink: 0; display: block; margin-right: 5px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-        <span style="display: inline-block; line-height: 1;">{{ hovered_session.tpGroup }}</span>
-      </span>
+      <ng-container
+        *ngIf="hovered_session.tpGroup"
+        [ngTemplateOutlet]="tpGroupPill"
+        [ngTemplateOutletContext]="{ tpGroup: hovered_session.tpGroup }"
+      ></ng-container>
     </div>
     <div class="text-muted small mb-2" style="font-size: 0.78rem;">
       <i class="far fa-clock mr-1"></i>
@@ -484,7 +500,7 @@
   [tpGroups]="dataService.tpGroups"
   [questions]="dataService.questions"
   [typeaheadSettings]="typeaheadSettings"
-  [defaultSessionDuration]="defaultSessionDuration"
+  [defaultSessionDuration]="dataService.assignment?.defaultSessionDuration"
   [groupFilter]="dataService.groupFilter"
   (deleteMilestone)="onDeleteMilestone($event)"
   (deleteSession)="onDeleteSession($event)"
@@ -492,5 +508,3 @@
   (saveSession)="onSaveSession($event)"
 >
 </overview-graph-contextual-menu>
-
-

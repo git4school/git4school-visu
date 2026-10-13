@@ -8,3 +8,20 @@
   margin-bottom: 0.25rem;
   display: block;
 }
+
+.metadata-feedback {
+  font-size: 0.75rem;
+  color: var(--color-danger);
+  opacity: 0.85;
+  margin-top: 0.25rem;
+  padding-left: 0.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* La page d'édition utilise une gouttière unique de 1.5rem : on neutralise le padding
+   de la grille pour aligner les champs sur les onglets et le contenu de la carte. */
+.form-row [class*="col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}

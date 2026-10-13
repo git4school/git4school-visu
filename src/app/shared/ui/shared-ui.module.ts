@@ -13,6 +13,7 @@ import { ToastsComponent } from "./toasts/toasts.component";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { TooltipDirective } from "./tooltip/tooltip.directive";
 import { TypeaheadKeyboardNavDirective } from "./typeahead-nav/typeahead-nav.directive";
+import { DropdownArrowNavDirective } from "./dropdown-arrow-nav/dropdown-arrow-nav.directive";
 import { CustomModalContainerComponent } from "./custom-modal/custom-modal-container/custom-modal-container.component";
 import { TypePickerComponent } from "./type-picker/type-picker.component";
 import { TimePickerComponent } from "../../components/time-picker/time-picker.component";
@@ -21,6 +22,18 @@ import { RepoIconComponent } from "./repo-icon/repo-icon.component";
 import { ShortcutsModalComponent } from "./shortcuts-modal/shortcuts-modal.component";
 import { DevBarComponent } from "./dev-bar/dev-bar.component";
 import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.component";
+
+/* Languette de séance en cours */
+import { SessionTabComponent } from "./session-tab/session-tab.component";
+
+/* Sélecteur de groupe de TP (pill de contexte du devoir) */
+import { TpGroupSelectorComponent } from "./tp-group-selector/tp-group-selector.component";
+
+/* Menu d'actions secondaires « liquid morphism » (carte de devoir) */
+import { LiquidActionMenuComponent } from "./liquid-action-menu/liquid-action-menu.component";
+
+/* Modale « Nouveautés » : présente les apports de la version courante */
+import { WhatsNewModalComponent } from "./whats-new/whats-new-modal.component";
 
 @NgModule({
   declarations: [
@@ -33,6 +46,7 @@ import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.compo
     TooltipComponent,
     TooltipDirective,
     TypeaheadKeyboardNavDirective,
+    DropdownArrowNavDirective,
     CustomModalContainerComponent,
     TypePickerComponent,
     TimePickerComponent,
@@ -40,6 +54,10 @@ import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.compo
     ShortcutsModalComponent,
     DevBarComponent,
     SegmentedRadioComponent,
+    SessionTabComponent,
+    TpGroupSelectorComponent,
+    LiquidActionMenuComponent,
+    WhatsNewModalComponent,
   ],
   imports: [CommonModule, FormsModule, NgbModule, TranslateModule],
   exports: [
@@ -52,6 +70,7 @@ import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.compo
     TooltipComponent,
     TooltipDirective,
     TypeaheadKeyboardNavDirective,
+    DropdownArrowNavDirective,
     CustomModalContainerComponent,
     TypePickerComponent,
     TimePickerComponent,
@@ -59,7 +78,11 @@ import { SegmentedRadioComponent } from "./segmented-radio/segmented-radio.compo
     ShortcutsModalComponent,
     DevBarComponent,
     SegmentedRadioComponent,
+    SessionTabComponent,
+    TpGroupSelectorComponent,
+    LiquidActionMenuComponent,
+    WhatsNewModalComponent,
   ],
-  entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent],
+  entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent, WhatsNewModalComponent],
 })
 export class SharedUiModule {}

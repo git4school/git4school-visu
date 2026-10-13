@@ -1,6 +1,5 @@
 <div class="inline-config-container">
-    <div class="d-flex align-items-center justify-content-between mb-2 config-header border-bottom-0"
-        style="padding: 1.5rem 40px 0.5rem 40px;">
+    <div id="tour-autosave" class="d-flex align-items-center justify-content-between config-header">
         <div class="d-flex align-items-center" style="gap: 1.5rem;">
             <div class="filter-group" [attr.data-active]="activeTab">
                 <div class="filter-indicator"></div>
@@ -12,42 +11,45 @@
                     <app-repo-icon class="mr-2"></app-repo-icon> {{ 'CONFIGURATION.EDIT-REPOSITORIES' | translate }}
                 </button>
             </div>
-            <span *ngIf="isModified" class="text-warning d-flex align-items-center"
-                style="font-size: 0.8rem; font-weight: 500;">
-                <i class="fas fa-exclamation-circle mr-1"></i> {{ 'HOME.UNSAVED-CHANGES' | translate }}
+            <span class="autosave-indicator autosave-indicator--saving" *ngIf="saveState === 'saving'">
+                <i class="fas fa-circle-notch fa-spin mr-1"></i> {{ 'AUTOSAVE.SAVING' | translate }}
+            </span>
+            <span class="autosave-indicator autosave-indicator--saved" *ngIf="saveState === 'saved'">
+                <i class="fas fa-check mr-1"></i> {{ 'AUTOSAVE.SAVED' | translate }}
+            </span>
+            <span class="autosave-indicator autosave-indicator--warning" *ngIf="saveState === 'invalid'">
+                <i class="fas fa-exclamation-circle mr-1"></i> {{ 'AUTOSAVE.UNSAVED-REQUIRED-TITLE' | translate }}
             </span>
         </div>
 
-        <button *ngIf="activeModal || modalRef" type="button" class="btn btn-outline-ghost" style="border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-hover);" (click)="onCancel()">
+        <!-- Fermeture inline : le bouton d'édition de la carte se transforme en chevron, à la même position -->
+        <button *ngIf="!activeModal && !modalRef" type="button" class="config-inline-close" (click)="closeEditor()"
+            [appTooltip]="'HOME.CLOSE-EDIT-ASSIGNMENT-TOOLTIP' | translate"
+            [attr.aria-label]="'HOME.CLOSE-EDIT-ASSIGNMENT-TOOLTIP' | translate" placement="left">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 15 12 9 18 15"></polyline>
+            </svg>
+        </button>
+
+        <button *ngIf="activeModal || modalRef" type="button" class="btn btn-outline-ghost" style="border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-hover);" (click)="closeEditor()">
             <i class="fas fa-times"></i>
         </button>
     </div>
-    <div class="config-body px-4 pb-4 pt-2">
+    <div class="config-body">
 
         <div class="tab-content pt-0">
             <div [hidden]="activeTab !== 'metadata'">
-                <metadata #metadataComp [metadata]="assignment.metadata" (modified)="metadataModified = true">
+                <metadata #metadataComp [metadata]="assignment.metadata" [initialFocusField]="initialFocusField"
+                    (modified)="onImmediateModification()" (textModified)="onTextModification()"
+                    (textBlurred)="onTextBlur()">
                 </metadata>
             </div>
             <div *ngIf="reposInitialized" [hidden]="activeTab !== 'repositories'">
                 <edit-repositories #reposComp [datas]="assignment.repositories" [assignment]="assignment"
-                    (modified)="repositoriesModified = true">
+                    (modified)="onImmediateModification()">
                 </edit-repositories>
             </div>
         </div>
         </div>
-        
-
-    <div class="modal-footer border-top-0 pt-0 pb-4 d-flex justify-content-between align-items-center w-100" style="padding-left: 40px; padding-right: 40px;">
-        <button type="button" class="btn btn-outline-ghost" style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1rem;" (click)="onCancel()">
-            {{ 'CANCEL' | translate }}
-        </button>
-        <div class="d-flex align-items-center" style="gap: 0.5rem;">
-            <button id="tour-save-btn" class="btn btn-primary shadow-sm"
-                style="font-weight: 500; border-radius: 8px; padding: 0.5rem 1.5rem; font-size: 0.9rem; text-transform: none;"
-                (click)="onSaveGlobal()" [disabled]="!canSave()">
-                <i class="fas fa-save mr-2"></i> {{ 'METADATA.SAVE' | translate }}
-            </button>
-        </div>
-    </div>
 </div>

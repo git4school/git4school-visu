@@ -1,15 +1,20 @@
 import { Component, HostListener, OnDestroy, OnInit } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
+import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
-import { filter } from "rxjs/operators";
 import { environment } from "@environments/environment";
+import { GitProviderType } from "@models/Account.model";
+import { Session } from "@models/Session.model";
+import { AssignmentsService } from "@services/assignments.service";
+import { ClockService, DAY_MS, HOUR_MS, MINUTE_MS } from "@services/clock.service";
+import { DataService } from "@services/data.service";
+import { DatabaseService } from "@services/database.service";
 import { DevFlagsService } from "@services/dev-flags.service";
+import { DevFixtureService } from "@app/dev-mock/dev-fixture.service";
+import { MockGithubInstanceService } from "@app/dev-mock/mock-github-instance.service";
 import { MockGitlabInstanceService } from "@app/dev-mock/mock-gitlab-instance.service";
 import { ToastService } from "@services/toast.service";
-import { ThemeService } from "@services/theme.service";
 import { GithubAuthService } from "@services/github-auth.service";
-import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
-import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-modal.component";
 
 @Component({
   selector: "app-dev-bar",
@@ -19,28 +24,38 @@ import { ShortcutsModalComponent } from "@shared/ui/shortcuts-modal/shortcuts-mo
 export class DevBarComponent implements OnInit, OnDestroy {
   readonly isProduction = environment.production;
 
+  readonly DAY_MS = DAY_MS;
+  readonly HOUR_MS = HOUR_MS;
+
   isCollapsed = false;
-  activePopover: "toasts" | "modals" | "perf" | null = null;
+  activePopover: "toasts" | "clock" | "mocks" | "demo" | null = null;
 
   fps = 60;
   memoryMB: number | null = null;
   viewportWidth = window.innerWidth;
   breakpoint = "desktop";
-  currentRoute = "";
+
+  clockDate: Date | null = null;
 
   private animFrameId: number | null = null;
   private frameCount = 0;
   private lastFpsTime = performance.now();
   private memoryIntervalId: any = null;
-  private routerSub: Subscription | null = null;
+  private clockTickerId: any = null;
+  private clockSub: Subscription | null = null;
 
   constructor(
     public devFlagsService: DevFlagsService,
     public mockGitlabInstanceService: MockGitlabInstanceService,
+    public mockGithubInstanceService: MockGithubInstanceService,
+    public devFixtureService: DevFixtureService,
     public toastService: ToastService,
-    public themeService: ThemeService,
     public githubAuthService: GithubAuthService,
-    private customModalService: CustomModalService,
+    public clockService: ClockService,
+    public dataService: DataService,
+    private assignmentsService: AssignmentsService,
+    private databaseService: DatabaseService,
+    private translateService: TranslateService,
     private router: Router,
   ) {}
 
@@ -65,33 +80,81 @@ export class DevBarComponent implements OnInit, OnDestroy {
     this.startFpsLoop();
     this.startMemoryMonitoring();
 
-    /* Listen to route changes */
-    this.currentRoute = this.router.url;
-    this.routerSub = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: any) => {
-      this.currentRoute = event.urlAfterRedirects || event.url;
+    /* Reflect simulated clock shifts immediately in the dev bar display */
+    this.clockSub = this.clockService.offsetMs$.subscribe(() => {
+      this.clockDate = this.clockService.now();
     });
+
+    this.restoreFixtureIfActive();
   }
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.animFrameId);
     clearInterval(this.memoryIntervalId);
-    this.routerSub?.unsubscribe();
+    clearInterval(this.clockTickerId);
+    this.clockSub?.unsubscribe();
   }
 
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
-    this.activePopover = null;
+    this.closePopover();
     try {
       localStorage.setItem("git4school_dev_bar_collapsed", String(this.isCollapsed));
     } catch (e) {}
   }
 
-  togglePopover(name: "toasts" | "modals" | "perf"): void {
+  togglePopover(name: "toasts" | "clock" | "mocks" | "demo"): void {
     this.activePopover = this.activePopover === name ? null : name;
+
+    if (this.activePopover === "clock") {
+      this.openClockPopover();
+    } else {
+      this.stopClockTicker();
+    }
   }
 
   closePopover(): void {
     this.activePopover = null;
+    this.stopClockTicker();
+  }
+
+  /* Simulated Clock */
+  get clockOffsetLabel(): string {
+    const ms = this.clockService.offsetMs;
+    if (ms === 0) {
+      return "";
+    }
+    const sign = ms > 0 ? "+" : "-";
+    const abs = Math.abs(ms);
+    if (abs >= DAY_MS && abs % HOUR_MS === 0) {
+      return `${sign}${abs / DAY_MS} ${this.translateService.instant("DEV-BAR.CLOCK.UNIT-DAY")}`;
+    }
+    if (abs >= HOUR_MS && abs % MINUTE_MS === 0) {
+      return `${sign}${abs / HOUR_MS} ${this.translateService.instant("DEV-BAR.CLOCK.UNIT-HOUR")}`;
+    }
+    return `${sign}${Math.round(abs / MINUTE_MS)} ${this.translateService.instant("DEV-BAR.CLOCK.UNIT-MINUTE")}`;
+  }
+
+  get simulatedNowLabel(): string {
+    return this.clockService.moment().format("DD/MM/YYYY HH:mm");
+  }
+
+  onClockDateChange(date: Date | null): void {
+    if (date) {
+      this.clockService.setNow(date);
+    }
+  }
+
+  shiftClock(deltaMs: number): void {
+    this.clockService.shift(deltaMs);
+  }
+
+  resetClock(): void {
+    this.clockService.reset();
+    this.toastService.success(
+      this.translateService.instant("DEV-BAR.CLOCK.HEADER"),
+      this.translateService.instant("DEV-BAR.CLOCK.RESET-TOAST"),
+    );
   }
 
   /* Toasts Testing Triggers */
@@ -129,29 +192,73 @@ export class DevBarComponent implements OnInit, OnDestroy {
     this.toastService[c.method](c.title, c.msg);
   }
 
-  /* Modals Quick Open */
-  openAccountsModal(): void {
-    window.dispatchEvent(new CustomEvent("git4school:open-accounts-modal"));
-    this.closePopover();
-  }
-
-  openShortcutsModal(): void {
-    this.customModalService.open(ShortcutsModalComponent, { size: "lg" });
-    this.closePopover();
-  }
-
-  /* Mock GitLab Instance */
+  /* Mock Git Instances */
   async toggleMockGitlab(): Promise<void> {
     const active = await this.mockGitlabInstanceService.toggleMock();
-    const state = active ? "activé (prof.turing @ gitlab.univ-tlse3.fr)" : "désactivé";
-    this.toastService.success("Mock GitLab", `Mock d'instance GitLab ${state}`);
+    const key = active ? "DEV-BAR.MOCK.GITLAB-ON" : "DEV-BAR.MOCK.GITLAB-OFF";
+    this.toastService.success(this.translateService.instant("DEV-BAR.MOCK.TITLE"), this.translateService.instant(key));
+  }
+
+  async toggleMockGithub(): Promise<void> {
+    const active = await this.mockGithubInstanceService.toggleMock();
+    const key = active ? "DEV-BAR.MOCK.GITHUB-ON" : "DEV-BAR.MOCK.GITHUB-OFF";
+    this.toastService.success(this.translateService.instant("DEV-BAR.MOCK.TITLE"), this.translateService.instant(key));
+  }
+
+  /* Add a session starting in 30 seconds, to exercise the session tab's swap */
+  async addTestSession(): Promise<void> {
+    const assignment = this.dataService.assignment;
+    if (!assignment) {
+      this.toastService.warning(
+        this.translateService.instant("DEV-BAR.SESSION.TOAST-TITLE"),
+        this.translateService.instant("DEV-BAR.SESSION.NO-ASSIGNMENT"),
+      );
+      return;
+    }
+
+    const start = new Date(this.clockService.now().getTime() + 30 * 1000);
+    const duration = assignment.defaultSessionDuration || { hour: 2, minute: 0 };
+    const end = new Date(start.getTime() + (duration.hour * 60 + duration.minute) * 60 * 1000);
+
+    this.dataService.sessions = [
+      ...(this.dataService.sessions || []),
+      new Session(
+        start,
+        end,
+        this.dataService.groupFilter || undefined,
+        undefined,
+        this.translateService.instant("DEV-BAR.SESSION.LABEL-VALUE"),
+      ),
+    ];
+
+    await this.databaseService.saveAssignment(assignment);
+    this.assignmentsService.assignmentModified.next();
+
+    this.toastService.success(
+      this.translateService.instant("DEV-BAR.SESSION.TOAST-TITLE"),
+      this.translateService.instant("DEV-BAR.SESSION.ADDED"),
+    );
+  }
+
+  /* Demo fixture */
+  async loadDemo(provider: GitProviderType): Promise<void> {
+    await this.devFixtureService.loadDemoAssignment(provider);
+    this.closePopover();
+    const key = provider === "gitlab" ? "DEV-BAR.FIXTURE.GITLAB-LOADED" : "DEV-BAR.FIXTURE.GITHUB-LOADED";
+    this.toastService.success(this.translateService.instant("DEV-BAR.FIXTURE.LABEL"), this.translateService.instant(key));
+    this.router.navigate(["commits"]);
+  }
+
+  clearDemo(): void {
+    this.devFixtureService.clearDemo();
+    this.closePopover();
+    this.toastService.warning(
+      this.translateService.instant("DEV-BAR.FIXTURE.LABEL"),
+      this.translateService.instant("DEV-BAR.FIXTURE.CLEARED"),
+    );
   }
 
   /* Quick Utilities */
-  toggleTheme(): void {
-    this.themeService.toggleTheme();
-  }
-
   clearStorage(): void {
     try {
       localStorage.clear();
@@ -159,6 +266,18 @@ export class DevBarComponent implements OnInit, OnDestroy {
     } catch (e) {
       this.toastService.error("Dev Bar", "Impossible de vider le LocalStorage.");
     }
+  }
+
+  private restoreFixtureIfActive(): void {
+    this.devFixtureService.restoreIfActive().then((assignment) => {
+      if (!assignment) {
+        return;
+      }
+      const url = this.router.url;
+      if (url === "/" || url.includes("/home")) {
+        this.router.navigate(["commits"]);
+      }
+    });
   }
 
   private updateViewport(): void {
@@ -187,6 +306,20 @@ export class DevBarComponent implements OnInit, OnDestroy {
 
     this.animFrameId = requestAnimationFrame(this.startFpsLoop);
   };
+
+  private openClockPopover(): void {
+    this.stopClockTicker();
+    this.clockDate = this.clockService.now();
+    /* The offset is fixed but the real clock keeps ticking: keep the readout fresh */
+    this.clockTickerId = setInterval(() => {
+      this.clockDate = this.clockService.now();
+    }, 10000);
+  }
+
+  private stopClockTicker(): void {
+    clearInterval(this.clockTickerId);
+    this.clockTickerId = null;
+  }
 
   private startMemoryMonitoring(): void {
     const updateMem = () => {

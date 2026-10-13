@@ -111,7 +111,7 @@
             </div>
             
             <div ngbDropdownMenu class="modern-dropdown-menu">
-                <button *ngFor="let lang of translateService.getLangs()" class="dropdown-item" [class.active]="lang === currentLang" (click)="changeLanguage(lang)" style="font-weight: 500; padding: 0.4rem 1rem;">
+                <button ngbDropdownItem *ngFor="let lang of translateService.getLangs()" class="dropdown-item" [class.active]="lang === currentLang" (click)="changeLanguage(lang)" style="font-weight: 500; padding: 0.4rem 1rem;">
                     {{ langNames[lang] || lang }}
                 </button>
             </div>
@@ -150,6 +150,17 @@
         <div class="sidebar-section-header mt-3">
             <span class="sidebar-section-title">{{ 'SETTINGS.HELP-TUTORIAL' | translate }}</span>
             <div class="sidebar-section-line"></div>
+        </div>
+
+        <!-- What's New -->
+        <div class="sidebar-item d-flex align-items-center justify-content-between" (click)="openWhatsNew()">
+            <div class="d-flex align-items-center">
+                <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2.75 15 8.75 21.5 9.7 17 14.1 18.1 20.5 12 17.4 5.9 20.5 7 14.1 2.5 9.7 9 8.75 12 2.75"></polygon>
+                </svg>
+                <span>{{ 'SETTINGS.WHATS-NEW' | translate }}</span>
+            </div>
+            <span class="text-muted mr-1" style="font-size: 0.75rem; font-weight: 600; opacity: 0.7; flex-shrink: 0;">{{ appVersion }}</span>
         </div>
 
         <!-- Keyboard Shortcuts -->

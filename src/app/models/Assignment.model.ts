@@ -45,6 +45,13 @@ export class Assignment {
   @Type(() => Repository)
   repositories: Repository[];
 
+  /**
+   * Date d'archivage : un devoir archivé n'est visible que dans l'onglet « Archivés ».
+   * Absente tant que le devoir est actif. Non indexée en base (pas de migration Dexie).
+   */
+  @Type(() => Date)
+  archivedAt?: Date;
+
   id: number;
   instanceHost?: string;
   instanceName?: string;
