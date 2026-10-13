@@ -4,6 +4,15 @@ import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { WhatsNewFeature, WhatsNewRelease } from "@shared/ui/whats-new/whats-new.data";
 import { OsUtils } from "@utils/os.utils";
 
+/** Fragment of a translated text: either plain text, or a keyboard key rendered as a keycap. */
+export interface WhatsNewTextPart {
+  type: "text" | "key";
+  value: string;
+}
+
+/** Marker used in the translations to render a keyboard key as a keycap, for example `[[shift]]`. */
+const KEY_MARKER = /\[\[([^\]]+)\]\]/g;
+
 /**
  * Presents the highlights of the running version, and keeps the older releases available in a
  * history panel. The content itself lives in `whats-new.data.ts` and in the i18n files.
@@ -32,17 +41,35 @@ export class WhatsNewModalComponent {
   constructor(@Optional() public activeModal: CustomModalRef, private translateService: TranslateService) {}
 
   /**
-   * Shortcut fragments injected in the feature descriptions and hints, so that modifier keys and
-   * key names follow the platform (⌘ and ⇧ on macOS) and the active language, as everywhere else.
+   * Splits a translated text around `[[key]]` markers, so that keyboard keys are displayed as
+   * keycaps, exactly like the tooltips and the shortcuts modal do.
    */
-  get shortcutParams(): Record<string, string> {
-    const key = (value: string): string => OsUtils.formatShortcutKeys([value], this.translateService)[0];
-    return {
-      shift: key("shift"),
-      sessionsTab: key("4"),
-      nowMarker: key("M"),
-      groupFilter: key("G"),
-    };
+  parseKeys(translated: string): WhatsNewTextPart[] {
+    const parts: WhatsNewTextPart[] = [];
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+    KEY_MARKER.lastIndex = 0;
+
+    while ((match = KEY_MARKER.exec(translated)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push({ type: "text", value: translated.slice(lastIndex, match.index) });
+      }
+      parts.push({ type: "key", value: OsUtils.formatShortcutKeys([match[1]], this.translateService)[0] });
+      lastIndex = match.index + match[0].length;
+    }
+
+    if (lastIndex < translated.length) {
+      parts.push({ type: "text", value: translated.slice(lastIndex) });
+    }
+
+    return parts;
+  }
+
+  /**
+   * Keeps the rendered fragments stable from one change detection run to the next.
+   */
+  trackByIndex(index: number): number {
+    return index;
   }
 
   /**

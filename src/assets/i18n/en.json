@@ -969,7 +969,7 @@
           "SESSIONS-VIEW": {
             "TITLE": "Sessions view: attendance and progress",
             "DESC": "The new Sessions tab gathers, for each session, the active attendance rate, the commits produced inside and outside the time slot, and the progress of the group. Hover a resolved question to display the commit trajectory of the student who closed it.",
-            "HINT": "Sessions tab in the navigation bar, or press {{sessionsTab}}.",
+            "HINT": "Sessions tab in the navigation bar, or press [[4]].",
             "ALT": "Sessions view: attendance indicators, group progress curve and per-student activity table."
           },
           "LIVE-SESSION": {
@@ -987,7 +987,7 @@
           "NOW-MARKER": {
             "TITLE": "Present-time marker in the graph",
             "DESC": "A vertical line marks the present moment on the commit timeline, so that the work already done and the time remaining can be told apart at a glance.",
-            "HINT": "Press {{nowMarker}} in the commits graph; {{shift}}+wheel zooms around the marker."
+            "HINT": "Press [[M]] in the commits graph; [[shift]]+wheel zooms around the marker."
           },
           "QUICK-ACTIONS": {
             "TITLE": "Quick actions on an assignment",
@@ -1003,12 +1003,12 @@
           "TP-GROUP-FILTER": {
             "TITLE": "Unified lab group filter",
             "DESC": "The lab group filter now sits in the navigation bar and applies to every view of the assignment: it no longer has to be set on each graph.",
-            "HINT": "Assignment pill in the navigation bar; press {{groupFilter}} to open the filter."
+            "HINT": "Assignment pill in the navigation bar; press [[G]] to open the filter."
           },
           "GRAPH-INTERACTIONS": {
             "TITLE": "Refined graph interactions",
-            "DESC": "A single click on a session shows its information, a double click frames it, and dragging with the {{shift}} key draws a zoom rectangle. Moving around the graph is also smoother.",
-            "HINT": "Commits graph; arrow keys move from one session to the next."
+            "DESC": "A single click on a session shows its information, a double click frames it, and dragging with the [[shift]] key draws a zoom rectangle. Moving around the graph is also smoother.",
+            "HINT": "Commits graph; press [[←]] or [[→]] to move from one session to the next."
           }
         }
       },

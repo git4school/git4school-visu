@@ -969,7 +969,7 @@
           "SESSIONS-VIEW": {
             "TITLE": "Vue séances : participation et progression",
             "DESC": "Le nouvel onglet « Séances » réunit, pour chaque séance, le taux de participation, les commits produits pendant et en dehors du créneau, ainsi que la progression du groupe. Survolez une question résolue pour afficher la trajectoire de commits de l'étudiant qui l'a fermée.",
-            "HINT": "Onglet « Séances » de la barre de navigation, ou touche {{sessionsTab}}.",
+            "HINT": "Onglet « Séances » de la barre de navigation, ou touche [[4]].",
             "ALT": "Vue séances : indicateurs de participation, courbe de progression du groupe et tableau d'activité par étudiant."
           },
           "LIVE-SESSION": {
@@ -987,7 +987,7 @@
           "NOW-MARKER": {
             "TITLE": "Repère du temps présent dans le graphe",
             "DESC": "Un trait vertical situe le temps présent sur la frise des commits : le travail déjà effectué et le temps restant se distinguent d'un seul regard.",
-            "HINT": "Touche {{nowMarker}} dans le graphe des commits ; {{shift}}+molette pour zoomer autour du repère."
+            "HINT": "Touche [[M]] dans le graphe des commits ; [[shift]]+molette pour zoomer autour du repère."
           },
           "QUICK-ACTIONS": {
             "TITLE": "Actions rapides sur un devoir",
@@ -1003,12 +1003,12 @@
           "TP-GROUP-FILTER": {
             "TITLE": "Filtre de groupe de TP unifié",
             "DESC": "Le filtre de groupe de TP est désormais placé dans la barre de navigation et s'applique à toutes les vues du devoir : il n'est plus nécessaire de le régler sur chaque graphique.",
-            "HINT": "Pilule du devoir, dans la barre de navigation ; touche {{groupFilter}} pour ouvrir le filtre."
+            "HINT": "Pilule du devoir, dans la barre de navigation ; touche [[G]] pour ouvrir le filtre."
           },
           "GRAPH-INTERACTIONS": {
             "TITLE": "Interactions du graphe affinées",
-            "DESC": "Un clic sur une séance affiche ses informations, un double-clic la cadre dans la vue et un glisser avec la touche {{shift}} dessine un rectangle de zoom. Les déplacements dans le graphe gagnent également en fluidité.",
-            "HINT": "Graphe des commits ; les flèches ← et → passent d'une séance à l'autre."
+            "DESC": "Un clic sur une séance affiche ses informations, un double-clic la cadre dans la vue et un glisser avec la touche [[shift]] dessine un rectangle de zoom. Les déplacements dans le graphe gagnent également en fluidité.",
+            "HINT": "Graphe des commits ; touches [[←]] et [[→]] pour passer d'une séance à l'autre."
           }
         }
       },
