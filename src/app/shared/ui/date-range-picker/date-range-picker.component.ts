@@ -17,6 +17,7 @@ import * as moment from "moment";
 import { Subscription } from "rxjs";
 import { ClockService } from "@services/clock.service";
 import { computePopupPlacement } from "./popup-placement.util";
+import { decideDateSelection, resolveQuickRange } from "./date-picker-actions.util";
 import {
   buildCalendarWeeks,
   formatTypedFields,
@@ -366,54 +367,28 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onDateClick(day: CalendarDay) {
-    const clickedDate = day.date.clone().startOf("day");
+    const decision = decideDateSelection(day.date, {
+      isSingleDate: this.isSingleDate,
+      hasTime: this.hasTime,
+      date: this.date,
+      startDate: this.startDate,
+      endDate: this.endDate,
+    });
 
-    if (this.isSingleDate) {
-      if (this.hasTime) {
-        if (this.date) {
-          clickedDate.hour(moment(this.date).hour()).minute(moment(this.date).minute());
-        } else {
-          clickedDate.hour(12).minute(0);
-        }
-      }
-
-      this.setSingleDate(clickedDate);
-      if (!this.hasTime) {
-        this.closePopup();
-      }
-      return;
+    if (decision.target === "single") {
+      this.setSingleDate(decision.date);
+    } else if (decision.target === "start") {
+      this.setStartDate(decision.date);
+      if (decision.clearOther) this.setEndDate(null);
+      if (decision.swapWith) this.setEndDate(decision.swapWith);
+    } else {
+      this.setEndDate(decision.date);
+      if (decision.swapWith) this.setStartDate(decision.swapWith);
     }
 
-    if (!this.startDate && !this.endDate) {
-      this.setStartDate(clickedDate);
-      return;
-    }
-
-    if (this.startDate && !this.endDate) {
-      if (clickedDate.isBefore(this.startDate)) {
-        this.setEndDate(moment(this.startDate));
-        this.setStartDate(clickedDate);
-      } else {
-        this.setEndDate(clickedDate);
-      }
+    if (decision.close) {
       this.closePopup();
-      return;
     }
-
-    if (!this.startDate && this.endDate) {
-      if (clickedDate.isAfter(this.endDate)) {
-        this.setStartDate(moment(this.endDate));
-        this.setEndDate(clickedDate);
-      } else {
-        this.setStartDate(clickedDate);
-      }
-      this.closePopup();
-      return;
-    }
-
-    // Both exist. Reset and start over
-    this.setStartDate(clickedDate);
-    this.setEndDate(null);
   }
 
   onDateHover(day: CalendarDay) {
@@ -494,10 +469,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setToday() {
-    const today = this.clockService.moment();
-    if (!this.hasTime || !this.isSingleDate) {
-      today.startOf("day");
-    }
+    const today = resolveQuickRange("today", this.clockService.moment(), this.hasTime && this.isSingleDate).start;
 
     if (this.isSingleDate) {
       this.setSingleDate(today);
@@ -515,14 +487,14 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       this.setStartDate(today);
       this.setEndDate(today);
     }
+
     this.viewDate = today.clone();
     this.generateCalendar();
     this.closePopup();
   }
 
   setThisWeek() {
-    const start = this.clockService.moment().startOf("week");
-    const end = this.clockService.moment().endOf("week").startOf("day");
+    const { start, end } = resolveQuickRange("week", this.clockService.moment());
     this.setStartDate(start);
     this.setEndDate(end);
     this.viewDate = start.clone();
@@ -531,8 +503,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setThisMonth() {
-    const start = this.clockService.moment().startOf("month");
-    const end = this.clockService.moment().endOf("month").startOf("day");
+    const { start, end } = resolveQuickRange("month", this.clockService.moment());
     this.setStartDate(start);
     this.setEndDate(end);
     this.viewDate = start.clone();
