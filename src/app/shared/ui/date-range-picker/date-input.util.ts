@@ -108,22 +108,45 @@ export function parseTypedDate(fields: {
   if (!fields.day && !fields.month && !fields.year) {
     return { kind: "empty" };
   }
-  if (fields.day.length !== 2 || fields.month.length !== 2 || fields.year.length !== 4) {
-    return { kind: "pending" };
-  }
 
-  const withTime = fields.hour !== null && fields.hour !== undefined && fields.minute !== null && fields.minute !== undefined;
-  if (withTime && (fields.hour.length !== 2 || fields.minute.length !== 2)) {
+  const withTime = hasTimeFields(fields);
+  if (!isCompleteDate(fields, withTime)) {
     return { kind: "pending" };
   }
 
   const format = withTime ? "YYYY-MM-DD HH:mm" : "YYYY-MM-DD";
-  const dateString = withTime
-    ? `${fields.year}-${fields.month}-${fields.day} ${fields.hour}:${fields.minute}`
-    : `${fields.year}-${fields.month}-${fields.day}`;
-
-  const date = moment(dateString, format, true);
+  const date = moment(dateStringOf(fields, withTime), format, true);
   return date.isValid() ? { kind: "valid", date } : { kind: "pending" };
+}
+
+/** Whether the caller expects a time (both fields provided, completeness checked separately). */
+function hasTimeFields(fields: { hour?: string | null; minute?: string | null }): boolean {
+  const hour = fields.hour;
+  const minute = fields.minute;
+  return hour !== null && hour !== undefined && minute !== null && minute !== undefined;
+}
+
+/** Assembles the moment() input, with or without the time part. */
+function dateStringOf(
+  fields: { day: string; month: string; year: string; hour?: string | null; minute?: string | null },
+  withTime: boolean,
+): string {
+  const date = `${fields.year}-${fields.month}-${fields.day}`;
+  return withTime ? `${date} ${fields.hour}:${fields.minute}` : date;
+}
+
+/** Complete date, and complete time when the mode expects one. */
+function isCompleteDate(
+  fields: { day: string; month: string; year: string; hour?: string | null; minute?: string | null },
+  withTime: boolean,
+): boolean {
+  if (fields.day.length !== 2 || fields.month.length !== 2 || fields.year.length !== 4) {
+    return false;
+  }
+  if (!withTime) {
+    return true;
+  }
+  return fields.hour.length === 2 && fields.minute.length === 2;
 }
 
 /** Minutes since midnight of a "HH:mm" time. */
