@@ -19,6 +19,13 @@ import { ClockService } from "@services/clock.service";
 import { DataService } from "@services/data.service";
 import { LoaderService } from "@services/loader.service";
 import { SessionAnalyticsService, SessionDetailedStats, StudentSessionActivity } from "@services/session-analytics.service";
+import {
+  buildMacroStats,
+  buildResolvedQuestionsTooltip,
+  filterSessionStats,
+  filterStudentActivity,
+  smartTooltipPlacement,
+} from "./sessions-analytics.util";
 import { getSessionDisplayName } from "@services/session-label.util";
 import { ThemeService } from "@services/theme.service";
 import { ToastService } from "@services/toast.service";
@@ -278,11 +285,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   getFilteredSessions(): SessionDetailedStats[] {
-    const groupFilter = this.dataService.groupFilter;
-    if (!groupFilter) {
-      return this.sessionStatsList;
-    }
-    return this.sessionStatsList.filter((stat) => !stat.session.tpGroup || stat.session.tpGroup === groupFilter);
+    return filterSessionStats(this.sessionStatsList, this.dataService.groupFilter);
   }
 
   getCurrentSessionStats(): SessionDetailedStats | null {
@@ -347,14 +350,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   getFilteredStudents(): StudentSessionActivity[] {
     const stats = this.getCurrentSessionStats();
     if (!stats) return [];
-
-    let list = stats.studentsActivity;
-    if (this.studentFilter === "active") {
-      list = list.filter((s) => s.status === "active");
-    } else if (this.studentFilter === "inactive") {
-      list = list.filter((s) => s.status === "inactive" || s.status === "low");
-    }
-    return list;
+    return filterStudentActivity(stats.studentsActivity, this.studentFilter);
   }
 
   // --- CHART RENDERING ---
@@ -481,15 +477,10 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   getResolvedQuestionsTooltip(questions: string[] | undefined): string {
-    const resolvedQuestions = (questions || []).filter(Boolean);
-    if (resolvedQuestions.length === 0) {
-      return this.translateService.instant("SESSIONS-GRAPH.KPIS.NO_RESOLVED_QUESTIONS");
-    }
-
-    const title = this.escapeHtml(this.translateService.instant("SESSIONS-GRAPH.KPIS.RESOLVED_QUESTIONS_LIST"));
-    const items = resolvedQuestions.map((question) => `<li>${this.escapeHtml(question)}</li>`).join("");
-
-    return `<div class="resolved-questions-tooltip"><div class="resolved-questions-tooltip-title">${title}</div><ul>${items}</ul></div>`;
+    return buildResolvedQuestionsTooltip(questions, {
+      empty: this.translateService.instant("SESSIONS-GRAPH.KPIS.NO_RESOLVED_QUESTIONS"),
+      title: this.translateService.instant("SESSIONS-GRAPH.KPIS.RESOLVED_QUESTIONS_LIST"),
+    });
   }
 
   getCurrentResolvedQuestions(): string[] {
@@ -568,36 +559,6 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     }
   }
 
-  private getSmartTooltipPlacement(
-    cx: number,
-    cy: number,
-    innerWidth: number,
-    innerHeight: number,
-    clientX: number,
-    clientY: number,
-  ): { x: number; y: number; placement: "top" | "bottom" | "left" | "right"; customOffset: { x: number; y: number } } {
-    // Cumulative curves are monotonic non-decreasing:
-    // - Top-Left quadrant (x' < x, y' < y in SVG) is mathematically guaranteed to be free of curve points.
-    // - Bottom-Right quadrant (x' > x, y' > y in SVG) is mathematically guaranteed to be free of curve points.
-    const canUseTopLeft = cy > 50 && clientY > 190 && cx > 60 && clientX > 160;
-
-    if (canUseTopLeft) {
-      return {
-        x: clientX,
-        y: clientY,
-        placement: "top",
-        customOffset: { x: -65, y: -6 },
-      };
-    } else {
-      return {
-        x: clientX,
-        y: clientY,
-        placement: "bottom",
-        customOffset: { x: 65, y: 6 },
-      };
-    }
-  }
-
   private computeMacroStats(): void {
     const filtered = this.getFilteredSessions();
     if (filtered.length === 0) {
@@ -605,51 +566,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
       return;
     }
 
-    const totalSessions = filtered.length;
-    let sumPartRate = 0;
-    let totalInSessionCommits = 0;
-    let totalAllCommits = 0;
-    let totalDurationMinutes = 0;
-    const questionsSet = new Set<string>();
-
-    filtered.forEach((stat) => {
-      sumPartRate += stat.participationRate;
-      totalInSessionCommits += stat.inSessionCommitsCount;
-      totalAllCommits += stat.totalPeriodCommitsCount;
-
-      const start = new Date(stat.session.startDate).getTime();
-      const end = new Date(stat.gracePeriod?.effectiveEndDate || stat.session.endDate).getTime();
-      totalDurationMinutes += Math.max(0, (end - start) / 60000);
-
-      stat.questionsSummary?.forEach((qs) => {
-        if (qs.closedByCount > 0) {
-          questionsSet.add(qs.question);
-        }
-      });
-    });
-
-    const averageParticipationRate = totalSessions > 0 ? sumPartRate / totalSessions : 0;
-    const totalOutOfSessionCommits = Math.max(0, totalAllCommits - totalInSessionCommits);
-    const inSessionRatio = totalAllCommits > 0 ? (totalInSessionCommits / totalAllCommits) * 100 : 100;
-    const outOfSessionRatio = Math.max(0, 100 - inSessionRatio);
-
-    const hours = Math.floor(totalDurationMinutes / 60);
-    const minutes = Math.round(totalDurationMinutes % 60);
-    const totalHoursSupervised = minutes > 0 ? `${hours}h${minutes.toString().padStart(2, "0")}` : `${hours}h`;
-
-    this.macroStats = {
-      totalSessionsCount: totalSessions,
-      averageParticipationRate,
-      totalInSessionCommits,
-      totalOutOfSessionCommits,
-      inSessionRatio,
-      outOfSessionRatio,
-      totalHoursSupervised,
-      questionsResolvedCount: questionsSet.size,
-      resolvedQuestions: Array.from(questionsSet),
-      totalQuestionsCount: this.dataService.questions?.length || 0,
-      sessionsStats: filtered,
-    };
+    this.macroStats = buildMacroStats(filtered, this.dataService.questions?.length || 0);
   }
 
   /**
@@ -825,12 +742,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
             isCloture: p.isCloture,
             url: p.commit.url,
           };
-          const {
-            x: tX,
-            y: tY,
-            placement,
-            customOffset,
-          } = this.getSmartTooltipPlacement(cx, cy, innerWidth, innerHeight, event.clientX, event.clientY);
+          const { x: tX, y: tY, placement, customOffset } = smartTooltipPlacement(event.clientX, event.clientY, cx, cy);
           this.tooltipService.showAtPosition(
             this.d3TooltipTemplate,
             tX,
@@ -1252,9 +1164,5 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
       this.assignmentsService.assignmentModified.next();
     }
     this.loadGraphDataAndRefresh();
-  }
-
-  private escapeHtml(value: string): string {
-    return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
 }

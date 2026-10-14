@@ -8,6 +8,7 @@ import { takeUntil } from "rxjs/operators";
 import { Session } from "@models/Session.model";
 import { Repository } from "@models/Repository.model";
 import { AssignmentsService } from "@services/assignments.service";
+import { Utils } from "@services/utils";
 import { ClockService, MINUTE_MS } from "@services/clock.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
@@ -501,16 +502,16 @@ export class SessionTabComponent implements OnInit, OnDestroy {
 
   /** HTML list tooltip, same markup as the sessions view's resolved-questions tooltip. */
   private buildListTooltip(titleKey: string, items: string[]): string {
-    const title = this.escapeHtml(this.translateService.instant(titleKey));
+    const title = Utils.escapeHtml(this.translateService.instant(titleKey));
     const list = (items || []).filter((item) => item && item.trim());
     if (!list.length) {
-      const none = this.escapeHtml(this.translateService.instant("SESSION-TAB.PANEL.HEALTH.NONE"));
+      const none = Utils.escapeHtml(this.translateService.instant("SESSION-TAB.PANEL.HEALTH.NONE"));
       return (
         `<div class="resolved-questions-tooltip"><div class="resolved-questions-tooltip-title">${title}</div>` +
         `<div class="peek-tooltip-empty">${none}</div></div>`
       );
     }
-    const lis = list.map((item) => `<li>${this.escapeHtml(item)}</li>`).join("");
+    const lis = list.map((item) => `<li>${Utils.escapeHtml(item)}</li>`).join("");
     return `<div class="resolved-questions-tooltip"><div class="resolved-questions-tooltip-title">${title}</div>` + `<ul>${lis}</ul></div>`;
   }
 
@@ -525,15 +526,6 @@ export class SessionTabComponent implements OnInit, OnDestroy {
       return "";
     }
     return `0,100 ${this.buildPolyline(points)} 100,100`;
-  }
-
-  private escapeHtml(value: string): string {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
   }
 
   private holdCountdown(): void {

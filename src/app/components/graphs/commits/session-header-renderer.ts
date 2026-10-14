@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import * as d3 from "d3";
+import { Utils } from "@services/utils";
 import { Session } from "@models/Session.model";
 
 export interface SessionHeaderRenderContext {
@@ -201,11 +202,11 @@ export class SessionHeaderRenderer {
    * Helper : Construit la carte tooltip riche d'une séance cible
    * ------------------------------------------------------------- */
   private static buildSessionTooltipHtml(title: string, session: Session, overview: any): string {
-    const sName = this.escapeHtml(overview.getSessionDisplayName(session));
-    const sGroup = session.tpGroup ? this.escapeHtml(session.tpGroup) : "";
-    const timeFormatted = this.escapeHtml(overview.formatSessionTime(session));
+    const sName = Utils.escapeHtml(overview.getSessionDisplayName(session));
+    const sGroup = session.tpGroup ? Utils.escapeHtml(session.tpGroup) : "";
+    const timeFormatted = Utils.escapeHtml(overview.formatSessionTime(session));
     const hasNotes = !!(session.notes && session.notes.trim().length > 0);
-    const notesEscaped = hasNotes ? this.escapeHtml(session.notes.trim()) : "";
+    const notesEscaped = hasNotes ? Utils.escapeHtml(session.notes.trim()) : "";
 
     return `
       <div style="text-align: left; min-width: 180px; max-width: 260px; font-family: inherit;">
@@ -241,7 +242,7 @@ export class SessionHeaderRenderer {
     return `
       <span class="badge session-pill session-group-pill d-inline-flex align-items-center">
         ${usersSvg}
-        <span class="session-pill-text session-group-text text-truncate">${this.escapeHtml(groupName)}</span>
+        <span class="session-pill-text session-group-text text-truncate">${Utils.escapeHtml(groupName)}</span>
       </span>
     `;
   }
@@ -249,11 +250,6 @@ export class SessionHeaderRenderer {
   private static renderUsersSvg(): string {
     // eslint-disable-next-line @typescript-eslint/quotes
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>';
-  }
-
-  private static escapeHtml(str: string): string {
-    if (!str) return "";
-    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
 
   /* -------------------------------------------------------------
