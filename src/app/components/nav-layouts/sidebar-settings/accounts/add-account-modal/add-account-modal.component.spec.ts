@@ -129,6 +129,33 @@ describe("AddAccountModalComponent", () => {
     expect(component.isGithubConnected).toBeTrue();
   });
 
+  it("should render the three platform cards from the shared template", () => {
+    const cards = Array.from(fixture.nativeElement.querySelectorAll(".platform-card")) as HTMLElement[];
+
+    expect(cards.length).toBe(3);
+    expect(cards.map((card) => card.querySelector(".platform-name").textContent.trim())).toEqual([
+      "ACCOUNTS.PLATFORM_GITHUB_TITLE",
+      "ACCOUNTS.PLATFORM_GITLAB_TITLE",
+      "ACCOUNTS.PLATFORM_GITLAB_SELF_TITLE",
+    ]);
+    /* Les deux premières cartes partagent le même gabarit : icône + pastille de statut. */
+    expect(cards[0].querySelector("svg path")).toBeTruthy();
+    expect(cards[1].querySelector("svg path")).toBeTruthy();
+    expect(cards[0].querySelector(".status-pill").textContent).toContain("ACCOUNTS.ACTIVE");
+    expect(cards[0].classList).toContain("selected");
+  });
+
+  it("should select a platform by clicking its card", () => {
+    const cards = Array.from(fixture.nativeElement.querySelectorAll(".platform-card")) as HTMLElement[];
+
+    cards[1].click();
+    fixture.detectChanges();
+
+    expect(component.selectedPlatform).toBe("gitlab-cloud");
+    expect(cards[1].classList).toContain("selected");
+    expect(cards[0].classList).not.toContain("selected");
+  });
+
   it("should allow gitlab-cloud and guard gitlab-custom when dev flags are disabled", () => {
     const devFlags = TestBed.inject(DevFlagsService);
 
