@@ -1,11 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { DataService } from "@services/data.service";
 import { Observable } from "rxjs";
 
@@ -30,15 +24,9 @@ export class DataProvidedGuard implements CanActivate {
    * @returns true if fully loaded, false otherwise
    */
   canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
-    | boolean
-    | UrlTree
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree> {
-    return this.dataService.dataLoaded()
-      ? true
-      : this.router.navigate(["home"]);
+    _route: ActivatedRouteSnapshot,
+    _state: RouterStateSnapshot,
+  ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    return this.dataService.dataLoaded() ? true : this.router.navigate(["home"]);
   }
 }

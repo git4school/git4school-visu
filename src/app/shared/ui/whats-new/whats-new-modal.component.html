@@ -70,28 +70,7 @@
               <img [src]="feature.image" [alt]="feature.imageAltKey | translate" loading="lazy" />
             </figure>
             <div class="wn-feature-body">
-              <div class="wn-feature-head">
-                <span class="wn-feature-icon" aria-hidden="true">
-                  <i class="fas" [ngClass]="feature.icon"></i>
-                </span>
-                <span class="wn-tag" [class.is-improved]="feature.tag === 'improved'">{{ getTagKey(feature) | translate }}</span>
-              </div>
-              <h3 class="wn-feature-title">{{ feature.titleKey | translate }}</h3>
-              <p class="wn-feature-desc">
-                <ng-container *ngFor="let part of parseKeys(feature.descriptionKey | translate); trackBy: trackByIndex">
-                  <span *ngIf="part.type === 'text'">{{ part.value }}</span>
-                  <kbd *ngIf="part.type === 'key'" class="shortcut-key shortcut-key-sm">{{ part.value }}</kbd>
-                </ng-container>
-              </p>
-              <p class="wn-feature-hint" *ngIf="feature.hintKey">
-                <i class="fas fa-location-arrow" aria-hidden="true"></i>
-                <span>
-                  <ng-container *ngFor="let part of parseKeys(feature.hintKey | translate); trackBy: trackByIndex">
-                    <span *ngIf="part.type === 'text'">{{ part.value }}</span>
-                    <kbd *ngIf="part.type === 'key'" class="shortcut-key shortcut-key-sm">{{ part.value }}</kbd>
-                  </ng-container>
-                </span>
-              </p>
+              <ng-container *ngTemplateOutlet="featureBody; context: { feature: feature }"></ng-container>
             </div>
           </li>
         </ul>
@@ -99,28 +78,7 @@
         <ul class="wn-features wn-features-compact">
           <li class="wn-feature" *ngFor="let feature of compactFeatures">
             <div class="wn-feature-body">
-              <div class="wn-feature-head">
-                <span class="wn-feature-icon" aria-hidden="true">
-                  <i class="fas" [ngClass]="feature.icon"></i>
-                </span>
-                <span class="wn-tag" [class.is-improved]="feature.tag === 'improved'">{{ getTagKey(feature) | translate }}</span>
-              </div>
-              <h3 class="wn-feature-title">{{ feature.titleKey | translate }}</h3>
-              <p class="wn-feature-desc">
-                <ng-container *ngFor="let part of parseKeys(feature.descriptionKey | translate); trackBy: trackByIndex">
-                  <span *ngIf="part.type === 'text'">{{ part.value }}</span>
-                  <kbd *ngIf="part.type === 'key'" class="shortcut-key shortcut-key-sm">{{ part.value }}</kbd>
-                </ng-container>
-              </p>
-              <p class="wn-feature-hint" *ngIf="feature.hintKey">
-                <i class="fas fa-location-arrow" aria-hidden="true"></i>
-                <span>
-                  <ng-container *ngFor="let part of parseKeys(feature.hintKey | translate); trackBy: trackByIndex">
-                    <span *ngIf="part.type === 'text'">{{ part.value }}</span>
-                    <kbd *ngIf="part.type === 'key'" class="shortcut-key shortcut-key-sm">{{ part.value }}</kbd>
-                  </ng-container>
-                </span>
-              </p>
+              <ng-container *ngTemplateOutlet="featureBody; context: { feature: feature }"></ng-container>
             </div>
           </li>
         </ul>
@@ -175,3 +133,31 @@
     </button>
   </footer>
 </div>
+
+<!-- Reusable Template: body of a highlighted feature (illustrated and compact lists) -->
+<ng-template #featureBody let-feature="feature">
+  <div class="wn-feature-head">
+    <span class="wn-feature-icon" aria-hidden="true">
+      <i class="fas" [ngClass]="feature.icon"></i>
+    </span>
+    <span class="wn-tag" [class.is-improved]="feature.tag === 'improved'">{{ getTagKey(feature) | translate }}</span>
+  </div>
+  <h3 class="wn-feature-title">{{ feature.titleKey | translate }}</h3>
+  <p class="wn-feature-desc">
+    <ng-container *ngTemplateOutlet="keycapText; context: { text: feature.descriptionKey | translate }"></ng-container>
+  </p>
+  <p class="wn-feature-hint" *ngIf="feature.hintKey">
+    <i class="fas fa-location-arrow" aria-hidden="true"></i>
+    <span>
+      <ng-container *ngTemplateOutlet="keycapText; context: { text: feature.hintKey | translate }"></ng-container>
+    </span>
+  </p>
+</ng-template>
+
+<!-- Reusable Template: text mixing plain words and keyboard keycaps -->
+<ng-template #keycapText let-text="text">
+  <ng-container *ngFor="let part of parseKeys(text); trackBy: trackByIndex">
+    <span *ngIf="part.type === 'text'">{{ part.value }}</span>
+    <kbd *ngIf="part.type === 'key'" class="shortcut-key shortcut-key-sm">{{ part.value }}</kbd>
+  </ng-container>
+</ng-template>

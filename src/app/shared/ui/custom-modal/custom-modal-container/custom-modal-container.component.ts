@@ -29,11 +29,7 @@ export class CustomModalContainerComponent implements OnInit {
   private componentRef: ComponentRef<any>;
   private dismissCallback: (reason?: any) => void;
 
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private elementRef: ElementRef,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private elementRef: ElementRef, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // Double requestAnimationFrame ensures browser paints initial frame before triggering transition
@@ -54,8 +50,7 @@ export class CustomModalContainerComponent implements OnInit {
   }
 
   public loadComponent<T>(componentType: Type<T>): T {
-    const componentFactory =
-      this.componentFactoryResolver.resolveComponentFactory(componentType);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
     this.modalContent.clear();
     this.componentRef = this.modalContent.createComponent(componentFactory);
     return this.componentRef.instance;

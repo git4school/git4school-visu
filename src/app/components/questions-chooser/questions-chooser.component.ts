@@ -1312,7 +1312,7 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
     this.onDrop(event);
   }
 
-  onDrop(event: DragEvent) {
+  onDrop(_event: DragEvent) {
     if (this.draggedGroupStart === null || this.draggedGroupEnd === null || this.dropTargetIndex === null || this.dropPosition === null) {
       this.onDragEnd();
       return;
@@ -1520,7 +1520,7 @@ export class QuestionsChooserComponent implements OnInit, ControlValueAccessor, 
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched(_fn: any): void {}
 
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;

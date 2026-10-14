@@ -1,8 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  NgbDateNativeUTCAdapter,
-  NgbDateStruct,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateNativeUTCAdapter, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
 @Injectable()
 export class NgbDateNativeUTCFranceAdapter extends NgbDateNativeUTCAdapter {

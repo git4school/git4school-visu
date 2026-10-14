@@ -37,30 +37,47 @@ $spacing-map: (
 
 // Text Utilities
 .text-center { text-align: center; }
+
 .text-left { text-align: left; }
+
 .text-right { text-align: right; }
 
 .text-primary { color: $color-primary !important; }
+
 .text-secondary { color: $color-secondary !important; }
+
 .text-success { color: $color-success !important; }
+
 .text-danger { color: $color-danger !important; }
+
 .text-warning { color: $color-warning !important; }
+
 .text-info { color: $color-info !important; }
+
 .text-muted { color: $color-text-muted !important; }
 
 // Background Utilities
 .bg-primary { background-color: $color-primary !important; }
+
 .bg-secondary { background-color: $color-secondary !important; }
+
 .bg-success { background-color: $color-success !important; }
+
 .bg-danger { background-color: $color-danger !important; }
+
 .bg-warning { background-color: $color-warning !important; }
+
 .bg-info { background-color: $color-info !important; }
+
 .bg-light { background-color: $color-bg-light !important; }
+
 .bg-white { background-color: $color-surface-light !important; }
 
 // Floating
 .float-left { float: left; }
+
 .float-right { float: right; }
+
 .clearfix::after {
   content: "";
   clear: both;
@@ -95,5 +112,6 @@ $spacing-map: (
 
 @keyframes marquee-scroll {
   0%, 15% { transform: translateX(0); }
+
   85%, 100% { transform: translateX(min(0px, calc(100cqw - 100%))); }
 }

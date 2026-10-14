@@ -1,13 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Milestone } from "@models/Milestone.model";
-import { Observable, Subject, merge } from "rxjs";
+
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import * as moment from "moment";
 import { TypePickerOption } from "@shared/ui/type-picker/type-picker.component";
@@ -30,24 +24,20 @@ export class EditMilestoneComponent implements OnInit {
   milestoneForm: FormGroup;
 
   get resolvedTpGroups(): string[] {
-    return this.tpGroups?.length ? this.tpGroups : (this.dataService?.tpGroups || []);
+    return this.tpGroups?.length ? this.tpGroups : this.dataService?.tpGroups || [];
   }
 
   get resolvedQuestions(): string[] {
-    return this.questions?.length ? this.questions : (this.dataService?.questions || []);
+    return this.questions?.length ? this.questions : this.dataService?.questions || [];
   }
 
   milestoneTypes: TypePickerOption[] = [
-    { value: 'reviews', label: 'REVIEW', color: 'var(--color-primary)' },
-    { value: 'corrections', label: 'CORRECTION', color: 'var(--color-danger)' },
-    { value: 'others', label: 'OTHER', color: 'var(--color-secondary)' }
+    { value: "reviews", label: "REVIEW", color: "var(--color-primary)" },
+    { value: "corrections", label: "CORRECTION", color: "var(--color-danger)" },
+    { value: "others", label: "OTHER", color: "var(--color-secondary)" },
   ];
 
-  constructor(
-    public activeModalService: CustomModalRef,
-    public fb: FormBuilder,
-    private dataService: DataService
-  ) {}
+  constructor(public activeModalService: CustomModalRef, public fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -64,13 +54,12 @@ export class EditMilestoneComponent implements OnInit {
       type: [this.milestone.type, Validators.required],
       notes: [this.milestone.notes || ""],
     });
-    
+
     // Open the notes section if there's already text in it
     if (this.milestone.notes && this.milestone.notes.trim().length > 0) {
       this.notesOpen = true;
     }
   }
-
 
   deleteMilestone() {
     this.activeModalService.close(null);
@@ -85,7 +74,7 @@ export class EditMilestoneComponent implements OnInit {
       form.value.questions,
       form.value.tpGroup.trim() || "",
       form.value.type,
-      form.value.notes.trim() || ""
+      form.value.notes.trim() || "",
     );
     this.activeModalService.close(milestone);
   }

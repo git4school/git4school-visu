@@ -35,61 +35,35 @@
 <div class="modal-body pt-3 pb-4 px-4">
   <!-- Top: 3 Platform Selection Cards -->
   <div class="platform-cards-grid">
-    <!-- Card 1: GitHub -->
-    <div
-      class="platform-card"
-      [class.selected]="selectedPlatform === 'github'"
-      (click)="selectPlatform('github')"
-      role="button"
-      tabindex="0"
-    >
-      <div class="card-top-row mb-1">
-        <div class="platform-icon-squircle github">
-          <svg viewBox="0 0 496 512" class="brand-svg" fill="currentColor">
-            <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
-          </svg>
-        </div>
-        <span *ngIf="isGithubConnected && !isGithubTokenInvalid" class="status-pill connected">
-          <span class="dot"></span>
-          {{ 'ACCOUNTS.ACTIVE' | translate }}
-        </span>
-        <span *ngIf="isGithubConnected && isGithubTokenInvalid" class="status-pill invalid" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
-          <span class="dot"></span>
-          {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
-        </span>
-      </div>
-      <div class="platform-info">
-        <span class="platform-name">{{ 'ACCOUNTS.PLATFORM_GITHUB_TITLE' | translate }}</span>
-      </div>
-    </div>
+    <ng-container
+      *ngTemplateOutlet="
+        cloudPlatformCard;
+        context: {
+          key: 'github',
+          iconClass: 'github',
+          viewBox: '0 0 496 512',
+          iconPath: 'M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z',
+          connected: isGithubConnected,
+          invalid: isGithubTokenInvalid,
+          titleKey: 'ACCOUNTS.PLATFORM_GITHUB_TITLE'
+        }
+      "
+    ></ng-container>
 
-    <!-- Card 2: GitLab.com -->
-    <div
-      class="platform-card"
-      [class.selected]="selectedPlatform === 'gitlab-cloud'"
-      (click)="selectPlatform('gitlab-cloud')"
-      role="button"
-      tabindex="0"
-    >
-      <div class="card-top-row mb-1">
-        <div class="platform-icon-squircle gitlab">
-          <svg viewBox="0 0 512 512" class="brand-svg" fill="currentColor">
-            <path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"/>
-          </svg>
-        </div>
-        <span *ngIf="isGitlabConnected && !isGitlabTokenInvalid" class="status-pill connected">
-          <span class="dot"></span>
-          {{ 'ACCOUNTS.ACTIVE' | translate }}
-        </span>
-        <span *ngIf="isGitlabConnected && isGitlabTokenInvalid" class="status-pill invalid" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
-          <span class="dot"></span>
-          {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
-        </span>
-      </div>
-      <div class="platform-info">
-        <span class="platform-name">{{ 'ACCOUNTS.PLATFORM_GITLAB_TITLE' | translate }}</span>
-      </div>
-    </div>
+    <ng-container
+      *ngTemplateOutlet="
+        cloudPlatformCard;
+        context: {
+          key: 'gitlab-cloud',
+          iconClass: 'gitlab',
+          viewBox: '0 0 512 512',
+          iconPath: 'M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z',
+          connected: isGitlabConnected,
+          invalid: isGitlabTokenInvalid,
+          titleKey: 'ACCOUNTS.PLATFORM_GITLAB_TITLE'
+        }
+      "
+    ></ng-container>
 
     <!-- Card 3: GitLab auto-hébergé (Multi-instances) -->
     <div
@@ -201,7 +175,9 @@
       <!-- 1 & 2. GITHUB OR GITLAB CLOUD (Unified via templates) -->
       <ng-container *ngIf="selectedPlatform !== 'gitlab-custom' && currentProvider as provider">
         <ng-container *ngIf="isConnected && connectedAccount as account">
-          <ng-container *ngTemplateOutlet="connectedPanel; context: { provider: provider, account: account }"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="connectedPanel; context: { provider: provider, account: account, profileUrl: profileUrl, isCustom: false }"
+          ></ng-container>
         </ng-container>
         <ng-container *ngIf="!isConnected">
           <ng-container *ngTemplateOutlet="disconnectedPanel; context: { provider: provider }"></ng-container>
@@ -212,98 +188,18 @@
       <ng-container *ngIf="selectedPlatform === 'gitlab-custom'">
         <!-- 3A. An instance is selected and active (view mode) -->
         <ng-container *ngIf="!showAddCustomInstanceForm && selectedCustomAccount as account">
-          <div class="connected-user-panel" [class.is-invalid-token]="account.tokenStatus === 'invalid'">
-            <div class="user-profile-row">
-              <div class="avatar-container mr-3">
-                <img
-                  *ngIf="account.avatarUrl"
-                  [src]="account.avatarUrl"
-                  [alt]="account.username"
-                  class="user-avatar-img"
-                  (error)="account.avatarUrl = null"
-                />
-                <div *ngIf="!account.avatarUrl" class="user-avatar-fallback">
-                  {{ (account.username || 'U').charAt(0).toUpperCase() }}
-                </div>
-                <div *ngIf="account.tokenStatus === 'invalid'" class="account-avatar-invalid-overlay" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" class="invalid-mark-svg">
-                    <line x1="12" y1="5" x2="12" y2="13"></line>
-                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                  </svg>
-                </div>
-              </div>
-              <div class="user-meta-group">
-                <div class="username-link-row">
-                  <a
-                    [href]="customProfileUrl"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="username-link"
-                    [appTooltip]="account.username"
-                    [onlyIfTruncated]="true"
-                  >
-                    <span>{{ account.username }}</span>
-                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon ml-1">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                  </a>
-                  <span class="instance-badge-chip ml-2">
-                    {{ account.instanceName || account.instanceHost }}
-                  </span>
-                  <span *ngIf="account.tokenStatus === 'invalid'" class="status-pill invalid ml-2" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
-                    <span class="dot"></span>
-                    {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="action-buttons-group" [class.is-confirming]="isConfirmingDisconnect">
-              <button
-                type="button"
-                class="btn-action-pill btn-disconnect-action"
-                [class.is-confirming]="isConfirmingDisconnect"
-                (click)="onDisconnectCustomClick($event)"
-                [disabled]="isConnecting"
-                [attr.aria-label]="(isConfirmingDisconnect ? 'CONFIRM' : 'ACCOUNTS.DISCONNECT') | translate"
-              >
-                <span class="btn-morph-content">
-                  <span class="morph-state normal-state">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                      <polyline points="16 17 21 12 16 7"></polyline>
-                      <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                    <span>{{ 'ACCOUNTS.DISCONNECT' | translate }}</span>
-                  </span>
-                  <span class="morph-state confirm-state">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span>{{ 'CONFIRM' | translate }}</span>
-                  </span>
-                </span>
-              </button>
-
-              <button
-                type="button"
-                class="btn-action-pill btn-cancel-action"
-                [class.is-visible]="isConfirmingDisconnect"
-                (click)="cancelConfirmDisconnect($event)"
-                [attr.aria-label]="'CANCEL' | translate"
-                [attr.tabindex]="isConfirmingDisconnect ? 0 : -1"
-                [attr.aria-hidden]="!isConfirmingDisconnect"
-              >
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-                <span>{{ 'CANCEL' | translate }}</span>
-              </button>
-            </div>
-          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              connectedPanel;
+              context: {
+                provider: null,
+                account: account,
+                profileUrl: customProfileUrl,
+                instanceLabel: account.instanceName || account.instanceHost,
+                isCustom: true
+              }
+            "
+          ></ng-container>
         </ng-container>
 
         <!-- 3B. Add / Connect instance form -->
@@ -417,7 +313,14 @@
 </div>
 
 <!-- Reusable Template: Connected State -->
-<ng-template #connectedPanel let-provider="provider" let-account="account">
+<ng-template
+  #connectedPanel
+  let-provider="provider"
+  let-account="account"
+  let-profileUrl="profileUrl"
+  let-instanceLabel="instanceLabel"
+  let-isCustom="isCustom"
+>
   <div class="connected-user-panel" [class.is-invalid-token]="isCurrentTokenInvalid">
     <div class="user-profile-row">
       <div class="avatar-container mr-3">
@@ -445,16 +348,17 @@
             target="_blank"
             rel="noopener noreferrer"
             class="username-link"
-            [appTooltip]="account.username || provider.name"
+            [appTooltip]="account.username || provider?.name"
             [onlyIfTruncated]="true"
           >
-            <span>{{ account.username || provider.name }}</span>
+            <span>{{ account.username || provider?.name }}</span>
             <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon ml-1">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
               <polyline points="15 3 21 3 21 9"></polyline>
               <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
           </a>
+          <span *ngIf="instanceLabel" class="instance-badge-chip ml-2">{{ instanceLabel }}</span>
           <span *ngIf="isCurrentTokenInvalid" class="status-pill invalid ml-2" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
             <span class="dot"></span>
             {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
@@ -468,7 +372,7 @@
         type="button"
         class="btn-action-pill btn-disconnect-action"
         [class.is-confirming]="isConfirmingDisconnect"
-        (click)="onDisconnectClick($event)"
+        (click)="isCustom ? onDisconnectCustomClick($event) : onDisconnectClick($event)"
         [disabled]="isConnecting"
         [attr.aria-label]="(isConfirmingDisconnect ? 'CONFIRM' : 'ACCOUNTS.DISCONNECT') | translate"
       >
@@ -571,5 +475,38 @@
       </ng-container>
       <span>{{ (isConnecting ? 'ACCOUNTS.CONNECTING' : 'ACCOUNTS.OAUTH_CONNECT_BTN') | translate:{ provider: provider.name } }}</span>
     </button>
+  </div>
+</ng-template>
+
+<!-- Reusable Template: cloud platform card (GitHub / GitLab.com) -->
+<ng-template
+  #cloudPlatformCard
+  let-key="key"
+  let-iconClass="iconClass"
+  let-viewBox="viewBox"
+  let-iconPath="iconPath"
+  let-connected="connected"
+  let-invalid="invalid"
+  let-titleKey="titleKey"
+>
+  <div class="platform-card" [class.selected]="selectedPlatform === key" (click)="selectPlatform(key)" role="button" tabindex="0">
+    <div class="card-top-row mb-1">
+      <div class="platform-icon-squircle" [ngClass]="iconClass">
+        <svg [attr.viewBox]="viewBox" class="brand-svg" fill="currentColor">
+          <path [attr.d]="iconPath" />
+        </svg>
+      </div>
+      <span *ngIf="connected && !invalid" class="status-pill connected">
+        <span class="dot"></span>
+        {{ 'ACCOUNTS.ACTIVE' | translate }}
+      </span>
+      <span *ngIf="connected && invalid" class="status-pill invalid" [appTooltip]="'TOKEN_HEALTH.INVALID_TOOLTIP' | translate">
+        <span class="dot"></span>
+        {{ 'ACCOUNTS.STATUS_INVALID' | translate }}
+      </span>
+    </div>
+    <div class="platform-info">
+      <span class="platform-name">{{ titleKey | translate }}</span>
+    </div>
   </div>
 </ng-template>

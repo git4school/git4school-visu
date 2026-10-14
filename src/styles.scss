@@ -8,7 +8,6 @@
 @import "styles/layout";
 @import "styles/components";
 @import "styles/modal";
-@import "styles/datatable";
 @import "styles/utilities";
 
 /* Global overrides for existing elements */
@@ -85,6 +84,8 @@
   overflow-x: hidden;
 }
 
+
+
 @keyframes anim-blinking {
   0% { fill-opacity: 1; }
 
@@ -107,10 +108,7 @@
   cursor: pointer;
 }
 
-/* Dependencies (Kept temporarily until Stage 2) */
-@import "~@swimlane/ngx-datatable/index.css";
-@import "~@swimlane/ngx-datatable/themes/material.scss";
-@import "~@swimlane/ngx-datatable/assets/icons.css";
+/* Dependencies */
 @import "~driver.js/dist/driver.css";
 
 /* Driver.js Theme Overrides */

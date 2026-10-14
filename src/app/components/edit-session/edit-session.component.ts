@@ -6,7 +6,7 @@ import { DataService } from "@services/data.service";
 import { Utils } from "@services/utils";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
-import { Observable, Subject, merge } from "rxjs";
+import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 @Component({

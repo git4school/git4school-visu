@@ -17,13 +17,7 @@ export class Session {
    * @param endDate The date on which the session ends
    * @param tpGroup The associated tp group
    */
-  constructor(
-    startDate: Date,
-    endDate: Date,
-    public tpGroup?: string,
-    public notes?: string,
-    public label?: string
-  ) {
+  constructor(startDate: Date, endDate: Date, public tpGroup?: string, public notes?: string, public label?: string) {
     this.startDate = moment(startDate).toDate();
     this.endDate = moment(endDate).toDate();
   }
@@ -34,13 +28,7 @@ export class Session {
    * @returns A session
    */
   static withJSON(json): Session {
-    return new Session(
-      json.startDate,
-      json.endDate,
-      json.tpGroup,
-      json.notes,
-      json.label
-    );
+    return new Session(json.startDate, json.endDate, json.tpGroup, json.notes, json.label);
   }
 
   /**

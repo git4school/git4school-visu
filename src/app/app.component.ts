@@ -5,9 +5,6 @@ import { GithubAuthService } from "@services/github-auth.service";
 import { DataService } from "@services/data.service";
 import { ThemeService } from "@services/theme.service";
 import { WhatsNewService } from "@services/whats-new.service";
-import * as Chart from "chart.js";
-// import * as ChartDataLabels from "chartjs-plugin-datalabels";
-import { default as ChartDataLabels } from "chartjs-plugin-datalabels";
 import "rxjs/add/observable/interval";
 import { environment } from "@environments/environment";
 
@@ -43,7 +40,6 @@ export class AppComponent implements OnInit {
    * This method is called once the component is loaded.
    */
   ngOnInit(): void {
-    Chart.pluginService.unregister(ChartDataLabels);
     this.openWhatsNewOnNewVersion();
   }
 

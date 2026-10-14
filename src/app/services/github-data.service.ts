@@ -3,13 +3,28 @@ import { Injectable } from "@angular/core";
 import { GitProviderType } from "@models/Account.model";
 import { Commit } from "@models/Commit.model";
 import { GitDataSearchResult, GitDataService, RepositoryMetadata } from "@models/GitDataService.model";
-import { Error, ErrorType, Repository } from "@models/Repository.model";
+import { Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
 import { forkJoin, Observable, of } from "rxjs";
 import { catchError, map, shareReplay, switchMap, tap } from "rxjs/operators";
 import { GithubAuthService } from "./github-auth.service";
+import {
+  GITHUB_AUTHENTICATED_REPOSITORIES_QUERY,
+  GITHUB_GRAPHQL_ENDPOINT,
+  GITHUB_REPOSITORY_SEARCH_QUERY,
+  GITHUB_SCOPED_REPOSITORY_SEARCH_QUERY,
+  GITHUB_USER_ORGANIZATIONS_QUERY,
+  getCommitHistoryQueryFragment,
+} from "./github-queries";
 import { Utils } from "./utils";
+import {
+  mapAuthenticatedRepositoriesResponse,
+  mapGlobalSearchResponse,
+  mapOrgSearchResponse,
+  mapScopedSearchResponse,
+  applyBatchedRepositoriesResponse,
+} from "./github-mappers";
 
 @Injectable({
   providedIn: "root",
@@ -92,7 +107,7 @@ export class GithubDataService implements GitDataService {
     });
     query += "}";
 
-    return this.http.post<{ data?: any; errors?: any[] }>("https://api.github.com/graphql", { query }, { headers: this.headers }).pipe(
+    return this.http.post<{ data?: any; errors?: any[] }>(GITHUB_GRAPHQL_ENDPOINT, { query }, { headers: this.headers }).pipe(
       map((response) => {
         return repoInfos.map((info) => {
           const repoData = response?.data?.[info.alias];
@@ -120,63 +135,15 @@ export class GithubDataService implements GitDataService {
   }
 
   getRepositoriesByAuthenticatedUser(cursor?: string, pageLimit = 100): Observable<GitDataSearchResult> {
-    const query = `
-      query($cursor: String, $pageLimit: Int!) {
-        viewer {
-          repositories(
-            first: $pageLimit
-            after: $cursor
-            affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
-            orderBy: { field: CREATED_AT, direction: DESC }
-          ) {
-            pageInfo {
-              endCursor
-              hasNextPage
-            }
-            nodes {
-              name
-              url
-              description
-              isFork
-              parent {
-                name
-                url
-              }
-              forks(first: 100) {
-                nodes {
-                  name
-                  url
-                  description
-                  isFork
-                }
-              }
-            }
-          }
-        }
-      }
-    `;
     const variables = { cursor, pageLimit };
     return this.http
-      .post<{ data: any; errors?: any[] }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
+      .post<{ data: any; errors?: any[] }>(
+        GITHUB_GRAPHQL_ENDPOINT,
+        { query: GITHUB_AUTHENTICATED_REPOSITORIES_QUERY, variables },
+        { headers: this.headers },
+      )
       .pipe(
-        map((response) => {
-          const repositoriesData = response?.data?.viewer?.repositories;
-          if (!repositoriesData) {
-            return {
-              completed: true,
-              repositories: [],
-              cursor: undefined,
-            };
-          }
-
-          const reposMap = this.extractRepositoriesFromNodes(repositoriesData.nodes || []);
-
-          return {
-            completed: !repositoriesData.pageInfo?.hasNextPage,
-            repositories: Array.from(reposMap.values()),
-            cursor: repositoriesData.pageInfo?.endCursor,
-          };
-        }),
+        map(mapAuthenticatedRepositoriesResponse),
         catchError((err) => {
           if (err?.status === 401 || err?.status === 403) {
             this.githubAuthService.markTokenInvalid();
@@ -213,50 +180,6 @@ export class GithubDataService implements GitDataService {
       const corePattern = Utils.extractAssignmentCore(name, owner);
       const qOrg = corePattern ? `${corePattern} org:${owner} fork:true` : `org:${owner} fork:true`;
 
-      const scopedQuery = `
-        query($owner: String!, $name: String!, $qOrg: String!, $pageLimit: Int!, $cursor: String) {
-          repository(owner: $owner, name: $name) {
-            name
-            url
-            description
-            isFork
-            parent {
-              name
-              url
-            }
-            forks(first: 100) {
-              nodes {
-                name
-                url
-                description
-                isFork
-                parent {
-                  name
-                  url
-                }
-              }
-            }
-          }
-          orgSearch: search(query: $qOrg, type: REPOSITORY, first: $pageLimit, after: $cursor) {
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
-            nodes {
-              ... on Repository {
-                name
-                url
-                description
-                isFork
-                parent {
-                  name
-                  url
-                }
-              }
-            }
-          }
-        }
-      `;
       const variables = {
         owner,
         name,
@@ -266,29 +189,12 @@ export class GithubDataService implements GitDataService {
       };
       return this.http
         .post<{ data?: any; errors?: any[] }>(
-          "https://api.github.com/graphql",
-          { query: scopedQuery, variables },
+          GITHUB_GRAPHQL_ENDPOINT,
+          { query: GITHUB_SCOPED_REPOSITORY_SEARCH_QUERY, variables },
           { headers: this.headers },
         )
         .pipe(
-          map((response) => {
-            const reposMap = new Map<string, Repository>();
-
-            if (response?.data) {
-              if (response.data.repository) {
-                this.extractRepositoriesFromNodes([response.data.repository], reposMap);
-              }
-              if (response.data.orgSearch?.nodes) {
-                this.extractRepositoriesFromNodes(response.data.orgSearch.nodes, reposMap);
-              }
-            }
-
-            return {
-              completed: !response?.data?.orgSearch?.pageInfo?.hasNextPage,
-              repositories: Array.from(reposMap.values()),
-              cursor: response?.data?.orgSearch?.pageInfo?.endCursor,
-            };
-          }),
+          map(mapScopedSearchResponse),
           catchError((err) => {
             console.error("Error searching GitHub owner/name repositories", err);
             return of({
@@ -304,45 +210,19 @@ export class GithubDataService implements GitDataService {
       const cleanTerm = cleanFilter.replace(/[-_]+$/, "");
       const coreTerm = Utils.extractAssignmentCore(cleanTerm);
       const searchKeyword = coreTerm || cleanTerm;
-      const query = `
-        query($queryString: String!, $cursor: String, $pageLimit: Int!) {
-          globalSearch: search(query: $queryString, type: REPOSITORY, first: $pageLimit, after: $cursor) {
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
-            nodes {
-              ... on Repository {
-                name
-                url
-                description
-                isFork
-                parent {
-                  name
-                  url
-                }
-              }
-            }
-          }
-        }
-      `;
       const variables = {
         queryString: (searchKeyword ? `${searchKeyword} ` : "") + "fork:true",
         cursor,
         pageLimit,
       };
       return this.http
-        .post<{ data: any; errors?: any[] }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
+        .post<{ data: any; errors?: any[] }>(
+          GITHUB_GRAPHQL_ENDPOINT,
+          { query: GITHUB_REPOSITORY_SEARCH_QUERY, variables },
+          { headers: this.headers },
+        )
         .pipe(
-          map((response) => {
-            const searchData = response?.data?.globalSearch;
-            const reposMap = this.extractRepositoriesFromNodes(searchData?.nodes || []);
-            return {
-              completed: !searchData?.pageInfo?.hasNextPage,
-              repositories: Array.from(reposMap.values()),
-              cursor: searchData?.pageInfo?.endCursor,
-            };
-          }),
+          map(mapGlobalSearchResponse),
           catchError((err) => {
             console.error("Error searching GitHub repositories (page)", err);
             return of({
@@ -464,28 +344,9 @@ export class GithubDataService implements GitDataService {
         const fullQuery = `query(${queryArgs.join(", ")}) {\n${queryBody}\n}`;
 
         return this.http
-          .post<{ data: any; errors?: any[] }>("https://api.github.com/graphql", { query: fullQuery, variables }, { headers: this.headers })
+          .post<{ data: any; errors?: any[] }>(GITHUB_GRAPHQL_ENDPOINT, { query: fullQuery, variables }, { headers: this.headers })
           .pipe(
-            map((response) => {
-              const reposMap = new Map<string, Repository>();
-
-              if (response?.data) {
-                Object.keys(response.data).forEach((key) => {
-                  const field = response.data[key];
-                  if (key === "repositoryOwner") {
-                    this.extractRepositoriesFromNodes(field?.repositories?.nodes || [], reposMap);
-                  } else if (field?.nodes) {
-                    this.extractRepositoriesFromNodes(field.nodes, reposMap);
-                  }
-                });
-              }
-
-              return {
-                completed: !response?.data?.globalSearch?.pageInfo?.hasNextPage,
-                repositories: Array.from(reposMap.values()),
-                cursor: response?.data?.globalSearch?.pageInfo?.endCursor,
-              };
-            }),
+            map(mapOrgSearchResponse),
             catchError((err) => {
               console.error("Error searching GitHub repositories across user, orgs & global", err);
               return of({
@@ -509,19 +370,8 @@ export class GithubDataService implements GitDataService {
     if (this.userOrganizations$) {
       return this.userOrganizations$;
     }
-    const query = `
-      query {
-        viewer {
-          organizations(first: 100) {
-            nodes {
-              login
-            }
-          }
-        }
-      }
-    `;
     this.userOrganizations$ = this.http
-      .post<{ data?: any; errors?: any[] }>("https://api.github.com/graphql", { query }, { headers: this.headers })
+      .post<{ data?: any; errors?: any[] }>(GITHUB_GRAPHQL_ENDPOINT, { query: GITHUB_USER_ORGANIZATIONS_QUERY }, { headers: this.headers })
       .pipe(
         map((response) => {
           const nodes = response?.data?.viewer?.organizations?.nodes || [];
@@ -566,7 +416,7 @@ export class GithubDataService implements GitDataService {
 
       query += `
         ${info.alias}: repository(owner: "${info.owner}", name: "${info.name}") {
-${this.getCommitHistoryQueryFragment(historyArgs)}
+${getCommitHistoryQueryFragment(historyArgs)}
           identity: object(expression: "HEAD:IDENTITY.json") {
             ... on Blob { text }
           }
@@ -585,76 +435,24 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
     if (sinceMoment) variables.since = sinceMoment;
     if (untilMoment) variables.until = untilMoment;
 
-    return this.http
-      .post<{ data?: any; errors?: any[] }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
-      .pipe(
-        switchMap((response) => {
-          if (response.errors) {
-            console.error("GraphQL reported errors:", response.errors);
-          }
+    return this.http.post<{ data?: any; errors?: any[] }>(GITHUB_GRAPHQL_ENDPOINT, { query, variables }, { headers: this.headers }).pipe(
+      switchMap((response) => {
+        const { results, reposWithNextPage } = applyBatchedRepositoriesResponse(response, repoInfos);
 
-          const results: Repository[] = [];
-          const reposWithNextPage = [];
-
-          repoInfos.forEach((info) => {
-            const repoData = response?.data?.[info.alias];
-            if (!repoData) {
-              info.repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
-              results.push(info.repository);
-              return;
-            }
-
-            const identityData = repoData.identity?.text;
-            const readmeData = repoData.readme?.text;
-            const { name, tpGroup } = Utils.extractRepositoryMetadata(identityData, readmeData);
-
-            const history = repoData.defaultBranchRef?.target?.history;
-            let commits = [];
-            let hasNextPage = false;
-            let endCursor = null;
-
-            if (history) {
-              commits = history.nodes.map((node: any) => Commit.withGraphQLJSON(node));
-              hasNextPage = history.pageInfo.hasNextPage;
-              endCursor = history.pageInfo.endCursor;
-            }
-
-            info.repository.commits = commits;
-            info.repository.provider = "github";
-
-            if (!info.repository.name) {
-              info.repository.name = name || info.repository.getNameFromUrl();
-            }
-            if (!info.repository.tpGroup) {
-              info.repository.tpGroup = tpGroup || Utils.DEFAULT_TP_GROUP;
-            }
-
-            results.push(info.repository);
-
-            if (hasNextPage) {
-              reposWithNextPage.push({
-                repository: info.repository,
-                owner: info.owner,
-                name: info.name,
-                cursor: endCursor,
-              });
-            }
-          });
-
-          if (reposWithNextPage.length > 0) {
-            return this.fetchRemainingCommits(reposWithNextPage, startDate, endDate).pipe(map(() => results));
-          } else {
-            return of(results);
-          }
-        }),
-        catchError((error) => {
-          if (error?.status === 401 || error?.status === 403) {
-            this.githubAuthService.markTokenInvalid();
-          }
-          console.error("GraphQL batch error", error);
-          return of(repoTab);
-        }),
-      );
+        if (reposWithNextPage.length > 0) {
+          return this.fetchRemainingCommits(reposWithNextPage, startDate, endDate).pipe(map(() => results));
+        } else {
+          return of(results);
+        }
+      }),
+      catchError((error) => {
+        if (error?.status === 401 || error?.status === 403) {
+          this.githubAuthService.markTokenInvalid();
+        }
+        console.error("GraphQL batch error", error);
+        return of(repoTab);
+      }),
+    );
   }
 
   private fetchRemainingCommits(
@@ -672,7 +470,7 @@ ${this.getCommitHistoryQueryFragment(historyArgs)}
     reposWithNextPage.forEach((info, index) => {
       query += `
         repo${index}: repository(owner: "${info.owner}", name: "${info.name}") {
-${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since: $since, until: $until`)}
+${getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since: $since, until: $until`)}
         }
       `;
     });
@@ -685,112 +483,42 @@ ${this.getCommitHistoryQueryFragment(`first: 100, after: "${info.cursor}", since
     if (sinceMoment) variables.since = sinceMoment;
     if (untilMoment) variables.until = untilMoment;
 
-    return this.http
-      .post<{ data?: any; errors?: any[] }>("https://api.github.com/graphql", { query, variables }, { headers: this.headers })
-      .pipe(
-        switchMap((response) => {
-          if (response.errors) {
-            console.error("GraphQL fetchRemainingCommits errors:", response.errors);
-          }
-
-          const nextReposWithNextPage = [];
-
-          reposWithNextPage.forEach((info, index) => {
-            const history = response?.data?.[`repo${index}`]?.defaultBranchRef?.target?.history;
-            if (history) {
-              const moreCommits = history.nodes.map((node: any) => Commit.withGraphQLJSON(node));
-              info.repository.commits.push(...moreCommits);
-
-              if (history.pageInfo.hasNextPage) {
-                nextReposWithNextPage.push({
-                  ...info,
-                  cursor: history.pageInfo.endCursor,
-                });
-              }
-            }
-          });
-
-          if (nextReposWithNextPage.length > 0) {
-            return this.fetchRemainingCommits(nextReposWithNextPage, startDate, endDate);
-          } else {
-            return of(null);
-          }
-        }),
-        catchError((error) => {
-          if (error?.status === 401 || error?.status === 403) {
-            this.githubAuthService.markTokenInvalid();
-          }
-          console.error("fetchRemainingCommits batch error", error);
-          return of(null);
-        }),
-      );
-  }
-
-  private extractRepositoriesFromNodes(
-    nodes: any[],
-    reposMap: Map<string, Repository> = new Map<string, Repository>(),
-  ): Map<string, Repository> {
-    if (!nodes) return reposMap;
-
-    nodes.forEach((node: any) => {
-      if (!node || !node.url) return;
-
-      const parentUrl = node.parent?.url || undefined;
-      const isFork = Boolean(node.isFork || parentUrl);
-
-      if (!reposMap.has(node.url)) {
-        const repo = new Repository(node.url, node.name, undefined, undefined, undefined, node.description, isFork, parentUrl);
-        repo.provider = "github";
-        reposMap.set(node.url, repo);
-      } else {
-        const existing = reposMap.get(node.url);
-        if (!existing.parentUrl && parentUrl) {
-          existing.parentUrl = parentUrl;
-          existing.isFork = true;
+    return this.http.post<{ data?: any; errors?: any[] }>(GITHUB_GRAPHQL_ENDPOINT, { query, variables }, { headers: this.headers }).pipe(
+      switchMap((response) => {
+        if (response.errors) {
+          console.error("GraphQL fetchRemainingCommits errors:", response.errors);
         }
-      }
 
-      if (node.forks?.nodes) {
-        node.forks.nodes.forEach((fork: any) => {
-          if (fork && fork.url) {
-            if (!reposMap.has(fork.url)) {
-              const forkRepo = new Repository(fork.url, fork.name, undefined, undefined, undefined, fork.description, true, node.url);
-              forkRepo.provider = "github";
-              reposMap.set(fork.url, forkRepo);
-            } else {
-              const existingFork = reposMap.get(fork.url);
-              existingFork.parentUrl = node.url;
-              existingFork.isFork = true;
+        const nextReposWithNextPage = [];
+
+        reposWithNextPage.forEach((info, index) => {
+          const history = response?.data?.[`repo${index}`]?.defaultBranchRef?.target?.history;
+          if (history) {
+            const moreCommits = history.nodes.map((node: any) => Commit.withGraphQLJSON(node));
+            info.repository.commits.push(...moreCommits);
+
+            if (history.pageInfo.hasNextPage) {
+              nextReposWithNextPage.push({
+                ...info,
+                cursor: history.pageInfo.endCursor,
+              });
             }
           }
         });
-      }
-    });
 
-    return reposMap;
-  }
-
-  private getCommitHistoryQueryFragment(historyArgs: string): string {
-    return `
-          defaultBranchRef {
-            target {
-              ... on Commit {
-                history(${historyArgs}) {
-                  pageInfo {
-                    hasNextPage
-                    endCursor
-                  }
-                  nodes {
-                    message
-                    author {
-                      name
-                    }
-                    committedDate
-                    url
-                  }
-                }
-              }
-            }
-          }`;
+        if (nextReposWithNextPage.length > 0) {
+          return this.fetchRemainingCommits(nextReposWithNextPage, startDate, endDate);
+        } else {
+          return of(null);
+        }
+      }),
+      catchError((error) => {
+        if (error?.status === 401 || error?.status === 403) {
+          this.githubAuthService.markTokenInvalid();
+        }
+        console.error("fetchRemainingCommits batch error", error);
+        return of(null);
+      }),
+    );
   }
 }

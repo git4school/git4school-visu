@@ -209,6 +209,15 @@ export class Utils {
   }
 
   /**
+   * Escapes a value before it is interpolated into an HTML string (tooltips built by hand).
+   * Shared by the session tooltips so the escaping rules stay in one place.
+   */
+  static escapeHtml(value: string): string {
+    if (!value) return "";
+    return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  }
+
+  /**
    * Extracts the normalized core assignment identifier from a repository or assignment name.
    * Strips owner prefix, template/squelette suffixes, and normalizes delimiters to hyphens.
    *

@@ -18,9 +18,9 @@ export class DataLoadingGuard implements CanDeactivate<CommitsComponent> {
    */
   canDeactivate(
     component: CommitsComponent,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot,
+    _currentRoute: ActivatedRouteSnapshot,
+    _currentState: RouterStateSnapshot,
+    _nextState?: RouterStateSnapshot,
   ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     return !component.loading;
   }

@@ -412,7 +412,7 @@ export class ModalAddRepositoriesComponent implements OnInit, OnDestroy, AfterVi
       // Immediate client-side filter of cached repositories for instant feedback
       const query = this.searchFilter.toLowerCase();
       const parts = query.split("/");
-      const targetQuery = (parts.length > 1 ? parts[1] : parts[0]).trim();
+      const _targetQuery = (parts.length > 1 ? parts[1] : parts[0]).trim();
       const seenUrls = new Set(this.repoList.map((r) => r.url));
       const targetUrl = this.getTargetSourceUrl(this.searchFilter);
       const filtered = this.allUserRepositories.filter((r) => !seenUrls.has(r.url) && this.isNameMatch(r, this.searchFilter));

@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector, Type } from "@angular/core";
+import { ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injectable, Injector, Type } from "@angular/core";
 import { CustomModalContainerComponent } from "./custom-modal-container/custom-modal-container.component";
 import { CustomModalRef } from "./custom-modal-ref";
 

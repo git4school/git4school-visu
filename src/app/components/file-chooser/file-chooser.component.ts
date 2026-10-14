@@ -14,7 +14,7 @@ export class FileChooserComponent implements OnInit {
     private ngbActiveModal: NgbActiveModal,
     private toastService: ToastService,
     private translateService: TranslateService,
-    private assignmentsService: AssignmentsService
+    private assignmentsService: AssignmentsService,
   ) {}
 
   filename: string;
@@ -38,10 +38,7 @@ export class FileChooserComponent implements OnInit {
         this.ngbActiveModal.close(assignment);
       })
       .catch((err) => {
-        this.toastService.error(
-          this.translateService.instant("ERROR-TITLE-ERROR-OCCURED"),
-          err
-        );
+        this.toastService.error(this.translateService.instant("ERROR-TITLE-ERROR-OCCURED"), err);
       });
   }
 }

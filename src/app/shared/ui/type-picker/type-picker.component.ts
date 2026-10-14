@@ -1,5 +1,15 @@
-import { Component, forwardRef, Input, ViewChildren, QueryList, ElementRef, AfterViewInit, HostListener, ChangeDetectorRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  Component,
+  forwardRef,
+  Input,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  AfterViewInit,
+  HostListener,
+  ChangeDetectorRef,
+} from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 export interface TypePickerOption {
   value: string;
@@ -8,37 +18,37 @@ export interface TypePickerOption {
 }
 
 @Component({
-  selector: 'app-type-picker',
-  templateUrl: './type-picker.component.html',
-  styleUrls: ['./type-picker.component.scss'],
+  selector: "app-type-picker",
+  templateUrl: "./type-picker.component.html",
+  styleUrls: ["./type-picker.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TypePickerComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TypePickerComponent implements ControlValueAccessor, AfterViewInit {
   @Input() options: TypePickerOption[] = [];
-  @Input() wrapContent: boolean = false;
-  @Input() isInvalid: boolean = false;
+  @Input() wrapContent = false;
+  @Input() isInvalid = false;
 
-  @ViewChildren('btn') buttons!: QueryList<ElementRef>;
+  @ViewChildren("btn") buttons!: QueryList<ElementRef>;
 
   value: string | null = null;
   hoveredOption: TypePickerOption | null = null;
-  displayMode: 'pill' | 'lisere' = 'lisere';
-  isDisabled: boolean = false;
+  displayMode: "pill" | "lisere" = "lisere";
+  isDisabled = false;
 
   indicatorStyle: any = {
     opacity: 0,
-    transform: 'translateX(0) scaleX(0)',
-    width: '0px',
-    backgroundColor: 'transparent'
+    transform: "translateX(0) scaleX(0)",
+    width: "0px",
+    backgroundColor: "transparent",
   };
 
-  onChange = (value: string | null) => {};
+  onChange = (_value: string | null) => {};
   onTouched = () => {};
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -47,14 +57,14 @@ export class TypePickerComponent implements ControlValueAccessor, AfterViewInit 
     setTimeout(() => this.updateIndicator(), 0);
   }
 
-  @HostListener('window:resize')
+  @HostListener("window:resize")
   onResize() {
     this.updateIndicator();
   }
 
   onGroupMouseEnter(): void {
     if (!this.isDisabled) {
-      this.displayMode = 'pill';
+      this.displayMode = "pill";
       this.updateIndicator();
     }
   }
@@ -62,15 +72,15 @@ export class TypePickerComponent implements ControlValueAccessor, AfterViewInit 
   onGroupMouseLeave(): void {
     if (!this.isDisabled) {
       this.hoveredOption = null;
-      this.displayMode = 'lisere';
+      this.displayMode = "lisere";
       this.updateIndicator();
     }
   }
 
-  onButtonMouseEnter(option: TypePickerOption, index: number): void {
+  onButtonMouseEnter(option: TypePickerOption, _index: number): void {
     if (!this.isDisabled) {
       this.hoveredOption = option;
-      this.displayMode = 'pill';
+      this.displayMode = "pill";
       this.updateIndicator();
     }
   }
@@ -97,24 +107,24 @@ export class TypePickerComponent implements ControlValueAccessor, AfterViewInit 
       this.value = typeValue;
       this.onChange(this.value);
       this.onTouched();
-      this.displayMode = 'lisere';
+      this.displayMode = "lisere";
       this.updateIndicator();
     }
   }
 
   get activeOption(): TypePickerOption | null {
-    return this.options.find(o => o.value === this.value) || null;
+    return this.options.find((o) => o.value === this.value) || null;
   }
 
   getButtonStyle(option: TypePickerOption): any {
-    const isHovered = this.displayMode === 'pill' && this.hoveredOption === option;
-    const isActiveAndNotHoveredElsewhere = this.displayMode === 'pill' && !this.hoveredOption && this.value === option.value;
+    const isHovered = this.displayMode === "pill" && this.hoveredOption === option;
+    const isActiveAndNotHoveredElsewhere = this.displayMode === "pill" && !this.hoveredOption && this.value === option.value;
     const isPillOverThis = isHovered || isActiveAndNotHoveredElsewhere;
 
     if (isPillOverThis) {
-      return { color: '#ffffff' };
+      return { color: "#ffffff" };
     } else if (this.value === option.value) {
-      return { color: option.color || 'var(--color-primary)' };
+      return { color: option.color || "var(--color-primary)" };
     }
     return {};
   }
@@ -122,26 +132,26 @@ export class TypePickerComponent implements ControlValueAccessor, AfterViewInit 
   updateIndicator() {
     if (!this.buttons) return;
 
-    const targetOption = (this.displayMode === 'pill' && this.hoveredOption) ? this.hoveredOption : this.activeOption;
+    const targetOption = this.displayMode === "pill" && this.hoveredOption ? this.hoveredOption : this.activeOption;
     const targetBtn = targetOption ? this.buttons.toArray()[this.options.indexOf(targetOption)]?.nativeElement : null;
 
     if (!targetBtn) {
-      this.indicatorStyle = { ...this.indicatorStyle, opacity: 0, transform: 'translateX(0) scaleX(0)' };
+      this.indicatorStyle = { ...this.indicatorStyle, opacity: 0, transform: "translateX(0) scaleX(0)" };
       this.cdr.markForCheck();
       return;
     }
 
-    const isPill = this.displayMode === 'pill';
+    const isPill = this.displayMode === "pill";
     this.indicatorStyle = {
       opacity: 1,
       width: `${targetBtn.offsetWidth}px`,
       transform: `translateX(${targetBtn.offsetLeft}px) scaleX(${isPill ? 1 : 0.6})`,
-      backgroundColor: targetOption.color || 'var(--color-primary)',
-      height: isPill ? '100%' : '3px',
-      borderRadius: isPill ? '12px' : '4px 4px 0 0',
-      bottom: isPill ? '0' : '-6px'
+      backgroundColor: targetOption.color || "var(--color-primary)",
+      height: isPill ? "100%" : "3px",
+      borderRadius: isPill ? "12px" : "4px 4px 0 0",
+      bottom: isPill ? "0" : "-6px",
     };
-    
+
     this.cdr.markForCheck();
   }
 }

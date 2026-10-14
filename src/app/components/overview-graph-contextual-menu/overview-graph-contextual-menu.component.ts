@@ -164,7 +164,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit, OnDestroy {
       .then((newMilestone) => {
         this.saveMilestone.emit({ oldMilestone: this.milestone, newMilestone });
       })
-      .catch((e) => {});
+      .catch((_e) => {});
   }
 
   openSessionModal(session: Session) {
@@ -177,7 +177,7 @@ export class OverviewGraphContextualMenuComponent implements OnInit, OnDestroy {
       .then((newSession) => {
         this.saveSession.emit({ oldSession: this.session, newSession });
       })
-      .catch((e) => {});
+      .catch((_e) => {});
   }
 
   private setPosition(x: number, y: number) {

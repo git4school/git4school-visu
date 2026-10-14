@@ -88,6 +88,7 @@
 
   &[draggable="true"] {
     cursor: grab;
+
     &:active {
       cursor: grabbing;
       transform: scale(0.97);
@@ -135,7 +136,7 @@
   }
 
   &.commit-pill {
-    background-color: var(--color-surface, #ffffff);
+    background-color: var(--color-surface, #fff);
     color: var(--color-text-secondary, #475569);
     border: 1px solid var(--color-border, #cbd5e1);
 
@@ -162,6 +163,7 @@
 
   &.exclusion-pill {
     border-color: var(--color-danger, #dc2626) !important;
+
     &::before {
       content: '!';
       color: var(--color-danger, #dc2626);
@@ -496,6 +498,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -660,10 +663,12 @@
 
   .btn-help-ghost {
     color: var(--color-text-muted);
+
     &:hover {
       color: var(--color-primary);
       background: var(--color-hover);
     }
+
     &.active {
       color: var(--color-primary);
       background: var(--color-primary-bg);
@@ -705,6 +710,7 @@
 .main-input-wrapper {
   transition: none !important;
   min-width: 0;
+
   &.flex-grow-1 {
     flex-grow: 1;
   }
