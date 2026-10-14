@@ -19,6 +19,14 @@ import {
   getCommitHistoryQueryFragment,
 } from "./github-queries";
 import { Utils } from "./utils";
+import {
+  mapAuthenticatedRepositoriesResponse,
+  mapGlobalSearchResponse,
+  mapOrgSearchResponse,
+  mapRepositoriesMetadataResponse,
+  mapScopedSearchResponse,
+  applyBatchedRepositoriesResponse,
+} from "./github-mappers";
 
 @Injectable({
   providedIn: "root",
@@ -137,24 +145,7 @@ export class GithubDataService implements GitDataService {
         { headers: this.headers },
       )
       .pipe(
-        map((response) => {
-          const repositoriesData = response?.data?.viewer?.repositories;
-          if (!repositoriesData) {
-            return {
-              completed: true,
-              repositories: [],
-              cursor: undefined,
-            };
-          }
-
-          const reposMap = extractRepositoriesFromNodes(repositoriesData.nodes || []);
-
-          return {
-            completed: !repositoriesData.pageInfo?.hasNextPage,
-            repositories: Array.from(reposMap.values()),
-            cursor: repositoriesData.pageInfo?.endCursor,
-          };
-        }),
+        map(mapAuthenticatedRepositoriesResponse),
         catchError((err) => {
           if (err?.status === 401 || err?.status === 403) {
             this.githubAuthService.markTokenInvalid();
@@ -205,24 +196,7 @@ export class GithubDataService implements GitDataService {
           { headers: this.headers },
         )
         .pipe(
-          map((response) => {
-            const reposMap = new Map<string, Repository>();
-
-            if (response?.data) {
-              if (response.data.repository) {
-                extractRepositoriesFromNodes([response.data.repository], reposMap);
-              }
-              if (response.data.orgSearch?.nodes) {
-                extractRepositoriesFromNodes(response.data.orgSearch.nodes, reposMap);
-              }
-            }
-
-            return {
-              completed: !response?.data?.orgSearch?.pageInfo?.hasNextPage,
-              repositories: Array.from(reposMap.values()),
-              cursor: response?.data?.orgSearch?.pageInfo?.endCursor,
-            };
-          }),
+          map(mapScopedSearchResponse),
           catchError((err) => {
             console.error("Error searching GitHub owner/name repositories", err);
             return of({
@@ -250,15 +224,7 @@ export class GithubDataService implements GitDataService {
           { headers: this.headers },
         )
         .pipe(
-          map((response) => {
-            const searchData = response?.data?.globalSearch;
-            const reposMap = extractRepositoriesFromNodes(searchData?.nodes || []);
-            return {
-              completed: !searchData?.pageInfo?.hasNextPage,
-              repositories: Array.from(reposMap.values()),
-              cursor: searchData?.pageInfo?.endCursor,
-            };
-          }),
+          map(mapGlobalSearchResponse),
           catchError((err) => {
             console.error("Error searching GitHub repositories (page)", err);
             return of({
@@ -382,26 +348,7 @@ export class GithubDataService implements GitDataService {
         return this.http
           .post<{ data: any; errors?: any[] }>(GITHUB_GRAPHQL_ENDPOINT, { query: fullQuery, variables }, { headers: this.headers })
           .pipe(
-            map((response) => {
-              const reposMap = new Map<string, Repository>();
-
-              if (response?.data) {
-                Object.keys(response.data).forEach((key) => {
-                  const field = response.data[key];
-                  if (key === "repositoryOwner") {
-                    extractRepositoriesFromNodes(field?.repositories?.nodes || [], reposMap);
-                  } else if (field?.nodes) {
-                    extractRepositoriesFromNodes(field.nodes, reposMap);
-                  }
-                });
-              }
-
-              return {
-                completed: !response?.data?.globalSearch?.pageInfo?.hasNextPage,
-                repositories: Array.from(reposMap.values()),
-                cursor: response?.data?.globalSearch?.pageInfo?.endCursor,
-              };
-            }),
+            map(mapOrgSearchResponse),
             catchError((err) => {
               console.error("Error searching GitHub repositories across user, orgs & global", err);
               return of({
@@ -492,57 +439,7 @@ ${getCommitHistoryQueryFragment(historyArgs)}
 
     return this.http.post<{ data?: any; errors?: any[] }>(GITHUB_GRAPHQL_ENDPOINT, { query, variables }, { headers: this.headers }).pipe(
       switchMap((response) => {
-        if (response.errors) {
-          console.error("GraphQL reported errors:", response.errors);
-        }
-
-        const results: Repository[] = [];
-        const reposWithNextPage = [];
-
-        repoInfos.forEach((info) => {
-          const repoData = response?.data?.[info.alias];
-          if (!repoData) {
-            info.repository.errors.push(new Error(ErrorType.COMMITS_NOT_FOUND));
-            results.push(info.repository);
-            return;
-          }
-
-          const identityData = repoData.identity?.text;
-          const readmeData = repoData.readme?.text;
-          const { name, tpGroup } = Utils.extractRepositoryMetadata(identityData, readmeData);
-
-          const history = repoData.defaultBranchRef?.target?.history;
-          let commits = [];
-          let hasNextPage = false;
-          let endCursor = null;
-
-          if (history) {
-            commits = history.nodes.map((node: any) => Commit.withGraphQLJSON(node));
-            hasNextPage = history.pageInfo.hasNextPage;
-            endCursor = history.pageInfo.endCursor;
-          }
-
-          info.repository.commits = commits;
-          info.repository.provider = "github";
-
-          if (!info.repository.name) {
-            info.repository.name = name || info.repository.getNameFromUrl();
-          }
-          if (!info.repository.tpGroup) {
-            info.repository.tpGroup = tpGroup || Utils.DEFAULT_TP_GROUP;
-          }
-
-          results.push(info.repository);
-
-          if (hasNextPage) {
-            reposWithNextPage.push({
-              repository: info.repository,
-              owner: info.owner,
-              name: info.name,
-              cursor: endCursor,
-            });
-          }
-        });
+        const { results, reposWithNextPage } = applyBatchedRepositoriesResponse(response, repoInfos);
 
         if (reposWithNextPage.length > 0) {
           return this.fetchRemainingCommits(reposWithNextPage, startDate, endDate).pipe(map(() => results));
