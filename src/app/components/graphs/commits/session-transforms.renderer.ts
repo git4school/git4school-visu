@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { Session } from "@models/Session.model";
+import { choosePillsLayout, PillStyle } from "./session-pills-layout.util";
 
 /**
  * Positioning of the session bands and of their top-strip headers: horizontal offsets from the time
@@ -25,6 +26,15 @@ export interface SessionTransformsHost {
   isSameSession(a: Session, b: Session): boolean;
   xScaledTimeZoned(date: Date | string): number;
   updateSessionVisibility(shouldRaise?: boolean): void;
+}
+
+/** Applies a computed pill style to a (possibly missing) element of the header row. */
+function applyPillStyle(element: d3.Selection<any, any, any, any>, style: PillStyle): void {
+  if (element.empty()) {
+    return;
+  }
+  element.style("display", style.display);
+  element.style("max-width", style.maxWidth === "none" ? "none" : `${style.maxWidth}px`);
 }
 
 export class SessionTransformsRenderer {
@@ -188,128 +198,18 @@ export class SessionTransformsRenderer {
 
         const availWidth = Math.max(0, foWidth - navReservedWidth);
 
-        // Width estimations
-        const charWidth = 6.2;
-        const iconAndPadding = 29; // 11px icon + 4px gap + 14px padding
-        const nameNeeded = iconAndPadding + displayName.length * charWidth;
-        const groupNeeded = hasGroup ? iconAndPadding + groupName.length * charWidth : 0;
-        const noteBtnWidth = hasNotes ? 20 : 0;
-        const moreBtnWidth = 16; // width of "..." dots
-        const gap = 4;
-        const padTotal = 8;
-
-        // Total needed to display all available session elements in full
-        const neededAll = nameNeeded + (hasGroup ? gap + groupNeeded : 0) + (hasNotes ? gap + noteBtnWidth : 0) + padTotal;
-
-        if (availWidth >= neededAll) {
-          // Case 1: Everything fits without truncation
-          if (!namePill.empty()) {
-            namePill.style("display", "inline-flex").style("max-width", "none");
-          }
-          if (!groupPill.empty()) {
-            groupPill.style("display", "inline-flex").style("max-width", "none");
-          }
-          if (!noteBtn.empty()) {
-            noteBtn.style("display", "inline-flex");
-          }
-          if (!moreBtn.empty()) {
-            moreBtn.style("display", "none");
-          }
-        } else {
-          // Case 2: Constrained width - priority: Name > Group > Note
-          // When an item cannot be displayed or is truncated, show "..." (moreBtn) to indicate hidden info
-          const neededNameAndGroup = nameNeeded + (hasGroup ? gap + groupNeeded : 0) + padTotal;
-          const neededNameGroupMore = neededNameAndGroup + (hasNotes ? gap + moreBtnWidth : 0);
-
-          if (hasGroup && availWidth >= neededNameGroupMore) {
-            // Name full, Group full, Note dropped -> show "..." if hasNotes
-            if (!namePill.empty()) {
-              namePill.style("display", "inline-flex").style("max-width", "none");
-            }
-            if (!groupPill.empty()) {
-              groupPill.style("display", "inline-flex").style("max-width", "none");
-            }
-            if (!noteBtn.empty()) {
-              noteBtn.style("display", "none");
-            }
-            if (!moreBtn.empty()) {
-              moreBtn.style("display", hasNotes ? "inline-flex" : "none");
-            }
-          } else if (hasGroup && availWidth >= nameNeeded + gap + 38 + (hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
-            // Name full, Group truncated with ellipsis, Note dropped -> show "..." if hasNotes
-            const availableForGroup = availWidth - nameNeeded - (hasNotes ? gap + moreBtnWidth : 0) - gap - padTotal;
-            if (!namePill.empty()) {
-              namePill.style("display", "inline-flex").style("max-width", "none");
-            }
-            if (!groupPill.empty()) {
-              groupPill.style("display", "inline-flex").style("max-width", `${Math.max(34, availableForGroup)}px`);
-            }
-            if (!noteBtn.empty()) {
-              noteBtn.style("display", "none");
-            }
-            if (!moreBtn.empty()) {
-              moreBtn.style("display", "inline-flex");
-            }
-          } else if (availWidth >= nameNeeded + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
-            // Name full, Group dropped, Note dropped -> show "..." if hasGroup or hasNotes
-            if (!namePill.empty()) {
-              namePill.style("display", "inline-flex").style("max-width", "none");
-            }
-            if (!groupPill.empty()) {
-              groupPill.style("display", "none");
-            }
-            if (!noteBtn.empty()) {
-              noteBtn.style("display", "none");
-            }
-            if (!moreBtn.empty()) {
-              moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
-            }
-          } else if (availWidth >= 38 + (hasGroup || hasNotes ? gap + moreBtnWidth : 0) + padTotal) {
-            // Name truncated with ellipsis, Group & Note dropped -> show "..." if hasGroup or hasNotes
-            const availableForName = availWidth - (hasGroup || hasNotes ? gap + moreBtnWidth : 0) - padTotal;
-            if (!namePill.empty()) {
-              namePill.style("display", "inline-flex").style("max-width", `${Math.max(34, availableForName)}px`);
-            }
-            if (!groupPill.empty()) {
-              groupPill.style("display", "none");
-            }
-            if (!noteBtn.empty()) {
-              noteBtn.style("display", "none");
-            }
-            if (!moreBtn.empty()) {
-              moreBtn.style("display", hasGroup || hasNotes ? "inline-flex" : "none");
-            }
-          } else if (availWidth >= 55) {
-            // Only enough room for Name truncated with ellipsis
-            if (!namePill.empty()) {
-              namePill.style("display", "inline-flex").style("max-width", `${availWidth - 6}px`);
-            }
-            if (!groupPill.empty()) {
-              groupPill.style("display", "none");
-            }
-            if (!noteBtn.empty()) {
-              noteBtn.style("display", "none");
-            }
-            if (!moreBtn.empty()) {
-              moreBtn.style("display", "none");
-            }
-          } else {
-            // Width below 55px: Too small for Name pill.
-            // Hide pills; navigation controls (< 1/5 >) remain visible if overlapping.
-            if (!namePill.empty()) {
-              namePill.style("display", "none");
-            }
-            if (!groupPill.empty()) {
-              groupPill.style("display", "none");
-            }
-            if (!noteBtn.empty()) {
-              noteBtn.style("display", "none");
-            }
-            if (!moreBtn.empty()) {
-              moreBtn.style("display", "none");
-            }
-          }
-        }
+        /* Répartition des pills selon la place disponible (règle pure et testée). */
+        const layout = choosePillsLayout({
+          availableWidth: availWidth,
+          displayNameLength: displayName.length,
+          groupNameLength: groupName.length,
+          hasGroup,
+          hasNotes,
+        });
+        applyPillStyle(namePill, layout.name);
+        applyPillStyle(groupPill, layout.group);
+        applyPillStyle(noteBtn, layout.note);
+        applyPillStyle(moreBtn, layout.more);
       });
     }
   }
