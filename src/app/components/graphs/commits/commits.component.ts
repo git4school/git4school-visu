@@ -56,6 +56,8 @@ import { FilterGroup } from "@components/questions-chooser/questions-chooser.com
 import { SessionHeaderRenderer } from "./session-header-renderer";
 import { SessionTransformsRenderer } from "./session-transforms.renderer";
 import { MilestoneMaskRenderer } from "./milestone-mask.renderer";
+import { MilestoneDragRenderer } from "./milestone-drag.renderer";
+import { formatCommitHour } from "./commits-format.util";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -65,8 +67,6 @@ import { ActivatedRoute } from "@angular/router";
   encapsulation: ViewEncapsulation.None,
 })
 export class CommitsComponent extends BaseGraphComponent implements OnInit, AfterViewInit, OnDestroy {
-  static formatDay = d3.timeFormat("%d/%m/%Y");
-  static formatHour = d3.timeFormat("%H:%M");
   static GROUP_HEIGHT = 12;
   static CIRCLE_RADIUS = 12;
 
@@ -273,7 +273,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     private modalService: NgbModal,
     protected assignmentsService: AssignmentsService,
     public themeService: ThemeService,
-    private tooltipService: TooltipService,
+    public tooltipService: TooltipService,
     public anonymizationService: AnonymizationService,
     private ngZone: NgZone,
     public overlayManagerService: OverlayManagerService,
@@ -449,8 +449,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
     this.clearMilestoneHoverTimer();
     this.cancelMilestoneLongPress();
-    this.stopDragScrollTimer();
-    this.removeDragTimeIndicator();
+    MilestoneDragRenderer.stopScrollTimer(this);
+    MilestoneDragRenderer.removeIndicator(this);
     document.body.style.cursor = "";
     this.unsubscribeAssignmentModified(this.assignmentsModified$);
     if (this.groupFilterSub) {
@@ -2071,7 +2071,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         document.body.style.cursor = "grabbing";
 
         const currentMilestoneX = overview.xScaledTimeZoned(m.date);
-        overview.onMilestoneDragStart(currentMilestoneX, g, m);
+        MilestoneDragRenderer.start(overview, currentMilestoneX, g, m);
       }, overview.MILESTONE_HOLD_DURATION);
 
       const onWindowMouseMove = (moveEvent: MouseEvent) => {
@@ -2087,7 +2087,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           }
         } else {
           hasMovedDuringDrag = true;
-          overview.onMilestoneDragCustom(moveEvent, g, m);
+          MilestoneDragRenderer.update(overview, moveEvent, g, m);
         }
       };
 
@@ -2118,7 +2118,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
           setTimeout(() => {
             overview.ignoreNextMilestoneClick = false;
           }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
-          overview.onMilestoneDragEndCustom(g, hasMovedDuringDrag);
+          MilestoneDragRenderer.end(overview, g, hasMovedDuringDrag);
         }
       };
 
@@ -2130,7 +2130,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         }
         overview.cancelMilestoneLongPress();
         if (isLongPressFulfilled) {
-          overview.onMilestoneDragEndCustom(g, false);
+          MilestoneDragRenderer.end(overview, g, false);
         }
       };
 
@@ -2147,177 +2147,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     });
   }
 
-  private onMilestoneDragStart(startX: number, element: d3.Selection<any, any, any, any>, m?: Milestone) {
-    this.overlayManagerService.dismissTransient();
-    this.isDraggingMilestone = true;
-    this.hasMovedDuringDrag = false;
-    this.clearMilestoneHoverTimer();
-    if (this.hovered_milestone) {
-      this.hovered_milestone = undefined;
-      this.tooltipService.hide();
-    }
-    element.raise();
-    element.select(".hitbox").attr("style", "cursor: grabbing; pointer-events: all;");
-    this.createDragTimeIndicator(startX);
-    if (m) {
-      this.updateDragTimeIndicator(startX, m.date);
-    }
-  }
-
-  private onMilestoneDragCustom(event: MouseEvent, element: d3.Selection<any, any, any, any>, m: Milestone) {
-    this.hasMovedDuringDrag = true;
-    let currentX = 0;
-    if (this.chart_abs_g) {
-      const [px] = (d3 as any).pointer(event, this.chart_abs_g.node());
-      currentX = px;
-    } else {
-      currentX = event.clientX;
-    }
-    currentX = Math.max(0, Math.min(this.inner_width, currentX));
-
-    m.date = this.x_scale_copy.invert(currentX);
-    element.attr("transform", `translate(${currentX}, ${this.inner_margin.top})`);
-
-    this.updateDragTimeIndicator(currentX, m.date);
-    this.updateMilestoneCutoutMask();
-    this.handleDragEdgeScrolling(currentX, element, m);
-  }
-
-  private onMilestoneDragEndCustom(element: d3.Selection<any, any, any, any>, hasMoved: boolean) {
-    this.isDraggingMilestone = false;
-    document.body.style.cursor = "";
-    element.select(".hitbox").attr("style", "cursor: pointer; pointer-events: all;");
-
-    this.stopDragScrollTimer();
-    this.removeDragTimeIndicator();
-
-    if (hasMoved) {
-      this.updateAfterMilestoneChange();
-    }
-  }
-
-  private createDragTimeIndicator(x: number) {
-    if (!this.axis_abs_g) return;
-
-    this.dragTimeIndicator = this.axis_abs_g
-      .append("g")
-      .attr("class", "drag-time-indicator")
-      .attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
-
-    // Triangle pointer
-    this.dragTimeIndicator
-      .append("path")
-      .attr("class", "indicator-pointer")
-      .attr("d", "M -6 5 L 6 5 L 0 -1 Z")
-      .attr("fill", "var(--color-surface)")
-      .attr("stroke", "var(--color-border)")
-      .attr("stroke-width", "1px");
-
-    // Pill background
-    this.dragTimeIndicator
-      .append("rect")
-      .attr("class", "pill-bg")
-      .attr("x", -50)
-      .attr("y", 4)
-      .attr("width", 100)
-      .attr("height", 24)
-      .attr("rx", 12)
-      .style("fill", "var(--color-surface)")
-      .style("stroke", "var(--color-border)")
-      .style("stroke-width", "1px")
-      .style("filter", "var(--badge-drag-shadow)");
-
-    this.dragTimeIndicator
-      .append("text")
-      .attr("x", 0)
-      .attr("y", 16)
-      .attr("dominant-baseline", "central")
-      .attr("text-anchor", "middle")
-      .style("fill", "var(--color-text-primary)")
-      .style("font-size", "11px")
-      .style("font-weight", "600")
-      .style("pointer-events", "none");
-  }
-
-  private updateDragTimeIndicator(x: number, date: Date) {
-    if (!this.dragTimeIndicator) return;
-
-    this.dragTimeIndicator.attr("transform", `translate(${x}, ${this.inner_height + this.inner_margin.top})`);
-
-    const timeString = `${CommitsComponent.formatDay(date)} ${CommitsComponent.formatHour(date)}`;
-    const textEl = this.dragTimeIndicator.select("text");
-    textEl.text(timeString);
-
-    // Dynamically adjust the pill width and clamp position to prevent clipping
-    const textNode = textEl.node() as SVGTextElement;
-    if (textNode) {
-      const bbox = textNode.getBBox();
-      const padding = 20; // 10px padding on each side
-      const width = Math.max(80, bbox.width + padding); // minimum width
-
-      let pillX = -width / 2;
-      const leftMargin = this.width - this.chart_width;
-
-      if (x + pillX + width > this.inner_width) {
-        pillX = this.inner_width - x - width;
-      }
-      if (x + pillX < -leftMargin) {
-        pillX = -leftMargin - x;
-      }
-
-      this.dragTimeIndicator.select(".pill-bg").attr("width", width).attr("x", pillX);
-
-      textEl.attr("x", pillX + width / 2);
-    }
-  }
-
-  private removeDragTimeIndicator() {
-    if (this.dragTimeIndicator) {
-      this.dragTimeIndicator.remove();
-      this.dragTimeIndicator = null;
-    }
-  }
-
-  private handleDragEdgeScrolling(currentX: number, element: d3.Selection<any, any, any, any>, m: Milestone) {
-    const scrollMargin = 50;
-    const scrollSpeed = 5;
-    let dx = 0;
-
-    if (currentX < scrollMargin) {
-      dx = scrollSpeed;
-    } else if (currentX > this.inner_width - scrollMargin) {
-      dx = -scrollSpeed;
-    }
-
-    if (dx !== 0) {
-      if (!this.dragScrollTimer) {
-        this.dragScrollTimer = d3.timer(() => this.performDragScroll(dx, element, m));
-      }
-    } else {
-      this.stopDragScrollTimer();
-    }
-  }
-
-  private performDragScroll(dx: number, element: d3.Selection<any, any, any, any>, m: Milestone) {
-    if (!this.zoom || !this.data_g) return;
-
-    this.data_g.call(this.zoom.translateBy, dx / (this.current_zoom?.k || 1), 0);
-
-    let updatedX = this.xScaledTimeZoned(m.date);
-    updatedX = Math.max(0, Math.min(this.inner_width, updatedX));
-    element.attr("transform", `translate(${updatedX}, ${this.inner_margin.top})`);
-
-    this.updateDragTimeIndicator(updatedX, m.date);
-  }
-
-  private stopDragScrollTimer() {
-    if (this.dragScrollTimer) {
-      this.dragScrollTimer.stop();
-      this.dragScrollTimer = null;
-    }
-  }
-
-  private clearMilestoneHoverTimer() {
+  public clearMilestoneHoverTimer() {
     if (this.milestoneHoverTimer) {
       clearTimeout(this.milestoneHoverTimer);
       this.milestoneHoverTimer = null;
@@ -3067,7 +2897,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.ensureNowIndicator();
 
     const plotHeight = this.inner_height;
-    const labelText = `${this.translateService.instant("OVERVIEW-GRAPH.NOW-LABEL")} ${CommitsComponent.formatHour(now)}`;
+    const labelText = `${this.translateService.instant("OVERVIEW-GRAPH.NOW-LABEL")} ${formatCommitHour(now)}`;
 
     this.now_g.style("display", null).attr("transform", `translate(${x}, ${this.inner_margin.top})`);
     this.now_g.select(".now-line").attr("y1", 0).attr("y2", plotHeight);
