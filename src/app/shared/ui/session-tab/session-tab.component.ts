@@ -9,6 +9,7 @@ import { Session } from "@models/Session.model";
 import { Repository } from "@models/Repository.model";
 import { AssignmentsService } from "@services/assignments.service";
 import { Utils } from "@services/utils";
+import { buildArea, buildListTooltip, buildPolyline, formatCountdown, formatDateLabel, formatDuration } from "./session-tab-format.util";
 import { ClockService, MINUTE_MS } from "@services/clock.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
@@ -267,7 +268,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
   onDotEnter(student: string): void {
     this.hoveredStudent = student;
     const trajectory = this.liveCache?.resolvedChart.trajectories?.[student];
-    this.hoveredTrajectory = trajectory ? this.buildPolyline(trajectory) : "";
+    this.hoveredTrajectory = trajectory ? buildPolyline(trajectory) : "";
   }
 
   onDotLeave(): void {
@@ -454,12 +455,12 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     this.view = {
       session,
       state: this.state,
-      countdown: this.countdownHold ?? this.formatCountdown(remaining),
+      countdown: this.countdownHold ?? formatCountdown(remaining),
       progress: inProgress ? this.clamp01((now - start) / Math.max(1, end - start)) : 0,
       label: getSessionDisplayName(session, this.dataService.sessions || [], this.translateService),
-      dateLabel: this.formatDateLabel(start),
+      dateLabel: formatDateLabel(start, this.translateService.currentLang),
       timeRange: `${moment(start).format("HH:mm")} – ${moment(end).format("HH:mm")}`,
-      durationLabel: this.formatDuration(end - start),
+      durationLabel: formatDuration(end - start),
       tpGroup: session.tpGroup || null,
       notes: session.notes && session.notes.trim() ? session.notes : null,
       live,
@@ -467,15 +468,15 @@ export class SessionTabComponent implements OnInit, OnDestroy {
       nav,
       tooltips: live
         ? {
-            active: this.buildListTooltip("SESSION-TAB.PANEL.HEALTH.ACTIVE-LIST", live.activeStudents),
-            watch: this.buildListTooltip("SESSION-TAB.PANEL.HEALTH.WATCH-LIST", live.watchStudents),
-            inactive: this.buildListTooltip("SESSION-TAB.PANEL.HEALTH.INACTIVE-LIST", live.inactiveStudents),
-            questions: this.buildListTooltip("SESSION-TAB.PANEL.HEALTH.QUESTIONS-LIST", live.resolvedQuestionsList),
+            active: this.buildHealthListTooltip("SESSION-TAB.PANEL.HEALTH.ACTIVE-LIST", live.activeStudents),
+            watch: this.buildHealthListTooltip("SESSION-TAB.PANEL.HEALTH.WATCH-LIST", live.watchStudents),
+            inactive: this.buildHealthListTooltip("SESSION-TAB.PANEL.HEALTH.INACTIVE-LIST", live.inactiveStudents),
+            questions: this.buildHealthListTooltip("SESSION-TAB.PANEL.HEALTH.QUESTIONS-LIST", live.resolvedQuestionsList),
           }
         : null,
       resolvedDots: live ? live.resolvedChart.dots : [],
-      resolvedAveragePoints: live ? this.buildPolyline(live.resolvedChart.average) : "",
-      resolvedAverageArea: live ? this.buildArea(live.resolvedChart.average) : "",
+      resolvedAveragePoints: live ? buildPolyline(live.resolvedChart.average) : "",
+      resolvedAverageArea: live ? buildArea(live.resolvedChart.average) : "",
       timelineStart: moment(start).format("HH:mm"),
       timelineNow: moment(now).format("HH:mm"),
       open: this.open,
@@ -483,6 +484,11 @@ export class SessionTabComponent implements OnInit, OnDestroy {
   }
 
   /** Live indicators, cached per stats reference and per minute (relative times only move that often). */
+  /** HTML list tooltip of a health bucket, with its translated labels. */
+  private buildHealthListTooltip(titleKey: string, items: string[]): string {
+    return buildListTooltip(this.translateService.instant(titleKey), this.translateService.instant("SESSION-TAB.PANEL.HEALTH.NONE"), items);
+  }
+
   private buildLive(): SessionLiveIndicators | null {
     if (!this.open || !this.stats) {
       this.liveCache = null;
@@ -498,34 +504,6 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     this.liveCacheMinute = minute;
     this.liveCache = this.sessionAnalyticsService.buildLiveIndicators(this.stats, this.now);
     return this.liveCache;
-  }
-
-  /** HTML list tooltip, same markup as the sessions view's resolved-questions tooltip. */
-  private buildListTooltip(titleKey: string, items: string[]): string {
-    const title = Utils.escapeHtml(this.translateService.instant(titleKey));
-    const list = (items || []).filter((item) => item && item.trim());
-    if (!list.length) {
-      const none = Utils.escapeHtml(this.translateService.instant("SESSION-TAB.PANEL.HEALTH.NONE"));
-      return (
-        `<div class="resolved-questions-tooltip"><div class="resolved-questions-tooltip-title">${title}</div>` +
-        `<div class="peek-tooltip-empty">${none}</div></div>`
-      );
-    }
-    const lis = list.map((item) => `<li>${Utils.escapeHtml(item)}</li>`).join("");
-    return `<div class="resolved-questions-tooltip"><div class="resolved-questions-tooltip-title">${title}</div>` + `<ul>${lis}</ul></div>`;
-  }
-
-  /** SVG polyline points (0..100 box) from a list of {x,y}. */
-  private buildPolyline(points: Array<{ x: number; y: number }>): string {
-    return points.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
-  }
-
-  /** Polygon points (0..100 box) closing the curve along the baseline. */
-  private buildArea(points: Array<{ x: number; y: number }>): string {
-    if (!points.length) {
-      return "";
-    }
-    return `0,100 ${this.buildPolyline(points)} 100,100`;
   }
 
   private holdCountdown(): void {
@@ -588,32 +566,6 @@ export class SessionTabComponent implements OnInit, OnDestroy {
       this.measureRafId = null;
       this.measureRail();
     });
-  }
-
-  private formatDateLabel(ms: number): string {
-    moment.locale(this.translateService.currentLang || "en");
-    return moment(ms).format("dddd D MMMM");
-  }
-
-  /** "1h30" / "45 min" */
-  private formatDuration(ms: number): string {
-    const totalMinutes = Math.max(0, Math.round(ms / MINUTE_MS));
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-    if (hours && minutes) {
-      return `${hours}h${String(minutes).padStart(2, "0")}`;
-    }
-    return hours ? `${hours}h` : `${minutes} min`;
-  }
-
-  /** "2:34" under an hour, "1:23:45" above. Language-neutral on purpose. */
-  private formatCountdown(ms: number): string {
-    const total = Math.max(0, Math.floor(ms / 1000));
-    const minutes = Math.floor((total % 3600) / 60);
-    const seconds = total % 60;
-    const pad = (n: number) => String(n).padStart(2, "0");
-    const hours = Math.floor(total / 3600);
-    return hours > 0 ? `${hours}:${pad(minutes)}:${pad(seconds)}` : `${minutes}:${pad(seconds)}`;
   }
 
   /**
