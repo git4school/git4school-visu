@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Commit, CommitColor } from "@models/Commit.model";
+import { Commit } from "@models/Commit.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
 import { AnonymizationService } from "@services/anonymization.service";
@@ -17,7 +17,6 @@ import {
   summariseRepoCommits,
 } from "@services/session-stats.util";
 import { Utils } from "@services/utils";
-import * as moment from "moment";
 
 export interface GracePeriodResult {
   effectiveEndDate: Date;
@@ -207,7 +206,7 @@ export class SessionAnalyticsService {
       };
     }
 
-    const sessionStartTime = new Date(session.startDate).getTime();
+    const _sessionStartTime = new Date(session.startDate).getTime();
     const sessionEndTime = new Date(session.endDate).getTime();
     const baseGraceEndTime = sessionEndTime + this.BASE_GRACE_MINUTES * 60 * 1000;
     const maxGraceEndTime = sessionEndTime + this.MAX_GRACE_MINUTES * 60 * 1000;

@@ -184,7 +184,7 @@ export class DatabaseService extends Dexie {
   }
 
   importDB(assignments: Assignment[]): Promise<void> {
-    return this.transaction("rw", this.assignments, (tx) => {
+    return this.transaction("rw", this.assignments, (_tx) => {
       assignments.forEach((assignment) => {
         this.saveAssignment(assignment);
       });

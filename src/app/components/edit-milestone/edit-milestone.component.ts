@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Milestone } from "@models/Milestone.model";
-import { Observable, Subject, merge } from "rxjs";
+
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import * as moment from "moment";
 import { TypePickerOption } from "@shared/ui/type-picker/type-picker.component";

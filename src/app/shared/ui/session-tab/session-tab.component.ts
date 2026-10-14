@@ -8,9 +8,9 @@ import { takeUntil } from "rxjs/operators";
 import { Session } from "@models/Session.model";
 import { Repository } from "@models/Repository.model";
 import { AssignmentsService } from "@services/assignments.service";
-import { Utils } from "@services/utils";
+
 import { buildArea, buildListTooltip, buildPolyline, formatCountdown, formatDateLabel, formatDuration } from "./session-tab-format.util";
-import { pickDefaultSession, publishRailMetrics, sessionBoundaryMs, sessionWindow } from "./session-tab-layout.util";
+import { pickDefaultSession, publishRailMetrics, sessionWindow } from "./session-tab-layout.util";
 import { ClockService, MINUTE_MS } from "@services/clock.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";

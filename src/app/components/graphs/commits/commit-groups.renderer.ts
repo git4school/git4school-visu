@@ -68,7 +68,6 @@ export class CommitGroupsRenderer {
     let g = parent.insert("g", ".commit:not(.commit-group)").datum(sorted);
 
     let begin_x = host.xScaledTimeZoned(sorted[0].commitDate);
-    let end_x = host.xScaledTimeZoned(sorted[sorted.length - 1].commitDate);
 
     g.attr("class", "commit-group commit")
       .append("path")
@@ -167,7 +166,6 @@ export class CommitGroupsRenderer {
       group.datum(all_commits);
 
       let begin_x = host.xScaledTimeZoned(all_commits[0].commitDate);
-      let end_x = host.xScaledTimeZoned(all_commits[all_commits.length - 1].commitDate);
 
       g.select("path")
         .attr("d", CommitGroupsRenderer.getCommitGroupPathD(host, all_commits[0], all_commits[all_commits.length - 1], COMMIT_GROUP_HEIGHT))
@@ -308,7 +306,6 @@ export class CommitGroupsRenderer {
   }
 
   public static applyGroupDisplayModes(host: CommitGroupsHost, repo_g: any, minGroupCommits: number, maxGroupCommits: number): any {
-    const overview = this;
     repo_g.selectAll(".commit-group:not(.hidden)").each(function () {
       let g = d3.select(this);
       let commits = g.datum() as Commit[];

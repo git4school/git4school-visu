@@ -7,7 +7,7 @@ import { DataService } from "@services/data.service";
 
 describe("AnonymizationService", () => {
   let service: AnonymizationService;
-  let dataService: DataService;
+  let _dataService: DataService;
   let translateService: TranslateService;
 
   const mockRepositories = [
@@ -32,7 +32,7 @@ describe("AnonymizationService", () => {
     });
 
     service = TestBed.inject(AnonymizationService);
-    dataService = TestBed.inject(DataService);
+    _dataService = TestBed.inject(DataService);
     translateService = TestBed.inject(TranslateService);
 
     translateService.setTranslation("fr", {

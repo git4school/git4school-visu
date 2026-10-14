@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   HostListener,
   OnDestroy,
   OnInit,
@@ -43,7 +42,7 @@ import {
   SessionUidFactory,
   sessionsOverlap,
 } from "@services/session-graph.util";
-import { Subject, Subscription, concat } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { skip, takeUntil } from "rxjs/operators";
 import { BaseGraphComponent } from "../base-graph.component";
 import { OsUtils } from "@utils/os.utils";
@@ -61,7 +60,6 @@ import { formatCommitHour } from "./commits-format.util";
 import { COMMIT_GROUP_HEIGHT, CommitGroupsRenderer } from "./commit-groups.renderer";
 import { ViewportRenderer } from "./viewport.renderer";
 import { GraphPointsRenderer } from "./graph-points.renderer";
-import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "commits",
@@ -308,7 +306,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     /* Le filtre de groupe est global (navbar) : rafraîchir la vue à chaque changement. */
     this.groupFilterSub = this.dataService.groupFilter$.subscribe(() => this.loadGraphDataAndRefresh(false));
     this.updateLang();
-    this.translateService.onLangChange.subscribe((event: TranslationChangeEvent) => {
+    this.translateService.onLangChange.subscribe((_event: TranslationChangeEvent) => {
       this.updateLang();
     });
 
@@ -740,9 +738,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     if (!this.viewResizeObserver && (window as any).ResizeObserver) {
       this.viewResizeObserver = new (window as any).ResizeObserver((entries: any[]) => {
-        for (let entry of entries) {
+        entries.forEach(() => {
           const chart_div = document.getElementById("chart");
-          if (!chart_div) continue;
+          if (!chart_div) return;
 
           const newWidth = chart_div.getBoundingClientRect().width;
           const newHeight = chart_div.getBoundingClientRect().height;
@@ -759,7 +757,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
               this.loadGraphDataAndRefresh(true);
             }, 100);
           }
-        }
+        });
       });
     }
 
@@ -1930,7 +1928,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.x_g.transition().duration(1000).call(d3.axisBottom(this.x_scale_copy));
   }
 
-  getOffset(d: Date) {
+  getOffset(_d: Date) {
     return 0;
     // return (
     //   this.x_scale_copy(d) -

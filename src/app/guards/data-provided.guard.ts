@@ -24,8 +24,8 @@ export class DataProvidedGuard implements CanActivate {
    * @returns true if fully loaded, false otherwise
    */
   canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
+    _route: ActivatedRouteSnapshot,
+    _state: RouterStateSnapshot,
   ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     return this.dataService.dataLoaded() ? true : this.router.navigate(["home"]);
   }

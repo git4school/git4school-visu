@@ -19,17 +19,6 @@ export interface MilestoneMaskHost {
   xScaledTimeZoned(date: Date | string): number;
 }
 
-/** Bounds of a visible milestone, used to compute the overlaps. */
-interface VisibleMilestoneItem {
-  element: d3.Selection<SVGGElement, Milestone, any, any>;
-  labelGroup: d3.Selection<SVGGElement, any, any, any>;
-  milestone: Milestone;
-  x: number;
-  width: number;
-  date: Date;
-  time: number;
-}
-
 export class MilestoneMaskRenderer {
   /** Rebuilds the cutout masks of every visible milestone label. */
   public static update(host: MilestoneMaskHost): void {
@@ -62,7 +51,6 @@ export class MilestoneMaskRenderer {
     }
 
     const visibleItems: VisibleMilestoneItem[] = [];
-    const overview = this;
 
     if (host.chart_abs_g) {
       host.chart_abs_g.selectAll(".milestone").each(function (m: Milestone) {

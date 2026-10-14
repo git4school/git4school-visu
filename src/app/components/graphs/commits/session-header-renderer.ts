@@ -43,7 +43,7 @@ export class SessionHeaderRenderer {
    * Séance superposée (flèches d'arête aux extrémités + badges centrés)
    * ------------------------------------------------------------- */
   private static renderOverlappingSession(ctx: SessionHeaderRenderContext): void {
-    const { session, overlapGroup, overview, displayName, groupName, hasNotes, fo, calendarSvg, usersSvg, noteSvg } = ctx;
+    const { session, overlapGroup, overview, fo } = ctx;
 
     if (!overlapGroup || overlapGroup.length <= 1) {
       this.renderSingleSession(ctx);

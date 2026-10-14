@@ -23,25 +23,18 @@ import { SessionAnalyticsService, SessionDetailedStats, StudentSessionActivity }
 import { SessionRibbonChartRenderer, TrajectoryWarmState } from "./sessions-ribbon-chart.renderer";
 import { SessionMacroChartsRenderer } from "./sessions-macro-charts.renderer";
 import { findDeepLinkSessionIndex, parseSessionsDeepLink, SessionsDeepLink } from "./sessions-deep-link.util";
-import {
-  buildMacroStats,
-  buildResolvedQuestionsTooltip,
-  filterSessionStats,
-  filterStudentActivity,
-  smartTooltipPlacement,
-} from "./sessions-analytics.util";
+import { buildMacroStats, buildResolvedQuestionsTooltip, filterSessionStats, filterStudentActivity } from "./sessions-analytics.util";
 import { getSessionDisplayName } from "@services/session-label.util";
 import { ThemeService } from "@services/theme.service";
 import { ToastService } from "@services/toast.service";
 import { TooltipService } from "@services/tooltip.service";
 import { DatabaseService } from "@services/database.service";
-import { Utils } from "@services/utils";
+
 import { CustomModalService } from "@shared/ui/custom-modal/custom-modal.service";
 import { EditSessionComponent } from "@components/edit-session/edit-session.component";
 import { SuggestSessionsModalComponent } from "./suggest-sessions-modal/suggest-sessions-modal.component";
 import { BaseGraphComponent } from "../base-graph.component";
-import * as d3 from "d3";
-import * as moment from "moment";
+
 import { Subscription } from "rxjs";
 
 export interface MacroSessionOverview {

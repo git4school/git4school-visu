@@ -8,7 +8,6 @@ import {
   MockStudent,
   buildGitlabProject,
   getCommitsForStudent,
-  getFixtureEpoch,
   getIdentityForStudent,
   getMockProfile,
   getReadmeForStudent,

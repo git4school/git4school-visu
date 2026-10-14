@@ -8,7 +8,7 @@ import {
 
 describe("assignment-chooser.util", () => {
   const assignment = (overrides: any = {}) => ({ id: 1, title: "TP", startDate: "2026-01-05", endDate: "2026-02-05", ...overrides });
-  const progress = (start: string, end: string) => (start === "past" ? 100 : start === "future" ? 0 : 50);
+  const progress = (start: string, _end: string) => (start === "past" ? 100 : start === "future" ? 0 : 50);
 
   describe("sortAssignments", () => {
     it("should always keep the creation draft on top", () => {

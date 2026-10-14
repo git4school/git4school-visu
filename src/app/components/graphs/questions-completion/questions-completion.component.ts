@@ -9,7 +9,7 @@ import { TooltipService } from "@services/tooltip.service";
 import { ThemeService } from "@services/theme.service";
 import { AnonymizationService } from "@services/anonymization.service";
 import { Subscription } from "rxjs";
-import { skip } from "rxjs/operators";
+
 import { BaseGraphComponent } from "../base-graph.component";
 import { StackedBarChart } from "../shared/stacked-bar-chart";
 import { Utils } from "../../../services/utils";
@@ -79,7 +79,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
     super.ngOnDestroy();
   }
 
-  loadGraphDataAndRefresh(conserveZoom?: boolean) {
+  loadGraphDataAndRefresh(_conserveZoom?: boolean) {
     let translations = this.translateService.instant(["QUESTION", "COMMITS-COUNT", "COMMITS-PERCENTAGE", "STUDENTS"]);
 
     let colors = [CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER, CommitColor.NOCOMMIT];
@@ -228,7 +228,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
     this.drawGraph();
   }
 
-  onScroll(event: Event) {
+  onScroll(_event: Event) {
     // Left empty since CSS positioning takes over, but retained if needed
   }
 

@@ -1,7 +1,7 @@
 import { ElementRef, TemplateRef } from "@angular/core";
 import { TooltipService } from "@services/tooltip.service";
 import { SessionDetailedStats } from "@services/session-analytics.service";
-import { Utils } from "@services/utils";
+
 import * as d3 from "d3";
 import * as moment from "moment";
 

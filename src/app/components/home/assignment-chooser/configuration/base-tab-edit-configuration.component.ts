@@ -75,7 +75,7 @@ export abstract class BaseTabEditConfigurationComponent<Data> extends BaseEditCo
     }
   }
 
-  cancelRow(group: FormGroup, index: number) {
+  cancelRow(group: FormGroup, _index: number) {
     this.restoreRow(group);
     group.get("isEditable").setValue(false);
     group.disable();

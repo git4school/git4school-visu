@@ -97,7 +97,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         const langToSet = savedLang || browserLang;
         translate.use(langToSet).subscribe(
           () => {},
-          (err) => {
+          (_err) => {
             resolve(null);
           },
           () => {

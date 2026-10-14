@@ -71,6 +71,18 @@ module.exports = {
                 ignoreParameters: true
             }
         ],
+        /* La règle core ne comprend pas TypeScript (propriétés de constructeur utilisées via
+           `this`, membres d'interface, membres d'enum) : on utilise la variante TS-aware. */
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                args: "after-used",
+                argsIgnorePattern: "^_",
+                varsIgnorePattern: "^_",
+                ignoreRestSiblings: true
+            }
+        ],
         "@typescript-eslint/no-non-null-assertion": "error",
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/quotes": [

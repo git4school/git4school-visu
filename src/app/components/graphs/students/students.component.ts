@@ -9,7 +9,7 @@ import { TooltipService } from "@services/tooltip.service";
 import { ThemeService } from "@services/theme.service";
 import { AnonymizationService } from "@services/anonymization.service";
 import { Subscription } from "rxjs";
-import { skip } from "rxjs/operators";
+
 import { BaseGraphComponent } from "../base-graph.component";
 import { StackedBarChart, StackedBarScaffold } from "../shared/stacked-bar-chart";
 import { Repository } from "@models/Repository.model";
@@ -101,7 +101,7 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     super.ngOnDestroy();
   }
 
-  loadGraphDataAndRefresh(conserveZoom?: boolean) {
+  loadGraphDataAndRefresh(_conserveZoom?: boolean) {
     let translations = this.translateService.instant(["STUDENT", "COMMITS-COUNT", "COMMITS-PERCENTAGE"]);
     let colors = [CommitColor.INTERMEDIATE, CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER];
 
@@ -146,7 +146,7 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     this.drawGraph();
   }
 
-  onScroll(event: Event) {
+  onScroll(_event: Event) {
     // Left empty since CSS positioning takes over, but retained if needed
   }
 

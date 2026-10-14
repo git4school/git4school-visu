@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
 import { Assignment } from "@models/Assignment.model";
@@ -11,7 +11,7 @@ import { AccountsService } from "@services/accounts.service";
 import { GithubAuthService } from "@services/github-auth.service";
 import { DataService } from "@services/data.service";
 import { CommitsService } from "@services/commits.service";
-import { Utils } from "@services/utils";
+
 import { Observable, of, timer } from "rxjs";
 import { catchError, map, switchMap, take } from "rxjs/operators";
 import { BaseTabEditConfigurationComponent } from "../base-tab-edit-configuration.component";
@@ -320,7 +320,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
             (repo1) =>
               !this.getFormControls
                 .map((row) => Repository.withJSON(row.value))
-                .some((repo2, index, array) => Repository.isEqual(repo1, repo2)),
+                .some((repo2, _index, _array) => Repository.isEqual(repo1, repo2)),
           );
           repoToadd.forEach((repo) => {
             repo.provider = this.provider;
@@ -329,7 +329,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
           this.modify();
         }
       },
-      (error) => {},
+      (_error) => {},
     );
   }
 
@@ -421,7 +421,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   private repoAlreadyAddedValidator(): ValidatorFn {
     return (urlControl: AbstractControl): ValidationErrors | null => {
       let doesRepoAlreadyAdded = this.getFormControls.some(
-        (repo2, index, array) => urlControl.value === repo2.get("url").value && !Object.is(urlControl, repo2.get("url")),
+        (repo2, _index, _array) => urlControl.value === repo2.get("url").value && !Object.is(urlControl, repo2.get("url")),
       );
       return urlControl.value && doesRepoAlreadyAdded ? { repoAlreadyAdded: true } : null;
     };
@@ -447,7 +447,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
             }
             return null;
           }),
-          catchError((err) => {
+          catchError((_err) => {
             if (urlControl.parent && urlControl.parent.get("avatarUrl")) {
               urlControl.parent.get("avatarUrl").setValue(null, { emitEvent: false });
             }

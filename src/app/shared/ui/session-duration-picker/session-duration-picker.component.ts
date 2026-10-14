@@ -68,7 +68,7 @@ export class SessionDurationPickerComponent implements ControlValueAccessor, OnI
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  setDisabledState(_isDisabled: boolean): void {
     // Implement if needed
   }
 

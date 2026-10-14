@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { GitProviderType } from "@models/Account.model";
-import { Commit, CommitColor } from "@models/Commit.model";
+import { CommitColor } from "@models/Commit.model";
 import { GitDataSearchResult, RepositoryMetadata } from "@models/GitDataService.model";
 import { Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";

@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   AfterViewInit,
-  TemplateRef,
   ViewChild,
   ViewChildren,
   QueryList,

@@ -13,7 +13,6 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-import * as moment from "moment";
 
 @Component({
   selector: "app-time-picker",
@@ -460,7 +459,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  onTimeKeydown(event: KeyboardEvent, type: string) {
+  onTimeKeydown(event: KeyboardEvent, _type: string) {
     if (event.key === "Enter") {
       event.preventDefault();
       (event.target as HTMLElement).blur();

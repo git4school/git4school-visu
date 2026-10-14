@@ -3,14 +3,13 @@ import { Injectable } from "@angular/core";
 import { GitProviderType } from "@models/Account.model";
 import { Commit } from "@models/Commit.model";
 import { GitDataSearchResult, GitDataService, RepositoryMetadata } from "@models/GitDataService.model";
-import { Error, ErrorType, Repository } from "@models/Repository.model";
+import { Repository } from "@models/Repository.model";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
 import { forkJoin, Observable, of } from "rxjs";
 import { catchError, map, shareReplay, switchMap, tap } from "rxjs/operators";
 import { GithubAuthService } from "./github-auth.service";
 import {
-  extractRepositoriesFromNodes,
   GITHUB_AUTHENTICATED_REPOSITORIES_QUERY,
   GITHUB_GRAPHQL_ENDPOINT,
   GITHUB_REPOSITORY_SEARCH_QUERY,
@@ -23,7 +22,6 @@ import {
   mapAuthenticatedRepositoriesResponse,
   mapGlobalSearchResponse,
   mapOrgSearchResponse,
-  mapRepositoriesMetadataResponse,
   mapScopedSearchResponse,
   applyBatchedRepositoriesResponse,
 } from "./github-mappers";

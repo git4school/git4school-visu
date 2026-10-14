@@ -307,9 +307,6 @@ export class GraphPointsRenderer {
       m.type = host.resolveMilestoneType(m, g);
     }
 
-    const milestoneType = host.resolveMilestoneType(m, g);
-    const milestoneColor = host.getMilestoneColor(milestoneType);
-
     // 1. Line
     const lineY = 0;
     const lineH = host.inner_height;

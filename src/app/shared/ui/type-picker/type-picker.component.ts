@@ -48,7 +48,7 @@ export class TypePickerComponent implements ControlValueAccessor, AfterViewInit 
     backgroundColor: "transparent",
   };
 
-  onChange = (value: string | null) => {};
+  onChange = (_value: string | null) => {};
   onTouched = () => {};
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -77,7 +77,7 @@ export class TypePickerComponent implements ControlValueAccessor, AfterViewInit 
     }
   }
 
-  onButtonMouseEnter(option: TypePickerOption, index: number): void {
+  onButtonMouseEnter(option: TypePickerOption, _index: number): void {
     if (!this.isDisabled) {
       this.hoveredOption = option;
       this.displayMode = "pill";

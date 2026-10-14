@@ -70,7 +70,6 @@ export interface ViewportHost {
 export class ViewportRenderer {
   public static setupAxis(host: ViewportHost, repositories: Repository[], minDate: Date, maxDate: Date): any {
     if (host.axis_g != null) host.axis_g.remove();
-    const overview = this;
 
     host.x_scale = d3.scaleTime().domain([minDate, maxDate]).range([0, host.inner_width]);
 
@@ -131,7 +130,6 @@ export class ViewportRenderer {
       .attr("text-anchor", "start")
       .attr("x", leftX)
       .each(function (this: SVGTextElement) {
-        const maxW = leftSpace - 15;
         let textStr = this.textContent || "";
 
         this.textContent = Utils.truncateMiddle(textStr, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
@@ -202,9 +200,8 @@ export class ViewportRenderer {
   }
 
   public static setupZoom(host: ViewportHost, conserveZoom: boolean = false): any {
-    const overview = this;
     // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
-    d3.select(document.body).on("wheel.body", (e) => {});
+    d3.select(document.body).on("wheel.body", () => {});
     host.zoom = d3
       .zoom()
       .interpolate((p0: [number, number, number], p1: [number, number, number]) => {
