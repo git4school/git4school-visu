@@ -3,6 +3,19 @@ import { Commit, CommitColor } from "@models/Commit.model";
 import { Repository } from "@models/Repository.model";
 import { Session } from "@models/Session.model";
 import { AnonymizationService } from "@services/anonymization.service";
+import {
+  buildHistogramBuckets,
+  buildLiveFeed,
+  buildPace,
+  buildQuestionsSummary,
+  buildResolvedChart,
+  classifyStudentHealth,
+  classifyStudentStatus,
+  commitsWithinWindow,
+  computeCohortSamples,
+  resolveQuestionsFromPoints,
+  summariseRepoCommits,
+} from "@services/session-stats.util";
 import { Utils } from "@services/utils";
 import * as moment from "moment";
 
@@ -280,238 +293,90 @@ export class SessionAnalyticsService {
    * Computes comprehensive analytical stats for a single session
    */
   computeSessionStats(session: Session, repositories: Repository[], questions: string[] = []): SessionDetailedStats {
-    // 1. Filter matching repositories
-    const relevantRepos = (repositories || []).filter((r) => {
-      if (!session.tpGroup) return true;
-      return r.tpGroup === session.tpGroup;
-    });
+    const relevantRepos = (repositories || []).filter((repo) => !session.tpGroup || repo.tpGroup === session.tpGroup);
 
-    // Extract all commits in relevant repos
     const allCandidateCommits: Commit[] = [];
-    relevantRepos.forEach((r) => {
-      if (r.commits) allCandidateCommits.push(...r.commits);
+    relevantRepos.forEach((repo) => {
+      if (repo.commits) allCandidateCommits.push(...repo.commits);
     });
 
-    // 2. Compute dynamic grace period
     const graceResult = this.computeDynamicGracePeriod(session, allCandidateCommits, relevantRepos);
-    const sessionStart = new Date(session.startDate);
-    const effectiveEnd = graceResult.effectiveEndDate;
+    const sessionStartMs = new Date(session.startDate).getTime();
+    const sessionEndMs = graceResult.effectiveEndDate.getTime();
 
-    const sessionStartMs = sessionStart.getTime();
-    const sessionEndMs = effectiveEnd.getTime();
-    const durationMs = Math.max(1, sessionEndMs - sessionStartMs);
-
-    // 3. Process each student repository
+    /* Per-student pass: in-session commits, activity status and progress-ribbon points. */
     const studentsActivity: StudentSessionActivity[] = [];
+    const ribbonPoints: SessionProgressRibbonData["studentCommitsPoints"] = [];
+    const closuresByQuestion = new Map<string, number>();
+    questions.forEach((question) => closuresByQuestion.set(question, 0));
+
     let activeStudentsCount = 0;
     let inSessionCommitsCount = 0;
-    const questionsClosedSet = new Map<string, number>();
-    questions.forEach((q) => questionsClosedSet.set(q, 0));
-
-    const ribbonPoints: SessionProgressRibbonData["studentCommitsPoints"] = [];
 
     relevantRepos.forEach((repo) => {
-      const repoCommits = (repo.commits || [])
-        .filter((c) => {
-          const t = new Date(c.commitDate).getTime();
-          return t >= sessionStartMs && t <= sessionEndMs;
-        })
-        .sort((a, b) => new Date(a.commitDate).getTime() - new Date(b.commitDate).getTime());
+      const inSessionCommits = commitsWithinWindow(repo.commits, sessionStartMs, sessionEndMs);
+      const studentName = this.getStudentDisplayName(repo);
+      const summary = summariseRepoCommits(repo, inSessionCommits, sessionStartMs, questions, studentName);
 
-      const inCount = repoCommits.length;
-      inSessionCommitsCount += inCount;
-
-      let firstDate: Date | undefined;
-      let lastDate: Date | undefined;
-      let lastQuestion: string | undefined;
-      const closedQuestionsForStudent = new Set<string>();
-
-      repoCommits.forEach((c, idx) => {
-        const cDate = new Date(c.commitDate);
-        if (!firstDate) firstDate = cDate;
-        lastDate = cDate;
-
-        if (c.question) {
-          lastQuestion = c.question;
-        }
-
-        if (c.isCloture && c.question) {
-          closedQuestionsForStudent.add(c.question);
-          questionsClosedSet.set(c.question, (questionsClosedSet.get(c.question) || 0) + 1);
-        }
-
-        const qIdx = c.question ? questions.indexOf(c.question) + 1 : 0;
-        const relMinutes = Math.round((cDate.getTime() - sessionStartMs) / 60000);
-        const repoId = repo.url || repo.name || repo.getDisplayName() || "repo";
-        const studentDisplayName = this.getStudentDisplayName(repo);
-
-        ribbonPoints.push({
-          repoId,
-          student: studentDisplayName,
-          time: cDate,
-          relativeMinutes: relMinutes,
-          questionIndex: qIdx,
-          questionName: c.question || "",
-          cumulativeCommits: idx + 1,
-          isCloture: Boolean(c.isCloture),
-          commit: c,
-        });
-      });
-
-      // Status classification
-      let status: "active" | "low" | "inactive" = "inactive";
-      if (inCount >= 2) {
-        status = "active";
-      } else if (inCount === 1) {
-        status = "low";
-      }
-
-      if (inCount > 0) {
+      inSessionCommitsCount += summary.inSessionCommitsCount;
+      if (summary.inSessionCommitsCount > 0) {
         activeStudentsCount++;
       }
+      summary.closuresByQuestion.forEach((count, question) =>
+        closuresByQuestion.set(question, (closuresByQuestion.get(question) || 0) + count),
+      );
+      ribbonPoints.push(...summary.ribbonPoints);
 
       studentsActivity.push({
         repository: repo,
-        studentName: this.getStudentDisplayName(repo),
+        studentName,
         tpGroup: repo.tpGroup,
-        inSessionCommitsCount: inCount,
+        inSessionCommitsCount: summary.inSessionCommitsCount,
         totalCommitsCount: repo.commits?.length || 0,
-        firstCommitDate: firstDate,
-        lastCommitDate: lastDate,
-        lastQuestionDone: lastQuestion,
-        status,
-        questionsCompletedInSession: Array.from(closedQuestionsForStudent),
+        firstCommitDate: summary.firstCommitDate,
+        lastCommitDate: summary.lastCommitDate,
+        lastQuestionDone: summary.lastQuestionDone,
+        status: classifyStudentStatus(summary.inSessionCommitsCount),
+        questionsCompletedInSession: summary.closedQuestions,
       });
     });
 
     const totalEligibleStudents = relevantRepos.length;
-    const inactiveStudentsCount = totalEligibleStudents - activeStudentsCount;
-    const studentsWithoutResolvedQuestionsCount = studentsActivity.filter(
-      (student) => student.questionsCompletedInSession.length === 0,
-    ).length;
-    const participationRate = totalEligibleStudents > 0 ? (activeStudentsCount / totalEligibleStudents) * 100 : 0;
+    const questionsSummary = buildQuestionsSummary(questions, closuresByQuestion, totalEligibleStudents);
 
-    // 4. Histogram Buckets (15 min)
-    const BUCKET_MINUTES = 15;
-    const bucketDurationMs = BUCKET_MINUTES * 60 * 1000;
-    const numBuckets = Math.max(1, Math.ceil(durationMs / bucketDurationMs));
-    const histogramBuckets: SessionHistogramBucket[] = [];
-
-    for (let b = 0; b < numBuckets; b++) {
-      const bStart = new Date(sessionStartMs + b * bucketDurationMs);
-      const bEnd = new Date(Math.min(sessionEndMs, bStart.getTime() + bucketDurationMs));
-      const bLabel = moment(bStart).format("HH:mm");
-
-      const bucketCommits = ribbonPoints.filter((p) => {
-        const t = p.time.getTime();
-        return t >= bStart.getTime() && t < bEnd.getTime();
-      });
-
-      const countsByColor: { [colorKey: string]: number } = {};
-      let closingCount = 0;
-
-      bucketCommits.forEach((p) => {
-        const col = p.commit.color?.name || "slate";
-        countsByColor[col] = (countsByColor[col] || 0) + 1;
-        if (p.isCloture) closingCount++;
-      });
-
-      histogramBuckets.push({
-        startDate: bStart,
-        endDate: bEnd,
-        label: bLabel,
-        total: bucketCommits.length,
-        countsByColor,
-        closingCommitsCount: closingCount,
-      });
-    }
-
-    // 5. Cohort Progress Ribbon Data (Sampling every 5 minutes)
-    const SAMPLE_MINUTES = 5;
-    const sampleMs = SAMPLE_MINUTES * 60 * 1000;
-    const numSamples = Math.max(2, Math.ceil(durationMs / sampleMs) + 1);
-
-    const questionsRibbon: RibbonDataPoint[] = [];
-    const commitsRibbon: RibbonDataPoint[] = [];
-    const timePoints: Date[] = [];
-
-    // Cohort evaluated: active students in session, or all relevant repos if none
-    const activeRepos = relevantRepos.filter((r) =>
-      studentsActivity.some((sa) => sa.repository === r && (sa.status === "active" || sa.status === "low")),
+    /* Cohort sampled for the ribbon: the students who pushed, or everybody when nobody did. */
+    const activeRepos = relevantRepos.filter((repo) =>
+      studentsActivity.some((activity) => activity.repository === repo && activity.status !== "inactive"),
     );
     const cohortToSample = activeRepos.length > 0 ? activeRepos : relevantRepos;
-
-    for (let s = 0; s < numSamples; s++) {
-      const sampleTimeMs = Math.min(sessionEndMs, sessionStartMs + s * sampleMs);
-      const sampleTime = new Date(sampleTimeMs);
-      const relMin = Math.round((sampleTimeMs - sessionStartMs) / 60000);
-      timePoints.push(sampleTime);
-
-      // Compute stats for questions and commits for cohort up to sampleTime
-      const studentQIndices: number[] = [];
-      const studentCommitCounts: number[] = [];
-
-      cohortToSample.forEach((repo) => {
-        let maxQ = 0;
-        let cCount = 0;
-        repo.commits?.forEach((c) => {
-          const ct = new Date(c.commitDate).getTime();
-          if (ct >= sessionStartMs && ct <= sampleTimeMs) {
-            cCount++;
-          }
-          if (ct <= sampleTimeMs && c.question) {
-            const qIdx = questions.indexOf(c.question) + 1;
-            if (qIdx > maxQ) maxQ = qIdx;
-          }
-        });
-        studentQIndices.push(maxQ);
-        studentCommitCounts.push(cCount);
-      });
-
-      questionsRibbon.push(this.calculateRibbonPoint(sampleTime, relMin, studentQIndices));
-      commitsRibbon.push(this.calculateRibbonPoint(sampleTime, relMin, studentCommitCounts));
-    }
-
-    const ribbonData: SessionProgressRibbonData = {
-      timePoints,
-      questionsRibbon,
-      commitsRibbon,
-      studentCommitsPoints: ribbonPoints,
-    };
-
-    // 6. Question summary
-    const questionsSummary = questions.map((q) => {
-      const closed = questionsClosedSet.get(q) || 0;
-      return {
-        question: q,
-        closedByCount: closed,
-        percentage: totalEligibleStudents > 0 ? (closed / totalEligibleStudents) * 100 : 0,
-      };
-    });
-
-    const displayName = session.label || `Séance ${session.tpGroup ? `(${session.tpGroup})` : ""}`;
+    const samples = computeCohortSamples(cohortToSample, questions, sessionStartMs, sessionEndMs);
 
     return {
       session,
-      displayName,
+      displayName: session.label || `Séance ${session.tpGroup ? `(${session.tpGroup})` : ""}`,
       tpGroup: session.tpGroup,
       gracePeriod: graceResult,
       totalEligibleStudents,
       activeStudentsCount,
-      inactiveStudentsCount,
-      studentsWithoutResolvedQuestionsCount,
-      participationRate,
+      inactiveStudentsCount: totalEligibleStudents - activeStudentsCount,
+      studentsWithoutResolvedQuestionsCount: studentsActivity.filter((activity) => activity.questionsCompletedInSession.length === 0)
+        .length,
+      participationRate: totalEligibleStudents > 0 ? (activeStudentsCount / totalEligibleStudents) * 100 : 0,
       inSessionCommitsCount,
       totalPeriodCommitsCount: allCandidateCommits.length,
       inSessionRatio: allCandidateCommits.length > 0 ? (inSessionCommitsCount / allCandidateCommits.length) * 100 : 100,
-      resolvedQuestionsCount: questionsSummary.filter((q) => q.closedByCount > 0).length,
+      resolvedQuestionsCount: questionsSummary.filter((question) => question.closedByCount > 0).length,
       questionsSummary,
-      histogramBuckets,
-      ribbonData,
+      histogramBuckets: buildHistogramBuckets(ribbonPoints, sessionStartMs, sessionEndMs),
+      ribbonData: {
+        timePoints: samples.timePoints,
+        questionsRibbon: samples.questionsRibbon,
+        commitsRibbon: samples.commitsRibbon,
+        studentCommitsPoints: ribbonPoints,
+      },
       studentsActivity,
     };
   }
-
   /**
    * Derives the actionable "live cockpit" indicators from the already-computed detailed stats.
    * Pure and cheap (no extra data pass): the teacher gets who needs help, the class pace and the
@@ -519,174 +384,34 @@ export class SessionAnalyticsService {
    */
   buildLiveIndicators(stats: SessionDetailedStats, nowMs: number): SessionLiveIndicators {
     const staleMs = this.LIVE_STALE_MINUTES * 60 * 1000;
-    const students = stats.studentsActivity || [];
     const startMs = new Date(stats.session.startDate).getTime();
+    const questionsSummary = stats.questionsSummary || [];
 
-    let activeCount = 0;
-    let watchCount = 0;
-    let inactiveCount = 0;
-    const activeStudents: string[] = [];
-    const watchStudents: string[] = [];
-    const inactiveStudents: string[] = [];
-    const watchCandidates: StudentWatchItem[] = [];
+    const health = classifyStudentHealth(stats.studentsActivity || [], startMs, nowMs, staleMs);
 
-    /* Only the commits that already happened (relative to the simulated clock) count: a session's
-       window extends into the future, so a commit made "later" must not mark its student active. */
-    students.forEach((student) => {
-      const pastCommits = (student.repository?.commits || []).filter((commit) => {
-        const t = new Date(commit.commitDate).getTime();
-        return t >= startMs && t <= nowMs;
-      });
-      const pastCount = pastCommits.length;
-      const lastPastMs = pastCount
-        ? pastCommits.reduce((max, commit) => Math.max(max, new Date(commit.commitDate).getTime()), 0)
-        : undefined;
-
-      if (pastCount === 0) {
-        inactiveCount++;
-        inactiveStudents.push(student.studentName);
-        watchCandidates.push({
-          repository: student.repository,
-          studentName: student.studentName,
-          risk: "inactive",
-          reasonKey: "SESSION-TAB.PANEL.WATCH.REASON-NO-COMMIT",
-          inSessionCommitsCount: 0,
-        });
-        return;
-      }
-      if (lastPastMs !== undefined && nowMs - lastPastMs > staleMs) {
-        watchCount++;
-        watchStudents.push(student.studentName);
-        watchCandidates.push({
-          repository: student.repository,
-          studentName: student.studentName,
-          risk: "watch",
-          reasonKey: "SESSION-TAB.PANEL.WATCH.REASON-STALE",
-          reasonMinutes: Math.round((nowMs - lastPastMs) / 60000),
-          inSessionCommitsCount: pastCount,
-        });
-        return;
-      }
-      activeCount++;
-      activeStudents.push(student.studentName);
-    });
-
-    /* Inactives first, then the longest-idle students. */
-    watchCandidates.sort((a, b) => {
-      if (a.risk !== b.risk) {
-        return a.risk === "inactive" ? -1 : 1;
-      }
-      return (b.reasonMinutes || 0) - (a.reasonMinutes || 0);
-    });
-
-    const points = (stats.ribbonData?.studentCommitsPoints || []).filter((p) => p.time.getTime() <= nowMs);
-
-    /* Only the elapsed buckets are shown; the current one is highlighted. Counts are recomputed
-       from the past-only points (the precomputed buckets include the future). Cap to 16 tranches. */
-    const elapsedBuckets = (stats.histogramBuckets || []).filter((b) => new Date(b.startDate).getTime() <= nowMs).slice(-16);
-    const bucketTotals = elapsedBuckets.map((b) => {
-      const bStart = new Date(b.startDate).getTime();
-      const bEnd = new Date(b.endDate).getTime();
-      return {
-        label: b.label,
-        total: points.filter((p) => p.time.getTime() >= bStart && p.time.getTime() < bEnd).length,
-        isCurrent: nowMs >= bStart && nowMs < bEnd,
-      };
-    });
-    const maxTotal = bucketTotals.reduce((max, b) => Math.max(max, b.total), 1);
-    const buckets: PaceBucket[] = bucketTotals.map((b) => ({ ...b, height: Math.round((b.total / maxTotal) * 100) }));
-
-    const commitsLast15 = points.filter((p) => nowMs - p.time.getTime() <= staleMs).length;
-    const lastActivityMs = points.reduce((max, p) => Math.max(max, p.time.getTime()), startMs);
-    const stalled = nowMs - lastActivityMs > staleMs;
-
-    const feed: LiveFeedItem[] = [...points]
-      .sort((a, b) => b.time.getTime() - a.time.getTime())
-      .slice(0, this.LIVE_FEED_LIMIT)
-      .map((p) => {
-        const minutesAgo = Math.max(0, Math.round((nowMs - p.time.getTime()) / 60000));
-        return {
-          studentName: p.student,
-          questionName: p.questionName,
-          isCloture: p.isCloture,
-          minutesAgo,
-          justNow: minutesAgo < 1,
-          commitUrl: p.commit?.url || "",
-        };
-      });
-
-    const totalQuestions = (stats.questionsSummary || []).length;
-
-    /* Resolved questions must honour the simulated clock: only closing commits up to `now` count. */
-    const resolvedSet = new Set<string>();
-    points.forEach((p) => {
-      if (p.isCloture && p.questionName) {
-        resolvedSet.add(p.questionName);
-      }
-    });
-    const resolvedQuestionsList = (stats.questionsSummary || []).filter((q) => resolvedSet.has(q.question)).map((q) => q.question);
-    const resolvedQuestions = resolvedQuestionsList.length;
-
-    /* Live scatter of question completions: one dot per closing commit (x = elapsed share,
-       y = question rank, higher rank up). The group's AVERAGE progress curve adds context. */
-    const elapsed = Math.max(1, nowMs - startMs);
-    const totalQ = Math.max(1, totalQuestions);
-    const clampPct = (v: number) => Math.min(100, Math.max(0, v));
-    const dots = points
-      .filter((p) => p.isCloture && p.questionName && p.questionIndex > 0)
-      .map((p) => ({
-        x: clampPct(((p.time.getTime() - startMs) / elapsed) * 100),
-        y: clampPct(100 - (p.questionIndex / totalQ) * 100),
-        question: p.questionName,
-        student: p.student,
-        minutesAgo: Math.max(0, Math.round((nowMs - p.time.getTime()) / 60000)),
-      }));
-    const elapsedMinutes = Math.max(1, Math.round(elapsed / 60000));
-    const average: Array<{ x: number; y: number }> = (stats.ribbonData?.questionsRibbon || [])
-      .filter((r) => r.time.getTime() <= nowMs)
-      .map((r) => ({
-        x: clampPct((r.relativeMinutes / elapsedMinutes) * 100),
-        y: clampPct(100 - (r.mean / totalQ) * 100),
-      }));
-
-    /* Per-student cumulative progress trajectory (hover in the panel, like the sessions ribbon). */
-    const byStudent = new Map<string, typeof points>();
-    points.forEach((p) => {
-      const arr = byStudent.get(p.student) || [];
-      arr.push(p);
-      byStudent.set(p.student, arr);
-    });
-    const trajectories: Record<string, Array<{ x: number; y: number }>> = {};
-    byStudent.forEach((arr, student) => {
-      arr.sort((a, b) => a.time.getTime() - b.time.getTime());
-      let maxQ = 0;
-      const pts: Array<{ x: number; y: number }> = [{ x: 0, y: 100 }];
-      arr.forEach((p) => {
-        maxQ = Math.max(maxQ, p.questionIndex);
-        pts.push({
-          x: clampPct(((p.time.getTime() - startMs) / elapsed) * 100),
-          y: clampPct(100 - (maxQ / totalQ) * 100),
-        });
-      });
-      trajectories[student] = pts;
-    });
+    /* Only the commits that already happened count: the session window extends into the future. */
+    const points = (stats.ribbonData?.studentCommitsPoints || []).filter((point) => point.time.getTime() <= nowMs);
+    const resolvedQuestionsList = resolveQuestionsFromPoints(
+      points,
+      questionsSummary.map((question) => question.question),
+    );
 
     return {
-      activeCount,
-      watchCount,
-      inactiveCount,
+      activeCount: health.activeCount,
+      watchCount: health.watchCount,
+      inactiveCount: health.inactiveCount,
       totalStudents: stats.totalEligibleStudents,
-      resolvedQuestions,
-      totalQuestions,
-      questionsPct: totalQuestions > 0 ? Math.round((resolvedQuestions / totalQuestions) * 100) : 0,
-      activeStudents,
-      watchStudents,
-      inactiveStudents,
+      resolvedQuestions: resolvedQuestionsList.length,
+      totalQuestions: questionsSummary.length,
+      questionsPct: questionsSummary.length > 0 ? Math.round((resolvedQuestionsList.length / questionsSummary.length) * 100) : 0,
+      activeStudents: health.activeStudents,
+      watchStudents: health.watchStudents,
+      inactiveStudents: health.inactiveStudents,
       resolvedQuestionsList,
-      resolvedChart: { dots, average, trajectories },
-      watchlist: watchCandidates.slice(0, this.LIVE_WATCHLIST_LIMIT),
-      pace: { buckets, commitsLast15, stalled },
-      feed,
+      resolvedChart: buildResolvedChart(points, stats.ribbonData?.questionsRibbon || [], startMs, nowMs, questionsSummary.length),
+      watchlist: health.watchCandidates.slice(0, this.LIVE_WATCHLIST_LIMIT),
+      pace: buildPace(points, stats.histogramBuckets || [], startMs, nowMs, staleMs),
+      feed: buildLiveFeed(points, nowMs, this.LIVE_FEED_LIMIT),
     };
   }
 
@@ -823,44 +548,5 @@ export class SessionAnalyticsService {
     });
 
     return suggestions.sort((a, b) => a.session.startDate.getTime() - b.session.startDate.getTime());
-  }
-
-  /**
-   * Helper to calculate statistical quartiles (Q1, Median, Q3) for an array of numbers
-   */
-  private calculateRibbonPoint(time: Date, relativeMinutes: number, values: number[]): RibbonDataPoint {
-    if (!values || values.length === 0) {
-      return { time, relativeMinutes, mean: 0, median: 0, q1: 0, q3: 0, min: 0, max: 0 };
-    }
-
-    const sorted = [...values].sort((a, b) => a - b);
-    const min = sorted[0];
-    const max = sorted[sorted.length - 1];
-
-    const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
-    const median = this.percentile(sorted, 0.5);
-    const q1 = this.percentile(sorted, 0.25);
-    const q3 = this.percentile(sorted, 0.75);
-
-    return {
-      time,
-      relativeMinutes,
-      mean,
-      median,
-      q1,
-      q3,
-      min,
-      max,
-    };
-  }
-
-  private percentile(sorted: number[], p: number): number {
-    const pos = (sorted.length - 1) * p;
-    const base = Math.floor(pos);
-    const rest = pos - base;
-    if (sorted[base + 1] !== undefined) {
-      return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
-    }
-    return sorted[base];
   }
 }

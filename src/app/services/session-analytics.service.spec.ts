@@ -83,6 +83,99 @@ describe("SessionAnalyticsService", () => {
     });
   });
 
+  describe("computeSessionStats / buildLiveIndicators", () => {
+    const start = new Date("2026-03-10T14:00:00.000Z");
+    const end = new Date("2026-03-10T16:00:00.000Z");
+    const at = (minutes: number) => new Date(start.getTime() + minutes * 60000);
+
+    const inSessionCommit = (question: string, minutes: number, isCloture = false, author = "A") => {
+      const c = new Commit("msg", author, at(minutes), `url-${author}-${minutes}`);
+      c.question = question;
+      c.isCloture = isCloture;
+      return c;
+    };
+
+    const session = new Session(start, end, "TP1");
+    const repos = [
+      new Repository("u1", "Alice", [inSessionCommit("q1", 10, true, "Alice"), inSessionCommit("q2", 30, false, "Alice")], "TP1"),
+      new Repository("u2", "Bob", [inSessionCommit("q1", 20, true, "Bob")], "TP1"),
+      new Repository("u3", "Carol", [inSessionCommit("q1", 300, false, "Carol")], "TP1"),
+    ];
+
+    it("should aggregate the session stats from the repositories", () => {
+      const stats = service.computeSessionStats(session, repos, ["q1", "q2"]);
+
+      expect(stats.totalEligibleStudents).toBe(3);
+      expect(stats.activeStudentsCount).toBe(2);
+      expect(stats.inactiveStudentsCount).toBe(1);
+      expect(stats.inSessionCommitsCount).toBe(3);
+      expect(Math.round(stats.participationRate)).toBe(67);
+      expect(stats.inSessionRatio).toBe(75); // 3 commits en séance sur 4 sur la période
+      expect(stats.resolvedQuestionsCount).toBe(1);
+      expect(stats.questionsSummary).toEqual([
+        { question: "q1", closedByCount: 2, percentage: (2 / 3) * 100 },
+        { question: "q2", closedByCount: 0, percentage: 0 },
+      ]);
+      expect(stats.displayName).toBe("Séance (TP1)");
+
+      const bucketTotal = stats.histogramBuckets.reduce((sum, bucket) => sum + bucket.total, 0);
+      expect(bucketTotal).toBe(3);
+      expect(stats.ribbonData.timePoints.length).toBeGreaterThan(10);
+      expect(stats.ribbonData.studentCommitsPoints.length).toBe(3);
+      expect(stats.ribbonData.commitsRibbon.length).toBe(stats.ribbonData.timePoints.length);
+
+      const alice = stats.studentsActivity.find((s) => s.studentName.startsWith("Alice"));
+      expect(alice.status).toBe("active");
+      expect(alice.questionsCompletedInSession).toEqual(["q1"]);
+      expect(alice.lastQuestionDone).toBe("q2");
+    });
+
+    it("should filter the repositories of other TP groups", () => {
+      const otherGroup = new Repository("u4", "Dave", [inSessionCommit("q1", 15)], "TP2");
+      const stats = service.computeSessionStats(session, [...repos, otherGroup], ["q1"]);
+      expect(stats.totalEligibleStudents).toBe(3);
+      expect(stats.studentsActivity.some((s) => s.studentName.startsWith("Dave"))).toBeFalse();
+    });
+
+    it("should build the live indicators from the computed stats", () => {
+      const stats = service.computeSessionStats(session, repos, ["q1", "q2"]);
+      const onlyUpTo = new Date(start.getTime() + 25 * 60000).getTime();
+      const live = service.buildLiveIndicators(stats, onlyUpTo);
+
+      expect(live.totalStudents).toBe(3);
+      expect(live.activeCount).toBe(2);
+      expect(live.inactiveCount).toBe(1);
+      expect(live.watchCount).toBe(0);
+      expect(live.totalQuestions).toBe(2);
+      /* q2 n'est pas encore clôturée à la 25e minute. */
+      expect(live.resolvedQuestions).toBe(1);
+      expect(live.resolvedQuestionsList).toEqual(["q1"]);
+      expect(live.questionsPct).toBe(50);
+      expect(live.resolvedChart.dots.length).toBe(2);
+      expect(Object.keys(live.resolvedChart.trajectories).length).toBeGreaterThan(0);
+      expect(live.watchlist.length).toBe(1);
+      expect(live.watchlist[0].risk).toBe("inactive");
+      expect(live.pace.buckets.length).toBe(2);
+      expect(live.feed.length).toBe(2);
+      expect(live.feed[0].studentName.startsWith("Bob")).toBeTrue();
+    });
+
+    it("should ignore the commits that did not happen yet in the live indicators", () => {
+      const stats = service.computeSessionStats(session, repos, ["q1"]);
+      const beforeAnything = start.getTime();
+      const live = service.buildLiveIndicators(stats, beforeAnything);
+
+      expect(live.activeCount).toBe(0);
+      expect(live.inactiveCount).toBe(3);
+      expect(live.resolvedQuestions).toBe(0);
+      expect(live.resolvedChart.dots).toEqual([]);
+      expect(live.feed).toEqual([]);
+      /* La première tranche est déjà ouverte à l'instant de départ. */
+      expect(live.pace.buckets.length).toBe(1);
+      expect(live.pace.buckets[0].total).toBe(0);
+    });
+  });
+
   describe("detectSuggestedSessions", () => {
     it("should detect a session when multiple students commit simultaneously", () => {
       const t1 = new Date("2025-02-15T14:05:00.000Z");
