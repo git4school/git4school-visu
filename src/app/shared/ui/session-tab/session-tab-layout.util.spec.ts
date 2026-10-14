@@ -86,6 +86,11 @@ describe("session-tab-layout.util", () => {
       expect(rail.style.getPropertyValue("--in-enter")).toBe("90px");
     });
 
+    it("should tolerate a missing rail", () => {
+      expect(() => publishRailMetrics(null)).not.toThrow();
+      expect(() => publishRailMetrics(undefined)).not.toThrow();
+    });
+
     it("should do nothing when a measure is missing or the rail is not built yet", () => {
       const rail = buildRail({ rail: 0, counter: 30, incoming: 40, outgoing: 20 });
       publishRailMetrics(rail);

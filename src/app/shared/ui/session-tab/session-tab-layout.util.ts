@@ -46,7 +46,11 @@ export function pickDefaultSession(sessions: Session[], now: number): Session | 
  * They depend on the text lengths, which CSS cannot read, so they come from the DOM.
  * `offsetHeight` is layout-only, so a transform in flight does not corrupt the reading.
  */
-export function publishRailMetrics(rail: HTMLElement): void {
+export function publishRailMetrics(rail: HTMLElement | null | undefined): void {
+  if (!rail) {
+    return;
+  }
+
   const counter = rail.querySelector<HTMLElement>(".peek-counter__text");
   const incoming = rail.querySelector<HTMLElement>(".peek-line--in");
   const outgoing = rail.querySelector<HTMLElement>(".peek-line--out");

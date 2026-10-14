@@ -138,7 +138,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     const ObserverCtor = (window as any).ResizeObserver;
     if (!this.railEl || !ObserverCtor) {
       /* Without ResizeObserver the rail is still measured on every refresh tick */
-      if (this.railEl) publishRailMetrics(this.railEl);
+      publishRailMetrics(this.railEl);
       this.scheduleMeasure();
       return;
     }
