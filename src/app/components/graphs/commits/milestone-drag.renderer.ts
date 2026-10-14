@@ -94,6 +94,22 @@ export class MilestoneDragRenderer {
     }
   }
 
+  /** Arrête le minuteur de défilement automatique (appelé aussi à la destruction). */
+  public static stopScrollTimer(host: MilestoneDragHost): void {
+    if (host.dragScrollTimer) {
+      host.dragScrollTimer.stop();
+      host.dragScrollTimer = null;
+    }
+  }
+
+  /** Supprime l'indicateur de date (appelé aussi à la destruction du composant). */
+  public static removeIndicator(host: MilestoneDragHost): void {
+    if (host.dragTimeIndicator) {
+      host.dragTimeIndicator.remove();
+      host.dragTimeIndicator = null;
+    }
+  }
+
   /** Crée l'indicateur de date affiché pendant un drag. */
   private static createIndicator(host: MilestoneDragHost, x: number): void {
     if (!host.axis_abs_g) return;
@@ -208,21 +224,5 @@ export class MilestoneDragRenderer {
     element.attr("transform", `translate(${updatedX}, ${host.inner_margin.top})`);
 
     MilestoneDragRenderer.updateIndicator(host, updatedX, m.date);
-  }
-
-  /** Supprime l'indicateur de date (appelé aussi à la destruction du composant). */
-  public static removeIndicator(host: MilestoneDragHost): void {
-    if (host.dragTimeIndicator) {
-      host.dragTimeIndicator.remove();
-      host.dragTimeIndicator = null;
-    }
-  }
-
-  /** Arrête le minuteur de défilement automatique (appelé aussi à la destruction). */
-  public static stopScrollTimer(host: MilestoneDragHost): void {
-    if (host.dragScrollTimer) {
-      host.dragScrollTimer.stop();
-      host.dragScrollTimer = null;
-    }
   }
 }
