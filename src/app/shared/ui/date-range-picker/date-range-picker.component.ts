@@ -16,6 +16,20 @@ import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
 import { Subscription } from "rxjs";
 import { ClockService } from "@services/clock.service";
+import { computePopupPlacement } from "./popup-placement.util";
+import {
+  daysInMonth,
+  DateField,
+  fieldMaxLength,
+  minutesToTime,
+  orderPeriodTimes,
+  padAndValidateDay,
+  padMonth,
+  padTimePart,
+  parseTypedDate,
+  sanitizeDateField,
+  timeToMinutes,
+} from "./date-input.util";
 
 export interface CalendarDay {
   date: moment.Moment;
@@ -43,6 +57,11 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
   get hasTime(): boolean {
     return this.mode === "datetime" || this.mode === "datetime-period";
+  }
+
+  /** Popup wide enough for the clock picker (date + time side by side). */
+  get isWidePopup(): boolean {
+    return (this.isSingleDate && this.hasTime) || this.mode === "datetime-period";
   }
   @Input() date: Date | null = null;
 
@@ -269,60 +288,20 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     if (!popupEl) return;
 
     const triggerRect = this.elementRef.nativeElement.getBoundingClientRect();
-    const popupWidth = popupEl.offsetWidth || ((this.isSingleDate && this.hasTime) || this.mode === "datetime-period" ? 650 : 350);
-    const popupHeight = popupEl.offsetHeight || 390;
+    const placement = computePopupPlacement({
+      triggerRect,
+      popupWidth: popupEl.offsetWidth || (this.isWidePopup ? 650 : 350),
+      popupHeight: popupEl.offsetHeight || 390,
+      viewportWidth: window.innerWidth,
+      viewportHeight: window.innerHeight,
+    });
 
-    const margin = 12;
-    const spaceBelow = window.innerHeight - triggerRect.bottom - margin;
-    const spaceAbove = triggerRect.top - margin;
-
-    let targetViewportY: number;
-
-    // Determine optimal vertical position
-    if (spaceBelow >= popupHeight + 8) {
-      // Comfortably fits below trigger
-      targetViewportY = triggerRect.bottom + 8;
-      this.dropUp = false;
-    } else if (spaceAbove >= popupHeight + 8) {
-      // Comfortably fits above trigger
-      targetViewportY = triggerRect.top - 8 - popupHeight;
-      this.dropUp = true;
-    } else {
-      // Doesn't completely fit on either side: choose side with more space and clamp strictly within viewport
-      if (spaceBelow >= spaceAbove) {
-        targetViewportY = triggerRect.bottom + 8;
-        this.dropUp = false;
-      } else {
-        targetViewportY = triggerRect.top - 8 - popupHeight;
-        this.dropUp = true;
-      }
-      targetViewportY = Math.max(margin, Math.min(targetViewportY, window.innerHeight - popupHeight - margin));
-    }
-
-    // In very small viewports, ensure the top stays accessible
-    if (window.innerHeight < popupHeight + margin * 2) {
-      targetViewportY = margin;
-    }
-
-    // Determine horizontal position
-    let targetViewportX = triggerRect.left;
-    if (targetViewportX + popupWidth > window.innerWidth - margin) {
-      targetViewportX = window.innerWidth - popupWidth - margin;
-      this.alignRight = true;
-    } else {
-      this.alignRight = false;
-    }
-
-    if (targetViewportX < margin) {
-      targetViewportX = margin;
-    }
+    this.dropUp = placement.dropUp;
+    this.alignRight = placement.alignRight;
 
     // Convert viewport coordinates to relative offsets inside elementRef (which is position: relative)
-    const relativeLeft = targetViewportX - triggerRect.left;
-    const relativeTop = targetViewportY - triggerRect.top;
-
-    popupEl.style.left = `${relativeLeft}px`;
-    popupEl.style.top = `${relativeTop}px`;
+    popupEl.style.left = `${placement.left}px`;
+    popupEl.style.top = `${placement.top}px`;
     popupEl.style.right = "auto";
     popupEl.style.bottom = "auto";
   }
@@ -467,11 +446,11 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   get suggestedEndTime(): string {
     if (this.startHourStr.length !== 2 || this.startMinuteStr.length !== 2) return "";
 
-    const endMinutes = this.timeToMinutes(`${this.startHourStr}:${this.startMinuteStr}`) + this.defaultDuration;
+    const endMinutes = timeToMinutes(`${this.startHourStr}:${this.startMinuteStr}`) + this.defaultDuration;
     // Keep the period within a single day, mirroring the clock picker behavior
     if (endMinutes >= 24 * 60) return "23:55";
 
-    return this.minutesToTime(endMinutes);
+    return minutesToTime(endMinutes);
   }
 
   isStartDate(date: moment.Moment): boolean {
@@ -592,75 +571,24 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private padMonth(monthStr: string): string {
-    return monthStr.length === 1 ? `0${monthStr}` : monthStr;
-  }
-
-  private getMaxDays(isStart: boolean): number {
-    const monthStr = isStart ? this.startMonthStr : this.endMonthStr;
-    const yearStr = isStart ? this.startYearStr : this.endYearStr;
-    if (monthStr.length === 2 && yearStr.length >= 4) {
-      const parsed = moment(`${yearStr}-${monthStr}-01`, "YYYY-MM-DD", true);
-      if (parsed.isValid()) return parsed.daysInMonth();
-    }
-    return 31;
-  }
-
-  private padAndValidateDay(dayStr: string, maxDays: number): string {
-    let dStr = dayStr;
-    if (dStr.length === 1) dStr = `0${dStr}`;
-    if (dStr.length === 2) {
-      const d = parseInt(dStr, 10);
-      if (d > maxDays) dStr = maxDays.toString();
-    }
-    return dStr;
-  }
-
-  onInputType(event: Event, isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute") {
+  onInputType(event: Event, isStart: boolean, field: DateField) {
     const input = event.target as HTMLInputElement;
     if (!isStart) {
       this.showTabSuggestion = false;
     }
-    let value = input.value.replace(/\D/g, ""); // Keep only digits
 
-    const maxLength = field === "year" ? 4 : 2;
-    if (value.length > maxLength) {
-      value = value.substring(0, maxLength);
-    }
-
-    if (value.length > 0) {
-      const num = parseInt(value, 10);
-      if (field === "month") {
-        if (num > 12) value = "12";
-        if (value.length === 2 && num === 0) value = "01";
-        // Auto-pad if first digit is > 1
-        if (value.length === 1 && num > 1) value = `0${num}`;
-      } else if (field === "day") {
-        const maxDays = this.getMaxDays(isStart);
-        if (num > maxDays) value = maxDays.toString();
-        if (value.length === 2 && num === 0) value = "01";
-        // Auto-pad if first digit is > 3
-        if (value.length === 1 && num > 3) value = `0${num}`;
-      } else if (field === "hour") {
-        if (num > 23) value = "23";
-        if (value.length === 1 && num > 2) value = `0${num}`;
-      } else if (field === "minute") {
-        if (num > 59) value = "59";
-        if (value.length === 1 && num > 5) value = `0${num}`;
-      }
-    }
-
+    const value = sanitizeDateField(input.value, field, this.maxDaysFor(isStart));
     this.setFieldValue(isStart, field, value);
     input.value = value;
 
     // Auto-advance
-    if (value.length === maxLength) {
+    if (value.length === fieldMaxLength(field)) {
       this.focusNext(isStart, field);
       this.tryParseDate(isStart);
     }
   }
 
-  onKeyDown(event: KeyboardEvent, isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute") {
+  onKeyDown(event: KeyboardEvent, isStart: boolean, field: DateField) {
     const input = event.target as HTMLInputElement;
 
     // Accept the tab suggestion: fill the end time from the start time + default duration
@@ -691,19 +619,19 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       this.showTabSuggestion = false;
     }
     if (isStart) {
-      this.startMonthStr = this.padMonth(this.startMonthStr);
-      this.startDayStr = this.padAndValidateDay(this.startDayStr, this.getMaxDays(true));
+      this.startMonthStr = padMonth(this.startMonthStr);
+      this.startDayStr = padAndValidateDay(this.startDayStr, this.maxDaysFor(true));
       if (this.hasTime && this.isSingleDate) {
-        if (this.startHourStr && this.startHourStr.length === 1) this.startHourStr = `0${this.startHourStr}`;
-        if (this.startMinuteStr && this.startMinuteStr.length === 1) this.startMinuteStr = `0${this.startMinuteStr}`;
+        this.startHourStr = padTimePart(this.startHourStr);
+        this.startMinuteStr = padTimePart(this.startMinuteStr);
       }
     } else {
       if (this.mode === "datetime-period") {
-        if (this.endHourStr && this.endHourStr.length === 1) this.endHourStr = `0${this.endHourStr}`;
-        if (this.endMinuteStr && this.endMinuteStr.length === 1) this.endMinuteStr = `0${this.endMinuteStr}`;
+        this.endHourStr = padTimePart(this.endHourStr);
+        this.endMinuteStr = padTimePart(this.endMinuteStr);
       } else {
-        this.endMonthStr = this.padMonth(this.endMonthStr);
-        this.endDayStr = this.padAndValidateDay(this.endDayStr, this.getMaxDays(false));
+        this.endMonthStr = padMonth(this.endMonthStr);
+        this.endDayStr = padAndValidateDay(this.endDayStr, this.maxDaysFor(false));
       }
     }
     this.tryParseDate(isStart);
@@ -868,56 +796,58 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
     this.moveFocus(isStart, field, -1, cursorPosition);
   }
 
-  private tryParseDate(isStart: boolean) {
-    const day = this.isSingleDate ? this.startDayStr : isStart ? this.startDayStr : this.endDayStr;
-    const month = this.isSingleDate ? this.startMonthStr : isStart ? this.startMonthStr : this.endMonthStr;
-    const year = this.isSingleDate ? this.startYearStr : isStart ? this.startYearStr : this.endYearStr;
-    const hour = this.hasTime && this.isSingleDate ? this.startHourStr : null;
-    const minute = this.hasTime && this.isSingleDate ? this.startMinuteStr : null;
+  private maxDaysFor(isStart: boolean): number {
+    return daysInMonth(isStart ? this.startMonthStr : this.endMonthStr, isStart ? this.startYearStr : this.endYearStr);
+  }
 
-    if (day.length === 0 && month.length === 0 && year.length === 0) {
-      if (this.isSingleDate) this.setSingleDate(null);
+  private tryParseDate(isStart: boolean) {
+    const isSingle = this.isSingleDate;
+    const parsed = parseTypedDate({
+      day: isSingle || isStart ? this.startDayStr : this.endDayStr,
+      month: isSingle || isStart ? this.startMonthStr : this.endMonthStr,
+      year: isSingle || isStart ? this.startYearStr : this.endYearStr,
+      hour: this.hasTime && isSingle ? this.startHourStr : null,
+      minute: this.hasTime && isSingle ? this.startMinuteStr : null,
+    });
+
+    if (parsed.kind === "empty") {
+      if (isSingle) this.setSingleDate(null);
       else if (isStart) this.setStartDate(null);
       else this.setEndDate(null);
       return;
     }
+    if (parsed.kind === "pending") {
+      return;
+    }
 
-    if (day.length === 2 && month.length === 2 && year.length === 4) {
-      let format = "YYYY-MM-DD";
-      let dateString = `${year}-${month}-${day}`;
+    this.applyParsedDate(parsed.date, isStart);
+  }
 
-      if (hour !== null && minute !== null) {
-        if (hour.length !== 2 || minute.length !== 2) return; // Wait for full time input
-        format = "YYYY-MM-DD HH:mm";
-        dateString = `${year}-${month}-${day} ${hour}:${minute}`;
-      }
-
-      const parsed = moment(dateString, format, true);
-      if (!parsed.isValid()) return;
-
-      if (this.isSingleDate) {
-        if (this.mode === "datetime-period") {
-          this.applyPeriodTimes(parsed);
-        } else {
-          this.setSingleDate(parsed);
-        }
-        return;
-      }
-
-      if (isStart) {
-        this.setStartDate(parsed);
-        // If start becomes > end, clear end
-        if (this.endDate && parsed.isAfter(moment(this.endDate))) {
-          this.setEndDate(null);
-        }
+  /** Applies a parsed date, keeping the range coherent (clear the end, or swap the bounds). */
+  private applyParsedDate(parsed: moment.Moment, isStart: boolean): void {
+    if (this.isSingleDate) {
+      if (this.mode === "datetime-period") {
+        this.applyPeriodTimes(parsed);
       } else {
-        this.setEndDate(parsed);
-        // If end becomes < start, swap them
-        if (this.startDate && parsed.isBefore(moment(this.startDate))) {
-          this.setEndDate(moment(this.startDate));
-          this.setStartDate(parsed);
-        }
+        this.setSingleDate(parsed);
       }
+      return;
+    }
+
+    if (isStart) {
+      this.setStartDate(parsed);
+      // If start becomes > end, clear end
+      if (this.endDate && parsed.isAfter(moment(this.endDate))) {
+        this.setEndDate(null);
+      }
+      return;
+    }
+
+    this.setEndDate(parsed);
+    // If end becomes < start, swap them
+    if (this.startDate && parsed.isBefore(moment(this.startDate))) {
+      this.setEndDate(moment(this.startDate));
+      this.setStartDate(parsed);
     }
   }
 
@@ -927,40 +857,30 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
    * mirroring the clock picker and the date-range swap behavior.
    */
   private applyPeriodTimes(parsedDate: moment.Moment): void {
-    const startHour = this.startHourStr;
-    const startMinute = this.startMinuteStr;
-    const endHour = this.endHourStr;
-    const endMinute = this.endMinuteStr;
-
-    if (startHour.length !== 2 || startMinute.length !== 2 || endHour.length !== 2 || endMinute.length !== 2) {
+    if (
+      this.startHourStr.length !== 2 ||
+      this.startMinuteStr.length !== 2 ||
+      this.endHourStr.length !== 2 ||
+      this.endMinuteStr.length !== 2
+    ) {
       this.setSingleDate(parsedDate);
       return;
     }
 
-    let start = `${startHour}:${startMinute}`;
-    let end = `${endHour}:${endMinute}`;
-
-    if (this.timeToMinutes(start) > this.timeToMinutes(end)) {
-      [start, end] = [end, start];
-    }
+    const period = orderPeriodTimes(`${this.startHourStr}:${this.startMinuteStr}`, `${this.endHourStr}:${this.endMinuteStr}`);
 
     const startDate = parsedDate
       .clone()
-      .hour(parseInt(start.slice(0, 2), 10))
-      .minute(parseInt(start.slice(3, 5), 10));
+      .hour(parseInt(period.start.slice(0, 2), 10))
+      .minute(parseInt(period.start.slice(3, 5), 10));
     this.setSingleDate(startDate);
-    this.startHourStr = start.slice(0, 2);
-    this.startMinuteStr = start.slice(3, 5);
-    this.endHourStr = end.slice(0, 2);
-    this.endMinuteStr = end.slice(3, 5);
-    this.startTime = start;
-    this.endTime = end;
-    this.periodChange.emit({ start, end });
-  }
-
-  private timeToMinutes(time: string): number {
-    const [hours, minutes] = time.split(":").map(Number);
-    return hours * 60 + minutes;
+    this.startHourStr = period.start.slice(0, 2);
+    this.startMinuteStr = period.start.slice(3, 5);
+    this.endHourStr = period.end.slice(0, 2);
+    this.endMinuteStr = period.end.slice(3, 5);
+    this.startTime = period.start;
+    this.endTime = period.end;
+    this.periodChange.emit(period);
   }
 
   private acceptTabSuggestion(): void {
@@ -989,11 +909,5 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
       this.periodChange.emit({ start: this.startTime, end: this.endTime });
     }
     this.focusNext(false, "hour");
-  }
-
-  private minutesToTime(minutes: number): string {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}`;
   }
 }
