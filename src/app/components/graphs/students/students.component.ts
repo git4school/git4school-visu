@@ -47,7 +47,6 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
   hovered_repository: { name: string; url: string } | null = null;
 
   private svg: any;
-  private resizeObserver: any;
 
   constructor(
     public dataService: DataService,
@@ -60,7 +59,7 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
     public anonymizationService: AnonymizationService,
     private ngZone: NgZone,
   ) {
-    super(loaderService, assignmentsService, dataService);
+    super(loaderService, assignmentsService, dataService, translateService, anonymizationService);
   }
 
   @HostListener("document:keydown", ["$event"])
@@ -79,48 +78,27 @@ export class StudentsComponent extends BaseGraphComponent implements OnInit, OnD
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.assignmentsModified$ = this.subscribeAssignmentModified();
-      /* Le filtre de groupe est global (navbar) : rafraîchir la vue à chaque changement. */
-      this.groupFilterSub = this.dataService.groupFilter$.subscribe(() => this.loadGraphDataAndRefresh());
-      this.translateService.onLangChange.subscribe(() => {
-        this.loadGraphDataAndRefresh();
-      });
-      this.anonymizationService.isAnonymous$.pipe(skip(1)).subscribe(() => {
-        this.loadGraphDataAndRefresh();
-      });
-
-      if (this.dataService.repoToLoad) {
-        this.loadGraph(this.dataService.startDate, this.dataService.endDate);
-      } else {
-        this.loading = true;
-        this.initDateSlider();
-        this.loadGraphMetadata(
-          this.dataService.repositories,
-          this.dataService.reviews,
-          this.dataService.corrections,
-          this.dataService.questions,
-        );
-        this.loading = false;
-      }
-
-      this.resizeObserver = new (window as any).ResizeObserver(() => {
-        if (this.chartData && this.chartData.length > 0) {
-          this.drawGraph();
-        }
-      });
-      this.resizeObserver.observe(this.chartContainer.nativeElement);
-    });
+    setTimeout(() =>
+      this.startGraphView({
+        refresh: () => this.loadGraphDataAndRefresh(),
+        draw: () => this.drawGraph(),
+        hasData: () => this.chartData && this.chartData.length > 0,
+        observe: () => this.chartContainer,
+        seed: () => {
+          this.initDateSlider();
+          this.loadGraphMetadata(
+            this.dataService.repositories,
+            this.dataService.reviews,
+            this.dataService.corrections,
+            this.dataService.questions,
+          );
+        },
+      }),
+    );
   }
 
   ngOnDestroy(): void {
-    this.unsubscribeAssignmentModified(this.assignmentsModified$);
-    if (this.groupFilterSub) {
-      this.groupFilterSub.unsubscribe();
-    }
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-    }
+    super.ngOnDestroy();
   }
 
   loadGraphDataAndRefresh(conserveZoom?: boolean) {

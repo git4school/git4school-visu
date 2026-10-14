@@ -177,7 +177,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   inner_width: number;
   inner_height: number;
   scrollable_height: number;
-  private resizeObserver: any;
+  private viewResizeObserver: any;
   private resizeTimeout: any;
   public last_zoom_k = 0;
   private zoomTimeoutId: any = null;
@@ -266,7 +266,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   constructor(
-    private translateService: TranslateService,
+    public translateService: TranslateService,
     private toastService: ToastService,
     public jsonManager: JsonManagerService,
     public dataService: DataService,
@@ -280,7 +280,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     public overlayManagerService: OverlayManagerService,
     private clockService: ClockService,
   ) {
-    super(loaderService, assignmentsService, dataService);
+    super(loaderService, assignmentsService, dataService, translateService, anonymizationService);
   }
 
   ngOnInit(): void {
@@ -429,8 +429,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
+    if (this.viewResizeObserver) {
+      this.viewResizeObserver.disconnect();
     }
     if (this.refreshTimeout) {
       clearTimeout(this.refreshTimeout);
@@ -772,8 +772,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       this.getDisplayedRepositories().length * this.repo_spacing,
     );
 
-    if (!this.resizeObserver && (window as any).ResizeObserver) {
-      this.resizeObserver = new (window as any).ResizeObserver((entries: any[]) => {
+    if (!this.viewResizeObserver && (window as any).ResizeObserver) {
+      this.viewResizeObserver = new (window as any).ResizeObserver((entries: any[]) => {
         for (let entry of entries) {
           const chart_div = document.getElementById("chart");
           if (!chart_div) continue;
@@ -799,7 +799,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
     const chart_div = document.getElementById("chart");
     if (chart_div) {
-      this.resizeObserver.observe(chart_div);
+      this.viewResizeObserver.observe(chart_div);
     }
 
     const container = d3.select(".chart-container");

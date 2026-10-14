@@ -16,6 +16,7 @@ import { ActivatedRoute } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { AssignmentsService } from "@services/assignments.service";
 import { ClockService } from "@services/clock.service";
+import { AnonymizationService } from "@services/anonymization.service";
 import { DataService } from "@services/data.service";
 import { LoaderService } from "@services/loader.service";
 import { SessionAnalyticsService, SessionDetailedStats, StudentSessionActivity } from "@services/session-analytics.service";
@@ -88,7 +89,7 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   readonly commitColors = [CommitColor.INTERMEDIATE, CommitColor.BEFORE, CommitColor.BETWEEN, CommitColor.AFTER];
   assignmentsModified$?: Subscription;
   groupFilterSub?: Subscription;
-  private resizeObserver?: any;
+  private viewResizeObserver?: any;
   private sessionToCenter?: Session;
   /** Deep-link target from the session panel ("Voir tout"): session start + sub-tab to open. */
   private pendingDeepLink?: SessionsDeepLink;
@@ -107,8 +108,9 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     private cdr: ChangeDetectorRef,
     private clockService: ClockService,
     private route: ActivatedRoute,
+    public anonymizationService: AnonymizationService,
   ) {
-    super(loaderService, assignmentsService, dataService);
+    super(loaderService, assignmentsService, dataService, translateService, anonymizationService);
   }
 
   @HostListener("window:keydown", ["$event"])
@@ -159,24 +161,20 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
   }
 
   ngOnInit(): void {
-    this.assignmentsModified$ = this.subscribeAssignmentModified();
-    /* Le filtre de groupe est global (navbar) : rafraîchir la vue à chaque changement. */
-    this.groupFilterSub = this.dataService.groupFilter$.subscribe(() => this.loadGraphDataAndRefresh());
-    this.translateService.onLangChange.subscribe(() => {
-      this.loadGraphDataAndRefresh();
-    });
-
     this.readDeepLink();
-
-    if (this.dataService.repoToLoad) {
-      this.loadGraph(this.dataService.startDate, this.dataService.endDate);
-    } else {
-      this.loadGraphDataAndRefresh();
-    }
+    this.startGraphView({
+      refresh: () => this.loadGraphDataAndRefresh(),
+      draw: () => {
+        this.renderCurrentCharts();
+        this.updateRibbonNavButtons();
+      },
+      hasData: () => this.sessionStatsList && this.sessionStatsList.length > 0,
+      observe: () => this.ribbonChartContainer,
+    });
   }
 
   ngAfterViewInit(): void {
-    this.resizeObserver = new (window as any).ResizeObserver(() => {
+    this.viewResizeObserver = new (window as any).ResizeObserver(() => {
       this.renderCurrentCharts();
       this.updateRibbonNavButtons();
     });
@@ -186,13 +184,13 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
       // Observe the scroll wrapper, not the chart itself: the chart width is driven by its content.
       const macroWrapper = this.macroChartScroller?.nativeElement;
       if (ribbonEl) {
-        this.resizeObserver.observe(ribbonEl);
+        this.viewResizeObserver.observe(ribbonEl);
       }
       if (macroWrapper) {
-        this.resizeObserver.observe(macroWrapper);
+        this.viewResizeObserver.observe(macroWrapper);
       }
       if (this.ribbonBar?.nativeElement) {
-        this.resizeObserver.observe(this.ribbonBar.nativeElement);
+        this.viewResizeObserver.observe(this.ribbonBar.nativeElement);
         this.updateRibbonNavButtons();
       }
     };
@@ -207,8 +205,8 @@ export class SessionsComponent extends BaseGraphComponent implements OnInit, Aft
     if (this.groupFilterSub) {
       this.groupFilterSub.unsubscribe();
     }
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
+    if (this.viewResizeObserver) {
+      this.viewResizeObserver.disconnect();
     }
     this.trajectoryWarm.cancel();
   }
