@@ -2589,63 +2589,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       });
   }
 
-  loadReviews(milestone_filter: (review: Milestone) => number | boolean) {
-    let loaded_reviews = this.dataService.reviews
-      .filter(milestone_filter)
-      .slice()
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-    this.review_g = this.chart_abs_g.append("g");
-
-    const overview = this;
-
-    this.review_g
-      .selectAll(".review")
-      .data(loaded_reviews)
-      .enter()
-      .each(function (d: Milestone, i) {
-        overview.getLineForMilestone(d3.select(this), d, "milestone review", i);
-      });
-  }
-
-  loadCorrections(milestone_filter: (review: Milestone) => number | boolean) {
-    let loaded_corrections = this.dataService.corrections
-      .filter(milestone_filter)
-      .slice()
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-    this.correction_g = this.chart_abs_g.append("g");
-
-    const overview = this;
-
-    this.correction_g
-      .selectAll(".correction")
-      .data(loaded_corrections)
-      .enter()
-      .each(function (d: Milestone, i) {
-        overview.getLineForMilestone(d3.select(this), d, "milestone correction", i);
-      });
-  }
-
-  loadOthers(milestone_filter: (review: Milestone) => number | boolean) {
-    let loaded_other = this.dataService.others
-      .filter(milestone_filter)
-      .slice()
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-    this.other_g = this.chart_abs_g.append("g");
-
-    const overview = this;
-
-    this.other_g
-      .selectAll(".other")
-      .data(loaded_other)
-      .enter()
-      .each(function (d: Milestone, i) {
-        overview.getLineForMilestone(d3.select(this), d, "milestone other", i);
-      });
-  }
-
   setupAxis(repositories: Repository[], minDate: Date, maxDate: Date) {
     if (this.axis_g != null) this.axis_g.remove();
     const overview = this;
