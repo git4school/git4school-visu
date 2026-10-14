@@ -59,6 +59,7 @@ import { MilestoneMaskRenderer } from "./milestone-mask.renderer";
 import { MilestoneDragRenderer } from "./milestone-drag.renderer";
 import { formatCommitHour } from "./commits-format.util";
 import { COMMIT_GROUP_HEIGHT, CommitGroupsRenderer } from "./commit-groups.renderer";
+import { ViewportRenderer } from "./viewport.renderer";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -178,9 +179,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   scrollable_height: number;
   private resizeObserver: any;
   private resizeTimeout: any;
-  private last_zoom_k = 0;
+  public last_zoom_k = 0;
   private zoomTimeoutId: any = null;
-  private zoomRafId: number | null = null;
+  public zoomRafId: number | null = null;
   private nowTicker: any = null;
   private nowLabelWidth = 64;
   isRefreshing = false;
@@ -275,7 +276,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     public themeService: ThemeService,
     public tooltipService: TooltipService,
     public anonymizationService: AnonymizationService,
-    private ngZone: NgZone,
+    public ngZone: NgZone,
     public overlayManagerService: OverlayManagerService,
     private clockService: ClockService,
   ) {
@@ -745,181 +746,22 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (!this.data_g) return;
     this.loadPoints();
     this.loadAnnotations();
-    this.setupZoom(conserveZoom);
+    ViewportRenderer.setupZoom(this, conserveZoom);
     this.updateNowIndicator();
   }
 
-  setupZoom(conserveZoom: boolean = false) {
-    const overview = this;
-    // This line may be removed if zoom is bugged. Used to somehow make zoom works on webkit based browsers.
-    d3.select(document.body).on("wheel.body", (e) => {});
-    this.zoom = d3
-      .zoom()
-      .interpolate((p0: [number, number, number], p1: [number, number, number]) => {
-        const w0 = Math.max(1e-6, p0[2]),
-          w1 = Math.max(1e-6, p1[2]);
-        /* k est interpolé linéairement, et non géométriquement. La perception du zoom est
-           proportionnelle à k alors que k géométrique ne l'est qu'en log(k) : sur un zoom guidé
-           type (séance de 2 h dans un domaine d'un mois, k de 1 à 288) le zoom géométrique
-           n'a fait que ~6 % de la taille finale à mi-parcours, alors que le déplacement est
-           déjà à 50 %. D'où une animation en deux temps, "ça bouge puis ça zoome".
-           En interpolant x et k tous deux linéairement, le point visé se déplace en ligne
-           droite à l'écran ET change de taille au même rythme : les deux mouvements sont
-           rigoureusement synchronisés, quel que soit le rapport de zoom. */
-        const dx = p1[0] - p0[0],
-          dy = p1[1] - p0[1],
-          dw = w1 - w0;
-        return (t: number) => [p0[0] + t * dx, p0[1] + t * dy, w0 + t * dw];
-      })
-      .on("start", (event) => {
-        const hadChartHover =
-          overview.hovered_commit != null ||
-          overview.hovered_group_commit != null ||
-          overview.hovered_session != null ||
-          overview.hovered_milestone != null ||
-          overview.hovered_repository != null;
-
-        overview.hovered_commit = undefined;
-        overview.hovered_group_commit = undefined;
-        overview.hovered_g = null;
-        /* Only dismiss the chart's own hover tooltip; leave a toolbar button
-           tooltip alive so its keycap animation stays visible on shortcut use. */
-        if (hadChartHover) {
-          overview.tooltipService.hide();
-        }
-        if (event.sourceEvent != null) {
-          overview.overlayManagerService.dismissAll({ blurInput: true });
-        }
-      })
-      .on("zoom", (event) => {
-        if (overview.drag || !overview.x_scale) {
-          return;
-        }
-
-        if (event.sourceEvent != null) {
-          overview.overlayManagerService.dismissAll({ blurInput: true });
-          overview.refreshTooltip(event.sourceEvent.clientX, event.sourceEvent.clientY);
-        }
-
-        overview.current_zoom = event.transform;
-        overview.x_scale_copy = overview.current_zoom.rescaleX(overview.x_scale);
-
-        if (overview.zoomRafId !== null) {
-          return;
-        }
-
-        overview.zoomRafId = requestAnimationFrame(() => {
-          overview.zoomRafId = null;
-          overview.x_g.call(overview.x_axis.scale(overview.x_scale_copy));
-          overview.refreshElementState();
-        });
-      })
-      .on("end", () => {
-        if (overview.zoomRafId !== null) {
-          cancelAnimationFrame(overview.zoomRafId);
-          overview.zoomRafId = null;
-        }
-        overview.x_g.call(overview.x_axis.scale(overview.x_scale_copy));
-        overview.refreshElementState();
-      })
-      .filter((event) => {
-        if (event.type === "mousedown" && event.shiftKey) {
-          return false;
-        }
-        return event.shiftKey || !(event instanceof WheelEvent);
-      })
-      .scaleExtent([0.5, overview.maxZoom]);
-
-    this.data_g = this.data_g.call(this.zoom).on("dblclick.zoom", null);
-
-    d3.select(".chart-container").on("wheel", (event: WheelEvent) => this.handleGraphWheel(event), { passive: false });
-
-    if (conserveZoom) {
-      this.resetZoom(true);
-    } else {
-      this.resetZoom(false);
-    }
-  }
-
   /** Horizontal pan (and ctrl+wheel) shared by the chart body and the "now" marker. */
-  private handleGraphWheel(event: WheelEvent) {
-    // Zooming is handled by d3.zoom if shiftKey is pressed
-    if (event.shiftKey) return;
-
-    let dx = event.deltaX;
-    let dy = event.deltaY;
-
-    // Handle ctrl+wheel to scroll horizontally if the device only emits deltaY
-    if (event.ctrlKey && Math.abs(dy) > 0 && Math.abs(dx) === 0) {
-      dx = dy;
-      dy = 0;
-    }
-
-    // If there is significant horizontal scrolling, or ctrl key is pressed
-    if (Math.abs(dx) > Math.abs(dy) || event.ctrlKey) {
-      this.overlayManagerService.dismissAll({ exclude: [OverlayType.SESSION_PANE] });
-      event.preventDefault(); // Prevent browser back/forward or default scroll
-      event.stopPropagation(); // Stop event bubbling to ensure Safari/Chrome doesn't catch it
-
-      if (this.zoom && this.data_g) {
-        // Pan horizontally
-        this.data_g.call(this.zoom.translateBy, -dx / (this.current_zoom?.k || 1), 0);
-      }
-    }
-  }
 
   /**
    * Wheel over the "now" marker must behave like the chart body: pan horizontally,
    * and forward vertical wheel to the scrollable repo list (the marker lives in a
    * separate overlay, so the native scroll would not reach it).
    */
-  private handleNowWheel(event: WheelEvent) {
-    if (event.shiftKey) {
-      this.forwardWheelToZoom(event);
-      return;
-    }
-
-    const isHorizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.ctrlKey;
-    if (isHorizontal) {
-      this.handleGraphWheel(event);
-      return;
-    }
-
-    const container = document.querySelector(".chart-container") as HTMLElement;
-    if (container) {
-      container.scrollTop += event.deltaY;
-      container.scrollLeft += event.deltaX;
-      event.preventDefault();
-    }
-  }
 
   /**
    * Re-dispatch a shift+wheel from the "now" overlay onto the zoomed data layer so
    * the d3.zoom wheel handler (which only reacts when shiftKey is set) zooms as usual.
    */
-  private forwardWheelToZoom(event: WheelEvent) {
-    const node = this.data_g && (this.data_g.node() as Element | null);
-    if (!node) return;
-
-    event.preventDefault();
-    node.dispatchEvent(
-      new WheelEvent("wheel", {
-        deltaX: event.deltaX,
-        deltaY: event.deltaY,
-        deltaMode: event.deltaMode,
-        shiftKey: true,
-        ctrlKey: event.ctrlKey,
-        altKey: event.altKey,
-        metaKey: event.metaKey,
-        clientX: event.clientX,
-        clientY: event.clientY,
-        screenX: event.screenX,
-        screenY: event.screenY,
-        bubbles: true,
-        cancelable: true,
-      }),
-    );
-  }
 
   refresh() {
     if (!document.getElementById("chart")) return;
@@ -2220,154 +2062,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       });
   }
 
-  setupAxis(repositories: Repository[], minDate: Date, maxDate: Date) {
-    if (this.axis_g != null) this.axis_g.remove();
-    const overview = this;
-
-    this.x_scale = d3.scaleTime().domain([minDate, maxDate]).range([0, this.inner_width]);
-
-    if (this.current_zoom) {
-      this.x_scale_copy = this.current_zoom.rescaleX(this.x_scale);
-    } else {
-      this.x_scale_copy = this.x_scale.copy();
-    }
-    this.last_zoom_k = this.current_zoom ? this.current_zoom.k : 1;
-
-    this.x_axis = d3.axisBottom(this.x_scale_copy).ticks(6).tickSize(-this.inner_height);
-
-    this.x_axis.tickFormat(function (d) {
-      if (!(d instanceof Date)) return "";
-      let ticks = overview.x_scale_copy.ticks();
-      if (ticks[ticks.length - 1] == null || ticks[0] == null) return "";
-      let spacing = (ticks[ticks.length - 1].getTime() - ticks[0].getTime()) / 1000;
-
-      return CommitsComponent.multiFormat(spacing, d);
-    });
-
-    this.axis_g = this.chart_svg.insert("g", ":first-child");
-    this.axis_abs_g = this.chart_abs_g.insert("g", ":first-child");
-
-    this.x_g = this.axis_abs_g
-      .append("g")
-      .attr("transform", "translate(" + [0, this.inner_height + this.inner_margin.top] + ")")
-      .call(this.x_axis);
-
-    this.y_scale = d3
-      .scaleLinear()
-      .domain([0, repositories.length + 1])
-      .range([0, this.scrollable_height]);
-
-    this.y_axis = d3
-      .axisLeft(this.y_scale)
-      .tickValues([...Array(repositories.length + 1).keys()])
-      .tickFormat((d) => {
-        const repo = repositories[d.valueOf() - 1];
-        return repo ? this.anonymizationService.getDisplayName(repo) : "";
-      })
-      .tickSize(-this.inner_width);
-
-    if (this.y_g != null) this.y_g.remove();
-    this.y_g = this.axis_g.append("g").call(this.y_axis);
-
-    // Hide the first tick use to prevent data from being placed on top of the chart
-    this.y_g.select(".tick:first-of-type").attr("opacity", "0");
-
-    // Set repo_name class, align to left, and use custom tooltip
-    const leftSpace = this.width - this.chart_width;
-    const leftX = -leftSpace + 5;
-
-    this.y_g
-      .selectAll(".tick")
-      .selectAll("text")
-      .call((g) => g.classed("repo_name", true))
-      .attr("text-anchor", "start")
-      .attr("x", leftX)
-      .each(function (this: SVGTextElement) {
-        const maxW = leftSpace - 15;
-        let textStr = this.textContent || "";
-
-        this.textContent = Utils.truncateMiddle(textStr, Utils.OVERVIEW_NAME_LENGTH_LIMIT);
-      })
-      .on("click", function (event: MouseEvent, d: any) {
-        event.stopPropagation();
-        if (overview.anonymizationService.isAnonymous) {
-          return;
-        }
-        const repo = repositories[d.valueOf() - 1];
-        if (repo?.url) {
-          window.open(repo.url, "_blank");
-        }
-      })
-      .on("mouseenter", function (event: MouseEvent, d: any) {
-        event.stopPropagation();
-        const repo = repositories[d.valueOf() - 1];
-        if (repo?.name) {
-          overview.ngZone.run(() => {
-            overview.hovered_repository = {
-              ...repo,
-              name: overview.anonymizationService.getDisplayName(repo),
-              url: overview.anonymizationService.isAnonymous ? null : repo.url,
-            } as Repository;
-            overview.hovered_commit = undefined;
-            overview.hovered_group_commit = undefined;
-            overview.hovered_session = undefined;
-            overview.hovered_milestone = undefined;
-            overview.tooltipService.showAtPosition(overview.d3TooltipTemplate, event.clientX, event.clientY, "right", undefined, true);
-          });
-        }
-      })
-      .on("mousemove", function (event: MouseEvent) {
-        event.stopPropagation();
-        if (overview.tooltipService.isShowing()) {
-          overview.tooltipService.moveTooltip(event.clientX, event.clientY, "right");
-        }
-      })
-      .on("mouseleave", function (event: MouseEvent) {
-        event.stopPropagation();
-        overview.ngZone.run(() => {
-          overview.hovered_repository = undefined;
-          overview.tooltipService.hide();
-        });
-      });
-
-    // Use custom domain
-    this.axis_abs_g.selectAll(".domain").style("opacity", "0");
-    this.axis_g.selectAll(".domain").style("opacity", "0");
-
-    this.axis_g
-      .append("g")
-      .attr("class", "axis")
-      .append("line")
-      .attr("x1", 0)
-      .attr("x2", 0)
-      .attr("y1", 0)
-      .attr("y2", this.scrollable_height);
-
-    this.axis_g
-      .append("g")
-      .attr("class", "axis")
-      .append("line")
-      .attr("x1", 0)
-      .attr("x2", this.inner_width)
-      .attr("y1", this.scrollable_height)
-      .attr("y2", this.scrollable_height);
-  }
-
   getCommitAuthorDisplayName(commit: Commit): string {
     return this.anonymizationService.getCommitAuthorDisplayName(commit);
-  }
-
-  static multiFormat(spacing: number, date: Date) {
-    const options: Intl.NumberFormatOptions = {
-      useGrouping: false,
-      minimumIntegerDigits: 2,
-    };
-
-    if (spacing > 24 * 3600)
-      return `${date.getDate().toLocaleString(undefined, options)}/${(date.getMonth() + 1).toLocaleString(undefined, options)}/${date
-        .getFullYear()
-        .toLocaleString(undefined, options)}`;
-    else return `${date.getHours().toLocaleString(undefined, options)}:${date.getMinutes().toLocaleString(undefined, options)}`;
   }
 
   loadPoints() {
@@ -2435,7 +2131,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       }
     }
 
-    this.setupAxis(repositories, minDate, maxDate);
+    ViewportRenderer.setupAxis(this, repositories, minDate, maxDate);
 
     this.maxZoom = (maxDate.getTime() - minDate.getTime()) / (1000 * 60);
 
@@ -2687,7 +2383,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
        marker can receive hover there (the transparent #data rect would otherwise
        swallow pointer events across the whole plot). */
     this.now_g = this.chart_selection_g.append("g").attr("class", "now-indicator").style("pointer-events", "none");
-    this.now_g.on("wheel", (event: WheelEvent) => this.handleNowWheel(event), { passive: false });
+    this.now_g.on("wheel", (event: WheelEvent) => ViewportRenderer.handleNowWheel(this, event), { passive: false });
 
     this.now_g.append("line").attr("class", "now-line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", 0);
 
@@ -2728,7 +2424,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
   }
 
   /** Called by the clock subscription / ticker; extends the domain if wall time outran it. */
-  private tickNowIndicator() {
+  public tickNowIndicator() {
     const now = this.clockService.now();
     const domain = this.x_scale ? this.x_scale.domain() : null;
     if (domain && this.isNowInAssignmentWindow(now) && (now.getTime() > domain[1].getTime() || now.getTime() < domain[0].getTime())) {
@@ -2876,54 +2572,11 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     this.drag = !this.drag;
   }
 
-  resetZoom(conserve?: boolean, dismissOverlays = true) {
-    if (conserve) {
-      if (this.current_zoom) {
-        this.data_g.call(this.zoom.transform, this.current_zoom);
-      } else {
-        this.data_g.call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
-      }
-      return;
-    }
-
-    this.current_zoom = null;
-    if (dismissOverlays) {
-      this.overlayManagerService.dismissTransient();
-    }
-    if (this.data_g && this.zoom) {
-      this.data_g.transition().duration(750).call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
-    }
-  }
-
   toggleDisplayMode(mode: "opacity" | "height" | "text") {
     this.displayModes[mode] = !this.displayModes[mode];
     this.modeHoverState[mode].wasClicked = true;
     localStorage.setItem("commitDisplayModes", JSON.stringify(this.displayModes));
     this.refreshElementState();
-  }
-
-  zoomToGroup(commits: Commit[], range: number) {
-    if (!commits || commits.length < 2 || range <= 0) return;
-    this.hovered_commit = undefined;
-    this.hovered_group_commit = undefined;
-    this.hovered_g = null;
-    this.tooltipService.hide();
-    this.overlayManagerService.dismissAll();
-
-    let time_domain = this.x_scale.domain();
-    let minDate = time_domain[0].valueOf() as number;
-    let maxDate = time_domain[1].valueOf() as number;
-    let dt = maxDate - minDate;
-
-    let target_k = ((Utils.COMMIT_FUSE_RANGE + 5) * dt) / (range * this.inner_width);
-    target_k = Math.min(target_k, this.maxZoom);
-
-    let centerTime = (commits[0].commitDate.getTime() + commits[commits.length - 1].commitDate.getTime()) / 2;
-    let translate_x = this.inner_width / 2 - ((centerTime - minDate) / dt) * this.inner_width * target_k;
-
-    let transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
-
-    this.data_g.transition().duration(750).call(this.zoom.transform, transform);
   }
 
   zoomToSession(session: Session, marginRatio = 0.1, dismissOverlays = true) {
@@ -2959,50 +2612,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
 
     this.data_g.transition().duration(750).call(this.zoom.transform, transform);
-  }
-
-  zoomToDateRange(startDate: Date, endDate: Date, marginRatio = 0.05, dismissOverlays = true) {
-    if (!startDate || !endDate || !this.data_g || !this.zoom || !this.x_scale) return;
-    this.hovered_commit = undefined;
-    this.hovered_group_commit = undefined;
-    this.hovered_session = undefined;
-    this.hovered_milestone = undefined;
-    this.hovered_repository = undefined;
-    this.hovered_g = null;
-    this.isSessionTooltipPinned = false;
-    if (dismissOverlays) {
-      this.tooltipService.hide();
-      this.overlayManagerService.dismissAll();
-    }
-
-    const time_domain = this.x_scale.domain();
-    const minDate = time_domain[0].valueOf() as number;
-    const maxDate = time_domain[1].valueOf() as number;
-    const dt = maxDate - minDate;
-
-    const t1 = startDate.getTime();
-    const t2 = endDate.getTime();
-    const selectedDuration = Math.max(1000, Math.abs(t2 - t1));
-
-    if (isNaN(minDate) || isNaN(maxDate) || isNaN(t1) || isNaN(t2) || dt <= 0) return;
-
-    const minSelected = Math.min(t1, t2);
-    const maxSelected = Math.max(t1, t2);
-    const margin = selectedDuration * marginRatio;
-
-    const targetStart = minSelected - margin;
-    const targetEnd = maxSelected + margin;
-    const targetDuration = targetEnd - targetStart;
-
-    let target_k = dt / targetDuration;
-    target_k = Math.max(1, Math.min(target_k, this.maxZoom));
-
-    const translate_x = -((targetStart - minDate) / dt) * this.inner_width * target_k;
-
-    const transform = d3.zoomIdentity.translate(translate_x, 0).scale(target_k);
-
-    /* Animation réactive fluide : décélération cubic-bezier(0.23, 1, 0.32, 1) en 480ms */
-    this.data_g.transition().duration(480).ease(d3.easeCubicOut).call(this.zoom.transform, transform);
   }
 
   handleSessionClick(session: Session, clientX: number, clientY: number) {
@@ -3090,127 +2699,24 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     });
   }
 
-  private formatSelectionDuration(d1: Date, d2: Date): string {
+  public formatSelectionDuration(d1: Date, d2: Date): string {
     return formatSelectionDuration(d1, d2);
   }
 
-  initiateShiftDragZoom(event: MouseEvent) {
-    if (event.button !== 0 || !event.shiftKey || !this.chart_selection_g || !this.x_scale_copy) return;
-    event.preventDefault();
-    event.stopPropagation();
-    this.overlayManagerService.dismissAll();
+  public resetZoom(conserve?: boolean, dismissOverlays = true) {
+    ViewportRenderer.resetZoom(this, conserve, dismissOverlays);
+  }
 
-    const startX = this.getRelativeXFromMouseEvent(event);
-    const clampedStartX = Math.max(0, Math.min(this.inner_width, startX));
+  public zoomToGroup(commits: Commit[], range: number) {
+    ViewportRenderer.zoomToGroup(this, commits, range);
+  }
 
-    const selectionGroup = this.chart_selection_g.append("g").attr("class", "chart-selection-group").style("pointer-events", "none");
+  public zoomToDateRange(startDate: Date, endDate: Date, marginRatio = 0.05, dismissOverlays = true) {
+    ViewportRenderer.zoomToDateRange(this, startDate, endDate, marginRatio, dismissOverlays);
+  }
 
-    const selectionBg = selectionGroup
-      .append("rect")
-      .attr("class", "chart-selection-bg")
-      .attr("x", clampedStartX)
-      .attr("y", 0)
-      .attr("width", 0)
-      .attr("height", this.height);
-
-    const leftLine = selectionGroup
-      .append("line")
-      .attr("class", "chart-selection-edge chart-selection-edge-left")
-      .attr("x1", clampedStartX)
-      .attr("y1", 0)
-      .attr("x2", clampedStartX)
-      .attr("y2", this.height);
-
-    const rightLine = selectionGroup
-      .append("line")
-      .attr("class", "chart-selection-edge chart-selection-edge-right")
-      .attr("x1", clampedStartX)
-      .attr("y1", 0)
-      .attr("x2", clampedStartX)
-      .attr("y2", this.height);
-
-    const topBar = selectionGroup
-      .append("rect")
-      .attr("class", "chart-selection-top-bar")
-      .attr("x", clampedStartX)
-      .attr("y", 0)
-      .attr("width", 0)
-      .attr("height", 2.5)
-      .attr("rx", 1.25)
-      .attr("ry", 1.25);
-
-    const badge = selectionGroup.append("g").attr("class", "chart-selection-badge").style("opacity", "0");
-
-    const badgeBg = badge.append("rect").attr("class", "chart-selection-badge-bg").attr("height", 20).attr("rx", 10).attr("ry", 10);
-
-    const badgeText = badge.append("text").attr("class", "chart-selection-badge-text").attr("y", 14).attr("text-anchor", "middle");
-
-    document.body.style.cursor = "crosshair";
-    this.isShiftDragging = true;
-    let hasMovedEnough = false;
-
-    const onWindowMouseMove = (e: MouseEvent) => {
-      const currentX = this.getRelativeXFromMouseEvent(e);
-      const minX = Math.max(0, Math.min(clampedStartX, currentX));
-      const maxX = Math.min(this.inner_width, Math.max(clampedStartX, currentX));
-      const w = Math.max(0, maxX - minX);
-
-      if (Math.abs(currentX - clampedStartX) >= 8) {
-        hasMovedEnough = true;
-      }
-
-      selectionBg.attr("x", minX).attr("width", w);
-      leftLine.attr("x1", minX).attr("x2", minX);
-      rightLine.attr("x1", maxX).attr("x2", maxX);
-      topBar.attr("x", minX).attr("width", w);
-
-      if (w >= 16 && this.x_scale_copy) {
-        const d1 = this.x_scale_copy.invert(minX);
-        const d2 = this.x_scale_copy.invert(maxX);
-        const durText = this.formatSelectionDuration(d1, d2);
-        badgeText.text(durText);
-
-        const textNode = badgeText.node() as SVGTextContentElement;
-        const textWidth = textNode ? textNode.getComputedTextLength() : durText.length * 6.5;
-        const badgeWidth = Math.max(50, textWidth + 16);
-
-        badgeBg.attr("width", badgeWidth).attr("x", -badgeWidth / 2);
-
-        let badgeX = minX + w / 2;
-        badgeX = Math.max(badgeWidth / 2 + 6, Math.min(this.inner_width - badgeWidth / 2 - 6, badgeX));
-        const badgeY = Math.max(6, this.inner_margin?.top ? this.inner_margin.top + 8 : 12);
-
-        badge.attr("transform", `translate(${badgeX}, ${badgeY})`).style("opacity", "1");
-      } else {
-        badge.style("opacity", "0");
-      }
-    };
-
-    const onWindowMouseUp = (e: MouseEvent) => {
-      window.removeEventListener("mousemove", onWindowMouseMove);
-      window.removeEventListener("mouseup", onWindowMouseUp);
-      document.body.style.cursor = "";
-      this.isShiftDragging = false;
-
-      const currentX = this.getRelativeXFromMouseEvent(e);
-      const distance = Math.abs(currentX - clampedStartX);
-
-      if (distance >= 8 && hasMovedEnough) {
-        selectionGroup.classed("selection-exiting", true);
-        setTimeout(() => selectionGroup.remove(), 180);
-
-        const minX = Math.max(0, Math.min(clampedStartX, currentX));
-        const maxX = Math.min(this.inner_width, Math.max(clampedStartX, currentX));
-        const d1 = this.x_scale_copy.invert(minX);
-        const d2 = this.x_scale_copy.invert(maxX);
-        this.zoomToDateRange(d1, d2, 0.05);
-      } else {
-        selectionGroup.remove();
-      }
-    };
-
-    window.addEventListener("mousemove", onWindowMouseMove);
-    window.addEventListener("mouseup", onWindowMouseUp);
+  public initiateShiftDragZoom(event: MouseEvent) {
+    ViewportRenderer.initiateShiftDragZoom(this, event);
   }
 
   getVisibleSessions(): Session[] {
