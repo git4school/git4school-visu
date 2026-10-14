@@ -10,6 +10,7 @@ import { Repository } from "@models/Repository.model";
 import { AssignmentsService } from "@services/assignments.service";
 import { Utils } from "@services/utils";
 import { buildArea, buildListTooltip, buildPolyline, formatCountdown, formatDateLabel, formatDuration } from "./session-tab-format.util";
+import { pickDefaultSession, publishRailMetrics, sessionBoundaryMs, sessionWindow } from "./session-tab-layout.util";
 import { ClockService, MINUTE_MS } from "@services/clock.service";
 import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
@@ -137,7 +138,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     const ObserverCtor = (window as any).ResizeObserver;
     if (!this.railEl || !ObserverCtor) {
       /* Without ResizeObserver the rail is still measured on every refresh tick */
-      this.measureRail();
+      if (this.railEl) publishRailMetrics(this.railEl);
       this.scheduleMeasure();
       return;
     }
@@ -145,7 +146,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     this.railObserver.observe(this.railEl);
     /* Measure synchronously so the first paint already has the final positions: otherwise the
        lines would slide in from zero on appearance. */
-    this.measureRail();
+    publishRailMetrics(this.railEl);
     this.scheduleMeasure();
   }
 
@@ -358,7 +359,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     /* Keep the user's selected session across ticks; fall back to the default when it is gone. */
     let selected = list.find((s) => this.sessionKey(s) === this.selectedKey) || null;
     if (!selected && list.length) {
-      selected = this.defaultSelection(list);
+      selected = pickDefaultSession(list, this.now);
       this.selectedKey = selected ? this.sessionKey(selected) : "";
     }
     if (!selected) {
@@ -367,8 +368,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
 
     const changed = this.sessionKey(selected) !== this.sessionKey(this.session);
     const wasUpcoming = this.state === "upcoming";
-    const state: "in-progress" | "upcoming" =
-      selected && this.now >= this.startMs(selected) && this.now <= this.endMs(selected) ? "in-progress" : "upcoming";
+    const state: "in-progress" | "upcoming" = selected && this.isInProgress(selected) ? "in-progress" : "upcoming";
 
     /* The same session just started: the counter holds at zero while the swap plays, instead of
        jumping straight to the whole session length. */
@@ -413,7 +413,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
   private applySelection(session: Session): void {
     this.selectedKey = this.sessionKey(session);
     this.session = session;
-    this.state = this.now >= this.startMs(session) && this.now <= this.endMs(session) ? "in-progress" : "upcoming";
+    this.state = this.isInProgress(session) ? "in-progress" : "upcoming";
     this.clearCountdownHold();
     this.ensureStats();
     this.rebuildView();
@@ -422,16 +422,10 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     window.dispatchEvent(new CustomEvent("git4school:focus-session", { detail: { session } }));
   }
 
-  /** Default pick: the most recently started running session, else the soonest upcoming one. */
-  private defaultSelection(list: Session[]): Session | null {
-    if (!list.length) {
-      return null;
-    }
-    const running = list.filter((s) => this.now >= this.startMs(s) && this.now <= this.endMs(s));
-    if (running.length) {
-      return running.reduce((a, b) => (this.startMs(b) >= this.startMs(a) ? b : a));
-    }
-    return list.reduce((a, b) => (this.startMs(b) <= this.startMs(a) ? b : a));
+  /** Le créneau de la séance contient-il l'instant courant ? */
+  private isInProgress(session: Session): boolean {
+    const { start, end } = sessionWindow(session);
+    return this.now >= start && this.now <= end;
   }
 
   private rebuildView(): void {
@@ -441,8 +435,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
       return;
     }
     const now = this.now;
-    const start = this.startMs(session);
-    const end = this.endMs(session);
+    const { start, end } = sessionWindow(session);
     const inProgress = this.state === "in-progress";
     const remaining = inProgress ? end - now : start - now;
 
@@ -523,40 +516,6 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     this.countdownHold = null;
   }
 
-  /**
-   * Publishes the three swap distances as CSS custom properties on the rail.
-   * They depend on the text lengths, which CSS cannot read, so they come from the DOM.
-   * offsetHeight is layout-only, so a transform in flight does not corrupt the reading.
-   */
-  private measureRail(): void {
-    const rail = this.railEl;
-    if (!rail) {
-      return;
-    }
-    const counter = rail.querySelector<HTMLElement>(".peek-counter__text");
-    const incoming = rail.querySelector<HTMLElement>(".peek-line--in");
-    const outgoing = rail.querySelector<HTMLElement>(".peek-line--out");
-    if (!counter || !incoming || !outgoing) {
-      return;
-    }
-    const railHeight = rail.clientHeight;
-    const counterHeight = counter.offsetHeight;
-    const incomingHeight = incoming.offsetHeight;
-    const outgoingHeight = outgoing.offsetHeight;
-    if (!railHeight || !counterHeight || !incomingHeight || !outgoingHeight) {
-      return;
-    }
-
-    /* The counter's gap is the shared travel: the labels ride along with it so the three lines
-       stay in lockstep. The flush positions are the rail's height minus each text's own length. */
-    const travel = Math.max(0, railHeight - counterHeight);
-    rail.style.setProperty("--travel", `${travel}px`);
-    /* The outgoing label sits flush at the bottom, and its length differs from the incoming one */
-    rail.style.setProperty("--out-bottom", `${Math.max(0, railHeight - outgoingHeight)}px`);
-    /* Enough to start fully hidden even when the text is longer than the gap */
-    rail.style.setProperty("--in-enter", `${Math.max(travel, incomingHeight)}px`);
-  }
-
   /** Remeasure once the DOM has caught up with the latest view (the counter's text length varies). */
   private scheduleMeasure(): void {
     if (this.measureRafId !== null) {
@@ -564,7 +523,7 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     }
     this.measureRafId = requestAnimationFrame(() => {
       this.measureRafId = null;
-      this.measureRail();
+      publishRailMetrics(this.railEl);
     });
   }
 
@@ -617,39 +576,25 @@ export class SessionTabComponent implements OnInit, OnDestroy {
     const running: Session[] = [];
     const upcoming: Session[] = [];
     for (const session of sessions) {
-      const start = this.startMs(session);
-      if (now >= start && now <= this.endMs(session)) {
+      const { start, end } = sessionWindow(session);
+      if (now >= start && now <= end) {
         running.push(session);
       } else if (start > now && start - now <= this.upcomingWindowMs) {
         upcoming.push(session);
       }
     }
 
-    running.sort((a, b) => this.startMs(a) - this.startMs(b));
-    upcoming.sort((a, b) => this.startMs(a) - this.startMs(b));
+    running.sort((a, b) => sessionWindow(a).start - sessionWindow(b).start);
+    upcoming.sort((a, b) => sessionWindow(a).start - sessionWindow(b).start);
     return running.length ? running : upcoming;
-  }
-
-  private startMs(session: Session): number {
-    return this.toMs(session.startDate);
-  }
-
-  private endMs(session: Session): number {
-    const start = this.startMs(session);
-    const end = this.toMs(session.endDate);
-    /* Sessions may wrap around midnight (see EditSessionComponent) */
-    return end < start ? end + 24 * 60 * MINUTE_MS : end;
-  }
-
-  private toMs(value: Date): number {
-    return value instanceof Date ? value.getTime() : new Date(value).getTime();
   }
 
   private sessionKey(session: Session | null): string {
     if (!session) {
       return "";
     }
-    return `${this.startMs(session)}|${this.endMs(session)}|${session.tpGroup || ""}|${session.label || ""}`;
+    const { start, end } = sessionWindow(session);
+    return `${start}|${end}|${session.tpGroup || ""}|${session.label || ""}`;
   }
 
   private clamp01(value: number): number {
