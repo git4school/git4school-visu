@@ -25,6 +25,13 @@ import {
   isArchivedAssignment,
   ProviderFilterPill,
 } from "@services/assignment-filters.util";
+import {
+  computePillIndicatorGeometry,
+  readChooserPreferences,
+  readLastProviderContext,
+  sortAssignments,
+  writeChooserPreferences,
+} from "./assignment-chooser.util";
 import { AccountsService } from "@services/accounts.service";
 import { GithubAuthService } from "@services/github-auth.service";
 import { ConfigurationService } from "@services/configuration.service";
@@ -328,14 +335,11 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
     if (activeIndex === -1) {
       activeIndex = 0;
     }
-    const buttonsArray = this.pillButtons.toArray();
-    const targetBtn = buttonsArray[activeIndex];
+    const targetBtn = this.pillButtons.toArray()[activeIndex];
     if (targetBtn && targetBtn.nativeElement) {
-      const el = targetBtn.nativeElement;
-      const groupEl = el.parentElement;
-      const groupPaddingLeft = groupEl ? parseFloat(getComputedStyle(groupEl).paddingLeft) || 4 : 4;
-      this.indicatorLeft = Math.max(0, el.offsetLeft - groupPaddingLeft);
-      this.indicatorWidth = el.offsetWidth || 100;
+      const geometry = computePillIndicatorGeometry(targetBtn.nativeElement, targetBtn.nativeElement.parentElement);
+      this.indicatorLeft = geometry.left;
+      this.indicatorWidth = geometry.width;
       this.cdr.markForCheck();
     }
   }
@@ -505,42 +509,33 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   loadPreferences() {
-    const prefs = localStorage.getItem("assignment-chooser-prefs");
+    const prefs = readChooserPreferences();
     if (prefs) {
-      try {
-        const parsed = JSON.parse(prefs);
-        if (parsed.sortField) this.sortField = parsed.sortField;
-        if (parsed.sortDirection) this.sortDirection = parsed.sortDirection;
-        if (parsed.advancedFilters) this.advancedFilters = parsed.advancedFilters;
-        if (parsed.viewMode === "list" || parsed.viewMode === "folders") this.viewMode = parsed.viewMode;
-      } catch (e) {
-        console.error("Could not load preferences", e);
-      }
+      if (prefs.sortField) this.sortField = prefs.sortField;
+      if (prefs.sortDirection) this.sortDirection = prefs.sortDirection;
+      if (prefs.advancedFilters) this.advancedFilters = prefs.advancedFilters;
+      if (prefs.viewMode === "list" || prefs.viewMode === "folders") this.viewMode = prefs.viewMode;
     }
-    const savedProvider = localStorage.getItem("git4school_last_provider") as GitProviderType;
-    if (savedProvider && (savedProvider === "github" || savedProvider === "gitlab")) {
-      this.lastUsedProvider = savedProvider;
+
+    const last = readLastProviderContext();
+    if (last.provider === "github" || last.provider === "gitlab") {
+      this.lastUsedProvider = last.provider as GitProviderType;
     }
-    const savedHost = localStorage.getItem("git4school_last_host");
-    if (savedHost) {
-      this.lastUsedHost = savedHost;
+    if (last.host) {
+      this.lastUsedHost = last.host;
     }
-    const savedName = localStorage.getItem("git4school_last_instance_name");
-    if (savedName) {
-      this.lastUsedInstanceName = savedName;
+    if (last.instanceName) {
+      this.lastUsedInstanceName = last.instanceName;
     }
   }
 
   savePreferences() {
-    localStorage.setItem(
-      "assignment-chooser-prefs",
-      JSON.stringify({
-        sortField: this.sortField,
-        sortDirection: this.sortDirection,
-        advancedFilters: this.advancedFilters,
-        viewMode: this.viewMode,
-      }),
-    );
+    writeChooserPreferences({
+      sortField: this.sortField,
+      sortDirection: this.sortDirection,
+      advancedFilters: this.advancedFilters,
+      viewMode: this.viewMode,
+    });
   }
 
   async loadAssignments() {
@@ -705,51 +700,7 @@ export class AssignmentChooserComponent implements OnInit, AfterViewInit, OnDest
   }
 
   sortAssignments() {
-    this.assignments.sort((a, b) => {
-      // Keep new assignment at the top always
-      if (a.id === -1) return -1;
-      if (b.id === -1) return 1;
-
-      if (this.sortField === "daysRemaining") {
-        const getPriority = (assignment: any) => {
-          if (!assignment.startDate || !assignment.endDate) return 3; // unprogrammed
-          if (this.getProgress(assignment.startDate, assignment.endDate) === 100) return 2; // finished
-          return 1; // active
-        };
-
-        const priorityA = getPriority(a);
-        const priorityB = getPriority(b);
-
-        if (priorityA !== priorityB) {
-          return priorityA - priorityB; // Always 1 -> 2 -> 3
-        }
-
-        let valA = priorityA === 1 ? moment(a.endDate).valueOf() : a.id;
-        let valB = priorityB === 1 ? moment(b.endDate).valueOf() : b.id;
-
-        if (valA < valB) return this.sortDirection === "asc" ? -1 : 1;
-        if (valA > valB) return this.sortDirection === "asc" ? 1 : -1;
-        return 0;
-      }
-
-      let valA = a[this.sortField];
-      let valB = b[this.sortField];
-
-      // fallback to empty string if undefined
-      if (valA === undefined || valA === null) valA = "";
-      if (valB === undefined || valB === null) valB = "";
-
-      if (typeof valA === "string") valA = valA.toLowerCase();
-      if (typeof valB === "string") valB = valB.toLowerCase();
-
-      if (valA < valB) {
-        return this.sortDirection === "asc" ? -1 : 1;
-      }
-      if (valA > valB) {
-        return this.sortDirection === "asc" ? 1 : -1;
-      }
-      return 0;
-    });
+    sortAssignments(this.assignments, this.sortField, this.sortDirection, (start, end) => this.getProgress(start, end));
   }
 
   getDuration(start: string, end: string): string {
