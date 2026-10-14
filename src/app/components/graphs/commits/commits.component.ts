@@ -60,6 +60,7 @@ import { MilestoneDragRenderer } from "./milestone-drag.renderer";
 import { formatCommitHour } from "./commits-format.util";
 import { COMMIT_GROUP_HEIGHT, CommitGroupsRenderer } from "./commit-groups.renderer";
 import { ViewportRenderer } from "./viewport.renderer";
+import { GraphPointsRenderer } from "./graph-points.renderer";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -278,7 +279,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     public anonymizationService: AnonymizationService,
     public ngZone: NgZone,
     public overlayManagerService: OverlayManagerService,
-    private clockService: ClockService,
+    public clockService: ClockService,
   ) {
     super(loaderService, assignmentsService, dataService, translateService, anonymizationService);
   }
@@ -707,44 +708,9 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
   }
 
-  refreshTooltip(x?: number, y?: number) {
-    if (x == null || y == null) {
-      return;
-    }
-
-    if (this.isSessionTooltipPinned) {
-      return;
-    }
-
-    if (this.hovered_g && (this.hovered_commit || this.hovered_group_commit)) {
-      const node = this.hovered_g.node();
-      if (!node || !node.isConnected || this.hovered_g.select(":hover").empty()) {
-        this.hovered_commit = undefined;
-        this.hovered_group_commit = undefined;
-        this.hovered_g = null;
-        this.tooltipService.hide();
-        return;
-      }
-    }
-
-    if (this.hovered_commit || this.hovered_group_commit || this.hovered_session || this.hovered_milestone || this.hovered_repository) {
-      this.ngZone.run(() => {
-        if (!this.tooltipService.isShowing()) {
-          this.tooltipService.showAtPosition(this.d3TooltipTemplate, x, y, "right", undefined, true);
-        } else {
-          this.tooltipService.moveTooltip(x, y, "right");
-        }
-      });
-    } else {
-      this.ngZone.run(() => {
-        this.tooltipService.hide();
-      });
-    }
-  }
-
   loadGraphData(conserveZoom: boolean = false) {
     if (!this.data_g) return;
-    this.loadPoints();
+    GraphPointsRenderer.loadPoints(this);
     this.loadAnnotations();
     ViewportRenderer.setupZoom(this, conserveZoom);
     this.updateNowIndicator();
@@ -1694,7 +1660,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       });
   }
 
-  private resolveMilestoneType(m?: Milestone, g?: d3.Selection<any, any, any, any>): string {
+  public resolveMilestoneType(m?: Milestone, g?: d3.Selection<any, any, any, any>): string {
     if (m?.type) {
       return m.type;
     }
@@ -1704,76 +1670,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       if (g.classed("review") || g.classed("reviews")) return "reviews";
     }
     return "reviews";
-  }
-
-  private buildMilestoneGraphics(g: d3.Selection<any, any, any, any>, m: Milestone, index: number) {
-    if (!m.type) {
-      m.type = this.resolveMilestoneType(m, g);
-    }
-
-    const milestoneType = this.resolveMilestoneType(m, g);
-    const milestoneColor = this.getMilestoneColor(milestoneType);
-
-    // 1. Line
-    const lineY = 0;
-    const lineH = this.inner_height;
-
-    g.append("rect")
-      .attr("class", "milestone-vertical-line")
-      .attr("x", 0)
-      .attr("y", lineY)
-      .attr("width", 1)
-      .attr("height", lineH)
-      .attr("transform", "translate(" + [-0.5, 0] + ")");
-
-    // 2. Label group (anchored, masked when overlapping newer milestones)
-    const labelGroup = g.append("g").attr("class", "milestone-label-group");
-
-    // Text
-    const labelText = m.label || (m.type.endsWith("s") ? m.type.slice(0, -1) : m.type) + " " + index;
-
-    let text = labelGroup.append("text").attr("class", "milestone-text").text(labelText).attr("text-anchor", "middle");
-
-    let textWidth = 40;
-    try {
-      const node = text.node();
-      if (node && typeof node.getBBox === "function") {
-        const bbox = node.getBBox();
-        if (bbox && bbox.width > 0) {
-          textWidth = bbox.width;
-        }
-      }
-    } catch {
-      textWidth = labelText.length * 7.5;
-    }
-
-    const paddingX = 4;
-    const barWidth = Math.max(20, textWidth + paddingX * 2);
-
-    text.attr("y", -10);
-
-    labelGroup
-      .append("rect")
-      .attr("class", "milestone-bottom-bar")
-      .attr("x", -barWidth / 2)
-      .attr("y", -2)
-      .attr("width", barWidth)
-      .attr("height", 2)
-      .attr("rx", 1.5)
-      .attr("ry", 1.5);
-
-    const badgeX = barWidth / 2 - 2;
-    const badgeY = -10;
-
-    g.append("rect")
-      .attr("class", "hitbox")
-      .attr("width", barWidth + 30)
-      .attr("height", 24)
-      .attr("x", -(barWidth + 30) / 2)
-      .attr("y", -24)
-      .attr("style", "cursor: pointer; pointer-events: all;");
-
-    g.attr("data-badge-x", badgeX).attr("data-badge-y", badgeY);
   }
 
   updateMilestoneCutoutMask() {
@@ -1795,7 +1691,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return this.MILESTONE_COLOR_MAP[normalizedType] || "var(--color-primary)";
   }
 
-  private getEuclideanDistance(x1: number, y1: number, x2: number, y2: number): number {
+  public getEuclideanDistance(x1: number, y1: number, x2: number, y2: number): number {
     const dx = x2 - x1;
     const dy = y2 - y1;
     return Math.sqrt(dx * dx + dy * dy);
@@ -1805,7 +1701,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     // eslint-disable-next-line max-len
     "M352.201 425.775l-79.196 79.196c-9.373 9.373-24.568 9.373-33.941 0l-79.196-79.196c-15.119-15.119-4.411-40.971 16.971-40.97h51.162L228 284H127.196v51.162c0 21.382-25.851 32.09-40.971 16.971L7.029 272.937c-9.373-9.373-9.373-24.569 0-33.941L86.225 159.8c15.119-15.119 40.971-4.411 40.971 16.971V228H228V127.196h-51.23c-21.382 0-32.09-25.851-16.971-40.971l79.196-79.196c9.373-9.373 24.568-9.373 33.941 0l79.196 79.196c15.119 15.119 4.411 40.971-16.971 40.971h-51.162V228h100.804v-51.162c0-21.382 25.851-32.09 40.97-16.971l79.196 79.196c9.373 9.373 9.373 24.569 0 33.941L425.773 352.2c-15.119 15.119-40.971 4.411-40.97-16.971V284H284v100.804h51.23c21.382 0 32.09 25.851 16.971 40.971z";
 
-  private createMilestoneLongPressBadge(g: d3.Selection<any, any, any, any>, m: Milestone): d3.Selection<any, any, any, any> {
+  public createMilestoneLongPressBadge(g: d3.Selection<any, any, any, any>, m: Milestone): d3.Selection<any, any, any, any> {
     const badgeX = parseFloat(g.attr("data-badge-x") || "20");
     const badgeY = parseFloat(g.attr("data-badge-y") || "10");
 
@@ -1852,7 +1748,7 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     return badge;
   }
 
-  private cancelMilestoneLongPress() {
+  public cancelMilestoneLongPress() {
     if (this.activeMilestoneCleanupFn) {
       this.activeMilestoneCleanupFn();
       this.activeMilestoneCleanupFn = null;
@@ -1870,116 +1766,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     }
   }
 
-  private setupMilestoneInteractions(g: d3.Selection<any, any, any, any>, m: Milestone) {
-    const overview = this;
-
-    g.select(".hitbox").on("mousedown", (e: MouseEvent) => {
-      // Left click only
-      if (e.button !== 0) return;
-      if (overview.isDraggingMilestone) return;
-
-      e.stopPropagation();
-      e.preventDefault();
-
-      overview.clearMilestoneHoverTimer();
-      if (overview.hovered_milestone) {
-        overview.hovered_milestone = undefined;
-        overview.tooltipService.hide();
-      }
-
-      const startClientX = e.clientX;
-      const startClientY = e.clientY;
-      const originalDate = new Date(m.date.getTime());
-      let isLongPressFulfilled = false;
-      let hasMovedDuringDrag = false;
-
-      overview.cancelMilestoneLongPress();
-
-      const badge = overview.createMilestoneLongPressBadge(g, m);
-      overview.activeMilestoneBadge = badge;
-
-      overview.milestoneLongPressTimer = setTimeout(() => {
-        isLongPressFulfilled = true;
-        badge.classed("drag-ready", true);
-        document.body.style.cursor = "grabbing";
-
-        const currentMilestoneX = overview.xScaledTimeZoned(m.date);
-        MilestoneDragRenderer.start(overview, currentMilestoneX, g, m);
-      }, overview.MILESTONE_HOLD_DURATION);
-
-      const onWindowMouseMove = (moveEvent: MouseEvent) => {
-        const dist = overview.getEuclideanDistance(startClientX, startClientY, moveEvent.clientX, moveEvent.clientY);
-
-        if (!isLongPressFulfilled) {
-          if (dist > overview.MILESTONE_DRAG_JITTER_TOLERANCE) {
-            overview.ignoreNextMilestoneClick = true;
-            setTimeout(() => {
-              overview.ignoreNextMilestoneClick = false;
-            }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
-            overview.cancelMilestoneLongPress();
-          }
-        } else {
-          hasMovedDuringDrag = true;
-          MilestoneDragRenderer.update(overview, moveEvent, g, m);
-        }
-      };
-
-      const onWindowMouseUp = (upEvent: MouseEvent) => {
-        const dist = overview.getEuclideanDistance(startClientX, startClientY, upEvent.clientX, upEvent.clientY);
-
-        overview.cancelMilestoneLongPress();
-
-        if (!isLongPressFulfilled) {
-          if (dist <= overview.MILESTONE_DRAG_JITTER_TOLERANCE && upEvent.button === 0) {
-            overview.ignoreNextMilestoneClick = true;
-            setTimeout(() => {
-              overview.ignoreNextMilestoneClick = false;
-            }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
-            document.dispatchEvent(
-              new MouseEvent("click", {
-                bubbles: true,
-                cancelable: true,
-                clientX: upEvent.clientX,
-                clientY: upEvent.clientY,
-              }),
-            );
-            const rawDate = overview.getDateFromMouseEvent(upEvent);
-            overview.openEditMilestoneContextMenu(m, upEvent.pageX, upEvent.pageY, rawDate);
-          }
-        } else {
-          overview.ignoreNextMilestoneClick = true;
-          setTimeout(() => {
-            overview.ignoreNextMilestoneClick = false;
-          }, overview.MILESTONE_CLICK_SUPPRESSION_DELAY);
-          MilestoneDragRenderer.end(overview, g, hasMovedDuringDrag);
-        }
-      };
-
-      const onWindowBlur = () => {
-        if (isLongPressFulfilled && !hasMovedDuringDrag) {
-          m.date = originalDate;
-          const restoredX = overview.xScaledTimeZoned(originalDate);
-          g.attr("transform", `translate(${restoredX}, ${overview.inner_margin.top})`);
-        }
-        overview.cancelMilestoneLongPress();
-        if (isLongPressFulfilled) {
-          MilestoneDragRenderer.end(overview, g, false);
-        }
-      };
-
-      const cleanup = () => {
-        window.removeEventListener("mousemove", onWindowMouseMove);
-        window.removeEventListener("mouseup", onWindowMouseUp);
-        window.removeEventListener("blur", onWindowBlur);
-      };
-
-      overview.activeMilestoneCleanupFn = cleanup;
-      window.addEventListener("mousemove", onWindowMouseMove);
-      window.addEventListener("mouseup", onWindowMouseUp);
-      window.addEventListener("blur", onWindowBlur);
-    });
-  }
-
   public clearMilestoneHoverTimer() {
     if (this.milestoneHoverTimer) {
       clearTimeout(this.milestoneHoverTimer);
@@ -1991,10 +1777,10 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     const overview = this;
     let g = parent.append("g").datum(m).attr("class", class_);
 
-    this.buildMilestoneGraphics(g, m, index);
+    GraphPointsRenderer.buildMilestoneGraphics(this, g, m, index);
 
     let x = this.xScaledTimeZoned(m.date);
-    this.setupMilestoneInteractions(g, m);
+    GraphPointsRenderer.setupMilestoneInteractions(this, g, m);
 
     let lastX = 0;
     let lastY = 0;
@@ -2064,125 +1850,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   getCommitAuthorDisplayName(commit: Commit): string {
     return this.anonymizationService.getCommitAuthorDisplayName(commit);
-  }
-
-  loadPoints() {
-    const overview = this;
-    const repositories: Repository[] = this.getDisplayedRepositories();
-
-    if (this.repository_g != null) this.repository_g.remove();
-
-    overview.filteredCommitsCount = 0;
-    overview.filteredStudentsCount = 0;
-
-    let allCommits = repositories.map((v) => v.commits).reduce((a, b) => a.concat(b), []);
-
-    if (repositories.length === 0) {
-      if (this.axis_g != null) {
-        this.axis_g.remove();
-        this.axis_g = null;
-      }
-      return;
-    }
-
-    this.repository_g = this.data_g.append("g");
-    this.repositories_g = new Array<any>(repositories.length);
-
-    let minDate: Date, maxDate: Date;
-
-    if (allCommits.length === 0) {
-      minDate = this.dataService.startDate ? new Date(this.dataService.startDate) : new Date(Date.now() - 7 * 24 * 3600 * 1000);
-      maxDate = this.dataService.endDate ? new Date(this.dataService.endDate) : new Date();
-      if (minDate > maxDate) {
-        const temp = minDate;
-        minDate = maxDate;
-        maxDate = temp;
-      }
-    } else {
-      let ext = d3.extent(allCommits, (d) => d.commitDate);
-      minDate = ext[0];
-      maxDate = ext[1];
-    }
-
-    // When "now" is within the assignment window (or that window is unbounded),
-    // extend the domain up to it so the marker stays visible and the gap is shown.
-    if (this.isNowInAssignmentWindow()) {
-      const now = this.clockService.now();
-      if (now < minDate) minDate = now;
-      if (now > maxDate) maxDate = now;
-    }
-
-    // Add 2% padding to the graph's time domain so elements don't touch the edges
-    if (minDate && maxDate) {
-      let timeDiff = maxDate.getTime() - minDate.getTime();
-      if (timeDiff === 0) timeDiff = 24 * 3600 * 1000; // 1 day minimum span
-      let padding = timeDiff * 0.02;
-      minDate = new Date(minDate.getTime() - padding);
-      maxDate = new Date(maxDate.getTime() + padding);
-    }
-
-    // Keep a minimum forward headroom so the "now" marker does not outrun the
-    // domain and force frequent full re-renders.
-    if (minDate && maxDate && this.isNowInAssignmentWindow()) {
-      const now = this.clockService.now();
-      const minHeadroom = 30 * 60 * 1000;
-      if (maxDate.getTime() < now.getTime() + minHeadroom) {
-        maxDate = new Date(now.getTime() + minHeadroom);
-      }
-    }
-
-    ViewportRenderer.setupAxis(this, repositories, minDate, maxDate);
-
-    this.maxZoom = (maxDate.getTime() - minDate.getTime()) / (1000 * 60);
-
-    this.repository_g
-      .selectAll(".repository")
-      .data(repositories)
-      .enter()
-      .append("g")
-      .each(function (repository: Repository, i: number) {
-        overview.repositories_g[i] = d3.select(this);
-        overview.repositories_g[i].classed("repository", true);
-        overview.repositories_g[i].attr("repository_index", i).attr("transform", `translate(0, ${overview.y_scale(i + 1)})`);
-
-        let before = undefined;
-        let commits = repository.commits
-          .filter((commit) => overview.isCommitMatchingFilter(commit))
-          .sort((a, b) => a.commitDate.getTime() - b.commitDate.getTime());
-
-        overview.filteredCommitsCount += commits.length;
-        if (commits.length > 0) {
-          overview.filteredStudentsCount++;
-
-          let minDateTime: number, maxDateTime: number;
-
-          let lines = [];
-          let current_line: Commit | undefined = undefined;
-
-          commits.forEach((commit) => {
-            minDateTime = minDateTime == null ? commit.commitDate.getTime() : Math.min(commit.commitDate.getTime(), minDateTime);
-            maxDateTime = maxDateTime == null ? commit.commitDate.getTime() : Math.max(commit.commitDate.getTime(), maxDateTime);
-            if (commit.message === "Resume") current_line = commit;
-            else if (commit.message === "Pause" && current_line) {
-              lines.push([current_line.commitDate, commit.commitDate]);
-              current_line = undefined;
-            }
-            before = CommitGroupsRenderer.getCommitComponent(overview, d3.select(this), commit, before);
-          });
-
-          if (lines.length === 0) {
-            lines.push([new Date(minDateTime), new Date(maxDateTime)]);
-          }
-
-          lines.forEach(([d1, d2]) => {
-            overview.repositories_g[i]
-              .insert("line", ":first-child")
-              .attr("class", "commit_line")
-              .attr("min_date", d1.getTime())
-              .attr("max_date", d2.getTime());
-          });
-        }
-      });
   }
 
   refreshRepoBySplittingGroup(repo_g: any): boolean {
@@ -2701,6 +2368,63 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
 
   public formatSelectionDuration(d1: Date, d2: Date): string {
     return formatSelectionDuration(d1, d2);
+  }
+
+  /** Choisit et affiche la tooltip de l'élément survolé (commit, groupe, séance, jalon, dépôt). */
+  public refreshTooltip(x?: number, y?: number): void {
+    if (x == null || y == null) {
+      return;
+    }
+
+    if (this.isSessionTooltipPinned) {
+      return;
+    }
+
+    if (this.hovered_g && (this.hovered_commit || this.hovered_group_commit)) {
+      const node = this.hovered_g.node();
+      if (!node || !node.isConnected || this.hovered_g.select(":hover").empty()) {
+        this.hovered_commit = undefined;
+        this.hovered_group_commit = undefined;
+        this.hovered_g = null;
+        this.tooltipService.hide();
+        return;
+      }
+    }
+
+    if (this.hovered_commit || this.hovered_group_commit || this.hovered_session || this.hovered_milestone || this.hovered_repository) {
+      this.ngZone.run(() => {
+        if (!this.tooltipService.isShowing()) {
+          this.tooltipService.showAtPosition(this.d3TooltipTemplate, x, y, "right", undefined, true);
+        } else {
+          this.tooltipService.moveTooltip(x, y, "right");
+        }
+      });
+    } else {
+      this.ngZone.run(() => {
+        this.tooltipService.hide();
+      });
+    }
+  }
+
+  /** Délégations utilisées par le renderer des points (évite de coupler ses contrats d'hôte). */
+  public setupAxis(repositories: Repository[], minDate: Date, maxDate: Date) {
+    ViewportRenderer.setupAxis(this, repositories, minDate, maxDate);
+  }
+
+  public getCommitComponent(parent: d3.Selection<any, any, any, any>, commit: Commit, before?: any) {
+    return CommitGroupsRenderer.getCommitComponent(this, parent, commit, before);
+  }
+
+  public startMilestoneDrag(startX: number, element: d3.Selection<any, any, any, any>, milestone: Milestone) {
+    MilestoneDragRenderer.start(this, startX, element, milestone);
+  }
+
+  public updateMilestoneDrag(event: MouseEvent, element: d3.Selection<any, any, any, any>, milestone: Milestone) {
+    MilestoneDragRenderer.update(this, event, element, milestone);
+  }
+
+  public endMilestoneDrag(element: d3.Selection<any, any, any, any>, hasMoved: boolean) {
+    MilestoneDragRenderer.end(this, element, hasMoved);
   }
 
   public resetZoom(conserve?: boolean, dismissOverlays = true) {
