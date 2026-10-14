@@ -18,6 +18,18 @@ import { Subscription } from "rxjs";
 import { ClockService } from "@services/clock.service";
 import { computePopupPlacement } from "./popup-placement.util";
 import {
+  buildCalendarWeeks,
+  formatTypedFields,
+  isHoveredEnd,
+  isHoveredStart,
+  isInsideRange,
+  isRangeLeft,
+  isRangeRight,
+  isSelectedEnd,
+  isSelectedStart,
+  RangeState,
+} from "./date-picker-state.util";
+import {
   daysInMonth,
   DateField,
   fieldMaxLength,
@@ -454,58 +466,31 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   isStartDate(date: moment.Moment): boolean {
-    if (this.isSingleDate) {
-      return !!this.date && date.isSame(moment(this.date), "day");
-    }
-    return !!this.startDate && date.isSame(moment(this.startDate), "day");
+    return isSelectedStart(this.rangeState, date);
   }
 
   isEndDate(date: moment.Moment): boolean {
-    return !!this.endDate && date.isSame(moment(this.endDate), "day");
+    return isSelectedEnd(this.rangeState, date);
   }
 
   isInRange(date: moment.Moment): boolean {
-    if (this.isSingleDate) return false;
-
-    const start = this.startDate ? moment(this.startDate) : null;
-    const end = this.endDate ? moment(this.endDate) : null;
-
-    if (start && end) {
-      return date.isAfter(start, "day") && date.isBefore(end, "day");
-    }
-
-    if (start && !end && this.hoverDate) {
-      if (this.hoverDate.isAfter(start, "day")) {
-        return date.isAfter(start, "day") && date.isBefore(this.hoverDate, "day");
-      } else if (this.hoverDate.isBefore(start, "day")) {
-        return date.isBefore(start, "day") && date.isAfter(this.hoverDate, "day");
-      }
-    }
-
-    return false;
+    return isInsideRange(this.rangeState, date);
   }
 
   isRangeRight(date: moment.Moment): boolean {
-    if (this.isSingleDate || !this.startDate || !date.isSame(this.startDate, "day")) return false;
-    if (this.endDate && moment(this.endDate).isAfter(this.startDate, "day")) return true;
-    if (!this.endDate && this.hoverDate && this.hoverDate.isAfter(this.startDate, "day")) return true;
-    return false;
+    return isRangeRight(this.rangeState, date);
   }
 
   isRangeLeft(date: moment.Moment): boolean {
-    if (this.isSingleDate || !this.startDate || !date.isSame(this.startDate, "day")) return false;
-    if (!this.endDate && this.hoverDate && this.hoverDate.isBefore(this.startDate, "day")) return true;
-    return false;
+    return isRangeLeft(this.rangeState, date);
   }
 
   isHoverForwardEnd(date: moment.Moment): boolean {
-    if (this.isSingleDate || this.endDate || !this.startDate || !this.hoverDate) return false;
-    return date.isSame(this.hoverDate, "day") && this.hoverDate.isAfter(this.startDate, "day");
+    return isHoveredEnd(this.rangeState, date);
   }
 
   isHoverBackwardStart(date: moment.Moment): boolean {
-    if (this.isSingleDate || this.endDate || !this.startDate || !this.hoverDate) return false;
-    return date.isSame(this.hoverDate, "day") && this.hoverDate.isBefore(this.startDate, "day");
+    return isHoveredStart(this.rangeState, date);
   }
 
   setToday() {
@@ -652,26 +637,7 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private generateCalendar() {
-    this.calendar = [];
-    const startOfMonth = this.viewDate.clone().startOf("month");
-    const startOfCalendar = startOfMonth.clone().startOf("week");
-
-    let current = startOfCalendar.clone();
-    const today = this.clockService.moment();
-
-    for (let week = 0; week < 6; week++) {
-      const weekDays: CalendarDay[] = [];
-      for (let day = 0; day < 7; day++) {
-        weekDays.push({
-          date: current.clone(),
-          day: current.date(),
-          isToday: current.isSame(today, "day"),
-          isCurrentMonth: current.month() === this.viewDate.month(),
-        });
-        current.add(1, "days");
-      }
-      this.calendar.push(weekDays);
-    }
+    this.calendar = buildCalendarWeeks(this.viewDate, this.clockService.moment());
   }
 
   private setStartDate(date: moment.Moment | null) {
@@ -693,33 +659,35 @@ export class DateRangePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private updateInputStrings(isStart: boolean, date: moment.Moment | null) {
+    const withTime = this.hasTime && this.isSingleDate;
+    const fields = formatTypedFields(date, withTime);
+
     if (isStart) {
-      if (date) {
-        this.startDayStr = date.format("DD");
-        this.startMonthStr = date.format("MM");
-        this.startYearStr = date.format("YYYY");
-        if (this.hasTime && this.isSingleDate) {
-          this.startHourStr = date.format("HH");
-          this.startMinuteStr = date.format("mm");
-        }
-      } else {
-        this.startDayStr = "";
-        this.startMonthStr = "";
-        this.startYearStr = "";
-        this.startHourStr = "";
-        this.startMinuteStr = "";
+      this.startDayStr = fields.day;
+      this.startMonthStr = fields.month;
+      this.startYearStr = fields.year;
+      /* Sans date, les champs d'heure sont vidés aussi (quelle que soit la présence d'une heure). */
+      if (withTime || !date) {
+        this.startHourStr = fields.hour;
+        this.startMinuteStr = fields.minute;
       }
-    } else {
-      if (date) {
-        this.endDayStr = date.format("DD");
-        this.endMonthStr = date.format("MM");
-        this.endYearStr = date.format("YYYY");
-      } else {
-        this.endDayStr = "";
-        this.endMonthStr = "";
-        this.endYearStr = "";
-      }
+      return;
     }
+
+    this.endDayStr = fields.day;
+    this.endMonthStr = fields.month;
+    this.endYearStr = fields.year;
+  }
+
+  /** État de sélection courant, lu par les prédicats de plage du template. */
+  private get rangeState(): RangeState {
+    return {
+      isSingleDate: this.isSingleDate,
+      date: this.date,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      hoverDate: this.hoverDate,
+    };
   }
 
   private getElementFor(isStart: boolean, field: "day" | "month" | "year" | "hour" | "minute"): ElementRef | undefined {
