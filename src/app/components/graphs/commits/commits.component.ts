@@ -1491,29 +1491,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .datum(session)
       .attr("class", `session-container session-group-${sessionKey}`)
       .attr("clip-path", "url(#clip)")
-      .on("mousedown", (e: MouseEvent) => {
-        if (e.shiftKey && e.button === 0) {
-          overview.initiateShiftDragZoom(e);
-        }
-      })
-      .on("contextmenu", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const rawDate = overview.getDateFromMouseEvent(e);
-        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
-        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
-      })
-      .on("click", (e) => {
-        if (e.shiftKey) return;
-        const rawDate = overview.getDateFromMouseEvent(e);
-        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
-        overview.handleSessionClick(targetSession, e.clientX, e.clientY);
-      })
-      .on("dblclick", (e) => {
-        const rawDate = overview.getDateFromMouseEvent(e);
-        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
-        overview.handleSessionDblClick(targetSession);
-      })
       .on("mouseenter", () => {
         d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
         d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
@@ -1557,6 +1534,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .attr("x2", rawX2)
       .attr("y2", this.scrollable_height)
       .style("display", rawX2 >= 0 && rawX2 <= this.inner_width ? "inline" : "none");
+
+    this.bindSessionInteractions(group, session);
   }
 
   buildSessionHeader(g: d3.Selection<any, any, any, any>, session: Session, overlapGroup?: Session[]) {
@@ -1568,29 +1547,6 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
       .datum(session)
       .attr("class", `session-header-container session-hdr-group-${sessionKey}`)
       .style("pointer-events", "auto")
-      .on("mousedown", (e: MouseEvent) => {
-        if (e.shiftKey && e.button === 0) {
-          overview.initiateShiftDragZoom(e);
-        }
-      })
-      .on("contextmenu", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const rawDate = overview.getDateFromMouseEvent(e);
-        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
-        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
-      })
-      .on("click", (e) => {
-        if (e.shiftKey) return;
-        const rawDate = overview.getDateFromMouseEvent(e);
-        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
-        overview.handleSessionClick(targetSession, e.clientX, e.clientY);
-      })
-      .on("dblclick", (e) => {
-        const rawDate = overview.getDateFromMouseEvent(e);
-        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
-        overview.handleSessionDblClick(targetSession);
-      })
       .on("mouseenter", () => {
         d3.selectAll(`.session-bg-${sessionKey}`).style("fill-opacity", "0.14");
         d3.selectAll(`.session-edge-${sessionKey}`).style("stroke-opacity", "0.55");
@@ -1744,6 +1700,8 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
         });
     }
 
+    this.bindSessionInteractions(group, session);
+
     group
       .select(".session-more-btn")
       .on("mouseenter", (e: MouseEvent) => {
@@ -1859,6 +1817,39 @@ export class CommitsComponent extends BaseGraphComponent implements OnInit, Afte
     if (this.session_header_g) {
       this.session_header_g.raise();
     }
+  }
+
+  /**
+   * Attache les interactions communes d'une séance (zoom shift-drag, menu contextuel, clic, double
+   * clic) à la sélection donnée : la bande et son en-tête partagent exactement le même câblage.
+   */
+  private bindSessionInteractions(selection: d3.Selection<any, any, any, any>, session: Session): void {
+    const overview = this;
+
+    selection
+      .on("mousedown", (e: MouseEvent) => {
+        if (e.shiftKey && e.button === 0) {
+          overview.initiateShiftDragZoom(e);
+        }
+      })
+      .on("contextmenu", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const rawDate = overview.getDateFromMouseEvent(e);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.selectAndActivateSession(targetSession, e.pageX, e.pageY, rawDate);
+      })
+      .on("click", (e) => {
+        if (e.shiftKey) return;
+        const rawDate = overview.getDateFromMouseEvent(e);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.handleSessionClick(targetSession, e.clientX, e.clientY);
+      })
+      .on("dblclick", (e) => {
+        const rawDate = overview.getDateFromMouseEvent(e);
+        const targetSession = overview.resolveSessionAtDate(rawDate, session) || session;
+        overview.handleSessionDblClick(targetSession);
+      });
   }
 
   private resolveMilestoneType(m?: Milestone, g?: d3.Selection<any, any, any, any>): string {
