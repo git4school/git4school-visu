@@ -31,8 +31,14 @@ export class SessionTransformsRenderer {
   /** Applies the current scale and layout to every session band and header. */
   public static apply(host: SessionTransformsHost): void {
     if (!host.session_g) return;
-    const overview = this;
 
+    SessionTransformsRenderer.applyBands(host);
+    SessionTransformsRenderer.applyHeaders(host);
+    host.updateSessionVisibility(false);
+  }
+
+  /** Places every session band on the time scale and dims the inactive cards of a group. */
+  private static applyBands(host: SessionTransformsHost): void {
     host.session_g.selectAll(".session-container").each(function (s: Session) {
       const g = d3.select(this);
       const rawX1 = host.xScaledTimeZoned(s.startDate);
@@ -73,7 +79,10 @@ export class SessionTransformsRenderer {
         .attr("x2", rawX2)
         .style("display", showRight ? "inline" : "none");
     });
+  }
 
+  /** Places every session header (background, accent bar, edges, sticky pills). */
+  private static applyHeaders(host: SessionTransformsHost): void {
     if (host.session_header_g) {
       host.session_header_g.selectAll(".session-header-container").each(function (s: Session) {
         const g = d3.select(this);
@@ -303,6 +312,5 @@ export class SessionTransformsRenderer {
         }
       });
     }
-    host.updateSessionVisibility(false);
   }
 }
