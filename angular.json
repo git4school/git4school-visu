@@ -44,6 +44,7 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "node_modules/driver.js/dist/driver.css",
               "./src/styles.scss"
             ],
             "stylePreprocessorOptions": {

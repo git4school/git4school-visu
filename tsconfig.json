@@ -12,7 +12,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2022",
     "downlevelIteration": true,
     "typeRoots": [
       "node_modules/@types"
@@ -50,6 +50,7 @@
       "@interceptors/*": [
         "app/interceptors/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   }
 }
