@@ -29,7 +29,6 @@ import { MetadataComponent } from "@components/home/assignment-chooser/configura
 import { QuestionsAssistantPopoverComponent } from "@components/home/assignment-chooser/configuration/metadata/questions-assistant-popover/questions-assistant-popover.component";
 import { HomeComponent } from "@components/home/home.component";
 import { QuestionsChooserComponent } from "@components/questions-chooser/questions-chooser.component";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { AuthGuard } from "@guards/auth.guard";
 import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateLoader, TranslateModule, TranslateService } from "@ngx-translate/core";
@@ -42,8 +41,6 @@ import { JsonManagerService } from "@services/json-manager.service";
 import { ToastService } from "@services/toast.service";
 import * as firebase from "firebase/app";
 import "firebase/performance";
-import { ClipboardModule } from "ngx-clipboard";
-import { MarkdownModule } from "ngx-markdown";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -146,11 +143,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FontAwesomeModule,
     SharedUiModule,
     BrowserAnimationsModule,
-    ClipboardModule,
-    MarkdownModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

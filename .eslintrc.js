@@ -27,7 +27,6 @@ module.exports = {
         "eslint-plugin-import",
         "eslint-plugin-jsdoc",
         "@angular-eslint/eslint-plugin",
-        "eslint-plugin-react",
         "@typescript-eslint",
     ],
     rules: {
@@ -160,16 +159,6 @@ module.exports = {
             "error",
             "as-needed"
         ],
-        "react/jsx-curly-spacing": "off",
-        "react/jsx-equals-spacing": "off",
-        "react/jsx-tag-spacing": [
-            "off",
-            {
-                afterOpening: "allow",
-                closingSlash: "allow"
-            }
-        ],
-        "react/jsx-wrap-multilines": "off",
         "space-before-function-paren": "off",
         "space-in-parens": [
             "off",

@@ -5,7 +5,6 @@ import { GithubAuthService } from "@services/github-auth.service";
 import { DataService } from "@services/data.service";
 import { ThemeService } from "@services/theme.service";
 import { WhatsNewService } from "@services/whats-new.service";
-import "rxjs/add/observable/interval";
 import { environment } from "@environments/environment";
 
 /**
