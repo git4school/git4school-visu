@@ -49,6 +49,14 @@
               "node_modules/driver.js/dist/driver.css",
               "./src/styles.scss"
             ],
+            "allowedCommonJsDependencies": [
+              "@firebase/app",
+              "@firebase/auth",
+              "@firebase/performance",
+              "firebase",
+              "moment",
+              "file-saver"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src",

@@ -2,8 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable, Optional } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
-import * as firebase from "firebase/app";
-import { auth } from "firebase/app";
+import firebase from "firebase/app";
 import "firebase/auth";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { catchError, map, shareReplay, tap } from "rxjs/operators";
@@ -97,7 +96,7 @@ export class GithubAuthService implements GitAuthProvider {
     const provider = new firebase.auth.GithubAuthProvider();
     provider.addScope("repo");
     try {
-      const persistence = rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION;
+      const persistence = rememberMe ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
       await firebase.auth().setPersistence(persistence);
       const result = await firebase.auth().signInWithPopup(provider);
       this.handleAuthResult(result, rememberMe);

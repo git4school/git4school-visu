@@ -39,7 +39,7 @@ import { DataService } from "@services/data.service";
 import { DatabaseService } from "@services/database.service";
 import { JsonManagerService } from "@services/json-manager.service";
 import { ToastService } from "@services/toast.service";
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 import "firebase/performance";
 
 import { AppRoutingModule } from "./app-routing.module";

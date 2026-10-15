@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { Router } from "@angular/router";
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 import { TokenStorageService } from "@services/token-storage.service";
 import { GithubAuthService } from "./github-auth.service";
 import { ToastService } from "./toast.service";
