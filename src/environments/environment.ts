@@ -1,13 +1,14 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import { version } from "../../package.json";
 
 /**
  * Development environment
  */
 export const environment = {
   production: false,
-  version: require("../../package.json").version,
+  version,
   documentationUrl: "https://git4school.github.io/",
   gitlab: {
     clientId: "968f761fc1af187373cd90b2e5a1c04c5a3348ecff7e585eff50fd99086676d4",
