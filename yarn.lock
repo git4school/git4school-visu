@@ -4815,7 +4815,7 @@
     tinyglobby "^0.2.15"
     ts-api-utils "^2.5.0"
 
-"@typescript-eslint/utils@8.71.2":
+"@typescript-eslint/utils@8.71.2", "@typescript-eslint/utils@^8.0.0":
   version "8.71.2"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-8.71.2.tgz#7c01b239b7cea1310f1793bbb5a02b5f8b74a6b9"
   integrity sha512-RyKa1G1M9rKHDhrk+HJtiF1MvLD5Ux2JW3TSkzw+02pRALdpJb+QzG1Y5em+LvCgzGwgg8H7mBRFKljNz7ImPw==
@@ -8901,15 +8901,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jasmine-core@^3.6.0:
+jasmine-core@^3.6.0, jasmine-core@^3.8.0:
   version "3.99.1"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.99.1.tgz#5bfa4b2d76618868bfac4c8ff08bb26fffa4120d"
   integrity sha512-Hu1dmuoGcZ7AfyynN3LsfruwMbxMALMka+YtZeGoLuDEySVmVAPaonkNoBRIw/ectu8b9tVQCJNgp4a4knp+tg==
-
-jasmine-core@~3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.6.0.tgz#491f3bb23941799c353ceb7a45b38a950ebc5a20"
-  integrity sha512-8uQYa7zJN8hq9z+g8z1bqCfdC8eoDAeVnM5sfqs7KHv9/ifoJ500m018fpFc7RDaO6SWCLCXwo/wPSNcdYTgcw==
 
 jest-worker@^27.4.5:
   version "27.5.1"
