@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
-import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Error, Repository } from "@models/Repository.model";
 import { Assignment } from "@models/Assignment.model";
 import { GitProviderType } from "@models/Account.model";
@@ -61,7 +61,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   };
 
   constructor(
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected cdref: ChangeDetectorRef,
     public accountsService: AccountsService,
     public githubAuthService: GithubAuthService,
@@ -216,7 +216,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
           });
 
           let updatedCount = 0;
-          const changedControls: Array<{ control: FormGroup; newName: string; newGroup: string; url: string }> = [];
+          const changedControls: Array<{ control: UntypedFormGroup; newName: string; newGroup: string; url: string }> = [];
 
           this.getFormControls.forEach((group) => {
             const url = group.get("url")?.value;
@@ -291,7 +291,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   /**
    * TrackBy function for *ngFor performance
    */
-  trackByRepo(index: number, group: FormGroup): any {
+  trackByRepo(index: number, group: UntypedFormGroup): any {
     return group.get("url")?.value || index;
   }
 
@@ -350,7 +350,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
    * @param group The formGroup for the repository to cancel the edition
    * @param index The index of the formGroup in the array
    */
-  cancelRow(group: FormGroup, index: number) {
+  cancelRow(group: UntypedFormGroup, index: number) {
     super.cancelRow(group, index);
     if (!group.get("url").value) {
       this.removeRow(index);
@@ -465,7 +465,7 @@ export class EditRepositoriesComponent extends BaseTabEditConfigurationComponent
   /**
    * Value to persist for a row: the live value for committed rows, or the last committed snapshot while a row is being edited
    */
-  private committedValue(group: FormGroup): any {
+  private committedValue(group: UntypedFormGroup): any {
     return group.get("isEditable").value ? group.get("save").value : group.value;
   }
 

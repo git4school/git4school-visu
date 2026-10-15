@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { Milestone } from "@models/Milestone.model";
 
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
@@ -21,7 +21,7 @@ export class EditMilestoneComponent implements OnInit {
   @Input() questions: string[];
   @Input() typeaheadSettings;
   @Input() notes: string;
-  milestoneForm: FormGroup;
+  milestoneForm: UntypedFormGroup;
 
   get resolvedTpGroups(): string[] {
     return this.tpGroups?.length ? this.tpGroups : this.dataService?.tpGroups || [];
@@ -37,7 +37,7 @@ export class EditMilestoneComponent implements OnInit {
     { value: "others", label: "OTHER", color: "var(--color-secondary)" },
   ];
 
-  constructor(public activeModalService: CustomModalRef, public fb: FormBuilder, private dataService: DataService) {}
+  constructor(public activeModalService: CustomModalRef, public fb: UntypedFormBuilder, private dataService: DataService) {}
 
   ngOnInit(): void {
     this.initForm();

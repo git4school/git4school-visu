@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { BaseEditConfigurationComponent } from "./base-edit-configuration.component";
 
 @Component({
@@ -7,9 +7,9 @@ import { BaseEditConfigurationComponent } from "./base-edit-configuration.compon
 })
 export abstract class BaseTabEditConfigurationComponent<Data> extends BaseEditConfigurationComponent implements OnInit {
   @Input() datas: Data[];
-  formGroups: FormGroup[];
+  formGroups: UntypedFormGroup[];
 
-  constructor(protected fb: FormBuilder, protected cdref: ChangeDetectorRef) {
+  constructor(protected fb: UntypedFormBuilder, protected cdref: ChangeDetectorRef) {
     super();
   }
 
@@ -22,7 +22,7 @@ export abstract class BaseTabEditConfigurationComponent<Data> extends BaseEditCo
     return controls;
   }
 
-  isEditable(group: FormGroup) {
+  isEditable(group: UntypedFormGroup) {
     return group.get("isEditable").value;
   }
 
@@ -48,7 +48,7 @@ export abstract class BaseTabEditConfigurationComponent<Data> extends BaseEditCo
     }
   }
 
-  editRow(group: FormGroup) {
+  editRow(group: UntypedFormGroup) {
     this.saveRow(group);
     group.get("isEditable").setValue(true);
     group.enable();
@@ -64,7 +64,7 @@ export abstract class BaseTabEditConfigurationComponent<Data> extends BaseEditCo
     this.modify();
   }
 
-  validateRow(group: FormGroup) {
+  validateRow(group: UntypedFormGroup) {
     if (group.valid) {
       group.get("isEditable").setValue(false);
       group.disable();
@@ -75,17 +75,17 @@ export abstract class BaseTabEditConfigurationComponent<Data> extends BaseEditCo
     }
   }
 
-  cancelRow(group: FormGroup, _index: number) {
+  cancelRow(group: UntypedFormGroup, _index: number) {
     this.restoreRow(group);
     group.get("isEditable").setValue(false);
     group.disable();
   }
 
-  saveRow(group: FormGroup) {
+  saveRow(group: UntypedFormGroup) {
     group.get("save").setValue(group.value);
   }
 
-  restoreRow(group: FormGroup) {
+  restoreRow(group: UntypedFormGroup) {
     group.setValue(group.get("save").value);
     group.markAsPristine();
   }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Session } from "@models/Session.model";
 import { CustomModalRef } from "@shared/ui/custom-modal/custom-modal-ref";
 import { DataService } from "@services/data.service";
@@ -21,7 +21,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   @Input() tpGroups: string[];
   @Input() defaultSessionDuration;
   @Input() notes: string;
-  sessionForm: FormGroup;
+  sessionForm: UntypedFormGroup;
   defaultLabel = "";
   private destroy$ = new Subject<void>();
 
@@ -33,14 +33,14 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
   constructor(
     public activeModalService: CustomModalRef,
-    public fb: FormBuilder,
+    public fb: UntypedFormBuilder,
     private dataService: DataService,
     private translateService: TranslateService,
     private cdr: ChangeDetectorRef,
   ) {}
 
   endTimeValidator(): ValidatorFn {
-    return (group: FormGroup): ValidationErrors | null => {
+    return (group: UntypedFormGroup): ValidationErrors | null => {
       let startTime = group.get("startTime").value;
       let endTime = group.get("endTime").value;
 

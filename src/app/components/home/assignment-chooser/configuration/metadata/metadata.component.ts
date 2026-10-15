@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { Metadata } from "@models/Metadata.model";
 import { NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
 import { NgbDateNativeUTCFranceAdapter } from "@services/ngb-date-native-utcfrance-adapter.service";
@@ -26,7 +26,7 @@ export class MetadataComponent extends BaseEditConfigurationComponent implements
   @ViewChild("titleInput") titleInput: TextInputComponent;
   @ViewChild("yearInput") yearInput: TextInputComponent;
   @ViewChild("questionsChooser") questionsChooser: QuestionsChooserComponent;
-  public metadataForm: FormGroup;
+  public metadataForm: UntypedFormGroup;
 
   /**
    * Set to true on the first save attempt so the required-title feedback only appears once a save was tried.
@@ -58,7 +58,7 @@ export class MetadataComponent extends BaseEditConfigurationComponent implements
    * MetadataComponent constructor
    * @param fb Form builder used to build the metadata form
    */
-  constructor(public fb: FormBuilder) {
+  constructor(public fb: UntypedFormBuilder) {
     super();
   }
 
