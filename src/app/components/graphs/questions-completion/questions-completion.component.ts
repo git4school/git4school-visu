@@ -152,7 +152,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
       },
       onMouseMove: (event, d, rect) => {
         // Find which key this data point belongs to
-        const layerData = d3.select(rect.parentNode).datum() as any;
+        const layerData = d3.select(rect.parentNode as Element).datum() as any;
         const key = layerData.key;
         const dataObj = d.data[key + "_data"];
 
@@ -200,7 +200,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .style("fill", function () {
-        const layerData = d3.select(this.parentNode).datum() as any;
+        const layerData = d3.select(this.parentNode as Element).datum() as any;
         if (layerData.key === "Not finished") {
           return "var(--color-text-primary)";
         }
@@ -213,7 +213,7 @@ export class QuestionsCompletionComponent extends BaseGraphComponent implements 
         const percentage = d[1] - d[0];
         if (percentage > 5) {
           // Find the actual count
-          const layerData = d3.select(this.parentNode).datum() as any;
+          const layerData = d3.select(this.parentNode as Element).datum() as any;
           const key = layerData.key;
           const dataObj = d.data[key + "_data"];
           if (dataObj && dataObj.count > 0) {

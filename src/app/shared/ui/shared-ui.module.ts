@@ -83,6 +83,5 @@ import { WhatsNewModalComponent } from "./whats-new/whats-new-modal.component";
     LiquidActionMenuComponent,
     WhatsNewModalComponent,
   ],
-  entryComponents: [CustomModalContainerComponent, ShortcutsModalComponent, WhatsNewModalComponent],
 })
 export class SharedUiModule {}

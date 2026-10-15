@@ -136,7 +136,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     AddAccountModalComponent,
     GitlabCallbackComponent,
   ],
-  entryComponents: [AddAccountModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
