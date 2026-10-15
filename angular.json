@@ -87,18 +87,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "git4school:build"
+            "buildTarget": "git4school:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "git4school:build:production"
+              "buildTarget": "git4school:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "git4school:build"
+            "buildTarget": "git4school:build"
           }
         },
         "test": {

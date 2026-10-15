@@ -111,7 +111,7 @@
             <span class="instance-dot" [class.is-invalid]="acc.tokenStatus === 'invalid'"></span>
             <div class="instance-text">
               <span class="instance-name font-weight-bold">{{ acc.instanceName || acc.instanceHost }}</span>
-              <span class="instance-meta text-muted">@{{ acc.username }}</span>
+              <span class="instance-meta text-muted">&#64;{{ acc.username }}</span>
             </div>
           </div>
           <i *ngIf="!showAddCustomInstanceForm && selectedCustomInstanceHost === acc.instanceHost" class="fas fa-check check-mark"></i>
