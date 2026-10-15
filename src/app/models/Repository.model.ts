@@ -1,6 +1,5 @@
 import { Commit } from "@models/Commit.model";
 import { GitProviderType } from "@models/Account.model";
-import * as assert from "assert";
 import { Exclude, Type } from "class-transformer";
 import { Utils } from "../services/utils";
 
@@ -59,7 +58,9 @@ export class Repository {
    * @returns A string with length below max_length
    */
   static getFormattedName(last_name: string, first_name: string, max_length: number): string {
-    assert(max_length > 0);
+    if (max_length <= 0) {
+      throw new RangeError("max_length must be greater than 0");
+    }
 
     if (!last_name && !first_name) {
       return "";
