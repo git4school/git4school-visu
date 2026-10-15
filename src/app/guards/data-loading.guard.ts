@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanDeactivate } from "@angular/router";
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
 
 import { CommitsComponent } from "@components/graphs/commits/commits.component";
@@ -10,7 +10,7 @@ import { CommitsComponent } from "@components/graphs/commits/commits.component";
 @Injectable({
   providedIn: "root",
 })
-export class DataLoadingGuard implements CanDeactivate<CommitsComponent> {
+export class DataLoadingGuard  {
   /**
    * Allows to leave the component if the loading is completed
    * @param component The component currently calling this method
