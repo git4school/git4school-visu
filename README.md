@@ -69,7 +69,7 @@ If you want to contribute to the project, please feel free to send us a message 
 - [User documentation](https://git4school.github.io/) : this is where you need to go to if you want to get started with the application 
 - [Technical documentation](https://git4school.github.io/git4school-visu/) : if you want to add your contribution to the project, it is strongly recommended to go through this link. This is where you will see how it all works.
 - [Github API documentation](https://docs.github.com/en/free-pro-team@latest/rest) : here is useful documentation for making calls to the Github API
-- [Chart.js](https://link) & [ng2-charts documentation](https://link) : documentation for the library we use for graphs
+- [D3.js documentation](https://d3js.org/) : documentation for the library we use for the graphs
 - [Firebase documentation](https://firebase.google.com/docs/web/setup) : Firebase documentation, used for authentication and deployment
 ## License
 

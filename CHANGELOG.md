@@ -1,3 +1,15 @@
+## Unreleased
+
+### Changed
+
+- ⬆️ **Toolchain upgrade**: migrated from **Angular 11** to **Angular 21 LTS** and from **Node 16** to **Node 24 LTS** (pinned via `.nvmrc` and `engines`)
+- ⚡ **Build**: the application is now built with **esbuild** and served by the **Vite** dev server (`@angular/build:application` / `@angular/build:dev-server`), replacing webpack — builds are noticeably faster
+- ♻️ Removed a batch of unused dependencies and dead UI modules: `chart.js`/`ng2-charts`, `@swimlane/ngx-datatable`, `ngx-spinner`, `ngx-clipboard`, `ngx-markdown`, the `@fortawesome/*` npm packages, `rxjs-compat`, `core-js`, `bootstrap`/`jquery`/`popper.js`, and the Protractor e2e setup
+- 🔧 `moment` and `firebase` now use default imports (esbuild CommonJS interop)
+- 🔧 Lint toolchain upgraded (ESLint 8, `typescript-eslint` 8, `@angular-eslint` 21) for TypeScript 5.9
+
+> Note: the test runner is still Karma (330 specs); a migration to Vitest is tracked separately.
+
 ## 2.7.0
 
 ### Added

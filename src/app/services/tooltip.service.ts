@@ -72,7 +72,7 @@ export class TooltipService {
   }
 
   /**
-   * Shows a tooltip at specific coordinates (useful for D3/Chart.js)
+   * Shows a tooltip at specific coordinates (useful for D3)
    */
   showAtPosition(
     content: string | TemplateRef<any>,

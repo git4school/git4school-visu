@@ -13,8 +13,8 @@
     "build-prod": "ng build git4school --configuration=production --stats-json",
     "doc": "npx compodoc -p tsconfig.json",
     "serve-tech-docs": "npx compodoc -p tsconfig.json -s -w",
-    "build:doc": "npm run-script build-prod && npm run-script doc",
-    "update": "ng update --all --force",
+    "build:doc": "yarn build-prod && yarn doc",
+    "update": "ng update",
     "serve-user-docs": "cd user-docs && bundle exec jekyll serve --watch"
   },
   "private": true,
