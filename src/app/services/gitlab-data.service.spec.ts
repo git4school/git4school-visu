@@ -1,8 +1,9 @@
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { TranslateService } from "@ngx-translate/core";
 import { GitlabAuthService } from "./gitlab-auth.service";
 import { GitlabDataService } from "./gitlab-data.service";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GitlabDataService", () => {
   let service: GitlabDataService;
@@ -22,13 +23,15 @@ describe("GitlabDataService", () => {
     } as any;
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
+    imports: [],
+    providers: [
         GitlabDataService,
         { provide: GitlabAuthService, useValue: gitlabAuthServiceSpy },
         { provide: TranslateService, useValue: translateServiceSpy },
-      ],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
 
     service = TestBed.inject(GitlabDataService);
     httpMock = TestBed.inject(HttpTestingController);

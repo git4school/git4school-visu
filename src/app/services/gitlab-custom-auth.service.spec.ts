@@ -1,7 +1,8 @@
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { GitlabCustomAuthService } from "./gitlab-custom-auth.service";
 import { TokenStorageService } from "./token-storage.service";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GitlabCustomAuthService", () => {
   let service: GitlabCustomAuthService;
@@ -13,9 +14,9 @@ describe("GitlabCustomAuthService", () => {
     localStorage.clear();
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [GitlabCustomAuthService, TokenStorageService],
-    });
+    imports: [],
+    providers: [GitlabCustomAuthService, TokenStorageService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     service = TestBed.inject(GitlabCustomAuthService);
     httpMock = TestBed.inject(HttpTestingController);

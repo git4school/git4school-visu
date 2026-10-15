@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-import { HttpClient } from "@angular/common/http";
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { Router } from "@angular/router";
 import * as firebase from "firebase/app";
 import { TokenStorageService } from "@services/token-storage.service";
@@ -34,9 +34,9 @@ describe("GithubAuthService", () => {
     spyOn(firebase, "auth").and.returnValue(mockFirebaseAuth);
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [GithubAuthService, { provide: Router, useValue: routerSpy }, { provide: ToastService, useValue: toastSpy }],
-    });
+    imports: [],
+    providers: [GithubAuthService, { provide: Router, useValue: routerSpy }, { provide: ToastService, useValue: toastSpy }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     service = TestBed.inject(GithubAuthService);
     httpMock = TestBed.inject(HttpTestingController);

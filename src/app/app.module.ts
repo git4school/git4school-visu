@@ -1,5 +1,5 @@
 import { LOCATION_INITIALIZED, registerLocaleData } from "@angular/common";
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import localeFr from "@angular/common/locales/fr";
 import localeRu from "@angular/common/locales/ru";
 import { GitlabAuthInterceptor } from "@interceptors/gitlab-auth.interceptor";
@@ -105,92 +105,86 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     });
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    FourOhFourComponent,
-    CommitsComponent,
-    StudentsComponent,
-    QuestionsCompletionComponent,
-    SessionsComponent,
-    SuggestSessionsModalComponent,
-    StudentsQuestionsMatrixComponent,
-    MetadataComponent,
-    QuestionsAssistantPopoverComponent,
-    EditRepositoriesComponent,
-    ConfigurationComponent,
-    ModalAddRepositoriesComponent,
-    AssignmentChooserComponent,
-    AssignmentFolderViewComponent,
-    FileChooserComponent,
-    EditMilestoneComponent,
-    QuestionsChooserComponent,
-    AppNavLayoutComponent,
-    AuthLangNavItemComponent,
-    HelpNavItemComponent,
-    EditSessionComponent,
-    OverviewGraphContextualMenuComponent,
-    SidebarSettingsComponent,
-    AccountsComponent,
-    AddAccountModalComponent,
-    GitlabCallbackComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    SharedUiModule,
-    BrowserAnimationsModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-    NgbModule,
-  ],
-  providers: [
-    GithubAuthService,
-    AuthGuard,
-    CommitsService,
-    JsonManagerService,
-    DataService,
-    ToastService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerFactory,
-      deps: [TranslateService, Injector],
-      multi: true,
-    },
-    {
-      provide: LOCALE_ID,
-      useFactory: (translateService: TranslateService) => translateService.currentLang,
-      deps: [TranslateService],
-    },
-    DatabaseService,
-    NgbActiveModal,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: GitlabAuthInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MockGitlabInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MockGithubInterceptor,
-      multi: true,
-    },
-  ],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        FourOhFourComponent,
+        CommitsComponent,
+        StudentsComponent,
+        QuestionsCompletionComponent,
+        SessionsComponent,
+        SuggestSessionsModalComponent,
+        StudentsQuestionsMatrixComponent,
+        MetadataComponent,
+        QuestionsAssistantPopoverComponent,
+        EditRepositoriesComponent,
+        ConfigurationComponent,
+        ModalAddRepositoriesComponent,
+        AssignmentChooserComponent,
+        AssignmentFolderViewComponent,
+        FileChooserComponent,
+        EditMilestoneComponent,
+        QuestionsChooserComponent,
+        AppNavLayoutComponent,
+        AuthLangNavItemComponent,
+        HelpNavItemComponent,
+        EditSessionComponent,
+        OverviewGraphContextualMenuComponent,
+        SidebarSettingsComponent,
+        AccountsComponent,
+        AddAccountModalComponent,
+        GitlabCallbackComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedUiModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+        }),
+        NgbModule], providers: [
+        GithubAuthService,
+        AuthGuard,
+        CommitsService,
+        JsonManagerService,
+        DataService,
+        ToastService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: appInitializerFactory,
+            deps: [TranslateService, Injector],
+            multi: true,
+        },
+        {
+            provide: LOCALE_ID,
+            useFactory: (translateService: TranslateService) => translateService.currentLang,
+            deps: [TranslateService],
+        },
+        DatabaseService,
+        NgbActiveModal,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: GitlabAuthInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: MockGitlabInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: MockGithubInterceptor,
+            multi: true,
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
   constructor() {}
 }

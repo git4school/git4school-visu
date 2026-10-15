@@ -1,8 +1,9 @@
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { TranslateService } from "@ngx-translate/core";
 import { GithubAuthService } from "./github-auth.service";
 import { GithubDataService } from "./github-data.service";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GithubDataService", () => {
   let service: GithubDataService;
@@ -21,13 +22,15 @@ describe("GithubDataService", () => {
     } as any;
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
+    imports: [],
+    providers: [
         GithubDataService,
         { provide: GithubAuthService, useValue: githubAuthServiceSpy },
         { provide: TranslateService, useValue: translateServiceSpy },
-      ],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
 
     service = TestBed.inject(GithubDataService);
     httpMock = TestBed.inject(HttpTestingController);
