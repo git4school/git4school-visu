@@ -2,10 +2,10 @@
 
 > Vitrine des choix structurants d'architecture, de conception logicielle, d'ergonomie et de sécurité guidant l'évolution pérenne de **Git4School Visu**.
 
-[![ADRs Documented](https://img.shields.io/badge/ADRs-6%20Documentés-blue.svg?style=flat-square&logo=git)](https://github.com/git4school/git4school-visu/tree/master/docs/adr)
+[![ADRs Documented](https://img.shields.io/badge/ADRs-13%20Documentés-blue.svg?style=flat-square&logo=git)](https://github.com/git4school/git4school-visu/tree/master/docs/adr)
 [![Status](https://img.shields.io/badge/Statut-100%25%20Implémenté-success.svg?style=flat-square)](https://github.com/git4school/git4school-visu/tree/master/docs/adr)
 [![Architecture](https://img.shields.io/badge/Architecture-Clean%20%2F%20SOLID-orange.svg?style=flat-square)](https://github.com/git4school/git4school-visu)
-[![UI Engine](https://img.shields.io/badge/Stack-Angular%20%7C%20D3.js%20%7C%20Dexie-red.svg?style=flat-square)](https://github.com/git4school/git4school-visu)
+[![UI Engine](https://img.shields.io/badge/Stack-Angular%2021%20%7C%20Vite%20%7C%20D3.js%20%7C%20Dexie-red.svg?style=flat-square)](https://github.com/git4school/git4school-visu)
 
 ---
 
@@ -30,6 +30,8 @@ flowchart TB
     subgraph Presentation["🎨 Couche Présentation & UI"]
         ADR0001["<b>ADR-0001</b><br/>Design System Keycap<br/><i>Tokens CSS & Micro-interactions</i>"]
         ADR0005["<b>ADR-0005</b><br/>Directive Typeahead<br/><i>Découplage Souris/Clavier</i>"]
+        ADR0009["<b>ADR-0009</b><br/>Détection multilingue<br/><i>Extraction & Morphing Apple</i>"]
+        ADR0011["<b>ADR-0011</b><br/>Filtre de groupe de TP<br/><i>Pill de contexte & État réactif</i>"]
     end
 
     subgraph Reactive["⚡ Couche Orchestration & Événements"]
@@ -38,11 +40,19 @@ flowchart TB
 
     subgraph DataDomain["💾 Couche Métier & Persistance"]
         ADR0004["<b>ADR-0004</b><br/>Clôture des Questions<br/><i>Dexie v3 & Modèle Metadata</i>"]
+        ADR0010["<b>ADR-0010</b><br/>Sauvegarde automatique<br/><i>Debounce & Flush garanti</i>"]
+        ADR0012["<b>ADR-0012</b><br/>Duplication & Archivage<br/><i>Helpers purs & archivedAt</i>"]
     end
 
     subgraph Integration["🔐 Couche Forges Git & Sécurité"]
         ADR0002["<b>ADR-0002</b><br/>Recherche GraphQL GitHub<br/><i>Découverte Classroom & Orgs</i>"]
         ADR0006["<b>ADR-0006</b><br/>Auth Multi-Forges Découplée<br/><i>Pattern Stratégie & OAuth PKCE</i>"]
+        ADR0007["<b>ADR-0007</b><br/>Services de données Git<br/><i>Stratégie, Façade & Registre</i>"]
+        ADR0008["<b>ADR-0008</b><br/>Jetons scellés par appareil<br/><i>sessionStorage & Chiffrement XOR</i>"]
+    end
+
+    subgraph Tooling["🛠️ Couche Outillage & Build"]
+        ADR0013["<b>ADR-0013</b><br/>Angular 21 & Vite<br/><i>esbuild, Node 24 LTS</i>"]
     end
 
     ADR0005 -.->|S'applique à| ADR0004
@@ -50,16 +60,23 @@ flowchart TB
     ADR0003 -->|Gère la fermeture de| ADR0001
     ADR0006 -->|Fournit les accès forges à| ADR0002
     ADR0004 -->|Structure les métadonnées de| ADR0002
+    ADR0007 -->|Alimente la façade de données de| ADR0002
+    ADR0008 -.->|Scelle les jetons émis par| ADR0006
+    ADR0010 -.->|Persiste la configuration issue de| ADR0004
+    ADR0012 -.->|Étend le modèle de| ADR0004
+    ADR0011 -.->|Filtre les vues orchestrées par| ADR0003
 
     classDef presentation fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#01579b;
     classDef reactive fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#e65100;
     classDef domain fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#1b5e20;
     classDef security fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c;
+    classDef tooling fill:#eceff1,stroke:#546e7a,stroke-width:2px,color:#263238;
 
-    class ADR0001,ADR0005 presentation;
+    class ADR0001,ADR0005,ADR0009,ADR0011 presentation;
     class ADR0003 reactive;
-    class ADR0004 domain;
-    class ADR0002,ADR0006 security;
+    class ADR0004,ADR0010,ADR0012 domain;
+    class ADR0002,ADR0006,ADR0007,ADR0008 security;
+    class ADR0013 tooling;
 ```
 
 ---
@@ -74,6 +91,13 @@ flowchart TB
 | **0004** | [Clôture des questions et migration Dexie](#adr-0004--stratégie-de-clôture-des-questions-import-en-masse-et-rétrocompatibilité-dexie) | Modèle Métier / Stockage | IndexedDB (Dexie v3), Analyse heuristique Git, Parsing délimité | `Accepté` | [0004-strategie-de-cloture-des-questions-et-retrocompatibilite-dexie.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0004-strategie-de-cloture-des-questions-et-retrocompatibilite-dexie.md) |
 | **0005** | [Navigation clavier typeahead sans conflit](#adr-0005--neutralisation-des-conflits-souris-clavier-dans-les-suggestions-typeahead-directive-déclarative) | Ergonomie UI / Événements | Directive déclarative Angular, OCP/SRP, `runOutsideAngular`, CSS isolates | `Accepté` | [0005-navigation-clavier-typeahead-directive-decouplee.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0005-navigation-clavier-typeahead-directive-decouplee.md) |
 | **0006** | [Authentification multi-forges et OAuth 2.0 PKCE](#adr-0006--authentification-multi-forges-découplée-pattern-stratégie--fournisseurs-et-oauth-20-pkce) | Sécurité / Architecture SOLID | Pattern Stratégie, Registre polymorphique, RFC 7636 (PKCE), Web Crypto API | `Accepté` | [0006-authentification-multi-fournisseurs-pattern-strategie.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0006-authentification-multi-fournisseurs-pattern-strategie.md) |
+| **0007** | [Services de données Git multi-fournisseurs](#adr-0007--services-de-données-git-multi-fournisseurs-stratégie-façade--registre) | Intégration Git / Architecture | Pattern Stratégie, Façade, Registre polymorphique, Migration Dexie v4 | `Accepté` | [0007-services-de-donnees-git-pattern-strategie-et-facade.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0007-services-de-donnees-git-pattern-strategie-et-facade.md) |
+| **0008** | [Mémorisation sécurisée des jetons (sessionStorage vs localStorage)](#adr-0008--mémorisation-sécurisée-des-jetons-daccès-aux-forges-sessionstorage-vs-localstorage) | Sécurité / Stockage Client | Secure by Default, Chiffrement XOR lié à l'appareil, TTL & purge | `Accepté` | [0008-memorisation-securisee-tokens-forges.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0008-memorisation-securisee-tokens-forges.md) |
+| **0009** | [Détection multilingue et réaffectation des noms](#adr-0009--détection-multilingue-agnostique-et-réaffectation-des-noms-détudiants) | Métadonnées / UX & Animations | Tokens multilingues, Requête ciblée sans commits, Split Pill & morphing | `Accepté` | [0009-detection-multilingue-et-reaffectation-noms-depots.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0009-detection-multilingue-et-reaffectation-noms-depots.md) |
+| **0010** | [Sauvegarde automatique de la configuration](#adr-0010--sauvegarde-automatique-de-la-configuration-dun-devoir-debounce--flush) | Persistance / UX | Debounce 600 ms, Flush garanti, Sérialisation des écritures | `Accepté` | [0010-sauvegarde-automatique-de-la-configuration-du-devoir.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0010-sauvegarde-automatique-de-la-configuration-du-devoir.md) |
+| **0011** | [Placement du filtre de groupe de TP](#adr-0011--placement-du-filtre-de-groupe-de-tp) | Ergonomie UI / Navigation | Pill de contexte segmentée, État réactif `groupFilter$`, OverlayManager | `Accepté` | [0011-placement-du-filtre-de-groupe-de-tp.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0011-placement-du-filtre-de-groupe-de-tp.md) |
+| **0012** | [Duplication et archivage des devoirs](#adr-0012--duplication-et-archivage-des-devoirs-depuis-la-liste-daccueil) | Modèle Métier / UX | Helpers purs testables, `archivedAt` non indexé, Onglet « Archivés » | `Accepté` | [0012-duplication-et-archivage-des-devoirs.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0012-duplication-et-archivage-des-devoirs.md) |
+| **0013** | [Migration vers Angular 21 LTS et Vite](#adr-0013--migration-vers-angular-21-lts-et-loutillage-viteesbuild) | Build / Outillage | esbuild & Vite, Montée incrémentale, Node 24 LTS, Interop CommonJS | `Accepté` | [0013-migration-vers-angular-21-et-vite.md](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0013-migration-vers-angular-21-et-vite.md) |
 
 ---
 
@@ -215,6 +239,169 @@ flowchart TB
 
 ---
 
+### ADR-0007 : Services de données Git multi-fournisseurs (Stratégie, Façade & Registre)
+
+> *Découpler les forges Git derrière un contrat unique, sans toucher aux composants graphiques.*
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Tags : #PatternStratégie #Façade #OCP #MultiFournisseurs    │
+│  Impact : CommitsService, GithubData, GitlabData, Accounts   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- **Le Défi** : `CommitsService` concentrait plus de 700 lignes de requêtes GraphQL GitHub mêlées aux calculs statistiques et dictionnaires des visualisations D3. Ouvrir GitLab (Cloud puis instances académiques auto-hébergées) sans empiler des `if (provider === 'gitlab')` imposait de séparer nettement l'accès aux données distantes des algorithmes d'analyse.
+- **La Décision** :
+  1. **Contrat d'abstraction `GitDataService`** : cycle de vie de données unifié (`provider`, `getRepositories`, `getRepositoriesByAuthenticatedUser`, `getRepositoriesBySearch`, `verifyUserAccess`).
+  2. **Stratégies concrètes** : `GithubDataService` (GraphQL optimisé par lots, pagination par curseur) et `GitlabDataService` (REST v4, résolution dynamique de l'hôte auto-hébergé, `IDENTITY.json`/`README.md` en raw).
+  3. **Registre polymorphique (`AccountsService`)** : `Map<GitProviderType, GitDataService>` résolue dynamiquement.
+  4. **Façade unifiée (`CommitsService`)** : ne conserve que la logique métier pure (dictionnaires de questions, métadonnées, étudiants), indépendante du fournisseur.
+  5. **Rétrocompatibilité** : migration **Dexie v4** fixant `provider = "github"` sur les devoirs et dépôts préexistants.
+- **Bénéfice majeur** : Ajouter une forge ne nécessite qu'une classe implémentant `GitDataService` et son enregistrement dans le registre.
+- 📄 Consulter l'ADR complet : [`docs/adr/0007-services-de-donnees-git-pattern-strategie-et-facade.md`](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0007-services-de-donnees-git-pattern-strategie-et-facade.md)
+
+---
+
+### ADR-0008 : Mémorisation sécurisée des jetons d'accès aux forges (sessionStorage vs localStorage)
+
+> *« Sécurisé par défaut » pour les postes partagés, avec scellement chiffré lié à l'appareil et à l'origine.*
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Tags : #Sécurité #XOR #SecureByDefault #SPAStatique         │
+│  Impact : TokenStorageService, AddAccountModal, AuthGuards   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- **Le Défi** : En SPA statique sans backend, les cookies `HttpOnly` sont inutilisables pour des API tierces : les jetons vivent nécessairement côté JavaScript. Un `localStorage` inconditionnel exposait les sessions des postes de TP partagés (accès physique) et des failles XSS, tout en rendant les motifs `gho_`/`glpat_` détectables en clair.
+- **La Décision** :
+  1. **Secure by Default** : case *« Rester connecté »* décochée → `sessionStorage` (détruit à la fermeture de l'onglet) ; cochée → `localStorage` (appareil de confiance).
+  2. **`TokenStorageService`** centralisé, multi-forges, API synchrone (pas de race condition à l'instanciation des services/guards).
+  3. **Jetons jamais en clair** : IV aléatoire + sel d'appareil (`g4s_device_seed` via `crypto.getRandomValues`), dérivation d'un flux de clé liant origine + sel + IV, masque XOR, signature d'intégrité FNV-1a double passe (rejet + purge immédiate si altération, liaison appareil/origine).
+  4. **TTL** : `expiresAt` purgé automatiquement (jetons GitLab PKCE), évitant les appels API en échec silencieux.
+  5. **Purge atomique** à la déconnexion (`clearAll`) + fermeture de la session Firebase.
+  6. **Sensibilisation UX** : infobulle `[appTooltip]` expliquant le compromis ergonomie / sécurité.
+- **Bénéfice majeur** : Aucune session résiduelle sur disque par défaut, contrat de persistance unifié GitHub/GitLab.
+- 📄 Consulter l'ADR complet : [`docs/adr/0008-memorisation-securisee-tokens-forges.md`](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0008-memorisation-securisee-tokens-forges.md)
+
+---
+
+### ADR-0009 : Détection multilingue agnostique et réaffectation des noms d'étudiants
+
+> *Extraire le nom d'un étudiant quel que soit le langage de son README, et le corriger en un clic.*
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Tags : #Multilingue #Heuristique #UXApple #PerformanceRéseau│
+│  Impact : Utils, GitDataService, EditRepositoriesComponent   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- **Le Défi** : L'extraction des noms ne cherchait que les tokens de la langue **actuellement active dans l'interface** : un enseignant en `EN` face à des `README.md` en `FR`/`RU` voyait l'extraction échouer et les dépôts tomber sur leur nom brut. De plus, une fois le devoir persisté, corriger l'algorithme ne rattrapait pas les noms déjà fixés.
+- **La Décision** :
+  1. **Tokens agnostiques FR/EN/RU** (`LAST_NAME_TOKENS`, `FIRST_NAME_TOKENS`) et variantes Markdown (`**Nom** :`, `*Nom* :`, `# Nom :`) via `Utils.getValueWithTokenFlexible()` et la méthode unifiée `extractRepositoryMetadata()`.
+  2. **Contrat `fetchRepositoriesMetadata()`** : GitHub GraphQL ciblé sur `IDENTITY.json`/`README.md` (blobs `HEAD:`), GitLab REST `/repository/files/` — **sans recharger l'historique des commits**.
+  3. **Bouton « Apple » à morphing (Split Pill)** : premier clic → état de confirmation (pill scindée), second → appel réseau léger ; icône en rotation pendant le chargement.
+  4. **Animation soignée** : *stagger* (`index * 45ms`), flou + glissement (`cubic-bezier(0.23, 1, 0.32, 1)`), toast de rétroaction du nombre de dépôts mis à jour.
+- **Bénéfice majeur** : Indépendance linguistique totale et rattrapage en un clic, sans recalculer l'arborescence des commits ni le graphe D3.
+- 📄 Consulter l'ADR complet : [`docs/adr/0009-detection-multilingue-et-reaffectation-noms-depots.md`](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0009-detection-multilingue-et-reaffectation-noms-depots.md)
+
+---
+
+### ADR-0010 : Sauvegarde automatique de la configuration d'un devoir (debounce & flush)
+
+> *Plus de bouton « Sauvegarder » : debounce sur les champs libres, persistance immédiate et flush garanti.*
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Tags : #Autosave #Debounce #Flush #Résilience               │
+│  Impact : ConfigurationComponent, Metadata, Dexie            │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- **Le Défi** : La sauvegarde manuelle (pied de page « Annuler / Sauvegarder », bandeau « Modifications non enregistrées », `beforeDismiss`, garde de navigation) perdait toute modification non validée à la fermeture et bloquait l'enregistrement d'un formulaire partiellement invalide.
+- **La Décision** :
+  1. **Sauvegarde automatique** portée par `ConfigurationComponent` ; suppression du footer, du bandeau, de la confirmation de fermeture et du `DataSavedGuard`.
+  2. **Cadence différenciée** : champs libres (titre, cours, programme, année) debouncés 600 ms ; changements discrets (dates, questions, clôture, durée, dépôts) persistés immédiatement.
+  3. **Flush garanti** (perte de focus, changement d'onglet, fermeture, `ngOnDestroy`) avec sérialisation et rejeu des écritures concurrentes.
+  4. Le titre obligatoire invalide n'est **jamais** persisté ; indicateur discret dans l'en-tête (« Enregistrement… / Enregistré / Titre obligatoire »).
+  5. Notifications (`assignmentModified`, `repoToLoad`) déclenchées une seule fois, à la fermeture, pour ne pas recalculer les graphes à chaque frappe.
+- **Bénéfice majeur** : Zéro perte de saisie et moins de bruit d'interface (plus de boutons ni de garde).
+- 📄 Consulter l'ADR complet : [`docs/adr/0010-sauvegarde-automatique-de-la-configuration-du-devoir.md`](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0010-sauvegarde-automatique-de-la-configuration-du-devoir.md)
+
+---
+
+### ADR-0011 : Placement du filtre de groupe de TP
+
+> *Un contrôle unique et réactif dans la pill de contexte du devoir, à position identique dans toutes les vues.*
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Tags : #UX #ÉtatRéactif #PillSegmentée #OverlayManager      │
+│  Impact : AppNavLayout, TpGroupSelector, DataService         │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- **Le Défi** : Le filtre global (persistant d'un onglet à l'autre) était rendu par un sélecteur **dupliqué** dans chaque toolbar de vue, à des positions divergentes et avec des états visuels légèrement différents : en changeant d'onglet, l'utilisateur pouvait ne plus retrouver le contrôle ni repérer qu'un filtre était actif.
+- **La Décision** :
+  1. **Sélecteur unique** dans une *pill de contexte du devoir* (navbar) : segment gauche = devoir (configuration, raccourci `C`), segment droit = `TpGroupSelectorComponent` (groupe, chevron, compteurs, raccourci `G`).
+  2. **Suppression des quatre dropdowns de toolbar** ; position identique dans toutes les vues.
+  3. **État réactif** : `DataService.groupFilter` notifie via `groupFilter$` ; chaque vue s'y abonne (la navbar n'a plus de référence directe sur les vues).
+  4. **Détails d'interaction** : capsule bleue encartée quand un groupe est actif, navigation clavier (flèches, Home/End), panneau ajusté au contenu, entrée/sortie en fondu + échelle ancrée au déclencheur.
+  5. **Overlays** : fermeture via `OverlayManagerService` (`OverlayType.DROPDOWN`) ; retrait des deux variantes de prototype et de leur harnais après décision.
+- **Bénéfice majeur** : Un point d'ancrage unique, l'état actif toujours visible dans la navbar, plus d'incohérence de position.
+- 📄 Consulter l'ADR complet : [`docs/adr/0011-placement-du-filtre-de-groupe-de-tp.md`](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0011-placement-du-filtre-de-groupe-de-tp.md)
+
+---
+
+### ADR-0012 : Duplication et archivage des devoirs depuis la liste d'accueil
+
+> *Repartir d'un devoir en deux temps et ranger les années passées sans rien supprimer.*
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Tags : #HelpersPurs #Testabilité #Rétrocompatibilité        │
+│  Impact : AssignmentChooser, FolderView, Dexie               │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- **Le Défi** : Les gouttes « dupliquer » et « archiver » du menu liquide étaient purement décoratives (seul `delete` était câblé). Le besoin : repartir d'un devoir existant (mêmes questions/options, nouvelle année) et sortir de la liste courante les devoirs des années passées **sans suppression irréversible** — l'année n'étant pas dupliquée et l'archivage ne devant pas être une perte d'accès.
+- **La Décision** :
+  1. **Duplication par helpers purs** `buildDuplicateTitle`/`buildDuplicateAssignment` (`@services/assignment-duplicate.util`), testables sans Angular. La copie reprend forge, titre suffixé, cours, programme, questions, options de clôture et durée de séance — **jamais** les dépôts, l'année, les dates, les jalons, les séances ni l'archivage.
+  2. **Numérotation « (n) »** : premier indice libre parmi **tous** les devoirs (archivés compris), comparaison insensible à la casse et aux espaces ; un titre isolé comme « TP (2026) » reste sa propre base.
+  3. **Persistance immédiate** (`ClockService`) puis ouverture en édition, focus placé sur **l'année** (`initialFocusField: "year"`).
+  4. **Archivage par horodatage** : `archivedAt?: Date` (`@Type(() => Date)`, **non indexé** → aucune migration Dexie), réversible, posé uniquement par l'action d'archivage.
+  5. **Onglet « Archivés »** : cinquième pill toujours visible, en dernière position, mutuellement exclusive (exclue partout ailleurs) ; bascule Archiver ↔ Restaurer sur la même goutte, sans confirmation mais avec toast.
+  6. **Composant dossiers présentationnel** : `AssignmentFolderViewComponent` relaie deux `@Output` (`duplicate`, `archive`).
+- **Bénéfice majeur** : Duplication fiable et sans collision de titres ; archivage réversible, daté, sans perte de données.
+- 📄 Consulter l'ADR complet : [`docs/adr/0012-duplication-et-archivage-des-devoirs.md`](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0012-duplication-et-archivage-des-devoirs.md)
+
+---
+
+### ADR-0013 : Migration vers Angular 21 LTS et l'outillage Vite/esbuild
+
+> *Sortir du support webpack déprécié : montée incrémentale vers Angular 21 LTS, build esbuild, serveur de dev Vite et Node 24 LTS.*
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Tags : #Angular21 #Vite #esbuild #Node24 #MontéeIncrémentale│
+│  Impact : Build, CI, angular.json, tsconfig, package.json    │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- **Le Défi** : Le projet tournait sur **Angular 11.0.6** (2020) avec le build **webpack** (`@angular-devkit/build-angular:browser`), Node 16 et TypeScript 4.0. Le support webpack d'Angular est désormais **déprécié** au profit de `@angular/build` (build **esbuild**, serveur de dev **Vite**), mais **aucun support Vite n'existe avant Angular 17** : la montée d'Angular était le prérequis incontournable. S'y ajoutaient des dépendances CommonJS (`moment`, `firebase`) hostiles à l'interopérabilité esbuild.
+- **La Décision** :
+  1. **Montée incrémentale** `11 → 12 → … → 21 LTS`, une version majeure à la fois, `build` + `tests` verts à chaque saut (un commit par saut).
+  2. **Node 16 → 24 LTS** au saut 17 (`.nvmrc`, champ `engines`), Angular 17+ exigé.
+  3. **Bascule du builder** vers **`@angular/build:application`** (build esbuild) et **`@angular/build:dev-server`** (Vite) ; port de dev **4200** conservé (redirect URI OAuth).
+  4. **Adaptations d'interop esbuild** : `moment` et `firebase` en **import par défaut** (fin des `import * as`), remplacement du `require("../../package.json")` par un import JSON, suppression de l'import Node `assert`, points d'entrée `zone.js` modernisés.
+  5. **Outillage lint remis à niveau** (ESLint 8, `typescript-eslint` 8, `@angular-eslint` 21) pour supporter TypeScript 5.9.
+- **Bénéfice majeur** : Builds esbuild nettement plus rapides (~12 s), HMR Vite en développement, plus aucune dépendance webpack sur le chemin build/serve.
+- **Dette restante assumée** : `firebase` 7 non modulaire (CommonJS), `rxjs` 6 → 7, runner de tests encore Karma (migration Vitest suivie à part).
+- 📄 Consulter l'ADR complet : [`docs/adr/0013-migration-vers-angular-21-et-vite.md`](https://github.com/git4school/git4school-visu/blob/master/docs/adr/0013-migration-vers-angular-21-et-vite.md)
+
+---
+
 ## 🧭 Principes directeurs de l'architecture Git4School Visu
 
 L'ensemble de ces ADRs applique un socle commun d'exigences et de bonnes pratiques techniques partagées au sein du projet :
@@ -233,6 +420,8 @@ L'ensemble de ces ADRs applique un socle commun d'exigences et de bonnes pratiqu
 │                               dans les bundles frontend.                    │
 │ 5. Rétrocompatibilité       : Évolution défensive des schémas IndexedDB     │
 │                               avec migration automatisée.                   │
+│ 6. Outillage moderne        : Angular 21 LTS, build esbuild & serveur Vite, │
+│                               Node 24 LTS, montée incrémentale outillée.    │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
